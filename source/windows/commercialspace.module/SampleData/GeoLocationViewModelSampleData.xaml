@@ -1,0 +1,23 @@
+﻿<vm:GeoLocationViewModel 
+	xmlns:vm="clr-namespace:Bespoke.Cycling.Windows.RideOrganizerModule.ViewModels"
+	xmlns:domain="clr-namespace:Bespoke.Cycling.Domain;assembly=cycling.domain">
+	<vm:GeoLocationViewModel.NewItem>
+		<domain:GeoLocation Name="Specialized Kota Damansara" Type="School" Keywords="School, Specialized etc" Description="Test data">
+			<domain:GeoLocation.Address>
+				<domain:Address Street="Damansara Utama" State="Selangor" District="Petaling Jaya"/>
+			</domain:GeoLocation.Address>
+		</domain:GeoLocation>
+	</vm:GeoLocationViewModel.NewItem>
+	<vm:GeoLocationViewModel.SearchResultCollection>
+		<domain:GeoLocation Lat="3.121231232121" Lng="101.28665454" Name="KSH Basikal" Type="Bike Shop"/>
+		<domain:GeoLocation Lat="3.121231232121" Lng="101.28665454" Name="KSH Basikal" Type="Bike Shop"/>
+		<domain:GeoLocation Lat="3.121231232121" Lng="101.28665454" Name="KSH Basikal" Type="Bike Shop"/>
+		<domain:GeoLocation Lat="3.121231232121" Lng="101.28665454" Name="KSH Basikal" Type="Bike Shop"/>
+		<domain:GeoLocation Lat="3.121231232121" Lng="101.28665454" Name="KSH Basikal" Type="Bike Shop">
+			<domain:GeoLocation.Address>
+				<domain:Address State="WP Kuala Lumpur"/>
+			</domain:GeoLocation.Address>
+		</domain:GeoLocation>
+	
+	</vm:GeoLocationViewModel.SearchResultCollection>
+</vm:GeoLocationViewModel>

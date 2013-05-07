@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bespoke.CommercialSpace.Domain</RootNamespace>
+    <AssemblyName>domain.commercialspace</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\scheduler.console.runner\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging">
+      <HintPath>..\..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentDateTime, Version=1.8.0.0, Culture=neutral, PublicKeyToken=6ccbc613702e6c71, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\FluentDateTime.1.8.0.0\Lib\NET35\FluentDateTime.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.5.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Compilers">
+      <HintPath>..\..\packages\Roslyn.Compilers.Common.1.2.20906.2\lib\net45\Roslyn.Compilers.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Compilers.CSharp">
+      <HintPath>..\..\packages\Roslyn.Compilers.CSharp.1.2.20906.2\lib\net45\Roslyn.Compilers.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Compilers.VisualBasic">
+      <HintPath>..\..\packages\Roslyn.Compilers.VisualBasic.1.2.20906.2\lib\net45\Roslyn.Compilers.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Services">
+      <HintPath>..\..\packages\Roslyn.Services.Common.1.2.20906.2\lib\net45\Roslyn.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Services.CSharp">
+      <HintPath>..\..\packages\Roslyn.Services.CSharp.1.2.20906.2\lib\net45\Roslyn.Services.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Services.VisualBasic">
+      <HintPath>..\..\packages\Roslyn.Services.VisualBasic.1.2.20906.2\lib\net45\Roslyn.Services.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Utilities">
+      <HintPath>..\..\packages\Roslyn.Services.Common.1.2.20906.2\lib\net45\Roslyn.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="RoslynHelper">
+      <HintPath>..\..\packages\RoslynHelper.1.0.1\lib\net\RoslynHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core">
+      <HintPath>..\..\packages\Spring.Core.2.0.0-M2\lib\net40\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="assemblyinfo.cs" />
+    <Compile Include="Attachment.cs" />
+    <Compile Include="BinaryStore.cs" />
+    <Compile Include="BoundedContextAttribute.cs" />
+    <Compile Include="ChangeSubmission.cs" />
+    <Compile Include="ChequeTransaction.cs" />
+    <Compile Include="Core\Change.cs" />
+    <Compile Include="Core\CollectionHelper.cs" />
+    <Compile Include="Core\Entity.cs" />
+    <Compile Include="Core\JsonSerializerService.cs" />
+    <Compile Include="Core\DomainObject.cs" />
+    <Compile Include="Core\IChangeTrack.cs" />
+    <Compile Include="Core\LogEntry.cs" />
+    <Compile Include="Core\ObjectBuilder.cs" />
+    <Compile Include="Core\ObjectCollection.cs" />
+    <Compile Include="Core\PropertyChangingEventArgs.cs" />
+    <Compile Include="Core\Setting.cs" />
+    <Compile Include="Core\Strings.cs" />
+    <Compile Include="Core\XmlSerializerService.cs" />
+    <Compile Include="CredentialProvider.cs" />
+    <Compile Include="EntityTypeAttribute.cs" />
+    <Compile Include="IBinaryStore.cs" />
+    <Compile Include="IComputable.cs" />
+    <Compile Include="IDocumentExport.cs" />
+    <Compile Include="Finances\PurchaseTransaction.cs" />
+    <Compile Include="IEntityChangedListener.cs" />
+    <Compile Include="IEntityChangePublisher.cs" />
+    <Compile Include="ITimeAttendanceServices.cs" />
+    <Compile Include="HumanResources\LeaveSchedule.cs" />
+    <Compile Include="Sales\Inventory.cs" />
+    <Compile Include="IPdbReport.cs" />
+    <Compile Include="IPersistence.cs" />
+    <Compile Include="IRepository.cs" />
+    <Compile Include="ISettingProvider.cs" />
+    <Compile Include="IslandGroupSale.cs" />
+    <Compile Include="LoadOperation.cs" />
+    <Compile Include="PersistenceSession.cs" />
+    <Compile Include="QueryProviders\AliasesProduced.cs" />
+    <Compile Include="QueryProviders\ColumnProjector.cs" />
+    <Compile Include="QueryProviders\DbExpressions.cs" />
+    <Compile Include="QueryProviders\Evaluator.cs" />
+    <Compile Include="QueryProviders\ExpressionVisitor.cs" />
+    <Compile Include="QueryProviders\OrderByRewriter.cs" />
+    <Compile Include="QueryProviders\ProjectionReader.cs" />
+    <Compile Include="QueryProviders\QueryBinder.cs" />
+    <Compile Include="QueryProviders\QueryProvider.cs" />
+    <Compile Include="QueryProviders\RedundantSubqueryRemover.cs" />
+    <Compile Include="QueryProviders\Replacer.cs" />
+    <Compile Include="QueryProviders\SubqueryRemover.cs" />
+    <Compile Include="QueryProviders\TypeSystem.cs" />
+    <Compile Include="QueryProviders\UnusedColumnRemover.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schema\Domain.g.cs" />
+    <Compile Include="StationDataContext.cs" />
+    <Compile Include="SubmitOperation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Schema\Object.xslt">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Schema\ReferenceObject.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Schema\CommercialSpaceSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  
+</Project>

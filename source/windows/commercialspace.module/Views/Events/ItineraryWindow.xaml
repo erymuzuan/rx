@@ -1,0 +1,86 @@
+﻿<telerik:RadWindow 
+  x:Class="Bespoke.Cycling.Windows.RideOrganizerModule.Views.ItineraryWindow"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+  xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" Width="600" 
+    Header="Event Itinerary Details">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="0.24*"/>
+        <ColumnDefinition Width="0.76*"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock Text="Title:" HorizontalAlignment="Right" Grid.Row="1" Margin="3"/>
+      <TextBox Grid.Row="1" Grid.Column="1" Margin="3,3,3,3" Text="{Binding Title, Mode=TwoWay}"/>
+      <TextBlock Text="Date:" HorizontalAlignment="Right" Grid.Row="2" Margin="3"/>
+      <telerik:RadDatePicker Grid.Row="2" Grid.Column="1" Margin="3,3,3,3" SelectedValue="{Binding Date, Mode=TwoWay}"/>
+      <TextBlock Text="Activities:" HorizontalAlignment="Right" Grid.Row="3" Margin="3"/>
+      <telerik:RadGridView x:Name="dayDataGrid" ItemsSource="{Binding ItineraryItemCollection}" AutoGenerateColumns="False"
+                  HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                  Margin="4,4,4,4" MaxHeight="300" Grid.Row="3" Grid.Column="1" MinHeight="150">
+        <telerik:RadGridView.Columns>
+          <telerik:GridViewDataColumn Header="Time" Width="130">
+            <telerik:GridViewDataColumn.CellTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding Time, StringFormat=hh:mm tt, Mode=TwoWay}" HorizontalAlignment="Stretch" />
+              </DataTemplate>
+            </telerik:GridViewDataColumn.CellTemplate>
+            <telerik:GridViewDataColumn.CellEditTemplate>
+              <DataTemplate>
+                <telerik:RadTimePicker SelectedValue="{Binding Time, Mode=TwoWay}" Margin="3" HorizontalAlignment="Stretch" />
+              </DataTemplate>
+            </telerik:GridViewDataColumn.CellEditTemplate>
+          </telerik:GridViewDataColumn>
+          <telerik:GridViewDataColumn Header="Title" Width="150">
+            <telerik:GridViewDataColumn.CellTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding Title, Mode=TwoWay}" HorizontalAlignment="Stretch" />                
+              </DataTemplate>
+            </telerik:GridViewDataColumn.CellTemplate>
+            <telerik:GridViewDataColumn.CellEditTemplate>
+              <DataTemplate>
+                <TextBox Text="{Binding Title, Mode=TwoWay}" Margin="3" HorizontalAlignment="Stretch" />
+              </DataTemplate>
+            </telerik:GridViewDataColumn.CellEditTemplate>
+          </telerik:GridViewDataColumn>
+          <telerik:GridViewDataColumn Header="Description" Width="150">
+            <telerik:GridViewDataColumn.CellTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding Description, Mode=TwoWay}" HorizontalAlignment="Stretch" />
+              </DataTemplate>
+            </telerik:GridViewDataColumn.CellTemplate>
+            <telerik:GridViewDataColumn.CellEditTemplate>
+              <DataTemplate>
+                <TextBox Text="{Binding Description, Mode=TwoWay}" Margin="3" HorizontalAlignment="Stretch" />
+              </DataTemplate>
+            </telerik:GridViewDataColumn.CellEditTemplate>
+          </telerik:GridViewDataColumn>
+        </telerik:RadGridView.Columns>
+      </telerik:RadGridView>
+      <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
+        <telerik:RadButton Content="+ Activity" Margin="3" Width="100" Click="AddActivityClicked" />
+        <telerik:RadButton Content="- Activity" Margin="3" Width="100" Click="DeleteActivityClicked"/>
+      </StackPanel>
+      
+      <Rectangle Height="1" VerticalAlignment="Center" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="430">
+        <Rectangle.Fill>
+          <RadialGradientBrush>
+            <GradientStop Color="#7FFFFFFF" Offset="0"/>
+            <GradientStop Color="#19000000" Offset="1"/>
+          </RadialGradientBrush>
+        </Rectangle.Fill>
+      </Rectangle>
+      <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+        <telerik:RadButton x:Name="OKButton" Content="Add" Click="OkButtonClick" Width="75" Margin="5,5,5,20" />
+        <telerik:RadButton x:Name="CancelButton" Content="Cancel" Click="CancelButtonClick" Width="75" Margin="5,5,5,20" />
+      </StackPanel>
+    </Grid>
+</telerik:RadWindow>

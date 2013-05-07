@@ -1,0 +1,1039 @@
+﻿<vm:RideViewModel
+    xmlns:vm="clr-namespace:Bespoke.Cycling.Windows.RideOrganizerModule.ViewModels"
+                  xmlns:d="clr-namespace:Bespoke.Cycling.Domain;assembly=cycling.domain" 
+                 >
+    <vm:RideViewModel.Ride>
+        <d:Ride  Bil="19" Dirty="True" 
+                   FacebookUrl="Primis rhoncus nisl ultricies" 
+                   Prizes="Pulvinar gravida adipiscing" Sponsors="Turpis varius aenean vestibulum mauris" 
+                   Twitter="Adipiscing convallis mauris nullam">
+            <d:Ride.DocumentCollection>
+                <d:Document Bil="32" Description="Class vestibulum curabitur" Dirty="True" Extension="Nam maecenas aenean sed dis" Group="Cras duis praesent accumsan nunc" Summary="Aliquam mauris phasellus est" StoreId="Amet curae" Title="Ante integer quisque"/>
+                <d:Document Bil="38" Description="Arcu diam" Dirty="True" Extension="Donec aptent" Group="Hac bibendum" Summary="Mus etiam auctor dictumst" StoreId="Eget leo adipiscing aliquam" Title="Consequat convallis"/>
+                <d:Document Bil="44" Description="Eleifend aliquet fusce" Dirty="True" Extension="Elit lorem congue cursus" Group="Facilisi facilisis parturient" Summary="Proin vestibulum" StoreId="Enim morbi faucibus habitant nulla" Title="Dictum nec"/>
+                <d:Document Bil="69" Description="Interdum fermentum lobortis erat" Dirty="True" Extension="Per eros nascetur sed" Group="Nibh lectus pharetra" Summary="Nisi parturient" StoreId="Adipiscing sem" Title="Vestibulum vestibulum adipiscing"/>
+                <d:Document Bil="79" Description="Fringilla commodo" Dirty="True" Extension="Vestibulum fames vestibulum nisl" Group="Habitasse felis" Summary="Himenaeos nunc conubia placerat libero" StoreId="Hendrerit sit" Title="Pulvinar ipsum ligula cubilia"/>
+                <d:Document Bil="67" Description="Nam malesuada adipiscing" Dirty="True" Extension="Penatibus justo odio" Group="Sed dapibus dis porttitor" Summary="Tristique parturient est vestibulum vestibulum" StoreId="Sagittis egestas euismod tincidunt orci" Title="Ultricies lacus litora adipiscing senectus"/>
+                <d:Document Bil="25" Description="Magnis venenatis vulputate iaculis" Dirty="True" Extension="Curabitur suscipit parturient mattis" Group="Torquent hac ultrices" Summary="Magna pede lacinia" StoreId="Phasellus vehicula" Title="Vestibulum consequat quam"/>
+                <d:Document Bil="17" Description="Laoreet leo mus dignissim" Dirty="True" Extension="Mollis nec non elementum natoque" Group="Montes quis nostra metus vestibulum" Summary="Sed ornare facilisis" StoreId="Volutpat per" Title="Platea primis adipiscing urna"/>
+                <d:Document Bil="99" Description="Sit rutrum maecenas" Dirty="True" Extension="Morbi sapien neque" Group="Cras duis fringilla semper vestibulum" Summary="Habitasse sociis" StoreId="Netus vestibulum nulla" Title="Porta potenti purus vel"/>
+                <d:Document Bil="45" Description="Parturient hendrerit himenaeos vestibulum" Dirty="True" Extension="Vestibulum adipiscing praesent imperdiet nam" Group="Amet taciti risus sed" Summary="Dis accumsan vestibulum pretium" StoreId="Velit parturient ante malesuada arcu" Title="Est diam"/>
+            </d:Ride.DocumentCollection>
+            <d:Ride.EndLocation>
+                <d:GeoLocation Bil="29" Description="Porttitor vestibulum vivamus donec tortor" Dirty="True" GeoLocationId="22" Keywords="Turpis mus" Name="Tincidunt nec" Type="Platea adipiscing sit">
+                    <d:GeoLocation.Address>
+                        <d:Address Bil="32" Country="Rhoncus sodales" Dirty="True" District="Adipiscing tellus vitae leo" Postcode="Viverra eget" State="Aliquam penatibus" Street="Integer tempor class"/>
+                    </d:GeoLocation.Address>
+                    <d:GeoLocation.PhotoCollection>
+                        <d:Photo Bil="87" Dirty="True" Note="Vestibulum aliquam adipiscing etiam bibendum" Store="Aliquet parturient vestibulum fusce elit" ThumbnailStore="Vestibulum blandit tristique lorem ultricies" Title="Venenatis vulputate non commodo morbi"/>
+                        <d:Photo Bil="24" Dirty="True" Note="Per erat eros nulla proin" Store="Dictumst sed sem" ThumbnailStore="Parturient eleifend nibh sit vestibulum" Title="Nisi augue nisl vestibulum"/>
+                        <d:Photo Bil="97" Dirty="True" Note="Phasellus parturient conubia" Store="Consequat cubilia facilisi dolor nullam" ThumbnailStore="Aptent nunc" Title="Nam fames vestibulum sed auctor"/>
+                        <d:Photo Bil="41" Dirty="True" Note="Orci dis est vestibulum habitant" Store="Pede convallis" ThumbnailStore="Dapibus congue adipiscing inceptos dignissim" Title="Cursus parturient"/>
+                        <d:Photo Bil="63" Dirty="True" Note="Interdum egestas quam justo" Store="Lobortis lectus quis" ThumbnailStore="Vestibulum leo nascetur lacus" Title="Urna pharetra placerat"/>
+                        <d:Photo Bil="63" Dirty="True" Note="Lorem vestibulum fermentum magna" Store="Massa mus" ThumbnailStore="Nec metus libero fringilla euismod" Title="Sagittis duis"/>
+                        <d:Photo Bil="96" Dirty="True" Note="Non per habitasse morbi sociosqu" Store="Suscipit hendrerit amet sed neque" ThumbnailStore="Ante netus sem" Title="Parturient nulla"/>
+                        <d:Photo Bil="50" Dirty="True" Note="Sit iaculis vestibulum litora" Store="Luctus diam" ThumbnailStore="Vel porta lacinia laoreet eget" Title="Himenaeos nam purus natoque"/>
+                        <d:Photo Bil="37" Dirty="True" Note="Imperdiet vestibulum risus enim" Store="Posuere dis adipiscing ultrices est" ThumbnailStore="Erat malesuada" Title="Vehicula mattis hac leo parturient"/>
+                        <d:Photo Bil="16" Dirty="True" Note="Porttitor nec" Store="Non per potenti mauris sed" ThumbnailStore="Vestibulum pretium tincidunt vestibulum nisi" Title="Sem velit mollis maecenas montes"/>
+                    </d:GeoLocation.PhotoCollection>
+                </d:GeoLocation>
+            </d:Ride.EndLocation>
+            <d:Ride.FaqCollection>
+                <d:Faq Bil="55" Dirty="True" Section="Elementum nec parturient quis">
+                    <d:Faq.FaqItemCollection>
+                        <d:FaqItem Answer="Vel class nam" Bil="80" Dirty="True" Question="Vestibulum curae sed adipiscing"/>
+                        <d:FaqItem Answer="Rutrum vulputate sapien" Bil="94" Dirty="True" Question="Donec curabitur dictumst nunc"/>
+                        <d:FaqItem Answer="Odio semper vestibulum dis etiam" Bil="94" Dirty="True" Question="Est convallis eleifend hac aliquam"/>
+                        <d:FaqItem Answer="Dignissim fusce quisque sociis lorem" Bil="68" Dirty="True" Question="Taciti vivamus aliquam facilisi"/>
+                        <d:FaqItem Answer="Adipiscing morbi pede" Bil="22" Dirty="True" Question="Parturient tempus vestibulum vestibulum"/>
+                    </d:Faq.FaqItemCollection>
+                </d:Faq>
+                <d:Faq Bil="39" Dirty="True" Section="Malesuada auctor">
+                    <d:Faq.FaqItemCollection>
+                        <d:FaqItem Answer="Habitant nulla commodo conubia" Bil="20" Dirty="True" Question="Non fringilla proin"/>
+                        <d:FaqItem Answer="Cubilia habitasse tortor fames" Bil="52" Dirty="True" Question="Felis dapibus turpis inceptos interdum"/>
+                        <d:FaqItem Answer="Hendrerit sit" Bil="59" Dirty="True" Question="Lobortis justo varius lacus egestas"/>
+                        <d:FaqItem Answer="Himenaeos duis lorem" Bil="19" Dirty="True" Question="Imperdiet mauris nunc magna"/>
+                        <d:FaqItem Answer="Placerat massa" Bil="56" Dirty="True" Question="Ante pulvinar nullam sagittis aptent"/>
+                    </d:Faq.FaqItemCollection>
+                </d:Faq>
+                <d:Faq Bil="30" Dirty="True" Section="Non curabitur">
+                    <d:Faq.FaqItemCollection>
+                        <d:FaqItem Answer="Vel suscipit congue metus feugiat" Bil="30" Dirty="True" Question="Penatibus adipiscing torquent porttitor"/>
+                        <d:FaqItem Answer="Nam neque" Bil="82" Dirty="True" Question="Iaculis netus dictum"/>
+                        <d:FaqItem Answer="Lectus tincidunt ultrices libero eget" Bil="41" Dirty="True" Question="Vehicula vestibulum volutpat porta"/>
+                        <d:FaqItem Answer="Ligula elit" Bil="47" Dirty="True" Question="Natoque enim erat"/>
+                        <d:FaqItem Answer="Est litora venenatis" Bil="75" Dirty="True" Question="Hac leo posuere"/>
+                    </d:Faq.FaqItemCollection>
+                </d:Faq>
+                <d:Faq Bil="65" Dirty="True" Section="Hac vestibulum facilisis leo facilisi">
+                    <d:Faq.FaqItemCollection>
+                        <d:FaqItem Answer="Phasellus consequat risus velit" Bil="36" Dirty="True" Question="Vitae convallis"/>
+                        <d:FaqItem Answer="Curae pretium" Bil="58" Dirty="True" Question="Nisi rhoncus praesent"/>
+                        <d:FaqItem Answer="Nisl sit adipiscing" Bil="34" Dirty="True" Question="Sodales magnis parturient"/>
+                        <d:FaqItem Answer="Morbi vestibulum" Bil="33" Dirty="True" Question="Nunc vel"/>
+                        <d:FaqItem Answer="Odio nam sed" Bil="49" Dirty="True" Question="Bibendum dis vestibulum dictumst eleifend"/>
+                    </d:Faq.FaqItemCollection>
+                </d:Faq>
+                <d:Faq Bil="80" Dirty="True" Section="Lobortis nam sed ultricies venenatis">
+                    <d:Faq.FaqItemCollection>
+                        <d:FaqItem Answer="Faucibus habitasse nulla mus habitant" Bil="46" Dirty="True" Question="Parturient orci pede"/>
+                        <d:FaqItem Answer="Urna integer inceptos mauris" Bil="34" Dirty="True" Question="Cras vestibulum proin"/>
+                        <d:FaqItem Answer="Adipiscing himenaeos" Bil="50" Dirty="True" Question="Imperdiet parturient nec malesuada augue"/>
+                        <d:FaqItem Answer="Nunc per amet vestibulum penatibus" Bil="60" Dirty="True" Question="Adipiscing dolor porttitor parturient tincidunt"/>
+                        <d:FaqItem Answer="Primis rutrum interdum sed fames" Bil="98" Dirty="True" Question="Felis tristique sem vestibulum sit"/>
+                    </d:Faq.FaqItemCollection>
+                </d:Faq>
+                <d:Faq Bil="75" Dirty="True" Section="Eget sagittis dignissim senectus sem">
+                    <d:Faq.FaqItemCollection>
+                        <d:FaqItem Answer="Semper aliquet" Bil="91" Dirty="True" Question="Ipsum est hac"/>
+                        <d:FaqItem Answer="Sociis taciti" Bil="35" Dirty="True" Question="Nascetur pharetra curabitur"/>
+                        <d:FaqItem Answer="Placerat justo" Bil="25" Dirty="True" Question="Vestibulum lacus vestibulum lorem adipiscing"/>
+                        <d:FaqItem Answer="Diam pulvinar" Bil="19" Dirty="True" Question="Massa blandit tempor metus"/>
+                        <d:FaqItem Answer="Neque commodo consequat vestibulum" Bil="63" Dirty="True" Question="Conubia cubilia"/>
+                    </d:Faq.FaqItemCollection>
+                </d:Faq>
+                <d:Faq Bil="93" Dirty="True" Section="Nibh non class laoreet nisi">
+                    <d:Faq.FaqItemCollection>
+                        <d:FaqItem Answer="Facilisis dapibus sit egestas" Bil="85" Dirty="True" Question="Vestibulum vel sociosqu euismod"/>
+                        <d:FaqItem Answer="Turpis porta habitasse" Bil="99" Dirty="True" Question="Sed dis adipiscing"/>
+                        <d:FaqItem Answer="Varius hac hendrerit purus" Bil="12" Dirty="True" Question="Feugiat gravida"/>
+                        <d:FaqItem Answer="Risus torquent erat nullam himenaeos" Bil="61" Dirty="True" Question="Parturient velit vitae mus"/>
+                        <d:FaqItem Answer="Iaculis aptent imperdiet" Bil="88" Dirty="True" Question="Lacinia malesuada penatibus"/>
+                    </d:Faq.FaqItemCollection>
+                </d:Faq>
+                <d:Faq Bil="59" Dirty="True" Section="Lobortis adipiscing viverra aliquam sed">
+                    <d:Faq.FaqItemCollection>
+                        <d:FaqItem Answer="Cursus nisl donec etiam volutpat" Bil="73" Dirty="True" Question="Per sed adipiscing natoque parturient"/>
+                        <d:FaqItem Answer="Nunc dictum posuere" Bil="13" Dirty="True" Question="Fusce potenti adipiscing"/>
+                        <d:FaqItem Answer="Accumsan lorem" Bil="41" Dirty="True" Question="Odio rhoncus sem orci morbi"/>
+                        <d:FaqItem Answer="Parturient sodales nulla dictumst eleifend" Bil="85" Dirty="True" Question="Pede facilisi faucibus libero"/>
+                        <d:FaqItem Answer="Proin urna parturient" Bil="76" Dirty="True" Question="Vestibulum vel vestibulum habitant"/>
+                    </d:Faq.FaqItemCollection>
+                </d:Faq>
+                <d:Faq Bil="58" Dirty="True" Section="Egestas nibh">
+                    <d:Faq.FaqItemCollection>
+                        <d:FaqItem Answer="Augue nascetur litora" Bil="32" Dirty="True" Question="Pharetra dolor"/>
+                        <d:FaqItem Answer="Aliquam aliquet fames vestibulum" Bil="25" Dirty="True" Question="Felis amet ante ipsum vulputate"/>
+                        <d:FaqItem Answer="Arcu dis est diam eget" Bil="31" Dirty="True" Question="Hac magnis elit vestibulum phasellus"/>
+                        <d:FaqItem Answer="Lacus placerat" Bil="30" Dirty="True" Question="Lorem consequat parturient vestibulum"/>
+                        <d:FaqItem Answer="Conubia pulvinar erat vestibulum cubilia" Bil="11" Dirty="True" Question="Adipiscing mauris eros magna dapibus"/>
+                    </d:Faq.FaqItemCollection>
+                </d:Faq>
+                <d:Faq Bil="88" Dirty="True" Section="Posuere vestibulum potenti">
+                    <d:Faq.FaqItemCollection>
+                        <d:FaqItem Answer="Nec sagittis" Bil="94" Dirty="True" Question="Nisi elementum parturient"/>
+                        <d:FaqItem Answer="Senectus vestibulum euismod feugiat" Bil="57" Dirty="True" Question="Gravida nostra"/>
+                        <d:FaqItem Answer="Non per iaculis platea parturient" Bil="55" Dirty="True" Question="Lacinia laoreet sed primis"/>
+                        <d:FaqItem Answer="Sapien sem" Bil="38" Dirty="True" Question="Sit fermentum semper fringilla vel"/>
+                        <d:FaqItem Answer="Natoque morbi nam" Bil="31" Dirty="True" Question="Sociis sociosqu"/>
+                    </d:Faq.FaqItemCollection>
+                </d:Faq>
+            </d:Ride.FaqCollection>
+            <d:Ride.ItineraryCollection>
+                <d:Itinerary Bil="74" Date="01/28/2011 12:46:35" Dirty="True" Title="Vestibulum orci">
+                    <d:Itinerary.ItineraryItemCollection>
+                        <d:ItineraryItem Action="Pretium dis himenaeos rhoncus est" Bil="15" Dirty="True" Details="Odio tempor sodales" IsCompulsory="True" IsImportant="False" Place="Orci viverra" Time="01/28/2011 12:46:35" Title="Torquent ultrices hac leo imperdiet"/>
+                        <d:ItineraryItem Action="Adipiscing mus maecenas quisque" Bil="60" Dirty="True" Details="Tempus parturient praesent vivamus penatibus" IsCompulsory="True" IsImportant="False" Place="Vestibulum porttitor nec accumsan" Time="01/28/2011 12:46:35" Title="Nulla vestibulum bibendum pede"/>
+                        <d:ItineraryItem Action="Adipiscing aliquam urna" Bil="54" Dirty="True" Details="Cras dictumst turpis" IsCompulsory="True" IsImportant="False" Place="Aliquet porta" Time="01/28/2011 12:46:35" Title="Non per"/>
+                        <d:ItineraryItem Action="Eleifend blandit commodo risus velit" Bil="78" Dirty="True" Details="Nunc amet" IsCompulsory="True" IsImportant="False" Place="Conubia tincidunt tristique" Time="01/28/2011 12:46:35" Title="Vitae facilisi faucibus"/>
+                        <d:ItineraryItem Action="Class curae" Bil="28" Dirty="True" Details="Varius aenean" IsCompulsory="True" IsImportant="False" Place="Venenatis mauris" Time="01/28/2011 12:46:35" Title="Vulputate cubilia"/>
+                    </d:Itinerary.ItineraryItemCollection>
+                    <d:Itinerary.Location>
+                        <d:GeoLocation Bil="28" Description="Auctor elementum facilisis dis" Dirty="True" GeoLocationId="24" Keywords="Nascetur fermentum congue lorem fringilla" Name="Arcu morbi est" Type="Rhoncus sodales odio">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="30" Country="Habitant inceptos parturient curabitur" Dirty="True" District="Sem phasellus" Postcode="Fusce nullam consequat sit vel" State="Convallis nam interdum vestibulum" Street="Aptent vestibulum egestas"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="21" Dirty="True" Note="Euismod habitasse hendrerit himenaeos vestibulum" Store="Vestibulum pharetra feugiat nulla cursus" ThumbnailStore="Placerat pulvinar" Title="Sagittis imperdiet hac"/>
+                                <d:Photo Bil="28" Dirty="True" Note="Proin gravida parturient senectus" Store="Libero leo augue malesuada" ThumbnailStore="Sociosqu iaculis" Title="Ligula penatibus diam"/>
+                                <d:Photo Bil="66" Dirty="True" Note="Laoreet eget torquent" Store="Vestibulum elit" ThumbnailStore="Dolor enim ultrices mus nec" Title="Erat fames"/>
+                                <d:Photo Bil="62" Dirty="True" Note="Magnis vestibulum volutpat" Store="Non ultricies" ThumbnailStore="Mattis maecenas natoque eros" Title="Nibh per sed posuere"/>
+                                <d:Photo Bil="75" Dirty="True"  Note="Mollis vulputate" Store="Praesent potenti nisl nunc" ThumbnailStore="Curabitur vel montes" Title="Adipiscing nam nostra phasellus consequat"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Itinerary.Location>
+                </d:Itinerary>
+                <d:Itinerary Bil="66" Date="01/28/2011 12:46:35" Dirty="True" Title="Viverra quam">
+                    <d:Itinerary.ItineraryItemCollection>
+                        <d:ItineraryItem Action="Dignissim leo felis" Bil="69" Dirty="True" Details="Ipsum platea justo" IsCompulsory="True" IsImportant="False" Place="Bibendum mus elementum facilisis primis" Time="01/28/2011 12:46:35" Title="Lacus fermentum adipiscing fringilla"/>
+                        <d:ItineraryItem Action="Pede eleifend" Bil="41" Dirty="True" Details="Semper sociis habitasse taciti" IsCompulsory="True" IsImportant="False" Place="Hendrerit magna tellus viverra himenaeos" Time="01/28/2011 12:46:35" Title="Quam nec facilisi parturient"/>
+                        <d:ItineraryItem Action="Imperdiet non massa aliquam" Bil="59" Dirty="True" Details="Metus malesuada" IsCompulsory="True" IsImportant="False" Place="Per penatibus" Time="01/28/2011 12:46:35" Title="Integer morbi porttitor neque habitant"/>
+                        <d:ItineraryItem Action="Adipiscing parturient tempus tortor" Bil="46" Dirty="True" Details="Quisque vivamus vestibulum aliquam" IsCompulsory="True" IsImportant="False" Place="Vestibulum quis turpis adipiscing aliquet" Time="01/28/2011 12:46:35" Title="Varius blandit"/>
+                        <d:ItineraryItem Action="Tristique interdum lobortis" Bil="34" Dirty="True" Details="Urna nascetur" IsCompulsory="True" IsImportant="False" Place="Ultricies venenatis aenean" Time="01/28/2011 12:46:35" Title="Pharetra cras"/>
+                    </d:Itinerary.ItineraryItemCollection>
+                    <d:Itinerary.Location>
+                        <d:GeoLocation Bil="33" Description="Convallis adipiscing porta" Dirty="True" GeoLocationId="57" Keywords="Purus elit nam" Name="Cubilia parturient" Type="Maecenas luctus sed">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="61" Country="Curabitur placerat duis" Dirty="True" District="Phasellus commodo" Postcode="Nunc mauris amet" State="Ante pulvinar" Street="Conubia arcu nulla sit"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="91" Dirty="True" Note="Dignissim risus" Store="Vestibulum dapibus vestibulum" ThumbnailStore="Nullam egestas sed adipiscing" Title="Velit sagittis enim dis"/>
+                                <d:Photo Bil="37" Dirty="True" Note="Auctor congue erat senectus euismod" Store="Class cursus" ThumbnailStore="Est eros hac" Title="Leo parturient mus feugiat"/>
+                                <d:Photo Bil="82" Dirty="True" Note="Vestibulum nibh" Store="Gravida vestibulum donec non" ThumbnailStore="Iaculis suscipit" Title="Elementum adipiscing etiam facilisis nisi"/>
+                                <d:Photo Bil="59" Dirty="True" Note="Vestibulum vestibulum dictum" Store="Per torquent" ThumbnailStore="Lectus fusce ultrices natoque" Title="Adipiscing libero"/>
+                                <d:Photo Bil="71" Dirty="True" Note="Morbi habitasse vehicula rhoncus" Store="Nisl nulla" ThumbnailStore="Sodales vestibulum" Title="Volutpat proin nunc odio vestibulum"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Itinerary.Location>
+                </d:Itinerary>
+                <d:Itinerary Bil="65" Date="01/28/2011 12:46:35" Dirty="True" Title="Ante aenean">
+                    <d:Itinerary.ItineraryItemCollection>
+                        <d:ItineraryItem Action="Fames magnis" Bil="24" Dirty="True" Details="Accumsan vivamus" IsCompulsory="True" IsImportant="False" Place="Quis aliquam" Time="01/28/2011 12:46:35" Title="Sem hendrerit parturient bibendum"/>
+                        <d:ItineraryItem Action="Lacus urna dictumst mauris eleifend" Bil="16" Dirty="True" Details="Sit vel" IsCompulsory="True" IsImportant="False" Place="Vestibulum cras" Time="01/28/2011 12:46:35" Title="Duis facilisi"/>
+                        <d:ItineraryItem Action="Faucibus himenaeos vestibulum" Bil="29" Dirty="True" Details="Habitant montes" IsCompulsory="True" IsImportant="False" Place="Adipiscing nostra commodo imperdiet inceptos" Time="01/28/2011 12:46:35" Title="Nunc conubia cubilia parturient"/>
+                        <d:ItineraryItem Action="Vestibulum massa porttitor amet vestibulum" Bil="56" Dirty="True" Details="Ante arcu" IsCompulsory="True" IsImportant="False" Place="Ornare egestas" Time="01/28/2011 12:46:35" Title="Platea euismod diam"/>
+                        <d:ItineraryItem Action="Parturient tincidunt primis tristique" Bil="78" Dirty="True" Details="Ultricies morbi venenatis" IsCompulsory="True" IsImportant="False" Place="Nascetur vestibulum pharetra" Time="01/28/2011 12:46:35" Title="Feugiat rutrum gravida"/>
+                    </d:Itinerary.ItineraryItemCollection>
+                    <d:Itinerary.Location>
+                        <d:GeoLocation Bil="70" Description="Leo senectus phasellus taciti" Dirty="True" GeoLocationId="56" Keywords="Risus consequat sociosqu posuere elit" Name="Adipiscing suscipit velit" Type="Cras malesuada duis">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="24" Country="Adipiscing vulputate sed" Dirty="True" District="Lacinia placerat parturient pulvinar dis" Postcode="Sapien netus" State="Semper curabitur eget nulla laoreet" Street="Sociis porta natoque est vestibulum"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="38" Dirty="True" Note="Torquent ultrices enim mus" Store="Erat vitae" ThumbnailStore="Class potenti parturient nec tellus" Title="Vehicula eros"/>
+                                <d:Photo Bil="49" Dirty="True" Note="Vestibulum tempor" Store="Nibh convallis sed sem pretium" ThumbnailStore="Adipiscing sit nisi" Title="Volutpat maecenas"/>
+                                <d:Photo Bil="94" Dirty="True" Note="Nisl dignissim bibendum donec" Store="Vel elementum vestibulum facilisis nunc" ThumbnailStore="Nam sed odio orci etiam" Title="Pede dictumst fermentum eleifend"/>
+                                <d:Photo Bil="85" Dirty="True" Note="Quam sodales dis fusce vestibulum" Store="Est faucibus viverra" ThumbnailStore="Hac adipiscing tempus" Title="Quis parturient vestibulum lorem tortor"/>
+                                <d:Photo Bil="20" Dirty="True" Note="Leo vestibulum" Store="Mus turpis inceptos adipiscing" ThumbnailStore="Himenaeos varius nec interdum nulla" Title="Imperdiet integer parturient non urna"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Itinerary.Location>
+                </d:Itinerary>
+                <d:Itinerary Bil="24" Date="01/28/2011 12:46:35" Dirty="True" Title="Erat parturient">
+                    <d:Itinerary.ItineraryItemCollection>
+                        <d:ItineraryItem Action="Penatibus arcu" Bil="40" Dirty="True" Details="Dolor nascetur fames vivamus pharetra" IsCompulsory="True" IsImportant="False" Place="Aliquam sit diam eget" Time="01/28/2011 12:46:35" Title="Aliquet felis"/>
+                        <d:ItineraryItem Action="Vestibulum elit" Bil="65" Dirty="True" Details="Porttitor mauris pulvinar adipiscing" IsCompulsory="True" IsImportant="False" Place="Nam parturient" Time="01/28/2011 12:46:35" Title="Tincidunt vestibulum"/>
+                        <d:ItineraryItem Action="Sociosqu aptent cubilia" Bil="63" Dirty="True" Details="Suscipit ipsum enim torquent" IsCompulsory="True" IsImportant="False" Place="Dapibus vestibulum auctor" Time="01/28/2011 12:46:35" Title="Erat egestas sed"/>
+                        <d:ItineraryItem Action="Eros cursus nibh feugiat" Bil="56" Dirty="True" Details="Ultrices dictum venenatis dis" IsCompulsory="True" IsImportant="False" Place="Justo nisi vulputate gravida" Time="01/28/2011 12:46:35" Title="Iaculis curabitur adipiscing"/>
+                        <d:ItineraryItem Action="Vestibulum est phasellus lorem vestibulum" Bil="11" Dirty="True" Details="Nisl lacinia consequat adipiscing" IsCompulsory="True" IsImportant="False" Place="Laoreet magna hac" Time="01/28/2011 12:46:35" Title="Massa parturient natoque maecenas metus"/>
+                    </d:Itinerary.ItineraryItemCollection>
+                    <d:Itinerary.Location>
+                        <d:GeoLocation Bil="40" Description="Quis rhoncus" Dirty="True" GeoLocationId="89" Keywords="Sodales non urna bibendum fermentum" Name="Fringilla habitasse" Type="Venenatis tortor feugiat">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="37" Country="Nunc potenti" Dirty="True" District="Lectus libero leo morbi odio" Postcode="Mus orci pretium" State="Dignissim vestibulum ligula praesent elementum" Street="Neque netus nec pede nulla"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="62" Dirty="True" Note="Dictumst luctus viverra magnis porta" Store="Eleifend per" ThumbnailStore="Aliquam facilisi mattis hendrerit mauris" Title="Faucibus integer cras duis mollis"/>
+                                <d:Photo Bil="97" Dirty="True" Note="Quisque habitant vivamus inceptos" Store="Sed montes parturient interdum lobortis" ThumbnailStore="Sem vestibulum vestibulum sit" Title="Vel aliquam nam"/>
+                                <d:Photo Bil="19" Dirty="True" Note="Aliquet risus blandit adipiscing" Store="Ornare pharetra" ThumbnailStore="Commodo platea sed primis malesuada" Title="Penatibus rutrum sapien"/>
+                                <d:Photo Bil="13" Dirty="True" Note="Porttitor conubia hac" Store="Velit parturient semper sociis" ThumbnailStore="Placerat cubilia tincidunt vitae leo" Title="Taciti pulvinar tellus"/>
+                                <d:Photo Bil="69" Dirty="True" Note="Curae ante sagittis" Store="Arcu donec ultricies tempor" ThumbnailStore="Senectus diam eget" Title="Elit tempus egestas vestibulum"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Itinerary.Location>
+                </d:Itinerary>
+                <d:Itinerary Bil="41" Date="01/28/2011 12:46:35" Dirty="True" Title="Sagittis class odio curae">
+                    <d:Itinerary.ItineraryItemCollection>
+                        <d:ItineraryItem Action="Turpis gravida" Bil="32" Dirty="True" Details="Suscipit fusce eros nec iaculis" IsCompulsory="True" IsImportant="False" Place="Vestibulum adipiscing" Time="01/28/2011 12:46:35" Title="Varius lacinia lorem morbi"/>
+                        <d:ItineraryItem Action="Proin laoreet non" Bil="71" Dirty="True" Details="Nisi aenean natoque" IsCompulsory="True" IsImportant="False" Place="Posuere per augue curabitur" Time="01/28/2011 12:46:35" Title="Parturient nisl dolor sed"/>
+                        <d:ItineraryItem Action="Aptent sem nunc potenti phasellus" Bil="29" Dirty="True" Details="Sit felis vestibulum vestibulum pretium" IsCompulsory="True" IsImportant="False" Place="Rhoncus vel" Time="01/28/2011 12:46:35" Title="Consequat sodales viverra"/>
+                        <d:ItineraryItem Action="Ultrices adipiscing facilisis" Bil="56" Dirty="True" Details="Nam aliquam" IsCompulsory="True" IsImportant="False" Place="Sed justo odio" Time="01/28/2011 12:46:35" Title="Auctor vehicula parturient vestibulum"/>
+                        <d:ItineraryItem Action="Fringilla habitasse dis integer" Bil="97" Dirty="True" Details="Congue cursus hendrerit" IsCompulsory="True" IsImportant="False" Place="Pede dictum" Time="01/28/2011 12:46:35" Title="Est vestibulum adipiscing lectus"/>
+                    </d:Itinerary.ItineraryItemCollection>
+                    <d:Itinerary.Location>
+                        <d:GeoLocation Bil="28" Description="Urna cras libero" Dirty="True" GeoLocationId="96" Keywords="Duis parturient commodo ligula" Name="Penatibus leo bibendum conubia" Type="Placerat nisi nec pulvinar">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="57" Country="Quisque quam himenaeos vivamus" Dirty="True" District="Volutpat aliquam magna" Postcode="Hac vestibulum imperdiet maecenas" State="Quis aliquet" Street="Massa praesent"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="21" Dirty="True" Note="Mus vestibulum" Store="Cubilia nec dictumst non" ThumbnailStore="Eleifend nunc amet" Title="Dapibus per facilisi"/>
+                                <d:Photo Bil="46" Dirty="True" Note="Ante litora luctus sed magnis" Store="Euismod mattis inceptos mauris tincidunt" ThumbnailStore="Interdum feugiat arcu sem" Title="Mollis sit metus morbi gravida"/>
+                                <d:Photo Bil="15" Dirty="True" Note="Vestibulum montes neque tristique" Store="Nostra netus elit" ThumbnailStore="Ornare ultricies" Title="Nulla porta venenatis"/>
+                                <d:Photo Bil="96" Dirty="True" Note="Nam laoreet primis" Store="Vulputate lobortis adipiscing" ThumbnailStore="Rutrum sed" Title="Dis erat est"/>
+                                <d:Photo Bil="13" Dirty="True" Note="Nascetur hac sociis" Store="Vestibulum curabitur pharetra leo nibh" ThumbnailStore="Taciti vestibulum adipiscing risus" Title="Velit vitae parturient"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Itinerary.Location>
+                </d:Itinerary>
+                <d:Itinerary Bil="62" Date="01/28/2011 12:46:35" Dirty="True" Title="Arcu adipiscing">
+                    <d:Itinerary.ItineraryItemCollection>
+                        <d:ItineraryItem Action="Phasellus pede quam vestibulum" Bil="92" Dirty="True" Details="Senectus consequat tempus tortor" IsCompulsory="True" IsImportant="False" Place="Donec turpis sociosqu" Time="01/28/2011 12:46:35" Title="Adipiscing quis"/>
+                        <d:ItineraryItem Action="Varius suscipit" Bil="65" Dirty="True" Details="Cras duis" IsCompulsory="True" IsImportant="False" Place="Torquent aenean" Time="01/28/2011 12:46:35" Title="Posuere potenti parturient pretium vestibulum"/>
+                        <d:ItineraryItem Action="Amet mauris sem vehicula sit" Bil="61" Dirty="True" Details="Elementum parturient facilisis" IsCompulsory="True" IsImportant="False" Place="Sodales nullam" Time="01/28/2011 12:46:35" Title="Fermentum fringilla vestibulum"/>
+                        <d:ItineraryItem Action="Hendrerit etiam" Bil="24" Dirty="True" Details="Fusce vel" IsCompulsory="True" IsImportant="False" Place="Diam volutpat maecenas auctor" Time="01/28/2011 12:46:35" Title="Praesent eget"/>
+                        <d:ItineraryItem Action="Cursus elit himenaeos dictum nam" Bil="90" Dirty="True" Details="Lorem bibendum lectus adipiscing" IsCompulsory="True" IsImportant="False" Place="Dictumst imperdiet libero viverra morbi" Time="01/28/2011 12:46:35" Title="Eleifend facilisi"/>
+                    </d:Itinerary.ItineraryItemCollection>
+                    <d:Itinerary.Location>
+                        <d:GeoLocation Bil="77" Description="Eros nec litora porttitor luctus" Dirty="True" GeoLocationId="60" Keywords="Tincidunt vestibulum adipiscing" Name="Tristique lobortis nibh" Type="Cubilia vestibulum vel">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="92" Country="Malesuada ligula" Dirty="True" District="Faucibus nulla" Postcode="Enim proin augue est habitant" State="Hac inceptos dolor vestibulum leo" Street="Quisque mus"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="71" Dirty="True" Note="Magnis nisi aliquam" Store="Ultricies nisl nunc venenatis non" ThumbnailStore="Felis mattis" Title="Ipsum nascetur odio"/>
+                                <d:Photo Bil="29" Dirty="True" Note="Placerat sed" Store="Pede parturient pulvinar" ThumbnailStore="Vestibulum sagittis lacus" Title="Quam mauris senectus mollis"/>
+                                <d:Photo Bil="12" Dirty="True" Note="Vulputate montes aliquet curabitur" Store="Sociosqu nostra suscipit phasellus" ThumbnailStore="Magna vestibulum sem" Title="Adipiscing urna consequat"/>
+                                <d:Photo Bil="69" Dirty="True" Note="Dignissim cras elementum" Store="Primis metus" ThumbnailStore="Facilisis duis" Title="Parturient blandit vestibulum fermentum nunc"/>
+                                <d:Photo Bil="96" Dirty="True" Note="Ante ultrices morbi" Store="Adipiscing parturient conubia fringilla vehicula" ThumbnailStore="Neque habitasse volutpat maecenas" Title="Hendrerit himenaeos imperdiet"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Itinerary.Location>
+                </d:Itinerary>
+                <d:Itinerary Bil="28" Date="01/28/2011 12:46:35" Dirty="True" Title="Accumsan bibendum dictumst vestibulum porta">
+                    <d:Itinerary.ItineraryItemCollection>
+                        <d:ItineraryItem Action="Semper sed parturient nulla porta" Bil="19" Dirty="True" Details="Accumsan sociis vestibulum euismod purus" IsCompulsory="True" IsImportant="False" Place="Risus dis diam taciti est" Time="01/28/2011 12:46:35" Title="Feugiat eget porttitor hac leo"/>
+                        <d:ItineraryItem Action="Enim tempus" Bil="20" Dirty="True" Details="Erat tortor" IsCompulsory="True" IsImportant="False" Place="Turpis vitae" Time="01/28/2011 12:46:35" Title="Vestibulum eros varius aenean"/>
+                        <d:ItineraryItem Action="Mauris iaculis nibh class tincidunt" Bil="53" Dirty="True" Details="Nullam curae eleifend mus" IsCompulsory="True" IsImportant="False" Place="Tristique ultricies nec non" Time="01/28/2011 12:46:35" Title="Donec etiam"/>
+                        <d:ItineraryItem Action="Facilisi faucibus adipiscing per" Bil="19" Dirty="True" Details="Lorem nisi" IsCompulsory="True" IsImportant="False" Place="Lacinia sed parturient morbi curabitur" Time="01/28/2011 12:46:35" Title="Habitant vestibulum nulla phasellus inceptos"/>
+                        <d:ItineraryItem Action="Consequat laoreet sem sit" Bil="84" Dirty="True" Details="Natoque proin auctor posuere nunc" IsCompulsory="True" IsImportant="False" Place="Congue odio vel orci convallis" Time="01/28/2011 12:46:35" Title="Pede potenti nam adipiscing cursus"/>
+                    </d:Itinerary.ItineraryItemCollection>
+                    <d:Itinerary.Location>
+                        <d:GeoLocation Bil="68" Description="Vestibulum vestibulum" Dirty="True" GeoLocationId="15" Keywords="Nunc est" Name="Viverra ligula" Type="Parturient egestas euismod porttitor feugiat">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="41" Country="Lectus libero dolor quam quis" Dirty="True" District="Elementum interdum urna" Postcode="Pretium dis" State="Facilisis lobortis nascetur pharetra" Street="Rhoncus cras placerat sodales fermentum"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="77" Dirty="True" Note="Fames fringilla felis pulvinar amet" Store="Sagittis ipsum" ThumbnailStore="Senectus sociosqu justo hac" Title="Lacus suscipit aliquam ante"/>
+                                <d:Photo Bil="75" Dirty="True" Note="Arcu litora" Store="Habitasse luctus hendrerit himenaeos parturient" ThumbnailStore="Leo mus nec" Title="Magnis mattis non diam"/>
+                                <d:Photo Bil="38" Dirty="True" Note="Massa ultrices vestibulum nostra per" Store="Vestibulum adipiscing quisque metus sed" ThumbnailStore="Ornare sem platea parturient vestibulum" Title="Vestibulum sit vivamus imperdiet adipiscing"/>
+                                <d:Photo Bil="23" Dirty="True" Note="Eget vehicula elit enim erat" Store="Eros parturient aliquet" ThumbnailStore="Nibh vel volutpat" Title="Morbi blandit"/>
+                                <d:Photo Bil="23" Dirty="True" Note="Vestibulum penatibus commodo" Store="Vestibulum netus conubia adipiscing cubilia" ThumbnailStore="Nam sed" Title="Primis nisi"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Itinerary.Location>
+                </d:Itinerary>
+                <d:Itinerary Bil="60" Date="01/28/2011 12:46:35" Dirty="True" Title="Justo per mollis">
+                    <d:Itinerary.ItineraryItemCollection>
+                        <d:ItineraryItem Action="Odio eleifend est facilisi orci" Bil="29" Dirty="True" Details="Hac pede risus quam leo" IsCompulsory="True" IsImportant="False" Place="Quis mus faucibus vestibulum iaculis" Time="01/28/2011 12:46:35" Title="Nec velit sapien"/>
+                        <d:ItineraryItem Action="Cras per" Bil="57" Dirty="True" Details="Tristique adipiscing ultricies" IsCompulsory="True" IsImportant="False" Place="Duis laoreet venenatis parturient nunc" Time="01/28/2011 12:46:35" Title="Habitant sed sem"/>
+                        <d:ItineraryItem Action="Amet sociis taciti natoque" Bil="59" Dirty="True" Details="Ante vitae" IsCompulsory="True" IsImportant="False" Place="Arcu sit interdum" Time="01/28/2011 12:46:35" Title="Vel lobortis nam"/>
+                        <d:ItineraryItem Action="Tellus sed" Bil="98" Dirty="True" Details="Potenti class placerat tempor vulputate" IsCompulsory="True" IsImportant="False" Place="Pulvinar tempus" Time="01/28/2011 12:46:35" Title="Eget curabitur pretium"/>
+                        <d:ItineraryItem Action="Est adipiscing rhoncus hac leo" Bil="19" Dirty="True" Details="Senectus parturient phasellus consequat" IsCompulsory="True" IsImportant="False" Place="Vestibulum convallis elit dignissim" Time="01/28/2011 12:46:35" Title="Tortor sodales"/>
+                    </d:Itinerary.ItineraryItemCollection>
+                    <d:Itinerary.Location>
+                        <d:GeoLocation Bil="64" Description="Integer quisque nibh" Dirty="True" GeoLocationId="70" Keywords="Volutpat vivamus" Name="Aliquam aliquet" Type="Mus duis adipiscing nec">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="57" Country="Donec turpis varius sociosqu vestibulum" Dirty="True" District="Mus erat aenean adipiscing suscipit" Postcode="Parturient torquent" State="Nec etiam mauris ultrices" Street="Nullam vehicula eros"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="42" Dirty="True" Note="Fusce per lorem vestibulum aptent" Store="Sed maecenas" ThumbnailStore="Sem sit" Title="Facilisis auctor praesent"/>
+                                <d:Photo Bil="57" Dirty="True" Note="Nisi fermentum blandit morbi" Store="Commodo congue fringilla nulla" ThumbnailStore="Sed habitasse conubia adipiscing hendrerit" Title="Dis accumsan proin cubilia parturient"/>
+                                <d:Photo Bil="89" Dirty="True" Note="Imperdiet libero vestibulum" Store="Ligula dapibus" ThumbnailStore="Augue bibendum" Title="Vestibulum dictumst egestas euismod"/>
+                                <d:Photo Bil="78" Dirty="True" Note="Odio adipiscing orci feugiat malesuada" Store="Pede est parturient" ThumbnailStore="Quam vestibulum vestibulum magnis mattis" Title="Penatibus eleifend facilisi"/>
+                                <d:Photo Bil="47" Dirty="True" Note="Porttitor inceptos hac" Store="Quis leo" ThumbnailStore="Mauris tincidunt" Title="Tristique fames urna interdum"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Itinerary.Location>
+                </d:Itinerary>
+                <d:Itinerary Bil="24" Date="01/28/2011 12:46:35" Dirty="True" Title="Eros adipiscing">
+                    <d:Itinerary.ItineraryItemCollection>
+                        <d:ItineraryItem Action="Lacus sed" Bil="51" Dirty="True" Details="Vestibulum lorem lobortis vulputate lacinia" IsCompulsory="True" IsImportant="False" Place="Montes magna ante" Time="01/28/2011 12:46:35" Title="Massa nascetur"/>
+                        <d:ItineraryItem Action="Phasellus pharetra morbi diam" Bil="26" Dirty="True" Details="Neque nostra placerat ornare pulvinar" IsCompulsory="True" IsImportant="False" Place="Netus laoreet natoque consequat posuere" Time="01/28/2011 12:46:35" Title="Potenti pretium sem eget"/>
+                        <d:ItineraryItem Action="Vestibulum adipiscing platea senectus parturient" Bil="87" Dirty="True" Details="Dignissim sit sodales" IsCompulsory="True" IsImportant="False" Place="Porta primis" Time="01/28/2011 12:46:35" Title="Elementum facilisis rutrum sapien"/>
+                        <d:ItineraryItem Action="Integer risus nam sed" Bil="10" Dirty="True" Details="Enim sociosqu" IsCompulsory="True" IsImportant="False" Place="Fermentum suscipit quisque velit vivamus" Time="01/28/2011 12:46:35" Title="Erat torquent"/>
+                        <d:ItineraryItem Action="Volutpat sociis vestibulum taciti" Bil="79" Dirty="True" Details="Dis vestibulum" IsCompulsory="True" IsImportant="False" Place="Eros fringilla adipiscing nibh" Time="01/28/2011 12:46:35" Title="Nisi tellus parturient aliquam curae"/>
+                    </d:Itinerary.ItineraryItemCollection>
+                    <d:Itinerary.Location>
+                        <d:GeoLocation Bil="35" Description="Parturient tempus himenaeos" Dirty="True" GeoLocationId="12" Keywords="Blandit commodo quis" Name="Fusce vestibulum vestibulum" Type="Vestibulum vestibulum enim erat">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="44" Country="Est vestibulum adipiscing nunc" Dirty="True" District="Parturient odio hac aliquet" Postcode="Donec maecenas orci leo tempor" State="Vestibulum habitasse hendrerit" Street="Etiam vestibulum"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="35" Dirty="True" Note="Accumsan urna tortor bibendum turpis" Store="Conubia dictumst" ThumbnailStore="Cras imperdiet" Title="Malesuada penatibus duis adipiscing eleifend"/>
+                                <d:Photo Bil="62" Dirty="True" Note="Facilisi faucibus" Store="Morbi nulla nec" ThumbnailStore="Porttitor parturient" Title="Vestibulum habitant amet egestas varius"/>
+                                <d:Photo Bil="87" Dirty="True" Note="Proin mauris augue euismod" Store="Non nullam tristique ante" ThumbnailStore="Inceptos ultricies" Title="Dolor fames venenatis"/>
+                                <d:Photo Bil="29" Dirty="True" Note="Aptent diam" Store="Feugiat interdum felis" ThumbnailStore="Gravida auctor per iaculis" Title="Curabitur congue"/>
+                                <d:Photo Bil="86" Dirty="True" Note="Cursus dictum parturient lectus lobortis" Store="Eget ipsum nascetur justo elit" ThumbnailStore="Consequat libero pharetra" Title="Ligula placerat litora"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Itinerary.Location>
+                </d:Itinerary>
+                <d:Itinerary Bil="76" Date="01/28/2011 12:46:35" Dirty="True" Title="Ultricies lacus">
+                    <d:Itinerary.ItineraryItemCollection>
+                        <d:ItineraryItem Action="Vel magnis vestibulum" Bil="89" Dirty="True" Details="Mattis mauris nibh natoque adipiscing" IsCompulsory="True" IsImportant="False" Place="Elementum parturient mollis facilisis" Time="01/28/2011 12:46:35" Title="Fermentum fringilla nam magna sed"/>
+                        <d:ItineraryItem Action="Nisi potenti senectus dis vestibulum" Bil="32" Dirty="True" Details="Nisl est sociosqu hac nunc" IsCompulsory="True" IsImportant="False" Place="Adipiscing habitasse suscipit parturient" Time="01/28/2011 12:46:35" Title="Hendrerit leo"/>
+                        <d:ItineraryItem Action="Metus mus" Bil="11" Dirty="True" Details="Nostra morbi ornare" IsCompulsory="True" IsImportant="False" Place="Platea pretium vestibulum vestibulum" Time="01/28/2011 12:46:35" Title="Adipiscing imperdiet"/>
+                        <d:ItineraryItem Action="Non sodales odio" Bil="77" Dirty="True" Details="Neque malesuada primis" IsCompulsory="True" IsImportant="False" Place="Netus rutrum penatibus" Time="01/28/2011 12:46:35" Title="Per parturient"/>
+                        <d:ItineraryItem Action="Orci sem viverra" Bil="34" Dirty="True" Details="Sit vel aliquam vehicula" IsCompulsory="True" IsImportant="False" Place="Sapien nam" Time="01/28/2011 12:46:35" Title="Vestibulum pede"/>
+                    </d:Itinerary.ItineraryItemCollection>
+                    <d:Itinerary.Location>
+                        <d:GeoLocation Bil="91" Description="Donec urna" Dirty="True" GeoLocationId="52" Keywords="Bibendum parturient tempus" Name="Cras blandit etiam tortor" Type="Justo vestibulum">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="41" Country="Porttitor sociis integer tincidunt" Dirty="True" District="Volutpat sed maecenas taciti purus" Postcode="Risus tellus tristique velit" State="Vitae class dis quisque" Street="Vivamus praesent ultricies curae venenatis"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="71" Dirty="True" Note="Vulputate hac turpis" Store="Duis fusce leo curabitur" ThumbnailStore="Phasellus mus consequat nunc convallis" Title="Commodo nec conubia vestibulum lorem"/>
+                                <d:Photo Bil="53" Dirty="True" Note="Vestibulum aenean mauris per" Store="Nullam aptent morbi cubilia" ThumbnailStore="Nulla sed dictumst" Title="Eleifend sem"/>
+                                <d:Photo Bil="70" Dirty="True" Note="Congue dapibus" Store="Augue vel" ThumbnailStore="Elementum nam egestas" Title="Euismod facilisis facilisi sed"/>
+                                <d:Photo Bil="87" Dirty="True" Note="Amet fermentum fringilla ante feugiat" Store="Cursus faucibus dolor habitasse" ThumbnailStore="Parturient habitant arcu" Title="Dictum vestibulum hac lectus"/>
+                                <d:Photo Bil="30" Dirty="True" Note="Himenaeos imperdiet" Store="Malesuada gravida vestibulum diam" ThumbnailStore="Fames penatibus iaculis lacinia" Title="Lobortis felis laoreet"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Itinerary.Location>
+                </d:Itinerary>
+            </d:Ride.ItineraryCollection>
+            <d:Ride.Organizer>
+                <d:Organizer Bil="52" Detail="Nascetur tempus" Dirty="True" Facebook="Sem class tortor turpis" Fax="Curae vulputate curabitur" Name="Varius cubilia pharetra dapibus donec" Phone="Egestas euismod feugiat vestibulum" Twitter="Aenean sit phasellus etiam" Website="Vestibulum arcu">
+                    <d:Organizer.ContactPersonCollection>
+                        <d:ContactPerson Bil="63" Designation="Lorem adipiscing eget" Dirty="False" Email="Magna parturient" FullName="Elit enim libero sed venenatis" IsPublicProfile="True" Telephone="Nunc morbi luctus rhoncus">
+                            <d:ContactPerson.Photo>
+                                <d:Photo Bil="62" Dirty="False" Note="Vulputate erat eros ligula potenti" Store="Nibh sem" ThumbnailStore="Sit pretium vestibulum litora curabitur" Title="Massa vel nisi metus"/>
+                            </d:ContactPerson.Photo>
+                        </d:ContactPerson>
+                        <d:ContactPerson Bil="46" Designation="Sodales nam pulvinar sed" Dirty="True" Email="Sagittis viverra parturient consequat" FullName="Vestibulum vestibulum aliquam magnis odio" IsPublicProfile="False" Telephone="Netus sociosqu">
+                            <d:ContactPerson.Photo>
+                                <d:Photo Bil="40" Dirty="True" Note="Orci pede dis mattis" Store="Mauris quam integer mollis" ThumbnailStore="Senectus quis" Title="Urna quisque neque est vivamus"/>
+                            </d:ContactPerson.Photo>
+                        </d:ContactPerson>
+                        <d:ContactPerson Bil="55" Designation="Ornare mus dignissim platea aliquet" Dirty="False" Email="Nec nulla cras" FullName="Blandit adipiscing suscipit parturient" IsPublicProfile="True" Telephone="Ultrices nunc sed vehicula">
+                            <d:ContactPerson.Photo>
+                                <d:Photo Bil="77" Dirty="False" Note="Torquent duis elementum" Store="Vestibulum primis non rutrum" ThumbnailStore="Vestibulum facilisis sapien" Title="Semper porta sociis purus"/>
+                            </d:ContactPerson.Photo>
+                        </d:ContactPerson>
+                        <d:ContactPerson Bil="59" Designation="Velit sit" Dirty="True" Email="Conubia praesent accumsan amet" FullName="Vestibulum bibendum fermentum vitae" IsPublicProfile="False" Telephone="Vestibulum eleifend facilisi">
+                            <d:ContactPerson.Photo>
+                                <d:Photo Bil="36" Dirty="True" Note="Ante tempor vel" Store="Nam class vestibulum cubilia dapibus" ThumbnailStore="Adipiscing arcu parturient" Title="Sed egestas"/>
+                            </d:ContactPerson.Photo>
+                        </d:ContactPerson>
+                        <d:ContactPerson Bil="22" Designation="Est habitant fringilla" Dirty="False" Email="Adipiscing inceptos interdum" FullName="Diam turpis donec euismod eget" IsPublicProfile="True" Telephone="Aenean etiam">
+                            <d:ContactPerson.Photo>
+                                <d:Photo Bil="51" Dirty="False" Note="Lobortis varius" Store="Nascetur elit" ThumbnailStore="Habitasse hendrerit" Title="Himenaeos hac"/>
+                            </d:ContactPerson.Photo>
+                        </d:ContactPerson>
+                        <d:ContactPerson Bil="33" Designation="Pulvinar feugiat" Dirty="True" Email="Fusce lorem morbi leo gravida" FullName="Nullam mus aptent auctor parturient" IsPublicProfile="False" Telephone="Lectus augue per">
+                            <d:ContactPerson.Photo>
+                                <d:Photo Bil="43" Dirty="True" Note="Penatibus vestibulum porttitor tincidunt" Store="Sagittis congue" ThumbnailStore="Cursus nec iaculis nulla dictum" Title="Vestibulum lacinia senectus proin"/>
+                            </d:ContactPerson.Photo>
+                        </d:ContactPerson>
+                        <d:ContactPerson Bil="93" Designation="Sem erat eros" Dirty="False" Email="Sit vel suscipit tristique dolor" FullName="Ultricies vestibulum nibh vestibulum nam" IsPublicProfile="True" Telephone="Vestibulum est volutpat natoque">
+                            <d:ContactPerson.Photo>
+                                <d:Photo Bil="26" Dirty="False" Note="Venenatis vulputate sed curabitur nisi" Store="Fames dis felis torquent ultrices" ThumbnailStore="Phasellus vehicula" Title="Ipsum libero"/>
+                            </d:ContactPerson.Photo>
+                        </d:ContactPerson>
+                        <d:ContactPerson Bil="71" Designation="Vestibulum posuere maecenas praesent accumsan" Dirty="True" Email="Convallis bibendum hac adipiscing" FullName="Leo dictumst eleifend lorem magna" IsPublicProfile="False" Telephone="Facilisis morbi orci">
+                            <d:ContactPerson.Photo>
+                                <d:Photo Bil="94" Dirty="True" Note="Parturient potenti pretium" Store="Dignissim massa" ThumbnailStore="Ligula litora luctus" Title="Facilisi nunc elementum mus"/>
+                            </d:ContactPerson.Photo>
+                        </d:ContactPerson>
+                        <d:ContactPerson Bil="32" Designation="Faucibus mattis" Dirty="False" Email="Habitant vestibulum adipiscing" FullName="Inceptos interdum neque habitasse netus" IsPublicProfile="True" Telephone="Porttitor vivamus">
+                            <d:ContactPerson.Photo>
+                                <d:Photo Bil="78" Dirty="False" Note="Parturient sodales" Store="Vestibulum nulla viverra vestibulum" ThumbnailStore="Pede adipiscing" Title="Hendrerit aliquam himenaeos mauris imperdiet"/>
+                            </d:ContactPerson.Photo>
+                        </d:ContactPerson>
+                        <d:ContactPerson Bil="55" Designation="Urna nec montes nostra lobortis" Dirty="True" Email="Tincidunt ornare platea primis" FullName="Cras rutrum duis vestibulum purus" IsPublicProfile="False" Telephone="Tellus ultricies venenatis">
+                            <d:ContactPerson.Photo>
+                                <d:Photo Bil="31" Dirty="True" Note="Risus vestibulum aliquet adipiscing" Store="Velit tristique vitae blandit" ThumbnailStore="Non per sapien parturient" Title="Commodo semper nunc"/>
+                            </d:ContactPerson.Photo>
+                        </d:ContactPerson>
+                    </d:Organizer.ContactPersonCollection>
+                </d:Organizer>
+            </d:Ride.Organizer>
+            <d:Ride.RuleCollection>
+                <d:Rule Bil="21" Description="Nullam vestibulum ante porttitor" Dirty="True" Section="Nascetur velit nam" Title="Eget vitae sed">
+
+                </d:Rule>
+                <d:Rule Bil="47" Description="Ultricies pharetra curae donec dis" Dirty="True" Section="Vestibulum eros congue gravida" Title="Mus nec sagittis convallis">
+
+                </d:Rule>
+                <d:Rule Bil="87" Description="Parturient nibh fusce vestibulum sociosqu" Dirty="True" Section="Fringilla sed habitasse laoreet" Title="Sem litora">
+
+                </d:Rule>
+                <d:Rule Bil="53" Description="Magnis imperdiet parturient natoque posuere" Dirty="True" Section="Mattis sodales" Title="Sed nulla">
+
+                </d:Rule>
+                <d:Rule Bil="95" Description="Porttitor parturient tincidunt mauris vehicula" Dirty="True" Section="Consequat integer mollis quam" Title="Est hac">
+
+                </d:Rule>
+                <d:Rule Bil="10" Description="Elementum nostra vestibulum" Dirty="True" Section="Nec habitasse" Title="Adipiscing parturient justo quisque">
+
+                </d:Rule>
+                <d:Rule Bil="49" Description="Accumsan himenaeos" Dirty="True" Section="Malesuada magna massa parturient" Title="Bibendum sociis penatibus sem">
+
+                </d:Rule>
+                <d:Rule Bil="32" Description="Taciti vestibulum" Dirty="True" Section="Cubilia neque nam" Title="Vestibulum facilisi tristique netus tortor">
+
+                </d:Rule>
+                <d:Rule Bil="73" Description="Egestas adipiscing turpis varius parturient" Dirty="True" Section="Auctor curabitur phasellus parturient" Title="Faucibus habitant">
+
+                </d:Rule>
+                <d:Rule Bil="88" Description="Consequat vestibulum" Dirty="True" Section="Orci libero pede est curae" Title="Adipiscing hac">
+
+                </d:Rule>
+            </d:Ride.RuleCollection>
+            <d:Ride.RideCancellation>
+                <d:RideCancellation Bil="53" CancelledDateTime="01/28/2011 12:46:35" Dirty="True" Reason="01/28/2011 12:46:35" Username="Sodales magna"/>
+            </d:Ride.RideCancellation>
+            <d:Ride.RegistrationConditionCollection>
+                <d:RegistrationCondition Bil="35" Condition="Iaculis diam eget consequat lacinia" Dirty="False" IsRequired="True"/>
+                <d:RegistrationCondition Bil="88" Condition="Sagittis laoreet" Dirty="True" IsRequired="False"/>
+                <d:RegistrationCondition Bil="11" Condition="Senectus sed sociosqu natoque parturient" Dirty="False" IsRequired="True"/>
+                <d:RegistrationCondition Bil="23" Condition="Dignissim elementum proin augue nullam" Dirty="True" IsRequired="False"/>
+                <d:RegistrationCondition Bil="32" Condition="Facilisis vestibulum torquent est ultrices" Dirty="False" IsRequired="True"/>
+                <d:RegistrationCondition Bil="18" Condition="Fames posuere vehicula volutpat" Dirty="True" IsRequired="False"/>
+                <d:RegistrationCondition Bil="79" Condition="Justo adipiscing" Dirty="False" IsRequired="True"/>
+                <d:RegistrationCondition Bil="72" Condition="Fringilla congue habitasse hendrerit" Dirty="True" IsRequired="False"/>
+                <d:RegistrationCondition Bil="26" Condition="Hac dictumst" Dirty="False" IsRequired="True"/>
+                <d:RegistrationCondition Bil="23" Condition="Imperdiet dictum lacus" Dirty="True" IsRequired="False"/>
+            </d:Ride.RegistrationConditionCollection>
+            <d:Ride.RegistrationInfo>
+                <d:RegistrationInfo Bil="59" CanRegisterOnline="False" CanPayOnline="True" Dirty="True" PaymentInstruction="Enim lorem adipiscing erat" Website="Parturient penatibus ligula pretium rhoncus"/>
+            </d:Ride.RegistrationInfo>
+            <d:Ride.RideCategoryCollection>
+                <d:RideCategory Bil="88" Category="Mus viverra adipiscing" Capacity="36"  Description="Nibh mattis faucibus massa" Dirty="True" IsTeam="True">
+                    <d:RideCategory.RegistrationConditionCollection>
+                        <d:RegistrationCondition Bil="99" Condition="Habitant metus" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="57" Condition="Porttitor tincidunt inceptos nisi" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="83" Condition="Interdum ultricies" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="19" Condition="Quisque montes lobortis nisl" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="80" Condition="Sed sem sit nulla" Dirty="True" IsRequired="False"/>
+                    </d:RideCategory.RegistrationConditionCollection>
+                </d:RideCategory>
+                <d:RideCategory Bil="77" Category="Vivamus aliquam" Capacity="40"  Description="Velit parturient" Dirty="True" IsTeam="True">
+                    <d:RideCategory.RegistrationConditionCollection>
+                        <d:RegistrationCondition Bil="88" Condition="Vulputate vestibulum vel vestibulum nunc" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="43" Condition="Class aliquet orci adipiscing" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="11" Condition="Phasellus parturient donec platea pede" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="25" Condition="Conubia placerat etiam fusce pulvinar" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="58" Condition="Cubilia dapibus senectus dis" Dirty="True" IsRequired="False"/>
+                    </d:RideCategory.RegistrationConditionCollection>
+                </d:RideCategory>
+                <d:RideCategory Bil="74" Category="Morbi dignissim vestibulum adipiscing cras" Capacity="82"  Description="Elementum nulla facilisis sociosqu" Dirty="True" IsTeam="True">
+                    <d:RideCategory.RegistrationConditionCollection>
+                        <d:RegistrationCondition Bil="64" Condition="Hac primis euismod rutrum" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="98" Condition="Sapien fringilla feugiat torquent semper" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="46" Condition="Hendrerit mus" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="34" Condition="Himenaeos imperdiet amet" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="37" Condition="Ante maecenas non per" Dirty="True" IsRequired="False"/>
+                    </d:RideCategory.RegistrationConditionCollection>
+                </d:RideCategory>
+                <d:RideCategory Bil="98" Category="Sit malesuada" Capacity="39"  Description="Penatibus dolor tempor" Dirty="True" IsTeam="True">
+                    <d:RideCategory.RegistrationConditionCollection>
+                        <d:RegistrationCondition Bil="54" Condition="Iaculis tempus praesent arcu fames" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="47" Condition="Turpis felis" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="56" Condition="Ipsum justo porttitor vel" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="86" Condition="Accumsan natoque tristique lorem" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="34" Condition="Eleifend parturient" Dirty="True" IsRequired="False"/>
+                    </d:RideCategory.RegistrationConditionCollection>
+                </d:RideCategory>
+                <d:RideCategory Bil="23" Category="Diam nullam posuere potenti eget" Capacity="83"  Description="Elit aptent" Dirty="True" IsTeam="True">
+                    <d:RideCategory.RegistrationConditionCollection>
+                        <d:RegistrationCondition Bil="89" Condition="Sed pretium enim vulputate" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="30" Condition="Erat dis sodales vestibulum" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="95" Condition="Viverra congue aliquam" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="23" Condition="Vestibulum vestibulum" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="95" Condition="Parturient est vestibulum eros vivamus" Dirty="True" IsRequired="False"/>
+                    </d:RideCategory.RegistrationConditionCollection>
+                </d:RideCategory>
+                <d:RideCategory Bil="17" Category="Massa lobortis vestibulum phasellus" Capacity="51"  Description="Adipiscing metus lectus morbi" Dirty="True" IsTeam="True">
+                    <d:RideCategory.RegistrationConditionCollection>
+                        <d:RegistrationCondition Bil="21" Condition="Neque nisi parturient nisl mus" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="53" Condition="Commodo vestibulum" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="99" Condition="Nascetur consequat parturient" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="67" Condition="Vestibulum odio vestibulum" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="22" Condition="Orci pede parturient quam pharetra" Dirty="True" IsRequired="False"/>
+                    </d:RideCategory.RegistrationConditionCollection>
+                </d:RideCategory>
+                <d:RideCategory Bil="11" Category="Dapibus magnis sem egestas" Capacity="59"  Description="Quis vestibulum euismod sit vestibulum" Dirty="True" IsTeam="True">
+                    <d:RideCategory.RegistrationConditionCollection>
+                        <d:RegistrationCondition Bil="90" Condition="Vel urna adipiscing risus parturient" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="34" Condition="Velit dignissim duis" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="59" Condition="Vestibulum nunc class mauris" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="61" Condition="Fringilla sed habitasse hendrerit adipiscing" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="17" Condition="Donec ante" Dirty="True" IsRequired="False"/>
+                    </d:RideCategory.RegistrationConditionCollection>
+                </d:RideCategory>
+                <d:RideCategory Bil="54" Category="Arcu penatibus parturient" Capacity="45"  Description="Diam ornare platea laoreet dis" Dirty="True" IsTeam="True">
+                    <d:RideCategory.RegistrationConditionCollection>
+                        <d:RegistrationCondition Bil="28" Condition="Senectus est" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="59" Condition="Lorem morbi hac nulla leo" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="64" Condition="Augue rutrum sociosqu porttitor" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="43" Condition="Ultricies venenatis enim" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="42" Condition="Non pretium dolor sapien" Dirty="True" IsRequired="False"/>
+                    </d:RideCategory.RegistrationConditionCollection>
+                </d:RideCategory>
+                <d:RideCategory Bil="68" Category="Semper felis sed ipsum adipiscing" Capacity="57"  Description="Justo lacus sem sodales" Dirty="True" IsTeam="True">
+                    <d:RideCategory.RegistrationConditionCollection>
+                        <d:RegistrationCondition Bil="60" Condition="Parturient phasellus nisi suscipit torquent" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="30" Condition="Convallis ultrices vestibulum vel dignissim" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="35" Condition="Nunc vehicula" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="38" Condition="Elementum massa metus volutpat taciti" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="81" Condition="Dis est hac" Dirty="True" IsRequired="False"/>
+                    </d:RideCategory.RegistrationConditionCollection>
+                </d:RideCategory>
+                <d:RideCategory Bil="71" Category="Integer pede quam" Capacity="96"  Description="Fermentum accumsan" Dirty="True" IsTeam="True">
+                    <d:RideCategory.RegistrationConditionCollection>
+                        <d:RegistrationCondition Bil="57" Condition="Neque fringilla habitasse vestibulum" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="79" Condition="Quisque quis hendrerit nulla bibendum" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="22" Condition="Vestibulum eleifend adipiscing parturient cras" Dirty="True" IsRequired="False"/>
+                        <d:RegistrationCondition Bil="84" Condition="Vestibulum per facilisi sed" Dirty="False" IsRequired="True"/>
+                        <d:RegistrationCondition Bil="74" Condition="Purus nunc imperdiet" Dirty="True" IsRequired="False"/>
+                    </d:RideCategory.RegistrationConditionCollection>
+                </d:RideCategory>
+            </d:Ride.RideCategoryCollection>
+            <d:Ride.SponsorCollection>
+                <d:Sponsor Bil="85" Category="Donec quam etiam" Dirty="True" Logo="Laoreet leo litora" Name="Quis natoque posuere"/>
+                <d:Sponsor Bil="71" Category="Fermentum pharetra" Dirty="True" Logo="Potenti fringilla placerat fusce vestibulum" Name="Luctus mus habitasse hendrerit pretium"/>
+                <d:Sponsor Bil="95" Category="Magnis vestibulum mattis" Dirty="True" Logo="Imperdiet non sagittis per adipiscing" Name="Lorem rhoncus sodales urna morbi"/>
+                <d:Sponsor Bil="45" Category="Viverra augue mollis" Dirty="True" Logo="Senectus sed dolor cras" Name="Aliquam fames felis"/>
+                <d:Sponsor Bil="58" Category="Ornare integer" Dirty="True" Logo="Duis sit quisque ipsum" Name="Vel sociosqu nunc"/>
+                <d:Sponsor Bil="17" Category="Lacus nam sed ultrices vivamus" Dirty="True" Logo="Penatibus platea vestibulum" Name="Dis amet primis vehicula volutpat"/>
+                <d:Sponsor Bil="34" Category="Rutrum lorem maecenas" Dirty="True" Logo="Sapien vestibulum semper arcu" Name="Aliquet diam praesent accumsan est"/>
+                <d:Sponsor Bil="67" Category="Magna bibendum" Dirty="True" Logo="Dictumst sociis eleifend eget" Name="Elit adipiscing ultricies blandit hac"/>
+                <d:Sponsor Bil="96" Category="Tellus metus facilisi erat commodo" Dirty="True" Logo="Eros venenatis parturient nibh morbi" Name="Vestibulum vestibulum"/>
+                <d:Sponsor Bil="19" Category="Mus tempus nisi nisl" Dirty="True" Logo="Adipiscing curabitur parturient" Name="Neque nec vestibulum tortor cubilia"/>
+            </d:Ride.SponsorCollection>
+            <d:Ride.StartLocation>
+                <d:GeoLocation Bil="95" Description="Vestibulum nulla porta vulputate" Dirty="True" GeoLocationId="95" Keywords="Luctus suscipit curabitur vivamus" Name="Duis nunc amet purus" Type="Sed lacus potenti vestibulum">
+                    <d:GeoLocation.Address>
+                        <d:Address Bil="28" Country="Neque quis ligula pulvinar" Dirty="True" District="Nec sagittis litora senectus" Postcode="Aliquam tristique" State="Ultricies parturient" Street="Venenatis integer non urna vestibulum"/>
+                    </d:GeoLocation.Address>
+                    <d:GeoLocation.PhotoCollection>
+                        <d:Photo Bil="37" Dirty="True" Note="Phasellus per consequat torquent magnis" Store="Ultrices mattis mauris" ThumbnailStore="Ante sed risus" Title="Convallis aliquam"/>
+                        <d:Photo Bil="54" Dirty="True" Note="Velit aliquet" Store="Mollis montes nostra maecenas" ThumbnailStore="Ornare adipiscing" Title="Sit dignissim blandit parturient"/>
+                        <d:Photo Bil="94" Dirty="True" Note="Platea praesent" Store="Conubia cubilia" ThumbnailStore="Vestibulum primis vitae" Title="Rutrum sapien"/>
+                        <d:Photo Bil="76" Dirty="True" Note="Adipiscing class" Store="Facilisis parturient" ThumbnailStore="Dapibus curae fermentum accumsan" Title="Diam donec bibendum dictumst eleifend"/>
+                        <d:Photo Bil="83" Dirty="True" Note="Faucibus egestas" Store="Vel euismod hendrerit" ThumbnailStore="Nam feugiat habitant" Title="Elit vestibulum"/>
+                        <d:Photo Bil="22" Dirty="True" Note="Sed gravida" Store="Interdum iaculis" ThumbnailStore="Sociis lobortis" Title="Vestibulum lacinia laoreet malesuada enim"/>
+                        <d:Photo Bil="50" Dirty="True" Note="Pharetra tincidunt tristique tellus ultricies" Store="Parturient venenatis" ThumbnailStore="Etiam dis erat eros" Title="Fusce lorem morbi est vestibulum"/>
+                        <d:Photo Bil="10" Dirty="True" Note="Nulla sagittis" Store="Vestibulum adipiscing leo parturient" ThumbnailStore="Proin augue" Title="Tempus nisi"/>
+                        <d:Photo Bil="73" Dirty="True" Note="Adipiscing parturient mus nunc" Store="Sociosqu fames tortor" ThumbnailStore="Odio turpis" Title="Suscipit felis ipsum"/>
+                        <d:Photo Bil="79" Dirty="True" Note="Varius nec curabitur phasellus" Store="Aenean non" ThumbnailStore="Consequat natoque ultrices" Title="Vestibulum posuere"/>
+                    </d:GeoLocation.PhotoCollection>
+                </d:GeoLocation>
+            </d:Ride.StartLocation>
+            <d:Ride.StageCollection>
+                <d:Stage Bil="60" Dirty="True" DifficultyString="Faucibus netus non phasellus" EndTime="01/28/2011 12:46:35" Profile="Tincidunt nisi facilisi nisl aliquam" RouteName="Parturient semper sociis taciti odio" RoadCondition="Tristique nunc faucibus ultricies per" Summary="Luctus accumsan class orci" StartTime="01/28/2011 12:46:35"  TrafficCondition="Vestibulum dis est" Title="Magnis sed mattis">
+                    <d:Stage.EndLocation>
+                        <d:GeoLocation Bil="17" Description="Dignissim elementum parturient" Dirty="True" GeoLocationId="91" Keywords="Dictum vestibulum sit vestibulum lectus" Name="Adipiscing gravida parturient lobortis libero" Type="Eleifend quisque">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="17" Country="Nulla egestas nullam" Dirty="True" District="Habitant aptent per consequat porta" Postcode="Inceptos purus adipiscing" State="Auctor interdum risus convallis" Street="Velit congue cursus sed"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="81" Dirty="True" Note="Vel iaculis orci" Store="Class nascetur facilisis" ThumbnailStore="Pede pharetra placerat pulvinar" Title="Quam sagittis lacinia nam"/>
+                                <d:Photo Bil="31" Dirty="True" Note="Vestibulum sed fermentum natoque" Store="Cras ligula donec sociosqu litora" ThumbnailStore="Luctus posuere" Title="Duis magnis nunc"/>
+                                <d:Photo Bil="31" Dirty="True" Note="Potenti lorem mattis suscipit" Store="Dis est torquent" ThumbnailStore="Ultrices mauris hac vehicula" Title="Amet mollis habitasse volutpat maecenas"/>
+                                <d:Photo Bil="32" Dirty="True" Note="Leo hendrerit nostra arcu praesent" Store="Diam eget pretium himenaeos" ThumbnailStore="Rhoncus accumsan imperdiet elit" Title="Ornare enim"/>
+                                <d:Photo Bil="38" Dirty="True" Note="Malesuada viverra aliquam bibendum vestibulum" Store="Integer penatibus morbi mus nulla" ThumbnailStore="Dictumst primis rutrum" Title="Nec non porttitor sapien"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.EndLocation>
+                    <d:Stage.StageCategoryCollection>
+                        <d:StageCategory Bil="14" Category="Tellus aliquet vestibulum vestibulum sed" Dirty="True"/>
+                        <d:StageCategory Bil="37" Category="Habitant quam" Dirty="True"/>
+                        <d:StageCategory Bil="89" Category="Adipiscing parturient vestibulum interdum" Dirty="True"/>
+                        <d:StageCategory Bil="60" Category="Tempor augue tempus" Dirty="True"/>
+                        <d:StageCategory Bil="59" Category="Vestibulum tortor" Dirty="True"/>
+                    </d:Stage.StageCategoryCollection>
+                    <d:Stage.StartLocation>
+                        <d:GeoLocation Bil="37" Description="Vel cras adipiscing egestas nullam" Dirty="True" GeoLocationId="27" Keywords="Convallis euismod" Name="Justo duis senectus aptent lacus" Type="Quisque nisl">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="48" Country="Dolor pharetra placerat phasellus" Dirty="True" District="Dapibus consequat" Postcode="Fames pulvinar urna" State="Varius aenean" Street="Felis ipsum"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="55" Dirty="True" Note="Feugiat nunc gravida sociosqu amet" Store="Iaculis nam auctor congue sed" ThumbnailStore="Dis lorem est" Title="Lacinia hac magna"/>
+                                <d:Photo Bil="89" Dirty="True" Note="Vestibulum leo" Store="Massa mus vestibulum ante" ThumbnailStore="Laoreet adipiscing arcu suscipit torquent" Title="Metus natoque nec diam posuere"/>
+                                <d:Photo Bil="58" Dirty="True" Note="Ultrices morbi facilisis eget non" Store="Elit parturient per vehicula" ThumbnailStore="Dictum fermentum volutpat neque pretium" Title="Enim maecenas netus"/>
+                                <d:Photo Bil="56" Dirty="True" Note="Erat eros" Store="Porta libero praesent sed sodales" ThumbnailStore="Sem nibh viverra" Title="Fringilla aliquam habitasse sit"/>
+                                <d:Photo Bil="51" Dirty="True" Note="Vestibulum purus" Store="Hendrerit adipiscing vel" ThumbnailStore="Parturient ligula risus" Title="Vestibulum litora himenaeos"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.StartLocation>
+                    <d:Stage.TulipCollection>
+                        <d:Tulip Bil="57" Dirty="True" Icon="Mauris mollis" IsHazard="False" IsBreak="True" Km="793.25" Lat="648.83" Lng="174.2" Summary="Montes aliquet" SubType="Bibendum aliquam" Turn="Curae donec dictumst hac blandit" Type="Etiam fusce" Title="Malesuada nostra"/>
+                        <d:Tulip Bil="47" Dirty="True" Icon="Commodo platea facilisi" IsHazard="False" IsBreak="True" Km="891.92" Lat="299.89" Lng="562.55" Summary="Faucibus quam leo conubia" SubType="Primis rutrum" Turn="Parturient vestibulum" Type="Morbi habitant penatibus nulla" Title="Sapien mus semper cubilia lorem"/>
+                        <d:Tulip Bil="52" Dirty="True" Icon="Taciti augue quis" IsHazard="False" IsBreak="True" Km="654.06" Lat="625.54" Lng="202.25" Summary="Urna tellus per vestibulum" SubType="Non tincidunt" Turn="Cras ultricies dolor egestas duis" Type="Parturient fames venenatis nunc interdum" Title="Tempor dapibus tristique adipiscing"/>
+                        <d:Tulip Bil="20" Dirty="True" Icon="Euismod vulputate sem vestibulum sit" IsHazard="False" IsBreak="True" Km="791.08" Lat="987.61" Lng="927.56" Summary="Amet vel ipsum vestibulum nam" SubType="Curabitur phasellus" Turn="Consequat lacus ante lorem" Type="Gravida adipiscing sed iaculis" Title="Nascetur justo feugiat tempus pharetra"/>
+                        <d:Tulip Bil="73" Dirty="True" Icon="Placerat natoque pulvinar dignissim sagittis" IsHazard="False" IsBreak="True" Km="596.36" Lat="718.09" Lng="704.28" Summary="Vestibulum facilisis est" SubType="Posuere dis parturient metus elementum" Turn="Pretium turpis senectus sociosqu" Type="Varius aenean vestibulum" Title="Potenti tortor"/>
+                    </d:Stage.TulipCollection>
+                </d:Stage>
+                <d:Stage Bil="79" Dirty="True" DifficultyString="Fermentum parturient neque torquent" EndTime="01/28/2011 12:46:35" Profile="Nostra inceptos sed" RouteName="Quis sem ornare sit" RoadCondition="Interdum posuere quam" Summary="Nunc sem morbi adipiscing neque" StartTime="01/28/2011 12:46:35"  TrafficCondition="Vel habitant parturient odio orci" Title="Sit netus auctor">
+                    <d:Stage.EndLocation>
+                        <d:GeoLocation Bil="29" Description="Eget aliquam elit integer praesent" Dirty="True" GeoLocationId="49" Keywords="Parturient quisque cursus" Name="Himenaeos vivamus non enim imperdiet" Type="Montes laoreet natoque adipiscing">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="92" Country="Fringilla ultrices netus nulla vestibulum" Dirty="True" District="Rhoncus vestibulum nullam" Postcode="Vehicula sodales aptent porta" State="Auctor viverra congue volutpat" Street="Mus adipiscing diam habitasse"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="54" Dirty="True" Note="Per erat aliquam sed" Store="Accumsan vestibulum malesuada purus" ThumbnailStore="Vestibulum penatibus" Title="Eros aliquet blandit"/>
+                                <d:Photo Bil="54" Dirty="True" Note="Commodo conubia sem parturient nibh" Store="Tincidunt tristique sit risus" ThumbnailStore="Libero vel nam" Title="Cubilia bibendum"/>
+                                <d:Photo Bil="88" Dirty="True" Note="Dictumst dapibus ultricies litora sed" Store="Dis nisi" ThumbnailStore="Vestibulum luctus" Title="Vitae eleifend vestibulum"/>
+                                <d:Photo Bil="65" Dirty="True" Note="Hac euismod leo mus" Store="Magnis nec venenatis" ThumbnailStore="Adipiscing mattis" Title="Vulputate non class"/>
+                                <d:Photo Bil="63" Dirty="True" Note="Curabitur odio parturient phasellus" Store="Gravida iaculis" ThumbnailStore="Faucibus mauris mollis orci" Title="Lacinia consequat per convallis"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.EndLocation>
+                    <d:Stage.StageCategoryCollection>
+                        <d:StageCategory Bil="65" Category="Parturient fusce facilisis potenti" Dirty="True"/>
+                        <d:StageCategory Bil="66" Category="Lobortis nam vestibulum urna" Dirty="True"/>
+                        <d:StageCategory Bil="32" Category="Vestibulum dis cras nascetur pharetra" Dirty="True"/>
+                        <d:StageCategory Bil="73" Category="Est hac duis vestibulum" Dirty="True"/>
+                        <d:StageCategory Bil="72" Category="Platea habitasse pretium" Dirty="True"/>
+                    </d:Stage.StageCategoryCollection>
+                    <d:Stage.StartLocation>
+                        <d:GeoLocation Bil="41" Description="Ante adipiscing arcu penatibus" Dirty="True" GeoLocationId="45" Keywords="Semper nec" Name="Suscipit non" Type="Parturient vestibulum vestibulum per">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="27" Country="Mus primis rutrum" Dirty="True" District="Nunc himenaeos imperdiet" Postcode="Nulla rhoncus senectus" State="Amet sociosqu" Street="Vestibulum sodales vestibulum sapien"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="98" Dirty="True" Note="Diam parturient porttitor dolor torquent" Store="Eget per" ThumbnailStore="Elit viverra" Title="Fames felis aliquam tincidunt"/>
+                                <d:Photo Bil="35" Dirty="True" Note="Taciti vestibulum enim" Store="Ultrices sem vestibulum quisque" ThumbnailStore="Sit vivamus" Title="Tristique aliquam vel ultricies"/>
+                                <d:Photo Bil="21" Dirty="True" Note="Vehicula tellus vulputate lacus tempor" Store="Blandit curabitur tempus lorem" ThumbnailStore="Erat sed volutpat" Title="Dis eros tortor phasellus turpis"/>
+                                <d:Photo Bil="48" Dirty="True" Note="Est nibh aenean maecenas" Store="Consequat vestibulum commodo hac mauris" ThumbnailStore="Magna nisi vestibulum adipiscing" Title="Parturient massa"/>
+                                <d:Photo Bil="96" Dirty="True" Note="Cubilia convallis accumsan bibendum" Store="Metus mus dignissim dictumst nullam" ThumbnailStore="Eleifend vestibulum vestibulum facilisi aptent" Title="Faucibus elementum dapibus adipiscing"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.StartLocation>
+                    <d:Stage.TulipCollection>
+                        <d:Tulip Bil="61" Dirty="True" Icon="Congue cursus" IsHazard="False" IsBreak="True" Km="975.54" Lat="117.25" Lng="293.58" Summary="Habitasse quis" SubType="Dictum feugiat lectus pede quam" Turn="Vestibulum iaculis nam" Type="Inceptos hendrerit nulla vestibulum" Title="Gravida libero"/>
+                        <d:Tulip Bil="45" Dirty="True" Icon="Ligula himenaeos natoque imperdiet" IsHazard="False" IsBreak="True" Km="991.89" Lat="855.68" Lng="496.52" Summary="Litora sed malesuada porta" SubType="Urna interdum" Turn="Luctus magnis potenti mattis pretium" Type="Rhoncus parturient dis est mauris" Title="Posuere purus penatibus"/>
+                        <d:Tulip Bil="19" Dirty="True" Icon="Pharetra porttitor tincidunt" IsHazard="False" IsBreak="True" Km="389.2" Lat="444.53" Lng="220.06" Summary="Tristique placerat risus integer ultricies" SubType="Leo sodales viverra mus aliquam" Turn="Adipiscing quisque venenatis sagittis cras" Type="Duis parturient vitae class" Title="Pulvinar mollis velit"/>
+                        <d:Tulip Bil="49" Dirty="True" Icon="Vestibulum ornare suscipit torquent" IsHazard="False" IsBreak="True" Km="136.1" Lat="621.11" Lng="554.02" Summary="Ultrices nunc primis" SubType="Platea nec aliquam aliquet" Turn="Non per donec blandit amet" Type="Adipiscing etiam parturient" Title="Vestibulum vulputate vehicula curae"/>
+                        <d:Tulip Bil="68" Dirty="True" Icon="Semper volutpat vestibulum sed maecenas" IsHazard="False" IsBreak="True" Km="782.42" Lat="805.57" Lng="930.8" Summary="Sit lorem" SubType="Ante sem phasellus consequat vestibulum" Turn="Commodo proin augue sociis" Type="Arcu parturient dolor conubia diam" Title="Morbi convallis nulla adipiscing"/>
+                    </d:Stage.TulipCollection>
+                </d:Stage>
+                <d:Stage Bil="61" Dirty="True" DifficultyString="Elit vestibulum enim" EndTime="01/28/2011 12:46:35" Profile="Curae blandit" RouteName="Porttitor sagittis commodo senectus" RoadCondition="Vel adipiscing penatibus" Summary="Taciti potenti curae malesuada penatibus" StartTime="01/28/2011 12:46:35"  TrafficCondition="Tellus placerat pulvinar sagittis" Title="Pretium porttitor">
+                    <d:Stage.EndLocation>
+                        <d:GeoLocation Bil="64" Description="Facilisi tortor ipsum" Dirty="True" GeoLocationId="44" Keywords="Justo facilisis parturient" Name="Hac turpis lacus lorem" Type="Libero vestibulum aliquam vestibulum">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="44" Country="Vel vestibulum elementum" Dirty="True" District="Erat accumsan bibendum" Postcode="Dictumst adipiscing taciti eros nam" State="Sed felis" Street="Tellus eleifend tempor"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="78" Dirty="True" Note="Egestas fermentum" Store="Magna leo fringilla varius mus" ThumbnailStore="Massa euismod feugiat" Title="Habitasse metus"/>
+                                <d:Photo Bil="20" Dirty="True" Note="Aenean hendrerit nec nunc non" Store="Odio per" ThumbnailStore="Vestibulum lacinia laoreet natoque" Title="Mauris morbi himenaeos faucibus neque"/>
+                                <d:Photo Bil="59" Dirty="True" Note="Pede habitant quam" Store="Inceptos quis netus sed pretium" ThumbnailStore="Interdum nulla porta vestibulum" Title="Urna imperdiet lobortis nullam"/>
+                                <d:Photo Bil="77" Dirty="True" Note="Sem duis aptent malesuada auctor" Store="Rhoncus nunc adipiscing nascetur" ThumbnailStore="Parturient pharetra vestibulum" Title="Sodales placerat congue viverra"/>
+                                <d:Photo Bil="25" Dirty="True" Note="Vestibulum adipiscing" Store="Parturient aliquam" ThumbnailStore="Velit integer" Title="Ante quisque vitae"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.EndLocation>
+                    <d:Stage.StageCategoryCollection>
+                        <d:StageCategory Bil="83" Category="Donec etiam" Dirty="True"/>
+                        <d:StageCategory Bil="44" Category="Litora diam" Dirty="True"/>
+                        <d:StageCategory Bil="72" Category="Sociosqu conubia vestibulum mattis eget" Dirty="True"/>
+                        <d:StageCategory Bil="93" Category="Mollis montes" Dirty="True"/>
+                        <d:StageCategory Bil="93" Category="Lorem ultricies" Dirty="True"/>
+                    </d:Stage.StageCategoryCollection>
+                    <d:Stage.StartLocation>
+                        <d:GeoLocation Bil="21" Description="Nibh euismod hac nisi" Dirty="True" GeoLocationId="89" Keywords="Fames leo felis ipsum phasellus" Name="Vestibulum primis justo adipiscing" Type="Nam posuere">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="62" Country="Venenatis nostra est vehicula" Dirty="True" District="Morbi nulla proin ornare egestas" Postcode="Augue volutpat" State="Erat vulputate" Street="Platea eros curabitur maecenas"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="66" Dirty="True" Note="Mus parturient dictumst" Store="Consequat eleifend nec vestibulum" ThumbnailStore="Vestibulum non" Title="Convallis dignissim nisl nunc elementum"/>
+                                <d:Photo Bil="84" Dirty="True" Note="Odio parturient lacus" Store="Gravida vestibulum" ThumbnailStore="Vestibulum iaculis sed orci adipiscing" Title="Pede faucibus rutrum lorem parturient"/>
+                                <d:Photo Bil="84" Dirty="True" Note="Vestibulum habitant" Store="Fermentum metus" ThumbnailStore="Quis fringilla" Title="Urna adipiscing"/>
+                                <d:Photo Bil="19" Dirty="True" Note="Habitasse cras hendrerit" Store="Neque duis" ThumbnailStore="Netus inceptos sapien parturient" Title="Interdum nulla lobortis himenaeos vestibulum"/>
+                                <d:Photo Bil="19" Dirty="True" Note="Risus velit semper nunc vestibulum" Store="Sit nascetur laoreet amet" ThumbnailStore="Adipiscing sociis ante pharetra natoque" Title="Parturient vestibulum"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.StartLocation>
+                    <d:Stage.TulipCollection>
+                        <d:Tulip Bil="48" Dirty="True" Icon="Tincidunt senectus donec sociosqu" IsHazard="False" IsBreak="True" Km="859.45" Lat="830.19" Lng="555.76" Summary="Diam torquent vestibulum ultrices sed" SubType="Rhoncus suscipit" Turn="Tristique adipiscing" Type="Tempor eget sodales maecenas dis" Title="Vehicula volutpat vestibulum"/>
+                        <d:Tulip Bil="27" Dirty="True" Icon="Venenatis fusce tortor" IsHazard="False" IsBreak="True" Km="586.4" Lat="711.77" Lng="347.27" Summary="Parturient lorem hac turpis" SubType="Praesent vulputate est" Turn="Vivamus vestibulum aliquam aenean" Type="Curabitur accumsan phasellus" Title="Integer elit quisque morbi varius"/>
+                        <d:Tulip Bil="99" Dirty="True" Icon="Nulla enim erat vestibulum bibendum" IsHazard="False" IsBreak="True" Km="668.33" Lat="128.84" Lng="631.1" Summary="Adipiscing mus eros" SubType="Proin consequat" Turn="Vestibulum adipiscing dictumst mauris parturient" Type="Dolor fames felis blandit nisi" Title="Parturient vestibulum augue nibh"/>
+                        <d:Tulip Bil="34" Dirty="True" Icon="Nunc nec" IsHazard="False" IsBreak="True" Km="361.38" Lat="997.55" Lng="610.16" Summary="Dignissim aptent conubia" SubType="Convallis eleifend vestibulum odio" Turn="Habitant non ipsum auctor" Type="Congue orci inceptos interdum cursus" Title="Elementum vestibulum cubilia facilisi faucibus"/>
+                        <d:Tulip Bil="63" Dirty="True" Icon="Adipiscing lobortis" IsHazard="False" IsBreak="True" Km="196.16" Lat="450.04" Lng="805.6" Summary="Pharetra pede" SubType="Lacus sed nascetur parturient" Turn="Facilisis lorem egestas vestibulum pulvinar" Type="Euismod fermentum" Title="Placerat dapibus"/>
+                    </d:Stage.TulipCollection>
+                </d:Stage>
+                <d:Stage Bil="32" Dirty="True" DifficultyString="Quis feugiat" EndTime="01/28/2011 12:46:35" Profile="Nisi proin nisl aliquet" RouteName="Commodo conubia sociis nunc" RoadCondition="Blandit augue vestibulum" Summary="Parturient blandit" StartTime="01/28/2011 12:46:35"  TrafficCondition="Vel commodo eleifend nisl libero" Title="Nisi himenaeos velit">
+                    <d:Stage.EndLocation>
+                        <d:GeoLocation Bil="30" Description="Sit vel imperdiet" Dirty="True" GeoLocationId="19" Keywords="Suscipit malesuada ligula torquent ultrices" Name="Penatibus morbi" Type="Semper parturient dignissim dictumst eros">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="88" Country="Senectus urna cras habitasse" Dirty="True" District="Hendrerit massa" Postcode="Himenaeos gravida" State="Iaculis sociosqu dictum" Street="Sem lectus lacinia metus vestibulum"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="45" Dirty="True" Note="Neque netus litora" Store="Vehicula nam laoreet porttitor" ThumbnailStore="Luctus nunc parturient" Title="Vestibulum tincidunt sed nulla"/>
+                                <d:Photo Bil="49" Dirty="True" Note="Adipiscing magnis purus risus" Store="Natoque mattis" ThumbnailStore="Ante mauris" Title="Tristique mollis"/>
+                                <d:Photo Bil="97" Dirty="True" Note="Parturient arcu vitae" Store="Class vestibulum curae donec" ThumbnailStore="Vestibulum posuere potenti praesent" Title="Etiam nostra diam est"/>
+                                <d:Photo Bil="84" Dirty="True" Note="Rhoncus sodales ornare accumsan platea" Store="Adipiscing leo" ThumbnailStore="Ultricies parturient viverra bibendum venenatis" Title="Fusce mus vulputate"/>
+                                <d:Photo Bil="85" Dirty="True" Note="Adipiscing primis morbi aliquam parturient" Store="Nec vestibulum" ThumbnailStore="Phasellus integer eget vestibulum non" Title="Rutrum elit sapien consequat convallis"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.EndLocation>
+                    <d:Stage.StageCategoryCollection>
+                        <d:StageCategory Bil="87" Category="Taciti cubilia vestibulum dapibus" Dirty="True"/>
+                        <d:StageCategory Bil="21" Category="Orci adipiscing tellus dolor" Dirty="True"/>
+                        <d:StageCategory Bil="24" Category="Felis fringilla pede" Dirty="True"/>
+                        <d:StageCategory Bil="94" Category="Ipsum faucibus vestibulum habitant" Dirty="True"/>
+                        <d:StageCategory Bil="26" Category="Feugiat parturient per tempor sed" Dirty="True"/>
+                    </d:Stage.StageCategoryCollection>
+                    <d:Stage.StartLocation>
+                        <d:GeoLocation Bil="72" Description="Lobortis cras" Dirty="True" GeoLocationId="64" Keywords="Penatibus adipiscing parturient" Name="Vestibulum nascetur" Type="Dictum lectus bibendum hendrerit">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="62" Country="Vestibulum quis" Dirty="True" District="Gravida iaculis tempus justo" Postcode="Vestibulum adipiscing" State="Parturient vestibulum lacinia himenaeos" Street="Laoreet sit urna lacus interdum"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="62" Dirty="True" Note="Vel tortor vestibulum duis" Store="Pharetra nam nunc lorem" ThumbnailStore="Natoque placerat turpis" Title="Magna adipiscing porttitor sed tincidunt"/>
+                                <d:Photo Bil="27" Dirty="True" Note="Ultricies massa posuere" Store="Venenatis sagittis" ThumbnailStore="Senectus metus dis parturient est" Title="Sociosqu varius potenti pretium"/>
+                                <d:Photo Bil="55" Dirty="True" Note="Hac torquent vestibulum curabitur mauris" Store="Ultrices sodales viverra morbi aliquam" ThumbnailStore="Vestibulum leo vehicula" Title="Nullam mus neque amet"/>
+                                <d:Photo Bil="77" Dirty="True" Note="Arcu adipiscing integer nec non" Store="Quisque diam eget phasellus consequat" ThumbnailStore="Elit parturient" Title="Vivamus praesent per convallis vestibulum"/>
+                                <d:Photo Bil="78" Dirty="True" Note="Sed aptent accumsan erat adipiscing" Store="Auctor nulla" ThumbnailStore="Congue eros porta elementum" Title="Aliquam aliquet facilisis fermentum fringilla"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.StartLocation>
+                    <d:Stage.TulipCollection>
+                        <d:Tulip Bil="78" Dirty="True" Icon="Nam facilisi vitae faucibus" IsHazard="False" IsBreak="True" Km="386.72" Lat="965.33" Lng="483.32" Summary="Class inceptos vestibulum" SubType="Sed ligula dis habitant" Turn="Imperdiet interdum lobortis est hac" Type="Luctus vestibulum curae cubilia magnis" Title="Nunc litora odio conubia"/>
+                        <d:Tulip Bil="35" Dirty="True" Icon="Adipiscing pede mattis quam" IsHazard="False" IsBreak="True" Km="431.31" Lat="620.06" Lng="706.97" Summary="Nascetur pharetra placerat" SubType="Leo egestas parturient" Turn="Vestibulum pulvinar mus" Type="Sagittis mauris" Title="Malesuada donec"/>
+                        <d:Tulip Bil="64" Dirty="True" Icon="Quis nec" IsHazard="False" IsBreak="True" Km="492.03" Lat="197.12" Lng="534.17" Summary="Sociosqu cras non duis etiam" SubType="Urna euismod mollis vestibulum" Turn="Nostra adipiscing feugiat" Type="Tincidunt gravida ornare iaculis" Title="Porttitor fusce montes lorem per"/>
+                        <d:Tulip Bil="58" Dirty="True" Icon="Platea nulla nunc" IsHazard="False" IsBreak="True" Km="504.05" Lat="304.3" Lng="954.13" Summary="Primis sit" SubType="Vestibulum ultricies suscipit" Turn="Vel amet rutrum" Type="Sapien vestibulum" Title="Torquent ultrices"/>
+                        <d:Tulip Bil="70" Dirty="True" Icon="Parturient vehicula laoreet natoque venenatis" IsHazard="False" IsBreak="True" Km="855.81" Lat="678.77" Lng="108.53" Summary="Curabitur posuere sociis taciti potenti" SubType="Vulputate nam sed" Turn="Maecenas praesent dis tellus" Type="Est rhoncus hac ante" Title="Pretium volutpat"/>
+                    </d:Stage.TulipCollection>
+                </d:Stage>
+                <d:Stage Bil="25" Dirty="True" DifficultyString="Tempus arcu tortor leo" EndTime="01/28/2011 12:46:35" Profile="Risus penatibus ante arcu" RouteName="Hac vitae class" RoadCondition="Senectus velit" Summary="Malesuada parturient" StartTime="01/28/2011 12:46:35"  TrafficCondition="Magna gravida" Title="Penatibus vestibulum">
+                    <d:Stage.EndLocation>
+                        <d:GeoLocation Bil="74" Description="Elit convallis vestibulum" Dirty="True" GeoLocationId="61" Keywords="Aliquam habitant vestibulum" Name="Justo auctor adipiscing lacus" Type="Amet parturient">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="96" Country="Turpis diam varius aenean mauris" Dirty="True" District="Vestibulum accumsan dolor mus bibendum" Postcode="Dictumst sodales viverra fames eget" State="Nullam eleifend facilisi faucibus" Street="Felis ipsum adipiscing"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="21" Dirty="True" Note="Enim erat" Store="Eros dignissim parturient elementum" ThumbnailStore="Congue lorem facilisis cursus" Title="Integer non quisque"/>
+                                <d:Photo Bil="34" Dirty="True" Note="Fermentum vivamus magna" Store="Massa aliquam per lobortis" ThumbnailStore="Vestibulum libero aliquet sed" Title="Nascetur metus"/>
+                                <d:Photo Bil="23" Dirty="True" Note="Vestibulum morbi litora" Store="Blandit adipiscing" ThumbnailStore="Neque commodo conubia" Title="Cubilia nisl luctus fringilla"/>
+                                <d:Photo Bil="63" Dirty="True" Note="Parturient egestas nunc pharetra" Store="Nulla vestibulum hendrerit placerat" ThumbnailStore="Odio sit" Title="Vel magnis vestibulum"/>
+                                <d:Photo Bil="76" Dirty="True" Note="Feugiat quam quis urna" Store="Gravida adipiscing cras nam" ThumbnailStore="Himenaeos duis" Title="Sed purus pulvinar iaculis imperdiet"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.EndLocation>
+                    <d:Stage.StageCategoryCollection>
+                        <d:StageCategory Bil="99" Category="Mollis sociosqu curae suscipit" Dirty="True"/>
+                        <d:StageCategory Bil="33" Category="Eget laoreet natoque vestibulum nostra" Dirty="True"/>
+                        <d:StageCategory Bil="96" Category="Adipiscing leo tincidunt" Dirty="True"/>
+                        <d:StageCategory Bil="19" Category="Tristique ultricies ultrices parturient primis" Dirty="True"/>
+                        <d:StageCategory Bil="43" Category="Vestibulum eros vestibulum pretium" Dirty="True"/>
+                    </d:Stage.StageCategoryCollection>
+                    <d:Stage.StartLocation>
+                        <d:GeoLocation Bil="84" Description="Sociis curabitur phasellus" Dirty="True" GeoLocationId="55" Keywords="Taciti vestibulum" Name="Sem proin" Type="Adipiscing placerat pulvinar">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="11" Country="Nisi parturient vulputate" Dirty="True" District="Vestibulum nisl" Postcode="Sapien lorem volutpat" State="Maecenas semper mus nec morbi" Street="Rhoncus non per praesent nulla"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="69" Dirty="True" Note="Viverra adipiscing" Store="Odio parturient accumsan augue bibendum" ThumbnailStore="Aliquam consequat convallis sit" Title="Tellus integer"/>
+                                <d:Photo Bil="90" Dirty="True" Note="Fames orci tempor felis sed" Store="Vestibulum dignissim dictumst" ThumbnailStore="Pede dis quam" Title="Eleifend est vestibulum quisque"/>
+                                <d:Photo Bil="93" Dirty="True" Note="Facilisi urna cras tortor parturient" Store="Elementum turpis duis" ThumbnailStore="Facilisis nunc" Title="Faucibus habitant vivamus"/>
+                                <d:Photo Bil="56" Dirty="True" Note="Aenean inceptos arcu" Store="Interdum diam aliquam fringilla" ThumbnailStore="Aliquet hac leo" Title="Mauris habitasse justo hendrerit vestibulum"/>
+                                <d:Photo Bil="59" Dirty="True" Note="Imperdiet eget" Store="Lobortis nullam conubia nascetur" ThumbnailStore="Pharetra vestibulum" Title="Aptent auctor congue"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.StartLocation>
+                    <d:Stage.TulipCollection>
+                        <d:Tulip Bil="64" Dirty="True" Icon="Lectus sagittis mus" IsHazard="False" IsBreak="True" Km="871.63" Lat="819.97" Lng="271.44" Summary="Iaculis adipiscing enim lacinia parturient" SubType="Porttitor senectus vestibulum elit" Turn="Libero laoreet nibh metus non" Type="Vestibulum morbi tincidunt neque" Title="Erat nec massa eros"/>
+                        <d:Tulip Bil="81" Dirty="True" Icon="Tristique adipiscing natoque sociosqu suscipit" IsHazard="False" IsBreak="True" Km="931.62" Lat="257.41" Lng="471.8" Summary="Ultricies nulla venenatis vulputate" SubType="Netus ligula per" Turn="Nisl potenti" Type="Luctus pretium" Title="Litora porta curabitur parturient posuere"/>
+                        <d:Tulip Bil="79" Dirty="True" Icon="Sem rhoncus sodales mattis purus" IsHazard="False" IsBreak="True" Km="109.95" Lat="106.31" Lng="457.01" Summary="Mollis viverra montes" SubType="Mauris ultrices vehicula" Turn="Sit ornare convallis aliquam" Type="Dignissim elementum vestibulum" Title="Nostra consequat volutpat maecenas"/>
+                        <d:Tulip Bil="86" Dirty="True" Icon="Praesent accumsan" IsHazard="False" IsBreak="True" Km="407.21" Lat="988.4" Lng="662.47" Summary="Velit vel quisque adipiscing odio" SubType="Bibendum integer dictumst eleifend" Turn="Sed facilisi vestibulum" Type="Orci rutrum dis vitae" Title="Parturient vivamus platea nam primis"/>
+                        <d:Tulip Bil="83" Dirty="True" Icon="Aliquet fringilla habitasse" IsHazard="False" IsBreak="True" Km="730.51" Lat="858.13" Lng="886.35" Summary="Faucibus habitant inceptos" SubType="Sapien vestibulum pede quam blandit" Turn="Interdum class semper" Type="Adipiscing parturient commodo hendrerit" Title="Quis est"/>
+                    </d:Stage.TulipCollection>
+                </d:Stage>
+                <d:Stage Bil="21" Dirty="True" DifficultyString="Lobortis cras vestibulum" EndTime="01/28/2011 12:46:35" Profile="Vestibulum felis vestibulum dictumst" RouteName="Ipsum dictum adipiscing" RoadCondition="Mus pede" Summary="Sed fusce" StartTime="01/28/2011 12:46:35"  TrafficCondition="Eleifend quis vestibulum est" Title="Tempus tortor dis bibendum dictumst">
+                    <d:Stage.EndLocation>
+                        <d:GeoLocation Bil="36" Description="Ante taciti" Dirty="True" GeoLocationId="20" Keywords="Etiam adipiscing sed" Name="Egestas parturient" Type="Blandit adipiscing cursus commodo parturient">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="40" Country="Leo conubia cubilia curae" Dirty="True" District="Vestibulum imperdiet duis mus" Postcode="Dapibus nunc" State="Nec adipiscing parturient" Street="Nascetur non pharetra donec placerat"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="84" Dirty="True" Note="Sagittis senectus malesuada" Store="Arcu diam vestibulum" ThumbnailStore="Sem fusce penatibus" Title="Tellus porttitor euismod"/>
+                                <d:Photo Bil="48" Dirty="True" Note="Tristique vestibulum" Store="Feugiat elit tempor lorem" ThumbnailStore="Tempus gravida sociosqu tortor suscipit" Title="Enim turpis"/>
+                                <d:Photo Bil="23" Dirty="True" Note="Venenatis erat lacinia laoreet natoque" Store="Aenean eros vulputate posuere sit" ThumbnailStore="Torquent vel curabitur potenti" Title="Phasellus ultrices nibh adipiscing"/>
+                                <d:Photo Bil="63" Dirty="True" Note="Consequat convallis vehicula nisi mauris" Store="Nam parturient nulla rhoncus" ThumbnailStore="Vestibulum sodales volutpat viverra" Title="Proin aliquam maecenas"/>
+                                <d:Photo Bil="34" Dirty="True" Note="Elementum quisque augue praesent aptent" Store="Accumsan nunc bibendum dis" ThumbnailStore="Est vivamus hac dolor facilisis" Title="Vestibulum aliquam fames leo"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.EndLocation>
+                    <d:Stage.StageCategoryCollection>
+                        <d:StageCategory Bil="99" Category="Lectus fringilla" Dirty="True"/>
+                        <d:StageCategory Bil="90" Category="Parturient cubilia quam ligula" Dirty="True"/>
+                        <d:StageCategory Bil="80" Category="Non per egestas sed hendrerit" Dirty="True"/>
+                        <d:StageCategory Bil="62" Category="Sem cras litora luctus duis" Dirty="True"/>
+                        <d:StageCategory Bil="87" Category="Amet vestibulum sit vel feugiat" Dirty="True"/>
+                    </d:Stage.StageCategoryCollection>
+                    <d:Stage.StartLocation>
+                        <d:GeoLocation Bil="32" Description="Vestibulum nascetur" Dirty="True" GeoLocationId="39" Keywords="Pharetra mauris laoreet penatibus porttitor" Name="Adipiscing tincidunt parturient diam mollis" Type="Tempor blandit">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="64" Country="Inceptos gravida magnis lacus" Dirty="True" District="Sed lorem adipiscing" Postcode="Parturient malesuada dis" State="Vestibulum interdum iaculis ante mattis" Street="Lobortis est"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="31" Dirty="True" Note="Hac placerat massa" Store="Eget metus pulvinar" ThumbnailStore="Leo tristique natoque" Title="Posuere morbi elit enim vestibulum"/>
+                                <d:Photo Bil="45" Dirty="True" Note="Mus sagittis" Store="Nec venenatis vestibulum non adipiscing" ThumbnailStore="Per senectus neque montes" Title="Sed sem parturient vestibulum"/>
+                                <d:Photo Bil="43" Dirty="True" Note="Netus nostra nulla" Store="Porta suscipit" ThumbnailStore="Torquent purus ornare rhoncus nibh" Title="Ultrices sodales risus nisi viverra"/>
+                                <d:Photo Bil="46" Dirty="True" Note="Curabitur velit" Store="Vitae class parturient vehicula" ThumbnailStore="Curae aliquam integer" Title="Rutrum nunc volutpat odio"/>
+                                <d:Photo Bil="70" Dirty="True" Note="Praesent semper donec sit vivamus" Store="Aliquam sociis vestibulum vel consequat" ThumbnailStore="Orci convallis aliquet vestibulum" Title="Taciti nam tellus adipiscing accumsan"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.StartLocation>
+                    <d:Stage.TulipCollection>
+                        <d:Tulip Bil="65" Dirty="True" Icon="Urna cras facilisi" IsHazard="False" IsBreak="True" Km="293.03" Lat="994.48" Lng="414.45" Summary="Faucibus vestibulum" SubType="Vestibulum turpis adipiscing parturient duis" Turn="Aenean hac conubia habitant" Type="Lorem vestibulum" Title="Varius elementum commodo facilisis"/>
+                        <d:Tulip Bil="74" Dirty="True" Icon="Mauris dapibus inceptos egestas" IsHazard="False" IsBreak="True" Km="749.38" Lat="655.77" Lng="170.69" Summary="Habitasse nullam vestibulum morbi" SubType="Nunc fringilla" Turn="Mus hendrerit euismod feugiat" Type="Amet aptent" Title="Interdum vestibulum"/>
+                        <d:Tulip Bil="64" Dirty="True" Icon="Iaculis imperdiet lobortis nascetur" IsHazard="False" IsBreak="True" Km="451.11" Lat="285.5" Lng="323.83" Summary="Nec malesuada non arcu" SubType="Pharetra ante" Turn="Adipiscing proin augue lacinia laoreet" Type="Sed natoque dolor placerat" Title="Nulla auctor per penatibus"/>
+                        <d:Tulip Bil="23" Dirty="True" Icon="Parturient sagittis" IsHazard="False" IsBreak="True" Km="467.41" Lat="367.18" Lng="458.63" Summary="Vestibulum vestibulum potenti" SubType="Fames senectus cursus" Turn="Adipiscing parturient sit" Type="Tincidunt vestibulum dictum tristique" Title="Sociosqu porttitor"/>
+                        <d:Tulip Bil="72" Dirty="True" Icon="Diam ultricies eget ipsum" IsHazard="False" IsBreak="True" Km="152.23" Lat="307.71" Lng="142.96" Summary="Vel elit enim erat vestibulum" SubType="Pretium parturient venenatis" Turn="Torquent sodales vestibulum viverra" Type="Sed justo" Title="Rhoncus suscipit eros nam"/>
+                    </d:Stage.TulipCollection>
+                </d:Stage>
+                <d:Stage Bil="18" Dirty="True" DifficultyString="Magna integer" EndTime="01/28/2011 12:46:35" Profile="Tincidunt lacinia" RouteName="Pharetra ultricies morbi placerat" RoadCondition="Tristique nascetur hac" Summary="Primis rutrum integer sapien adipiscing" StartTime="01/28/2011 12:46:35"  TrafficCondition="Sem malesuada" Title="Sed parturient">
+                    <d:Stage.EndLocation>
+                        <d:GeoLocation Bil="89" Description="Vestibulum morbi luctus aliquam vestibulum" Dirty="True" GeoLocationId="40" Keywords="Volutpat neque leo" Name="Maecenas curabitur adipiscing" Type="Lobortis penatibus gravida">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="97" Country="Adipiscing vulputate quisque" Dirty="True" District="Libero dis massa" Postcode="Est vivamus hac nibh" State="Ligula nisi" Street="Parturient metus"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="54" Dirty="True" Note="Aliquet phasellus parturient vestibulum magnis" Store="Mattis mauris netus" ThumbnailStore="Nulla praesent blandit" Title="Commodo porta"/>
+                                <d:Photo Bil="37" Dirty="True" Note="Mollis montes nostra nisl vestibulum" Store="Consequat convallis purus" ThumbnailStore="Ornare nec dignissim" Title="Accumsan nunc dapibus platea elementum"/>
+                                <d:Photo Bil="80" Dirty="True" Note="Egestas facilisis non" Store="Odio adipiscing bibendum primis" ThumbnailStore="Per sed sem rutrum" Title="Fermentum sit"/>
+                                <d:Photo Bil="60" Dirty="True" Note="Dictumst orci eleifend" Store="Nam facilisi vestibulum euismod semper" ThumbnailStore="Class faucibus fringilla pede" Title="Habitasse curae hendrerit donec sed"/>
+                                <d:Photo Bil="43" Dirty="True" Note="Quam taciti" Store="Habitant inceptos" ThumbnailStore="Vestibulum imperdiet" Title="Malesuada adipiscing"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.EndLocation>
+                    <d:Stage.StageCategoryCollection>
+                        <d:StageCategory Bil="48" Category="Laoreet tellus" Dirty="True"/>
+                        <d:StageCategory Bil="57" Category="Posuere venenatis quis tempor vestibulum" Dirty="True"/>
+                        <d:StageCategory Bil="95" Category="Cras nulla tempus mus" Dirty="True"/>
+                        <d:StageCategory Bil="80" Category="Duis sagittis" Dirty="True"/>
+                        <d:StageCategory Bil="17" Category="Parturient proin curabitur suscipit per" Dirty="True"/>
+                    </d:Stage.StageCategoryCollection>
+                    <d:Stage.StartLocation>
+                        <d:GeoLocation Bil="34" Description="Mauris dignissim ipsum diam" Dirty="True" GeoLocationId="79" Keywords="Nullam ultrices" Name="Aptent auctor" Type="Interdum non">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="55" Country="Sit dolor phasellus" Dirty="True" District="Varius vestibulum potenti" Postcode="Amet pretium ante" State="Vestibulum rhoncus consequat adipiscing aenean" Street="Torquent fames"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="19" Dirty="True" Note="Elementum parturient vestibulum congue" Store="Eget justo" ThumbnailStore="Vehicula elit vel sodales" Title="Volutpat enim vestibulum nam sed"/>
+                                <d:Photo Bil="40" Dirty="True" Note="Dictum erat" Store="Lectus lacus adipiscing praesent" ThumbnailStore="Lorem eros facilisis" Title="Parturient magna"/>
+                                <d:Photo Bil="68" Dirty="True" Note="Fringilla ligula" Store="Nisi massa accumsan" ThumbnailStore="Nisl viverra" Title="Metus aliquam morbi neque bibendum"/>
+                                <d:Photo Bil="71" Dirty="True" Note="Est netus" Store="Litora eleifend habitasse luctus vestibulum" ThumbnailStore="Magnis hac leo vestibulum" Title="Nunc facilisi odio mattis mauris"/>
+                                <d:Photo Bil="29" Dirty="True" Note="Orci himenaeos faucibus" Store="Imperdiet habitant mollis" ThumbnailStore="Pede quam quis" Title="Inceptos urna mus cras"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.StartLocation>
+                    <d:Stage.TulipCollection>
+                        <d:Tulip Bil="60" Dirty="True" Icon="Quisque risus velit" IsHazard="False" IsBreak="True" Km="714.19" Lat="273.02" Lng="952.32" Summary="Class porttitor" SubType="Vivamus penatibus vitae aliquam" Turn="Vestibulum nascetur amet semper" Type="Sit vestibulum vel" Title="Tincidunt tristique"/>
+                        <d:Tulip Bil="43" Dirty="True" Icon="Aliquet diam pulvinar eget" IsHazard="False" IsBreak="True" Km="352.85" Lat="225.91" Lng="790.19" Summary="Elit sed donec sociis" SubType="Nam sagittis senectus curae blandit" Turn="Commodo fusce suscipit taciti" Type="Conubia enim venenatis erat dis" Title="Adipiscing ultricies parturient sociosqu etiam"/>
+                        <d:Tulip Bil="52" Dirty="True" Icon="Est morbi vulputate torquent vestibulum" IsHazard="False" IsBreak="True" Km="924.71" Lat="518.41" Lng="648.18" Summary="Eros parturient" SubType="Ultrices hac adipiscing cubilia" Turn="Vehicula vestibulum" Type="Proin volutpat tellus nibh" Title="Dapibus egestas nulla"/>
+                        <d:Tulip Bil="46" Dirty="True" Icon="Dolor maecenas vestibulum mus nec" IsHazard="False" IsBreak="True" Km="914.91" Lat="955.38" Lng="974.29" Summary="Tempus felis feugiat adipiscing nisi" SubType="Praesent tempor fames curabitur euismod" Turn="Non per nunc" Type="Dictumst eleifend sed odio parturient" Title="Accumsan gravida nisl bibendum"/>
+                        <d:Tulip Bil="55" Dirty="True" Icon="Phasellus faucibus vestibulum pede habitant" IsHazard="False" IsBreak="True" Km="312.84" Lat="718.56" Lng="829.56" Summary="Lacus lorem quam" SubType="Consequat inceptos turpis varius justo" Turn="Urna cras" Type="Aenean sem" Title="Quis interdum convallis lobortis lacinia"/>
+                    </d:Stage.TulipCollection>
+                </d:Stage>
+                <d:Stage Bil="72" Dirty="True" DifficultyString="Elementum massa adipiscing" EndTime="01/28/2011 12:46:35" Profile="Vestibulum adipiscing euismod" RouteName="Feugiat sociis class elementum" RoadCondition="Sed vitae" Summary="Pulvinar nisi sagittis nisl" StartTime="01/28/2011 12:46:35"  TrafficCondition="Nunc metus" Title="Parturient lectus senectus">
+                    <d:Stage.EndLocation>
+                        <d:GeoLocation Bil="69" Description="Morbi aptent" Dirty="True" GeoLocationId="20" Keywords="Pulvinar sagittis auctor" Name="Habitasse diam congue adipiscing" Type="Risus velit">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="54" Country="Ante laoreet" Dirty="True" District="Facilisis parturient" Postcode="Vel nam pharetra natoque" State="Arcu posuere fermentum fringilla" Street="Metus mauris vestibulum"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="84" Dirty="True" Note="Hendrerit himenaeos eget" Store="Cursus dis" ThumbnailStore="Dictum est potenti parturient vestibulum" Title="Pretium rhoncus lectus"/>
+                                <d:Photo Bil="10" Dirty="True" Note="Libero sodales neque" Store="Sociosqu imperdiet vestibulum ligula" ThumbnailStore="Suscipit viverra adipiscing" Title="Hac aliquam litora malesuada luctus"/>
+                                <d:Photo Bil="90" Dirty="True" Note="Porttitor magnis netus nulla tincidunt" Store="Vestibulum mattis porta" ThumbnailStore="Quisque enim mus mauris" Title="Vestibulum torquent mollis"/>
+                                <d:Photo Bil="22" Dirty="True" Note="Ultrices parturient ornare nec" Store="Vehicula vivamus vestibulum vestibulum" ThumbnailStore="Aliquam tristique" Title="Aliquet ultricies"/>
+                                <d:Photo Bil="39" Dirty="True" Note="Non erat conubia vulputate" Store="Platea volutpat curabitur primis rutrum" ThumbnailStore="Sapien eros phasellus" Title="Per cubilia semper dapibus"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.EndLocation>
+                    <d:Stage.StageCategoryCollection>
+                        <d:StageCategory Bil="45" Category="Praesent nibh" Dirty="True"/>
+                        <d:StageCategory Bil="53" Category="Donec iaculis accumsan" Dirty="True"/>
+                        <d:StageCategory Bil="82" Category="Fusce vel" Dirty="True"/>
+                        <d:StageCategory Bil="36" Category="Lacinia tellus" Dirty="True"/>
+                        <d:StageCategory Bil="55" Category="Laoreet dis hendrerit est himenaeos" Dirty="True"/>
+                    </d:Stage.StageCategoryCollection>
+                    <d:Stage.StartLocation>
+                        <d:GeoLocation Bil="86" Description="Augue posuere odio" Dirty="True" GeoLocationId="73" Keywords="Orci habitant turpis mus inceptos" Name="Porttitor pede tincidunt potenti varius" Type="Est erat eros dictum">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="91" Country="Leo morbi nulla" Dirty="True" District="Dictumst eleifend vestibulum facilisi" Postcode="Natoque malesuada" State="Faucibus proin" Street="Penatibus vestibulum adipiscing"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="50" Dirty="True" Note="Vestibulum nec non quam vestibulum" Store="Dolor pretium quis aenean urna" ThumbnailStore="Tristique ultricies cras mauris" Title="Venenatis adipiscing"/>
+                                <d:Photo Bil="62" Dirty="True" Note="Vestibulum nullam" Store="Interdum duis curabitur sed" ThumbnailStore="Lobortis nunc rhoncus amet phasellus" Title="Fames vestibulum"/>
+                                <d:Photo Bil="39" Dirty="True" Note="Adipiscing parturient convallis felis ipsum" Store="Nascetur sodales" ThumbnailStore="Ante vestibulum aptent" Title="Auctor congue viverra"/>
+                                <d:Photo Bil="95" Dirty="True" Note="Pharetra lacus vestibulum aliquam" Store="Vel arcu" ThumbnailStore="Elementum diam" Title="Nam lorem eget adipiscing"/>
+                                <d:Photo Bil="77" Dirty="True" Note="Fermentum placerat" Store="Magna quisque fringilla dis" ThumbnailStore="Habitasse vivamus" Title="Elit massa"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.StartLocation>
+                    <d:Stage.TulipCollection>
+                        <d:Tulip Bil="65" Dirty="True" Icon="Blandit commodo malesuada" IsHazard="False" IsBreak="True" Km="832.49" Lat="338.99" Lng="647.81" Summary="Penatibus suscipit porttitor" SubType="Odio libero conubia sociosqu" Turn="Vestibulum torquent" Type="Litora pede mus ultrices vehicula" Title="Orci tincidunt ligula"/>
+                        <d:Tulip Bil="33" Dirty="True" Icon="Nec cubilia vestibulum volutpat" IsHazard="False" IsBreak="True" Km="311.02" Lat="309.81" Lng="639.67" Summary="Non magnis quam adipiscing" SubType="Luctus dapibus maecenas praesent accumsan" Turn="Dictumst eleifend mattis mauris" Type="Quis neque per urna cras" Title="Venenatis parturient bibendum"/>
+                        <d:Tulip Bil="54" Dirty="True" Icon="Mollis sed montes sem phasellus" IsHazard="False" IsBreak="True" Km="206.43" Lat="937.83" Lng="520.52" Summary="Faucibus egestas vestibulum netus duis" SubType="Consequat facilisi" Turn="Euismod habitant nam inceptos convallis" Type="Interdum nulla porta" Title="Sit vel"/>
+                        <d:Tulip Bil="10" Dirty="True" Icon="Purus feugiat dignissim gravida" IsHazard="False" IsBreak="True" Km="634.46" Lat="947.61" Lng="564.2" Summary="Risus iaculis lacinia" SubType="Elementum nostra ornare facilisis fermentum" Turn="Nunc fringilla" Type="Rutrum amet vitae est lobortis" Title="Platea primis sed dis velit"/>
+                        <d:Tulip Bil="91" Dirty="True" Icon="Hac arcu laoreet" IsHazard="False" IsBreak="True" Km="890.22" Lat="113.17" Lng="957.72" Summary="Diam vestibulum" SubType="Leo mus natoque nec semper" Turn="Elit himenaeos non per" Type="Posuere curae nascetur pharetra sed" Title="Eget habitasse sociis hendrerit taciti"/>
+                    </d:Stage.TulipCollection>
+                </d:Stage>
+                <d:Stage Bil="67" Dirty="True" DifficultyString="Nibh pretium sem donec" EndTime="01/28/2011 12:46:35" Profile="Vestibulum vestibulum nisi" RouteName="Adipiscing porttitor feugiat magna" RoadCondition="Lectus libero dis" Summary="Habitasse est morbi nulla hac" StartTime="01/28/2011 12:46:35"  TrafficCondition="Placerat pulvinar mus" Title="Cubilia leo pharetra">
+                    <d:Stage.EndLocation>
+                        <d:GeoLocation Bil="38" Description="Sed nulla aliquam tortor vestibulum" Dirty="True" GeoLocationId="21" Keywords="Adipiscing parturient turpis varius sagittis" Name="Malesuada vestibulum odio aenean" Type="Hendrerit himenaeos">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="79" Country="Rhoncus etiam nisi tempor sit" Dirty="True" District="Fusce parturient" Postcode="Vestibulum vel nam" State="Tempus lorem" Street="Sodales imperdiet nisl morbi"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="84" Dirty="True" Note="Mauris penatibus porttitor senectus integer" Store="Dis proin augue tincidunt" ThumbnailStore="Quisque vestibulum sociosqu" Title="Adipiscing parturient tristique ultricies orci"/>
+                                <d:Photo Bil="44" Dirty="True" Note="Adipiscing parturient venenatis pede" Store="Vivamus hac vulputate aliquam quam" ThumbnailStore="Dolor quis urna curabitur cras" Title="Vestibulum fames aliquet leo duis"/>
+                                <d:Photo Bil="15" Dirty="True" Note="Commodo nunc vestibulum nec suscipit" Store="Torquent conubia" ThumbnailStore="Ipsum non amet cubilia" Title="Aptent consequat per dapibus adipiscing"/>
+                                <d:Photo Bil="34" Dirty="True" Note="Convallis egestas ante dignissim congue" Store="Arcu elementum facilisis" ThumbnailStore="Cursus euismod" Title="Justo fermentum ultrices sed"/>
+                                <d:Photo Bil="44" Dirty="True" Note="Vestibulum vehicula" Store="Sem eget fringilla volutpat sit" ThumbnailStore="Elit vel enim maecenas" Title="Nam lacus sed erat eros"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.EndLocation>
+                    <d:Stage.StageCategoryCollection>
+                        <d:StageCategory Bil="73" Category="Parturient massa vestibulum" Dirty="True"/>
+                        <d:StageCategory Bil="95" Category="Est tincidunt nunc gravida" Dirty="True"/>
+                        <d:StageCategory Bil="89" Category="Orci litora pede" Dirty="True"/>
+                        <d:StageCategory Bil="94" Category="Tristique accumsan" Dirty="True"/>
+                        <d:StageCategory Bil="46" Category="Hac vestibulum" Dirty="True"/>
+                    </d:Stage.StageCategoryCollection>
+                    <d:Stage.StartLocation>
+                        <d:GeoLocation Bil="87" Description="Neque rhoncus curabitur" Dirty="True" GeoLocationId="65" Keywords="Netus mollis" Name="Sodales nulla phasellus" Type="Vestibulum lorem vestibulum">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="43" Country="Mattis laoreet" Dirty="True" District="Venenatis urna natoque vestibulum leo" Postcode="Posuere cras" State="Metus vulputate" Street="Morbi adipiscing parturient"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="58" Dirty="True" Note="Duis nunc" Store="Amet faucibus consequat" ThumbnailStore="Porta purus" Title="Habitant inceptos mus"/>
+                                <d:Photo Bil="42" Dirty="True" Note="Ante platea viverra" Store="Risus vestibulum vestibulum primis rutrum" ThumbnailStore="Convallis velit" Title="Vitae class nec"/>
+                                <d:Photo Bil="26" Dirty="True" Note="Per sed curae adipiscing" Store="Interdum lobortis parturient sociis" ThumbnailStore="Taciti tellus aliquam" Title="Vestibulum donec arcu tempor"/>
+                                <d:Photo Bil="54" Dirty="True" Note="Sem eget elit" Store="Enim sit integer quisque dignissim" ThumbnailStore="Fusce tempus elementum" Title="Facilisis tortor fermentum"/>
+                                <d:Photo Bil="43" Dirty="True" Note="Adipiscing vel" Store="Aliquam nascetur turpis aliquet nibh" ThumbnailStore="Fringilla varius aenean blandit nam" Title="Commodo parturient"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.StartLocation>
+                    <d:Stage.TulipCollection>
+                        <d:Tulip Bil="92" Dirty="True" Icon="Dapibus mauris nunc egestas proin" IsHazard="False" IsBreak="True" Km="798.59" Lat="414.04" Lng="693.01" Summary="Non odio dolor fames" SubType="Sagittis euismod nec augue" Turn="Feugiat pede" Type="Per gravida felis" Title="Adipiscing hendrerit himenaeos orci imperdiet"/>
+                        <d:Tulip Bil="89" Dirty="True" Icon="Aptent quam auctor iaculis" IsHazard="False" IsBreak="True" Km="815.37" Lat="710.14" Lng="477.65" Summary="Sociosqu penatibus sed sem congue" SubType="Senectus malesuada" Turn="Natoque justo sit suscipit posuere" Type="Torquent ultrices vel cursus" Title="Porttitor lacinia laoreet"/>
+                        <d:Tulip Bil="16" Dirty="True" Icon="Dictum sed parturient" IsHazard="False" IsBreak="True" Km="732.21" Lat="196.15" Lng="368.31" Summary="Duis potenti pretium lacus" SubType="Urna vestibulum cras vestibulum lectus" Turn="Nunc venenatis ligula adipiscing vehicula" Type="Amet dis parturient est vestibulum" Title="Libero rhoncus"/>
+                        <d:Tulip Bil="60" Dirty="True" Icon="Curabitur lorem" IsHazard="False" IsBreak="True" Km="576.07" Lat="766.27" Lng="834.46" Summary="Adipiscing sodales magna parturient" SubType="Praesent vestibulum" Turn="Luctus accumsan leo" Type="Ante viverra arcu metus" Title="Hac massa vestibulum"/>
+                        <d:Tulip Bil="40" Dirty="True" Icon="Phasellus aliquam consequat" IsHazard="False" IsBreak="True" Km="700.38" Lat="693.69" Lng="476.81" Summary="Integer mus" SubType="Convallis elit" Turn="Non magnis enim mattis vivamus" Type="Bibendum vestibulum" Title="Quisque nec"/>
+                    </d:Stage.TulipCollection>
+                </d:Stage>
+                <d:Stage Bil="92" Dirty="True" DifficultyString="Facilisis nibh per neque mauris" EndTime="01/28/2011 12:46:35" Profile="Volutpat maecenas" RouteName="Lacus quam vestibulum" RoadCondition="Felis ipsum parturient justo" Summary="Parturient maecenas" StartTime="01/28/2011 12:46:35"  TrafficCondition="Donec semper praesent blandit est" Title="Curae elementum arcu dis">
+                    <d:Stage.EndLocation>
+                        <d:GeoLocation Bil="34" Description="Vestibulum nisi platea" Dirty="True" GeoLocationId="60" Keywords="Porta inceptos primis" Name="Adipiscing rutrum" Type="Lacinia mauris vehicula">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="55" Country="Adipiscing eleifend mollis" Dirty="True" District="Fermentum montes nostra" Postcode="Aliquam aliquet netus ornare parturient" State="Facilisi nulla" Street="Blandit faucibus vestibulum"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="55" Dirty="True" Note="Parturient commodo" Store="Interdum lobortis habitasse hendrerit sem" ThumbnailStore="Nisl vestibulum conubia purus" Title="Vestibulum nascetur"/>
+                                <d:Photo Bil="89" Dirty="True" Note="Parturient vestibulum" Store="Vestibulum velit semper vitae imperdiet" ThumbnailStore="Class curae donec etiam" Title="Sociis fusce malesuada lorem"/>
+                                <d:Photo Bil="30" Dirty="True" Note="Dapibus pharetra nam penatibus" Store="Morbi tellus" ThumbnailStore="Porttitor tempor placerat tincidunt" Title="Adipiscing nunc nulla sed"/>
+                                <d:Photo Bil="66" Dirty="True" Note="Egestas proin parturient augue tortor" Store="Euismod ultricies" ThumbnailStore="Sagittis feugiat venenatis vestibulum gravida" Title="Senectus odio vestibulum vulputate sociosqu"/>
+                                <d:Photo Bil="89" Dirty="True" Note="Suscipit phasellus" Store="Torquent consequat leo iaculis" ThumbnailStore="Turpis orci mus" Title="Dolor varius nec"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.EndLocation>
+                    <d:Stage.StageCategoryCollection>
+                        <d:StageCategory Bil="68" Category="Aptent auctor lorem elementum" Dirty="True"/>
+                        <d:StageCategory Bil="48" Category="Cursus fermentum magna" Dirty="True"/>
+                        <d:StageCategory Bil="31" Category="Quis urna accumsan" Dirty="True"/>
+                        <d:StageCategory Bil="30" Category="Nunc fringilla amet sit" Dirty="True"/>
+                        <d:StageCategory Bil="40" Category="Metus arcu vel diam" Dirty="True"/>
+                    </d:Stage.StageCategoryCollection>
+                    <d:Stage.StartLocation>
+                        <d:GeoLocation Bil="99" Description="Nisi nisl ligula neque posuere" Dirty="True" GeoLocationId="55" Keywords="Potenti vestibulum nunc odio netus" Name="Interdum pretium" Type="Aliquam convallis ante aliquet sed">
+                            <d:GeoLocation.Address>
+                                <d:Address Bil="10" Country="Adipiscing dictumst elit" Dirty="True" District="Enim eleifend" Postcode="Laoreet facilisi parturient" State="Faucibus libero erat vestibulum natoque" Street="Eros habitant habitasse"/>
+                            </d:GeoLocation.Address>
+                            <d:GeoLocation.PhotoCollection>
+                                <d:Photo Bil="72" Dirty="True" Note="Lobortis orci" Store="Adipiscing imperdiet" ThumbnailStore="Parturient rhoncus nascetur" Title="Litora malesuada sodales"/>
+                                <d:Photo Bil="44" Dirty="True" Note="Quam placerat" Store="Dis nulla porta luctus" ThumbnailStore="Est viverra magnis" Title="Penatibus porttitor mattis"/>
+                                <d:Photo Bil="58" Dirty="True" Note="Leo pulvinar sagittis" Store="Aliquam quis mauris" ThumbnailStore="Mollis tristique mus senectus" Title="Vestibulum urna montes nec purus"/>
+                                <d:Photo Bil="91" Dirty="True" Note="Risus non" Store="Venenatis nostra suscipit vulputate torquent" ThumbnailStore="Cras duis per adipiscing ornare" Title="Platea sed sem primis"/>
+                                <d:Photo Bil="53" Dirty="True" Note="Sit rutrum" Store="Phasellus vehicula consequat" ThumbnailStore="Vel volutpat" Title="Sapien velit quisque"/>
+                            </d:GeoLocation.PhotoCollection>
+                        </d:GeoLocation>
+                    </d:Stage.StartLocation>
+                    <d:Stage.TulipCollection>
+                        <d:Tulip Bil="74" Dirty="True" Icon="Sociis etiam vestibulum taciti vestibulum" IsHazard="False" IsBreak="True" Km="972.66" Lat="605.27" Lng="637.85" Summary="Adipiscing parturient lorem commodo conubia" SubType="Tellus fusce accumsan bibendum" Turn="Elit dictumst morbi hac" Type="Cubilia tempor" Title="Diam eget"/>
+                        <d:Tulip Bil="22" Dirty="True" Icon="Tortor turpis" IsHazard="False" IsBreak="True" Km="534.69" Lat="219.63" Lng="504.41" Summary="Varius enim eleifend nulla egestas" SubType="Dapibus leo" Turn="Erat nec" Type="Mauris euismod" Title="Facilisis mus aenean proin"/>
+                        <d:Tulip Bil="84" Dirty="True" Icon="Nullam faucibus dolor" IsHazard="False" IsBreak="True" Km="996.69" Lat="833.14" Lng="174.51" Summary="Fames feugiat gravida adipiscing" SubType="Non fermentum nibh fringilla" Turn="Iaculis vestibulum nisi felis aptent" Type="Ipsum lacinia habitasse habitant laoreet" Title="Parturient per vestibulum"/>
+                        <d:Tulip Bil="47" Dirty="True" Icon="Hendrerit natoque justo himenaeos sem" IsHazard="False" IsBreak="True" Km="166.59" Lat="929.31" Lng="415.02" Summary="Lacus vel nascetur nam" SubType="Parturient sit lobortis" Turn="Posuere magna nisl auctor" Type="Potenti massa" Title="Imperdiet vestibulum sed lorem dis"/>
+                        <d:Tulip Bil="39" Dirty="True" Icon="Adipiscing metus pretium" IsHazard="False" IsBreak="True" Km="705.39" Lat="255.73" Lng="977.09" Summary="Morbi vestibulum odio" SubType="Parturient pharetra" Turn="Hac malesuada leo penatibus adipiscing" Type="Rhoncus mus sodales cursus" Title="Est congue vestibulum orci"/>
+                    </d:Stage.TulipCollection>
+                </d:Stage>
+            </d:Ride.StageCollection>
+        </d:Ride>
+    </vm:RideViewModel.Ride>
+
+</vm:RideViewModel>

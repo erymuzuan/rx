@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Bespoke.Cycling.Windows.RideOrganizerModule.Views.EventListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:domain="clr-namespace:Bespoke.Cycling.Domain;assembly=cycling.domain"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="CurrentRideDataTemplate" DataType="{x:Type domain:Ride}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Title}" Style="{DynamicResource TextBlockH2}" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding StartDate, StringFormat=d}" />
+                            <TextBlock Text=" - " />
+                            <TextBlock Text="{Binding EndDate, StringFormat=d}" />
+                        </StackPanel>
+
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <telerik:RadButton Content="Open" Click="OpenButtonClick" Tag="{Binding}" />
+                        <telerik:RadButton Content="Registration" Click="OpenRegistrationButtonClick" Tag="{Binding}" />
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid d:DataContext="{d:DesignData Source=/SampleData/EventListViewModelSampleData.xaml}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="List of new events" Style="{DynamicResource TextBlockH1}"/>
+        <telerik:RadListBox ItemsSource="{Binding CurrentRideCollection}"
+                            Grid.Row="1"
+                            ItemTemplate="{StaticResource CurrentRideDataTemplate}"/>
+
+    </Grid>
+</UserControl>

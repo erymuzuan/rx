@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Bespoke.Cycling.Windows.RideOrganizerModule.Views.RegistrationPivotView" 
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           mc:Ignorable="d" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:vm="clr-namespace:Bespoke.Cycling.Windows.RideOrganizerModule.ViewModels"
+
+             d:DesignWidth="640" d:DesignHeight="480"
+           >
+    <Grid d:DataContext="{d:DesignInstance vm:RegistrationListViewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Style="{DynamicResource TextBlockH1}" Text="Registered riders" />
+        </StackPanel>
+        <telerik:RadGridView
+            Grid.Row="1"
+            ItemsSource="{Binding RegistrationCollection}"
+            AutoGenerateColumns="False">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Header="Fullname" DataMemberBinding="{Binding FullName}" Width="0.2*"/>
+                <telerik:GridViewDataColumn Header="ID" DataMemberBinding="{Binding ID}" Width="0.15*"/>
+                <telerik:GridViewDataColumn Header="Payment" DataMemberBinding="{Binding Status}" Width="Auto"/>
+                <telerik:GridViewDataColumn Header="Registered Date" DataMemberBinding="{Binding CreatedDate, StringFormat=d}" Width="Auto"/>
+                <telerik:GridViewDataColumn Header="Payment" DataMemberBinding="{Binding PaymentStatus}" Width="Auto"/>
+                <telerik:GridViewDataColumn Header="Payment" DataMemberBinding="{Binding Age}" Width="Auto"/>
+                <telerik:GridViewDataColumn Header="Payment" DataMemberBinding="{Binding Category}" Width="Auto"/>
+                <telerik:GridViewDataColumn Header="Payment" DataMemberBinding="{Binding Email}" Width="Auto"/>
+                <telerik:GridViewDataColumn Header="Payment" DataMemberBinding="{Binding Telephone}" Width="Auto"/>
+                <telerik:GridViewDataColumn Header="Payment" DataMemberBinding="{Binding ShirtSize}" Width="Auto"/>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+        <StackPanel Grid.Row="2">
+            <telerik:RadButton Content="Add new" Command="{Binding AddCommand}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

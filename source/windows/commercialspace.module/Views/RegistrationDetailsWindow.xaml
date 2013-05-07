@@ -1,0 +1,155 @@
+﻿<telerik:RadWindow x:Class="Bespoke.Cycling.Windows.RideOrganizerModule.Views.RegistrationDetailsWindow" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                  
+    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" d:DesignWidth="960" d:DesignHeight="768"
+    Header="Registration Detail" Height="660" Width="800">
+    <telerik:RadWindow.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5,5,5,5" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="5,5,5,5" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+        <DataTemplate x:Key="StringTemplate">
+            <StackPanel>
+                <TextBlock Text="{Binding Mode=OneWay}"/>
+            </StackPanel>
+        </DataTemplate>
+    </telerik:RadWindow.Resources>
+    <Grid Margin="2"  d:DataContext="{d:DesignData /SampleData/RegistrationViewModelSampleData.xaml}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20*" />
+            <ColumnDefinition Width="30*" />
+            <ColumnDefinition Width="20*" />
+            <ColumnDefinition Width="30*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Event Name :" HorizontalAlignment="Stretch" Margin="5,5,110,5" />
+        <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Ride.Title}" />
+        <Label Grid.Row="1" Grid.Column="0" Content="Group Name :"/>
+        <telerik:RadWatermarkTextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Rider.Group, Mode=TwoWay}" />
+        <Label Grid.Row="2" Grid.Column="0" Content="Category :" Margin="5,20,5,5"/>
+        <telerik:RadComboBox Grid.Row="2" Grid.Column="1" Margin="5" 
+                  ItemsSource="{Binding CategoryCollection}" SelectedItem="{Binding Rider.Category, Mode=TwoWay}"/>
+
+        <Rectangle Grid.ColumnSpan="4" Height="1" VerticalAlignment="Center" Grid.Row="3" Margin="10"/>
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Full Name :" />
+        <telerik:RadWatermarkTextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Rider.FullName, Mode=TwoWay}" />
+
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="ID :" />
+        <telerik:RadWatermarkTextBox Grid.Row="5" Grid.Column="1" Text="{Binding Rider.ID, Mode=TwoWay}" />
+        <TextBlock Grid.Row="5" Grid.Column="2" Text="Age :" />
+        <telerik:RadWatermarkTextBox Grid.Row="5" Grid.Column="3" HorizontalAlignment="Left" Width="100" Margin="5" Text="{Binding Rider.Age, Mode=TwoWay}" Height="28"/>
+
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Gender :" />
+        <telerik:RadComboBox Grid.Row="6" Grid.Column="1" SelectedItem="{Binding Rider.Gender, Mode=TwoWay}" Margin="5">
+            <s:String>Male</s:String>
+            <s:String>Female</s:String>
+        </telerik:RadComboBox>
+        <Label Grid.Row="7" Grid.Column="0" Content="Telephone :" />
+        <telerik:RadWatermarkTextBox Grid.Row="7" Grid.Column="1" Text="{Binding Rider.Telephone, Mode=TwoWay}" />
+        <TextBlock Grid.Row="7" Grid.Column="2" Text="Email :" />
+        <telerik:RadWatermarkTextBox Grid.Row="7" Grid.Column="3" Text="{Binding Rider.Email, Mode=TwoWay}" />
+
+        <TextBlock Grid.Row="8" Grid.Column="0" Text="Address :" />
+        <telerik:RadWatermarkTextBox Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="3" Height="45" Text="{Binding Rider.Address.Street, Mode=TwoWay}" AcceptsReturn="True" />
+
+        <TextBlock Grid.Row="9" Grid.Column="0" Text="District/City :" />
+        <telerik:RadWatermarkTextBox Grid.Row="9" Grid.Column="1" Text="{Binding Rider.Address.District, Mode=TwoWay}" />
+        <TextBlock Grid.Row="9" Grid.Column="2" Text="Postcode :" />
+        <telerik:RadWatermarkTextBox Grid.Row="9" Grid.Column="3" Text="{Binding Rider.Address.Postcode, Mode=TwoWay}" />
+        <TextBlock Grid.Row="10" Grid.Column="0" Text="State :" />
+        <telerik:RadWatermarkTextBox Grid.Row="10" Grid.Column="1" Text="{Binding Rider.Address.State, Mode=TwoWay}" />
+        <TextBlock Grid.Row="10" Grid.Column="2" Text="Country :" />
+        <telerik:RadWatermarkTextBox Grid.Row="10" Grid.Column="3" Text="{Binding Rider.Address.Country, Mode=TwoWay}" />
+
+        <Rectangle Grid.Row="11" Grid.ColumnSpan="4" Height="1" VerticalAlignment="Center" Margin="10"/>
+        <TextBlock Grid.Row="12" Grid.Column="0" Text="Emergency Contacts :" />
+        <telerik:RadButton Content="Add" Grid.Row="12" Grid.Column="1" Command="{Binding AddContactCommand}" />
+        <TextBlock Grid.Row="12" Grid.Column="3" HorizontalAlignment="Right" Text="{Binding Rider.EmergencyContactCollection.Count}" />
+        <telerik:RadGridView Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="3"
+                        AutoGenerateColumns="False" Height="100" Margin="5"
+                         ShowGroupPanel="False"
+                         ItemsSource="{Binding Rider.EmergencyContactCollection}">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Header="Contact Name" Width="200">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FullName, Mode=TwoWay}" Margin="5,5,5,5" />
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                    <telerik:GridViewDataColumn.CellEditTemplate>
+                        <DataTemplate>
+                            <telerik:RadWatermarkTextBox HorizontalAlignment="Stretch" Text="{Binding FullName, Mode=TwoWay}" Margin="5,5,5,5" />
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellEditTemplate>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="Relationship" Width="150">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Relationship, Mode=TwoWay}" Margin="5,5,5,5" />
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                    <telerik:GridViewDataColumn.CellEditTemplate>
+                        <DataTemplate>
+                            <telerik:RadWatermarkTextBox Text="{Binding Relationship, Mode=TwoWay}" Margin="5,5,5,5" />
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellEditTemplate>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Header="Telephone" Width="120">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Telephone, Mode=TwoWay}" Margin="5,5,5,5" />
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                    <telerik:GridViewDataColumn.CellEditTemplate>
+                        <DataTemplate>
+                            <telerik:RadWatermarkTextBox HorizontalAlignment="Stretch" Text="{Binding Telephone, Mode=TwoWay}" Margin="5,5,5,5" />
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellEditTemplate>
+                </telerik:GridViewDataColumn>
+                <telerik:GridViewDataColumn Width="60">
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <telerik:RadButton Content="Remove" Tag="{Binding }" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+        <StackPanel Grid.Row="15" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <telerik:RadButton Content="OK" Width="75" Margin="5,15,5,5" Click="OkButtonClick" />
+            <telerik:RadButton Content="Cancel" Width="75" Margin="5,15,5,5" Click="CancelButtonClick" />
+        </StackPanel>
+        <telerik:RadBusyIndicator Content="" Grid.Column="1" IsEnabled="{Binding IsBusy}" Grid.ColumnSpan="3" d:IsHidden="True"/>
+    </Grid>
+</telerik:RadWindow>

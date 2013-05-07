@@ -1,0 +1,84 @@
+﻿<telerik:RadWindow x:Class="Bespoke.Cycling.Windows.RideOrganizerModule.Views.AddGroupRidersWindow"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                   Width="850" Header="Add Riders Window" x:Name="root">
+    <telerik:RadWindow.Resources>
+        <ResourceDictionary>
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="5,5,5,5" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="Margin" Value="5,5,5,5" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+            </Style>
+        </ResourceDictionary>
+    </telerik:RadWindow.Resources>
+    <Grid DataContext="{Binding}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="18*" />
+            <ColumnDefinition Width="32*" />
+            <ColumnDefinition Width="18*" />
+            <ColumnDefinition Width="32*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Event Name :"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Ride.Title, Mode=TwoWay}"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Group Name :" Margin="5,5,5,5"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" x:Name="groupNameTexBox" Text="{Binding ElementName=root, Path=GroupName, Mode=TwoWay}" />
+
+        <Rectangle Grid.ColumnSpan="4" Height="1" VerticalAlignment="Center" Grid.Row="3" Margin="10"/>
+        <telerik:RadButton Content="Add" Grid.Row="4" Grid.Column="1" Click="AddNewRiderClicked" />
+        <telerik:RadGridView Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3"
+          AutoGenerateColumns="False" Height="200" Margin="5" 
+                           ItemsSource="{Binding ElementName=root, Path=RegistrationCollection}">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewComboBoxColumn Header="Rider Name" Width="200"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding FullName, Mode=TwoWay}"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding FullName, Mode=TwoWay}"/>
+
+                <telerik:GridViewComboBoxColumn  Header="Category" Width="150" DataMemberBinding="{Binding Category, Mode=TwoWay}"/>
+
+                <telerik:GridViewDataColumn Header="ID" Width="120" DataMemberBinding="{Binding ID, Mode=TwoWay}"/>
+                <telerik:GridViewDataColumn Header="Gender" Width="90" DataMemberBinding="{Binding Gender, Mode=TwoWay}"/>
+                <telerik:GridViewDataColumn Header="Telephone" Width="100" DataMemberBinding="{Binding Telephone, Mode=TwoWay}"/>
+                <telerik:GridViewDataColumn Header="Status" Width="90" DataMemberBinding="{Binding Status, Mode=TwoWay}"/>
+
+                <!--<s:String>New</s:String>
+                                <s:String>Verified</s:String>
+                                <s:String>Approved</s:String>
+                                <s:String>Cancelled</s:String>
+                                <s:String>Prank</s:String>-->
+
+
+                <telerik:GridViewDataColumn Header="Shirt Size" Width="90" DataMemberBinding="{Binding ShirtSize, Mode=TwoWay}"/>
+
+                <telerik:GridViewDataColumn Header="Payment" Width="90" DataMemberBinding="{Binding PaymentStatus, Mode=TwoWay}"/>
+
+
+                <telerik:GridViewDataColumn>
+                    <telerik:GridViewDataColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <telerik:RadButton Content="Remove" Click="RemoveRiderClicked" Tag="{Binding }" Foreground="DarkRed" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </telerik:GridViewDataColumn.CellTemplate>
+                </telerik:GridViewDataColumn>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+        <StackPanel Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <telerik:RadButton x:Name="okButton" Content="Save" Click="OkButtonClick" Width="75" Margin="5,5,5,20" />
+            <telerik:RadButton x:Name="cancelButton" Content="Cancel" Click="CancelButtonClick" Width="75" Margin="5,5,5,20" />
+        </StackPanel>
+    </Grid>
+</telerik:RadWindow>

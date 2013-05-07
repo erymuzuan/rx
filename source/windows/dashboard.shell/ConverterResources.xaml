@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters2="clr-namespace:Bespoke.Cycling.Windows.Infrastructure.Converters;assembly=infrastructure.interface">
+
+    <converters2:ZeroStatusConverter x:Key="Converter_ZeroStatusConverter"/>
+    <converters2:BooleanToVisibilityConverter x:Key="Converter_BooleanToVisibilityConverter"/>
+    <converters2:NullToBooleanConverter x:Key="Converter_NullToBooleanConverter"/>
+    <converters2:NullToVisibilityConverter x:Key="Converter_NullToVisibilityConverter"/>
+    <converters2:DontShowZeroConverter x:Key="Converter_DontShowZeroConverter"/>
+    <converters2:ZeroToVisibilityConverter x:Key="Converter_ZeroToVisibilityConverter"/>
+</ResourceDictionary>

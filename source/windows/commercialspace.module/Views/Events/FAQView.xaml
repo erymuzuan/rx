@@ -1,0 +1,83 @@
+﻿<UserControl	
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+   xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+  xmlns:domain="clr-namespace:Bespoke.Cycling.Domain;assembly=cycling.domain"
+  x:Class="Bespoke.Cycling.Windows.RideOrganizerModule.Views.FaqView" 
+	d:DesignWidth="640" d:DesignHeight="550">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="FaqSectionDataTemplate" DataType="{x:Type domain:Faq}">
+                <TextBlock Text="{Binding Section}"></TextBlock>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid  d:DataContext="{d:DesignData Source=/SampleData/RideViewModelSampleData.xaml}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+        <Border BorderThickness="1,0,1,1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Width="170" Height="25">
+            <TextBlock TextWrapping="Wrap" Text="FAQ" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Border>
+
+        <telerik:RadListBox Grid.Row="2" Grid.Column="0"  MinHeight="100"
+                ItemsSource="{Binding Ride.FaqCollection}"		
+                HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5" 
+                ItemTemplate="{StaticResource FaqSectionDataTemplate}"
+                SelectedItem="{Binding SelectedFaqSection, Mode=TwoWay}" >
+           
+        </telerik:RadListBox>
+        <telerik:RadButton Content="Add" Grid.Row="2" HorizontalAlignment="Right" Click="AddFaqSectionClicked" Margin="5,5,57,5" Height="28" VerticalAlignment="Bottom" ToolTipService.ToolTip="Add section" Command="{Binding AddFaqSectionCommand}" CommandParameter="{Binding}" />
+        <telerik:RadButton Content="Remove" Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,5,5" Height="28" VerticalAlignment="Bottom" ToolTipService.ToolTip="Remove section" Command="{Binding Path=RemoveFaqSectionCommand}" CommandParameter="{Binding SelectedItem, ElementName=sectionList}" />
+        
+        
+        <telerik:RadGridView  Grid.Row="2" Grid.Column="1" MinHeight="250" x:Name="faqList" 
+                              ItemsSource="{Binding SelectedFaqSection.FaqItemCollection}" 
+                              Margin="5,5,5,40" 
+                              AutoGenerateColumns="False" >
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Question}" Width="200" Header="Question"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Answer}" Width="1*" Header="Answer"/>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+        <telerik:RadButton Content="Remove" Grid.Row="2" Grid.Column="1" 
+                           HorizontalAlignment="Right" 
+                           VerticalAlignment="Bottom" 
+                           Margin="5" ToolTipService.ToolTip="Remove Faq" 
+                           Command="{Binding Path=RemoveFaqItemSectionCommand}" 
+                           CommandParameter="{Binding ElementName=faqList,Path=SelectedItem}" />
+        <telerik:RadButton Content="Add" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right"  
+                           VerticalAlignment="Bottom" Margin="0,0,61,5" ToolTipService.ToolTip="Add FAQ" 
+                           Command="{Binding Path=AddFaqItemCommand}" 
+                           CommandParameter="{Binding SelectedFaqSection}" />
+
+        <TextBlock Text="Answer" Grid.Column="2" Grid.Row="3" Margin="5"/>
+        <TextBox Text="{Binding SelectedItem.Answer, ElementName=faqList, Mode=TwoWay}" Margin="5" AcceptsReturn="True" Grid.Column="2" Grid.Row="4" Height="120" TextWrapping="Wrap"/>
+        <Rectangle Grid.ColumnSpan="2" Height="1" VerticalAlignment="Center" Grid.Row="5" Margin="10">
+            <Rectangle.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#7FFFFFFF" Offset="0"/>
+                    <GradientStop Color="#19000000" Offset="1"/>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <StackPanel Grid.Column="2" Margin="3,3,3,50" Orientation="Horizontal" Grid.Row="6" VerticalAlignment="Center">
+            <telerik:RadButton Width="75" Content="Save" Command="{Binding SaveCommand}" CommandParameter="{Binding Ride}" Margin="0,0,10,0"/>
+            <telerik:RadButton Width="75" Content="Close" Command="{Binding CancelCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
