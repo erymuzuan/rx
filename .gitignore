@@ -60,3 +60,5 @@
 /source/windows/dashboard.shell/obj
 /source/windows/infrastructure.interface/bin
 /source/windows/infrastructure.interface/obj
+*.suo
+/source/windows/commercialspace.module/obj/Debug
