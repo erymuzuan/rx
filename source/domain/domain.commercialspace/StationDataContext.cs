@@ -5,74 +5,19 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using Bespoke.Station.Domain.QueryProviders;
+using Bespoke.CommercialSpace.Domain.QueryProviders;
 
-namespace Bespoke.Station.Domain
+
+namespace Bespoke.CommercialSpace.Domain
 {
     [Export]
-    public class StationDataContext
+    public class CommercialSpaceDataContext
     {
-        public IOrderedQueryable<Account> Accounts { set; get; }
-        public IOrderedQueryable<Alert> Alerts { set; get; }
-        public IOrderedQueryable<Billing> Billings { set; get; }
-        public IOrderedQueryable<Delivery> Deliveries { set; get; }
-        public IOrderedQueryable<Dipping> Dippings { set; get; }
-        public IOrderedQueryable<DippingLookup> DippingLookups { set; get; }
-        public IOrderedQueryable<Employee> Employees{ set; get; }
-        public IOrderedQueryable<Order> Orders { set; get; }
-        public IOrderedQueryable<Payroll> Payrolls{ set; get; }
-        public IOrderedQueryable<Product> Products { set; get; }
-        public IOrderedQueryable<PumpSale> PumpSales { set; get; }
-        public IOrderedQueryable<Pump> Pumps { set; get; }
-        public IOrderedQueryable<PumpTest> PumpTests { set; get; }
-        public IOrderedQueryable<Reminder> Reminders { set; get; }
-        public IQueryable<Sale> Sales { get; set; }
-        public IQueryable<Setting> Settings { get; set; }
-        public IQueryable<Shift> Shifts { get; set; }
-        public IQueryable<Attendance> Attendances { get; set; }
-        public IQueryable<Leave> Leaves { get; set; }
-        public IQueryable<ShiftSchedule> ShiftSchedules { get; set; }
-        public IQueryable<DailySummary> DailySummaries { get; set; }
-        public IOrderedQueryable<Supplier> Suppliers { set; get; }
-        public IOrderedQueryable<Tank> Tanks { set; get; }
-        public IOrderedQueryable<Transaction> Transactions { set; get; }
-        public IOrderedQueryable<Inventory> Inventories { set; get; }
-        public IOrderedQueryable<Reconciliation> Reconciliations { set; get; }
-        public IOrderedQueryable<ChequeRegistry> ChequeRegistries { set; get; }
-        public IOrderedQueryable<LogEntry> LogEntries { set; get; }
 
 
-        public StationDataContext()
+        public CommercialSpaceDataContext()
         {
-            var provider = ObjectBuilder.GetObject<QueryProvider>();
-            this.Pumps = new Query<Pump>(provider);
-            this.Alerts = new Query<Alert>(provider);
-            this.Billings = new Query<Billing>(provider);
-            this.PumpTests = new Query<PumpTest>(provider);
-            this.Products = new Query<Product>(provider);
-            this.PumpSales = new Query<PumpSale>(provider);
-            this.Tanks = new Query<Tank>(provider);
-            this.Dippings = new Query<Dipping>(provider);
-            this.Orders = new Query<Order>(provider);
-            this.DippingLookups = new Query<DippingLookup>(provider);
-            this.Suppliers = new Query<Supplier>(provider);
-            this.Employees = new Query<Employee>(provider);
-            this.Shifts = new Query<Shift>(provider);
-            this.Attendances = new Query<Attendance>(provider);
-            this.Leaves = new Query<Leave>(provider);
-            this.ShiftSchedules = new Query<ShiftSchedule>(provider);
-            this.Sales = new Query<Sale>(provider);
-            this.Deliveries = new Query<Delivery>(provider);
-            this.Accounts = new Query<Account>(provider);
-            this.Transactions = new Query<Transaction>(provider);
-            this.Reminders = new Query<Reminder>(provider);
-            this.Settings = new Query<Setting>(provider);
-            this.LogEntries = new Query<LogEntry>(provider);
-            this.Inventories = new Query<Inventory>(provider);
-            this.Reconciliations = new Query<Reconciliation>(provider);
-            this.ChequeRegistries = new Query<ChequeRegistry>(provider);
-            this.DailySummaries = new Query<DailySummary>(provider);
-            this.Payrolls = new Query<Payroll>(provider);
+            //var provider = ObjectBuilder.GetObject<QueryProvider>();
         }
 
 

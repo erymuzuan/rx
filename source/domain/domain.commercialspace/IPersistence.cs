@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Bespoke.Station.Domain
+
+namespace Bespoke.CommercialSpace.Domain
 {
     public interface IPersistence
     {

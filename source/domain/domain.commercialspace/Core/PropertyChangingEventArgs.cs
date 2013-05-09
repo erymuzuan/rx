@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace Bespoke.Station.Domain
+namespace Bespoke.CommercialSpace.Domain
 {
     public delegate void PropertyChangingEventHandler(object sender, PropertyChangingEventArgs e);
 

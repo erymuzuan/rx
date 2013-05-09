@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bespoke.Station.Domain
+namespace Bespoke.CommercialSpace.Domain
 {
     public class EntityTypeAttribute : Attribute
     {

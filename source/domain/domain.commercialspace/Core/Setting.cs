@@ -1,10 +1,12 @@
 ﻿using System.Xml.Serialization;
 
-namespace Bespoke.Station.Domain
+namespace Bespoke.CommercialSpace.Domain
 {
-    public partial  class Setting : Entity
+    public partial class Setting : Entity
     {
         private int m_settingId;
+        private string m_key;
+        private string m_value;
 
         [XmlAttribute]
         public int SettingId
@@ -13,6 +15,26 @@ namespace Bespoke.Station.Domain
             set
             {
                 m_settingId = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string Key
+        {
+            get { return m_key; }
+            set
+            {
+                m_key = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string Value
+        {
+            get { return m_value; }
+            set
+            {
+                m_value = value;
                 RaisePropertyChanged();
             }
         }

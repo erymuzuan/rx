@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Bespoke.Station.Windows.Helpers
+namespace Bespoke.Sph.Windows.Helpers
 {
     internal class SelectTextOnFocus : DependencyObject
     {

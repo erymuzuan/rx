@@ -1,4 +1,4 @@
-﻿<Window x:Class="Bespoke.Station.Windows.SplashScreen"
+﻿<Window x:Class="Bespoke.Sph.Windows.SplashScreen"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStyle="None"

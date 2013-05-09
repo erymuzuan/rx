@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Bespoke.Cycling.Windows.Infrastructure.Converters
+namespace Bespoke.Sph.Windows.Infrastructure.Converters
 {
 
     public class HourVisibility : IValueConverter

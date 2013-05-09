@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bespoke.Cycling.Windows.RideOrganizerModule.Converters
+namespace Bespoke.Sph.Windows.CommercialSpaceModule.Converters
 {
     public class PresentationHelper
     {

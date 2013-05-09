@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Bespoke.Station.Domain
+namespace Bespoke.CommercialSpace.Domain
 {
     public interface IBinaryStore
     {

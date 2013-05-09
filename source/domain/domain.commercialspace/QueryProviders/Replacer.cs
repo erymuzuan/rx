@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Bespoke.Station.Domain.QueryProviders {
+namespace Bespoke.CommercialSpace.Domain.QueryProviders {
     /// <summary>
     /// A visitor that replaces references to one specific instance of a node with another
     /// </summary>

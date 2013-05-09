@@ -2,7 +2,7 @@ using System;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace Bespoke.Cycling.Windows.Infrastructure.Converters
+namespace Bespoke.Sph.Windows.Infrastructure.Converters
 {
     [ValueConversion(typeof(int), typeof(bool))]
     public class ComparisonToBooleanConverter : MarkupExtension, IValueConverter

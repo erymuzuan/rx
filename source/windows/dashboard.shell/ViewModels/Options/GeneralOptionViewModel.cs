@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Controls;
-using Bespoke.Cycling.Domain;
+using Bespoke.CommercialSpace.Domain;
 using Bespoke.Cycling.Windows.Infrastructure;
-using Bespoke.Station.Windows.Infrastructure;
+using Bespoke.Sph.Windows.Infrastructure;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
 
-namespace Bespoke.Station.Windows.ViewModels
+namespace Bespoke.Sph.Windows.ViewModels.Options
 {
     [Export]
-    public class GeneralOptionViewModel : StationViewModelBase<Ride>
+    public class GeneralOptionViewModel : StationViewModelBase<Entity>
     {
         public RelayCommand SaveCommmand { get; set; }
         public RelayCommand<TextBox > BrowseFileCommand { get; set; }
@@ -72,7 +72,7 @@ namespace Bespoke.Station.Windows.ViewModels
 
         private void SaveCallback()
         {
-            Properties.Settings.Default.Save();
+            //Properties.Settings.Default.Save();
             this.IsBusy = false;
         }
 

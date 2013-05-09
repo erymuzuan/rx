@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 
-namespace Bespoke.Station.Windows.ViewModels.Dashboard
+namespace Bespoke.Sph.Windows.ViewModels.Dashboard
 {
     [Export]
     public class TodoTileViewModel

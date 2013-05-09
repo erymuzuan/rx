@@ -7,7 +7,7 @@
     <ProjectGuid>{817BF4AC-CB84-4BC3-BB16-AF1FCB66E2E1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bespoke.Cycling.Windows.Infrastructure</RootNamespace>
+    <RootNamespace>Bespoke.Sph.Windows.Infrastructure</RootNamespace>
     <AssemblyName>infrastructure.interface</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -40,6 +40,9 @@
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -95,9 +98,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\domain\cycling.domain\cycling.domain.csproj">
-      <Project>{FE6CE634-BC39-4CC7-938B-C211C6F83883}</Project>
-      <Name>cycling.domain</Name>
+    <ProjectReference Include="..\..\domain\domain.commercialspace\domain.commercialspace.csproj">
+      <Project>{7bf1de5a-3756-4a31-8b82-491c71d263d7}</Project>
+      <Name>domain.commercialspace</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

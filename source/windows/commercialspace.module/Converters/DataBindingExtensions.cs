@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Bespoke.Cycling.Windows.RideOrganizerModule.Converters
+namespace Bespoke.Sph.Windows.CommercialSpaceModule.Converters
 {
     /// <summary>
     /// Provides extension methods for dealing with <see cref="Binding"/> objects

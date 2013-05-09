@@ -1,8 +1,7 @@
-using Bespoke.Cycling.Domain;
+using Bespoke.CommercialSpace.Domain;
 using Bespoke.Cycling.Windows.Infrastructure;
-using Bespoke.Station.Windows.Infrastructure;
 
-namespace Bespoke.Station.Windows.Models
+namespace Bespoke.Sph.Windows.Models
 {
     public class SsViewModelGroup
     {

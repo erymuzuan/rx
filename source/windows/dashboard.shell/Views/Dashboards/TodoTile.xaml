@@ -1,4 +1,4 @@
-﻿<telerik:RadTileViewItem x:Class="Bespoke.Station.Windows.Views.Dashboards.TodoTile"
+﻿<telerik:RadTileViewItem x:Class="Bespoke.Sph.Windows.Views.Dashboards.TodoTile"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

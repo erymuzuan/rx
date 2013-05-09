@@ -2,12 +2,11 @@
 using System.Linq;
 using System.Windows.Controls;
 using Bespoke.Cycling.Windows.Infrastructure;
-using Bespoke.Station.Windows.Helpers;
-using Bespoke.Station.Windows.Infrastructure;
-using Bespoke.Station.Windows.ViewModels;
+using Bespoke.Sph.Windows.Helpers;
+using Bespoke.Sph.Windows.ViewModels;
 using Telerik.Windows.Controls;
 
-namespace Bespoke.Station.Windows.Views
+namespace Bespoke.Sph.Windows.Views.Dashboards
 {
     [Export("ViewContract", typeof(UserControl))]
     [ViewMetadata(Group = ViewGroup.Home, Name = ViewNames.DASHBOARD_VIEW, Caption = "Papan Tugas", Order = 1, IsHome = true, Image = "/Images/home.png")]

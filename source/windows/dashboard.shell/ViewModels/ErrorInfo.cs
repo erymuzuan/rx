@@ -1,5 +1,5 @@
 ﻿
-namespace Bespoke.Station.Windows.ViewModels
+namespace Bespoke.Sph.Windows.ViewModels
 {
     public class ErrorInfo
     {

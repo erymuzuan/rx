@@ -1,7 +1,7 @@
-﻿using Bespoke.Cycling.Domain;
-using Bespoke.Station.Windows.Models;
+﻿using Bespoke.CommercialSpace.Domain;
+using Bespoke.Sph.Windows.Models;
 
-namespace Bespoke.Station.Windows.ViewModels
+namespace Bespoke.Sph.Windows.ViewModels
 {
     public partial class DashboardViewModel
     {

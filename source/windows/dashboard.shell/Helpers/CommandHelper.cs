@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 
-namespace Bespoke.Station.Windows.Helpers
+namespace Bespoke.Sph.Windows.Helpers
 {
    public static class CommandHelper
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bespoke.Station.Domain
+namespace Bespoke.CommercialSpace.Domain
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class BoundedContextAttribute : Attribute

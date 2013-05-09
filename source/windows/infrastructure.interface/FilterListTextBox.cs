@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace Bespoke.Cycling.Windows.Infrastructure
+namespace Bespoke.Sph.Windows.Infrastructure
 {
     public class FilterListTextBox : DependencyObject
     {

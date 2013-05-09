@@ -11,7 +11,7 @@
     using System.Diagnostics;
     using System.ComponentModel.DataAnnotations;
 
-    namespace Bespoke.Station.Domain
+    namespace Bespoke.CommercialSpace.Domain
     {
     <!-- ELEMENT -->
     <xsl:for-each select="xs:element">

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Bespoke.Station.Windows.Helpers
+namespace Bespoke.Sph.Windows.Helpers
 {
     internal static class WebRequestHelper
     {

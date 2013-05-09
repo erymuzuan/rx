@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using Bespoke.Sph.Windows.Infrastructure;
 
 namespace Bespoke.Cycling.Windows.Infrastructure
 {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading;
 
-namespace Bespoke.Station.Domain
+
+namespace Bespoke.CommercialSpace.Domain
 {
     public interface IEntityChangedListener<T>  where T : Entity
     {

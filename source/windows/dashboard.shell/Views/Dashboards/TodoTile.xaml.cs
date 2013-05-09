@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.Composition;
-using Bespoke.Station.Windows.ViewModels.Dashboard;
-using Telerik.Windows.Controls;
+using Bespoke.Sph.Windows.ViewModels.Dashboard;
 
-namespace Bespoke.Station.Windows.Views.Dashboards
+namespace Bespoke.Sph.Windows.Views.Dashboards
 {
     //[Export(typeof(RadTileViewItem))]
     public partial class TodoTile 

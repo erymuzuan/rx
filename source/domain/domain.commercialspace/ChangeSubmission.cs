@@ -1,4 +1,4 @@
-﻿namespace Bespoke.Station.Domain
+﻿namespace Bespoke.CommercialSpace.Domain
 {
     public class ChangeSubmission : DomainObject
     {

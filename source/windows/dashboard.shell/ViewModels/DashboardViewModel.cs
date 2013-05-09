@@ -1,8 +1,8 @@
-﻿using Bespoke.Cycling.Windows.Infrastructure;
-using Bespoke.Station.Windows.Models;
+﻿using Bespoke.Sph.Windows.Infrastructure;
+using Bespoke.Sph.Windows.Models;
 using System.ComponentModel.Composition;
 
-namespace Bespoke.Station.Windows.ViewModels
+namespace Bespoke.Sph.Windows.ViewModels
 {
     [Export]
     public partial class DashboardViewModel : StationViewModelBase<DashboardTask>

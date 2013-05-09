@@ -1,8 +1,10 @@
-﻿using Bespoke.Cycling.Domain;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Bespoke.Sph.Windows.Annotations;
 
-namespace Bespoke.Station.Windows.Models
+namespace Bespoke.Sph.Windows.Models
 {
-    public class DashboardTask:DomainObject
+    public class DashboardTask: INotifyPropertyChanged
     {
         private string m_name;
 
@@ -12,9 +14,17 @@ namespace Bespoke.Station.Windows.Models
             set
             {
                 m_name = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

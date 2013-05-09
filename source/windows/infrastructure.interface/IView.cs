@@ -1,6 +1,7 @@
 ﻿using System.Windows.Threading;
+using Bespoke.Cycling.Windows.Infrastructure;
 
-namespace Bespoke.Cycling.Windows.Infrastructure
+namespace Bespoke.Sph.Windows.Infrastructure
 {
     public interface IView
     {

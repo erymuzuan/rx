@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using GalaSoft.MvvmLight;
 
-namespace Bespoke.Cycling.Windows.RideOrganizerModule.ViewModels
+namespace Bespoke.Sph.Windows.CommercialSpaceModule.ViewModels
 {
     [Export]
     public class LoginInfoViewModel : ViewModelBase

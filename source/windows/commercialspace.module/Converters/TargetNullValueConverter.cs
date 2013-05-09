@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 
-namespace Bespoke.Cycling.Windows.RideOrganizerModule.Converters
+namespace Bespoke.Sph.Windows.CommercialSpaceModule.Converters
 {
     /// <summary>
     /// Two way IValueConverter that lets you bind a property on a bindable object

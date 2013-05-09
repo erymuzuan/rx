@@ -1,4 +1,4 @@
-﻿namespace Bespoke.Station.Windows
+﻿namespace Bespoke.Sph.Windows
 {
     public partial class ErrorWindow
     {

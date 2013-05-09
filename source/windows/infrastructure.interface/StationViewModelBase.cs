@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bespoke.Cycling.Domain;
+using Bespoke.CommercialSpace.Domain;
+using Bespoke.Cycling.Windows.Infrastructure;
 using GalaSoft.MvvmLight;
 using System.Collections;
 using System.ComponentModel;
@@ -10,7 +11,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System.Windows;
 
-namespace Bespoke.Cycling.Windows.Infrastructure
+namespace Bespoke.Sph.Windows.Infrastructure
 {
     public abstract class StationViewModelBase<T> : ViewModelBase, INotifyDataErrorInfo, IPartImportsSatisfiedNotification where T : DomainObject
     {
@@ -123,7 +124,7 @@ namespace Bespoke.Cycling.Windows.Infrastructure
         }
 
         [Import]
-        public CyclingDataContext Context { get; set; }
+        public CommercialSpaceDataContext   Context { get; set; }
 
         private bool m_isBusy;
         private string m_loadingMessage;

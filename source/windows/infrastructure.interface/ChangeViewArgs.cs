@@ -1,5 +1,5 @@
 
-namespace Bespoke.Cycling.Windows.Infrastructure
+namespace Bespoke.Sph.Windows.Infrastructure
 {
     public class ChangeViewArgs
     {

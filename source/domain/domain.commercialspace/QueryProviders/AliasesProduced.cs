@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Bespoke.Station.Domain.QueryProviders
+namespace Bespoke.CommercialSpace.Domain.QueryProviders
 {
     /// <summary>
     ///  returns the set of all aliases produced by a query source

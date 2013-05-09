@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Bespoke.Station.Domain
+namespace Bespoke.CommercialSpace.Domain
 {
     public interface IChangeTrack<T> 
     {

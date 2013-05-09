@@ -1,7 +1,8 @@
 using System;
 using System.ComponentModel.Composition;
+using Bespoke.Cycling.Windows.Infrastructure;
 
-namespace Bespoke.Cycling.Windows.Infrastructure
+namespace Bespoke.Sph.Windows.Infrastructure
 {
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]

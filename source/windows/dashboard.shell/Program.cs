@@ -5,10 +5,11 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using Bespoke.Cycling.Domain;
+using Bespoke.CommercialSpace.Domain;
+using Bespoke.Station.Windows;
 using Bespoke.Station.Windows.Views.Utils;
 
-namespace Bespoke.Station.Windows
+namespace Bespoke.Sph.Windows
 {
     public static class Program
     {

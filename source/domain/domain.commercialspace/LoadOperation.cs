@@ -2,7 +2,8 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace Bespoke.Station.Domain
+
+namespace Bespoke.CommercialSpace.Domain
 {
     public class LoadOperation<T> where T : DomainObject
     {

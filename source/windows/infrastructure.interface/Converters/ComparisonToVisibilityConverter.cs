@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace Bespoke.Cycling.Windows.Infrastructure.Converters
+namespace Bespoke.Sph.Windows.Infrastructure.Converters
 {
     [ValueConversion(typeof(int), typeof(Visibility))]
     public class ComparisonToVisibilityConverter : MarkupExtension, IValueConverter

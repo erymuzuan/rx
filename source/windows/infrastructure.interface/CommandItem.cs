@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel;
+using Bespoke.Cycling.Windows.Infrastructure;
 using GalaSoft.MvvmLight.Command;
 
-namespace Bespoke.Cycling.Windows.Infrastructure
+namespace Bespoke.Sph.Windows.Infrastructure
 {
     public class CommandItem<T> : INotifyPropertyChanged
     {

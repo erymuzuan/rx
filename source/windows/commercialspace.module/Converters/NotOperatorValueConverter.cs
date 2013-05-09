@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 
-namespace Bespoke.Cycling.Windows.RideOrganizerModule.Converters
+namespace Bespoke.Sph.Windows.CommercialSpaceModule.Converters
 {
     /// <summary>
     /// Two way <see cref="IValueConverter"/> that lets you bind the inverse of a boolean property

@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
-namespace Bespoke.Cycling.Windows.RideOrganizerModule.Converters
+namespace Bespoke.Sph.Windows.CommercialSpaceModule.Converters
 {
     public class ImageConverter : IValueConverter
     {

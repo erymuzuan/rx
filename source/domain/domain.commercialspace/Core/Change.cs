@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace Bespoke.Station.Domain
+namespace Bespoke.CommercialSpace.Domain
 {
     public partial class Change : DomainObject
     {

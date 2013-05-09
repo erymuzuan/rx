@@ -67,7 +67,7 @@ namespace Bespoke.Cycling.Windows.RideOrganizerModule {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ride.organizer.module;component/app.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/commercialspace.module;component/app.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\App.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Bespoke.Cycling.Windows.Infrastructure
+namespace Bespoke.Sph.Windows.Infrastructure
 {
     public interface ICommandViewModel
     {

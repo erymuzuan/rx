@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using GalaSoft.MvvmLight;
 
-namespace Bespoke.Cycling.Windows.RideOrganizerModule.Converters
+namespace Bespoke.Sph.Windows.CommercialSpaceModule.Converters
 {
     public class NullToBooleanConverter : ViewModelBase, IValueConverter
     {

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Bespoke.Cycling.Domain;
-using Bespoke.Cycling.Windows.Infrastructure;
-using Bespoke.Station.Windows.Infrastructure;
-using Bespoke.Station.Windows.Models;
+using Bespoke.CommercialSpace.Domain;
+using Bespoke.Sph.Windows.Infrastructure;
+using Bespoke.Sph.Windows.Models;
 using Bespoke.Station.Windows.ViewModels.Utils;
 using Bespoke.Station.Windows.Views.Settings;
 using GalaSoft.MvvmLight;
@@ -59,9 +58,7 @@ namespace Bespoke.Station.Windows.ViewModels
             }
             //this.SelectedView = home.Value;
             ReloadAllViews();
-            var context = new CyclingDataContext();
-            var station = await context.LoadOneAsync<Setting>(s => s.Key == "Station.Name") ?? new Setting { Key = "Station.Name", Value = "Stesen Petronas..."};
-            Application.Current.MainWindow.Title = station.Value;
+
             await Task.Delay(100);
             Messenger.Default.Send(new ChangeViewArgs(home.Metadata.Name));
          

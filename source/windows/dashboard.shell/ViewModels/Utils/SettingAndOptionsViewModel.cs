@@ -1,9 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using System.Globalization;
 using System.Windows.Controls;
-using Bespoke.Cycling.Domain;
-using Bespoke.Cycling.Windows.Infrastructure;
+using Bespoke.CommercialSpace.Domain;
+using Bespoke.Sph.Windows.Infrastructure;
 using GalaSoft.MvvmLight.Command;
 using System.Linq;
 

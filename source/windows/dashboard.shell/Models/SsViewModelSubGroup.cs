@@ -1,11 +1,11 @@
-using Bespoke.Cycling.Domain;
+using System.Collections.ObjectModel;
 
-namespace Bespoke.Station.Windows.Models
+namespace Bespoke.Sph.Windows.Models
 {
     public class SsViewModelSubGroup
     {
-        private readonly ObjectCollection<SsViewModel> m_itemCollection = new ObjectCollection<SsViewModel>();
-        public ObjectCollection<SsViewModel> ItemCollection
+        private readonly ObservableCollection<SsViewModel> m_itemCollection = new ObservableCollection<SsViewModel>();
+        public ObservableCollection<SsViewModel> ItemCollection
         {
             get { return m_itemCollection; }
         }

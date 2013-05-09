@@ -1,6 +1,7 @@
 using System.ComponentModel;
+using Bespoke.Cycling.Windows.Infrastructure;
 
-namespace Bespoke.Cycling.Windows.Infrastructure
+namespace Bespoke.Sph.Windows.Infrastructure
 {
     public interface IViewMetadata
     {

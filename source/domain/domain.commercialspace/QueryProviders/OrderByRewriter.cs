@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 
-namespace Bespoke.Station.Domain.QueryProviders
+namespace Bespoke.CommercialSpace.Domain.QueryProviders
 {
 
     public class DistinctRewriter : DbExpressionVisitor

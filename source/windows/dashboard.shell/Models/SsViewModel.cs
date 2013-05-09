@@ -1,10 +1,9 @@
-using Bespoke.Cycling.Windows.Infrastructure;
-using Bespoke.Station.Windows.Infrastructure;
+using Bespoke.Sph.Windows.Infrastructure;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 
-namespace Bespoke.Station.Windows.Models
+namespace Bespoke.Sph.Windows.Models
 {
     public class SsViewModel : ViewModelBase
     {

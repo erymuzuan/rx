@@ -2,11 +2,12 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bespoke.Station.Domain
+
+namespace Bespoke.CommercialSpace.Domain
 {
     public sealed class PersistenceSession : IDisposable
     {
-        private StationDataContext m_context;
+        private CommercialSpaceDataContext m_context;
 
         private readonly ObjectCollection<Entity> m_attachedCollection = new ObjectCollection<Entity>();
         private readonly ObjectCollection<Entity> m_deletedCollection = new ObjectCollection<Entity>();
@@ -20,7 +21,7 @@ namespace Bespoke.Station.Domain
             get { return m_deletedCollection; }
         }
 
-        internal PersistenceSession(StationDataContext context)
+        internal PersistenceSession(CommercialSpaceDataContext context)
         {
             m_context = context;
         }

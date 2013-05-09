@@ -1,6 +1,6 @@
-﻿using Bespoke.Cycling.Domain;
+﻿using Bespoke.CommercialSpace.Domain;
 
-namespace Bespoke.Station.Windows.Helpers
+namespace Bespoke.Sph.Windows.Helpers
 {
     class MainWindowClosingModel
     {

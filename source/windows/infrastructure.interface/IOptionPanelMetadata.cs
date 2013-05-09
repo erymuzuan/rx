@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace Bespoke.Cycling.Windows.Infrastructure
+namespace Bespoke.Sph.Windows.Infrastructure
 {
     public interface IOptionPanelMetadata
     {

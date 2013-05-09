@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
 
-namespace Bespoke.Station.Windows
+namespace Bespoke.Sph.Windows
 {
     public partial class SplashScreen
     {

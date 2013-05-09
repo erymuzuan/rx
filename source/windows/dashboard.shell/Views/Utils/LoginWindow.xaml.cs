@@ -4,10 +4,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Bespoke.Cycling.Domain;
+using Bespoke.CommercialSpace.Domain;
 using Bespoke.Cycling.Windows.Infrastructure;
-using Bespoke.Station.Windows.Helpers;
-using Bespoke.Station.Windows.Infrastructure;
+using Bespoke.Sph.Windows.Helpers;
 using Telerik.Windows.Controls;
 
 namespace Bespoke.Station.Windows.Views.Utils

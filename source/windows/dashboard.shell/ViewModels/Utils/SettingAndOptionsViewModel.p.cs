@@ -1,4 +1,4 @@
-﻿using Bespoke.Cycling.Domain;
+﻿using Bespoke.CommercialSpace.Domain;
 
 namespace Bespoke.Station.Windows.ViewModels.Utils
 {

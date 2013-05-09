@@ -3,8 +3,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Controls;
 
-
-namespace Bespoke.Station.Windows.Helpers
+namespace Bespoke.Sph.Windows.Helpers
 {
     public class ConditionalStyleSelector : StyleSelector
     {

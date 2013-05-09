@@ -46,9 +46,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Build.Tasks.v4.0" />
-    <Reference Include="Microsoft.Maps.MapControl.WPF">
-      <HintPath>..\..\..\lib\Microsoft.Maps.MapControl.WPF.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -103,8 +100,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Contants\ViewNames.cs" />
-    <Compile Include="Converters\ApprovalLinkToVisibiltyConverter.cs" />
-    <Compile Include="Converters\BingMapCredential.cs" />
     <Compile Include="Converters\BooleanToVisibiltyConverter.cs" />
     <Compile Include="Converters\DataBindingExtensions.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
@@ -113,12 +108,7 @@
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\NullToVisibiltyConverter.cs" />
     <Compile Include="Converters\PresentationHelper.cs" />
-    <Compile Include="Converters\RideEndLocationConverter.cs" />
-    <Compile Include="Converters\RideStartLocationConverter.cs" />
-    <Compile Include="Converters\RoleModeratorToVisibiltyConverter.cs" />
-    <Compile Include="Converters\RoleOrganizerToVisibiltyConverter.cs" />
     <Compile Include="Converters\TargetNullValueConverter.cs" />
-    <Compile Include="DraggablePushpin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -132,137 +122,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\GeoLocationViewModel.cs" />
-    <Compile Include="ViewModels\HomeViewModel.cs" />
-    <Compile Include="ViewModels\InvoiceViewModel.cs" />
     <Compile Include="ViewModels\LoginInfoViewModel.cs" />
-    <Compile Include="ViewModels\RegistrationListViewModel.cs" />
-    <Compile Include="ViewModels\RegistrationViewModel.cs" />
-    <Compile Include="ViewModels\RideAdminViewModel.cs" />
-    <Compile Include="ViewModels\RideListViewModel.cs" />
-    <Compile Include="ViewModels\RiderRegistrationViewModel.cs" />
-    <Compile Include="ViewModels\RidersViewModel.c.cs">
-      <DependentUpon>RidersViewModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\RidersViewModel.cs" />
-    <Compile Include="ViewModels\RidersViewModel.p.cs">
-      <DependentUpon>RidersViewModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\RideViewModel.cs" />
-    <Compile Include="ViewModels\RideViewModel.membership.cs">
-      <DependentUpon>RideViewModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\RideViewModel.p.cs">
-      <DependentUpon>RideViewModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\SiteMemberPermissionViewModel.cs" />
-    <Compile Include="ViewModels\StageViewModel.cs" />
-    <Compile Include="Views\Events\AddContactWindow.xaml.cs">
-      <DependentUpon>AddContactWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\AddFaqSectionWindow.xaml.cs">
-      <DependentUpon>AddFaqSectionWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\AddFAQWindow.xaml.cs">
-      <DependentUpon>AddFAQWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\AddGroupRidersWindow.xaml.cs">
-      <DependentUpon>AddGroupRidersWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AddNewEventView.xaml.cs">
-      <DependentUpon>AddNewEventView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\AddressDialog.xaml.cs">
-      <DependentUpon>AddressDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AddRiderWindow.xaml.cs">
-      <DependentUpon>AddRiderWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\CategoryDialog.xaml.cs">
-      <DependentUpon>CategoryDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\ContactInfoView.xaml.cs">
-      <DependentUpon>ContactInfoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\ContactPersonWindow.xaml.cs">
-      <DependentUpon>ContactPersonWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EventApprovalWindow.xaml.cs">
-      <DependentUpon>EventApprovalWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EventDetailsView.xaml.cs">
-      <DependentUpon>EventDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EventInfoView.xaml.cs">
-      <DependentUpon>EventInfoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EventListView.xaml.cs">
-      <DependentUpon>EventListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\FaqItemWindow.xaml.cs">
-      <DependentUpon>FaqItemWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\FAQView.xaml.cs">
-      <DependentUpon>FAQView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\GeoLocationDialog.xaml.cs">
-      <DependentUpon>GeoLocationDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\ItineraryPanel.xaml.cs">
-      <DependentUpon>ItineraryPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\ItineraryWindow.xaml.cs">
-      <DependentUpon>ItineraryWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\SiteMemberSearchDialog.xaml.cs">
-      <DependentUpon>SiteMemberSearchDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PaymentDetailsView.xaml.cs">
-      <DependentUpon>PaymentDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PaymentRecordDialog.xaml.cs">
-      <DependentUpon>PaymentRecordDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\PrizesSponsorView.xaml.cs">
-      <DependentUpon>PrizesSponsorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\PublishRidePanel.xaml.cs">
-      <DependentUpon>PublishRidePanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\QuotaDialog.xaml.cs">
-      <DependentUpon>QuotaDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RegistrationDetailsWindow.xaml.cs">
-      <DependentUpon>RegistrationDetailsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\RegistrationInfoView.xaml.cs">
-      <DependentUpon>RegistrationInfoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RegistrationPivotView.xaml.cs">
-      <DependentUpon>RegistrationPivotView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RidePermissionView.xaml.cs">
-      <DependentUpon>RidePermissionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RidersView.xaml.cs">
-      <DependentUpon>RidersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RideViewMetadata.cs" />
-    <Compile Include="Views\Events\RouteSelectorDialog.xaml.cs">
-      <DependentUpon>RouteSelectorDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\RulesView.xaml.cs">
-      <DependentUpon>RulesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\StageCategoriesQuotaPanel.xaml.cs">
-      <DependentUpon>StageCategoriesQuotaPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Events\StageDialog.xaml.cs">
-      <DependentUpon>StageDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\_DocumentListPanel.xaml.cs">
-      <DependentUpon>_DocumentListPanel.xaml</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -276,10 +136,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\domain\cycling.domain\cycling.domain.csproj">
-      <Project>{fe6ce634-bc39-4cc7-938b-c211c6f83883}</Project>
-      <Name>cycling.domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\infrastructure.interface\infrastructure.interface.csproj">
       <Project>{817bf4ac-cb84-4bc3-bb16-af1fcb66e2e1}</Project>
       <Name>infrastructure.interface</Name>
@@ -289,18 +145,6 @@
     <Resource Include="images\help.png" />
   </ItemGroup>
   <ItemGroup>
-    <DesignData Include="SampleData\EventListViewModelSampleData.xaml">
-      <SubType>Designer</SubType>
-    </DesignData>
-    <DesignData Include="SampleData\RideViewModelSampleData.xaml">
-      <SubType>Designer</SubType>
-    </DesignData>
-    <DesignData Include="SampleData\GeoLocationViewModelSampleData.xaml">
-      <SubType>Designer</SubType>
-    </DesignData>
-    <DesignData Include="SampleData\StageSampleData.xaml">
-      <SubType>Designer</SubType>
-    </DesignData>
     <Page Include="..\dashboard.shell\BrushResources.shared.xaml">
       <Link>BrushResources.shared.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -320,155 +164,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <DesignData Include="SampleData\SiteMemberPermissionViewModelSampleData.xaml">
-      <SubType>Designer</SubType>
-    </DesignData>
-    <Page Include="SampleData\RegistrationViewModelSampleData.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\AddContactWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\AddFaqSectionWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\AddFAQWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\AddGroupRidersWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\AddNewEventView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\AddressDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\AddRiderWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\CategoryDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\ContactInfoView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\ContactPersonWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\EventApprovalWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\EventDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\EventInfoView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\EventListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Events\FaqItemWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\FAQView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\GeoLocationDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\ItineraryPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\ItineraryWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\SiteMemberSearchDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\PaymentDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\PaymentRecordDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\PrizesSponsorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\PublishRidePanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\QuotaDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\RegistrationDetailsWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\RegistrationInfoView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\RegistrationPivotView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\RidePermissionView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\RidersView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\RouteSelectorDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\RulesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\StageCategoriesQuotaPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Events\StageDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\_DocumentListPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\Man-Woman32_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SampleData\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

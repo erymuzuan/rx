@@ -8,7 +8,7 @@
     <ProjectGuid>{516264BE-D656-4F58-9F94-FECA5C455BEA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bespoke.Station.Windows</RootNamespace>
+    <RootNamespace>Bespoke.Sph.Windows</RootNamespace>
     <AssemblyName>dashboard.shell</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -215,6 +215,7 @@
     <Compile Include="Models\SsViewModelSubGroup.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
@@ -249,17 +250,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Dashboards\InventoryTileView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Dashboards\TodoTile.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Dashboards\DashboardStatisticsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dashboards\DashboardView.xaml">
       <SubType>Designer</SubType>
@@ -285,7 +278,6 @@
     <Compile Include="Helpers\SelectTextOnFocus.cs" />
     <Compile Include="Helpers\ViewNames.cs" />
     <Compile Include="Helpers\WebRequestHelper.cs" />
-    <None Include="Mocks\MocksSapOrderSystem.cs" />
     <Compile Include="Models\DashboardTask.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.p.cs" />
@@ -293,20 +285,13 @@
     <Compile Include="ViewModels\Dashboard\TodoTileViewModel.cs" />
     <Compile Include="ViewModels\ErrorInfo.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\ServerReportsViewModel.cs" />
     <Compile Include="ViewModels\Utils\SettingAndOptionsViewModel.p.cs" />
     <Compile Include="ViewModels\Utils\SettingAndOptionsViewModel.cs" />
     <Compile Include="Views\Dashboards\AnnoucementTile.xaml.cs">
       <DependentUpon>AnnoucementTile.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dashboards\InventoryTileView.xaml.cs">
-      <DependentUpon>InventoryTileView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Dashboards\TodoTile.xaml.cs">
       <DependentUpon>TodoTile.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Dashboards\DashboardStatisticsView.xaml.cs">
-      <DependentUpon>DashboardStatisticsView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\SettingAndOptionsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -394,9 +379,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\domain\cycling.domain\cycling.domain.csproj">
-      <Project>{FE6CE634-BC39-4CC7-938B-C211C6F83883}</Project>
-      <Name>cycling.domain</Name>
+    <ProjectReference Include="..\..\domain\domain.commercialspace\domain.commercialspace.csproj">
+      <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
+      <Name>domain.commercialspace</Name>
     </ProjectReference>
     <ProjectReference Include="..\infrastructure.interface\infrastructure.interface.csproj">
       <Project>{817BF4AC-CB84-4BC3-BB16-AF1FCB66E2E1}</Project>
@@ -406,6 +391,7 @@
   <ItemGroup>
     <Folder Include="Converters\" />
     <Folder Include="Dependencies\" />
+    <Folder Include="Mocks\" />
     <Folder Include="SampleData\" />
     <Folder Include="XamlResources\" />
   </ItemGroup>
