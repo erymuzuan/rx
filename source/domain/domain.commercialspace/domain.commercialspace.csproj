@@ -52,10 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Address.cs" />
     <Compile Include="assemblyinfo.cs" />
     <Compile Include="Attachment.cs" />
     <Compile Include="BinaryStore.cs" />
     <Compile Include="BoundedContextAttribute.cs" />
+    <Compile Include="Building.cs" />
     <Compile Include="ChangeSubmission.cs" />
     <Compile Include="Core\Change.cs" />
     <Compile Include="Core\CollectionHelper.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="Core\XmlSerializerService.cs" />
     <Compile Include="CredentialProvider.cs" />
     <Compile Include="EntityTypeAttribute.cs" />
+    <Compile Include="Floor.cs" />
     <Compile Include="IBinaryStore.cs" />
     <Compile Include="IComputable.cs" />
     <Compile Include="IDocumentExport.cs" />
@@ -97,7 +100,7 @@
     <Compile Include="QueryProviders\UnusedColumnRemover.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Schema\Domain.g.cs" />
-    <Compile Include="StationDataContext.cs" />
+    <Compile Include="SphDataContext.cs" />
     <Compile Include="SubmitOperation.cs" />
   </ItemGroup>
   <ItemGroup>

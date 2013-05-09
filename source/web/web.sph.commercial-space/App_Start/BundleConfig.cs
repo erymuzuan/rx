@@ -14,6 +14,8 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
               new ScriptBundle("~/scripts/vendor")
                 .Include("~/scripts/jquery-{version}.js")
                 .Include("~/scripts/knockout-{version}.debug.js")
+                .Include("~/scripts/knockout.mapping-latest.js")
+                .Include("~/scripts/modernizr-{version}.js")
                 .Include("~/scripts/sammy-{version}.js")
                 .Include("~/scripts/toastr.js")
                 .Include("~/scripts/Q.js")

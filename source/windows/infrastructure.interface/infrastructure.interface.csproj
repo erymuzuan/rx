@@ -85,7 +85,7 @@
     <Compile Include="IViewMetadata.cs" />
     <Compile Include="OptionPanelMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StationViewModelBase.cs" />
+    <Compile Include="SphViewModelBase.cs" />
     <Compile Include="StatusBarMessage.cs" />
     <Compile Include="ThreadingHelper.cs" />
     <Compile Include="ViewGroup.cs" />

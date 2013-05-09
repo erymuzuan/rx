@@ -5,7 +5,7 @@ using System.ComponentModel.Composition;
 namespace Bespoke.Sph.Windows.ViewModels
 {
     [Export]
-    public partial class DashboardViewModel : StationViewModelBase<DashboardTask>
+    public partial class DashboardViewModel : SphViewModelBase<DashboardTask>
     {
     }
 }

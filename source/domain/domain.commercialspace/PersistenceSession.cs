@@ -7,7 +7,7 @@ namespace Bespoke.CommercialSpace.Domain
 {
     public sealed class PersistenceSession : IDisposable
     {
-        private CommercialSpaceDataContext m_context;
+        private SphDataContext m_context;
 
         private readonly ObjectCollection<Entity> m_attachedCollection = new ObjectCollection<Entity>();
         private readonly ObjectCollection<Entity> m_deletedCollection = new ObjectCollection<Entity>();
@@ -21,7 +21,7 @@ namespace Bespoke.CommercialSpace.Domain
             get { return m_deletedCollection; }
         }
 
-        internal PersistenceSession(CommercialSpaceDataContext context)
+        internal PersistenceSession(SphDataContext context)
         {
             m_context = context;
         }

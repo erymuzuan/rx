@@ -9,7 +9,7 @@ using System.Linq;
 namespace Bespoke.Station.Windows.ViewModels.Utils
 {
     [Export]
-    public partial class SettingAndOptionsViewModel : StationViewModelBase<Setting>
+    public partial class SettingAndOptionsViewModel : SphViewModelBase<Setting>
     {
         public RelayCommand SaveCommand { get; set; }
         public RelayCommand<string> BrowseFileCommand { get; set; }

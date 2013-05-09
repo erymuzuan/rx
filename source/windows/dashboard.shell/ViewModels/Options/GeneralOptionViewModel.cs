@@ -9,7 +9,7 @@ using Microsoft.Win32;
 namespace Bespoke.Sph.Windows.ViewModels.Options
 {
     [Export]
-    public class GeneralOptionViewModel : StationViewModelBase<Entity>
+    public class GeneralOptionViewModel : SphViewModelBase<Entity>
     {
         public RelayCommand SaveCommmand { get; set; }
         public RelayCommand<TextBox > BrowseFileCommand { get; set; }

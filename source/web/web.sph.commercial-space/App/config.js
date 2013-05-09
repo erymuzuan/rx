@@ -10,33 +10,22 @@
     var remoteServiceName = 'api/Breeze';
 
     var routes = [{
-        url: 'shiftschedule',
-        moduleId: 'viewmodels/shiftschedule',
-        name: 'Shift Schedule',
-        visible: true,
-        caption: '<i class="icon-book"></i> Shift Schedule'
-    }, {
         url: 'details',
         moduleId: 'viewmodels/details',
         name: 'Details',
         visible: true,
         caption: '<i class="icon-user"></i> Details'
-    },/* {
-        url: 'sessiondetail/:id',
-        moduleId: 'viewmodels/sessiondetail',
-        name: 'Edit Session',
-        visible: false
-    },*/ {
-        url: 'leave',
-        moduleId: 'viewmodels/leave',
-        name: 'Leave Application',
-        visible: true,
-        caption: '<i class="icon-plus"></i> Leave application',
-        settings: {admin: true}
-    }
+    },
+        {
+            url: 'building',
+            moduleId: 'viewmodels/building',
+            name: 'Building',
+            visible: true,
+            caption: '<i class="icon-user"></i> Building'
+        }
     ];
     
-    var startModule = 'shiftschedule';
+    var startModule = 'details';
 
     return {
         debugEnabled: ko.observable(true),

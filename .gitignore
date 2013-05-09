@@ -85,3 +85,4 @@
 /source/web/web.sph.commercial-space/obj/Debug
 *.user
 *.DotSettings
+/source/dependencies/web/web.sph.commercial-space/bin
