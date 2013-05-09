@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
-using Bespoke.Station.Domain.QueryProviders;
+using Bespoke.CommercialSpace.Domain.QueryProviders;
 
-namespace Bespoke.Station.SqlRepository
+namespace Bespoke.Sph.SqlRepository
 {
 
     /// <summary>

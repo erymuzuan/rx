@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Bespoke.Station.SqlRepository
+namespace Bespoke.Sph.SqlRepository
 {
     public class Sql2012PagingTranslator : IPagingTranslator
     {

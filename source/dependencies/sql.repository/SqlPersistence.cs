@@ -7,9 +7,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Bespoke.Station.Domain;
+using Bespoke.CommercialSpace.Domain;
 
-namespace Bespoke.Station.SqlRepository
+namespace Bespoke.Sph.SqlRepository
 {
     public class SqlPersistence : IPersistence
     {
@@ -17,7 +17,7 @@ namespace Bespoke.Station.SqlRepository
 
         public SqlPersistence()
         {
-            m_connectionString = ConfigurationManager.ConnectionStrings["station"].ConnectionString;
+            m_connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
         }
 
         public SqlPersistence(string connectionString)
@@ -52,7 +52,7 @@ namespace Bespoke.Station.SqlRepository
 
                     var id = (int)item.GetType().GetProperty(entityType.Name + "Id").GetValue(item);
 
-                    var edmxType = Assembly.GetExecutingAssembly().GetType("Bespoke.Station.SqlRepository." + entityType.Name, true);
+                    var edmxType = Assembly.GetExecutingAssembly().GetType("Bespoke.Sph.SqlRepository." + entityType.Name, true);
                     if (null == edmxType)throw new InvalidOperationException("Cannot find the EF type in edmx :" + entityType.Name);
 
                     var columns = edmxType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
@@ -82,7 +82,7 @@ namespace Bespoke.Station.SqlRepository
                     var entityType = this.GetEntityType(item);
                     var typeName = entityType.Name;
                     var id = (int)item.GetType().GetProperty(typeName + "Id").GetValue(item, null);
-                    sql.AppendFormat("DELETE FROM [Station].[{0}] WHERE [{0}Id] = @{0}Id{1}", typeName, count);
+                    sql.AppendFormat("DELETE FROM [Sph].[{0}] WHERE [{0}Id] = @{0}Id{1}", typeName, count);
                     sql.AppendLine();
                     cmd.Parameters.AddWithValue("@" + typeName + "Id" + count, id);
                 }
@@ -114,7 +114,7 @@ namespace Bespoke.Station.SqlRepository
         private  void AppendUpdateStatement(StringBuilder sql, Type entityType, IEnumerable<PropertyInfo> columns, int count1,
                                                     SqlCommand cmd, int id)
         {
-            sql.AppendFormat("UPDATE [Station].[{0}]", entityType.Name);
+            sql.AppendFormat("UPDATE [Sph].[{0}]", entityType.Name);
 
             var updates = columns
                 .Where(p => p.Name != "CreatedDate")
@@ -132,7 +132,7 @@ namespace Bespoke.Station.SqlRepository
         private void AppendInsertStatement(StringBuilder sql, Type entityType, List<PropertyInfo> columns, int count1,
                                                     SqlCommand cmd, List<Tuple<Entity, SqlParameter>> parameters, Entity item)
         {
-            sql.AppendFormat("INSERT INTO [Station].[{0}]", entityType.Name);
+            sql.AppendFormat("INSERT INTO [Sph].[{0}]", entityType.Name);
             sql.AppendFormat("({0})", string.Join(",", columns.Select(p => string.Format("[{0}]", p.Name))));
 
             sql.AppendLine();

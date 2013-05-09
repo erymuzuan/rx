@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Bespoke.Station.SqlRepository
+namespace Bespoke.Sph.SqlRepository
 {
     public class Sql2008PagingTranslator : IPagingTranslator
     {

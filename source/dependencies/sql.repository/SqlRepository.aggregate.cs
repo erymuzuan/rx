@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Bespoke.Station.SqlRepository
+namespace Bespoke.Sph.SqlRepository
 {
     public partial class SqlRepository<T> 
     {

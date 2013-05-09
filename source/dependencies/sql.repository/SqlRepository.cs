@@ -8,9 +8,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Bespoke.Station.Domain;
+using Bespoke.CommercialSpace.Domain;
 
-namespace Bespoke.Station.SqlRepository
+namespace Bespoke.Sph.SqlRepository
 {
     public partial class SqlRepository<T> : IRepository<T> where T : Entity
     {
@@ -18,7 +18,7 @@ namespace Bespoke.Station.SqlRepository
 
         public SqlRepository()
         {
-            m_connectionString = ConfigurationManager.ConnectionStrings["Station"].ConnectionString;
+            m_connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
         }
 
         public SqlRepository(string connectionString)
@@ -58,7 +58,7 @@ namespace Bespoke.Station.SqlRepository
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the scalar column name");
             var sql = query.ToString().Replace("[Data]", string.Format("[{0}]", column));
-            var connectionString = ConfigurationManager.ConnectionStrings["Station"].ConnectionString;
+            var connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -81,7 +81,7 @@ namespace Bespoke.Station.SqlRepository
             var column2 = GetMemberName(selector2);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the scalar column name");
             var sql = query.ToString().Replace("[Data]", string.Format("[{0}], [{1}]", column, column2));
-            var connectionString = ConfigurationManager.ConnectionStrings["Station"].ConnectionString;
+            var connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {

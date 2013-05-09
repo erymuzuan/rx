@@ -1,4 +1,4 @@
-﻿namespace Bespoke.Station.SqlRepository
+﻿namespace Bespoke.Sph.SqlRepository
 {
     public interface IPagingTranslator
     {

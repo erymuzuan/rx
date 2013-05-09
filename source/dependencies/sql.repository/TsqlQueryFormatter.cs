@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using Bespoke.Station.Domain.QueryProviders;
+using Bespoke.CommercialSpace.Domain.QueryProviders;
 
-namespace Bespoke.Station.SqlRepository
+namespace Bespoke.Sph.SqlRepository
 {
     internal class TsqlQueryFormatter : DbExpressionVisitor
     {
@@ -300,7 +300,7 @@ namespace Bespoke.Station.SqlRepository
             if (select.From != null)
             {
                 this.AppendNewLine(Indentation.Same);
-                m_sb.Append("FROM [Station].[");
+                m_sb.Append("FROM [Sph].[");
                 this.VisitSource(select.From);
                 m_sb.Append("] ");
             }
