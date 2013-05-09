@@ -1,4 +1,4 @@
-﻿namespace Bespoke.Station.RabbitMqPublisher
+﻿namespace Bespoke.Sph.RabbitMqPublisher
 {
     public interface IBrokerConnection
     {

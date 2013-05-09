@@ -1,6 +1,6 @@
 ﻿
 // ReSharper disable InconsistentNaming
-namespace Bespoke.Station.OdataRepository
+namespace Bespoke.Sph.OdataRepository
 {
     internal class RepositoryJsonData
     {

@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using Bespoke.Station.Domain.QueryProviders;
+using Bespoke.CommercialSpace.Domain.QueryProviders;
 
-namespace Bespoke.Station.OdataRepository
+namespace Bespoke.Sph.OdataRepository
 {
     /// <summary>
     /// OdataQueryFormatter is a visitor that converts an bound expression tree into SQL query text

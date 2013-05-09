@@ -5,11 +5,11 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
-using Bespoke.Station.Domain;
+using Bespoke.CommercialSpace.Domain;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 
-namespace Bespoke.Station.RabbitMqPublisher
+namespace Bespoke.Sph.RabbitMqPublisher
 {
     public class EntityChangedListener<T> : IDisposable, IEntityChangedListener<T> where T : Entity
     {

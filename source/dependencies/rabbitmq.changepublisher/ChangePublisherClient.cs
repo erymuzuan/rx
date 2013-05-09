@@ -5,12 +5,11 @@ using System.IO;
 using System.IO.Compression;
 using System.Reflection;
 using System.Threading.Tasks;
-using Bespoke.Station.Domain;
-using Newtonsoft.Json;
+using Bespoke.CommercialSpace.Domain;
 using RabbitMQ.Client;
 using System.Linq;
 
-namespace Bespoke.Station.RabbitMqPublisher
+namespace Bespoke.Sph.RabbitMqPublisher
 {
     [Export(typeof(IEntityChangePublisher))]
     public class ChangePublisherClient : IEntityChangePublisher
@@ -23,7 +22,7 @@ namespace Bespoke.Station.RabbitMqPublisher
         public ChangePublisherClient(IBrokerConnection connection )
         {
             m_connection = connection;
-            this.Exchange = "station.ms.changes";
+            this.Exchange = "ruang.komersial.changes";
         }
 
 
@@ -64,12 +63,12 @@ namespace Bespoke.Station.RabbitMqPublisher
                     var entityType = this.GetEntityType(item);
                     var routingKey = entityType.Name + "." + action;
                     var item1 = item;
-                    var json = await JsonConvert.SerializeObjectAsync(item1);
-                    var body = await CompressAsync(json);
+                    var xml = item1.ToXmlString();
+                    var body = await CompressAsync(xml);
 
                     var props = channel.CreateBasicProperties();
                     props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
-                    props.ContentType = "application/json";
+                    props.ContentType = "application/xml";
 
 
                     channel.BasicPublish(this.Exchange, routingKey, props, body);

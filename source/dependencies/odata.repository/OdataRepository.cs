@@ -8,9 +8,9 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Bespoke.Station.Domain;
+using Bespoke.CommercialSpace.Domain;
 
-namespace Bespoke.Station.OdataRepository
+namespace Bespoke.Sph.OdataRepository
 {
     public class OdataRepository<T> : IRepository<T> where T : Entity
     {
@@ -151,12 +151,7 @@ namespace Bespoke.Station.OdataRepository
         {
             Console.WriteLine(query);
             var type = typeof(T).Name + "s";
-            if (typeof(T) == typeof(Delivery))
-                type = "Deliveries";
-            if (typeof(T) == typeof(Inventory))
-                type = "Inventories";
-            if (typeof(T) == typeof(DailySummary))
-                type = "DailySummaries";
+
             var skiptoken = string.Empty;
             if (page > 1)
             {

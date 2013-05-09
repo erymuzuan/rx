@@ -62,3 +62,5 @@
 /source/windows/infrastructure.interface/obj
 *.suo
 /source/windows/commercialspace.module/obj/Debug
+/bin/Debug
+/source/domain/scheduler.console.runner/bin/Debug

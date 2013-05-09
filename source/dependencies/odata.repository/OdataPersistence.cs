@@ -6,9 +6,9 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Bespoke.Station.Domain;
+using Bespoke.CommercialSpace.Domain;
 
-namespace Bespoke.Station.OdataRepository
+namespace Bespoke.Sph.OdataRepository
 {
     public class OdataPersistence : IPersistence
     {

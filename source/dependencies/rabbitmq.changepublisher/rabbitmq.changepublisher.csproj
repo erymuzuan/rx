@@ -7,14 +7,10 @@
     <ProjectGuid>{CD3B01AB-CCC4-4324-AC06-9E0EC3DF4C2F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bespoke.Station.RabbitMqPublisher</RootNamespace>
+    <RootNamespace>Bespoke.Sph.RabbitMqPublisher</RootNamespace>
     <AssemblyName>rabbitmq.changepublisher</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -38,7 +34,7 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.Client, Version=3.0.4.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -63,9 +59,9 @@
     <Compile Include="TaskBasicConsumer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\domain.station\domain.station.csproj">
-      <Project>{6AF1DE5A-3756-4A31-8B82-491C71D263C7}</Project>
-      <Name>domain.station</Name>
+    <ProjectReference Include="..\..\domain\domain.commercialspace\domain.commercialspace.csproj">
+      <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
+      <Name>domain.commercialspace</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Bespoke.CommercialSpace.Domain;
 using Bespoke.Sph.Windows.Annotations;
 
 namespace Bespoke.Sph.Windows.Models
 {
-    public class DashboardTask: INotifyPropertyChanged
+    public class DashboardTask: DomainObject
     {
         private string m_name;
 

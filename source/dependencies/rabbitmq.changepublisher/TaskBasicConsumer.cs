@@ -1,7 +1,7 @@
 ﻿using System;
 using RabbitMQ.Client;
 
-namespace Bespoke.Station.RabbitMqPublisher
+namespace Bespoke.Sph.RabbitMqPublisher
 {
     public class TaskBasicConsumer : DefaultBasicConsumer
     {
