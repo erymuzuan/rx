@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
-namespace web.sph.commercial_space
+namespace Bespoke.Sph.Commerspace.Web.App_Start
 {
     public class FilterConfig
     {

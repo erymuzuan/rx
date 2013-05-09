@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace Bespoke.Station.Web.Helpers
+namespace Bespoke.Sph.Commerspace.Web.Helpers
 {
     public class OdataSqlTranslator
     {

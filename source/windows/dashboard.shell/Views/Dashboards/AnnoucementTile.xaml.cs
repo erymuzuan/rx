@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using Bespoke.Sph.Windows.ViewModels.Dashboard;
 
-namespace Bespoke.Station.Windows.Views.Dashboards
+namespace Bespoke.Sph.Windows.Views.Dashboards
 {
     //[Export(typeof(RadTileViewItem))]
     public partial class AnnoucementTile 

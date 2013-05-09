@@ -1,7 +1,6 @@
 ﻿using System;
-using Bespoke.Station.Subscribers.Infrastructure;
-using Bespoke.Station.SubscribersInfrastructure;
 using System.Linq;
+using Bespoke.Sph.SubscribersInfrastructure;
 
 namespace workers.console.runner
 {
@@ -15,7 +14,7 @@ namespace workers.console.runner
             var vhost = ParseArg("v") ?? "i90009000";
             var username = ParseArg("u") ?? "guest";
             var password = ParseArg("p") ?? "guest";
-            var silent = ParseArgExist("silent");
+            var silent = ParseArgExist("quiet");
 
             var port = ParseArg("port") == null ? 5672 : int.Parse(ParseArg("port"));
 

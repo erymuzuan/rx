@@ -1,5 +1,4 @@
 ﻿using System.Windows.Threading;
-using Bespoke.Cycling.Windows.Infrastructure;
 
 namespace Bespoke.Sph.Windows.Infrastructure
 {

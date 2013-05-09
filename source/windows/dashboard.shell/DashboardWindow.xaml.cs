@@ -12,17 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Bespoke.Cycling.Windows.Infrastructure;
 using Bespoke.Sph.Windows.Helpers;
 using Bespoke.Sph.Windows.Infrastructure;
 using Bespoke.Sph.Windows.Properties;
+using Bespoke.Sph.Windows.ViewModels;
+using Bespoke.Station.Windows;
 using Bespoke.Station.Windows.ViewModels;
-using GalaSoft.MvvmLight.Messaging;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Controls.RibbonView;
 using System.Linq;
 
-namespace Bespoke.Station.Windows
+namespace Bespoke.Sph.Windows
 {
     [Export("MainWindow", typeof(Window))]
     [Export(typeof(IView))]

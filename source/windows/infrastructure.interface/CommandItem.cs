@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using Bespoke.Cycling.Windows.Infrastructure;
 using GalaSoft.MvvmLight.Command;
 
 namespace Bespoke.Sph.Windows.Infrastructure

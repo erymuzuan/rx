@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Bespoke.Station.Web.Helpers
+namespace Bespoke.Sph.Commerspace.Web.Helpers
 {
     public static class AssemblyInfo
     {

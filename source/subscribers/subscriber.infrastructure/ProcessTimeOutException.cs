@@ -1,5 +1,4 @@
 ﻿using System;
-using Bespoke.Sph.Subscribers.Infrastructure;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {

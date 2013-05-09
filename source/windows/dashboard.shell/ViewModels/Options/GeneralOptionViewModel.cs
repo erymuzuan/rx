@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows.Controls;
 using Bespoke.CommercialSpace.Domain;
-using Bespoke.Cycling.Windows.Infrastructure;
 using Bespoke.Sph.Windows.Infrastructure;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;

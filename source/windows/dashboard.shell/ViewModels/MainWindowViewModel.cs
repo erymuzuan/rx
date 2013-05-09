@@ -7,13 +7,13 @@ using System.Windows.Controls;
 using Bespoke.CommercialSpace.Domain;
 using Bespoke.Sph.Windows.Infrastructure;
 using Bespoke.Sph.Windows.Models;
-using Bespoke.Station.Windows.ViewModels.Utils;
-using Bespoke.Station.Windows.Views.Settings;
+using Bespoke.Sph.Windows.ViewModels.Utils;
+using Bespoke.Sph.Windows.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 
-namespace Bespoke.Station.Windows.ViewModels
+namespace Bespoke.Sph.Windows.ViewModels
 {
     [Export]
     public class MainWindowViewModel : ViewModelBase, IPartImportsSatisfiedNotification

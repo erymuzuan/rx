@@ -4,11 +4,11 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
-using Bespoke.Sph.SubscribersInfrastructure;
 using RabbitMQ.Client;
+
 //using sql = Bespoke.Sph.SqlRepository;
 
-namespace Bespoke.Sph.Subscribers.Infrastructure
+namespace Bespoke.Sph.SubscribersInfrastructure
 {
     [Serializable]
     public abstract class Subscriber : MarshalByRefObject

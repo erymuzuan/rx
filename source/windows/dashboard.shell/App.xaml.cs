@@ -4,9 +4,8 @@ using System.Globalization;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Markup;
-using Bespoke.Sph.Windows;
 
-namespace Bespoke.Station.Windows
+namespace Bespoke.Sph.Windows
 {
     public partial class App
     {

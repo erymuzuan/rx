@@ -1,9 +1,8 @@
 using System;
 using System.Threading;
 using System.Windows.Threading;
-using Bespoke.Sph.Windows.Infrastructure;
 
-namespace Bespoke.Cycling.Windows.Infrastructure
+namespace Bespoke.Sph.Windows.Infrastructure
 {
     public static class ThreadingHelper
     {

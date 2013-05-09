@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 
-namespace web.sph.commercial_space
+namespace Bespoke.Sph.Commerspace.Web.App_Start
 {
     public static class WebApiConfig
     {

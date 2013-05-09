@@ -4,7 +4,6 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using Bespoke.Sph.Subscribers.Infrastructure;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {

@@ -1,5 +1,5 @@
 using Bespoke.CommercialSpace.Domain;
-using Bespoke.Cycling.Windows.Infrastructure;
+using Bespoke.Sph.Windows.Infrastructure;
 
 namespace Bespoke.Sph.Windows.Models
 {

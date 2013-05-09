@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace web.sph.commercial_space
+namespace Bespoke.Sph.Commerspace.Web.App_Start
 {
     public class RouteConfig
     {

@@ -1,6 +1,6 @@
 ﻿using Bespoke.CommercialSpace.Domain;
 
-namespace Bespoke.Station.Windows.ViewModels.Utils
+namespace Bespoke.Sph.Windows.ViewModels.Utils
 {
     public partial class SettingAndOptionsViewModel 
     {

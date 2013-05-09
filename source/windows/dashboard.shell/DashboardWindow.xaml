@@ -6,7 +6,7 @@
     xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
     xmlns:telerikRibbon="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.RibbonView"
     mc:Ignorable="d" 
-    x:Class="Bespoke.Station.Windows.DashboardWindow"
+    x:Class="Bespoke.Sph.Windows.DashboardWindow"
     x:Name="root" 
     Icon="Resources\logo_icon.ico">
     <Window.Resources>

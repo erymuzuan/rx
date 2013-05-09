@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Controls;
-using Bespoke.Cycling.Windows.Infrastructure;
 using Bespoke.Sph.Windows.Helpers;
+using Bespoke.Sph.Windows.Infrastructure;
 using Bespoke.Sph.Windows.ViewModels;
 using Telerik.Windows.Controls;
 

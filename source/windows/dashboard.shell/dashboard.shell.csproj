@@ -280,12 +280,16 @@
     <Compile Include="Helpers\WebRequestHelper.cs" />
     <Compile Include="Models\DashboardTask.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
-    <Compile Include="ViewModels\DashboardViewModel.p.cs" />
+    <Compile Include="ViewModels\DashboardViewModel.p.cs">
+      <DependentUpon>DashboardViewModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\Dashboard\AnnoucementTileViewModel.cs" />
     <Compile Include="ViewModels\Dashboard\TodoTileViewModel.cs" />
     <Compile Include="ViewModels\ErrorInfo.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\Utils\SettingAndOptionsViewModel.p.cs" />
+    <Compile Include="ViewModels\Utils\SettingAndOptionsViewModel.p.cs">
+      <DependentUpon>SettingAndOptionsViewModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\Utils\SettingAndOptionsViewModel.cs" />
     <Compile Include="Views\Dashboards\AnnoucementTile.xaml.cs">
       <DependentUpon>AnnoucementTile.xaml</DependentUpon>

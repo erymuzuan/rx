@@ -6,7 +6,7 @@ using Bespoke.Sph.Windows.Infrastructure;
 using GalaSoft.MvvmLight.Command;
 using System.Linq;
 
-namespace Bespoke.Station.Windows.ViewModels.Utils
+namespace Bespoke.Sph.Windows.ViewModels.Utils
 {
     [Export]
     public partial class SettingAndOptionsViewModel : SphViewModelBase<Setting>

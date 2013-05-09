@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Windows;
 
-namespace Bespoke.Station.Windows
+namespace Bespoke.Sph.Windows
 {
     public static class WpfHelper
     {

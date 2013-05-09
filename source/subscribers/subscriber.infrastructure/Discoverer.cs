@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Linq;
-using Bespoke.Sph.Subscribers.Infrastructure;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {

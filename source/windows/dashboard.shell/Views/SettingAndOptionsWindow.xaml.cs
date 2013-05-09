@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows;
 using Bespoke.Sph.Windows.Infrastructure;
-using Bespoke.Station.Windows.ViewModels.Utils;
+using Bespoke.Sph.Windows.ViewModels.Utils;
 using Telerik.Windows.Controls;
 
-namespace Bespoke.Station.Windows.Views.Settings
+namespace Bespoke.Sph.Windows.Views
 {
     public partial class SettingAndOptionsWindow
     {

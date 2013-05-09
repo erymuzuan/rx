@@ -1,6 +1,6 @@
 using System.Web.Mvc;
 
-namespace web.sph.commercial_space.Controllers
+namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public class HotTowelController : Controller
     {
