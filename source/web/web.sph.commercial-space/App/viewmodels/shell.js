@@ -10,7 +10,7 @@
         //#region Internal Methods
         function activate() {
             return boot();
-        }
+        } 
 
         function boot() {
             router.map(config.routes);

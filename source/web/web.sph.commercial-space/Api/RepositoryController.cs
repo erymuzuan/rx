@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Commerspace.Web.Api
 
         public RepositoryController()
         {
-            m_connectionString = ConfigurationManager.ConnectionStrings["cs"].ConnectionString;
+            m_connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
         }
 
 
@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Commerspace.Web.Api
             if (id == 0) throw new ArgumentException("id is zero", "id");
             var assembly = Assembly.GetAssembly(typeof(DomainObject));
             var domainType = assembly.GetType(type);
-            var sql = string.Format("DELETE FROM [Station].[{0}] WHERE [{0}Id] = {1}", domainType.Name, id);
+            var sql = string.Format("DELETE FROM [Sph].[{0}] WHERE [{0}Id] = {1}", domainType.Name, id);
             Console.WriteLine(sql);
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))

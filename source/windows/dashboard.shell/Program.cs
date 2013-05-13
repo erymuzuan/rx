@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using Bespoke.CommercialSpace.Domain;
 using Bespoke.Sph.Windows.Views.Utils;
-using Bespoke.Station.Windows;
 
 namespace Bespoke.Sph.Windows
 {

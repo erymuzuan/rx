@@ -13,12 +13,12 @@ namespace Bespoke.Sph.Commerspace.Web.Api
     public class JsonDataServiceController : Controller
     {
         private static readonly string m_connectionString =
-            ConfigurationManager.ConnectionStrings["cs"].ConnectionString;
+            ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
 
-        //public async Task<ActionResult> DailySummary(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        //{
-        //    return await ExecuteAsync<DailySummary>(filter, page, size, includeTotal);
-        //}
+        public async Task<ActionResult> Building(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Building>(filter, page, size, includeTotal);
+        }
 
 
         public async Task<ActionResult> ExecuteAsync<T>(string filter = null, int page = 1, int size = 40, bool includeTotal = false) where T : Entity

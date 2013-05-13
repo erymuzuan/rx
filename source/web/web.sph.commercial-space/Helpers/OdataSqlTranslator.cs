@@ -42,46 +42,46 @@ namespace Bespoke.Sph.Commerspace.Web.Helpers
 
         public string Max(string filter)
         {
-            return string.Format("SELECT MAX([{0}]) FROM [Station].[{1}] ", m_column, m_table) +
+            return string.Format("SELECT MAX([{0}]) FROM [Sph].[{1}] ", m_column, m_table) +
                    Translate(filter)
                 ;
         }
         public string Min(string filter)
         {
-            return string.Format("SELECT MAX([{0}]) FROM [Station].[{1}] ", m_column, m_table) +
+            return string.Format("SELECT MAX([{0}]) FROM [Sph].[{1}] ", m_column, m_table) +
                    Translate(filter)
                 ;
         }
         public string Average(string filter)
         {
-            return string.Format("SELECT AVG([{0}]) FROM [Station].[{1}] ", m_column, m_table) +
+            return string.Format("SELECT AVG([{0}]) FROM [Sph].[{1}] ", m_column, m_table) +
                    Translate(filter)
                 ;
         }
         public string Count(string filter)
         {
-            return string.Format("SELECT COUNT(*) FROM [Station].[{0}]  ", m_table) +
+            return string.Format("SELECT COUNT(*) FROM [Sph].[{0}]  ", m_table) +
                    Translate(filter)
                 ;
         }
 
         public string Sum(string filter)
         {
-            return string.Format("SELECT SUM([{0}]) FROM [Station].[{1}]  ", m_column, m_table) +
+            return string.Format("SELECT SUM([{0}]) FROM [Sph].[{1}]  ", m_column, m_table) +
                    this.Translate(filter)
                 ;
         }
 
         public string Scalar(string filter)
         {
-            return string.Format("SELECT [{0}] FROM [Station].[{1}] {2} ", m_column, m_table, this.Translate(filter));
+            return string.Format("SELECT [{0}] FROM [Sph].[{1}] {2} ", m_column, m_table, this.Translate(filter));
         }
 
         public string Select(string filter)
         {
             if (string.IsNullOrEmpty(filter))
-                return string.Format("SELECT [{0}Id],[Data] FROM [Station].[{0}]", m_table);
-            return string.Format("SELECT [{0}Id],[Data] FROM [Station].[{0}] {1} ", m_table, this.Translate(filter));
+                return string.Format("SELECT [{0}Id],[Data] FROM [Sph].[{0}]", m_table);
+            return string.Format("SELECT [{0}Id],[Data] FROM [Sph].[{0}] {1} ", m_table, this.Translate(filter));
         }
     }
 }

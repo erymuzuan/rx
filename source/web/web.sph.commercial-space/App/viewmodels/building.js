@@ -6,42 +6,48 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger'], function (context, logger) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
+
+    
+
+    var viewAttached = function (view) {
+        bindEventToList(view, '#div-building', gotoDetails);
+    };
+
+    var bindEventToList = function (rootSelector, selector, callback, eventName) {
+        var eName = eventName || 'click';
+        $(rootSelector).on(eName, selector, function () {
+            var building = ko.dataFor(this);
+            callback(building);
+            return false;
+        });
+    };
+    var gotoDetails = function (selectedBuilding) {
+        if (selectedBuilding && selectedBuilding.BuildingId()) {
+            var url = '/#/buildingdetail/' + selectedBuilding.BuildingId();
+            router.navigateTo(url);
+        }
+    };
+    var activate = function() {
+        logger.log('Building View Activated', null, 'building', true);
+        loadBuilding();
+        return true;
+    };
+
+    var loadBuilding = function() {
+        context.loadAsync("Building", "BuildingId gt 0").done(function(lo) {
+            vm.buildings(lo.itemCollection);
+            return true;
+        });
+    };
+    
+
     var vm = {
         activate: activate,
         title: 'Building',
-        building: {
-            Name:ko.observable(''),
-            Address: {
-                Street:ko.observable(''),
-                State:ko.observable(''),
-                City:ko.observable(''),
-                Postcode:ko.observable(''),
-            },
-            LotNo:ko.observable(''),
-            Size:ko.observable(''),
-            Status:ko.observable(''),
-            Block:ko.observable('')
-        },
-        saveCommand : saveAsync
+        buildings: ko.observableArray([]),
+        viewAttached: viewAttached
     };
 
     return vm;
-
-    //#region Internal Methods
-    function activate() {
-        logger.log('Building View Activated', null, 'building', true);
-        return true;
-    }
-
-    function saveAsync() {
-        var tcs = new $.Deferred();
-        var data = ko.mapping.toJSON(vm.building);
-        context.post(data, "/Building/SaveBuilding").done(function(e) {
-            logger.log("New building has been added", e, "building", true);
-        });
-
-        return tcs.promise();
-    }
-    //#endregion
 });

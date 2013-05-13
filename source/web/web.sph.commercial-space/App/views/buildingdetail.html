@@ -1,0 +1,64 @@
+﻿<section id="building-details" class="view">
+    <h2 class="page-title" data-bind="text: title"></h2>
+    <div>
+        <label title="LotNo">Lot No. : </label>
+        <input type="text" data-bind="value: building.LotNo" />
+    </div>
+    <div>
+        <label title="Name">Name : </label>
+        <input type="text" data-bind="value: building.Name" />
+    </div>
+    <div>
+        <label title="Street">Street : </label>
+        <input type="text" data-bind="value: building.Address.Street" />
+    </div>
+
+    <div>
+        <label title="City">City : </label>
+        <input type="text" data-bind="value: building.Address.City" />
+    </div>
+    <div>
+        <label title="Postcode">Postcode : </label>
+        <input type="text" data-bind="value: building.Address.Postcode" />
+
+    </div>
+    <div>
+        <label title="State">State : </label>
+        <select data-bind="value: building.Address.State">
+            <option value="Kuala Lumpur">Kuala Lumpur</option>
+            <option value="Selangor">Selangor</option>
+            <option value="Perak">Perak</option>
+            <option value="Pahang">Pahang</option>
+            <option value="Pulau Pinang">Pulau Pinang</option>
+            <option value="Melaka">Melaka</option>
+            <option value="Johor">Johor</option>
+            <option value="Kelantan">Kelantan</option>
+            <option value="Perlis">Perlis</option>
+            <option value="Sabah">Sabah</option>
+            <option value="Sarawak">Sarawak</option>
+            <option value="Terengganu">Terengganu</option>
+            <option value="Kedah">Kedah</option>
+            <option value="Negeri Sembilan">Negeri Sembilan</option>
+        </select>
+    </div>
+    <div>
+        <label title="Block">Block : </label>
+        <input type="text" data-bind="value: building.Block" />
+    </div>
+    <div>
+        <label title="Size">Size (sq/ft) : </label>
+        <input type="text" data-bind="value: building.Size" />
+    </div>
+    <div>
+        <label title="Status">Status : </label>
+        <select data-bind="value: building.Status">
+            <option value="Good">Good</option>
+            <option value="Ready">Ready to Occupy</option>
+            <option value="Damage">Damage</option>
+            <option value="Maintenance">Under Maintenance</option>
+        </select>
+    </div>
+    <div>
+        <input type="button" class="btn btn-primary" value="Save" data-bind="click: saveCommand" />
+    </div>
+</section>
