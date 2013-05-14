@@ -28,6 +28,12 @@
             name: 'BuildingDetail',
             caption: '<i class="icon-user"></i> Building Details',
             visible: false
+        }, {
+            url: 'lotdetail/:floorname',
+            moduleId: 'viewmodels/lotdetail',
+            name: 'LotDetail',
+            caption: '<i class="icon-user"></i> Lot Details',
+            visible: false
         }
     ];
     

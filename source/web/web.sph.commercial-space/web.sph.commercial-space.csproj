@@ -259,6 +259,7 @@
     <Content Include="App\viewmodels\buildingdetail.js" />
     <Content Include="App\viewmodels\details.js" />
     <Content Include="App\viewmodels\home.js" />
+    <Content Include="App\viewmodels\lotdetail.js" />
     <Content Include="App\viewmodels\shell.js" />
     <Content Include="App\viewmodels\shiftschedule.js" />
     <Content Include="App\views\building.html" />
@@ -266,6 +267,7 @@
     <Content Include="App\views\details.html" />
     <Content Include="App\views\footer.html" />
     <Content Include="App\views\home.html" />
+    <Content Include="App\views\lotdetail.html" />
     <Content Include="App\views\nav.html" />
     <Content Include="App\views\shell.html" />
     <Content Include="Content\app.css" />

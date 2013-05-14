@@ -42,10 +42,6 @@
         </select>
     </div>
     <div>
-        <label title="Block">Block : </label>
-        <input type="text" data-bind="value: building.Block" />
-    </div>
-    <div>
         <label title="Size">Size (sq/ft) : </label>
         <input type="text" data-bind="value: building.Size" />
     </div>
@@ -58,6 +54,28 @@
             <option value="Maintenance">Under Maintenance</option>
         </select>
     </div>
+    <div>
+        <input type="button" class="btn btn-primary" data-bind="click: addFloorCommand" value="Add Floor"/>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Size</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: building.FloorCollection">
+            <tr>
+                <td><input type="text" data-bind="value:No"/></td>
+                <td><input type="text" data-bind="value:Size"/></td>
+                <td><input type="button" data-bind="click: $parent.removeFloorCommand" class="btn btn-primary" value="-" /></td>
+                <td><input type="button" data-bind="click: $parent.addLotCommand" class="btn btn-primary" value="+Lot" /></td>
+            </tr>
+        </tbody>
+    </table>
+
     <div>
         <input type="button" class="btn btn-primary" value="Save" data-bind="click: saveCommand" />
     </div>

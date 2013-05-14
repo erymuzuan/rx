@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="4794ab81c85f4e81b85b30ee7c8c0a0a" Name="Diagram1" >
-        <EntityTypeShape EntityType="Sph.Building" Width="1.5" PointX="9.9569770721518331" PointY="2.1028800467508288" />
+        <EntityTypeShape EntityType="Sph.Building" Width="1.5" PointX="1.0768751469798736" PointY="15.201607457921657" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
