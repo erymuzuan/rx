@@ -22,6 +22,12 @@
             name: 'Building',
             visible: true,
             caption: '<i class="icon-user"></i> Building'
+        }, {
+            url: 'buildingdetail/:id',
+            moduleId: 'viewmodels/buildingdetail',
+            name: 'BuildingDetail',
+            caption: '<i class="icon-user"></i> Building Details',
+            visible: false
         }
     ];
     

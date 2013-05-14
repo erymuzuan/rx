@@ -6,14 +6,17 @@
 /// <reference path="../services/datacontext.js" />
 define(['services/datacontext',
         'durandal/plugins/router',
+     'durandal/system',
+        'durandal/app',
         'services/logger'],
-    function (datacontext, router, logger) {
+    function (datacontext, router, system, app, logger) {
         
         var activate = function (routeData) {
-            var id = parseInt(routeData.BuildingId());
+            logger.log('Building Details View Activated', null, 'buildingdetail', true);
+            var id = parseInt(routeData.id);
             var query = "BuildingId eq " + id;
             datacontext.loadOneAsync("Building", query).done(function(b) {
-                vm.building.push(b);
+                ko.mapping.fromJSON(ko.mapping.toJSON(b), {}, vm.building);;
             });
             return true;
         };
