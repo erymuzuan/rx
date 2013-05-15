@@ -8,8 +8,12 @@
 
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
 
+   
+    var addNew = function() {
+        var url = '/#/buildingdetail/0';
+        router.navigateTo(url);
+    };
     
-
     var viewAttached = function (view) {
         bindEventToList(view, '#div-building', gotoDetails);
     };
@@ -46,7 +50,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         activate: activate,
         title: 'Building',
         buildings: ko.observableArray([]),
-        viewAttached: viewAttached
+        viewAttached: viewAttached,
+        addNewCommand: addNew
     };
 
     return vm;

@@ -13,19 +13,42 @@ define(['services/datacontext',
         
         var activate = function (routeData) {
             logger.log('Building Details View Activated', null, 'buildingdetail', true);
+            if (routeData.id) {
+                return false;
+            }
             var id = parseInt(routeData.id);
             var query = "BuildingId eq " + id;
-            datacontext.loadOneAsync("Building", query).done(function(b) {
-                ko.mapping.fromJSON(ko.mapping.toJSON(b), {}, vm.building);;
+            var tcs = new $.Deffered();
+            datacontext.loadOneAsync("Building", query).done(function (b) {
+                ko.mapping.fromJSON(ko.mapping.toJSON(b), {}, vm.building);
+                tcs.resolve(true);
             });
-            return true;
+            return tcs.promise();
         };
-      
+
+        var addLot = function (floor) {
+            var url = '/#/lotdetail/'+ vm.building.BuildingId() +'/' + floor.No();
+            router.navigateTo(url);
+        };
+
+        var removeFloor = function(floor) {
+            vm.building.FloorCollection.remove(floor);
+
+        };
+
+        var addFloor = function () {
+            var floor = {
+                "No": ko.observable(),
+                Size : ko.observable()
+            };
+            vm.building.FloorCollection.push(floor);
+        };
+        
         var saveAsync = function() {
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON(vm.building);
-            context.post(data, "/Building/SaveBuilding").done(function(e) {
-                logger.log("New building has been added", e, "building", true);
+            datacontext.post(data, "/Building/SaveBuilding").done(function (e) {
+                logger.log("Data has been successfully saved ", e, "buildingdetail", true);
             });
             return tcs.promise();
         };
@@ -35,17 +58,20 @@ define(['services/datacontext',
             building: {
                 Name: ko.observable(''),
                 Address: {
-                    Street: ko.observable(''),
-                    State: ko.observable(''),
-                    City: ko.observable(''),
-                    Postcode: ko.observable(''),
-                },
+                            Street: ko.observable(''),
+                            State: ko.observable(''),
+                            City: ko.observable(''),
+                            Postcode: ko.observable(''),
+                        },
+                FloorCollection: ko.observableArray([]),
                 LotNo: ko.observable(''),
                 Size: ko.observable(''),
                 Status: ko.observable(''),
-                Block: ko.observable('')
-            },
+                      },
             saveCommand: saveAsync,
+            addFloorCommand: addFloor,
+            addLotCommand :addLot,
+            removeFloorCommand:removeFloor,
             title: 'Building Details'
         };
         

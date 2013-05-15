@@ -14,7 +14,7 @@
 
         function boot() {
             router.map(config.routes);
-            log('Hot Towel SPA Loaded!', null, true);
+            log('System Loaded!', null, true);
             return router.activate(config.startModule);
         }
 
