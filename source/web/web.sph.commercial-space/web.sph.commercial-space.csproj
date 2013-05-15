@@ -257,13 +257,16 @@
     <Content Include="App\services\logger.js" />
     <Content Include="App\viewmodels\building.js" />
     <Content Include="App\viewmodels\buildingdetail.js" />
+    <Content Include="App\viewmodels\commercialspace.js" />
     <Content Include="App\viewmodels\details.js" />
     <Content Include="App\viewmodels\home.js" />
     <Content Include="App\viewmodels\lotdetail.js" />
+    <Content Include="App\viewmodels\map.js" />
     <Content Include="App\viewmodels\shell.js" />
     <Content Include="App\viewmodels\shiftschedule.js" />
     <Content Include="App\views\building.html" />
     <Content Include="App\views\buildingdetail.html" />
+    <Content Include="App\views\commercialspace.html" />
     <Content Include="App\views\details.html" />
     <Content Include="App\views\footer.html" />
     <Content Include="App\views\home.html" />
@@ -388,6 +391,8 @@
     <Content Include="Scripts\sammy-0.7.4.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

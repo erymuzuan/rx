@@ -6,28 +6,30 @@
 /// <reference path="../services/datacontext.js" />
 define(['services/datacontext',
         'durandal/plugins/router',
-     'durandal/system',
+        'durandal/system',
         'durandal/app',
-        'services/logger'],
-    function (datacontext, router, system, app, logger) {
+        'viewmodels/map',
+        'services/logger'
+    ],
+    function (datacontext, router, system, app,mapvm, logger) {
         
         var activate = function (routeData) {
             logger.log('Building Details View Activated', null, 'buildingdetail', true);
-            if (routeData.id) {
-                return false;
-            }
+          
             var id = parseInt(routeData.id);
             var query = "BuildingId eq " + id;
-            var tcs = new $.Deffered();
+
+            var tcs = new $.Deferred();
             datacontext.loadOneAsync("Building", query).done(function (b) {
                 ko.mapping.fromJSON(ko.mapping.toJSON(b), {}, vm.building);
                 tcs.resolve(true);
             });
-            return tcs.promise();
+
+            tcs.promise();
         };
 
         var addLot = function (floor) {
-            var url = '/#/lotdetail/'+ vm.building.BuildingId() +'/' + floor.No();
+            var url = '/#/lotdetail/'+ vm.building.BuildingId() +'/' + floor.Name();
             router.navigateTo(url);
         };
 
@@ -38,7 +40,7 @@ define(['services/datacontext',
 
         var addFloor = function () {
             var floor = {
-                "No": ko.observable(),
+                Name: ko.observable(),
                 Size : ko.observable()
             };
             vm.building.FloorCollection.push(floor);
@@ -50,6 +52,17 @@ define(['services/datacontext',
             datacontext.post(data, "/Building/SaveBuilding").done(function (e) {
                 logger.log("Data has been successfully saved ", e, "buildingdetail", true);
             });
+            return tcs.promise();
+        };
+
+        var showMap = function() {
+
+            var tcs = new $.Deferred();
+            mapvm.init()
+                .done(function () {
+                    tcs.resolve(true);
+                });
+
             return tcs.promise();
         };
         
@@ -69,6 +82,7 @@ define(['services/datacontext',
                 Status: ko.observable(''),
                       },
             saveCommand: saveAsync,
+            showMapCommand: showMap,
             addFloorCommand: addFloor,
             addLotCommand :addLot,
             removeFloorCommand:removeFloor,

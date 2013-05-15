@@ -68,7 +68,7 @@
         </thead>
         <tbody data-bind="foreach: building.FloorCollection">
             <tr>
-                <td><input type="text" data-bind="value:No"/></td>
+                <td><input type="text" data-bind="value:Name"/></td>
                 <td><input type="text" data-bind="value:Size"/></td>
                 <td><input type="button" data-bind="click: $parent.removeFloorCommand" class="btn btn-primary" value="-" /></td>
                 <td><input type="button" data-bind="click: $parent.addLotCommand" class="btn btn-primary" value="+Lot" /></td>
@@ -79,4 +79,9 @@
     <div>
         <input type="button" class="btn btn-primary" value="Save" data-bind="click: saveCommand" />
     </div>
+    <div>
+        <input type="button" class="btn btn-primary" value="Show map" data-bind="click: showMapCommand" />
+    </div>
+    
+    <div id="map" style="width: 800px; height: 400px"></div>
 </section>

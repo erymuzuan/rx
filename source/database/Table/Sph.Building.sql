@@ -18,3 +18,14 @@ CREATE TABLE Sph.Building
 
 )
 GO 
+
+ALTER TABLE Sph.Building
+ADD [Polygon] GEOGRAPHY NULL
+
+GO
+ALTER TABLE Sph.Building
+ADD [PolygonWkt] VARCHAR(MAX) NULL
+
+GO
+ALTER TABLE Sph.Building
+ADD [PolygonEncoded] VARCHAR(MAX) NULL

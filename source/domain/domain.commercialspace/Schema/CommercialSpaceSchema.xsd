@@ -29,7 +29,16 @@
 	</xs:element>
 	<xs:element name="Floor">
 		<xs:complexType>
-			<xs:attribute name="No" type="xs:string" use="required"/>
+			<xs:all>
+				<xs:element name="LotCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Lot" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Size" type="xs:double" use="required"/>
 		</xs:complexType>
 	</xs:element>
@@ -38,6 +47,7 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Size" type="xs:double" use="required"/>
 			<xs:attribute name="FloorNo" type="xs:string" use="required"/>
+			<xs:attribute name="IsCommercialSpace" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CommercialSpace">

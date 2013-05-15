@@ -3,45 +3,89 @@
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/__common.js" />
 /// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function(context, logger, router) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/app'], function (context, logger, router, app) {
 
-    var lotCollection = ko.observableArray();
-    var activate = function (routeData) {
-        logger.log('Lot Details View Activated', null, 'lotdetail', true);
-        var buildingId = routeData.buildingId;
-        var floor = routeData.floorName;
+    var title = ko.observable(''),
+        buildingId = ko.observable(),
+        isBusy = ko.observable(false),
+        floorname = ko.observable(),
+        createCommercialSpace = function (lot) {
+            var cs = {
+                BuildingId: buildingId,
+                FloorName: floorname,
+                Lot : lot
+            };
+            app.showModal(cs);
+        },
+        activate = function (routeData) {
+            logger.log('Lot Details View Activated', null, 'lotdetail', true);
 
-        var tcs = new $.Deferred();
-        context.loadOneAsync('Building', 'BuildingId eq ' + buildingId)
-            .done(function(b) {
-                $.filter(function(f) {
-                }, b.FloorCollection);
+            buildingId(routeData.buildingId);
+            floorname(routeData.floorname);
 
-                tcs.resolve(true);
-            });
-        
-        return tcs.promise();
-        
+            title('Lot details on ' + floorname);
+            var tcs = new $.Deferred();
+            context.loadOneAsync('Building', 'BuildingId eq ' + buildingId())
+                .done(function (b) {
+                    var flo = $.grep(b.FloorCollection(), function (x) { return x.Name() === floorname(); })[0];
+                    vm.floor.LotCollection(flo.LotCollection());
+                    vm.floor.Name(flo.Name());
+                    vm.floor.Size(flo.Size());
 
-    };
-    
-    var addNew = function() {
-    };
-    var save = function() {
+                    title('Lot details on ' + floorname() + ' floor size :' + vm.floor.Size());
+                    tcs.resolve(true);
+                });
 
-    };
-    
+            return tcs.promise();
+        },
+    removeLot = function (floor) {
+        vm.floor.LotCollection.remove(floor);
+    },
+     addNew = function () {
+         var lot = {
+             Name: ko.observable(''),
+             Size: ko.observable(''),
+             IsCommercialSpace: ko.observable(true)
+         };
+         vm.floor.LotCollection.push(lot);
+     },
+     goBack = function () {
+         var tcs = new $.Deferred();
+         var data = JSON.stringify({
+             floor: ko.mapping.toJS(vm.floor),
+             buildingId: buildingId(),
+             floorname: floorname()
+         });
+         isBusy(true);
+         context.post(data, "/Building/AddLot").done(function (e) {
+             logger.log("Data has been successfully saved ", e, "buildingdetail", true);
+
+             isBusy(false);
+             var url = "/#/buildingdetail/" + buildingId();
+             router.navigateTo(url);
+             tcs.resolve(true);
+         });
+
+         return tcs.promise();
+     };
+
     var vm = {
         activate: activate,
-        title: 'Lot',
-        Name: ko.observable(''),
-        Size: ko.observable(''),
+        title: title,
+        floor: {
+            Name: ko.observable(''),
+            Size: ko.observable(''),
+            LotCollection: ko.observableArray([])
+        },
         addNewLotCommand: addNew,
-        saveCommand: save,
-        lotCollection : lotCollection
+        goBackCommand: goBack,
+        removeLotCommand: removeLot,
+        createCommercialSpaceCommand: createCommercialSpace,
+        isBusy: isBusy
     };
 
     return vm;

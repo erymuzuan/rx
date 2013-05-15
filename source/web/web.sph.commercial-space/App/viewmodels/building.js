@@ -34,17 +34,15 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
     };
     var activate = function() {
         logger.log('Building View Activated', null, 'building', true);
-        loadBuilding();
-        return true;
+
+        var tcs = new $.Deferred();
+        context.loadAsync("Building", "BuildingId gt 0").done(function (lo) {
+            vm.buildings(lo.itemCollection);
+            tcs.resolve(true);
+        });
+        tcs.promise();
     };
 
-    var loadBuilding = function() {
-        context.loadAsync("Building", "BuildingId gt 0").done(function(lo) {
-            vm.buildings(lo.itemCollection);
-            return true;
-        });
-    };
-    
 
     var vm = {
         activate: activate,

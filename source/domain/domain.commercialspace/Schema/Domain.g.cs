@@ -339,8 +339,8 @@
 
           
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_no;
-                public const string PropertyNameNo = "No";
+                private  string  m_name;
+                public const string PropertyNameName = "Name";
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -348,6 +348,17 @@
                 public const string PropertyNameSize = "Size";
 
               
+			private readonly ObjectCollection<Lot>  m_LotCollection = new ObjectCollection<Lot> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("Lot", IsNullable = false)]
+			public ObjectCollection<Lot> LotCollection
+			{
+			get{ return m_LotCollection;}
+			}
+		
             ///<summary>
             /// 
             ///</summary>
@@ -357,22 +368,22 @@
             
             [DebuggerHidden]
             
-                public string No
+                public string Name
                 {
                 set
                 {
-                if( String.Equals( m_no, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameNo, value);
+                if( String.Equals( m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_no= value;
-                OnPropertyChanged(PropertyNameNo);
+                m_name= value;
+                OnPropertyChanged(PropertyNameName);
                 }
                 }
                 get
                 {
-                return m_no;}
+                return m_name;}
                 }
 
               
@@ -431,6 +442,11 @@
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  string  m_floorNo;
                 public const string PropertyNameFloorNo = "FloorNo";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  bool  m_isCommercialSpace;
+                public const string PropertyNameIsCommercialSpace = "IsCommercialSpace";
 
               
             ///<summary>
@@ -514,6 +530,34 @@
                 get
                 {
                 return m_floorNo;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public bool IsCommercialSpace
+                {
+                set
+                {
+                if( m_isCommercialSpace == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsCommercialSpace, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_isCommercialSpace= value;
+                OnPropertyChanged(PropertyNameIsCommercialSpace);
+                }
+                }
+                get
+                {
+                return m_isCommercialSpace;}
                 }
 
               

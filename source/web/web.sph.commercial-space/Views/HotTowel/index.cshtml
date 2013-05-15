@@ -29,7 +29,11 @@
     @Scripts.Render("~/scripts/vendor")
         @if(HttpContext.Current.IsDebuggingEnabled) {
             <script type="text/javascript" src="~/App/durandal/amd/require.js" data-main="@Url.Content("~/App/main")"></script>
-        } else {
+    <script src="http://maps.google.com/maps/api/js?libraries=geometry&amp;region=my&amp;sensor=false"
+        type="text/javascript"></script>
+        }
+        else
+        {
 			<!-- Remember to run the Durandal optimizer.exe to create the main-built.js  -->
             <script type="text/javascript" src="~/App/main-built.js"></script>
         }

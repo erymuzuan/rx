@@ -19,15 +19,24 @@ html {
 }
 
 body {
-    font-size: 18px;
-    margin: 0 auto;
-    max-width: 1100px;
-    background-color: transparent;
-    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+   font-size: 18px;
+   margin: 0 auto;
+   max-width: 1100px;
+   background-color: transparent;
+   font-family: 'Segoe UI Light','Open Sans',Verdana,Arial,Helvetica,sans-serif;
 }
+.article-right-content {
+   background-color:#00AEDB;
+   display: inline-table;
+   font-size: 15px;
+   height: 100px;
+   margin: 5px;
+   padding: 2px;
+   width: 150px;
 
+}
 h1, h2, h3 {
-    text-transform: uppercase;
+    text-transform: capitalize;
     letter-spacing: -1px !important;
     color: #777;
 }
@@ -167,6 +176,9 @@ footer span {
     letter-spacing: 1px;
 }
 
+
+
+
 .btn-info {
     background-color: #0081C2;
     background-image: -moz-linear-gradient(top,#77CCFF,#194D7B);
@@ -186,7 +198,6 @@ footer span {
         background-color: #0081C2;
         *background-color: #0081C2;
         background-color: #194D7B;
-        *background-color: #194D7B;
     }
 
     .btn-info:active,
