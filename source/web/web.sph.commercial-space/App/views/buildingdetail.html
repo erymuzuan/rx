@@ -1,29 +1,27 @@
 ﻿
 <section id="building-details" class="view">
     <h2 class="page-title" data-bind="text: title"></h2>
-    <div class="form-section">
-        <label title="LotNo">Lot No. : </label>
-        <input type="text" data-bind="value: building.LotNo" />
-    </div>
-    <div class="form-section">
+    <div class="labelLeft">
         <label title="Name">Name : </label>
         <input type="text" data-bind="value: building.Name" />
     </div>
-    <div class="form-section">
+    <div class="labelLeft">
+        <label title="LotNo">Lot No. : </label>
+        <input type="text" data-bind="value: building.LotNo" />
+    </div>
+    <div class="labelLeft">
         <label title="Street">Street : </label>
         <input type="text" data-bind="value: building.Address.Street" />
     </div>
-
-    <div class="form-section">
+    <div class="labelLeft">
         <label title="City">City : </label>
         <input type="text" data-bind="value: building.Address.City" />
     </div>
-    <div class="form-section">
+    <div class="labelLeft">
         <label title="Postcode">Postcode : </label>
         <input type="text" data-bind="value: building.Address.Postcode" />
-
     </div>
-    <div class="form-section">
+    <div class="labelLeft">
         <label title="State">State : </label>
         <select data-bind="value: building.Address.State">
             <option value="Kuala Lumpur">Kuala Lumpur</option>
@@ -42,11 +40,11 @@
             <option value="Negeri Sembilan">Negeri Sembilan</option>
         </select>
     </div>
-    <div>
+    <div class="labelLeft">
         <label title="Size">Size (sq/ft) : </label>
         <input type="text" data-bind="value: building.Size" />
     </div>
-    <div class="form-section">
+    <div class="labelLeft">
         <label title="Status">Status : </label>
         <select data-bind="value: building.Status">
             <option value="Good">Good</option>
@@ -55,9 +53,10 @@
             <option value="Maintenance">Under Maintenance</option>
         </select>
     </div>
-    <div>
+    <div class="labelLeft">
         <input type="button" class="btn btn-primary" data-bind="click: addFloorCommand" value="Add Floor"/>
-    </div>
+   
+   
     <table>
         <thead>
             <tr>
@@ -76,8 +75,9 @@
             </tr>
         </tbody>
     </table>
+         </div>
 
-    <div>
+    <div class="submitpanel">
         <input type="button" class="btn btn-primary" value="Save" data-bind="click: saveCommand" />
     </div>
 </section>

@@ -36,18 +36,25 @@ section.main {
     margin-top: 80px;
 }
 
-.form-section {
-    float:left;
-    padding:20px;
-    width:200px;
-    padding-top:10px;
-    padding-bottom:10px; 
+.labelLeft label {
+    color: #1E1E1E;
+    float: left;
+    font-size: 1em;
+    margin-right: 10px;
+    min-width: 210px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.labelLeft {
+    color: #696969;
+    text-align: left;
 }
 
 .submitpanel {
-     float:left;
-    padding:34px;
-    width:200px;
+    float:left;
+    padding:20px;
+    width:20px;
 
 }
 
