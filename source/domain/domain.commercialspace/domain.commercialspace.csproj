@@ -59,6 +59,7 @@
     <Compile Include="BoundedContextAttribute.cs" />
     <Compile Include="Building.cs" />
     <Compile Include="ChangeSubmission.cs" />
+    <Compile Include="CommercialSpace.cs" />
     <Compile Include="Core\Change.cs" />
     <Compile Include="Core\CollectionHelper.cs" />
     <Compile Include="Core\Entity.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="ISettingProvider.cs" />
     <Compile Include="LoadOperation.cs" />
+    <Compile Include="Lot.cs" />
     <Compile Include="PersistenceSession.cs" />
     <Compile Include="QueryProviders\AliasesProduced.cs" />
     <Compile Include="QueryProviders\ColumnProjector.cs" />

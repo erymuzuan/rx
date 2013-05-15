@@ -36,12 +36,19 @@ section.main {
     margin-top: 80px;
 }
 
-.header-section {
-    text-transform:lowercase;
-    border-bottom:2px solid #88B9E3;
-    margin-bottom:10px;
-    overflow:hidden;
-    padding-bottom:10px;
+.form-section {
+    float:left;
+    padding:20px;
+    width:200px;
+    padding-top:10px;
+    padding-bottom:10px; 
+}
+
+.submitpanel {
+     float:left;
+    padding:34px;
+    width:200px;
+
 }
 
 .article-right-content {
@@ -52,7 +59,6 @@ section.main {
     margin: 5px;
     padding: 2px;
     width: 150px;
-
 }
 
 .navbar .brand {
