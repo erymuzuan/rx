@@ -13,17 +13,21 @@ define(['services/datacontext',
         
         var activate = function (routeData) {
             logger.log('Building Details View Activated', null, 'buildingdetail', true);
+            if (routeData.id) {
+                return false;
+            }
             var id = parseInt(routeData.id);
-            if (0 == id) return true;
             var query = "BuildingId eq " + id;
+            var tcs = new $.Deffered();
             datacontext.loadOneAsync("Building", query).done(function (b) {
                 ko.mapping.fromJSON(ko.mapping.toJSON(b), {}, vm.building);
+                tcs.resolve(true);
             });
-            return true;
+            return tcs.promise();
         };
 
         var addLot = function (floor) {
-            var url = '/#/lotdetail/' + floor.No();
+            var url = '/#/lotdetail/'+ vm.building.BuildingId() +'/' + floor.No();
             router.navigateTo(url);
         };
 
