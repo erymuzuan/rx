@@ -19,11 +19,11 @@ html {
 }
 
 body {
-   font-size: 18px;
-   margin: 0 auto;
-   max-width: 1100px;
-   background-color: transparent;
-   font-family: 'Segoe UI Light','Open Sans',Verdana,Arial,Helvetica,sans-serif;
+    font-size: 18px;
+    margin: 0 auto;
+    max-width: 1100px;
+    background-color: transparent;
+    font-family: 'Segoe UI Light','Open Sans',Verdana,Arial,Helvetica,sans-serif;
 }
 .article-right-content {
    background-color:#00AEDB;
@@ -36,13 +36,45 @@ body {
 
 }
 h1, h2, h3 {
-    text-transform: capitalize;
+    text-transform: uppercase;
     letter-spacing: -1px !important;
     color: #777;
 }
 
 section.main {
     margin-top: 80px;
+}
+
+.labelLeft label {
+    color: #1E1E1E;
+    float: left;
+    font-size: 1em;
+    margin-right: 10px;
+    min-width: 210px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.labelLeft {
+    color: #696969;
+    text-align: left;
+}
+
+.submitpanel {
+    float:left;
+    padding:20px;
+    width:20px;
+
+}
+
+.article-right-content {
+    background-color:#00AEDB;
+    display: inline-table;
+    font-size: 15px;
+    height: 100px;
+    margin: 5px;
+    padding: 2px;
+    width: 150px;
 }
 
 .navbar .brand {
@@ -57,15 +89,12 @@ h2.page-title {
 
 .brand .title {
     float: left;
-    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-    font-size: 145%;
-    font-weight: 900;
-    letter-spacing: -2px;
-    margin: 2% 0;
+    font-family: 'Segoe UI Light','Open Sans',Verdana,Arial,Helvetica,sans-serif;
+    font-size: 30pt;
+    font-weight: 200;
+    letter-spacing: 0.01em;
     padding-left: 50px;
-    -webkit-text-shadow: 2px 2px rgba(0, 0, 0, 0.15);
-    text-shadow: 2px 2px rgba(0, 0, 0, 0.15);
-    text-transform: uppercase;
+    text-transform: capitalize;
     text-transform: initial;
     text-decoration: none;
     color: #0081C2;
