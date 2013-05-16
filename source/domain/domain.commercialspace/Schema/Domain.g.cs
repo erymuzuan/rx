@@ -620,6 +620,26 @@
                 public const string PropertyNameIsOnline = "IsOnline";
 
               
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_registrationNo;
+                public const string PropertyNameRegistrationNo = "RegistrationNo";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  bool  m_status;
+                public const string PropertyNameStatus = "Status";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_contactPerson;
+                public const string PropertyNameContactPerson = "ContactPerson";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_contactNo;
+                public const string PropertyNameContactNo = "ContactNo";
+
+              
             ///<summary>
             /// 
             ///</summary>
@@ -869,6 +889,114 @@
                 get
                 {
                 return m_isOnline;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string RegistrationNo
+                {
+                set
+                {
+                if( String.Equals( m_registrationNo, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRegistrationNo, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_registrationNo= value;
+                OnPropertyChanged(PropertyNameRegistrationNo);
+                }
+                }
+                get
+                {
+                return m_registrationNo;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public bool Status
+                {
+                set
+                {
+                if( m_status == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameStatus, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_status= value;
+                OnPropertyChanged(PropertyNameStatus);
+                }
+                }
+                get
+                {
+                return m_status;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+            [DebuggerHidden]
+            
+                public string ContactPerson
+                {
+                set
+                {
+                if( String.Equals( m_contactPerson, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameContactPerson, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_contactPerson= value;
+                OnPropertyChanged(PropertyNameContactPerson);
+                }
+                }
+                get
+                {
+                return m_contactPerson;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+            [DebuggerHidden]
+            
+                public string ContactNo
+                {
+                set
+                {
+                if( String.Equals( m_contactNo, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameContactNo, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_contactNo= value;
+                OnPropertyChanged(PropertyNameContactNo);
+                }
+                }
+                get
+                {
+                return m_contactNo;}
                 }
 
               
