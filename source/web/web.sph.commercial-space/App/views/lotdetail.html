@@ -2,22 +2,40 @@
     <span data-bind="text: title"></span>
     <span data-bind="text: floor.Name"></span>
     <span data-bind="text: floor.Size"></span>
-    <div>
-        <ul class="nav" data-bind="foreach: floor.LotCollection" >                       
-                <li style="width: 200px; height: 150px;">
-                    <input data-bind="value: Name" />
-                    <input data-bind="value: Size" />
-                    <a id="new-cs" class="btn btn-success" data-bind="click: $parent.addCsCommand"> +Commercial Space</a>
-                    <input type="button" data-bind="click: $parent.removeLotCommand" class="btn btn-primary" value="-" />                   
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Size</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: floor.LotCollection">
+            <tr>
+                <td>
+                    <input type="text" data-bind="value: Name" /></td>
+                <td>
+                    <input type="text" data-bind="value: Size" /></td>
+                <td>
+                    <div class="pull-right">
+                    <input type="button" data-bind="click: $parent.removeLotCommand" class="btn btn-primary" value="-" />
                     <input type="button" data-bind="click: addNewLotCommand" class="btn btn-primary" value="+Lot" />    
                 </li>
             </ul>                 
-    </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <input type="button" data-bind="click: addNewLotCommand" class="btn btn-primary" value="+Lot" />
+
     
 </section>
 
 <section>
-    <input type="button" class="btn btn-primary" data-bind="click: goBackCommand, disable: isBusy()" value="OK" />
+    <input type="button" class="btn btn-primary" data-bind="click: goBackCommand, disable: isBusy()" value="BACK" />
+    <input type="button" class="btn btn-primary" data-bind="click: saveCommand, disable: isBusy()"  value="SAVE" />
 </section>
 
 
