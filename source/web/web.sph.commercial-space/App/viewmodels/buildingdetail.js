@@ -10,30 +10,35 @@ define(['services/datacontext',
         'durandal/app',
         'viewmodels/map',
         'services/logger'
-    ],
-    function (datacontext, router, system, app,mapvm, logger) {
-        
-        var activate = function (routeData) {
-            logger.log('Building Details View Activated', null, 'buildingdetail', true);
-          
-            var id = parseInt(routeData.id);
-            var query = "BuildingId eq " + id;
+],
+    function (datacontext, router, system, app, mapvm, logger) {
 
-            var tcs = new $.Deferred();
-            datacontext.loadOneAsync("Building", query).done(function (b) {
-                ko.mapping.fromJSON(ko.mapping.toJSON(b), {}, vm.building);
-                tcs.resolve(true);
-            });
 
-            tcs.promise();
-        };
+        var isBusy = ko.observable(false),
+            activate = function (routeData) {
+                var id = parseInt(routeData.id);
+                var query = "BuildingId eq " + id;
+                var tcs = new $.Deferred();
+                datacontext.loadOneAsync("Building", query)
+                    .done(function (b) {
+                        ko.mapping.fromJSON(ko.mapping.toJSON(b), {}, vm.building);
+                        tcs.resolve(true);
+               });
+
+                tcs.promise();
+            };
 
         var addLot = function (floor) {
-            var url = '/#/lotdetail/'+ vm.building.BuildingId() +'/' + floor.Name();
+            var url = '/#/lotdetail/' + vm.building.BuildingId() + '/' + floor.Name();
+            router.navigateTo(url);
+        };
+        
+        var goBack = function () {
+            var url = '/#/building'  ;
             router.navigateTo(url);
         };
 
-        var removeFloor = function(floor) {
+        var removeFloor = function (floor) {
             vm.building.FloorCollection.remove(floor);
 
         };
@@ -41,12 +46,12 @@ define(['services/datacontext',
         var addFloor = function () {
             var floor = {
                 Name: ko.observable(),
-                Size : ko.observable()
+                Size: ko.observable()
             };
             vm.building.FloorCollection.push(floor);
         };
-        
-        var saveAsync = function() {
+
+        var saveAsync = function () {
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON(vm.building);
             datacontext.post(data, "/Building/SaveBuilding").done(function (e) {
@@ -55,7 +60,7 @@ define(['services/datacontext',
             return tcs.promise();
         };
 
-        var showMap = function() {
+        var showMap = function () {
 
             var tcs = new $.Deferred();
             mapvm.init()
@@ -65,29 +70,31 @@ define(['services/datacontext',
 
             return tcs.promise();
         };
-        
+
         var vm = {
             activate: activate,
             building: {
                 Name: ko.observable(''),
                 Address: {
-                            Street: ko.observable(''),
-                            State: ko.observable(''),
-                            City: ko.observable(''),
-                            Postcode: ko.observable(''),
-                        },
+                    Street: ko.observable(''),
+                    State: ko.observable(''),
+                    City: ko.observable(''),
+                    Postcode: ko.observable(''),
+                },
                 FloorCollection: ko.observableArray([]),
                 LotNo: ko.observable(''),
                 Size: ko.observable(''),
                 Status: ko.observable(''),
-                      },
+            },
             saveCommand: saveAsync,
             showMapCommand: showMap,
             addFloorCommand: addFloor,
-            addLotCommand :addLot,
-            removeFloorCommand:removeFloor,
+            addLotCommand: addLot,
+            goBackCommand: goBack,
+            isBusy: isBusy,
+            removeFloorCommand: removeFloor,
             title: 'Building Details'
         };
-        
+
         return vm;
     });

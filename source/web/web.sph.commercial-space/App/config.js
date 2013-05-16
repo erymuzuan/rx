@@ -36,10 +36,10 @@
             visible: false
         },
         {
-            url: 'commercialspace/:buildingId/:floorname/:lotname',
-            moduleId: 'viewmodels/commercialspace',
+            url: 'commercialspacedetail/:buildingId/:floorname/:lotname',
+            moduleId: 'viewmodels/commercialspacedetail',
             name: 'commercial space',
-            visible: true,
+            visible: false,
             caption: '<i class="icon-user"></i> commercial space'
         }
     ];

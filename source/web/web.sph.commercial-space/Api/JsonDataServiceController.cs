@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Bespoke.CommercialSpace.Domain;
+using Bespoke.SphCommercialSpaces.Domain;
 using Bespoke.Sph.Commerspace.Web.Helpers;
 using Newtonsoft.Json;
 
@@ -18,6 +18,11 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         public async Task<ActionResult> Building(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Building>(filter, page, size, includeTotal);
+        }
+
+        public async Task<ActionResult> CommercialSpace(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<CommercialSpace>(filter, page, size, includeTotal);
         }
 
 

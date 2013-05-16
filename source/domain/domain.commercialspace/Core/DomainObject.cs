@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
 
-namespace Bespoke.CommercialSpace.Domain
+namespace Bespoke.SphCommercialSpaces.Domain
 {
     [Serializable]
     public abstract class DomainObject : INotifyPropertyChanged, IEditableObject, IDataErrorInfo

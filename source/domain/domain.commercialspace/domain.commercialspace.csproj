@@ -6,7 +6,7 @@
     <ProjectGuid>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bespoke.CommercialSpace.Domain</RootNamespace>
+    <RootNamespace>Bespoke.SphCommercialSpaces.Domain</RootNamespace>
     <AssemblyName>domain.commercialspace</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

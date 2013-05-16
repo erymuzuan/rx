@@ -1,4 +1,4 @@
-﻿namespace Bespoke.CommercialSpace.Domain
+﻿namespace Bespoke.SphCommercialSpaces.Domain
 {
     public class BinaryStore : Entity
     {

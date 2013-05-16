@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace Bespoke.CommercialSpace.Domain
+namespace Bespoke.SphCommercialSpaces.Domain
 {
     public class LoadOperation<T> where T : DomainObject
     {

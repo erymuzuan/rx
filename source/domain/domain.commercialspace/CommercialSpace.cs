@@ -1,8 +1,11 @@
-﻿namespace Bespoke.CommercialSpace.Domain
+﻿using System.Xml.Serialization;
+using Bespoke.SphCommercialSpaces.Domain;
+
+namespace Bespoke.SphCommercialSpaces.Domain
 {
     public partial class CommercialSpace : Entity
     {
-
+     [XmlAttribute]
        private int m_commercialSpaceId;
 
        public int CommercialSpaceId

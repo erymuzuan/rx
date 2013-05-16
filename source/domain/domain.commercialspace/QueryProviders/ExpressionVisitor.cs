@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 
-namespace Bespoke.CommercialSpace.Domain.QueryProviders {
+namespace Bespoke.SphCommercialSpaces.Domain.QueryProviders {
 
     public abstract class ExpressionVisitor {
         protected virtual Expression Visit(Expression exp) {

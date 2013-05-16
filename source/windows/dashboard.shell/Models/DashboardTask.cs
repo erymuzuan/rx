@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Bespoke.CommercialSpace.Domain;
+using Bespoke.SphCommercialSpaces.Domain;
 using Bespoke.Sph.Windows.Annotations;
 
 namespace Bespoke.Sph.Windows.Models

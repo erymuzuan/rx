@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Bespoke.CommercialSpace.Domain
+namespace Bespoke.SphCommercialSpaces.Domain
 {
     public interface IChangeTrack<T> 
     {

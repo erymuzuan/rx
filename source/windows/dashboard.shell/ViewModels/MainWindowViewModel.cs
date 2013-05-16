@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Bespoke.CommercialSpace.Domain;
+using Bespoke.SphCommercialSpaces.Domain;
 using Bespoke.Sph.Windows.Infrastructure;
 using Bespoke.Sph.Windows.Models;
 using Bespoke.Sph.Windows.ViewModels.Utils;

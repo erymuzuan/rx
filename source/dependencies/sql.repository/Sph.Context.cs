@@ -25,6 +25,7 @@ namespace Bespoke.Sph.SqlRepository
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<Building> Buildings { get; set; }
+        internal DbSet<Building> Buildings { get; set; }
+        internal DbSet<CommercialSpace> CommercialSpaces { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using Bespoke.CommercialSpace.Domain.QueryProviders;
+using Bespoke.SphCommercialSpaces.Domain.QueryProviders;
 
 namespace Bespoke.Sph.OdataRepository
 {

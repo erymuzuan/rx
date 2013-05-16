@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Reflection;
 using Spring.Context.Support;
 
-namespace Bespoke.CommercialSpace.Domain
+namespace Bespoke.SphCommercialSpaces.Domain
 {
     public static class ObjectBuilder
     {

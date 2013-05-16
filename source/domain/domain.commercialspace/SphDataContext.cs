@@ -5,10 +5,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using Bespoke.CommercialSpace.Domain.QueryProviders;
+using Bespoke.SphCommercialSpaces.Domain.QueryProviders;
 
 
-namespace Bespoke.CommercialSpace.Domain
+namespace Bespoke.SphCommercialSpaces.Domain
 {
     [Export]
     public class SphDataContext

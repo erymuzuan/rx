@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Bespoke.CommercialSpace.Domain.QueryProviders
+namespace Bespoke.SphCommercialSpaces.Domain.QueryProviders
 {
     /// <summary>
     /// QueryBinder is a visitor that converts method calls to LINQ operations into 

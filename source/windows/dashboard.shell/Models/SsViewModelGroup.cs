@@ -1,4 +1,4 @@
-using Bespoke.CommercialSpace.Domain;
+using Bespoke.SphCommercialSpaces.Domain;
 using Bespoke.Sph.Windows.Infrastructure;
 
 namespace Bespoke.Sph.Windows.Models

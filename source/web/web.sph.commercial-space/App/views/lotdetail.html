@@ -2,6 +2,8 @@
     <span data-bind="text: title"></span>
     <span data-bind="text: floor.Name"></span>
     <span data-bind="text: floor.Size"></span>
+    <div>
+    <input type="button" data-bind="click: addNewLotCommand" class="btn btn-primary" value="New Lot" /></div>
     <table>
         <thead>
             <tr>
@@ -25,14 +27,11 @@
             </tr>
         </tbody>
     </table>
-
-    <input type="button" data-bind="click: addNewLotCommand" class="btn btn-primary" value="+Lot" />
-
-    
 </section>
 
 <section>
-    <input type="button" class="btn btn-primary" data-bind="click: goBackCommand, disable: isBusy()" value="OK" />
+    <input type="button" class="btn btn-primary" data-bind="click: goBackCommand, disable: isBusy()" value="BACK" />
+    <input type="button" class="btn btn-primary" data-bind="click: saveCommand, disable: isBusy()"  value="SAVE" />
 </section>
 
 
