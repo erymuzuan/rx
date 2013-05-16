@@ -23,6 +23,14 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             var tcs = new $.Deferred();
             context.loadOneAsync('Building', 'BuildingId eq ' + buildingId())
                 .done(function (b) {
+                    if (!b) {
+                     var lot = {
+                            Name: ko.observable(''),
+                            Size: ko.observable(''),
+                            IsCommercialSpace: ko.observable(true)
+                        };
+                        vm.floor.LotCollection.push(lot);
+                    }
                     var flo = $.grep(b.FloorCollection(), function (x) { return x.Name() === floorname(); })[0];
                     vm.floor.LotCollection(flo.LotCollection());
                     vm.floor.Name(flo.Name());
