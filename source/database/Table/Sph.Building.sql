@@ -29,3 +29,7 @@ ADD [PolygonWkt] VARCHAR(MAX) NULL
 GO
 ALTER TABLE Sph.Building
 ADD [PolygonEncoded] VARCHAR(MAX) NULL
+
+GO
+ALTER TABLE Sph.Building
+ADD [State] VARCHAR(255) NULL

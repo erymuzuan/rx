@@ -68,13 +68,29 @@ section.main {
 }
 
 .article-right-content {
-    background-color:#00AEDB;
+    background-color:#F37735;
     display: inline-table;
     font-size: 15px;
     height: 100px;
     margin: 5px;
     padding: 2px;
     width: 150px;
+}
+
+.nav {
+    display: inline-block;
+    list-style: none outside none;
+    margin: 15px;
+    padding: 4px;
+    text-align: center;
+}
+
+.nav li {
+    background-color: #77923C;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px;
+    padding: 4px;
 }
 
 .navbar .brand {
