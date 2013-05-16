@@ -22,6 +22,13 @@
             name: 'Building',
             visible: true,
             caption: '<i class="icon-user"></i> Building'
+        },
+        {
+            url: 'commercialspace',
+            moduleId: 'viewmodels/commercialspace',
+            name: 'Commercial Space',
+            visible: true,
+            caption: '<i class="icon-user"></i> Commercial Space'
         }, {
             url: 'buildingdetail/:id',
             moduleId: 'viewmodels/buildingdetail',
