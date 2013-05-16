@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Bespoke.CommercialSpace.Domain;
+using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.SqlRepository
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Bespoke.CommercialSpace.Domain.QueryProviders {
+namespace Bespoke.SphCommercialSpaces.Domain.QueryProviders {
 
     public static class Evaluator {
         /// <summary>

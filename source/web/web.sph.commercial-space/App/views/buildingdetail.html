@@ -1,4 +1,6 @@
-﻿
+﻿<div data-bind="visible: isBusy">
+    <img src="/Images/spinner-md.gif"/>
+</div>
 <section id="building-details" class="view">
     <h2 class="page-title" data-bind="text: title"></h2>
     <div class="labelLeft">
@@ -78,6 +80,7 @@
          </div>
 
     <div>
+        <input type="button" class="btn btn-primary" value="Back" data-bind="click: goBackCommand" />
         <input type="button" class="btn btn-primary" value="Save" data-bind="click: saveCommand" />
     </div>
     

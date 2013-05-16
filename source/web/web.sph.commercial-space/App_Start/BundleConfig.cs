@@ -22,6 +22,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/scripts/breeze.debug.js")
                 .Include("~/scripts/bootstrap.js")
                 .Include("~/scripts/moment.js")
+                .Include("~/scripts/string.js")
               );
 
             bundles.Add(

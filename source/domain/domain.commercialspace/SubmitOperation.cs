@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace Bespoke.CommercialSpace.Domain
+namespace Bespoke.SphCommercialSpaces.Domain
 {
     public class SubmitOperation
     {

@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 
-namespace Bespoke.CommercialSpace.Domain.QueryProviders
+namespace Bespoke.SphCommercialSpaces.Domain.QueryProviders
 {
     public class UnusedColumnRemover : DbExpressionVisitor
     {

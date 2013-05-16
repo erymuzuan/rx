@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Bespoke.CommercialSpace.Domain.QueryProviders
+namespace Bespoke.SphCommercialSpaces.Domain.QueryProviders
 {
     /// <summary>
     /// Extended node types for custom expressions

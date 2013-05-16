@@ -1,4 +1,4 @@
-﻿namespace Bespoke.CommercialSpace.Domain
+﻿namespace Bespoke.SphCommercialSpaces.Domain
 {
     public partial class Lot : DomainObject
     {

@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Bespoke.CommercialSpace.Domain;
+using Bespoke.SphCommercialSpaces.Domain;
 using Bespoke.Sph.Windows.Helpers;
 using Bespoke.Sph.Windows.Infrastructure;
 using Telerik.Windows.Controls;

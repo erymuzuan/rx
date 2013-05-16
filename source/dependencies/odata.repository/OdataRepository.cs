@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Bespoke.CommercialSpace.Domain;
+using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.OdataRepository
 {

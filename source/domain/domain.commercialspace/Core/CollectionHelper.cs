@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Bespoke.CommercialSpace.Domain
+namespace Bespoke.SphCommercialSpaces.Domain
 {
     /// <summary>
     /// Just helper for the domain object collectionb

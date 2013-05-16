@@ -43,7 +43,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             };
             vm.floor.LotCollection.push(lot);
         },
-        goBack = function () {
+        save = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({
                 floor: ko.mapping.toJS(vm.floor),
@@ -55,16 +55,19 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 logger.log("Data has been successfully saved ", e, "buildingdetail", true);
 
                 isBusy(false);
-                var url = "/#/buildingdetail/" + buildingId();
-                router.navigateTo(url);
                 tcs.resolve(true);
             });
 
             return tcs.promise();
         },
+        
+        goBack = function() {
+            var url = "/#/buildingdetail/" + buildingId();
+            router.navigateTo(url);
+        },
 
-     addCs = function (lot) {
-         var url = '/#/commercialspace/' + buildingId() + '/' + floorname() + '/' + lot.Name();
+       addCs = function (lot) {
+         var url = '/#/commercialspacedetail/' + buildingId() + '/' + floorname() + '/' + lot.Name();
          router.navigateTo(url);
      };
 
@@ -79,6 +82,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         addCsCommand: addCs,
         addNewLotCommand: addNew,
         goBackCommand: goBack,
+        saveCommand: save,
         removeLotCommand: removeLot,
         isBusy: isBusy
     };

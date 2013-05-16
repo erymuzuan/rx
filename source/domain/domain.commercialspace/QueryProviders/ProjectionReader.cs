@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Bespoke.CommercialSpace.Domain.QueryProviders {
+namespace Bespoke.SphCommercialSpaces.Domain.QueryProviders {
 
     /// <summary>
     /// A ProjectionRow is an abstract over a row based data source

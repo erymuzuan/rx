@@ -12,20 +12,20 @@ namespace Bespoke.Sph.SqlRepository
     using System;
     using System.Collections.Generic;
     
-    internal partial class Building
+    internal partial class CommercialSpace
     {
-        public int BuildingId { get; set; }
+        public int CommercialSpaceId { get; set; }
         public string Data { get; set; }
-        public string LotNo { get; set; }
+        public string BuildingId { get; set; }
+        public string FloorName { get; set; }
+        public string LotName { get; set; }
         public string Name { get; set; }
-        public string Status { get; set; }
+        public string Category { get; set; }
+        public string IsOnline { get; set; }
+        public string RentalType { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime ChangedDate { get; set; }
         public string ChangedBy { get; set; }
-        public string State { get; set; }
-        public System.Data.Spatial.DbGeography Polygon { get; set; }
-        public string PolygonWkt { get; set; }
-        public string PolygonEncoded { get; set; }
     }
 }

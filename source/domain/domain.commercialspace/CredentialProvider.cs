@@ -3,7 +3,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 
-namespace Bespoke.CommercialSpace.Domain
+namespace Bespoke.SphCommercialSpaces.Domain
 {
     public static class CredentialProvider
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Bespoke.CommercialSpace.Domain.QueryProviders
+namespace Bespoke.SphCommercialSpaces.Domain.QueryProviders
 {
     internal class SubqueryRemover : DbExpressionVisitor
     {

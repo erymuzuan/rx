@@ -211,6 +211,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
+    <Compile Include="Controllers\CommercialSpaceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
     <Compile Include="default.aspx.cs">
@@ -259,7 +260,7 @@
     <Content Include="App\services\logger.js" />
     <Content Include="App\viewmodels\building.js" />
     <Content Include="App\viewmodels\buildingdetail.js" />
-    <Content Include="App\viewmodels\commercialspace.js" />
+    <Content Include="App\viewmodels\commercialspacedetail.js" />
     <Content Include="App\viewmodels\details.js" />
     <Content Include="App\viewmodels\home.js" />
     <Content Include="App\viewmodels\lotdetail.js" />
@@ -268,7 +269,7 @@
     <Content Include="App\viewmodels\shiftschedule.js" />
     <Content Include="App\views\building.html" />
     <Content Include="App\views\buildingdetail.html" />
-    <Content Include="App\views\commercialspace.html" />
+    <Content Include="App\views\commercialspacedetail.html" />
     <Content Include="App\views\details.html" />
     <Content Include="App\views\footer.html" />
     <Content Include="App\views\home.html" />
@@ -356,6 +357,7 @@
     <Content Include="default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\spinner-md.gif" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\font\fontawesome-webfont.woff" />
@@ -391,6 +393,7 @@
     <Content Include="Scripts\q.min.js" />
     <Content Include="Scripts\sammy-0.7.4.js" />
     <Content Include="Scripts\sammy-0.7.4.min.js" />
+    <Content Include="Scripts\string.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\underscore.js" />

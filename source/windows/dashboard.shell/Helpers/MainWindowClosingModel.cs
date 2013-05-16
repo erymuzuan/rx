@@ -1,4 +1,4 @@
-﻿using Bespoke.CommercialSpace.Domain;
+﻿using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.Windows.Helpers
 {

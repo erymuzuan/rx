@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
-namespace Bespoke.CommercialSpace.Domain
+namespace Bespoke.SphCommercialSpaces.Domain
 {
     [XmlInclude(typeof(Setting))]
     public abstract class Entity : DomainObject

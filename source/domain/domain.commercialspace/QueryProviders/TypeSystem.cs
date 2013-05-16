@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Bespoke.CommercialSpace.Domain.QueryProviders {
+namespace Bespoke.SphCommercialSpaces.Domain.QueryProviders {
     /// <summary>
     /// Type related helper methods
     /// </summary>

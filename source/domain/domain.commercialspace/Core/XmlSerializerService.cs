@@ -12,7 +12,7 @@ using System.Xml.Linq;
 using System.Data.SqlTypes;
 #endif
 
-namespace Bespoke.CommercialSpace.Domain
+namespace Bespoke.SphCommercialSpaces.Domain
 {
     public static class XmlSerializerService
     {

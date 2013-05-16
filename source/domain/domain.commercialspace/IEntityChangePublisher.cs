@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 
-namespace Bespoke.CommercialSpace.Domain
+namespace Bespoke.SphCommercialSpaces.Domain
 {
     public interface IEntityChangePublisher
     {

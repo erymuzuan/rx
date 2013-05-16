@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bespoke.CommercialSpace.Domain;
+using Bespoke.SphCommercialSpaces.Domain;
 using GalaSoft.MvvmLight;
 using System.Collections;
 using System.ComponentModel;

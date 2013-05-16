@@ -2,34 +2,30 @@
     <div class="modal" id="cs-modal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
-            <h3>Commercial Space</h3>
+            <h3><span data-bind="text: title" class="media-heading" /></h3>
         </div>
 
         <form id="cs">
             <div class="modal-body">
                 <div class="labelLeft">
                     <label>Floor</label>
-                    <input type="text" data-bind="text: commercialSpace.FloorName" class="media-heading" />
+                    <input type="text" data-bind="value: commercialSpace.FloorName" class="media-heading" />
                 </div>
                 <div class="labelLeft">
                     <label>Lot</label>
-                    <input type="text" data-bind="text: commercialSpace.LotName" class="media-heading" />
+                    <input type="text" data-bind="value: commercialSpace.LotName" class="media-heading" />
                 </div>
                 <div class="labelLeft">
                     <label>Name</label>
-                    <input type="text" data-bind="text: commercialSpace.Name" class="media-heading" />
+                    <input type="text" data-bind="value: commercialSpace.Name" class="media-heading" />
                 </div>
                 <div class="labelLeft">
                     <label>Size</label>
-                    <input type="text" data-bind="text: commercialSpace.Size" class="media-heading" />
-                </div>
-                <div class="labelLeft">
-                    <label>Type</label>
-                    <input type="text" data-bind="text: commercialSpace.Type" class="media-heading" />
+                    <input type="text" data-bind="value: commercialSpace.Size" class="media-heading" />
                 </div>
                 <div class="labelLeft">
                     <label>Rental Rate</label>
-                    <input type="text" data-bind="text: commercialSpace.RentalRate" class="media-heading" />
+                    <input type="text" data-bind="value: commercialSpace.RentalRate" class="media-heading" />
                 </div>
                 <div class="labelLeft">
                     <label>Rental Type</label>
@@ -57,8 +53,8 @@
             </div>
 
             <div class="modal-footer">
-                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-                <input type="submit" class="btn btn-primary" value="Save" />
+                <input type="button" class="btn btn-primary" value="Cancel" data-bind ="click: cancelCsCommand"/>
+                <input type="button" class="btn btn-primary" value="Save" data-bind="click: saveCsCommand, disable: isBusy()" />
             </div>
         </form>
 

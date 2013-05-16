@@ -2,7 +2,7 @@
 using System.Threading;
 
 
-namespace Bespoke.CommercialSpace.Domain
+namespace Bespoke.SphCommercialSpaces.Domain
 {
     public interface IEntityChangedListener<T>  where T : Entity
     {
