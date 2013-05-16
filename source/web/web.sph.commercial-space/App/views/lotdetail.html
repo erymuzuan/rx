@@ -17,9 +17,9 @@
                 <td>
                     <input type="text" data-bind="value: Size" /></td>
                 <td>
+                    <div class="pull-right">
                     <input type="button" data-bind="click: $parent.removeLotCommand" class="btn btn-primary" value="-" />
-                    <div class="modal-body">
-                        <input type="button" data-bind="click: $parent.createCommercialSpaceCommand" class="btn btn-primary" value="+" />
+                    <a id="new-cs" class="btn btn-success" data-bind="click: $parent.addCsCommand">Commercial Space</a>
                     </div>
                 </td>
             </tr>
@@ -28,7 +28,11 @@
 
     <input type="button" data-bind="click: addNewLotCommand" class="btn btn-primary" value="+Lot" />
 
+    
 </section>
+
 <section>
     <input type="button" class="btn btn-primary" data-bind="click: goBackCommand, disable: isBusy()" value="OK" />
 </section>
+
+

@@ -1,15 +1,66 @@
-﻿<div class="messageBox">
-    <div class="modal-header">
-        <h2>Commercial Space</h2>
-    </div>
-    <div class="modal-body">
-        <h2 data-bind="text: Name" class="media-heading"></h2>
+﻿<section>
+    <div class="modal" id="cs-modal">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3>Commercial Space</h3>
+        </div>
+
+        <form id="cs">
+            <div class="modal-body">
+                <div class="labelLeft">
+                    <label>Floor</label>
+                    <input type="text" data-bind="text: commercialSpace.FloorName" class="media-heading" />
+                </div>
+                <div class="labelLeft">
+                    <label>Lot</label>
+                    <input type="text" data-bind="text: commercialSpace.LotName" class="media-heading" />
+                </div>
+                <div class="labelLeft">
+                    <label>Name</label>
+                    <input type="text" data-bind="text: commercialSpace.Name" class="media-heading" />
+                </div>
+                <div class="labelLeft">
+                    <label>Size</label>
+                    <input type="text" data-bind="text: commercialSpace.Size" class="media-heading" />
+                </div>
+                <div class="labelLeft">
+                    <label>Type</label>
+                    <input type="text" data-bind="text: commercialSpace.Type" class="media-heading" />
+                </div>
+                <div class="labelLeft">
+                    <label>Rental Rate</label>
+                    <input type="text" data-bind="text: commercialSpace.RentalRate" class="media-heading" />
+                </div>
+                <div class="labelLeft">
+                    <label>Rental Type</label>
+                    <select data-bind="value: commercialSpace.RentalType">
+                        <option value="Monthly">Monthly</option>
+                        <option value="Quarterly">Quarterly</option>
+                        <option value="Half Year">Half Year</option>
+                        <option value="Yearly">Yearly</option>
+                    </select>
+                </div>
+                <div class="labelLeft">
+                    <label>Category</label>
+                    <select data-bind="value: commercialSpace.Category">
+                        <option value="Cafeteria">Cafeteria</option>
+                        <option value="ATM">ATM</option>
+                        <option value="Restaurant">Restaurant</option>
+                        <option value="Laundry">Laundry</option>
+                        <option value="Nursery">Nursery</option>
+                    </select>
+                </div>
+                <div class="labelLeft">
+                    <label>IsOnline</label>
+                    <input type="checkbox" data-bind="isChecked: commercialSpace.IsOnline" />
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                <input type="submit" class="btn btn-primary" value="Save" />
+            </div>
+        </form>
 
     </div>
-    <div class="modal-footer">
-        <ul class="btn-group">
-            <button class="btn">OK</button>
-            <button class="btn">Cancel</button>
-        </ul>
-    </div>
-</div>
+</section>

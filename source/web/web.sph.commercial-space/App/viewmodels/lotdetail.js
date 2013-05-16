@@ -13,21 +13,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         buildingId = ko.observable(),
         isBusy = ko.observable(false),
         floorname = ko.observable(),
-        createCommercialSpace = function (lot) {
-            var cs = {
-                BuildingId: buildingId,
-                FloorName: floorname,
-                Lot : lot
-            };
-            app.showModal(cs);
-        },
         activate = function (routeData) {
             logger.log('Lot Details View Activated', null, 'lotdetail', true);
 
             buildingId(routeData.buildingId);
             floorname(routeData.floorname);
 
-            title('Lot details on ' + floorname);
+            title('Lot details on ' + floorname());
             var tcs = new $.Deferred();
             context.loadOneAsync('Building', 'BuildingId eq ' + buildingId())
                 .done(function (b) {
@@ -35,42 +27,45 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                     vm.floor.LotCollection(flo.LotCollection());
                     vm.floor.Name(flo.Name());
                     vm.floor.Size(flo.Size());
-
-                    title('Lot details on ' + floorname() + ' floor size :' + vm.floor.Size());
                     tcs.resolve(true);
                 });
 
             return tcs.promise();
         },
-    removeLot = function (floor) {
-        vm.floor.LotCollection.remove(floor);
-    },
-     addNew = function () {
-         var lot = {
-             Name: ko.observable(''),
-             Size: ko.observable(''),
-             IsCommercialSpace: ko.observable(true)
-         };
-         vm.floor.LotCollection.push(lot);
-     },
-     goBack = function () {
-         var tcs = new $.Deferred();
-         var data = JSON.stringify({
-             floor: ko.mapping.toJS(vm.floor),
-             buildingId: buildingId(),
-             floorname: floorname()
-         });
-         isBusy(true);
-         context.post(data, "/Building/AddLot").done(function (e) {
-             logger.log("Data has been successfully saved ", e, "buildingdetail", true);
+        removeLot = function (floor) {
+            vm.floor.LotCollection.remove(floor);
+        },
+        addNew = function () {
+            var lot = {
+                Name: ko.observable(''),
+                Size: ko.observable(''),
+                IsCommercialSpace: ko.observable(true)
+            };
+            vm.floor.LotCollection.push(lot);
+        },
+        goBack = function () {
+            var tcs = new $.Deferred();
+            var data = JSON.stringify({
+                floor: ko.mapping.toJS(vm.floor),
+                buildingId: buildingId(),
+                floorname: floorname()
+            });
+            isBusy(true);
+            context.post(data, "/Building/AddLot").done(function (e) {
+                logger.log("Data has been successfully saved ", e, "buildingdetail", true);
 
-             isBusy(false);
-             var url = "/#/buildingdetail/" + buildingId();
-             router.navigateTo(url);
-             tcs.resolve(true);
-         });
+                isBusy(false);
+                var url = "/#/buildingdetail/" + buildingId();
+                router.navigateTo(url);
+                tcs.resolve(true);
+            });
 
-         return tcs.promise();
+            return tcs.promise();
+        },
+
+     addCs = function (lot) {
+         var url = '/#/commercialspace/' + buildingId() + '/' + floorname() + '/' + lot.Name();
+         router.navigateTo(url);
      };
 
     var vm = {
@@ -81,10 +76,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             Size: ko.observable(''),
             LotCollection: ko.observableArray([])
         },
+        addCsCommand: addCs,
         addNewLotCommand: addNew,
         goBackCommand: goBack,
         removeLotCommand: removeLot,
-        createCommercialSpaceCommand: createCommercialSpace,
         isBusy: isBusy
     };
 

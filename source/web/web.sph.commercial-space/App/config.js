@@ -34,6 +34,13 @@
             name: 'LotDetail',
             caption: '<i class="icon-user"></i> Lot Details',
             visible: false
+        },
+        {
+            url: 'commercialspace/:buildingId/:floorname/:lotname',
+            moduleId: 'viewmodels/commercialspace',
+            name: 'commercial space',
+            visible: true,
+            caption: '<i class="icon-user"></i> commercial space'
         }
     ];
     

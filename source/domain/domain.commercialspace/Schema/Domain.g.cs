@@ -581,13 +581,13 @@
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_lotNo;
-                public const string PropertyNameLotNo = "LotNo";
+                private  string  m_lotName;
+                public const string PropertyNameLotName = "LotName";
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_floorNo;
-                public const string PropertyNameFloorNo = "FloorNo";
+                private  string  m_floorName;
+                public const string PropertyNameFloorName = "FloorName";
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -601,8 +601,8 @@
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_type;
-                public const string PropertyNameType = "Type";
+                private  string  m_category;
+                public const string PropertyNameCategory = "Category";
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -657,22 +657,22 @@
             
             [DebuggerHidden]
             
-                public string LotNo
+                public string LotName
                 {
                 set
                 {
-                if( String.Equals( m_lotNo, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameLotNo, value);
+                if( String.Equals( m_lotName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLotName, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_lotNo= value;
-                OnPropertyChanged(PropertyNameLotNo);
+                m_lotName= value;
+                OnPropertyChanged(PropertyNameLotName);
                 }
                 }
                 get
                 {
-                return m_lotNo;}
+                return m_lotName;}
                 }
 
               
@@ -685,22 +685,22 @@
             
             [DebuggerHidden]
             
-                public string FloorNo
+                public string FloorName
                 {
                 set
                 {
-                if( String.Equals( m_floorNo, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameFloorNo, value);
+                if( String.Equals( m_floorName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFloorName, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_floorNo= value;
-                OnPropertyChanged(PropertyNameFloorNo);
+                m_floorName= value;
+                OnPropertyChanged(PropertyNameFloorName);
                 }
                 }
                 get
                 {
-                return m_floorNo;}
+                return m_floorName;}
                 }
 
               
@@ -769,22 +769,22 @@
             
             [DebuggerHidden]
             
-                public string Type
+                public string Category
                 {
                 set
                 {
-                if( String.Equals( m_type, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameType, value);
+                if( String.Equals( m_category, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCategory, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_type= value;
-                OnPropertyChanged(PropertyNameType);
+                m_category= value;
+                OnPropertyChanged(PropertyNameCategory);
                 }
                 }
                 get
                 {
-                return m_type;}
+                return m_category;}
                 }
 
               
