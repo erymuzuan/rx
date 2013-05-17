@@ -57,6 +57,14 @@
             visible: true,
             caption: 'rentalapplication',
             settings: { caption: '<i class="icon-user"></i> Permohonan' }
+        },
+        {
+            url: 'buildingforrental',
+            moduleId: 'viewmodels/buildingforrental',
+            name: 'buildingforrental',
+            visible: true,
+            caption: 'buildingforrental',
+            settings: { caption: '<i class="icon-user"></i> buildingforrental' }
         }
     ];
     

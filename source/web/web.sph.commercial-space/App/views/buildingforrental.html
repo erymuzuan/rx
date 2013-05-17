@@ -1,0 +1,42 @@
+﻿<section>
+    <div class="labelLeft">
+        <label>Negeri</label>
+        <select>
+            <option value="Selangor">Selangor</option>
+            <option value="Johor">Johor</option>
+            <option value="Melaka">Melaka</option>
+            <option value="Kelantan">Kelantan</option>
+            <option value="Perak">Perak</option>
+            <option value="Pahang">Pahang</option>
+            <option value="Sarawak">Sarawak</option>
+            <option value="Sabah">Sabah</option>
+            <option value="Pulau Pinang">Pulau Pinang</option>
+            <option value="Terengganu">Terengganu</option>
+        </select>
+    </div>
+    <div class="labelLeft">
+         <label>Jenis Perniagaan</label>
+        <select>
+            <option value="Cafeteria">Kafeteria</option>
+            <option value="ATM">ATM</option>
+            <option value="Laundry">Kedai Dobi</option>
+            <option value="Nursery">Pengasuh</option>
+        </select>
+    </div>
+</section>
+<section id="building-list" class="view-list" data-bind="foreach: buildings">
+    
+    <div class="article-right-content">
+        <article class="article-container-full-width">
+            <div id="div-building" title="Go to building details" >
+                <address data-bind="text: Name"></address>
+                <section id="floor-list" class="view-list" data-bind="foreach:FloorCollection">
+                    <div id="div-floor" title="lot listing" data-bind="click: $parent.viewAttached">
+                        <address data-bind="text:Name"></address>
+                        <address data-bind="text:Size"></address>
+                    </div>
+                </section>
+            </div>
+        </article>
+    </div>
+</section>
