@@ -15,7 +15,7 @@ nav, section, summary, time, mark, audio, video
 html {
     padding: 0;
     color: black;
-    background: #EFEFEF;
+    background: #FFFFFF;
 }
 
 body {
@@ -68,13 +68,22 @@ section.main {
 }
 
 .article-right-content {
-    background-color:#F37735;
+    background-color:#999999;
+    cursor: pointer;
     display: inline-table;
     font-size: 15px;
     height: 100px;
     margin: 5px;
     padding: 2px;
     width: 150px;
+}
+
+.navbar-fixed-top .navbar-secondary {
+    background-color: #0081C2;
+    background-image: -moz-linear-gradient(center top , #59C0F3, #0081C2);
+    background-repeat: repeat-x;
+    border-bottom: 1px solid #1F5599;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
 }
 
 .nav {
@@ -86,7 +95,7 @@ section.main {
 }
 
 .nav li {
-    background-color: #77923C;
+    background-color: #999999;
     display: inline-block;
     font-size: 15px;
     margin: 4px;
@@ -113,7 +122,7 @@ h2.page-title {
     text-transform: capitalize;
     text-transform: initial;
     text-decoration: none;
-    color: #0081C2;
+    color: #FFFFFF;
 }
     span.title {
         background: url(/content/images/icon.png) no-repeat left center;
@@ -190,11 +199,8 @@ footer span {
 }
 
 .navbar-fixed-top .navbar-inner {
-    padding-left: 1em !important;
-    padding-right: 1em !important;
-    padding-top: 0;
-    padding-bottom: 0;
-    border-width: 0;
+    background-color: #999999;
+    
 }
 
 .navbar-fixed-bottom .navbar-inner {
@@ -202,10 +208,13 @@ footer span {
 }
 
 .navbar {
+    background-color:#7f7f7f;
     text-transform: uppercase;
 }
 
 .loader .page-progress-bar {
+
+
     margin: 14px 0 0 0 ;
 }
 
