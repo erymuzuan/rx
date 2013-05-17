@@ -55,7 +55,7 @@
             moduleId: 'viewmodels/rentalapplication',
             name: 'rental application',
             visible: true,
-            caption: 'rental application',
+            caption: 'rentalapplication',
             settings: { caption: '<i class="icon-user"></i> Permohonan' }
         }
     ];
