@@ -8,6 +8,7 @@
         <EntityContainer Name="SphStoreContainer">
           <EntitySet Name="Building" EntityType="Sph.Store.Building" store:Type="Tables" Schema="Sph" />
           <EntitySet Name="CommercialSpace" EntityType="Sph.Store.CommercialSpace" store:Type="Tables" Schema="Sph" />
+          <EntitySet Name="RentalApplication" EntityType="Sph.Store.RentalApplication" store:Type="Tables" Schema="Sph" />
         </EntityContainer>
         <EntityType Name="Building">
           <Key>
@@ -45,6 +46,20 @@
           <Property Name="ChangedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="RentalApplication">
+          <Key>
+            <PropertyRef Name="RentalApplicationId" />
+          </Key>
+          <Property Name="RentalApplicationId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="10" />
+          <Property Name="CompanyRegistrationNo" Type="varchar" MaxLength="255" />
+          <Property Name="CommercialSpaceId" Type="varchar" MaxLength="255" />
+          <Property Name="Data" Type="xml" Nullable="false" />
+          <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="ChangedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
+        </EntityType>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -52,7 +67,8 @@
         <EntityContainer Name="SphContainer" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Buildings" EntityType="Sph.Building" cg:GetterAccess="Internal" />
           <EntitySet Name="CommercialSpaces" EntityType="Sph.CommercialSpace" cg:GetterAccess="Internal" />
-        </EntityContainer>
+          <EntitySet Name="RentalApplications" EntityType="Sph.RentalApplication" />
+          </EntityContainer>
         <EntityType Name="Building" cg:TypeAccess="Internal">
           <Key>
             <PropertyRef Name="BuildingId" />
@@ -89,6 +105,20 @@
           <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
           <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="RentalApplication">
+          <Key>
+            <PropertyRef Name="RentalApplicationId" />
+          </Key>
+          <Property Type="Int32" Name="RentalApplicationId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="CompanyName" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CompanyRegistrationNo" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CommercialSpaceId" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -98,44 +128,59 @@
         <Alias Key="Target" Value="Sph.Store" />
         <EntityContainerMapping CdmEntityContainer="SphContainer" StorageEntityContainer="SphStoreContainer">
           <EntitySetMapping Name="Buildings">
-            <EntityTypeMapping TypeName="Sph.Building">
+            <EntityTypeMapping TypeName="IsTypeOf(Sph.Building)">
               <MappingFragment StoreEntitySet="Building">
-                <ScalarProperty Name="PolygonEncoded" ColumnName="PolygonEncoded" />
-                <ScalarProperty Name="PolygonWkt" ColumnName="PolygonWkt" />
-                <ScalarProperty Name="Polygon" ColumnName="Polygon" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
-                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Polygon" ColumnName="Polygon" />
+                <ScalarProperty Name="PolygonWkt" ColumnName="PolygonWkt" />
+                <ScalarProperty Name="PolygonEncoded" ColumnName="PolygonEncoded" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CommercialSpaces">
-            <EntityTypeMapping TypeName="Sph.CommercialSpace">
+            <EntityTypeMapping TypeName="IsTypeOf(Sph.CommercialSpace)">
               <MappingFragment StoreEntitySet="CommercialSpace">
+                <ScalarProperty Name="CommercialSpaceId" ColumnName="CommercialSpaceId" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
+                <ScalarProperty Name="FloorName" ColumnName="FloorName" />
+                <ScalarProperty Name="LotName" ColumnName="LotName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
+                <ScalarProperty Name="RentalType" ColumnName="RentalType" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RentalApplications">
+            <EntityTypeMapping TypeName="Sph.RentalApplication">
+              <MappingFragment StoreEntitySet="RentalApplication">
                 <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
                 <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="RentalType" ColumnName="RentalType" />
-                <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="LotName" ColumnName="LotName" />
-                <ScalarProperty Name="FloorName" ColumnName="FloorName" />
-                <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="CommercialSpaceId" ColumnName="CommercialSpaceId" />
+                <ScalarProperty Name="CompanyRegistrationNo" ColumnName="CompanyRegistrationNo" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="RentalApplicationId" ColumnName="RentalApplicationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

@@ -101,6 +101,7 @@
     <Compile Include="QueryProviders\TypeSystem.cs" />
     <Compile Include="QueryProviders\UnusedColumnRemover.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RentalApplication.cs" />
     <Compile Include="Schema\Domain.g.cs" />
     <Compile Include="SphDataContext.cs" />
     <Compile Include="SubmitOperation.cs" />

@@ -21,7 +21,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public async Task<ActionResult> AddLot(Floor floor,int buildingId,string floorname)
         {
-            await Task.Delay(5000);
             var context = new SphDataContext();
             var dbItem =await context.LoadOneAsync<Building>(b => b.BuildingId == buildingId);
             var dbfloor = dbItem.FloorCollection.Single(f => f.Name == floorname);

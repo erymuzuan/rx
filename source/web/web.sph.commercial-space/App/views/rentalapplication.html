@@ -1,0 +1,68 @@
+﻿<section>
+    <h2>Permohonan Penyewaan Ruang Komersial</h2>
+    <div class="labelLeft">
+        <label>Nama Syarikat</label>
+        <input type="text" data-bind="value: rentalapplication.CompanyName" />
+    </div>
+    <div class="labelLeft">
+        <label>No Pendaftaran Syarikat/Persatuan</label>
+        <input type="text" data-bind="value: rentalapplication.CompanyRegistrationNo" />
+    </div>
+    <div class="labelLeft">
+        <label>Tarikh Mula</label>
+        <input data-format="dd/MM/yyyy hh:mm:ss" type="text" data-bind="value: rentalapplication.DateStart" />
+
+    </div>
+    <div class="labelLeft">
+        <label>Tarikh Akhir</label>
+        <input data-format="dd/MM/yyyy hh:mm:ss" type="text" data-bind="value: rentalapplication.DateEnd" />
+        <span class="add-on">
+            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+        </span>
+
+    </div>
+    <div class="labelLeft">
+        <label>Tujuan Permohonan</label>
+        <input type="text" data-bind="value: rentalapplication.Purpose" />
+    </div>
+    <div class="labelLeft">
+        <label>Jenis Syarikat</label>
+        <select data-bind="value: rentalapplication.CompanyType">
+            <option value="Business Corporate">Business Corporate</option>
+            <option value="Partnership">Partnership</option>
+            <option value="Sole Proprietorship">Sole Proprietorship</option>
+            <option value="Others">Others</option>
+        </select>
+    </div>
+    <h1>Alamat</h1>
+    <div class="labelLeft">
+        <label>Jalan</label>
+        <input type="text" data-bind="value: rentalapplication.Address.Street" />
+    </div>
+    <div class="labelLeft">
+        <label>Bandar</label>
+        <input type="text" data-bind="value: rentalapplication.Address.City" />
+    </div>
+    <div class="labelLeft">
+        <label>Poskod</label>
+        <input type="text" data-bind="value: rentalapplication.Address.Postcode" />
+    </div>
+    <div class="labelLeft">
+        <label>Negeri</label>
+        <select data-bind="value: rentalapplication.Address.State">
+            <option value="Selangor">Selangor</option>
+            <option value="Johor">Johor</option>
+            <option value="Melaka">Melaka</option>
+            <option value="Kelantan">Kelantan</option>
+            <option value="W.P Kuala Lumpur">W.P Kuala Lumpur</option>
+            <option value="Pahang">Pahang</option>
+            <option value="Perak">Perak</option>
+            <option value="Terengganu">Terengganu</option>
+            <option value="Sabah">Sabah</option>
+            <option value="Sarawak">Sarawak</option>
+        </select>
+    </div>
+    <div>
+        <input type="button" class="btn btn-primary" value="Save" data-bind="click: saveCommand" />
+    </div>
+</section>
