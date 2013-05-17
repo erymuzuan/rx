@@ -21,7 +21,8 @@
             moduleId: 'viewmodels/building',
             name: 'Building',
             visible: true,
-            caption: '<i class="icon-user"></i> Building'
+            caption: 'Building',
+            settings: { caption: '<i class="icon-user"></i> Building' }
         },
         {
             url: 'commercialspace',
@@ -48,6 +49,14 @@
             name: 'commercial space',
             visible: false,
             caption: '<i class="icon-user"></i> commercial space'
+        },
+        {
+            url: 'rentalapplication',
+            moduleId: 'viewmodels/rentalapplication',
+            name: 'rental application',
+            visible: true,
+            caption: 'rental application',
+            settings: { caption: '<i class="icon-user"></i> Permohonan' }
         }
     ];
     

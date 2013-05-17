@@ -67,4 +67,18 @@
 			<xs:attribute name="ContactNo" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="RentalApplication">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Address" minOccurs="0"/>
+			</xs:all>
+			<xs:attribute name="CompanyName" type="xs:string" use="required"/>
+			<xs:attribute name="CompanyRegistrationNo" type="xs:string" use="required"/>
+			<xs:attribute name="DateStart" type="xs:dateTime" use="required"/>
+			<xs:attribute name="DateEnd" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Purpose" type="xs:string" use="required"/>
+			<xs:attribute name="CompanyType" type="xs:string" use="required"/>
+			<xs:attribute name="CommercialSpaceId" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>
