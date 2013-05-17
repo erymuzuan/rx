@@ -12,14 +12,14 @@
     var routes = [{
         url: 'details',
         moduleId: 'viewmodels/details',
-        name: 'Details',
+        name: 'Papan Tugas',
         visible: true,
-        caption: '<i class="icon-user"></i> Details'
+        caption: '<i class="icon-user"></i> Papan Tugas'
     },
         {
             url: 'building',
             moduleId: 'viewmodels/building',
-            name: 'Building',
+            name: 'Bangunan',
             visible: true,
             caption: 'Building',
             settings: { caption: '<i class="icon-user"></i> Building' }
@@ -27,7 +27,7 @@
         {
             url: 'commercialspace',
             moduleId: 'viewmodels/commercialspace',
-            name: 'Commercial Space',
+            name: 'Ruang Komersial',
             visible: true,
             caption: '<i class="icon-user"></i> Commercial Space'
         }, {
@@ -46,25 +46,33 @@
         {
             url: 'commercialspacedetail/:buildingId/:floorname/:lotname',
             moduleId: 'viewmodels/commercialspacedetail',
-            name: 'commercial space',
+            name: 'ruang komersial',
             visible: false,
             caption: '<i class="icon-user"></i> commercial space'
         },
         {
-            url: 'rentalapplication',
+            url: 'rentalapplication/:id',
             moduleId: 'viewmodels/rentalapplication',
             name: 'rental application',
-            visible: true,
+            visible: false,
             caption: 'rentalapplication',
             settings: { caption: '<i class="icon-user"></i> Permohonan' }
         },
         {
             url: 'buildingforrental',
             moduleId: 'viewmodels/buildingforrental',
-            name: 'buildingforrental',
+            name: 'permohonan',
             visible: true,
-            caption: 'buildingforrental',
-            settings: { caption: '<i class="icon-user"></i> buildingforrental' }
+            caption: 'permohonan',
+            settings: { caption: '<i class="icon-user"></i> permohonan' }
+        },
+        {
+            url: 'commercialspaceforrental/:buildingId',
+            moduleId: 'viewmodels/commercialspaceforrental',
+            name: 'commercialspaceforrental',
+            visible: false,
+            caption: 'commercialspaceforrental',
+            settings: { caption: '<i class="icon-user"></i> permohonan' }
         }
     ];
     

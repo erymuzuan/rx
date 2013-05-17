@@ -6,8 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="4794ab81c85f4e81b85b30ee7c8c0a0a" Name="Diagram1" >
         <EntityTypeShape EntityType="Sph.Building" Width="1.5" PointX="1.25" PointY="1.5" />
-        <EntityTypeShape EntityType="Sph.CommercialSpace" Width="1.5" PointX="3.375" PointY="1.625" />
         <EntityTypeShape EntityType="Sph.RentalApplication" Width="1.5" PointX="7.875" PointY="2.75" />
+        <EntityTypeShape EntityType="Sph.CommercialSpace" Width="1.5" PointX="5" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

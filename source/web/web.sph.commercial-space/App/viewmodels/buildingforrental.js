@@ -33,7 +33,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
     };
     var gotoDetails = function (selectedBuilding) {
         if (selectedBuilding && selectedBuilding.BuildingId()) {
-            var url = '/#/csforrental/' + selectedBuilding.BuildingId();
+            var url = '/#/commercialspaceforrental/' + selectedBuilding.BuildingId();
             router.navigateTo(url);
         }
     };

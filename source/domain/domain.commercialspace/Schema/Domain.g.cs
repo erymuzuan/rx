@@ -640,6 +640,16 @@
                 public const string PropertyNameContactNo = "ContactNo";
 
               
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_state;
+                public const string PropertyNameState = "State";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_city;
+                public const string PropertyNameCity = "City";
+
+              
             ///<summary>
             /// 
             ///</summary>
@@ -997,6 +1007,62 @@
                 get
                 {
                 return m_contactNo;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string State
+                {
+                set
+                {
+                if( String.Equals( m_state, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameState, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_state= value;
+                OnPropertyChanged(PropertyNameState);
+                }
+                }
+                get
+                {
+                return m_state;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string City
+                {
+                set
+                {
+                if( String.Equals( m_city, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCity, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_city= value;
+                OnPropertyChanged(PropertyNameCity);
+                }
+                }
+                get
+                {
+                return m_city;}
                 }
 
               

@@ -65,6 +65,8 @@
 			<xs:attribute name="Status" type="xs:boolean" use="required"/>
 			<xs:attribute name="ContactPerson" type="xs:string" use="optional"/>
 			<xs:attribute name="ContactNo" type="xs:string" use="optional"/>
+			<xs:attribute name="State" type="xs:string" use="required"/>
+			<xs:attribute name="City" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="RentalApplication">

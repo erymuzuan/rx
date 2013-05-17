@@ -10,8 +10,11 @@
 define(['services/datacontext', 'services/logger'], function (context, logger) {
     
     var isBusy = ko.observable(false),
-        activate = function () {
+        id = ko.observable(),
+        activate = function (routeData) {
             logger.log('Rental Application View Activated', null, 'rentalapplication', true);
+            id(routeData.id);
+            vm.rentalapplication.CommercialSpaceId(routeData.id);
             return true;
         },
         
@@ -30,6 +33,7 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
     var vm = {
         activate: activate,
         rentalapplication: {
+            CommercialSpaceId: ko.observable(),
             CompanyName: ko.observable(''),
             CompanyRegistrationNo: ko.observable(''),
             DateStart: ko.observable(),

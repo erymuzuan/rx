@@ -12,7 +12,7 @@ namespace Bespoke.Sph.SqlRepository
     using System;
     using System.Collections.Generic;
     
-    internal partial class CommercialSpace
+    public partial class CommercialSpace
     {
         public int CommercialSpaceId { get; set; }
         public string Data { get; set; }
@@ -27,5 +27,7 @@ namespace Bespoke.Sph.SqlRepository
         public string CreatedBy { get; set; }
         public System.DateTime ChangedDate { get; set; }
         public string ChangedBy { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
     }
 }

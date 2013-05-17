@@ -1,5 +1,4 @@
 ﻿using System.Xml.Serialization;
-using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
