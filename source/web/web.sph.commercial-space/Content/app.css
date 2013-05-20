@@ -95,7 +95,7 @@ section.main {
     padding: 20px;
 }
 
-.article-left-content:nth-child(odd) { 
+.article-left-content:nth-child(even) { 
     background: #fff;
     border-top: 1px solid rgba(0, 0, 0, 0.08); 
 
