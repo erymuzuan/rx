@@ -6,13 +6,13 @@
     <input type="button" data-bind="click: addNewLotCommand" class="btn btn-primary" value="New Lot" /></div>
      <div>
         <ul class="nav" data-bind="foreach: floor.LotCollection" >                       
-                <li style="width: 180px; height: 150px;">
-                    <a id="new-cs" class="btn btn-success" data-bind="click: $parent.addCsCommand">Commercial Space</a>
-                    <label>Nama</label><input data-bind="value: Name" />
-                    <label>Keluasan</label><input data-bind="value: Size" />
-                    <input type="button" data-bind="click: $parent.removeLotCommand" class="btn btn-primary" value="-" />                                       
-                </li>
-            </ul>                 
+            <li style="width: 180px; height: 160px;">
+                <a id="new-cs" class="btn btn-success" data-bind="click: $parent.addCsCommand">Commercial Space</a>
+                <label>Nama Lot</label><input class="fixed150" data-bind="value: Name" />
+                <label>Keluasan</label><input class="fixed150" data-bind="value: Size" />
+                <input type="button" data-bind="click: $parent.removeLotCommand" class="btn btn-primary" value="-" />                                       
+            </li>
+        </ul>                 
     </div>
 </section>
 

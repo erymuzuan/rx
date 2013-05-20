@@ -1,8 +1,12 @@
-﻿<section id="building-list" class="view-list" data-bind="foreach: buildings">
+﻿<div class="header-section">
+    <h3>Senarai Bangunan</h3>
+</div>
+<section id="building-list" class="view-list" data-bind="foreach: buildings">
     <div class="article-right-content">
         <article class="article-container-full-width">
             <div id="div-building" title="Go to building details" data-bind="click: $parent.viewAttached">
-                <label>Alamat</label><address data-bind="text: Name"></address>
+                <div class="labelRight">
+                <label>Nama Lot</label><address data-bind="text: Name"></address></div>
             </div>
         </article>
     </div>
