@@ -11,3 +11,6 @@ CREATE TABLE Sph.RentalApplication
 	,[ChangedBy] VARCHAR(255) NULL
 
 )
+
+ALTER TABLE [Sph].[Sph].[RentalApplication]
+ADD [Status] VARCHAR(255) NOT NULL DEFAULT ''

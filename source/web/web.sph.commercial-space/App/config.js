@@ -76,7 +76,7 @@
         }
     ];
     
-    var startModule = 'details';
+    var startModule = 'building';
 
     return {
         debugEnabled: ko.observable(true),

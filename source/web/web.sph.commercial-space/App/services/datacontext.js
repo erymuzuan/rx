@@ -11,6 +11,7 @@ function (logger) {
         loadAsync: loadAsync,
         loadOneAsync: loadOneAsync,
         getSumAsync: getSumAsync,
+        getCountAsync: getCountAsync,
         post: post
     };
     return context;
@@ -90,7 +91,14 @@ function (logger) {
     }
 
     function getSumAsync(entity, query, field) {
-        var url = "/aggregate/sum";
+        return getAggregateAsync("sum", entity, query, field);
+    }
+    function getCountAsync(entity, query, field) {
+        return getAggregateAsync("count", entity, query, field);
+    }
+
+    function getAggregateAsync(aggregate, entity, query, field) {
+        var url = "/aggregate/" + aggregate;
         url += "/?filter=";
         url += query;
         url += "&column=";

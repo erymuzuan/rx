@@ -28,7 +28,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                         vm.commercialSpace.BuildingId(buildingId());
                         vm.commercialSpace.FloorName(floorname());
                         vm.commercialSpace.LotName(lotname());
-                        vm.commercialSpace.Name('');
                         vm.commercialSpace.RentalRate('');
                         vm.commercialSpace.Size('');
                         vm.commercialSpace.RentalRate('');
@@ -68,12 +67,12 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             BuildingId: ko.observable(''),
             FloorName: ko.observable(''),
             LotName: ko.observable(''),
-            Name: ko.observable(''),
             Size: ko.observable(''),
             Category: ko.observable(''),
             RentalRate: ko.observable(''),
             RentalType: ko.observable(''),
             IsOnline: ko.observable(false),
+            
         },
 
         saveCsCommand: saveCs,

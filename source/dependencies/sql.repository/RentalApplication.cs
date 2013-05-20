@@ -12,7 +12,7 @@ namespace Bespoke.Sph.SqlRepository
     using System;
     using System.Collections.Generic;
     
-    public partial class RentalApplication
+    internal partial class RentalApplication
     {
         public int RentalApplicationId { get; set; }
         public string CompanyName { get; set; }
@@ -23,5 +23,6 @@ namespace Bespoke.Sph.SqlRepository
         public string CreatedBy { get; set; }
         public System.DateTime ChangedDate { get; set; }
         public string ChangedBy { get; set; }
+        public string Status { get; set; }
     }
 }

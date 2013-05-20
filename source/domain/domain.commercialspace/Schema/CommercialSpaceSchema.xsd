@@ -55,7 +55,6 @@
 			<xs:attribute name="BuildingId" type="xs:int" use="required"/>
 			<xs:attribute name="LotName" type="xs:string" use="required"/>
 			<xs:attribute name="FloorName" type="xs:string" use="required"/>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Size" type="xs:double" use="required"/>
 			<xs:attribute name="Category" type="xs:string" use="required"/>
 			<xs:attribute name="RentalRate" type="xs:decimal" use="required"/>
@@ -81,6 +80,18 @@
 			<xs:attribute name="Purpose" type="xs:string" use="required"/>
 			<xs:attribute name="CompanyType" type="xs:string" use="required"/>
 			<xs:attribute name="CommercialSpaceId" type="xs:int" use="required"/>
+			<xs:attribute name="Status" type="xs:string" use="required"/>
+			<xs:attribute name="Experience" type="xs:string" use="required"/>
+			<xs:attribute name="IsRecordExist" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Attachment">
+		<xs:complexType>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="IsRequired" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsReceived" type="xs:boolean" use="required"/>
+			<xs:attribute name="StoreId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
