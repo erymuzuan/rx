@@ -35,9 +35,10 @@
             <div id="div-building" title="Go to building details" >
                 <address data-bind="text: Name"></address>
                 <section id="floor-list" class="view-list" data-bind="foreach:FloorCollection">
+                    <img src="../Content/images/icon.png" width="128" height="128" alt="">
                     <div id="div-floor" title="lot listing" data-bind="click: $parent.viewAttached">
-                        <address data-bind="text:Name"></address>
-                        <address data-bind="text:Size"></address>
+                        <div class="labelLeft"><label>Nombor Lot:</label><address data-bind="text:Name"></address></div>
+                        <div class="labelLeft"><label>Keluasan:</label><address data-bind="text:Size"></address></div>
                     </div>
                 </section>
             </div>
