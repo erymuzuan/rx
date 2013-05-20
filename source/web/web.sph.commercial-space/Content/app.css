@@ -33,8 +33,12 @@ body {
    margin: 5px;
    padding: 2px;
    width: 150px;
-
 }
+.article-right-content:hover {
+   background-color:lightblue;
+}
+
+
 h1, h2, h3 {
     text-transform: lowercase;
     letter-spacing: -1px !important;
@@ -69,6 +73,21 @@ section.main {
     text-align: left;
 }
 
+.labelRight label {
+    color: #1E1E1E;
+    float: left;
+    font-size: 1em;
+    margin-right: 10px;
+    min-width: 190px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.labelRight {
+    color: #696969;
+    text-align: center;
+}
+
 .submitpanel {
     float:left;
     padding:20px;
@@ -77,14 +96,17 @@ section.main {
 }
 
 .article-right-content {
-    background-color:#999999;
-    cursor: pointer;
-    display: inline-table;
-    font-size: 15px;
-    height: 100px;
-    margin: 5px;
-    padding: 2px;
-    width: 150px;
+    border: 1px solid #c7c7c7;
+    border-left: 7px solid #ccc;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    padding: 8px 4px 8px 8px;
+    height: 89px;
+    position: relative;
+    color: #777;
+    background-color: #f2f2f2;
 }
 
 .article-left-content {
@@ -98,7 +120,6 @@ section.main {
 .article-left-content:nth-child(even) { 
     background: #fff;
     border-top: 1px solid rgba(0, 0, 0, 0.08); 
-
 }
 
 
@@ -109,8 +130,11 @@ section.main {
         background-color: lightblue;
         background-repeat: no-repeat;
         border-color: #59C0F3 #0081C2 #194D7B;
-        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
     }
+
+.fixed150 {
+    width:150px;
+}
 
 .navbar-secondary {
     background-color: #0081C2;
@@ -128,11 +152,18 @@ section.main {
 }
 
 .nav li {
-    background-color: #999999;
     display: inline-block;
-    font-size: 15px;
-    margin: 4px;
-    padding: 4px;
+    border: 1px solid #c7c7c7;
+    border-left: 7px solid #ccc;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    padding: 8px 4px 8px 8px;
+    height: 89px;
+    position: relative;
+    color: #777;
+    background-color: #f2f2f2;
 }
 
 .navbar .brand {
