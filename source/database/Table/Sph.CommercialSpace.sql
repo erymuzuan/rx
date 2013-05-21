@@ -1,0 +1,23 @@
+CREATE TABLE Sph.CommercialSpace
+(
+	 [CommercialSpaceId] INT PRIMARY KEY IDENTITY(1,1)
+	,[Data] XML NOT NULL
+	,[BuildingId] VARCHAR(10) NULL
+	,[FloorName] VARCHAR(255) NULL
+	,[LotName] VARCHAR(255) NULL
+	,[Name] VARCHAR(255) NULL
+	,[Category] VARCHAR(255) NULL
+	,[IsOnline] VARCHAR(255) NULL
+	,[RentalType] VARCHAR(255) NULL
+	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
+	,[CreatedBy] VARCHAR(255) NULL
+	,[ChangedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
+	,[ChangedBy] VARCHAR(255) NULL
+
+)
+
+ALTER TABLE [Sph].[Sph].[CommercialSpace]
+ADD [State] VARCHAR(MAX) NOT NULL DEFAULT ''
+
+ALTER TABLE [Sph].[Sph].[CommercialSpace]
+ADD [City] VARCHAR(MAX) NOT NULL DEFAULT ''

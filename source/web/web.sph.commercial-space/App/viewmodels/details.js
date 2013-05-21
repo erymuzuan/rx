@@ -11,8 +11,8 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
     var activate = function() {
             logger.log('Admin Dashboard Activated', null, 'details', true);
             var tcs = new $.Deferred();
-            context.loadAsync("RentalApplication", "RentalApplicationId gt 0").done(function (lo) {
-                vm.rentalApplications(lo.itemCollection);
+            context.getCountAsync("RentalApplication", "RentalApplicationId gt 0", "RentalApplicationId").done(function (c) {
+                vm.count(c);
                 tcs.resolve(true);
             });
 
@@ -24,6 +24,7 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
         activate: activate,
         title: 'Papan Tugas',
         rentalApplications: ko.observableArray([]),
+        count:ko.observable()
        
     };
 
