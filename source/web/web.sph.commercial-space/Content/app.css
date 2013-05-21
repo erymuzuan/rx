@@ -295,6 +295,32 @@ footer span {
 }
 
 
+.tile-bt-2 {
+    cursor: pointer;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    width: 130px;
+}
+
+.tile-bt-2 img {
+    height:32px;
+    margin:auto;
+    padding:0;
+    position:relative;
+    vertical-align:middle;
+    width:32px;
+}
+
+.solid-blue {
+    background-color:#FFFFFF;
+}
+
+.solid-blue:hover {
+    border:2px solid #ccc;
+    text-decoration:none !important;
+}
+
 
 
 .btn-info {
