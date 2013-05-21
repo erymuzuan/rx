@@ -87,7 +87,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
         private static IQueryable<T> Translate<T>(Expression<Func<T, bool>> predicate)
         {
-
             var provider = ObjectBuilder.GetObject<QueryProvider>();
             var query = new Query<T>(provider).Where(predicate);
             return query;

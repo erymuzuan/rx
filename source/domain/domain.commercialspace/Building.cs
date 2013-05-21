@@ -16,5 +16,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
                RaisePropertyChanged();
            }
        }
+
     }
 }

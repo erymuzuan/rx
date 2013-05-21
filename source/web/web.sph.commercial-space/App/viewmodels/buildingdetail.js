@@ -31,7 +31,11 @@ define(['services/datacontext',
         var addLot = function (floor) {
             var url = '/#/lotdetail/' + vm.building.BuildingId() + '/' + floor.Name();
             router.navigateTo(url);
-        };
+        },
+            viewFloorPlan = function (floor) {
+                var url = '/#/floorplan/' + vm.building.BuildingId() + '/' + floor.Name();
+                router.navigateTo(url);
+            };
 
         var goBack = function () {
             var url = '/#/building';
@@ -61,7 +65,7 @@ define(['services/datacontext',
         };
 
         var showMap = function () {
-            mapvm.init({ draw: true, polygoncomplete: polygoncomplete });
+            mapvm.init({ panel: 'map', draw: true, polygoncomplete: polygoncomplete });
         },
             polygon = null,
             polygoncomplete = function (shape) {
@@ -105,6 +109,7 @@ define(['services/datacontext',
             saveMapCommand: saveMap,
             addFloorCommand: addFloor,
             addLotCommand: addLot,
+            viewFloorPlanCommand: viewFloorPlan,
             goBackCommand: goBack,
             isBusy: isBusy,
             removeFloorCommand: removeFloor,

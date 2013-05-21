@@ -1,0 +1,31 @@
+USE [Sph]
+IF OBJECT_ID('Sph.SpatialStore', 'U') IS NOT NULL
+  DROP TABLE Sph.SpatialStore
+GO
+
+CREATE TABLE Sph.SpatialStore
+(
+	 [SpatialStoreId] INT PRIMARY KEY IDENTITY(1,1)
+	,[Data] XML NOT NULL
+	,[Type] VARCHAR(255) NULL
+	,[StoreId] VARCHAR(255) NULL
+	,[Tag] VARCHAR(255) NULL
+	,[SearchText] VARCHAR(255) NULL
+	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
+	,[CreatedBy] VARCHAR(255) NULL
+	,[ChangedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
+	,[ChangedBy] VARCHAR(255) NULL
+
+)
+GO 
+
+ALTER TABLE Sph.SpatialStore
+ADD [Path] GEOGRAPHY NULL
+
+GO
+ALTER TABLE Sph.SpatialStore
+ADD [Wkt] VARCHAR(MAX) NULL
+
+GO
+ALTER TABLE Sph.SpatialStore
+ADD [EncodedWkt] VARCHAR(MAX) NULL
