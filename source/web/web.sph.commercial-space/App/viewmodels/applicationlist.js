@@ -7,23 +7,47 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger'], function (context, logger) {
-    var activate = function () {
-        logger.log('Application List View Activated', null, 'applicationlist', true);
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
+    var status = ko.observable(),
+        activate = function (routedata) {
+            logger.log('Application List View Activated', null, 'applicationlist', true);
+            status(routedata.status);
+            var tcs = new $.Deferred();
+            var query = String.format("Status eq '{0}'", status());
+            context.loadAsync("RentalApplication", query).done(function (lo) {
+                vm.applications(lo.itemCollection);
+                tcs.resolve(true);
+            });
+            tcs.promise();
+        },
+        viewDetail = function () {
+            var url = '/#/rentalapplication/';
+            router.navigateTo(url);
+        },
 
-        var tcs = new $.Deferred();
-        context.loadAsync("RentalApplication", "RentalApplicationId gt 0").done(function (lo) {
-            vm.applications(lo.itemCollection);
-            tcs.resolve(true);
-        });
-        tcs.promise();
-    };
-
+        viewAttached = function (view) {
+            bindEventToList(view, '#div-application', gotoDetails);
+        },
+        bindEventToList = function (rootSelector, selector, callback, eventName) {
+            var eName = eventName || 'click';
+            $(rootSelector).on(eName, selector, function () {
+                var application = ko.dataFor(this);
+                callback(application);
+                return false;
+            });
+        },
+        gotoDetails = function (selectedApplication) {
+            if (selectedApplication && selectedApplication.RentalApplicationId()) {
+                var url = '/#/rentalapplication/'+ selectedApplication.CommercialSpaceId() +"/" + selectedApplication.RentalApplicationId();
+                router.navigateTo(url);
+            }
+        };
 
     var vm = {
         activate: activate,
         title: 'Application List',
         applications: ko.observableArray([]),
+        viewDetailCommand: viewDetail,
         viewAttached: viewAttached
     };
 

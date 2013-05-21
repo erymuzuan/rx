@@ -57,7 +57,7 @@
             caption: '<i class="icon-user"></i> commercial space'
         },
         {
-            url: 'rentalapplication/:id',
+            url: 'rentalapplication/:id/:rentalId',
             moduleId: 'viewmodels/rentalapplication',
             name: 'rental application',
             visible: false,
@@ -79,6 +79,14 @@
             visible: false,
             caption: 'commercialspaceforrental',
             settings: { caption: '<i class="icon-user"></i> permohonan' }
+        },
+        {
+            url: 'applicationlist/:status',
+            moduleId: 'viewmodels/applicationlist',
+            name: 'applicationlist',
+            visible: false,
+            caption: 'Senarai Permohonan',
+            settings: { caption: '<i class="icon-user"></i> Senarai permohonan' }
         }
     ];
     

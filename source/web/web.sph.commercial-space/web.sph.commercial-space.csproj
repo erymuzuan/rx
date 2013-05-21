@@ -267,7 +267,6 @@
     <Content Include="App\viewmodels\commercialspacedetail.js" />
     <Content Include="App\viewmodels\commercialspaceforrental.js" />
     <Content Include="App\viewmodels\floorplan.js" />
-    <Content Include="App\viewmodels\details.js" />
     <Content Include="App\viewmodels\home.js" />
     <Content Include="App\viewmodels\lotdetail.js" />
     <Content Include="App\viewmodels\map.js" />
@@ -283,7 +282,6 @@
     <Content Include="App\views\commercialspacedetail.html" />
     <Content Include="App\views\commercialspaceforrental.html" />
     <Content Include="App\views\floorplan.html" />
-    <Content Include="App\views\details.html" />
     <Content Include="App\views\footer.html" />
     <Content Include="App\views\home.html" />
     <Content Include="App\views\lotdetail.html" />

@@ -6,21 +6,34 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger'], function (context, logger) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger,router) {
 
     var activate = function() {
         logger.log('Admin Dashboard Activated', null, 'admindashboard', true);
             var tcs = new $.Deferred();
-            context.getCountAsync("RentalApplication", "Status eq 'Pending'", "Status").done(function (c) {
-                vm.pending(c);
-                tcs.resolve(true);
-            });
-            context.getCountAsync("RentalApplication", "Status eq 'Approved'", "Status").done(function (c) {
-                vm.approved(c);
+        var pendingTask = context.getCountAsync("RentalApplication", "Status eq 'Pending'", "Status");
+        var aprovedTask = context.getCountAsync("RentalApplication", "Status eq 'Approved'", "Status");
+        
+        $.when(pendingTask, aprovedTask)
+            .then(function (pending, approved) {
+                vm.approved(approved);
+                vm.pending(pending);
                 tcs.resolve(true);
             });
             return tcs.promise();
-    };
+    },
+        viewPending = function () {
+            var url = '/#/applicationlist/pending';
+            router.navigateTo(url);
+        },
+        viewApproved = function () {
+            var url = '/#/applicationlist/approved';
+            router.navigateTo(url);
+        },
+        viewDeclined = function () {
+            var url = '/#/applicationlist/declined';
+            router.navigateTo(url);
+        };
     
    
     var vm = {
@@ -30,7 +43,10 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
         pending:ko.observable(),
         rejected:ko.observable(),
         approved:ko.observable(),
-        allocate:ko.observable()
+        allocate: ko.observable(),
+        viewPendingCommand: viewPending,
+        viewApprovedCommand: viewApproved,
+        viewDeclinedCommand: viewDeclined
        
     };
 

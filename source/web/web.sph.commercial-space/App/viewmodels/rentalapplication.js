@@ -11,24 +11,36 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
 
     var isBusy = ko.observable(false),
         id = ko.observable(),
-        activate = function(routeData) {
+        rentalid = ko.observable(),
+        activate = function (routeData) {
             logger.log('Rental Application View Activated', null, 'rentalapplication', true);
             id(routeData.id);
-            vm.rentalapplication.CommercialSpaceId(routeData.id);
-            return true;
-        },
-        saveApplication = function() {
+            rentalid(routeData.rentalId);
+   var tcs = new $.Deferred();
+                context.getCountAsync("RentalApplication", "RentalApplicationId eq " + rentalid(), "RentalApplicationId").done(function (c) {
+                    if (c > 0) {
+                        context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + rentalid()).done(function (r) {
+                            ko.mapping.fromJSON(ko.mapping.toJSON(r), {}, vm.rentalapplication);
+
+                        });
+                    };
+                    tcs.resolve(true);
+                });
+                vm.rentalapplication.CommercialSpaceId(routeData.id);
+                return tcs.promise();
+            },
+        saveApplication = function () {
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON(vm.rentalapplication);
             isBusy(true);
-            context.post(data, "/RentalApplication/Save").done(function(e) {
+            context.post(data, "/RentalApplication/Save").done(function (e) {
                 logger.log("Data has been successfully saved ", e, "rentalapplication", true);
                 isBusy(false);
                 tcs.resolve(true);
             });
             return tcs.promise();
         },
-        addBankCollection = function() {
+        addBankCollection = function () {
             var bank = {
                 Name: ko.observable(''),
                 Location: ko.observable(''),
@@ -37,13 +49,13 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
             };
             vm.rentalapplication.BankCollection.push(bank);
         },
-        approvedApplication = function() {
+        approvedApplication = function () {
         },
-        declinedApplication = function() {
+        declinedApplication = function () {
         },
-        returnedApplication = function() {
+        returnedApplication = function () {
         };
-        
+
     var vm = {
         activate: activate,
         rentalapplication: {
@@ -67,15 +79,15 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
             },
             BankCollection: ko.observableArray([]),
             Contact: {
-                Name:ko.observable(''),
+                Name: ko.observable(''),
                 Title: ko.observable(''),
-                IcNo:ko.observable(''),
-                Role:ko.observable(''),
-                MobileNo:ko.observable(''),
-                OfficeNo:ko.observable(''),
-                Email:ko.observable('')
+                IcNo: ko.observable(''),
+                Role: ko.observable(''),
+                MobileNo: ko.observable(''),
+                OfficeNo: ko.observable(''),
+                Email: ko.observable('')
             },
-            CurrentYearSales:ko.observable(),
+            CurrentYearSales: ko.observable(),
             LastYearSales: ko.observable(),
             PreviousYearSales: ko.observable()
         },
@@ -85,7 +97,7 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
         declinedCommand: declinedApplication,
         returnedCommand: returnedApplication,
         approvedCommand: approvedApplication,
-        
+
     };
 
     return vm;
