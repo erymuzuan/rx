@@ -23,7 +23,7 @@ define(['services/datacontext',
                     .done(function (b) {
                         ko.mapping.fromJSON(ko.mapping.toJSON(b), {}, vm.building);
                         tcs.resolve(true);
-               });
+                    });
 
                 tcs.promise();
             };
@@ -32,9 +32,9 @@ define(['services/datacontext',
             var url = '/#/lotdetail/' + vm.building.BuildingId() + '/' + floor.Name();
             router.navigateTo(url);
         };
-        
+
         var goBack = function () {
-            var url = '/#/building'  ;
+            var url = '/#/building';
             router.navigateTo(url);
         };
 
@@ -61,15 +61,19 @@ define(['services/datacontext',
         };
 
         var showMap = function () {
-
-            var tcs = new $.Deferred();
-            mapvm.init()
-                .done(function () {
-                    tcs.resolve(true);
+            mapvm.init({ draw: true });
+        },
+            saveMap = function () {
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(map.getEncodedPath());
+                datacontext.post(data, "/Building/SaveMap").done(function (e) {
+                    logger.log("Map has been successfully saved ", e, "buildingdetail", true);
                 });
+                return tcs.promise();
 
-            return tcs.promise();
-        };
+            };
+
+
 
         var vm = {
             activate: activate,
@@ -88,6 +92,7 @@ define(['services/datacontext',
             },
             saveCommand: saveAsync,
             showMapCommand: showMap,
+            saveMapCommand: saveMap,
             addFloorCommand: addFloor,
             addLotCommand: addLot,
             goBackCommand: goBack,

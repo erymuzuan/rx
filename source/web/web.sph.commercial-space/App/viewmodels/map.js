@@ -12,7 +12,10 @@ define(
         var geocoder2, map;
         var isBusy = ko.observable(false),
             errors = ko.observableArray(),
-            messages = ko.observableArray()
+            messages = ko.observableArray(),
+            getEncodedPath = function() {
+                return "";
+            }
         ;
 
         var vm = {
@@ -24,11 +27,12 @@ define(
             setCenter: setCenter,
             setZoom: setZoom,
             init: init,
+            getEncodedPath: getEncodedPath,
             geocode: geocode
         };
         return vm;
 
-        function init() {
+        function init(ops) {
 
             var klangValley = new google.maps.LatLng(3.1282, 101.6441);
             var options = {
@@ -41,6 +45,37 @@ define(
                 navigationControlOptions: { style: google.maps.NavigationControlStyle.DEFAULT }
             };
             map = new google.maps.Map(document.getElementById('map'), options);
+            if (ops) {
+                if (ops.draw) {
+                    var drawingManager = new google.maps.drawing.DrawingManager({
+                        drawingMode: google.maps.drawing.OverlayType.MARKER,
+                        drawingControl: true,
+                        drawingControlOptions: {
+                            position: google.maps.ControlPosition.TOP_CENTER,
+                            drawingModes: [
+                              google.maps.drawing.OverlayType.MARKER,
+                              google.maps.drawing.OverlayType.CIRCLE,
+                              google.maps.drawing.OverlayType.POLYGON,
+                              google.maps.drawing.OverlayType.POLYLINE,
+                              google.maps.drawing.OverlayType.RECTANGLE
+                            ]
+                        },
+                        markerOptions: {
+                            icon: 'images/beachflag.png'
+                        },
+                        circleOptions: {
+                            fillColor: '#ffff00',
+                            fillOpacity: 1,
+                            strokeWeight: 5,
+                            clickable: false,
+                            editable: true,
+                            zIndex: 1
+                        }
+                    });
+                    drawingManager.setMap(map);
+                }
+            }
+            
         }
 
         function setCenter(lat, lng) {

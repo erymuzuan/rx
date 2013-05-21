@@ -227,6 +227,7 @@
     </Compile>
     <Compile Include="Helpers\AssemblyInfo.cs" />
     <Compile Include="Helpers\DateTimeModelBinder.cs" />
+    <Compile Include="Helpers\GoogleMapHelper.cs" />
     <Compile Include="Helpers\MobileCapableWebFormViewEngine.cs" />
     <Compile Include="Helpers\OdataSqlTranslator.cs" />
     <Compile Include="Helpers\QueryHelper.cs" />
@@ -375,6 +376,7 @@
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.debug.js" />
     <Content Include="Scripts\breeze.min.js" />
+    <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <Content Include="Scripts\guide.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />

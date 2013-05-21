@@ -46,6 +46,7 @@
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Spatial, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -87,6 +88,7 @@
     <Compile Include="SqlPersistence.cs" />
     <Compile Include="SqlQueryProvider.cs" />
     <Compile Include="SqlRepository.cs" />
+    <Compile Include="SqlSpatial.cs" />
     <Compile Include="TsqlQueryFormatter.cs" />
   </ItemGroup>
   <ItemGroup>

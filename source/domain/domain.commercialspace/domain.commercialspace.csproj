@@ -44,6 +44,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Spatial, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -83,6 +84,9 @@
     <Compile Include="IPersistence.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="ISettingProvider.cs" />
+    <Compile Include="ISpatialService.cs" />
+    <Compile Include="SpatialEntity.cs" />
+    <Compile Include="LatLng.cs" />
     <Compile Include="LoadOperation.cs" />
     <Compile Include="Lot.cs" />
     <Compile Include="PersistenceSession.cs" />
