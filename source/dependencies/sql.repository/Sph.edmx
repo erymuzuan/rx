@@ -19,14 +19,14 @@
           <Property Name="LotNo" Type="varchar" MaxLength="255" />
           <Property Name="Name" Type="varchar" MaxLength="255" />
           <Property Name="Status" Type="varchar" MaxLength="255" />
+          <Property Name="State" Type="varchar" MaxLength="255" />
           <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
           <Property Name="ChangedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
-          <Property Name="State" Type="varchar" MaxLength="255" />
-          <Property Name="Polygon" Type="geography" />
-          <Property Name="PolygonWkt" Type="varchar(max)" />
-          <Property Name="PolygonEncoded" Type="varchar(max)" />
+          <Property Name="Path" Type="geography" />
+          <Property Name="Wkt" Type="varchar(max)" />
+          <Property Name="EncodedWkt" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="CommercialSpace">
           <Key>
@@ -68,25 +68,10 @@
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Sph" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
         <EntityContainer Name="SphContainer" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Buildings" EntityType="Sph.Building" cg:GetterAccess="Internal" />
           <EntitySet Name="CommercialSpaces" EntityType="Sph.CommercialSpace" />
           <EntitySet Name="RentalApplications" EntityType="Sph.RentalApplication" cg:GetterAccess="Internal" />
+          <EntitySet Name="Buildings" EntityType="Sph.Building" cg:GetterAccess="Internal" />
           </EntityContainer>
-        <EntityType Name="Building" cg:TypeAccess="Internal">
-          <Key>
-            <PropertyRef Name="BuildingId" />
-          </Key>
-          <Property Type="Int32" Name="BuildingId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="LotNo" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Status" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
-          <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
-          <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="State" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="CommercialSpace">
           <Key>
             <PropertyRef Name="CommercialSpaceId" />
@@ -122,6 +107,21 @@
           <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Status" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Building" cg:TypeAccess="Internal">
+          <Key>
+            <PropertyRef Name="BuildingId" />
+          </Key>
+          <Property Type="Int32" Name="BuildingId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LotNo" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Status" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="State" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -130,22 +130,6 @@
         <Alias Key="Model" Value="Sph" />
         <Alias Key="Target" Value="Sph.Store" />
         <EntityContainerMapping CdmEntityContainer="SphContainer" StorageEntityContainer="SphStoreContainer">
-          <EntitySetMapping Name="Buildings">
-            <EntityTypeMapping TypeName="IsTypeOf(Sph.Building)">
-              <MappingFragment StoreEntitySet="Building">
-                <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
-                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
-                <ScalarProperty Name="State" ColumnName="State" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CommercialSpaces">
             <EntityTypeMapping TypeName="Sph.CommercialSpace">
               <MappingFragment StoreEntitySet="CommercialSpace">
@@ -180,6 +164,22 @@
                 <ScalarProperty Name="CompanyRegistrationNo" ColumnName="CompanyRegistrationNo" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
                 <ScalarProperty Name="RentalApplicationId" ColumnName="RentalApplicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Buildings">
+            <EntityTypeMapping TypeName="Sph.Building">
+              <MappingFragment StoreEntitySet="Building">
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -7,11 +7,11 @@ using Bespoke.Sph.Commerspace.Web.Helpers;
 
 namespace Bespoke.Sph.Commerspace.Web.Api
 {
-    [Authorize]
+   
     public class AggregateController : Controller
     {
         private static readonly string m_connectionString =
-            ConfigurationManager.ConnectionStrings["Station"].ConnectionString;
+            ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
 
         public async Task<ActionResult> Scalar(string column, string table, string filter)
         {

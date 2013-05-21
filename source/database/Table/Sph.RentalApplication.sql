@@ -14,3 +14,6 @@ CREATE TABLE Sph.RentalApplication
 
 ALTER TABLE [Sph].[Sph].[RentalApplication]
 ADD [Status] VARCHAR(255) NOT NULL DEFAULT ''
+
+ALTER TABLE [Sph].[Sph].[RentalApplication]
+ADD [ApplicationDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()

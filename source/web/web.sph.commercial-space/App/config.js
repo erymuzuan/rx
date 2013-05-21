@@ -10,8 +10,8 @@
     var remoteServiceName = 'api/Breeze';
 
     var routes = [{
-        url: 'details',
-        moduleId: 'viewmodels/details',
+        url: 'admindashboard',
+        moduleId: 'viewmodels/admindashboard',
         name: 'Papan Tugas',
         visible: true,
         caption: '<i class="icon-user"></i> Papan Tugas'

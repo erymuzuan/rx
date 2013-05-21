@@ -1,173 +1,174 @@
 ﻿<section>
+    <div>
+        <input id="IsCompany" type="checkbox" data-bind="checked: rentalapplication.IsCompany" />
+        <label for="IsCompany">Tanda jika anda memohon bagi pihak syarikat</label>
+    </div>
     <div class="header-section">
         <h1>Maklumat Pegawai Yang Boleh Dihubungi</h1>
     </div>
     <div class="labelLeft">
-        <label>Nama:</label>
-        <input type="text" data-bind="value: rentalapplication.OfficerName" />
+        <label>Nama</label>
+        <input type="text" data-bind="value: rentalapplication.Contact.Name" />
     </div>
     <div class="labelLeft">
-        <label>Gelaran:</label>
-        <input type="text" data-bind="value: rentalapplication.OfficerTitle" />
+        <label>Gelaran</label>
+        <input type="text" data-bind="value: rentalapplication.Contact.Title" />
     </div>
     <div class="labelLeft">
-        <label>No. Kad Pengenalan:</label>
-        <input type="text" data-bind="value: rentalapplication.OfficerIcNo" />
+        <label>No. Kad Pengenalan</label>
+        <input type="text" data-bind="value: rentalapplication.Contact.IcNo" />
     </div>
     <div class="labelLeft">
-        <label>Jawatan:</label>
-        <input type="text" data-bind="value: rentalapplication.OfficerRole" />
+        <label>Jawatan</label>
+        <input type="text" data-bind="value: rentalapplication.Contact.Role" />
     </div>
     <div class="labelLeft">
-        <label>No. Telefon Rumah:</label>
-        <input type="text" data-bind="value: rentalapplication.TelehoneNo" />
+        <label>No. Telefon Bimbit</label>
+        <input type="text" data-bind="value: rentalapplication.Contact.MobileNo" />
     </div>
     <div class="labelLeft">
-        <label>No. Telefon Pejabat:</label>
-        <input type="text" data-bind="value: rentalapplication.OfficeTelephoneNo" />
+        <label>No. Telefon Pejabat</label>
+        <input type="text" data-bind="value: rentalapplication.Contact.OfficeNo" />
     </div>
     <div class="labelLeft">
-        <label>Emel:</label>
-        <input type="text" data-bind="value: rentalapplication.OfficerRole" />
+        <label>Emel</label>
+        <input type="text" data-bind="value: rentalapplication.Contact.Email" />
     </div>
-    <div>
-        <h6>Alamat Surat-menyurat</h6>
-    </div>
-    <div class="labelLeft">
-        <label>Jalan:</label>
-        <input type="text" data-bind="value: rentalapplication.Address.Street" />
-    </div>
-    <div class="labelLeft">
-        <label>Bandar:</label>
-        <input type="text" data-bind="value: rentalapplication.Address.City" />
-    </div>
-    <div class="labelLeft">
-        <label>Poskod:</label>
-        <input type="text" data-bind="value: rentalapplication.Address.Postcode" />
-    </div>
-    <div class="labelLeft">
-        <label>Negeri:</label>
-        <select data-bind="value: rentalapplication.Address.State">
-            <option value="Selangor">Selangor</option>
-            <option value="Johor">Johor</option>
-            <option value="Melaka">Melaka</option>
-            <option value="Kelantan">Kelantan</option>
-            <option value="W.P Kuala Lumpur">W.P Kuala Lumpur</option>
-            <option value="Pahang">Pahang</option>
-            <option value="Perak">Perak</option>
-            <option value="Terengganu">Terengganu</option>
-            <option value="Sabah">Sabah</option>
-            <option value="Sarawak">Sarawak</option>
-        </select>
-    </div>
-    <div class="header-section">
-        <h1>Maklumat Syarikat</h1>
-    </div>
-    <div class="labelLeft">
-        <label>Nama Syarikat:</label>
-        <input type="text" data-bind="value: rentalapplication.CompanyName" />
-    </div>
-    <div class="labelLeft">
-        <label>No Pendaftaran Syarikat:</label>
-        <input type="text" data-bind="value: rentalapplication.CompanyRegistrationNo" />
-    </div>
+    <section data-bind="visible: rentalapplication.IsCompany() == true">
+        <div class="header-section">
+            <h1>Maklumat Syarikat</h1>
+        </div>
+        <div class="labelLeft">
+            <label>Nama Syarikat</label>
+            <input type="text" data-bind="value: rentalapplication.CompanyName" />
+        </div>
+        <div class="labelLeft">
+            <label>No Pendaftaran Syarikat</label>
+            <input type="text" data-bind="value: rentalapplication.CompanyRegistrationNo" />
+        </div>
 
+        <div class="labelLeft">
+            <label>Jenis Syarikat</label>
+            <select data-bind="value: rentalapplication.CompanyType">
+                <option value="Business Corporate">Business Corporate</option>
+                <option value="Partnership">Partnership</option>
+                <option value="Sole Proprietorship">Sole Proprietorship</option>
+                <option value="Others">Others</option>
+            </select>
+        </div>
+        <div>
+            <h6>Alamat</h6>
+        </div>
+        <div class="labelLeft">
+            <label>Jalan</label>
+            <input type="text" data-bind="value: rentalapplication.Address.Street" />
+        </div>
+        <div class="labelLeft">
+            <label>Bandar</label>
+            <input type="text" data-bind="value: rentalapplication.Address.City" />
+        </div>
+        <div class="labelLeft">
+            <label>Poskod</label>
+            <input type="text" data-bind="value: rentalapplication.Address.Postcode" />
+        </div>
+        <div class="labelLeft">
+            <label>Negeri</label>
+            <select data-bind="value: rentalapplication.Address.State">
+                <option value="Selangor">Selangor</option>
+                <option value="Johor">Johor</option>
+                <option value="Melaka">Melaka</option>
+                <option value="Kelantan">Kelantan</option>
+                <option value="W.P Kuala Lumpur">W.P Kuala Lumpur</option>
+                <option value="Pahang">Pahang</option>
+                <option value="Perak">Perak</option>
+                <option value="Terengganu">Terengganu</option>
+                <option value="Sabah">Sabah</option>
+                <option value="Sarawak">Sarawak</option>
+            </select>
+        </div>
+    </section>
     <div class="labelLeft">
-        <label>Jenis Syarikat:</label>
-        <select data-bind="value: rentalapplication.CompanyType">
-            <option value="Business Corporate">Business Corporate</option>
-            <option value="Partnership">Partnership</option>
-            <option value="Sole Proprietorship">Sole Proprietorship</option>
-            <option value="Others">Others</option>
-        </select>
-    </div>
-    <div>
-        <h6>Alamat</h6>
-    </div>
-    <div class="labelLeft">
-        <label>Jalan:</label>
-        <input type="text" data-bind="value: rentalapplication.Address.Street" />
-    </div>
-    <div class="labelLeft">
-        <label>Bandar:</label>
-        <input type="text" data-bind="value: rentalapplication.Address.City" />
-    </div>
-    <div class="labelLeft">
-        <label>Poskod:</label>
-        <input type="text" data-bind="value: rentalapplication.Address.Postcode" />
-    </div>
-    <div class="labelLeft">
-        <label>Negeri:</label>
-        <select data-bind="value: rentalapplication.Address.State">
-            <option value="Selangor">Selangor</option>
-            <option value="Johor">Johor</option>
-            <option value="Melaka">Melaka</option>
-            <option value="Kelantan">Kelantan</option>
-            <option value="W.P Kuala Lumpur">W.P Kuala Lumpur</option>
-            <option value="Pahang">Pahang</option>
-            <option value="Perak">Perak</option>
-            <option value="Terengganu">Terengganu</option>
-            <option value="Sabah">Sabah</option>
-            <option value="Sarawak">Sarawak</option>
-        </select>
-    </div>
-    <div class="labelLeft">
-        <label>Tujuan Permohonan:</label>
-        <input type="text" data-bind="value: rentalapplication.Purpose" />
-    </div>
-    <div class="labelLeft">
-        <label>Nyatakan pengalaman syarikat anda berdasarkan permohonan diatas:</label>
-        <input type="text" data-bind="value: rentalapplication.Experience" />
+        <label>Tujuan Permohonan</label>
+        <textarea cols="3" data-bind="value: rentalapplication.Purpose" />
     </div>
     <div class="labelLeft">
-        <label>Tarikh Mula:</label>
-        <input data-format="dd/MM/yyyy hh:mm:ss" type="text" data-bind="value: rentalapplication.DateStart" />
+        <label>Nyatakan pengalaman anda/syarikat berdasarkan permohonan diatas</label>
+        <textarea cols="5" data-bind="value: rentalapplication.Experience" />
     </div>
     <div class="labelLeft">
-        <label>Tarikh Akhir:</label>
-        <input data-format="dd/MM/yyyy hh:mm:ss" type="text" data-bind="value: rentalapplication.DateEnd" />
+        <label>Tarikh Mula</label>
+        <input data-format="dd/MM/yyyy" type="date" data-bind="value: rentalapplication.DateStart" />
+    </div>
+    <div class="labelLeft">
+        <label>Tarikh Akhir</label>
+        <input data-format="dd/MM/yyyy" type="date" data-bind="value: rentalapplication.DateEnd" />
         <span class="add-on">
             <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
         </span>
     </div>
     <div class="labelLeft">
         <label>Pernah/Sudah Ada menyewa mana-mana Ruang Komersial dengan BPH? </label>
-        <input type="checkbox" data-bind="isChecked: isLeaseBefore" />Ya
+        <input type="checkbox" data-bind="checked: rentalapplication.IsRecordExist" />Ya
     </div>
     <div class="labelLeft">
-        <label>Jika Ya, sila nyatakan alamat:</label>
-        <input type="text" />
+        <label>Jika Ya, sila nyatakan alamat</label>
+        <textarea cols="5" data-bind="value: rentalapplication.PreviousAddress"></textarea>
     </div>
-    <div>
-        <input type="button" class="btn btn-primary" value="Save" data-bind="click: saveCommand" />
-    </div>
+
     <div class="header-section">
         <h1>Maklumat Kewangan</h1>
     </div>
-    <div class="labelLeft">
-        <label>Rekod Jualan (Berdasarkan 3 tahun terkini)</label>
-    
-        <label>Tahun Terkini:</label>
-        <input type="text" />
+    <h6>Rekod Jualan (Berdasarkan 3 tahun terkini)</h6>
+    <div>
+        <label>Tahun Terkini</label>
+        <input type="text" data-bind="value: rentalapplication.CurrentYearSales" />
     </div>
     <div>
-        <label>Tahun Terdahulu:</label>
-        <input type="text" />
+        <label>Tahun Terdahulu</label>
+        <input type="text" data-bind="value: rentalapplication.LastYearSales" />
     </div>
     <div>
-        <label>2 Tahun Terdahulu:</label>
-        <input type="text" />
+        <label>2 Tahun Terdahulu</label>
+        <input type="text" data-bind="value: rentalapplication.PreviousYearSales" />
     </div>
 
-    <div><label>Jenis Bank yang menguruskan kewangan syarikat:</label>
+    <div>
+        <label>Jenis Bank yang menguruskan kewangan syarikat</label>
+        <input type="button" class="btn btn-primary" value="Tambah Bank" data-bind="click: addBankCommand" />
         <table>
-            <tr>
-                <th>Nama Bank </th>
-                <th>Lokasi </th>
-                <th>No. Akaun </th>
-                <th>Jenis Akaun </th>
-            </tr>
-            
+            <thead>
+                <tr>
+                    <th>Nama Bank </th>
+                    <th>Lokasi </th>
+                    <th>No. Akaun </th>
+                    <th>Jenis Akaun </th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: rentalapplication.BankCollection">
+                <tr>
+                    <td>
+                        <input type="text" data-bind="value: Name, uniqueName: true" /></td>
+                    <td>
+                        <input type="text" data-bind="value: Location, uniqueName: true" /></td>
+                    <td>
+                        <input type="text" data-bind="value: AccountNo, uniqueName: true" /></td>
+                    <td>
+                        <input type="text" data-bind="value: AccountType, uniqueName: true" /></td>
+                </tr>
+            </tbody>
         </table>
+    </div>
+
+</section>
+<section data-bind="visible: rentalapplication.RentalApplicationId == 0">
+    <div>
+        <input type="button" class="btn btn-success" value="Hantar permohonan" data-bind="click: saveCommand" />
+    </div>
+</section>
+<section data-bind="visible: rentalapplication.Status == 'Pending'">
+    <div>
+        <input type="button" class="btn btn-success" value="Luluskan permohonan" data-bind="click: approvedCommand" />
+        <input type="button" class="btn btn-warning" value="Batalkan permohonan" data-bind="click: declinedCommand" />
+        <input type="button" class="btn btn-success" value="Kembalikan permohonan" data-bind="click: returnedCommand" />
     </div>
 </section>
