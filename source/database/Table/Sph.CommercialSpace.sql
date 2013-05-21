@@ -1,4 +1,6 @@
-CREATE TABLE Sph.CommercialSpace
+ USE [Sph]
+ GO
+ CREATE TABLE Sph.CommercialSpace
 (
 	 [CommercialSpaceId] INT PRIMARY KEY IDENTITY(1,1)
 	,[Data] XML NOT NULL

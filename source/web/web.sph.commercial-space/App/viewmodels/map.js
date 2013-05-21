@@ -13,8 +13,10 @@ define(
         var isBusy = ko.observable(false),
             errors = ko.observableArray(),
             messages = ko.observableArray(),
-            getEncodedPath = function() {
-                return "";
+            getEncodedPath = function (poly) {
+                var path = poly.getPath();
+                return google.maps.geometry.encoding.encodePath(path);
+
             }
         ;
 
@@ -48,7 +50,6 @@ define(
             if (ops) {
                 if (ops.draw) {
                     var drawingManager = new google.maps.drawing.DrawingManager({
-                        drawingMode: google.maps.drawing.OverlayType.MARKER,
                         drawingControl: true,
                         drawingControlOptions: {
                             position: google.maps.ControlPosition.TOP_CENTER,
@@ -59,6 +60,9 @@ define(
                               google.maps.drawing.OverlayType.POLYLINE,
                               google.maps.drawing.OverlayType.RECTANGLE
                             ]
+                        },
+                        plugonOptions: {
+                            icoeditable: true
                         },
                         markerOptions: {
                             icon: 'images/beachflag.png'
@@ -72,10 +76,16 @@ define(
                             zIndex: 1
                         }
                     });
+                    if (ops.polygoncomplete) {
+                        google.maps.event.addListener(drawingManager, 'polygoncomplete', ops.polygoncomplete);
+                    }
+
+
                     drawingManager.setMap(map);
+
                 }
             }
-            
+
         }
 
         function setCenter(lat, lng) {

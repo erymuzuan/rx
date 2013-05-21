@@ -86,9 +86,6 @@
           <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
           <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="State" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Geography" Name="Polygon" />
-          <Property Type="String" Name="PolygonWkt" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="PolygonEncoded" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CommercialSpace">
           <Key>
@@ -146,9 +143,6 @@
                 <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
                 <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
                 <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Polygon" ColumnName="Polygon" />
-                <ScalarProperty Name="PolygonWkt" ColumnName="PolygonWkt" />
-                <ScalarProperty Name="PolygonEncoded" ColumnName="PolygonEncoded" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

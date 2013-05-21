@@ -61,14 +61,24 @@ define(['services/datacontext',
         };
 
         var showMap = function () {
-            mapvm.init({ draw: true });
+            mapvm.init({ draw: true, polygoncomplete: polygoncomplete });
         },
+            polygon = null,
+            polygoncomplete = function (shape) {
+                polygon = shape;
+            },
             saveMap = function () {
+                if (!polygon) {
+                    logger.log("No shape");
+                    return false;
+                }
                 var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(map.getEncodedPath());
-                datacontext.post(data, "/Building/SaveMap").done(function (e) {
-                    logger.log("Map has been successfully saved ", e, "buildingdetail", true);
-                });
+                var data = JSON.stringify({ buildingId: vm.building.BuildingId(), path: mapvm.getEncodedPath(polygon) });
+                datacontext
+                    .post(data, "/Building/SaveMap")
+                    .then(function (e) {
+                        logger.log("Map has been successfully saved ", e, "buildingdetail", true);
+                    });
                 return tcs.promise();
 
             };

@@ -1,12 +1,26 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bespoke.Sph.Commerspace.Web.Helpers;
 using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public class BuildingController : Controller
     {
+
+        public async Task<ActionResult> SaveMap(int buildingId, string path)
+        {
+            var spatial = ObjectBuilder.GetObject<ISpatialService<Building>>();
+            var context = new SphDataContext();
+
+            var item = await context.LoadOneAsync<Building>(b => b.BuildingId == buildingId);
+            item.EncodedWkt = path;
+            item.Wkt = path.Decode().ToWkt();
+            
+            await spatial.UpdateAsync(item);
+            return Json(true);
+        }
        
         public async Task<ActionResult> SaveBuilding(Building building)
         {
