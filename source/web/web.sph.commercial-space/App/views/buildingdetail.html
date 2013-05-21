@@ -64,6 +64,7 @@
                 <th>Size</th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody data-bind="foreach: building.FloorCollection">
@@ -72,6 +73,7 @@
                 <td><input type="text" data-bind="value:Size,uniqueName: true"/></td>
                 <td><input type="button" data-bind="click: $parent.removeFloorCommand" class="btn btn-primary" value="-" /></td>
                 <td><input type="button" data-bind="click: $parent.addLotCommand" class="btn btn-primary" value="+Lot" /></td>
+                <td><input type="button" data-bind="click: $parent.viewFloorPlanCommand" class="btn btn-primary" value="Pelan Lantai" /></td>
             </tr>
         </tbody>
     </table>

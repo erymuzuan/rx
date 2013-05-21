@@ -36,55 +36,48 @@ define(
 
         function init(ops) {
 
-            var klangValley = new google.maps.LatLng(3.1282, 101.6441);
+            var ops2 = ops || {};
+            var panel = ops2.panel || 'map';
+            var zoom = ops2.zoom || 11;
+
+            var center = ops2.center || new google.maps.LatLng(3.1282, 101.6441);
+
             var options = {
-                zoom: 11,
-                center: klangValley,
+                zoom: zoom,
+                center: center,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 streetViewControl: false,
                 mapTypeControl: false,
                 mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU },
                 navigationControlOptions: { style: google.maps.NavigationControlStyle.DEFAULT }
             };
-            map = new google.maps.Map(document.getElementById('map'), options);
-            if (ops) {
-                if (ops.draw) {
-                    var drawingManager = new google.maps.drawing.DrawingManager({
-                        drawingControl: true,
-                        drawingControlOptions: {
-                            position: google.maps.ControlPosition.TOP_CENTER,
-                            drawingModes: [
-                              google.maps.drawing.OverlayType.MARKER,
-                              google.maps.drawing.OverlayType.CIRCLE,
-                              google.maps.drawing.OverlayType.POLYGON,
-                              google.maps.drawing.OverlayType.POLYLINE,
-                              google.maps.drawing.OverlayType.RECTANGLE
-                            ]
-                        },
-                        plugonOptions: {
-                            icoeditable: true
-                        },
-                        markerOptions: {
-                            icon: 'images/beachflag.png'
-                        },
-                        circleOptions: {
-                            fillColor: '#ffff00',
-                            fillOpacity: 1,
-                            strokeWeight: 5,
-                            clickable: false,
-                            editable: true,
-                            zIndex: 1
-                        }
-                    });
-                    if (ops.polygoncomplete) {
-                        google.maps.event.addListener(drawingManager, 'polygoncomplete', ops.polygoncomplete);
+            map = new google.maps.Map(document.getElementById(panel), options);
+
+            if (ops2.draw) {
+                var drawingManager = new google.maps.drawing.DrawingManager({
+                    drawingControl: true,
+                    drawingControlOptions: {
+                        position: google.maps.ControlPosition.TOP_CENTER,
+                        drawingModes: [
+                          google.maps.drawing.OverlayType.MARKER,
+                          google.maps.drawing.OverlayType.CIRCLE,
+                          google.maps.drawing.OverlayType.POLYGON,
+                          google.maps.drawing.OverlayType.POLYLINE,
+                          google.maps.drawing.OverlayType.RECTANGLE
+                        ]
+                    },
+                    polygonOptions: {
+                        editable: true
                     }
-
-
-                    drawingManager.setMap(map);
-
+                });
+                if (ops.polygoncomplete) {
+                    google.maps.event.addListener(drawingManager, 'polygoncomplete', ops2.polygoncomplete);
                 }
+
+                drawingManager.setMap(map);
+
             }
+
 
         }
 

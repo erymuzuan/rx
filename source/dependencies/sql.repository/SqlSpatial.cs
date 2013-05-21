@@ -8,6 +8,7 @@ using System.Spatial;
 using System.Threading.Tasks;
 using Bespoke.SphCommercialSpaces.Domain;
 using System.Linq;
+using Bespoke.SphCommercialSpaces.Domain.QueryProviders;
 
 namespace Bespoke.Sph.SqlRepository
 {
@@ -35,13 +36,13 @@ namespace Bespoke.Sph.SqlRepository
                                     "Sph",
                                     typeof(T).Name);
             using (var conn = new SqlConnection(m_connectionString))
-            using (var cmd = new SqlCommand(sql,conn))
+            using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Connection = conn;
                 cmd.CommandType = CommandType.Text;
 
 
-                var properties = typeof (T).GetProperties();
+                var properties = typeof(T).GetProperties();
 
                 var geog = SQLSpatialTools.Functions.MakeValidGeographyFromText(item.Wkt, SRID);
 
@@ -56,7 +57,7 @@ namespace Bespoke.Sph.SqlRepository
 
                 await conn.OpenAsync();
                 var rows = await cmd.ExecuteNonQueryAsync();
-                if(rows != 1)
+                if (rows != 1)
                     throw new InvalidOperationException("Cannot find the row " + item);
 
 
@@ -77,6 +78,36 @@ namespace Bespoke.Sph.SqlRepository
         public Task<Geography> GetGeographyAsync(Expression<Func<T, bool>> predicate)
         {
             throw new NotImplementedException();
+        }
+
+        private IQueryable<T> Translate(Expression<Func<T, bool>> predicate)
+        {
+            var provider = ObjectBuilder.GetObject<QueryProvider>();
+            var query = new Query<T>(provider).Where(predicate);
+            return query;
+        }
+
+        public async Task<LatLng> GetCenterAsync(Expression<Func<T, bool>> predicate)
+        {
+
+            var query = this.Translate(predicate);
+
+            var sql = string.Format("SELECT [Path].EnvelopeCenter().STAsText() FROM [{0}].[{1}] ",
+                                       "Sph",
+                                       typeof(T).Name) + query;
+            using (var conn = new SqlConnection(m_connectionString))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.Text;
+                await conn.OpenAsync();
+                var center = await cmd.ExecuteScalarAsync();
+                if (center == DBNull.Value) return null;
+
+                var point = new LatLng(center as string, true);
+                return point;
+
+            }
         }
 
         public Task<IEnumerable<T>> ContainsAsync(Expression<Func<T, bool>> predicate, LatLng point)

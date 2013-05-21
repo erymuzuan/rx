@@ -9,6 +9,20 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
     public class BuildingController : Controller
     {
 
+        public async Task<ActionResult> GetCenter(int buildingId)
+        {
+            var spatial = ObjectBuilder.GetObject<ISpatialService<Building>>();
+            var center = await spatial.GetCenterAsync(b => b.BuildingId == buildingId);
+            return Json(center, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> GetEncodedPath(int buildingId)
+        {
+            var spatial = ObjectBuilder.GetObject<ISpatialService<Building>>();
+            var encodedPath = await spatial.GetEncodedPathAsync(b => b.BuildingId == buildingId);
+            return Json(encodedPath, JsonRequestBehavior.AllowGet);
+        }
+
         public async Task<ActionResult> SaveMap(int buildingId, string path)
         {
             var spatial = ObjectBuilder.GetObject<ISpatialService<Building>>();

@@ -1,0 +1,23 @@
+﻿<section>
+    <span data-bind="text: title"></span>
+    <span data-bind="text: floor.Name"></span>
+    <span data-bind="text: floor.Size"></span>
+
+    <div>
+        <ul class="nav" data-bind="foreach: floor.LotCollection">
+            <li style="width: 180px; height: 80px;">
+                <span class="fixed150" data-bind="text: Name"></span>
+                <span class="fixed150" data-bind="text: Size"></span>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<div id="floorplanmap" style="height: 600px; width: 1200px"></div>
+<section>
+    <input type="button" class="btn btn-primary" data-bind="click: goBackCommand, disable: isBusy()" value="BACK" />
+    <input type="button" class="btn btn-primary" data-bind="click: saveCommand, disable: isBusy()" value="SAVE" />
+</section>
+
+
+

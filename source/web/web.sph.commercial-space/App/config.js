@@ -42,6 +42,12 @@
             name: 'LotDetail',
             caption: '<i class="icon-user"></i> Lot Details',
             visible: false
+        }, {
+            url: 'floorplan/:buildingId/:floorname',
+            moduleId: 'viewmodels/floorplan',
+            name: 'FloorPlan',
+            caption: 'Floor plan',
+            visible: false
         },
         {
             url: 'commercialspacedetail/:buildingId/:floorname/:lotname',
