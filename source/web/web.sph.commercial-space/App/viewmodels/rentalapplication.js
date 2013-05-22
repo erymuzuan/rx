@@ -50,10 +50,37 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
             vm.rentalapplication.BankCollection.push(bank);
         },
         approvedApplication = function () {
+            var tcs = new $.Deferred();
+            var data = ko.mapping.toJSON(rentalid());
+            isBusy(true);
+            context.post(data, "/RentalApplication/Approved").done(function (e) {
+                logger.log("Application has been successfully approved ", e, "rentalapplication", true);
+                isBusy(false);
+                tcs.resolve(true);
+            });
+            return tcs.promise();
         },
         declinedApplication = function () {
+            var tcs = new $.Deferred();
+            var data = ko.mapping.toJSON(rentalid());
+            isBusy(true);
+            context.post(data, "/RentalApplication/Declined").done(function (e) {
+                logger.log("Application has been declined ", e, "rentalapplication", true);
+                isBusy(false);
+                tcs.resolve(true);
+            });
+            return tcs.promise();
         },
         returnedApplication = function () {
+            var tcs = new $.Deferred();
+            var data = ko.mapping.toJSON(rentalid());
+            isBusy(true);
+            context.post(data, "/RentalApplication/Returned").done(function (e) {
+                logger.log("Application has been returned ", e, "rentalapplication", true);
+                isBusy(false);
+                tcs.resolve(true);
+            });
+            return tcs.promise();
         };
 
     var vm = {

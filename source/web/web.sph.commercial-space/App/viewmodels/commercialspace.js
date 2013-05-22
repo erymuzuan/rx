@@ -23,9 +23,9 @@
                 return false;
             });
         },
-        gotoDetails = function(selectedBuilding) {
-            if (selectedBuilding && selectedBuilding.BuildingId()) {
-                var url = '/#/commercialspacedetail/' + selectedBuilding.BuildingId();
+        gotoDetails = function(selectedCs) {
+            if (selectedCs && selectedCs.CommercialSpaceId()) {
+                var url = '/#/commercialspacedetail/' + selectedCs.CommercialSpaceId() + '/' + selectedCs.FloorName() + '/' + selectedCs.LotName();
                 router.navigateTo(url);
             }
         };
