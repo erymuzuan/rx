@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Spatial;
 using System.Text;
 using System.Text.RegularExpressions;
 using Bespoke.SphCommercialSpaces.Domain;
@@ -9,11 +10,10 @@ using Bespoke.SphCommercialSpaces.Domain;
 namespace Bespoke.Sph.Commerspace.Web.Helpers
 {
 
-    /// <summary>
-    /// Utility class to manipulate Google Encoded GPolylines
-    /// </summary>
+
     public static class GoogleMapHelper
     {
+        public const int SRID = 4326;
         public static double GetAzimuth(LatLng origin, LatLng destination)
         {
             var longitudinalDifference = destination.Lng - origin.Lng;
@@ -43,11 +43,17 @@ namespace Bespoke.Sph.Commerspace.Web.Helpers
             return EncodeLatLong(points.ToList());
         }
 
-        public static string ToWkt(this IEnumerable<LatLng> line)
+
+        public static string ToWkt(this IEnumerable<LatLng> line, string geographyType = "POLYGON")
         {
-            var sb = new StringBuilder("LINESTRING(");
+            var sb = new StringBuilder(geographyType + "(");
+            var ploygon = geographyType == "POLYGON";
+            if (ploygon) sb.Append("(");
+
             var list = from l in line select string.Format("{0:F5} {1:F5}", l.Lng, l.Lat);
             sb.Append(string.Join(",", list));
+
+            if (ploygon) sb.Append(")");
             sb.Append(")");
             return sb.ToString();
         }

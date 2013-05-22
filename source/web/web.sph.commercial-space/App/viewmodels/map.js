@@ -17,6 +17,29 @@ define(
                 var path = poly.getPath();
                 return google.maps.geometry.encoding.encodePath(path);
 
+            },
+            clear = function (){},
+            add = function (shape) {
+                if (!shape) {
+                    throw "shape is null";
+                }
+                if (!shape.encoded) {
+                    throw "encoded line is null";
+                }
+                
+                var lines = google.maps.geometry.encoding.decodePath(shape.encoded);
+                var polygon = new google.maps.Polygon({
+                    paths: lines,
+                    map: map,
+                    clickable: shape.clikable || true,
+                    editable: shape.editable || false,
+                    draggable: shape.draggable || false,
+                    strokeWeight: shape.strokeWeight || 4,
+                    strokeColor: shape.strokeColor || "#2C3CEF",
+                    fillOpacity: shape.fillOpacity || 0.5,
+                    fillColor: shape.fillColor || "#00AEDB"
+                });
+                polygon.setMap(map);
             }
         ;
 
@@ -29,6 +52,8 @@ define(
             setCenter: setCenter,
             setZoom: setZoom,
             init: init,
+            clear: clear,
+            add: clear,
             getEncodedPath: getEncodedPath,
             geocode: geocode
         };

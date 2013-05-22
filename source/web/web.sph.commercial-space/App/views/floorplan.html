@@ -6,8 +6,13 @@
     <div>
         <ul class="nav" data-bind="foreach: floor.LotCollection">
             <li style="width: 180px; height: 80px;">
-                <span class="fixed150" data-bind="text: Name"></span>
-                <span class="fixed150" data-bind="text: Size"></span>
+                <div>
+                    <span class="fixed150" data-bind="text: Name"></span>
+                    <span class="fixed150" data-bind="text: Size"></span>
+                    <input type="button" class="btn btn-primary" data-bind="click: $parent.selectCommand" value="Select" />
+
+                </div>
+
             </li>
         </ul>
     </div>
