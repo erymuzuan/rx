@@ -7,20 +7,29 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function(context, logger, router) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
 
     var id = ko.observable(),
         activate = function (routedata) {
-        logger.log('Application List View Activated', null, 'applicationlist', true);
-        id(routedata.applicationId);
-        var tcs = new $.Deferred();
-        context.loadOneAsync("RentalApplication", "RentalApplicationId eq "+ id()).done(function (r) {
-            ko.mapping.fromJSON(ko.mapping.toJSON(r), {}, vm.rentalapplication);
-            tcs.resolve(true);
-        });
-       return tcs.promise();
+            logger.log('Application List View Activated', null, 'applicationlist', true);
+            id(routedata.applicationId);
+            var tcs = new $.Deferred();
+            context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id()).done(function (r) {
+                ko.mapping.fromJSON(ko.mapping.toJSON(r), {}, vm.rentalapplication);
+                tcs.resolve(true);
+            });
+            return tcs.promise();
         },
-        waitingList = function() {
+        addAttachment = function () {
+            var attachment = {
+                Type: ko.observable(''),
+                Name: ko.observable(''),
+                IsRequired: ko.observable(false),
+                IsReceived: ko.observable(false)
+            };
+            vm.rentalapplication.AttachmentCollection.push(attachment);
+        },
+        waitingList = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: id() });
             context.post(data, "/RentalApplication/WaitingList").done(function (e) {
@@ -29,7 +38,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             });
             return tcs.promise();
         },
-        returned = function() {
+        returned = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: id() });
             context.post(data, "/RentalApplication/Returned").done(function (e) {
@@ -38,16 +47,16 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             });
             return tcs.promise();
         },
-        declined = function() {
+        declined = function () {
             var tcs = new $.Deferred();
-            var data = JSON.stringify({id:id()});
+            var data = JSON.stringify({ id: id() });
             context.post(data, "/RentalApplication/Declined").done(function (e) {
                 logger.log("Application has been declined ", e, "verifyapplication", true);
                 tcs.resolve(true);
             });
             return tcs.promise();
         },
-        approved = function() {
+        approved = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: id() });
             context.post(data, "/RentalApplication/Approved").done(function (e) {
@@ -94,10 +103,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             LastYearSales: ko.observable(),
             PreviousYearSales: ko.observable()
         },
-        waitingListCommand:waitingList,
-        returnedCommand:returned,
-        declinedCommand:declined,
-        approvedCommand:approved
+        waitingListCommand: waitingList,
+        returnedCommand: returned,
+        declinedCommand: declined,
+        approvedCommand: approved,
+        addAttachmentCommand: addAttachment
     };
 
     return vm;
