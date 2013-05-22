@@ -33,6 +33,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/Content/durandal.css")
                 .Include("~/Content/toastr.css")
                 .Include("~/Content/app.css")
+                .Include("~/Content/sprite.css")
               );
         }
 
