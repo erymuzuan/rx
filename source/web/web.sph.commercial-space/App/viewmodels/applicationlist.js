@@ -20,14 +20,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             });
             tcs.promise();
         },
-        viewDetail = function () {
-            var url = '/#/rentalapplication/';
-            router.navigateTo(url);
-        },
 
         viewAttached = function (view) {
             bindEventToList(view, '#div-application', gotoDetails);
         },
+        
         bindEventToList = function (rootSelector, selector, callback, eventName) {
             var eName = eventName || 'click';
             $(rootSelector).on(eName, selector, function () {
@@ -36,9 +33,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 return false;
             });
         },
+        
         gotoDetails = function (selectedApplication) {
             if (selectedApplication && selectedApplication.RentalApplicationId()) {
-                var url = '/#/rentalapplication/'+ selectedApplication.CommercialSpaceId() +"/" + selectedApplication.RentalApplicationId();
+                var url = '/#/verifyapplication/' + selectedApplication.RentalApplicationId();
                 router.navigateTo(url);
             }
         };
@@ -47,7 +45,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         activate: activate,
         title: 'Application List',
         applications: ko.observableArray([]),
-        viewDetailCommand: viewDetail,
         viewAttached: viewAttached
     };
 

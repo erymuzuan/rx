@@ -19,7 +19,20 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
            return Json(true);
        }
 
-       
+       public async Task<ActionResult> WaitingList(int id)
+       {
+           var context = new SphDataContext();
+           var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+           dbItem.Status = "Waiting";
+           using (var session = context.OpenSession())
+           {
+               session.Attach(dbItem);
+               await session.SubmitChanges();
+           }
+
+           return Json(true);
+       }
+
        public async Task<ActionResult> Approved(int id)
        {
            var context = new SphDataContext();

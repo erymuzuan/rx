@@ -11,23 +11,11 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
 
     var isBusy = ko.observable(false),
         id = ko.observable(),
-        rentalid = ko.observable(),
         activate = function (routeData) {
             logger.log('Rental Application View Activated', null, 'rentalapplication', true);
             id(routeData.id);
-            rentalid(routeData.rentalId);
-            var tcs = new $.Deferred();
-            context.getCountAsync("RentalApplication", "RentalApplicationId eq " + rentalid(), "RentalApplicationId").done(function (c) {
-                if (c > 0) {
-                    context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + rentalid()).done(function (r) {
-                        ko.mapping.fromJSON(ko.mapping.toJSON(r), {}, vm.rentalapplication);
-
-                    });
-                };
-                tcs.resolve(true);
-            });
             vm.rentalapplication.CommercialSpaceId(routeData.id);
-            return tcs.promise();
+            return true;
         },
         saveApplication = function () {
             var tcs = new $.Deferred();
@@ -59,39 +47,6 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
                 StoreId: ko.observable(guid)
             };
             vm.rentalapplication.AttachmentCollection.push(attachment);
-        },
-        approvedApplication = function () {
-            var tcs = new $.Deferred();
-            var data = ko.mapping.toJSON(rentalid());
-            isBusy(true);
-            context.post(data, "/RentalApplication/Approved").done(function (e) {
-                logger.log("Application has been successfully approved ", e, "rentalapplication", true);
-                isBusy(false);
-                tcs.resolve(true);
-            });
-            return tcs.promise();
-        },
-        declinedApplication = function () {
-            var tcs = new $.Deferred();
-            var data = ko.mapping.toJSON(rentalid());
-            isBusy(true);
-            context.post(data, "/RentalApplication/Declined").done(function (e) {
-                logger.log("Application has been declined ", e, "rentalapplication", true);
-                isBusy(false);
-                tcs.resolve(true);
-            });
-            return tcs.promise();
-        },
-        returnedApplication = function () {
-            var tcs = new $.Deferred();
-            var data = ko.mapping.toJSON(rentalid());
-            isBusy(true);
-            context.post(data, "/RentalApplication/Returned").done(function (e) {
-                logger.log("Application has been returned ", e, "rentalapplication", true);
-                isBusy(false);
-                tcs.resolve(true);
-            });
-            return tcs.promise();
         };
 
     var vm = {
@@ -133,11 +88,7 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
         saveCommand: saveApplication,
         addBankCommand: addBankCollection,
         isBusy: isBusy,
-        declinedCommand: declinedApplication,
-        returnedCommand: returnedApplication,
-        addAttachmentCommand: addAttachment,
-        approvedCommand: approvedApplication
-
+        addAttachmentCommand: addAttachment
     };
 
     return vm;
