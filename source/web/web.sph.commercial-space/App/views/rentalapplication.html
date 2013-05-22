@@ -109,6 +109,7 @@
     <div class="labelLeft">
         <label>Pernah/Sudah Ada menyewa mana-mana Ruang Komersial dengan BPH? </label>
         <input type="checkbox" data-bind="checked: rentalapplication.IsRecordExist" />Ya
+   
     </div>
     <div class="labelLeft">
         <label>Jika Ya, sila nyatakan alamat</label>
@@ -158,17 +159,35 @@
             </tbody>
         </table>
     </div>
-
+    <div>
+        <label>Dokumen sokongan</label>
+        <input type="button" class="btn btn-primary" value="Tambah Dokument" data-bind="click: addAttachmentCommand" />
+        <table>
+            <thead>
+                <tr>
+                    <th>Jenis</th>
+                    <th>Nama</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: rentalapplication.AttachmentCollection">
+                <tr>
+                    <td>
+                        <input type="text" data-bind="value: Type, uniqueName: true" /></td>
+                    <td>
+                        <input type="text" data-bind="value: Name, uniqueName: true" /></td>
+                    <td>
+                        <input type="file" value="upload"/>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </section>
 <section data-bind="visible: rentalapplication.RentalApplicationId() == 0">
     <div>
         <input type="button" class="btn btn-success" value="Hantar permohonan" data-bind="click: saveCommand" />
-    </div>
-</section>
-<section data-bind="visible: rentalapplication.Status == 'Pending'">
-    <div>
-        <input type="button" class="btn btn-success" value="Luluskan permohonan" data-bind="click: approvedCommand" />
-        <input type="button" class="btn btn-warning" value="Batalkan permohonan" data-bind="click: declinedCommand" />
-        <input type="button" class="btn btn-success" value="Kembalikan permohonan" data-bind="click: returnedCommand" />
     </div>
 </section>

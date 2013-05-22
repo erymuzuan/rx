@@ -16,19 +16,19 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
             logger.log('Rental Application View Activated', null, 'rentalapplication', true);
             id(routeData.id);
             rentalid(routeData.rentalId);
-   var tcs = new $.Deferred();
-                context.getCountAsync("RentalApplication", "RentalApplicationId eq " + rentalid(), "RentalApplicationId").done(function (c) {
-                    if (c > 0) {
-                        context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + rentalid()).done(function (r) {
-                            ko.mapping.fromJSON(ko.mapping.toJSON(r), {}, vm.rentalapplication);
+            var tcs = new $.Deferred();
+            context.getCountAsync("RentalApplication", "RentalApplicationId eq " + rentalid(), "RentalApplicationId").done(function (c) {
+                if (c > 0) {
+                    context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + rentalid()).done(function (r) {
+                        ko.mapping.fromJSON(ko.mapping.toJSON(r), {}, vm.rentalapplication);
 
-                        });
-                    };
-                    tcs.resolve(true);
-                });
-                vm.rentalapplication.CommercialSpaceId(routeData.id);
-                return tcs.promise();
-            },
+                    });
+                };
+                tcs.resolve(true);
+            });
+            vm.rentalapplication.CommercialSpaceId(routeData.id);
+            return tcs.promise();
+        },
         saveApplication = function () {
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON(vm.rentalapplication);
@@ -48,6 +48,17 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
                 AccountType: ko.observable('')
             };
             vm.rentalapplication.BankCollection.push(bank);
+        },
+        addAttachment = function () {
+            var guid = guidGenerator();
+            var attachment = {
+                Type: ko.observable(),
+                Name: ko.observable(),
+                IsRequired: ko.observable(false),
+                IsReceived: ko.observable(false),
+                StoreId: ko.observable(guid)
+            };
+            vm.rentalapplication.AttachmentCollection.push(attachment);
         },
         approvedApplication = function () {
             var tcs = new $.Deferred();
@@ -105,6 +116,7 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
                 Postcode: ko.observable(),
             },
             BankCollection: ko.observableArray([]),
+            AttachmentCollection: ko.observableArray([]),
             Contact: {
                 Name: ko.observable(''),
                 Title: ko.observable(''),
@@ -123,9 +135,23 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
         isBusy: isBusy,
         declinedCommand: declinedApplication,
         returnedCommand: returnedApplication,
-        approvedCommand: approvedApplication,
+        addAttachmentCommand: addAttachment,
+        approvedCommand: approvedApplication
 
     };
 
     return vm;
+    
+    function guidGenerator() {
+        var buf = new Uint16Array(8);
+        window.crypto.getRandomValues(buf);
+        var S4 = function(num) {
+            var ret = num.toString(16);
+            while(ret.length < 4){
+                ret = "0"+ret;
+            };
+            return ret;
+        };
+        return (S4(buf[0])+S4(buf[1])+"-"+S4(buf[2])+"-4"+S4(buf[3]).substring(1)+"-y"+S4(buf[4]).substring(1)+"-"+S4(buf[5])+S4(buf[6])+S4(buf[7]));
+    }
 });
