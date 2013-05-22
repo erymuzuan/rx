@@ -1,0 +1,52 @@
+﻿<section id="application-list">
+    <div class="article-left-content">
+        <article class="article-container-full-width">
+            <div id="div-application" title="Go to application details">
+                <address data-bind="text: rentalapplication.CompanyName"></address>
+                <address data-bind="text: rentalapplication.Status"></address>
+            </div>
+        </article>
+    </div>
+</section>
+<section id="attachment-list">
+   
+    <div class="article-left-content">
+        <article class="article-container-full-width">
+             <input type="button" class="btn btn-info" value="+" data-bind="click: addAttachmentCommand"/>
+            <div>
+                <label>Dokumen sokongan</label>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Jenis</th>
+                            <th>Nama</th>
+                            <th>Diterima</th>
+                            <th>Diperlukan</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: rentalapplication.AttachmentCollection">
+                        <tr>
+                            <td>
+                                <input type="text" data-bind="value: Type, uniqueName: true" /></td>
+                            <td>
+                                <input type="text" data-bind="value: Name, uniqueName: true" /></td>
+                            <td>
+                                <input type="checkbox" data-bind="checked: IsReceived" />
+                            </td>
+                            <td>
+                                <input type="checkbox" data-bind="checked: IsRequired" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </div>
+</section>
+<section class="right">
+    <input type="button" class="btn btn-info" value="SENARAI MENUNGGU" data-bind="click: waitingListCommand" />
+    <input type="button" class="btn btn-warning" value="KEMBALIKAN" data-bind="click: returnedCommand" />
+    <input type="button" class="btn btn-danger" value="BATALKAN" data-bind="click: declinedCommand" />
+    <input type="button" class="btn btn-success" value="LULUSKAN" data-bind="click: approvedCommand" />
+</section>
+
+

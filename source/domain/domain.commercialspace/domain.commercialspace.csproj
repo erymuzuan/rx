@@ -63,6 +63,8 @@
     <Compile Include="ChangeSubmission.cs" />
     <Compile Include="CommercialSpace.cs" />
     <Compile Include="Contact.cs" />
+    <Compile Include="Contract.cs" />
+    <Compile Include="ContractTemplate.cs" />
     <Compile Include="Core\Change.cs" />
     <Compile Include="Core\CollectionHelper.cs" />
     <Compile Include="Core\Entity.cs" />
@@ -76,6 +78,9 @@
     <Compile Include="Core\Strings.cs" />
     <Compile Include="Core\XmlSerializerService.cs" />
     <Compile Include="CredentialProvider.cs" />
+    <Compile Include="Document.cs" />
+    <Compile Include="DocumentTemplate.cs" />
+    <Compile Include="DocumentVersion.cs" />
     <Compile Include="EntityTypeAttribute.cs" />
     <Compile Include="Floor.cs" />
     <Compile Include="IBinaryStore.cs" />

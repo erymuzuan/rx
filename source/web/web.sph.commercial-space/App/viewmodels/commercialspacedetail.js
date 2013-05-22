@@ -14,7 +14,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         lotname = ko.observable(),
         isBusy = ko.observable(false),
         activate = function (routeData) {
-            logger.log('Commercial Details View Activated', null, 'commercialspace', true);
+            logger.log('Commercial Details View Activated', null, 'commercialspacedetail', true);
             buildingId(routeData.buildingId);
             floorname(routeData.floorname);
             lotname(routeData.lotname);

@@ -39,7 +39,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         },
         gotoDetails = function (selectedCs) {
             if (selectedCs && selectedCs.CommercialSpaceId()) {
-                var url = '/#/rentalapplication/' + selectedCs.CommercialSpaceId() + "/0";
+                var url = '/#/rentalapplication/' + selectedCs.CommercialSpaceId();
                 router.navigateTo(url);
             }
         },
