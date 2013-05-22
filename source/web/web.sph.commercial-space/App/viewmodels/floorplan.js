@@ -28,9 +28,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 title('Pelan lantai : ' + floorname());
                 var tcs = new $.Deferred();
                 var buildingTask = context.loadOneAsync('Building', 'BuildingId eq ' + buildingId());
+                var pathTask = $.get('/Building/GetEncodedPath/' + routeData.buildingId);
                 var centerTask = $.get('/Building/GetCenter/' + routeData.buildingId);
-                $.when(buildingTask, centerTask)
-                    .then(function (b, center) {
+                $.when(buildingTask, centerTask, pathTask)
+                    .then(function (b, center, path) {
                         if (!b) {
                             var lot = {
                                 Name: ko.observable(''),
@@ -48,20 +49,38 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                         setTimeout(function () {
                             var panel = document.getElementById('floorplanmap');
                             if (panel && !mapLoaded) {
-                                map.init({ panel: 'floorplanmap', draw: true, center: new google.maps.LatLng(center[0].Lat, center[0].Lng), zoom: 18 });
+                                map.init({
+                                    panel: 'floorplanmap',
+                                    draw: true,
+                                    polygoncomplete: polygoncomplete,
+                                    center: new google.maps.LatLng(center[0].Lat, center[0].Lng),
+                                    zoom: 19
+                                });
                                 mapLoaded = true;
+
+                                if (path) {
+                                    map.add({
+                                        encoded: path[0],
+                                        draggable: false,
+                                        editable: false,
+                                        clickable: false,
+                                        fillColor: "#FFEAF3D2"
+                                    });
+                                }
+
                             }
                         }, 3000);
                     });
 
+                isBusy(false);
                 return tcs.promise();
             },
             save = function () {
                 var tcs = new $.Deferred();
                 var data = JSON.stringify({
-                    path: map.getEncodedPath(),
+                    path: map.getEncodedPath(polygon),
                     fillColor: fillColor(),
-                    fillOpacity : fillOpacity(),
+                    fillOpacity: fillOpacity(),
                     lot: activeLot(),
                     id: buildingId(),
                     floorname: floorname()
@@ -73,7 +92,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
 
                         isBusy(false);
                         tcs.resolve(true);
-                     });
+                    });
 
                 return tcs.promise();
             },
@@ -81,21 +100,27 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 var url = "/#/buildingdetail/" + buildingId();
                 router.navigateTo(url);
             },
-            select = function(lot) {
+            polygon = null,
+            polygoncomplete = function (shape) {
+                polygon = shape;
+            },
+            select = function (lot) {
                 isBusy(true);
                 activeLot(lot.Name());
                 $.get("/Building/GetFloorPlan/" + buildingId() + "?floor=" + floorname() + "&lot=" + lot.Name())
-                    .then(function (shape) {
+                    .done(function (shape) {
+
                         map.clear();
-                        if (shape) {
+                        if (shape.EncodedPolygon) {
                             map.add({
-                                encoded: shape.EncodedLine,
+                                encoded: shape.EncodedPolygon,
                                 draggable: true,
                                 editable: true,
                                 fillColor: shape.FillColor,
                                 fillOpacity: shape.FillOpacity
                             });
                         }
+                        isBusy(false);
 
                     });
             };

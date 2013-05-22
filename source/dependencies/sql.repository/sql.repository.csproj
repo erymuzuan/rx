@@ -68,6 +68,9 @@
     <Compile Include="RentalApplication.cs">
       <DependentUpon>Sph.tt</DependentUpon>
     </Compile>
+    <Compile Include="SpatialStore.cs">
+      <DependentUpon>Sph.tt</DependentUpon>
+    </Compile>
     <Compile Include="Sph.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

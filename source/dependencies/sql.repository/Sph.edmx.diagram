@@ -8,6 +8,7 @@
         <EntityTypeShape EntityType="Sph.CommercialSpace" Width="1.5" PointX="5" PointY="0.75" />
         <EntityTypeShape EntityType="Sph.RentalApplication" Width="1.5" PointX="7.75" PointY="1.875" />
         <EntityTypeShape EntityType="Sph.Building" Width="1.5" PointX="2.625" PointY="2.125" />
+        <EntityTypeShape EntityType="Sph.SpatialStore" Width="1.5" PointX="6.4921270192098461" PointY="26.271748674228672" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -65,9 +65,23 @@ namespace Bespoke.Sph.SqlRepository
 
         }
 
-        public Task<string> GetEncodedPathAsync(Expression<Func<T, bool>> predicate)
+        public async Task<string> GetEncodedPathAsync(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            var query = this.Translate(predicate);
+
+            var sql = query.ToString().Replace("[Data]", "[EncodedWkt]");
+            using (var conn = new SqlConnection(m_connectionString))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.Text;
+                await conn.OpenAsync();
+                var path = await cmd.ExecuteScalarAsync();
+                if (path == DBNull.Value) return null;
+
+                return path as string;
+
+            }
         }
 
         public Task<string> GetWktAsync(Expression<Func<T, bool>> predicate)
@@ -92,9 +106,7 @@ namespace Bespoke.Sph.SqlRepository
 
             var query = this.Translate(predicate);
 
-            var sql = string.Format("SELECT [Path].EnvelopeCenter().STAsText() FROM [{0}].[{1}] ",
-                                       "Sph",
-                                       typeof(T).Name) + query;
+            var sql = query.ToString().Replace("[Data]", "[Path].EnvelopeCenter().STAsText()");
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {

@@ -10,7 +10,8 @@ define(
     function () {
 
         var geocoder2, map;
-        var isBusy = ko.observable(false),
+        var overlays = [],
+            isBusy = ko.observable(false),
             errors = ko.observableArray(),
             messages = ko.observableArray(),
             getEncodedPath = function (poly) {
@@ -18,7 +19,12 @@ define(
                 return google.maps.geometry.encoding.encodePath(path);
 
             },
-            clear = function (){},
+            clear = function () {
+                $.each(overlays, function(i, v) {
+                    v.setMap(null);
+                });
+                overlays.length = 0;
+            },
             add = function (shape) {
                 if (!shape) {
                     throw "shape is null";
@@ -26,8 +32,9 @@ define(
                 if (!shape.encoded) {
                     throw "encoded line is null";
                 }
-                
+
                 var lines = google.maps.geometry.encoding.decodePath(shape.encoded);
+             
                 var polygon = new google.maps.Polygon({
                     paths: lines,
                     map: map,
@@ -40,6 +47,7 @@ define(
                     fillColor: shape.fillColor || "#00AEDB"
                 });
                 polygon.setMap(map);
+                overlays.push(polygon);
             }
         ;
 
@@ -53,7 +61,7 @@ define(
             setZoom: setZoom,
             init: init,
             clear: clear,
-            add: clear,
+            add: add,
             getEncodedPath: getEncodedPath,
             geocode: geocode
         };
@@ -72,6 +80,7 @@ define(
                 center: center,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 streetViewControl: false,
+                scaleControl : true,
                 mapTypeControl: false,
                 mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU },
                 navigationControlOptions: { style: google.maps.NavigationControlStyle.DEFAULT }
@@ -96,7 +105,34 @@ define(
                     }
                 });
                 if (ops.polygoncomplete) {
-                    google.maps.event.addListener(drawingManager, 'polygoncomplete', ops2.polygoncomplete);
+                    google.maps.event.addListener(drawingManager, 'polygoncomplete', function(pg) {
+                        overlays.push(pg);
+                        ops2.polygoncomplete(pg);
+                    });
+                }
+                if (ops.circlecomplete) {
+                    google.maps.event.addListener(drawingManager, 'circlecomplete', function (circle) {
+                        overlays.push(circle);
+                        ops2.circlecomplete(circle);
+                    });
+                }
+                if (ops.polylinecomplete) {
+                    google.maps.event.addListener(drawingManager, 'polylinecomplete', function (polyline) {
+                        overlays.push(polyline);
+                        ops2.polylinecomplete(polyline);
+                    });
+                }
+                if (ops.rectanglecomplete) {
+                    google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (rectangle) {
+                        overlays.push(rectangle);
+                        ops2.rectanglecomplete(rectangle);
+                    });
+                }
+                if (ops.markercomplete) {
+                    google.maps.event.addListener(drawingManager, 'markercomplete', function (marker) {
+                        overlays.push(marker);
+                        ops2.markercomplete(marker);
+                    });
                 }
 
                 drawingManager.setMap(map);

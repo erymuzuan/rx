@@ -2,6 +2,7 @@
 /// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/__common.js" />
+/// <reference path="../../Scripts/google-maps-3-vs-1-0-vsdoc.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../services/datacontext.js" />
 define(['services/datacontext',
@@ -65,7 +66,29 @@ define(['services/datacontext',
         };
 
         var showMap = function () {
-            mapvm.init({ panel: 'map', draw: true, polygoncomplete: polygoncomplete });
+            isBusy(true);
+            var pathTask = $.get("/Building/GetEncodedPath/" + vm.building.BuildingId());
+            var centerTask = $.get("/Building/GetCenter/" + vm.building.BuildingId());
+            $.when(pathTask, centerTask)
+            .then(function (path, center) {
+
+                mapvm.init({
+                    panel: 'map',
+                    draw: true,
+                    polygoncomplete: polygoncomplete,
+                    zoom: 18,
+                    center: new google.maps.LatLng(center[0].Lat,center[0].Lng)
+                });
+                if (path) {
+                    mapvm.add({
+                        encoded: path[0],
+                        draggable: true,
+                        editable: true,
+                        zoom: 18
+                    });
+                }
+
+            });
         },
             polygon = null,
             polygoncomplete = function (shape) {

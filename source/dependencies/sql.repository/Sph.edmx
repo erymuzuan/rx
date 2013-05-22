@@ -9,6 +9,7 @@
           <EntitySet Name="Building" EntityType="Sph.Store.Building" store:Type="Tables" Schema="Sph" />
           <EntitySet Name="CommercialSpace" EntityType="Sph.Store.CommercialSpace" store:Type="Tables" Schema="Sph" />
           <EntitySet Name="RentalApplication" EntityType="Sph.Store.RentalApplication" store:Type="Tables" Schema="Sph" />
+          <EntitySet Name="SpatialStore" EntityType="Sph.Store.SpatialStore" store:Type="Tables" Schema="Sph" />
         </EntityContainer>
         <EntityType Name="Building">
           <Key>
@@ -24,9 +25,10 @@
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
           <Property Name="ChangedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
-          <Property Name="Path" Type="geography" />
+          <Property Name="Shape" Type="geography" />
           <Property Name="Wkt" Type="varchar(max)" />
           <Property Name="EncodedWkt" Type="varchar(max)" />
+          <Property Name="Path" Type="geography" />
         </EntityType>
         <EntityType Name="CommercialSpace">
           <Key>
@@ -63,6 +65,24 @@
           <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
           <Property Name="Status" Type="varchar" Nullable="false" MaxLength="255" />
         </EntityType>
+        <EntityType Name="SpatialStore">
+          <Key>
+            <PropertyRef Name="SpatialStoreId" />
+          </Key>
+          <Property Name="SpatialStoreId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Data" Type="xml" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="255" />
+          <Property Name="StoreId" Type="varchar" MaxLength="255" />
+          <Property Name="Tag" Type="varchar" MaxLength="255" />
+          <Property Name="SearchText" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="ChangedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
+          <Property Name="Path" Type="geography" />
+          <Property Name="Wkt" Type="varchar(max)" />
+          <Property Name="EncodedWkt" Type="varchar(max)" />
+        </EntityType>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -71,6 +91,7 @@
           <EntitySet Name="CommercialSpaces" EntityType="Sph.CommercialSpace" />
           <EntitySet Name="RentalApplications" EntityType="Sph.RentalApplication" cg:GetterAccess="Internal" />
           <EntitySet Name="Buildings" EntityType="Sph.Building" cg:GetterAccess="Internal" />
+          <EntitySet Name="SpatialStores" EntityType="Sph.SpatialStore" />
           </EntityContainer>
         <EntityType Name="CommercialSpace">
           <Key>
@@ -121,6 +142,25 @@
           <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
           <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Geography" Name="Shape" />
+        </EntityType>
+        <EntityType Name="SpatialStore">
+          <Key>
+            <PropertyRef Name="SpatialStoreId" />
+          </Key>
+          <Property Type="Int32" Name="SpatialStoreId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Type" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="StoreId" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Tag" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SearchText" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Geography" Name="Path" />
+          <Property Type="String" Name="Wkt" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EncodedWkt" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -170,6 +210,7 @@
           <EntitySetMapping Name="Buildings">
             <EntityTypeMapping TypeName="Sph.Building">
               <MappingFragment StoreEntitySet="Building">
+                <ScalarProperty Name="Shape" ColumnName="Shape" />
                 <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
                 <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -180,6 +221,25 @@
                 <ScalarProperty Name="LotNo" ColumnName="LotNo" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SpatialStores">
+            <EntityTypeMapping TypeName="Sph.SpatialStore">
+              <MappingFragment StoreEntitySet="SpatialStore">
+                <ScalarProperty Name="EncodedWkt" ColumnName="EncodedWkt" />
+                <ScalarProperty Name="Wkt" ColumnName="Wkt" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="SearchText" ColumnName="SearchText" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="SpatialStoreId" ColumnName="SpatialStoreId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
