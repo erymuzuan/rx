@@ -111,7 +111,10 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             item.Address = building.Address;
             item.Name = building.Name;
             item.LotNo = building.LotNo;
-            
+            item.Floors = building.Floors;
+            item.Size = building.Size;
+            item.Status = building.Status;
+
             using (var session = context.OpenSession())
             {
                 session.Attach(item);

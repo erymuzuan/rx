@@ -56,10 +56,12 @@
     <Compile Include="Address.cs" />
     <Compile Include="assemblyinfo.cs" />
     <Compile Include="Attachment.cs" />
+    <Compile Include="AuditTrail.cs" />
     <Compile Include="Bank.cs" />
     <Compile Include="BinaryStore.cs" />
     <Compile Include="BoundedContextAttribute.cs" />
     <Compile Include="Building.cs" />
+    <Compile Include="Change.cs" />
     <Compile Include="ChangeSubmission.cs" />
     <Compile Include="CommercialSpace.cs" />
     <Compile Include="Contact.cs" />
@@ -92,6 +94,8 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="ISettingProvider.cs" />
     <Compile Include="ISpatialService.cs" />
+    <Compile Include="Land.cs" />
+    <Compile Include="Owner.cs" />
     <Compile Include="SpatialEntity.cs" />
     <Compile Include="LatLng.cs" />
     <Compile Include="LoadOperation.cs" />
