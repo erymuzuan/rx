@@ -8,16 +8,8 @@
             <i class="icon-spinner icon-2x icon-spin"></i>
         </div>
         </div>
-         <div class="menu_div">
-            <ul>
-                <li><a href="#"><i class="float-left fx-menu fx-menu-grid"></i>Papan Tugas</a></li>
-                <li><a href="#"><i class="float-left fx-menu fx-menu-building"></i>Bangunan</a></li>
-                <li><a href="#"><i class="float-left fx-menu fx-menu-business"></i>Ruang Komersial</a></li>
-                <li><a href="#"><i class="float-left fx-menu fx-menu-journal"></i>Permohonan</a></li>
-            </ul>
-        </div>
 
-        <div class="btn-group" data-bind="foreach: router.visibleRoutes">
+        <div class="menu_div" data-bind="foreach: router.visibleRoutes">
              <a data-bind="css: { active: isActive }, attr: { href: hash }, text: name" 
             class="btn btn-info" href="#"></a>
         </div>
