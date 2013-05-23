@@ -317,7 +317,7 @@ footer span {
 /***************************/
 /* Boostrap overrides      */
 
-.navbar .btn, .navbar .btn-group {
+.navbar .btn, .navbar  {
     margin-top: 16px;
 }
 
