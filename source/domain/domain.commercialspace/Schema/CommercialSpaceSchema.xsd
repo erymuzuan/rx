@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
 	<xs:element name="Land">
 		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Owner"/>
+				<xs:element ref="Address"/>
+				<xs:element name="LeaseExpiryDate" type="xs:dateTime" nillable="true"/>
+				<xs:element name="LeasePeriod" type="xs:int" nillable="true"/>
+				<xs:element name="ApprovedDateTime" type="xs:dateTime" nillable="true"/>
+				<xs:element name="ApprovedBy" type="xs:string"/>
+			</xs:all>
 			<xs:attribute name="Lot" type="xs:string" use="required"/>
 			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="Location" type="xs:string" use="required"/>
+			<xs:attribute name="Size" type="xs:double" use="required"/>
+			<xs:attribute name="SizeUnit" type="xs:string" use="required"/>
+			<xs:attribute name="CurrentMarketValue" type="xs:decimal" use="required"/>
+			<xs:attribute name="RezabNo" type="xs:string"/>
+			<xs:attribute name="SheetNo" type="xs:string" use="required"/>
+			<xs:attribute name="ApprovedPlanNo" type="xs:string" use="required"/>
+			<xs:attribute name="LandOffice" type="xs:string" use="required"/>
+			<xs:attribute name="Usage" type="xs:string" use="required"/>
+			<xs:attribute name="Note" type="xs:string" use="required"/>
+			<xs:attribute name="OwnLevel" type="xs:string" use="required"/>
+			<xs:attribute name="PlanNo" type="xs:string" use="required"/>
+			<xs:attribute name="Status" type="xs:string" use="required"/>
+			<xs:attribute name="IsApproved" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Building">
@@ -209,6 +231,39 @@
 			<xs:attribute name="CommitedBy" type="xs:string" use="required"/>
 			<xs:attribute name="No" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Owner">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="ReferenceNo" type="xs:string" use="required"/>
+			<xs:attribute name="Status" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AuditTrail">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="ChangeCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Change" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="User" type="xs:string" use="required"/>
+			<xs:attribute name="DateTime" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Operation" type="xs:string" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="EntityId" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Change">
+		<xs:complexType>
+			<xs:attribute name="PropertyName" type="xs:string" use="required"/>
+			<xs:attribute name="Before" type="xs:string" use="required"/>
+			<xs:attribute name="After" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

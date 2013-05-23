@@ -119,7 +119,7 @@ define(['services/datacontext',
                     center: point
                 });
                 if (path[0]) {
-                    mapvm.add({
+                   buildingPolygon = mapvm.add({
                         encoded: path[0],
                         draggable: true,
                         editable: true,
@@ -129,17 +129,17 @@ define(['services/datacontext',
 
             });
         },
-            polygon = null,
+            buildingPolygon = null,
             polygoncomplete = function (shape) {
-                polygon = shape;
+                buildingPolygon = shape;
             },
             saveMap = function () {
-                if (!polygon) {
+                if (!buildingPolygon) {
                     logger.log("No shape");
                     return false;
                 }
                 var tcs = new $.Deferred();
-                var data = JSON.stringify({ buildingId: vm.building.BuildingId(), path: mapvm.getEncodedPath(polygon) });
+                var data = JSON.stringify({ buildingId: vm.building.BuildingId(), path: mapvm.getEncodedPath(buildingPolygon) });
                 datacontext
                     .post(data, "/Building/SaveMap")
                     .then(function (e) {
@@ -155,6 +155,8 @@ define(['services/datacontext',
             activate: activate,
             building: {
                 Name: ko.observable(''),
+                Note: ko.observable(''),
+                Floors: ko.observable(1),
                 BuildingId: ko.observable(0),
                 Address: {
                     Street: ko.observable(''),

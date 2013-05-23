@@ -1,5 +1,5 @@
 ﻿<div data-bind="visible: isBusy">
-    <img src="/Images/spinner-md.gif"/>
+    <img src="/Images/spinner-md.gif" />
 </div>
 <section id="building-details" class="view">
     <h2 class="page-title" data-bind="text: title"></h2>
@@ -47,6 +47,10 @@
         <input type="text" name="building.Size" data-bind="value: building.Size" />
     </div>
     <div class="labelLeft">
+        <label title="Floors">Floors : </label>
+        <input type="text" name="building.Floors" data-bind="value: building.Floors" />
+    </div>
+    <div class="labelLeft">
         <label title="Status">Status : </label>
         <select name="building.Status" data-bind="value: building.Status">
             <option value="Good">Good</option>
@@ -55,37 +59,56 @@
             <option value="Maintenance">Under Maintenance</option>
         </select>
     </div>
+    <a type="button" class="btn btn-success" data-toggle="modal" data-bind="click: showMapCommand" href="#map-panel">Show Map</a>
     <div class="labelLeft">
-        <input type="button" class="btn btn-primary" data-bind="click: addFloorCommand" value="Add Floor"/>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Size</th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: building.FloorCollection">
-            <tr>
-                <td><input type="text" data-bind="value:Name,uniqueName: true"/></td>
-                <td><input type="text" data-bind="value:Size,uniqueName: true"/></td>
-                <td><input type="button" data-bind="click: $parent.removeFloorCommand" class="btn btn-primary" value="-" /></td>
-                <td><input type="button" data-bind="click: $parent.addLotCommand" class="btn btn-primary" value="+Lot" /></td>
-                <td><input type="button" data-bind="click: $parent.viewFloorPlanCommand" class="btn btn-primary" value="Pelan Lantai" /></td>
-            </tr>
-        </tbody>
-    </table>
-         </div>
+        <input type="button" class="btn btn-primary" data-bind="click: addFloorCommand" value="Add Floor" />
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: building.FloorCollection">
+                <tr>
+                    <td>
+                        <input type="text" data-bind="value: Name, uniqueName: true" /></td>
+                    <td>
+                        <input type="text" data-bind="value: Size, uniqueName: true" /></td>
+                    <td>
+                        <input type="button" data-bind="click: $parent.removeFloorCommand" class="btn btn-primary" value="-" /></td>
+                    <td>
+                        <input type="button" data-bind="click: $parent.addLotCommand" class="btn btn-primary" value="+Lot" /></td>
+                    <td>
+                        <input type="button" data-bind="click: $parent.viewFloorPlanCommand" class="btn btn-primary" value="Pelan Lantai" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <div>
         <input type="button" class="btn btn-primary" value="Back" data-bind="click: goBackCommand" />
         <input type="button" class="btn btn-primary" value="Save" data-bind="click: saveCommand" />
     </div>
-    
-       <input type="button" class="btn btn-primary" value="Show map" data-bind="click: showMapCommand" />
 
-    <div id="map" style="width: 1200px; height: 400px"></div>
-  <input type="button" class="btn btn-primary" value="save map" data-bind="click: saveMapCommand" />
+
+</section>
+
+<section class="modal hide" id="map-panel" style="width: 1000px;height: 800px;margin-left: -500px">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">x</button>
+        <h3>Peta bangunan</h3>
+    </div>
+    <div class="modal-body" style="width: 900px; height: 700px; max-height: 700px">
+        <div id="map" style="width: 900px; height: 700px"></div>
+    </div>
+
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="save map" data-bind="click: saveMapCommand" />
+    </div>
 </section>
