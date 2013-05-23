@@ -4,21 +4,37 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/logger.js" />
 /// <reference path="../../Scripts/google-maps-3-vs-1-0-vsdoc.js" />
+/// <reference path="../../Scripts/underscore.js" />
 
 
 define(
     function () {
 
         var geocoder2, map;
-        var isBusy = ko.observable(false),
+        var overlays = [],
+            isBusy = ko.observable(false),
             errors = ko.observableArray(),
             messages = ko.observableArray(),
             getEncodedPath = function (poly) {
-                var path = poly.getPath();
-                return google.maps.geometry.encoding.encodePath(path);
+                if (poly) {
+                    var path = poly.getPath();
+                    return google.maps.geometry.encoding.encodePath(path);
+                }
+                throw "The arguement cannot be null, for getEncodedPath, please get a polygon maybe";
 
             },
-            clear = function (){},
+            remove = function (overlay) {
+                overlay.setMap(null);
+                var list = _.without(overlays, overlay);
+                overlays.length = 0;
+                overlays = list;
+            },
+            clear = function () {
+                $.each(overlays, function (i, v) {
+                    v.setMap(null);
+                });
+                overlays.length = 0;
+            },
             add = function (shape) {
                 if (!shape) {
                     throw "shape is null";
@@ -26,11 +42,13 @@ define(
                 if (!shape.encoded) {
                     throw "encoded line is null";
                 }
-                
+
                 var lines = google.maps.geometry.encoding.decodePath(shape.encoded);
+
                 var polygon = new google.maps.Polygon({
                     paths: lines,
                     map: map,
+                    zIndex: shape.zIndex || 0,
                     clickable: shape.clikable || true,
                     editable: shape.editable || false,
                     draggable: shape.draggable || false,
@@ -40,6 +58,9 @@ define(
                     fillColor: shape.fillColor || "#00AEDB"
                 });
                 polygon.setMap(map);
+                overlays.push(polygon);
+
+                return polygon;
             }
         ;
 
@@ -53,9 +74,11 @@ define(
             setZoom: setZoom,
             init: init,
             clear: clear,
-            add: clear,
+            remove: remove,
+            add: add,
             getEncodedPath: getEncodedPath,
-            geocode: geocode
+            geocode: geocode,
+            reverseGeocode: reverseGeocode
         };
         return vm;
 
@@ -66,12 +89,13 @@ define(
             var zoom = ops2.zoom || 11;
 
             var center = ops2.center || new google.maps.LatLng(3.1282, 101.6441);
-
+            google.maps.visualRefresh = true;
             var options = {
                 zoom: zoom,
                 center: center,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 streetViewControl: false,
+                scaleControl: true,
                 mapTypeControl: false,
                 mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU },
                 navigationControlOptions: { style: google.maps.NavigationControlStyle.DEFAULT }
@@ -96,7 +120,34 @@ define(
                     }
                 });
                 if (ops.polygoncomplete) {
-                    google.maps.event.addListener(drawingManager, 'polygoncomplete', ops2.polygoncomplete);
+                    google.maps.event.addListener(drawingManager, 'polygoncomplete', function (pg) {
+                        overlays.push(pg);
+                        ops2.polygoncomplete(pg);
+                    });
+                }
+                if (ops.circlecomplete) {
+                    google.maps.event.addListener(drawingManager, 'circlecomplete', function (circle) {
+                        overlays.push(circle);
+                        ops2.circlecomplete(circle);
+                    });
+                }
+                if (ops.polylinecomplete) {
+                    google.maps.event.addListener(drawingManager, 'polylinecomplete', function (polyline) {
+                        overlays.push(polyline);
+                        ops2.polylinecomplete(polyline);
+                    });
+                }
+                if (ops.rectanglecomplete) {
+                    google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (rectangle) {
+                        overlays.push(rectangle);
+                        ops2.rectanglecomplete(rectangle);
+                    });
+                }
+                if (ops.markercomplete) {
+                    google.maps.event.addListener(drawingManager, 'markercomplete', function (marker) {
+                        overlays.push(marker);
+                        ops2.markercomplete(marker);
+                    });
                 }
 
                 drawingManager.setMap(map);
@@ -124,14 +175,35 @@ define(
 
         }
 
+        function geocode(address) {
+            var tcs = new $.Deferred();
+            if (!geocoder2)
+                geocoder2 = new google.maps.Geocoder();
+            geocoder2.geocode({ 'address': address, region : "my" }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    tcs.resolve({
+                        status: true,
+                        point: results[0].geometry.location
+                    });
+                } else {
+                    tcs.resolve({
+                        status: false,
+                        message: "Geocode was not successful for the following reason: " + status
+                    });
+                }
+            });
 
-        function geocode(lat, lng) {
+            return tcs.promise();
+
+        }
+
+        function reverseGeocode(point) {
 
             var tcs = new $.Deferred();
             if (!geocoder2)
                 geocoder2 = new google.maps.Geocoder();
 
-            var request = { region: "my", location: new google.maps.LatLng(lat, lng) };
+            var request = { region: "my", location: point };
             geocoder2.geocode(request, function (result, status) {
                 var address = {
                     Street: "",
@@ -144,15 +216,15 @@ define(
                 if (status == google.maps.GeocoderStatus.OK) {
 
                     for (var i = 0; i < result[0].address_components.length; i++) {
-                        var add = result[0].address_components[i];
-                        if (add.types[0] == 'administrative_area_level_1') {
-                            address.State = add.long_name;
+                        var add1 = result[0].address_components[i];
+                        if (add1.types[0] == 'administrative_area_level_1') {
+                            address.State = add1.long_name;
                         }
-                        if (add.types[0] == 'locality') {
-                            address.District = add.long_name;
+                        if (add1.types[0] == 'locality') {
+                            address.District = add1.long_name;
                         }
-                        if (add.types[0] == 'route') {
-                            address.Street = add.long_name;
+                        if (add1.types[0] == 'route') {
+                            address.Street = add1.long_name;
                         }
                     }
                     if (!address.Street) address.Street = result[0].address_components[1].long_name;

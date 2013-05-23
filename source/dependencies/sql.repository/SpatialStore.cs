@@ -15,18 +15,20 @@ namespace Bespoke.Sph.SqlRepository
 using System;
     using System.Collections.Generic;
     
-internal partial class RentalApplication
+public partial class SpatialStore
 {
 
-    public int RentalApplicationId { get; set; }
-
-    public string CompanyName { get; set; }
-
-    public string CompanyRegistrationNo { get; set; }
-
-    public string CommercialSpaceId { get; set; }
+    public int SpatialStoreId { get; set; }
 
     public string Data { get; set; }
+
+    public string Type { get; set; }
+
+    public string StoreId { get; set; }
+
+    public string Tag { get; set; }
+
+    public string SearchText { get; set; }
 
     public System.DateTime CreatedDate { get; set; }
 
@@ -35,8 +37,6 @@ internal partial class RentalApplication
     public System.DateTime ChangedDate { get; set; }
 
     public string ChangedBy { get; set; }
-
-    public string Status { get; set; }
 
 }
 

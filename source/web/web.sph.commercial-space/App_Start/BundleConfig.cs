@@ -23,6 +23,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/scripts/bootstrap.js")
                 .Include("~/scripts/moment.js")
                 .Include("~/scripts/string.js")
+                .Include("~/scripts/underscore.js")
               );
 
             bundles.Add(

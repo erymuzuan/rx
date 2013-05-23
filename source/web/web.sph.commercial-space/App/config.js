@@ -22,19 +22,19 @@
             name: 'Bangunan',
             visible: true,
             caption: 'Building',
-            settings: { caption: '<i class="icon-user"></i> Building' }
+            settings: { caption: 'Senaria Bangunan' }
         },
         {
             url: 'commercialspace',
             moduleId: 'viewmodels/commercialspace',
             name: 'Ruang Komersial',
             visible: true,
-            caption: '<i class="icon-user"></i> Commercial Space'
+            caption: 'Senarai Ruang Komersial'
         }, {
             url: 'buildingdetail/:id',
             moduleId: 'viewmodels/buildingdetail',
             name: 'BuildingDetail',
-            caption: '<i class="icon-user"></i> Building Details',
+            caption: 'Building Details',
             visible: false
         }, {
             url: 'lotdetail/:buildingId/:floorname',
@@ -54,7 +54,7 @@
             moduleId: 'viewmodels/commercialspacedetail',
             name: 'ruang komersial',
             visible: false,
-            caption: '<i class="icon-user"></i> commercial space'
+            caption: 'commercial space'
         },
         {
             url: 'rentalapplication/:id',
@@ -62,7 +62,7 @@
             name: 'rental application',
             visible: false,
             caption: 'rentalapplication',
-            settings: { caption: '<i class="icon-user"></i> Permohonan' }
+            settings: { caption: 'Permohonan' }
         },
         {
             url: 'buildingforrental',
@@ -70,7 +70,7 @@
             name: 'permohonan',
             visible: true,
             caption: 'permohonan',
-            settings: { caption: '<i class="icon-user"></i> permohonan' }
+            settings: { caption: 'Permohonan' }
         },
         {
             url: 'commercialspaceforrental/:buildingId',
@@ -78,7 +78,7 @@
             name: 'commercialspaceforrental',
             visible: false,
             caption: 'commercialspaceforrental',
-            settings: { caption: '<i class="icon-user"></i> permohonan' }
+            settings: { caption: 'Permohonan' }
         },
         {
             url: 'applicationlist/:status',

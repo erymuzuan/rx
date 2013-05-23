@@ -14,6 +14,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var spatial = ObjectBuilder.GetObject<ISpatialService<Building>>();
             var center = await spatial.GetCenterAsync(b => b.BuildingId == id);
+            if (null == center) return Json(false, JsonRequestBehavior.AllowGet);
             return Json(center, JsonRequestBehavior.AllowGet);
         }
 
@@ -21,6 +22,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var spatial = ObjectBuilder.GetObject<ISpatialService<Building>>();
             var encodedPath = await spatial.GetEncodedPathAsync(b => b.BuildingId == id);
+            if (null == encodedPath) return Json(false, JsonRequestBehavior.AllowGet);
             return Json(encodedPath, JsonRequestBehavior.AllowGet);
         }
 
@@ -31,7 +33,14 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             var item = await context.LoadOneAsync<Building>(b => b.BuildingId == buildingId);
             item.EncodedWkt = path;
-            item.Wkt = path.Decode().ToWkt();
+            var points = path.Decode().ToList();
+            if (
+                Math.Abs(points.First().Lat - points.Last().Lat) > 0.00001
+                || Math.Abs(points.First().Lng - points.Last().Lng) > 0.00001
+                )
+                points.Add(points.First().Clone());
+
+            item.Wkt = points.ToWkt();
 
             await spatial.UpdateAsync(item);
             return Json(true);
@@ -44,12 +53,12 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             var item = await context.LoadOneAsync<Building>(b => b.BuildingId == id);
             var lotItem = item.FloorCollection.Single(f => f.Name == floor).LotCollection.Single(l => l.Name == lot);
-            if (string.IsNullOrWhiteSpace(lotItem.PlanStoreId)) return Json(null, JsonRequestBehavior.AllowGet);
+            if (string.IsNullOrWhiteSpace(lotItem.PlanStoreId)) return Json(new { EncodedPolygon = string.Empty }, JsonRequestBehavior.AllowGet);
             var line = await context.GetScalarAsync<SpatialStore, string>(s => s.StoreId == lotItem.PlanStoreId, s => s.EncodedWkt);
 
             var shape = new
                 {
-                    Encoded = line,
+                    EncodedPolygon = line,
                     lotItem.FillColor,
                     lotItem.FillOpacity
                 };
@@ -57,27 +66,35 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(shape, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> AddLotFloorPlan(int id, string floor, string lot, string fillColor, double fillOpacity, string path)
+        public async Task<ActionResult> AddLotFloorPlan(int id, string floorname, string lot, string fillColor, double fillOpacity, string path)
         {
             var context = new SphDataContext();
             var building = await context.LoadOneAsync<Building>(b => b.BuildingId == id);
-            var lotItem = building.FloorCollection.Single(f => f.Name == floor).LotCollection.Single(l => l.Name == lot);
+            var lotItem = building.FloorCollection.Single(f => f.Name == floorname).LotCollection.Single(l => l.Name == lot);
             lotItem.FillOpacity = fillOpacity;
             lotItem.FillColor = fillColor;
             lotItem.PlanStoreId = Guid.NewGuid().ToString();
+
+            var points = path.Decode().ToList();
+            if (
+                Math.Abs(points.First().Lat - points.Last().Lat) > 0.00001
+                || Math.Abs(points.First().Lng - points.Last().Lng) > 0.00001
+                )
+                points.Add(points.First().Clone());
+
 
             var store = new SpatialStore
                 {
                     StoreId = lotItem.PlanStoreId,
                     Type = typeof(Lot).Name,
-                    Tag = string.Format("{0};{1}{2}", id, floor, lot),
+                    Tag = string.Format("{0};{1}{2}", id, floorname, lot),
                     EncodedWkt = path,
-                    Wkt = path.Decode().ToWkt()
+                    Wkt = points.ToWkt()
                 };
 
             using (var session = context.OpenSession())
             {
-                session.Attach(store);
+                session.Attach(store, building);
                 await session.SubmitChanges();
             }
 
@@ -90,12 +107,17 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> SaveBuilding(Building building)
         {
             var context = new SphDataContext();
+            var item = await context.LoadOneAsync<Building>(b => b.BuildingId == building.BuildingId) ?? building;
+            item.Address = building.Address;
+            item.Name = building.Name;
+            item.LotNo = building.LotNo;
+            
             using (var session = context.OpenSession())
             {
-                session.Attach(building);
+                session.Attach(item);
                 await session.SubmitChanges();
             }
-            return Json(true);
+            return Json(building.BuildingId);
         }
 
         public async Task<ActionResult> AddLot(Floor floor, int buildingId, string floorname)
