@@ -3,16 +3,48 @@
     <div class="article-right-content" data-bind="click: viewPendingCommand">
         <article class="article-container-full-width" >
             <div id="div-rental" title="Go to rental details" >
-                <label title="PENDING">MENUNGGU</label>
+                <label title="new">BARU</label>
                 <address data-bind="text: pending"></address>
             </div>
         </article>
     </div>
     <div class="article-right-content" data-bind="click: viewApprovedCommand">
-          <article class="article-container-full-width">
+        <article class="article-container-full-width">
             <div id="div1" title="Go to rental details" >
-                <label title="LULUS">LULUS</label>
+                <label title="approved">LULUS</label>
                 <address data-bind="text: approved"></address>
+            </div>
+        </article>
+    </div>
+    <div class="article-right-content" data-bind="click: viewDeclinedCommand">
+        <article class="article-container-full-width">
+            <div id="div2" title="Go to rental details" >
+                <label title="declined">BATAL</label>
+                <address data-bind="text: declined"></address>
+            </div>
+        </article>
+    </div>
+    <div class="article-right-content" data-bind="click: viewApprovedCommand">
+        <article class="article-container-full-width">
+            <div id="div3" title="Go to rental details" >
+                <label title="waiting-list">SENARAI MENUNGGU</label>
+                <address data-bind="text: waiting"></address>
+            </div>
+        </article>
+    </div>
+    <div class="article-right-content" data-bind="click: viewWaitingConfirmationCommand">
+        <article class="article-container-full-width">
+            <div id="div4" title="Go to rental details" >
+                <label title="waiting-confirmation">MENUNNGU SURAT TAWARAN DIBALAS</label>
+                <address data-bind="text: waitingConfirmation"></address>
+            </div>
+        </article>
+    </div>
+    <div class="article-right-content" data-bind="click: viewOfferRejectedCommand">
+          <article class="article-container-full-width">
+            <div id="div5" title="Go to rental details" >
+                <label title="reject-offer">TOLAK TAWARAN</label>
+                <address data-bind="text: offerRejected"></address>
             </div>
         </article>
     </div>

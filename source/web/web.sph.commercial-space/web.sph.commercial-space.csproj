@@ -294,6 +294,7 @@
     <Content Include="App\views\nav.html" />
     <Content Include="App\views\rentalapplication.html" />
     <Content Include="App\views\shell.html" />
+    <Content Include="App\views\verifyapplication.html" />
     <Content Include="Content\app.css" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />

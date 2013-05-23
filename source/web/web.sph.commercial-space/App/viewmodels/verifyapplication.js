@@ -64,7 +64,17 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 tcs.resolve(true);
             });
             return tcs.promise();
-        };
+        },
+        generateOfferLetter =function() {
+            var tcs = new $.Deferred();
+            var data = JSON.stringify({ id: id() });
+            context.post(data, "/RentalApplication/GenerateOfferLetter").done(function (e) {
+                logger.log("Offer letter generated ", e, "verifyapplication", true);
+                tcs.resolve(true);
+            });
+            return tcs.promise();
+        }
+        ;
 
     var vm = {
         activate: activate,
@@ -107,7 +117,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         returnedCommand: returned,
         declinedCommand: declined,
         approvedCommand: approved,
-        addAttachmentCommand: addAttachment
+        addAttachmentCommand: addAttachment,
+        generateOfferLetterCommand: generateOfferLetter
     };
 
     return vm;

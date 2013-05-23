@@ -12,7 +12,7 @@
    
     <div class="article-left-content">
         <article class="article-container-full-width">
-             <input type="button" class="btn btn-info" value="+" data-bind="click: addAttachmentCommand"/>
+             <input type="button" class="btn btn-info" value="+" data-bind="click: addAttachmentCommand,visible: rentalapplication.Status() == 'New'"/>
             <div>
                 <label>Dokumen sokongan</label>
                 <table>
@@ -43,10 +43,14 @@
     </div>
 </section>
 <section class="right">
-    <input type="button" class="btn btn-info" value="SENARAI MENUNGGU" data-bind="click: waitingListCommand" />
-    <input type="button" class="btn btn-warning" value="KEMBALIKAN" data-bind="click: returnedCommand" />
-    <input type="button" class="btn btn-danger" value="BATALKAN" data-bind="click: declinedCommand" />
-    <input type="button" class="btn btn-success" value="LULUSKAN" data-bind="click: approvedCommand" />
+    <input type="button" class="btn btn-info" value="SENARAI MENUNGGU" data-bind="click: waitingListCommand, visible: rentalapplication.Status() == 'Pending'" />
+    <input type="button" class="btn btn-warning" value="KEMBALIKAN" data-bind="click: returnedCommand, visible: rentalapplication.Status() == 'Pending'" />
+    <input type="button" class="btn btn-danger" value="BATALKAN" data-bind="click: declinedCommand, visible: rentalapplication.Status() == 'Pending'" />
+    <input type="button" class="btn btn-success" value="LULUSKAN" data-bind="click: approvedCommand, visible: rentalapplication.Status() == 'Pending'" />
+    <input type="button" class="btn btn-info" value="CETAK SURAT AKUAN" data-bind="click: generateOfferLetterCommand, visible: rentalapplication.Status() == 'Approved'" />
+    <input type="button" class="btn btn-success" value="SAH TERIMA TAWARAN" data-bind="click: confirmOfferCommand, visible: rentalapplication.Status() == 'WaitingConfirmation'" />
+    <input type="button" class="btn btn-danger" value="TOLAK TAWARAN" data-bind="click: rejectOfferCommand, visible: rentalapplication.Status() == 'WaitingConfirmation'" />
 </section>
+
 
 

@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
        public async Task<ActionResult> Save(RentalApplication rentalApplication)
        {
            var context = new SphDataContext();
-           rentalApplication.Status = "Pending";
+           rentalApplication.Status = "New";
            using (var session=context.OpenSession())
            {    
               session.Attach(rentalApplication);
@@ -74,6 +74,35 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
            return Json(true);
        }
-        
+
+       public async Task<ActionResult> GenerateOfferLetter(int id)
+       {
+           var context = new SphDataContext();
+           var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+           dbItem.Status = "WaitingConfirmation";
+           using (var session = context.OpenSession())
+           {
+               session.Attach(dbItem);
+               await session.SubmitChanges();
+           }
+
+           return Json(true);
+       }
+
+       public async Task<ActionResult> RejectOfferLetter(int id)
+       {
+           var context = new SphDataContext();
+           var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+           dbItem.Status = "OfferRejected";
+           using (var session = context.OpenSession())
+           {
+               session.Attach(dbItem);
+               await session.SubmitChanges();
+           }
+
+           return Json(true);
+       }
+
+
     }
 }
