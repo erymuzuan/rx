@@ -287,6 +287,7 @@
     <Content Include="App\views\commercialspace.html" />
     <Content Include="App\views\commercialspacedetail.html" />
     <Content Include="App\views\commercialspaceforrental.html" />
+    <Content Include="App\views\createcontract.html" />
     <Content Include="App\views\floorplan.html" />
     <Content Include="App\views\footer.html" />
     <Content Include="App\views\home.html" />

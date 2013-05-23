@@ -73,6 +73,24 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 tcs.resolve(true);
             });
             return tcs.promise();
+        },
+        confirmedOffer = function() {
+            var tcs = new $.Deferred();
+            var data = JSON.stringify({ id: id() });
+            context.post(data, "/RentalApplication/Confirmed").done(function(e) {
+                logger.log("Offer letter received & Confirmed ", e, "verifyapplication", true);
+                tcs.resolve(true);
+            });
+            return tcs.promise();
+        },
+        rejectOfferLetter = function () {
+            var tcs = new $.Deferred();
+            var data = JSON.stringify({ id: id() });
+            context.post(data, "/RentalApplication/RejectedOfferLetter").done(function (e) {
+                logger.log("Offer letter received & Confirmed ", e, "verifyapplication", true);
+                tcs.resolve(true);
+            });
+            return tcs.promise();
         }
         ;
 
@@ -118,7 +136,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         declinedCommand: declined,
         approvedCommand: approved,
         addAttachmentCommand: addAttachment,
-        generateOfferLetterCommand: generateOfferLetter
+        generateOfferLetterCommand: generateOfferLetter,
+        confirmOfferCommand: confirmedOffer,
+        rejectOfferLetterCommand: rejectOfferLetter
     };
 
     return vm;

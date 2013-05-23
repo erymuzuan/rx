@@ -89,11 +89,25 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
            return Json(true);
        }
 
-       public async Task<ActionResult> RejectOfferLetter(int id)
+       public async Task<ActionResult> RejectedOfferLetter(int id)
        {
            var context = new SphDataContext();
            var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
            dbItem.Status = "OfferRejected";
+           using (var session = context.OpenSession())
+           {
+               session.Attach(dbItem);
+               await session.SubmitChanges();
+           }
+
+           return Json(true);
+       }
+
+       public async Task<ActionResult> Confirmed(int id)
+       {
+           var context = new SphDataContext();
+           var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+           dbItem.Status = "Confirmed";
            using (var session = context.OpenSession())
            {
                session.Attach(dbItem);
