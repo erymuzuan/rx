@@ -1491,6 +1491,16 @@
                 public const string PropertyNameCity = "City";
 
               
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_buildingName;
+                public const string PropertyNameBuildingName = "BuildingName";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_buildingLot;
+                public const string PropertyNameBuildingLot = "BuildingLot";
+
+              
             ///<summary>
             /// 
             ///</summary>
@@ -1876,6 +1886,62 @@
                 get
                 {
                 return m_city;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string BuildingName
+                {
+                set
+                {
+                if( String.Equals( m_buildingName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBuildingName, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_buildingName= value;
+                OnPropertyChanged(PropertyNameBuildingName);
+                }
+                }
+                get
+                {
+                return m_buildingName;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string BuildingLot
+                {
+                set
+                {
+                if( String.Equals( m_buildingLot, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBuildingLot, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_buildingLot= value;
+                OnPropertyChanged(PropertyNameBuildingLot);
+                }
+                }
+                get
+                {
+                return m_buildingLot;}
                 }
 
               

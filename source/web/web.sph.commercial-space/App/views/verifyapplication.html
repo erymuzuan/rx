@@ -2,17 +2,32 @@
     <div class="article-left-content">
         <article class="article-container-full-width">
             <div id="div-application" title="Go to application details">
-                <address data-bind="text: rentalapplication.CompanyName"></address>
-                <address data-bind="text: rentalapplication.Status"></address>
+                <h3>Maklumat Pemohon (<span data-bind="text: rentalapplication.Status"></span>)</h3>
+
+                <div><span>Nama  :</span><span data-bind="text: rentalapplication.CompanyName"></span></div>
+                <div>
+                    <span>Alamat :</span>
+                    <span data-bind="text: rentalapplication.Address.Street"></span>
+                    <span data-bind="text: rentalapplication.Address.City"></span>
+                    <span data-bind="text: rentalapplication.Address.Postcode"></span>
+                    <span data-bind="text: rentalapplication.Address.State"></span>
+                </div>
+                <div><span>Nama Pegawai :</span><span data-bind="text: rentalapplication.Contact.Name"></span></div>
+                <div><span>No. Telefon (Pejabat) :</span><span data-bind="text: rentalapplication.Contact.OfficeNo"></span></div>
+                <div><span>No. Telefon (Mobile) :</span><span data-bind="text: rentalapplication.Contact.MobileNo"></span></div>
+                <div style="float: right">
+                    <input type="button" class="btn btn-small btn-info" value="Maklumat Lanjut"/>
+                    <input type="button" class="btn btn-small btn-info" value="Sejarah Permohonan"/>
+                </div>
             </div>
         </article>
     </div>
 </section>
 <section id="attachment-list">
-   
+
     <div class="article-left-content">
         <article class="article-container-full-width">
-             <input type="button" class="btn btn-info" value="+" data-bind="click: addAttachmentCommand,visible: rentalapplication.Status() == 'New'"/>
+            <input type="button" class="btn btn-info" value="+" data-bind="click: addAttachmentCommand, visible: rentalapplication.Status() == 'New'" />
             <div>
                 <label>Dokumen sokongan</label>
                 <table>
@@ -38,6 +53,22 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </article>
+    </div>
+</section>
+<section id="commercialSpace">
+    <div class="article-left-content">
+        <article class="article-container-full-width">
+            <div id="commercialSpace-Detail">
+                <h3>RUANG KOMERSIAL</h3>
+                <div><span>Negeri :</span><span data-bind="text: commercialSpace.State"></span></div>
+                <div><span>Bandar :</span><span data-bind="text: commercialSpace.City"></span></div>
+                <div><span>Nama Bangunan :</span><span data-bind="text: commercialSpace.BuildingName"></span></div>
+                <div><span>Lot Bangunan :</span><span data-bind="text: commercialSpace.BuildingLot"></span></div>
+                <div><span>Tingkat :</span><span data-bind="text: commercialSpace.FloorName"></span></div>
+                <div><span>Lot :</span><span data-bind="text: commercialSpace.LotName"></span></div>
+                <div><span>Jenis Ruang :</span><span data-bind="text: commercialSpace.Category"></span></div>
             </div>
         </article>
     </div>
