@@ -140,9 +140,6 @@
           <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
           <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Geography" Name="Polygon" />
-          <Property Type="String" Name="PolygonWkt" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="PolygonEncoded" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SpatialStore">
           <Key>
@@ -223,9 +220,6 @@
           <EntitySetMapping Name="Buildings">
             <EntityTypeMapping TypeName="Sph.Building">
               <MappingFragment StoreEntitySet="Building">
-                <ScalarProperty Name="PolygonEncoded" ColumnName="PolygonEncoded" />
-                <ScalarProperty Name="PolygonWkt" ColumnName="PolygonWkt" />
-                <ScalarProperty Name="Polygon" ColumnName="Polygon" />
                 <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
                 <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />

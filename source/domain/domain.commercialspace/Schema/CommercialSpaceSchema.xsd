@@ -139,6 +139,7 @@
 			<xs:attribute name="PreviousAddress" type="xs:string" use="required"/>
 			<xs:attribute name="IsCompany" type="xs:boolean" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="Remarks" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Attachment">

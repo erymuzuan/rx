@@ -83,6 +83,7 @@
     <Compile Include="Document.cs" />
     <Compile Include="DocumentTemplate.cs" />
     <Compile Include="DocumentVersion.cs" />
+    <Compile Include="EmailMessage.cs" />
     <Compile Include="EntityTypeAttribute.cs" />
     <Compile Include="Floor.cs" />
     <Compile Include="IBinaryStore.cs" />
@@ -90,6 +91,8 @@
     <Compile Include="IDocumentExport.cs" />
     <Compile Include="IEntityChangedListener.cs" />
     <Compile Include="IEntityChangePublisher.cs" />
+    <Compile Include="INotificationChannel.cs" />
+    <Compile Include="INotificationService.cs" />
     <Compile Include="IPersistence.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="ISettingProvider.cs" />

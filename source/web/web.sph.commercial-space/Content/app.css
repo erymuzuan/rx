@@ -35,7 +35,7 @@ body {
    width: 150px;
 }
 .article-right-content:hover {
-   background-color:lightblue;
+  
 }
 
 
@@ -185,8 +185,6 @@ section.main {
 .article-left-content:hover
     {
         cursor: pointer;
-        color: white;
-        background-color: lightblue;
         background-repeat: no-repeat;
         border-color: #59C0F3 #0081C2 #194D7B;
     }

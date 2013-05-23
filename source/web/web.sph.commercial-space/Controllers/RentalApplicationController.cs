@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.SphCommercialSpaces.Domain;
+using WebGrease.Css.Extensions;
+using EmailMessage = Bespoke.SphCommercialSpaces.Domain.EmailMessage;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
@@ -89,7 +91,21 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(true);
         }
 
-        public async Task<ActionResult> Returned(int id)
+        public async Task<ActionResult> Returned(int id, ObjectCollection<Attachment> attachments)
+        {
+            var context = new SphDataContext();
+            var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+            dbItem.AttachmentCollection.ClearAndAddRange(attachments);
+            using (var session = context.OpenSession())
+            {
+                session.Attach(dbItem);
+                await session.SubmitChanges();
+            }
+
+            return Json(dbItem.RentalApplicationId);
+        }
+
+        public async Task<ActionResult> SendEmail(int id, ObjectCollection<Attachment> attachments)
         {
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
@@ -100,7 +116,23 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 await session.SubmitChanges();
             }
 
-            return Json(true);
+             const string bodyTemplate = "Sila lengkapkan dokumen berkenaan.";
+
+            string emailBody = string.Format(bodyTemplate);
+            var emailSubject = string.Format("Dokumen tidak lengkap");
+
+
+            var emailMessage = new EmailMessage
+            {
+                Body = emailBody,
+                To = new[] {dbItem.Contact.Email},
+                From = "support@sph.gov.my",
+                Subject = emailSubject
+            };
+            var channel = ObjectBuilder.GetObject<INotificationService>();
+            channel.NotificationChannelCollection.ForEach(c => c.Send(emailMessage));
+
+            return Json(dbItem.RentalApplicationId);
         }
 
         public async Task<ActionResult> GenerateOfferLetter(int id)
@@ -144,7 +176,5 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json(true);
         }
-
-
     }
 }

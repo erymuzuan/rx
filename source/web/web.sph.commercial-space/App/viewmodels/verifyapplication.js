@@ -27,6 +27,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             var attachment = {
                 Type: ko.observable(''),
                 Name: ko.observable(''),
+                IsCompleted: ko.observable(false),
                 IsRequired: ko.observable(false),
                 IsReceived: ko.observable(false)
             };
@@ -43,9 +44,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         },
         returned = function () {
             var tcs = new $.Deferred();
-            var data = JSON.stringify({ id: id() });
+            var attachments = ko.mapping.toJS(vm.rentalapplication.AttachmentCollection);
+            var data = JSON.stringify({ id: id() , attachments: attachments});
             context.post(data, "/RentalApplication/Returned").done(function (e) {
-                logger.log("Application has been returned ", e, "verifyapplication", true);
+                var url = '/#/returnedapplication/'+ e;
+                router.navigateTo(url);
                 tcs.resolve(true);
             });
             return tcs.promise();

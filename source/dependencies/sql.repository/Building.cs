@@ -24,8 +24,5 @@ namespace Bespoke.Sph.SqlRepository
         public string CreatedBy { get; set; }
         public System.DateTime ChangedDate { get; set; }
         public string ChangedBy { get; set; }
-        public System.Data.Spatial.DbGeography Polygon { get; set; }
-        public string PolygonWkt { get; set; }
-        public string PolygonEncoded { get; set; }
     }
 }

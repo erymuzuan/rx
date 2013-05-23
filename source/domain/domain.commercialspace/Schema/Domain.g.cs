@@ -2024,6 +2024,11 @@
                 public const string PropertyNameType = "Type";
 
               
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_remarks;
+                public const string PropertyNameRemarks = "Remarks";
+
+              
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private decimal  m_currentYearSales;
                 public const string PropertyNameCurrentYearSales = "CurrentYearSales";
@@ -2459,6 +2464,32 @@
                 get
                 {
                 return m_type;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+            [DebuggerHidden]
+            
+                public string Remarks
+                {
+                set
+                {
+                if( String.Equals( m_remarks, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRemarks, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_remarks= value;
+                OnPropertyChanged(PropertyNameRemarks);
+                }
+                }
+                get
+                {
+                return m_remarks;}
                 }
 
               
