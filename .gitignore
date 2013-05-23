@@ -85,3 +85,5 @@
 /source/windows/commercialspace.module/obj
 /packages/CodeContracts.Unofficial.1.0.0.2
 /output.txt
+/source/unit.test/web.test/bin/Debug
+/source/unit.test/web.test/obj/Debug
