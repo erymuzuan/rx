@@ -219,6 +219,7 @@
     <Compile Include="Controllers\CommercialSpaceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
+    <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\RentalApplicationController.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
@@ -271,6 +272,7 @@
     <Content Include="App\viewmodels\commercialspace.js" />
     <Content Include="App\viewmodels\commercialspacedetail.js" />
     <Content Include="App\viewmodels\commercialspaceforrental.js" />
+    <Content Include="App\viewmodels\buildingbound.js" />
     <Content Include="App\viewmodels\floorplan.js" />
     <Content Include="App\viewmodels\home.js" />
     <Content Include="App\viewmodels\lotdetail.js" />
@@ -287,6 +289,7 @@
     <Content Include="App\views\commercialspace.html" />
     <Content Include="App\views\commercialspacedetail.html" />
     <Content Include="App\views\commercialspaceforrental.html" />
+    <Content Include="App\views\buildingbound.html" />
     <Content Include="App\views\createcontract.html" />
     <Content Include="App\views\floorplan.html" />
     <Content Include="App\views\footer.html" />

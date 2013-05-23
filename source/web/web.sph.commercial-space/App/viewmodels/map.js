@@ -77,7 +77,9 @@ define(
             remove: remove,
             add: add,
             getEncodedPath: getEncodedPath,
+            getBounds: getBound,
             geocode: geocode,
+            getCenter: getCenter,
             reverseGeocode: reverseGeocode
         };
         return vm;
@@ -102,6 +104,12 @@ define(
             };
             map = new google.maps.Map(document.getElementById(panel), options);
 
+            if (ops.idle) {
+                google.maps.event.addListener(map, 'idle', function (e) {
+                    ops.idle(e);
+                });
+            }
+            
             if (ops2.draw) {
                 var drawingManager = new google.maps.drawing.DrawingManager({
                     drawingControl: true,
@@ -157,6 +165,18 @@ define(
 
         }
 
+
+        function getCenter(polygon) {
+            var bounds = new google.maps.LatLngBounds();
+            var i;
+            var polygonCoords = polygon.getPath().getArray();
+
+            for (i = 0; i < polygonCoords.length; i++) {
+                bounds.extend(polygonCoords[i]);
+            }
+
+            return bounds.getCenter();
+        }
         function setCenter(lat, lng) {
             var p = new google.maps.LatLng(lat, lng);
             map.setCenter(p);
@@ -164,6 +184,12 @@ define(
         }
         function setZoom(zoom) {
             map.setZoom(zoom);
+        }
+
+        function getBound() {
+            var bound = map.getBounds();
+            return bound.getSouthWest().lat() + ',' + bound.getSouthWest().lng() + '|' + bound.getNorthEast().lat() + ',' + bound.getNorthEast().lng();
+
         }
 
         function fitToBounds(points) {

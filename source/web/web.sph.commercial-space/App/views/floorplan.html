@@ -7,22 +7,21 @@
 <section>
     <div class="pull-left left">
         <h3>Select lot to draw</h3>
-        <ul data-bind="foreach: floor.LotCollection">
+        <ul id="lotlist" style="list-style: none" data-bind="foreach: floor.LotCollection">
             <li>
                 <div>
-                    <span data-bind="text: Name"></span>
-                    <span data-bind="text: Size"></span>
-                    <input type="button" class="btn btn-link" data-bind="click: $parent.selectCommand" value="Select" />
+                    <a href="#" class="btn btn-success" data-bind="click: $parent.selectCommand" style="width: 100px">
+                        <span data-bind="text: Name"></span>
+                        <span data-bind="text: Size"></span></a>
                 </div>
 
             </li>
         </ul>
     </div>
-    <div id="floorplanmap" style="height: 600px; width: 800px"></div>
+    <div id="floorplanmap" style="height: 550px; width: 850px;float: right"></div>
 
 </section>
 <section>
-
 </section>
 <section class="navbar-fixed-bottom">
     <input type="button" class="btn btn-primary" data-bind="click: goBackCommand, disable: isBusy()" value="BACK" />

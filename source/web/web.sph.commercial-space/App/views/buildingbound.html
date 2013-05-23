@@ -1,0 +1,18 @@
+﻿<div data-bind="visible: isBusy" class="icon-align-center">
+    <img alt="loading" src="/Images/spinner-md.gif" />
+</div>
+<section class="view">
+    <h2 class="page-title">Peta Carian</h2>
+    <h2 class="page-title">Peta Carian</h2>
+    <h2 class="page-title">Peta Carian</h2>
+    <div class="pull-right float-right">
+        <ul data-bind="foreach:buildingCollection">
+            <li>
+                <a href="#" data-bind="text: building.Name, click: $parent.highlightCommand"></a>
+            </li>
+        </ul>
+    </div>
+    
+    <div id="map-buildingbound" class="google-maps" style="width: 1000px; height: 600px"></div>
+
+</section>

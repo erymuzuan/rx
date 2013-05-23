@@ -30,6 +30,13 @@
             name: 'Ruang Komersial',
             visible: true,
             caption: 'Senarai Ruang Komersial'
+        },
+        {
+            url: 'buildingbound',
+            moduleId: 'viewmodels/buildingbound',
+            name: 'Peta Kawasan',
+            visible: true,
+            caption: 'Peta Kawasan'
         }, {
             url: 'buildingdetail/:id',
             moduleId: 'viewmodels/buildingdetail',
