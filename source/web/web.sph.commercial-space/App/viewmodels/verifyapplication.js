@@ -16,6 +16,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             var tcs = new $.Deferred();
             context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id()).done(function (r) {
                 ko.mapping.fromJSON(ko.mapping.toJSON(r), {}, vm.rentalapplication);
+                context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + vm.rentalapplication.CommercialSpaceId()).done(function(b) {
+                    ko.mapping.fromJSON(ko.mapping.toJSON(b), {}, vm.commercialSpace);
+                });
                 tcs.resolve(true);
             });
             return tcs.promise();
@@ -24,6 +27,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             var attachment = {
                 Type: ko.observable(''),
                 Name: ko.observable(''),
+                IsCompleted: ko.observable(false),
                 IsRequired: ko.observable(false),
                 IsReceived: ko.observable(false)
             };
@@ -40,9 +44,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         },
         returned = function () {
             var tcs = new $.Deferred();
-            var data = JSON.stringify({ id: id() });
+            var attachments = ko.mapping.toJS(vm.rentalapplication.AttachmentCollection);
+            var data = JSON.stringify({ id: id() , attachments: attachments});
             context.post(data, "/RentalApplication/Returned").done(function (e) {
-                logger.log("Application has been returned ", e, "verifyapplication", true);
+                var url = '/#/returnedapplication/'+ e;
+                router.navigateTo(url);
                 tcs.resolve(true);
             });
             return tcs.promise();
@@ -111,26 +117,35 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             IsCompany: ko.observable(false),
             Type: ko.observable(''),
             Address: {
-                Street: ko.observable(),
-                City: ko.observable(),
-                State: ko.observable(),
-                Postcode: ko.observable(),
-            },
+                        Street: ko.observable(),
+                        City: ko.observable(),
+                        State: ko.observable(),
+                        Postcode: ko.observable()
+                      },
             BankCollection: ko.observableArray([]),
             AttachmentCollection: ko.observableArray([]),
             Contact: {
-                Name: ko.observable(''),
-                Title: ko.observable(''),
-                IcNo: ko.observable(''),
-                Role: ko.observable(''),
-                MobileNo: ko.observable(''),
-                OfficeNo: ko.observable(''),
-                Email: ko.observable('')
-            },
+                        Name: ko.observable(''),
+                        Title: ko.observable(''),
+                        IcNo: ko.observable(''),
+                        Role: ko.observable(''),
+                        MobileNo: ko.observable(''),
+                        OfficeNo: ko.observable(''),
+                        Email: ko.observable('')
+                       },
             CurrentYearSales: ko.observable(),
             LastYearSales: ko.observable(),
             PreviousYearSales: ko.observable()
         },
+        commercialSpace : {
+                        State : ko.observable(''),
+                        City : ko.observable(''),
+                        BuildingName : ko.observable(''),
+                        BuildingLot : ko.observable(''),
+                        LotName : ko.observable(''),
+                        FloorName : ko.observable(''),
+                        Category : ko.observable('')
+                          },
         waitingListCommand: waitingList,
         returnedCommand: returned,
         declinedCommand: declined,

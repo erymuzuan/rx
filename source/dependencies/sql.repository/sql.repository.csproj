@@ -59,6 +59,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="assemblyinfo.cs" />
+    <Compile Include="AuditTrail.cs">
+      <DependentUpon>Sph.tt</DependentUpon>
+    </Compile>
     <Compile Include="Building.cs">
       <DependentUpon>Sph.tt</DependentUpon>
     </Compile>

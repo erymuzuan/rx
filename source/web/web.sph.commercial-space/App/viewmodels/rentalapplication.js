@@ -21,7 +21,7 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON(vm.rentalapplication);
             isBusy(true);
-            context.post(data, "/RentalApplication/Save").done(function (e) {
+            context.post(data, "/RentalApplication/Submit").done(function (e) {
                 logger.log("Data has been successfully saved ", e, "rentalapplication", true);
                 isBusy(false);
                 tcs.resolve(true);

@@ -1,0 +1,15 @@
+﻿<section>
+    <h6>Senarai dokumen yang tidak lengkap:-</h6>
+    <ul data-bind="foreach: rentalapplication.AttachmentCollection">
+        <li>
+            <span data-bind="text:Type"></span>
+        </li>
+    </ul>
+    <div>
+        <label>Nota:</label>
+        <textarea cols="5" rows="5" data-bind="text: rentalapplication.Remarks"></textarea>
+    </div>
+    <div>
+        <input type="button" value="Hantar Emel" class="btn btn-primary btn-success" data-bind="click: sendEmailCommand"/>
+    </div>
+</section>

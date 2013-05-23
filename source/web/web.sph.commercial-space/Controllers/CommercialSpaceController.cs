@@ -14,6 +14,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var building = await context.LoadOneAsync<Building>(b => b.BuildingId == buildingId);
             commercialSpace.State = building.Address.State;
             commercialSpace.City = building.Address.City;
+            commercialSpace.BuildingName = building.Name;
+            commercialSpace.BuildingLot = building.LotNo;
 
             using (var session = context.OpenSession())
             {

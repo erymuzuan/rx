@@ -102,10 +102,18 @@
             visible: false,
             caption: 'Senarai Permohonan',
             settings: { caption: '<i class="icon-user"></i> Maklumat permohonan' }
+        },
+        {
+            url: 'returnedapplication/:id',
+            moduleId: 'viewmodels/returnedapplication',
+            name: 'rental application',
+            visible: false,
+            caption: 'returnedapplication',
+            settings: { caption: 'Kembalikan Permohonan' }
         }
     ];
     
-    var startModule = 'building';
+    var startModule = 'admindashboard';
 
     return {
         debugEnabled: ko.observable(true),

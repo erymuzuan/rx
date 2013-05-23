@@ -1491,6 +1491,16 @@
                 public const string PropertyNameCity = "City";
 
               
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_buildingName;
+                public const string PropertyNameBuildingName = "BuildingName";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_buildingLot;
+                public const string PropertyNameBuildingLot = "BuildingLot";
+
+              
             ///<summary>
             /// 
             ///</summary>
@@ -1879,6 +1889,62 @@
                 }
 
               
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string BuildingName
+                {
+                set
+                {
+                if( String.Equals( m_buildingName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBuildingName, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_buildingName= value;
+                OnPropertyChanged(PropertyNameBuildingName);
+                }
+                }
+                get
+                {
+                return m_buildingName;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string BuildingLot
+                {
+                set
+                {
+                if( String.Equals( m_buildingLot, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBuildingLot, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_buildingLot= value;
+                OnPropertyChanged(PropertyNameBuildingLot);
+                }
+                }
+                get
+                {
+                return m_buildingLot;}
+                }
+
+              
 
 
           }
@@ -1956,6 +2022,11 @@
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  string  m_type;
                 public const string PropertyNameType = "Type";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_remarks;
+                public const string PropertyNameRemarks = "Remarks";
 
               
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2396,6 +2467,32 @@
                 }
 
               
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+            [DebuggerHidden]
+            
+                public string Remarks
+                {
+                set
+                {
+                if( String.Equals( m_remarks, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRemarks, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_remarks= value;
+                OnPropertyChanged(PropertyNameRemarks);
+                }
+                }
+                get
+                {
+                return m_remarks;}
+                }
+
+              
 
             ///<summary>
             /// 
@@ -2499,6 +2596,11 @@
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  string  m_storeId;
                 public const string PropertyNameStoreId = "StoreId";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  bool  m_isCompleted;
+                public const string PropertyNameIsCompleted = "IsCompleted";
 
               
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2656,6 +2758,34 @@
                 get
                 {
                 return m_storeId;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public bool IsCompleted
+                {
+                set
+                {
+                if( m_isCompleted == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsCompleted, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_isCompleted= value;
+                OnPropertyChanged(PropertyNameIsCompleted);
+                }
+                }
+                get
+                {
+                return m_isCompleted;}
                 }
 
               
