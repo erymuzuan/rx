@@ -16,8 +16,8 @@
                 <div><span>No. Telefon (Pejabat) :</span><span data-bind="text: rentalapplication.Contact.OfficeNo"></span></div>
                 <div><span>No. Telefon (Mobile) :</span><span data-bind="text: rentalapplication.Contact.MobileNo"></span></div>
                 <div style="float: right">
-                    <input type="button" class="btn btn-small btn-info" value="Maklumat Lanjut"/>
-                    <input type="button" class="btn btn-small btn-info" value="Sejarah Permohonan"/>
+                    <input type="button" data-toggle="modal" href="#details-panel" class="btn btn-small btn-info" value="Maklumat Lanjut"/>
+                    <input type="button" data-toggle="modal" href="#audit-trail" class="btn btn-small btn-info" value="Sejarah Permohonan"/>
                 </div>
             </div>
         </article>
@@ -37,6 +37,7 @@
                             <th>Nama</th>
                             <th>Diterima</th>
                             <th>Diperlukan</th>
+                            <th>Lengkap</th>
                         </tr>
                     </thead>
                     <tbody data-bind="foreach: rentalapplication.AttachmentCollection">
@@ -50,6 +51,8 @@
                             </td>
                             <td>
                                 <input type="checkbox" data-bind="checked: IsRequired" /></td>
+                            <td>
+                                <input type="checkbox" data-bind="checked: IsCompleted" /></td>
                         </tr>
                     </tbody>
                 </table>
@@ -73,7 +76,7 @@
         </article>
     </div>
 </section>
-<section class="right">
+<section style="float: right">
     <input type="button" class="btn btn-info" value="SENARAI MENUNGGU" data-bind="click: waitingListCommand, visible: rentalapplication.Status() == 'New'" />
     <input type="button" class="btn btn-warning" value="KEMBALIKAN" data-bind="click: returnedCommand, visible: rentalapplication.Status() == 'New'" />
     <input type="button" class="btn btn-danger" value="BATALKAN" data-bind="click: declinedCommand, visible: rentalapplication.Status() == 'New'" />
@@ -81,6 +84,26 @@
     <input type="button" class="btn btn-info" value="CETAK SURAT AKUAN" data-bind="click: generateOfferLetterCommand, visible: rentalapplication.Status() == 'Approved'" />
     <input type="button" class="btn btn-success" value="SAH TERIMA TAWARAN" data-bind="click: confirmOfferCommand, visible: rentalapplication.Status() == 'WaitingConfirmation'" />
     <input type="button" class="btn btn-danger" value="TOLAK TAWARAN" data-bind="click: rejectOfferLetterCommand, visible: rentalapplication.Status() == 'WaitingConfirmation'" />
+</section>
+<section class="modal hide fade" id="details-panel">
+    <div class="modal-header">
+        <button value="x" data-dismiss="modal">x</button>
+        <h3>Maklumat lanjut</h3>
+    </div>
+    <div class="modal-body"></div>
+    <div class="modal-footer">
+        <input type="button" class="btn-small btn-info" value="Close" data-dismiss="modal"/>
+    </div>
+</section>
+<section class="modal hide fade" id="audit-trail">
+    <div class="modal-header">
+        <button value="x" data-dismiss="modal">x</button>
+        <h3>Sejarah Permohonan</h3>
+    </div>
+    <div class="modal-body"></div>
+    <div class="modal-footer">
+        <input type="button" class="btn-small btn-info" value="Close" data-dismiss="modal"/>
+    </div>
 </section>
 
 

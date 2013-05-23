@@ -2567,6 +2567,11 @@
                 public const string PropertyNameStoreId = "StoreId";
 
               
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  bool  m_isCompleted;
+                public const string PropertyNameIsCompleted = "IsCompleted";
+
+              
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private DateTime?  m_receivedDateTime;
                 public const string PropertyNameReceivedDateTime = "ReceivedDateTime";
@@ -2722,6 +2727,34 @@
                 get
                 {
                 return m_storeId;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public bool IsCompleted
+                {
+                set
+                {
+                if( m_isCompleted == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsCompleted, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_isCompleted= value;
+                OnPropertyChanged(PropertyNameIsCompleted);
+                }
+                }
+                get
+                {
+                return m_isCompleted;}
                 }
 
               
