@@ -142,7 +142,6 @@
           <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
           <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Geography" Name="Shape" />
         </EntityType>
         <EntityType Name="SpatialStore">
           <Key>
@@ -158,9 +157,6 @@
           <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
           <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Geography" Name="Path" />
-          <Property Type="String" Name="Wkt" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EncodedWkt" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -210,7 +206,6 @@
           <EntitySetMapping Name="Buildings">
             <EntityTypeMapping TypeName="Sph.Building">
               <MappingFragment StoreEntitySet="Building">
-                <ScalarProperty Name="Shape" ColumnName="Shape" />
                 <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
                 <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -227,9 +222,6 @@
           <EntitySetMapping Name="SpatialStores">
             <EntityTypeMapping TypeName="Sph.SpatialStore">
               <MappingFragment StoreEntitySet="SpatialStore">
-                <ScalarProperty Name="EncodedWkt" ColumnName="EncodedWkt" />
-                <ScalarProperty Name="Wkt" ColumnName="Wkt" />
-                <ScalarProperty Name="Path" ColumnName="Path" />
                 <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
                 <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />

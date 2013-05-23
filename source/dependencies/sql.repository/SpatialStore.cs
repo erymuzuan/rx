@@ -38,12 +38,6 @@ public partial class SpatialStore
 
     public string ChangedBy { get; set; }
 
-    public System.Data.Spatial.DbGeography Path { get; set; }
-
-    public string Wkt { get; set; }
-
-    public string EncodedWkt { get; set; }
-
 }
 
 }

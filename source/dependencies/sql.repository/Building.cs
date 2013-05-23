@@ -38,8 +38,6 @@ internal partial class Building
 
     public string ChangedBy { get; set; }
 
-    public System.Data.Spatial.DbGeography Shape { get; set; }
-
 }
 
 }

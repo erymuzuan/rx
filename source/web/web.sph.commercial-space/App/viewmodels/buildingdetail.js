@@ -18,6 +18,9 @@ define(['services/datacontext',
         var isBusy = ko.observable(false),
             activate = function (routeData) {
                 var id = parseInt(routeData.id);
+                if (!id) {
+                    return true;
+                }
                 var query = "BuildingId eq " + id;
                 var tcs = new $.Deferred();
                 datacontext.loadOneAsync("Building", query)
@@ -26,7 +29,7 @@ define(['services/datacontext',
                         tcs.resolve(true);
                     });
 
-                tcs.promise();
+                return tcs.promise();
             };
 
         var addLot = function (floor) {
@@ -59,7 +62,9 @@ define(['services/datacontext',
         var saveAsync = function () {
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON(vm.building);
-            datacontext.post(data, "/Building/SaveBuilding").done(function (e) {
+            datacontext.post(data, "/Building/SaveBuilding")
+                .done(function (e) {
+                    vm.building.BuildingId(e);
                 logger.log("Data has been successfully saved ", e, "buildingdetail", true);
             });
             return tcs.promise();
@@ -67,19 +72,53 @@ define(['services/datacontext',
 
         var showMap = function () {
             isBusy(true);
-            var pathTask = $.get("/Building/GetEncodedPath/" + vm.building.BuildingId());
-            var centerTask = $.get("/Building/GetCenter/" + vm.building.BuildingId());
+            var point = new google.maps.LatLng(3.1282, 101.6441);
+            var buildingId = vm.building.BuildingId();
+            if (!buildingId) {
+                mapvm.geocode(
+                    vm.building.Address.Street() + ","
+                   + vm.building.Address.City() + ","
+                   + vm.building.Address.Postcode() + ","
+                   + vm.building.Address.State() + ","
+                   + "Malaysia.")
+                .then(function (result) {
+                    if (result.status) {
+                        mapvm.init({
+                            panel: 'map',
+                            draw: true,
+                            polygoncomplete: polygoncomplete,
+                            zoom: 18,
+                            center: result.point
+                        });
+                    } else {
+                        mapvm.init({
+                            panel: 'map',
+                            draw: true,
+                            polygoncomplete: polygoncomplete,
+                            zoom: center[0] ? 18 : 12,
+                            center: point
+                        });
+                    }
+                });
+                return;
+            }
+
+            var pathTask = $.get("/Building/GetEncodedPath/" + buildingId);
+            var centerTask = $.get("/Building/GetCenter/" + buildingId);
             $.when(pathTask, centerTask)
             .then(function (path, center) {
-
+                isBusy(false);
+                if (center[0]) {
+                    point = new google.maps.LatLng(center[0].Lat, center[0].Lng);
+                }
                 mapvm.init({
                     panel: 'map',
                     draw: true,
                     polygoncomplete: polygoncomplete,
-                    zoom: 18,
-                    center: new google.maps.LatLng(center[0].Lat,center[0].Lng)
+                    zoom: center[0] ? 18 : 12,
+                    center: point
                 });
-                if (path) {
+                if (path[0]) {
                     mapvm.add({
                         encoded: path[0],
                         draggable: true,
@@ -116,6 +155,7 @@ define(['services/datacontext',
             activate: activate,
             building: {
                 Name: ko.observable(''),
+                BuildingId: ko.observable(0),
                 Address: {
                     Street: ko.observable(''),
                     State: ko.observable(''),

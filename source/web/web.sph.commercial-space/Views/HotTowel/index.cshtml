@@ -11,6 +11,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     @Styles.Render("~/Content/css")
+    <style>
+        #mapContainer img
+        {
+            max-width: none;
+        }
+    </style>
     <script type="text/javascript">
         if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
             var msViewportStyle = document.createElement("style");
@@ -29,7 +35,7 @@
     @if (HttpContext.Current.IsDebuggingEnabled)
     {
         <script type="text/javascript" src="~/App/durandal/amd/require.js" data-main="@Url.Content("~/App/main")"></script>
-        <script src="//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&libraries=geometry&libraries=drawing"
+        <script src="//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&libraries=geometry,drawing"
             type="text/javascript"></script>
     }
     else

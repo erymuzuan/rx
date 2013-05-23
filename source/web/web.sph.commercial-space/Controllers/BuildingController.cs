@@ -14,6 +14,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var spatial = ObjectBuilder.GetObject<ISpatialService<Building>>();
             var center = await spatial.GetCenterAsync(b => b.BuildingId == id);
+            if (null == center) return Json(false, JsonRequestBehavior.AllowGet);
             return Json(center, JsonRequestBehavior.AllowGet);
         }
 
@@ -21,6 +22,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var spatial = ObjectBuilder.GetObject<ISpatialService<Building>>();
             var encodedPath = await spatial.GetEncodedPathAsync(b => b.BuildingId == id);
+            if (null == encodedPath) return Json(false, JsonRequestBehavior.AllowGet);
             return Json(encodedPath, JsonRequestBehavior.AllowGet);
         }
 
@@ -92,7 +94,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             using (var session = context.OpenSession())
             {
-                session.Attach(store,building);
+                session.Attach(store, building);
                 await session.SubmitChanges();
             }
 
@@ -105,12 +107,17 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> SaveBuilding(Building building)
         {
             var context = new SphDataContext();
+            var item = await context.LoadOneAsync<Building>(b => b.BuildingId == building.BuildingId) ?? building;
+            item.Address = building.Address;
+            item.Name = building.Name;
+            item.LotNo = building.LotNo;
+            
             using (var session = context.OpenSession())
             {
-                session.Attach(building);
+                session.Attach(item);
                 await session.SubmitChanges();
             }
-            return Json(true);
+            return Json(building.BuildingId);
         }
 
         public async Task<ActionResult> AddLot(Floor floor, int buildingId, string floorname)

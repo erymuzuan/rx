@@ -64,7 +64,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                                         draggable: false,
                                         editable: false,
                                         clickable: false,
-                                        fillColor: "#FFEAF3D2"
+                                        fillOpacity: 0.8,
+                                        strokeWeight: 0.5,
+                                        strokeColor: "#FFFFCC",
+                                        fillColor: "#FFFFCC"
                                     });
                                 }
 
@@ -78,7 +81,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             save = function () {
                 var tcs = new $.Deferred();
                 var data = JSON.stringify({
-                    path: map.getEncodedPath(polygon),
+                    path: map.getEncodedPath(lotPolygon),
                     fillColor: fillColor(),
                     fillOpacity: fillOpacity(),
                     lot: activeLot(),
@@ -100,22 +103,25 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 var url = "/#/buildingdetail/" + buildingId();
                 router.navigateTo(url);
             },
-            polygon = null,
+            lotPolygon = null,
             polygoncomplete = function (shape) {
-                polygon = shape;
+                lotPolygon = shape;
             },
             select = function (lot) {
                 isBusy(true);
                 activeLot(lot.Name());
                 $.get("/Building/GetFloorPlan/" + buildingId() + "?floor=" + floorname() + "&lot=" + lot.Name())
                     .done(function (shape) {
-
-                        map.clear();
+                        if (lotPolygon) {
+                            map.remove(lotPolygon);
+                        }
+                        lotPolygon = null;
                         if (shape.EncodedPolygon) {
-                            map.add({
+                            lotPolygon = map.add({
                                 encoded: shape.EncodedPolygon,
                                 draggable: true,
                                 editable: true,
+                                zIndex : 1,
                                 fillColor: shape.FillColor,
                                 fillOpacity: shape.FillOpacity
                             });
