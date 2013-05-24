@@ -59,7 +59,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                                 });
                                 mapLoaded = true;
 
-                                if (path) {
+                                if (path[0]) {
                                     map.add({
                                         encoded: path[0],
                                         draggable: false,
@@ -108,6 +108,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             polygoncomplete = function (shape) {
                 lotPolygon = shape;
             },
+            viewAttached = function() {
+                $("#lotlist").on('click', 'a.btn', function () {
+                    $('#lotlist a.btn-warning').removeClass('btn-warning')
+                        .addClass('btn-success');
+                    $(this).removeClass('btn-success').addClass('btn-warning');
+                });
+            },
             select = function (lot,event,element) {
                 isBusy(true);
                 activeLot(lot.Name());
@@ -148,7 +155,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             goBackCommand: goBack,
             saveCommand: save,
             selectCommand: select,
-            isBusy: isBusy
+            isBusy: isBusy,
+            viewAttached : viewAttached
         };
 
         return vm;

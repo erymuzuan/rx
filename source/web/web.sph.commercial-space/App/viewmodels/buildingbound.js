@@ -51,7 +51,7 @@ define(['services/datacontext',
             var point = new google.maps.LatLng(3.1282, 101.6441);
             mapvm.init({
                 panel: 'map-buildingbound',
-                zoom: 18,
+                zoom: 13,
                 center: point,
                 idle: idle
             });

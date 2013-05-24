@@ -1,29 +1,32 @@
-﻿<section>
-    <span data-bind="text: title"></span>
-    <span data-bind="text: floor.Name"></span>
-    <span data-bind="text: floor.Size"></span>
-
-</section>
-<section>
-    <div class="pull-left left">
-        <h3>Select lot to draw</h3>
-        <ul id="lotlist" style="list-style: none" data-bind="foreach: floor.LotCollection">
-            <li>
-                <div>
-                    <a href="#" class="btn btn-success" data-bind="click: $parent.selectCommand" style="width: 100px">
-                        <span data-bind="text: Name"></span>
-                        <span data-bind="text: Size"></span></a>
-                </div>
-
-            </li>
-        </ul>
+﻿<div class="container">
+    <div class="row">
+        <div class="span12">
+            <h1>
+                <span data-bind="text: title"></span>:
+                <span data-bind="text: floor.Name"></span>:
+                <span data-bind="text: floor.Size"></span></h1>
+        </div>
     </div>
-    <div id="floorplanmap" style="height: 550px; width: 850px;float: right"></div>
+    <div class="row">
+        <div class="span2">
+            <ul id="lotlist" class="unstyled" data-bind="foreach: floor.LotCollection">
+                <li>
+                    <div>
+                        <a href="#" class="btn btn-success btn-block" data-bind="click: $parent.selectCommand">
+                            <span data-bind="text: Name"></span>
+                        <i class="icon-pencil"></i></a>
+                    </div>
 
-</section>
-<section>
-</section>
-<section class="navbar-fixed-bottom">
-    <input type="button" class="btn btn-primary" data-bind="click: goBackCommand, disable: isBusy()" value="BACK" />
-    <input type="button" class="btn btn-primary" data-bind="click: saveCommand, disable: isBusy()" value="SAVE" />
-</section>
+                </li>
+            </ul>
+        </div>
+        <div id="floorplanmap" class="google-maps span10">
+            <img src="/Images/spinner-md.gif"/>
+        </div>
+
+    </div>
+    <div class="row pull-right">
+        <input type="button" class="btn btn-primary" data-bind="click: goBackCommand, disable: isBusy()" value="BACK" />
+        <input type="button" class="btn btn-primary" data-bind="click: saveCommand, disable: isBusy()" value="SAVE" />
+    </div>
+</div>

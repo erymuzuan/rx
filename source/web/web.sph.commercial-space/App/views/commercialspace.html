@@ -1,12 +1,24 @@
 ﻿<section>
-    <h2><span data-bind="text:title"></span></h2>
-    <section id="cs-list" class="view-list" data-bind="foreach: commercialspaces">
-    <div class="article-right-content">
-        <article class="article-container-full-width">
-            <div id="div-cs" title="Go to cs details" data-bind="click: $parent.viewAttached">
-                <address data-bind="text: Category"></address>
-            </div>
-        </article>
+    <h2><span data-bind="text: title"></span></h2>
+
+    <div class="pull-right">
+        <form class="form-search">
+            <input type="search" class="search-query" placeholder="Cari ruang anda.." />
+            <span class="icon-search"></span>
+        </form>
     </div>
-</section>
+    <section id="cs-list" class="view-list" data-bind="foreach: commercialspaces">
+        <div class="article-right-content">
+            <article class="article-container-full-width">
+                <div id="div-cs" title="Go to cs details" data-bind="click: $parent.viewAttached">
+                    <h3 data-bind="text: RegistrationNo" style="text-transform: uppercase"></h3>
+                    <br />
+                    <strong data-bind="text: BuildingName"></strong>(
+                    <strong data-bind="text: FloorName"></strong>)
+                    <br />
+                    <address data-bind="text: Category"></address>
+                </div>
+            </article>
+        </div>
+    </section>
 </section>

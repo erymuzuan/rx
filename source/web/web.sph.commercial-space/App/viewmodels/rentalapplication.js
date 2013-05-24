@@ -15,6 +15,13 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
             logger.log('Rental Application View Activated', null, 'rentalapplication', true);
             id(routeData.id);
             vm.rentalapplication.CommercialSpaceId(routeData.id);
+            var bank = {
+                Name: ko.observable(''),
+                Location: ko.observable(''),
+                AccountNo: ko.observable(''),
+                AccountType: ko.observable('')
+            };
+            vm.rentalapplication.BankCollection.push(bank);
             return true;
         },
         saveApplication = function () {
@@ -92,17 +99,17 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
     };
 
     return vm;
-    
+
     function guidGenerator() {
         var buf = new Uint16Array(8);
         window.crypto.getRandomValues(buf);
-        var S4 = function(num) {
+        var S4 = function (num) {
             var ret = num.toString(16);
-            while(ret.length < 4){
-                ret = "0"+ret;
+            while (ret.length < 4) {
+                ret = "0" + ret;
             };
             return ret;
         };
-        return (S4(buf[0])+S4(buf[1])+"-"+S4(buf[2])+"-4"+S4(buf[3]).substring(1)+"-y"+S4(buf[4]).substring(1)+"-"+S4(buf[5])+S4(buf[6])+S4(buf[7]));
+        return (S4(buf[0]) + S4(buf[1]) + "-" + S4(buf[2]) + "-4" + S4(buf[3]).substring(1) + "-y" + S4(buf[4]).substring(1) + "-" + S4(buf[5]) + S4(buf[6]) + S4(buf[7]));
     }
 });
