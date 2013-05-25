@@ -78,7 +78,6 @@
 /source/web/web.sph.commercial-space/bin
 /source/web/web.sph.commercial-space/obj/Debug
 *.user
-*.DotSettings
 /source/dependencies/web/web.sph.commercial-space/bin
 /skecthflow/commercialSpace/Commersial Space/Commersial Space
 /packages/FontAwesome.3.0.2.3

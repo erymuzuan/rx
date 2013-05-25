@@ -1,0 +1,25 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Shortcut/@EntryValue">form-field</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Description/@EntryValue">bootstraop horizontal form field</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Text/@EntryValue">&lt;div class="control-group"&gt;&#xD;
+    &lt;label for="$ID$" class="control-label"&gt;$LABEL$&lt;/label&gt;&#xD;
+    &lt;div class="controls"&gt;&#xD;
+        &lt;input type="text" name="$PROPERTY$" data-bind="value: $PROPERTY$" /&gt;&#xD;
+    &lt;/div&gt;&#xD;
+&lt;/div&gt;</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Scope/=139FF4CE89E7094686FDA7BF5FFBBE92/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Scope/=139FF4CE89E7094686FDA7BF5FFBBE92/Type/@EntryValue">Everywhere</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Scope/=2E1FD56FA1658C4FBCADEF7FF8D5AAF8/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Scope/=2E1FD56FA1658C4FBCADEF7FF8D5AAF8/Type/@EntryValue">InHtmlLikeTag</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Scope/=EC16BB1B4B2C4B4FADC44DADB6F63F97/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Scope/=EC16BB1B4B2C4B4FADC44DADB6F63F97/Type/@EntryValue">InHtmlTag</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=ID/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=ID/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=LABEL/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=LABEL/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=PROPERTY/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=PROPERTY/Order/@EntryValue">2</s:Int64></wpf:ResourceDictionary>
