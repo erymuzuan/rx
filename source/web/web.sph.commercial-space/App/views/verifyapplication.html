@@ -1,110 +1,151 @@
-﻿<section id="application-list">
-    <div class="article-left-content">
-        <article class="article-container-full-width">
-            <div id="div-application" title="Go to application details">
-                <h3>Maklumat Pemohon (<span data-bind="text: rentalapplication.Status"></span>)</h3>
+﻿<div class="container">
+    <div class="row">
+        <div class="span8">
+            <section id="application-list" class="k-block">
 
-                <div><span>Nama  :</span><span data-bind="text: rentalapplication.CompanyName"></span></div>
-                <div>
-                    <span>Alamat :</span>
-                    <span data-bind="text: rentalapplication.Address.Street"></span>
-                    <span data-bind="text: rentalapplication.Address.City"></span>
-                    <span data-bind="text: rentalapplication.Address.Postcode"></span>
-                    <span data-bind="text: rentalapplication.Address.State"></span>
+                <article>
+                    <div id="div-application" title="Go to application details">
+                        <h2>Maklumat Pemohon (<span data-bind="text: rentalapplication.Status"></span>)</h2>
+
+                        <div><span>Nama  :</span><span data-bind="text: rentalapplication.CompanyName"></span></div>
+                        <div>
+                            <span>Alamat :</span>
+                            <span data-bind="text: rentalapplication.Address.Street"></span>
+                            <span data-bind="text: rentalapplication.Address.City"></span>
+                            <span data-bind="text: rentalapplication.Address.Postcode"></span>
+                            <span data-bind="text: rentalapplication.Address.State"></span>
+                        </div>
+                        <div><span>Nama Pegawai :</span><span data-bind="text: rentalapplication.Contact.Name"></span></div>
+                        <div><span>No. Telefon (Pejabat) :</span><span data-bind="text: rentalapplication.Contact.OfficeNo"></span></div>
+                        <div><span>No. Telefon (Mobile) :</span><span data-bind="text: rentalapplication.Contact.MobileNo"></span></div>
+                        <div>
+                            <a href="#details-panel" class="btn">
+                                <i class="icon-camera"></i>
+                                Maklumat Lanjut
+
+                            </a>
+                            <a data-bind="click: showAuditTrailCommand"  href="#audit-trail" class="btn">
+                                <i class="icon-book"></i>Sejarah Permohonan</a>
+                        </div>
+                    </div>
+                </article>
+
+            </section>
+            <br />
+            <br />
+            <br />
+            <section id="attachment-list" class="k-block">
+
+                <article>
+                    <h2>Dokumen sokongan</h2>
+                    <input type="button" class="btn" value="+ Dokumen" data-bind="click: addAttachmentCommand, visible: rentalapplication.Status() == 'New'" />
+                    <div>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Jenis</th>
+                                    <th>Nama</th>
+                                    <th>Diterima</th>
+                                    <th>Diperlukan</th>
+                                    <th>Lengkap</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: rentalapplication.AttachmentCollection">
+                                <tr>
+                                    <td>
+                                        <input type="text" data-bind="value: Type, uniqueName: true" /></td>
+                                    <td>
+                                        <input type="text" data-bind="value: Name, uniqueName: true" /></td>
+                                    <td>
+                                        <input type="checkbox" class="checkbox" data-bind="checked: IsReceived" />
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" class="checkbox" data-bind="checked: IsRequired" /></td>
+                                    <td>
+                                        <input type="checkbox" class="checkbox" data-bind="checked: IsCompleted" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+            </section>
+        </div>
+
+        <div class="span4">
+            <section id="commercialSpace">
+                <div class="article-left-content">
+                    <article class="info">
+                        <div id="commercialSpace-Detail">
+                            <h3>RUANG KOMERSIAL</h3>
+                            <div><span>Negeri :</span><span data-bind="text: commercialSpace.State"></span></div>
+                            <div><span>Bandar :</span><span data-bind="text: commercialSpace.City"></span></div>
+                            <div><span>Nama Bangunan :</span><span data-bind="text: commercialSpace.BuildingName"></span></div>
+                            <div><span>Lot Bangunan :</span><span data-bind="text: commercialSpace.BuildingLot"></span></div>
+                            <div><span>Tingkat :</span><span data-bind="text: commercialSpace.FloorName"></span></div>
+                            <div><span>Lot :</span><span data-bind="text: commercialSpace.LotName"></span></div>
+                            <div><span>Jenis Ruang :</span><span data-bind="text: commercialSpace.Category"></span></div>
+                        </div>
+                    </article>
                 </div>
-                <div><span>Nama Pegawai :</span><span data-bind="text: rentalapplication.Contact.Name"></span></div>
-                <div><span>No. Telefon (Pejabat) :</span><span data-bind="text: rentalapplication.Contact.OfficeNo"></span></div>
-                <div><span>No. Telefon (Mobile) :</span><span data-bind="text: rentalapplication.Contact.MobileNo"></span></div>
-                <div style="float: right">
-                    <input type="button" data-toggle="modal" href="#details-panel" class="btn btn-small btn-info" value="Maklumat Lanjut"/>
-                    <input type="button" data-toggle="modal" href="#audit-trail" class="btn btn-small btn-info" value="Sejarah Permohonan"/>
-                </div>
-            </div>
-        </article>
+            </section>
+        </div>
     </div>
-</section>
-<section id="attachment-list">
+    <div class="row">
+        <div class="span12 pull-right">
+        </div>
+        <section style="float: right">
+            <input type="button" class="btn btn-info" value="SENARAI MENUNGGU" data-bind="click: waitingListCommand, visible: rentalapplication.Status() == 'New'" />
+            <input type="button" class="btn btn-warning" value="KEMBALIKAN" data-bind="click: returnedCommand, visible: rentalapplication.Status() == 'New'" />
+            <input type="button" class="btn btn-danger" value="BATALKAN" data-bind="click: declinedCommand, visible: rentalapplication.Status() == 'New'" />
+            <input type="button" class="btn btn-success" value="LULUSKAN" data-bind="click: approvedCommand, visible: rentalapplication.Status() == 'New'" />
+            <input type="button" class="btn btn-info" value="CETAK SURAT AKUAN" data-bind="click: generateOfferLetterCommand, visible: rentalapplication.Status() == 'Approved'" />
+            <input type="button" class="btn btn-success" value="SAH TERIMA TAWARAN" data-bind="click: confirmOfferCommand, visible: rentalapplication.Status() == 'WaitingConfirmation'" />
+            <input type="button" class="btn btn-danger" value="TOLAK TAWARAN" data-bind="click: rejectOfferLetterCommand, visible: rentalapplication.Status() == 'WaitingConfirmation'" />
+        </section>
 
-    <div class="article-left-content">
-        <article class="article-container-full-width">
-            <input type="button" class="btn btn-info" value="+" data-bind="click: addAttachmentCommand, visible: rentalapplication.Status() == 'New'" />
-            <div>
-                <label>Dokumen sokongan</label>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Jenis</th>
-                            <th>Nama</th>
-                            <th>Diterima</th>
-                            <th>Diperlukan</th>
-                            <th>Lengkap</th>
-                        </tr>
-                    </thead>
-                    <tbody data-bind="foreach: rentalapplication.AttachmentCollection">
-                        <tr>
-                            <td>
-                                <input type="text" data-bind="value: Type, uniqueName: true" /></td>
-                            <td>
-                                <input type="text" data-bind="value: Name, uniqueName: true" /></td>
-                            <td>
-                                <input type="checkbox" data-bind="checked: IsReceived" />
-                            </td>
-                            <td>
-                                <input type="checkbox" data-bind="checked: IsRequired" /></td>
-                            <td>
-                                <input type="checkbox" data-bind="checked: IsCompleted" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </article>
     </div>
-</section>
-<section id="commercialSpace">
-    <div class="article-left-content">
-        <article class="article-container-full-width">
-            <div id="commercialSpace-Detail">
-                <h3>RUANG KOMERSIAL</h3>
-                <div><span>Negeri :</span><span data-bind="text: commercialSpace.State"></span></div>
-                <div><span>Bandar :</span><span data-bind="text: commercialSpace.City"></span></div>
-                <div><span>Nama Bangunan :</span><span data-bind="text: commercialSpace.BuildingName"></span></div>
-                <div><span>Lot Bangunan :</span><span data-bind="text: commercialSpace.BuildingLot"></span></div>
-                <div><span>Tingkat :</span><span data-bind="text: commercialSpace.FloorName"></span></div>
-                <div><span>Lot :</span><span data-bind="text: commercialSpace.LotName"></span></div>
-                <div><span>Jenis Ruang :</span><span data-bind="text: commercialSpace.Category"></span></div>
-            </div>
-        </article>
-    </div>
-</section>
-<section style="float: right">
-    <input type="button" class="btn btn-info" value="SENARAI MENUNGGU" data-bind="click: waitingListCommand, visible: rentalapplication.Status() == 'New'" />
-    <input type="button" class="btn btn-warning" value="KEMBALIKAN" data-bind="click: returnedCommand, visible: rentalapplication.Status() == 'New'" />
-    <input type="button" class="btn btn-danger" value="BATALKAN" data-bind="click: declinedCommand, visible: rentalapplication.Status() == 'New'" />
-    <input type="button" class="btn btn-success" value="LULUSKAN" data-bind="click: approvedCommand, visible: rentalapplication.Status() == 'New'" />
-    <input type="button" class="btn btn-info" value="CETAK SURAT AKUAN" data-bind="click: generateOfferLetterCommand, visible: rentalapplication.Status() == 'Approved'" />
-    <input type="button" class="btn btn-success" value="SAH TERIMA TAWARAN" data-bind="click: confirmOfferCommand, visible: rentalapplication.Status() == 'WaitingConfirmation'" />
-    <input type="button" class="btn btn-danger" value="TOLAK TAWARAN" data-bind="click: rejectOfferLetterCommand, visible: rentalapplication.Status() == 'WaitingConfirmation'" />
-</section>
-<section class="modal hide fade" id="details-panel">
-    <div class="modal-header">
-        <button value="x" data-dismiss="modal">x</button>
-        <h3>Maklumat lanjut</h3>
-    </div>
-    <div class="modal-body"></div>
-    <div class="modal-footer">
-        <input type="button" class="btn-small btn-info" value="Close" data-dismiss="modal"/>
-    </div>
-</section>
-<section class="modal hide fade" id="audit-trail">
-    <div class="modal-header">
-        <button value="x" data-dismiss="modal">x</button>
-        <h3>Sejarah Permohonan</h3>
-    </div>
-    <div class="modal-body"></div>
-    <div class="modal-footer">
-        <input type="button" class="btn-small btn-info" value="Close" data-dismiss="modal"/>
-    </div>
-</section>
+    <section class="modal hide fade" id="details-panel">
+        <div class="modal-header">
+            <button class="pull-right" data-dismiss="modal">&times;</button>
+            <h3>Maklumat lanjut</h3>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+            <input type="button" class="btn-small btn-primary" value="OK" data-dismiss="modal" />
+        </div>
+    </section>
+
+    <section class="modal hide fade" id="audit-trail">
+        <div class="modal-header">
+            <button class="pull-right" data-dismiss="modal">&times;</button>
+            <h3>Sejarah Permohonan</h3>
+        </div>
+        <div class="modal-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tarikh/Masa</th>
+                        <th>Pengguna</th>
+                        <th>Operasi</th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach:auditTrailCollection">
+                    <tr>
+                        <td data-bind="text:DateTime"></td>
+                        <td data-bind="text:User"></td>
+                        <td data-bind="text:Operation"></td>
+                        <td data-bind="text:WebId"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <img src="/Images/spinner-md.gif" data-bind="visible:isBusy"/>
+        </div>
+        <div class="modal-footer">
+            <input type="button" class="btn-small btn-primary" value="OK" data-dismiss="modal" />
+        </div>
+    </section>
 
 
-
+</div>

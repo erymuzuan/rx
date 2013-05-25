@@ -10,8 +10,8 @@
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
 
     var id = ko.observable(),
+        isBusy = ko.observable(false),
         activate = function (routedata) {
-            logger.log('Application List View Activated', null, 'applicationlist', true);
             id(routedata.applicationId);
             var tcs = new $.Deferred();
             context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id()).done(function (r) {
@@ -32,6 +32,19 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 IsReceived: ko.observable(false)
             };
             vm.rentalapplication.AttachmentCollection.push(attachment);
+        },
+        showAuditTrail = function() {
+            isBusy(true);
+            var query = "EntityId eq " + vm.rentalapplication.RentalApplicationId();
+            vm.auditTrailCollection.removeAll();
+            
+            context.loadAsync("AuditTrail", query)
+                .then(function (lo) {
+                    vm.auditTrailCollection(lo.itemCollection);
+                    isBusy(false);
+                });
+            $('#audit-trail').modal({});
+
         },
         waitingList = function () {
             var tcs = new $.Deferred();
@@ -101,9 +114,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         ;
 
     var vm = {
+        isBusy: isBusy,
         activate: activate,
+        auditTrailCollection :ko.observableArray([]),
         rentalapplication: {
             CommercialSpaceId: ko.observable(),
+            RentalApplicationId: ko.observable(0),
+            RegistarationNo: ko.observable(''),
             CompanyName: ko.observable(''),
             Status: ko.observable(''),
             CompanyRegistrationNo: ko.observable(''),
@@ -149,6 +166,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         waitingListCommand: waitingList,
         returnedCommand: returned,
         declinedCommand: declined,
+        showAuditTrailCommand: showAuditTrail,
         approvedCommand: approved,
         addAttachmentCommand: addAttachment,
         generateOfferLetterCommand: generateOfferLetter,
