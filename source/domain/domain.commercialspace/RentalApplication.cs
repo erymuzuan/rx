@@ -2,19 +2,30 @@
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
-   public partial class RentalApplication : Entity
+    public partial class RentalApplication : Entity
     {
-       [XmlAttribute]
-       private int m_rentalApplicationId;
+        private int m_rentalApplicationId;
+        private string m_registrationNo;
 
-       public int RentalApplicationId
-       {
-           get { return m_rentalApplicationId; }
-           set
-           {
-               m_rentalApplicationId = value;
-               RaisePropertyChanged();
-           }
-       }
+        [XmlAttribute]
+        public int RentalApplicationId
+        {
+            get { return m_rentalApplicationId; }
+            set
+            {
+                m_rentalApplicationId = value;
+                RaisePropertyChanged();
+            }
+        }
+        [XmlAttribute]
+        public string RegistrationNo
+        {
+            get { return m_registrationNo; }
+            set
+            {
+                m_registrationNo = value;
+                RaisePropertyChanged();
+            }
+        }
     }
 }

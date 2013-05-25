@@ -200,29 +200,6 @@ section.main {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
 }
 
-.nav {
-    display: inline-block;
-    list-style: none outside none;
-    margin: 15px;
-    padding: 4px;
-    text-align: center;
-}
-
-.nav li {
-    display: inline-block;
-    border: 1px solid #c7c7c7;
-    border-left: 7px solid #ccc;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    text-decoration: none;
-    padding: 8px 4px 8px 8px;
-    height: 89px;
-    position: relative;
-    color: #777;
-    background-color: #f2f2f2;
-}
-
 .navbar .brand {
     padding: 6px 30px 12px 30px;
     margin-bottom: -8px;

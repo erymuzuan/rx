@@ -26,7 +26,7 @@
           ///&lt;/summary&gt;
           [DataObject(true)]
           [Serializable]
-          [XmlType("<xsl:value-of select="@name"/>",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("<xsl:value-of select="@name"/>",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public <xsl:value-of select="@bs:inheritance"/> partial class <xsl:value-of select="@name"/>
           {
 
@@ -154,7 +154,7 @@
     </xsl:for-each>
     <!-- COMPLEX TYPE -->
     <xsl:for-each select="xs:complexType">
-      [XmlType("<xsl:value-of select="@name"/>",  Namespace=Strings.DefaultNamespace)]
+      [XmlType("<xsl:value-of select="@name"/>",  Namespace=Strings.DEFAULT_NAMESPACE)]
       public partial class <xsl:value-of select="@name"/>
       {
 

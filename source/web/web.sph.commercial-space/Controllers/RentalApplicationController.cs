@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.SphCommercialSpaces.Domain;
 using WebGrease.Css.Extensions;
-using EmailMessage = Bespoke.SphCommercialSpaces.Domain.EmailMessage;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
@@ -12,6 +11,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public async Task<ActionResult> Submit(RentalApplication rentalApplication)
         {
+            await Task.Delay(2500);
             var context = new SphDataContext();
             rentalApplication.Status = "New";
 
@@ -29,14 +29,17 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 session.Attach(rentalApplication);
                 await session.SubmitChanges();
             }
+
             using (var session = context.OpenSession())
             {
                 audit.EntityId = rentalApplication.RentalApplicationId;
-                session.Attach(audit);
+                rentalApplication.RegistrationNo = string.Format("{0:yyyy}{1}", DateTime.Today,
+                                                                 rentalApplication.RentalApplicationId.PadLeft());
+                session.Attach(audit,rentalApplication);
                 await session.SubmitChanges();
             }
 
-            return Json(true);
+            return Json(new {status = "success", registrationNo = rentalApplication.RegistrationNo});
         }
 
         public async Task<ActionResult> WaitingList(int id)
@@ -116,7 +119,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 await session.SubmitChanges();
             }
 
-             const string bodyTemplate = "Sila lengkapkan dokumen berkenaan.";
+            const string bodyTemplate = "Sila lengkapkan dokumen berkenaan.";
 
             string emailBody = string.Format(bodyTemplate);
             var emailSubject = string.Format("Dokumen tidak lengkap");
@@ -125,7 +128,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var emailMessage = new EmailMessage
             {
                 Body = emailBody,
-                To = new[] {dbItem.Contact.Email},
+                To = new[] { dbItem.Contact.Email },
                 From = "support@sph.gov.my",
                 Subject = emailSubject
             };

@@ -185,7 +185,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
         {
             if (!m_serializers.ContainsKey(type))
             {
-                var serializer = new XmlSerializer(type, Strings.DefaultNamespace);
+                var serializer = new XmlSerializer(type, Strings.DEFAULT_NAMESPACE);
                 if (!m_serializers.ContainsKey(type)) m_serializers.Add(type, serializer); // for the race condition
             }
 

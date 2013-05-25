@@ -9,19 +9,16 @@
     </div>
     <div class="row">
         <div class="span2">
-            <ul id="lotlist" class="unstyled" data-bind="foreach: floor.LotCollection">
+            <ul id="lotlist" class="nav nav-tabs nav-stacked" data-bind="foreach: floor.LotCollection">
                 <li>
-                    <div>
-                        <a href="#" class="btn btn-success btn-block" data-bind="click: $parent.selectCommand">
-                            <span data-bind="text: Name"></span>
+                    <a href="#" data-bind="click: $parent.selectCommand">
+                        <span data-bind="text: Name"></span>
                         <i class="icon-pencil"></i></a>
-                    </div>
-
                 </li>
             </ul>
         </div>
         <div id="floorplanmap" class="google-maps span10">
-            <img src="/Images/spinner-md.gif"/>
+            <img src="/Images/spinner-md.gif" />
         </div>
 
     </div>

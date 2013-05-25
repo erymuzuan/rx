@@ -215,6 +215,7 @@
     <Compile Include="App_Start\HotTowelRouteConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -305,6 +306,8 @@
     <Content Include="App\views\shell.html" />
     <Content Include="App\views\verifyapplication.html" />
     <Content Include="Content\app.css" />
+    <Content Include="Content\bootstrap-datepicker.css" />
+    <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -391,6 +394,8 @@
     <Content Include="Images\azure\icon-drawer-add.png" />
     <Content Include="Images\azure\icons-action-32-sprites.png" />
     <Content Include="Images\spinner-md.gif" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\font\fontawesome-webfont.woff" />

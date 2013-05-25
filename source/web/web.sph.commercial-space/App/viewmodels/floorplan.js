@@ -109,10 +109,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 lotPolygon = shape;
             },
             viewAttached = function() {
-                $("#lotlist").on('click', 'a.btn', function () {
-                    $('#lotlist a.btn-warning').removeClass('btn-warning')
-                        .addClass('btn-success');
-                    $(this).removeClass('btn-success').addClass('btn-warning');
+                $("#lotlist").on('click', 'a', function () {
+                    $('#lotlist li').removeClass('active');
+                    $(this).parent().addClass('active');
                 });
             },
             select = function (lot,event,element) {

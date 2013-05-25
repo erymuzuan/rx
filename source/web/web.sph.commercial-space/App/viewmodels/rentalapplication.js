@@ -7,12 +7,12 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger'], function (context, logger) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
 
     var isBusy = ko.observable(false),
         id = ko.observable(),
+        registrationNo = ko.observable(),
         activate = function (routeData) {
-            logger.log('Rental Application View Activated', null, 'rentalapplication', true);
             id(routeData.id);
             vm.rentalapplication.CommercialSpaceId(routeData.id);
             var bank = {
@@ -24,6 +24,10 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
             vm.rentalapplication.BankCollection.push(bank);
             return true;
         },
+        viewAttached = function() {
+            $('.datepicker').datepicker();
+        },
+        
         saveApplication = function () {
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON(vm.rentalapplication);
@@ -31,7 +35,12 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
             context.post(data, "/RentalApplication/Submit").done(function (e) {
                 logger.log("Data has been successfully saved ", e, "rentalapplication", true);
                 isBusy(false);
-                tcs.resolve(true);
+                registrationNo(e.registrationNo);
+                $('#success-panel').modal({})
+                    .on('hidden', function() {
+                        router.navigateTo('/#/');
+                    });
+                tcs.resolve(e.status);
             });
             return tcs.promise();
         },
@@ -58,6 +67,8 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
 
     var vm = {
         activate: activate,
+        registrationNo: registrationNo,
+        viewAttached: viewAttached,
         rentalapplication: {
             CommercialSpaceId: ko.observable(),
             CompanyName: ko.observable(''),
