@@ -38,5 +38,19 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json(new { storeId });
         }
+
+
+        [HttpPost]
+        public async Task<ActionResult> Remove(string fileNames)
+        {
+            var storeId = Session["GpxStoreId"] as string;
+            if (string.IsNullOrWhiteSpace(storeId)) return Json(new { OK = true });
+
+            var binaryStore = ObjectBuilder.GetObject<IBinaryStore>();
+            await binaryStore.DeleteAsync(storeId);
+            return Json(new { OK = true });
+
+        }
+
     }
 }

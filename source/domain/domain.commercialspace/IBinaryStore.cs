@@ -7,5 +7,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
         void Add(BinaryStore document);
         Task<BinaryStore> GetContent(string stroreid);
         Task AddAsync(BinaryStore document);
+        Task DeleteAsync(string storeId);
     }
 }

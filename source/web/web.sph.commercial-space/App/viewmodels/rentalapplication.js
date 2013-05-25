@@ -27,6 +27,26 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         viewAttached = function() {
             $('.datepicker').datepicker();
         },
+        configureUpload = function (element, index, attachment) {
+            
+            $(element).find("input[type=file]").kendoUpload({
+                async: {
+                    saveUrl: "/BinaryStore/Upload",
+                    removeUrl: "/BinaryStore/Remove",
+                    autoUpload: true
+                },
+                multiple: false,
+                error: function (e) {
+                    logger.logError(e, e, this, true);
+                },
+                success: function (e) {
+                    logger.log('Your file has been uploaded', e, "route/create", true);
+                    attachment.StoreId(e.response.storeId);
+                    attachment.IsReceived(e.operation === "upload");
+
+                }
+            });
+        },
         
         saveApplication = function () {
             var tcs = new $.Deferred();
@@ -69,6 +89,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         activate: activate,
         registrationNo: registrationNo,
         viewAttached: viewAttached,
+        configureUpload: configureUpload,
         rentalapplication: {
             CommercialSpaceId: ko.observable(),
             CompanyName: ko.observable(''),

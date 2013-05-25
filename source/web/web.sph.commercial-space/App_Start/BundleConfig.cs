@@ -25,10 +25,15 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/scripts/moment.js")
                 .Include("~/scripts/string.js")
                 .Include("~/scripts/underscore.js")
+                .Include("~/kendo/js/kendo.all.js")
               );
 
             bundles.Add(
               new StyleBundle("~/Content/css")
+                .Include("~/kendo/styles/kendo.common.css")
+                .Include("~/kendo/styles/kendo.metro.css")
+                .Include("~/kendo/styles/kendo.dataviz.css")
+                .Include("~/kendo/styles/kendo.dataviz.metrol.css")
                 .Include("~/Content/ie10mobile.css")
                 .Include("~/Content/bootstrap.min.css")
                 .Include("~/Content/bootstrap-responsive.css")

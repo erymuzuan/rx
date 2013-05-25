@@ -228,7 +228,7 @@
     </div>
     <label>Dokumen sokongan</label>
     <div>
-        <table class="table table-bordered table-bordered">
+        <table id="document-sokongan-table" class="table table-bordered table-bordered">
             <thead>
                 <tr>
                     <th>Jenis</th>
@@ -237,14 +237,14 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: rentalapplication.AttachmentCollection">
+            <tbody data-bind="foreach: { data: rentalapplication.AttachmentCollection, afterAdd: configureUpload }">
                 <tr>
                     <td>
                         <input type="text" data-bind="value: Type, uniqueName: true" /></td>
                     <td>
                         <input type="text" data-bind="value: Name, uniqueName: true" /></td>
                     <td>
-                        <input class="input-medium" type="file" value="upload" />
+                        <input class="input-medium " type="file" value="upload" name="files" />
                     </td>
                     <td>
                         <button class="btn btn-danger" title="Buang dokumen ini">-</button>
