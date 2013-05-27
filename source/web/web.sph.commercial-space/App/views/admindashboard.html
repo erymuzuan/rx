@@ -1,14 +1,14 @@
-﻿<div class="header-section"><h3>Dashboard</h3></div>
+﻿<section><h1>Dashboard</h1></section>
 <section id="rental-list" class="view-list">
-    <div class="article-right-content" data-bind="click: viewPendingCommand">
+    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'New' }">
         <article class="article-container-full-width" >
             <div id="div-rental" title="Go to rental details" >
                 <label title="new">BARU</label>
-                <address data-bind="text: pending"></address>
+                <address data-bind="text: newCount"></address>
             </div>
         </article>
     </div>
-    <div class="article-right-content" data-bind="click: viewApprovedCommand">
+    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Approved'}">
         <article class="article-container-full-width">
             <div id="div1" title="Go to rental details" >
                 <label title="approved">LULUS</label>
@@ -16,7 +16,7 @@
             </div>
         </article>
     </div>
-    <div class="article-right-content" data-bind="click: viewDeclinedCommand">
+    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Declined'}">
         <article class="article-container-full-width">
             <div id="div2" title="Go to rental details" >
                 <label title="declined">BATAL</label>
@@ -24,7 +24,7 @@
             </div>
         </article>
     </div>
-    <div class="article-right-content" data-bind="click: viewApprovedCommand">
+    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Waiting'}">
         <article class="article-container-full-width">
             <div id="div3" title="Go to rental details" >
                 <label title="waiting-list">SENARAI MENUNGGU</label>
@@ -32,19 +32,27 @@
             </div>
         </article>
     </div>
-    <div class="article-right-content" data-bind="click: viewWaitingConfirmationCommand">
+    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'WaitingConfirmation'}">
         <article class="article-container-full-width">
             <div id="div4" title="Go to rental details" >
-                <label title="waiting-confirmation">MENUNGGU SURAT TAWARAN DIBALAS</label>
+                <label title="waiting-confirmation">MENUNNGU SURAT TAWARAN DIBALAS</label>
                 <address data-bind="text: waitingConfirmation"></address>
             </div>
         </article>
     </div>
-    <div class="article-right-content" data-bind="click: viewOfferRejectedCommand">
+    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Rejected'}">
           <article class="article-container-full-width">
             <div id="div5" title="Go to rental details" >
                 <label title="reject-offer">TOLAK TAWARAN</label>
                 <address data-bind="text: offerRejected"></address>
+            </div>
+        </article>
+    </div>
+    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Returned' }">
+          <article class="article-container-full-width">
+            <div title="Go to rental details" >
+                <label title="reject-offer">DIKEMBALIKAN</label>
+                <address data-bind="text:returned"></address>
             </div>
         </article>
     </div>

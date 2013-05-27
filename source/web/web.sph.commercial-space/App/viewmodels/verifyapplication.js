@@ -17,12 +17,21 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             var tcs = new $.Deferred();
             context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id())
                 .then(function (r) {
+                    
                     ko.mapping.fromJSON(ko.mapping.toJSON(r), {}, vm.rentalapplication);
+                    
                     context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + vm.rentalapplication.CommercialSpaceId())
                         .then(function (b) {
                             ko.mapping.fromJSON(ko.mapping.toJSON(b), {}, vm.commercialSpace);
                             tcs.resolve(true);
                         });
+                    
+                    $.get("/Map/CommercialSpaceImage/" + vm.rentalapplication.CommercialSpaceId() + "?width=300&height=200")
+                        .then(function (b) {
+                            vm.commercialSpace.StaticMap(b);
+                        });
+                    
+
                 });
             return tcs.promise();
         },
@@ -164,7 +173,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             BuildingLot: ko.observable(''),
             LotName: ko.observable(''),
             FloorName: ko.observable(''),
-            Category: ko.observable('')
+            Category: ko.observable(''),
+            StaticMap : ko.observable('')
         },
         waitingListCommand: waitingList,
         returnedCommand: returned,

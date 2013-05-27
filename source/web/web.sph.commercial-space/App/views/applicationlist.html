@@ -4,7 +4,8 @@
         <article class="article-container-full-width">
             <div id="div-application" title="Go to application details">
                 <h3 data-bind="text: RegistrationNo"></h3>
-                <label>Nama Syarikat</label><address data-bind="text: CompanyName"></address>
+                <address data-bind="text: Contact.Name"></address>
+                <address data-bind="text: CompanyName"></address>
                 <label>Status</label><address data-bind="text: Status"></address>
                 <input type="button" class="btn btn-success" value="Terperinci" data-bind="click: $parent.viewAttached" />
             </div>
