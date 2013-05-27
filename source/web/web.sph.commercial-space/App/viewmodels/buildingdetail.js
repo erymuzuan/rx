@@ -65,8 +65,9 @@ define(['services/datacontext',
             datacontext.post(data, "/Building/SaveBuilding")
                 .done(function (e) {
                     vm.building.BuildingId(e);
-                logger.log("Data has been successfully saved ", e, "buildingdetail", true);
-            });
+                    logger.log("Data has been successfully saved ", e, "buildingdetail", true);
+                    tcs.resolve(e);
+                });
             return tcs.promise();
         };
 
@@ -119,7 +120,7 @@ define(['services/datacontext',
                     center: point
                 });
                 if (path[0]) {
-                   buildingPolygon = mapvm.add({
+                    buildingPolygon = mapvm.add({
                         encoded: path[0],
                         draggable: true,
                         editable: true,

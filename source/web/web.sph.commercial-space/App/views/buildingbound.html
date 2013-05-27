@@ -23,6 +23,24 @@
                     </div>
                 </li>
             </ul>
+            <div class="k-info-colored k-block" data-bind="visible: selectedBuilding.Name ">
+                <h3 data-bind="text: selectedBuilding.Name"></h3>
+                <div>
+                    <span data-bind="text:selectedBuilding.Size"></span>sqf
+                </div>
+                <div>
+                    <span data-bind="text:selectedBuilding.Floors"></span> floors
+                </div>
+                <div>
+                    <address data-bind="text:selectedBuilding.Address"></address>
+                </div>
+                <div>
+                    <a href="#" class="btn" data-bind="attr: { href: selectedBuilding.DetailsUrl }">
+                        <i class="icon-arrow-right"></i>
+
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 

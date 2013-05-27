@@ -114,6 +114,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             item.Floors = building.Floors;
             item.Size = building.Size;
             item.Status = building.Status;
+            item.FloorCollection.ClearAndAddRange(building.FloorCollection);
 
             using (var session = context.OpenSession())
             {
