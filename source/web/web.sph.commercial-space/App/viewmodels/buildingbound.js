@@ -6,6 +6,8 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="map.js" />
+/// 
 define(['services/datacontext',
         'durandal/plugins/router',
         'durandal/system',
@@ -24,6 +26,12 @@ define(['services/datacontext',
                 return true;
 
             },
+            viewAttached = function() {
+                mapvm.setupAutocomplete(document.getElementById('search'));
+                $('form.form-search').on('click', 'a', function() {
+                    $('form.form-search').children('input').val("");
+                });
+            },
             highlight = function (b) {
                 _.each(buildingCollection(), function (g) {
                     g.polygon.setOptions({ fillColor: "white" });
@@ -39,6 +47,7 @@ define(['services/datacontext',
 
         var vm = {
             activate: activate,
+            viewAttached: viewAttached,
             highlightCommand: highlight,
             buildingCollection: buildingCollection,
             isBusy: isBusy
