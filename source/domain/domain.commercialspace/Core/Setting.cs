@@ -8,6 +8,18 @@ namespace Bespoke.SphCommercialSpaces.Domain
         private string m_key;
         private string m_value;
 
+        private string m_userName;
+
+        public string UserName
+        {
+            get { return m_userName; }
+            set
+            {
+                m_userName = value;
+                RaisePropertyChanged();
+            }
+        }
+
         [XmlAttribute]
         public int SettingId
         {

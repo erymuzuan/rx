@@ -21,20 +21,29 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/scripts/Q.js")
                 .Include("~/scripts/breeze.debug.js")
                 .Include("~/scripts/bootstrap.js")
+                .Include("~/scripts/bootstrap-datepicker.js")
                 .Include("~/scripts/moment.js")
                 .Include("~/scripts/string.js")
                 .Include("~/scripts/underscore.js")
+                .Include("~/kendo/js/kendo.all.js")
+                .Include("~/scripts/_kendo-knockoutbindings.js")
               );
 
             bundles.Add(
               new StyleBundle("~/Content/css")
+                .Include("~/kendo/styles/kendo.common.css")
+                .Include("~/kendo/styles/kendo.metro.css")
+                .Include("~/kendo/styles/kendo.dataviz.css")
+                .Include("~/kendo/styles/kendo.dataviz.metrol.css")
                 .Include("~/Content/ie10mobile.css")
                 .Include("~/Content/bootstrap.min.css")
                 .Include("~/Content/bootstrap-responsive.css")
+                .Include("~/Content/bootstrap-datepicker.css")
                 .Include("~/Content/durandal.css")
                 .Include("~/Content/toastr.css")
                 .Include("~/Content/app.css")
                 .Include("~/Content/sprite.css")
+                .Include("~/Content/site.css")
               );
         }
 

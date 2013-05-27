@@ -61,46 +61,46 @@
     </div>
     <a type="button" class="btn btn-success" data-toggle="modal" data-bind="click: showMapCommand" href="#map-panel">Show Map</a>
     <div class="labelLeft">
-        <input type="button" class="btn btn-primary" data-bind="click: addFloorCommand" value="Add Floor"/>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Size</th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: building.FloorCollection">
-            <tr>
+        <input type="button" class="btn btn-mini" data-bind="click: addFloorCommand" value="Add Floor" />
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: building.FloorCollection">
+                <tr>
                     <td>
                         <input type="text" data-bind="value: Name, uniqueName: true" /></td>
                     <td>
                         <input type="text" data-bind="value: Size, uniqueName: true" /></td>
                     <td>
-                        <input type="button" data-bind="click: $parent.removeFloorCommand" class="btn btn-primary" value="-" /></td>
+                        <input type="button" data-bind="click: $parent.removeFloorCommand" class="btn btn-mini" value="-" /></td>
                     <td>
-                        <input type="button" data-bind="click: $parent.addLotCommand" class="btn btn-primary" value="+Lot" /></td>
+                        <input type="button" data-bind="click: $parent.addLotCommand" class="btn btn-mini" value="+Lot" /></td>
                     <td>
-                        <input type="button" data-bind="click: $parent.viewFloorPlanCommand" class="btn btn-primary" value="Pelan Lantai" /></td>
-            </tr>
-        </tbody>
-    </table>
-         </div>
+                        <input type="button" data-bind="click: $parent.viewFloorPlanCommand" class="btn btn-mini" value="Pelan Lantai" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <div>
         <input type="button" class="btn btn-primary" value="Back" data-bind="click: goBackCommand" />
         <input type="button" class="btn btn-primary" value="Save" data-bind="click: saveCommand" />
     </div>
-    
+
 
 </section>
 
-<section class="modal hide" id="map-panel" style="width: 1000px;height: 800px;margin-left: -500px">
+<section class="modal hide google-maps" id="map-panel" style="margin-left: -500px;width: 940px">
 
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">x</button>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h3>Peta bangunan</h3>
     </div>
     <div class="modal-body" style="width: 900px; height: 700px; max-height: 700px">

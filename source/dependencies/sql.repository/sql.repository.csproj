@@ -71,6 +71,9 @@
     <Compile Include="RentalApplication.cs">
       <DependentUpon>Sph.tt</DependentUpon>
     </Compile>
+    <Compile Include="Setting.cs">
+      <DependentUpon>Sph.tt</DependentUpon>
+    </Compile>
     <Compile Include="SpatialStore.cs">
       <DependentUpon>Sph.tt</DependentUpon>
     </Compile>
@@ -89,6 +92,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Sph.edmx</DependentUpon>
     </Compile>
+    <Compile Include="SqlBinaryStore.cs" />
     <Compile Include="SqlRepository.aggregate.cs" />
     <Compile Include="IPagingTranslator.cs" />
     <Compile Include="MappingHelper.cs" />

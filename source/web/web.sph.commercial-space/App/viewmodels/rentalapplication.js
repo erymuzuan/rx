@@ -7,16 +7,47 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger'], function (context, logger) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
 
     var isBusy = ko.observable(false),
         id = ko.observable(),
+        registrationNo = ko.observable(),
         activate = function (routeData) {
-            logger.log('Rental Application View Activated', null, 'rentalapplication', true);
             id(routeData.id);
             vm.rentalapplication.CommercialSpaceId(routeData.id);
+            var bank = {
+                Name: ko.observable(''),
+                Location: ko.observable(''),
+                AccountNo: ko.observable(''),
+                AccountType: ko.observable('')
+            };
+            vm.rentalapplication.BankCollection.push(bank);
             return true;
         },
+        viewAttached = function() {
+            $('.datepicker').datepicker();
+        },
+        configureUpload = function (element, index, attachment) {
+            
+            $(element).find("input[type=file]").kendoUpload({
+                async: {
+                    saveUrl: "/BinaryStore/Upload",
+                    removeUrl: "/BinaryStore/Remove",
+                    autoUpload: true
+                },
+                multiple: false,
+                error: function (e) {
+                    logger.logError(e, e, this, true);
+                },
+                success: function (e) {
+                    logger.log('Your file has been uploaded', e, "route/create", true);
+                    attachment.StoreId(e.response.storeId);
+                    attachment.IsReceived(e.operation === "upload");
+
+                }
+            });
+        },
+        
         saveApplication = function () {
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON(vm.rentalapplication);
@@ -24,7 +55,12 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
             context.post(data, "/RentalApplication/Submit").done(function (e) {
                 logger.log("Data has been successfully saved ", e, "rentalapplication", true);
                 isBusy(false);
-                tcs.resolve(true);
+                registrationNo(e.registrationNo);
+                $('#success-panel').modal({})
+                    .on('hidden', function() {
+                        router.navigateTo('/#/');
+                    });
+                tcs.resolve(e.status);
             });
             return tcs.promise();
         },
@@ -51,6 +87,9 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
 
     var vm = {
         activate: activate,
+        registrationNo: registrationNo,
+        viewAttached: viewAttached,
+        configureUpload: configureUpload,
         rentalapplication: {
             CommercialSpaceId: ko.observable(),
             CompanyName: ko.observable(''),
@@ -92,17 +131,17 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
     };
 
     return vm;
-    
+
     function guidGenerator() {
         var buf = new Uint16Array(8);
         window.crypto.getRandomValues(buf);
-        var S4 = function(num) {
+        var S4 = function (num) {
             var ret = num.toString(16);
-            while(ret.length < 4){
-                ret = "0"+ret;
+            while (ret.length < 4) {
+                ret = "0" + ret;
             };
             return ret;
         };
-        return (S4(buf[0])+S4(buf[1])+"-"+S4(buf[2])+"-4"+S4(buf[3]).substring(1)+"-y"+S4(buf[4]).substring(1)+"-"+S4(buf[5])+S4(buf[6])+S4(buf[7]));
+        return (S4(buf[0]) + S4(buf[1]) + "-" + S4(buf[2]) + "-4" + S4(buf[3]).substring(1) + "-y" + S4(buf[4]).substring(1) + "-" + S4(buf[5]) + S4(buf[6]) + S4(buf[7]));
     }
 });

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Spatial;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web.Mvc;
 using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.Commerspace.Web.Helpers
@@ -388,6 +389,31 @@ namespace Bespoke.Sph.Commerspace.Web.Helpers
             }
 
             return polyPoints;
+        }
+
+        public static IEnumerable<LatLng> ParseBound(string boundString)
+        {
+            if (string.IsNullOrWhiteSpace(boundString)) throw new ArgumentNullException("boundString");
+
+            var points = boundString.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+            var sw = new LatLng(points.First());
+            var ne = new LatLng(points.Last());
+            var se = new LatLng { Lat = sw.Lat, Lng = ne.Lng };
+            var nw = new LatLng { Lat = ne.Lat, Lng = sw.Lng };
+
+            if (Math.Abs(sw.Lat - ne.Lat) < 0.0001d)
+            {
+                return new List<LatLng>();
+            }
+            if (Math.Abs(sw.Lng - ne.Lng) < 0.0001d)
+            {
+                return new List<LatLng>();
+            }
+
+            return new List<LatLng>
+                {
+                    sw,se,ne, nw,sw
+                };
         }
     }
 }

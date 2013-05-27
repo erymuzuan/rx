@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Spatial;
+using System.Text;
 using System.Threading.Tasks;
 using Bespoke.SphCommercialSpaces.Domain;
 using System.Linq;
@@ -122,9 +123,37 @@ namespace Bespoke.Sph.SqlRepository
             }
         }
 
-        public Task<IEnumerable<T>> ContainsAsync(Expression<Func<T, bool>> predicate, LatLng point)
+        public async Task<IEnumerable<T>> ContainsAsync(Expression<Func<T, bool>> predicate, LatLng[] points)
         {
-            throw new NotImplementedException();
+            var sql = new StringBuilder("SELECT ");
+            sql.AppendFormat(" [{1}Id], [Data], [EncodedWkt] FROM [{0}].[{1}] ", "Sph", typeof(T).Name);
+            sql.AppendFormat(" WHERE geography::STPolyFromText('POLYGON((");
+            sql.Append(string.Join(",", points.ToArrayString()));
+            sql.Append("))', 4326)");
+            sql.Append(".STIntersects([Path]) = 1");
+
+
+
+            using (var conn = new SqlConnection(m_connectionString))
+            using (var cmd = new SqlCommand(sql.ToString(), conn) { CommandType = CommandType.Text })
+            {
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    var list = new ObjectCollection<T>();
+                    while (reader.Read())
+                    {
+                        var item = XmlSerializerService.DeserializeFromXml<T>(reader.GetString(1));
+                        item.EncodedWkt = reader.GetString(2);
+                        // item.GeoLocationId = reader.GetInt32(0);
+                        list.Add(item);
+                    }
+
+
+                    return list;
+                }
+
+            }
         }
 
         public Task<IEnumerable<T>> GetNeighboursAsync(Expression<Func<T, bool>> predicate, double distance)

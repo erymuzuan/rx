@@ -25,6 +25,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 buildingId(routeData.buildingId);
                 floorname(routeData.floorname);
 
+
                 title('Pelan lantai : ' + floorname());
                 var tcs = new $.Deferred();
                 var buildingTask = context.loadOneAsync('Building', 'BuildingId eq ' + buildingId());
@@ -58,7 +59,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                                 });
                                 mapLoaded = true;
 
-                                if (path) {
+                                if (path[0]) {
                                     map.add({
                                         encoded: path[0],
                                         draggable: false,
@@ -107,7 +108,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             polygoncomplete = function (shape) {
                 lotPolygon = shape;
             },
-            select = function (lot) {
+            viewAttached = function() {
+                $("#lotlist").on('click', 'a', function () {
+                    $('#lotlist li').removeClass('active');
+                    $(this).parent().addClass('active');
+                });
+            },
+            select = function (lot,event,element) {
                 isBusy(true);
                 activeLot(lot.Name());
                 $.get("/Building/GetFloorPlan/" + buildingId() + "?floor=" + floorname() + "&lot=" + lot.Name())
@@ -129,6 +136,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                         isBusy(false);
 
                     });
+                
+
+                $('#lotlist a.btn').removeClass('btn-warning')
+                    .addClass('btn-success');
+                $(element).removeClass('btn-success').addClass('btn-warning');
             };
 
         var vm = {
@@ -142,7 +154,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             goBackCommand: goBack,
             saveCommand: save,
             selectCommand: select,
-            isBusy: isBusy
+            isBusy: isBusy,
+            viewAttached : viewAttached
         };
 
         return vm;

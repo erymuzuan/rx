@@ -13,7 +13,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("Land",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("Land",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Land
           {
 
@@ -699,7 +699,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("Building",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("Building",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Building
           {
 
@@ -967,7 +967,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("Address",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("Address",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Address
           {
 
@@ -1113,7 +1113,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("Floor",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("Floor",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Floor
           {
 
@@ -1270,7 +1270,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("Lot",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("Lot",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Lot
           {
 
@@ -1416,7 +1416,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("CommercialSpace",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("CommercialSpace",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class CommercialSpace
           {
 
@@ -1954,7 +1954,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("RentalApplication",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("RentalApplication",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class RentalApplication
           {
 
@@ -2022,6 +2022,11 @@
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  string  m_type;
                 public const string PropertyNameType = "Type";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_remarks;
+                public const string PropertyNameRemarks = "Remarks";
 
               
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2462,6 +2467,32 @@
                 }
 
               
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+            [DebuggerHidden]
+            
+                public string Remarks
+                {
+                set
+                {
+                if( String.Equals( m_remarks, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRemarks, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_remarks= value;
+                OnPropertyChanged(PropertyNameRemarks);
+                }
+                }
+                get
+                {
+                return m_remarks;}
+                }
+
+              
 
             ///<summary>
             /// 
@@ -2537,7 +2568,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("Attachment",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("Attachment",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Attachment
           {
 
@@ -2833,7 +2864,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("Bank",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("Bank",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Bank
           {
 
@@ -2979,7 +3010,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("Contact",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("Contact",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Contact
           {
 
@@ -3224,7 +3255,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("ContractTemplate",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("ContractTemplate",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class ContractTemplate
           {
 
@@ -3280,7 +3311,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("DocumentTemplate",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("DocumentTemplate",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class DocumentTemplate
           {
 
@@ -3360,7 +3391,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("Contract",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("Contract",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Contract
           {
 
@@ -3478,7 +3509,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("Document",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("Document",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Document
           {
 
@@ -3569,7 +3600,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("DocumentVersion",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("DocumentVersion",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class DocumentVersion
           {
 
@@ -3746,7 +3777,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("Owner",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("Owner",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Owner
           {
 
@@ -3892,7 +3923,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("AuditTrail",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("AuditTrail",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class AuditTrail
           {
 
@@ -4082,7 +4113,7 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("Change",  Namespace=Strings.DefaultNamespace)]
+          [XmlType("Change",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Change
           {
 

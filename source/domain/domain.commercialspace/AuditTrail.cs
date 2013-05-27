@@ -17,6 +17,18 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 RaisePropertyChanged();
             }
         }
+
+        private string m_note;
+
+        public string Note
+        {
+            get { return m_note; }
+            set
+            {
+                m_note = value;
+                RaisePropertyChanged();
+            }
+        }
          
     }
 }

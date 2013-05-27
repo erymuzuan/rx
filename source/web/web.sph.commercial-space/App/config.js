@@ -9,20 +9,29 @@
 
     var remoteServiceName = 'api/Breeze';
 
-    var routes = [{
-        url: 'admindashboard',
-        moduleId: 'viewmodels/admindashboard',
-        name: 'Papan Tugas',
-        visible: true,
-        caption: '<i class="icon-user"></i> Papan Tugas'
-    },
+    var routes = [
+        {
+            url: 'admindashboard',
+            moduleId: 'viewmodels/admindashboard',
+            name: 'Papan Tugas',
+            visible: true,
+            caption: '<i class="icon-user"></i> Papan Tugas'
+        },
         {
             url: 'building',
             moduleId: 'viewmodels/building',
             name: 'Bangunan',
             visible: true,
             caption: 'Building',
-            settings: { caption: 'Senaria Bangunan' }
+            settings: { caption: 'Senarai Bangunan' }
+        },
+        {
+            url: 'setting',
+            moduleId: 'viewmodels/setting',
+            name: 'Setting',
+            visible: true,
+            caption: 'Setting',
+            settings: { caption: 'Settings' }
         },
         {
             url: 'commercialspace',
@@ -30,6 +39,13 @@
             name: 'Ruang Komersial',
             visible: true,
             caption: 'Senarai Ruang Komersial'
+        },
+        {
+            url: 'buildingbound',
+            moduleId: 'viewmodels/buildingbound',
+            name: 'Peta Kawasan',
+            visible: true,
+            caption: 'Peta Kawasan'
         }, {
             url: 'buildingdetail/:id',
             moduleId: 'viewmodels/buildingdetail',
@@ -95,10 +111,18 @@
             visible: false,
             caption: 'Senarai Permohonan',
             settings: { caption: '<i class="icon-user"></i> Maklumat permohonan' }
+        },
+        {
+            url: 'returnedapplication/:id',
+            moduleId: 'viewmodels/returnedapplication',
+            name: 'rental application',
+            visible: false,
+            caption: 'returnedapplication',
+            settings: { caption: 'Kembalikan Permohonan' }
         }
     ];
     
-    var startModule = 'building';
+    var startModule = 'admindashboard';
 
     return {
         debugEnabled: ko.observable(true),

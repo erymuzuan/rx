@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Text;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
     public static class Strings
     {
-        public const string DefaultNamespace = "http://www.bespoke.com.my/";
+        public const string DEFAULT_NAMESPACE = "http://www.bespoke.com.my/";
 
         public static bool IsEqual<T>(this T value, T value2) where T : struct ,IConvertible
         {
@@ -24,6 +26,69 @@ namespace Bespoke.SphCommercialSpaces.Domain
         //    }
         //    return value.Equals(value2);
         //}
+
+        public static string PadLeft(this int value, int width = 6, char pad = '0')
+        {
+            var f = string.Format(CultureInfo.CurrentCulture, "{0}", value);
+            return f.PadLeft(6, '0');
+        }
+        public static string PadLeft(this int? value, int width = 6, char pad = '0')
+        {
+            var f = string.Format(CultureInfo.CurrentCulture, "{0}", value);
+            return f.PadLeft(6, '0');
+        }
+
+        public static string GetFormattedValue(this string value)
+        {
+            DateTime date;
+            decimal dec;
+            if (DateTime.TryParse(value, out date))
+            {
+                return date.ToString("dd MMM yyyy");
+            }
+            if (decimal.TryParse(value, out dec))
+            {
+                return string.Format("{0:f2}", dec);
+            }
+            return value;
+        }
+
+
+        public static string ToEmptyString(this object value)
+        {
+            if (null == value) return string.Empty;
+            return string.Format("{0}", value);
+        }
+
+        public static string ToSDate(this string value)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            value = value.Replace(" ", string.Empty);
+
+
+            if (value.Length != 8) return value;
+            var chars = value.Trim().ToCharArray();
+
+            var sb = new StringBuilder();
+            for (int i = 0; i < chars.Length; i++)
+            {
+                if (!char.IsDigit(chars[i]))
+                    return value;
+                sb.Append(chars[i]);
+                switch (i)
+                {
+                    case 3:
+                    case 5:
+                        sb.Append("-");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return sb.ToString();
+        }
+
         public static string ConvertToUnsecureString(this SecureString securePassword)
         {
             if (securePassword == null)

@@ -14,6 +14,11 @@ namespace Bespoke.Sph.SqlRepository
                     var building = (SphCommercialSpaces.Domain.Building)item;
                     if (column == "State")
                         return building.Address.State;
+                    break;     
+                case "RentalApplication":
+                    var app = (SphCommercialSpaces.Domain.RentalApplication)item;
+                    if (column == "ContactName")return app.Contact.Name;
+                    if (column == "ContactIcNo")return app.Contact.IcNo;
                     break;      
             }
             return DBNull.Value;

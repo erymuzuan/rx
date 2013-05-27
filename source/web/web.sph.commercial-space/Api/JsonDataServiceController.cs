@@ -15,6 +15,11 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         private static readonly string m_connectionString =
             ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
 
+        public async Task<ActionResult> AuditTrail(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<AuditTrail>(filter, page, size, includeTotal);
+        }
+
         public async Task<ActionResult> RentalApplication(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<RentalApplication>(filter, page, size, includeTotal);

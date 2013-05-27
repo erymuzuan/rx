@@ -14,7 +14,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
         Task<Geography> GetGeographyAsync(Expression<Func<T, bool>> predicate);
         Task<LatLng> GetCenterAsync(Expression<Func<T, bool>> predicate);
 
-        Task<IEnumerable<T>> ContainsAsync(Expression<Func<T, bool>> predicate, LatLng point);
+        Task<IEnumerable<T>> ContainsAsync(Expression<Func<T, bool>> predicate, LatLng[] point);
         Task<IEnumerable<T>> GetNeighboursAsync(Expression<Func<T, bool>> predicate, double distance);
 
     }

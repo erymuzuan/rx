@@ -8,7 +8,7 @@ CREATE TABLE Sph.BinaryStore
 	 [BinaryStoreId] INT PRIMARY KEY IDENTITY(1,1)
 	,[StoreId] VARCHAR(50) NOT NULL
 	,[Extension] VARCHAR(10) NULL
-	,[Title] VARCHAR(255) NULL
+	,[FileName] VARCHAR(255) NULL
 	,[Tag] VARCHAR(255) NULL
 	,[Content] VARBINARY(MAX)
 )
