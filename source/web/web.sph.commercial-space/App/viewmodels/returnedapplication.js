@@ -7,17 +7,17 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger'], function(context, logger) {
+define(['services/datacontext', 'services/logger'], function (context, logger) {
 
     var id = ko.observable(),
-        activate = function(routedata) {
+        activate = function (routedata) {
             logger.log('Application List View Activated', null, 'applicationlist', true);
             id(routedata.id);
             var tcs = new $.Deferred();
             context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id()).done(function (r) {
-                ko.mapping.fromJSON(ko.mapping.toJSON(r), {}, vm.rentalapplication);
+                ko.mapping.fromJSON(ko.mapping.toJSON(r), {}, vm.rentalApplication);
                 var incompleted = $.grep(r.AttachmentCollection(), function (x) { return x.IsCompleted() == false; });
-                $(incompleted).each(function(e) {
+                $(incompleted).each(function (e) {
                     vm.incompleteAttachments.push(e);
                 });
                 tcs.resolve(true);
@@ -26,23 +26,36 @@ define(['services/datacontext', 'services/logger'], function(context, logger) {
         },
         sendEmail = function () {
             var tcs = new $.Deferred();
-            var attachments = ko.mapping.toJS(vm.rentalapplication.AttachmentCollection);
-            var data = JSON.stringify({ id: id(), attachments: attachments });
-            context.post(data, "/RentalApplication/SendEmail").done(function () {
-                logger.log("Successfully send the email");
-                tcs.resolve(true);
-            });
+            var attachments = ko.mapping.toJS(vm.rentalApplication.AttachmentCollection);
+            var data = JSON.stringify({ id: id(), attachments: attachments, remarks: vm.rentalApplication.Remarks() });
+            context.post(data, "/RentalApplication/SendReturnedEmail")
+                .done(function (result) {
+                    logger.log("Successfully send the email", result, this, true);
+                    tcs.resolve(true);
+                });
+            return tcs.promise();
+        },
+        generateLetter = function () {
+            var tcs = new $.Deferred();
+            var attachments = ko.mapping.toJS(vm.rentalApplication.AttachmentCollection);
+            var data = JSON.stringify({ id: id(), attachments: attachments, remarks: vm.rentalApplication.Remarks() });
+            context.post(data, "/RentalApplication/GenerateReturnedLetter")
+                .done(function (result) {
+                    window.open("/RentalApplication/Download/" + result);
+                    tcs.resolve(true);
+                });
             return tcs.promise();
         };
 
     var vm = {
         activate: activate,
-        rentalapplication: {
+        rentalApplication: {
             Remarks: ko.observable(''),
             AttachmentCollection: ko.observableArray([])
         },
         incompleteAttachments: ko.observableArray([]),
-        sendEmailCommand: sendEmail
+        sendEmailCommand: sendEmail,
+        generateLetterCommand: generateLetter
     };
     return vm;
 });

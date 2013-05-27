@@ -9,20 +9,29 @@
 
     var remoteServiceName = 'api/Breeze';
 
-    var routes = [{
-        url: 'admindashboard',
-        moduleId: 'viewmodels/admindashboard',
-        name: 'Papan Tugas',
-        visible: true,
-        caption: '<i class="icon-user"></i> Papan Tugas'
-    },
+    var routes = [
+        {
+            url: 'admindashboard',
+            moduleId: 'viewmodels/admindashboard',
+            name: 'Papan Tugas',
+            visible: true,
+            caption: '<i class="icon-user"></i> Papan Tugas'
+        },
         {
             url: 'building',
             moduleId: 'viewmodels/building',
             name: 'Bangunan',
             visible: true,
             caption: 'Building',
-            settings: { caption: 'Senaria Bangunan' }
+            settings: { caption: 'Senarai Bangunan' }
+        },
+        {
+            url: 'setting',
+            moduleId: 'viewmodels/setting',
+            name: 'Setting',
+            visible: true,
+            caption: 'Setting',
+            settings: { caption: 'Settings' }
         },
         {
             url: 'commercialspace',

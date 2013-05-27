@@ -26,6 +26,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/scripts/string.js")
                 .Include("~/scripts/underscore.js")
                 .Include("~/kendo/js/kendo.all.js")
+                .Include("~/scripts/_kendo-knockoutbindings.js")
               );
 
             bundles.Add(

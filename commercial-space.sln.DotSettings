@@ -5,7 +5,7 @@
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Text/@EntryValue">&lt;div class="control-group"&gt;&#xD;
     &lt;label for="$ID$" class="control-label"&gt;$LABEL$&lt;/label&gt;&#xD;
     &lt;div class="controls"&gt;&#xD;
-        &lt;input type="text" name="$PROPERTY$" data-bind="value: $PROPERTY$" /&gt;&#xD;
+        &lt;input data-bind="value: $PROPERTY$" id="$ID$" type="text" name="$PROPERTY$" /&gt;&#xD;
     &lt;/div&gt;&#xD;
 &lt;/div&gt;</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Reformat/@EntryValue">True</s:Boolean>
@@ -18,8 +18,108 @@
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Scope/=EC16BB1B4B2C4B4FADC44DADB6F63F97/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Scope/=EC16BB1B4B2C4B4FADC44DADB6F63F97/Type/@EntryValue">InHtmlTag</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=ID/@KeyIndexDefined">True</s:Boolean>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=ID/Order/@EntryValue">0</s:Int64>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=ID/Order/@EntryValue">2</s:Int64>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=LABEL/@KeyIndexDefined">True</s:Boolean>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=LABEL/Order/@EntryValue">1</s:Int64>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=PROPERTY/@KeyIndexDefined">True</s:Boolean>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=PROPERTY/Order/@EntryValue">2</s:Int64></wpf:ResourceDictionary>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=PROPERTY/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Description/@EntryValue">use datacontext post wih promise</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Field/=URL/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Field/=URL/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/Type/@EntryValue">InJavaScriptStatement</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Shortcut/@EntryValue">datacontext-post</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Text/@EntryValue"> var tcs = new $.Deferred();&#xD;
+var data = $END$;&#xD;
+isBusy(true);&#xD;
+&#xD;
+context.post(data, "$URL$")&#xD;
+	.then(function (result) {&#xD;
+		isBusy(false);&#xD;
+&#xD;
+&#xD;
+		tcs.resolve(result);&#xD;
+	});&#xD;
+return tcs.promise();</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Description/@EntryValue">creates kendo upload</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Field/=SELECTOR/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Field/=SELECTOR/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/Type/@EntryValue">InJavaScriptStatement</s:String>
+	
+	
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Shortcut/@EntryValue">kendo-upload</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Text/@EntryValue">   $("$SELECTOR$").kendoUpload({&#xD;
+            async: {&#xD;
+                saveUrl: "/BinaryStore/Upload",&#xD;
+                removeUrl: "/BinaryStore/Remove",&#xD;
+                autoUpload: true&#xD;
+            },&#xD;
+            multiple: false,&#xD;
+            error: function (e) {&#xD;
+                logger.logError(e, e, this, true);&#xD;
+            },&#xD;
+            success: function (e) {&#xD;
+                logger.log('Your file has been ' + e.operation, e, this, true);&#xD;
+                var storeId = e.response.storeId;&#xD;
+				var uploaded = e.operation === "upload";&#xD;
+				var removed =  e.operation != "upload";&#xD;
+&#xD;
+				$END$&#xD;
+&#xD;
+            }&#xD;
+});</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/CustomProperties/=Extension/@EntryIndexedValue">aspx</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/CustomProperties/=FileName/@EntryIndexedValue">WebPage</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/CustomProperties/=ValidateFileName/@EntryIndexedValue">False</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Description/@EntryValue">viewmodel.js</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Scope/=0A12C11AC0ACCA4E921B6B2CEE180C57/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Scope/=0A12C11AC0ACCA4E921B6B2CEE180C57/Type/@EntryValue">InAnyWebProject</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Scope/=139FF4CE89E7094686FDA7BF5FFBBE92/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Scope/=139FF4CE89E7094686FDA7BF5FFBBE92/Type/@EntryValue">Everywhere</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Scope/=C049D1F3598F294DAC47F8162209A25A/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Scope/=C049D1F3598F294DAC47F8162209A25A/Type/@EntryValue">InRazorCSharpProject</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Text/@EntryValue">/// &lt;reference path="../../Scripts/jquery-1.9.1.intellisense.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/knockout-2.2.1.debug.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/knockout.mapping-latest.debug.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/require.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/underscore.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/moment.js" /&gt;&#xD;
+/// &lt;reference path="../services/datacontext.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/bootstrap.js" /&gt;&#xD;
+&#xD;
+&#xD;
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], &#xD;
+	function (context, logger, router) {&#xD;
+&#xD;
+	var &#xD;
+	isBusy = ko.observable(false),&#xD;
+	activate = function(){&#xD;
+		&#xD;
+	},&#xD;
+	viewAttached = function(view){&#xD;
+&#xD;
+	};&#xD;
+&#xD;
+	var vm = {&#xD;
+		isBusy : isBusy,&#xD;
+		activate : activate,&#xD;
+		viewAttached : viewAttached&#xD;
+	};&#xD;
+&#xD;
+	return vm;&#xD;
+&#xD;
+});&#xD;
+</s:String></wpf:ResourceDictionary>

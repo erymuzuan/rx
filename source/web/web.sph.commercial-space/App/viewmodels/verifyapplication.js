@@ -5,6 +5,7 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
+/// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../services/datacontext.js" />
 
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
@@ -14,13 +15,15 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         activate = function (routedata) {
             id(routedata.applicationId);
             var tcs = new $.Deferred();
-            context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id()).done(function (r) {
-                ko.mapping.fromJSON(ko.mapping.toJSON(r), {}, vm.rentalapplication);
-                context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + vm.rentalapplication.CommercialSpaceId()).done(function(b) {
-                    ko.mapping.fromJSON(ko.mapping.toJSON(b), {}, vm.commercialSpace);
+            context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id())
+                .then(function (r) {
+                    ko.mapping.fromJSON(ko.mapping.toJSON(r), {}, vm.rentalapplication);
+                    context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + vm.rentalapplication.CommercialSpaceId())
+                        .then(function (b) {
+                            ko.mapping.fromJSON(ko.mapping.toJSON(b), {}, vm.commercialSpace);
+                            tcs.resolve(true);
+                        });
                 });
-                tcs.resolve(true);
-            });
             return tcs.promise();
         },
         addAttachment = function () {
@@ -33,11 +36,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             };
             vm.rentalapplication.AttachmentCollection.push(attachment);
         },
-        showAuditTrail = function() {
+        showAuditTrail = function () {
             isBusy(true);
             var query = "EntityId eq " + vm.rentalapplication.RentalApplicationId();
             vm.auditTrailCollection.removeAll();
-            
+
             context.loadAsync("AuditTrail", query)
                 .then(function (lo) {
                     vm.auditTrailCollection(lo.itemCollection);
@@ -58,9 +61,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         returned = function () {
             var tcs = new $.Deferred();
             var attachments = ko.mapping.toJS(vm.rentalapplication.AttachmentCollection);
-            var data = JSON.stringify({ id: id() , attachments: attachments});
+            var data = JSON.stringify({ id: id(), attachments: attachments });
             context.post(data, "/RentalApplication/Returned").done(function (e) {
-                var url = '/#/returnedapplication/'+ e;
+                var url = '/#/returnedapplication/' + e;
                 router.navigateTo(url);
                 tcs.resolve(true);
             });
@@ -84,7 +87,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             });
             return tcs.promise();
         },
-        generateOfferLetter =function() {
+        generateOfferLetter = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: id() });
             context.post(data, "/RentalApplication/GenerateOfferLetter").done(function (e) {
@@ -93,10 +96,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             });
             return tcs.promise();
         },
-        confirmedOffer = function() {
+        confirmedOffer = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: id() });
-            context.post(data, "/RentalApplication/Confirmed").done(function(e) {
+            context.post(data, "/RentalApplication/Confirmed").done(function (e) {
                 logger.log("Offer letter received & Confirmed ", e, "verifyapplication", true);
                 tcs.resolve(true);
             });
@@ -111,12 +114,12 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             });
             return tcs.promise();
         }
-        ;
+    ;
 
     var vm = {
         isBusy: isBusy,
         activate: activate,
-        auditTrailCollection :ko.observableArray([]),
+        auditTrailCollection: ko.observableArray([]),
         rentalapplication: {
             CommercialSpaceId: ko.observable(),
             RentalApplicationId: ko.observable(0),
@@ -134,35 +137,35 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             IsCompany: ko.observable(false),
             Type: ko.observable(''),
             Address: {
-                        Street: ko.observable(),
-                        City: ko.observable(),
-                        State: ko.observable(),
-                        Postcode: ko.observable()
-                      },
+                Street: ko.observable(),
+                City: ko.observable(),
+                State: ko.observable(),
+                Postcode: ko.observable()
+            },
             BankCollection: ko.observableArray([]),
             AttachmentCollection: ko.observableArray([]),
             Contact: {
-                        Name: ko.observable(''),
-                        Title: ko.observable(''),
-                        IcNo: ko.observable(''),
-                        Role: ko.observable(''),
-                        MobileNo: ko.observable(''),
-                        OfficeNo: ko.observable(''),
-                        Email: ko.observable('')
-                       },
+                Name: ko.observable(''),
+                Title: ko.observable(''),
+                IcNo: ko.observable(''),
+                Role: ko.observable(''),
+                MobileNo: ko.observable(''),
+                OfficeNo: ko.observable(''),
+                Email: ko.observable('')
+            },
             CurrentYearSales: ko.observable(),
             LastYearSales: ko.observable(),
             PreviousYearSales: ko.observable()
         },
-        commercialSpace : {
-                        State : ko.observable(''),
-                        City : ko.observable(''),
-                        BuildingName : ko.observable(''),
-                        BuildingLot : ko.observable(''),
-                        LotName : ko.observable(''),
-                        FloorName : ko.observable(''),
-                        Category : ko.observable('')
-                          },
+        commercialSpace: {
+            State: ko.observable(''),
+            City: ko.observable(''),
+            BuildingName: ko.observable(''),
+            BuildingLot: ko.observable(''),
+            LotName: ko.observable(''),
+            FloorName: ko.observable(''),
+            Category: ko.observable('')
+        },
         waitingListCommand: waitingList,
         returnedCommand: returned,
         declinedCommand: declined,

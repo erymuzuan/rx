@@ -32,8 +32,6 @@ public partial class SphContainer : DbContext
     }
 
 
-    internal DbSet<RentalApplication> RentalApplications { get; set; }
-
     internal DbSet<Building> Buildings { get; set; }
 
     public DbSet<AuditTrail> AuditTrails { get; set; }
@@ -41,6 +39,10 @@ public partial class SphContainer : DbContext
     public DbSet<CommercialSpace> CommercialSpaces { get; set; }
 
     public DbSet<SpatialStore> SpatialStores { get; set; }
+
+    public DbSet<RentalApplication> RentalApplications { get; set; }
+
+    public DbSet<Setting> Settings { get; set; }
 
 }
 

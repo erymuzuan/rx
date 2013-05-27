@@ -222,6 +222,7 @@
     <Compile Include="Controllers\HotTowelController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\RentalApplicationController.cs" />
+    <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -283,6 +284,7 @@
     <Content Include="App\viewmodels\map.js" />
     <Content Include="App\viewmodels\rentalapplication.js" />
     <Content Include="App\viewmodels\returnedapplication.js" />
+    <Content Include="App\viewmodels\setting.js" />
     <Content Include="App\viewmodels\shell.js" />
     <Content Include="App\viewmodels\shiftschedule.js" />
     <Content Include="App\viewmodels\verifyapplication.js" />
@@ -303,6 +305,7 @@
     <Content Include="App\views\nav.html" />
     <Content Include="App\views\rentalapplication.html" />
     <Content Include="App\views\returnedapplication.html" />
+    <Content Include="App\views\setting.html" />
     <Content Include="App\views\shell.html" />
     <Content Include="App\views\verifyapplication.html" />
     <Content Include="Content\app.css" />
@@ -562,7 +565,10 @@
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Scripts\_kendo-knockoutbindings.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

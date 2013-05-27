@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.SphCommercialSpaces.Domain;
 
@@ -30,7 +26,7 @@ namespace Bespoke.Sph.SqlRepository
             this.AddAsync(document).Wait(TimeSpan.FromSeconds(5));
         }
 
-        public async Task<BinaryStore> GetContent(string stroreid)
+        public async Task<BinaryStore> GetContentAsync(string stroreid)
         {
             const string sql = "SELECT [StoreId],[Content],[Extension],[FileName] FROM [Sph].[BinaryStore]" +
                                " WHERE [StoreId] =  @StoreId";

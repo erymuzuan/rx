@@ -1,17 +1,24 @@
-﻿<form class="form-horizontal">
+﻿<h1>Kembalikan permohonan-</h1>
+<form class="form-horizontal">
+
     <section>
-        <h6>Senarai dokumen yang tidak lengkap:-</h6>
-        <ul data-bind="foreach: rentalapplication.AttachmentCollection">
+        <h3>dokumen yang tidak lengkap</h3>
+        <ul data-bind="foreach: rentalApplication.AttachmentCollection">
             <li>
                 <span data-bind="text: Type"></span>
             </li>
         </ul>
-        <div>
-            <label>Nota:</label>
-            <textarea cols="5" rows="5" data-bind="text: rentalapplication.Remarks"></textarea>
+
+        <div class="control-group">
+            <label for="remarks" class="control-label">Nota :</label>
+            <div class="controls">
+                <textarea id="remarks" class="input-block-level" name="rentalApplication.Remarks" data-bind="value: rentalApplication.Remarks"></textarea>
+            </div>
         </div>
         <div>
-            <input type="button" value="Hantar Emel" class="btn btn-primary btn-success" data-bind="click: sendEmailCommand" />
+            <input type="button" value="Balik" class="btn" data-bind="click: sendEmailCommand" />
+            <input type="button" value="Hantar Emel" class="btn btn-primary" data-bind="command: sendEmailCommand" data-loading-text="Sending email..." data-complete-text="Email sent" />
+            <input type="button" value="Cetak Surat" class="btn btn-primary" data-bind="command: generateLetterCommand" data-loading-text="Generating document..." data-complete-text="Document is ready" />
         </div>
     </section>
 

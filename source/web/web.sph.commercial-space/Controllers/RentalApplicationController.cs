@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using Bespoke.SphCommercialSpaces.Domain;
 using WebGrease.Css.Extensions;
@@ -14,14 +15,16 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             await Task.Delay(2500);
             var context = new SphDataContext();
             rentalApplication.Status = "New";
+            rentalApplication.ApplicationDate = DateTime.Now;
 
             var audit = new AuditTrail
                 {
                     Operation = "Submit",
-                    DateTime =  DateTime.Now,
+                    DateTime = DateTime.Now,
                     User = User.Identity.Name,
                     Type = typeof(RentalApplication).FullName,
-                    EntityId = rentalApplication.RentalApplicationId
+                    EntityId = rentalApplication.RentalApplicationId,
+                    Note = "Permohonan melalui web"
                 };
 
             using (var session = context.OpenSession())
@@ -35,11 +38,11 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 audit.EntityId = rentalApplication.RentalApplicationId;
                 rentalApplication.RegistrationNo = string.Format("{0:yyyy}{1}", DateTime.Today,
                                                                  rentalApplication.RentalApplicationId.PadLeft());
-                session.Attach(audit,rentalApplication);
+                session.Attach(audit, rentalApplication);
                 await session.SubmitChanges();
             }
 
-            return Json(new {status = "success", registrationNo = rentalApplication.RegistrationNo});
+            return Json(new { status = "success", registrationNo = rentalApplication.RegistrationNo });
         }
 
         public async Task<ActionResult> WaitingList(int id)
@@ -96,26 +99,50 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public async Task<ActionResult> Returned(int id, ObjectCollection<Attachment> attachments)
         {
+            await Task.Delay(5000);
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
             dbItem.AttachmentCollection.ClearAndAddRange(attachments);
+
+            var audit = new AuditTrail
+            {
+                Operation = "Retured",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(RentalApplication).FullName,
+                EntityId = id,
+                Note = "-"
+            };
+
             using (var session = context.OpenSession())
             {
-                session.Attach(dbItem);
+                session.Attach(dbItem, audit);
                 await session.SubmitChanges();
             }
 
             return Json(dbItem.RentalApplicationId);
         }
 
-        public async Task<ActionResult> SendEmail(int id, ObjectCollection<Attachment> attachments)
+        public async Task<ActionResult> SendReturnedEmail(int id, ObjectCollection<Attachment> attachments, string remarks)
         {
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
             dbItem.Status = "Returned";
+
+
+            var audit = new AuditTrail
+            {
+                Operation = "Email retured notice",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(RentalApplication).FullName,
+                EntityId = id,
+                Note = remarks
+            };
+
             using (var session = context.OpenSession())
             {
-                session.Attach(dbItem);
+                session.Attach(dbItem, audit);
                 await session.SubmitChanges();
             }
 
@@ -136,6 +163,56 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             channel.NotificationChannelCollection.ForEach(c => c.Send(emailMessage));
 
             return Json(dbItem.RentalApplicationId);
+        }
+
+        public async Task<ActionResult> GenerateReturnedLetter(int id, ObjectCollection<Attachment> attachments, string remarks)
+        {
+            var context = new SphDataContext();
+            var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+            dbItem.Status = "Returned";
+
+
+            var audit = new AuditTrail
+            {
+                Operation = "Generate retured letter",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(RentalApplication).FullName,
+                EntityId = id,
+                Note = remarks
+            };
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(dbItem, audit);
+                await session.SubmitChanges();
+            }
+
+            var template = await context.GetScalarAsync<Setting, string>(s => s.Key == "Template.Returned.Letter",
+                                                                   s => s.Value);
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var file = await store.GetContentAsync(template);
+            var temp = System.IO.Path.GetTempFileName() + ".docx";
+            System.IO.File.WriteAllBytes(temp, file.Content);
+            var word = ObjectBuilder.GetObject<IDocumentGenerator>();
+            Session["DocumentPath"] = temp;
+            Session["DocumentTitle"] = string.Format("{0}-{1:yyyyMMdd}.Surat kembali.docx", dbItem.RegistrationNo, DateTime.Today);
+
+
+            word.Generate(temp, dbItem, audit);
+
+            return Json("");
+        }
+
+        public ActionResult Download()
+        {
+            var temp = Session["DocumentPath"] as string;
+            var file = Session["DocumentTitle"] as string;
+            if (string.IsNullOrWhiteSpace(temp)) return Content("");
+
+            var content = System.IO.File.ReadAllBytes(temp);
+            var type = MimeMapping.GetMimeMapping(".docx");
+            return File(content, type, file);
         }
 
         public async Task<ActionResult> GenerateOfferLetter(int id)

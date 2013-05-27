@@ -71,6 +71,9 @@
     <Compile Include="RentalApplication.cs">
       <DependentUpon>Sph.tt</DependentUpon>
     </Compile>
+    <Compile Include="Setting.cs">
+      <DependentUpon>Sph.tt</DependentUpon>
+    </Compile>
     <Compile Include="SpatialStore.cs">
       <DependentUpon>Sph.tt</DependentUpon>
     </Compile>

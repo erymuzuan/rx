@@ -15,28 +15,18 @@ namespace Bespoke.Sph.SqlRepository
 using System;
     using System.Collections.Generic;
     
-public partial class RentalApplication
+public partial class Setting
 {
 
-    public int RentalApplicationId { get; set; }
-
-    public string RegistrationNo { get; set; }
-
-    public System.DateTime ApplicationDate { get; set; }
-
-    public string Status { get; set; }
-
-    public string CompanyName { get; set; }
-
-    public string CompanyRegistrationNo { get; set; }
-
-    public string ContactName { get; set; }
-
-    public string ContactIcNo { get; set; }
-
-    public Nullable<int> CommercialSpaceId { get; set; }
+    public int SettingId { get; set; }
 
     public string Data { get; set; }
+
+    public string UserName { get; set; }
+
+    public string Key { get; set; }
+
+    public string Value { get; set; }
 
     public System.DateTime CreatedDate { get; set; }
 

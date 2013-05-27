@@ -89,6 +89,7 @@
     <Compile Include="IBinaryStore.cs" />
     <Compile Include="IComputable.cs" />
     <Compile Include="IDocumentExport.cs" />
+    <Compile Include="IDocumentGenerator.cs" />
     <Compile Include="IEntityChangedListener.cs" />
     <Compile Include="IEntityChangePublisher.cs" />
     <Compile Include="INotificationChannel.cs" />

@@ -270,4 +270,10 @@
 			<xs:attribute name="After" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Organization">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="RegistrationNo" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

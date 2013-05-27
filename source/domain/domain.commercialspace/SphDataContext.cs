@@ -13,11 +13,19 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [Export]
     public class SphDataContext
     {
-
+        public IQueryable<Building> Buildings { get; set; }
+        public IQueryable<CommercialSpace> CommercialSpaces { get; set; }
+        public IQueryable<RentalApplication> RentalApplications { get; set; }
+        public IQueryable<Setting> Settings { get; set; }
 
         public SphDataContext()
         {
-            //var provider = ObjectBuilder.GetObject<QueryProvider>();
+            var provider = ObjectBuilder.GetObject<QueryProvider>();
+
+            this.Buildings = new Query<Building>(provider);
+            this.CommercialSpaces = new Query<CommercialSpace>(provider);
+            this.RentalApplications = new Query<RentalApplication>(provider);
+            this.Settings = new Query<Setting>(provider);
         }
 
 
