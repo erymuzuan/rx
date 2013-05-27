@@ -97,16 +97,22 @@
         </div>
     </div>
     <div class="row">
+        <div class="span8">
+            <label>Nota</label>
+            <textarea class="input-block-level input-large" data-bind="value:remarks" rows="5"></textarea>
+        </div>
+    </div>
+    <div class="row">
         <div class="span12 pull-right">
         </div>
         <section style="float: right">
             <input type="button" class="btn btn-info" value="SENARAI MENUNGGU" data-bind="command: waitingListCommand, visible: rentalapplication.Status() == 'New'" data-loading-text="processing.." data-complete-text="Menunggu" />
             <input type="button" class="btn btn-warning" value="KEMBALIKAN" data-bind="command: returnedCommand, visible: rentalapplication.Status() == 'New'" data-loading-text="processing.." data-complete-text="DiKembalikan"/>
-            <input type="button" class="btn btn-danger" value="BATALKAN" data-bind="click: declinedCommand, visible: rentalapplication.Status() == 'New'" />
-            <input type="button" class="btn btn-success" value="LULUSKAN" data-bind="click: approvedCommand, visible: rentalapplication.Status() == 'New'" />
-            <input type="button" class="btn btn-info" value="CETAK SURAT AKUAN" data-bind="click: generateOfferLetterCommand, visible: rentalapplication.Status() == 'Approved'" />
-            <input type="button" class="btn btn-success" value="SAH TERIMA TAWARAN" data-bind="click: confirmOfferCommand, visible: rentalapplication.Status() == 'WaitingConfirmation'" />
-            <input type="button" class="btn btn-danger" value="TOLAK TAWARAN" data-bind="click: rejectOfferLetterCommand, visible: rentalapplication.Status() == 'WaitingConfirmation'" />
+            <input type="button" class="btn btn-danger" value="BATALKAN" data-bind="command: declinedCommand, visible: rentalapplication.Status() == 'New'" data-loading-text="processing.." data-complete-text="Di tolak"/>
+            <input type="button" class="btn btn-success" value="LULUSKAN" data-bind="command: approvedCommand, visible: rentalapplication.Status() == 'New'" data-loading-text="processing.." data-complete-text="Lulus!"/>
+            <input type="button" class="btn btn-success" value="CETAK SURAT TAWARAN" data-bind="command: generateOfferLetterCommand, visible: rentalapplication.Status() == 'Approved' || rentalapplication.Status() == 'WaitingConfirmation'" data-loading-text="processing.." data-complete-text="Surat tawaran"/>
+            <input type="button" class="btn btn-success" value="SAH TERIMA TAWARAN" data-bind="command: confirmOfferCommand, visible: rentalapplication.Status() == 'WaitingConfirmation'" data-loading-text="processing.." data-complete-text="Terima tawaran"/>
+            <input type="button" class="btn btn-danger" value="TOLAK TAWARAN" data-bind="command: rejectOfferLetterCommand, visible: rentalapplication.Status() == 'WaitingConfirmation'" data-loading-text="processing.." data-complete-text="Surat tolak"/>
         </section>
 
     </div>

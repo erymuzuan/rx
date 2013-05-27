@@ -72,8 +72,15 @@ return tcs.promise();</s:String>
                 var storeId = e.response.storeId;&#xD;
 				var uploaded = e.operation === "upload";&#xD;
 				var removed =  e.operation != "upload";&#xD;
+				// NOTE : the input file name is "files" and the id should equal to the vm.propertyName&#xD;
+				if (uploaded) {&#xD;
+					vm[e.sender.element.attr("Id")](storeId);&#xD;
+				}&#xD;
 &#xD;
-				$END$&#xD;
+				if (removed) {&#xD;
+					vm[e.sender.element.attr("Id")]("");&#xD;
+				}&#xD;
+						$END$&#xD;
 &#xD;
             }&#xD;
 });</s:String>

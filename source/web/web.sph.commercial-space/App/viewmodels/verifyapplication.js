@@ -14,23 +14,25 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         isBusy = ko.observable(false),
         activate = function (routedata) {
             id(routedata.applicationId);
+            vm.remarks('');
+            
             var tcs = new $.Deferred();
             context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id())
                 .then(function (r) {
-                    
+
                     ko.mapping.fromJSON(ko.mapping.toJSON(r), {}, vm.rentalapplication);
-                    
+
                     context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + vm.rentalapplication.CommercialSpaceId())
                         .then(function (b) {
                             ko.mapping.fromJSON(ko.mapping.toJSON(b), {}, vm.commercialSpace);
                             tcs.resolve(true);
                         });
-                    
+
                     $.get("/Map/CommercialSpaceImage/" + vm.rentalapplication.CommercialSpaceId() + "?width=300&height=200")
                         .then(function (b) {
                             vm.commercialSpace.StaticMap(b);
                         });
-                    
+
 
                 });
             return tcs.promise();
@@ -92,24 +94,29 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             var data = JSON.stringify({ id: id() });
             context.post(data, "/RentalApplication/Approved").done(function (e) {
                 logger.log("Application has been approved ", e, "verifyapplication", true);
+                vm.rentalapplication.Status('Approved');
                 tcs.resolve(true);
             });
             return tcs.promise();
         },
+
         generateOfferLetter = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: id() });
             context.post(data, "/RentalApplication/GenerateOfferLetter").done(function (e) {
                 logger.log("Offer letter generated ", e, "verifyapplication", true);
+
+                window.open("/RentalApplication/Download");
                 tcs.resolve(true);
             });
             return tcs.promise();
         },
+
         confirmedOffer = function () {
             var tcs = new $.Deferred();
-            var data = JSON.stringify({ id: id() });
-            context.post(data, "/RentalApplication/Confirmed").done(function (e) {
-                logger.log("Offer letter received & Confirmed ", e, "verifyapplication", true);
+            var data = JSON.stringify({ id: id(), remarks: vm.remarks() });
+            context.post(data, "/RentalApplication/ConfirmOffer").done(function (e) {
+                logger.log("Offer letter received &amp; Confirmed ", e, "verifyapplication", true);
                 tcs.resolve(true);
             });
             return tcs.promise();
@@ -174,7 +181,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             LotName: ko.observable(''),
             FloorName: ko.observable(''),
             Category: ko.observable(''),
-            StaticMap : ko.observable('')
+            StaticMap: ko.observable('')
         },
         waitingListCommand: waitingList,
         returnedCommand: returned,
@@ -184,7 +191,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         addAttachmentCommand: addAttachment,
         generateOfferLetterCommand: generateOfferLetter,
         confirmOfferCommand: confirmedOffer,
-        rejectOfferLetterCommand: rejectOfferLetter
+        rejectOfferLetterCommand: rejectOfferLetter,
+        remarks: ko.observable('')
     };
 
     return vm;

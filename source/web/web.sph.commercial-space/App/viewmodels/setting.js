@@ -8,15 +8,15 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-    function (context, logger, router) {
+define(['services/datacontext', 'services/logger'],
+    function (context, logger) {
 
         var isBusy = ko.observable(false),
             activate = function () {
-
+               
             },
-            viewAttached = function (view) {
-                $("#returnLetterTemplate").kendoUpload({
+            viewAttached = function () {
+                $("#returnLetterTemplate,#offerLetterTemplate").kendoUpload({
                     async: {
                         saveUrl: "/BinaryStore/Upload",
                         removeUrl: "/BinaryStore/Remove",
@@ -31,12 +31,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                         var storeId = e.response.storeId;
                         var uploaded = e.operation === "upload";
                         var removed = e.operation != "upload";
+
                         if (uploaded) {
-                            vm.returnLetterTemplate(storeId);
+                            vm[e.sender.element.attr("id")](storeId);
                         }
 
                         if (removed) {
-                            vm.returnLetterTemplate("");
+                            vm[e.sender.element.attr("id")]("");
                         }
 
                     }
@@ -50,15 +51,18 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                         settings: [{
                             Key: "Template.Returned.Letter",
                             Value: vm.returnLetterTemplate()
-                        }]
+                        },
+                            {
+                                Key: "Template.Offer.Letter",
+                                Value: vm.offerLetterTemplate()
+                            }]
                     });
                     isBusy(true);
 
                     context.post(data, "/Setting/Save")
                         .then(function (result) {
                             isBusy(false);
-
-
+                            logger.log('All the setting has been saved', result, this, true);
                             tcs.resolve(result);
                         });
                     return tcs.promise();
@@ -69,6 +73,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             activate: activate,
             viewAttached: viewAttached,
             returnLetterTemplate: ko.observable(''),
+            offerLetterTemplate: ko.observable(''),
             saveCommand: save
         };
 

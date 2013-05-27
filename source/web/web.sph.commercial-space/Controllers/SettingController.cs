@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var query = context.Settings.Where(s => keys.Contains(s.Key));
             var lo = await context.LoadAsync(query);
 
-            var finals = settings.Union(lo.ItemCollection);
+            var finals = settings.Union(lo.ItemCollection).Where(s => !string.IsNullOrWhiteSpace(s.Value));
 
             using (var session = context.OpenSession())
             {

@@ -265,8 +265,9 @@
 <section>
     <div class="pull-right">
         <input type="button" name="saveCommand" class="btn btn-success" value="Hantar permohonan" 
-            data-bind="click: saveCommand, disable: isBusy"
-            data-loading-text="processing...." />
+            data-bind="command: saveCommand"
+               data-loading-text="processing...." 
+            data-complete-text="Submitted!"/>
     </div>
 </section>
 <section class="modal hide" id="success-panel">
