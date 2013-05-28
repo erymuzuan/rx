@@ -1501,6 +1501,17 @@
                 public const string PropertyNameBuildingLot = "BuildingLot";
 
               
+			private readonly ObjectCollection<Lot>  m_LotCollection = new ObjectCollection<Lot> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("Lot", IsNullable = false)]
+			public ObjectCollection<Lot> LotCollection
+			{
+			get{ return m_LotCollection;}
+			}
+		
             ///<summary>
             /// 
             ///</summary>
@@ -2101,6 +2112,23 @@
 			public ObjectCollection<Attachment> AttachmentCollection
 			{
 			get{ return m_AttachmentCollection;}
+			}
+		
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			private Offer m_offer
+					=  new Offer();
+				
+			public const string PropertyNameOffer = "Offer";
+			[DebuggerHidden]
+
+			public Offer Offer
+			{
+			get{ return m_offer;}
+			set
+			{
+			m_offer = value;
+			OnPropertyChanged(PropertyNameOffer);
+			}
 			}
 		
             ///<summary>
@@ -4346,6 +4374,11 @@
                 public const string PropertyNameDate = "Date";
 
               
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  DateTime  m_expiryDate;
+                public const string PropertyNameExpiryDate = "ExpiryDate";
+
+              
 			private readonly ObjectCollection<OfferCondition>  m_OfferConditionCollection = new ObjectCollection<OfferCondition> ();
 
 			///<summary>
@@ -4550,6 +4583,34 @@
                 get
                 {
                 return m_date;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public DateTime ExpiryDate
+                {
+                set
+                {
+                if( m_expiryDate == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameExpiryDate, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_expiryDate= value;
+                OnPropertyChanged(PropertyNameExpiryDate);
+                }
+                }
+                get
+                {
+                return m_expiryDate;}
                 }
 
               

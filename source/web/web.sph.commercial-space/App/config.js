@@ -87,7 +87,7 @@
             visible: false
         },
         {
-            url: 'commercialspacedetail/:buildingId/:floorname/:lotname',
+            url: 'commercialspacedetail/:buildingId/:floorname/:commercialspaceid',
             moduleId: 'viewmodels/commercialspacedetail',
             name: 'ruang komersial',
             visible: false,

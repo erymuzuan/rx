@@ -5,6 +5,7 @@
 /// <reference path="../../Scripts/google-maps-3-vs-1-0-vsdoc.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../services/datacontext.js" />
+
 define(['services/datacontext',
         'durandal/plugins/router',
         'durandal/system',

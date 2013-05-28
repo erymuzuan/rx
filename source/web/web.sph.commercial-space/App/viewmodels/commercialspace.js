@@ -1,6 +1,7 @@
 ﻿define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function(context, logger, router) {
 
     var title = ko.observable(''),
+        isBusy = ko.observable(false),
         activate = function() {
             logger.log('Commercial Space View Activated', null, 'commercialspace', true);
             title('Commercial Space');
@@ -25,13 +26,14 @@
         },
         gotoDetails = function(selectedCs) {
             if (selectedCs && selectedCs.CommercialSpaceId()) {
-                var url = '/#/commercialspacedetail/' + selectedCs.CommercialSpaceId() + '/' + selectedCs.FloorName() + '/' + selectedCs.LotName();
+                var url = '/#/commercialspacedetail/' + selectedCs.BuildingId() + '/' + selectedCs.FloorName() + '/' + selectedCs.CommercialSpaceId();
                 router.navigateTo(url);
             }
         };
 
     var vm = {
         activate: activate,
+        isBusy : isBusy,
         commercialspaces: ko.observableArray([]),
         title: title,
         viewAttached : viewAttached

@@ -1,66 +1,126 @@
-﻿<section>
-    <div class="modal" id="cs-modal">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">×</button>
-            <h3><span data-bind="text: title" class="media-heading" /></h3>
+﻿<section class="container-fluid">
+    <div class="row-fluid" id="cs-modal">
+        <h1 class="span12" data-bind="text: title"></h1>
+    </div>
+    <form id="cs" class="form-horizontal">
+        <div class="control-group">
+            <label for="commercialSpace_RegistrationNo" class="control-label">No Daftar</label>
+            <div class="controls">
+                <input data-bind="value: commercialSpace.RegistrationNo" id="commercialSpace_RegistrationNo" type="text" name="commercialSpace.RegistrationNo" />
+            </div>
         </div>
 
-        <form id="cs">
-            <div class="modal-body">
-                <div class="labelLeft">
-                    <label>No daftar</label>
-                    <input type="text" data-bind="value: commercialSpace.RegistrationNo" class="media-heading" />
-                </div>
-                <div class="labelLeft">
-                    <label>Floor</label>
-                    <input type="text" data-bind="value: commercialSpace.FloorName" class="media-heading" />
-                </div>
-                <div class="labelLeft">
-                    <label>Lot</label>
-                    <input type="text" data-bind="value: commercialSpace.LotName" class="media-heading" />
-                </div>
-                <div class="labelLeft">
-                    <label>Name</label>
-                    <input type="text" data-bind="value: commercialSpace.Name" class="media-heading" />
-                </div>
-                <div class="labelLeft">
-                    <label>Size</label>
-                    <input type="text" data-bind="value: commercialSpace.Size" class="media-heading" />
-                </div>
-                <div class="labelLeft">
-                    <label>Rental Rate</label>
-                    <input type="text" data-bind="value: commercialSpace.RentalRate" class="media-heading" />
-                </div>
-                <div class="labelLeft">
-                    <label>Rental Type</label>
-                    <select data-bind="value: commercialSpace.RentalType">
-                        <option value="Monthly">Monthly</option>
-                        <option value="Quarterly">Quarterly</option>
-                        <option value="Half Year">Half Year</option>
-                        <option value="Yearly">Yearly</option>
-                    </select>
-                </div>
-                <div class="labelLeft">
-                    <label>Category</label>
-                    <select data-bind="value: commercialSpace.Category">
-                        <option value="Cafeteria">Cafeteria</option>
-                        <option value="ATM">ATM</option>
-                        <option value="Restaurant">Restaurant</option>
-                        <option value="Laundry">Laundry</option>
-                        <option value="Nursery">Nursery</option>
-                    </select>
-                </div>
-                <div class="labelLeft">
-                    <label>IsOnline</label>
-                    <input type="checkbox" data-bind="isChecked: commercialSpace.IsOnline" />
-                </div>
+        <div class="control-group">
+            <label for="commercialSpace_LotName" class="control-label">Lot</label>
+            <div class="controls">
+                <input data-bind="value: commercialSpace.LotName" id="commercialSpace_LotName" type="text" name="commercialSpace.LotName" readonly="readonly"/>
+                <a type="button" class="btn help-inline"
+                    data-toggle="modal"
+                    href="#lot-selection-panel">Pilih lot</a>
             </div>
 
-            <div class="modal-footer">
-                <input type="button" class="btn btn-primary" value="Cancel" data-bind ="click: cancelCsCommand"/>
-                <input type="button" class="btn btn-primary" value="Save" data-bind="click: saveCsCommand, disable: isBusy()" />
+        </div>
+
+        <div class="control-group">
+            <label for="commercialSpace_Name" class="control-label">Nama</label>
+            <div class="controls">
+                <input data-bind="value: commercialSpace.Name" id="commercialSpace_Name" type="text" name="commercialSpace.Name" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="commercialSpace_Size" class="control-label">Saiz</label>
+            <div class="controls">
+                <input data-bind="value: commercialSpace.Size" id="commercialSpace_Size" type="text" name="commercialSpace.Size" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="commercialSpace.RentalRate" class="control-label">Sewa</label>
+            <div class="controls">
+                <input data-bind="value: commercialSpace.RentalRate" id="commercialSpace.RentalRate" type="text" name="commercialSpace.RentalRate" />
+            </div>
+        </div>
+
+
+        <div class="control-group">
+            <label for="commercialSpace.RentalType" class="control-label">Jenis Sewaan</label>
+            <div class="controls">
+                <select id="commercialSpace.RentalType" data-bind="value: commercialSpace.RentalType">
+                    <option value="Monthly">Monthly</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Half Year">Half Year</option>
+                    <option value="Yearly">Yearly</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="commercialSpace.Category" class="control-label">Kategori</label>
+            <div class="controls">
+                <select id="commercialSpace.Category" data-bind="value: commercialSpace.Category">
+                    <option value="Cafeteria">Cafeteria</option>
+                    <option value="ATM">ATM</option>
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Laundry">Laundry</option>
+                    <option value="Nursery">Nursery</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input data-bind="value: commercialSpace.IsOnline" id="commercialSpace.IsOnline" type="checkbox" name="commercialSpace.IsOnline" />
+                    Permohonan online
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <input type="button" class="btn btn-primary" value="Save" data-bind="command: saveCsCommand, disable: isBusy"
+                data-loading-text="Saving..."
+                data-complete-text="Saved!!" />
+        </div>
+    </form>
+</section>
+
+<section class="modal hide" id="lot-selection-panel">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Pilih lot</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label for="selectedBuilding" class="control-label">Bangunan</label>
+                <div class="controls">
+                    <select data-bind="value: selectedBuilding, options: buildingOptions, optionsValue: 'Item1', optionsText:'Item2', optionsCaption: '[Sila pilih]'" id="selectedBuilding" name="selectedBuilding">
+                        
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="selectedFloor" class="control-label">Lantai</label>
+                <div class="controls">
+                    <select data-bind="value: selectedFloor,options: floorOptions,optionsCaption:'[Sila pilih]'" id="selectedFloor" name="selectedFloor">
+                        
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="selectedLots" class="control-label">Lot</label>
+                <div class="controls">
+                    <select data-bind="selectedOptions: selectedLots, options: lotOptions, optionsText:'Name'" id="selectedLots" name="selectedLots" multiple="multiple">
+                        
+                    </select>
+                </div>
             </div>
         </form>
+    </div>
 
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" type="button" class="btn btn-primary" data-bind="click: addLotsCommand" value="OK" />
     </div>
 </section>
