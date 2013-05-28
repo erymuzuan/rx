@@ -285,6 +285,7 @@
     <Content Include="App\viewmodels\home.js" />
     <Content Include="App\viewmodels\lotdetail.js" />
     <Content Include="App\viewmodels\map.js" />
+    <Content Include="App\viewmodels\offerdetails.js" />
     <Content Include="App\viewmodels\rentalapplication.js" />
     <Content Include="App\viewmodels\returnedapplication.js" />
     <Content Include="App\viewmodels\setting.js" />
@@ -308,6 +309,7 @@
     <Content Include="App\views\home.html" />
     <Content Include="App\views\lotdetail.html" />
     <Content Include="App\views\nav.html" />
+    <Content Include="App\views\offerdetails.html" />
     <Content Include="App\views\rentalapplication.html" />
     <Content Include="App\views\returnedapplication.html" />
     <Content Include="App\views\setting.html" />

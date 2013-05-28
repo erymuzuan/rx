@@ -227,9 +227,33 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return File(content, type, file);
         }
 
+        public async Task<ActionResult> SaveOffer(int id, Offer offer)
+        {
+            var context = new SphDataContext();
+            var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+            dbItem.Offer = offer;
+            
+            var audit = new AuditTrail
+            {
+                Operation = "Penyediaan tawaran",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(RentalApplication).FullName,
+                EntityId = id,
+                Note = "-"
+            };
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(dbItem, audit);
+                await session.SubmitChanges();
+            }
+            return Json("");
+        }
+
         public async Task<ActionResult> GenerateOfferLetter(int id)
         {
-            const string status = "WaitingConfirmation";
+            const string status = "Offered";
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
             dbItem.Status = status;

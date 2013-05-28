@@ -16,6 +16,12 @@
             name: 'Papan Tugas',
             visible: true,
             caption: 'Papan Tugas'
+        }, {
+            url: 'offerdetails/:rentalId/:csId',
+            moduleId: 'viewmodels/offerdetails',
+            name: 'Tawaran',
+            visible: false,
+            caption: 'Tawaran'
         },
         {
             url: 'building',

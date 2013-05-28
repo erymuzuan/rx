@@ -101,15 +101,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         },
 
         generateOfferLetter = function () {
-            var tcs = new $.Deferred();
-            var data = JSON.stringify({ id: id() });
-            context.post(data, "/RentalApplication/GenerateOfferLetter").done(function (e) {
-                logger.log("Offer letter generated ", e, "verifyapplication", true);
-
-                window.open("/RentalApplication/Download");
-                tcs.resolve(true);
-            });
-            return tcs.promise();
+            var url = '/#/offerdetails/' + vm.rentalapplication.RentalApplicationId() +'/' + vm.rentalapplication.CommercialSpaceId();
+            router.navigateTo(url);
         },
 
         confirmedOffer = function () {
