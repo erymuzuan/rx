@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
 	<xs:element name="Land">
 		<xs:complexType>
@@ -125,6 +125,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="Offer"/>
 			</xs:all>
 			<xs:attribute name="CompanyName" type="xs:string" use="required"/>
 			<xs:attribute name="CompanyRegistrationNo" type="xs:string" use="required"/>
@@ -294,6 +295,7 @@
 			<xs:attribute name="Deposit" type="xs:decimal" use="required"/>
 			<xs:attribute name="Rent" type="xs:decimal" use="required"/>
 			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
+			<xs:attribute name="ExpiryDate" type="xs:dateTime" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="OfferCondition">

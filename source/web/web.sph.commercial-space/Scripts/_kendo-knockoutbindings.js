@@ -148,11 +148,11 @@ ko.bindingHandlers.kendoEnable = {
 
 ko.bindingHandlers.command = {
     init: function (element, valueAccessor) {
-        var callback = valueAccessor();
+        var action = valueAccessor();
         var button = $(element);
         button.click(function(e) {
             e.preventDefault();
-            callback()
+            action()
                 .then(function() {
 
                     if (button.data("complete-text")) {
