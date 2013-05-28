@@ -36,7 +36,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             vm.commercialSpace.IsOnline(false);
 
             var tcs = new $.Deferred();
-            if (routeData.commercialspaceid) {
+            if (buildingId()) {
                 var query = String.format("CommercialSpaceId eq {0} ", routeData.commercialspaceid);
                 context.loadOneAsync("CommercialSpace", query)
                     .done(function (cs) {
