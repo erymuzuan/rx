@@ -17,7 +17,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         var declinedTask = context.getCountAsync("RentalApplication", "Status eq 'Declined'", "Status");
         var confirmedTask = context.getCountAsync("RentalApplication", "Status eq 'Confirmed'", "Status");
         var offerRejectedTask = context.getCountAsync("RentalApplication", "Status eq 'OfferRejected'", "Status");
-        var waitingConfirmationTask = context.getCountAsync("RentalApplication", "Status eq 'WaitingConfirmation'", "Status");
+        var waitingConfirmationTask = context.getCountAsync("RentalApplication", "Status eq 'Offered'", "Status");
         var returnedTask = context.getCountAsync("RentalApplication", "Status eq 'Returned'", "Status");
 
         $.when(newTask, aprovedTask, waitingTask, declinedTask, confirmedTask, offerRejectedTask, waitingConfirmationTask, returnedTask)
