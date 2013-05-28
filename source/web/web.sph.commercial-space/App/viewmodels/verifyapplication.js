@@ -101,10 +101,19 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         },
 
         generateOfferLetter = function () {
-            var url = '/#/offerdetails/' + vm.rentalapplication.RentalApplicationId() +'/' + vm.rentalapplication.CommercialSpaceId();
+            var url = '/#/offerdetails/' + vm.rentalapplication.RentalApplicationId() + '/' + vm.rentalapplication.CommercialSpaceId();
             router.navigateTo(url);
         },
-
+         generateDeclinedOfferLetter = function () {
+             var tcs = new $.Deferred();
+             var data = JSON.stringify({ id: id() });
+             context.post(data, "/RentalApplication/GenerateDeclinedLetter").done(function (e) {
+                 logger.log("Declined letter generated ", e, "verifyapplication", true);
+                 window.open("/RentalApplication/Download");
+                 tcs.resolve(true);
+             });
+             return tcs.promise();
+         },
         confirmedOffer = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: id(), remarks: vm.remarks() });
@@ -185,6 +194,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         generateOfferLetterCommand: generateOfferLetter,
         confirmOfferCommand: confirmedOffer,
         rejectOfferLetterCommand: rejectOfferLetter,
+        generateDeclinedLetterCommand: generateDeclinedOfferLetter,
         contractCommand: function() {
             router.navigateTo("/#/createcontract/" + vm.rentalapplication.RentalApplicationId());
         },
