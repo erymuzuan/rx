@@ -276,4 +276,32 @@
 			<xs:attribute name="RegistrationNo" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Offer">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="OfferConditionCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="OfferCondition" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="CommercialSpaceId" type="xs:int" use="required"/>
+			<xs:attribute name="Size" type="xs:int" use="required"/>
+			<xs:attribute name="Building" type="xs:string" use="required"/>
+			<xs:attribute name="Floor" type="xs:string" use="required"/>
+			<xs:attribute name="Deposit" type="xs:decimal" use="required"/>
+			<xs:attribute name="Rent" type="xs:decimal" use="required"/>
+			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OfferCondition">
+		<xs:complexType>
+			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="Note" type="xs:string" use="required"/>
+			<xs:attribute name="IsRequired" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

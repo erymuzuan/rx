@@ -192,6 +192,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         generateOfferLetterCommand: generateOfferLetter,
         confirmOfferCommand: confirmedOffer,
         rejectOfferLetterCommand: rejectOfferLetter,
+        contractCommand: function() {
+            router.navigateTo("/#/createcontract/" + vm.rentalapplication.RentalApplicationId());
+        },
         remarks: ko.observable('')
     };
 

@@ -15,7 +15,7 @@
             moduleId: 'viewmodels/admindashboard',
             name: 'Papan Tugas',
             visible: true,
-            caption: '<i class="icon-user"></i> Papan Tugas'
+            caption: 'Papan Tugas'
         },
         {
             url: 'building',
@@ -32,6 +32,27 @@
             visible: true,
             caption: 'Setting',
             settings: { caption: 'Settings' }
+        },
+        {
+            url: 'createcontract/:rentalApplicationId',
+            moduleId: 'viewmodels/createcontract',
+            name: 'create contract',
+            visible: false,
+            caption: 'Buat kontrak'
+        },
+        {
+            url: 'contracttype',
+            moduleId: 'viewmodels/contracttype',
+            name: 'contract type',
+            visible: true,
+            caption: 'Buat jenis kontrak'
+        },
+        {
+            url: 'contracttypetemplate/:id',
+            moduleId: 'viewmodels/contracttypetemplate',
+            name: 'contract type',
+            visible: false,
+            caption: 'Buat jenis kontrak'
         },
         {
             url: 'commercialspace',
@@ -56,7 +77,7 @@
             url: 'lotdetail/:buildingId/:floorname',
             moduleId: 'viewmodels/lotdetail',
             name: 'LotDetail',
-            caption: '<i class="icon-user"></i> Lot Details',
+            caption: 'Lot Details',
             visible: false
         }, {
             url: 'floorplan/:buildingId/:floorname',
@@ -102,7 +123,7 @@
             name: 'applicationlist',
             visible: false,
             caption: 'Senarai Permohonan',
-            settings: { caption: '<i class="icon-user"></i> Senarai permohonan' }
+            settings: { caption: 'Senarai permohonan' }
         },
         {
             url: 'verifyapplication/:applicationId',
@@ -110,7 +131,7 @@
             name: 'applicationdetailforverification',
             visible: false,
             caption: 'Senarai Permohonan',
-            settings: { caption: '<i class="icon-user"></i> Maklumat permohonan' }
+            settings: { caption: 'Maklumat permohonan' }
         },
         {
             url: 'returnedapplication/:id',

@@ -113,6 +113,7 @@
             <input type="button" class="btn btn-success" value="CETAK SURAT TAWARAN" data-bind="command: generateOfferLetterCommand, visible: rentalapplication.Status() == 'Approved' || rentalapplication.Status() == 'WaitingConfirmation'" data-loading-text="processing.." data-complete-text="Surat tawaran"/>
             <input type="button" class="btn btn-success" value="SAH TERIMA TAWARAN" data-bind="command: confirmOfferCommand, visible: rentalapplication.Status() == 'WaitingConfirmation'" data-loading-text="processing.." data-complete-text="Terima tawaran"/>
             <input type="button" class="btn btn-danger" value="TOLAK TAWARAN" data-bind="command: rejectOfferLetterCommand, visible: rentalapplication.Status() == 'WaitingConfirmation'" data-loading-text="processing.." data-complete-text="Surat tolak"/>
+            <input type="button" class="btn btn-success" value="SEDIAKAN KONTRAK" data-bind="command: contractCommand, visible: rentalapplication.Status() == 'Confirmed'" data-loading-text="processing.." data-complete-text="Kontrak"/>
         </section>
 
     </div>

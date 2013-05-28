@@ -4221,6 +4221,488 @@
 
           }
         
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("Organization",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class Organization
+          {
+
+          
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_name;
+                public const string PropertyNameName = "Name";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_registrationNo;
+                public const string PropertyNameRegistrationNo = "RegistrationNo";
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Name
+                {
+                set
+                {
+                if( String.Equals( m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_name= value;
+                OnPropertyChanged(PropertyNameName);
+                }
+                }
+                get
+                {
+                return m_name;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string RegistrationNo
+                {
+                set
+                {
+                if( String.Equals( m_registrationNo, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRegistrationNo, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_registrationNo= value;
+                OnPropertyChanged(PropertyNameRegistrationNo);
+                }
+                }
+                get
+                {
+                return m_registrationNo;}
+                }
+
+              
+
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("Offer",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class Offer
+          {
+
+          
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  int  m_commercialSpaceId;
+                public const string PropertyNameCommercialSpaceId = "CommercialSpaceId";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  int  m_size;
+                public const string PropertyNameSize = "Size";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_building;
+                public const string PropertyNameBuilding = "Building";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_floor;
+                public const string PropertyNameFloor = "Floor";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  decimal  m_deposit;
+                public const string PropertyNameDeposit = "Deposit";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  decimal  m_rent;
+                public const string PropertyNameRent = "Rent";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  DateTime  m_date;
+                public const string PropertyNameDate = "Date";
+
+              
+			private readonly ObjectCollection<OfferCondition>  m_OfferConditionCollection = new ObjectCollection<OfferCondition> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("OfferCondition", IsNullable = false)]
+			public ObjectCollection<OfferCondition> OfferConditionCollection
+			{
+			get{ return m_OfferConditionCollection;}
+			}
+		
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public int CommercialSpaceId
+                {
+                set
+                {
+                if( m_commercialSpaceId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCommercialSpaceId, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_commercialSpaceId= value;
+                OnPropertyChanged(PropertyNameCommercialSpaceId);
+                }
+                }
+                get
+                {
+                return m_commercialSpaceId;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public int Size
+                {
+                set
+                {
+                if( m_size == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSize, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_size= value;
+                OnPropertyChanged(PropertyNameSize);
+                }
+                }
+                get
+                {
+                return m_size;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Building
+                {
+                set
+                {
+                if( String.Equals( m_building, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBuilding, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_building= value;
+                OnPropertyChanged(PropertyNameBuilding);
+                }
+                }
+                get
+                {
+                return m_building;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Floor
+                {
+                set
+                {
+                if( String.Equals( m_floor, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFloor, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_floor= value;
+                OnPropertyChanged(PropertyNameFloor);
+                }
+                }
+                get
+                {
+                return m_floor;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public decimal Deposit
+                {
+                set
+                {
+                if( m_deposit == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDeposit, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_deposit= value;
+                OnPropertyChanged(PropertyNameDeposit);
+                }
+                }
+                get
+                {
+                return m_deposit;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public decimal Rent
+                {
+                set
+                {
+                if( m_rent == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRent, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_rent= value;
+                OnPropertyChanged(PropertyNameRent);
+                }
+                }
+                get
+                {
+                return m_rent;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public DateTime Date
+                {
+                set
+                {
+                if( m_date == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDate, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_date= value;
+                OnPropertyChanged(PropertyNameDate);
+                }
+                }
+                get
+                {
+                return m_date;}
+                }
+
+              
+
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("OfferCondition",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class OfferCondition
+          {
+
+          
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_title;
+                public const string PropertyNameTitle = "Title";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_description;
+                public const string PropertyNameDescription = "Description";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_note;
+                public const string PropertyNameNote = "Note";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  bool  m_isRequired;
+                public const string PropertyNameIsRequired = "IsRequired";
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Title
+                {
+                set
+                {
+                if( String.Equals( m_title, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTitle, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_title= value;
+                OnPropertyChanged(PropertyNameTitle);
+                }
+                }
+                get
+                {
+                return m_title;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Description
+                {
+                set
+                {
+                if( String.Equals( m_description, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDescription, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_description= value;
+                OnPropertyChanged(PropertyNameDescription);
+                }
+                }
+                get
+                {
+                return m_description;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Note
+                {
+                set
+                {
+                if( String.Equals( m_note, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_note= value;
+                OnPropertyChanged(PropertyNameNote);
+                }
+                }
+                get
+                {
+                return m_note;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public bool IsRequired
+                {
+                set
+                {
+                if( m_isRequired == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsRequired, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_isRequired= value;
+                OnPropertyChanged(PropertyNameIsRequired);
+                }
+                }
+                get
+                {
+                return m_isRequired;}
+                }
+
+              
+
+
+          }
+        
     }
 
   

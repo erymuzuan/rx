@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Commerspace.Web.Helpers;
@@ -116,16 +117,44 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             item.Status = building.Status;
             item.FloorCollection.ClearAndAddRange(building.FloorCollection);
 
+            var errorMessage = new StringBuilder();
+            var duplicateFloors = building.FloorCollection.Select(f => f.Name)
+                                 .GroupBy(s => s)
+                                 .Any(s => s.Count() > 1);
+            if (duplicateFloors)
+            {
+                errorMessage.AppendLine("There are duplicate floor name or number");
+            }
+
+            foreach (var floor in building.FloorCollection)
+            {
+                var duplicateLot = floor.LotCollection.Select(l => l.Name)
+                                        .GroupBy(s => s)
+                                        .Any(s => s.Count() > 1);
+                if (duplicateLot)
+                    errorMessage.AppendLine("There are duplicate Lot in floor" + floor.Name);
+
+            }
+            if (errorMessage.Length > 0)
+                return Json(new { status = false, message = errorMessage.ToString() });
+
             using (var session = context.OpenSession())
             {
                 session.Attach(item);
                 await session.SubmitChanges();
             }
-            return Json(building.BuildingId);
+            return Json(new { status = "success", buildingId = building.BuildingId });
         }
 
         public async Task<ActionResult> AddLot(Floor floor, int buildingId, string floorname)
         {
+            var duplicateLot = floor.LotCollection.Select(l => l.Name)
+                                    .GroupBy(s => s)
+                                    .Any(s => s.Count() > 1);
+            if (duplicateLot)
+                return Json(new { status = false, message = "There are duplicate Lot in floor " + floor.Name});
+
+
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<Building>(b => b.BuildingId == buildingId);
             var dbfloor = dbItem.FloorCollection.Single(f => f.Name == floorname);
@@ -133,12 +162,14 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             dbItem.BuildingId = buildingId;
             dbItem.FloorCollection.Replace(dbfloor, floor);
 
+
+
             using (var session = context.OpenSession())
             {
                 session.Attach(dbItem);
                 await session.SubmitChanges();
             }
-            return Json(true);
+            return Json(new { status = "success", message = "Your floor details has been saved"});
         }
     }
 }

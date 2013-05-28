@@ -64,8 +64,12 @@ define(['services/datacontext',
             var data = ko.mapping.toJSON(vm.building);
             datacontext.post(data, "/Building/SaveBuilding")
                 .done(function (e) {
-                    vm.building.BuildingId(e);
-                    logger.log("Data has been successfully saved ", e, "buildingdetail", true);
+                    if (e.status) {
+                        vm.building.BuildingId(e.buildingId);
+                        logger.log(e.message, e, "buildingdetail", true);
+                    } else {
+                        logger.logError(e.message, e, this, true);
+                    }
                     tcs.resolve(e);
                 });
             return tcs.promise();

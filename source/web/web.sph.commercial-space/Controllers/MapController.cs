@@ -20,7 +20,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                                b.Name,
                                b.BuildingId,
                                b.Address,
-                               b.EncodedWkt
+                               b.EncodedWkt,
+                               b.Size
                            };
             return Json(list.ToArray(), JsonRequestBehavior.AllowGet);
         }

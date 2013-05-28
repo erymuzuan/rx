@@ -30,7 +30,7 @@ define(['services/datacontext',
                 mapvm.setupAutocomplete(document.getElementById('search'));
                 $('form.form-search').on('click', 'a', function () {
                     $('form.form-search')
-                        .children('input')
+                        .find('input')
                         .val("")
                         .focus();
                 });

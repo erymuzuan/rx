@@ -1,4 +1,47 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/CustomProperties/=Extension/@EntryIndexedValue">cs</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/CustomProperties/=FileName/@EntryIndexedValue">Class</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/CustomProperties/=ValidateFileName/@EntryIndexedValue">False</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Description/@EntryValue">entity-class</s:String>
+	
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Field/=ENTITY/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Field/=ENTITY/Expression/@EntryValue">getFileNameWithoutExtension()</s:String>
+	
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Field/=ENTITY/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Field/=MEMBER/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Field/=MEMBER/Expression/@EntryValue">decapitalize(ENTITY)</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Field/=MEMBER/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Field/=NAMESPACE/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Field/=NAMESPACE/Expression/@EntryValue">getDefaultNamespace()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Field/=NAMESPACE/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Scope/=E8F0594528C33E45BBFEC6CFE851095D/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Scope/=E8F0594528C33E45BBFEC6CFE851095D/Type/@EntryValue">InCSharpProjectFile</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Text/@EntryValue">using System.Xml.Serialization;&#xD;
+&#xD;
+namespace $NAMESPACE$&#xD;
+{&#xD;
+    public partial class $ENTITY$ : Entity&#xD;
+    {&#xD;
+        private int m_$MEMBER$Id;&#xD;
+&#xD;
+        [XmlAttribute]&#xD;
+        public int $ENTITY$Id&#xD;
+        {&#xD;
+            get { return m_$MEMBER$Id; }&#xD;
+            set&#xD;
+            {&#xD;
+                m_$MEMBER$Id = value;&#xD;
+                OnPropertyChanged();&#xD;
+            }&#xD;
+        }&#xD;
+&#xD;
+         &#xD;
+    }&#xD;
+}</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Shortcut/@EntryValue">form-field</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Description/@EntryValue">bootstraop horizontal form field</s:String>

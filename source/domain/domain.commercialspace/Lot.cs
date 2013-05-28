@@ -7,6 +7,18 @@ namespace Bespoke.SphCommercialSpaces.Domain
         private string m_planStoreId;
         private string m_fillColor;
         private double m_fillOpacity;
+        private string m_usage;
+
+        [XmlAttribute]
+        public string Usage
+        {
+            get { return m_usage; }
+            set
+            {
+                m_usage = value;
+                RaisePropertyChanged();
+            }
+        }
 
         [XmlAttribute]
         public double FillOpacity

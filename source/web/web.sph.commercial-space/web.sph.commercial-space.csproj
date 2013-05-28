@@ -278,6 +278,9 @@
     <Content Include="App\viewmodels\commercialspacedetail.js" />
     <Content Include="App\viewmodels\commercialspaceforrental.js" />
     <Content Include="App\viewmodels\buildingbound.js" />
+    <Content Include="App\viewmodels\contracttype.js" />
+    <Content Include="App\viewmodels\contracttypetemplate.js" />
+    <Content Include="App\viewmodels\createcontract.js" />
     <Content Include="App\viewmodels\floorplan.js" />
     <Content Include="App\viewmodels\home.js" />
     <Content Include="App\viewmodels\lotdetail.js" />
@@ -297,6 +300,8 @@
     <Content Include="App\views\commercialspacedetail.html" />
     <Content Include="App\views\commercialspaceforrental.html" />
     <Content Include="App\views\buildingbound.html" />
+    <Content Include="App\views\contracttype.html" />
+    <Content Include="App\views\contracttypetemplate.html" />
     <Content Include="App\views\createcontract.html" />
     <Content Include="App\views\floorplan.html" />
     <Content Include="App\views\footer.html" />
