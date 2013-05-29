@@ -3354,6 +3354,17 @@
                 public const string PropertyNameStoreId = "StoreId";
 
               
+			private readonly ObjectCollection<Topic>  m_TopicCollection = new ObjectCollection<Topic> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("Topic", IsNullable = false)]
+			public ObjectCollection<Topic> TopicCollection
+			{
+			get{ return m_TopicCollection;}
+			}
+		
             ///<summary>
             /// 
             ///</summary>
@@ -3448,6 +3459,23 @@
 			public ObjectCollection<Document> DocumentCollection
 			{
 			get{ return m_DocumentCollection;}
+			}
+		
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			private Owner m_owner
+					=  new Owner();
+				
+			public const string PropertyNameOwner = "Owner";
+			[DebuggerHidden]
+
+			public Owner Owner
+			{
+			get{ return m_owner;}
+			set
+			{
+			m_owner = value;
+			OnPropertyChanged(PropertyNameOwner);
+			}
 			}
 		
             ///<summary>
@@ -4757,6 +4785,177 @@
                 get
                 {
                 return m_isRequired;}
+                }
+
+              
+
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("Topic",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class Topic
+          {
+
+          
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_name;
+                public const string PropertyNameName = "Name";
+
+              
+			private readonly ObjectCollection<Clause>  m_ClauseCollection = new ObjectCollection<Clause> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("Clause", IsNullable = false)]
+			public ObjectCollection<Clause> ClauseCollection
+			{
+			get{ return m_ClauseCollection;}
+			}
+		
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Name
+                {
+                set
+                {
+                if( String.Equals( m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_name= value;
+                OnPropertyChanged(PropertyNameName);
+                }
+                }
+                get
+                {
+                return m_name;}
+                }
+
+              
+
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("Clause",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class Clause
+          {
+
+          
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_description;
+                public const string PropertyNameDescription = "Description";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  int  m_no;
+                public const string PropertyNameNo = "No";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  DateTime  m_date;
+                public const string PropertyNameDate = "Date";
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Description
+                {
+                set
+                {
+                if( String.Equals( m_description, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDescription, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_description= value;
+                OnPropertyChanged(PropertyNameDescription);
+                }
+                }
+                get
+                {
+                return m_description;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public int No
+                {
+                set
+                {
+                if( m_no == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNo, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_no= value;
+                OnPropertyChanged(PropertyNameNo);
+                }
+                }
+                get
+                {
+                return m_no;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public DateTime Date
+                {
+                set
+                {
+                if( m_date == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDate, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_date= value;
+                OnPropertyChanged(PropertyNameDate);
+                }
+                }
+                get
+                {
+                return m_date;}
                 }
 
               

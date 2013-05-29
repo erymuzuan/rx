@@ -63,6 +63,7 @@
     <Compile Include="Building.cs" />
     <Compile Include="Change.cs" />
     <Compile Include="ChangeSubmission.cs" />
+    <Compile Include="Clause.cs" />
     <Compile Include="CommercialSpace.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Contract.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="SpatialStore.cs" />
     <Compile Include="SphDataContext.cs" />
     <Compile Include="SubmitOperation.cs" />
+    <Compile Include="Topic.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Schema\Object.xslt">

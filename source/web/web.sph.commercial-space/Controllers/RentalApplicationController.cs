@@ -314,7 +314,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 await session.SubmitChanges();
             }
 
-            var template = await context.GetScalarAsync<Setting, string>(s => s.Key == "Template.Offer.Letter",
+            var template = await context.GetScalarAsync<Setting, string>(s => s.Key == "Template.Returned.Letter",
                                                                    s => s.Value);
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var file = await store.GetContentAsync(template);
