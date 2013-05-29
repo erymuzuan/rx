@@ -2,29 +2,31 @@
     <img src="/Images/spinner-md.gif" />
 </div>
 <section id="building-details" class="view">
-    <h2 class="page-title" data-bind="text: title"></h2>
+    <div class="page-header">
+        <h1 class="page-title" data-bind="text: title"></h1>
+    </div>
     <div class="labelLeft">
-        <label title="Name">Name : </label>
+        <label title="Name">Nama : </label>
         <input type="text" name="building.Name" data-bind="value: building.Name" />
     </div>
     <div class="labelLeft">
-        <label title="LotNo">Lot No. : </label>
+        <label title="LotNo">No. Lot : </label>
         <input type="text" name="building.LotNo" data-bind="value: building.LotNo" />
     </div>
     <div class="labelLeft">
-        <label title="Street">Street : </label>
+        <label title="Street">Jalan : </label>
         <input type="text" name="building.Address.Street" data-bind="value: building.Address.Street" />
     </div>
     <div class="labelLeft">
-        <label title="City">City : </label>
+        <label title="City">Bandar : </label>
         <input type="text" name="building.Address.City" data-bind="value: building.Address.City" />
     </div>
     <div class="labelLeft">
-        <label title="Postcode">Postcode : </label>
+        <label title="Postcode">Poskod : </label>
         <input type="text" name="building.Address.Postcode" data-bind="value: building.Address.Postcode" />
     </div>
     <div class="labelLeft">
-        <label title="State">State : </label>
+        <label title="State">Negeri : </label>
         <select name="building.Address.State" data-bind="value: building.Address.State">
             <option value="Kuala Lumpur">Kuala Lumpur</option>
             <option value="Selangor">Selangor</option>
@@ -47,7 +49,7 @@
         <input type="text" name="building.Size" data-bind="value: building.Size" />
     </div>
     <div class="labelLeft">
-        <label title="Floors">Floors : </label>
+        <label title="Floors">Tingkat : </label>
         <input type="text" name="building.Floors" data-bind="value: building.Floors" />
     </div>
     <div class="labelLeft">
@@ -111,3 +113,4 @@
         <input data-dismiss="modal" type="button" class="btn btn-primary" value="save map" data-bind="click: saveMapCommand" />
     </div>
 </section>
+

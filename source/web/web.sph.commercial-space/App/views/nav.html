@@ -1,22 +1,32 @@
-﻿<nav class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <a class="brand hidden-phone" href="/">
-            <span class="title">Ruang Kommersial</span> 
-        </a>
-        <div data-bind="css: { active: router.isNavigating }"
-            class="pull-right loader">
-            <i class="icon-spinner icon-2x icon-spin"></i>
-        </div>
-        </div>
-  
-        <div class="btn-group" data-bind="foreach: router.visibleRoutes">
-             <a data-bind="css: { active: isActive }, attr: { href: hash }, text: name" 
-            class="btn btn-info" href="#"></a>
-        </div>
-
-         <div class="loader pull-right" data-bind="css: { active: router.isNavigating }">
-            <div class="progress progress-striped active page-progress-bar">
-                <div class="bar" style="width: 100px;"></div>
+﻿<div class="navbar navbar-fixed-top navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+		<a class="brand hidden-phone" href="/"></a>
+            <img src="../Content/images/icon.png" width="40" height="40"/>
+      <a class="brand" href="#">Ruang Komersil</a>
+       <div data-bind="css: { active: router.isNavigating }"
+           class="pull-right loader">
+           <i class="icon-spinner icon-2x icon-spin"></i>
+       </div>
+       </div>
+      </div>
+ 
+   <footer class="win-ui-dark win-commandlayout navbar-fixed-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="span8 align-left">
+                <div class="win-command" data-bind="foreach: router.visibleRoutes">
+                        <a data-bind="css: { active: isActive }, attr: { href: hash }, text: name"
+                        class="btn" href="#"></a>
+                </div>
             </div>
-        </div>    
-</nav>
+        </div>
+    </div>
+</footer>
+
+        <div class="loader pull-right" data-bind="css: { active: router.isNavigating }">
+           <div class="progress progress-striped active page-progress-bar">
+               <div class="bar" style="width: 100px;"></div>
+           </div>
+       </div>    
+</div>

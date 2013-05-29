@@ -1,67 +1,66 @@
-﻿<section><h1>Dashboard</h1></section>
-<section id="rental-list" class="view-list">
-    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'New' }">
-        <article class="article-container-full-width" >
-            <div id="div-rental" title="Go to rental details" >
-                <label title="new">BARU</label>
-                <address data-bind="text: newCount"></address>
-            </div>
-        </article>
-    </div>
-    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Approved'}">
+﻿   <div class="container-fluid">
+       <div class="page-header"><h1>Dashboard</h1></div>
+      <div class="row-fluid">
+         <div class="metro span12">
+            <div class="metro-sections">   
+                  <div class="metro-section" id="section1">   
+                     
+                <a class="tile wide imagetext bg-color-cyan" data-bind="click: viewPendingCommand">                       
+                    <article class="article-container-full-width" >
+                        <div id="div-rental" title="Go to rental details" >
+                            <label title="new">BARU</label>
+                               <address data-bind="text: pending"></address>
+                         </div>
+                    </article>
+                </a>
+   
+                <a class="tile wide imagetext tile-double bg-color-cyan" data-bind="click: viewApprovedCommand">
+                    <article class="article-container-full-width">
+                        <div id="div1" title="Go to rental details" >
+                            <label title="approved">LULUS</label>
+                                <address data-bind="text: approved"></address>
+                         </div>
+                     </article>
+                </a>
+   
+            <a class="tile wide imagetext bg-color-green" data-bind="click: viewDeclinedCommand">
+                <article class="article-container-full-width">
+                     <div id="div2" title="Go to rental details" >
+                         <label title="declined">BATAL</label>
+                             <address data-bind="text: declined"></address>
+                        </div>
+                </article>
+              </a>
+
+        <a class="tile wide imagetext bg-color-gree" data-bind="click: viewApprovedCommand">
+                <article class="article-container-full-width">
+                    <div id="div3" title="Go to rental details" >
+                        <label title="waiting-list">SENARAI MENUNGGU</label>
+                        <address data-bind="text: waiting"></address>
+                    </div>
+                </article>
+        </a>
+
+        <a class="tile wide imagetext bg-color-green" data-bind="click: viewWaitingConfirmationCommand">
+            <article class="article-container-full-width">
+                <div id="div4" title="Go to rental details" >
+                    <label title="waiting-confirmation">MENUNGGU SURAT TAWARAN DIBALAS</label>
+                    <address data-bind="text: waitingConfirmation"></address>
+                </div>
+            </article>
+        </a>
+   
+        <a class="tile wide imagetext bg-color-gree" data-bind="click: viewOfferRejectedCommand">
         <article class="article-container-full-width">
-            <div id="div1" title="Go to rental details" >
-                <label title="approved">LULUS</label>
-                <address data-bind="text: approved"></address>
-            </div>
-        </article>
-    </div>
-    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Declined'}">
-        <article class="article-container-full-width">
-            <div id="div2" title="Go to rental details" >
-                <label title="declined">BATAL</label>
-                <address data-bind="text: declined"></address>
-            </div>
-        </article>
-    </div>
-    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Waiting'}">
-        <article class="article-container-full-width">
-            <div id="div3" title="Go to rental details" >
-                <label title="waiting-list">SENARAI MENUNGGU</label>
-                <address data-bind="text: waiting"></address>
-            </div>
-        </article>
-    </div>
-    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Offered' }">
-        <article class="article-container-full-width">
-            <div id="div4" title="Go to rental details" >
-                <label title="waiting-confirmation">MENUNGGU SURAT TAWARAN DIBALAS</label>
-                <address data-bind="text: waitingConfirmation"></address>
-            </div>
-        </article>
-    </div>
-    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Rejected'}">
-          <article class="article-container-full-width">
             <div id="div5" title="Go to rental details" >
                 <label title="reject-offer">TOLAK TAWARAN</label>
                 <address data-bind="text: offerRejected"></address>
             </div>
         </article>
-    </div>
-    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Returned' }">
-          <article class="article-container-full-width">
-            <div title="Go to rental details" >
-                <label title="reject-offer">DIKEMBALIKAN</label>
-                <address data-bind="text:returned"></address>
+        </a>
+                  </div>
+   </div>
             </div>
-        </article>
-    </div>
-    <div class="article-right-content" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Confirmed' }">
-          <article class="article-container-full-width">
-            <div title="Go to rental details" >
-                <label title="reject-offer">Tawaran diterima</label>
-                <address data-bind="text:confirmed"></address>
-            </div>
-        </article>
-    </div>
-   </section>
+         </div>
+      </div>
+    
