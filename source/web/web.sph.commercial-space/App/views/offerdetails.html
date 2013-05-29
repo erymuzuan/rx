@@ -1,51 +1,51 @@
-﻿<section>
+﻿<form class="form-horizontal">
     <h3>Maklumat Tawaran</h3>
     <div class="control-group">
-        <label for="Offer.CommercialSpaceId" class="control-label">Id Ruang Komersil</label>
+        <label for="offer.CommercialSpaceId" class="control-label">Ruang Komersil</label>
         <div class="controls">
-            <input data-bind="value: Offer.CommercialSpaceId" id="Offer.CommercialSpaceId" type="text" name="CommercialSpaceId" />
+            <input data-bind="value: commercialSpace.RegistrationNo" id="offer.CommercialSpaceId" type="text" name="CommercialSpaceId" />
         </div>
     </div>
     <div class="control-group">
-        <label for="Offer.Size" class="control-label">Saiz</label>
+        <label for="offer.Size" class="control-label">Saiz</label>
         <div class="controls">
-            <input data-bind="value: Offer.Size" id="Offer.Size" type="text" name="Offer.Size" />
+            <input data-bind="value: offer.Size" id="offer.Size" type="text" name="offer.Size" />
         </div>
     </div>
     <div class="control-group">
-        <label for="Offer.Building" class="control-label">Bangunan</label>
+        <label for="offer.Building" class="control-label">Bangunan</label>
         <div class="controls">
-            <input data-bind="value: Offer.Building" id="Offer.Building" type="text" name="Offer.Building" />
+            <input data-bind="value: offer.Building" id="offer.Building" type="text" name="offer.Building" />
         </div>
     </div>
     <div class="control-group">
-        <label for="Offer.Floor" class="control-label">Lantai</label>
+        <label for="offer.Floor" class="control-label">Lantai</label>
         <div class="controls">
-            <input data-bind="value: Offer.Floor" id="Offer.Floor" type="text" name="Offer.Floor" />
+            <input data-bind="value: offer.Floor" id="offer.Floor" type="text" name="offer.Floor" />
         </div>
     </div>
     <div class="control-group">
-        <label for="Offer.Deposit" class="control-label">Deposit</label>
+        <label for="offer.Deposit" class="control-label">Deposit</label>
         <div class="controls">
-            <input data-bind="value: Offer.Deposit" id="Offer.Deposit" type="text" name="Offer.Deposit" />
+            <input data-bind="value: offer.Deposit" id="offer.Deposit" type="text" name="offer.Deposit" />
         </div>
     </div>
     <div class="control-group">
-        <label for="Offer.Rent" class="control-label">Kadar Sewa</label>
+        <label for="offer.Rent" class="control-label">Kadar Sewa</label>
         <div class="controls">
-            <input data-bind="value: Offer.Rent" id="Offer.Rent" type="text" name="Offer.Rent" />
+            <input data-bind="value: offer.Rent" id="offer.Rent" type="text" name="offer.Rent" />
         </div>
     </div>
     <div class="control-group">
-        <label for="Offer.Date" class="control-label">Tarikh Mula Tawaran</label>
+        <label for="offer.Date" class="control-label">Tarikh Mula Tawaran</label>
         <div class="controls">
-            <input class="datepicker" name="Offer.Date" data-format="dd/MM/yyyy" type="text" data-bind="value: Offer.Date" />
+            <input class="datepicker" name="offer.Date" data-format="dd/MM/yyyy" type="text" data-bind="date : { value : offer.Date, format:'DD/MM/YYYY'}" />
         </div>
     </div>
     <div class="control-group">
-        <label for="Offer.ExpiryDate" class="control-label">Tarikh Akhir Tawaran</label>
+        <label for="offer.ExpiryDate" class="control-label">Tarikh Akhir Tawaran</label>
         <div class="controls">
-            <input class="datepicker" name="Offer.ExpiryDate" data-format="dd/MM/yyyy" type="text" data-bind="value: Offer.ExpiryDate" />
+            <input class="datepicker" name="offer.ExpiryDate" data-format="dd/MM/yyyy" type="text" data-bind="date: { value: offer.ExpiryDate, format: 'DD/MM/YYYY' }" />
         </div>
     </div>
     <div>
@@ -59,7 +59,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: Offer.OfferConditionCollection">
+            <tbody data-bind="foreach: offer.OfferConditionCollection">
                 <tr>
                     <td>
                         <input type="text" data-bind="value: Title, uniqueName: true" /></td>
@@ -78,7 +78,7 @@
         </table>
         <input type="button" name="addConditionCommand" class="btn pull-right" value="+ Terma &amp; Syarat" data-bind="click: addConditionCommand" />
     </div>
-</section>
+</form>
 <section>
     <input type="button" class="btn btn-success" value="SIMPAN" data-bind="command: saveCommand" data-loading-text="processing.." data-complete-text="Disimpan!" />
     <input type="button" class="btn btn-success" value="CETAK SURAT TAWARAN" data-bind="click: generateOfferLetterCommand"  data-loading-text="processing..." data-complete-text="Surat tawaran" />

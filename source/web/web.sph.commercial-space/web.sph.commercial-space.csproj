@@ -626,6 +626,7 @@
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_kendo-knockoutbindings.js" />
+    <Content Include="Scripts\_uiready.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
