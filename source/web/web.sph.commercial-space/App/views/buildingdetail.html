@@ -63,7 +63,7 @@
     </div>
     <a type="button" class="btn btn-success" data-toggle="modal" data-bind="click: showMapCommand" href="#map-panel">Show Map</a>
     <div class="labelLeft">
-        <input type="button" class="btn btn-mini" data-bind="click: addFloorCommand" value="Add Floor" />
+        <input type="button" name="add-floor-button" class="btn" data-bind="click: addFloorCommand" value="+ Floor" />
         <table>
             <thead>
                 <tr>
@@ -92,8 +92,7 @@
     </div>
 
     <div>
-        <input type="button" class="btn btn-primary" value="Back" data-bind="click: goBackCommand" />
-        <input type="button" class="btn btn-primary" value="Save" data-bind="click: saveCommand" />
+        <input type="button" class="btn btn-primary" value="Simpan" data-bind="command: saveCommand" data-loading-text="saving..." data-complete-text="Simpan" />
     </div>
 
 

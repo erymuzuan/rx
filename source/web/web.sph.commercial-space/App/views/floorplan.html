@@ -12,8 +12,8 @@
             <ul id="lotlist" class="nav nav-tabs nav-stacked" data-bind="foreach: floor.LotCollection">
                 <li>
                     <a href="#" data-bind="click: $parent.selectCommand">
-                        <span data-bind="text: Name"></span>
-                        <i class="icon-pencil"></i></a>
+                           <i class="icon-pencil"></i><span data-bind="text: Name"></span>
+                     </a>
                 </li>
             </ul>
         </div>
@@ -23,7 +23,6 @@
 
     </div>
     <div class="row pull-right">
-        <input type="button" class="btn btn-primary" data-bind="click: goBackCommand, disable: isBusy()" value="BACK" />
-        <input type="button" class="btn btn-primary" data-bind="click: saveCommand, disable: isBusy()" value="SAVE" />
+        <input type="button" class="btn btn-primary" data-bind="command: saveCommand, disable: isBusy()" value="SAVE" data-loading-text="saving.." data-complete-text="Simpan" />
     </div>
 </div>

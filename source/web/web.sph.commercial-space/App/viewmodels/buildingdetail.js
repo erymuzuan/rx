@@ -5,6 +5,7 @@
 /// <reference path="../../Scripts/google-maps-3-vs-1-0-vsdoc.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../services/datacontext.js" />
+
 define(['services/datacontext',
         'durandal/plugins/router',
         'durandal/system',
@@ -64,9 +65,14 @@ define(['services/datacontext',
             var data = ko.mapping.toJSON(vm.building);
             datacontext.post(data, "/Building/SaveBuilding")
                 .done(function (e) {
-                    vm.building.BuildingId(e);
-                logger.log("Data has been successfully saved ", e, "buildingdetail", true);
-            });
+                    if (e.status) {
+                        vm.building.BuildingId(e.buildingId);
+                        logger.log(e.message, e, "buildingdetail", true);
+                    } else {
+                        logger.logError(e.message, e, this, true);
+                    }
+                    tcs.resolve(e);
+                });
             return tcs.promise();
         };
 
@@ -119,7 +125,7 @@ define(['services/datacontext',
                     center: point
                 });
                 if (path[0]) {
-                   buildingPolygon = mapvm.add({
+                    buildingPolygon = mapvm.add({
                         encoded: path[0],
                         draggable: true,
                         editable: true,

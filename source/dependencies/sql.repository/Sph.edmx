@@ -43,51 +43,46 @@
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
           <Property Name="ChangedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
-          <Property Name="Path" Type="geography" />
+          <Property Name="Shape" Type="geography" />
           <Property Name="Wkt" Type="varchar(max)" />
           <Property Name="EncodedWkt" Type="varchar(max)" />
+          <Property Name="Path" Type="geography" />
         </EntityType>
         <EntityType Name="CommercialSpace">
           <Key>
             <PropertyRef Name="CommercialSpaceId" />
           </Key>
           <Property Name="CommercialSpaceId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BuildingId" Type="int" Nullable="false" />
+          <Property Name="FloorName" Type="varchar" MaxLength="255" />
+          <Property Name="RegistrationNo" Type="varchar" MaxLength="255" />
+          <Property Name="LotName" Type="varchar" MaxLength="255" />
           <Property Name="Name" Type="varchar" MaxLength="255" />
           <Property Name="Category" Type="varchar" MaxLength="255" />
-          <Property Name="RentalType" Type="varchar" MaxLength="255" />
-          <Property Name="LotName" Type="varchar" MaxLength="50" />
           <Property Name="IsOnline" Type="bit" Nullable="false" />
-          <Property Name="BuildingId" Type="int" Nullable="false" />
-          <Property Name="RegistrationNo" Type="varchar" MaxLength="255" />
-          <Property Name="Building" Type="varchar" MaxLength="255" />
-          <Property Name="FloorName" Type="varchar" MaxLength="255" />
-          <Property Name="State" Type="varchar" MaxLength="50" />
-          <Property Name="City" Type="varchar" MaxLength="255" />
-          <Property Name="Status" Type="varchar" MaxLength="255" />
+          <Property Name="RentalType" Type="varchar" MaxLength="255" />
           <Property Name="Data" Type="xml" Nullable="false" />
           <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
           <Property Name="ChangedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
+          <Property Name="State" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="City" Type="varchar" Nullable="false" MaxLength="255" />
         </EntityType>
         <EntityType Name="RentalApplication">
           <Key>
             <PropertyRef Name="RentalApplicationId" />
           </Key>
           <Property Name="RentalApplicationId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="RegistrationNo" Type="varchar" MaxLength="255" />
-          <Property Name="ApplicationDate" Type="smalldatetime" Nullable="false" />
-          <Property Name="Status" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="CompanyName" Type="varchar" MaxLength="255" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="10" />
           <Property Name="CompanyRegistrationNo" Type="varchar" MaxLength="255" />
-          <Property Name="ContactName" Type="varchar" MaxLength="255" />
-          <Property Name="ContactIcNo" Type="varchar" MaxLength="50" />
-          <Property Name="CommercialSpaceId" Type="int" />
+          <Property Name="CommercialSpaceId" Type="varchar" MaxLength="255" />
           <Property Name="Data" Type="xml" Nullable="false" />
           <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
           <Property Name="ChangedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
+          <Property Name="Status" Type="varchar" Nullable="false" MaxLength="255" />
         </EntityType>
         <EntityType Name="Setting">
           <Key>
@@ -127,10 +122,10 @@
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Sph" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
         <EntityContainer Name="SphContainer" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Buildings" EntityType="Sph.Building" cg:GetterAccess="Internal" />
-          <EntitySet Name="AuditTrails" EntityType="Sph.AuditTrail" />
-          <EntitySet Name="CommercialSpaces" EntityType="Sph.CommercialSpace" />
           <EntitySet Name="SpatialStores" EntityType="Sph.SpatialStore" />
+          <EntitySet Name="CommercialSpaces" EntityType="Sph.CommercialSpace" />
           <EntitySet Name="RentalApplications" EntityType="Sph.RentalApplication" />
+          <EntitySet Name="AuditTrails" EntityType="Sph.AuditTrail" />
           <EntitySet Name="Settings" EntityType="Sph.Setting" />
           </EntityContainer>
         <EntityType Name="Building" cg:TypeAccess="Internal">
@@ -147,45 +142,7 @@
           <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
           <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="AuditTrail">
-          <Key>
-            <PropertyRef Name="AuditTrailId" />
-          </Key>
-          <Property Type="Int32" Name="AuditTrailId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="User" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="DateTime" Nullable="false" Precision="0" />
-          <Property Type="String" Name="Operation" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Type" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EntityId" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
-          <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
-          <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="CommercialSpace">
-          <Key>
-            <PropertyRef Name="CommercialSpaceId" />
-          </Key>
-          <Property Type="Int32" Name="CommercialSpaceId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Category" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="RentalType" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="LotName" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="Boolean" Name="IsOnline" Nullable="false" />
-          <Property Type="Int32" Name="BuildingId" Nullable="false" />
-          <Property Type="String" Name="RegistrationNo" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Building" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="FloorName" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="State" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="City" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Status" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
-          <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
-          <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Geography" Name="Shape" />
         </EntityType>
         <EntityType Name="SpatialStore">
           <Key>
@@ -202,20 +159,53 @@
           <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
           <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="CommercialSpace">
+          <Key>
+            <PropertyRef Name="CommercialSpaceId" />
+          </Key>
+          <Property Type="Int32" Name="CommercialSpaceId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="BuildingId" Nullable="false" />
+          <Property Type="String" Name="FloorName" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RegistrationNo" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LotName" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Category" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsOnline" Nullable="false" />
+          <Property Type="String" Name="RentalType" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="RentalApplication">
           <Key>
             <PropertyRef Name="RentalApplicationId" />
           </Key>
           <Property Type="Int32" Name="RentalApplicationId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="RegistrationNo" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="ApplicationDate" Nullable="false" Precision="0" />
-          <Property Type="String" Name="Status" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="CompanyName" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CompanyName" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="CompanyRegistrationNo" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ContactName" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ContactIcNo" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="CommercialSpaceId" />
+          <Property Type="String" Name="CommercialSpaceId" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="AuditTrail">
+          <Key>
+            <PropertyRef Name="AuditTrailId" />
+          </Key>
+          <Property Type="Int32" Name="AuditTrailId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="User" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="DateTime" Nullable="false" Precision="0" />
+          <Property Type="String" Name="Operation" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Type" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EntityId" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
           <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
@@ -246,6 +236,7 @@
           <EntitySetMapping Name="Buildings">
             <EntityTypeMapping TypeName="Sph.Building">
               <MappingFragment StoreEntitySet="Building">
+                <ScalarProperty Name="Shape" ColumnName="Shape" />
                 <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
                 <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -256,47 +247,6 @@
                 <ScalarProperty Name="LotNo" ColumnName="LotNo" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AuditTrails">
-            <EntityTypeMapping TypeName="Sph.AuditTrail">
-              <MappingFragment StoreEntitySet="AuditTrail">
-                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
-                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Operation" ColumnName="Operation" />
-                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
-                <ScalarProperty Name="User" ColumnName="User" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="AuditTrailId" ColumnName="AuditTrailId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CommercialSpaces">
-            <EntityTypeMapping TypeName="Sph.CommercialSpace">
-              <MappingFragment StoreEntitySet="CommercialSpace">
-                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
-                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="FloorName" ColumnName="FloorName" />
-                <ScalarProperty Name="Building" ColumnName="Building" />
-                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
-                <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
-                <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
-                <ScalarProperty Name="LotName" ColumnName="LotName" />
-                <ScalarProperty Name="RentalType" ColumnName="RentalType" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CommercialSpaceId" ColumnName="CommercialSpaceId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -316,23 +266,58 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CommercialSpaces">
+            <EntityTypeMapping TypeName="Sph.CommercialSpace">
+              <MappingFragment StoreEntitySet="CommercialSpace">
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="RentalType" ColumnName="RentalType" />
+                <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LotName" ColumnName="LotName" />
+                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
+                <ScalarProperty Name="FloorName" ColumnName="FloorName" />
+                <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
+                <ScalarProperty Name="CommercialSpaceId" ColumnName="CommercialSpaceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="RentalApplications">
             <EntityTypeMapping TypeName="Sph.RentalApplication">
               <MappingFragment StoreEntitySet="RentalApplication">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
                 <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="CommercialSpaceId" ColumnName="CommercialSpaceId" />
-                <ScalarProperty Name="ContactIcNo" ColumnName="ContactIcNo" />
-                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
                 <ScalarProperty Name="CompanyRegistrationNo" ColumnName="CompanyRegistrationNo" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ApplicationDate" ColumnName="ApplicationDate" />
-                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
                 <ScalarProperty Name="RentalApplicationId" ColumnName="RentalApplicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditTrails">
+            <EntityTypeMapping TypeName="Sph.AuditTrail">
+              <MappingFragment StoreEntitySet="AuditTrail">
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Operation" ColumnName="Operation" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="AuditTrailId" ColumnName="AuditTrailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

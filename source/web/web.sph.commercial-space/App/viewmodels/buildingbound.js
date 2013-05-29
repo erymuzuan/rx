@@ -6,6 +6,8 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="map.js" />
+/// 
 define(['services/datacontext',
         'durandal/plugins/router',
         'durandal/system',
@@ -24,6 +26,15 @@ define(['services/datacontext',
                 return true;
 
             },
+            viewAttached = function () {
+                mapvm.setupAutocomplete(document.getElementById('search'));
+                $('form.form-search').on('click', 'a', function () {
+                    $('form.form-search')
+                        .find('input')
+                        .val("")
+                        .focus();
+                });
+            },
             highlight = function (b) {
                 _.each(buildingCollection(), function (g) {
                     g.polygon.setOptions({ fillColor: "white" });
@@ -35,12 +46,30 @@ define(['services/datacontext',
                 mapvm.setCenter(mapvm.getCenter(b.polygon));
                 */
                 isZoom = false;
+                ko.mapping.fromJS(ko.mapping.toJS(b.building), {}, vm.selectedBuilding);
+                vm.selectedBuilding.DetailsUrl("/#/buildingdetail/" + b.building.BuildingId());
             };
 
         var vm = {
             activate: activate,
+            viewAttached: viewAttached,
             highlightCommand: highlight,
             buildingCollection: buildingCollection,
+            selectedBuilding: {
+                Name: ko.observable(''),
+                Floors: ko.observable(1),
+                BuildingId: ko.observable(0),
+                Address: {
+                    Street: ko.observable(''),
+                    State: ko.observable(''),
+                    City: ko.observable(''),
+                    Postcode: ko.observable(''),
+                },
+                LotNo: ko.observable(''),
+                Size: ko.observable(''),
+                Status: ko.observable(''),
+                DetailsUrl : ko.observable()
+            },
             isBusy: isBusy
         };
 
@@ -63,7 +92,7 @@ define(['services/datacontext',
             }
             var tcs = new $.Deferred();
             var bound = mapvm.getBounds();
-            if (bound.indexOf('NaN')> -1) {
+            if (bound.indexOf('NaN') > -1) {
                 return false;
             }
             $.get("/Map/Get/" + bound)

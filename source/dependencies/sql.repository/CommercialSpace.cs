@@ -20,29 +20,21 @@ public partial class CommercialSpace
 
     public int CommercialSpaceId { get; set; }
 
+    public int BuildingId { get; set; }
+
+    public string FloorName { get; set; }
+
+    public string RegistrationNo { get; set; }
+
+    public string LotName { get; set; }
+
     public string Name { get; set; }
 
     public string Category { get; set; }
 
-    public string RentalType { get; set; }
-
-    public string LotName { get; set; }
-
     public bool IsOnline { get; set; }
 
-    public int BuildingId { get; set; }
-
-    public string RegistrationNo { get; set; }
-
-    public string Building { get; set; }
-
-    public string FloorName { get; set; }
-
-    public string State { get; set; }
-
-    public string City { get; set; }
-
-    public string Status { get; set; }
+    public string RentalType { get; set; }
 
     public string Data { get; set; }
 
@@ -53,6 +45,10 @@ public partial class CommercialSpace
     public System.DateTime ChangedDate { get; set; }
 
     public string ChangedBy { get; set; }
+
+    public string State { get; set; }
+
+    public string City { get; set; }
 
 }
 

@@ -6,11 +6,11 @@
     <edmx:Diagrams>
       <Diagram DiagramId="4794ab81c85f4e81b85b30ee7c8c0a0a" Name="Diagram1" >
         <EntityTypeShape EntityType="Sph.Building" Width="1.5" PointX="0.5" PointY="0.5" />
-        <EntityTypeShape EntityType="Sph.AuditTrail" Width="1.5" PointX="9.5" PointY="1.125" />
-        <EntityTypeShape EntityType="Sph.CommercialSpace" Width="1.5" PointX="7.375" PointY="0.5" />
         <EntityTypeShape EntityType="Sph.SpatialStore" Width="1.5" PointX="2.625" PointY="0.5" />
-        <EntityTypeShape EntityType="Sph.RentalApplication" Width="1.75" PointX="5" PointY="0.5" />
-        <EntityTypeShape EntityType="Sph.Setting" Width="1.5" PointX="0.5" PointY="3.75" />
+        <EntityTypeShape EntityType="Sph.CommercialSpace" Width="1.5" PointX="12.5" PointY="1" />
+        <EntityTypeShape EntityType="Sph.RentalApplication" Width="1.5" PointX="0.5" PointY="9.375" />
+        <EntityTypeShape EntityType="Sph.AuditTrail" Width="1.5" PointX="3" PointY="9.875" />
+        <EntityTypeShape EntityType="Sph.Setting" Width="1.5" PointX="6" PointY="11.375" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

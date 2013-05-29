@@ -24,7 +24,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             context.loadOneAsync('Building', 'BuildingId eq ' + buildingId())
                 .done(function (b) {
                     if (!b) {
-                     var lot = {
+                        var lot = {
                             Name: ko.observable(''),
                             Size: ko.observable(''),
                             IsCommercialSpace: ko.observable(true)
@@ -47,6 +47,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             var lot = {
                 Name: ko.observable(''),
                 Size: ko.observable(''),
+                Usage: ko.observable(''),
                 IsCommercialSpace: ko.observable(true)
             };
             vm.floor.LotCollection.push(lot);
@@ -59,25 +60,30 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 floorname: floorname()
             });
             isBusy(true);
-            context.post(data, "/Building/AddLot").done(function (e) {
-                logger.log("Data has been successfully saved ", e, "buildingdetail", true);
+            context.post(data, "/Building/AddLot")
+                .done(function (e) {
+                    if (e.status) {
+                        logger.log(e.message, e, this, true);
+                    } else {
+                        logger.logError(e.message, e, this, true);
+                    }
 
-                isBusy(false);
-                tcs.resolve(true);
-            });
+                    isBusy(false);
+                    tcs.resolve(true);
+                });
 
             return tcs.promise();
         },
-        
-        goBack = function() {
+
+        goBack = function () {
             var url = "/#/buildingdetail/" + buildingId();
             router.navigateTo(url);
         },
 
        addCs = function (lot) {
-         var url = '/#/commercialspacedetail/' + buildingId() + '/' + floorname() + '/' + lot.Name();
-         router.navigateTo(url);
-     };
+           var url = '/#/commercialspacedetail/' + buildingId() + '/' + floorname() + '/' + lot.Name();
+           router.navigateTo(url);
+       };
 
     var vm = {
         activate: activate,

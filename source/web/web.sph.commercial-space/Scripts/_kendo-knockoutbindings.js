@@ -148,11 +148,34 @@ ko.bindingHandlers.kendoEnable = {
 
 ko.bindingHandlers.command = {
     init: function (element, valueAccessor) {
-        var callback = valueAccessor();
+        var action = valueAccessor();
         var button = $(element);
         button.click(function(e) {
             e.preventDefault();
-            callback()
+            action()
+                .then(function() {
+
+                    if (button.data("complete-text")) {
+                        button.button("complete");
+                    }
+                });
+            if (button.data("loading-text")) {
+                button.button("loading");
+            }
+        });
+    }
+
+};
+ko.bindingHandlers.commandWithParameter = {
+    init: function (element, valueAccessor) {
+        var command = valueAccessor();
+        var callback = command.command;
+        var parameter = command.commandParameter;
+        
+        var button = $(element);
+        button.click(function(e) {
+            e.preventDefault();
+            callback(parameter)
                 .then(function() {
 
                     if (button.data("complete-text")) {

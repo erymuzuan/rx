@@ -61,6 +61,38 @@ define(
                 overlays.push(polygon);
 
                 return polygon;
+            },
+            setupAutocomplete = function (input, placeChanged) {
+
+                var options = { componentRestrictions: {country: 'my'} };
+                var autocomplete = new google.maps.places.Autocomplete(input,options);
+                if (map) {
+                    autocomplete.bindTo('bounds', map);
+                }
+                google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                    var place = autocomplete.getPlace();
+
+                    if (map) {
+                        if (place.geometry.viewport) {
+                            map.fitBounds(place.geometry.viewport);
+                        } else {
+                            map.setCenter(place.geometry.location);
+                            map.setZoom(17);
+                        }
+
+                    }
+
+                    var address = '';
+                    if (place.address_components) {
+                        address = [
+                          (place.address_components[0] && place.address_components[0].short_name || ''),
+                          (place.address_components[1] && place.address_components[1].short_name || ''),
+                          (place.address_components[2] && place.address_components[2].short_name || '')
+                        ].join(' ');
+                    }
+                    if (placeChanged)
+                        placeChanged(address);
+                });
             }
         ;
 
@@ -80,7 +112,8 @@ define(
             getBounds: getBound,
             geocode: geocode,
             getCenter: getCenter,
-            reverseGeocode: reverseGeocode
+            reverseGeocode: reverseGeocode,
+            setupAutocomplete: setupAutocomplete
         };
         return vm;
 
@@ -109,7 +142,7 @@ define(
                     ops.idle(e);
                 });
             }
-            
+
             if (ops2.draw) {
                 var drawingManager = new google.maps.drawing.DrawingManager({
                     drawingControl: true,
@@ -177,6 +210,8 @@ define(
 
             return bounds.getCenter();
         }
+
+
         function setCenter(lat, lng) {
             var p = new google.maps.LatLng(lat, lng);
             map.setCenter(p);
@@ -205,7 +240,7 @@ define(
             var tcs = new $.Deferred();
             if (!geocoder2)
                 geocoder2 = new google.maps.Geocoder();
-            geocoder2.geocode({ 'address': address, region : "my" }, function (results, status) {
+            geocoder2.geocode({ 'address': address, region: "my" }, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     tcs.resolve({
                         status: true,

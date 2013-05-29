@@ -12,6 +12,8 @@ function (logger) {
         loadOneAsync: loadOneAsync,
         getSumAsync: getSumAsync,
         getCountAsync: getCountAsync,
+        getListAsync: getListAsync,
+        getTuplesAsync: getTuplesAsync,
         post: post
     };
     return context;
@@ -95,6 +97,57 @@ function (logger) {
     }
     function getCountAsync(entity, query, field) {
         return getAggregateAsync("count", entity, query, field);
+    }
+
+    function getTuplesAsync(entity, query, field, field2) {
+        var url = "/List/Tuple";
+        url += "?filter=";
+        url += query;
+        url += "&column=";
+        url += field;
+        url += "&column2=";
+        url += field2;
+        url += "&table=" + entity;
+
+
+        var tcs = new $.Deferred();
+        $.ajax({
+            type: "GET",
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: tcs.reject,
+            success: function (msg) {
+                tcs.resolve(msg);
+            }
+        });
+
+
+        return tcs.promise();
+    }
+    function getListAsync(entity, query, field) {
+        var url = "/List/";
+        url += "?filter=";
+        url += query;
+        url += "&column=";
+        url += field;
+        url += "&table=" + entity;
+
+
+        var tcs = new $.Deferred();
+        $.ajax({
+            type: "GET",
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: tcs.reject,
+            success: function (msg) {
+                tcs.resolve(msg);
+            }
+        });
+
+
+        return tcs.promise();
     }
 
     function getAggregateAsync(aggregate, entity, query, field) {

@@ -88,9 +88,21 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
             dbItem.Status = "Declined";
+
+
+
+            var audit = new AuditTrail
+            {
+                Operation = "Declined",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(RentalApplication).FullName,
+                EntityId = id
+            };
+
             using (var session = context.OpenSession())
             {
-                session.Attach(dbItem);
+                session.Attach(dbItem, audit);
                 await session.SubmitChanges();
             }
 
@@ -215,18 +227,107 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return File(content, type, file);
         }
 
-        public async Task<ActionResult> GenerateOfferLetter(int id)
+        public async Task<ActionResult> SaveOffer(int id, Offer offer)
         {
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            dbItem.Status = "WaitingConfirmation";
+            dbItem.Offer = offer;
+            
+            var audit = new AuditTrail
+            {
+                Operation = "Penyediaan tawaran",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(RentalApplication).FullName,
+                EntityId = id,
+                Note = "-"
+            };
+
             using (var session = context.OpenSession())
             {
-                session.Attach(dbItem);
+                session.Attach(dbItem, audit);
+                await session.SubmitChanges();
+            }
+            return Json("");
+        }
+
+        public async Task<ActionResult> GenerateOfferLetter(int id)
+        {
+            const string status = "Offered";
+            var context = new SphDataContext();
+            var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+            dbItem.Status = status;
+
+
+            var audit = new AuditTrail
+            {
+                Operation = "Keluarkan surat tawaran",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(RentalApplication).FullName,
+                EntityId = id,
+                Note = "-"
+            };
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(dbItem, audit);
                 await session.SubmitChanges();
             }
 
-            return Json(true);
+            var template = await context.GetScalarAsync<Setting, string>(s => s.Key == "Template.Offer.Letter",
+                                                                   s => s.Value);
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var file = await store.GetContentAsync(template);
+            var temp = System.IO.Path.GetTempFileName() + ".docx";
+            System.IO.File.WriteAllBytes(temp, file.Content);
+            var word = ObjectBuilder.GetObject<IDocumentGenerator>();
+            Session["DocumentPath"] = temp;
+            Session["DocumentTitle"] = string.Format("{0}-{1:yyyyMMdd}.Surat tawaran.docx", dbItem.RegistrationNo, DateTime.Today);
+
+
+            word.Generate(temp, dbItem, audit);
+
+            return Json("");
+        }
+        public async Task<ActionResult> GenerateDeclinedLetter(int id)
+        {
+            const string status = "Declined";
+            var context = new SphDataContext();
+            var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+            dbItem.Status = status;
+
+
+            var audit = new AuditTrail
+            {
+                Operation = "Keluarkan surat tawaran",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(RentalApplication).FullName,
+                EntityId = id,
+                Note = "-"
+            };
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(dbItem, audit);
+                await session.SubmitChanges();
+            }
+
+            var template = await context.GetScalarAsync<Setting, string>(s => s.Key == "Template.Offer.Letter",
+                                                                   s => s.Value);
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var file = await store.GetContentAsync(template);
+            var temp = System.IO.Path.GetTempFileName() + ".docx";
+            System.IO.File.WriteAllBytes(temp, file.Content);
+            var word = ObjectBuilder.GetObject<IDocumentGenerator>();
+            Session["DocumentPath"] = temp;
+            Session["DocumentTitle"] = string.Format("{0}-{1:yyyyMMdd}.Surat penolakan.docx", dbItem.RegistrationNo, DateTime.Today);
+
+
+            word.Generate(temp, dbItem, audit);
+
+            return Json("");
         }
 
         public async Task<ActionResult> RejectedOfferLetter(int id)
@@ -243,14 +344,25 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(true);
         }
 
-        public async Task<ActionResult> Confirmed(int id)
+        public async Task<ActionResult> ConfirmOffer(int id, string remarks)
         {
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
             dbItem.Status = "Confirmed";
+
+            var audit = new AuditTrail
+            {
+                Operation = "Terima surat tawaran",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(RentalApplication).FullName,
+                EntityId = id,
+                Note = remarks
+            };
+
             using (var session = context.OpenSession())
             {
-                session.Attach(dbItem);
+                session.Attach(dbItem, audit);
                 await session.SubmitChanges();
             }
 

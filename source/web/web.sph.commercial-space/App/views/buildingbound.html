@@ -1,6 +1,15 @@
 ﻿<div class="container">
     <div class="row">
-        <h2 class="span12 page-title">Peta Carian</h2>
+        <h2 class="span8 page-title">Peta Carian</h2>
+        <div class="span4">
+            <form class="form-search">
+                <div class="input-append">
+                    <input id="search" placeholder="Carian lokasi.." type="search" class="input-large search-query" />
+                    <a class="add-on" href="#"><span class="k-i-cancel k-icon"></span></a>
+                </div>
+            </form>
+
+        </div>
     </div>
 
     <div class="row">
@@ -16,6 +25,29 @@
                     </div>
                 </li>
             </ul>
+            <div class="k-info-colored k-block" data-bind="visible: selectedBuilding.Name ">
+                <h3 data-bind="text: selectedBuilding.Name"></h3>
+                <div>
+                    <span data-bind="text: selectedBuilding.Size"></span> sqf
+                </div>
+                <div>
+                    <span data-bind="text: selectedBuilding.Floors"></span> floor(s)
+                </div>
+                <div>
+                    <address>
+                        <span data-bind="text:selectedBuilding.Address.Street"></span><br/>
+                        <span data-bind="text:selectedBuilding.Address.City"></span><br/>
+                        <span data-bind="text:selectedBuilding.Address.Postcode"></span><br/>
+                        <span data-bind="text:selectedBuilding.Address.State"></span><br/>
+                    </address>
+                </div>
+                <div>
+                    <a href="#" class="btn" data-bind="attr: { href: selectedBuilding.DetailsUrl }">
+                        <i class="icon-arrow-right"></i>
+
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
