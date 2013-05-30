@@ -67,6 +67,7 @@
     <Compile Include="CommercialSpace.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Contract.cs" />
+    <Compile Include="ContractingParty.cs" />
     <Compile Include="ContractTemplate.cs" />
     <Compile Include="Core\Change.cs" />
     <Compile Include="Core\CollectionHelper.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="SpatialStore.cs" />
     <Compile Include="SphDataContext.cs" />
     <Compile Include="SubmitOperation.cs" />
+    <Compile Include="Tenant.cs" />
     <Compile Include="Topic.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -169,6 +169,63 @@ $END$</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/Shortcut/@EntryValue">set-observable-object</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/Text/@EntryValue">ko.mapping.fromJS(ko.mapping.toJS($SOURCE$) ,{}, $DESTINATION$);</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Description/@EntryValue">creates bootstrap tabs</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=PANEL1/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=PANEL1/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=PANEL2/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=PANEL2/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=PANEL3/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=PANEL3/Order/@EntryValue">4</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=PANEL4/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=PANEL4/Order/@EntryValue">6</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=TEXT1/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=TEXT1/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=TEXT2/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=TEXT2/Order/@EntryValue">3</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=TEXT3/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=TEXT3/Order/@EntryValue">5</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=TEXT4/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Field/=TEXT4/Order/@EntryValue">7</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Scope/=A14108D8199BD94191FC02A2809F1F3D/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Scope/=A14108D8199BD94191FC02A2809F1F3D/Type/@EntryValue">InHtmlLikeFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Shortcut/@EntryValue">bootstrap-tab</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Text/@EntryValue">&lt;div class="tabbable"&gt;&#xD;
+    &lt;ul class="nav nav-tabs"&gt;&#xD;
+        &lt;li&gt;&#xD;
+            &lt;a href="#$PANEL1$" data-toggle="tab"&gt;$TEXT1$&lt;/a&gt;&#xD;
+        &lt;/li&gt;&#xD;
+        &lt;li&gt;&#xD;
+            &lt;a href="#$PANEL2$" data-toggle="tab"&gt;$TEXT2$&lt;/a&gt;&#xD;
+        &lt;/li&gt;&#xD;
+        &lt;li&gt;&#xD;
+            &lt;a href="#$PANEL3$" data-toggle="tab"&gt;$TEXT3$&lt;/a&gt;&#xD;
+        &lt;/li&gt;&#xD;
+        &lt;li&gt;&#xD;
+            &lt;a href="#$PANEL4$" data-toggle="tab"&gt;$TEXT4$&lt;/a&gt;&#xD;
+        &lt;/li&gt;&#xD;
+    &lt;/ul&gt;&#xD;
+    &lt;div class="tab-content"&gt;&#xD;
+        &lt;div id="$PANEL1$" class="tab-pane active"&gt;&#xD;
+			$END$&#xD;
+        &lt;/div&gt;&#xD;
+        &lt;div id="$PANEL2$" class="tab-pane"&gt;&#xD;
+            &#xD;
+&#xD;
+        &lt;/div&gt;&#xD;
+        &lt;div id="$PANEL3$" class="tab-pane"&gt;&#xD;
+          &#xD;
+&#xD;
+        &lt;/div&gt;&#xD;
+        &lt;div id="$PANEL4$" class="tab-pane"&gt;&#xD;
+           &#xD;
+        &lt;/div&gt;&#xD;
+&#xD;
+    &lt;/div&gt;&#xD;
+&lt;/div&gt;</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Description/@EntryValue">creates kendo upload</s:String>
@@ -253,4 +310,19 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], &
 	return vm;&#xD;
 &#xD;
 });&#xD;
-</s:String></wpf:ResourceDictionary>
+</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Description/@EntryValue">set observable from source to vm</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Field/=DESTINATION/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Field/=DESTINATION/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Field/=SOURCE/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Field/=SOURCE/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/Type/@EntryValue">InJavaScriptStatement</s:String>
+	
+	
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Shortcut/@EntryValue">set-observable</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Text/@EntryValue">ko.mapping.fromJS(ko.mapping.toJS($SOURCE$), {}, $DESTINATION$);</s:String></wpf:ResourceDictionary>

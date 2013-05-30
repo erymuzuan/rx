@@ -32,5 +32,6 @@ namespace Bespoke.Sph.SqlRepository
         internal DbSet<ContractTemplate> ContractTemplates { get; set; }
         public DbSet<CommercialSpace> CommercialSpaces { get; set; }
         public DbSet<RentalApplication> RentalApplications { get; set; }
+        internal DbSet<Contract> Contracts { get; set; }
     }
 }

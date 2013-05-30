@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4794ab81c85f4e81b85b30ee7c8c0a0a" Name="Diagram1" ZoomLevel="94" >
+      <Diagram DiagramId="4794ab81c85f4e81b85b30ee7c8c0a0a" Name="Diagram1" ZoomLevel="81" >
         <EntityTypeShape EntityType="Sph.Building" Width="1.5" PointX="0.5" PointY="0.5" />
         <EntityTypeShape EntityType="Sph.SpatialStore" Width="1.5" PointX="2.625" PointY="0.5" />
         <EntityTypeShape EntityType="Sph.AuditTrail" Width="1.5" PointX="3" PointY="9.875" />
@@ -12,6 +12,7 @@
         <EntityTypeShape EntityType="Sph.ContractTemplate" Width="1.5" PointX="4.625" PointY="6.5" />
         <EntityTypeShape EntityType="Sph.CommercialSpace" Width="1.5" PointX="7.7407350799724153" PointY="6.2111559241130747" />
         <EntityTypeShape EntityType="Sph.RentalApplication" Width="1.5" PointX="4.1920280923098456" PointY="7.2613572065072862" />
+        <EntityTypeShape EntityType="Sph.Contract" Width="1.5" PointX="5.25" PointY="0.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

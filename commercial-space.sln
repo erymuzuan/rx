@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.test", "source\unit.tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "word.document.generator", "source\dependencies\word.document.generator\word.document.generator.csproj", "{3C83CD91-EF5C-46AB-A5E0-EE038A608A62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "observable.generator", "source\tools\observable.generator\observable.generator.csproj", "{4DC05B0D-B33A-4DBC-BF29-FF6FDEAA7C17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,6 +110,10 @@ Global
 		{3C83CD91-EF5C-46AB-A5E0-EE038A608A62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C83CD91-EF5C-46AB-A5E0-EE038A608A62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C83CD91-EF5C-46AB-A5E0-EE038A608A62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DC05B0D-B33A-4DBC-BF29-FF6FDEAA7C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DC05B0D-B33A-4DBC-BF29-FF6FDEAA7C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DC05B0D-B33A-4DBC-BF29-FF6FDEAA7C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DC05B0D-B33A-4DBC-BF29-FF6FDEAA7C17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

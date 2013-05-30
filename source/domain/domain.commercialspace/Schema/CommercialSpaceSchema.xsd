@@ -226,10 +226,28 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element ref="Owner"/>
+				<xs:element ref="ContractingParty"/>
+				<xs:element name="Option" type="xs:int" nillable="true"/>
+				<xs:element ref="Tenant"/>
+				<xs:element ref="CommercialSpace"/>
+				<xs:element name="TopicCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Topic" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
-			<xs:attribute name="No" type="xs:string"/>
-			<xs:attribute name="Type" type="xs:string"/>
-			<xs:attribute name="Date" type="xs:dateTime"/>
+			<xs:attribute name="ReferenceNo" type="xs:string" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Value" type="xs:decimal" use="required"/>
+			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="Remarks" type="xs:string" use="required"/>
+			<xs:attribute name="Period" type="xs:int" use="required"/>
+			<xs:attribute name="PeriodUnit" type="xs:string" use="required"/>
+			<xs:attribute name="StartDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="EndDate" type="xs:dateTime" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Document">
@@ -258,10 +276,13 @@
 	</xs:element>
 	<xs:element name="Owner">
 		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Address" minOccurs="0"/>
+			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="Type" type="xs:string" use="required"/>
-			<xs:attribute name="ReferenceNo" type="xs:string" use="required"/>
-			<xs:attribute name="Status" type="xs:string" use="required"/>
+			<xs:attribute name="TelephoneNo" type="xs:string" use="required"/>
+			<xs:attribute name="FaxNo" type="xs:string" use="required"/>
+			<xs:attribute name="Email" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="AuditTrail">
@@ -349,6 +370,26 @@
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="No" type="xs:string" use="required"/>
 			<xs:attribute name="Text" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ContractingParty">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Contact"/>
+				<xs:element ref="Address" minOccurs="0"/>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="RegistrationNo" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Tenant">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Address"/>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="RegistrationNo" type="xs:string" use="required"/>
+			<xs:attribute name="Id" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
