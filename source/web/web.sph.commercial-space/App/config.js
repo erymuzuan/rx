@@ -40,13 +40,6 @@
             settings: { caption: 'Settings' }
         },
         {
-            url: 'contractsetup',
-            moduleId: 'viewmodels/contractsetup',
-            name: 'contract setup',
-            visible: true,
-            caption: 'setup kontrak'
-        },
-        {
             url: 'createcontract/:rentalApplicationId',
             moduleId: 'viewmodels/createcontract',
             name: 'create contract',

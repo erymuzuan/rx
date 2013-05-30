@@ -2,46 +2,6 @@
 /// <reference path="knockout-2.2.1.debug.js" />
 /// <reference path="moment.js" />
 /// <reference path="~/Scripts/jquery-1.9.1.intellisense.js" />
-$(function () {
-
-    if (!Modernizr.inputtypes.date) {
-        $(function () {
-            $('input[type="date"]')
-                .css({ "min-width": "100px", "width": "200px" })
-                .kendoDatePicker({
-                    format: "yyyy-MM-dd"
-                    });
-        });
-    }
-
-    $('.k-datepicker')
-        .css({ "min-width": "100px", "width": "200px" })
-        .kendoDatePicker({
-            format: "yyyy-MM-dd"
-        });
-    $('.k-datetimepicker')
-        .css({ "min-width": "100px", "width": "200px" })
-        .kendoDateTimePicker({
-            format: "yyyy-MM-dd HH:mm"
-        });
-
-    $('.k-timepicker')
-        .css({ "min-width": "100px", "width": "200px" })
-        .kendoTimePicker({});
-
-    $('.k-combobox')
-        .css({ "min-width": "300px!important", "width": "300px" })
-        .kendoComboBox();
-
-    $('.k-dropdown')
-        .css({ "min-width": "300px!important", "width": "300px" })
-        .kendoDropDownList();
-
-
-});
-
-
-
 
 ko.bindingHandlers.kendoDropDownListValue = {
     init: function (element, valueAccessor) {
@@ -91,25 +51,41 @@ ko.bindingHandlers.kendoComboBoxValue = {
     }
 };
 
-
 ///user moment format
 ko.bindingHandlers.date = {
     init: function (element, valueAccessor) {
         var value = ko.utils.unwrapObservable(valueAccessor());
         var date = moment(value.value());
-        $(element).text(date.format(value.format));
-        
+        if (date.year() == 1) { // DateTime.Min
+            $(element).text("");
+            $(element).val("");
+
+        } else {
+            $(element).text(date.format(value.format));
+            $(element).val(date.format(value.format));
+
+        }
+
+
         $(element).on("change", function () {
             var nv = $(this).val();
             value.value(nv);
         });
     },
     update: function (element, valueAccessor) {
-      var value = ko.utils.unwrapObservable(valueAccessor());
-      $(element).val(value.value());
+        var value = ko.utils.unwrapObservable(valueAccessor());
+        var date = moment(value.value());
+        if (date.year() == 1) { // DateTime.Min
+            $(element).text("");
+            $(element).val("");
+
+        } else {
+            $(element).text(date.format(value.format));
+            $(element).val(date.format(value.format));
+
+        }
     }
 };
-
 
 ko.bindingHandlers.slideVisible = {
     init: function (element, valueAccessor) {
@@ -150,10 +126,10 @@ ko.bindingHandlers.command = {
     init: function (element, valueAccessor) {
         var action = valueAccessor();
         var button = $(element);
-        button.click(function(e) {
+        button.click(function (e) {
             e.preventDefault();
             action()
-                .then(function() {
+                .then(function () {
 
                     if (button.data("complete-text")) {
                         button.button("complete");
@@ -171,12 +147,12 @@ ko.bindingHandlers.commandWithParameter = {
         var command = valueAccessor();
         var callback = command.command;
         var parameter = command.commandParameter;
-        
+
         var button = $(element);
-        button.click(function(e) {
+        button.click(function (e) {
             e.preventDefault();
             callback(parameter)
-                .then(function() {
+                .then(function () {
 
                     if (button.data("complete-text")) {
                         button.button("complete");

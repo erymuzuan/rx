@@ -8,24 +8,33 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], 
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 function (context, logger, router) {
 
-var 
-isBusy = ko.observable(false),
-activate = function(){
-		
-},
-viewAttached = function(view){
+    var
+    isBusy = ko.observable(false),
+    activate = function () {
+        isBusy(true);
+        return context.getTuplesAsync("ContractTemplate", "ContractTemplateId gt 0", "ContractTemplateId", "Type")
+            .then(function(list) {
+                vm.contractTemplateCollection(list);
+            });
+    },
+    edit = function(template) {
+        router.navigateTo('/#/contracttypetemplate/' + template.Item1);
+    },
+    viewAttached = function (view) {
 
-};
+    };
 
-var vm = {
-isBusy : isBusy,
-activate : activate,
-viewAttached : viewAttached
-};
+    var vm = {
+        isBusy: isBusy,
+        activate: activate,
+        viewAttached: viewAttached,
+        editCommand: edit,
+        contractTemplateCollection : ko.observableArray([])
+    };
 
-return vm;
+    return vm;
 
 });

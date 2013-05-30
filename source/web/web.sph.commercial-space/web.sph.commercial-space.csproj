@@ -279,7 +279,6 @@
     <Content Include="App\viewmodels\commercialspacedetail.js" />
     <Content Include="App\viewmodels\commercialspaceforrental.js" />
     <Content Include="App\viewmodels\buildingbound.js" />
-    <Content Include="App\viewmodels\contractsetup.js" />
     <Content Include="App\viewmodels\contracttype.js" />
     <Content Include="App\viewmodels\contracttypetemplate.js" />
     <Content Include="App\viewmodels\createcontract.js" />
@@ -303,7 +302,6 @@
     <Content Include="App\views\commercialspacedetail.html" />
     <Content Include="App\views\commercialspaceforrental.html" />
     <Content Include="App\views\buildingbound.html" />
-    <Content Include="App\views\contractsetup.html" />
     <Content Include="App\views\contracttype.html" />
     <Content Include="App\views\contracttypetemplate.html" />
     <Content Include="App\views\createcontract.html" />
@@ -626,6 +624,7 @@
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_kendo-knockoutbindings.js" />
+    <Content Include="Scripts\_uiready.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
