@@ -148,7 +148,7 @@ return tcs.promise();</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=6098BB2045D63F4BBB836EED8EF0872E/Text/@EntryValue"> &lt;div class="control-group"&gt;&#xD;
     &lt;div class="controls"&gt;&#xD;
         &lt;label class="checkbox"&gt;&#xD;
-            &lt;input data-bind="value: $PROPERTY$" id="$ID$" type="checkbox" name="$PROPERTY$" /&gt;&#xD;
+            &lt;input data-bind="checked: $PROPERTY$" id="$ID$" type="checkbox" name="$PROPERTY$" /&gt;&#xD;
             $LABEL$&#xD;
         &lt;/label&gt;&#xD;
     &lt;/div&gt;&#xD;

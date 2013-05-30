@@ -22,6 +22,15 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             $.when(raTask, csTask).done(function (r, cs) {
                 ko.mapping.fromJSON(ko.mapping.toJSON(r.Offer), {}, vm.offer);
                 ko.mapping.fromJSON(ko.mapping.toJSON(cs), {}, vm.commercialSpace);
+
+                if (!vm.offer.CommercialSpaceId()) {
+                    vm.offer.CommercialSpaceId(cs.CommercialSpaceId());
+                    vm.offer.Rent(cs.RentalRate());
+                    vm.offer.Building(cs.BuildingName());
+                    vm.offer.Floor(cs.FloorName());
+                    vm.offer.Size(cs.Size());
+
+                }
                 tcs.resolve();
             });
             return tcs.promise();
@@ -40,7 +49,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         },
         saveOffer = function () {
             var tcs = new $.Deferred();
-            var data = JSON.stringify({ id: rentalId(), offer: ko.mapping.toJS(vm.Offer) });
+            var data = ko.mapping.toJSON({ id: rentalId, offer: vm.offer });
+            
             isBusy(true);
             context.post(data, "/RentalApplication/SaveOffer").done(function () {
                 logger.log("Offer has been successfully saved ", "offerdetails", true);
@@ -86,6 +96,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             Rent: ko.observable(),
             Date: ko.observable(),
             ExpiryDate: ko.observable(),
+            Period: ko.observable(),
+            PeriodUnit: ko.observable(),
+            Option: ko.observable(),
             OfferConditionCollection: ko.observableArray([])
         },
         addConditionCommand: addCondition,

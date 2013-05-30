@@ -59,11 +59,12 @@ ko.bindingHandlers.date = {
         if (date.year() == 1) { // DateTime.Min
             $(element).text("");
             $(element).val("");
-
         } else {
-            $(element).text(date.format(value.format));
-            $(element).val(date.format(value.format));
-
+            var dateString = date.format(value.format).toString();
+            if (dateString.indexOf("NaN") < 0) {
+                $(element).text(dateString);
+                $(element).val(dateString);
+            }
         }
 
 
@@ -80,8 +81,11 @@ ko.bindingHandlers.date = {
             $(element).val("");
 
         } else {
-            $(element).text(date.format(value.format));
-            $(element).val(date.format(value.format));
+            var dateString = date.format(value.format).toString();
+            if (dateString.indexOf("NaN") < 0) {
+                $(element).text(dateString);
+                $(element).val(dateString);
+            }
 
         }
     }

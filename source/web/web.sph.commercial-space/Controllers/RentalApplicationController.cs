@@ -255,8 +255,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             const string status = "Offered";
             var context = new SphDataContext();
-            var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            dbItem.Status = status;
+            var rentalAppication = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+            rentalAppication.Status = status;
 
 
             var audit = new AuditTrail
@@ -271,22 +271,24 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             using (var session = context.OpenSession())
             {
-                session.Attach(dbItem, audit);
+                session.Attach(rentalAppication, audit);
                 await session.SubmitChanges();
             }
 
             var template = await context.GetScalarAsync<Setting, string>(s => s.Key == "Template.Offer.Letter",
                                                                    s => s.Value);
+            var cs = await context.LoadOneAsync<CommercialSpace>(c => c.CommercialSpaceId == rentalAppication.Offer.CommercialSpaceId);
+
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var file = await store.GetContentAsync(template);
-            var temp = System.IO.Path.GetTempFileName() + ".docx";
-            System.IO.File.WriteAllBytes(temp, file.Content);
+            var output = System.IO.Path.GetTempFileName() + ".docx";
+            System.IO.File.WriteAllBytes(output, file.Content);
             var word = ObjectBuilder.GetObject<IDocumentGenerator>();
-            Session["DocumentPath"] = temp;
-            Session["DocumentTitle"] = string.Format("{0}-{1:yyyyMMdd}.Surat tawaran.docx", dbItem.RegistrationNo, DateTime.Today);
+            Session["DocumentPath"] = output;
+            Session["DocumentTitle"] = string.Format("{0}-{1:yyyyMMdd}.Surat tawaran.docx", rentalAppication.RegistrationNo, DateTime.Today);
 
 
-            word.Generate(temp, dbItem, audit);
+            word.Generate(output, rentalAppication, audit,cs);
 
             return Json("");
         }

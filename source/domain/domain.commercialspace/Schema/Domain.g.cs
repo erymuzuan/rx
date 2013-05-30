@@ -4442,6 +4442,21 @@
                 public const string PropertyNameExpiryDate = "ExpiryDate";
 
               
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  int  m_period;
+                public const string PropertyNamePeriod = "Period";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_periodUnit;
+                public const string PropertyNamePeriodUnit = "PeriodUnit";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  int  m_option;
+                public const string PropertyNameOption = "Option";
+
+              
 			private readonly ObjectCollection<OfferCondition>  m_OfferConditionCollection = new ObjectCollection<OfferCondition> ();
 
 			///<summary>
@@ -4674,6 +4689,90 @@
                 get
                 {
                 return m_expiryDate;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public int Period
+                {
+                set
+                {
+                if( m_period == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePeriod, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_period= value;
+                OnPropertyChanged(PropertyNamePeriod);
+                }
+                }
+                get
+                {
+                return m_period;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string PeriodUnit
+                {
+                set
+                {
+                if( String.Equals( m_periodUnit, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePeriodUnit, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_periodUnit= value;
+                OnPropertyChanged(PropertyNamePeriodUnit);
+                }
+                }
+                get
+                {
+                return m_periodUnit;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public int Option
+                {
+                set
+                {
+                if( m_option == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOption, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_option= value;
+                OnPropertyChanged(PropertyNameOption);
+                }
+                }
+                get
+                {
+                return m_option;}
                 }
 
               

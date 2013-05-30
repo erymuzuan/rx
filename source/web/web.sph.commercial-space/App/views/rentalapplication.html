@@ -1,10 +1,16 @@
 ﻿<form class="form-horizontal">
-    <div>
-        <input id="IsCompany" type="checkbox" class="checkbox" data-bind="checked: rentalapplication.IsCompany" />
-        <label for="IsCompany">Tanda jika anda memohon bagi pihak syarikat</label>
+    
+    <div class="control-group">
+        <div class="controls">
+            <label class="checkbox">
+                <input data-bind="checked: rentalapplication.IsCompany" id="rentalapplication.IsCompany" type="checkbox" name="rentalapplication.IsCompany" />
+                Tanda jika anda memohon bagi pihak syarikat
+            </label>
+        </div>
     </div>
-    <div class="header-section">
-        <h1>Maklumat Pegawai Yang Boleh Dihubungi</h1>
+
+    <div>
+        <h2>Maklumat Pegawai Yang Boleh Dihubungi</h2>
     </div>
     <div class="control-group">
         <label class="control-label">Nama</label>
