@@ -9,6 +9,17 @@
         max-width: none;
     }
 
+    
+.loader .page-progress-bar {
+    margin: 14px 0 0 0 ;
+}
+
+.loader {
+    visibility: hidden;
+}
+.loader.active {
+    visibility: visible;
+}
 @media (max-height: 800px)
 {
 

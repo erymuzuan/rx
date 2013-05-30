@@ -9,7 +9,7 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
+define(['services/datacontext', 'services/logger'], function (context, logger) {
 
     var title = ko.observable(),
         buildingId = ko.observable(),

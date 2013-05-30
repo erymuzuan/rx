@@ -1,3 +1,20 @@
-﻿<form class="form-horizontal">
-    
-</form>
+﻿<div>
+    <table class=" table table-striped">
+        <caption>Senarai Jenis kontrak</caption>
+        <thead>
+            <tr>
+                <th>Jenis</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: contractTemplateCollection">
+            <tr>
+                <td>
+                    <a href="#" data-bind="text: Item2, click : $parent.editCommand"></a>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary" href="/#/contracttypetemplate/0">+ Jenis Kontrat</a>
+</div>

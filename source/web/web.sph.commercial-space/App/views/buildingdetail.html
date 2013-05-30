@@ -1,70 +1,98 @@
 ﻿<div data-bind="visible: isBusy">
-    <img src="/Images/spinner-md.gif" />
+    <img src="/Images/spinner-md.gif" alt="loading.." />
 </div>
-<section id="building-details" class="view">
+<form id="building-details" class="form-horizontal">
     <div class="page-header">
-        <h1 class="page-title" data-bind="text: title"></h1>
+        <h1 data-bind="text: title"></h1>
     </div>
-    <div class="labelLeft">
-        <label title="Name">Nama : </label>
-        <input type="text" name="building.Name" data-bind="value: building.Name" />
+    <div class="control-group">
+        <label for="building.Name" class="control-label">Nama</label>
+        <div class="controls">
+            <input data-bind="value: building.Name" id="building.Name" type="text" name="building.Name" />
+        </div>
     </div>
-    <div class="labelLeft">
-        <label title="LotNo">No. Lot : </label>
-        <input type="text" name="building.LotNo" data-bind="value: building.LotNo" />
+
+    <div class="control-group">
+        <label for="building.LotNo" class="control-label">No lot :</label>
+        <div class="controls">
+            <input data-bind="value: building.LotNo" id="building.LotNo" type="text" name="building.LotNo" />
+        </div>
     </div>
-    <div class="labelLeft">
-        <label title="Street">Jalan : </label>
-        <input type="text" name="building.Address.Street" data-bind="value: building.Address.Street" />
+    <div class="control-group">
+        <label for="building.Address.Street" class="control-label">Alamat</label>
+        <div class="controls">
+            <input data-bind="value: building.Address.Street" id="building.Address.Street" type="text" name="building.Address.Street" />
+        </div>
     </div>
-    <div class="labelLeft">
-        <label title="City">Bandar : </label>
-        <input type="text" name="building.Address.City" data-bind="value: building.Address.City" />
+    <div class="control-group">
+        <label for="building.Address.City" class="control-label">Bandar/Daerah</label>
+        <div class="controls">
+            <input data-bind="value: building.Address.City" id="building.Address.City" type="text" name="building.Address.City" />
+        </div>
     </div>
-    <div class="labelLeft">
-        <label title="Postcode">Poskod : </label>
-        <input type="text" name="building.Address.Postcode" data-bind="value: building.Address.Postcode" />
+
+
+    <div class="control-group">
+        <label for="building.Address.Postcode" class="control-label">Poskod</label>
+        <div class="controls">
+            <input data-bind="value: building.Address.Postcode" id="building.Address.Postcode" type="text" name="building.Address.Postcode" />
+        </div>
     </div>
-    <div class="labelLeft">
-        <label title="State">Negeri : </label>
-        <select name="building.Address.State" data-bind="value: building.Address.State">
-            <option value="Kuala Lumpur">Kuala Lumpur</option>
-            <option value="Selangor">Selangor</option>
-            <option value="Perak">Perak</option>
-            <option value="Pahang">Pahang</option>
-            <option value="Pulau Pinang">Pulau Pinang</option>
-            <option value="Melaka">Melaka</option>
-            <option value="Johor">Johor</option>
-            <option value="Kelantan">Kelantan</option>
-            <option value="Perlis">Perlis</option>
-            <option value="Sabah">Sabah</option>
-            <option value="Sarawak">Sarawak</option>
-            <option value="Terengganu">Terengganu</option>
-            <option value="Kedah">Kedah</option>
-            <option value="Negeri Sembilan">Negeri Sembilan</option>
-        </select>
+
+    <div class="control-group">
+        <label for="building.Address.State" class="control-label">Negeri</label>
+        <div class="controls">
+            <select name="building.Address.State" id="building.Address.State" data-bind="value: building.Address.State">
+                <option value="Kuala Lumpur">Kuala Lumpur</option>
+                <option value="Selangor">Selangor</option>
+                <option value="Perak">Perak</option>
+                <option value="Pahang">Pahang</option>
+                <option value="Pulau Pinang">Pulau Pinang</option>
+                <option value="Melaka">Melaka</option>
+                <option value="Johor">Johor</option>
+                <option value="Kelantan">Kelantan</option>
+                <option value="Perlis">Perlis</option>
+                <option value="Sabah">Sabah</option>
+                <option value="Sarawak">Sarawak</option>
+                <option value="Terengganu">Terengganu</option>
+                <option value="Kedah">Kedah</option>
+                <option value="Negeri Sembilan">Negeri Sembilan</option>
+            </select>
+        </div>
     </div>
-    <div class="labelLeft">
-        <label title="Size">Size (sq/ft) : </label>
-        <input type="text" name="building.Size" data-bind="value: building.Size" />
+    <div class="control-group">
+        <label for="building.Size" class="control-label">Saiz</label>
+        <div class="controls">
+            <div class="input-append">
+                <input data-bind="value: building.Size" id="building.Size" type="text" name="building.Size" />
+                <span class="add-on">kps</span>
+            </div>
+        </div>
     </div>
-    <div class="labelLeft">
-        <label title="Floors">Tingkat : </label>
-        <input type="text" name="building.Floors" data-bind="value: building.Floors" />
+
+    <div class="control-group">
+        <label for="building.Floors" class="control-label">Jumlah tingkat</label>
+        <div class="controls">
+            <input data-bind="value: building.Floors" id="building.Floors" type="number" max="100" min="1" name="building.Floors" />
+        </div>
     </div>
-    <div class="labelLeft">
-        <label title="Status">Status : </label>
-        <select name="building.Status" data-bind="value: building.Status">
-            <option value="Good">Good</option>
-            <option value="Ready">Ready to Occupy</option>
-            <option value="Damage">Damage</option>
-            <option value="Maintenance">Under Maintenance</option>
-        </select>
+
+    <div class="control-group">
+        <label for="building.Status" class="control-label">Status</label>
+        <div class="controls">
+            <select name="building.Status" id="building.Status" data-bind="value: building.Status">
+                <option value="Good">Good</option>
+                <option value="Ready">Ready to Occupy</option>
+                <option value="Damage">Damage</option>
+                <option value="Maintenance">Under Maintenance</option>
+            </select>
+        </div>
     </div>
+
     <a type="button" class="btn btn-success" data-toggle="modal" data-bind="click: showMapCommand" href="#map-panel">Show Map</a>
-    <div class="labelLeft">
+    <div>
         <input type="button" name="add-floor-button" class="btn" data-bind="click: addFloorCommand" value="+ Floor" />
-        <table>
+        <table class="table table-condensed table-striped">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -77,7 +105,7 @@
             <tbody data-bind="foreach: building.FloorCollection">
                 <tr>
                     <td>
-                        <input type="text" data-bind="value: Name, uniqueName: true" /></td>
+                        <input class="input-large" type="text" data-bind="value: Name, uniqueName: true" /></td>
                     <td>
                         <input type="text" data-bind="value: Size, uniqueName: true" /></td>
                     <td>
@@ -96,9 +124,9 @@
     </div>
 
 
-</section>
+</form>
 
-<section class="modal hide google-maps" id="map-panel" style="margin-left: -500px;width: 940px">
+<section class="modal hide google-maps" id="map-panel" style="margin-left: -500px; width: 940px">
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>

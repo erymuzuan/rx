@@ -42,7 +42,6 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/Content/bootstrap-datepicker.css")
                 .Include("~/Content/durandal.css")
                 .Include("~/Content/toastr.css")
-                .Include("~/Content/app.css")
                 .Include("~/Content/sprite.css")
                 .Include("~/Content/site.css")
               );
