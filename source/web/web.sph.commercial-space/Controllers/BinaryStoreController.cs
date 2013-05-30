@@ -40,6 +40,17 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         }
 
 
+        public async Task<ActionResult> Get(string id)
+        {
+            var binaryStore = ObjectBuilder.GetObject<IBinaryStore>();
+            var doc = await binaryStore.GetContentAsync(id);
+            if (null == doc)
+                return Content("");
+
+            return File(doc.Content, MimeMapping.GetMimeMapping(doc.Extension), doc.FileName);
+
+        }
+
         [HttpPost]
         public async Task<ActionResult> Remove(string fileNames)
         {

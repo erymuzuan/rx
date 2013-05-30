@@ -20,6 +20,11 @@
 .loader.active {
     visibility: visible;
 }
+
+.selected {
+    background-color: #e0e0e0;
+    color: #ffffff;
+}
 @media (max-height: 800px)
 {
 

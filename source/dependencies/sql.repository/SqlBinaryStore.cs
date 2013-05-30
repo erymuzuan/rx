@@ -26,6 +26,8 @@ namespace Bespoke.Sph.SqlRepository
             this.AddAsync(document).Wait(TimeSpan.FromSeconds(5));
         }
 
+       
+
         public async Task<BinaryStore> GetContentAsync(string stroreid)
         {
             const string sql = "SELECT [StoreId],[Content],[Extension],[FileName] FROM [Sph].[BinaryStore]" +

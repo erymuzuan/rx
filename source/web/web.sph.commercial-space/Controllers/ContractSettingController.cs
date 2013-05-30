@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.SphCommercialSpaces.Domain;
 
@@ -7,19 +6,24 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public class ContractSettingController : Controller
     {
-        public async Task<ActionResult> SaveContractType(string contractType)
+        public async Task<ActionResult> Save(ContractTemplate template)
         {
             var context = new SphDataContext();
-            var contractTemplate = new ContractTemplate
-                {
-                    Type = contractType
-                };
+            var item = await
+                       context.LoadOneAsync<ContractTemplate>(t => t.ContractTemplateId == template.ContractTemplateId)
+                       ?? template;
+            item.Type = template.Type;
+            item.Description = template.Description;
+            item.DocumentTemplateCollection.ClearAndAddRange(template.DocumentTemplateCollection);
+            item.TopicCollection.ClearAndAddRange(template.TopicCollection);
+       
+
             using (var session = context.OpenSession())
             {
-                session.Attach(contractTemplate);
+                session.Attach(item);
                 await session.SubmitChanges();
             }
-            return Json(contractType);
+            return Json(template);
         }
 
         public async Task<ActionResult> SaveDocumentTemplate(int id,ObjectCollection<DocumentTemplate> documentTemplates)
