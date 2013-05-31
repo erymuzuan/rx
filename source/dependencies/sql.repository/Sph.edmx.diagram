@@ -9,10 +9,10 @@
         <EntityTypeShape EntityType="Sph.SpatialStore" Width="1.5" PointX="2.625" PointY="0.5" />
         <EntityTypeShape EntityType="Sph.AuditTrail" Width="1.5" PointX="3" PointY="9.875" />
         <EntityTypeShape EntityType="Sph.Setting" Width="1.5" PointX="6" PointY="11.375" />
-        <EntityTypeShape EntityType="Sph.ContractTemplate" Width="1.5" PointX="4.625" PointY="6.5" />
-        <EntityTypeShape EntityType="Sph.CommercialSpace" Width="1.5" PointX="7.7407350799724153" PointY="6.2111559241130747" />
-        <EntityTypeShape EntityType="Sph.RentalApplication" Width="1.5" PointX="4.1920280923098456" PointY="7.2613572065072862" />
-        <EntityTypeShape EntityType="Sph.Contract" Width="1.5" PointX="5.25" PointY="0.875" />
+        <EntityTypeShape EntityType="Sph.ContractTemplate" Width="1.5" PointX="6.75" PointY="0.5" />
+        <EntityTypeShape EntityType="Sph.RentalApplication" Width="1.5" PointX="1.875" PointY="4.5" />
+        <EntityTypeShape EntityType="Sph.Contract" Width="1.5" PointX="7.51401325478871" PointY="3.7391759323604292" />
+        <EntityTypeShape EntityType="Sph.CommercialSpace" Width="1.5" PointX="9.08561697652825" PointY="30.127939923725993" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

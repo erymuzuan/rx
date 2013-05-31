@@ -19,14 +19,22 @@ define(['services/datacontext'],
                 var raTask = context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + routeData.rentalApplicationId);
                 var templateListTask = context.getTuplesAsync("ContractTemplate", "ContractTemplateId gt 0", "ContractTemplateId", "Type");
 
-                return $.when(raTask, templateListTask).then(function (ra, list) {
+                var tcs = new $.Deferred();
+                $.when(raTask, templateListTask).then(function (ra, list) {
                     vm.contractTypeOptions(list);
                     rentalApplication = ra;
+                    tcs.resolve(true);
                 });
+
+                return tcs.promise();
 
             },
             viewAttached = function (view) {
                 _uiready.init(view);
+                $('#documents').on('click', 'tr', function(e) {
+                    e.preventDefault();
+                    ko.mapping.fromJS(ko.mapping.toJS(ko.dataFor(this)), {}, vm.selectedDocument);
+                });
             },
             contract = {
                 ContractId: ko.observable(),
@@ -189,12 +197,18 @@ define(['services/datacontext'],
             },
             generateDocument = function () {
                 var tcs = new $.Deferred();
-                var data = JSON.stringify({id: contract.ContractId(), templateId : vm.selectedDocumentTemplate(), remarks : "", title : "what ever"});
+                var data = JSON.stringify({ id: contract.ContractId(), templateId: vm.selectedDocumentTemplate(), remarks: "", title: "what ever" });
                 context.post(data, "/Contract/GenerateDocument")
-                    .then(function (e) {
-                        tcs.resolve(e);
+                    .then(function (doc) {
+                        vm.contract.DocumentCollection.push(doc);
+                        tcs.resolve(doc);
                     });
                 return tcs.promise();
+            },
+            selectedDocument = {
+                Title: ko.observable(),
+                Extension: ko.observable(),
+                DocumentVersionCollection: ko.observableArray([])
             },
     clauseDetailsCollapsed = false,
     collapseClauseDetails = function (d, ev) {
@@ -238,6 +252,7 @@ define(['services/datacontext'],
             selectedDocumentTemplate: ko.observable(),
             startGenerateDocumentCommand: startGenerateDocument,
             generateDocumentCommand: generateDocument,
+            selectedDocument: selectedDocument,
             collapseDetailsCommand: collapseClauseDetails
         };
 

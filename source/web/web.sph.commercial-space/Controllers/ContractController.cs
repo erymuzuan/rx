@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                     Date = DateTime.Today,
                     Owner = new Owner
                         {
-                            
+
                         },
                     Type = template.Type,
                     CommercialSpace = cs,
@@ -71,12 +71,12 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Content(json);
         }
 
-        public async Task<ActionResult> GenerateDocument(int id, string templateStoreId, string title, string remarks)
+        public async Task<ActionResult> GenerateDocument(int id, string templateId, string title, string remarks)
         {
 
             var context = new SphDataContext();
             var contract = await context.LoadOneAsync<Contract>(r => r.ContractId == id);
-            
+
             var audit = new AuditTrail
             {
                 Operation = "Generate agreement document",
@@ -87,37 +87,45 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 Note = remarks
             };
 
-            using (var session = context.OpenSession())
-            {
-                session.Attach(audit);
-                await session.SubmitChanges();
-            }
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var file = await store.GetContentAsync(templateStoreId);
+            var file = await store.GetContentAsync(templateId);
             var temp = System.IO.Path.GetTempFileName() + ".docx";
             System.IO.File.WriteAllBytes(temp, file.Content);
             var word = ObjectBuilder.GetObject<IDocumentGenerator>();
-            Session["ContractDocumentPath"] = temp;
-            Session["ContractDocumentTitle"] = string.Format("{0}-{1:yyyyMMdd}.{2}.docx", contract.ReferenceNo, DateTime.Today, title);
 
+            var sessionKey = Guid.NewGuid().ToString();
+            var fileName = string.Format("{0}-{1:yyyyMMdd}.{2}.docx", contract.ReferenceNo, DateTime.Today, title);
+            var doc = new Document { Title = title, Extension = ".docx" };
+            doc.DocumentVersionCollection.Add(new DocumentVersion
+                {
+                    No = "1",
+                    Date = DateTime.Now,
+                    CommitedBy = User.Identity.Name,
+                    Note = "Newly generated",
+                    StoreId = sessionKey
+                });
 
+            var docItem = new BinaryStore
+            {
+                StoreId = sessionKey,
+                Extension = ".docx",
+                Content = System.IO.File.ReadAllBytes(temp),
+                FileName = fileName
+            };
+            await store.AddAsync(docItem);
+
+            contract.DocumentCollection.Add(doc);
+            using (var session = context.OpenSession())
+            {
+                session.Attach(audit, contract);
+                await session.SubmitChanges();
+            }
             word.Generate(temp, contract, audit);
-
-            return Json("");
+            return Json(doc);
         }
 
 
-        public ActionResult Download()
-        {
-            var temp = Session["ContractDocumentPath"] as string;
-            var file = Session["ContractDocumentTitle"] as string;
-            if (string.IsNullOrWhiteSpace(temp)) return Content("");
-
-            var content = System.IO.File.ReadAllBytes(temp);
-            var type = MimeMapping.GetMimeMapping(".docx");
-            return File(content, type, file);
-        }
 
     }
 }
