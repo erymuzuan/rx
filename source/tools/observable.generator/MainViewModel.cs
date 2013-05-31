@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace observable.generator
 {
-    internal class MainViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase
     {
         public RelayCommand<Type> GenerateObservableCommand { get; set; }
 
@@ -60,7 +60,14 @@ namespace observable.generator
         {
             this.IsBusy = true;
             var asembly = typeof(Entity).Assembly;
-            var types = asembly.GetTypes();
+            var types = asembly.GetTypes().AsQueryable()
+                .Where(t => !t.IsInterface)
+                .Where(t => t.Namespace == typeof(Entity).Namespace)
+                .Where(t => t.BaseType == typeof(Entity) || t.BaseType == typeof(DomainObject))
+                .Where(t => t != typeof(Entity))
+                .Where(t => t != typeof(DomainObject))
+                .OrderBy(t => t.Name)
+                ;
             this.TypeCollection.ClearAndAddRange(types);
 
             this.IsBusy = false;
