@@ -176,9 +176,29 @@ define(['services/datacontext'],
     removeClause = function (tpc, cls) {
         tpc.ClauseCollection.remove(cls);
     },
+            startGenerateDocument = function () {
+                var tcs = new $.Deferred();
+                context.loadOneAsync("ContractTemplate", "ContractTemplateId eq " + vm.selectedTemplateId())
+                    .then(function (t) {
+                        vm.documentTemplateCollection(ko.mapping.toJS(t.DocumentTemplateCollection));
+                        tcs.resolve(t);
+                    });
+
+                return tcs.promise();
+
+            },
+            generateDocument = function () {
+                var tcs = new $.Deferred();
+                var data = JSON.stringify({id: contract.ContractId(), templateId : vm.selectedDocumentTemplate(), remarks : "", title : "what ever"});
+                context.post(data, "/Contract/GenerateDocument")
+                    .then(function (e) {
+                        tcs.resolve(e);
+                    });
+                return tcs.promise();
+            },
     clauseDetailsCollapsed = false,
-    collapseClauseDetails = function (d,ev) {
-        $(ev.target).text(clauseDetailsCollapsed ?"collapse"  :"expand" );
+    collapseClauseDetails = function (d, ev) {
+        $(ev.target).text(clauseDetailsCollapsed ? "collapse" : "expand");
         if (clauseDetailsCollapsed) {
             $('#clauses textarea').slideDown();
         } else {
@@ -188,10 +208,13 @@ define(['services/datacontext'],
     },
             save = function () {
                 var json = ko.mapping.toJSON({ contract: contract });
-                return context.post(json, "Contract/Create")
+                var tcs = new $.Deferred();
+                context.post(json, "Contract/Create")
                     .then(function (c) {
-                        console.log(c);
+                        ko.mapping.fromJS(ko.mapping.toJS(c), {}, vm.contract);
+                        tcs.resolve(c);
                     });
+                return tcs.promise();
             };
 
         var vm = {
@@ -211,6 +234,10 @@ define(['services/datacontext'],
             contractTypeOptions: ko.observableArray(),
             selectedTemplateId: ko.observable(),
             viewAttached: viewAttached,
+            documentTemplateCollection: ko.observableArray([]),
+            selectedDocumentTemplate: ko.observable(),
+            startGenerateDocumentCommand: startGenerateDocument,
+            generateDocumentCommand: generateDocument,
             collapseDetailsCommand: collapseClauseDetails
         };
 
