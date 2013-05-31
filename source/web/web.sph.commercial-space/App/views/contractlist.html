@@ -1,0 +1,8 @@
+﻿<div class="container-fluid">
+    <h1>Senarai kontraks</h1>
+    <ul data-bind="foreach: contracts">
+        <li>
+            <a href="#" data-bind="attr :{href : '/#/contractdetails/' + ContractId() }, text: Title"></a>
+        </li>
+    </ul>
+</div>

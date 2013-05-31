@@ -16,15 +16,12 @@ define(['services/datacontext'],
             rentalApplication,
             activate = function (routeData) {
                 isBusy(true);
-                var raTask = context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + routeData.rentalApplicationId);
-                var templateListTask = context.getTuplesAsync("ContractTemplate", "ContractTemplateId gt 0", "ContractTemplateId", "Type");
-
                 var tcs = new $.Deferred();
-                $.when(raTask, templateListTask).then(function (ra, list) {
-                    vm.contractTypeOptions(list);
-                    rentalApplication = ra;
-                    tcs.resolve(true);
-                });
+                context.loadOneAsync("Contract", "ContractId eq " + routeData.id)
+                    .then(function (ctr) {
+                        ko.mapping.fromJS(ko.mapping.toJS(ctr), {}, vm.contract);
+                        tcs.resolve(true);
+                    });
 
                 return tcs.promise();
 
@@ -118,17 +115,7 @@ define(['services/datacontext'],
 
             },
 
-        generateContract = function () {
-            var json = JSON.stringify({ rentalApplicationId: rentalApplication.RentalApplicationId(), templateId: vm.selectedTemplateId() });
-            var tcs = new $.Deferred();
-            context.post(json, "/Contract/Generate")
-                .then(function (t) {
-                    ko.mapping.fromJS(ko.mapping.toJS(t), {}, vm.contract);
-                    tcs.resolve(t);
-                });
 
-            return tcs.promise();
-        },
         addAttachment = function () {
             contract.DocumentCollection.push({
                 Title: ko.observable(''),
@@ -251,7 +238,6 @@ define(['services/datacontext'],
             addClauseCommand: addClause,
             removeClauseCommand: removeClause,
             addAttachmentCommand: addAttachment,
-            generateContractCommand: generateContract,
             contractTypeOptions: ko.observableArray(),
             selectedTemplateId: ko.observable(),
             viewAttached: viewAttached,

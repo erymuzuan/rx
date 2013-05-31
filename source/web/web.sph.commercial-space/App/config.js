@@ -24,6 +24,22 @@
             caption: 'Tawaran'
         },
         {
+            url: 'contractlist',
+            moduleId: 'viewmodels/contractlist',
+            name: 'contractlist',
+            visible: true,
+            caption: 'Kontraks',
+            settings: { caption: 'Senarai Kontraks' }
+        },
+        {
+            url: 'contractdetails/:id',
+            moduleId: 'viewmodels/contractdetails',
+            name: 'contractdetails',
+            visible: false,
+            caption: 'Kontraks',
+            settings: { caption: 'Maklumat Kontraks' }
+        },
+        {
             url: 'building',
             moduleId: 'viewmodels/building',
             name: 'Bangunan',
