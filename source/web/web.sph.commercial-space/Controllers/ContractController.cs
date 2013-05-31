@@ -62,14 +62,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
                 };
 
-            var docs = from t in template.DocumentTemplateCollection
-                       select new Document
-                           {
-                               Title = t.Name,
-                               Extension = ".docx"
-                           };
-
-            contract.DocumentCollection.AddRange(docs);
             contract.TopicCollection.AddRange(template.TopicCollection);
 
             var json = await JsonConvert.SerializeObjectAsync(contract);
