@@ -1,6 +1,7 @@
-﻿#body {
-    margin-top: 50px;
+﻿body {
+    background-color: #ffffff;
 }
+
 .google-maps
 {
     min-height: 700px;

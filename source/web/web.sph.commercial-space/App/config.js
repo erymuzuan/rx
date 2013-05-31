@@ -15,12 +15,14 @@
             moduleId: 'viewmodels/admindashboard',
             name: 'Papan Tugas',
             visible: true,
+            icon : 'icon-desktop',
             caption: 'Papan Tugas'
         }, {
             url: 'offerdetails/:rentalId/:csId',
             moduleId: 'viewmodels/offerdetails',
             name: 'Tawaran',
             visible: false,
+            icon: 'icon-laptop',
             caption: 'Tawaran'
         },
         {
@@ -28,6 +30,7 @@
             moduleId: 'viewmodels/contractlist',
             name: 'contractlist',
             visible: true,
+            icon: 'icon-laptop',
             caption: 'Kontraks',
             settings: { caption: 'Senarai Kontraks' }
         },
@@ -36,6 +39,7 @@
             moduleId: 'viewmodels/contractdetails',
             name: 'contractdetails',
             visible: false,
+            icon: 'icon-laptop',
             caption: 'Kontraks',
             settings: { caption: 'Maklumat Kontraks' }
         },
@@ -44,6 +48,7 @@
             moduleId: 'viewmodels/building',
             name: 'Bangunan',
             visible: true,
+            icon: 'icon-laptop',
             caption: 'Building',
             settings: { caption: 'Senarai Bangunan' }
         },
@@ -53,6 +58,7 @@
             name: 'Setting',
             visible: true,
             caption: 'Setting',
+            icon: 'icon-laptop',
             settings: { caption: 'Settings' }
         },
         {
@@ -60,6 +66,7 @@
             moduleId: 'viewmodels/createcontract',
             name: 'create contract',
             visible: false,
+            icon: 'icon-laptop',
             caption: 'Buat kontrak'
         },
         {
@@ -67,6 +74,7 @@
             moduleId: 'viewmodels/contracttype',
             name: 'contract type',
             visible: true,
+            icon: 'icon-laptop',
             caption: 'Buat jenis kontrak'
         },
         {
@@ -74,6 +82,7 @@
             moduleId: 'viewmodels/contracttypetemplate',
             name: 'contract type',
             visible: false,
+            icon: 'icon-laptop',
             caption: 'Buat jenis kontrak'
         },
         {
@@ -81,6 +90,7 @@
             moduleId: 'viewmodels/commercialspace',
             name: 'Ruang Komersial',
             visible: true,
+            icon: 'icon-laptop',
             caption: 'Senarai Ruang Komersial'
         },
         {
@@ -88,24 +98,28 @@
             moduleId: 'viewmodels/buildingbound',
             name: 'Peta Kawasan',
             visible: true,
+            icon: 'icon-tablet',
             caption: 'Peta Kawasan'
         }, {
             url: 'buildingdetail/:id',
             moduleId: 'viewmodels/buildingdetail',
             name: 'BuildingDetail',
             caption: 'Building Details',
+            icon: 'icon-laptop',
             visible: false
         }, {
             url: 'lotdetail/:buildingId/:floorname',
             moduleId: 'viewmodels/lotdetail',
             name: 'LotDetail',
             caption: 'Lot Details',
+            icon: 'icon-tablet',
             visible: false
         }, {
             url: 'floorplan/:buildingId/:floorname',
             moduleId: 'viewmodels/floorplan',
             name: 'FloorPlan',
             caption: 'Floor plan',
+            icon: 'icon-laptop',
             visible: false
         },
         {
@@ -113,6 +127,7 @@
             moduleId: 'viewmodels/commercialspacedetail',
             name: 'ruang komersial',
             visible: false,
+            icon: 'icon-laptop',
             caption: 'commercial space'
         },
         {
@@ -120,15 +135,17 @@
             moduleId: 'viewmodels/rentalapplication',
             name: 'rental application',
             visible: false,
+            icon: 'icon-laptop',
             caption: 'rentalapplication',
             settings: { caption: 'Permohonan' }
         },
         {
             url: 'buildingforrental',
             moduleId: 'viewmodels/buildingforrental',
-            name: 'permohonan',
+            name: 'Permohonan',
             visible: true,
             caption: 'permohonan',
+            icon: 'icon-laptop',
             settings: { caption: 'Permohonan' }
         },
         {
@@ -137,6 +154,7 @@
             name: 'commercialspaceforrental',
             visible: false,
             caption: 'commercialspaceforrental',
+            icon: 'icon-laptop',
             settings: { caption: 'Permohonan' }
         },
         {
@@ -145,6 +163,7 @@
             name: 'applicationlist',
             visible: false,
             caption: 'Senarai Permohonan',
+            icon: 'icon-laptop',
             settings: { caption: 'Senarai permohonan' }
         },
         {
@@ -153,6 +172,7 @@
             name: 'applicationdetailforverification',
             visible: false,
             caption: 'Senarai Permohonan',
+            icon: 'icon-laptop',
             settings: { caption: 'Maklumat permohonan' }
         },
         {
@@ -161,6 +181,7 @@
             name: 'rental application',
             visible: false,
             caption: 'returnedapplication',
+            icon: 'icon-laptop',
             settings: { caption: 'Kembalikan Permohonan' }
         }
     ];

@@ -10,29 +10,16 @@
 
     @Scripts.Render("~/scripts/vendor")
 </head>
-<body>
-    <header>
-        <div class="content-wrapper">
-            <div class="float-left">
-                <p class="site-title">@Html.ActionLink("Ruang Komersil", "Index", "Home") </p>
-                
-            </div>
-            <div class="float-right">
-
-                <nav>
-                </nav>
-            </div>
+    <body>
+        <div id="body">
+            @RenderSection("featured", required: false)
+            <section>
+                @RenderBody()
+            </section>
         </div>
-    </header>
-    <div id="body">
-        @RenderSection("featured", required: false)
-        <section class="content-wrapper main-content clear-fix">
-            @RenderBody()
-        </section>
-    </div>
 
 
 
-    @RenderSection("scripts", required: false)
-</body>
+        @RenderSection("scripts", required: false)
+    </body>
 </html>
