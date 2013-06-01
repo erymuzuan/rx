@@ -1,68 +1,46 @@
 ﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
 /// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../../Scripts/__common.js" />
-/// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/moment.js" />
+/// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
+define(['services/datacontext', 'services/logger'], function (context, logger) {
 
-    var activate = function () {
-        logger.log('Admin Dashboard Activated', null, 'admindashboard', true);
-        var tcs = new $.Deferred();
-        var newTask = context.getCountAsync("RentalApplication", "Status eq 'New'", "Status");
-        var aprovedTask = context.getCountAsync("RentalApplication", "Status eq 'Approved'", "Status");
-        var waitingTask = context.getCountAsync("RentalApplication", "Status eq 'Waiting'", "Status");
-        var declinedTask = context.getCountAsync("RentalApplication", "Status eq 'Declined'", "Status");
-        var confirmedTask = context.getCountAsync("RentalApplication", "Status eq 'Confirmed'", "Status");
-        var offerRejectedTask = context.getCountAsync("RentalApplication", "Status eq 'OfferRejected'", "Status");
-        var waitingConfirmationTask = context.getCountAsync("RentalApplication", "Status eq 'Offered'", "Status");
-        var returnedTask = context.getCountAsync("RentalApplication", "Status eq 'Returned'", "Status");
-
-        $.when(newTask, aprovedTask, waitingTask, declinedTask, confirmedTask, offerRejectedTask, waitingConfirmationTask, returnedTask)
-            .then(function (newCount, approved, waiting, declined, confirmed, offerRejected, waitingConfirmation, returned) {
-                vm.approved(approved);
-                vm.newCount(newCount);
-                vm.waiting(waiting);
-                vm.declined(declined);
-                vm.confirmed(confirmed);
-                vm.offerRejected(offerRejected);
-                vm.waitingConfirmation(waitingConfirmation);
-                vm.returned(returned);
-
-                tcs.resolve(true);
-            });
-        return tcs.promise();
-    },
-        viewList = function (status) {
-            /**/
+    var isBusy = ko.observable(false),
+        activate = function () {
+            isBusy(true);
+            var apps = [{ status: 'New', count: -1, text: "Baru", color: "bred" },
+                { status: 'Approved', count: -1, text: "Lulus", color: "bgreen" },
+                { status: 'Waiting', count: -1, text: "Menunggu", color: "bviolet" },
+                { status: 'Declined', count: -1, text: "Ditolak", color: "bred" },
+                { status: 'Confirmed', count: -1, text: "Tawaran diterima", color: "bblue" },
+                { status: 'OfferRejected', count: -1, text: "Tawaran ditolak", color: "bred" },
+                { status: 'Offered', count: -1, text: "Ditwarkan", color: "bgreen" },
+                { status: 'Returned', count: -1, text: "Dikembalikan", color: "borange" }
+            ];
             var tcs = new $.Deferred();
-            setTimeout(function () {
-                var url = '/#/applicationlist/' + status;
-                console.log(status);
-                tcs.resolve(status);
-                router.navigateTo(url);
-            }, 200);
+            _(apps).each(function (s) {
+                context.getCountAsync("RentalApplication", "Status eq '" + s.status + "'", "Status")
+                    .then(function (c) {
+                        s.count = c;
+                        var done = _(apps).every(function (st) { return st.count >= 0; });
+                        if (done) {
+                            vm.applications(apps);
+                            isBusy(false);
+                            tcs.resolve(true);
+                        }
+                    });
+            });
             return tcs.promise();
         };
 
 
     var vm = {
         activate: activate,
+        isBusy: isBusy,
         title: 'Papan Tugas',
-        rentalApplications: ko.observableArray([]),
-        newCount: ko.observable(),
-        rejected: ko.observable(),
-        approved: ko.observable(),
-        waiting: ko.observable(),
-        declined: ko.observable(),
-        confirmed: ko.observable(),
-        waitingConfirmation: ko.observable(),
-        offerRejected: ko.observable(),
-        allocate: ko.observable(),
-        returned: ko.observable(0),
-        viewCommand: viewList
+        applications: ko.observableArray(),
+        contracts: ko.observableArray()
 
     };
 

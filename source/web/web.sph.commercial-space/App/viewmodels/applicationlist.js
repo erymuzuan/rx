@@ -1,22 +1,23 @@
 ﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
 /// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../../Scripts/__common.js" />
-/// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
     var status = ko.observable(),
+        isBusy = ko.observable(false),
         activate = function (routedata) {
-            logger.log('Application List View Activated', null, 'applicationlist', true);
+            vm.applications.removeAll();
+            isBusy(true);
             status(routedata.status);
             var tcs = new $.Deferred();
             var query = String.format("Status eq '{0}'", status());
             context.loadAsync("RentalApplication", query).done(function (lo) {
                 vm.applications(lo.itemCollection);
                 tcs.resolve(true);
+                isBusy(false);
             });
             tcs.promise();
         },
@@ -24,7 +25,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         viewAttached = function (view) {
             bindEventToList(view, '#div-application', gotoDetails);
         },
-        
+
         bindEventToList = function (rootSelector, selector, callback, eventName) {
             var eName = eventName || 'click';
             $(rootSelector).on(eName, selector, function () {
@@ -33,7 +34,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 return false;
             });
         },
-        
+
         gotoDetails = function (selectedApplication) {
             if (selectedApplication && selectedApplication.RentalApplicationId()) {
                 var url = '/#/verifyapplication/' + selectedApplication.RentalApplicationId();
@@ -42,6 +43,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         };
 
     var vm = {
+        status: status,
+        isBusy: isBusy,
         activate: activate,
         title: 'Application List',
         applications: ko.observableArray([]),

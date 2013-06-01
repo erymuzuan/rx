@@ -11,7 +11,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
     var title = ko.observable(),
         buildingId = ko.observable(),
         activate = function (routedata) {
-            logger.log('Permohonan View Activated', null, 'commercialspaceforrental', true);
+
             buildingId(routedata.buildingId);
             title('Ruang Komersial Untuk Disewa');
 

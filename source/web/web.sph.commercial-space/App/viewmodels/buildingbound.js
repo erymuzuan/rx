@@ -22,9 +22,7 @@ define(['services/datacontext',
             isZoom = false,
             buildingCollection = ko.observableArray(),
             activate = function () {
-                setTimeout(createMap, 2500);
                 return true;
-
             },
             viewAttached = function () {
                 mapvm.setupAutocomplete(document.getElementById('search'));
@@ -34,6 +32,7 @@ define(['services/datacontext',
                         .val("")
                         .focus();
                 });
+                createMap();
             },
             highlight = function (b) {
                 _.each(buildingCollection(), function (g) {

@@ -1,87 +1,37 @@
 ﻿<section>
-    <h1>Dashboard</h1>
+    <h1>Permohonan</h1>
 </section>
 <section id="rental-list">
-    <ul class="today-datas">
+    <ul class="today-datas" data-bind="foreach: applications">
 
-        <li class="bred">
-            <a href="#" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'New' }">
+        <li data-bind="attr: { class: color }">
+            <a href="#" data-bind="attr: { href: '/#/applicationlist/' + status }">
                 <div class="pull-left">
-                    <img src="/Images/dashboard-new.png" alt="baru" />
+                    <img data-bind="attr: { src: '/Images/dashboard-' + status + '.png' }" src="/Images/dashboard-new.png" alt="baru" />
                 </div>
-                <div class="pull-right" title="Go to rental details">
-                    <h3 data-bind="text: newCount"></h3>
-                    <label title="new">BARU</label>
+                <div class="pull-right">
+                    <h3 data-bind="text: count"></h3>
+                    <label data-bind="text: text"></label>
                 </div>
             </a>
         </li>
-        <li class="bblue">
-            <a href="#" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Approved'}">
+    </ul>
+</section><section>
+    <h1>Permohonan</h1>
+</section>
+<section>
+    <ul class="today-datas" data-bind="foreach: contracts">
+
+        <li data-bind="attr: { class: color }">
+            <a href="#" data-bind="attr: { href: '/#/applicationlist/' + status }">
                 <div class="pull-left">
-                    <img src="/Images/dashboard-new.png" alt="baru" />
+                    <img data-bind="attr: { src: '/Images/dashboard-' + status + '.png' }" src="/Images/dashboard-new.png" alt="baru" />
                 </div>
-                <div class="pull-right" title="Go to rental details">
-                    <h3 data-bind="text: approved"></h3>
-                    <label title="approved">LULUS</label>
-                </div>
-            </a>
-        </li>
-        <li class="bgreen">
-            <a href="#" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Declined'}">
-                <div class="pull-left">
-                    <img src="/Images/dashboard-declined.png" alt="baru" />
-                </div>
-                <div class="pull-right" title="Go to rental details">
-                    <h3 data-bind="text: declined"></h3>
-                    <label title="declined">BATAL</label>
+                <div class="pull-right">
+                    <h3 data-bind="text: count"></h3>
+                    <label data-bind="text: text"></label>
                 </div>
             </a>
-        </li>
-        <li class="blightblue">
-            <a href="#" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Waiting'}">
-                <div class="pull-left">
-                    <img src="/Images/dashboard-waiting.png" alt="baru" />
-                </div>
-                <div class="pull-right" title="Go to rental details">
-                    <h3 data-bind="text: waiting"></h3>
-                    <label title="waiting-list">SENARAI MENUNGGU</label>
-                </div>
-            </a>
-        </li>
-        <li class="bviolet">
-            <a href="#" data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Offered' }">
-                 <div class="pull-left">
-                    <img src="/Images/dashboard-waiting.png" alt="baru" />
-                </div>
-               <div class="pull-right" title="Go to rental details">
-                    <h3 data-bind="text: waitingConfirmation"></h3>
-                   <label title="waiting-confirmation">MENUNGGU SURAT TAWARAN DIBALAS</label>
-                </div>
-            </a>
-        </li>
-        <li data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Rejected'}">
-            <article>
-                <div id="div5" title="Go to rental details">
-                    <label title="reject-offer">TOLAK TAWARAN</label>
-                    <address data-bind="text: offerRejected"></address>
-                </div>
-            </article>
-        </li>
-        <li data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Returned' }">
-            <article>
-                <div title="Go to rental details">
-                    <label title="reject-offer">DIKEMBALIKAN</label>
-                    <address data-bind="text:returned"></address>
-                </div>
-            </article>
-        </li>
-        <li data-bind="commandWithParameter: { command: viewCommand, commandParameter: 'Confirmed' }">
-            <article>
-                <div title="Go to rental details">
-                    <label title="reject-offer">Tawaran diterima</label>
-                    <address data-bind="text:confirmed"></address>
-                </div>
-            </article>
         </li>
     </ul>
 </section>

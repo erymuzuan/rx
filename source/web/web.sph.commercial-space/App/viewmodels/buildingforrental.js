@@ -9,8 +9,6 @@
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
     
     var activate = function () {
-        logger.log('Building View Activated', null, 'building', true);
-
         var tcs = new $.Deferred();
         context.loadAsync("Building", "BuildingId gt 0").done(function (lo) {
             vm.buildings(lo.itemCollection);

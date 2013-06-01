@@ -2,6 +2,10 @@
     background-color: #ffffff;
 }
 
+#body {
+    margin-bottom: 70px;
+}
+
 .google-maps
 {
     min-height: 700px;

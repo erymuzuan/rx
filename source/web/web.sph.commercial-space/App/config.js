@@ -28,9 +28,9 @@
         {
             url: 'contractlist',
             moduleId: 'viewmodels/contractlist',
-            name: 'contractlist',
+            name: 'Kontrak',
             visible: true,
-            icon: 'icon-laptop',
+            icon: 'icon-briefcase',
             caption: 'Kontraks',
             settings: { caption: 'Senarai Kontraks' }
         },
@@ -48,7 +48,7 @@
             moduleId: 'viewmodels/building',
             name: 'Bangunan',
             visible: true,
-            icon: 'icon-laptop',
+            icon: 'icon-building',
             caption: 'Building',
             settings: { caption: 'Senarai Bangunan' }
         },
@@ -98,7 +98,7 @@
             moduleId: 'viewmodels/buildingbound',
             name: 'Peta Kawasan',
             visible: true,
-            icon: 'icon-tablet',
+            icon: 'icon-globe',
             caption: 'Peta Kawasan'
         }, {
             url: 'buildingdetail/:id',
@@ -145,7 +145,7 @@
             name: 'Permohonan',
             visible: true,
             caption: 'permohonan',
-            icon: 'icon-laptop',
+            icon: 'icon-envelope',
             settings: { caption: 'Permohonan' }
         },
         {
