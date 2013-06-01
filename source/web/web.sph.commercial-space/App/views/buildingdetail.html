@@ -8,7 +8,7 @@
     <div class="control-group">
         <label for="building.Name" class="control-label">Nama</label>
         <div class="controls">
-            <input data-bind="value: building.Name" id="building.Name" type="text" name="building.Name" />
+            <input class="input-xxlarge" data-bind="value: building.Name" id="building.Name" type="text" name="building.Name" />
         </div>
     </div>
 
@@ -21,7 +21,7 @@
     <div class="control-group">
         <label for="building.Address.Street" class="control-label">Alamat</label>
         <div class="controls">
-            <input data-bind="value: building.Address.Street" id="building.Address.Street" type="text" name="building.Address.Street" />
+            <input class="input-xxlarge" data-bind="value: building.Address.Street" id="building.Address.Street" type="text" name="building.Address.Street" />
         </div>
     </div>
     <div class="control-group">
@@ -64,7 +64,7 @@
         <label for="building.Size" class="control-label">Saiz</label>
         <div class="controls">
             <div class="input-append">
-                <input data-bind="value: building.Size" id="building.Size" type="text" name="building.Size" />
+                <input class="input-small" data-bind="value: building.Size" id="building.Size" type="text" name="building.Size" />
                 <span class="add-on">kps</span>
             </div>
         </div>
@@ -91,10 +91,11 @@
 
     <a type="button" class="btn btn-success" data-toggle="modal" data-bind="click: showMapCommand" href="#map-panel">Show Map</a>
     <div>
-        <input type="button" name="add-floor-button" class="btn" data-bind="click: addFloorCommand" value="+ Floor" />
+        <input type="button" name="add-floor-button" class="btn pull-right" data-bind="click: addFloorCommand" value="+ Floor" />
         <table class="table table-condensed table-striped">
             <thead>
                 <tr>
+                    <th>No</th>
                     <th>Name</th>
                     <th>Size</th>
                     <th></th>
@@ -105,15 +106,18 @@
             <tbody data-bind="foreach: building.FloorCollection">
                 <tr>
                     <td>
+                        <input class="input-small" type="text" data-bind="value: Number, uniqueName: true" /></td>
+                    
+                    <td>
                         <input class="input-large" type="text" data-bind="value: Name, uniqueName: true" /></td>
                     <td>
                         <input type="text" data-bind="value: Size, uniqueName: true" /></td>
                     <td>
                         <input type="button" data-bind="click: $parent.removeFloorCommand" class="btn btn-mini" value="-" /></td>
                     <td>
-                        <input type="button" data-bind="click: $parent.addLotCommand" class="btn btn-mini" value="+Lot" /></td>
+                        <input type="button" data-bind="click: $parent.addLotCommand,enable: $parent.building.BuildingId() > 0 && Name" class="btn btn-mini" value="+Lot" /></td>
                     <td>
-                        <input type="button" data-bind="click: $parent.viewFloorPlanCommand" class="btn btn-mini" value="Pelan Lantai" /></td>
+                        <input type="button" data-bind="click: $parent.viewFloorPlanCommand,enable: $parent.building.BuildingId() > 0 && Name" class="btn btn-mini" value="Pelan Lantai" /></td>
                 </tr>
             </tbody>
         </table>
@@ -132,8 +136,8 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h3>Peta bangunan</h3>
     </div>
-    <div class="modal-body" style="width: 900px; height: 700px; max-height: 700px">
-        <div id="map" style="width: 900px; height: 700px"></div>
+    <div class="modal-body" style="width: 900px; height: 500px; max-height: 500px">
+        <div id="map" style="width: 900px; height: 500px"></div>
     </div>
 
     <div class="modal-footer">

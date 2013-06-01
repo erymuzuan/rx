@@ -55,6 +55,8 @@ define(['services/datacontext',
         var addFloor = function () {
             var floor = {
                 Name: ko.observable(),
+                Number: ko.observable(),
+                Note: ko.observable(),
                 Size: ko.observable()
             };
             vm.building.FloorCollection.push(floor);
@@ -170,7 +172,12 @@ define(['services/datacontext',
                     City: ko.observable(''),
                     Postcode: ko.observable(''),
                 },
-                FloorCollection: ko.observableArray([]),
+                FloorCollection: ko.observableArray([{
+                    Name: ko.observable(),
+                    Number: ko.observable(),
+                    Note: ko.observable(),
+                    Size: ko.observable()
+                }]),
                 LotNo: ko.observable(''),
                 Size: ko.observable(''),
                 Status: ko.observable(''),

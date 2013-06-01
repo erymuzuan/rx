@@ -7,20 +7,32 @@
             <span class="icon-search"></span>
         </form>
     </div>
-    <section id="cs-list" class="view-list" data-bind="foreach: commercialspaces">
-        <div class="article-right-content">
-            <article class="article-container-full-width">
-                <div id="div-cs" title="Go to cs details" data-bind="click: $parent.viewAttached">
-                    <h3 data-bind="text: RegistrationNo" style="text-transform: uppercase"></h3>
-                    <br />
-                    <strong data-bind="text: BuildingName"></strong>(
-                    <strong data-bind="text: FloorName"></strong>)
-                    <br />
-                    <address data-bind="text: Category"></address>
-                </div>
-            </article>
-        </div>
-    </section>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>No daftar</th>
+                <th>Lot</th>
+                <th>Bangunan</th>
+                <th>Lantai</th>
+                <th>Kategori</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: commercialspaces">
+            <tr>
+                <td>
+                    <a data-bind="attr :{href :'/#/commercialspacedetail/' + BuildingId() + '/' + FloorName() + '/' + CommercialSpaceId()}, text:RegistrationNo"></a>
+                </td>
+                <td data-bind="text:LotName"></td>
+                <td data-bind="text:BuildingName">4</td>
+                <td data-bind="text:FloorName">4</td>
+                <td data-bind="text:Category">4</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
     <div>
         <a href="/#/commercialspacedetail/0/-/0">
             <i class="icon-plus-sign"></i>

@@ -3,8 +3,7 @@
     var title = ko.observable(''),
         isBusy = ko.observable(false),
         activate = function() {
-            logger.log('Commercial Space View Activated', null, 'commercialspace', true);
-            title('Commercial Space');
+            title('Senarai ruang komersil');
 
             var tcs = new $.Deferred();
             context.loadAsync("CommercialSpace", "CommercialSpaceId gt 0").done(function(lo) {
