@@ -10,8 +10,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext','services/logger'],
-    function (context,logger) {
+define(['services/datacontext', 'services/logger'],
+    function (context, logger) {
 
         var isBusy = ko.observable(false),
             applicationId = ko.observable(),
@@ -39,9 +39,12 @@ define(['services/datacontext','services/logger'],
                 var payment = {
                     ReceiptNo: ko.observable(),
                     Amount: ko.observable(),
-                    Date:ko.observable()
+                    Date: ko.observable()
                 };
                 vm.offer.DepositPaymentCollection.push(payment);
+            },
+            configureDate = function (element) {
+                $(element).find('.k-datepicker').css({ "min-width": "100px", "width": "200px" }).kendoDatePicker({format: "yyyy-MM-dd"});
             },
             save = function () {
                 var tcs = new $.Deferred();
@@ -57,12 +60,13 @@ define(['services/datacontext','services/logger'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
+            configureDate: configureDate,
             showDetailsCommand: showDetails,
             applicationCollection: ko.observableArray([]),
             offer: {
                 Deposit: ko.observable(),
                 DepositPaid: ko.observable(),
-                Balance: ko.observable(),
+                DepositBalance: ko.observable(),
                 DepositPaymentCollection: ko.observableArray()
             },
             addPaymentCommand: addPayment,

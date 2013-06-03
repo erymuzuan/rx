@@ -4,9 +4,9 @@
         <thead>
             <tr>
                 <th>No daftar</th>
-                <th>Deposit</th>
+                <th>Deposit (RM)</th>
                 <th>T.Akhir</th>
-                <th>Jumlah Dibayar</th>
+                <th>Jumlah Dibayar (RM)</th>
             </tr>
         </thead>
         <tbody data-bind="foreach: applicationCollection">
@@ -15,7 +15,7 @@
                     <a data-bind="text: RegistrationNo, click: $parent.showDetailsCommand" href="#deposit-modal"></a>
                 </td>
                 <td data-bind="text: Offer.Deposit" ></td>
-                <td data-bind="text: Offer.ExpiryDate"></td>
+                <td data-bind="date: { value: Offer.ExpiryDate, format: 'DD/MM/YYYY' }"></td>
                 <td data-bind="text: Offer.DepositPaid"></td>
             </tr>
         </tbody>
@@ -29,13 +29,13 @@
     </div>
     <div class="modal-body" style="width: 900px; height: 500px; max-height: 500px">
         <div class="control-group">
-            <span >Deposit : </span><span data-bind="text: offer.Deposit" id="Offer.Deposit" />
+            <span >Deposit : </span><span class="add-on">RM </span><span data-bind="text: offer.Deposit" id="Offer.Deposit" />
         </div>
         <div class="control-group">
-             <span >Dibayar :</span><span data-bind="value: offer.DepositPaid" id="Offer.DepositPaid" />
+             <span >Dibayar :</span><span class="add-on">RM </span><span data-bind="text: offer.DepositPaid" id="Offer.DepositPaid" />
         </div>
         <div class="control-group">
-            <span >Baki :</span><span data-bind="value: offer.Balance" id="Offer.Balance" />
+            <span >Baki :</span><span class="add-on">RM </span><span data-bind="text: offer.DepositBalance" id="Offer.Balance" />
         </div>
         <div id="deposit-payment">
             <h4>Pembayaran</h4>
@@ -44,22 +44,22 @@
                 <thead>
                     <tr>
                         <th>No Resit</th>
-                        <th>Jumlah</th>
+                        <th>Jumlah (RM)</th>
                         <th>Tarikh</th>
                     </tr>
                 </thead>
-                <tbody data-bind="foreach: offer.DepositPaymentCollection">
+                <tbody data-bind=" foreach:{data: offer.DepositPaymentCollection,afterAdd : configureDate}">
                     <tr>
                         <td><input type="text" data-bind="value: ReceiptNo, uniqueName: true"/></td>
                         <td><input type="text" data-bind="value: Amount, uniqueName: true" /></td>
-                        <td><input type="text" data-bind="value: Date"/></td>
+                        <td><input class="k-datepicker" id="offer.Date" name="Date" type="text" data-bind="date: { value: Date, format: 'DD/MM/YYYY' }" /></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
     <div class="modal-footer">
-        <input type="button" value="Simpan" class="btn btn-small" data-bind="click:saveCommand"/>
+        <input type="button" value="Simpan" class="btn btn-small" data-bind="click:saveCommand" data-dismiss="modal"/>
         <input type="button" value="Batal" class="btn btn-small" data-dismiss="modal"/>
     </div>
 </section>
