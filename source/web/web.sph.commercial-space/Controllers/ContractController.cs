@@ -10,6 +10,9 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
     {
         public async Task<ActionResult> Create(Contract contract, int rentalApplicationId)
         {
+            if(0 == rentalApplicationId)throw new ArgumentException("RentalApplicationId cannot be 0", "rentalApplicationId");
+            if(0 != contract.ContractId)throw new ArgumentException("Contract must be new", "contract");
+
             var context = new SphDataContext();
 
             var audit = new AuditTrail
@@ -25,6 +28,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             using (var session = context.OpenSession())
             {
+                contract.RentalApplicationId = rentalApplicationId;
+                contract.Status = "Active";
                 session.Attach(contract,audit);
                 await session.SubmitChanges();
             }
@@ -56,6 +61,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             var contract = new Contract
                 {
+                    Title = string.Format("Kotrak sewaan dengan {0} dan {1}", app.CompanyName, "Bespoke"),
+                    ReferenceNo = string.Format("BSPB/2013/{0}", app.RegistrationNo),
                     Date = DateTime.Today,
                     Owner = new Owner
                         {
@@ -67,6 +74,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                     Period = app.Offer.Period,
                     PeriodUnit = app.Offer.PeriodUnit,
                     Option = app.Offer.Option,
+                    Value = app.Offer.Deposit + app.Offer.Period * 12 * app.Offer.Rent,
                     Tenant = new Tenant
                         {
                             Id = app.CompanyRegistrationNo ?? app.Contact.IcNo,
@@ -82,8 +90,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                             Address = app.Address
                         },
                     StartDate = app.Offer.ExpiryDate,
-                    EndDate = app.Offer.ExpiryDate.AddYears(app.Offer.Period),
-                    Title = ""
+                    EndDate = app.Offer.ExpiryDate.AddYears(app.Offer.Period)
 
                 };
 

@@ -50,6 +50,10 @@ public partial class CommercialSpace
 
     public string City { get; set; }
 
+    public string Building { get; set; }
+
+    public string Status { get; set; }
+
 }
 
 }

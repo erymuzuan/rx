@@ -44,9 +44,9 @@ public partial class SphContainer : DbContext
 
     public DbSet<RentalApplication> RentalApplications { get; set; }
 
-    public DbSet<Contract> Contracts { get; set; }
-
     public DbSet<CommercialSpace> CommercialSpaces { get; set; }
+
+    public DbSet<Contract> Contracts { get; set; }
 
 }
 

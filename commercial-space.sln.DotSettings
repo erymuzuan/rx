@@ -247,7 +247,7 @@ $END$</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/Scope/=A14108D8199BD94191FC02A2809F1F3D/Type/@EntryValue">InHtmlLikeFile</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/Shortcut/@EntryValue">dbt</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/Text/@EntryValue"> data-bind="value:$VAL$" $END$ </s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/Text/@EntryValue"> data-bind="text:$VAL$" $END$ </s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Description/@EntryValue">creates kendo upload</s:String>

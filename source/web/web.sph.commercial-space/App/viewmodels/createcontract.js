@@ -14,6 +14,7 @@ define(['services/datacontext', './_contract.clauses'],
     function (context, clauses) {
         var isBusy = ko.observable(false),
             rentalApplication,
+            contract = new bespoke.sphcommercialspace.domain.Contract(),
             activate = function (routeData) {
                 isBusy(true);
                 var raTask = context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + routeData.rentalApplicationId);
@@ -33,12 +34,8 @@ define(['services/datacontext', './_contract.clauses'],
             },
             viewAttached = function (view) {
                 _uiready.init(view);
-                $('#documents').on('click', 'tr', function (e) {
-                    e.preventDefault();
-                    ko.mapping.fromJS(ko.mapping.toJS(ko.dataFor(this)), {}, vm.selectedDocument);
-                });
+            
             },
-        contract = new bespoke.sphcommercialspace.domain.Contract(),
         generateContract = function () {
             var json = JSON.stringify({ rentalApplicationId: rentalApplication.RentalApplicationId(), templateId: vm.selectedTemplateId() });
             var tcs = new $.Deferred();
@@ -51,48 +48,6 @@ define(['services/datacontext', './_contract.clauses'],
 
             return tcs.promise();
         },
-        addAttachment = function () {
-            contract.DocumentCollection.push({
-                Title: ko.observable(''),
-                Extension: ko.observable(''),
-                DocumentVersionCollection: ko.observableArray([])
-
-            });
-        },
-            generateDocument = function () {
-                var tcs = new $.Deferred();
-                var data = JSON.stringify({
-                    id: contract.ContractId(),
-                    templateId: vm.selectedDocumentTemplate(),
-                    remarks: vm.documentRemarks(),
-                    title: vm.documentTitle()
-                });
-                context.post(data, "/Contract/GenerateDocument")
-                    .then(function (doc) {
-                        vm.contract.DocumentCollection.push(doc);
-                        tcs.resolve(doc);
-                    });
-                return tcs.promise();
-            },
-            selectedDocument = {
-                Title: ko.observable(),
-                Extension: ko.observable(),
-                DocumentVersionCollection: ko.observableArray([])
-            },
-            startGenerateDocument = function () {
-                var tcs = new $.Deferred();
-                vm.documentRemarks("");
-                vm.documentTitle("");
-                context.loadOneAsync("ContractTemplate", "ContractTemplateId eq " + vm.selectedTemplateId())
-                    .then(function (t) {
-                        vm.documentTemplateCollection(ko.mapping.toJS(t.DocumentTemplateCollection));
-                        tcs.resolve(t);
-                    });
-
-                return tcs.promise();
-
-            },
-
             save = function () {
                 var json = ko.mapping.toJSON({ contract: contract, rentalApplicationId: rentalApplication.RentalApplicationId() });
                 var tcs = new $.Deferred();
@@ -109,19 +64,11 @@ define(['services/datacontext', './_contract.clauses'],
             activate: activate,
             viewAttached: viewAttached,
             contract: contract,
+            selectedTemplateId: ko.observable(),
             saveCommand: save,
-            addAttachmentCommand: addAttachment,
             generateContractCommand: generateContract,
             contractTypeOptions: ko.observableArray(),
-            selectedTemplateId: ko.observable(),
-            documentTemplateCollection: ko.observableArray([]),
-            selectedDocumentTemplate: ko.observable(),
-            startGenerateDocumentCommand: startGenerateDocument,
-            generateDocumentCommand: generateDocument,
-            documentTitle: ko.observable(),
-            documentRemarks: ko.observable(),
-            auditTrailCollection: ko.observableArray(),
-            selectedDocument: selectedDocument
+            auditTrailCollection: ko.observableArray()
         };
 
         return vm;

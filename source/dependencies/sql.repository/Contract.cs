@@ -22,6 +22,8 @@ public partial class Contract
 
     public string ReferenceNo { get; set; }
 
+    public string Status { get; set; }
+
     public string TenantName { get; set; }
 
     public string TenantId { get; set; }

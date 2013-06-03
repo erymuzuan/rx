@@ -1016,7 +1016,7 @@
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  int  m_postcode;
+                private  string  m_postcode;
                 public const string PropertyNamePostcode = "Postcode";
 
               
@@ -1090,11 +1090,11 @@
             
             [DebuggerHidden]
             
-                public int Postcode
+                public string Postcode
                 {
                 set
                 {
-                if( m_postcode == value) return;
+                if( String.Equals( m_postcode, value, StringComparison.Ordinal)) return;
                 var arg = new PropertyChangingEventArgs(PropertyNamePostcode, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)

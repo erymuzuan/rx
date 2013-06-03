@@ -306,6 +306,7 @@
     <Content Include="App\viewmodels\shiftschedule.js" />
     <Content Include="App\viewmodels\verifyapplication.js" />
     <Content Include="App\viewmodels\_contract.clauses.js" />
+    <Content Include="App\viewmodels\_contract.documents.js" />
     <Content Include="App\views\admindashboard.html" />
     <Content Include="App\views\applicationlist.html" />
     <Content Include="App\views\building.html" />
