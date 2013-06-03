@@ -25,13 +25,13 @@
                                 <input class="input-xxlarge" data-bind="value: Title" type="text" />
 
                                 <textarea class="input-xxlarge" rows="8" data-bind="value: Text"></textarea>
-                                <button data-bind="click: $root.removeClauseCommand.bind($data, $parent)" class="close">
+                                <button data-bind="click: $root.removeClauseCommand.bind($data, $parent), attr:{title : 'Remove ' + Title() }" class="close">
                                     &times;
                                 </button>
 
                             </li>
                         </ul>
-                        <a class="btn" data-bind="click: $parent.startAddClauseCommand"
+                        <a class="btn" data-bind="click: $parent.startAddClauseCommand, attr:{title : 'Add clause to ' + Title() }"
                             href="#add-clause"
                             data-toggle="modal">+Clause</a>
                     </td>

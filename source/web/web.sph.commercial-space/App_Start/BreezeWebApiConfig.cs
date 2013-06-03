@@ -1,8 +1,7 @@
 using System.Web.Http;
-using Bespoke.Sph.Commerspace.Web.App_Start;
 
 [assembly: WebActivator.PreApplicationStartMethod(
-    typeof(BreezeWebApiConfig), "RegisterBreezePreStart")]
+    typeof(Bespoke.Sph.Commerspace.Web.App_Start.BreezeWebApiConfig), "RegisterBreezePreStart")]
 namespace Bespoke.Sph.Commerspace.Web.App_Start {
   ///<summary>
   /// Inserts the Breeze Web API controller route at the front of all Web API routes
