@@ -12,9 +12,9 @@
         <tbody data-bind="foreach: applicationCollection">
             <tr>
                 <td>
-                    <a data-bind="text: RegistrationNo"></a>
+                    <a data-bind="text: RegistrationNo, click: $parent.showDetailsCommand" href="#deposit-modal"></a>
                 </td>
-                <td data-bind="text: Offer.Deposit"></td>
+                <td data-bind="text: Offer.Deposit" ></td>
                 <td data-bind="text: Offer.ExpiryDate"></td>
                 <td data-bind="text: Offer.DepositPaid"></td>
             </tr>
@@ -23,3 +23,43 @@
     
     
 </div>
+<section id="deposit-modal" class="modal hide fade" style="margin-left: -500px; width: 940px">
+    <div class="modal-header">
+        <h4>Maklumat Deposit</h4>
+    </div>
+    <div class="modal-body" style="width: 900px; height: 500px; max-height: 500px">
+        <div class="control-group">
+            <span >Deposit : </span><span data-bind="text: offer.Deposit" id="Offer.Deposit" />
+        </div>
+        <div class="control-group">
+             <span >Dibayar :</span><span data-bind="value: offer.DepositPaid" id="Offer.DepositPaid" />
+        </div>
+        <div class="control-group">
+            <span >Baki :</span><span data-bind="value: offer.Balance" id="Offer.Balance" />
+        </div>
+        <div id="deposit-payment">
+            <h4>Pembayaran</h4>
+            <input type="button" value="+" class="btn-mini" data-bind="click: addPaymentCommand"/>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>No Resit</th>
+                        <th>Jumlah</th>
+                        <th>Tarikh</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: offer.DepositPaymentCollection">
+                    <tr>
+                        <td><input type="text" data-bind="value: ReceiptNo, uniqueName: true"/></td>
+                        <td><input type="text" data-bind="value: Amount, uniqueName: true" /></td>
+                        <td><input type="text" data-bind="value: Date"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input type="button" value="Simpan" class="btn btn-small" data-bind="click:saveCommand"/>
+        <input type="button" value="Batal" class="btn btn-small" data-dismiss="modal"/>
+    </div>
+</section>

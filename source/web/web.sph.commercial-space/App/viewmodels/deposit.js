@@ -6,28 +6,68 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext'],
-    function(context) {
+define(['services/datacontext','services/logger'],
+    function (context,logger) {
 
         var isBusy = ko.observable(false),
-            activate = function() {
+            applicationId = ko.observable(),
+            activate = function () {
                 var tcs = new $.Deferred();
-                context.loadAsync("RentalApplication", "RentalApplicationId gt 0").done(function (lo) {
+                context.loadAsync("RentalApplication", "Status eq 'Confirmed'").done(function (lo) {
                     vm.applicationCollection(lo.itemCollection);
                     tcs.resolve(true);
                 });
-               return  tcs.promise();
+                return tcs.promise();
+            },
+            showDetails = function () {
+                isBusy(true);
+                var data = this;
+                var query = "RentalApplicationId eq " + data.RentalApplicationId();
+                applicationId(data.RentalApplicationId());
+                context.loadOneAsync("RentalApplication", query)
+                     .then(function (ra) {
+                         ko.mapping.fromJSON(ko.mapping.toJSON(ra.Offer), {}, vm.offer);
+                         isBusy(false);
+                     });
+                $('#deposit-modal').modal({});
+            },
+            addPayment = function () {
+                var payment = {
+                    ReceiptNo: ko.observable(),
+                    Amount: ko.observable(),
+                    Date:ko.observable()
+                };
+                vm.offer.DepositPaymentCollection.push(payment);
+            },
+            save = function () {
+                var tcs = new $.Deferred();
+                var offer = ko.mapping.toJS(vm.offer);
+                var postdata = JSON.stringify({ id: applicationId(), offer: offer });
+                context.post(postdata, "/RentalApplication/SaveDepositPayment").done(function (e) {
+                    logger.log("Deposit payment received", e, "deposit", true);
+                    tcs.resolve(true);
+                });
+                return tcs.promise();
             };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            applicationCollection: ko.observableArray([])
+            showDetailsCommand: showDetails,
+            applicationCollection: ko.observableArray([]),
+            offer: {
+                Deposit: ko.observable(),
+                DepositPaid: ko.observable(),
+                Balance: ko.observable(),
+                DepositPaymentCollection: ko.observableArray()
+            },
+            addPaymentCommand: addPayment,
+            saveCommand: save
         };
-
 
         return vm;
     });

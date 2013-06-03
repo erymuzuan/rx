@@ -183,6 +183,15 @@
             caption: 'returnedapplication',
             icon: 'icon-laptop',
             settings: { caption: 'Kembalikan Permohonan' }
+        },
+        {
+            url: 'deposit',
+            moduleId: 'viewmodels/deposit',
+            name: 'deposit',
+            visible: true,
+            caption: 'deposit',
+            icon: 'icon-laptop',
+            settings: { caption: 'Senarai deposit' }
         }
     ];
     

@@ -370,5 +370,29 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json(true);
         }
+
+        public async Task<ActionResult> SaveDepositPayment(int id, Offer offer)
+        {
+            var context = new SphDataContext();
+            var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+            dbItem.Offer = offer;
+
+            var audit = new AuditTrail
+            {
+                Operation = "Kemaskini pembayaran deposit",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(RentalApplication).Name,
+                EntityId = id
+            };
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(dbItem, audit);
+                await session.SubmitChanges();
+            }
+
+            return Json(true);
+        }
     }
 }

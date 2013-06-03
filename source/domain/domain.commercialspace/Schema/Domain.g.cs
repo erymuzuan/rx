@@ -3735,7 +3735,7 @@
 
           
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_contractId;
+                private  int  m_contractId;
                 public const string PropertyNameContractId = "ContractId";
 
               
@@ -3904,11 +3904,11 @@
             
             [DebuggerHidden]
             
-                public string ContractId
+                public int ContractId
                 {
                 set
                 {
-                if( String.Equals( m_contractId, value, StringComparison.Ordinal)) return;
+                if( m_contractId == value) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameContractId, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)

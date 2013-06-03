@@ -246,7 +246,7 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
-			<xs:attribute name="ContractId" type="xs:string" use="required"/>
+			<xs:attribute name="ContractId" type="xs:int" use="required"/>
 			<xs:attribute name="ReferenceNo" type="xs:string" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
