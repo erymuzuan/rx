@@ -17,11 +17,28 @@ define(['services/datacontext'],
             activate = function (routeData) {
                 isBusy(true);
                 var tcs = new $.Deferred();
+
+                var contractLoaded = function (ctr) {
+                    ko.mapping.fromJS(ko.mapping.toJS(ctr), {}, vm.contract);
+                    //load audit trails
+                    var query = _("EntityId eq <%= contractId %> AND Type eq 'Contract'").template({ contractId: ctr.ContractId()});
+                    var query2 = _("EntityId eq <%= rentalApplicationId %> AND Type eq 'RentalApplication'").template({ rentalApplicationId: ctr.RentalApplicationId() });
+
+                    var t1 = context.loadAsync("AuditTrail", query);
+                    var t2 = context.loadAsync("AuditTrail", query2);
+                    $.when(t1, t2)
+                        .then(function (lo,lo2) {
+
+                            var logs = _(lo.itemCollection).union(lo2.itemCollection);
+
+                            vm.auditTrailCollection(logs);
+                            isBusy(false);
+                            tcs.resolve(true);
+                        });
+                };
+
                 context.loadOneAsync("Contract", "ContractId eq " + routeData.id)
-                    .then(function (ctr) {
-                        ko.mapping.fromJS(ko.mapping.toJS(ctr), {}, vm.contract);
-                        tcs.resolve(true);
-                    });
+                    .then(contractLoaded);
 
                 return tcs.promise();
 
@@ -248,6 +265,7 @@ define(['services/datacontext'],
             documentTitle: ko.observable(),
             documentRemarks: ko.observable(),
             selectedDocument: selectedDocument,
+            auditTrailCollection: ko.observableArray(),
             collapseDetailsCommand: collapseClauseDetails
         };
 

@@ -1,0 +1,129 @@
+﻿<div>
+    <div class="container-fluid">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Topics (<span data-bind="text: topicCollection().length"></span>)</th>
+                    <th>Clauses
+                                            
+                    <a href="#" data-bind="click: collapseDetailsCommand" class="pull-right">
+                        <i class="icon-collapse"></i>Collapse
+                    </a>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: topicCollection">
+                <tr>
+                    <td>
+                        <input type="text" class="input-large" data-bind="value: Title" />
+                        <textarea rows="5" class="input-large" data-bind="value: Text"></textarea>
+                    </td>
+                    <td>
+                        <ul data-bind="foreach: ClauseCollection">
+                            <li>
+                                <input class="input-xxlarge" data-bind="value: Title" type="text" />
+
+                                <textarea class="input-xxlarge" rows="8" data-bind="value: Text"></textarea>
+                                <button data-bind="click: $root.removeClauseCommand.bind($data, $parent)" class="close">
+                                    &times;
+                                </button>
+
+                            </li>
+                        </ul>
+                        <a class="btn" data-bind="click: $parent.startAddClauseCommand"
+                            href="#add-clause"
+                            data-toggle="modal">+Clause</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <a class="btn" data-bind="click: startAddTopicCommand"
+                href="#add-topic"
+                data-toggle="modal">+ Topic</a>
+
+        </div>
+    </div>
+
+
+
+
+    <div class="modal hide" id="add-topic">
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3>Topic</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="control-group">
+                    <label for="topic.Title" class="control-label">Tajuk</label>
+                    <div class="controls">
+                        <input data-bind="value: topic.Title" id="Text1" type="text" name="topic.Title" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="topic.Text" class="control-label">Text</label>
+                    <div class="controls">
+                        <textarea class="input-large input-block-level" rows="5" data-bind="value: topic.Text" id="Textarea1" name="topic.Text"></textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="topic.Description" class="control-label">Nota</label>
+                    <div class="controls">
+                        <textarea class="input-block-level" data-bind="value: topic.Description" id="Textarea2" rows="3" name="topic.Description" />
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: addTopicCommand" />
+        </div>
+    </div>
+
+
+    <div class="modal hide" id="add-clause">
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3>Klaus</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="control-group">
+                    <label for="clause.No" class="control-label">No</label>
+                    <div class="controls">
+                        <input data-bind="value: clause.No" id="clause.No" type="text" name="clause.No" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="clause.Title" class="control-label">Tajuk</label>
+                    <div class="controls">
+                        <input data-bind="value: clause.Title" id="clause.Title" type="text" name="clause.Title" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="clause.Text" class="control-label">Text</label>
+                    <div class="controls">
+                        <textarea class="input-large input-block-level" rows="5" data-bind="value: clause.Text" id="clause.Text" name="topic.Text"></textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="clause.Description" class="control-label">Nota</label>
+                    <div class="controls">
+                        <textarea class="input-block-level" data-bind="value: clause.Description" id="clause.Description" rows="3" name="clause.Description" />
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: addClauseCommand" />
+        </div>
+    </div>
+</div>

@@ -15,7 +15,7 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
                 { status: 'Declined', count: -1, text: "Ditolak", color: "bred" },
                 { status: 'Confirmed', count: -1, text: "Tawaran diterima", color: "bblue" },
                 { status: 'OfferRejected', count: -1, text: "Tawaran ditolak", color: "bred" },
-                { status: 'Offered', count: -1, text: "Ditwarkan", color: "bgreen" },
+                { status: 'Offered', count: -1, text: "Ditawarkan", color: "bgreen" },
                 { status: 'Returned', count: -1, text: "Dikembalikan", color: "borange" }
             ];
             var tcs = new $.Deferred();

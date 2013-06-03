@@ -8,7 +8,7 @@
     namespace Bespoke.SphCommercialSpaces.Domain
     {
     
-          ///<summary>CO
+          ///<summary>
           /// 
           ///</summary>
           [DataObject(true)]
@@ -3298,6 +3298,11 @@
                 public const string PropertyNameDescription = "Description";
 
               
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_status;
+                public const string PropertyNameStatus = "Status";
+
+              
 			private readonly ObjectCollection<DocumentTemplate>  m_DocumentTemplateCollection = new ObjectCollection<DocumentTemplate> ();
 
 			///<summary>
@@ -3373,6 +3378,34 @@
                 get
                 {
                 return m_description;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Status
+                {
+                set
+                {
+                if( String.Equals( m_status, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameStatus, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_status= value;
+                OnPropertyChanged(PropertyNameStatus);
+                }
+                }
+                get
+                {
+                return m_status;}
                 }
 
               
@@ -3518,6 +3551,16 @@
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  DateTime  m_endDate;
                 public const string PropertyNameEndDate = "EndDate";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  int  m_rentalApplicationId;
+                public const string PropertyNameRentalApplicationId = "RentalApplicationId";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_status;
+                public const string PropertyNameStatus = "Status";
 
               
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -3893,6 +3936,62 @@
                 get
                 {
                 return m_endDate;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public int RentalApplicationId
+                {
+                set
+                {
+                if( m_rentalApplicationId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRentalApplicationId, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_rentalApplicationId= value;
+                OnPropertyChanged(PropertyNameRentalApplicationId);
+                }
+                }
+                get
+                {
+                return m_rentalApplicationId;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Status
+                {
+                set
+                {
+                if( String.Equals( m_status, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameStatus, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_status= value;
+                OnPropertyChanged(PropertyNameStatus);
+                }
+                }
+                get
+                {
+                return m_status;}
                 }
 
               

@@ -6,22 +6,23 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../../Scripts/bootstrap.js" />
+/// <reference path="./_contract.clauses.js" />
 
 
-define(['services/datacontext'],
-    function (context) {
-
+define(['services/datacontext', './_contract.clauses'],
+    function (context, clauses) {
         var isBusy = ko.observable(false),
             rentalApplication,
             activate = function (routeData) {
                 isBusy(true);
                 var raTask = context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + routeData.rentalApplicationId);
                 var templateListTask = context.getTuplesAsync("ContractTemplate", "ContractTemplateId gt 0", "ContractTemplateId", "Type");
+                var logTask = context.loadAsync("AuditTrail", "EntityId eq " + routeData.rentalApplicationId);
 
                 var tcs = new $.Deferred();
-                $.when(raTask, templateListTask).then(function (ra, list) {
+                $.when(raTask, templateListTask, logTask).then(function (ra, list, logs) {
                     vm.contractTypeOptions(list);
+                    vm.auditTrailCollection(logs.itemCollection);
                     rentalApplication = ra;
                     tcs.resolve(true);
                 });
@@ -62,7 +63,6 @@ define(['services/datacontext'],
                         Street: ko.observable()
                     }
                 },
-
                 ContractingParty: {
                     Name: ko.observable(),
                     RegistrationNo: ko.observable(),
@@ -93,7 +93,6 @@ define(['services/datacontext'],
                         Postcode: ko.observable(),
                         Street: ko.observable()
                     }
-
                 },
                 CommercialSpace: {
                     CommercialSpaceId: ko.observable(),
@@ -115,7 +114,6 @@ define(['services/datacontext'],
                     BuildingLot: ko.observable(),
                     LotCollection: ko.observableArray([])
                 }
-
             },
 
         generateContract = function () {
@@ -124,6 +122,7 @@ define(['services/datacontext'],
             context.post(json, "/Contract/Generate")
                 .then(function (t) {
                     ko.mapping.fromJS(ko.mapping.toJS(t), {}, vm.contract);
+                    clauses.init(vm.contract);
                     tcs.resolve(t);
                 });
 
@@ -137,66 +136,6 @@ define(['services/datacontext'],
 
             });
         },
-        startAddTopic = function () {
-            topic.Text('');
-            topic.Title('');
-            topic.Description('');
-            topic.ClauseCollection([]);
-
-        },
-        editedTopic,
-        startAddClause = function (tpc) {
-            editedTopic = tpc;
-
-            clause.No('');
-            clause.Text('');
-            clause.Title('');
-            clause.Description('');
-        },
-    addClause = function () {
-        var clone = ko.mapping.fromJSON(ko.mapping.toJSON(clause));
-        editedTopic.ClauseCollection.push(clone);
-        clause.No('');
-        clause.Title('');
-        clause.Text('');
-        clause.Description('');
-    },
-        addTopic = function () {
-            var clone = ko.mapping.fromJSON(ko.mapping.toJSON(topic));
-            contract.TopicCollection.push(clone);
-            topic.Title('');
-            topic.Text('');
-            topic.Description('');
-            topic.ClauseCollection([]);
-        },
-    topic = {
-        Title: ko.observable(''),
-        Text: ko.observable(''),
-        Description: ko.observable(''),
-        ClauseCollection: ko.observableArray()
-    },
-    clause = {
-        Title: ko.observable(''),
-        No: ko.observable(''),
-        Text: ko.observable(''),
-        Description: ko.observable('')
-    },
-    removeClause = function (tpc, cls) {
-        tpc.ClauseCollection.remove(cls);
-    },
-            startGenerateDocument = function () {
-                var tcs = new $.Deferred();
-                vm.documentRemarks("");
-                vm.documentTitle("");
-                context.loadOneAsync("ContractTemplate", "ContractTemplateId eq " + vm.selectedTemplateId())
-                    .then(function (t) {
-                        vm.documentTemplateCollection(ko.mapping.toJS(t.DocumentTemplateCollection));
-                        tcs.resolve(t);
-                    });
-
-                return tcs.promise();
-
-            },
             generateDocument = function () {
                 var tcs = new $.Deferred();
                 var data = JSON.stringify({
@@ -217,18 +156,22 @@ define(['services/datacontext'],
                 Extension: ko.observable(),
                 DocumentVersionCollection: ko.observableArray([])
             },
-    clauseDetailsCollapsed = false,
-    collapseClauseDetails = function (d, ev) {
-        $(ev.target).text(clauseDetailsCollapsed ? "collapse" : "expand");
-        if (clauseDetailsCollapsed) {
-            $('#clauses textarea').slideDown();
-        } else {
-            $('#clauses textarea').slideUp();
-        }
-        clauseDetailsCollapsed = !clauseDetailsCollapsed;
-    },
+            startGenerateDocument = function () {
+                var tcs = new $.Deferred();
+                vm.documentRemarks("");
+                vm.documentTitle("");
+                context.loadOneAsync("ContractTemplate", "ContractTemplateId eq " + vm.selectedTemplateId())
+                    .then(function (t) {
+                        vm.documentTemplateCollection(ko.mapping.toJS(t.DocumentTemplateCollection));
+                        tcs.resolve(t);
+                    });
+
+                return tcs.promise();
+
+            },
+
             save = function () {
-                var json = ko.mapping.toJSON({ contract: contract });
+                var json = ko.mapping.toJSON({ contract: contract, rentalApplicationId: rentalApplication.RentalApplicationId() });
                 var tcs = new $.Deferred();
                 context.post(json, "Contract/Create")
                     .then(function (c) {
@@ -241,28 +184,21 @@ define(['services/datacontext'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
+            viewAttached: viewAttached,
             contract: contract,
-            topic: topic,
-            clause: clause,
             saveCommand: save,
-            addTopicCommand: addTopic,
-            startAddClauseCommand: startAddClause,
-            startAddTopicCommand: startAddTopic,
-            addClauseCommand: addClause,
-            removeClauseCommand: removeClause,
             addAttachmentCommand: addAttachment,
             generateContractCommand: generateContract,
             contractTypeOptions: ko.observableArray(),
             selectedTemplateId: ko.observable(),
-            viewAttached: viewAttached,
             documentTemplateCollection: ko.observableArray([]),
             selectedDocumentTemplate: ko.observable(),
             startGenerateDocumentCommand: startGenerateDocument,
             generateDocumentCommand: generateDocument,
             documentTitle: ko.observable(),
             documentRemarks: ko.observable(),
-            selectedDocument: selectedDocument,
-            collapseDetailsCommand: collapseClauseDetails
+            auditTrailCollection: ko.observableArray(),
+            selectedDocument: selectedDocument
         };
 
         return vm;

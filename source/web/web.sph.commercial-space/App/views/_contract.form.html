@@ -1,0 +1,183 @@
+﻿<form class="form-horizontal">
+    <h3>maklumat Kontak</h3>
+    <div class="control-group">
+        <label for="contract.Title" class="control-label">Tajuk Perjanjian</label>
+        <div class="controls">
+            <input data-bind="value: contract.Title" class="input-xxlarge" id="contract.Title" type="text" name="contract.Title" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label for="contract.ReferenceNo" class="control-label">No Rujukan</label>
+        <div class="controls">
+            <input class="input-large" data-bind="value: contract.ReferenceNo" id="contract.ReferenceNo" type="text" name="contract.ReferenceNo" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label for="contract.Date" class="control-label">Tarikh</label>
+        <div class="controls">
+            <input data-bind="value: contract.Date" id="contract.Date" type="text" class="k-datepicker" name="contract.Date" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label for="contract.Value" class="control-label">Nilai</label>
+        <div class="controls">
+            <div class="input-prepend">
+                <span class="add-on">RM</span>
+                <input data-bind="value: contract.Value" id="contract.Value" type="text" name="contract.Value" />
+            </div>
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="contract.Period" class="control-label">Tempoh</label>
+        <div class="controls">
+            <div class="input-append">
+                <input data-bind="value: contract.Period" id="contract.Period" type="number" name="contract.Period" />
+                <span class="add-on" data-bind="text: contract.PeriodUnit"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label for="contract.Option" class="control-label">Pilihan</label>
+        <div class="controls">
+            <input data-bind="value: contract.Option" id="contract.Option" type="number" name="contract.Option" />
+        </div>
+    </div>
+    <div class="form-horizontal">
+        <h3>Pemilik Kontrak</h3>
+        <div data-bind="with: contract.Owner">
+
+            <div class="control-group">
+                <label for="contract.Owner.Name" class="control-label">Nama</label>
+                <div class="controls">
+                    <input data-bind="value: Name" id="contract.Owner.Name" type="text" name="contract.Owner.Name" />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="contractOwnerTelephone" class="control-label">Telefon</label>
+                <div class="controls">
+                    <input data-bind="value: TelephoneNo" id="contractOwnerTelephone" type="text" name="Telephone" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="contractOwnerFax" class="control-label">No Fax</label>
+                <div class="controls">
+                    <input data-bind="value: FaxNo" id="contractOwnerFax" type="text" name="FaxNo" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="contractOwnerEmail" class="control-label">Emel</label>
+                <div class="controls">
+                    <input data-bind="value: Email" id="contractOwnerEmail" type="text" name="Email" />
+                </div>
+            </div>
+            <h4>Alamat</h4>
+            <div class="control-group">
+                <label for="contractOwnerStreet" class="control-label">Jalan</label>
+                <div class="controls">
+                    <input data-bind="value: Address.Street" id="contractOwnerStreet" type="text" name="Address.Street" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="contractOwnerCity" class="control-label">Bandar</label>
+                <div class="controls">
+                    <input data-bind="value: Address.City" id="contractOwnerCity" type="text" name="Address.City" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="contractOwnerPostcode" class="control-label">Poskod</label>
+                <div class="controls">
+                    <input data-bind="value: Address.Postcode" id="contractOwnerPostcode" type="text" name="Address.Postcode" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="contractOwnerState" class="control-label">Negeri</label>
+                <div class="controls">
+                    <input data-bind="value: Address.State" id="contractOwnerState" type="text" name="Address.State" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <h3>Penerima Kontrak</h3>
+    <div data-bind="with: contract.ContractingParty">
+        <div class="control-group">
+            <label for="contractingPartyName" class="control-label">Nama</label>
+            <div class="controls">
+                <input data-bind="value: Name" id="contractingPartyName" type="text" name="Name" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="contractingPartyRegistrationNo" class="control-label">No Pendaftaran</label>
+            <div class="controls">
+                <input data-bind="value: RegistrationNo" id="contractingPartyRegistrationNo" type="text" name="RegistrationNo" />
+            </div>
+        </div>
+        <h4>Pegawai Untuk dihubungi :  </h4>
+        <div class="control-group">
+            <label for="Contact.Name" class="control-label">Nama</label>
+            <div class="controls">
+                <input data-bind="value: Contact.Name" id="Contact.Name" type="text" name="Contact.Name" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="Contact.Role" class="control-label">Jawatan</label>
+            <div class="controls">
+                <input data-bind="value: Contact.Role" id="Contact.Role" type="text" name="Contact.Role" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Contact.MobileNo" class="control-label">No Telefon Bimbit</label>
+            <div class="controls">
+                <input data-bind="value: Contact.MobileNo" id="Contact.MobileNo" type="text" name="Contact.MobileNo" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Contact.OfficeNo" class="control-label">No Telefon Pejabat</label>
+            <div class="controls">
+                <input data-bind="value: Contact.OfficeNo" id="Contact.OfficeNo" type="text" name="Contact.OfficeNo" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Contact.Email" class="control-label">Emel</label>
+            <div class="controls">
+                <input data-bind="value: Contact.Email" id="Contact.Email" type="text" name="Contact.Email" />
+            </div>
+        </div>
+        <h4>Alamat</h4>
+        <div class="control-group">
+            <label for="ContractingParty.Address.Street" class="control-label">Jalan</label>
+            <div class="controls">
+                <input data-bind="value: Address.Street" id="ContractingParty.Address.Street" type="text" name="ContractingParty.Address.Street" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="ContractingParty.Address.City" class="control-label">Bandar</label>
+            <div class="controls">
+                <input data-bind="value: Address.City" id="ContractingParty.Address.City" type="text" name="ContractingParty.Address.City" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="ContractingParty.Address.Postcode" class="control-label">Poskod</label>
+            <div class="controls">
+                <input data-bind="value: Address.Postcode" id="ContractingParty.Address.Postcode" type="text" name="ContractingParty.Address.Postcode" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="ContractingParty.Address.State" class="control-label">Negeri</label>
+            <div class="controls">
+                <input data-bind="value: Address.State" id="ContractingParty.Address.State" type="text" name="ContractingParty.Address.State" />
+            </div>
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="contract.Remarks" class="control-label">Catatan</label>
+        <div class="controls">
+            <input data-bind="value: contract.Remarks" id="contract.Remarks" type="text" name="Remarks" />
+        </div>
+    </div>
+</form>

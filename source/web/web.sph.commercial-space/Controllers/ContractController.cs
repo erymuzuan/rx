@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using Bespoke.SphCommercialSpaces.Domain;
 using Newtonsoft.Json;
@@ -10,14 +8,39 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public class ContractController : Controller
     {
-
-
-        public async Task<ActionResult> Create(Contract contract)
+        public async Task<ActionResult> Create(Contract contract, int rentalApplicationId)
         {
             var context = new SphDataContext();
+
+            var audit = new AuditTrail
+            {
+                Operation = "Contract is created from application",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(RentalApplication).Name,
+                EntityId = rentalApplicationId,
+                Note = "-"
+            };
+
+
             using (var session = context.OpenSession())
             {
-                session.Attach(contract);
+                session.Attach(contract,audit);
+                await session.SubmitChanges();
+            }
+            var audit2 = new AuditTrail
+            {
+                Operation = "Contract is created from application",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(Contract).Name,
+                EntityId = rentalApplicationId,
+                Note = "-"
+            };
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(audit2);
                 await session.SubmitChanges();
             }
 
@@ -36,7 +59,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                     Date = DateTime.Today,
                     Owner = new Owner
                         {
-
+                            Name = "To get from settings",
+                            Email = "someone@bespoke.com.my"
                         },
                     Type = template.Type,
                     CommercialSpace = cs,
@@ -82,7 +106,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 Operation = "Generate agreement document",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
-                Type = typeof(RentalApplication).FullName,
+                Type = typeof(RentalApplication).Name,
                 EntityId = id,
                 Note = remarks
             };

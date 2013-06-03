@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                     Operation = "Submit",
                     DateTime = DateTime.Now,
                     User = User.Identity.Name,
-                    Type = typeof(RentalApplication).FullName,
+                    Type = typeof(RentalApplication).Name,
                     EntityId = rentalApplication.RentalApplicationId,
                     Note = "Permohonan melalui web"
                 };
@@ -71,7 +71,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 Operation = "Approval",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
-                Type = typeof(RentalApplication).FullName,
+                Type = typeof(RentalApplication).Name,
                 EntityId = id
             };
             using (var session = context.OpenSession())
@@ -96,7 +96,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 Operation = "Declined",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
-                Type = typeof(RentalApplication).FullName,
+                Type = typeof(RentalApplication).Name,
                 EntityId = id
             };
 
@@ -121,7 +121,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 Operation = "Retured",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
-                Type = typeof(RentalApplication).FullName,
+                Type = typeof(RentalApplication).Name,
                 EntityId = id,
                 Note = "-"
             };
@@ -147,7 +147,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 Operation = "Email retured notice",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
-                Type = typeof(RentalApplication).FullName,
+                Type = typeof(RentalApplication).Name,
                 EntityId = id,
                 Note = remarks
             };
@@ -189,7 +189,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 Operation = "Generate retured letter",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
-                Type = typeof(RentalApplication).FullName,
+                Type = typeof(RentalApplication).Name,
                 EntityId = id,
                 Note = remarks
             };
@@ -238,7 +238,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 Operation = "Penyediaan tawaran",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
-                Type = typeof(RentalApplication).FullName,
+                Type = typeof(RentalApplication).Name,
                 EntityId = id,
                 Note = "-"
             };
@@ -264,7 +264,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 Operation = "Keluarkan surat tawaran",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
-                Type = typeof(RentalApplication).FullName,
+                Type = typeof(RentalApplication).Name,
                 EntityId = id,
                 Note = "-"
             };
@@ -305,7 +305,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 Operation = "Keluarkan surat tawaran",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
-                Type = typeof(RentalApplication).FullName,
+                Type = typeof(RentalApplication).Name,
                 EntityId = id,
                 Note = "-"
             };
@@ -357,7 +357,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 Operation = "Terima surat tawaran",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
-                Type = typeof(RentalApplication).FullName,
+                Type = typeof(RentalApplication).Name,
                 EntityId = id,
                 Note = remarks
             };
