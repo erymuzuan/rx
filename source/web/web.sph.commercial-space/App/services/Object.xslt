@@ -21,7 +21,6 @@
         <!-- ELEMENT -->
         <xsl:otherwise>
 
-
           bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/> = function() {
         
 
@@ -37,7 +36,8 @@ return {
             </xsl:choose>
           </xsl:for-each>
           <!-- Element -->
-          <xsl:apply-templates select="xs:complexType/xs:all/xs:element"/>};//remove-last-comma
+          <xsl:apply-templates select="xs:complexType/xs:all/xs:element"/>isBusy : ko.observable(false)
+          };
           };
           
         </xsl:otherwise>

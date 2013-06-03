@@ -5,64 +5,33 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../services/domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-    function (context, logger, router) {
+define([],
+    function () {
 
         var isBusy = ko.observable(false),
-            activate = function () {
-                vm.topicCollection.push({ Title: "test", Description: "tsts", Text: "tststs" });
-                console.log(vm.topicCollection);
-            },
-            viewAttached = function (view) {
-
-            },
-
+        activate = function () {
+            vm.topicCollection.push({ Title: "test", Description: "tsts", Text: "tststs" });
+            console.log(vm.topicCollection);
+        },
         startAddTopic = function () {
-            topic.Text('');
-            topic.Title('');
-            topic.Description('');
-            topic.ClauseCollection([]);
-
+            topic(new bespoke.sphcommercialspace.domain.Topic());
+        },
+        addTopic = function () {
+            vm.topicCollection.push(topic);
         },
         editedTopic,
         startAddClause = function (tpc) {
             editedTopic = tpc;
-
-            clause.No('');
-            clause.Text('');
-            clause.Title('');
-            clause.Description('');
+            clause(new bespoke.sphcommercialspace.domain.Clause());
         },
         addClause = function () {
-            var clone = ko.mapping.fromJSON(ko.mapping.toJSON(clause));
-            editedTopic.ClauseCollection.push(clone);
-            clause.No('');
-            clause.Title('');
-            clause.Text('');
-            clause.Description('');
+            editedTopic.ClauseCollection.push(clause);
         },
-            addTopic = function () {
-                var clone = ko.mapping.fromJSON(ko.mapping.toJSON(topic));
-                vm.topicCollection.push(clone);
-                topic.Title('');
-                topic.Text('');
-                topic.Description('');
-                topic.ClauseCollection([]);
-            },
-        topic = {
-            Title: ko.observable(''),
-            Text: ko.observable(''),
-            Description: ko.observable(''),
-            ClauseCollection: ko.observableArray()
-        },
-        clause = {
-            Title: ko.observable(''),
-            No: ko.observable(''),
-            Text: ko.observable(''),
-            Description: ko.observable('')
-        },
+        topic = ko.observable(new bespoke.sphcommercialspace.domain.Topic()),
+        clause = ko.observable(new bespoke.sphcommercialspace.domain.Clause()),
         removeClause = function (tpc, cls) {
             tpc.ClauseCollection.remove(cls);
         },
@@ -80,19 +49,17 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 
         var vm = {
             init: function (ctr) {
-                var topics = _(ctr.TopicCollection()).map(function(t) {
+                var topics = _(ctr.TopicCollection()).map(function (t) {
                     return t;
-                }); 
+                });
                 vm.topicCollection(topics);
-                console.log(topics.length);
-                console.log(vm.topicCollection().length);
+                
             },
             topicCollection: ko.observableArray([]),
             topic: topic,
             clause: clause,
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
             addTopicCommand: addTopic,
             startAddClauseCommand: startAddClause,
             startAddTopicCommand: startAddTopic,
