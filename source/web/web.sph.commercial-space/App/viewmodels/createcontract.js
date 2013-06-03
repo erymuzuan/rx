@@ -37,9 +37,6 @@ define(['services/datacontext', './_contract.clauses'],
                     e.preventDefault();
                     ko.mapping.fromJS(ko.mapping.toJS(ko.dataFor(this)), {}, vm.selectedDocument);
                 });
-
-                contract.Owner.Name("test");
-
             },
         contract = new bespoke.sphcommercialspace.domain.Contract(),
         generateContract = function () {
