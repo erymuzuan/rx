@@ -1,7 +1,6 @@
 ﻿namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public partial class CommercialSpace : Entity
+    public partial class DepositPayment : DomainObject
     {
     }
-   
 }

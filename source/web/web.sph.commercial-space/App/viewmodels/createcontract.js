@@ -6,6 +6,7 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../services/domain.g.js" />
 /// <reference path="./_contract.clauses.js" />
 
 
@@ -36,86 +37,11 @@ define(['services/datacontext', './_contract.clauses'],
                     e.preventDefault();
                     ko.mapping.fromJS(ko.mapping.toJS(ko.dataFor(this)), {}, vm.selectedDocument);
                 });
-            },
-            contract = {
-                ContractId: ko.observable(),
-                ReferenceNo: ko.observable(),
-                Type: ko.observable(),
-                Date: ko.observable(),
-                Value: ko.observable(),
-                Title: ko.observable(),
-                Remarks: ko.observable(),
-                Period: ko.observable(),
-                PeriodUnit: ko.observable(),
-                StartDate: ko.observable(),
-                EndDate: ko.observable(),
-                DocumentCollection: ko.observableArray([]),
-                TopicCollection: ko.observableArray([]),
-                Owner: {
-                    Name: ko.observable(),
-                    TelephoneNo: ko.observable(),
-                    FaxNo: ko.observable(),
-                    Email: ko.observable(),
-                    Address: {
-                        State: ko.observable(),
-                        City: ko.observable(),
-                        Postcode: ko.observable(),
-                        Street: ko.observable()
-                    }
-                },
-                ContractingParty: {
-                    Name: ko.observable(),
-                    RegistrationNo: ko.observable(),
 
-                    Contact: {
-                        Name: ko.observable(),
-                        Title: ko.observable(),
-                        IcNo: ko.observable(),
-                        Role: ko.observable(),
-                        MobileNo: ko.observable(),
-                        OfficeNo: ko.observable(),
-                        Email: ko.observable()
-                    },
-                    Address: {
-                        State: ko.observable(),
-                        City: ko.observable(),
-                        Postcode: ko.observable(),
-                        Street: ko.observable()
-                    }
-                },
-                Tenant: {
-                    Name: ko.observable(),
-                    RegistrationNo: ko.observable(),
-                    Id: ko.observable(),
-                    Address: {
-                        State: ko.observable(),
-                        City: ko.observable(),
-                        Postcode: ko.observable(),
-                        Street: ko.observable()
-                    }
-                },
-                CommercialSpace: {
-                    CommercialSpaceId: ko.observable(),
-                    BuildingId: ko.observable(),
-                    LotName: ko.observable(),
-                    FloorName: ko.observable(),
-                    Size: ko.observable(),
-                    Category: ko.observable(),
-                    RentalRate: ko.observable(),
-                    RentalType: ko.observable(),
-                    IsOnline: ko.observable(),
-                    RegistrationNo: ko.observable(),
-                    Status: ko.observable(),
-                    ContactPerson: ko.observable(),
-                    ContactNo: ko.observable(),
-                    State: ko.observable(),
-                    City: ko.observable(),
-                    BuildingName: ko.observable(),
-                    BuildingLot: ko.observable(),
-                    LotCollection: ko.observableArray([])
-                }
-            },
+                contract.Owner.Name("test");
 
+            },
+        contract = new bespoke.sphcommercialspace.domain.Contract(),
         generateContract = function () {
             var json = JSON.stringify({ rentalApplicationId: rentalApplication.RentalApplicationId(), templateId: vm.selectedTemplateId() });
             var tcs = new $.Deferred();

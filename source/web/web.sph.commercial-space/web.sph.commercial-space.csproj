@@ -275,7 +275,10 @@
     <Content Include="App\durandal\widget.js" />
     <Content Include="App\main.js" />
     <Content Include="App\services\datacontext.js" />
+    <Content Include="App\services\domain.g.js" />
     <Content Include="App\services\logger.js" />
+    <Content Include="App\services\Object.xslt" />
+    <Content Include="App\services\ReferenceObject.xslt" />
     <Content Include="App\viewmodels\admindashboard.js" />
     <Content Include="App\viewmodels\applicationlist.js" />
     <Content Include="App\viewmodels\building.js" />
@@ -290,6 +293,7 @@
     <Content Include="App\viewmodels\contracttypetemplate.js" />
     <Content Include="App\viewmodels\contractdetails.js" />
     <Content Include="App\viewmodels\createcontract.js" />
+    <Content Include="App\viewmodels\deposit.js" />
     <Content Include="App\viewmodels\floorplan.js" />
     <Content Include="App\viewmodels\home.js" />
     <Content Include="App\viewmodels\lotdetail.js" />
@@ -316,6 +320,7 @@
     <Content Include="App\views\contracttypetemplate.html" />
     <Content Include="App\views\contractdetails.html" />
     <Content Include="App\views\createcontract.html" />
+    <Content Include="App\views\deposit.html" />
     <Content Include="App\views\floorplan.html" />
     <Content Include="App\views\footer.html" />
     <Content Include="App\views\header.html" />
