@@ -55,24 +55,24 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h3>Topic</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" data-bind="with:topic">
             <form>
                 <div class="control-group">
                     <label for="topic.Title" class="control-label">Tajuk</label>
                     <div class="controls">
-                        <input data-bind="value: topic.Title" id="Text1" type="text" name="topic.Title" />
+                        <input data-bind="value: Title" id="Text1" type="text" name="topic.Title" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="topic.Text" class="control-label">Text</label>
                     <div class="controls">
-                        <textarea class="input-large input-block-level" rows="5" data-bind="value: topic.Text" id="Textarea1" name="topic.Text"></textarea>
+                        <textarea class="input-large input-block-level" rows="5" data-bind="value: Text" id="Textarea1" name="topic.Text"></textarea>
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="topic.Description" class="control-label">Nota</label>
                     <div class="controls">
-                        <textarea class="input-block-level" data-bind="value: topic.Description" id="Textarea2" rows="3" name="topic.Description" />
+                        <textarea class="input-block-level" data-bind="value: Description" id="Textarea2" rows="3" name="topic.Description" />
                     </div>
                 </div>
 
@@ -91,30 +91,30 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h3>Klaus</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body"  data-bind="with : clause"   >
             <form>
                 <div class="control-group">
                     <label for="clause.No" class="control-label">No</label>
                     <div class="controls">
-                        <input data-bind="value: clause.No" id="clause.No" type="text" name="clause.No" />
+                        <input data-bind="value: No" id="clause.No" type="text" name="clause.No" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="clause.Title" class="control-label">Tajuk</label>
                     <div class="controls">
-                        <input data-bind="value: clause.Title" id="clause.Title" type="text" name="clause.Title" />
+                        <input data-bind="value: Title" id="clause.Title" type="text" name="clause.Title" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="clause.Text" class="control-label">Text</label>
                     <div class="controls">
-                        <textarea class="input-large input-block-level" rows="5" data-bind="value: clause.Text" id="clause.Text" name="topic.Text"></textarea>
+                        <textarea class="input-large input-block-level" rows="5" data-bind="value: Text" id="clause.Text" name="topic.Text"></textarea>
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="clause.Description" class="control-label">Nota</label>
                     <div class="controls">
-                        <textarea class="input-block-level" data-bind="value: clause.Description" id="clause.Description" rows="3" name="clause.Description" />
+                        <textarea class="input-block-level" data-bind="value: Description" id="clause.Description" rows="3" name="clause.Description" />
                     </div>
                 </div>
 

@@ -17,9 +17,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <a href="#documents-template" class="btn btn-inverse" data-bind="command: startGenerateDocumentCommand, enable: contract.ContractId"
+                                <a href="#documents-template" class="btn" 
+                                    data-bind="command: startGenerateDocumentCommand, enable: contract.ContractId() > 0"
                                     data-loading-text="getting templates.."
-                                    data-toggle="modal"
                                     data-complete-text="Generate agreement document">Generate agreement document</a>
                             </div>
 
@@ -28,7 +28,7 @@
                                 <ul data-bind="foreach: DocumentVersionCollection">
                                     <li>
                                         <span data-bind="text: No"></span>
-                                        <a download data-bind="attr: { href: '/BinaryStore/Get/' + StoreId() }">Download
+                                        <a download data-bind="attr: { href: '/BinaryStore/Get/' + StoreId(), title : 'download version : ' + No }">Download
                                             <i class="icon-download"></i>
                                         </a>
                                     </li>

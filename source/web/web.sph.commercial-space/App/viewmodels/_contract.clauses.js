@@ -10,7 +10,6 @@
 
 define([],
     function () {
-
         var isBusy = ko.observable(false),
         activate = function () {
             vm.topicCollection.push({ Title: "test", Description: "tsts", Text: "tststs" });
@@ -35,7 +34,6 @@ define([],
         removeClause = function (tpc, cls) {
             tpc.ClauseCollection.remove(cls);
         },
-
         clauseDetailsCollapsed = false,
         collapseClauseDetails = function (d, ev) {
             $(ev.target).text(clauseDetailsCollapsed ? "collapse" : "expand");
@@ -53,7 +51,7 @@ define([],
                     return t;
                 });
                 vm.topicCollection(topics);
-                
+
             },
             topicCollection: ko.observableArray([]),
             topic: topic,
