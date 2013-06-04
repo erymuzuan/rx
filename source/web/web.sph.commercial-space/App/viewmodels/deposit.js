@@ -43,8 +43,7 @@ define(['services/datacontext', 'services/logger'],
                 };
                 vm.offer.DepositPaymentCollection.push(payment);
             },
-            configureDate = function (element) {
-                $(element).find('.k-datepicker').css({ "min-width": "100px", "width": "200px" }).kendoDatePicker({format: "yyyy-MM-dd"});
+            configureDate = function () {
             },
             save = function () {
                 var tcs = new $.Deferred();

@@ -1,7 +1,7 @@
 ﻿/// <reference path="modernizr-2.6.2.js" />
 /// <reference path="knockout-2.2.1.debug.js" />
 /// <reference path="moment.js" />
-/// <reference path="~/Scripts/jquery-1.9.1.intellisense.js" />
+/// <reference path="~/Scripts/jquery-2.0.1.intellisense.js" />
 
 ko.bindingHandlers.kendoDropDownListValue = {
     init: function (element, valueAccessor) {
@@ -87,6 +87,43 @@ ko.bindingHandlers.date = {
                 $(element).val(dateString);
             }
 
+        }
+    }
+};
+
+///user moment format
+ko.bindingHandlers.kendoDate = {
+    init: function (element, valueAccessor) {
+        var value = valueAccessor();
+        var currentValue = ko.utils.unwrapObservable(value);
+        var date = moment(currentValue);
+        
+        var picker = $(element).data("kendoDatePicker") ||
+            $(element).kendoDatePicker({format :"dd/MM/yyyy"}).data("kendoDatePicker");
+        
+        if (date.year() == 1) { // DateTime.Min
+            picker.value(null);
+        } else {
+            picker.value(date.toDate());
+        }
+        
+        $(element).on("change", function () {
+            var nv = $(this).val();
+            date = moment(nv, "DD/MM/YYYY");
+            value(date.format("YYYY-MM-DD"));
+        });
+    },
+    update: function (element, valueAccessor) {
+        
+        var value = valueAccessor();
+        var modelValue = ko.utils.unwrapObservable(value);
+
+        var date = moment(modelValue);
+        var picker = $(element).data("kendoDatePicker");
+        if (date.year() == 1) { // DateTime.Min
+            picker.value(null);
+        } else {
+            picker.value(date.toDate());
         }
     }
 };

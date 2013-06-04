@@ -11,7 +11,8 @@
 var _uiready = function () {
     var init = function (view) {
         $(view).find('.datepicker').datepicker({ format: 'dd/mm/yyyy' });
-
+        var kendoDateFormat = "dd/MM/yyyy";
+        
         if (!Modernizr.inputtypes.date) {
             $(function () {
                 $('input[type="date"]')
@@ -25,7 +26,7 @@ var _uiready = function () {
         $(view).find('.k-datepicker')
             .css({ "min-width": "100px", "width": "200px" })
             .kendoDatePicker({
-                format: "yyyy-MM-dd"
+                format: kendoDateFormat
             });
         $(view).find('.k-datetimepicker')
             .css({ "min-width": "100px", "width": "200px" })
