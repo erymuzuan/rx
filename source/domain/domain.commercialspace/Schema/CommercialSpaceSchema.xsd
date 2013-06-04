@@ -1,6 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
+	<xs:element name="ContractHistory">
+		<xs:complexType>
+			<xs:attribute name="ContractNo" type="xs:string" use="required"/>
+			<xs:attribute name="DateFrom" type="xs:dateTime" use="required"/>
+			<xs:attribute name="TenantName" type="xs:string"/>
+			<xs:attribute name="DateEnd" type="xs:dateTime"/>
+			<xs:attribute name="DateStart" type="xs:dateTime"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PaymentDistribution">
+		<xs:complexType>
+			<xs:attribute name="PaymentId" type="xs:int" use="required"/>
+			<xs:attribute name="ReceiptNo" type="xs:string" use="required"/>
+			<xs:attribute name="DateTime" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Rent">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="PaymentDistributionCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="PaymentDistribution" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Month" type="xs:int" nillable="true"/>
+				<xs:element name="Year" type="xs:int" nillable="true"/>
+				<xs:element ref="Tenant"/>
+			</xs:all>
+			<xs:attribute name="RentId" type="xs:int" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="InvoiceNo" type="xs:string" use="required"/>
+			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
+			<xs:attribute name="ContractId" type="xs:int" use="required"/>
+			<xs:attribute name="TenantId" type="xs:int" use="required"/>
+			<xs:attribute name="Half" type="xs:string" use="required"/>
+			<xs:attribute name="Quarter" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Tenant" nillable="false">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="ContractHistoryCollection" nillable="true">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ContractHistory" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="Address" minOccurs="0"/>
+			</xs:all>
+			<xs:attribute name="TenantId" type="xs:int" use="required"/>
+			<xs:attribute name="IdSsmNo" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="BussinessType" type="xs:string" use="required"/>
+			<xs:attribute name="PhoneNo" type="xs:string" use="required"/>
+			<xs:attribute name="FaksNo" type="xs:string" use="optional"/>
+			<xs:attribute name="MobilePhoneNo" type="xs:string" use="optional"/>
+			<xs:attribute name="Email" type="xs:string" use="optional"/>
+			<xs:attribute name="RegistrationNo" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Land">
 		<xs:complexType>
 			<xs:all>
@@ -259,6 +324,7 @@
 			<xs:attribute name="EndDate" type="xs:dateTime" use="required"/>
 			<xs:attribute name="RentalApplicationId" type="xs:int" use="required"/>
 			<xs:attribute name="Status" type="xs:string" use="required"/>
+			<xs:attribute name="RentType" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Document">
@@ -323,6 +389,9 @@
 	</xs:element>
 	<xs:element name="Organization">
 		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Address"/>
+			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="RegistrationNo" type="xs:string" use="required"/>
 		</xs:complexType>
@@ -400,21 +469,87 @@
 			<xs:attribute name="RegistrationNo" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Tenant">
-		<xs:complexType>
-			<xs:all>
-				<xs:element ref="Address"/>
-			</xs:all>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="RegistrationNo" type="xs:string" use="required"/>
-			<xs:attribute name="Id" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="DepositPayment">
 		<xs:complexType>
 			<xs:attribute name="ReceiptNo" type="xs:string" use="required"/>
 			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
 			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Payment">
+		<xs:complexType>
+			<xs:attribute name="PaymentId" type="xs:int" use="required"/>
+			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
+			<xs:attribute name="ReceiptNo" type="xs:string" use="required"/>
+			<xs:attribute name="Date" type="xs:string" use="required"/>
+			<xs:attribute name="ParentId" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Invoice">
+		<xs:complexType>
+			<xs:attribute name="InvoiceId" type="xs:int" use="required"/>
+			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
+			<xs:attribute name="No" type="xs:string" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="ParentId" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="User">
+		<xs:complexType>
+			<xs:attribute name="UserId" type="xs:int" use="required"/>
+			<xs:attribute name="OrganizationId" type="xs:int" use="required"/>
+			<xs:attribute name="UserName" type="xs:string" use="required"/>
+			<xs:attribute name="Email" type="xs:string" use="required"/>
+			<xs:attribute name="FullName" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Role">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="PermissionCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Permission" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="RoleId" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Permission">
+		<xs:complexType>
+			<xs:attribute name="IsAuthorized" type="xs:boolean" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Complaint">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Contact"/>
+				<xs:element ref="Address"/>
+				<xs:element name="ReplyCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Reply" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="ComplaintId" type="xs:string" use="required"/>
+			<xs:attribute name="No" type="xs:string" use="required"/>
+			<xs:attribute name="Status" type="xs:string" use="required"/>
+			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="Text" type="xs:string" use="required"/>
+			<xs:attribute name="Category" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Reply">
+		<xs:complexType>
+			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="Text" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

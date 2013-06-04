@@ -8,6 +8,77 @@ bespoke.sphcommercialspace.domain = {};
 
 
 
+bespoke.sphcommercialspace.domain.ContractHistory = function () {
+
+
+    return {
+        ContractNo: ko.observable(),
+        DateFrom: ko.observable(),
+        TenantName: ko.observable(),
+        DateEnd: ko.observable(),
+        DateStart: ko.observable(),
+        isBusy: ko.observable(false)
+    };
+};
+
+
+
+bespoke.sphcommercialspace.domain.PaymentDistribution = function () {
+
+
+    return {
+        PaymentId: ko.observable(),
+        ReceiptNo: ko.observable(),
+        DateTime: ko.observable(),
+        Amount: ko.observable(),
+        isBusy: ko.observable(false)
+    };
+};
+
+
+
+bespoke.sphcommercialspace.domain.Rent = function () {
+
+
+    return {
+        RentId: ko.observable(),
+        Type: ko.observable(),
+        InvoiceNo: ko.observable(),
+        Date: ko.observable(),
+        Amount: ko.observable(),
+        ContractId: ko.observable(),
+        TenantId: ko.observable(),
+        Half: ko.observable(),
+        Quarter: ko.observable(),
+        PaymentDistributionCollection: ko.observableArray(),
+        Tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
+        isBusy: ko.observable(false)
+    };
+};
+
+
+
+bespoke.sphcommercialspace.domain.Tenant = function () {
+
+
+    return {
+        TenantId: ko.observable(),
+        IdSsmNo: ko.observable(),
+        Name: ko.observable(),
+        BussinessType: ko.observable(),
+        PhoneNo: ko.observable(),
+        FaksNo: ko.observable(),
+        MobilePhoneNo: ko.observable(),
+        Email: ko.observable(),
+        RegistrationNo: ko.observable(),
+        ContractHistoryCollection: ko.observableArray(),
+        Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
+        isBusy: ko.observable(false)
+    };
+};
+
+
+
 bespoke.sphcommercialspace.domain.Land = function () {
 
 
@@ -251,6 +322,7 @@ bespoke.sphcommercialspace.domain.Contract = function () {
         EndDate: ko.observable(),
         RentalApplicationId: ko.observable(),
         Status: ko.observable(),
+        RentType: ko.observable(),
         DocumentCollection: ko.observableArray(),
         Owner: ko.observable(new bespoke.sphcommercialspace.domain.Owner()),
         ContractingParty: ko.observable(new bespoke.sphcommercialspace.domain.ContractingParty()),
@@ -341,6 +413,7 @@ bespoke.sphcommercialspace.domain.Organization = function () {
     return {
         Name: ko.observable(),
         RegistrationNo: ko.observable(),
+        Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
         isBusy: ko.observable(false)
     };
 };
@@ -426,20 +499,6 @@ bespoke.sphcommercialspace.domain.ContractingParty = function () {
 
 
 
-bespoke.sphcommercialspace.domain.Tenant = function () {
-
-
-    return {
-        Name: ko.observable(),
-        RegistrationNo: ko.observable(),
-        Id: ko.observable(),
-        Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
-        isBusy: ko.observable(false)
-    };
-};
-
-
-
 bespoke.sphcommercialspace.domain.DepositPayment = function () {
 
 
@@ -447,6 +506,108 @@ bespoke.sphcommercialspace.domain.DepositPayment = function () {
         ReceiptNo: ko.observable(),
         Amount: ko.observable(),
         Date: ko.observable(),
+        isBusy: ko.observable(false)
+    };
+};
+
+
+
+bespoke.sphcommercialspace.domain.Payment = function () {
+
+
+    return {
+        PaymentId: ko.observable(),
+        Amount: ko.observable(),
+        ReceiptNo: ko.observable(),
+        Date: ko.observable(),
+        ParentId: ko.observable(),
+        isBusy: ko.observable(false)
+    };
+};
+
+
+
+bespoke.sphcommercialspace.domain.Invoice = function () {
+
+
+    return {
+        InvoiceId: ko.observable(),
+        Date: ko.observable(),
+        Amount: ko.observable(),
+        No: ko.observable(),
+        Type: ko.observable(),
+        ParentId: ko.observable(),
+        isBusy: ko.observable(false)
+    };
+};
+
+
+
+bespoke.sphcommercialspace.domain.User = function () {
+
+
+    return {
+        UserId: ko.observable(),
+        OrganizationId: ko.observable(),
+        UserName: ko.observable(),
+        Email: ko.observable(),
+        FullName: ko.observable(),
+        isBusy: ko.observable(false)
+    };
+};
+
+
+
+bespoke.sphcommercialspace.domain.Role = function () {
+
+
+    return {
+        RoleId: ko.observable(),
+        Name: ko.observable(),
+        PermissionCollection: ko.observableArray(),
+        isBusy: ko.observable(false)
+    };
+};
+
+
+
+bespoke.sphcommercialspace.domain.Permission = function () {
+
+
+    return {
+        IsAuthorized: ko.observable(),
+        Name: ko.observable(),
+        isBusy: ko.observable(false)
+    };
+};
+
+
+
+bespoke.sphcommercialspace.domain.Complaint = function () {
+
+
+    return {
+        ComplaintId: ko.observable(),
+        No: ko.observable(),
+        Status: ko.observable(),
+        Title: ko.observable(),
+        Text: ko.observable(),
+        Category: ko.observable(),
+        Contact: ko.observable(new bespoke.sphcommercialspace.domain.Contact()),
+        Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
+        ReplyCollection: ko.observableArray(),
+        isBusy: ko.observable(false)
+    };
+};
+
+
+
+bespoke.sphcommercialspace.domain.Reply = function () {
+
+
+    return {
+        Title: ko.observable(),
+        Text: ko.observable(),
         isBusy: ko.observable(false)
     };
 };

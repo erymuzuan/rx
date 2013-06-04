@@ -77,7 +77,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                     Value = app.Offer.Deposit + app.Offer.Period * 12 * app.Offer.Rent,
                     Tenant = new Tenant
                         {
-                            Id = app.CompanyRegistrationNo ?? app.Contact.IcNo,
+                            IdSsmNo = app.CompanyRegistrationNo ?? app.Contact.IcNo,
                             RegistrationNo = app.RegistrationNo,
                             Name = app.CompanyName ?? app.Contact.Name,
                             Address = app.Address

@@ -65,8 +65,10 @@
     <Compile Include="ChangeSubmission.cs" />
     <Compile Include="Clause.cs" />
     <Compile Include="CommercialSpace.cs" />
+    <Compile Include="Complaint.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Contract.cs" />
+    <Compile Include="ContractHistory.cs" />
     <Compile Include="ContractingParty.cs" />
     <Compile Include="ContractTemplate.cs" />
     <Compile Include="Core\Change.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="IEntityChangePublisher.cs" />
     <Compile Include="INotificationChannel.cs" />
     <Compile Include="INotificationService.cs" />
+    <Compile Include="Invoice.cs" />
     <Compile Include="IPersistence.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="ISettingProvider.cs" />
@@ -106,6 +109,12 @@
     <Compile Include="OfferCondition.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="Owner.cs" />
+    <Compile Include="Payment.cs" />
+    <Compile Include="PaymentDistribution.cs" />
+    <Compile Include="Permission.cs" />
+    <Compile Include="Rent.cs" />
+    <Compile Include="Reply.cs" />
+    <Compile Include="Role.cs" />
     <Compile Include="SpatialEntity.cs" />
     <Compile Include="LatLng.cs" />
     <Compile Include="LoadOperation.cs" />
@@ -133,6 +142,7 @@
     <Compile Include="SubmitOperation.cs" />
     <Compile Include="Tenant.cs" />
     <Compile Include="Topic.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Schema\Object.xslt">

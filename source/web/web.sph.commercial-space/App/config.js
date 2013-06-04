@@ -17,7 +17,16 @@
             visible: true,
             icon : 'icon-desktop',
             caption: 'Papan Tugas'
-        }, {
+        },
+        {
+            url: 'organization.detail',
+            moduleId: 'viewmodels/organization.detail',
+            name: 'Setting Org',
+            visible: true,
+            icon : 'icon-desktop',
+            caption: 'org'
+        },
+        {
             url: 'offerdetails/:rentalId/:csId',
             moduleId: 'viewmodels/offerdetails',
             name: 'Tawaran',

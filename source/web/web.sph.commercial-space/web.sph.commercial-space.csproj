@@ -300,6 +300,7 @@
     <Content Include="App\viewmodels\lotdetail.js" />
     <Content Include="App\viewmodels\map.js" />
     <Content Include="App\viewmodels\offerdetails.js" />
+    <Content Include="App\viewmodels\organization.detail.js" />
     <Content Include="App\viewmodels\rentalapplication.js" />
     <Content Include="App\viewmodels\returnedapplication.js" />
     <Content Include="App\viewmodels\setting.js" />
@@ -629,6 +630,7 @@
     <Content Include="Content\font\fontawesome-webfont.ttf" />
     <Content Include="Content\font\fontawesome-webfont.eot" />
     <Content Include="Content\font\FontAwesome.otf" />
+    <Content Include="App\views\organization.detail.html" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.debug.js" />
     <Content Include="Scripts\breeze.min.js" />
