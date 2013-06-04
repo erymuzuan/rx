@@ -84,6 +84,7 @@
     <Compile Include="Core\Strings.cs" />
     <Compile Include="Core\XmlSerializerService.cs" />
     <Compile Include="CredentialProvider.cs" />
+    <Compile Include="Deposit.cs" />
     <Compile Include="DepositPayment.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="DocumentTemplate.cs" />

@@ -504,6 +504,56 @@
 			<xs:attribute name="FullName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Deposit">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="PaymentDateTime" type="xs:dateTime" nillable="true"/>
+				<xs:element name="RefundDateTime" type="xs:dateTime" nillable="true"/>
+				<xs:element name="DueDate" type="xs:dateTime" nillable="true"/>
+			</xs:all>
+			<xs:attribute name="DepositId" type="xs:int" use="required"/>
+			<xs:attribute name="DateTime" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Name" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="IDNumber" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="RegistrationNo" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
+			<xs:attribute name="IsPaid" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsRefund" type="xs:boolean" use="required"/>
+			<xs:attribute name="ReceiptNo" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="RefundedBy" use="optional">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="IsVoid" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Role">
 		<xs:complexType>
 			<xs:all>

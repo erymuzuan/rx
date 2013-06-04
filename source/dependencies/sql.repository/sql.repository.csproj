@@ -77,6 +77,9 @@
     <Compile Include="ContractTemplate.cs">
       <DependentUpon>Sph.tt</DependentUpon>
     </Compile>
+    <Compile Include="Deposit.cs">
+      <DependentUpon>Sph.tt</DependentUpon>
+    </Compile>
     <Compile Include="RentalApplication.cs">
       <DependentUpon>Sph.tt</DependentUpon>
     </Compile>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -232,7 +233,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
             dbItem.Offer = offer;
-            
+
             var audit = new AuditTrail
             {
                 Operation = "Penyediaan tawaran",
@@ -243,12 +244,34 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 Note = "-"
             };
 
+            var deposit = await CreateOrUpdateDeposit(dbItem);
             using (var session = context.OpenSession())
             {
-                session.Attach(dbItem, audit);
+                session.Attach(dbItem, audit, deposit);
                 await session.SubmitChanges();
             }
             return Json("");
+        }
+
+        private static async Task<Deposit> CreateOrUpdateDeposit(RentalApplication rental)
+        {
+            var context = new SphDataContext();
+            var deposit = await context.LoadOneAsync<Deposit>(d => d.RegistrationNo == rental.RegistrationNo) ?? new Deposit();
+            if (0 == deposit.DepositId)
+            {
+                deposit.DateTime = DateTime.Now;
+                deposit.Name = rental.CompanyName ?? rental.Contact.Name;
+                deposit.IDNumber = rental.CompanyRegistrationNo ?? rental.Contact.IcNo;
+                deposit.RegistrationNo = rental.RegistrationNo;
+                deposit.DueDate = rental.Offer.ExpiryDate;
+                deposit.Amount = rental.Offer.Deposit;
+            }
+            else
+            {
+                deposit.Amount = rental.Offer.Deposit;
+                deposit.DueDate = rental.Offer.ExpiryDate;
+            }
+            return deposit;
         }
 
         public async Task<ActionResult> GenerateOfferLetter(int id)
@@ -288,7 +311,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             Session["DocumentTitle"] = string.Format("{0}-{1:yyyyMMdd}.Surat tawaran.docx", rentalAppication.RegistrationNo, DateTime.Today);
 
 
-            word.Generate(output, rentalAppication, audit,cs);
+            word.Generate(output, rentalAppication, audit, cs);
 
             return Json("");
         }

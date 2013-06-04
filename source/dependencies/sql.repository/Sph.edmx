@@ -11,6 +11,7 @@
           <EntitySet Name="CommercialSpace" EntityType="Sph.Store.CommercialSpace" store:Type="Tables" Schema="Sph" />
           <EntitySet Name="Contract" EntityType="Sph.Store.Contract" store:Type="Tables" Schema="Sph" />
           <EntitySet Name="ContractTemplate" EntityType="Sph.Store.ContractTemplate" store:Type="Tables" Schema="Sph" />
+          <EntitySet Name="Deposit" EntityType="Sph.Store.Deposit" store:Type="Tables" Schema="Sph" />
           <EntitySet Name="RentalApplication" EntityType="Sph.Store.RentalApplication" store:Type="Tables" Schema="Sph" />
           <EntitySet Name="Setting" EntityType="Sph.Store.Setting" store:Type="Tables" Schema="Sph" />
           <EntitySet Name="SpatialStore" EntityType="Sph.Store.SpatialStore" store:Type="Tables" Schema="Sph" />
@@ -40,37 +41,38 @@
           <Property Name="LotNo" Type="varchar" MaxLength="255" />
           <Property Name="Name" Type="varchar" MaxLength="255" />
           <Property Name="Status" Type="varchar" MaxLength="255" />
-          <Property Name="State" Type="varchar" MaxLength="255" />
           <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
           <Property Name="ChangedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
-          <Property Name="Path" Type="geography" />
-          <Property Name="Wkt" Type="varchar(max)" />
+          <Property Name="State" Type="varchar" MaxLength="255" />
+          <Property Name="Polygon" Type="geography" />
+          <Property Name="PolygonWkt" Type="varchar(max)" />
+          <Property Name="PolygonEncoded" Type="varchar(max)" />
           <Property Name="EncodedWkt" Type="varchar(max)" />
+          <Property Name="Wkt" Type="varchar(max)" />
+          <Property Name="Path" Type="geography" />
         </EntityType>
         <EntityType Name="CommercialSpace">
           <Key>
             <PropertyRef Name="CommercialSpaceId" />
           </Key>
           <Property Name="CommercialSpaceId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Data" Type="xml" Nullable="false" />
+          <Property Name="BuildingId" Type="varchar" MaxLength="10" />
+          <Property Name="FloorName" Type="varchar" MaxLength="255" />
+          <Property Name="LotName" Type="varchar" MaxLength="255" />
           <Property Name="Name" Type="varchar" MaxLength="255" />
           <Property Name="Category" Type="varchar" MaxLength="255" />
+          <Property Name="IsOnline" Type="varchar" MaxLength="255" />
           <Property Name="RentalType" Type="varchar" MaxLength="255" />
-          <Property Name="LotName" Type="varchar" MaxLength="50" />
-          <Property Name="IsOnline" Type="bit" Nullable="false" />
-          <Property Name="BuildingId" Type="int" Nullable="false" />
-          <Property Name="RegistrationNo" Type="varchar" MaxLength="255" />
-          <Property Name="Building" Type="varchar" MaxLength="255" />
-          <Property Name="FloorName" Type="varchar" MaxLength="255" />
-          <Property Name="State" Type="varchar" MaxLength="50" />
-          <Property Name="City" Type="varchar" MaxLength="255" />
-          <Property Name="Status" Type="varchar" MaxLength="255" />
-          <Property Name="Data" Type="xml" Nullable="false" />
           <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
           <Property Name="ChangedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
+          <Property Name="State" Type="varchar(max)" Nullable="false" />
+          <Property Name="City" Type="varchar(max)" Nullable="false" />
+          <Property Name="RegistrationNo" Type="varchar" Nullable="false" MaxLength="255" />
         </EntityType>
         <EntityType Name="Contract">
           <Key>
@@ -80,7 +82,7 @@
           <Property Name="ReferenceNo" Type="varchar" MaxLength="255" />
           <Property Name="Status" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="TenantName" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="TenantId" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="TenantIdSsmNo" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="TenantRegistrationNo" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="StartDate" Type="smalldatetime" Nullable="false" />
           <Property Name="EndDate" Type="smalldatetime" Nullable="false" />
@@ -98,6 +100,29 @@
           </Key>
           <Property Name="ContractTemplateId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Type" Type="varchar" MaxLength="255" />
+          <Property Name="Data" Type="xml" Nullable="false" />
+          <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="ChangedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Deposit">
+          <Key>
+            <PropertyRef Name="DepositId" />
+          </Key>
+          <Property Name="DepositId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="IDNumber" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="RegistrationNo" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Amount" Type="decimal" Nullable="false" />
+          <Property Name="IsPaid" Type="bit" Nullable="false" />
+          <Property Name="IsRefund" Type="bit" Nullable="false" />
+          <Property Name="ReceiptNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="RefundedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="IsVoid" Type="bit" Nullable="false" />
+          <Property Name="PaymentDateTime" Type="datetime" />
+          <Property Name="RefundDateTime" Type="datetime" />
           <Property Name="Data" Type="xml" Nullable="false" />
           <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
@@ -168,6 +193,7 @@
           <EntitySet Name="RentalApplications" EntityType="Sph.RentalApplication" />
           <EntitySet Name="CommercialSpaces" EntityType="Sph.CommercialSpace" />
           <EntitySet Name="Contracts" EntityType="Sph.Contract" />
+          <EntitySet Name="Deposits" EntityType="Sph.Deposit" />
           </EntityContainer>
         <EntityType Name="Building" cg:TypeAccess="Internal">
           <Key>
@@ -265,23 +291,21 @@
             <PropertyRef Name="CommercialSpaceId" />
           </Key>
           <Property Type="Int32" Name="CommercialSpaceId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="BuildingId" Nullable="false" />
+          <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="BuildingId" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="FloorName" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="RegistrationNo" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="LotName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LotName" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Category" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Boolean" Name="IsOnline" Nullable="false" />
+          <Property Type="String" Name="IsOnline" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="RentalType" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
           <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
           <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="State" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="City" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Building" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Status" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RegistrationNo" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Contract">
           <Key>
@@ -291,12 +315,35 @@
           <Property Type="String" Name="ReferenceNo" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Status" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="TenantName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="TenantId" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TenantIdSsmNo" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="TenantRegistrationNo" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="StartDate" Nullable="false" Precision="0" />
           <Property Type="DateTime" Name="EndDate" Nullable="false" Precision="0" />
           <Property Type="Int32" Name="CommercialSpaceId" Nullable="false" />
           <Property Type="String" Name="CommercialSpaceRegistrationNo" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Deposit">
+          <Key>
+            <PropertyRef Name="DepositId" />
+          </Key>
+          <Property Type="Int32" Name="DepositId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="DateTime" Nullable="false" Precision="3" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="IDNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="RegistrationNo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Boolean" Name="IsPaid" Nullable="false" />
+          <Property Type="Boolean" Name="IsRefund" Nullable="false" />
+          <Property Type="String" Name="ReceiptNo" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="RefundedBy" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsVoid" Nullable="false" />
+          <Property Type="DateTime" Name="PaymentDateTime" Precision="3" />
+          <Property Type="DateTime" Name="RefundDateTime" Precision="3" />
           <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
           <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -411,23 +458,21 @@
           <EntitySetMapping Name="CommercialSpaces">
             <EntityTypeMapping TypeName="Sph.CommercialSpace">
               <MappingFragment StoreEntitySet="CommercialSpace">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Building" ColumnName="Building" />
+                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
                 <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="RentalType" ColumnName="RentalType" />
                 <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="LotName" ColumnName="LotName" />
-                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
                 <ScalarProperty Name="FloorName" ColumnName="FloorName" />
                 <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="CommercialSpaceId" ColumnName="CommercialSpaceId" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -445,11 +490,35 @@
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="TenantRegistrationNo" ColumnName="TenantRegistrationNo" />
-                <ScalarProperty Name="TenantId" ColumnName="TenantId" />
+                <ScalarProperty Name="TenantIdSsmNo" ColumnName="TenantIdSsmNo" />
                 <ScalarProperty Name="TenantName" ColumnName="TenantName" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
                 <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Deposits">
+            <EntityTypeMapping TypeName="Sph.Deposit">
+              <MappingFragment StoreEntitySet="Deposit">
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="RefundDateTime" ColumnName="RefundDateTime" />
+                <ScalarProperty Name="PaymentDateTime" ColumnName="PaymentDateTime" />
+                <ScalarProperty Name="IsVoid" ColumnName="IsVoid" />
+                <ScalarProperty Name="RefundedBy" ColumnName="RefundedBy" />
+                <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
+                <ScalarProperty Name="IsRefund" ColumnName="IsRefund" />
+                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
+                <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="DepositId" ColumnName="DepositId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

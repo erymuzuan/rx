@@ -37,7 +37,7 @@ namespace scheduler.commercialspace.rent
                             Console.WriteLine("Schedule pembayaran berjaya dijana");
                         }
                     })
-                .Wait(minute * 60 * 1000);
+                .Wait(TimeSpan.FromMinutes(2));
 
 
             if (args.Any(a => a.Contains("/debug")))
@@ -112,6 +112,7 @@ namespace scheduler.commercialspace.rent
 
         private static void RegisterServices()
         {
+            const string conn = "Data Source=.\\katmai;Initial Catalog=Sph;Integrated Security=True;MultipleActiveResultSets=True";
             var cul = CultureInfo.CreateSpecificCulture("ms-MY");
             cul.DateTimeFormat.ShortDatePattern = "d/M/yyyy";
             cul.DateTimeFormat.ShortestDayNames = new[] { "Ahd", "Isn", "Sel", "Rab", "Kha", "Jum", "Sab" };
@@ -131,9 +132,9 @@ namespace scheduler.commercialspace.rent
             Thread.CurrentThread.CurrentUICulture = cul;
 
             ObjectBuilder.AddCacheList<QueryProvider>(new SqlQueryProvider());
-            ObjectBuilder.AddCacheList<IPersistence>(new SqlPersistence());
-            ObjectBuilder.AddCacheList<IRepository<Contract>>(new SqlRepository<Contract>());
-            ObjectBuilder.AddCacheList<IRepository<Rent>>(new SqlRepository<Rent>());
+            ObjectBuilder.AddCacheList<IPersistence>(new SqlPersistence(conn));
+            ObjectBuilder.AddCacheList<IRepository<Contract>>(new SqlRepository<Contract>(conn));
+            ObjectBuilder.AddCacheList<IRepository<Rent>>(new SqlRepository<Rent>(conn));
         }
     }
 
