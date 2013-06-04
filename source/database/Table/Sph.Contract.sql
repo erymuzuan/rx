@@ -9,7 +9,7 @@ CREATE TABLE [Sph].[Contract]
 	,[ReferenceNo] VARCHAR(255) NULL
 	,[Status] VARCHAR(255) NOT NULL
 	,[TenantName] VARCHAR(255) NOT NULL
-	,[TenantId] VARCHAR(255) NOT NULL
+	,[TenantIdSsmNo] VARCHAR(255) NOT NULL
 	,[TenantRegistrationNo] VARCHAR(255) NOT NULL
 	,[StartDate] SMALLDATETIME  NOT NULL
 	,[EndDate] SMALLDATETIME NOT NULL
