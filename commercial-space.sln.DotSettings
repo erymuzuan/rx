@@ -43,7 +43,7 @@ namespace $NAMESPACE$&#xD;
     }&#xD;
 }</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Shortcut/@EntryValue">form-field</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Shortcut/@EntryValue">ff</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Description/@EntryValue">bootstraop horizontal form field</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Text/@EntryValue">&lt;div class="control-group"&gt;&#xD;
     &lt;label for="$ID$" class="control-label"&gt;$LABEL$&lt;/label&gt;&#xD;
@@ -98,7 +98,7 @@ return tcs.promise();</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=38F246B3422165408222B63074C06238/Scope/=A14108D8199BD94191FC02A2809F1F3D/Type/@EntryValue">InHtmlLikeFile</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=38F246B3422165408222B63074C06238/Shortcut/@EntryValue">dbc</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=38F246B3422165408222B63074C06238/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=38F246B3422165408222B63074C06238/Text/@EntryValue"> data-bind="command : $COMMAND$" $END$  </s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=38F246B3422165408222B63074C06238/Text/@EntryValue">data-bind="command : $COMMAND$"$END$  </s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3BB1E11912D31E4E8552A8DBB0201638/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3BB1E11912D31E4E8552A8DBB0201638/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3BB1E11912D31E4E8552A8DBB0201638/Field/=ID/@KeyIndexDefined">True</s:Boolean>
@@ -154,9 +154,9 @@ return tcs.promise();</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=6098BB2045D63F4BBB836EED8EF0872E/Scope/=EC16BB1B4B2C4B4FADC44DADB6F63F97/Type/@EntryValue">InHtmlTag</s:String>
 	
 	
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=6098BB2045D63F4BBB836EED8EF0872E/Shortcut/@EntryValue">form-field-checkbox</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=6098BB2045D63F4BBB836EED8EF0872E/Shortcut/@EntryValue">ffc</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=6098BB2045D63F4BBB836EED8EF0872E/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=6098BB2045D63F4BBB836EED8EF0872E/Text/@EntryValue"> &lt;div class="control-group"&gt;&#xD;
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=6098BB2045D63F4BBB836EED8EF0872E/Text/@EntryValue">&lt;div class="control-group"&gt;&#xD;
     &lt;div class="controls"&gt;&#xD;
         &lt;label class="checkbox"&gt;&#xD;
             &lt;input data-bind="checked: $PROPERTY$" id="$ID$" type="checkbox" name="$PROPERTY$" /&gt;&#xD;
@@ -247,7 +247,7 @@ $END$</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/Scope/=A14108D8199BD94191FC02A2809F1F3D/Type/@EntryValue">InHtmlLikeFile</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/Shortcut/@EntryValue">dbt</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/Text/@EntryValue"> data-bind="text:$VAL$" $END$ </s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/Text/@EntryValue">data-bind="text:$VAL$"$END$ </s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Description/@EntryValue">creates kendo upload</s:String>
@@ -343,7 +343,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], &
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9CB7186BF562FA4B9114F871FCF88B9E/Scope/=A14108D8199BD94191FC02A2809F1F3D/Type/@EntryValue">InHtmlLikeFile</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9CB7186BF562FA4B9114F871FCF88B9E/Shortcut/@EntryValue">dbv</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9CB7186BF562FA4B9114F871FCF88B9E/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9CB7186BF562FA4B9114F871FCF88B9E/Text/@EntryValue"> data-bind="value:$VAL$" $END$  </s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9CB7186BF562FA4B9114F871FCF88B9E/Text/@EntryValue">data-bind="value:$VAL$"$END$  </s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Description/@EntryValue">set observable from source to vm</s:String>
@@ -373,12 +373,14 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], &
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=DF25324AC422994CBF5C6148253C76BA/Scope/=A14108D8199BD94191FC02A2809F1F3D/Type/@EntryValue">InHtmlLikeFile</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=DF25324AC422994CBF5C6148253C76BA/Shortcut/@EntryValue">dbw</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=DF25324AC422994CBF5C6148253C76BA/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=DF25324AC422994CBF5C6148253C76BA/Text/@EntryValue"> data-bind="with : $VAL$" $END$  </s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=DF25324AC422994CBF5C6148253C76BA/Text/@EntryValue">data-bind="with : $VAL$"$END$  </s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Description/@EntryValue"> data-bind attribute</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Field/=PROP/@KeyIndexDefined">True</s:Boolean>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Field/=PROP/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Field/=TEXT/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Field/=TEXT/Order/@EntryValue">2</s:Int64>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Field/=VALUE/@KeyIndexDefined">True</s:Boolean>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Field/=VALUE/Order/@EntryValue">1</s:Int64>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Reformat/@EntryValue">True</s:Boolean>
@@ -386,7 +388,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], &
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Scope/=A14108D8199BD94191FC02A2809F1F3D/Type/@EntryValue">InHtmlLikeFile</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Shortcut/@EntryValue">dba</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Text/@EntryValue"> data-bind="attr : {$PROP$:$VALUE$}" $END$  </s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Text/@EntryValue">data-bind="attr : {$PROP$:$VALUE$},text: $TEXT$"$END$  </s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FD9936A6824B1246A148404F5FF75181/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FD9936A6824B1246A148404F5FF75181/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FD9936A6824B1246A148404F5FF75181/Description/@EntryValue">data-bind foreach</s:String>
@@ -397,4 +399,4 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], &
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FD9936A6824B1246A148404F5FF75181/Scope/=A14108D8199BD94191FC02A2809F1F3D/Type/@EntryValue">InHtmlLikeFile</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FD9936A6824B1246A148404F5FF75181/Shortcut/@EntryValue">dbfor</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FD9936A6824B1246A148404F5FF75181/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FD9936A6824B1246A148404F5FF75181/Text/@EntryValue"> data-bind="foreach :$LIST$" $END$ </s:String></wpf:ResourceDictionary>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FD9936A6824B1246A148404F5FF75181/Text/@EntryValue">data-bind="foreach :$LIST$"$END$ </s:String></wpf:ResourceDictionary>
