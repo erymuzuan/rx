@@ -1,7 +1,7 @@
 ﻿<section>
     <h1 data-bind="text: title"></h1>
     <div>
-        <input type="button" data-bind="click: addNewLotCommand" class="btn pull-right" value="New Lot +" />
+        <input id="add-new-lot" type="button" data-bind="click: addNewLotCommand" class="btn pull-right" value="New Lot +" />
     </div>
     <table class="table table-striped table-condensed">
         <thead>
@@ -29,7 +29,7 @@
                     <input class="input-medium k-multiselect" list="usage" data-bind="value: Usage, uniqueName: true" type="text" />
                 </td>
                 <td>
-                    <input type="button" data-bind="click: $parent.removeLotCommand" class="btn btn-mini btn-danger" value="x" /></td>
+                    <input type="button" data-bind="click: $parent.removeLotCommand,uniqueName:true" class="btn btn-mini btn-danger" value="x" /></td>
             </tr>
         </tbody>
 

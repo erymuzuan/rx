@@ -10,8 +10,8 @@
 /// <reference path="./_contract.clauses.js" />
 
 
-define(['services/datacontext', './_contract.clauses'],
-    function (context, clauses) {
+define(['services/datacontext', './_contract.clauses', './_audittrail.list'],
+    function (context, clauses, audittrailvm) {
         var isBusy = ko.observable(false),
             rentalApplication,
             contract = new bespoke.sphcommercialspace.domain.Contract(),
@@ -19,12 +19,11 @@ define(['services/datacontext', './_contract.clauses'],
                 isBusy(true);
                 var raTask = context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + routeData.rentalApplicationId);
                 var templateListTask = context.getTuplesAsync("ContractTemplate", "ContractTemplateId gt 0", "ContractTemplateId", "Type");
-                var logTask = context.loadAsync("AuditTrail", "EntityId eq " + routeData.rentalApplicationId);
-
+                var logTask = audittrailvm.activate("RentalApplication", routeData.rentalApplicationId);
+                
                 var tcs = new $.Deferred();
                 $.when(raTask, templateListTask, logTask).then(function (ra, list, logs) {
                     vm.contractTypeOptions(list);
-                    vm.auditTrailCollection(logs.itemCollection);
                     rentalApplication = ra;
                     tcs.resolve(true);
                 });
@@ -67,8 +66,7 @@ define(['services/datacontext', './_contract.clauses'],
             selectedTemplateId: ko.observable(),
             saveCommand: save,
             generateContractCommand: generateContract,
-            contractTypeOptions: ko.observableArray(),
-            auditTrailCollection: ko.observableArray()
+            contractTypeOptions: ko.observableArray()
         };
 
         return vm;

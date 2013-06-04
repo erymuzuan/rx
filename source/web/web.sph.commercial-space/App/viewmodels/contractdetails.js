@@ -12,8 +12,8 @@
 /// <reference path="./_contract.clauses.js" />
 
 
-define(['services/datacontext', './_contract.clauses', './_contract.documents'],
-    function (context, clausesvm, documentsvm) {
+define(['services/datacontext', './_contract.clauses', './_contract.documents', './_audittrail.list'],
+    function (context, clausesvm, documentsvm, audittrailvm) {
 
         var isBusy = ko.observable(false),
             activate = function (routeData) {
@@ -21,7 +21,7 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents'],
                 var tcs = new $.Deferred();
 
                 var contractLoaded = function (ctr) {
-                    ko.mapping.fromJS(ko.mapping.toJS(ctr), {}, vm.contract);
+                    vm.contract(ctr);
                     vm.title("Butiran kontrak " + ctr.ReferenceNo());
                     clausesvm.init(ctr);
                     documentsvm.init(ctr);
@@ -37,7 +37,7 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents'],
 
                             var logs = _(lo.itemCollection).union(lo2.itemCollection);
 
-                            vm.auditTrailCollection(logs);
+                            audittrailvm.auditTrailCollection(logs);
                             isBusy(false);
                             tcs.resolve(true);
                         });
@@ -75,9 +75,8 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents'],
             isBusy: isBusy,
             activate: activate,
             viewAttached: viewAttached,
-            contract: contract,
-            saveCommand: save,
-            auditTrailCollection: ko.observableArray(),
+            contract: ko.observable(new bespoke.sphcommercialspace.domain.Contract()),
+            saveCommand: save
         };
 
         return vm;

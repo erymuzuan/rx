@@ -113,18 +113,18 @@
                     <td>
                         <input type="text" data-bind="value: Size, uniqueName: true" /></td>
                     <td>
-                        <input type="button" data-bind="click: $parent.removeFloorCommand" class="btn btn-mini" value="-" /></td>
+                        <input type="button" data-bind="click: $parent.removeFloorCommand, uniqueName:true" class="btn btn-mini" value="-" /></td>
                     <td>
-                        <input type="button" data-bind="click: $parent.addLotCommand,enable: $parent.building.BuildingId() > 0 && Name" class="btn btn-mini" value="+Lot" /></td>
+                        <input type="button" data-bind="click: $parent.addLotCommand,enable: $parent.building.BuildingId() > 0 && Name, uniqueName:true" class="btn btn-mini" value="+Lot" /></td>
                     <td>
-                        <input type="button" data-bind="click: $parent.viewFloorPlanCommand,enable: $parent.building.BuildingId() > 0 && Name" class="btn btn-mini" value="Pelan Lantai" /></td>
+                        <input type="button" data-bind="click: $parent.viewFloorPlanCommand,enable: $parent.building.BuildingId() > 0 && Name, uniqueName:true" class="btn btn-mini" value="Pelan Lantai" /></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <div>
-        <input type="button" class="btn btn-primary" value="Simpan" data-bind="command: saveCommand" data-loading-text="saving..." data-complete-text="Simpan" />
+        <input id="save-button" type="button" class="btn btn-primary" value="Simpan" data-bind="command: saveCommand" data-loading-text="saving..." data-complete-text="Simpan" />
     </div>
 
 

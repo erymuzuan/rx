@@ -305,6 +305,8 @@
     <Content Include="App\viewmodels\shell.js" />
     <Content Include="App\viewmodels\shiftschedule.js" />
     <Content Include="App\viewmodels\verifyapplication.js" />
+    <Content Include="App\viewmodels\_audittrail.list.js" />
+    <Content Include="App\viewmodels\_commercialspace.contract.js" />
     <Content Include="App\viewmodels\_contract.clauses.js" />
     <Content Include="App\viewmodels\_contract.documents.js" />
     <Content Include="App\views\admindashboard.html" />
@@ -334,6 +336,8 @@
     <Content Include="App\views\setting.html" />
     <Content Include="App\views\shell.html" />
     <Content Include="App\views\verifyapplication.html" />
+    <Content Include="App\views\_audittrail.list.html" />
+    <Content Include="App\views\_commercialspace.contract.html" />
     <Content Include="App\views\_contract.form.html" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />

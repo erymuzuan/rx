@@ -109,13 +109,17 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             var item = await context.LoadOneAsync<Building>(b => b.BuildingId == building.BuildingId) ?? building;
-            item.Address = building.Address;
-            item.Name = building.Name;
-            item.LotNo = building.LotNo;
-            item.Floors = building.Floors;
-            item.Size = building.Size;
-            item.Status = building.Status;
-            item.FloorCollection.ClearAndAddRange(building.FloorCollection);
+            if (item != building)
+            {
+
+                item.Address = building.Address;
+                item.Name = building.Name;
+                item.LotNo = building.LotNo;
+                item.Floors = building.Floors;
+                item.Size = building.Size;
+                item.Status = building.Status;
+                item.FloorCollection.ClearAndAddRange(building.FloorCollection);
+            }
 
             var errorMessage = new StringBuilder();
             var duplicateFloors = building.FloorCollection.Select(f => f.Name)
@@ -152,7 +156,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                                     .GroupBy(s => s)
                                     .Any(s => s.Count() > 1);
             if (duplicateLot)
-                return Json(new { status = false, message = "There are duplicate Lot in floor " + floor.Name});
+                return Json(new { status = false, message = "There are duplicate Lot in floor " + floor.Name });
 
 
             var context = new SphDataContext();
@@ -169,7 +173,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 session.Attach(dbItem);
                 await session.SubmitChanges();
             }
-            return Json(new { status = "success", message = "Your floor details has been saved"});
+            return Json(new { status = "success", message = "Your floor details has been saved" });
         }
     }
 }

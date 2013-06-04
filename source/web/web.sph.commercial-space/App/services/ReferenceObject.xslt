@@ -16,7 +16,7 @@
       Just plain assocation 1 to 1 
     -->
 		<xsl:if test="@ref">
-			<xsl:value-of select="@ref"/> : new bespoke.sphcommercialspace.domain.<xsl:value-of select="@ref"/>(),
+			<xsl:value-of select="@ref"/> : ko.observable(new bespoke.sphcommercialspace.domain.<xsl:value-of select="@ref"/>()),
 		</xsl:if>
 
 		<!-- 

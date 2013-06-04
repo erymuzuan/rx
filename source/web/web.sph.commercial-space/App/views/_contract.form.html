@@ -1,23 +1,23 @@
-﻿<form class="form-horizontal">
+﻿<form class="form-horizontal" data-bind="with : contract">
     <h3>maklumat Kontak</h3>
     <div class="control-group">
         <label for="contract.Title" class="control-label">Tajuk Perjanjian</label>
         <div class="controls">
-            <input data-bind="value: contract.Title" class="input-xxlarge" id="contract.Title" type="text" name="contract.Title" />
+            <input data-bind="value: Title" class="input-xxlarge" id="contract.Title" type="text" name="contract.Title" />
         </div>
     </div>
 
     <div class="control-group">
         <label for="contract.ReferenceNo" class="control-label">No Rujukan</label>
         <div class="controls">
-            <input class="input-large" data-bind="value: contract.ReferenceNo" id="contract.ReferenceNo" type="text" name="contract.ReferenceNo" />
+            <input class="input-large" data-bind="value: ReferenceNo" id="contract.ReferenceNo" type="text" name="contract.ReferenceNo" />
         </div>
     </div>
 
     <div class="control-group">
         <label for="contract.Date" class="control-label">Tarikh</label>
         <div class="controls">
-            <input data-bind="value: contract.Date" id="contract.Date" type="text" class="k-datepicker" name="contract.Date" />
+            <input data-bind="value: Date" id="contract.Date" type="text" class="k-datepicker" name="contract.Date" />
         </div>
     </div>
 
@@ -26,7 +26,7 @@
         <div class="controls">
             <div class="input-prepend">
                 <span class="add-on">RM</span>
-                <input data-bind="value: contract.Value" id="contract.Value" type="text" name="contract.Value" />
+                <input data-bind="value: Value" id="contract.Value" type="text" name="contract.Value" />
             </div>
         </div>
     </div>
@@ -34,8 +34,8 @@
         <label for="contract.Period" class="control-label">Tempoh</label>
         <div class="controls">
             <div class="input-append">
-                <input data-bind="value: contract.Period" id="contract.Period" type="number" name="contract.Period" />
-                <span class="add-on" data-bind="text: contract.PeriodUnit"></span>
+                <input data-bind="value: Period" id="contract.Period" type="number" name="contract.Period" />
+                <span class="add-on" data-bind="text: PeriodUnit"></span>
             </div>
         </div>
     </div>
@@ -43,12 +43,12 @@
     <div class="control-group">
         <label for="contract.Option" class="control-label">Pilihan</label>
         <div class="controls">
-            <input data-bind="value: contract.Option" id="contract.Option" type="number" name="contract.Option" />
+            <input data-bind="value: Option" id="Option" type="number" name="contract.Option" />
         </div>
     </div>
     <div class="form-horizontal">
         <h3>Pemilik Kontrak</h3>
-        <div data-bind="with: contract.Owner">
+        <div data-bind="with: Owner">
 
             <div class="control-group">
                 <label for="contract.Owner.Name" class="control-label">Nama</label>
@@ -103,7 +103,7 @@
         </div>
     </div>
     <h3>Penerima Kontrak</h3>
-    <div data-bind="with: contract.ContractingParty">
+    <div data-bind="with: ContractingParty">
         <div class="control-group">
             <label for="contractingPartyName" class="control-label">Nama</label>
             <div class="controls">
@@ -175,9 +175,10 @@
         </div>
     </div>
     <div class="control-group">
-        <label for="contract.Remarks" class="control-label">Catatan</label>
+        <h4>Catatan</h4>
+        <label for="contract.Remarks" class="control-label"></label>
         <div class="controls">
-            <input data-bind="value: contract.Remarks" id="contract.Remarks" type="text" name="Remarks" />
+            <textarea rows="5" data-bind="value: Remarks" id="contract.Remarks" class="input-xxlarge" name="Remarks"></textarea>
         </div>
     </div>
 </form>
