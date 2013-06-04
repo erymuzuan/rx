@@ -6272,17 +6272,6 @@
 			get{ return m_OfferConditionCollection;}
 			}
 		
-			private readonly ObjectCollection<DepositPayment>  m_DepositPaymentCollection = new ObjectCollection<DepositPayment> ();
-
-			///<summary>
-			/// 
-			///</summary>
-			[XmlArrayItem("DepositPayment", IsNullable = false)]
-			public ObjectCollection<DepositPayment> DepositPaymentCollection
-			{
-			get{ return m_DepositPaymentCollection;}
-			}
-		
             ///<summary>
             /// 
             ///</summary>
@@ -7891,6 +7880,17 @@
 
          
           
+			private readonly ObjectCollection<DepositPayment>  m_DepositPaymentCollection = new ObjectCollection<DepositPayment> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("DepositPayment", IsNullable = false)]
+			public ObjectCollection<DepositPayment> DepositPaymentCollection
+			{
+			get{ return m_DepositPaymentCollection;}
+			}
+		
             ///<summary>
             /// 
             ///</summary>

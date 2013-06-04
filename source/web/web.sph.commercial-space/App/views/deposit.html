@@ -9,14 +9,14 @@
                 <th>Jumlah Dibayar (RM)</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: applicationCollection">
+        <tbody data-bind="foreach: depositCollection">
             <tr>
                 <td>
                     <a data-bind="text: RegistrationNo, click: $parent.showDetailsCommand" href="#deposit-modal"></a>
                 </td>
-                <td data-bind="text: Offer.Deposit" ></td>
-                <td data-bind="date: { value: Offer.ExpiryDate, format: 'DD/MM/YYYY' }"></td>
-                <td data-bind="text: Offer.DepositPaid"></td>
+                <td data-bind="text: Amount" ></td>
+                <td data-bind="date: { value: DueDate, format: 'DD/MM/YYYY' }"></td>
+                <td data-bind="text: DepositPaid"></td>
             </tr>
         </tbody>
     </table>

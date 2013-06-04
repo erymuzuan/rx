@@ -406,13 +406,6 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="DepositPaymentCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="DepositPayment" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
 			</xs:all>
 			<xs:attribute name="CommercialSpaceId" type="xs:int" use="required"/>
 			<xs:attribute name="Size" type="xs:int" use="required"/>
@@ -510,6 +503,13 @@
 				<xs:element name="PaymentDateTime" type="xs:dateTime" nillable="true"/>
 				<xs:element name="RefundDateTime" type="xs:dateTime" nillable="true"/>
 				<xs:element name="DueDate" type="xs:dateTime" nillable="true"/>
+				<xs:element name="DepositPaymentCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DepositPayment" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="DepositId" type="xs:int" use="required"/>
 			<xs:attribute name="DateTime" type="xs:dateTime" use="required"/>

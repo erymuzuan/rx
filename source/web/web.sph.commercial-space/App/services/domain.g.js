@@ -558,6 +558,22 @@ bespoke.sphcommercialspace.domain.User = function () {
 
 
 
+bespoke.sphcommercialspace.domain.Deposit = function () {
+
+
+    return {
+        DepositId: ko.observable(),
+        DateTime: ko.observable(),
+        Amount: ko.observable(),
+        IsPaid: ko.observable(),
+        IsRefund: ko.observable(),
+        IsVoid: ko.observable(),
+        isBusy: ko.observable(false)
+    };
+};
+
+
+
 bespoke.sphcommercialspace.domain.Role = function () {
 
 

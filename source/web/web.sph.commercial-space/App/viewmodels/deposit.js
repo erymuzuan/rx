@@ -14,11 +14,11 @@ define(['services/datacontext', 'services/logger'],
     function (context, logger) {
 
         var isBusy = ko.observable(false),
-            applicationId = ko.observable(),
+            deposit = ko.observable(new bespoke.sphcommercialspace.domain.Deposit()),
             activate = function () {
                 var tcs = new $.Deferred();
-                context.loadAsync("RentalApplication", "Status eq 'Confirmed'").done(function (lo) {
-                    vm.applicationCollection(lo.itemCollection);
+                context.loadAsync("Deposit", "IsPaid eq 0").done(function (lo) {
+                    vm.depositCollection(lo.itemCollection);
                     tcs.resolve(true);
                 });
                 return tcs.promise();
@@ -26,11 +26,10 @@ define(['services/datacontext', 'services/logger'],
             showDetails = function () {
                 isBusy(true);
                 var data = this;
-                var query = "RentalApplicationId eq " + data.RentalApplicationId();
-                applicationId(data.RentalApplicationId());
-                context.loadOneAsync("RentalApplication", query)
-                     .then(function (ra) {
-                         ko.mapping.fromJSON(ko.mapping.toJSON(ra.Offer), {}, vm.offer);
+                var query = "DepositId eq " + data.DepositId();
+                context.loadOneAsync("Deposit", query)
+                     .then(function (d) {
+                         ko.mapping.fromJSON(ko.mapping.toJSON(d), {}, vm.deposit);
                          isBusy(false);
                      });
                 $('#deposit-modal').modal({});
@@ -47,9 +46,9 @@ define(['services/datacontext', 'services/logger'],
             },
             save = function () {
                 var tcs = new $.Deferred();
-                var offer = ko.mapping.toJS(vm.offer);
-                var postdata = JSON.stringify({ id: applicationId(), offer: offer });
-                context.post(postdata, "/RentalApplication/SaveDepositPayment").done(function (e) {
+                var depositPayment = ko.mapping.toJS(vm.deposit);
+                var postdata = JSON.stringify({ id: vm.DepositId(), deposit: depositPayment });
+                context.post(postdata, "/Deposit/Save").done(function (e) {
                     logger.log("Deposit payment received", e, "deposit", true);
                     tcs.resolve(true);
                 });
@@ -61,13 +60,8 @@ define(['services/datacontext', 'services/logger'],
             activate: activate,
             configureDate: configureDate,
             showDetailsCommand: showDetails,
-            applicationCollection: ko.observableArray([]),
-            offer: {
-                Deposit: ko.observable(),
-                DepositPaid: ko.observable(),
-                DepositBalance: ko.observable(),
-                DepositPaymentCollection: ko.observableArray()
-            },
+            depositCollection: ko.observableArray([]),
+            deposit: deposit,
             addPaymentCommand: addPayment,
             saveCommand: save
         };
