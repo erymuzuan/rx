@@ -1,4 +1,26 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/Field/=ENTITY/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/Field/=ENTITY/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/Field/=PARAMETERS/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/Field/=PARAMETERS/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/Field/=QUERY/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/Field/=QUERY/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/Scope/=FFA15E6CFCBE90499C572A859225B012/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/Scope/=FFA15E6CFCBE90499C572A859225B012/Type/@EntryValue">InJavaScriptFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/Shortcut/@EntryValue">datacontext-loadone</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/Text/@EntryValue">var query = String.format("$QUERY$",$PARAMETERS$);&#xD;
+var tcs = new $.Deferred();&#xD;
+datacontext.loadOneAsync("$ENTITY$", query)&#xD;
+    .done(function (b) {&#xD;
+		$END$&#xD;
+        tcs.resolve(true);&#xD;
+    });&#xD;
+&#xD;
+return tcs.promise();</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=216F6951BAE64F46BC23B33CBD6A2DC6/CustomProperties/=Extension/@EntryIndexedValue">cs</s:String>
@@ -135,6 +157,31 @@ return tcs.promise();</s:String>
     &lt;/div&gt;&#xD;
 &lt;/section&gt;&#xD;
 </s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Field/=ENTITY/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Field/=ENTITY/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Field/=PARAMETERS/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Field/=PARAMETERS/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Field/=QUERY/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Field/=QUERY/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Scope/=FFA15E6CFCBE90499C572A859225B012/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Scope/=FFA15E6CFCBE90499C572A859225B012/Type/@EntryValue">InJavaScriptFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Shortcut/@EntryValue">datacontext-load</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Text/@EntryValue">var query = String.format("$QUERY$", $PARAMETERS$);&#xD;
+var tcs = new $.Deferred();&#xD;
+&#xD;
+context.loadAsync("$ENTITY$", query)&#xD;
+    .then(function (lo) {&#xD;
+        isBusy(false);&#xD;
+      &#xD;
+		$END$&#xD;
+        tcs.resolve(true);&#xD;
+    });&#xD;
+return tcs.promise();&#xD;
+</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=53712725C9FA204C88A92CE89F753DA0/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=53712725C9FA204C88A92CE89F753DA0/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=53712725C9FA204C88A92CE89F753DA0/CustomProperties/=Extension/@EntryIndexedValue">html</s:String>
@@ -182,21 +229,21 @@ return tcs.promise();</s:String>
     &lt;/div&gt;&#xD;
 &lt;/div&gt;&#xD;
 $END$</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/@KeyIndexDefined">True</s:Boolean>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/Description/@EntryValue">replace obervable object with new one</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/Field/=DESTINATION/@KeyIndexDefined">True</s:Boolean>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/Field/=DESTINATION/Order/@EntryValue">1</s:Int64>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/Field/=SOURCE/@KeyIndexDefined">True</s:Boolean>
-	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/Field/=SOURCE/Order/@EntryValue">0</s:Int64>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/Reformat/@EntryValue">True</s:Boolean>
 	
 	
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/Type/@EntryValue">InJavaScriptStatement</s:String>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/Shortcut/@EntryValue">set-observable-object</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=631FF174EB3B7442B94329FA3012F6C1/Text/@EntryValue">ko.mapping.fromJS(ko.mapping.toJS($SOURCE$) ,{}, $DESTINATION$);</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Description/@EntryValue">creates bootstrap tabs</s:String>

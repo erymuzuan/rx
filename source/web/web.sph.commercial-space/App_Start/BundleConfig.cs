@@ -29,6 +29,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/scripts/_kendo-knockoutbindings.js")
                 .Include("~/scripts/_uiready.js")
                 .Include("~/App/services/domain.g.js")
+                .Include("~/App/services/Contract.js")
               );
 
             bundles.Add(

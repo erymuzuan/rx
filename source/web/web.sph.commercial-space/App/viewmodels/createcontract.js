@@ -14,7 +14,6 @@ define(['services/datacontext', './_contract.clauses', './_audittrail.list'],
     function (context, clauses, audittrailvm) {
         var isBusy = ko.observable(false),
             rentalApplication,
-            contract = new bespoke.sphcommercialspace.domain.Contract(),
             activate = function (routeData) {
                 isBusy(true);
                 var raTask = context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + routeData.rentalApplicationId);
@@ -22,7 +21,7 @@ define(['services/datacontext', './_contract.clauses', './_audittrail.list'],
                 var logTask = audittrailvm.activate("RentalApplication", routeData.rentalApplicationId);
                 
                 var tcs = new $.Deferred();
-                $.when(raTask, templateListTask, logTask).then(function (ra, list, logs) {
+                $.when(raTask, templateListTask, logTask).then(function (ra, list) {
                     vm.contractTypeOptions(list);
                     rentalApplication = ra;
                     tcs.resolve(true);
@@ -40,7 +39,7 @@ define(['services/datacontext', './_contract.clauses', './_audittrail.list'],
             var tcs = new $.Deferred();
             context.post(json, "/Contract/Generate")
                 .then(function (t) {
-                    ko.mapping.fromJS(ko.mapping.toJS(t), {}, vm.contract);
+                    vm.contract(t);
                     clauses.init(vm.contract);
                     tcs.resolve(t);
                 });
@@ -62,7 +61,7 @@ define(['services/datacontext', './_contract.clauses', './_audittrail.list'],
             isBusy: isBusy,
             activate: activate,
             viewAttached: viewAttached,
-            contract: contract,
+            contract: ko.observable(new bespoke.sphcommercialspace.domain.Contract()),
             selectedTemplateId: ko.observable(),
             saveCommand: save,
             generateContractCommand: generateContract,
