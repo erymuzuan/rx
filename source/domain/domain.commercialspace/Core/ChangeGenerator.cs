@@ -20,6 +20,12 @@ namespace Bespoke.SphCommercialSpaces.Domain
                              where natives.Contains(p.PropertyType)
                                && p.CanRead && p.CanWrite
                              select p;
+            var nullableProperties = from p in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly).AsQueryable()
+                                     where p.PropertyType.IsGenericType
+                                     && natives.Contains(p.PropertyType.GenericTypeArguments[0])
+                                       && p.CanRead && p.CanWrite
+                                     select p;
+          
 
             var colls = from p in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).AsQueryable()
                         where p.Name.EndsWith("Collection")
@@ -32,7 +38,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                                            !p.PropertyType.Name.EndsWith("Collection")
                                            );
 
-            foreach (var p in properties)
+            foreach (var p in properties.Concat(nullableProperties))
             {
                 var v1 = string.Format("{0}", p.GetValue(item1));
                 var v2 = string.Format("{0}", p.GetValue(item2));

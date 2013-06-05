@@ -60,7 +60,7 @@ namespace domain.test
                 Owner = new Owner
                     {
                         Name = "erymuzuan",
-                        Address = new Address{ UnitNo = "3A"}
+                        Address = new Address { UnitNo = "3A" }
                     }
             };
 
@@ -115,7 +115,7 @@ namespace domain.test
             };
 
             var c1 = c2.Clone();
-            c1.DocumentCollection.Add(new Document{Title = "whatever test", Extension = "test.docx"});
+            c1.DocumentCollection.Add(new Document { Title = "whatever test", Extension = "test.docx" });
 
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1).ToList();
@@ -135,7 +135,7 @@ namespace domain.test
                         Name = "erymuzuan"
                     }
             };
-            c2.DocumentCollection.Add(new Document{Title = "whatever test", Extension = "test.docx",WebId = "2"});
+            c2.DocumentCollection.Add(new Document { Title = "whatever test", Extension = "test.docx", WebId = "2" });
 
             var c1 = c2.Clone();
             c1.DocumentCollection[0].Title = "x";
@@ -143,6 +143,23 @@ namespace domain.test
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c2, c1).ToList();
             Assert.AreEqual(1, changes.Count(), "Title, owner name, and phone");
+            changes.ForEach(System.Console.WriteLine);
+        }
+        [Test]
+        public void NullableStruct()
+        {
+            var c2 = new LatLng
+            {
+                Lat = 101d,
+                Lng = 3
+            };
+
+            var c1 = c2.Clone();
+            c1.Elevation = 102d;
+
+            var generator = new ChangeGenerator();
+            var changes = generator.GetChanges(c2, c1).ToList();
+            Assert.AreEqual(1, changes.Count(), "Elevation");
             changes.ForEach(System.Console.WriteLine);
         }
     }
