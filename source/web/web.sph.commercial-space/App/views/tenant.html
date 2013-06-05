@@ -9,7 +9,7 @@
         <tbody data-bind="foreach: tenantCollection">
             <tr>
                 <td>
-                    <a data-bind="attr: { href: '/#/rent/' + TenantId() }, text: IdSsmNo"></a>
+                    <a data-bind="attr: { href: '/#/tenant.detail/' + TenantId() }, text: IdSsmNo"></a>
                 </td>
                 <td data-bind="text: Name"></td>
             </tr>

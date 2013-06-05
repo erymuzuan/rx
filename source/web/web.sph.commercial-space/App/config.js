@@ -213,12 +213,21 @@
         },
         {
             url: 'rent/:tenantId',
-            moduleId: 'viewmodels/rent/',
+            moduleId: 'viewmodels/rent',
             name: 'rent.payment',
             visible: true,
             caption: 'rent.payment',
             icon: 'icon-laptop',
             settings: { caption: 'Senarai Sewa dan Invois' }
+        },
+        {
+            url: 'tenant.detail/:tenantId',
+            moduleId: 'viewmodels/tenant.detail',
+            name: 'tenant.detail',
+            visible: true,
+            caption: 'penyewa',
+            icon: 'icon-laptop',
+            settings: { caption: 'Penyewa' }
         }
     ];
     
