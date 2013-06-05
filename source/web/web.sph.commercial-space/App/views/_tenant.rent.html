@@ -1,0 +1,71 @@
+﻿<section>
+    <h2><span data-bind="text: title"></span></h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>No Invois</th>
+                <th>Tahun</th>
+                <th>Bulan</th>
+                <th>Suku</th>
+                <th>Tengah</th>
+                <th>Amaun</th>
+                <th>Bayar</th>
+                <th>Tunggakan</th>
+                <th>Manual</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: rent">
+            <tr>
+                <td data-bind="text: InvoiceNo"/>
+                <td data-bind="text: Year" />
+                <td data-bind="text: Month" />
+                <td data-bind="text: Quarter" />
+                <td data-bind="text: Half" />
+                <td data-bind="text: Amount" />
+                <td data-bind="text: IsPaid" />
+                <td data-bind="text: Accrued" />
+                <td><span>Set Bayar</span><a data-bind="click:$parent.showDetailsCommand" href="#deposit-modal"/></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+<section id="deposit-modal" class="modal hide fade" style="margin-left: -500px; width: 940px">
+    <div class="modal-header">
+        <h4>Maklumat Deposit</h4>
+    </div>
+    <div class="modal-body" style="width: 900px; height: 500px; max-height: 500px">
+        <div class="control-group">
+            <span >Deposit : </span><span class="add-on"> RM </span><span data-bind="text: deposit().Amount" id="Deposit" />
+        </div>
+        <div class="control-group">
+             <span >Dibayar :</span><span class="add-on"> RM </span><span data-bind="text: deposit().DepositPaid" id="DepositPaid" />
+        </div>
+        <div class="control-group">
+            <span >Baki :</span><span class="add-on"> RM </span><span data-bind="text: deposit().DepositBalance" id="Balance" />
+        </div>
+        <div id="deposit-payment">
+            <h4>Pembayaran</h4>
+            <input type="button" value="+" class="btn-mini" data-bind="click: addPaymentCommand"/>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>No Resit</th>
+                        <th>Jumlah (RM)</th>
+                        <th>Tarikh</th>
+                    </tr>
+                </thead>
+                <tbody data-bind=" foreach: deposit().DepositPaymentCollection">
+                    <tr>
+                        <td><input type="text" data-bind="value: ReceiptNo, uniqueName: true"/></td>
+                        <td><input type="text" data-bind="value: Amount, uniqueName: true" /></td>
+                        <td><input id="offer.Date" name="Date" type="text" data-bind="kendoDate: Date" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input type="button" value="Simpan" class="btn btn-small" data-bind="click: saveCommand" data-dismiss="modal"/>
+        <input type="button" value="Batal" class="btn btn-small" data-dismiss="modal"/>
+    </div>
+</section>
