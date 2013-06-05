@@ -4,13 +4,13 @@
             <th>Tarikh/Masa</th>
             <th>Pengguna</th>
             <th>Operasi</th>
-            <th>Note</th>
+            <th>Nota</th>
         </tr>
     </thead>
     <tbody data-bind="foreach: auditTrailCollection">
         <tr>
             <td data-bind="">
-                <a href="#changes-dialog" data-bind="click: $parent.showChangesCommand, date: { value: DateTime, format: 'D MMM YYYY HH:mm' }"></a>
+                <button class="btn btn-link" data-bind="click: $parent.showChangesCommand, date: { value: DateTime, format: 'D MMM YYYY HH:mm' },enable: ChangeCollection().length > 0"></button>
             </td>
             <td data-bind="text: User"></td>
             <td data-bind="text: Operation"></td>
