@@ -343,11 +343,13 @@
     <Content Include="App\views\returnedapplication.html" />
     <Content Include="App\views\setting.html" />
     <Content Include="App\views\shell.html" />
+    <Content Include="App\views\tenant.detail.html" />
     <Content Include="App\views\tenant.html" />
     <Content Include="App\views\verifyapplication.html" />
     <Content Include="App\views\_audittrail.list.html" />
     <Content Include="App\views\_commercialspace.contract.html" />
     <Content Include="App\views\_contract.form.html" />
+    <Content Include="App\views\_tenant.contract.html" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
@@ -638,6 +640,8 @@
     <Content Include="Content\font\fontawesome-webfont.eot" />
     <Content Include="Content\font\FontAwesome.otf" />
     <Content Include="App\views\organization.detail.html" />
+    <Content Include="App\viewmodels\tenant.detail.js" />
+    <Content Include="App\viewmodels\_tenant.contract.js" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.debug.js" />
     <Content Include="Scripts\breeze.min.js" />
