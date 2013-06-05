@@ -8,7 +8,7 @@ bespoke.sphcommercialspace.domain = {};
 
 
 
-bespoke.sphcommercialspace.domain.ContractHistory = function () {
+bespoke.sphcommercialspace.domain.ContractHistory = function (webId) {
 
 
     return {
@@ -17,13 +17,14 @@ bespoke.sphcommercialspace.domain.ContractHistory = function () {
         TenantName: ko.observable(),
         DateEnd: ko.observable(),
         DateStart: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.PaymentDistribution = function () {
+bespoke.sphcommercialspace.domain.PaymentDistribution = function (webId) {
 
 
     return {
@@ -31,13 +32,14 @@ bespoke.sphcommercialspace.domain.PaymentDistribution = function () {
         ReceiptNo: ko.observable(),
         DateTime: ko.observable(),
         Amount: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Rent = function () {
+bespoke.sphcommercialspace.domain.Rent = function (webId) {
 
 
     return {
@@ -52,13 +54,14 @@ bespoke.sphcommercialspace.domain.Rent = function () {
         Quarter: ko.observable(),
         PaymentDistributionCollection: ko.observableArray(),
         Tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Tenant = function () {
+bespoke.sphcommercialspace.domain.Tenant = function (webId) {
 
 
     return {
@@ -73,13 +76,14 @@ bespoke.sphcommercialspace.domain.Tenant = function () {
         RegistrationNo: ko.observable(),
         ContractHistoryCollection: ko.observableArray(),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Land = function () {
+bespoke.sphcommercialspace.domain.Land = function (webId) {
 
 
     return {
@@ -101,13 +105,14 @@ bespoke.sphcommercialspace.domain.Land = function () {
         IsApproved: ko.observable(),
         Owner: ko.observable(new bespoke.sphcommercialspace.domain.Owner()),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Building = function () {
+bespoke.sphcommercialspace.domain.Building = function (webId) {
 
 
     return {
@@ -120,27 +125,46 @@ bespoke.sphcommercialspace.domain.Building = function () {
         Note: ko.observable(),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
         FloorCollection: ko.observableArray(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Address = function () {
+bespoke.sphcommercialspace.domain.LatLng = function (webId) {
 
 
     return {
-        State: ko.observable(),
-        City: ko.observable(),
-        Postcode: ko.observable(),
-        Street: ko.observable(),
-        isBusy: ko.observable(false)
+        Lat: ko.observable(),
+        Lng: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Floor = function () {
+bespoke.sphcommercialspace.domain.Address = function (webId) {
+
+
+    return {
+        UnitNo: ko.observable(),
+        Floor: ko.observable(),
+        Block: ko.observable(),
+        Street: ko.observable(),
+        City: ko.observable(),
+        Postcode: ko.observable(),
+        State: ko.observable(),
+        Country: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+};
+
+
+
+bespoke.sphcommercialspace.domain.Floor = function (webId) {
 
 
     return {
@@ -149,13 +173,14 @@ bespoke.sphcommercialspace.domain.Floor = function () {
         Number: ko.observable(),
         Note: ko.observable(),
         LotCollection: ko.observableArray(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Lot = function () {
+bespoke.sphcommercialspace.domain.Lot = function (webId) {
 
 
     return {
@@ -163,13 +188,14 @@ bespoke.sphcommercialspace.domain.Lot = function () {
         Size: ko.observable(),
         FloorNo: ko.observable(),
         IsCommercialSpace: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.CommercialSpace = function () {
+bespoke.sphcommercialspace.domain.CommercialSpace = function (webId) {
 
 
     return {
@@ -191,13 +217,14 @@ bespoke.sphcommercialspace.domain.CommercialSpace = function () {
         BuildingName: ko.observable(),
         BuildingLot: ko.observable(),
         LotCollection: ko.observableArray(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.RentalApplication = function () {
+bespoke.sphcommercialspace.domain.RentalApplication = function (webId) {
 
 
     return {
@@ -223,13 +250,14 @@ bespoke.sphcommercialspace.domain.RentalApplication = function () {
         Contact: ko.observable(new bespoke.sphcommercialspace.domain.Contact()),
         AttachmentCollection: ko.observableArray(),
         Offer: ko.observable(new bespoke.sphcommercialspace.domain.Offer()),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Attachment = function () {
+bespoke.sphcommercialspace.domain.Attachment = function (webId) {
 
 
     return {
@@ -239,13 +267,14 @@ bespoke.sphcommercialspace.domain.Attachment = function () {
         IsReceived: ko.observable(),
         StoreId: ko.observable(),
         IsCompleted: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Bank = function () {
+bespoke.sphcommercialspace.domain.Bank = function (webId) {
 
 
     return {
@@ -253,13 +282,14 @@ bespoke.sphcommercialspace.domain.Bank = function () {
         Location: ko.observable(),
         AccountNo: ko.observable(),
         AccountType: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Contact = function () {
+bespoke.sphcommercialspace.domain.Contact = function (webId) {
 
 
     return {
@@ -271,13 +301,14 @@ bespoke.sphcommercialspace.domain.Contact = function () {
         MobileNo: ko.observable(),
         OfficeNo: ko.observable(),
         Email: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.ContractTemplate = function () {
+bespoke.sphcommercialspace.domain.ContractTemplate = function (webId) {
 
 
     return {
@@ -287,25 +318,27 @@ bespoke.sphcommercialspace.domain.ContractTemplate = function () {
         Status: ko.observable(),
         DocumentTemplateCollection: ko.observableArray(),
         TopicCollection: ko.observableArray(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.DocumentTemplate = function () {
+bespoke.sphcommercialspace.domain.DocumentTemplate = function (webId) {
 
 
     return {
         Name: ko.observable(),
         StoreId: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Contract = function () {
+bespoke.sphcommercialspace.domain.Contract = function (webId) {
 
 
     return {
@@ -329,26 +362,28 @@ bespoke.sphcommercialspace.domain.Contract = function () {
         Tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
         CommercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         TopicCollection: ko.observableArray(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Document = function () {
+bespoke.sphcommercialspace.domain.Document = function (webId) {
 
 
     return {
         Title: ko.observable(),
         Extension: ko.observable(),
         DocumentVersionCollection: ko.observableArray(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.DocumentVersion = function () {
+bespoke.sphcommercialspace.domain.DocumentVersion = function (webId) {
 
 
     return {
@@ -357,13 +392,14 @@ bespoke.sphcommercialspace.domain.DocumentVersion = function () {
         CommitedBy: ko.observable(),
         No: ko.observable(),
         Note: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Owner = function () {
+bespoke.sphcommercialspace.domain.Owner = function (webId) {
 
 
     return {
@@ -372,13 +408,14 @@ bespoke.sphcommercialspace.domain.Owner = function () {
         FaxNo: ko.observable(),
         Email: ko.observable(),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.AuditTrail = function () {
+bespoke.sphcommercialspace.domain.AuditTrail = function (webId) {
 
 
     return {
@@ -388,39 +425,43 @@ bespoke.sphcommercialspace.domain.AuditTrail = function () {
         Type: ko.observable(),
         EntityId: ko.observable(),
         ChangeCollection: ko.observableArray(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Change = function () {
+bespoke.sphcommercialspace.domain.Change = function (webId) {
 
 
     return {
         PropertyName: ko.observable(),
-        Before: ko.observable(),
-        After: ko.observable(),
-        isBusy: ko.observable(false)
+        OldValue: ko.observable(),
+        NewValue: ko.observable(),
+        Action: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Organization = function () {
+bespoke.sphcommercialspace.domain.Organization = function (webId) {
 
 
     return {
         Name: ko.observable(),
         RegistrationNo: ko.observable(),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Offer = function () {
+bespoke.sphcommercialspace.domain.Offer = function (webId) {
 
 
     return {
@@ -436,14 +477,14 @@ bespoke.sphcommercialspace.domain.Offer = function () {
         PeriodUnit: ko.observable(),
         Option: ko.observable(),
         OfferConditionCollection: ko.observableArray(),
-        DepositPaymentCollection: ko.observableArray(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.OfferCondition = function () {
+bespoke.sphcommercialspace.domain.OfferCondition = function (webId) {
 
 
     return {
@@ -451,13 +492,14 @@ bespoke.sphcommercialspace.domain.OfferCondition = function () {
         Description: ko.observable(),
         Note: ko.observable(),
         IsRequired: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Topic = function () {
+bespoke.sphcommercialspace.domain.Topic = function (webId) {
 
 
     return {
@@ -465,13 +507,14 @@ bespoke.sphcommercialspace.domain.Topic = function () {
         Description: ko.observable(),
         Text: ko.observable(),
         ClauseCollection: ko.observableArray(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Clause = function () {
+bespoke.sphcommercialspace.domain.Clause = function (webId) {
 
 
     return {
@@ -479,13 +522,14 @@ bespoke.sphcommercialspace.domain.Clause = function () {
         Description: ko.observable(),
         No: ko.observable(),
         Text: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.ContractingParty = function () {
+bespoke.sphcommercialspace.domain.ContractingParty = function (webId) {
 
 
     return {
@@ -493,26 +537,28 @@ bespoke.sphcommercialspace.domain.ContractingParty = function () {
         RegistrationNo: ko.observable(),
         Contact: ko.observable(new bespoke.sphcommercialspace.domain.Contact()),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.DepositPayment = function () {
+bespoke.sphcommercialspace.domain.DepositPayment = function (webId) {
 
 
     return {
         ReceiptNo: ko.observable(),
         Amount: ko.observable(),
         Date: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Payment = function () {
+bespoke.sphcommercialspace.domain.Payment = function (webId) {
 
 
     return {
@@ -521,13 +567,14 @@ bespoke.sphcommercialspace.domain.Payment = function () {
         ReceiptNo: ko.observable(),
         Date: ko.observable(),
         ParentId: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Invoice = function () {
+bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
 
     return {
@@ -537,13 +584,14 @@ bespoke.sphcommercialspace.domain.Invoice = function () {
         No: ko.observable(),
         Type: ko.observable(),
         ParentId: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.User = function () {
+bespoke.sphcommercialspace.domain.User = function (webId) {
 
 
     return {
@@ -552,13 +600,14 @@ bespoke.sphcommercialspace.domain.User = function () {
         UserName: ko.observable(),
         Email: ko.observable(),
         FullName: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Deposit = function () {
+bespoke.sphcommercialspace.domain.Deposit = function (webId) {
 
 
     return {
@@ -568,38 +617,42 @@ bespoke.sphcommercialspace.domain.Deposit = function () {
         IsPaid: ko.observable(),
         IsRefund: ko.observable(),
         IsVoid: ko.observable(),
-        isBusy: ko.observable(false)
+        DepositPaymentCollection: ko.observableArray(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Role = function () {
+bespoke.sphcommercialspace.domain.Role = function (webId) {
 
 
     return {
         RoleId: ko.observable(),
         Name: ko.observable(),
         PermissionCollection: ko.observableArray(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Permission = function () {
+bespoke.sphcommercialspace.domain.Permission = function (webId) {
 
 
     return {
         IsAuthorized: ko.observable(),
         Name: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Complaint = function () {
+bespoke.sphcommercialspace.domain.Complaint = function (webId) {
 
 
     return {
@@ -612,19 +665,21 @@ bespoke.sphcommercialspace.domain.Complaint = function () {
         Contact: ko.observable(new bespoke.sphcommercialspace.domain.Contact()),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
         ReplyCollection: ko.observableArray(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 
 
 
-bespoke.sphcommercialspace.domain.Reply = function () {
+bespoke.sphcommercialspace.domain.Reply = function (webId) {
 
 
     return {
         Title: ko.observable(),
         Text: ko.observable(),
-        isBusy: ko.observable(false)
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
     };
 };
 

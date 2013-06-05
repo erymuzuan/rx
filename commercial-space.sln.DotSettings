@@ -14,7 +14,7 @@
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/Text/@EntryValue">var query = String.format("$QUERY$",$PARAMETERS$);&#xD;
 var tcs = new $.Deferred();&#xD;
-datacontext.loadOneAsync("$ENTITY$", query)&#xD;
+context.loadOneAsync("$ENTITY$", query)&#xD;
     .done(function (b) {&#xD;
 		$END$&#xD;
         tcs.resolve(true);&#xD;
@@ -91,6 +91,8 @@ namespace $NAMESPACE$&#xD;
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Description/@EntryValue">use datacontext post wih promise</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Field/=JSON/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Field/=JSON/Order/@EntryValue">1</s:Int64>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Field/=URL/@KeyIndexDefined">True</s:Boolean>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Field/=URL/Order/@EntryValue">0</s:Int64>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Reformat/@EntryValue">True</s:Boolean>
@@ -98,15 +100,15 @@ namespace $NAMESPACE$&#xD;
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Scope/=3C1322ECA9DA8846892FCF908DDAFEE7/Type/@EntryValue">InJavaScriptStatement</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Shortcut/@EntryValue">datacontext-post</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Text/@EntryValue"> var tcs = new $.Deferred();&#xD;
-var data = $END$;&#xD;
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3488FCEE3861D4488CFB1996B3B5D415/Text/@EntryValue">var tcs = new $.Deferred();&#xD;
+var data = $JSON$;&#xD;
 isBusy(true);&#xD;
 &#xD;
-context.post(data, "$URL$")&#xD;
+context.post(data, "/$URL$")&#xD;
 	.then(function (result) {&#xD;
 		isBusy(false);&#xD;
 &#xD;
-&#xD;
+		$END$&#xD;
 		tcs.resolve(result);&#xD;
 	});&#xD;
 return tcs.promise();</s:String>
@@ -157,6 +159,33 @@ return tcs.promise();</s:String>
     &lt;/div&gt;&#xD;
 &lt;/section&gt;&#xD;
 </s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Description/@EntryValue">asp.net MVC action</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=action/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=action/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=parameters/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=parameters/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=result/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=result/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Scope/=B68999B9D6B43E47A02B22C12A54C3CC/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Scope/=B68999B9D6B43E47A02B22C12A54C3CC/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Scope/=B68999B9D6B43E47A02B22C12A54C3CC/Type/@EntryValue">InCSharpTypeMember</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Shortcut/@EntryValue">action-json</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Text/@EntryValue">public async Task&lt;ActionResult&gt; $action$($parameters$)&#xD;
+{&#xD;
+	$END$&#xD;
+	&#xD;
+    if (Request.ContentType == "application/json; charset=utf-8")&#xD;
+    {&#xD;
+        this.Response.ContentType = "application/json; charset=utf-8";&#xD;
+        return Content(await JsonConvert.SerializeObjectAsync($result$));&#xD;
+    }&#xD;
+&#xD;
+    return View($result$);&#xD;
+}</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Field/=ENTITY/@KeyIndexDefined">True</s:Boolean>
@@ -301,6 +330,27 @@ $END$</s:String>
 &#xD;
     &lt;/div&gt;&#xD;
 &lt;/div&gt;</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Description/@EntryValue">get dbitem for editing</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Field/=Entity/@KeyIndexDefined">True</s:Boolean>
+	
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Field/=Entity/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Field/=p/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Field/=p/Expression/@EntryValue">list("a,b,c,d,o,m,t")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Field/=p/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Field/=parameter/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Field/=parameter/Expression/@EntryValue">list("id,val")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Field/=parameter/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Scope/=C3001E7C0DA78E4487072B7E050D86C5/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Scope/=C3001E7C0DA78E4487072B7E050D86C5/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Scope/=C3001E7C0DA78E4487072B7E050D86C5/Type/@EntryValue">InCSharpFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Shortcut/@EntryValue">dbitem</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80148C27F6ED2A44B8146A6283191F33/Text/@EntryValue">var context = new SphDataContext();&#xD;
+var dbItem = await context.LoadOneAsync&lt;$Entity$&gt;($p$ =&gt; $p$ .$Entity$Id == $parameter$);&#xD;
+          </s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/Description/@EntryValue"> data-bind="text:$END$"  </s:String>
@@ -314,6 +364,30 @@ $END$</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/Shortcut/@EntryValue">dbt</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=858E48F491FA2943AD1E7282717AC744/Text/@EntryValue">data-bind="text:$VAL$"$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=command/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=command/Expression/@EntryValue">constant("saveCommand")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=command/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=done/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=done/Expression/@EntryValue">list("Siap, Simpan, OK")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=done/Order/@EntryValue">4</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=id/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=id/Expression/@EntryValue">list("save-button,submit-button,ok-button")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=id/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=loading/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=loading/Expression/@EntryValue">list("Sila tunggu...,Loading...,Processing...,Saving...")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=loading/Order/@EntryValue">3</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=text/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=text/Expression/@EntryValue">list("Simpan,OK,Hantar,Save")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Field/=text/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Scope/=A14108D8199BD94191FC02A2809F1F3D/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Scope/=A14108D8199BD94191FC02A2809F1F3D/Type/@EntryValue">InHtmlLikeFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Shortcut/@EntryValue">btn-save</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=891A71F9AD73874CBD32F90C211BEDB2/Text/@EntryValue">&lt;input id="$id$" type="button" class="btn btn-primary" value="$text$" data-bind="command: $command$" data-loading-text="$loading$" data-complete-text="$done$" /&gt;&#xD;
+    </s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=8D9CDCCF201E344A9F052F38009D6EE2/Description/@EntryValue">creates kendo upload</s:String>
@@ -444,6 +518,23 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], &
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=DF25324AC422994CBF5C6148253C76BA/Shortcut/@EntryValue">dbw</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=DF25324AC422994CBF5C6148253C76BA/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=DF25324AC422994CBF5C6148253C76BA/Text/@EntryValue">data-bind="with : $VAL$"$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ED2F1706BE5EB846961B7F9DF7A4BD2D/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ED2F1706BE5EB846961B7F9DF7A4BD2D/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ED2F1706BE5EB846961B7F9DF7A4BD2D/Description/@EntryValue">creates variable function</s:String>
+	
+	
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ED2F1706BE5EB846961B7F9DF7A4BD2D/Field/=name/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ED2F1706BE5EB846961B7F9DF7A4BD2D/Field/=name/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ED2F1706BE5EB846961B7F9DF7A4BD2D/Field/=parameters/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ED2F1706BE5EB846961B7F9DF7A4BD2D/Field/=parameters/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ED2F1706BE5EB846961B7F9DF7A4BD2D/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ED2F1706BE5EB846961B7F9DF7A4BD2D/Scope/=FFA15E6CFCBE90499C572A859225B012/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ED2F1706BE5EB846961B7F9DF7A4BD2D/Scope/=FFA15E6CFCBE90499C572A859225B012/Type/@EntryValue">InJavaScriptFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ED2F1706BE5EB846961B7F9DF7A4BD2D/Shortcut/@EntryValue">fn</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ED2F1706BE5EB846961B7F9DF7A4BD2D/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ED2F1706BE5EB846961B7F9DF7A4BD2D/Text/@EntryValue">$name$ = function($parameters$){&#xD;
+	$END$&#xD;
+}</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=FBF56588F76D9B45B380310566063C1E/Description/@EntryValue"> data-bind attribute</s:String>

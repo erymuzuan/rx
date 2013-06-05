@@ -16,6 +16,7 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
     function (context, clausesvm, documentsvm, audittrailvm) {
 
         var isBusy = ko.observable(false),
+            
             activate = function (routeData) {
                 isBusy(true);
                 var tcs = new $.Deferred();
@@ -49,22 +50,19 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
                 return tcs.promise();
 
             },
+            
             viewAttached = function (view) {
                 _uiready.init(view);
-                $('#documents').on('click', 'tr', function (e) {
-                    e.preventDefault();
-                    ko.mapping.fromJS(ko.mapping.toJS(ko.dataFor(this)), {}, vm.selectedDocument);
-                });
             },
-            contract = new bespoke.sphcommercialspace.domain.Contract(),
-
 
             save = function () {
-                var json = ko.mapping.toJSON({ contract: contract });
+                vm.contract().TopicCollection(clausesvm.topicCollection());
+                vm.contract().DocumentCollection(documentsvm.documentCollection());
+                var json = ko.mapping.toJSON({ contract: vm.contract });
                 var tcs = new $.Deferred();
-                context.post(json, "Contract/Create")
+                context.post(json, "Contract/Save")
                     .then(function (c) {
-                        ko.mapping.fromJS(ko.mapping.toJS(c), {}, vm.contract);
+                        vm.contract(c);
                         tcs.resolve(c);
                     });
                 return tcs.promise();

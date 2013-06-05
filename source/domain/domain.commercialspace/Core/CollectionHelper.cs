@@ -91,12 +91,14 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
         public static IEnumerable<Change> GetChanges<T>(this IEnumerable<T> current, IEnumerable<T> changed, string fieldName)// where T : DomainObject
         {
+            var currentList = current.ToList();
+            var changedList = changed.ToList();
             var changeSet = new ObjectCollection<Change>();
             // for string
             if (typeof(T) == typeof(string))
             {
-                var os = current.OrderBy(c => c).ToString2();
-                var cs = changed.OrderBy(c => c).ToString2();
+                var os = currentList.OrderBy(c => c).ToString2();
+                var cs = changedList.OrderBy(c => c).ToString2();
 
                 if (!string.Equals(os, cs, StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -104,60 +106,60 @@ namespace Bespoke.SphCommercialSpaces.Domain
                                       {
                                           OldValue = os,
                                           NewValue = cs,
-                                          Field = fieldName
+                                          PropertyName = fieldName
                                       });
                 }
             }
 
-            foreach (var t0 in changed.OfType<IChangeTrack<T>>().Where(t => string.IsNullOrWhiteSpace(t.TrackingId)))
+            foreach (var t0 in changedList.OfType<IChangeTrack<T>>().Where(t => string.IsNullOrWhiteSpace(t.TrackingId)))
             {
                 throw new Exception("tracked item does not have tracking id " + t0);
             }
-            foreach (var t9 in current.OfType<IChangeTrack<T>>().Where(t => string.IsNullOrWhiteSpace(t.TrackingId)))
+            foreach (var t9 in currentList.OfType<IChangeTrack<T>>().Where(t => string.IsNullOrWhiteSpace(t.TrackingId)))
             {
                 throw new Exception("tracked item does not have tracking id " + t9);
             }
 
             // then compares each object
-            foreach (var t in current.OfType<IChangeTrack<T>>())
+            foreach (var t in currentList.OfType<IChangeTrack<T>>())
             {
                 if (null == t) continue;
                 var t1 = t;
-                var newItem = changed.OfType<IChangeTrack<T>>().SingleOrDefault(f => f.TrackingId == t1.TrackingId);
+                var newItem = changedList.OfType<IChangeTrack<T>>().SingleOrDefault(f => f.TrackingId == t1.TrackingId);
                 if (null != newItem)
                 {
-                    var itemChangeset = t.GenerateChangeCollection((T)newItem);
+                    var itemChangeset = t.GenerateChangeCollection((T)newItem).ToList();
                     if (itemChangeset.Any())
                         changeSet.AddRange(itemChangeset);
                 }
 
-                if(null == newItem ) // deleted
+                if (null == newItem) // deleted
                 {
                     var deletedChange = new Change
                                             {
-                                                Field = fieldName,
+                                                PropertyName = fieldName,
                                                 NewValue = string.Empty,
                                                 OldValue = t1.ToString(),
                                                 Action = "Delete"
-                                               
+
                                             };
                     changeSet.Add(deletedChange);
 
                 }
             }
             // then compares each object for addition
-            foreach (var t in changed.OfType<IChangeTrack<T>>())
+            foreach (var t in changedList.OfType<IChangeTrack<T>>())
             {
                 if (null == t) continue;
                 var t1 = t;
-                var old = current.OfType<IChangeTrack<T>>().SingleOrDefault(f => f.TrackingId == t1.TrackingId);
-             
+                var old = currentList.OfType<IChangeTrack<T>>().SingleOrDefault(f => f.TrackingId == t1.TrackingId);
+
 
                 if (null == old) // added
                 {
                     var addedChange = new Change
                                           {
-                                              Field = fieldName,
+                                              PropertyName = fieldName,
                                               NewValue = t1.ToString(),
                                               OldValue = string.Empty,
                                               Action = "Add"
@@ -167,7 +169,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
                 }
             }
-           
+
 
             return changeSet;
         }

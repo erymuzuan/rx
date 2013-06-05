@@ -21,7 +21,7 @@
         <!-- ELEMENT -->
         <xsl:otherwise>
 
-          bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/> = function() {
+          bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/> = function(webId) {
         
 
 return {
@@ -36,7 +36,8 @@ return {
             </xsl:choose>
           </xsl:for-each>
           <!-- Element -->
-          <xsl:apply-templates select="xs:complexType/xs:all/xs:element"/>isBusy : ko.observable(false)
+          <xsl:apply-templates select="xs:complexType/xs:all/xs:element"/>isBusy : ko.observable(false),
+		  WebId : ko.observable(webId)
           };
           };
           

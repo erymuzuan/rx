@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
 	<xs:element name="ContractHistory">
 		<xs:complexType>
@@ -116,12 +116,25 @@
 			<xs:attribute name="Note" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="LatLng">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Elevation" type="xs:double" nillable="true"/>
+			</xs:all>
+			<xs:attribute name="Lat" type="xs:double" use="required"/>
+			<xs:attribute name="Lng" type="xs:double" use="required"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Address">
 		<xs:complexType>
-			<xs:attribute name="State" type="xs:string" use="required"/>
+			<xs:attribute name="UnitNo" type="xs:string" use="required"/>
+			<xs:attribute name="Floor" type="xs:string" use="optional"/>
+			<xs:attribute name="Block" type="xs:string" use="optional"/>
+			<xs:attribute name="Street" type="xs:string" use="required"/>
 			<xs:attribute name="City" type="xs:string" use="required"/>
 			<xs:attribute name="Postcode" type="xs:string" use="required"/>
-			<xs:attribute name="Street" type="xs:string" use="required"/>
+			<xs:attribute name="State" type="xs:string" use="required"/>
+			<xs:attribute name="Country" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Floor">
@@ -383,8 +396,9 @@
 	<xs:element name="Change">
 		<xs:complexType>
 			<xs:attribute name="PropertyName" type="xs:string" use="required"/>
-			<xs:attribute name="Before" type="xs:string" use="required"/>
-			<xs:attribute name="After" type="xs:string" use="required"/>
+			<xs:attribute name="OldValue" type="xs:string" use="required"/>
+			<xs:attribute name="NewValue" type="xs:string" use="required"/>
+			<xs:attribute name="Action" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Organization">

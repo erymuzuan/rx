@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +17,8 @@ namespace Bespoke.SphCommercialSpaces.Domain
     {
         [NonSerialized]
         private static TraceSource m_traceSource;
+        [XmlAttribute]
+        public string WebId { get; set; }
 
         protected TraceSource TraceSource
         {

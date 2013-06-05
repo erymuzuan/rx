@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public partial class Organization : DomainObject
+    public partial class Organization : Entity
     {
         private int m_organizationId;
 

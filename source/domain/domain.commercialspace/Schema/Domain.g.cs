@@ -2047,14 +2047,137 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
+          [XmlType("LatLng",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class LatLng
+          {
+
+          
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  double  m_lat;
+                public const string PropertyNameLat = "Lat";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  double  m_lng;
+                public const string PropertyNameLng = "Lng";
+
+              
+            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private double?  m_elevation;
+                public const string PropertyNameElevation = "Elevation";
+
+         
+          
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public double Lat
+                {
+                set
+                {
+                if( m_lat == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLat, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_lat= value;
+                OnPropertyChanged(PropertyNameLat);
+                }
+                }
+                get
+                {
+                return m_lat;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public double Lng
+                {
+                set
+                {
+                if( m_lng == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLng, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_lng= value;
+                OnPropertyChanged(PropertyNameLng);
+                }
+                }
+                get
+                {
+                return m_lng;}
+                }
+
+              
+
+            ///<summary>
+            /// 
+            ///</summary>
+            [DebuggerHidden]
+
+            public double? Elevation
+            {
+            set
+            {
+            if(m_elevation == value) return;
+            var arg = new PropertyChangingEventArgs(PropertyNameElevation, value);
+            OnPropertyChanging(arg);
+            if(! arg.Cancel)
+            {
+            m_elevation= value;
+            OnPropertyChanged(PropertyNameElevation);
+            }
+            }
+            get { return m_elevation;}
+            }
+          
+
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
           [XmlType("Address",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Address
           {
 
           
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_state;
-                public const string PropertyNameState = "State";
+                private  string  m_unitNo;
+                public const string PropertyNameUnitNo = "UnitNo";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_floor;
+                public const string PropertyNameFloor = "Floor";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_block;
+                public const string PropertyNameBlock = "Block";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_street;
+                public const string PropertyNameStreet = "Street";
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2068,8 +2191,13 @@
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_street;
-                public const string PropertyNameStreet = "Street";
+                private  string  m_state;
+                public const string PropertyNameState = "State";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_country;
+                public const string PropertyNameCountry = "Country";
 
               
             ///<summary>
@@ -2081,22 +2209,102 @@
             
             [DebuggerHidden]
             
-                public string State
+                public string UnitNo
                 {
                 set
                 {
-                if( String.Equals( m_state, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameState, value);
+                if( String.Equals( m_unitNo, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameUnitNo, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_state= value;
-                OnPropertyChanged(PropertyNameState);
+                m_unitNo= value;
+                OnPropertyChanged(PropertyNameUnitNo);
                 }
                 }
                 get
                 {
-                return m_state;}
+                return m_unitNo;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+            [DebuggerHidden]
+            
+                public string Floor
+                {
+                set
+                {
+                if( String.Equals( m_floor, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFloor, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_floor= value;
+                OnPropertyChanged(PropertyNameFloor);
+                }
+                }
+                get
+                {
+                return m_floor;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+            [DebuggerHidden]
+            
+                public string Block
+                {
+                set
+                {
+                if( String.Equals( m_block, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBlock, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_block= value;
+                OnPropertyChanged(PropertyNameBlock);
+                }
+                }
+                get
+                {
+                return m_block;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Street
+                {
+                set
+                {
+                if( String.Equals( m_street, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameStreet, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_street= value;
+                OnPropertyChanged(PropertyNameStreet);
+                }
+                }
+                get
+                {
+                return m_street;}
                 }
 
               
@@ -2165,22 +2373,48 @@
             
             [DebuggerHidden]
             
-                public string Street
+                public string State
                 {
                 set
                 {
-                if( String.Equals( m_street, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameStreet, value);
+                if( String.Equals( m_state, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameState, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_street= value;
-                OnPropertyChanged(PropertyNameStreet);
+                m_state= value;
+                OnPropertyChanged(PropertyNameState);
                 }
                 }
                 get
                 {
-                return m_street;}
+                return m_state;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+            [DebuggerHidden]
+            
+                public string Country
+                {
+                set
+                {
+                if( String.Equals( m_country, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCountry, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_country= value;
+                OnPropertyChanged(PropertyNameCountry);
+                }
+                }
+                get
+                {
+                return m_country;}
                 }
 
               
@@ -6002,13 +6236,18 @@
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_before;
-                public const string PropertyNameBefore = "Before";
+                private  string  m_oldValue;
+                public const string PropertyNameOldValue = "OldValue";
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_after;
-                public const string PropertyNameAfter = "After";
+                private  string  m_newValue;
+                public const string PropertyNameNewValue = "NewValue";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_action;
+                public const string PropertyNameAction = "Action";
 
               
             ///<summary>
@@ -6048,22 +6287,22 @@
             
             [DebuggerHidden]
             
-                public string Before
+                public string OldValue
                 {
                 set
                 {
-                if( String.Equals( m_before, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameBefore, value);
+                if( String.Equals( m_oldValue, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOldValue, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_before= value;
-                OnPropertyChanged(PropertyNameBefore);
+                m_oldValue= value;
+                OnPropertyChanged(PropertyNameOldValue);
                 }
                 }
                 get
                 {
-                return m_before;}
+                return m_oldValue;}
                 }
 
               
@@ -6076,22 +6315,50 @@
             
             [DebuggerHidden]
             
-                public string After
+                public string NewValue
                 {
                 set
                 {
-                if( String.Equals( m_after, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameAfter, value);
+                if( String.Equals( m_newValue, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNewValue, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_after= value;
-                OnPropertyChanged(PropertyNameAfter);
+                m_newValue= value;
+                OnPropertyChanged(PropertyNameNewValue);
                 }
                 }
                 get
                 {
-                return m_after;}
+                return m_newValue;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Action
+                {
+                set
+                {
+                if( String.Equals( m_action, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameAction, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_action= value;
+                OnPropertyChanged(PropertyNameAction);
+                }
+                }
+                get
+                {
+                return m_action;}
                 }
 
               

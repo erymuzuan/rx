@@ -7,8 +7,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [XmlInclude(typeof(Setting))]
     public abstract class Entity : DomainObject
     {
-        [XmlAttribute]
-        public string WebId { get; set; }
 
         [JsonIgnore]
         [XmlIgnore]

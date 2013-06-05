@@ -10,46 +10,20 @@
 
 var _uiready = function () {
     var init = function (view) {
-        $(view).find('.datepicker').datepicker({ format: 'dd/mm/yyyy' });
-        var kendoDateFormat = "dd/MM/yyyy";
-        
-        if (!Modernizr.inputtypes.date) {
-            $(function () {
-                $('input[type="date"]')
-                    .css({ "min-width": "100px", "width": "200px" })
-                    .kendoDatePicker({
-                        format: "yyyy-MM-dd"
-                    });
-            });
-        }
-
-        $(view).find('.k-datepicker')
-            .css({ "min-width": "100px", "width": "200px" })
-            .kendoDatePicker({
-                format: kendoDateFormat
-            });
-        $(view).find('.k-datetimepicker')
-            .css({ "min-width": "100px", "width": "200px" })
-            .kendoDateTimePicker({
-                format: "yyyy-MM-dd HH:mm"
-            });
-
-        $(view).find('.k-timepicker')
-            .css({ "min-width": "100px", "width": "200px" })
-            .kendoTimePicker({});
-
-        $(view).find('.k-combobox')
-            .css({ "min-width": "300px!important", "width": "300px" })
-            .kendoComboBox();
-
-        $(view).find('.k-dropdown')
-            .css({ "min-width": "300px!important", "width": "300px" })
-            .kendoDropDownList();
-
-
     };
     return {
         init: init
     };
 
 }();
+
+
+var system = system || {};
+system.guid = system.guid || {};
+system.guid.newGuid = function guidGenerator() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+
+};

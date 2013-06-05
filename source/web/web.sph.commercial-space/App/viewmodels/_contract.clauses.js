@@ -4,6 +4,7 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
+/// <reference path="../../Scripts/_uiready.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 
@@ -16,7 +17,7 @@ define([],
             console.log(vm.topicCollection);
         },
         startAddTopic = function () {
-            topic(new bespoke.sphcommercialspace.domain.Topic());
+            topic(new bespoke.sphcommercialspace.domain.Topic(system.guid.newGuid()));
         },
         addTopic = function () {
             vm.topicCollection.push(topic);
@@ -24,7 +25,7 @@ define([],
         editedTopic,
         startAddClause = function (tpc) {
             editedTopic = tpc;
-            clause(new bespoke.sphcommercialspace.domain.Clause());
+            clause(new bespoke.sphcommercialspace.domain.Clause(system.guid.newGuid()));
         },
         addClause = function () {
             editedTopic.ClauseCollection.push(clause);

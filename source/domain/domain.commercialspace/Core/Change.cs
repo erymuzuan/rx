@@ -1,16 +1,19 @@
-﻿using System.Xml.Serialization;
-
+﻿
 namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public partial class Change : DomainObject
+    public partial class Change 
     {
-        [XmlAttribute]
-        public string OldValue { get; set; }
-        [XmlAttribute]
-        public string NewValue { get; set; }
-        [XmlAttribute]
-        public string Field { get; set; }
-        [XmlAttribute]
-        public string Action { get; set; }
+
+        public Change()
+        {
+            if (string.IsNullOrEmpty(this.Action))
+                this.Action = "Change";
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Action : {0}\r\nField : {1}\r\nOldValue : {2}\r\nNewValue: {3}"
+                , this.Action, this.PropertyName, this.OldValue, this.NewValue);
+        }
     }
 }

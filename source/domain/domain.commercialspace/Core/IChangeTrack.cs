@@ -2,10 +2,9 @@
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public interface IChangeTrack<T> 
+    public interface IChangeTrack<in T> 
     {
         IEnumerable<Change> GenerateChangeCollection(T p);
-
-        string TrackingId { get; set; }
+        string TrackingId { get;}
     }
 }

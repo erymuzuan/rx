@@ -4,7 +4,9 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
+/// <reference path="../../Scripts/_uiready.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../services/domain.g.js" />
 /// <reference path="../services/domain.g.js.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
@@ -29,13 +31,19 @@ define(['services/datacontext'],
             },
             viewAttached = function () {
 
+            },
+            showChange = function (audit) {
+                vm.log(audit);
+                $("#changes-dialog").modal();
             };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
             viewAttached: viewAttached,
-            auditTrailCollection : ko.observable()
+            auditTrailCollection: ko.observable(),
+            log: ko.observable(new bespoke.sphcommercialspace.domain.AuditTrail()),
+            showChangesCommand: showChange
         };
 
         return vm;

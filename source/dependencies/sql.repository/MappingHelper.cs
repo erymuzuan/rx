@@ -22,7 +22,7 @@ namespace Bespoke.Sph.SqlRepository
                     if (column == "TenantRegistrationNo")
                         return contract.Tenant.RegistrationNo;
                     if (column == "TenantIdSsmNo")
-                        return contract.Tenant.IdSsmNo;
+                        return contract.Tenant.IdSsmNo ?? "";
                     if (column == "CommercialSpaceId")
                         return contract.CommercialSpace.CommercialSpaceId;
                     if (column == "CommercialSpaceRegistrationNo")

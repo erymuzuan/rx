@@ -10,8 +10,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
     {
         public async Task<ActionResult> Create(Contract contract, int rentalApplicationId)
         {
-            if(0 == rentalApplicationId)throw new ArgumentException("RentalApplicationId cannot be 0", "rentalApplicationId");
-            if(0 != contract.ContractId)throw new ArgumentException("Contract must be new", "contract");
+            if (0 == rentalApplicationId) throw new ArgumentException("RentalApplicationId cannot be 0", "rentalApplicationId");
+            if (0 != contract.ContractId) throw new ArgumentException("Contract must be new", "contract");
 
             var context = new SphDataContext();
 
@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             {
                 contract.RentalApplicationId = rentalApplicationId;
                 contract.Status = "Active";
-                session.Attach(contract,audit);
+                session.Attach(contract, audit);
                 await session.SubmitChanges();
             }
             var audit2 = new AuditTrail
@@ -156,7 +156,35 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(doc);
         }
 
+        public async Task<ActionResult> Save(Contract contract)
+        {
+            var audit2 = new AuditTrail
+            {
+                Operation = "Contract is changed",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(Contract).Name,
+                EntityId = contract.ContractId,
+                Note = "-"
+            };
 
+            var context = new SphDataContext();
+            var dbItem = await context.LoadOneAsync<Contract>(c => c.ContractId == contract.ContractId);
+            if (dbItem != contract)
+            {
+                var changetracker = new ChangeGenerator();
+                audit2.ChangeCollection.AddRange(changetracker.GetChanges(dbItem,contract));
+            }
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(dbItem,audit2);
+                await session.SubmitChanges();
+            }
+            this.Response.ContentType = "application/json; charset=utf-8";
+            return Content(await JsonConvert.SerializeObjectAsync(contract));
+
+        }
 
     }
 }

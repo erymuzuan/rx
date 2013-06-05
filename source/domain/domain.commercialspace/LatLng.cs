@@ -3,11 +3,8 @@ using System.Linq;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public class LatLng : DomainObject
+    public partial class LatLng : DomainObject
     {
-        private double m_lat;
-        private double m_lng;
-        private double? m_elevation;
         public string ToWKT()
         {
             return string.Format("POINT({0} {1}{2})", this.Lng, this.Lat, this.Elevation.HasValue ? " " + this.Elevation : string.Empty);
@@ -38,34 +35,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
         }
 
-        public double Lng
-        {
-            get { return m_lng; }
-            set
-            {
-                m_lng = value;
-                RaisePropertyChanged();
-            }
-        }
+        
 
-
-        public double? Elevation
-        {
-            get { return m_elevation; }
-            set
-            {
-                m_elevation = value;
-                RaisePropertyChanged();
-            }
-        }
-        public double Lat
-        {
-            get { return m_lat; }
-            set
-            {
-                m_lat = value;
-                RaisePropertyChanged();
-            }
-        }
     }
 }

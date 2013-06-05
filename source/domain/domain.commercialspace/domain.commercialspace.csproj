@@ -72,6 +72,7 @@
     <Compile Include="ContractingParty.cs" />
     <Compile Include="ContractTemplate.cs" />
     <Compile Include="Core\Change.cs" />
+    <Compile Include="Core\ChangeGenerator.cs" />
     <Compile Include="Core\CollectionHelper.cs" />
     <Compile Include="Core\Entity.cs" />
     <Compile Include="Core\JsonSerializerService.cs" />
