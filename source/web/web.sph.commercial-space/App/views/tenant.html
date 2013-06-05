@@ -1,0 +1,17 @@
+﻿ <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>No. Id/SSM </th>
+                <th>Nama </th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: tenantCollection">
+            <tr>
+                <td>
+                    <a data-bind="attr: { href: '/#/rent/' + TenantId() }, text: IdSsmNo"></a>
+                </td>
+                <td data-bind="text: Name"></td>
+            </tr>
+        </tbody>
+    </table>

@@ -29,13 +29,13 @@
     </div>
     <div class="modal-body" style="width: 900px; height: 500px; max-height: 500px">
         <div class="control-group">
-            <span >Deposit : </span><span class="add-on">RM </span><span data-bind="text: offer.Deposit" id="Offer.Deposit" />
+            <span >Deposit : </span><span class="add-on"> RM </span><span data-bind="text: deposit().Amount" id="Deposit" />
         </div>
         <div class="control-group">
-             <span >Dibayar :</span><span class="add-on">RM </span><span data-bind="text: offer.DepositPaid" id="Offer.DepositPaid" />
+             <span >Dibayar :</span><span class="add-on"> RM </span><span data-bind="text: deposit().DepositPaid" id="DepositPaid" />
         </div>
         <div class="control-group">
-            <span >Baki :</span><span class="add-on">RM </span><span data-bind="text: offer.DepositBalance" id="Offer.Balance" />
+            <span >Baki :</span><span class="add-on"> RM </span><span data-bind="text: deposit().DepositBalance" id="Balance" />
         </div>
         <div id="deposit-payment">
             <h4>Pembayaran</h4>
@@ -48,7 +48,7 @@
                         <th>Tarikh</th>
                     </tr>
                 </thead>
-                <tbody data-bind=" foreach:{data: offer.DepositPaymentCollection,afterAdd : configureDate}">
+                <tbody data-bind=" foreach: deposit().DepositPaymentCollection">
                     <tr>
                         <td><input type="text" data-bind="value: ReceiptNo, uniqueName: true"/></td>
                         <td><input type="text" data-bind="value: Amount, uniqueName: true" /></td>

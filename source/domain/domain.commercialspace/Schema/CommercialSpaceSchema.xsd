@@ -41,6 +41,7 @@
 			<xs:attribute name="TenantId" type="xs:int" use="required"/>
 			<xs:attribute name="Half" type="xs:string" use="required"/>
 			<xs:attribute name="Quarter" type="xs:string" use="required"/>
+			<xs:attribute name="IsPaid" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Tenant" nillable="false">

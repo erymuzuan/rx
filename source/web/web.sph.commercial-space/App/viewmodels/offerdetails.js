@@ -25,6 +25,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
 
                 if (!vm.offer.CommercialSpaceId()) {
                     vm.offer.CommercialSpaceId(cs.CommercialSpaceId());
+                    vm.offer.CommercialSpaceCategory(cs.Category());
                     vm.offer.Rent(cs.RentalRate());
                     vm.offer.Building(cs.BuildingName());
                     vm.offer.Floor(cs.FloorName());
@@ -76,6 +77,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         viewAttached: viewAttached,
         commercialSpace: {
             CommercialSpaceId: ko.observable(),
+            Category : ko.observable(),
             RegistrationNo: ko.observable(),
             Size: ko.observable(),
             BuildingName: ko.observable(),
@@ -89,6 +91,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         },
         offer: {
             CommercialSpaceId: ko.observable(),
+            CommercialSpaceCategory : ko.observable(),
             Size: ko.observable(),
             Building: ko.observable(),
             Floor: ko.observable(),

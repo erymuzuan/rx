@@ -201,6 +201,24 @@
             caption: 'deposit',
             icon: 'icon-laptop',
             settings: { caption: 'Senarai deposit' }
+        },
+        {
+            url: 'tenant',
+            moduleId: 'viewmodels/tenant',
+            name: 'tenant',
+            visible: true,
+            caption: 'tenant',
+            icon: 'icon-laptop',
+            settings: { caption: 'Senarai tenant' }
+        },
+        {
+            url: 'rent/:tenantId',
+            moduleId: 'viewmodels/rent/',
+            name: 'rent.payment',
+            visible: true,
+            caption: 'rent.payment',
+            icon: 'icon-laptop',
+            settings: { caption: 'Senarai Sewa dan Invois' }
         }
     ];
     

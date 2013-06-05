@@ -1,0 +1,66 @@
+﻿<section class="container-fluid">
+    <div class="row-fluid" id="cs-modal">
+        <h1 class="span12" data-bind="text: title"></h1>
+    </div>
+
+    <div class="pull-right">
+        <form class="form-search">
+            <input type="search" class="search-query" placeholder="Cari ruang anda.." />
+            <span class="icon-search"></span>
+        </form>
+    </div>
+
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li>
+                <a href="#form-tab" data-toggle="tab">Sewa</a>
+            </li>
+            <li>
+                <a href="#contract-tab" data-toggle="tab">Invois</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="form-tab" class="tab-pane active">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>No Invois</th>
+                            <th>Tahun</th>
+                            <th>Bulan</th>
+                            <th>Suku</th>
+                            <th>Tengah</th>
+                            <th>Amaun</th>
+                            <th>Bayar</th>
+                            <th>Tunggakan</th>
+                            <th>Manual</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: rent">
+                        <tr>
+                            <td>
+                                <a data-bind="attr: { href: '/#/payment.rent/' + RentId() }, text: InvoiceNo"></a>
+                            </td>
+                            <td data-bind="text: Year" />
+                            <td data-bind="text: Month" />
+                            <td data-bind="text: Quarter" />
+                            <td data-bind="text: Half" />
+                            <td data-bind="text: Amount" />
+                            <td data-bind="text: IsPaid" />
+                            <td data-bind="text: Accrued" />
+                            <td>
+                                <input type="button" data-bind="command: $parent.manualPaymentCommand" value="Set Bayar" />
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="contract-tab" class="tab-pane" >
+            </div>
+            
+
+        </div>
+    </div>
+</section>

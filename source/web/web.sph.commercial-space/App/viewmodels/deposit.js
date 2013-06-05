@@ -14,7 +14,6 @@ define(['services/datacontext', 'services/logger'],
     function (context, logger) {
 
         var isBusy = ko.observable(false),
-            deposit = ko.observable(new bespoke.sphcommercialspace.domain.Deposit()),
             activate = function () {
                 var tcs = new $.Deferred();
                 context.loadAsync("Deposit", "IsPaid eq 0").done(function (lo) {
@@ -29,7 +28,7 @@ define(['services/datacontext', 'services/logger'],
                 var query = "DepositId eq " + data.DepositId();
                 context.loadOneAsync("Deposit", query)
                      .then(function (d) {
-                         ko.mapping.fromJSON(ko.mapping.toJSON(d), {}, vm.deposit);
+                         vm.deposit(d);
                          isBusy(false);
                      });
                 $('#deposit-modal').modal({});
@@ -40,14 +39,12 @@ define(['services/datacontext', 'services/logger'],
                     Amount: ko.observable(),
                     Date: ko.observable()
                 };
-                vm.offer.DepositPaymentCollection.push(payment);
-            },
-            configureDate = function () {
+                vm.deposit().DepositPaymentCollection.push(payment);
             },
             save = function () {
                 var tcs = new $.Deferred();
-                var depositPayment = ko.mapping.toJS(vm.deposit);
-                var postdata = JSON.stringify({ id: vm.DepositId(), deposit: depositPayment });
+                var depositPayment = ko.mapping.toJS(vm.deposit().DepositPaymentCollection());
+                var postdata = JSON.stringify({ id: vm.deposit().DepositId(), deposits: depositPayment });
                 context.post(postdata, "/Deposit/Save").done(function (e) {
                     logger.log("Deposit payment received", e, "deposit", true);
                     tcs.resolve(true);
@@ -58,10 +55,9 @@ define(['services/datacontext', 'services/logger'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            configureDate: configureDate,
             showDetailsCommand: showDetails,
             depositCollection: ko.observableArray([]),
-            deposit: deposit,
+            deposit: ko.observable(new bespoke.sphcommercialspace.domain.Deposit()),
             addPaymentCommand: addPayment,
             saveCommand: save
         };

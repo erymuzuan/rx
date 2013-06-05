@@ -448,6 +448,7 @@ var dbItem = await context.LoadOneAsync&lt;$Entity$&gt;($p$ =&gt; $p$ .$Entity$I
 /// &lt;reference path="../../Scripts/underscore.js" /&gt;&#xD;
 /// &lt;reference path="../../Scripts/moment.js" /&gt;&#xD;
 /// &lt;reference path="../services/datacontext.js" /&gt;&#xD;
+/// &lt;reference path="../services/domain.g.js" /&gt;&#xD;
 /// &lt;reference path="../../Scripts/bootstrap.js" /&gt;&#xD;
 &#xD;
 &#xD;

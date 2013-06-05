@@ -5,24 +5,39 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-    function(context, logger, router) {
+    function (context) {
 
         var isBusy = ko.observable(false),
-            activate = function () {
-                return true;
+            tenantId = ko.observable(),
+            activate = function (routeData) {
+                tenantId(parseInt(routeData.tenantId));
+                title('Maklumat Sewa dan Invois');
+
+                var query = String.format("RentId eq {0}", routeData.tenantId);
+                var tcs = new $.Deferred();
+                context.loadOneAsync("Rent", query)
+                    .done(function (r) {
+                        vm.rent(r);
+                        tcs.resolve(true);
+
+                    });
+
+                return tcs.promise();
 
             },
-            viewAttached = function(view) {
+            viewAttached = function (view) {
 
             };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
+            rent: ko.observable(new bespoke.CommercialSpace.domain.Rent()),
             viewAttached: viewAttached
         };
 

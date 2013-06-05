@@ -52,6 +52,7 @@ bespoke.sphcommercialspace.domain.Rent = function (webId) {
         TenantId: ko.observable(),
         Half: ko.observable(),
         Quarter: ko.observable(),
+        IsPaid: ko.observable(),
         PaymentDistributionCollection: ko.observableArray(),
         Tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
         isBusy: ko.observable(false),

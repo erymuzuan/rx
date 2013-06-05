@@ -382,6 +382,11 @@
                 public const string PropertyNameQuarter = "Quarter";
 
               
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  bool  m_isPaid;
+                public const string PropertyNameIsPaid = "IsPaid";
+
+              
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private int?  m_month;
                 public const string PropertyNameMonth = "Month";
@@ -671,6 +676,34 @@
                 get
                 {
                 return m_quarter;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public bool IsPaid
+                {
+                set
+                {
+                if( m_isPaid == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsPaid, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_isPaid= value;
+                OnPropertyChanged(PropertyNameIsPaid);
+                }
+                }
+                get
+                {
+                return m_isPaid;}
                 }
 
               
