@@ -12,6 +12,7 @@
           <EntitySet Name="Contract" EntityType="Sph.Store.Contract" store:Type="Tables" Schema="Sph" />
           <EntitySet Name="ContractTemplate" EntityType="Sph.Store.ContractTemplate" store:Type="Tables" Schema="Sph" />
           <EntitySet Name="Deposit" EntityType="Sph.Store.Deposit" store:Type="Tables" Schema="Sph" />
+          <EntitySet Name="Organization" EntityType="Sph.Store.Organization" store:Type="Tables" Schema="Sph" />
           <EntitySet Name="RentalApplication" EntityType="Sph.Store.RentalApplication" store:Type="Tables" Schema="Sph" />
           <EntitySet Name="Setting" EntityType="Sph.Store.Setting" store:Type="Tables" Schema="Sph" />
           <EntitySet Name="SpatialStore" EntityType="Sph.Store.SpatialStore" store:Type="Tables" Schema="Sph" />
@@ -41,38 +42,36 @@
           <Property Name="LotNo" Type="varchar" MaxLength="255" />
           <Property Name="Name" Type="varchar" MaxLength="255" />
           <Property Name="Status" Type="varchar" MaxLength="255" />
+          <Property Name="State" Type="varchar" MaxLength="255" />
           <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
           <Property Name="ChangedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
-          <Property Name="State" Type="varchar" MaxLength="255" />
-          <Property Name="Polygon" Type="geography" />
-          <Property Name="PolygonWkt" Type="varchar(max)" />
-          <Property Name="PolygonEncoded" Type="varchar(max)" />
-          <Property Name="EncodedWkt" Type="varchar(max)" />
-          <Property Name="Wkt" Type="varchar(max)" />
           <Property Name="Path" Type="geography" />
+          <Property Name="Wkt" Type="varchar(max)" />
+          <Property Name="EncodedWkt" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="CommercialSpace">
           <Key>
             <PropertyRef Name="CommercialSpaceId" />
           </Key>
           <Property Name="CommercialSpaceId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Data" Type="xml" Nullable="false" />
-          <Property Name="BuildingId" Type="varchar" MaxLength="10" />
+          <Property Name="BuildingId" Type="int" Nullable="false" />
           <Property Name="FloorName" Type="varchar" MaxLength="255" />
+          <Property Name="RegistrationNo" Type="varchar" MaxLength="255" />
           <Property Name="LotName" Type="varchar" MaxLength="255" />
-          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="BuildingName" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="Status" Type="varchar" MaxLength="255" />
           <Property Name="Category" Type="varchar" MaxLength="255" />
-          <Property Name="IsOnline" Type="varchar" MaxLength="255" />
+          <Property Name="IsOnline" Type="bit" Nullable="false" />
           <Property Name="RentalType" Type="varchar" MaxLength="255" />
+          <Property Name="Data" Type="xml" Nullable="false" />
           <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
           <Property Name="ChangedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
-          <Property Name="State" Type="varchar(max)" Nullable="false" />
-          <Property Name="City" Type="varchar(max)" Nullable="false" />
-          <Property Name="RegistrationNo" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="State" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="City" Type="varchar" Nullable="false" MaxLength="255" />
         </EntityType>
         <EntityType Name="Contract">
           <Key>
@@ -123,6 +122,20 @@
           <Property Name="IsVoid" Type="bit" Nullable="false" />
           <Property Name="PaymentDateTime" Type="datetime" />
           <Property Name="RefundDateTime" Type="datetime" />
+          <Property Name="Data" Type="xml" Nullable="false" />
+          <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="ChangedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="ChangedBy" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="OrganizationId" />
+          </Key>
+          <Property Name="OrganizationId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="IdSsmNo" Type="varchar" MaxLength="255" />
+          <Property Name="RegistrationNo" Type="varchar" MaxLength="255" />
           <Property Name="Data" Type="xml" Nullable="false" />
           <Property Name="CreatedDate" Type="smalldatetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
@@ -191,8 +204,9 @@
           <EntitySet Name="Settings" EntityType="Sph.Setting" />
           <EntitySet Name="ContractTemplates" EntityType="Sph.ContractTemplate" cg:GetterAccess="Internal" />
           <EntitySet Name="RentalApplications" EntityType="Sph.RentalApplication" />
-          <EntitySet Name="CommercialSpaces" EntityType="Sph.CommercialSpace" />
           <EntitySet Name="Contracts" EntityType="Sph.Contract" />
+          <EntitySet Name="CommercialSpaces" EntityType="Sph.CommercialSpace" />
+          <EntitySet Name="Organizations" EntityType="Sph.Organization" />
           <EntitySet Name="Deposits" EntityType="Sph.Deposit" />
           </EntityContainer>
         <EntityType Name="Building" cg:TypeAccess="Internal">
@@ -286,27 +300,6 @@
           <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
           <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="CommercialSpace">
-          <Key>
-            <PropertyRef Name="CommercialSpaceId" />
-          </Key>
-          <Property Type="Int32" Name="CommercialSpaceId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="BuildingId" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="FloorName" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="LotName" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Category" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="IsOnline" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="RentalType" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
-          <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
-          <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="State" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="City" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="RegistrationNo" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="Contract">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -321,6 +314,42 @@
           <Property Type="DateTime" Name="EndDate" Nullable="false" Precision="0" />
           <Property Type="Int32" Name="CommercialSpaceId" Nullable="false" />
           <Property Type="String" Name="CommercialSpaceRegistrationNo" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CommercialSpace">
+          <Key>
+            <PropertyRef Name="CommercialSpaceId" />
+          </Key>
+          <Property Type="Int32" Name="CommercialSpaceId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="BuildingId" Nullable="false" />
+          <Property Type="String" Name="FloorName" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RegistrationNo" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LotName" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BuildingName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Status" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Category" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsOnline" Nullable="false" />
+          <Property Type="String" Name="RentalType" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ChangedDate" Nullable="false" Precision="0" />
+          <Property Type="String" Name="ChangedBy" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="OrganizationId" />
+          </Key>
+          <Property Type="Int32" Name="OrganizationId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="IdSsmNo" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RegistrationNo" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Data" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
           <Property Type="String" Name="CreatedBy" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -455,28 +484,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CommercialSpaces">
-            <EntityTypeMapping TypeName="Sph.CommercialSpace">
-              <MappingFragment StoreEntitySet="CommercialSpace">
-                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
-                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="RentalType" ColumnName="RentalType" />
-                <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="LotName" ColumnName="LotName" />
-                <ScalarProperty Name="FloorName" ColumnName="FloorName" />
-                <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="CommercialSpaceId" ColumnName="CommercialSpaceId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Contracts">
             <EntityTypeMapping TypeName="Sph.Contract">
               <MappingFragment StoreEntitySet="Contract">
@@ -495,6 +502,44 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
                 <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CommercialSpaces">
+            <EntityTypeMapping TypeName="Sph.CommercialSpace">
+              <MappingFragment StoreEntitySet="CommercialSpace">
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="RentalType" ColumnName="RentalType" />
+                <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="BuildingName" ColumnName="BuildingName" />
+                <ScalarProperty Name="LotName" ColumnName="LotName" />
+                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
+                <ScalarProperty Name="FloorName" ColumnName="FloorName" />
+                <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
+                <ScalarProperty Name="CommercialSpaceId" ColumnName="CommercialSpaceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Organizations">
+            <EntityTypeMapping TypeName="Sph.Organization">
+              <MappingFragment StoreEntitySet="Organization">
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
+                <ScalarProperty Name="IdSsmNo" ColumnName="IdSsmNo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

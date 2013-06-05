@@ -1,35 +1,34 @@
-﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.0.1.intellisense.js" />
 /// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../../Scripts/__common.js" />
-/// <reference path="../../Scripts/_kendo-knockoutbindings.js" />
+/// <reference path="../../Scripts/_uiready.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../services/domain.g.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
+define(['services/datacontext', 'services/logger'], function (context, logger) {
 
     var rentalId = ko.observable(),
         isBusy = ko.observable(false),
         activate = function (routeData) {
             rentalId(routeData.rentalId);
-            vm.offer.CommercialSpaceId(routeData.csId);
+            vm.offer().CommercialSpaceId(routeData.csId);
             var tcs = new $.Deferred();
             var raTask = context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + rentalId());
             var csTask = context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + routeData.csId);
             $.when(raTask, csTask).done(function (r, cs) {
-                ko.mapping.fromJSON(ko.mapping.toJSON(r.Offer), {}, vm.offer);
-                ko.mapping.fromJSON(ko.mapping.toJSON(cs), {}, vm.commercialSpace);
+                vm.offer(r.Offer);
+                vm.commercialSpace(cs);
 
-                if (!vm.offer.CommercialSpaceId()) {
-                    vm.offer.CommercialSpaceId(cs.CommercialSpaceId());
-                    vm.offer.CommercialSpaceCategory(cs.Category());
-                    vm.offer.Rent(cs.RentalRate());
-                    vm.offer.Building(cs.BuildingName());
-                    vm.offer.Floor(cs.FloorName());
-                    vm.offer.Size(cs.Size());
+                if (!vm.offer().CommercialSpaceId()) {
+                    vm.offer().CommercialSpaceId(cs.CommercialSpaceId());
+                    vm.offer().Rent(cs.RentalRate());
+                    vm.offer().Building(cs.BuildingName());
+                    vm.offer().Floor(cs.FloorName());
+                    vm.offer().Size(cs.Size());
 
                 }
                 tcs.resolve();
@@ -40,13 +39,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             _uiready.init(view);
         },
         addCondition = function () {
-            var condition = {
-                Title: ko.observable(),
-                Description: ko.observable(),
-                Note: ko.observable(),
-                IsRequired: ko.observable()
-            };
-            vm.offer.OfferConditionCollection.push(condition);
+            var condition =new bespoke.sphcommercialspace.domain.OfferCondition(system.guid.newGuid());
+            vm.offer().OfferConditionCollection.push(condition);
         },
         saveOffer = function () {
             var tcs = new $.Deferred();
@@ -69,44 +63,21 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 tcs.resolve(true);
             });
             return tcs.promise();
+        },        
+        removeOfferCondition = function(condition) {
+            vm.offer().OfferConditionCollection.remove(condition);
         };
 
     var vm = {
         activate: activate,
         isBusy: isBusy,
         viewAttached: viewAttached,
-        commercialSpace: {
-            CommercialSpaceId: ko.observable(),
-            Category : ko.observable(),
-            RegistrationNo: ko.observable(),
-            Size: ko.observable(),
-            BuildingName: ko.observable(),
-            LotCollection: ko.observableArray([]),
-            Address: {
-                Street: ko.observable(),
-                State: ko.observable(),
-                Postcode: ko.observable(),
-                City: ko.observable()
-            }
-        },
-        offer: {
-            CommercialSpaceId: ko.observable(),
-            CommercialSpaceCategory : ko.observable(),
-            Size: ko.observable(),
-            Building: ko.observable(),
-            Floor: ko.observable(),
-            Deposit: ko.observable(),
-            Rent: ko.observable(),
-            Date: ko.observable(),
-            ExpiryDate: ko.observable(),
-            Period: ko.observable(),
-            PeriodUnit: ko.observable(),
-            Option: ko.observable(),
-            OfferConditionCollection: ko.observableArray([])
-        },
+        commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
+        offer: ko.observable(new bespoke.sphcommercialspace.domain.Offer()),
         addConditionCommand: addCondition,
         saveCommand: saveOffer,
-        generateOfferLetterCommand: generateOfferLetter
+        generateOfferLetterCommand: generateOfferLetter,
+        removeOfferCondition: removeOfferCondition
     };
 
     return vm;

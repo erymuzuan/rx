@@ -6507,6 +6507,11 @@
 
           
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_businessPlan;
+                public const string PropertyNameBusinessPlan = "BusinessPlan";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  int  m_commercialSpaceId;
                 public const string PropertyNameCommercialSpaceId = "CommercialSpaceId";
 
@@ -6561,6 +6566,12 @@
                 public const string PropertyNameOption = "Option";
 
               
+            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private string  m_businessPlanText;
+                public const string PropertyNameBusinessPlanText = "BusinessPlanText";
+
+         
+          
 			private readonly ObjectCollection<OfferCondition>  m_OfferConditionCollection = new ObjectCollection<OfferCondition> ();
 
 			///<summary>
@@ -6572,6 +6583,34 @@
 			get{ return m_OfferConditionCollection;}
 			}
 		
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string BusinessPlan
+                {
+                set
+                {
+                if( String.Equals( m_businessPlan, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBusinessPlan, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_businessPlan= value;
+                OnPropertyChanged(PropertyNameBusinessPlan);
+                }
+                }
+                get
+                {
+                return m_businessPlan;}
+                }
+
+              
             ///<summary>
             /// 
             ///</summary>
@@ -6880,6 +6919,28 @@
                 }
 
               
+
+            ///<summary>
+            /// 
+            ///</summary>
+            [DebuggerHidden]
+
+            public string BusinessPlanText
+            {
+            set
+            {
+            if(String.Equals( m_businessPlanText, value, StringComparison.Ordinal)) return;
+            var arg = new PropertyChangingEventArgs(PropertyNameBusinessPlanText, value);
+            OnPropertyChanging(arg);
+            if(! arg.Cancel)
+            {
+            m_businessPlanText= value;
+            OnPropertyChanged(PropertyNameBusinessPlanText);
+            }
+            }
+            get { return m_businessPlanText;}
+            }
+          
 
 
           }

@@ -80,6 +80,9 @@
     <Compile Include="Deposit.cs">
       <DependentUpon>Sph.tt</DependentUpon>
     </Compile>
+    <Compile Include="Organization.cs">
+      <DependentUpon>Sph.tt</DependentUpon>
+    </Compile>
     <Compile Include="RentalApplication.cs">
       <DependentUpon>Sph.tt</DependentUpon>
     </Compile>

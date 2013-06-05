@@ -28,7 +28,9 @@ public partial class CommercialSpace
 
     public string LotName { get; set; }
 
-    public string Name { get; set; }
+    public string BuildingName { get; set; }
+
+    public string Status { get; set; }
 
     public string Category { get; set; }
 
@@ -49,10 +51,6 @@ public partial class CommercialSpace
     public string State { get; set; }
 
     public string City { get; set; }
-
-    public string Building { get; set; }
-
-    public string Status { get; set; }
 
 }
 

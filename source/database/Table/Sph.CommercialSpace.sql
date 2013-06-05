@@ -14,7 +14,8 @@ GO
 	,[FloorName] VARCHAR(255) NULL
 	,[RegistrationNo] VARCHAR(255) NULL
 	,[LotName] VARCHAR(255) NULL
-	,[Name] VARCHAR(255) NULL
+	,[BuildingName] VARCHAR(255) NOT NULL
+	,[Status] VARCHAR(255)  NULL
 	,[Category] VARCHAR(255) NULL
 	,[IsOnline] BIT NOT NULL DEFAULT 0
 	,[RentalType] VARCHAR(255) NULL

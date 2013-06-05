@@ -54,6 +54,8 @@ bespoke.sphcommercialspace.domain.Rent = function (webId) {
         Quarter: ko.observable(),
         IsPaid: ko.observable(),
         PaymentDistributionCollection: ko.observableArray(),
+        Month: ko.observable(),
+        Year: ko.observable(),
         Tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -106,6 +108,10 @@ bespoke.sphcommercialspace.domain.Land = function (webId) {
         IsApproved: ko.observable(),
         Owner: ko.observable(new bespoke.sphcommercialspace.domain.Owner()),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
+        LeaseExpiryDate: ko.observable(),
+        LeasePeriod: ko.observable(),
+        ApprovedDateTime: ko.observable(),
+        ApprovedBy: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -126,6 +132,7 @@ bespoke.sphcommercialspace.domain.Building = function (webId) {
         Note: ko.observable(),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
         FloorCollection: ko.observableArray(),
+        Height: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -139,6 +146,7 @@ bespoke.sphcommercialspace.domain.LatLng = function (webId) {
     return {
         Lat: ko.observable(),
         Lng: ko.observable(),
+        Elevation: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -249,6 +257,9 @@ bespoke.sphcommercialspace.domain.RentalApplication = function (webId) {
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
         BankCollection: ko.observableArray(),
         Contact: ko.observable(new bespoke.sphcommercialspace.domain.Contact()),
+        CurrentYearSales: ko.observable(),
+        LastYearSales: ko.observable(),
+        PreviousYearSales: ko.observable(),
         AttachmentCollection: ko.observableArray(),
         Offer: ko.observable(new bespoke.sphcommercialspace.domain.Offer()),
         isBusy: ko.observable(false),
@@ -268,6 +279,9 @@ bespoke.sphcommercialspace.domain.Attachment = function (webId) {
         IsReceived: ko.observable(),
         StoreId: ko.observable(),
         IsCompleted: ko.observable(),
+        ReceivedDateTime: ko.observable(),
+        ReceivedBy: ko.observable(),
+        Note: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -360,6 +374,7 @@ bespoke.sphcommercialspace.domain.Contract = function (webId) {
         DocumentCollection: ko.observableArray(),
         Owner: ko.observable(new bespoke.sphcommercialspace.domain.Owner()),
         ContractingParty: ko.observable(new bespoke.sphcommercialspace.domain.ContractingParty()),
+        Option: ko.observable(),
         Tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
         CommercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         TopicCollection: ko.observableArray(),
@@ -466,6 +481,7 @@ bespoke.sphcommercialspace.domain.Offer = function (webId) {
 
 
     return {
+        BusinessPlan: ko.observable(),
         CommercialSpaceId: ko.observable(),
         Size: ko.observable(),
         Building: ko.observable(),
@@ -478,6 +494,7 @@ bespoke.sphcommercialspace.domain.Offer = function (webId) {
         PeriodUnit: ko.observable(),
         Option: ko.observable(),
         OfferConditionCollection: ko.observableArray(),
+        BusinessPlanText: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -618,6 +635,9 @@ bespoke.sphcommercialspace.domain.Deposit = function (webId) {
         IsPaid: ko.observable(),
         IsRefund: ko.observable(),
         IsVoid: ko.observable(),
+        PaymentDateTime: ko.observable(),
+        RefundDateTime: ko.observable(),
+        DueDate: ko.observable(),
         DepositPaymentCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)

@@ -18,54 +18,18 @@
 		<xsl:if test="@ref">
 			<xsl:value-of select="@ref"/> : ko.observable(new bespoke.sphcommercialspace.domain.<xsl:value-of select="@ref"/>()),
 		</xsl:if>
+		<xsl:if test="@nillable">
+			<xsl:value-of select="@name"/> : ko.observable(),
+		</xsl:if>
+		<xsl:if test="@type and not(@nillable)">
+			<xsl:value-of select="@name"/> : ko.observable(),
+		</xsl:if>
 
 		<!-- 
       Element with simple restriction rules- for string and integer
       -->
 		<xsl:if test="xs:simpleType">
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			private <xsl:value-of select="bspk:GetCLRDataType(xs:simpleType/xs:restriction/@base, xs:simpleType/xs:restriction/@nillable)"/> m_<xsl:value-of select="@name"/>;
-			public const string PropertyName<xsl:value-of select="@name"/> = "<xsl:value-of select="@name"/>";
-
-			public <xsl:value-of select="bspk:GetCLRDataType(xs:simpleType/xs:restriction/@base, xs:simpleType/xs:restriction/@nillable)"/> <xsl:value-of select="@name"/>
-			{
-			get { return m_<xsl:value-of select="@name"/>; }
-
-			set
-			{
-			<xsl:if test="xs:simpleType/xs:restriction/@base = 'xs:string'">
-				if(value.Length &lt; <xsl:value-of select="xs:simpleType/xs:restriction/xs:minLength/@value"/>)
-				{
-				SetColumnError( PropertyName<xsl:value-of select="@name"/>, "The length is less than <xsl:value-of select="xs:simpleType/xs:restriction/xs:minLength/@value"/>");
-				return;
-				}
-
-				if( value.Length &gt; <xsl:value-of select="xs:simpleType/xs:restriction/xs:maxLength/@value"/>)
-				{
-				SetColumnError( PropertyName<xsl:value-of select="@name"/>, "The length is greater than <xsl:value-of select="xs:simpleType/xs:restriction/xs:maxLength/@value"/>");
-				return;
-				}
-			</xsl:if>
-			<xsl:if test="xs:simpleType/xs:restriction/@base = 'xs:int'">
-				if(value &lt; <xsl:value-of select="xs:simpleType/xs:restriction/xs:minInclusive/@value"/>)
-				{
-				SetColumnError( PropertyName<xsl:value-of select="@name"/>,"The length is less than <xsl:value-of select="xs:simpleType/xs:restriction/xs:minInclusive/@value"/>");
-				return;
-				}
-				if( value &gt; <xsl:value-of select="xs:simpleType/xs:restriction/xs:maxInclusive/@value"/>)
-				{
-				SetColumnError( PropertyName<xsl:value-of select="@name"/>,"The value is greater than <xsl:value-of select="xs:simpleType/xs:restriction/xs:maxInclusive/@value"/>");
-				return;
-				}
-			</xsl:if>
-
-			if(m_<xsl:value-of select="@name"/>== value) return;
-
-			m_<xsl:value-of select="@name"/> = value;
-			ClearColumnError(PropertyName<xsl:value-of select="@name"/>);
-			OnPropertyChanged(PropertyName<xsl:value-of select="@name"/>);
-			}
-			}
+			<xsl:value-of select="@name"/>: ko.observable(), //enum
 		</xsl:if>
 	</xsl:template>
 	<msxsl:script language="C#" implements-prefix="bspk">

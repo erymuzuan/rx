@@ -47,6 +47,7 @@ namespace web.test
                 .Value("[name='ko_unique_14']", "2nd Floor")
                 .Value("[name='ko_unique_15']", "48500")
                 .Click("#save-button")
+                .Sleep(TimeSpan.FromSeconds(5))
                 ;
 
 

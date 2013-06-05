@@ -1,16 +1,16 @@
-﻿<form class="form-horizontal">
+﻿<form class="form-horizontal" data-bind="with : offer">
     <h3>Maklumat Tawaran</h3>
     <div class="control-group">
-        <label for="offer.CommercialSpaceCategory" class="control-label">Jenis Ruang Komersil</label>
+        <label for="offer.BusinessPlan" class="control-label">Jenis Perniagaan</label>
         <div class="controls">
-            <input data-bind="value: offer.CommercialSpaceCategory" id="offer.CommercialSpaceCategory" type="text" name="CommercialSpaceCategory" />
+            <input data-bind="value: BusinessPlan" id="offer.BusinessPlan" type="text" name="BusinessPlan" class="input-xxlarge" />
         </div>
     </div>
     <div class="control-group">
         <label for="offer.Size" class="control-label">Saiz</label>
         <div class="controls">
             <div class="input-append">
-            <input data-bind="value: offer.Size" id="offer.Size" type="number" min="1" name="offer.Size" />
+            <input data-bind="value: Size" id="offer.Size" type="number" min="1" name="offer.Size" />
                 <span class="add-on">kps</span>
             </div>
         </div>
@@ -18,13 +18,13 @@
     <div class="control-group">
         <label for="offer.Building" class="control-label">Bangunan</label>
         <div class="controls">
-            <input data-bind="value: offer.Building" id="offer.Building" type="text" name="offer.Building" />
+            <input data-bind="value: Building" id="offer.Building" type="text" name="offer.Building" />
         </div>
     </div>
     <div class="control-group">
         <label for="offer.Floor" class="control-label">Lantai</label>
         <div class="controls">
-            <input data-bind="value: offer.Floor" id="offer.Floor" type="text" name="offer.Floor" />
+            <input data-bind="value: Floor" id="offer.Floor" type="text" name="offer.Floor" />
         </div>
     </div>
     <div class="control-group">
@@ -32,7 +32,7 @@
         <div class="controls">
             <div class="input-prepend">
                 <span class="add-on">RM</span>
-                <input data-bind="value: offer.Deposit" id="offer.Deposit" type="number" min="0" name="offer.Deposit" />
+                <input data-bind="value: Deposit" id="offer.Deposit" type="number" min="0" name="offer.Deposit" />
             </div>
         </div>
     </div>
@@ -41,28 +41,28 @@
         <div class="controls">
             <div class="input-prepend">
                 <span class="add-on">RM</span>
-                <input data-bind="value: offer.Rent" id="offer.Rent" type="number" min="0" name="offer.Rent" />
+                <input data-bind="value: Rent" id="offer.Rent" type="number" min="0" name="offer.Rent" />
             </div>
         </div>
     </div>
     <div class="control-group">
         <label for="offer.Date" class="control-label">Tarikh Mula Tawaran</label>
         <div class="controls">
-            <input class="datepicker" name="offer.Date" data-format="dd/MM/yyyy" type="text" data-bind="date: { value: offer.Date, format: 'DD/MM/YYYY' }" />
+            <input name="offer.Date" type="text" data-bind="kendoDate: Date" />
         </div>
     </div>
     <div class="control-group">
         <label for="offer.ExpiryDate" class="control-label">Tarikh Akhir Tawaran</label>
         <div class="controls">
-            <input class="datepicker" name="offer.ExpiryDate" data-format="dd/MM/yyyy" type="text" data-bind="date: { value: offer.ExpiryDate, format: 'DD/MM/YYYY' }" />
+            <input class="datepicker" name="offer.ExpiryDate" type="text" data-bind="kendoDate: ExpiryDate" />
         </div>
     </div>
     
     <div class="control-group">
         <label for="offer.Period" class="control-label">Tempoh kontrak</label>
         <div class="controls">
-            <input data-bind="value: offer.Period" id="offer.Period" type="number" step="1" name="offer.Period" />
-            <select data-bind="value: offer.PeriodUnit" class="form-inline">
+            <input data-bind="value: Period" id="offer.Period" type="number" step="1" name="offer.Period" />
+            <select data-bind="value: PeriodUnit" class="form-inline">
                 <option value="">[Sila Pilih]</option>
                 <option value="w">Minggu</option>
                 <option value="m">Bulan</option>
@@ -74,7 +74,7 @@
     <div class="control-group">
         <label for="offer.Option" class="control-label">Pilihan</label>
         <div class="controls">
-            <input data-bind="value: offer.Option" id="offer.Option" type="number" step="1" name="offer.Option" />
+            <input data-bind="value: Option" id="offer.Option" type="number" step="1" name="offer.Option" />
         </div>
     </div>
     <div>
@@ -88,24 +88,24 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: offer.OfferConditionCollection">
+            <tbody data-bind="foreach: OfferConditionCollection">
                 <tr>
                     <td>
                         <input type="text" data-bind="value: Title, uniqueName: true" /></td>
                     <td>
-                        <input type="text" data-bind="value: Description, uniqueName: true" /></td>
+                        <textarea rows="2" data-bind="value: Description, uniqueName: true"></textarea></td>
                     <td>
                         <input type="text" data-bind="value: Note, uniqueName: true" /></td>
                     <td>
                         <input type="checkbox" data-bind="checked: IsRequired" /></td>
 
                     <td>
-                        <button class="btn btn-danger" title="Buang senarai ini">-</button>
+                        <button class="btn btn-danger" title="Buang senarai ini" data-bind2="click: $parents[1].removeOfferCondition">-</button>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <input type="button" name="addConditionCommand" class="btn pull-right" value="+ Terma &amp; Syarat" data-bind="click: addConditionCommand" />
+        <input type="button" name="addConditionCommand" class="btn pull-right" value="+ Terma &amp; Syarat" data-bind="click: $parent.addConditionCommand" />
     </div>
 </form>
 <section>
