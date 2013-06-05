@@ -174,6 +174,19 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             {
                 var changetracker = new ChangeGenerator();
                 audit2.ChangeCollection.AddRange(changetracker.GetChanges(dbItem,contract));
+
+                dbItem.Title = contract.Title;
+                dbItem.ReferenceNo = contract.ReferenceNo;
+                dbItem.Value = contract.Value;
+                dbItem.Period = contract.Period;
+                dbItem.PeriodUnit = contract.PeriodUnit;
+                dbItem.Option = contract.Option;
+                dbItem.Owner = contract.Owner;
+                dbItem.ContractingParty = contract.ContractingParty;
+                dbItem.Remarks = contract.Remarks;
+                dbItem.DocumentCollection.ClearAndAddRange(contract.DocumentCollection);
+                dbItem.TopicCollection.ClearAndAddRange(contract.TopicCollection);
+
             }
 
             using (var session = context.OpenSession())
