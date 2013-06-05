@@ -36,7 +36,11 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
                     $.when(t1, t2)
                         .then(function (lo, lo2) {
 
-                            var logs = _(lo.itemCollection).union(lo2.itemCollection);
+                            var logs = _(lo.itemCollection).chain()
+                                .union(lo2.itemCollection)
+                                .sortBy(function(o) {return o.DateTime();})
+                                .reverse()
+                                .value();
 
                             audittrailvm.auditTrailCollection(logs);
                             isBusy(false);
