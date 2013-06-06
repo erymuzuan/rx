@@ -10,7 +10,6 @@
                 <th>Amaun</th>
                 <th>Bayar</th>
                 <th>Tunggakan</th>
-                <th>Tunggakkan Terkumpul</th>
                 <th>Manual</th>
             </tr>
         </thead>
@@ -22,15 +21,17 @@
                 <td data-bind="text: Quarter" />
                 <td data-bind="text: Half" />
                 <td data-bind="text: Amount" />
-                <td data-bind="text: IsPaid" />
+                <td>
+                    <input type="checkbox" data-bind="checked: IsPaid"/>
+                </td>
                 <td data-bind="text: Accrued" />
-                <td data-bind="text: AccumulatedAccrued" />
-                <td><span>Set Bayar</span><a data-bind="click:$parent.showDetailsCommand" href="#tenant.rent.payment-modal"/></td>
+                <td><a class="btn btn-small" data-bind="click: $parent.showDetailsCommand" href="#tenant-rent-payment-modal">Set Bayar</a>
+                </td>
             </tr>
         </tbody>
     </table>
 </div>
-<section id="tenant.rent.payment-modal" class="modal hide fade" style="margin-left: -500px; width: 940px">
+<section id="tenant-rent-payment-modal" class="modal hide fade" style="margin-left: -500px; width: 940px">
     <div class="modal-header">
         <h4>Maklumat Bayaran</h4>
     </div>
@@ -48,7 +49,7 @@
             <span >Amaun :</span><span class="add-on"> RM </span><span data-bind="text: rent().Amount" id="Amount" />
         </div>
         <div class="control-group">
-            <span >Jumlah Sudah Dibayar :</span><span data-bind="text: rent().RentPaymentPaid" id="RentPaymentPaid" />
+            <span >Jumlah Sudah Dibayar :</span><span data-bind="text: rent().RentPaid" id="RentPaid" />
         </div>
        
         <div id="deposit-payment">

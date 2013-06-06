@@ -4,12 +4,12 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
-/// <reference path="../services/mockRentContext.js" />
 /// <reference path="../services/domain.g.js" />
-/// <reference path="../../Scripts/bootstrap.js" />
+/// <reference path="../../Scripts/bootstrap.js" /> 
+/// <reference path="../services/datacontext.js" />
 
 
-define(['services/mockRentContext', 'services/logger'],
+define(['services/datacontext', 'services/logger'],
     function (context, logger) {
 
         var isBusy = ko.observable(false),
@@ -25,7 +25,7 @@ define(['services/mockRentContext', 'services/logger'],
                          vm.rent(d);
                          isBusy(false);
                      });
-                $('#tenant.rent.payment-modal').modal({});
+                $('#tenant-rent-payment-modal').modal({});
             },
             addPayment = function () {
                 var payment = {
@@ -38,7 +38,7 @@ define(['services/mockRentContext', 'services/logger'],
             save = function () {
                 var tcs = new $.Deferred();
                 var rentPayment = ko.mapping.toJS(vm.rent().PaymentDistributionCollection());
-                var postdata = JSON.stringify({ id: vm.rent().RentId(), rent: rentPayment });
+                var postdata = JSON.stringify({ id: vm.rent().RentId(), rents: rentPayment });
                 context.post(postdata, "/Rent/Save").done(function (e) {
                     logger.log("Rent payment received", e, "rent", true);
                     tcs.resolve(true);
