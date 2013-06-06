@@ -56,6 +56,10 @@ function (logger) {
         setTimeout(function () {
 
             var lo = new loadOperation();
+            var payment = new bespoke.sphcommercialspace.domain.PaymentDistribution();
+            payment.Amount(10);
+            payment.DateTime("2012-03-06");
+            payment.ReceiptNo("8787878");
             var r = new bespoke.sphcommercialspace.domain.Rent();
             r.RentId(1);
             r.InvoiceNo("A119499");
@@ -65,7 +69,7 @@ function (logger) {
             r.Half("0");
             r.Amount(3000);
             r.IsPaid(false);
-            
+            r.PaymentDistributionCollection.push(payment);
             lo.itemCollection.push(r);
             tcs.resolve(lo);
         }, 500);

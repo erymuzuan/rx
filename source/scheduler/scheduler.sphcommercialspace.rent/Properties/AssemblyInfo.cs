@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("scheduler.commercialspace.rent")]
+[assembly: AssemblyTitle("scheduler.sphcommercialspace.rent")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("scheduler.commercialspace.rent")]
+[assembly: AssemblyProduct("scheduler.sphcommercialspace.rent")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0148a4bd-dc04-42ae-8986-8c6ea8a3ee57")]
+[assembly: Guid("58d4faab-d693-4e64-b805-c379761d0cf0")]
 
 // Version information for an assembly consists of the following four values:
 //
