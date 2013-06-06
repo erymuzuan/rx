@@ -212,15 +212,6 @@
             settings: { caption: 'Senarai tenant' }
         },
         {
-            url: 'rent/:tenantId',
-            moduleId: 'viewmodels/rent',
-            name: 'rent.payment',
-            visible: false,
-            caption: 'rent.payment',
-            icon: 'icon-laptop',
-            settings: { caption: 'Senarai Sewa dan Invois' }
-        },
-        {
             url: 'tenant.detail/:tenantId',
             moduleId: 'viewmodels/tenant.detail',
             name: 'tenant.detail',

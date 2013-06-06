@@ -280,9 +280,11 @@
     <Content Include="App\services\Deposit.js" />
     <Content Include="App\services\domain.g.js" />
     <Content Include="App\services\logger.js" />
+    <Content Include="App\services\mockRentContext.js" />
     <Content Include="App\services\mockTenantContext.js" />
     <Content Include="App\services\Object.xslt" />
     <Content Include="App\services\ReferenceObject.xslt" />
+    <Content Include="App\services\Rent.js" />
     <Content Include="App\viewmodels\admindashboard.js" />
     <Content Include="App\viewmodels\applicationlist.js" />
     <Content Include="App\viewmodels\building.js" />

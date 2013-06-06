@@ -4,41 +4,66 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
-/// <reference path="../services/datacontext.js" />
+/// <reference path="../services/mockRentContext.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-    function (context) {
+define(['services/mockRentContext', 'services/logger'],
+    function (context, logger) {
 
         var isBusy = ko.observable(false),
-            tenantId = ko.observable(),
-            activate = function (routeData) {
-                tenantId(parseInt(routeData.tenantId));
-                title('Maklumat Sewa dan Invois');
-
-                var query = String.format("RentId eq {0}", routeData.tenantId);
-                var tcs = new $.Deferred();
-                context.loadOneAsync("Rent", query)
-                    .done(function (r) {
-                        vm.rent(r);
-                        tcs.resolve(true);
-
-                    });
-
-                return tcs.promise();
-
+            activate = function () {
             },
-            viewAttached = function (view) {
-
+            
+            showDetails = function () {
+                isBusy(true);
+                var data = this;
+                var query = "RentId eq " + data.RentId();
+                context.loadOneAsync("Rent", query)
+                     .then(function (d) {
+                         vm.rent(d);
+                         isBusy(false);
+                     });
+                $('#tenant.rent.payment-modal').modal({});
+            },
+            addPayment = function () {
+                var payment = {
+                    ReceiptNo: ko.observable(),
+                    Amount: ko.observable(),
+                    DateTime: ko.observable()
+                };
+                vm.rent().PaymentDistributionCollection.push(payment);
+            },
+            save = function () {
+                var tcs = new $.Deferred();
+                var rentPayment = ko.mapping.toJS(vm.rent().PaymentDistributionCollection());
+                var postdata = JSON.stringify({ id: vm.rent().RentId(), rent: rentPayment });
+                context.post(postdata, "/Rent/Save").done(function (e) {
+                    logger.log("Rent payment received", e, "rent", true);
+                    tcs.resolve(true);
+                });
+                return tcs.promise();
             };
 
         var vm = {
             isBusy: isBusy,
+            init: function (b) {
+                var query = "RentId gt 0";
+                var tcs = new $.Deferred();
+                context.loadAsync("Rent", query).done(function (lo) {
+                    vm.rentCollection(lo.itemCollection);
+                    tcs.resolve(true);
+                });
+                return tcs.promise();
+            },
             activate: activate,
-            rent: ko.observable(new bespoke.CommercialSpace.domain.Rent()),
-            viewAttached: viewAttached
+            rentCollection: ko.observableArray([]),
+            rent: ko.observable(new bespoke.sphcommercialspace.domain.Rent()),
+            showDetailsCommand: showDetails,
+            addPaymentCommand: addPayment,
+            saveCommand: save
+            
         };
 
         return vm;

@@ -7,10 +7,11 @@
 /// <reference path="../services/mockTenantContext.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
+/// <reference path="../viewmodels/_tenant.rent.js" />
 
 
-define(['services/mockTenantContext'],
-	function (context) {
+define(['services/mockTenantContext','./_tenant.rent'],
+	function (context,rent) {
 
 	var isBusy = ko.observable(false),
 	id = ko.observable(),
@@ -19,11 +20,13 @@ define(['services/mockTenantContext'],
 	    id(routeData.id);
 	    var query = String.format("TenantId eq {0}", id());
 	    var tcs = new $.Deferred();
+	    var detailLoaded = function(b) {
+	        vm.tenant(b);
+	        rent.init(b);
+	        tcs.resolve(true);
+	    };
 	    context.loadOneAsync("Tenant", query)
-	        .done(function(b) {
-	            vm.tenant(b);
-	            tcs.resolve(true);
-	        });
+	        .then(detailLoaded);
 
 	    return tcs.promise();
 	};
