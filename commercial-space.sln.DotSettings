@@ -427,6 +427,22 @@ var dbItem = await context.LoadOneAsync&lt;$Entity$&gt;($p$ =&gt; $p$ .$Entity$I
 &#xD;
             }&#xD;
 });</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=914638594417244BA9A9EDFB8681FB2D/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=914638594417244BA9A9EDFB8681FB2D/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=914638594417244BA9A9EDFB8681FB2D/Description/@EntryValue">to create display only label</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=914638594417244BA9A9EDFB8681FB2D/Field/=labelName/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=914638594417244BA9A9EDFB8681FB2D/Field/=labelName/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=914638594417244BA9A9EDFB8681FB2D/Field/=value/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=914638594417244BA9A9EDFB8681FB2D/Field/=value/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=914638594417244BA9A9EDFB8681FB2D/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=914638594417244BA9A9EDFB8681FB2D/Scope/=C3004821E38B4A4AB76DD479CAD6C59A/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=914638594417244BA9A9EDFB8681FB2D/Scope/=C3004821E38B4A4AB76DD479CAD6C59A/Type/@EntryValue">InHtmlFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=914638594417244BA9A9EDFB8681FB2D/Shortcut/@EntryValue">span-display</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=914638594417244BA9A9EDFB8681FB2D/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=914638594417244BA9A9EDFB8681FB2D/Text/@EntryValue">&lt;div class="control-group"&gt;&#xD;
+    &lt;span class="control-label"&gt;$labelName$ : &lt;/span&gt;&#xD;
+    &lt;span data-bind="text: $value$" id="$value$" /&gt;&#xD;
+&lt;/div&gt;</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/CustomProperties/=Extension/@EntryIndexedValue">js</s:String>

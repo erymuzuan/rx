@@ -58,10 +58,33 @@ function (logger) {
             var lo = new LoadOperation();
             var t = new bespoke.sphcommercialspace.domain.Tenant();
             t.TenantId(1);
-            t.Name("Ima..");
+            t.Name("Ruzzaima Bt Kamaruldzaman");
             t.IdSsmNo("X75638");
+            t.MobilePhoneNo("0136987555");
+            t.PhoneNo("036978785");
+            t.FaksNo("036978788");
+            t.BussinessType("Sdn Bhd");
+            t.Email("ima@gmail.com");
+            t.Address().Street("Jalan 76767");
+            t.Address().City("Petaling Jaya");
+            t.Address().Postcode("47400");
+            t.Address().State("Selangor");
             
-            lo.itemCollection.push(t);
+            var t2 = new bespoke.sphcommercialspace.domain.Tenant();
+            t2.TenantId(2);
+            t2.Name("Noor Izzati");
+            t2.IdSsmNo("127878");
+            t2.MobilePhoneNo("019878878");
+            t2.PhoneNo("036978785");
+            t2.FaksNo("036978788");
+            t2.BussinessType("Sdn Bhd");
+            t2.Email("izati@gmail.com");
+            t2.Address().Street("Jalan 574212");
+            t2.Address().City("Setiawangsa");
+            t2.Address().Postcode("47400");
+            t2.Address().State("Selangor");
+            
+            lo.itemCollection.push(t,t2);
             tcs.resolve(lo);
 
 

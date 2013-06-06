@@ -4,27 +4,34 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
-/// <reference path="../services/datacontext.js" />
+/// <reference path="../services/mockTenantContext.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], 
-	function (context, logger, router) {
+define(['services/mockTenantContext'],
+	function (context) {
 
-	var 
-	isBusy = ko.observable(false),
-	activate = function() {
-	    return true;
-	},
-	viewAttached = function(view){
+	var isBusy = ko.observable(false),
+	id = ko.observable(),
+	tenant = new bespoke.sphcommercialspace.domain.Tenant(),
+	activate = function (routeData) {
+	    id(routeData.id);
+	    var query = String.format("TenantId eq {0}", id());
+	    var tcs = new $.Deferred();
+	    context.loadOneAsync("Tenant", query)
+	        .done(function(b) {
+	            vm.tenant(b);
+	            tcs.resolve(true);
+	        });
 
+	    return tcs.promise();
 	};
 
 	var vm = {
 		isBusy : isBusy,
 		activate : activate,
-		viewAttached : viewAttached
+		tenant: ko.observable(tenant)
 	};
 
 	return vm;

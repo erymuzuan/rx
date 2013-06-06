@@ -205,9 +205,9 @@
         {
             url: 'tenant',
             moduleId: 'viewmodels/tenant',
-            name: 'tenant',
+            name: 'Penyewa',
             visible: true,
-            caption: 'tenant',
+            caption: 'Penyewa',
             icon: 'icon-laptop',
             settings: { caption: 'Senarai tenant' }
         },
@@ -215,7 +215,7 @@
             url: 'rent/:tenantId',
             moduleId: 'viewmodels/rent',
             name: 'rent.payment',
-            visible: true,
+            visible: false,
             caption: 'rent.payment',
             icon: 'icon-laptop',
             settings: { caption: 'Senarai Sewa dan Invois' }
@@ -224,7 +224,7 @@
             url: 'tenant.detail/:tenantId',
             moduleId: 'viewmodels/tenant.detail',
             name: 'tenant.detail',
-            visible: true,
+            visible: false,
             caption: 'penyewa',
             icon: 'icon-laptop',
             settings: { caption: 'Penyewa' }
