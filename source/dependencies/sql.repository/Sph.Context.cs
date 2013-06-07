@@ -31,10 +31,10 @@ namespace Bespoke.Sph.SqlRepository
         internal DbSet<ContractTemplate> ContractTemplates { get; set; }
         public DbSet<RentalApplication> RentalApplications { get; set; }
         public DbSet<Contract> Contracts { get; set; }
-        public DbSet<CommercialSpace> CommercialSpaces { get; set; }
-        public DbSet<Organization> Organizations { get; set; }
         public DbSet<Deposit> Deposits { get; set; }
         public DbSet<Building> Buildings { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
+        public DbSet<CommercialSpace> CommercialSpaces { get; set; }
         public DbSet<Rent> Rents { get; set; }
     }
 }

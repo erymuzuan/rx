@@ -29,42 +29,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
             return string.Format("{0}", half);
         }
 
-        public Task<Rent> CreateInvoice(DateTime today)
-        {
-            var no = string.Format("{1}/{0:MMyyyy}", today, this.CommercialSpace.RegistrationNo);
-
-            var rent = new Rent
-            {
-                CreatedDate = DateTime.Today,
-                ChangedDate = DateTime.Today,
-                Year = today.Year,
-                Date = DateTime.Today,
-                Amount = this.CommercialSpace.RentalRate,
-                InvoiceNo = no,
-                TenantId = this.Tenant.TenantId,
-                ContractId = this.ContractId,
-                Type = this.CommercialSpace.RentalType,
-                Tenant = this.Tenant
-            };
-            switch (this.CommercialSpace.RentalType)
-            {
-                case "Sebulan":
-                case "Setahun":
-                    rent.Month = today.Month;
-                    break;
-                case "3 bulan":
-                    rent.Quarter = this.GetQuarters(DateTime.Today);
-                    rent.Month = today.Month;
-                    break;
-                case "6 bulan":
-                    rent.Half = this.GetHalf(DateTime.Today);
-                    rent.Month = today.Month;
-                    break;
-                default: throw new InvalidOperationException("Unrecognized rent type : " + this.CommercialSpace.RentalType);
-
-            }
-            return Task.FromResult(rent);
-
-        }
+       
     }
 }

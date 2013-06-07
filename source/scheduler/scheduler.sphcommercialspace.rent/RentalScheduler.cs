@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -43,25 +44,41 @@ namespace Bespoke.Scheduler.Sph.Rental
             var contractQuery = context.Contracts.Where(c => c.EndDate >= date);
             var contractLoadOperation = await context.LoadAsync(contractQuery);
             var contracts = contractLoadOperation.ItemCollection;
-            var rental = from c in contracts
-                         select new Rent
+            var rentCollection = new List<Rent>();
+            foreach (var c in contracts)
+            {
+                var c1 = c;
+                decimal? accumulatedAccrued = decimal.Zero;
+                decimal? accrued = decimal.Zero;
+                var prvMonthRent = await context.LoadOneAsync<Rent>(r => r.Month == (date.Month - 1) && r.Year == date.Year && r.ContractId == c1.ContractId && r.TenantId == c1.Tenant.TenantId);
+                if (null != prvMonthRent)
+                {
+                    accumulatedAccrued = prvMonthRent.AccumulatedAccrued + c1.CommercialSpace.RentalRate - prvMonthRent.TotalPayment;
+                    accrued = prvMonthRent.AccumulatedAccrued;
+                }
+                var rent = new Rent
                             {
                                 Date = date,
                                 Month = date.Month,
                                 Year = date.Year,
-                                Amount = c.CommercialSpace.RentalRate,
-                                TenantId = c.Tenant.TenantId,
-                                ContractId = c.ContractId,
-                                ContractNo = c.ReferenceNo,
-                                InvoiceNo = string.Format("{0}/{1:MMyyyy}", c.ReferenceNo, date),
+                                Amount = c1.CommercialSpace.RentalRate,
+                                TenantId = c1.Tenant.TenantId,
+                                ContractId = c1.ContractId,
+                                ContractNo = c1.ReferenceNo,
+                                AccumulatedAccrued = accumulatedAccrued,
+                                Accrued = accrued,
+                                InvoiceNo = string.Format("{0}/{1:MMyyyy}", c1.ReferenceNo, date),
                                 IsPaid = false,
-                                Type = "Sewaan",
-                                Tenant = c.Tenant
+                                Type = "Rental",
+                                Tenant = c1.Tenant
                             };
+                rentCollection.Add(rent);
+            }
+
 
             using (var session = context.OpenSession())
             {
-                session.Attach(rental.Cast<Entity>().ToArray());
+                session.Attach(rentCollection.Cast<Entity>().ToArray());
                 await session.SubmitChanges();
             }
         }

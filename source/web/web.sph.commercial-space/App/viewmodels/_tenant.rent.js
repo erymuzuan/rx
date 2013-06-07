@@ -7,6 +7,7 @@
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" /> 
 /// <reference path="../services/datacontext.js" />
+/// <reference path="~/App/services/Rent.js" />
 
 
 define(['services/datacontext', 'services/logger'],
@@ -15,16 +16,26 @@ define(['services/datacontext', 'services/logger'],
         var isBusy = ko.observable(false),
             activate = function () {
             },
-            
+
             showDetails = function () {
                 isBusy(true);
                 var data = this;
-                var query = "RentId eq " + data.RentId();
-                context.loadOneAsync("Rent", query)
-                     .then(function (d) {
-                         vm.rent(d);
+                var query = String.format("RentId eq {0} and ContractNo eq '{1}'", data.RentId(), data.ContractNo());
+                var prvMonthQuery = String.format("RentId eq {0} and ContractNo eq '{1}' and Month eq {2} and Year eq {3}", data.RentId(), data.ContractNo(), data.Month(), data.Year());
+
+                //var accruedPrvMonthTask = context.getSumAsync("Rent", prvMonthQuery,Accrued);
+                var accruedPrvMonthTask = context.loadOneAsync("Rent", prvMonthQuery);
+                var currentMonthTask = context.loadOneAsync("Rent", query);
+                
+                $.when(currentMonthTask,accruedPrvMonthTask)
+                     .then(function (current,prv) {
+                         vm.rent(current);
+                          //var accumulatedAccrued = prv.AccumulatedAccrued - prv.TotalPayment;
+                         //vm.rent.AccumulatedAccrued(accumulatedAccrued);
+                         
                          isBusy(false);
                      });
+               
                 $('#tenant-rent-payment-modal').modal({});
             },
             addPayment = function () {
@@ -51,10 +62,10 @@ define(['services/datacontext', 'services/logger'],
             init: function (b) {
                 var query = "RentId gt 0";
                 var tcs = new $.Deferred();
-                context.loadAsync("Rent", query).done(function (lo) {
+                    context.loadAsync("Rent", query).done(function (lo) {
                     vm.rentCollection(lo.itemCollection);
                     tcs.resolve(true);
-                });
+            });
                 return tcs.promise();
             },
             activate: activate,
@@ -63,7 +74,7 @@ define(['services/datacontext', 'services/logger'],
             showDetailsCommand: showDetails,
             addPaymentCommand: addPayment,
             saveCommand: save
-            
+
         };
 
         return vm;

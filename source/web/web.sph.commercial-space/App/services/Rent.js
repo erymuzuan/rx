@@ -14,4 +14,13 @@ bespoke.sphcommercialspace.domain.Rent.prototype.Accrued = function () {
     return sumPaid.toFixed(2);
 };
 
+bespoke.sphcommercialspace.domain.Rent.prototype.AccumulatedAccrued = function () {
+    
+};
+
+bespoke.sphcommercialspace.domain.Rent.prototype.TotalPayment = function() {
+    var totalPayment = this.AccumulatedAccrued + this.Amount;
+
+    return totalPayment.toFixed(2);
+};
 

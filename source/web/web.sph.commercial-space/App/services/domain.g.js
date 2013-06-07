@@ -53,6 +53,7 @@ return {
               Half : ko.observable(),
               Quarter : ko.observable(),
               IsPaid : ko.observable(),
+              ContractNo : ko.observable(),
               PaymentDistributionCollection : ko.observableArray(),
 		Month : ko.observable(),
 		Year : ko.observable(),

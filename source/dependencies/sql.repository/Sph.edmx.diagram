@@ -11,11 +11,11 @@
         <EntityTypeShape EntityType="Sph.ContractTemplate" Width="1.5" PointX="6.75" PointY="0.5" />
         <EntityTypeShape EntityType="Sph.RentalApplication" Width="1.875" PointX="2.375" PointY="3.625" />
         <EntityTypeShape EntityType="Sph.Contract" Width="1.5" PointX="9.92694083504702" PointY="21.454836259342187" />
-        <EntityTypeShape EntityType="Sph.CommercialSpace" Width="1.5" PointX="11.20457998067354" PointY="11.875747417973237" />
-        <EntityTypeShape EntityType="Sph.Organization" Width="1.5" PointX="7.5151158550358907" PointY="23.234549160690303" />
         <EntityTypeShape EntityType="Sph.Deposit" Width="1.5" PointX="1.948432513488658" PointY="12.530240034931451" />
         <EntityTypeShape EntityType="Sph.Building" Width="1.5" PointX="6.125" PointY="15.875" />
-        <EntityTypeShape EntityType="Sph.Rent" Width="1.5" PointX="10.781240349067954" PointY="24.116430815363504" />
+        <EntityTypeShape EntityType="Sph.Organization" Width="1.5" PointX="11.494397274914382" PointY="4.5481395146568024" />
+        <EntityTypeShape EntityType="Sph.CommercialSpace" Width="1.5" PointX="2.3540631562257479" PointY="29.651834606030878" />
+        <EntityTypeShape EntityType="Sph.Rent" Width="1.5" PointX="9.125" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

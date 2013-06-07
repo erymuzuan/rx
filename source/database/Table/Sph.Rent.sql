@@ -9,14 +9,13 @@ CREATE TABLE [Sph].[Rent](
 	[TenantId] [int] NOT NULL,
 	[ContractId] [int] NOT NULL,
 	[Type] [nvarchar](50) NOT NULL,
+	[ContractNo] VARCHAR(255) NOT NULL,
 	[InvoiceNo] [nvarchar](50) NOT NULL,
 	[Year] [int] NOT NULL,
 	[Month] [int] NOT NULL,
 	[Half] VARCHAR(10) NULL,
 	[Quarter] VARCHAR(10) NULL,
 	[Amount] [decimal](18, 0) NOT NULL,
-	[Accrued] [decimal](18, 0) NOT NULL,
-	[AccumulatedAccrued] [decimal](18, 0) NOT NULL,
 	[IsPaid] [bit] NOT NULL,
 	[PaymentDateTime] [datetime] NULL,
 	[Data] XML NOT NULL	,
@@ -27,6 +26,5 @@ CREATE TABLE [Sph].[Rent](
 	)
 GO
 
-ALTER TABLE [Sph].[Rent]
-ADD [ContractNo] VARCHAR(255) NOT NULL DEFAULT ''
+
 

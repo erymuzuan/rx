@@ -2,6 +2,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>No Kontrak</th>
                 <th>No Invois</th>
                 <th>Tahun</th>
                 <th>Bulan</th>
@@ -10,11 +11,13 @@
                 <th>Amaun</th>
                 <th>Bayar</th>
                 <th>Tunggakan</th>
+                <th>Tunggakan Terkumpul</th>
                 <th>Manual</th>
             </tr>
         </thead>
         <tbody data-bind="foreach: rentCollection">
             <tr>
+                <td data-bind="text: ContractNo"/>
                 <td data-bind="text: InvoiceNo"/>
                 <td data-bind="text: Year" />
                 <td data-bind="text: Month" />
@@ -25,6 +28,7 @@
                     <input type="checkbox" data-bind="checked: IsPaid"/>
                 </td>
                 <td data-bind="text: Accrued" />
+                <td data-bind="text: AccumulatedAccrued" />
                 <td><a class="btn btn-small" data-bind="click: $parent.showDetailsCommand" href="#tenant-rent-payment-modal">Set Bayar</a>
                 </td>
             </tr>
@@ -46,7 +50,13 @@
             <span >No Invois :</span><span data-bind="text: rent().InvoiceNo" id="InvoiceNo" />
         </div>
         <div class="control-group">
-            <span >Amaun :</span><span class="add-on"> RM </span><span data-bind="text: rent().Amount" id="Amount" />
+            <span > Amaun Semasa :</span><span class="add-on"> RM </span><span data-bind="text: rent().Amount" id="Amount" />
+        </div>
+        <div class="control-group">
+            <span >Tunggakan Terkumpul :</span><span class="add-on"> RM </span><span data-bind="text: rent().AccumulatedAccrued" id="AccumulatedAccrued" />
+        </div>
+        <div class="control-group">
+            <span >Jumlah Perlu Dibayar :</span><span class="add-on"> RM </span><span data-bind="text: rent().TotalPayment" id="TotalPayment" />
         </div>
         <div class="control-group">
             <span >Jumlah Sudah Dibayar :</span><span data-bind="text: rent().RentPaid" id="RentPaid" />

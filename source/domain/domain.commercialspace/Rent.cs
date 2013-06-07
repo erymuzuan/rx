@@ -3,26 +3,52 @@ using System.Xml.Serialization;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
-   public partial class Rent : Entity
+    public partial class Rent : Entity
     {
-       [XmlAttribute]
-       public decimal? Accrued
-       {
-           get
-           {
-               var accrued = this.Amount - this.PaymentDistributionCollection.Sum(a => a.Amount);
-               return accrued;
-           }
-       }
+        [XmlAttribute] 
+        private decimal? m_accrued;
 
-       [XmlAttribute]
-       public decimal? AccumulatedAccrued
-       {
-           get
-           {
-               var aaccrued = this.Amount - this.PaymentDistributionCollection.Sum(a => a.Amount);
-               return aaccrued;
-           }
-       }
+        public decimal? Accrued
+        {
+            get { return m_accrued; }
+            set
+            {
+                m_accrued = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        [XmlAttribute] 
+        private decimal? m_accumulatedAccrued;
+
+        public decimal? AccumulatedAccrued
+        {
+            get { return m_accumulatedAccrued; }
+            set
+            {
+                m_accumulatedAccrued = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        [XmlAttribute]
+        public decimal? RentPaid
+        {
+            get 
+            { 
+                var rentPaid = this.PaymentDistributionCollection.Sum(a => a.Amount);
+                return rentPaid;
+            }
+        }
+
+        [XmlAttribute]
+        public decimal? TotalPayment
+        {
+            get 
+            { 
+                var totalPayment = this.AccumulatedAccrued + this.Accrued;
+                return totalPayment;
+            }
+        }
     }
 }

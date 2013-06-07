@@ -18,14 +18,13 @@ namespace Bespoke.Sph.SqlRepository
         public int TenantId { get; set; }
         public int ContractId { get; set; }
         public string Type { get; set; }
+        public string ContractNo { get; set; }
         public string InvoiceNo { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }
         public string Half { get; set; }
         public string Quarter { get; set; }
         public decimal Amount { get; set; }
-        public decimal Accrued { get; set; }
-        public decimal AccumulatedAccrued { get; set; }
         public bool IsPaid { get; set; }
         public Nullable<System.DateTime> PaymentDateTime { get; set; }
         public string Data { get; set; }
@@ -33,6 +32,5 @@ namespace Bespoke.Sph.SqlRepository
         public string CreatedBy { get; set; }
         public System.DateTime ChangedDate { get; set; }
         public string ChangedBy { get; set; }
-        public string ContractNo { get; set; }
     }
 }

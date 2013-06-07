@@ -358,11 +358,6 @@
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  decimal  m_amount;
-                public const string PropertyNameAmount = "Amount";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  int  m_contractId;
                 public const string PropertyNameContractId = "ContractId";
 
@@ -390,6 +385,11 @@
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  string  m_contractNo;
                 public const string PropertyNameContractNo = "ContractNo";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  decimal  m_amount;
+                public const string PropertyNameAmount = "Amount";
 
               
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -541,34 +541,6 @@
                 get
                 {
                 return m_date;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public decimal Amount
-                {
-                set
-                {
-                if( m_amount == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameAmount, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_amount= value;
-                OnPropertyChanged(PropertyNameAmount);
-                }
-                }
-                get
-                {
-                return m_amount;}
                 }
 
               
@@ -737,6 +709,34 @@
                 get
                 {
                 return m_contractNo;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public decimal Amount
+                {
+                set
+                {
+                if( m_amount == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameAmount, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_amount= value;
+                OnPropertyChanged(PropertyNameAmount);
+                }
+                }
+                get
+                {
+                return m_amount;}
                 }
 
               
@@ -2832,11 +2832,6 @@
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  decimal  m_rentalRate;
-                public const string PropertyNameRentalRate = "RentalRate";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  string  m_rentalType;
                 public const string PropertyNameRentalType = "RentalType";
 
@@ -2884,6 +2879,11 @@
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  string  m_buildingLot;
                 public const string PropertyNameBuildingLot = "BuildingLot";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  decimal  m_rentalRate;
+                public const string PropertyNameRentalRate = "RentalRate";
 
               
 			private readonly ObjectCollection<Lot>  m_LotCollection = new ObjectCollection<Lot> ();
@@ -3062,34 +3062,6 @@
                 get
                 {
                 return m_category;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public decimal RentalRate
-                {
-                set
-                {
-                if( m_rentalRate == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameRentalRate, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_rentalRate= value;
-                OnPropertyChanged(PropertyNameRentalRate);
-                }
-                }
-                get
-                {
-                return m_rentalRate;}
                 }
 
               
@@ -3366,6 +3338,34 @@
                 get
                 {
                 return m_buildingLot;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public decimal RentalRate
+                {
+                set
+                {
+                if( m_rentalRate == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRentalRate, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_rentalRate= value;
+                OnPropertyChanged(PropertyNameRentalRate);
+                }
+                }
+                get
+                {
+                return m_rentalRate;}
                 }
 
               
