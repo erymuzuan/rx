@@ -1,3 +1,20 @@
 ﻿<section>
     <h3>Senarai kontrak</h3>
+    <table class="table table-striped">
+        <thead>
+            <th>No. Rujukan</th>
+            <th>T.Akhir</th>
+            <th>Status</th>
+            <th></th>
+        </thead>
+        <tbody data-bind="foreach: contractCollection">
+            <tr>
+                <td data-bind="text: ReferenceNo"></td>
+                 <td data-bind="date: { value: EndDate, format: 'DD/MM/YYYY' }"></td>
+                <td data-bind="text: Status"></td>
+                <td><a data-bind="click:$parent.generateCommand">Jana Lejer</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>

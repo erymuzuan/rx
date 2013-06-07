@@ -34,7 +34,7 @@ namespace Bespoke.Sph.SqlRepository
         public DbSet<CommercialSpace> CommercialSpaces { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Deposit> Deposits { get; set; }
-        internal DbSet<Rent> Rents { get; set; }
         public DbSet<Building> Buildings { get; set; }
+        public DbSet<Rent> Rents { get; set; }
     }
 }

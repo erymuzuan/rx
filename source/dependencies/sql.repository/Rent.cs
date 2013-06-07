@@ -12,7 +12,7 @@ namespace Bespoke.Sph.SqlRepository
     using System;
     using System.Collections.Generic;
     
-    internal partial class Rent
+    public partial class Rent
     {
         public int RentId { get; set; }
         public int TenantId { get; set; }
@@ -33,5 +33,6 @@ namespace Bespoke.Sph.SqlRepository
         public string CreatedBy { get; set; }
         public System.DateTime ChangedDate { get; set; }
         public string ChangedBy { get; set; }
+        public string ContractNo { get; set; }
     }
 }

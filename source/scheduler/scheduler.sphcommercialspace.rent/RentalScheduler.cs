@@ -52,6 +52,7 @@ namespace Bespoke.Scheduler.Sph.Rental
                                 Amount = c.CommercialSpace.RentalRate,
                                 TenantId = c.Tenant.TenantId,
                                 ContractId = c.ContractId,
+                                ContractNo = c.ReferenceNo,
                                 InvoiceNo = string.Format("{0}/{1:MMyyyy}", c.ReferenceNo, date),
                                 IsPaid = false,
                                 Type = "Sewaan",

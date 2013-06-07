@@ -387,6 +387,11 @@
                 public const string PropertyNameIsPaid = "IsPaid";
 
               
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_contractNo;
+                public const string PropertyNameContractNo = "ContractNo";
+
+              
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private int?  m_month;
                 public const string PropertyNameMonth = "Month";
@@ -704,6 +709,34 @@
                 get
                 {
                 return m_isPaid;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string ContractNo
+                {
+                set
+                {
+                if( String.Equals( m_contractNo, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameContractNo, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_contractNo= value;
+                OnPropertyChanged(PropertyNameContractNo);
+                }
+                }
+                get
+                {
+                return m_contractNo;}
                 }
 
               

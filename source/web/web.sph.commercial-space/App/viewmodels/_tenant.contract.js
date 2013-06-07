@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], 
-	function (context, logger, router) {
+define(['services/datacontext'], 
+	function (context) {
 
 	var 
 	isBusy = ko.observable(false),
@@ -22,9 +22,19 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 	};
 
 	var vm = {
-		isBusy : isBusy,
+	    isBusy: isBusy,
+	    init: function (b) {
+	        var query = "ContractId gt 0";
+	        var tcs = new $.Deferred();
+	        context.loadAsync("Contract", query).done(function (lo) {
+	            vm.contractCollection(lo.itemCollection);
+	            tcs.resolve(true);
+	        });
+	        return tcs.promise();
+	    },
 		activate : activate,
-		viewAttached : viewAttached
+		viewAttached: viewAttached,
+		contractCollection: ko.observableArray()
 	};
 
 	return vm;

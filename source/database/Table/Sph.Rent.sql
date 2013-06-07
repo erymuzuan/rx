@@ -27,4 +27,6 @@ CREATE TABLE [Sph].[Rent](
 	)
 GO
 
+ALTER TABLE [Sph].[Rent]
+ADD [ContractNo] VARCHAR(255) NOT NULL DEFAULT ''
 

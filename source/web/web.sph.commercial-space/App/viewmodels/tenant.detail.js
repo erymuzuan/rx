@@ -8,10 +8,11 @@
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../viewmodels/_tenant.rent.js" />
+/// <reference path="../viewmodels/_tenant.contract.js" />
 
 
-define(['services/mockTenantContext','./_tenant.rent'],
-	function (context,rent) {
+define(['services/mockTenantContext', './_tenant.rent', './_tenant.contract'],
+	function (context,rentvm,contractvm) {
 
 	var isBusy = ko.observable(false),
 	id = ko.observable(),
@@ -22,7 +23,8 @@ define(['services/mockTenantContext','./_tenant.rent'],
 	    var tcs = new $.Deferred();
 	    var detailLoaded = function(b) {
 	        vm.tenant(b);
-	        rent.init(b);
+	        rentvm.init(b);
+	        contractvm.init(b);
 	        tcs.resolve(true);
 	    };
 	    context.loadOneAsync("Tenant", query)
