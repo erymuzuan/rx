@@ -9,34 +9,44 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext'], 
-	function (context) {
+define(['services/datacontext', 'durandal/app'],
+	function (context,app) {
 
-	var 
-	isBusy = ko.observable(false),
-	activate = function() {
-	    return true;
-	},
-	viewAttached = function(view){
+	    var
+        isBusy = ko.observable(false),
+        activate = function () {
+            return true;
+        },
+        generateLedger = function () {
+            var tcs = new $.Deferred();
+            var data = JSON.stringify({ id : this.ContractId()});
+            isBusy(true);
+            context.post(1, "/Contract/GenerateLedger")
+                .then(function(result) {
+                    isBusy(false);
+                    var message = "lejer "+ result+" disimpan di desktop anda" ;
+                    app.showMessage(message, "Maklumat");
+                    tcs.resolve(result);
+                });
+            return tcs.promise();
+        };
 
-	};
+	    var vm = {
+	        isBusy: isBusy,
+	        init: function (b) {
+	            var query = "ContractId gt 0";
+	            var tcs = new $.Deferred();
+	            context.loadAsync("Contract", query).done(function (lo) {
+	                vm.contractCollection(lo.itemCollection);
+	                tcs.resolve(true);
+	            });
+	            return tcs.promise();
+	        },
+	        activate: activate,
+	        contractCollection: ko.observableArray(),
+	        generateCommand: generateLedger
+	    };
 
-	var vm = {
-	    isBusy: isBusy,
-	    init: function (b) {
-	        var query = "ContractId gt 0";
-	        var tcs = new $.Deferred();
-	        context.loadAsync("Contract", query).done(function (lo) {
-	            vm.contractCollection(lo.itemCollection);
-	            tcs.resolve(true);
-	        });
-	        return tcs.promise();
-	    },
-		activate : activate,
-		viewAttached: viewAttached,
-		contractCollection: ko.observableArray()
-	};
+	    return vm;
 
-	return vm;
-
-});
+	});

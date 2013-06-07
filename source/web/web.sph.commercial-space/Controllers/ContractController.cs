@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using Bespoke.SphCommercialSpace.LedgerMsxl;
 using Bespoke.SphCommercialSpaces.Domain;
+using InvokeSolutions.Docx;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
@@ -173,7 +179,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             if (dbItem != contract)
             {
                 var changetracker = new ChangeGenerator();
-                audit2.ChangeCollection.AddRange(changetracker.GetChanges(dbItem,contract));
+                audit2.ChangeCollection.AddRange(changetracker.GetChanges(dbItem, contract));
 
                 dbItem.Title = contract.Title;
                 dbItem.ReferenceNo = contract.ReferenceNo;
@@ -191,7 +197,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             using (var session = context.OpenSession())
             {
-                session.Attach(dbItem,audit2);
+                session.Attach(dbItem, audit2);
                 await session.SubmitChanges();
             }
             this.Response.ContentType = "application/json; charset=utf-8";
@@ -199,5 +205,21 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         }
 
+        public async Task<ActionResult> GenerateLedger(int id = 0)
+        {
+            var contractId = id != 0 ? id : 1;
+            var context = new SphDataContext();
+            var contract = await context.LoadOneAsync<Contract>(c => c.ContractId == contractId);
+            var rentLo = await context.LoadAsync(context.Rents.Where(r => r.ContractId == contractId));
+
+            var export = ObjectBuilder.GetObject<ILedgerExport>();
+            var filename = string.Format("{0}-{1:MMyyyy}.lejer.xlsx", contract.Tenant.RegistrationNo, DateTime.Today);
+            
+            export.GenerateLedger(contract, rentLo.ItemCollection, filename);
+            
+            this.Response.ContentType = "application/json";
+            return Json(filename);
+        }
     }
+
 }

@@ -97,3 +97,5 @@
 /source/unit.test/domain.test
 /source/scheduler/scheduler.sphcommercialspace.rent/bin/Debug
 /source/scheduler/scheduler.sphcommercialspace.rent/obj/Debug
+/source/dependencies/ledger.msxl/bin/Debug
+/source/dependencies/ledger.msxl/obj/Debug

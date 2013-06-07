@@ -99,6 +99,7 @@
     <Compile Include="IDocumentGenerator.cs" />
     <Compile Include="IEntityChangedListener.cs" />
     <Compile Include="IEntityChangePublisher.cs" />
+    <Compile Include="ILedgerExport.cs" />
     <Compile Include="INotificationChannel.cs" />
     <Compile Include="INotificationService.cs" />
     <Compile Include="Invoice.cs" />
