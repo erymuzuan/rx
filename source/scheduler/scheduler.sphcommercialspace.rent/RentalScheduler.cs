@@ -47,12 +47,12 @@ namespace Bespoke.Scheduler.Sph.Rental
                          select new Rent
                             {
                                 Date = date,
-                                Month = 1,
+                                Month = date.Month,
                                 Year = date.Year,
-                                Amount = 100,
-                                TenantId = 1,
-                                ContractId = 1,
-                                InvoiceNo = string.Format("{0}", c.ReferenceNo),
+                                Amount = c.CommercialSpace.RentalRate,
+                                TenantId = c.Tenant.TenantId,
+                                ContractId = c.ContractId,
+                                InvoiceNo = string.Format("{0}/{1:MMyyyy}", c.ReferenceNo, date),
                                 IsPaid = false,
                                 Type = "Sewaan",
                                 Tenant = c.Tenant
@@ -97,8 +97,10 @@ namespace Bespoke.Scheduler.Sph.Rental
             ObjectBuilder.AddCacheList<QueryProvider>(new SqlQueryProvider());
             ObjectBuilder.AddCacheList<IPersistence>(new SqlPersistence(conn));
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new ChangePublisherClient(broker));
+            ObjectBuilder.AddCacheList<IPagingTranslator>(new Sql2008PagingTranslator());
             ObjectBuilder.AddCacheList<IRepository<Contract>>(new SqlRepository<Contract>(conn));
             ObjectBuilder.AddCacheList<IRepository<Rent>>(new SqlRepository<Rent>(conn));
+            ObjectBuilder.AddCacheList<IRepository<Tenant>>(new SqlRepository<Tenant>(conn));
         }
     }
 }
