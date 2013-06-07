@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.RabbitMqPublisher;
@@ -15,51 +16,51 @@ namespace Bespoke.Scheduler.Sph.Rental
     {
         static void Main()
         {
-             Console.WriteLine("Generate rental invoice for today");
-             RegisterServices();
+            Console.WriteLine("Generate rental invoice for today");
+            RegisterServices();
             var date = DateTime.Now;
-             CreateInvoices(date)
-                .ContinueWith(
-                    _ =>
-                    {
-                        if (_.IsFaulted)
-                        {
-                            Console.WriteLine("*****************ERROR*************");
-                            Console.WriteLine(_.Exception);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Schedule pembayaran berjaya dijana");
-                        }
-                    })
-                .Wait(TimeSpan.FromMinutes(5));
-           
+            CreateInvoices(date)
+               .ContinueWith(
+                   _ =>
+                   {
+                       if (_.IsFaulted)
+                       {
+                           Console.WriteLine("*****************ERROR*************");
+                           Console.WriteLine(_.Exception);
+                       }
+                       else
+                       {
+                           Console.WriteLine("Schedule pembayaran berjaya dijana");
+                       }
+                   })
+               .Wait(TimeSpan.FromMinutes(5));
+
         }
 
         private static async Task CreateInvoices(DateTime date)
         {
             var context = new SphDataContext();
-            var rental = new Rent
-                {
-                    Date = date,
-                    Month = 1,
-                    Year = date.Year,
-                    Amount = 100,
-                    TenantId = 1,
-                    ContractId = 1,
-                    InvoiceNo = "BPH/TEST/CS01/201301",
-                    IsPaid = false,
-                    Type = "Sewaan",
-                    Tenant = new Tenant
-                        {
-                         Name   = "Ruzzaima",
-                         IdSsmNo = "0800"
-                        }
-                };
+            var contractQuery = context.Contracts.Where(c => c.EndDate >= date);
+            var contractLoadOperation = await context.LoadAsync(contractQuery);
+            var contracts = contractLoadOperation.ItemCollection;
+            var rental = from c in contracts
+                         select new Rent
+                            {
+                                Date = date,
+                                Month = 1,
+                                Year = date.Year,
+                                Amount = 100,
+                                TenantId = 1,
+                                ContractId = 1,
+                                InvoiceNo = string.Format("{0}", c.ReferenceNo),
+                                IsPaid = false,
+                                Type = "Sewaan",
+                                Tenant = c.Tenant
+                            };
 
             using (var session = context.OpenSession())
             {
-                session.Attach(rental);
+                session.Attach(rental.Cast<Entity>().ToArray());
                 await session.SubmitChanges();
             }
         }

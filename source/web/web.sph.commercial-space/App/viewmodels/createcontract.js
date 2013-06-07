@@ -13,7 +13,7 @@
 define(['services/datacontext', './_contract.clauses', './_audittrail.list'],
     function (context, clauses, audittrailvm) {
         var isBusy = ko.observable(false),
-            rentalApplication,
+            application,
             activate = function (routeData) {
                 isBusy(true);
                 var raTask = context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + routeData.rentalApplicationId);
@@ -23,7 +23,7 @@ define(['services/datacontext', './_contract.clauses', './_audittrail.list'],
                 var tcs = new $.Deferred();
                 $.when(raTask, templateListTask, logTask).then(function (ra, list) {
                     vm.contractTypeOptions(list);
-                    rentalApplication = ra;
+                    application = ra;
                     tcs.resolve(true);
                 });
 
@@ -35,7 +35,7 @@ define(['services/datacontext', './_contract.clauses', './_audittrail.list'],
             
             },
         generateContract = function () {
-            var json = JSON.stringify({ rentalApplicationId: rentalApplication.RentalApplicationId(), templateId: vm.selectedTemplateId() });
+            var json = JSON.stringify({ rentalApplicationId: application.RentalApplicationId(), templateId: vm.selectedTemplateId() });
             var tcs = new $.Deferred();
             context.post(json, "/Contract/Generate")
                 .then(function (t) {
@@ -47,11 +47,11 @@ define(['services/datacontext', './_contract.clauses', './_audittrail.list'],
             return tcs.promise();
         },
             save = function () {
-                var json = ko.mapping.toJSON({ contract: contract, rentalApplicationId: rentalApplication.RentalApplicationId() });
+                var json = ko.mapping.toJSON({ contract: vm.contract(), rentalApplicationId: application.RentalApplicationId() });
                 var tcs = new $.Deferred();
                 context.post(json, "Contract/Create")
                     .then(function (c) {
-                        ko.mapping.fromJS(ko.mapping.toJS(c), {}, vm.contract);
+                        vm.contract(c);
                         tcs.resolve(c);
                     });
                 return tcs.promise();
