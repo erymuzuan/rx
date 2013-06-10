@@ -60,7 +60,7 @@ namespace Bespoke.SphCommercialSpace.LedgerMsxl
                 ws.Cells[31 + i, 1].Value = string.Format("{0}{1}{2}-{3}", rt.Month, rt.Quarter, rt.Half, rt.Year);
                 ws.Cells[31 + i, 2].Value = rt.PaymentDistributionCollection.Sum(p => p.Amount);
                 ws.Cells[31 + i, 3].Value = rt.Amount;
-                ws.Cells[31 + i, 4].Value = rt.Amount;
+                ws.Cells[31 + i, 4].Value = rt.Amount - rt.PaymentDistributionCollection.Sum(p => p.Amount);
                 ws.Cells[31 + i, 6].Value = string.Join(",", rt.PaymentDistributionCollection.Select(p => p.ReceiptNo).ToArray());
                 i++;
             }

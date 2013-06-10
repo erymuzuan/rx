@@ -8,22 +8,21 @@
                         <h2>Maklumat Pemohon (<span data-bind="text: rentalapplication.Status"></span>)</h2>
 
                         <div><span>No  :</span><span data-bind="text: rentalapplication.RegistrationNo"></span></div>
-                        <div><span>Nama  :</span><span data-bind="text: rentalapplication.CompanyName"></span></div>
-                        <div>
-                            <span>Alamat :</span>
-                            <span data-bind="text: rentalapplication.Address.Street"></span>
-                            <span data-bind="text: rentalapplication.Address.City"></span>
-                            <span data-bind="text: rentalapplication.Address.Postcode"></span>
-                            <span data-bind="text: rentalapplication.Address.State"></span>
-                        </div>
+                        <div data-bind="visible: rentalapplication.IsCompany() == true"><span>Nama Syarikat  :</span><span data-bind="    text: rentalapplication.CompanyName"></span></div>
                         <div><span>Nama Pegawai :</span><span data-bind="text: rentalapplication.Contact.Name"></span></div>
                         <div><span>No. Telefon (Pejabat) :</span><span data-bind="text: rentalapplication.Contact.OfficeNo"></span></div>
                         <div><span>No. Telefon (Mobile) :</span><span data-bind="text: rentalapplication.Contact.MobileNo"></span></div>
                         <div>
-                            <a href="#details-panel" class="btn">
+                            <span>Alamat :</span>
+                            <span data-bind="text: rentalapplication.Address.Street"></span>,
+                            <span data-bind="text: rentalapplication.Address.Postcode"></span>,
+                            <span data-bind="text: rentalapplication.Address.City"></span>,
+                            <span data-bind="text: rentalapplication.Address.State"></span>
+                        </div>
+                        <div>
+                            <a data-bind="click: showDetailsCommand" href="#details-panel" class="btn">
                                 <i class="icon-camera"></i>
                                 Maklumat Lanjut
-
                             </a>
                             <a data-bind="click: showAuditTrailCommand" href="#audit-trail" class="btn">
                                 <i class="icon-book"></i>Sejarah Permohonan</a>
@@ -96,7 +95,7 @@
                         </div>
                     </article>
                     <div class="centered">
-                        <img  alt="map" data-bind="attr: { src: commercialSpace.StaticMap }" class="img-polaroid centered" src="/Images/accent.png" />
+                        <img alt="map" data-bind="attr: { src: commercialSpace.StaticMap }" class="img-polaroid centered" src="/Images/accent.png" />
                     </div>
                 </div>
 
@@ -130,7 +129,63 @@
             <button class="pull-right btn" data-dismiss="modal">&times;</button>
             <h3>Maklumat lanjut</h3>
         </div>
-        <div class="modal-body"></div>
+        <div class="modal-body">
+            <div class="control-group">
+                <span class="control-label">No. Permohonan : </span>
+                <span data-bind="text: rentalapplication.RegistrationNo" id="commercialspace.RegistrationNo" />
+            </div>
+            <div class="control-group">
+                <span class="control-label">Tarikh Permohonan : </span>
+                <span data-bind="date: { value: rentalapplication.ApplicationDate, format: 'DD/MM/YYYY' }" id="rentalapplication.ApplicationDate" />
+            </div>
+            <div class="control-group">
+                <span class="control-label">Nama Pegawai : </span>
+                <span data-bind="text: rentalapplication.Contact.Name" id="rentalapplication.Contact.Name" />
+            </div>
+            <div class="control-group" data-bind="visible: rentalapplication.IsCompany() == true">
+                <span class="control-label">Nama Syarikat : </span>
+                <span data-bind="text: rentalapplication.CompanyName" id="rentalapplication.CompanyName" />
+            </div>
+            <div class="control-group">
+                <span class="control-label">No. Telefon (Pejabat) : </span>
+                <span data-bind="text: rentalapplication.Contact.OfficeNo" id="rentalapplication.Contact.PhoneNo" />
+            </div>
+            <div class="control-group">
+                <span class="control-label">No. Telefon (Bimbit) : </span>
+                <span data-bind="text: rentalapplication.Contact.MobileNo" id="rentalapplication.Contact.MobileNo" />
+            </div>
+            <div class="control-group">
+                <span class="control-label">Email : </span>
+                <span data-bind="text: rentalapplication.Contact.Email" id="rentalapplication.Contact.Email" />
+            </div>
+            <div class="control-group">
+                <span class="control-label">Alamat : </span>
+                <span data-bind="text: rentalapplication.Address.Street" id="rentalapplication.Address.Street" />,
+                <span data-bind="text: rentalapplication.Address.Postcode" id="rentalapplication.Address.Postcode" />
+                <span data-bind="text: rentalapplication.Address.City" id="rentalapplication.Address.City" />,
+                <span data-bind="text: rentalapplication.Address.State" id="rentalapplication.Address.State" />
+            </div>
+            <div class="control-group">
+                <span class="control-label">Tujuan Permohonan : </span>
+                <span data-bind="text: rentalapplication.Purpose" id="rentalapplication.Purpose" />
+            </div>
+            <div class="control-group">
+                <span class="control-label">Pengalaman : </span>
+                <span data-bind="text: rentalapplication.Experience" id="rentalapplication.Experience" />
+            </div>
+            <div class="control-group">
+                <span class="control-label">Maklumat Kewangan : </span>
+                <br />
+                <span class="control-label">Tahun terkini : </span>
+                <span data-bind="text: rentalapplication.CurrentYearSales" id="rentalapplication.CurrentYearSales" />
+                <br />
+                <span class="control-label">Tahun terdahulu : </span>,
+                <span data-bind="text: rentalapplication.LastYearSales" id="rentalapplication.LastYearSales" />
+                <br />
+                <span class="control-label">2 tahun terdahulu : </span>,
+                <span data-bind="text: rentalapplication.PreviousYearSales" id="rentalapplication.PreviousYearSales" />
+            </div>
+        </div>
         <div class="modal-footer">
             <input type="button" class="btn-small btn-primary" value="OK" data-dismiss="modal" />
         </div>
