@@ -47,13 +47,13 @@ return {
               Type : ko.observable(),
               InvoiceNo : ko.observable(),
               Date : ko.observable(),
-              Amount : ko.observable(),
               ContractId : ko.observable(),
               TenantId : ko.observable(),
               Half : ko.observable(),
               Quarter : ko.observable(),
               IsPaid : ko.observable(),
               ContractNo : ko.observable(),
+              Amount : ko.observable(),
               PaymentDistributionCollection : ko.observableArray(),
 		Month : ko.observable(),
 		Year : ko.observable(),
@@ -215,7 +215,6 @@ return {
               FloorName : ko.observable(),
               Size : ko.observable(),
               Category : ko.observable(),
-              RentalRate : ko.observable(),
               RentalType : ko.observable(),
               IsOnline : ko.observable(),
               RegistrationNo : ko.observable(),
@@ -226,6 +225,7 @@ return {
               City : ko.observable(),
               BuildingName : ko.observable(),
               BuildingLot : ko.observable(),
+              RentalRate : ko.observable(),
               LotCollection : ko.observableArray(),
 		isBusy : ko.observable(false),
 		  WebId : ko.observable(webId)
@@ -700,6 +700,56 @@ return {
 return {
           Title : ko.observable(),
               Text : ko.observable(),
+              isBusy : ko.observable(false),
+		  WebId : ko.observable(webId)
+          };
+          };
+          
+        
+
+          bespoke.sphcommercialspace.domain.Setting = function(webId) {
+        
+
+return {
+          SettingId : ko.observable(),
+              Key : ko.observable(),
+              Value : ko.observable(),
+              Username : ko.observable(),
+              RebateCollection : ko.observableArray(),
+		InterestCollection : ko.observableArray(),
+		isBusy : ko.observable(false),
+		  WebId : ko.observable(webId)
+          };
+          };
+          
+        
+
+          bespoke.sphcommercialspace.domain.Rebate = function(webId) {
+        
+
+return {
+          Building : ko.observable(),
+              Floor : ko.observable(),
+              Amount : ko.observable(),
+              StartDate : ko.observable(),
+              EndDate : ko.observable(),
+              CommercialSpaceCategory : ko.observable(),
+              isBusy : ko.observable(false),
+		  WebId : ko.observable(webId)
+          };
+          };
+          
+        
+
+          bespoke.sphcommercialspace.domain.Interest = function(webId) {
+        
+
+return {
+          Building : ko.observable(),
+              CommercialSpaceCategory : ko.observable(),
+              Amount : ko.observable(),
+              StartDate : ko.observable(),
+              EndDate : ko.observable(),
               isBusy : ko.observable(false),
 		  WebId : ko.observable(webId)
           };

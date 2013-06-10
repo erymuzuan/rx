@@ -312,6 +312,7 @@
     <Content Include="App\viewmodels\map.js" />
     <Content Include="App\viewmodels\offerdetails.js" />
     <Content Include="App\viewmodels\organization.detail.js" />
+    <Content Include="App\viewmodels\_setting.Rebate.js" />
     <Content Include="App\viewmodels\_tenant.rent.js" />
     <Content Include="App\viewmodels\rentalapplication.js" />
     <Content Include="App\viewmodels\returnedapplication.js" />

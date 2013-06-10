@@ -620,4 +620,47 @@
 			<xs:attribute name="Text" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Setting">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="RebateCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Rebate" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="InterestCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Interest" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="SettingId" type="xs:int" use="required"/>
+			<xs:attribute name="Key" type="xs:string" use="required"/>
+			<xs:attribute name="Value" type="xs:string" use="required"/>
+			<xs:attribute name="Username" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Rebate">
+		<xs:complexType>
+			<xs:attribute name="Building" type="xs:string" use="required"/>
+			<xs:attribute name="Floor" type="xs:string" use="required"/>
+			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
+			<xs:attribute name="StartDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="EndDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="CommercialSpaceCategory" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Interest">
+		<xs:complexType>
+			<xs:attribute name="Building" type="xs:string" use="required"/>
+			<xs:attribute name="CommercialSpaceCategory" type="xs:string" use="required"/>
+			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
+			<xs:attribute name="StartDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="EndDate" type="xs:dateTime" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

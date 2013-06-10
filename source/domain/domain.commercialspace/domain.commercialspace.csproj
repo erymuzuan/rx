@@ -102,6 +102,7 @@
     <Compile Include="ILedgerExport.cs" />
     <Compile Include="INotificationChannel.cs" />
     <Compile Include="INotificationService.cs" />
+    <Compile Include="Interest.cs" />
     <Compile Include="Invoice.cs" />
     <Compile Include="IPersistence.cs" />
     <Compile Include="IRepository.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Payment.cs" />
     <Compile Include="PaymentDistribution.cs" />
     <Compile Include="Permission.cs" />
+    <Compile Include="Rebate.cs" />
     <Compile Include="Rent.cs" />
     <Compile Include="Reply.cs" />
     <Compile Include="Role.cs" />
