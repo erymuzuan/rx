@@ -651,6 +651,7 @@
     <Content Include="App\views\organization.detail.html" />
     <Content Include="App\viewmodels\tenant.detail.js" />
     <Content Include="App\viewmodels\_tenant.contract.js" />
+    <None Include="Properties\PublishProfiles\web.sph.pubxml" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.debug.js" />
     <Content Include="Scripts\breeze.min.js" />

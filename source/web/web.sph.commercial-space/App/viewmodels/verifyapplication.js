@@ -60,6 +60,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             $('#audit-trail').modal({});
 
         },
+        showDetails = function () {
+           
+            $('#details-panel').modal({});
+
+        },
         waitingList = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: id() });
@@ -189,6 +194,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         returnedCommand: returned,
         declinedCommand: declined,
         showAuditTrailCommand: showAuditTrail,
+        showDetailsCommand:showDetails,
         approvedCommand: approved,
         addAttachmentCommand: addAttachment,
         generateOfferLetterCommand: generateOfferLetter,
