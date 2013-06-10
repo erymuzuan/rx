@@ -6,14 +6,15 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
+/// <reference path="_setting.interest.js" />
 
 
-define(['services/datacontext', 'services/logger'],
-    function (context, logger) {
+define(['services/datacontext', 'services/logger','viewmodels/_setting.interest'],
+    function (context, logger,interestvm) {
 
         var isBusy = ko.observable(false),
             activate = function () {
-               
+                interestvm.init();
             },
             viewAttached = function () {
                 $("#returnLetterTemplate,#offerLetterTemplate").kendoUpload({

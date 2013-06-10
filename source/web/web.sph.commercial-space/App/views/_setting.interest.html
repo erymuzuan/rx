@@ -1,0 +1,31 @@
+﻿<section>
+    <div>
+        <table class="table-striped">
+            <thead>
+                <th>Bangunan</th>
+                <th>Kategori Ruang</th>
+                <th>Tempoh lewat</th>
+                <th>Peratus faedah</th>
+            </thead>
+            <tbody data-bind="foreach: interestCollection">
+                <tr>
+                    <td data-bind="text: Building, uniqueName: true"></td>
+                    <td data-bind="text: CommercialSpaceCategory, uniqueName: true"></td>
+                    <td>
+                        <input type="text" data-bind="value: Period, uniqueName: true" />
+                        <select data-bind="value: PeriodType">
+                            <option value="Day">Hari</option>
+                            <option value="Week">Minggu</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" data-bind="value: Percentage, uniqueName: true" />%
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<section>
+    <input type="button" class="btn btn-small" value="Simpan" data-bind="click: saveCommand" />
+</section>

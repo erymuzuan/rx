@@ -11,7 +11,7 @@
     var bespoke = bespoke || {};
     bespoke.sphcommercialspace =  {};
     bespoke.sphcommercialspace.domain = {};
-    
+
     <!-- ELEMENT -->
     <xsl:for-each select="xs:element">
       <xsl:choose>
@@ -22,9 +22,9 @@
         <xsl:otherwise>
 
           bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/> = function(webId) {
-        
 
-return {
+
+          return {
           <!-- attribute-->
           <xsl:for-each select="xs:complexType/xs:attribute">
             <xsl:choose>
@@ -37,10 +37,10 @@ return {
           </xsl:for-each>
           <!-- Element -->
           <xsl:apply-templates select="xs:complexType/xs:all/xs:element"/>isBusy : ko.observable(false),
-		  WebId : ko.observable(webId)
+          WebId : ko.observable(webId)
           };
           };
-          
+
         </xsl:otherwise>
       </xsl:choose>
     </xsl:for-each>
@@ -71,8 +71,8 @@ return {
 
       // public properties members
       <xsl:for-each select="xs:attribute">
-      
-     
+
+
         [XmlAttribute]
         public <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/>
         <xsl:value-of select="@name"/>
@@ -128,6 +128,6 @@ return {
         <xsl:value-of select="@value"/>,
       </xsl:for-each>}
     </xsl:for-each>
-    </xsl:template>
+  </xsl:template>
   <xsl:include href="ReferenceObject.xslt"/>
 </xsl:stylesheet>
