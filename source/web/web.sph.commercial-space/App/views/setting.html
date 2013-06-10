@@ -1,19 +1,48 @@
-﻿<form class="form-horizontal">
-   <div class="control-group">
-        <label for="returnLetterTemplate" class="control-label">Returned letter template</label>
-        <div class="controls">
-            <input id="returnLetterTemplate" type="file" name="files" />
-        </div>
-    </div>
-    
-    <div class="control-group">
-        <label for="offerLetterTemplate" class="control-label">Template surat tawaran</label>
-        <div class="controls">
-            <input  id="offerLetterTemplate" type="file" name="files" />
-        </div>
-    </div>
+﻿<section>
+    <h3>Maklumat Penyewa</h3>
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li>
+                <a href="#template-tab" data-toggle="tab">Templat</a>
+            </li>
+            <li>
+                <a href="#rebate-tab" data-toggle="tab">Kontrak</a>
+            </li>
+            <li>
+                <a href="#interest-tab" data-toggle="tab">Sewa</a>
+            </li>
+        </ul>
 
-    <div class="btn-group">
-        <button class="btn btn-primary" data-bind="command: saveCommand" data-loading-text="Saving...." data-complete-text="Done">Save</button>
+        <div class="tab-content">
+            <div id="template-tab" class="tab-pane active">
+                <form class="form-horizontal">
+                    <div class="control-group">
+                        <label for="returnLetterTemplate" class="control-label">Returned letter template</label>
+                        <div class="controls">
+                            <input id="returnLetterTemplate" type="file" name="files" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="offerLetterTemplate" class="control-label">Template surat tawaran</label>
+                        <div class="controls">
+                            <input id="offerLetterTemplate" type="file" name="files" />
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary" data-bind="command: saveCommand" data-loading-text="Saving...." data-complete-text="Done">Save</button>
+                    </div>
+                </form>
+            </div>
+            <div id="rebate-tab" class="tab-pane">
+                <!--ko compose:'viewmodels/' -->
+                <!--/ko-->
+            </div>
+            <div id="interest-tab" class="tab-pane">
+                <!--ko compose:'viewmodels/' -->
+                <!--/ko-->
+            </div>
+        </div>
     </div>
-</form>
+</section>
