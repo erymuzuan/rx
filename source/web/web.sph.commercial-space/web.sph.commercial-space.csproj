@@ -349,6 +349,7 @@
     <Content Include="App\views\nav.html" />
     <Content Include="App\views\offerdetails.html" />
     <Content Include="App\views\_setting.interest.html" />
+    <Content Include="App\views\_setting.rebate.html" />
     <Content Include="App\views\_tenant.rent.html" />
     <Content Include="App\views\rentalapplication.html" />
     <Content Include="App\views\returnedapplication.html" />

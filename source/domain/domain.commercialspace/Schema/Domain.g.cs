@@ -9183,20 +9183,22 @@
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_key;
-                public const string PropertyNameKey = "Key";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_value;
-                public const string PropertyNameValue = "Value";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  string  m_username;
                 public const string PropertyNameUsername = "Username";
 
               
+            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private string  m_key;
+                public const string PropertyNameKey = "Key";
+
+         
+          
+            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private string  m_value;
+                public const string PropertyNameValue = "Value";
+
+         
+          
 			private readonly ObjectCollection<Rebate>  m_RebateCollection = new ObjectCollection<Rebate> ();
 
 			///<summary>
@@ -9256,62 +9258,6 @@
             
             [DebuggerHidden]
             
-                public string Key
-                {
-                set
-                {
-                if( String.Equals( m_key, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameKey, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_key= value;
-                OnPropertyChanged(PropertyNameKey);
-                }
-                }
-                get
-                {
-                return m_key;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public string Value
-                {
-                set
-                {
-                if( String.Equals( m_value, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameValue, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_value= value;
-                OnPropertyChanged(PropertyNameValue);
-                }
-                }
-                get
-                {
-                return m_value;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
                 public string Username
                 {
                 set
@@ -9331,6 +9277,50 @@
                 }
 
               
+
+            ///<summary>
+            /// 
+            ///</summary>
+            [DebuggerHidden]
+
+            public string Key
+            {
+            set
+            {
+            if(String.Equals( m_key, value, StringComparison.Ordinal)) return;
+            var arg = new PropertyChangingEventArgs(PropertyNameKey, value);
+            OnPropertyChanging(arg);
+            if(! arg.Cancel)
+            {
+            m_key= value;
+            OnPropertyChanged(PropertyNameKey);
+            }
+            }
+            get { return m_key;}
+            }
+          
+
+            ///<summary>
+            /// 
+            ///</summary>
+            [DebuggerHidden]
+
+            public string Value
+            {
+            set
+            {
+            if(String.Equals( m_value, value, StringComparison.Ordinal)) return;
+            var arg = new PropertyChangingEventArgs(PropertyNameValue, value);
+            OnPropertyChanging(arg);
+            if(! arg.Cancel)
+            {
+            m_value= value;
+            OnPropertyChanged(PropertyNameValue);
+            }
+            }
+            get { return m_value;}
+            }
+          
 
 
           }
@@ -9568,18 +9558,18 @@
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  decimal  m_amount;
-                public const string PropertyNameAmount = "Amount";
+                private  decimal  m_percentage;
+                public const string PropertyNamePercentage = "Percentage";
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  DateTime  m_startDate;
-                public const string PropertyNameStartDate = "StartDate";
+                private  int  m_period;
+                public const string PropertyNamePeriod = "Period";
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  DateTime  m_endDate;
-                public const string PropertyNameEndDate = "EndDate";
+                private  string  m_periodType;
+                public const string PropertyNamePeriodType = "PeriodType";
 
               
             ///<summary>
@@ -9647,22 +9637,22 @@
             
             [DebuggerHidden]
             
-                public decimal Amount
+                public decimal Percentage
                 {
                 set
                 {
-                if( m_amount == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameAmount, value);
+                if( m_percentage == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePercentage, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_amount= value;
-                OnPropertyChanged(PropertyNameAmount);
+                m_percentage= value;
+                OnPropertyChanged(PropertyNamePercentage);
                 }
                 }
                 get
                 {
-                return m_amount;}
+                return m_percentage;}
                 }
 
               
@@ -9675,22 +9665,22 @@
             
             [DebuggerHidden]
             
-                public DateTime StartDate
+                public int Period
                 {
                 set
                 {
-                if( m_startDate == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameStartDate, value);
+                if( m_period == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePeriod, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_startDate= value;
-                OnPropertyChanged(PropertyNameStartDate);
+                m_period= value;
+                OnPropertyChanged(PropertyNamePeriod);
                 }
                 }
                 get
                 {
-                return m_startDate;}
+                return m_period;}
                 }
 
               
@@ -9703,22 +9693,22 @@
             
             [DebuggerHidden]
             
-                public DateTime EndDate
+                public string PeriodType
                 {
                 set
                 {
-                if( m_endDate == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEndDate, value);
+                if( String.Equals( m_periodType, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePeriodType, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_endDate= value;
-                OnPropertyChanged(PropertyNameEndDate);
+                m_periodType= value;
+                OnPropertyChanged(PropertyNamePeriodType);
                 }
                 }
                 get
                 {
-                return m_endDate;}
+                return m_periodType;}
                 }
 
               

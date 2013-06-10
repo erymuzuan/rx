@@ -1,0 +1,42 @@
+﻿<div>
+    <span>
+        <input type="button" name="add-rebate-button" class="btn pull-right" value="Sejarah" />
+    </span>
+    <input type="button" name="add-rebate-button" class="btn pull-right" value="+ Rebat" data-bind="click: addRebateCommand" />
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>Bangunan</th>
+                <th>Tingkat</th>
+                <th>Kategori</th>
+                <th>Amaun</th>
+                <th>Tarikh Mula</th>
+                <th>Tarikh Akhir</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: setting().RebateCollection">
+            <tr>
+                <td>
+                    <select data-bind="value: selectedBuilding, options: buildingOptions, optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Sila pilih]'" id="selectedBuilding" name="selectedBuilding">
+                    </select></td>
+                <td>
+                    <input class="input-large" type="text" data-bind="value: Floor, uniqueName: true" /></td>
+                <td>
+                    <input class="input-large" type="text" data-bind="value: CommercialSpaceCategory, uniqueName: true" /></td>
+                <td>
+                    <input type="text" data-bind="value: Amount, uniqueName: true" /></td>
+                <td>
+                    <input type="text" data-bind="value: StartDate, uniqueName: true" /></td>
+                <td>
+                    <input type="text" data-bind="value: EndDate, uniqueName: true" /></td>
+                <td>
+                    <input type="button" data-bind="click: $parent.removeRebateCommand, uniqueName: true" class="btn btn-mini" value="-" /></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <input id="save-button" type="button" class="btn btn-primary" value="Simpan" />
+</div>
