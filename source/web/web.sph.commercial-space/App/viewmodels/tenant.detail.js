@@ -12,33 +12,35 @@
 
 
 define(['services/mockTenantContext', './_tenant.rent', './_tenant.contract'],
-	function (context,rentvm,contractvm) {
+	function (context, rentvm, contractvm) {
 
-	var isBusy = ko.observable(false),
-	id = ko.observable(),
-	tenant = new bespoke.sphcommercialspace.domain.Tenant(),
-	activate = function (routeData) {
-	    id(routeData.id);
-	    var query = String.format("TenantId eq {0}", id());
-	    var tcs = new $.Deferred();
-	    var detailLoaded = function(b) {
-	        vm.tenant(b);
-	        rentvm.init(b);
-	        contractvm.init(b);
-	        tcs.resolve(true);
+	    var isBusy = ko.observable(false),
+        id = ko.observable(),
+        tenant = new bespoke.sphcommercialspace.domain.Tenant(),
+        activate = function (routeData) {
+            id(routeData.id);
+            var query = String.format("TenantId eq {0}", id());
+            var tcs = new $.Deferred();
+            var detailLoaded = function (tnt) {
+                vm.tenant(tnt);
+                rentvm.activate(tnt)
+                    .done(function () {
+                        tcs.resolve(true);
+                    });
+                contractvm.init(tnt);
+            };
+            context.loadOneAsync("Tenant", query)
+                .then(detailLoaded);
+
+            return tcs.promise();
+        };
+
+	    var vm = {
+	        isBusy: isBusy,
+	        activate: activate,
+	        tenant: ko.observable(tenant)
 	    };
-	    context.loadOneAsync("Tenant", query)
-	        .then(detailLoaded);
 
-	    return tcs.promise();
-	};
+	    return vm;
 
-	var vm = {
-		isBusy : isBusy,
-		activate : activate,
-		tenant: ko.observable(tenant)
-	};
-
-	return vm;
-
-});
+	});

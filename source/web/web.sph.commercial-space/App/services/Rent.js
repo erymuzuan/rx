@@ -1,5 +1,6 @@
 ﻿/// <reference path="domain.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
 
 bespoke.sphcommercialspace.domain.Rent.prototype.RentPaid = function () {
     var sumPaid = _(this.PaymentDistributionCollection()).reduce(function (memo, val) {
@@ -14,9 +15,7 @@ bespoke.sphcommercialspace.domain.Rent.prototype.Accrued = function () {
     return sumPaid.toFixed(2);
 };
 
-bespoke.sphcommercialspace.domain.Rent.prototype.AccumulatedAccrued = function () {
-    
-};
+bespoke.sphcommercialspace.domain.Rent.prototype.AccumulatedAccrued = ko.observable();
 
 bespoke.sphcommercialspace.domain.Rent.prototype.TotalPayment = function() {
     var totalPayment = this.AccumulatedAccrued + this.Amount;
@@ -24,3 +23,8 @@ bespoke.sphcommercialspace.domain.Rent.prototype.TotalPayment = function() {
     return totalPayment.toFixed(2);
 };
 
+bespoke.sphcommercialspace.domain.RentPartial = function() {
+    return {
+        AccumulatedAccrued: ko.observable()
+    };
+};

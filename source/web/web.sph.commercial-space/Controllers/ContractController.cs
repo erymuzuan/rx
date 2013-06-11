@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using Bespoke.SphCommercialSpace.LedgerMsxl;
@@ -214,11 +215,12 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             var export = ObjectBuilder.GetObject<ILedgerExport>();
             var filename = string.Format("{0}-{1:MMyyyy}.lejer.xlsx", contract.Tenant.RegistrationNo, DateTime.Today);
-            
-            export.GenerateLedger(contract, rentLo.ItemCollection, filename);
+            var temp = System.IO.Path.GetTempFileName() + ".xlsx";
+
+            export.GenerateLedger(contract, rentLo.ItemCollection, temp);
             
             this.Response.ContentType = "application/json";
-            return Json(filename);
+            return File(System.IO.File.ReadAllBytes(temp), MimeMapping.GetMimeMapping(".xlsx"), filename);
         }
     }
 

@@ -14,30 +14,49 @@ define(['services/datacontext', 'services/logger'],
     function (context, logger) {
 
         var isBusy = ko.observable(false),
-            activate = function () {
+            activate = function (contractId) {
+                var query = "RentId gt 0";
+                var tcs = new $.Deferred();
+                context.loadAsync("Rent", query).done(function (lo) {
+                    var rents = _(lo.itemCollection).map(function (r) {
+                        var r2 = _(r).extend(new bespoke.sphcommercialspace.domain.RentPartial());
+                        calculateAccumulatedAccrued(r2);
+                        return r2;
+                    });
+                    vm.rentCollection(rents);
+                    tcs.resolve(true);
+                });
+                return tcs.promise();
+
+            },
+
+
+
+            calculateAccumulatedAccrued = function (r) {
+                var query = String.format("RentId eq {0} and ContractNo eq '{1}'", r.RentId(), r.ContractNo());
+                var prvMonthQuery = String.format("RentId eq {0} and ContractNo eq '{1}' and Month eq {2} and Year eq {3}", r.RentId(), r.ContractNo(), r.Month(), r.Year());
+
+                var accruedPrvMonthTask = context.loadOneAsync("Rent", prvMonthQuery);
+                var currentMonthTask = context.loadOneAsync("Rent", query);
+
+                var tcs = new $.Deferred();
+                $.when(currentMonthTask, accruedPrvMonthTask)
+                     .then(function (current, prv) {
+                         var accumulatedAccrued = prv.AccumulatedAccrued - prv.TotalPayment;
+                         r.AccumulatedAccrued(accumulatedAccrued);
+                         tcs.resolve(accumulatedAccrued);
+
+                     });
+                return tcs.promise();
             },
 
             showDetails = function () {
                 isBusy(true);
-                var data = this;
-                var query = String.format("RentId eq {0} and ContractNo eq '{1}'", data.RentId(), data.ContractNo());
-                var prvMonthQuery = String.format("RentId eq {0} and ContractNo eq '{1}' and Month eq {2} and Year eq {3}", data.RentId(), data.ContractNo(), data.Month(), data.Year());
 
-                //var accruedPrvMonthTask = context.getSumAsync("Rent", prvMonthQuery,Accrued);
-                var accruedPrvMonthTask = context.loadOneAsync("Rent", prvMonthQuery);
-                var currentMonthTask = context.loadOneAsync("Rent", query);
-                
-                $.when(currentMonthTask,accruedPrvMonthTask)
-                     .then(function (current,prv) {
-                         vm.rent(current);
-                          //var accumulatedAccrued = prv.AccumulatedAccrued - prv.TotalPayment;
-                         //vm.rent.AccumulatedAccrued(accumulatedAccrued);
-                         
-                         isBusy(false);
-                     });
-               
                 $('#tenant-rent-payment-modal').modal({});
             },
+
+
             addPayment = function () {
                 var payment = {
                     ReceiptNo: ko.observable(),
@@ -59,18 +78,9 @@ define(['services/datacontext', 'services/logger'],
 
         var vm = {
             isBusy: isBusy,
-            init: function (b) {
-                var query = "RentId gt 0";
-                var tcs = new $.Deferred();
-                    context.loadAsync("Rent", query).done(function (lo) {
-                    vm.rentCollection(lo.itemCollection);
-                    tcs.resolve(true);
-            });
-                return tcs.promise();
-            },
             activate: activate,
             rentCollection: ko.observableArray([]),
-            rent: ko.observable(new bespoke.sphcommercialspace.domain.Rent()),
+            rent: ko.observable(_.extend(new bespoke.sphcommercialspace.domain.Rent(), new bespoke.sphcommercialspace.domain.RentPartial())),
             showDetailsCommand: showDetails,
             addPaymentCommand: addPayment,
             saveCommand: save

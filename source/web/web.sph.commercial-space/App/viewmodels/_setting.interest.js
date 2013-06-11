@@ -42,15 +42,14 @@ define(['services/datacontext', 'durandal/app'],
             save = function() {
                 var tcs = new $.Deferred();
                 vm.setting().Key('Interest.Collection');
-                vm.setting().InterestCollection(vm.interestCollection());
+                vm.setting().Value(ko.mapping.toJSON(vm.interestCollection()));
                 var data = JSON.stringify({settings: [ko.mapping.toJS(vm.setting())]});
                 isBusy(true);
 
                 context.post(data, "/Setting/Save")
                     .then(function(result) {
                         isBusy(false);
-
-                        app.showMessage('saved');
+                        app.showMessage('setting saved');
                         tcs.resolve(result);
                     });
                 return tcs.promise();
