@@ -23,6 +23,11 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                         ?? settings.Single(s => s.Key == key1);
 
                     st.Value = settings.Single(s => s.Key == key1).Value;
+                    var interest = settings.Single(s => s.Key == key1).InterestCollection;
+                    var rebate = settings.Single(s => s.Key == key1).RebateCollection;
+                    if (null != interest) st.InterestCollection.AddRange(interest);
+                    if (null != rebate) st.RebateCollection.AddRange(rebate);
+                   
                     session.Attach(st);
 
                 }

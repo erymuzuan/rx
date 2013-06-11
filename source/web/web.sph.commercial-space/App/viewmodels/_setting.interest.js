@@ -14,6 +14,7 @@ define(['services/datacontext', 'durandal/app'],
     function (context,app) {
 
         var isBusy = ko.observable(false),
+            setting = new bespoke.sphcommercialspace.domain.Setting(),
             activate = function () {
                 
             },
@@ -29,7 +30,7 @@ define(['services/datacontext', 'durandal/app'],
                             interest.Building(item.Name());
                             interest.Period(1);
                             interest.CommercialSpaceCategory('Cafeteria');
-                            interest.PeriodType('Minggu');
+                            interest.PeriodType('Week');
                             interest.Percentage(10);
                             vm.interestCollection.push(interest);
                         });
@@ -40,17 +41,16 @@ define(['services/datacontext', 'durandal/app'],
             },
             save = function() {
                 var tcs = new $.Deferred();
-                var setting = new bespoke.sphcommercialspace.domain.Setting();
-                setting.Key('Interest.Collection');
-                setting.InterestCollection.push(vm.interestCollection());
-                var data = JSON.stringify({settings: [setting]});
+                vm.setting().Key('Interest.Collection');
+                vm.setting().InterestCollection(vm.interestCollection());
+                var data = JSON.stringify({settings: [ko.mapping.toJS(vm.setting())]});
                 isBusy(true);
 
                 context.post(data, "/Setting/Save")
                     .then(function(result) {
                         isBusy(false);
 
-                        app.showMessage('sav')
+                        app.showMessage('saved');
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -60,6 +60,7 @@ define(['services/datacontext', 'durandal/app'],
             isBusy: isBusy,
             init: init,
             activate: activate,
+            setting: ko.observable(setting),
             interestCollection: ko.observableArray(),
             saveCommand:save
         };
