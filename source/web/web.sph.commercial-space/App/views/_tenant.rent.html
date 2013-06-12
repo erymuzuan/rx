@@ -9,82 +9,18 @@
                 <th>Suku</th>
                 <th>Tengah</th>
                 <th>Amaun</th>
-                <th>Bayar</th>
-                <th>Tunggakan</th>
-                <th>Tunggakan Terkumpul</th>
-                <th>Manual</th>
             </tr>
         </thead>
         <tbody data-bind="foreach: rentCollection">
             <tr>
                 <td data-bind="text: ContractNo"/>
-                <td data-bind="text: InvoiceNo"/>
+                <td data-bind="text: No"/>
                 <td data-bind="text: Year" />
                 <td data-bind="text: Month" />
                 <td data-bind="text: Quarter" />
                 <td data-bind="text: Half" />
                 <td data-bind="text: Amount" />
-                <td>
-                    <input type="checkbox" data-bind="checked: IsPaid"/>
-                </td>
-                <td data-bind="text: Accrued" />
-                <td data-bind="text: AccumulatedAccrued" />
-                <td><a class="btn btn-small" data-bind="click: $parent.showDetailsCommand" href="#tenant-rent-payment-modal">Set Bayar</a>
-                </td>
             </tr>
         </tbody>
     </table>
 </div>
-<section id="tenant-rent-payment-modal" class="modal hide fade" style="margin-left: -500px; width: 940px">
-    <div class="modal-header">
-        <h4>Maklumat Bayaran</h4>
-    </div>
-    <div class="modal-body" style="width: 900px; height: 500px; max-height: 500px">
-        <div class="control-group">
-            <span >Tahun : </span><span data-bind="text: rent().Year" id="Year" />
-        </div>
-        <div class="control-group">
-             <span >Bulan :</span><span data-bind="text: rent().Month" id="Month" />
-        </div>
-        <div class="control-group">
-            <span >No Invois :</span><span data-bind="text: rent().InvoiceNo" id="InvoiceNo" />
-        </div>
-        <div class="control-group">
-            <span > Amaun Semasa :</span><span class="add-on"> RM </span><span data-bind="text: rent().Amount" id="Amount" />
-        </div>
-        <div class="control-group">
-            <span >Tunggakan Terkumpul :</span><span class="add-on"> RM </span><span data-bind="text: rent().AccumulatedAccrued" id="AccumulatedAccrued" />
-        </div>
-        <div class="control-group">
-            <span >Jumlah Perlu Dibayar :</span><span class="add-on"> RM </span><span data-bind="text: rent().TotalPayment" id="TotalPayment" />
-        </div>
-        <div class="control-group">
-            <span >Jumlah Sudah Dibayar :</span><span data-bind="text: rent().RentPaid" id="RentPaid" />
-        </div>
-       
-        <div id="deposit-payment">
-            <h4>Rekod Bayaran</h4>
-            <input type="button" value="+" class="btn-mini" data-bind="click: addPaymentCommand"/>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>No Resit</th>
-                        <th>Jumlah (RM)</th>
-                        <th>Tarikh</th>
-                    </tr>
-                </thead>
-                <tbody data-bind=" foreach: rent().PaymentDistributionCollection">
-                    <tr>
-                        <td><input type="text" data-bind="value: ReceiptNo, uniqueName: true"/></td>
-                        <td><input type="text" data-bind="value: Amount, uniqueName: true" /></td>
-                        <td><input id="paymentdistribution.DateTime" name="Date" type="text" data-bind="kendoDate: DateTime" /></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <input type="button" value="Simpan" class="btn btn-small" data-bind="click: saveCommand" data-dismiss="modal"/>
-        <input type="button" value="Batal" class="btn btn-small" data-dismiss="modal"/>
-    </div>
-</section>

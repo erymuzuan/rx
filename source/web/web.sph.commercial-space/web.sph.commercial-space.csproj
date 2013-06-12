@@ -233,9 +233,9 @@
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
+    <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\RentalApplicationController.cs" />
-    <Compile Include="Controllers\RentController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
@@ -350,6 +350,7 @@
     <Content Include="App\views\offerdetails.html" />
     <Content Include="App\views\_setting.interest.html" />
     <Content Include="App\views\_setting.rebate.html" />
+    <Content Include="App\views\_tenant.adhoc.html" />
     <Content Include="App\views\_tenant.rent.html" />
     <Content Include="App\views\rentalapplication.html" />
     <Content Include="App\views\returnedapplication.html" />
@@ -654,6 +655,7 @@
     <Content Include="App\views\organization.detail.html" />
     <Content Include="App\viewmodels\tenant.detail.js" />
     <Content Include="App\viewmodels\_tenant.contract.js" />
+    <Content Include="App\viewmodels\_tenant.adhoc.js" />
     <None Include="Properties\PublishProfiles\web.sph.pubxml" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.debug.js" />

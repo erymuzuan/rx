@@ -44,41 +44,18 @@ namespace Bespoke.Scheduler.Sph.Rental
             var contractQuery = context.Contracts.Where(c => c.EndDate >= date);
             var contractLoadOperation = await context.LoadAsync(contractQuery);
             var contracts = contractLoadOperation.ItemCollection;
-            var rentCollection = new List<Rent>();
+            var invoiceCollection = new List<Invoice>();
             foreach (var c in contracts)
             {
                 var c1 = c;
-                decimal? accumulatedAccrued = decimal.Zero;
-                decimal? accrued = decimal.Zero;
-                var prvMonthRent = await context.LoadOneAsync<Rent>(r => r.Month == (date.Month - 1) && r.Year == date.Year && r.ContractId == c1.ContractId && r.TenantId == c1.Tenant.TenantId);
-                if (null != prvMonthRent)
-                {
-                    accumulatedAccrued = prvMonthRent.AccumulatedAccrued + c1.CommercialSpace.RentalRate - prvMonthRent.TotalPayment;
-                    accrued = prvMonthRent.AccumulatedAccrued;
-                }
-                var rent = new Rent
-                            {
-                                Date = date,
-                                Month = date.Month,
-                                Year = date.Year,
-                                Amount = c1.CommercialSpace.RentalRate,
-                                TenantId = c1.Tenant.TenantId,
-                                ContractId = c1.ContractId,
-                                ContractNo = c1.ReferenceNo,
-                                AccumulatedAccrued = accumulatedAccrued,
-                                Accrued = accrued,
-                                InvoiceNo = string.Format("{0}/{1:MMyyyy}", c1.ReferenceNo, date),
-                                IsPaid = false,
-                                Type = "Rental",
-                                Tenant = c1.Tenant
-                            };
-                rentCollection.Add(rent);
+                var factory = new InvoiceFactory();
+                var rent = await factory.CreateRentalInvoice(c1);
+                invoiceCollection.Add(rent);
             }
-
 
             using (var session = context.OpenSession())
             {
-                session.Attach(rentCollection.Cast<Entity>().ToArray());
+                session.Attach(invoiceCollection.Cast<Entity>().ToArray());
                 await session.SubmitChanges();
             }
         }
@@ -117,7 +94,7 @@ namespace Bespoke.Scheduler.Sph.Rental
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new ChangePublisherClient(broker));
             ObjectBuilder.AddCacheList<IPagingTranslator>(new Sql2008PagingTranslator());
             ObjectBuilder.AddCacheList<IRepository<Contract>>(new SqlRepository<Contract>(conn));
-            ObjectBuilder.AddCacheList<IRepository<Rent>>(new SqlRepository<Rent>(conn));
+            ObjectBuilder.AddCacheList<IRepository<Invoice>>(new SqlRepository<Invoice>(conn));
             ObjectBuilder.AddCacheList<IRepository<Tenant>>(new SqlRepository<Tenant>(conn));
         }
     }

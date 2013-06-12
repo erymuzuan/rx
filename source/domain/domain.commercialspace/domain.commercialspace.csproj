@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Address.cs" />
+    <Compile Include="AdhocInvoice.cs" />
     <Compile Include="assemblyinfo.cs" />
     <Compile Include="Attachment.cs" />
     <Compile Include="AuditTrail.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="INotificationService.cs" />
     <Compile Include="Interest.cs" />
     <Compile Include="Invoice.cs" />
+    <Compile Include="InvoiceFactory.cs" />
     <Compile Include="IPersistence.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="ISettingProvider.cs" />

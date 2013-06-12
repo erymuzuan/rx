@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
 	<xs:element name="ContractHistory">
 		<xs:complexType>
@@ -44,28 +44,12 @@
 	<xs:element name="Rent">
 		<xs:complexType>
 			<xs:all>
-				<xs:element name="PaymentDistributionCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="PaymentDistribution" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
 				<xs:element name="Month" type="xs:int" nillable="true"/>
 				<xs:element name="Year" type="xs:int" nillable="true"/>
 				<xs:element ref="Tenant"/>
 			</xs:all>
-			<xs:attribute name="RentId" type="xs:int" use="required"/>
-			<xs:attribute name="Type" type="xs:string" use="required"/>
-			<xs:attribute name="InvoiceNo" type="xs:string" use="required"/>
-			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
-			<xs:attribute name="ContractId" type="xs:int" use="required"/>
-			<xs:attribute name="TenantId" type="xs:int" use="required"/>
 			<xs:attribute name="Half" type="xs:string" use="required"/>
 			<xs:attribute name="Quarter" type="xs:string" use="required"/>
-			<xs:attribute name="IsPaid" type="xs:boolean" use="required"/>
-			<xs:attribute name="ContractNo" type="xs:string" use="required"/>
-			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Land">
@@ -493,7 +477,7 @@
 			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
 			<xs:attribute name="ReceiptNo" type="xs:string" use="required"/>
 			<xs:attribute name="Date" type="xs:string" use="required"/>
-			<xs:attribute name="ParentId" type="xs:int" use="required"/>
+			<xs:attribute name="ContractNo" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Invoice">
@@ -502,10 +486,17 @@
 			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
 			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
 			<xs:attribute name="No" type="xs:string" use="required"/>
-			<xs:attribute name="Type" type="xs:string" use="required"/>
-			<xs:attribute name="ParentId" type="xs:int" use="required"/>
+			<xs:attribute name="Type" type="InvoiceType" use="required"/>
+			<xs:attribute name="ContractNo" type="xs:string" use="required"/>
+			<xs:attribute name="TenantId" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:simpleType name="InvoiceType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AdhocInvoice"/>
+			<xs:enumeration value="Rental"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:element name="User">
 		<xs:complexType>
 			<xs:attribute name="UserId" type="xs:int" use="required"/>
@@ -647,6 +638,12 @@
 			<xs:attribute name="Percentage" type="xs:decimal" use="required"/>
 			<xs:attribute name="Period" type="xs:int" use="required"/>
 			<xs:attribute name="PeriodType" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AdhocInvoice">
+		<xs:complexType>
+			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Category" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

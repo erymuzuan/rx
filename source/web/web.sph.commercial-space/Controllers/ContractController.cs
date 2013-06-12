@@ -211,7 +211,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var contractId = id != 0 ? id : 1;
             var context = new SphDataContext();
             var contract = await context.LoadOneAsync<Contract>(c => c.ContractId == contractId);
-            var rentLo = await context.LoadAsync(context.Rents.Where(r => r.ContractId == contractId));
+            var rentLo = await context.LoadAsync(context.Rents.Where(r => r.ContractNo == contract.ReferenceNo));
 
             var export = ObjectBuilder.GetObject<ILedgerExport>();
             var filename = string.Format("{0}-{1:MMyyyy}.lejer.xlsx", contract.Tenant.RegistrationNo, DateTime.Today);

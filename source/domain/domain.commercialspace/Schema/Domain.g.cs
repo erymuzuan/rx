@@ -332,467 +332,6 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("Rent",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class Rent
-          {
-
-          
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  int  m_rentId;
-                public const string PropertyNameRentId = "RentId";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_type;
-                public const string PropertyNameType = "Type";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_invoiceNo;
-                public const string PropertyNameInvoiceNo = "InvoiceNo";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  DateTime  m_date;
-                public const string PropertyNameDate = "Date";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  int  m_contractId;
-                public const string PropertyNameContractId = "ContractId";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  int  m_tenantId;
-                public const string PropertyNameTenantId = "TenantId";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_half;
-                public const string PropertyNameHalf = "Half";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_quarter;
-                public const string PropertyNameQuarter = "Quarter";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  bool  m_isPaid;
-                public const string PropertyNameIsPaid = "IsPaid";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_contractNo;
-                public const string PropertyNameContractNo = "ContractNo";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  decimal  m_amount;
-                public const string PropertyNameAmount = "Amount";
-
-              
-            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private int?  m_month;
-                public const string PropertyNameMonth = "Month";
-
-         
-          
-            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private int?  m_year;
-                public const string PropertyNameYear = "Year";
-
-         
-          
-			private readonly ObjectCollection<PaymentDistribution>  m_PaymentDistributionCollection = new ObjectCollection<PaymentDistribution> ();
-
-			///<summary>
-			/// 
-			///</summary>
-			[XmlArrayItem("PaymentDistribution", IsNullable = false)]
-			public ObjectCollection<PaymentDistribution> PaymentDistributionCollection
-			{
-			get{ return m_PaymentDistributionCollection;}
-			}
-		
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			private Tenant m_tenant
-					=  new Tenant();
-				
-			public const string PropertyNameTenant = "Tenant";
-			[DebuggerHidden]
-
-			public Tenant Tenant
-			{
-			get{ return m_tenant;}
-			set
-			{
-			m_tenant = value;
-			OnPropertyChanged(PropertyNameTenant);
-			}
-			}
-		
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public int RentId
-                {
-                set
-                {
-                if( m_rentId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameRentId, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_rentId= value;
-                OnPropertyChanged(PropertyNameRentId);
-                }
-                }
-                get
-                {
-                return m_rentId;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public string Type
-                {
-                set
-                {
-                if( String.Equals( m_type, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameType, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_type= value;
-                OnPropertyChanged(PropertyNameType);
-                }
-                }
-                get
-                {
-                return m_type;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public string InvoiceNo
-                {
-                set
-                {
-                if( String.Equals( m_invoiceNo, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameInvoiceNo, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_invoiceNo= value;
-                OnPropertyChanged(PropertyNameInvoiceNo);
-                }
-                }
-                get
-                {
-                return m_invoiceNo;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public DateTime Date
-                {
-                set
-                {
-                if( m_date == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameDate, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_date= value;
-                OnPropertyChanged(PropertyNameDate);
-                }
-                }
-                get
-                {
-                return m_date;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public int ContractId
-                {
-                set
-                {
-                if( m_contractId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameContractId, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_contractId= value;
-                OnPropertyChanged(PropertyNameContractId);
-                }
-                }
-                get
-                {
-                return m_contractId;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public int TenantId
-                {
-                set
-                {
-                if( m_tenantId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameTenantId, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_tenantId= value;
-                OnPropertyChanged(PropertyNameTenantId);
-                }
-                }
-                get
-                {
-                return m_tenantId;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public string Half
-                {
-                set
-                {
-                if( String.Equals( m_half, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameHalf, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_half= value;
-                OnPropertyChanged(PropertyNameHalf);
-                }
-                }
-                get
-                {
-                return m_half;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public string Quarter
-                {
-                set
-                {
-                if( String.Equals( m_quarter, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameQuarter, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_quarter= value;
-                OnPropertyChanged(PropertyNameQuarter);
-                }
-                }
-                get
-                {
-                return m_quarter;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public bool IsPaid
-                {
-                set
-                {
-                if( m_isPaid == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsPaid, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_isPaid= value;
-                OnPropertyChanged(PropertyNameIsPaid);
-                }
-                }
-                get
-                {
-                return m_isPaid;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public string ContractNo
-                {
-                set
-                {
-                if( String.Equals( m_contractNo, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameContractNo, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_contractNo= value;
-                OnPropertyChanged(PropertyNameContractNo);
-                }
-                }
-                get
-                {
-                return m_contractNo;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public decimal Amount
-                {
-                set
-                {
-                if( m_amount == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameAmount, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_amount= value;
-                OnPropertyChanged(PropertyNameAmount);
-                }
-                }
-                get
-                {
-                return m_amount;}
-                }
-
-              
-
-            ///<summary>
-            /// 
-            ///</summary>
-            [DebuggerHidden]
-
-            public int? Month
-            {
-            set
-            {
-            if(m_month == value) return;
-            var arg = new PropertyChangingEventArgs(PropertyNameMonth, value);
-            OnPropertyChanging(arg);
-            if(! arg.Cancel)
-            {
-            m_month= value;
-            OnPropertyChanged(PropertyNameMonth);
-            }
-            }
-            get { return m_month;}
-            }
-          
-
-            ///<summary>
-            /// 
-            ///</summary>
-            [DebuggerHidden]
-
-            public int? Year
-            {
-            set
-            {
-            if(m_year == value) return;
-            var arg = new PropertyChangingEventArgs(PropertyNameYear, value);
-            OnPropertyChanging(arg);
-            if(! arg.Cancel)
-            {
-            m_year= value;
-            OnPropertyChanged(PropertyNameYear);
-            }
-            }
-            get { return m_year;}
-            }
-          
-
-
-          }
-        
-          ///<summary>
-          /// 
-          ///</summary>
-          [DataObject(true)]
-          [Serializable]
           [XmlType("Tenant",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Tenant
           {
@@ -1117,6 +656,159 @@
                 }
 
               
+
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("Rent",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class Rent
+          {
+
+          
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_half;
+                public const string PropertyNameHalf = "Half";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_quarter;
+                public const string PropertyNameQuarter = "Quarter";
+
+              
+            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private int?  m_month;
+                public const string PropertyNameMonth = "Month";
+
+         
+          
+            [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private int?  m_year;
+                public const string PropertyNameYear = "Year";
+
+         
+          
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			private Tenant m_tenant
+					=  new Tenant();
+				
+			public const string PropertyNameTenant = "Tenant";
+			[DebuggerHidden]
+
+			public Tenant Tenant
+			{
+			get{ return m_tenant;}
+			set
+			{
+			m_tenant = value;
+			OnPropertyChanged(PropertyNameTenant);
+			}
+			}
+		
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Half
+                {
+                set
+                {
+                if( String.Equals( m_half, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameHalf, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_half= value;
+                OnPropertyChanged(PropertyNameHalf);
+                }
+                }
+                get
+                {
+                return m_half;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Quarter
+                {
+                set
+                {
+                if( String.Equals( m_quarter, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameQuarter, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_quarter= value;
+                OnPropertyChanged(PropertyNameQuarter);
+                }
+                }
+                get
+                {
+                return m_quarter;}
+                }
+
+              
+
+            ///<summary>
+            /// 
+            ///</summary>
+            [DebuggerHidden]
+
+            public int? Month
+            {
+            set
+            {
+            if(m_month == value) return;
+            var arg = new PropertyChangingEventArgs(PropertyNameMonth, value);
+            OnPropertyChanging(arg);
+            if(! arg.Cancel)
+            {
+            m_month= value;
+            OnPropertyChanged(PropertyNameMonth);
+            }
+            }
+            get { return m_month;}
+            }
+          
+
+            ///<summary>
+            /// 
+            ///</summary>
+            [DebuggerHidden]
+
+            public int? Year
+            {
+            set
+            {
+            if(m_year == value) return;
+            var arg = new PropertyChangingEventArgs(PropertyNameYear, value);
+            OnPropertyChanging(arg);
+            if(! arg.Cancel)
+            {
+            m_year= value;
+            OnPropertyChanged(PropertyNameYear);
+            }
+            }
+            get { return m_year;}
+            }
+          
 
 
           }
@@ -7652,8 +7344,8 @@
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  int  m_parentId;
-                public const string PropertyNameParentId = "ParentId";
+                private  string  m_contractNo;
+                public const string PropertyNameContractNo = "ContractNo";
 
               
             ///<summary>
@@ -7777,22 +7469,22 @@
             
             [DebuggerHidden]
             
-                public int ParentId
+                public string ContractNo
                 {
                 set
                 {
-                if( m_parentId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameParentId, value);
+                if( String.Equals( m_contractNo, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameContractNo, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_parentId= value;
-                OnPropertyChanged(PropertyNameParentId);
+                m_contractNo= value;
+                OnPropertyChanged(PropertyNameContractNo);
                 }
                 }
                 get
                 {
-                return m_parentId;}
+                return m_contractNo;}
                 }
 
               
@@ -7831,13 +7523,18 @@
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_type;
+                private  InvoiceType  m_type;
                 public const string PropertyNameType = "Type";
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  int  m_parentId;
-                public const string PropertyNameParentId = "ParentId";
+                private  string  m_contractNo;
+                public const string PropertyNameContractNo = "ContractNo";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  int  m_tenantId;
+                public const string PropertyNameTenantId = "TenantId";
 
               
             ///<summary>
@@ -7961,11 +7658,11 @@
             
             [DebuggerHidden]
             
-                public string Type
+                public InvoiceType Type
                 {
                 set
                 {
-                if( String.Equals( m_type, value, StringComparison.Ordinal)) return;
+                if( m_type == value) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameType, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
@@ -7989,22 +7686,50 @@
             
             [DebuggerHidden]
             
-                public int ParentId
+                public string ContractNo
                 {
                 set
                 {
-                if( m_parentId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameParentId, value);
+                if( String.Equals( m_contractNo, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameContractNo, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_parentId= value;
-                OnPropertyChanged(PropertyNameParentId);
+                m_contractNo= value;
+                OnPropertyChanged(PropertyNameContractNo);
                 }
                 }
                 get
                 {
-                return m_parentId;}
+                return m_contractNo;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public int TenantId
+                {
+                set
+                {
+                if( m_tenantId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTenantId, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_tenantId= value;
+                OnPropertyChanged(PropertyNameTenantId);
+                }
+                }
+                get
+                {
+                return m_tenantId;}
                 }
 
               
@@ -9199,28 +8924,6 @@
 
          
           
-			private readonly ObjectCollection<Rebate>  m_RebateCollection = new ObjectCollection<Rebate> ();
-
-			///<summary>
-			/// 
-			///</summary>
-			[XmlArrayItem("Rebate", IsNullable = false)]
-			public ObjectCollection<Rebate> RebateCollection
-			{
-			get{ return m_RebateCollection;}
-			}
-		
-			private readonly ObjectCollection<Interest>  m_InterestCollection = new ObjectCollection<Interest> ();
-
-			///<summary>
-			/// 
-			///</summary>
-			[XmlArrayItem("Interest", IsNullable = false)]
-			public ObjectCollection<Interest> InterestCollection
-			{
-			get{ return m_InterestCollection;}
-			}
-		
             ///<summary>
             /// 
             ///</summary>
@@ -9716,6 +9419,92 @@
 
           }
         
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("AdhocInvoice",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class AdhocInvoice
+          {
+
+          
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  DateTime  m_date;
+                public const string PropertyNameDate = "Date";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_category;
+                public const string PropertyNameCategory = "Category";
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public DateTime Date
+                {
+                set
+                {
+                if( m_date == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDate, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_date= value;
+                OnPropertyChanged(PropertyNameDate);
+                }
+                }
+                get
+                {
+                return m_date;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Category
+                {
+                set
+                {
+                if( String.Equals( m_category, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCategory, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_category= value;
+                OnPropertyChanged(PropertyNameCategory);
+                }
+                }
+                get
+                {
+                return m_category;}
+                }
+
+              
+
+
+          }
+        
+      public enum InvoiceType
+      {
+      AdhocInvoice,
+      Rental,
+      }
+    
     }
 
   

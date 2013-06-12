@@ -1,0 +1,37 @@
+﻿<section>
+    <div>
+    <input type="button" name="add-adhoc-button" class="btn pull-right" value="+ Adhoc" data-bind="click: addAdhocCommand" />
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>No. Kontrak</th>
+                <th>Tarikh</th>
+                <th>Kategori</th>
+                <th>Amaun</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: adhocInvoiceCollection">
+            <tr>
+                <td >
+                    <input id="adhoc.ContractNo" type="text" data-bind="value: ContractNo, uniqueName: true" />
+                </td>
+                <td>
+                    <input id="adhoc.Date" type="text" data-bind="kendoDate : Date" />
+                </td>
+                <td>
+                    <input id="adhoc.Category" class="input-large" type="text" data-bind="value: Category, uniqueName: true" /></td>
+                <td>
+                    <input id="adhoc.Amount" type="text" data-bind="value: Amount, uniqueName: true" /></td>
+                <td>
+                    <input id="adhoc.remove" type="button" data-bind="click: $parent.removeAdhocCommand" class="btn btn-mini" value="-" /></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <input id="save-button" type="button" class="btn btn-primary" data-bind="command:saveCommand" value="Simpan" />
+</div>
+
+</section>
