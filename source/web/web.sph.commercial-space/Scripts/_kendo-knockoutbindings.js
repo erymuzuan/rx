@@ -51,6 +51,28 @@ ko.bindingHandlers.kendoComboBoxValue = {
     }
 };
 
+ko.bindingHandlers.money = {
+    init: function (element, valueAccessor) {
+        var value = ko.utils.unwrapObservable(valueAccessor());
+        var money = parseFloat(value).toFixed(2);
+
+        $(element).text(money);
+        $(element).val(money);
+
+        $(element).on("change", function () {
+            var nv = $(this).val();
+            value.text(nv);
+        });
+    },
+    update: function (element, valueAccessor) {
+        var value = ko.utils.unwrapObservable(valueAccessor());
+        var money = parseFloat(value).toFixed(2);
+
+        $(element).text(money);
+        $(element).val(money);
+    }
+};
+
 ///user moment format
 ko.bindingHandlers.date = {
     init: function (element, valueAccessor) {
@@ -97,16 +119,16 @@ ko.bindingHandlers.kendoDate = {
         var value = valueAccessor();
         var currentValue = ko.utils.unwrapObservable(value);
         var date = moment(currentValue);
-        
+
         var picker = $(element).data("kendoDatePicker") ||
-            $(element).kendoDatePicker({format :"dd/MM/yyyy"}).data("kendoDatePicker");
-        
+            $(element).kendoDatePicker({ format: "dd/MM/yyyy" }).data("kendoDatePicker");
+
         if (date.year() == 1) { // DateTime.Min
             picker.value(null);
         } else {
             picker.value(date.toDate());
         }
-        
+
         $(element).on("change", function () {
             var nv = $(this).val();
             date = moment(nv, "DD/MM/YYYY");
@@ -114,7 +136,7 @@ ko.bindingHandlers.kendoDate = {
         });
     },
     update: function (element, valueAccessor) {
-        
+
         var value = valueAccessor();
         var modelValue = ko.utils.unwrapObservable(value);
 

@@ -30,6 +30,7 @@ define([],
         addClause = function () {
             editedTopic.ClauseCollection.push(clause);
         },
+            
         topic = ko.observable(new bespoke.sphcommercialspace.domain.Topic()),
         clause = ko.observable(new bespoke.sphcommercialspace.domain.Clause()),
         removeClause = function (tpc, cls) {

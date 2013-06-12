@@ -1,37 +1,92 @@
 ﻿<section>
     <div>
-    <input type="button" name="add-adhoc-button" class="btn pull-right" value="+ Adhoc" data-bind="click: addAdhocCommand" />
-    <table class="table table-condensed table-striped">
-        <thead>
-            <tr>
-                <th>No. Kontrak</th>
-                <th>Tarikh</th>
-                <th>Kategori</th>
-                <th>Amaun</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: adhocInvoiceCollection">
-            <tr>
-                <td >
-                    <input id="adhoc.ContractNo" type="text" data-bind="value: ContractNo, uniqueName: true" />
-                </td>
-                <td>
-                    <input id="adhoc.Date" type="text" data-bind="kendoDate : Date" />
-                </td>
-                <td>
-                    <input id="adhoc.Category" class="input-large" type="text" data-bind="value: Category, uniqueName: true" /></td>
-                <td>
-                    <input id="adhoc.Amount" type="text" data-bind="value: Amount, uniqueName: true" /></td>
-                <td>
-                    <input id="adhoc.remove" type="button" data-bind="click: $parent.removeAdhocCommand" class="btn btn-mini" value="-" /></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+        <a type="button" class="btn pull-right" data-toggle="modal" href="#add-invoice-modal">+ Invoice</a>
+        <table class="table table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th>No. Kontrak</th>
+                    <th>Tarikh</th>
+                    <th>Amaun</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: invoiceCollection">
+                <tr>
+                    <td>
+                        <a data-bind="click: $parent.showInvoiceDetail, text: ContractNo" href="#add-invoice-modal"></a>
+                    </td>
+                    <td data-bind="date: { value: Date, format: 'DD/MM/YYYY' }"></td>
+                    <td data-bind="money: Amount">
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 
-<div>
-    <input id="save-button" type="button" class="btn btn-primary" data-bind="command:saveCommand" value="Simpan" />
-</div>
 
+
+<section class="modal hide span9 pull-left fade" id="add-invoice-modal">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Invoice details</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label for="contractid" class="control-label">Kontrak</label>
+                <div class="controls">
+                    <select data-bind="value: selectedContractId, options: contractOptions, optionsText: 'Item2', optionsValue: 'Item1'" id="contractid" name="selectedContractId">
+                    </select>
+                </div>
+            </div>
+            <div data-bind="with: invoice">
+                <div class="control-group">
+                    <div class="controls">
+                        <span><input data-bind="value: No" id="invoice-no" type="text" name="invoice().No" /></span>
+                        <span><input id="get-no-button" type="button" class="btn btn-primary inline" value="Jana No. Invois " data-bind="command: $parent.getInvoiceNoCommand" data-loading-text="Sila tunggu..." data-complete-text="Done" /></span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="invoice-date" class="control-label">Tarikh</label>
+                    <div class="controls">
+                        <input data-bind="kendoDate: Date" id="invoice-date" type="text" name="Date" />
+                    </div>
+                </div>
+
+                <a class="btn btn-mini" data-bind="click: $parent.addItem">+Item </a>
+                <table class="table span4">
+                    <thead>
+                        <tr>
+                            <th>Jenis</th>
+                            <th>Amaun</th>
+                            <th>Nota</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: InvoiceItemCollection">
+                        <tr>
+                            <td>
+                                <input type="text" data-bind="value: Category" />
+                            </td>
+                            <td>
+                                <input type="text" data-bind="value: Amount" /></td>
+                            <td>
+                                <input type="text" data-bind="value: Note" /></td>
+                            <td>
+                                <input type="button" data-bind="click: $parents[1].removeItemCommand" value="-" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: saveCommand" />
+    </div>
 </section>

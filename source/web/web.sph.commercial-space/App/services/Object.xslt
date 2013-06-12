@@ -2,6 +2,8 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 				xmlns:bspk="http://www.bespoke.com.my/"
         xmlns:bs="http://www.bespoke.com.my/xsd/"
+  xmlns:msxsl="urn:schemas-microsoft-com:xslt"
+  xmlns:bspk2="http://www.bespoke.com.my/"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xsl:output method="text" />
   <xsl:template match="xs:schema">
@@ -122,12 +124,47 @@
     </xsl:for-each>
     <!-- enum -->
     <xsl:for-each select="xs:simpleType">
-      public enum <xsl:value-of select="@name"/>
+      bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/> = function()
       {
-      <xsl:for-each select="xs:restriction/xs:enumeration">
-        <xsl:value-of select="@value"/>,
-      </xsl:for-each>}
+        return {
+        <xsl:for-each select="xs:restriction/xs:enumeration">
+          <xsl:value-of select="bspk2:ToConstantUpper(@value)"/> : '<xsl:value-of select="@value"/>',
+        </xsl:for-each>
+        DO_NOT_SELECT : 'DONTDOTHIS'
+        };
+      }();
     </xsl:for-each>
   </xsl:template>
   <xsl:include href="ReferenceObject.xslt"/>
+
+
+  <msxsl:script language="C#" implements-prefix="bspk2">
+    <![CDATA[
+		public string ToConstantUpper(string field)
+		{
+       var text = new System.Text.StringBuilder();
+	  var firts = true;
+      foreach(var c in field)
+      {
+        if(char.IsUpper(c)){
+			  if(firts)
+			  {
+				  text.Append(c.ToString().ToUpper());
+				  firts = false;
+			    }else
+			    {
+			    text.Append("_" + c.ToString().ToUpper() );
+				
+			    }
+            }else
+		    {
+			    text.Append(c.ToString().ToUpper());
+		    }
+      }
+      
+      return text.ToString();
+		}	
+	  ]]>
+
+  </msxsl:script>
 </xsl:stylesheet>

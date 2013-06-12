@@ -9430,13 +9430,76 @@
 
           
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  DateTime  m_date;
-                public const string PropertyNameDate = "Date";
+                private  string  m_category;
+                public const string PropertyNameCategory = "Category";
+
+              
+			private readonly ObjectCollection<InvoiceItem>  m_InvoiceItemCollection = new ObjectCollection<InvoiceItem> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("InvoiceItem", IsNullable = false)]
+			public ObjectCollection<InvoiceItem> InvoiceItemCollection
+			{
+			get{ return m_InvoiceItemCollection;}
+			}
+		
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Category
+                {
+                set
+                {
+                if( String.Equals( m_category, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCategory, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_category= value;
+                OnPropertyChanged(PropertyNameCategory);
+                }
+                }
+                get
+                {
+                return m_category;}
+                }
+
+              
+
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("InvoiceItem",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class InvoiceItem
+          {
+
+          
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  decimal  m_amount;
+                public const string PropertyNameAmount = "Amount";
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  string  m_category;
                 public const string PropertyNameCategory = "Category";
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_note;
+                public const string PropertyNameNote = "Note";
 
               
             ///<summary>
@@ -9448,22 +9511,22 @@
             
             [DebuggerHidden]
             
-                public DateTime Date
+                public decimal Amount
                 {
                 set
                 {
-                if( m_date == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameDate, value);
+                if( m_amount == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameAmount, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_date= value;
-                OnPropertyChanged(PropertyNameDate);
+                m_amount= value;
+                OnPropertyChanged(PropertyNameAmount);
                 }
                 }
                 get
                 {
-                return m_date;}
+                return m_amount;}
                 }
 
               
@@ -9492,6 +9555,34 @@
                 get
                 {
                 return m_category;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string Note
+                {
+                set
+                {
+                if( String.Equals( m_note, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_note= value;
+                OnPropertyChanged(PropertyNameNote);
+                }
+                }
+                get
+                {
+                return m_note;}
                 }
 
               

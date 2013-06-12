@@ -13,60 +13,100 @@
 define(['services/datacontext'],
 	function (context) {
 
-		var
-		isBusy = ko.observable(false),
-		activate = function (tenant) {
-			var query = String.format("TenantId eq " + tenant.TenantId());
-			var tcs = new $.Deferred();
-			context.loadAsync("Invoice", query)
-				.then(function (lo) {
-					isBusy(false);
-					vm.adhocInvoiceCollection(lo.itemCollection);
-					tcs.resolve(true);
-				});
-			return tcs.promise();
+	    var isBusy = ko.observable(false),
+	         adhocInvoice = _.extend(new bespoke.sphcommercialspace.domain.Invoice(), new bespoke.sphcommercialspace.domain.AdhocInvoice()),
+		     activate = function (tenant) {
+		         context.getTuplesAsync("Contract", "TenantIdSsmNo eq '" + tenant.IdSsmNo() + "'", "ContractId", "ReferenceNo")
+                     .done(function (list) {
+                         vm.contractOptions(list);
+                     });
 
-		},
+		         var query = String.format("TenantId eq " + tenant.TenantId() + "and Type eq 'AdhocInvoice'");
+		         var tcs = new $.Deferred();
+		         context.loadAsync("Invoice", query)
+                     .then(function (lo) {
+                         isBusy(false);
+                         vm.invoiceCollection(lo.itemCollection);
+                         tcs.resolve(true);
+                     });
+		         vm.invoice().TenantId(tenant.TenantId());
+		         return tcs.promise();
+
+		     },
 		viewAttached = function (view) {
-			_uiready.init(view);
+		    _uiready.init(view);
 		},
-		addAdhoc = function () {
-			var adhoc = {
-			    ContractNo : ko.observable(),
-			    Date : ko.observable(),
-			    Category : ko.observable(),
-			    Amount : ko.observable()
-			};
-			vm.adhocInvoiceCollection.push(adhoc);
-		},
-
-		removeAdhoc = function () {
-			vm.adhocInvoiceCollection.remove(this);
-		},
-		save = function () {
+		getInvoiceNo = function () {
 		    var tcs = new $.Deferred();
-		    var data = JSON.stringify({ adhocInvoices: ko.mapping.toJS(vm.adhocInvoiceCollection) });
+		    var contractNo = _(vm.contractOptions()).find(function (o) { return o.Item1 == vm.selectedContractId(); }).Item2;
+		    var data = JSON.stringify({ contractId: vm.selectedContractId(), type: vm.selectedInvoiceType() });
 		    isBusy(true);
 
-		    context.post(data, "/Invoice/SaveAdhoc")
-		        .then(function(result) {
+		    context.post(data, "/Invoice/GetAddhocInvoiceNo")
+		        .then(function (result) {
 		            isBusy(false);
+		            vm.invoice().No(result);
+		            vm.invoice().ContractNo(contractNo);
+		            vm.invoice().Type(bespoke.sphcommercialspace.domain.InvoiceType.ADHOC_INVOICE);
 
 		            tcs.resolve(result);
 		        });
 		    return tcs.promise();
+		},
+
+		removeItem = function (item) {
+		    vm.invoice().InvoiceItemCollection.remove(item);
+		},
+	    
+        addItem = function () {
+            var item = new bespoke.sphcommercialspace.domain.InvoiceItem();
+            vm.invoice().InvoiceItemCollection.push(item);
+        },
+	    showInvoiceDetail = function(data) {
+	        isBusy(true);
+	        var query = "InvoiceId eq " + data.InvoiceId();
+	        context.loadOneAsync("Invoice", query)
+	            .then(function(d) {
+	                vm.invoice(d);
+	                isBusy(false);
+	            });
+	        $('#add-invoice-modal').modal({});
+	    },
+	    save = function () {
+		    var sum = _(vm.invoice().InvoiceItemCollection()).reduce(function (memo, val) {
+		        var s = memo + parseFloat(val.Amount());
+		        return s;
+		    }, 0);
+		    vm.invoice().Amount(sum);
+		    var tcs = new $.Deferred();
+		    var data = ko.mapping.toJSON({ invoice: vm.invoice });
+		    isBusy(true);
+
+		    context.post(data, "/Invoice/SaveAdhocInvoice")
+		        .then(function (result) {
+		            isBusy(false);
+		            tcs.resolve(result);
+		            vm.invoice(_.extend(new bespoke.sphcommercialspace.domain.Invoice(), new bespoke.sphcommercialspace.domain.AdhocInvoice()));
+		        });
+		    return tcs.promise();
 		};
 
-		var vm = {
-			isBusy: isBusy,
-			activate: activate,
-			viewAttached: viewAttached,
-			adhocInvoiceCollection: ko.observableArray(),
-			addAdhocCommand: addAdhoc,
-			removeAdhocCommand: removeAdhoc,
-			saveCommand: save
-		};
+	    var vm = {
+	        selectedContractId: ko.observable(),
+	        selectedInvoiceType: ko.observable(),
+	        contractOptions: ko.observableArray(),
+	        invoice: ko.observable(adhocInvoice),
+	        getInvoiceNoCommand: getInvoiceNo,
+	        isBusy: isBusy,
+	        activate: activate,
+	        addItem: addItem,
+	        viewAttached: viewAttached,
+	        invoiceCollection: ko.observableArray(),
+	        removeItemCommand: removeItem,
+	        showInvoiceDetail : showInvoiceDetail,
+	        saveCommand: save
+	    };
 
-		return vm;
+	    return vm;
 
 	});

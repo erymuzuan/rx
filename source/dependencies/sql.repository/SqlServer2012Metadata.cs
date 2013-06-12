@@ -29,6 +29,7 @@ namespace Bespoke.Sph.SqlRepository
         o.type = 'U'
         AND s.name = @Schema
         AND o.Name = @Table
+        AND t.name <> N'sysname'
     ORDER 
         BY o.type";
         private readonly Dictionary<string, Table> m_cache = new Dictionary<string, Table>();

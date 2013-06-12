@@ -256,6 +256,7 @@
     <Compile Include="Helpers\MobileCapableWebFormViewEngine.cs" />
     <Compile Include="Helpers\OdataSqlTranslator.cs" />
     <Compile Include="Helpers\QueryHelper.cs" />
+    <Compile Include="Mocks\TemplateEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

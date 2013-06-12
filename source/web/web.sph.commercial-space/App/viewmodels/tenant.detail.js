@@ -9,10 +9,11 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../viewmodels/_tenant.rent.js" />
 /// <reference path="../viewmodels/_tenant.contract.js" />
+/// <reference path="../viewmodels/_tenant.adhoc.js" />
 
 
-define(['services/mockTenantContext', './_tenant.rent', './_tenant.contract'],
-	function (context, rentvm, contractvm) {
+define(['services/mockTenantContext', './_tenant.rent', './_tenant.contract', './_tenant.adhoc'],
+	function (context, rentvm, contractvm, invoicevm) {
 
 	    var isBusy = ko.observable(false),
         id = ko.observable(),
@@ -27,6 +28,7 @@ define(['services/mockTenantContext', './_tenant.rent', './_tenant.contract'],
                     .done(function () {
                         tcs.resolve(true);
                     });
+                invoicevm.activate(tnt);
                 contractvm.init(tnt);
             };
             context.loadOneAsync("Tenant", query)

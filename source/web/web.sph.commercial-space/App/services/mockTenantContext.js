@@ -59,7 +59,7 @@ function (logger) {
             var t = new bespoke.sphcommercialspace.domain.Tenant();
             t.TenantId(1);
             t.Name("Ruzzaima Bt Kamaruldzaman");
-            t.IdSsmNo("X75638");
+            t.IdSsmNo("6875122-T");
             t.MobilePhoneNo("0136987555");
             t.PhoneNo("036978785");
             t.FaksNo("036978788");
