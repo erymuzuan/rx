@@ -27,6 +27,8 @@ namespace Bespoke.Sph.SqlRepository
 
         public async Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session)
         {
+            var metadataProvider = ObjectBuilder.GetObject<ISqlServerMetadata>();
+
             var addedList = addedOrUpdatedItems.ToList();
             var deletedList = deletedItems.ToList();
             if (addedList.Count + deletedList.Count > 100)
@@ -52,13 +54,14 @@ namespace Bespoke.Sph.SqlRepository
 
                     var id = (int)item.GetType().GetProperty(entityType.Name + "Id").GetValue(item);
 
-                    var edmxType = Assembly.GetExecutingAssembly().GetType("Bespoke.Sph.SqlRepository." + entityType.Name, true);
+                    
+                    var edmxType =metadataProvider.GetTable(entityType.Name);
                     if (null == edmxType)throw new InvalidOperationException("Cannot find the EF type in edmx :" + entityType.Name);
 
-                    var columns = edmxType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                    var columns = edmxType.Columns
                         .Where(p => p.Name != entityType.Name + "Id")
                         .Where(p => p.CanRead && p.CanWrite)
-                        .ToList();
+                        .ToArray();
 
                     if (id == 0)
                         this.AppendInsertStatement(sql, entityType, columns, count1, cmd, addedItemsIdentityParameters, item);
@@ -111,7 +114,7 @@ namespace Bespoke.Sph.SqlRepository
 
         }
 
-        private  void AppendUpdateStatement(StringBuilder sql, Type entityType, IEnumerable<PropertyInfo> columns, int count1,
+        private  void AppendUpdateStatement(StringBuilder sql, Type entityType, Column[] columns, int count1,
                                                     SqlCommand cmd, int id)
         {
             sql.AppendFormat("UPDATE [Sph].[{0}]", entityType.Name);
@@ -129,7 +132,7 @@ namespace Bespoke.Sph.SqlRepository
             cmd.Parameters.AddWithValue(string.Format("@{0}Id{1}", entityType.Name, count1), id);
         }
 
-        private void AppendInsertStatement(StringBuilder sql, Type entityType, List<PropertyInfo> columns, int count1,
+        private void AppendInsertStatement(StringBuilder sql, Type entityType, Column[] columns, int count1,
                                                     SqlCommand cmd, List<Tuple<Entity, SqlParameter>> parameters, Entity item)
         {
             sql.AppendFormat("INSERT INTO [Sph].[{0}]", entityType.Name);
@@ -156,7 +159,7 @@ namespace Bespoke.Sph.SqlRepository
         }
 
 
-        private object GetParameterValue(PropertyInfo prop, Type entityType, Entity item)
+        private object GetParameterValue(Column prop, Type entityType, Entity item)
         {
             var id = (int)item.GetType().GetProperty(entityType.Name + "Id")
                 .GetValue(item, null);

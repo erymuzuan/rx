@@ -36,13 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\EntityFramework.6.0.0-beta1\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\..\..\packages\EntityFramework.6.0.0-beta1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="SQLSpatialTools">
       <HintPath>..\..\..\lib\SQLSpatialTools.dll</HintPath>
@@ -62,54 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="assemblyinfo.cs" />
-    <Compile Include="AuditTrail.cs">
-      <DependentUpon>Sph.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Building.cs">
-      <DependentUpon>Sph.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CommercialSpace.cs">
-      <DependentUpon>Sph.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Contract.cs">
-      <DependentUpon>Sph.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ContractTemplate.cs">
-      <DependentUpon>Sph.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Deposit.cs">
-      <DependentUpon>Sph.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Organization.cs">
-      <DependentUpon>Sph.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Rent.cs">
-      <DependentUpon>Sph.tt</DependentUpon>
-    </Compile>
-    <Compile Include="RentalApplication.cs">
-      <DependentUpon>Sph.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Setting.cs">
-      <DependentUpon>Sph.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SpatialStore.cs">
-      <DependentUpon>Sph.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Sph.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Sph.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Sph.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Sph.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Sph.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Sph.edmx</DependentUpon>
-    </Compile>
+    <Compile Include="Column.cs" />
+    <Compile Include="ISqlServerMetadata.cs" />
     <Compile Include="SqlBinaryStore.cs" />
     <Compile Include="SqlRepository.aggregate.cs" />
     <Compile Include="IPagingTranslator.cs" />
@@ -120,7 +67,9 @@
     <Compile Include="SqlPersistence.cs" />
     <Compile Include="SqlQueryProvider.cs" />
     <Compile Include="SqlRepository.cs" />
+    <Compile Include="SqlServer2012Metadata.cs" />
     <Compile Include="SqlSpatial.cs" />
+    <Compile Include="Table.cs" />
     <Compile Include="TsqlQueryFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -131,25 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
     <None Include="Properties\DataSources\StationEntityModelContainer.datasource" />
-    <EntityDeploy Include="Sph.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Sph.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Sph.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Sph.edmx</DependentUpon>
-      <LastGenOutput>Sph.Context.cs</LastGenOutput>
-    </None>
-    <None Include="Sph.edmx.diagram">
-      <DependentUpon>Sph.edmx</DependentUpon>
-    </None>
-    <None Include="Sph.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Sph.edmx</DependentUpon>
-      <LastGenOutput>Sph.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <OutputFile Include="$(OutputPath)*.*">
