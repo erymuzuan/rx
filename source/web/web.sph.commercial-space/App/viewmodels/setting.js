@@ -16,7 +16,7 @@ define(['services/datacontext', 'services/logger', 'viewmodels/_setting.interest
         var isBusy = ko.observable(false),
             activate = function () {
                 interestvm.init();
-                rebatevm.init();
+                rebatevm.activate();
             },
             viewAttached = function () {
                 $("#returnLetterTemplate,#offerLetterTemplate").kendoUpload({

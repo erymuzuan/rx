@@ -21,7 +21,7 @@ define(['services/datacontext'],
                          vm.contractOptions(list);
                      });
 
-		         var query = String.format("TenantId eq " + tenant.TenantId() + "and Type eq 'AdhocInvoice'");
+		         var query = String.format("TenantId eq " + tenant.TenantIdSsmNo() + "and Type eq 'AdhocInvoice'");
 		         var tcs = new $.Deferred();
 		         context.loadAsync("Invoice", query)
                      .then(function (lo) {
@@ -29,7 +29,7 @@ define(['services/datacontext'],
                          vm.invoiceCollection(lo.itemCollection);
                          tcs.resolve(true);
                      });
-		         vm.invoice().TenantId(tenant.TenantId());
+		         vm.invoice().TenantIdSsmNo(tenant.TenantIdSsmNo());
 		         return tcs.promise();
 
 		     },

@@ -14,6 +14,15 @@ define(['services/datacontext', 'services/logger'],
 
         var isBusy = ko.observable(false),
             activate = function () {
+                var query = String.format("Key eq 'Rebate'");
+                var tcs = new $.Deferred();
+                context.loadAsync("Setting", query)
+                    .then(function (lo) {
+                        isBusy(false);
+                        vm.settingCollection(lo.itemCollection);
+                        tcs.resolve(true);
+                    });
+                return tcs.promise();
             },
 
             removeRebate = function (rebate) {
@@ -44,16 +53,8 @@ define(['services/datacontext', 'services/logger'],
 
         var vm = {
             isBusy: isBusy,
-            init: function (r) {
-                var query = "SettingId gt 0 ";
-                var tcs = new $.Deferred();
-                context.loadAsync("Setting", query).done(function (lo) {
-                    vm.setting(lo.itemCollection);
-                    tcs.resolve(true);
-                });
-                return tcs.promise();
-            },
             activate: activate,
+            settingCollection: ko.observableArray(),
             setting: ko.observable(new bespoke.sphcommercialspace.domain.Setting()),
             //buildingOptions: ko.observableArray(),
             //selectedBuilding: ko.observable(),

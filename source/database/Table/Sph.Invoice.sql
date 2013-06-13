@@ -6,7 +6,7 @@ GO
 
 CREATE TABLE [Sph].[Invoice](
 	[InvoiceId] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[TenantId] [int] NOT NULL,
+	[TenantIdSsmNo] VARCHAR(50) NOT NULL,
 	[Type] [nvarchar](50) NOT NULL,
 	[ContractNo] VARCHAR(255) NOT NULL,
 	[No] [nvarchar](50) NOT NULL,

@@ -219,6 +219,15 @@
             caption: 'penyewa',
             icon: 'icon-laptop',
             settings: { caption: 'Penyewa' }
+        },
+        {
+            url: 'payment',
+            moduleId: 'viewmodels/payment',
+            name: 'Bayaran',
+            visible: true,
+            caption: 'Bayaran',
+            icon: 'icon-laptop',
+            settings: { caption: 'Bayaran' }
         }
     ];
     

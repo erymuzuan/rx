@@ -192,11 +192,6 @@
 
           
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  int  m_paymentId;
-                public const string PropertyNamePaymentId = "PaymentId";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  string  m_receiptNo;
                 public const string PropertyNameReceiptNo = "ReceiptNo";
 
@@ -209,34 +204,6 @@
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  decimal  m_amount;
                 public const string PropertyNameAmount = "Amount";
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public int PaymentId
-                {
-                set
-                {
-                if( m_paymentId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNamePaymentId, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_paymentId= value;
-                OnPropertyChanged(PropertyNamePaymentId);
-                }
-                }
-                get
-                {
-                return m_paymentId;}
-                }
 
               
             ///<summary>
@@ -7334,11 +7301,6 @@
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_receiptNo;
-                public const string PropertyNameReceiptNo = "ReceiptNo";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private  string  m_date;
                 public const string PropertyNameDate = "Date";
 
@@ -7348,6 +7310,22 @@
                 public const string PropertyNameContractNo = "ContractNo";
 
               
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private  string  m_tenantIdSsmNo;
+                public const string PropertyNameTenantIdSsmNo = "TenantIdSsmNo";
+
+              
+			private readonly ObjectCollection<PaymentDistribution>  m_PaymentDistributionCollection = new ObjectCollection<PaymentDistribution> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("PaymentDistribution", IsNullable = false)]
+			public ObjectCollection<PaymentDistribution> PaymentDistributionCollection
+			{
+			get{ return m_PaymentDistributionCollection;}
+			}
+		
             ///<summary>
             /// 
             ///</summary>
@@ -7413,34 +7391,6 @@
             
             [DebuggerHidden]
             
-                public string ReceiptNo
-                {
-                set
-                {
-                if( String.Equals( m_receiptNo, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameReceiptNo, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_receiptNo= value;
-                OnPropertyChanged(PropertyNameReceiptNo);
-                }
-                }
-                get
-                {
-                return m_receiptNo;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
                 public string Date
                 {
                 set
@@ -7485,6 +7435,34 @@
                 get
                 {
                 return m_contractNo;}
+                }
+
+              
+            ///<summary>
+            /// 
+            ///</summary>
+            [XmlAttribute]
+            
+              [Required]
+            
+            [DebuggerHidden]
+            
+                public string TenantIdSsmNo
+                {
+                set
+                {
+                if( String.Equals( m_tenantIdSsmNo, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTenantIdSsmNo, value);
+                OnPropertyChanging(arg);
+                if( !arg.Cancel)
+                {
+                m_tenantIdSsmNo= value;
+                OnPropertyChanged(PropertyNameTenantIdSsmNo);
+                }
+                }
+                get
+                {
+                return m_tenantIdSsmNo;}
                 }
 
               
@@ -7533,8 +7511,8 @@
 
               
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  int  m_tenantId;
-                public const string PropertyNameTenantId = "TenantId";
+                private  string  m_tenantIdSsmNo;
+                public const string PropertyNameTenantIdSsmNo = "TenantIdSsmNo";
 
               
             ///<summary>
@@ -7714,22 +7692,22 @@
             
             [DebuggerHidden]
             
-                public int TenantId
+                public string TenantIdSsmNo
                 {
                 set
                 {
-                if( m_tenantId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameTenantId, value);
+                if( String.Equals( m_tenantIdSsmNo, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTenantIdSsmNo, value);
                 OnPropertyChanging(arg);
                 if( !arg.Cancel)
                 {
-                m_tenantId= value;
-                OnPropertyChanged(PropertyNameTenantId);
+                m_tenantIdSsmNo= value;
+                OnPropertyChanged(PropertyNameTenantIdSsmNo);
                 }
                 }
                 get
                 {
-                return m_tenantId;}
+                return m_tenantIdSsmNo;}
                 }
 
               

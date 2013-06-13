@@ -9,7 +9,6 @@ using Bespoke.Sph.SqlRepository;
 using Bespoke.SphCommercialSpaces.Domain;
 using Bespoke.SphCommercialSpaces.Domain.QueryProviders;
 using Contract = Bespoke.SphCommercialSpaces.Domain.Contract;
-using Rent = Bespoke.SphCommercialSpaces.Domain.Rent;
 
 namespace Bespoke.Scheduler.Sph.Rental
 {
@@ -93,6 +92,7 @@ namespace Bespoke.Scheduler.Sph.Rental
             ObjectBuilder.AddCacheList<IPersistence>(new SqlPersistence(conn));
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new ChangePublisherClient(broker));
             ObjectBuilder.AddCacheList<IPagingTranslator>(new Sql2008PagingTranslator());
+            ObjectBuilder.AddCacheList<ISqlServerMetadata>(new SqlServer2012Metadata(conn,"Sph"));
             ObjectBuilder.AddCacheList<IRepository<Contract>>(new SqlRepository<Contract>(conn));
             ObjectBuilder.AddCacheList<IRepository<Invoice>>(new SqlRepository<Invoice>(conn));
             ObjectBuilder.AddCacheList<IRepository<Tenant>>(new SqlRepository<Tenant>(conn));
