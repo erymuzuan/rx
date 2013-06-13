@@ -186,119 +186,6 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("PaymentDistribution",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class PaymentDistribution
-          {
-
-          
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  string  m_receiptNo;
-                public const string PropertyNameReceiptNo = "ReceiptNo";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  DateTime  m_dateTime;
-                public const string PropertyNameDateTime = "DateTime";
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private  decimal  m_amount;
-                public const string PropertyNameAmount = "Amount";
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public string ReceiptNo
-                {
-                set
-                {
-                if( String.Equals( m_receiptNo, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameReceiptNo, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_receiptNo= value;
-                OnPropertyChanged(PropertyNameReceiptNo);
-                }
-                }
-                get
-                {
-                return m_receiptNo;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public DateTime DateTime
-                {
-                set
-                {
-                if( m_dateTime == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameDateTime, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_dateTime= value;
-                OnPropertyChanged(PropertyNameDateTime);
-                }
-                }
-                get
-                {
-                return m_dateTime;}
-                }
-
-              
-            ///<summary>
-            /// 
-            ///</summary>
-            [XmlAttribute]
-            
-              [Required]
-            
-            [DebuggerHidden]
-            
-                public decimal Amount
-                {
-                set
-                {
-                if( m_amount == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameAmount, value);
-                OnPropertyChanging(arg);
-                if( !arg.Cancel)
-                {
-                m_amount= value;
-                OnPropertyChanged(PropertyNameAmount);
-                }
-                }
-                get
-                {
-                return m_amount;}
-                }
-
-              
-
-
-          }
-        
-          ///<summary>
-          /// 
-          ///</summary>
-          [DataObject(true)]
-          [Serializable]
           [XmlType("Tenant",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Tenant
           {
@@ -7315,17 +7202,6 @@
                 public const string PropertyNameTenantIdSsmNo = "TenantIdSsmNo";
 
               
-			private readonly ObjectCollection<PaymentDistribution>  m_PaymentDistributionCollection = new ObjectCollection<PaymentDistribution> ();
-
-			///<summary>
-			/// 
-			///</summary>
-			[XmlArrayItem("PaymentDistribution", IsNullable = false)]
-			public ObjectCollection<PaymentDistribution> PaymentDistributionCollection
-			{
-			get{ return m_PaymentDistributionCollection;}
-			}
-		
             ///<summary>
             /// 
             ///</summary>

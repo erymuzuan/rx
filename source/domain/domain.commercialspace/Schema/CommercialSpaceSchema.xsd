@@ -10,13 +10,6 @@
 			<xs:attribute name="DateStart" type="xs:dateTime"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="PaymentDistribution">
-		<xs:complexType>
-			<xs:attribute name="ReceiptNo" type="xs:string" use="required"/>
-			<xs:attribute name="DateTime" type="xs:dateTime" use="required"/>
-			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="Tenant" nillable="false">
 		<xs:complexType>
 			<xs:all>
@@ -472,15 +465,6 @@
 	</xs:element>
 	<xs:element name="Payment">
 		<xs:complexType>
-			<xs:all>
-				<xs:element name="PaymentDistributionCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="PaymentDistribution" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:all>
 			<xs:attribute name="PaymentId" type="xs:int" use="required"/>
 			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
 			<xs:attribute name="Date" type="xs:string" use="required"/>

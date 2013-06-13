@@ -31,6 +31,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/App/services/domain.g.js")
                 .Include("~/App/services/Deposit.js")
                 .Include("~/App/services/Rent.js")
+                .Include("~/App/services/Contract.js")
               );
 
             bundles.Add(

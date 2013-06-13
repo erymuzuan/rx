@@ -235,6 +235,7 @@
     <Compile Include="Controllers\HotTowelController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\RentalApplicationController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="default.aspx.cs">

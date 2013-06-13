@@ -1,86 +1,68 @@
 ﻿<section>
+    <h3>Pembayaran</h3>
     <div class="control-group">
-        <label for="TenantIdSsmNo" class="control-label">ID/SSM No: </label>
         <div class="controls">
-            <input data-bind="value: idSsmNo" id="TenantIdSsmNo" type="text" name="TenantIdSsmNo" />
+        <span>ID/SSM No : </span><span><input data-bind="value: idSsmNo" id="TenantIdSsmNo" type="text" name="TenantIdSsmNo" /></span>
         </div>
     </div>
     <div class="control-group">
-        <label for="contractNo" class="control-label">No. Kontrak :</label>
         <div class="controls">
-            <input data-bind="value: contractNo" id="contractNo" type="text" name="contractNo" />
+        <span>No. Kontrak : </span><span><input data-bind="value: contractNo" id="contractNo" type="text" name="contractNo" /></span>
         </div>
     </div>
-    <input type="button" class="btn btn-primary" data-bind="click : searchPaymentCommand" value="Cari" />
+    <input type="button" class="btn btn-primary centered" data-bind="click : searchPaymentCommand" value="Cari" />
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
                 <th>No.Kontrak</th>
                 <th>IdSsmNo</th>
                 <th>Bulan/Tahun</th>
-                <!--<th>Telah Bayar (RM)</th>
-                    <th>Patut Bayar (RM)</th>
-                    <th>Tunggakan (RM)</th>
-                    --> 
-                <th> Manual</th>
+                <th>Tunggakan (RM)</th>
+                <th>Manual</th>
             </tr>
-            
+
         </thead>
-        <tbody data-bind =" foreach : paymentCollection" >
+        <tbody data-bind=" foreach : contractCollection">
             <tr>
-                <td data-bind="text:ContractNo"></td>
-                <td data-bind="text:TenantIdSsmNo"></td>
+                <td data-bind="text:ReferenceNo"></td>
+                <td data-bind="text:Tenant.IdSsmNo"></td>
                 <td data-bind="date: { value: Date, format: 'MM/YYYY' }"></td>
-                <!--<td data-bind="text:Paidamount"></td>
-                    <td data-bind="text:MustPaidAmout"></td>
-                    <td data-bind="text:Accrued"></td>
-                    -->  <td><a type="button" class="btn pull-right" data-toggle="modal" href="#set-payment-modal">Set Bayar</a></td>
+                <td data-bind="text:Accrued"></td>
+                <td><a type="button" class="btn pull-left" data-bind="click:$parent.showDetailsCommand" href="#set-payment-modal">Set Bayar</a></td>
             </tr>
         </tbody>
     </table>
 </section>
 
-<section id="set-payment-modal" class="modal hide fade" style="margin-left: -500px; width: 940px">
+<section id="set-payment-modal" class="modal hide fade" style="margin-left: -400px; width: 400px">
     <div class="modal-header">
         <h4>Maklumat Bayaran</h4>
     </div>
-    <div class="modal-body" style="width: 900px; height: 500px; max-height: 500px" data-bind="with : payment">
+    <div class="modal-body" style="width: 400px; height: 250px; max-height: 350px" data-bind="with : payment">
         <div class="control-group">
-            <span > Amaun Semasa :</span><span class="add-on"> RM </span><span data-bind="text: Amount" id="Amount" />
-        </div>
-       <!-- <div class="control-group">
-            <span >Tunggakan Terkumpul :</span><span class="add-on"> RM </span><span data-bind="text: AccumulatedAccrued" id="AccumulatedAccrued" />
-        </div>
-        <div class="control-group">
-            <span >Jumlah Perlu Dibayar :</span><span class="add-on"> RM </span><span data-bind="text: TotalPayment" id="TotalPayment" />
+            <div class="controls">
+            <span>No. Kontrak : </span><span><input data-bind="value: ContractNo" id="payment.contractNo" type="text" name="ContractNo" /></span>
+            </div>
         </div>
         <div class="control-group">
-            <span >Jumlah Sudah Dibayar :</span><span data-bind="text: RentPaid" id="RentPaid" />
-        </div>-->
-       
-        <div id="payment">
-            <h4>Rekod Bayaran</h4>
-            <input type="button" value="+" class="btn-mini" data-bind="click: $parent.addPaymentCommand"/>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>No Resit</th>
-                        <th>Jumlah (RM)</th>
-                        <th>Tarikh</th>
-                    </tr>
-                </thead>
-                <tbody data-bind=" foreach: PaymentDistributionCollection">
-                    <tr>
-                        <td><input type="text" data-bind="value: ReceiptNo, uniqueName: true"/></td>
-                        <td><input type="text" data-bind="value: Amount, uniqueName: true" /></td>
-                        <td><input id="paymentdistribution.DateTime" name="Date" type="text" data-bind="kendoDate: DateTime" /></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="controls">
+            <span>Id/Ssm No : </span><span><input data-bind="value: TenantIdSsmNo" id="payment.TenantIdSsmNo" type="text" name="TenantIdSsmNo" /></span>
+            </div>
         </div>
+        <div class="control-group">
+            <div class="controls">
+                <span>Tarikh: </span><span><input data-bind="kendoDate: Date" id="Payment.Date" type="text" name="Payment.Date" /></span>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <span>Amaun: </span><span><input data-bind="value: Amount" id="Amount" type="text" name="Amount" /></span>
+            </div>
+        </div>
+        
     </div>
     <div class="modal-footer">
-        <input type="button" value="Simpan" class="btn btn-small" data-bind="click: saveCommand" data-dismiss="modal"/>
-        <input type="button" value="Batal" class="btn btn-small" data-dismiss="modal"/>
+        <input type="button" value="Simpan" class="btn btn-small" data-bind="click: saveCommand" data-dismiss="modal" />
+        <input type="button" value="Batal" class="btn btn-small" data-dismiss="modal" />
     </div>
 </section>

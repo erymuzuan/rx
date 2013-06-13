@@ -8,3 +8,11 @@ bespoke.sphcommercialspace.domain.Offer.prototype.DepositPaid = function () {
 
     return sum.toFixed(2);
 };
+
+bespoke.sphcommercialspace.domain.Contract.prototype.Accrued = ko.observable();
+
+bespoke.sphcommercialspace.domain.ContractPartial = function () {
+    return {
+        Accrued: ko.observable()
+    };
+};
