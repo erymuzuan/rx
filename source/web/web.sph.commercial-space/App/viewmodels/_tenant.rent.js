@@ -15,7 +15,7 @@ define(['services/datacontext', 'services/logger'],
 
         var isBusy = ko.observable(false),
             activate = function (tenant) {
-                var query = "TenantId eq "+ tenant.TenantId() + "and Type eq 'Rental'";
+                var query = "TenantIdSsmNo eq " + "'" + tenant.IdSsmNo() + "'" + " and Type eq 'Rental'";
                 var tcs = new $.Deferred();
                 context.loadAsync("Invoice", query).done(function (lo) {
                     vm.rentCollection(lo.itemCollection);

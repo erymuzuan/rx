@@ -38,7 +38,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 await session.SubmitChanges();
             }
 
-            return Json(true);
+            return Json(invoice);
         }
 
         public async Task<ActionResult> SaveRent(Rent invoice)

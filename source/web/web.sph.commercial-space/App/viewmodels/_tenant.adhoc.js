@@ -21,7 +21,7 @@ define(['services/datacontext'],
                          vm.contractOptions(list);
                      });
 
-		         var query = String.format("TenantId eq " + tenant.TenantIdSsmNo() + "and Type eq 'AdhocInvoice'");
+		         var query = String.format("TenantIdSsmNo eq " + "'" + tenant.IdSsmNo() + "'" + " and Type eq 'AdhocInvoice'");
 		         var tcs = new $.Deferred();
 		         context.loadAsync("Invoice", query)
                      .then(function (lo) {
@@ -29,7 +29,7 @@ define(['services/datacontext'],
                          vm.invoiceCollection(lo.itemCollection);
                          tcs.resolve(true);
                      });
-		         vm.invoice().TenantIdSsmNo(tenant.TenantIdSsmNo());
+		         vm.invoice().TenantIdSsmNo(tenant.IdSsmNo());
 		         return tcs.promise();
 
 		     },
@@ -87,6 +87,7 @@ define(['services/datacontext'],
 		            isBusy(false);
 		            tcs.resolve(result);
 		            vm.invoice(_.extend(new bespoke.sphcommercialspace.domain.Invoice(), new bespoke.sphcommercialspace.domain.AdhocInvoice()));
+		            vm.invoiceCollection.push(result);
 		        });
 		    return tcs.promise();
 		};
