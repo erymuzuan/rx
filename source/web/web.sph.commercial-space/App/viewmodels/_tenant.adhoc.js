@@ -14,7 +14,8 @@ define(['services/datacontext'],
 	function (context) {
 
 	    var isBusy = ko.observable(false),
-	         adhocInvoice = _.extend(new bespoke.sphcommercialspace.domain.Invoice(), new bespoke.sphcommercialspace.domain.AdhocInvoice()),
+	         adhocInvoice = ko.observable(new bespoke.sphcommercialspace.domain.AdhocInvoice()),
+	        
 		     activate = function (tenant) {
 		         context.getTuplesAsync("Contract", "TenantIdSsmNo eq '" + tenant.IdSsmNo() + "'", "ContractId", "ReferenceNo")
                      .done(function (list) {
@@ -33,9 +34,11 @@ define(['services/datacontext'],
 		         return tcs.promise();
 
 		     },
+	        
 		viewAttached = function (view) {
 		    _uiready.init(view);
 		},
+	        
 		getInvoiceNo = function () {
 		    var tcs = new $.Deferred(),
 		     	contractNo = _(vm.contractOptions()).find(function (o) { return o.Item1 == vm.selectedContractId(); }).Item2,
@@ -62,6 +65,7 @@ define(['services/datacontext'],
             var item = new bespoke.sphcommercialspace.domain.InvoiceItem();
             vm.invoice().InvoiceItemCollection.push(item);
         },
+	        
 	    showInvoiceDetail = function(data) {
 	        isBusy(true);
 	        var query = "InvoiceId eq " + data.InvoiceId();
@@ -72,6 +76,7 @@ define(['services/datacontext'],
 	            });
 	        $('#add-invoice-modal').modal({});
 	    },
+	        
 	    save = function () {
 		    var sum = _(vm.invoice().InvoiceItemCollection()).reduce(function (memo, val) {
                 return memo + parseFloat(val.Amount());
@@ -85,7 +90,7 @@ define(['services/datacontext'],
 		        .then(function (result) {
 		            isBusy(false);
 		            tcs.resolve(result);
-		            vm.invoice(_.extend(new bespoke.sphcommercialspace.domain.Invoice(), new bespoke.sphcommercialspace.domain.AdhocInvoice()));
+		            vm.invoice(new bespoke.sphcommercialspace.domain.AdhocInvoice());
 		            vm.invoiceCollection.push(result);
 		        });
 		    return tcs.promise();

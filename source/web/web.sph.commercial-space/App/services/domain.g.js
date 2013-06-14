@@ -1,9 +1,8 @@
-﻿
-/// <reference path="~/scripts/knockout-2.2.1.debug.js" />
+﻿/// <reference path="~/scripts/knockout-2.2.1.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 
 
-var bespoke = bespoke || {};
+var bespoke = bespoke || {};//new {} != new Object();
 bespoke.sphcommercialspace = {};
 bespoke.sphcommercialspace.domain = {};
 
@@ -20,8 +19,9 @@ bespoke.sphcommercialspace.domain.ContractHistory = function (webId) {
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
+    bespoke.sphcommercialspace.domain.ContractHistoryPartial = undefined;
     if (bespoke.sphcommercialspace.domain.ContractHistoryPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.ContractHistoryPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ContractHistoryPartial(model));
     }
     return model;
 };
@@ -46,26 +46,7 @@ bespoke.sphcommercialspace.domain.Tenant = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.TenantPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.TenantPartial());
-    }
-    return model;
-};
-
-
-
-bespoke.sphcommercialspace.domain.Rent = function (webId) {
-
-    var model = {
-        Half: ko.observable(),
-        Quarter: ko.observable(),
-        Month: ko.observable(),
-        Year: ko.observable(),
-        Tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
-        isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
-    };
-    if (bespoke.sphcommercialspace.domain.RentPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.RentPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.TenantPartial(model));
     }
     return model;
 };
@@ -101,7 +82,7 @@ bespoke.sphcommercialspace.domain.Land = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.LandPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.LandPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.LandPartial(model));
     }
     return model;
 };
@@ -125,7 +106,7 @@ bespoke.sphcommercialspace.domain.Building = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.BuildingPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.BuildingPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.BuildingPartial(model));
     }
     return model;
 };
@@ -142,7 +123,7 @@ bespoke.sphcommercialspace.domain.LatLng = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.LatLngPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.LatLngPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.LatLngPartial(model));
     }
     return model;
 };
@@ -164,7 +145,7 @@ bespoke.sphcommercialspace.domain.Address = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.AddressPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.AddressPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.AddressPartial(model));
     }
     return model;
 };
@@ -183,7 +164,7 @@ bespoke.sphcommercialspace.domain.Floor = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.FloorPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.FloorPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.FloorPartial(model));
     }
     return model;
 };
@@ -201,7 +182,7 @@ bespoke.sphcommercialspace.domain.Lot = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.LotPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.LotPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.LotPartial(model));
     }
     return model;
 };
@@ -233,7 +214,7 @@ bespoke.sphcommercialspace.domain.CommercialSpace = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.CommercialSpacePartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.CommercialSpacePartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.CommercialSpacePartial(model));
     }
     return model;
 };
@@ -272,7 +253,7 @@ bespoke.sphcommercialspace.domain.RentalApplication = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.RentalApplicationPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.RentalApplicationPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.RentalApplicationPartial(model));
     }
     return model;
 };
@@ -295,7 +276,7 @@ bespoke.sphcommercialspace.domain.Attachment = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.AttachmentPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.AttachmentPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.AttachmentPartial(model));
     }
     return model;
 };
@@ -313,7 +294,7 @@ bespoke.sphcommercialspace.domain.Bank = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.BankPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.BankPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.BankPartial(model));
     }
     return model;
 };
@@ -335,7 +316,7 @@ bespoke.sphcommercialspace.domain.Contact = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.ContactPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.ContactPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ContactPartial(model));
     }
     return model;
 };
@@ -355,7 +336,7 @@ bespoke.sphcommercialspace.domain.ContractTemplate = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.ContractTemplatePartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.ContractTemplatePartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ContractTemplatePartial(model));
     }
     return model;
 };
@@ -371,7 +352,7 @@ bespoke.sphcommercialspace.domain.DocumentTemplate = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.DocumentTemplatePartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.DocumentTemplatePartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.DocumentTemplatePartial(model));
     }
     return model;
 };
@@ -406,7 +387,7 @@ bespoke.sphcommercialspace.domain.Contract = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.ContractPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.ContractPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ContractPartial(model));
     }
     return model;
 };
@@ -423,7 +404,7 @@ bespoke.sphcommercialspace.domain.Document = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.DocumentPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.DocumentPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.DocumentPartial(model));
     }
     return model;
 };
@@ -442,7 +423,7 @@ bespoke.sphcommercialspace.domain.DocumentVersion = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.DocumentVersionPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.DocumentVersionPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.DocumentVersionPartial(model));
     }
     return model;
 };
@@ -461,7 +442,7 @@ bespoke.sphcommercialspace.domain.Owner = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.OwnerPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.OwnerPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.OwnerPartial(model));
     }
     return model;
 };
@@ -481,7 +462,7 @@ bespoke.sphcommercialspace.domain.AuditTrail = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.AuditTrailPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.AuditTrailPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.AuditTrailPartial(model));
     }
     return model;
 };
@@ -499,7 +480,7 @@ bespoke.sphcommercialspace.domain.Change = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.ChangePartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.ChangePartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ChangePartial(model));
     }
     return model;
 };
@@ -516,7 +497,7 @@ bespoke.sphcommercialspace.domain.Organization = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.OrganizationPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.OrganizationPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.OrganizationPartial(model));
     }
     return model;
 };
@@ -544,7 +525,7 @@ bespoke.sphcommercialspace.domain.Offer = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.OfferPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.OfferPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.OfferPartial(model));
     }
     return model;
 };
@@ -562,7 +543,7 @@ bespoke.sphcommercialspace.domain.OfferCondition = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.OfferConditionPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.OfferConditionPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.OfferConditionPartial(model));
     }
     return model;
 };
@@ -580,7 +561,7 @@ bespoke.sphcommercialspace.domain.Topic = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.TopicPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.TopicPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.TopicPartial(model));
     }
     return model;
 };
@@ -598,7 +579,7 @@ bespoke.sphcommercialspace.domain.Clause = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.ClausePartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.ClausePartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ClausePartial(model));
     }
     return model;
 };
@@ -616,7 +597,7 @@ bespoke.sphcommercialspace.domain.ContractingParty = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.ContractingPartyPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.ContractingPartyPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ContractingPartyPartial(model));
     }
     return model;
 };
@@ -633,7 +614,7 @@ bespoke.sphcommercialspace.domain.DepositPayment = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.DepositPaymentPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.DepositPaymentPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.DepositPaymentPartial(model));
     }
     return model;
 };
@@ -652,7 +633,7 @@ bespoke.sphcommercialspace.domain.Payment = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.PaymentPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.PaymentPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.PaymentPartial(model));
     }
     return model;
 };
@@ -671,7 +652,7 @@ bespoke.sphcommercialspace.domain.User = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.UserPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.UserPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.UserPartial(model));
     }
     return model;
 };
@@ -695,7 +676,7 @@ bespoke.sphcommercialspace.domain.Deposit = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.DepositPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.DepositPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.DepositPartial(model));
     }
     return model;
 };
@@ -712,7 +693,7 @@ bespoke.sphcommercialspace.domain.Role = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.RolePartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.RolePartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.RolePartial(model));
     }
     return model;
 };
@@ -728,7 +709,7 @@ bespoke.sphcommercialspace.domain.Permission = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.PermissionPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.PermissionPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.PermissionPartial(model));
     }
     return model;
 };
@@ -751,7 +732,7 @@ bespoke.sphcommercialspace.domain.Complaint = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.ComplaintPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintPartial(model));
     }
     return model;
 };
@@ -767,7 +748,7 @@ bespoke.sphcommercialspace.domain.Reply = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.ReplyPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.ReplyPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ReplyPartial(model));
     }
     return model;
 };
@@ -785,7 +766,7 @@ bespoke.sphcommercialspace.domain.Setting = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.SettingPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.SettingPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.SettingPartial(model));
     }
     return model;
 };
@@ -805,7 +786,7 @@ bespoke.sphcommercialspace.domain.Rebate = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.RebatePartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.RebatePartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.RebatePartial(model));
     }
     return model;
 };
@@ -824,9 +805,26 @@ bespoke.sphcommercialspace.domain.Interest = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.InterestPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.InterestPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.InterestPartial(model));
     }
     return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Rent = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.Invoice(webId);
+
+    v.Half = ko.observable();
+    v.Year = ko.observable();
+    v.Month = ko.observable();//type but not nillable
+    v.Quarter = ko.observable();//type but not nillable
+    v.Tenant = ko.observable(new bespoke.sphcommercialspace.domain.Tenant());
+    if (bespoke.sphcommercialspace.domain.RentPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.RentPartial(v));
+    }
+    return v;
 };
 
 
@@ -845,7 +843,7 @@ bespoke.sphcommercialspace.domain.AdhocInvoice = function (webId) {
     v.Note2 = ko.observable();//type but not nillable
     v.Address = ko.observable(new bespoke.sphcommercialspace.domain.Address());
     if (bespoke.sphcommercialspace.domain.AdhocInvoicePartial) {
-        return _(v).extend(new bespoke.sphcommercialspace.domain.AdhocInvoicePartial());
+        return _(v).extend(new bespoke.sphcommercialspace.domain.AdhocInvoicePartial(v));
     }
     return v;
 };
@@ -862,7 +860,7 @@ bespoke.sphcommercialspace.domain.InvoiceItem = function (webId) {
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.InvoiceItemPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.InvoiceItemPartial());
+        return _(model).extend(new bespoke.sphcommercialspace.domain.InvoiceItemPartial(model));
     }
     return model;
 };

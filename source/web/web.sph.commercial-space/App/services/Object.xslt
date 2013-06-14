@@ -34,7 +34,7 @@
               </xsl:for-each>
               <xsl:apply-templates select="xs:complexType/xs:complexContent/xs:extension"/>
               if(bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/>Partial){
-              return _(v).extend(new bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/>Partial());
+              return _(v).extend(new bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/>Partial(v));
               }
               return v;
             </xsl:when>
@@ -51,7 +51,7 @@
               WebId : ko.observable(webId)
               };
               if(bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/>Partial){
-              return _(model).extend(new bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/>Partial());
+              return _(model).extend(new bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/>Partial(model));
               }
               return model;
             </xsl:otherwise>

@@ -1,0 +1,42 @@
+﻿body {
+    background-color: #ffffff;
+}
+
+#body {
+    margin-bottom: 70px;
+}
+
+.google-maps
+{
+    min-height: 700px;
+}
+
+    .google-maps img
+    {
+        max-width: none;
+    }
+
+    
+.loader .page-progress-bar {
+    margin: 14px 0 0 0 ;
+}
+
+.loader {
+    visibility: hidden;
+}
+.loader.active {
+    visibility: visible;
+}
+
+.selected {
+    background-color: #e0e0e0;
+    color: #ffffff;
+}
+@media (max-height: 800px)
+{
+
+    .google-maps
+    {
+        min-height: 400px;
+    }
+}

@@ -5,7 +5,7 @@ GO
 GO
 
 CREATE TABLE [Sph].[Deposit](
-	[Id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[DepositId] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[DateTime] [datetime] NOT NULL,
 	[Name] [nvarchar](255) NOT NULL,
 	[IDNumber] [nvarchar](50) NOT NULL,

@@ -7,7 +7,7 @@
 define(['services/logger'],
 function (logger) {
 
-    var context = {
+    return {
         loadAsync: loadAsync,
         loadOneAsync: loadOneAsync,
         getSumAsync: getSumAsync,
@@ -16,7 +16,6 @@ function (logger) {
         getTuplesAsync: getTuplesAsync,
         post: post
     };
-    return context;
 
     function post(json, url) {
         var tcs = new $.Deferred();
@@ -70,13 +69,11 @@ function (logger) {
             dataType: "json",
             error: tcs.reject,
             success: function (msg) {
-
-                var temp = [];
-                $.each(msg.results, function (i, v) {
-                    temp[i] = ko.mapping.fromJS(v);
+                var temp =  _(msg.results).map(function (v) {
+                    return ko.mapping.fromJS(v);
                 });
                 var lo = new LoadOperation();
-                lo.itemCollection = temp;//msg.results;
+                lo.itemCollection = temp;
                 lo.page = msg.page;
                 lo.nextPageToken = msg.nextPageToken;
                 lo.previousPageToken = msg.previousPageToken;
@@ -101,13 +98,13 @@ function (logger) {
 
     function getTuplesAsync(entity, query, field, field2) {
         var url = "/List/Tuple";
-        url += "?filter=";
-        url += query;
-        url += "&column=";
-        url += field;
-        url += "&column2=";
-        url += field2;
-        url += "&table=" + entity;
+            url += "?filter=";
+            url += query;
+            url += "&column=";
+            url += field;
+            url += "&column2=";
+            url += field2;
+            url += "&table=" + entity;
 
 
         var tcs = new $.Deferred();
