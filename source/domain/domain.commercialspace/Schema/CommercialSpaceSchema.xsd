@@ -26,9 +26,9 @@
 			<xs:attribute name="IdSsmNo" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="BussinessType" type="xs:string" use="required"/>
-			<xs:attribute name="PhoneNo" type="xs:string" use="required"/>
-			<xs:attribute name="FaksNo" type="xs:string" use="optional"/>
-			<xs:attribute name="MobilePhoneNo" type="xs:string" use="optional"/>
+			<xs:attribute name="Phone" type="xs:string" use="required"/>
+			<xs:attribute name="Fax" type="xs:string" use="optional"/>
+			<xs:attribute name="MobilePhone" type="xs:string" use="optional"/>
 			<xs:attribute name="Email" type="xs:string" use="optional"/>
 			<xs:attribute name="RegistrationNo" type="xs:string" use="required"/>
 		</xs:complexType>
@@ -472,17 +472,6 @@
 			<xs:attribute name="TenantIdSsmNo" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Invoice">
-		<xs:complexType>
-			<xs:attribute name="InvoiceId" type="xs:int" use="required"/>
-			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
-			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
-			<xs:attribute name="No" type="xs:string" use="required"/>
-			<xs:attribute name="Type" type="InvoiceType" use="required"/>
-			<xs:attribute name="ContractNo" type="xs:string" use="required"/>
-			<xs:attribute name="TenantIdSsmNo" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
 	<xs:simpleType name="InvoiceType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="AdhocInvoice"/>
@@ -632,18 +621,44 @@
 			<xs:attribute name="PeriodType" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:complexType name="Invoice">
+		<xs:attribute name="InvoiceId" type="xs:int" use="required"/>
+		<xs:attribute name="Date" type="xs:dateTime" use="required"/>
+		<xs:attribute name="Amount" type="xs:decimal" use="required"/>
+		<xs:attribute name="No" type="xs:string" use="required"/>
+		<xs:attribute name="Type" type="InvoiceType" use="required"/>
+		<xs:attribute name="ContractNo" type="xs:string" use="required"/>
+		<xs:attribute name="TenantIdSsmNo" type="xs:string" use="required"/>
+	</xs:complexType>
 	<xs:element name="AdhocInvoice">
 		<xs:complexType>
-			<xs:all>
-				<xs:element name="InvoiceItemCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="InvoiceItem" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:all>
-			<xs:attribute name="Category" type="xs:string" use="required"/>
+			<xs:complexContent>
+				<xs:extension base="Invoice">
+					<xs:all>
+						<xs:element name="InvoiceItemCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="InvoiceItem" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="SentDate" type="xs:dateTime" nillable="true"/>
+						<xs:element ref="Tenant"/>
+						<xs:element name="Type2" type="InvoiceType"/>
+						<xs:element name="Note2" type="xs:string"/>
+						<xs:element ref="Address"/>
+						<xs:element name="DocumentCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="Document" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="Category" type="xs:string" use="required"/>
+					<xs:attribute name="F2" type="xs:int" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="InvoiceItem">

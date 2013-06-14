@@ -21,7 +21,7 @@ define(['services/datacontext', 'durandal/app'],
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id : this.ContractId()});
             isBusy(true);
-            context.post(1, "/Contract/GenerateLedger")
+            context.post(data, "/Contract/GenerateLedger")
                 .then(function(result) {
                     isBusy(false);
                     var message = "lejer "+ result+" disimpan di desktop anda" ;

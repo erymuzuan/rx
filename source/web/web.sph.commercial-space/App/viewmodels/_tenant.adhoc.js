@@ -21,8 +21,8 @@ define(['services/datacontext'],
                          vm.contractOptions(list);
                      });
 
-		         var query = String.format("TenantIdSsmNo eq " + "'" + tenant.IdSsmNo() + "'" + " and Type eq 'AdhocInvoice'");
-		         var tcs = new $.Deferred();
+		         var query = String.format("TenantIdSsmNo eq " + "'" + tenant.IdSsmNo() + "'" + " and Type eq 'AdhocInvoice'"),
+		          	tcs = new $.Deferred();
 		         context.loadAsync("Invoice", query)
                      .then(function (lo) {
                          isBusy(false);
@@ -37,9 +37,9 @@ define(['services/datacontext'],
 		    _uiready.init(view);
 		},
 		getInvoiceNo = function () {
-		    var tcs = new $.Deferred();
-		    var contractNo = _(vm.contractOptions()).find(function (o) { return o.Item1 == vm.selectedContractId(); }).Item2;
-		    var data = JSON.stringify({ contractId: vm.selectedContractId(), type: vm.selectedInvoiceType() });
+		    var tcs = new $.Deferred(),
+		     	contractNo = _(vm.contractOptions()).find(function (o) { return o.Item1 == vm.selectedContractId(); }).Item2,
+		    	data = JSON.stringify({ contractId: vm.selectedContractId(), type: vm.selectedInvoiceType() });
 		    isBusy(true);
 
 		    context.post(data, "/Invoice/GetAddhocInvoiceNo")
@@ -57,7 +57,7 @@ define(['services/datacontext'],
 		removeItem = function (item) {
 		    vm.invoice().InvoiceItemCollection.remove(item);
 		},
-	    
+
         addItem = function () {
             var item = new bespoke.sphcommercialspace.domain.InvoiceItem();
             vm.invoice().InvoiceItemCollection.push(item);
@@ -74,8 +74,7 @@ define(['services/datacontext'],
 	    },
 	    save = function () {
 		    var sum = _(vm.invoice().InvoiceItemCollection()).reduce(function (memo, val) {
-		        var s = memo + parseFloat(val.Amount());
-		        return s;
+                return memo + parseFloat(val.Amount());
 		    }, 0);
 		    vm.invoice().Amount(sum);
 		    var tcs = new $.Deferred();

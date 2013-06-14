@@ -6,34 +6,64 @@
   xmlns:bspk="http://www.bespoke.com.my/"
   xmlns:msxsl="urn:schemas-microsoft-com:xslt"
   xmlns:bs="http://www.bespoke.com.my/xsd/">
-	<xsl:template match="xs:element">
-		<!-- Collection -->
-		<xsl:for-each select="xs:complexType/xs:sequence/xs:element">
-      <xsl:value-of select="../../../@name"/> : ko.observableArray(),
-		</xsl:for-each>
 
-		<!-- 
+  <!-- inheritance with extension -->
+  <xsl:template match="xs:extension">
+    <!-- collection -->
+    <xsl:for-each select="xs:all/xs:element/xs:complexType/xs:sequence/xs:element">
+      v.<xsl:value-of select="../../../@name"/> = ko.observableArray();</xsl:for-each>
+
+    <xsl:for-each select="xs:all/xs:element">
+      <!-- 
       Just plain assocation 1 to 1 
     -->
-		<xsl:if test="@ref">
-			<xsl:value-of select="@ref"/> : ko.observable(new bespoke.sphcommercialspace.domain.<xsl:value-of select="@ref"/>()),
-		</xsl:if>
-		<xsl:if test="@nillable">
-			<xsl:value-of select="@name"/> : ko.observable(),
-		</xsl:if>
-		<xsl:if test="@type and not(@nillable)">
-			<xsl:value-of select="@name"/> : ko.observable(),
-		</xsl:if>
+      <xsl:if test="@ref">
+        v.<xsl:value-of select="@ref"/> = ko.observable(new bespoke.sphcommercialspace.domain.<xsl:value-of select="@ref"/>());</xsl:if>
+      <xsl:if test="@nillable">
+        v.<xsl:value-of select="@name"/> = ko.observable();//nillable</xsl:if>
+      <xsl:if test="@type and not(@nillable)">
+        v.<xsl:value-of select="@name"/> = ko.observable();//type but not nillable</xsl:if>
 
-		<!-- 
+      <!-- 
       Element with simple restriction rules- for string and integer
       -->
-		<xsl:if test="xs:simpleType">
-			<xsl:value-of select="@name"/>: ko.observable(), //enum
-		</xsl:if>
-	</xsl:template>
-	<msxsl:script language="C#" implements-prefix="bspk">
-		<![CDATA[
+      <xsl:if test="xs:simpleType">
+        v.<xsl:value-of select="@name"/>= ko.observable(); //enum
+      </xsl:if>
+    </xsl:for-each>
+
+
+  </xsl:template>
+
+
+  <xsl:template match="xs:element">
+    <!-- Collection -->
+    <xsl:for-each select="xs:complexType/xs:sequence/xs:element">
+      <xsl:value-of select="../../../@name"/> : ko.observableArray(),
+    </xsl:for-each>
+
+    <!-- 
+      Just plain assocation 1 to 1 
+    -->
+    <xsl:if test="@ref">
+      <xsl:value-of select="@ref"/> : ko.observable(new bespoke.sphcommercialspace.domain.<xsl:value-of select="@ref"/>()),
+    </xsl:if>
+    <xsl:if test="@nillable">
+      <xsl:value-of select="@name"/> : ko.observable(),
+    </xsl:if>
+    <xsl:if test="@type and not(@nillable)">
+      <xsl:value-of select="@name"/> : ko.observable(),
+    </xsl:if>
+
+    <!-- 
+      Element with simple restriction rules- for string and integer
+      -->
+    <xsl:if test="xs:simpleType">
+      <xsl:value-of select="@name"/>: ko.observable(), //enum
+    </xsl:if>
+  </xsl:template>
+  <msxsl:script language="C#" implements-prefix="bspk">
+    <![CDATA[
 		public string CamelCase(string field)
 		{
 			string first = field.Substring(0,1).ToLowerInvariant();
@@ -141,5 +171,5 @@
 		}
 	  ]]>
 
-	</msxsl:script>
+  </msxsl:script>
 </xsl:stylesheet>

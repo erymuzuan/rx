@@ -10,8 +10,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-	function (context, logger, router) {
+define(['services/datacontext', 'services/logger'],
+	function (context, logger) {
 
 	    var isBusy = ko.observable(false),
             activate = function () { return true; },
@@ -22,48 +22,36 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                 if (vm.contractNo() && vm.idSsmNo()) {
                     var query2 = String.format("TenantIdSsmNo eq '{0}' and ReferenceNo eq '{1}'", vm.idSsmNo(), vm.contractNo());
                     query = query + query2;
-                };
+                }
                 if (vm.contractNo() && !vm.idSsmNo()) {
                     var query3 = String.format("ReferenceNo eq '{0}'", vm.contractNo());
                     query = query + query3;
-                };
+                }
                 if (vm.idSsmNo() && !vm.contractNo()) {
                     var query4 = String.format("TenantIdSsmNo eq '{0}'", vm.idSsmNo());
                     query = query + query4;
-                };
+				}
 
-                context.loadAsync("Contract", query).done(function (lo) {
-                    isBusy(false);
-                    var contracts = _(lo.itemCollection).map(function (r) {
-                        var r2 = _(r).extend(new bespoke.sphcommercialspace.domain.ContractPartial());
-                        calculateAccumulatedAccrued(r2);
-                        return r2;
-                    });
-                    vm.contractCollection(contracts);
-                    tcs.resolve(true);
-                    vm.contractNo('');
-                    vm.idSsmNo('');
+				context.loadAsync("Contract", query)
+                    .done(function (lo) {
+                        isBusy(false);
+                        var contracts = _(lo.itemCollection).map(function (r) {
+                            return _(r).extend(new bespoke.sphcommercialspace.domain.ContractPartial());
+                        });
+                        _(contracts).each(function(r2){
+                            r2.getAccruedAmount(context)
+                                .done(function(amount){
+                                    r2.Accrued(amount);
+                                });
+                        });
+                        vm.contractCollection(contracts);
+                        tcs.resolve(true);
+                        vm.contractNo('');
+                        vm.idSsmNo('');
                 });
 
                 return tcs.promise();
             },
-
-             calculateAccumulatedAccrued = function (r) {
-                 var queryInvoice = String.format("ContractNo eq '{0}'", r.ReferenceNo());
-                 var queryPayment = String.format("ContractNo eq '{0}'", r.ReferenceNo());
-
-                 var totalInvoiceTask = context.getSumAsync("Invoice", queryInvoice,"Amount");
-                 var totalPaymentTask = context.getSumAsync("Payment", queryPayment,"Amount");
-
-                 var tcs = new $.Deferred();
-                 $.when(totalInvoiceTask, totalPaymentTask)
-                      .then(function (totalinvoice, totalpayment) {
-                          var accrued = parseFloat(totalinvoice) - parseFloat(totalpayment);
-                          r.Accrued(accrued);
-                          tcs.resolve(accrued);
-                      });
-                 return tcs.promise();
-             },
 
 	        showDetails = function (data) {
 	            vm.payment().ContractNo(data.ReferenceNo());
@@ -74,10 +62,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             save = function () {
                 var tcs = new $.Deferred();
                 var payment = ko.mapping.toJS(vm.payment());
-                var postdata = JSON.stringify({payment: payment });
-                context.post(postdata, "/Payment/Save").done(function (e) {
-                    logger.log("Payment received", e, "payment", true);
-                    tcs.resolve(true);
+                var json = JSON.stringify({payment: payment });
+                context.post(json, "/Payment/Save")
+					.done(function (e) {
+						logger.log("Payment received", e, "payment", true);
+						tcs.resolve(true);
                 });
                 return tcs.promise();
             };
