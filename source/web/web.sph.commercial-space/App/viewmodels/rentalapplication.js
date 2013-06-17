@@ -6,6 +6,7 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../services/domain.g.js" />
 
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
 
@@ -14,6 +15,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         registrationNo = ko.observable(),
         activate = function (routeData) {
             id(routeData.id);
+            var tcs = new $.Deferred();
+            context.loadOneAsync('CommercialSpace', 'CommercialSpaceId eq ' + id()).done(function(cs) {
+                vm.commercialSpace(cs);
+                tcs.resolve(true);
+            });
             vm.rentalapplication.CommercialSpaceId(routeData.id);
             var bank = {
                 Name: ko.observable(''),
@@ -22,7 +28,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 AccountType: ko.observable('')
             };
             vm.rentalapplication.BankCollection.push(bank);
-            return true;
+            return tcs.promise();
         },
         viewAttached = function() {
             $('.datepicker').datepicker();
@@ -124,6 +130,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             LastYearSales: ko.observable(),
             PreviousYearSales: ko.observable()
         },
+        commercialSpace : ko.observable (new bespoke.sphcommercialspace.domain.CommercialSpace()),
         saveCommand: saveApplication,
         addBankCommand: addBankCollection,
         isBusy: isBusy,

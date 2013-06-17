@@ -29,7 +29,7 @@ namespace Bespoke.SphCommercialSpace.LedgerMsxl
 
             ws.Cells["A9"].Value = contract.Tenant.Address.Street;
             ws.Cells["A11"].Value = contract.Tenant.Address.City + ", " + contract.Tenant.Address.Postcode;
-            ws.Cells["B12"].Value = contract.Tenant.PhoneNo;
+            ws.Cells["B12"].Value = contract.Tenant.Phone;
 
             ws.Cells["A16"].Value = contract.CommercialSpace.LotName;
             ws.Cells["A17"].Value = contract.CommercialSpace.BuildingName;

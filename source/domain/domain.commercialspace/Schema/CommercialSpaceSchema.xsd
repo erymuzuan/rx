@@ -149,7 +149,7 @@
 			<xs:attribute name="RentalType" type="xs:string" use="required"/>
 			<xs:attribute name="IsOnline" type="xs:boolean" use="required"/>
 			<xs:attribute name="RegistrationNo" type="xs:string" use="required"/>
-			<xs:attribute name="Status" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsAvailable" type="xs:boolean" use="required"/>
 			<xs:attribute name="ContactPerson" type="xs:string" use="optional"/>
 			<xs:attribute name="ContactNo" type="xs:string" use="optional"/>
 			<xs:attribute name="State" type="xs:string" use="required"/>

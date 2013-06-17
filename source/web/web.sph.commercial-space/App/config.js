@@ -158,15 +158,6 @@
             settings: { caption: 'Permohonan' }
         },
         {
-            url: 'commercialspaceforrental/:buildingId',
-            moduleId: 'viewmodels/commercialspaceforrental',
-            name: 'commercialspaceforrental',
-            visible: false,
-            caption: 'commercialspaceforrental',
-            icon: 'icon-laptop',
-            settings: { caption: 'Permohonan' }
-        },
-        {
             url: 'applicationlist/:status',
             moduleId: 'viewmodels/applicationlist',
             name: 'applicationlist',

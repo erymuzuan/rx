@@ -1,10 +1,14 @@
 ﻿<section>
     <div class="page-header">
         <h1>Bangunan Untuk Disewa</h1>
-        </div>
+    </div>
+</section>
+<section class="span5">
+
     <div class="labelLeft">
         <label>Negeri:</label>
-        <select>
+        <select data-bind="value : selectedState">
+            <option value="">[Sila Pilih]</option>
             <option value="Selangor">Selangor</option>
             <option value="Johor">Johor</option>
             <option value="Melaka">Melaka</option>
@@ -18,30 +22,49 @@
         </select>
     </div>
     <div class="labelLeft">
-         <label>Jenis Perniagaan:</label>
-        <select>
+        <label>Building:</label>
+        <select data-bind ="options: buildingOptions, optionsText: 'Item2', optionsValue: 'Item1', value: selectedBuildingId" ></select>
+    </div>
+    <div class="labelLeft">
+        <label>Jenis Perniagaan:</label>
+        <select data-bind="value:selectedCategory">
+            <option value="">[Sila Pilih]</option>
             <option value="Cafeteria">Kafeteria</option>
             <option value="ATM">ATM</option>
             <option value="Laundry">Kedai Dobi</option>
             <option value="Nursery">Nurseri</option>
         </select>
     </div>
-        
+    <div>
+        <button class="btn btn-primary" value="Carian" data-bind ="click: searchCommand">Carian</button>
+    </div>
+
 </section>
-<section id="building-list" class="view-list" data-bind="foreach: buildings">
-    
+<section id="building-list" class="span7" data-bind="foreach: commercialspaces">
+
     <div class="metro tile">
-        <article class="tile wide text">
-            <div id="div-building" title="Go to building details" >
-                <address data-bind="text: Name"></address>
-                <section id="floor-list" class="view-list" data-bind="foreach:FloorCollection">
-                    <img src="../Content/images/icon.png" width="60" height="60" alt="">
-                    <div id="div-floor" title="lot listing" data-bind="click: $parent.viewAttached">
-                        <div class="labelLeft"><label>Nombor Lot:</label><address data-bind="text:Name"></address></div>
-                        <div class="labelLeft"><label>Keluasan:</label><address data-bind="text:Size"></address></div>
-                    </div>
-                </section>
+        <article class="tile">
+            <div>
+                <span data-bind="text: BuildingName"></span>,
+                <span data-bind="text: FloorName"></span>,
+                <span data-bind="text: Category"></span>
+                <span data-bind="money: RentalRate"></span>
+
+                <div id="div-building" class="span12">
+                    <span class="span12">
+                        <img src="../Content/images/icon.png" width="60" height="60" alt="">
+                        <span>
+                            <span>Size: <span data-bind="text: Size"></span></span>
+                        </span>
+                        <span>
+                            <input type="button" class="btn btn-mini" data-bind="click: $parent.applyCommercialSpaceCommand" value="Mohon Sewa" />
+                        </span>
+                    </span>
+
+
+                </div>
             </div>
         </article>
     </div>
+
 </section>

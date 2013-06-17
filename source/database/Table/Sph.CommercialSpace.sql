@@ -32,3 +32,6 @@ ADD [State] VARCHAR(255) NOT NULL DEFAULT ''
 
 ALTER TABLE [Sph].[Sph].[CommercialSpace]
 ADD [City] VARCHAR(255) NOT NULL DEFAULT ''
+
+ALTER TABLE [Sph].[Sph].[CommercialSpace]
+ADD [IsAvailable] BIT NOT NULL DEFAULT 1
