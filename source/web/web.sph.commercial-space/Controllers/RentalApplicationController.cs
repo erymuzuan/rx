@@ -276,12 +276,10 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public async Task<ActionResult> GenerateOfferLetter(int id)
         {
-            const string status = "Offered";
+          
             var context = new SphDataContext();
-            var rentalAppication = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            rentalAppication.Status = status;
-
-
+            var rentalApplication = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+            
             var audit = new AuditTrail
             {
                 Operation = "Keluarkan surat tawaran",
@@ -294,13 +292,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             using (var session = context.OpenSession())
             {
-                session.Attach(rentalAppication, audit);
+                session.Attach(audit);
                 await session.SubmitChanges();
             }
 
             var template = await context.GetScalarAsync<Setting, string>(s => s.Key == "Template.Offer.Letter",
                                                                    s => s.Value);
-            var cs = await context.LoadOneAsync<CommercialSpace>(c => c.CommercialSpaceId == rentalAppication.Offer.CommercialSpaceId);
+            var cs = await context.LoadOneAsync<CommercialSpace>(c => c.CommercialSpaceId == rentalApplication.Offer.CommercialSpaceId);
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var file = await store.GetContentAsync(template);
@@ -308,10 +306,10 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             System.IO.File.WriteAllBytes(output, file.Content);
             var word = ObjectBuilder.GetObject<IDocumentGenerator>();
             Session["DocumentPath"] = output;
-            Session["DocumentTitle"] = string.Format("{0}-{1:yyyyMMdd}.Surat tawaran.docx", rentalAppication.RegistrationNo, DateTime.Today);
+            Session["DocumentTitle"] = string.Format("{0}-{1:yyyyMMdd}.Surat tawaran.docx", rentalApplication.RegistrationNo, DateTime.Today);
 
 
-            word.Generate(output, rentalAppication, audit, cs);
+            word.Generate(output, rentalApplication, audit, cs);
 
             return Json("");
         }
@@ -369,29 +367,42 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(true);
         }
 
-        public async Task<ActionResult> ConfirmOffer(int id, string remarks)
+        public async Task<ActionResult> ConfirmOffer(int id)
         {
             var context = new SphDataContext();
-            var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            dbItem.Status = "Confirmed";
+            var application = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+            application.Status = "Confirmed";
 
-            var audit = new AuditTrail
+
+            var existing = await context.LoadOneAsync<Tenant>(t => t.RegistrationNo == application.RegistrationNo);
+            if (null == existing)
             {
-                Operation = "Terima surat tawaran",
-                DateTime = DateTime.Now,
-                User = User.Identity.Name,
-                Type = typeof(RentalApplication).Name,
-                EntityId = id,
-                Note = remarks
-            };
+                var tenant = new Tenant
+                    {
+                        Name = application.CompanyName ?? application.Contact.Name,
+                        IdSsmNo = application.CompanyRegistrationNo ?? application.Contact.IcNo,
+                        BussinessType = application.CompanyType,
+                        Phone = application.Contact.OfficeNo,
+                        MobilePhone = application.Contact.MobileNo,
+                        Email = application.Contact.Email,
+                        RegistrationNo = application.RegistrationNo,
+                        Address = application.Address
+                    };
+                using (var session = context.OpenSession())
+                {
+                    session.Attach(tenant);
+                    await session.SubmitChanges("Confirm offer");
+                }
 
+                return Json(true);
+            }
             using (var session = context.OpenSession())
             {
-                session.Attach(dbItem, audit);
-                await session.SubmitChanges();
+                session.Attach(application);
+                await session.SubmitChanges("Confirm offer");
             }
 
-            return Json(true);
+            return Json("Penyewa sudah didaftarkan");
         }
 
         public async Task<ActionResult> SaveDepositPayment(int id, Offer offer)

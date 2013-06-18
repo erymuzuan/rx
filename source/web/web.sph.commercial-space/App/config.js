@@ -71,8 +71,8 @@
             settings: { caption: 'Settings' }
         },
         {
-            url: 'createcontract/:rentalApplicationId',
-            moduleId: 'viewmodels/createcontract',
+            url: 'contract.create/:rentalApplicationId',
+            moduleId: 'viewmodels/contract.create',
             name: 'create contract',
             visible: false,
             icon: 'icon-laptop',
@@ -149,8 +149,8 @@
             settings: { caption: 'Permohonan' }
         },
         {
-            url: 'buildingforrental',
-            moduleId: 'viewmodels/buildingforrental',
+            url: 'rentalapplication.selectspace',
+            moduleId: 'viewmodels/rentalapplication.selectspace',
             name: 'Permohonan',
             visible: true,
             caption: 'permohonan',
@@ -167,9 +167,9 @@
             settings: { caption: 'Senarai permohonan' }
         },
         {
-            url: 'verifyapplication/:applicationId',
-            moduleId: 'viewmodels/verifyapplication',
-            name: 'applicationdetailforverification',
+            url: 'rentalapplication.verify/:applicationId',
+            moduleId: 'viewmodels/rentalapplication.verify',
+            name: 'rentalapplication.verify',
             visible: false,
             caption: 'Senarai Permohonan',
             icon: 'icon-laptop',

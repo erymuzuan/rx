@@ -32,18 +32,16 @@
     </section>
     <section class="span8">
         <form class="form-horizontal">
-
-            <div class="control-group ">
-                <div class="controls">
-                    <label class="checkbox">
-                        <input data-bind="checked: rentalapplication.IsCompany" id="rentalapplication.IsCompany" type="checkbox" name="rentalapplication.IsCompany" />
-                        Tanda jika anda memohon bagi pihak syarikat
-                    </label>
-                </div>
-            </div>
-
-            <div>
-                <h2>Maklumat Pegawai Yang Boleh Dihubungi</h2>
+            <div class="control-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input data-bind="checked: rentalapplication.IsCompany" id="rentalapplication.IsCompany" type="checkbox" name="rentalapplication.IsCompany" />
+                                Permohonan bagi pihak syarikat
+                            </label>
+                        </div>
+                    </div>
+            <div class="fc-header-title">
+                <h3>Maklumat Pegawai Yang Boleh Dihubungi</h3>
             </div>
             <div class="row-fluid">
                 <div class="control-group">
@@ -91,8 +89,8 @@
                     </div>
                 </div>
                 <section data-bind="visible: rentalapplication.IsCompany() == true">
-                    <div class="header-section">
-                        <h1>Maklumat Syarikat</h1>
+                    <div class="fc-header-title">
+                        <h3>Maklumat Syarikat</h3>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Nama Syarikat</label>
@@ -124,7 +122,7 @@
                     <div class="control-group">
                         <label class="control-label">Jalan</label>
                         <div class="controls">
-                            <input type="text" name="rentalapplication.Address.Stree" data-bind="value: rentalapplication.Address.Street" />
+                            <input type="text" name="rentalapplication.Address.Street" data-bind="value: rentalapplication.Address.Street" />
                         </div>
                     </div>
                     <div class="control-group">
@@ -158,38 +156,24 @@
                     </div>
                 </section>
 
-                <div class="header-section">
-                    <h1>Cadangan Perniagaan</h1>
+                <div class="fc-header-title">
+                    <h3>Cadangan Perniagaan</h3>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Tujuan Permohonan</label>
                     <div class="controls">
-                        <textarea cols="3" rows="8" name="rentalapplication.Purpose" data-bind="value: rentalapplication.Purpose" class="input-block-level"></textarea>
+                        <textarea cols="3" rows="4" name="rentalapplication.Purpose" data-bind="value: rentalapplication.Purpose" class="input-block-level"></textarea>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Pengalaman</label>
                     <div class="controls">
-                        <textarea cols="5" rows="8" name="rentalapplication.Experience" data-bind="value: rentalapplication.Experience" class="input-block-level"></textarea>
+                        <textarea cols="3" rows="4" name="rentalapplication.Experience" data-bind="value: rentalapplication.Experience" class="input-block-level"></textarea>
                         <span class="help-block">Nyatakan pengalaman anda/syarikat berdasarkan permohonan diatas</span>
                     </div>
 
                 </div>
-                <div class="control-group">
-                    <label class="control-label">Tarikh Mula</label>
-                    <div class="controls">
-                        <input class="datepicker" name="rentalapplication.DateStart" data-format="dd/MM/yyyy" type="text" data-bind="value: rentalapplication.DateStart" />
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">Tarikh Akhir</label>
-                    <div class="controls">
-                        <span class="add-on">
-                            <input class="datepicker" name="rentalapplication.DateEnd" data-format="dd/MM/yyyy" type="text" data-bind="value: rentalapplication.DateEnd" />
-                            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-                        </span>
-                    </div>
-                </div>
+                
                 <div class="control-group">
                     <label class="control-label">Sejarah </label>
                     <div class="controls">
@@ -200,74 +184,15 @@
                 <div class="control-group" data-bind="visible: rentalapplication.IsRecordExist">
                     <label class="control-label">-</label>
                     <div class="controls">
-                        <textarea cols="5" rows="8" name="rentalapplication.PreviousAddress" data-bind="value: rentalapplication.PreviousAddress"></textarea>
                         <span class="help-block">Sila nyatakan alamat</span>
+                        <textarea cols="3" rows="4" name="rentalapplication.PreviousAddress" data-bind="value: rentalapplication.PreviousAddress"></textarea>
+                        
                     </div>
                 </div>
+                <div class="fc-header-title">
+                    <h3>Dokumen sokongan</h3>
 
-                <div class="header-section">
-                    <h1>Maklumat Kewangan</h1>
                 </div>
-                <h6>Rekod Jualan (Berdasarkan 3 tahun terkini)</h6>
-                <div>
-                    <label class="control-label">Tahun Terkini</label>
-                    <div class="controls input-prepend input-append">
-                        <span class="add-on">RM</span>
-                        <input type="number" step="1000" name="rentalapplication.CurrentYearSales" data-bind="value: rentalapplication.CurrentYearSales" />
-                        <span class="add-on">.00</span>
-                    </div>
-                </div>
-                <div>
-                    <label class="control-label">Tahun Terdahulu</label>
-                    <div class="controls input-prepend input-append">
-                        <span class="add-on">RM</span>
-                        <input type="number" step="1000" name="rentalapplication.LastYearSales" data-bind="value: rentalapplication.LastYearSales" />
-                        <span class="add-on">.00</span>
-                    </div>
-                </div>
-                <div>
-                    <label class="control-label">2 Tahun Terdahulu</label>
-                    <div class="controls input-prepend input-append">
-                        <span class="add-on">RM</span>
-                        <input type="number" step="1000" data-bind="value: rentalapplication.PreviousYearSales" name="rentalapplication.PreviousYearSales" />
-                        <span class="add-on">.00</span>
-                    </div>
-                </div>
-
-                <div>
-                    <label>Jenis Bank yang menguruskan kewangan syarikat</label>
-                </div>
-                <div>
-                    <div>
-                        <button class="btn pull-right" data-bind="click: addBankCommand">+ Bank</button>
-                    </div>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Nama Bank </th>
-                                <th>Lokasi </th>
-                                <th>No. Akaun </th>
-                                <th>Jenis Akaun </th>
-                                <td></td>
-                            </tr>
-                        </thead>
-                        <tbody data-bind="foreach: rentalapplication.BankCollection">
-                            <tr>
-                                <td>
-                                    <input type="text" data-bind="value: Name, uniqueName: true" /></td>
-                                <td>
-                                    <input type="text" data-bind="value: Location, uniqueName: true" /></td>
-                                <td>
-                                    <input type="text" data-bind="value: AccountNo, uniqueName: true" /></td>
-                                <td>
-                                    <input type="text" data-bind="value: AccountType, uniqueName: true" /></td>
-                                <td>
-                                    <button class="btn btn-danger" title="Buang akaun ini">-</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <label>Dokumen sokongan</label>
                 <div>
                     <table id="document-sokongan-table" class="table table-bordered table-bordered">
                         <thead>
@@ -293,8 +218,10 @@
                             </tr>
                         </tbody>
                     </table>
+                    
                     <input type="button" name="addAttachmentCommand" class="btn pull-right" value="+ Dokument" data-bind="click: addAttachmentCommand" />
-                </div>
+                   
+                    </div>
                 <div class="text-warning warning">
                     <p>Sila pastikan semua maklumat yang diberi adalah benar dan tepat.</p>
                     <p>Permohonan anda akan dibatalkan sekiranya pihak pengurusan mendapati maklumat yang diberi tidak benar.</p>
@@ -305,7 +232,7 @@
 
         <section>
             <div class="pull-right">
-                <input type="button" name="saveCommand" class="btn btn-success" value="Hantar permohonan"
+                <input id="save-application-button" type="button" name="saveCommand" class="btn btn-success" value="Hantar permohonan"
                     data-bind="command: saveCommand"
                     data-loading-text="processing...."
                     data-complete-text="Submitted!" />

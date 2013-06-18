@@ -1,26 +1,39 @@
-﻿
-<div>
-    <h1>Senarai permohonan : <span data-bind="text:status"></span></h1>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>No daftar</th>
-                <th>Nama</th>
-                <th>Syarikat</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: applications">
-            <tr>
-                <td>
-                    <a data-bind="attr :{href : '/#/verifyapplication/' + RentalApplicationId()}, text:RegistrationNo"></a>
-                </td>
-                <td data-bind="text: Contact.Name"></td>
-                <td data-bind="text: CompanyName"></td>
-                <td data-bind="text: Status"></td>
-            </tr>
-        </tbody>
-    </table>
+﻿<div class="row">
+    <h1>Senarai permohonan : <span data-bind="text: status"></span></h1>
+    <div class="span3 border-box">
+        <div class="labelLeft">
+            <label for="selectedIdSsm">Id / SSM No:</label>
+            <input type="text" data-bind="value:selectedIdSsm" id="selectedIdSsm"/>
+        </div>
+        <div class="labelLeft">
+            <label for="selectedRegistrationNo">No. Pendaftaran :</label>
+            <input type="text" id="selectedRegistrationNo" data-bind="value: selectedRegistrationNo"/>
+        </div>
+        <div>
+            <button data-bind="click : searchCommand" class="btn btn-primary">Carian</button>
+        </div>
+    </div>
+    <div class="span9">
+    
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>No daftar</th>
+                    <th>Nama</th>
+                    <th>Syarikat</th>
+                    <th>Ruang Komersil</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: applications">
+                <tr>
+                    <td><a data-bind="attr: { href: '/#/rentalapplication.verify/' + RentalApplicationId() }, text: RegistrationNo"></a></td>
+                    <td data-bind="text: Contact.Name"></td>
+                    <td data-bind="text: CompanyName"></td>
+                    <td data-bind="text: Offer.Building"></td>
+                </tr>
+            </tbody>
+        </table>
     
     
+    </div>
 </div>

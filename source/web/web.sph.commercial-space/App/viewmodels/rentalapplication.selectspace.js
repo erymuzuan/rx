@@ -8,7 +8,8 @@
 
 define(['services/datacontext', 'durandal/plugins/router'], function (context, router) {
 
-    var activate = function () {
+    var buildingOptions = ko.observableArray(),
+        activate = function () {
         var tcs = new $.Deferred();
         context.loadAsync('CommercialSpace', 'IsAvailable eq 1 ').done(function (lo) {
             vm.commercialspaces(lo.itemCollection);
@@ -63,7 +64,7 @@ define(['services/datacontext', 'durandal/plugins/router'], function (context, r
         applyCommercialSpaceCommand: applyCommercialSpace,
         searchCommand: search,
         selectedBuildingId: ko.observable(),
-        buildingOptions: ko.observableArray(),
+        buildingOptions: buildingOptions,
         selectedState: ko.observable(),
         selectedCategory : ko.observable()
     };
@@ -72,9 +73,7 @@ define(['services/datacontext', 'durandal/plugins/router'], function (context, r
         var tcs = new $.Deferred();
         context.getTuplesAsync("Building", "State eq " + "'" + state + "'", "BuildingId", "Name")
            .then(function (list) {
-               vm.buildingOptions(_(list).sortBy(function (b) {
-                   return b.Item2;
-               }));
+               buildingOptions(list);
                tcs.resolve(true);
            });
         return tcs.promise();

@@ -3,6 +3,7 @@
 /// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
 /// <reference path="../../Scripts/loadoperation.js" />
 /// <reference path="logger.js" />
+/// <reference path="domain.g.js" />
 
 define(['services/logger'],
 function (logger) {
@@ -32,15 +33,16 @@ function (logger) {
         return tcs.promise();
     }
 
-    function loadOneAsync(entity,query) {
+    function loadOneAsync(entity, query) {
         var tcs = new $.Deferred();
-        loadAsync(entity,query)
+        loadAsync(entity, query)
             .fail(function () {
                 tcs.reject();
             })
             .done(function (lo) {
                 if (lo.itemCollection.length) {
-                    tcs.resolve(lo.itemCollection[0]);
+                    var item = lo.itemCollection[0];
+                    tcs.resolve(item);
                 } else {
                     tcs.resolve(null);
                 }
@@ -49,7 +51,7 @@ function (logger) {
         return tcs.promise();
     }
 
-    function loadAsync(entity,query, page, includeTotal) {
+    function loadAsync(entity, query, page, includeTotal) {
         var url = "/JsonDataService/" + entity;
         url += "/?filter=";
         if (page) {
@@ -69,8 +71,13 @@ function (logger) {
             dataType: "json",
             error: tcs.reject,
             success: function (msg) {
-                var temp =  _(msg.results).map(function (v) {
-                    return ko.mapping.fromJS(v);
+                var temp = _(msg.results).map(function (v) {
+                    var item = ko.mapping.fromJS(v);
+                    if (bespoke.sphcommercialspace.domain[entity + "Partial"]) {
+                        var extended = _(item).extend(new bespoke.sphcommercialspace.domain[entity + "Partial"]());
+                        return extended;
+                    }
+                    return item;
                 });
                 var lo = new LoadOperation();
                 lo.itemCollection = temp;
@@ -98,13 +105,13 @@ function (logger) {
 
     function getTuplesAsync(entity, query, field, field2) {
         var url = "/List/Tuple";
-            url += "?filter=";
-            url += query;
-            url += "&column=";
-            url += field;
-            url += "&column2=";
-            url += field2;
-            url += "&table=" + entity;
+        url += "?filter=";
+        url += query;
+        url += "&column=";
+        url += field;
+        url += "&column2=";
+        url += field2;
+        url += "&table=" + entity;
 
 
         var tcs = new $.Deferred();
@@ -171,7 +178,7 @@ function (logger) {
 
         return tcs.promise();
     }
-    
+
     function LoadOperation() {
         var self = this;
         self.hasNextPage = false;

@@ -21,9 +21,9 @@
             <option value="Terengganu">Terengganu</option>
         </select>
     </div>
-    <div class="labelLeft">
+    <div class="labelLeft" data-bind="with: buildingOptions">
         <label>Building:</label>
-        <select data-bind ="options: buildingOptions, optionsText: 'Item2', optionsValue: 'Item1', value: selectedBuildingId" ></select>
+        <select name="building"  data-bind="options: $data, optionsText :'Item2', optionsValue : 'Item1', value : $parent.selectedBuildingId, optionsCaption : '[Sila Pilih]'"></select>
     </div>
     <div class="labelLeft">
         <label>Jenis Perniagaan:</label>
@@ -36,7 +36,7 @@
         </select>
     </div>
     <div>
-        <button class="btn btn-primary" value="Carian" data-bind ="click: searchCommand">Carian</button>
+        <button class="btn btn-primary" id="apply-rent-button" value="Carian" data-bind ="click: searchCommand">Carian</button>
     </div>
 
 </section>

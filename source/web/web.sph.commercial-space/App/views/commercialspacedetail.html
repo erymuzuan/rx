@@ -33,7 +33,7 @@
                         <div class="controls">
                             <input data-bind="value: LotName" id="commercialSpace_LotName" type="text" name="commercialSpace.LotName" readonly="readonly" />
                             <a type="button" class="btn help-inline"
-                                data-toggle="modal"
+                                data-toggle="modal" id="select-lot-button"
                                 href="#lot-selection-panel">Pilih lot</a>
                         </div>
 
@@ -98,7 +98,7 @@
                     </div>
 
                     <div>
-                        <input type="button" class="btn btn-primary" value="Save" data-bind="command: $parent.saveCommand, disable: $parent.isBusy"
+                        <input id="save-button" type="button" class="btn btn-primary" value="Save" data-bind="command: $parent.saveCommand, disable: $parent.isBusy"
                             data-loading-text="Saving..."
                             data-complete-text="Saved!!" />
                     </div>
@@ -150,6 +150,6 @@
 
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" data-bind="click: addLotsCommand" value="OK" />
+        <input data-dismiss="modal" id="add-lot-button" type="button" class="btn btn-primary" data-bind="click: addLotsCommand" value="OK" />
     </div>
 </section>

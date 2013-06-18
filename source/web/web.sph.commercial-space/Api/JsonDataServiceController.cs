@@ -64,6 +64,11 @@ namespace Bespoke.Sph.Commerspace.Web.Api
             return await ExecuteAsync<Payment>(filter, page, size, includeTotal);
         }
 
+        public async Task<ActionResult> Tenant(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Tenant>(filter, page, size, includeTotal);
+        }
+
         public async Task<ActionResult> ExecuteAsync<T>(string filter = null, int page = 1, int size = 40, bool includeTotal = false) where T : Entity
         {
             if (size > 200)

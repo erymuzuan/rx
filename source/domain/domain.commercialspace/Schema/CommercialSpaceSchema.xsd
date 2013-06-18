@@ -3,11 +3,12 @@
 <xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
 	<xs:element name="ContractHistory">
 		<xs:complexType>
+			<xs:all>
+				<xs:element name="DateEnd" type="xs:dateTime" nillable="true"/>
+			</xs:all>
 			<xs:attribute name="ContractNo" type="xs:string" use="required"/>
 			<xs:attribute name="DateFrom" type="xs:dateTime" use="required"/>
-			<xs:attribute name="TenantName" type="xs:string"/>
-			<xs:attribute name="DateEnd" type="xs:dateTime"/>
-			<xs:attribute name="DateStart" type="xs:dateTime"/>
+			<xs:attribute name="DateStart" type="xs:dateTime" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Tenant" nillable="false">

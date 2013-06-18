@@ -12,8 +12,19 @@ namespace web.test
     {
         const string SphDatabase = "sph";
         const string BuildingName = "Damansara Utama Uptown Block A";
+
+
+
         [Test]
-        public void AddBuilding()
+        public void AddBuildingAndNavigateToLots()
+        {
+            _001_AddBuilding();
+            _002_AddLots();
+        }
+
+
+        [Test]
+        public void _001_AddBuilding()
         {
             const string sphDatabase = "sph";
             sphDatabase.ExecuteNonQuery("DELETE FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
@@ -58,7 +69,7 @@ namespace web.test
         }
 
         [Test]
-        public void AddLots()
+        public void _002_AddLots()
         {
             var id = SphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
 

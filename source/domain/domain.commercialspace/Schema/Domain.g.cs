@@ -28,20 +28,16 @@
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_tenantName;
-                    public const string PropertyNameTenantName = "TenantName";
-
-                  
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  DateTime  m_dateEnd;
-                    public const string PropertyNameDateEnd = "DateEnd";
-
-                  
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private  DateTime  m_dateStart;
                     public const string PropertyNameDateStart = "DateStart";
 
                   
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private DateTime?  m_dateEnd;
+                public const string PropertyNameDateEnd = "DateEnd";
+
+
+              
                 ///<summary>
                 /// 
                 ///</summary>
@@ -103,57 +99,7 @@
                 ///</summary>
                 [XmlAttribute]
                 
-                [DebuggerHidden]
-                
-                    public string TenantName
-                    {
-                    set
-                    {
-                    if( String.Equals( m_tenantName, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameTenantName, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_tenantName= value;
-                    OnPropertyChanged(PropertyNameTenantName);
-                    }
-                    }
-                    get
-                    {
-                    return m_tenantName;}
-                    }
-
-                  
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                [DebuggerHidden]
-                
-                    public DateTime DateEnd
-                    {
-                    set
-                    {
-                    if( m_dateEnd == value) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameDateEnd, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_dateEnd= value;
-                    OnPropertyChanged(PropertyNameDateEnd);
-                    }
-                    }
-                    get
-                    {
-                    return m_dateEnd;}
-                    }
-
-                  
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
+                  [Required]
                 
                 [DebuggerHidden]
                 
@@ -176,6 +122,28 @@
                     }
 
                   
+
+                ///<summary>
+                /// 
+                ///</summary>
+                [DebuggerHidden]
+
+                public DateTime? DateEnd
+                {
+                set
+                {
+                if(m_dateEnd == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDateEnd, value);
+                OnPropertyChanging(arg);
+                if(! arg.Cancel)
+                {
+                m_dateEnd= value;
+                OnPropertyChanged(PropertyNameDateEnd);
+                }
+                }
+                get { return m_dateEnd;}
+                }
+              
 
           }
         

@@ -1,0 +1,19 @@
+USE [Sph]
+GO
+/*
+DROP TABLE [Sph].[Tenant]
+GO
+*/
+CREATE TABLE [Sph].[Tenant]
+(
+	 [TenantId] INT PRIMARY KEY IDENTITY(1,1)
+	,[RegistrationNo] VARCHAR(255) NULL	
+	,[Name] VARCHAR(255) NULL
+	,[IdSsmNo] VARCHAR(255) NULL
+	,[Data] XML NOT NULL
+	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
+	,[CreatedBy] VARCHAR(255) NULL
+	,[ChangedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
+	,[ChangedBy] VARCHAR(255) NULL
+
+)
