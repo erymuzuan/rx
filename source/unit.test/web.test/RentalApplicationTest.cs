@@ -10,13 +10,13 @@ namespace web.test
     [TestFixture]
     public class RentalApplicationTest : BrowserTest
     {
-        public const string RA_REGISTRATION_NO = "BSPK/999999";
+        public const string RA_COMPANYREGISTRATION_NO = "B19999";
 
         [Test]
         public void _001_New()
         {
             const string sphDatabase = "sph";
-            sphDatabase.ExecuteNonQuery("DELETE FROM [Sph].[RentalApplication] WHERE [RegistrationNo] =@No", new SqlParameter("@No", RA_REGISTRATION_NO));
+            sphDatabase.ExecuteNonQuery("DELETE FROM [Sph].[RentalApplication] WHERE [CompanyRegistrationNo] =@No", new SqlParameter("@No", RA_COMPANYREGISTRATION_NO));
             var max = sphDatabase.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
 
             IWebDriver driver = new FirefoxDriver();
@@ -48,7 +48,7 @@ namespace web.test
                 ;
 
 
-            var id = sphDatabase.GetDatabaseScalarValue<int>("SELECT [RentalApplicationId] FROM [Sph].[RentalApplication] WHERE [RegistrationNo] =@No", new SqlParameter("@No", RA_REGISTRATION_NO));
+            var id = sphDatabase.GetDatabaseScalarValue<int>("SELECT [RentalApplicationId] FROM [Sph].[RentalApplication] WHERE [CompanyRegistrationNo] =@No", new SqlParameter("@No", RA_COMPANYREGISTRATION_NO));
             Assert.IsTrue(max < id);
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();
