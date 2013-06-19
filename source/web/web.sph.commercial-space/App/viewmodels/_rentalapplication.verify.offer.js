@@ -60,7 +60,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         rejectOfferLetterCommand: rejectOfferLetter,
         generateDeclinedLetterCommand: generateDeclinedOfferLetter,
         contractCommand: function () {
-            router.navigateTo("/#/createcontract/" + vm.rentalapplication().RentalApplicationId());
+            router.navigateTo("/#/contract.create/" + vm.rentalapplication().RentalApplicationId());
         },
     };
 
