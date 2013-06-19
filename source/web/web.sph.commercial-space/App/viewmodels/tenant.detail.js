@@ -4,7 +4,7 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
-/// <reference path="../services/mockTenantContext.js" />
+/// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../viewmodels/_tenant.rent.js" />
@@ -12,24 +12,24 @@
 /// <reference path="../viewmodels/_tenant.adhoc.js" />
 
 
-define(['services/mockTenantContext', './_tenant.rent', './_tenant.contract', './_tenant.adhoc'],
+define(['services/datacontext', './_tenant.rent', './_tenant.contract', './_tenant.adhoc'],
 	function (context, rentvm, contractvm, invoicevm) {
 
 	    var isBusy = ko.observable(false),
         id = ko.observable(),
         tenant = new bespoke.sphcommercialspace.domain.Tenant(),
         activate = function (routeData) {
-            id(routeData.id);
+            id(routeData.tenantId);
             var query = String.format("TenantId eq {0}", id());
             var tcs = new $.Deferred();
             var detailLoaded = function (tnt) {
                 vm.tenant(tnt);
-                rentvm.activate(tnt)
-                    .done(function () {
+               var rentTask = rentvm.activate(tnt);
+                var invoiceTask = invoicevm.activate(tnt);
+                var contractTask = contractvm.init(tnt);
+                    $.when(rentTask,invoiceTask,contractTask).done(function () {
                         tcs.resolve(true);
                     });
-                invoicevm.activate(tnt);
-                contractvm.init(tnt);
             };
             context.loadOneAsync("Tenant", query)
                 .then(detailLoaded);

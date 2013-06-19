@@ -1,19 +1,35 @@
 ﻿<section>
     <div>
+        <input type="button" name="add-interest-button" class="btn pull-right" value="+ Kadar Faedah" data-bind="click: addInterestCommand" />
+    </div>
+    <div>
         <table class="table-striped">
             <thead>
-                <th>Bangunan</th>
-                <th>Kategori Ruang</th>
-                <th>Tempoh lewat</th>
-                <th>Peratus faedah</th>
+                <tr>
+                    <th>Bangunan</th>
+                    <th>Tingkat</th>
+                    <th>Kategori Ruang</th>
+                    <th>Tempoh lewat</th>
+                    <th>Peratus faedah</th>
+                </tr>
             </thead>
             <tbody data-bind="foreach: interestCollection">
                 <tr>
-                    <td data-bind="text: Building, uniqueName: true"></td>
-                    <td data-bind="text: CommercialSpaceCategory, uniqueName: true"></td>
                     <td>
-                        <input type="text" data-bind="value: Period, uniqueName: true" />
-                        <select data-bind="value: PeriodType">
+                        <select data-bind="value: $parent.selectedBuildingId, options: $parent.buildingOptions, optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Semua]'" id="selectedBuilding" name="selectedBuilding">
+                        </select>
+                    </td>
+                    <td>
+                        <select data-bind="value: $parent.selectedFloor, options: $parent.floorOptions, optionsCaption: '[Semua]'" id="selectedFloor" name="selectedFloor">
+                        </select>
+                    </td>
+                    <td>
+                        <select data-bind="value: $parent.selectedCs, options: $parent.cspaceOptions, optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Semua]'" id="selectedCategory" name="selectedCategory">
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" data-bind="value: Period, uniqueName: true" class="span2" />
+                        <select data-bind="value: PeriodType" class="span2">
                             <option value="Day">Hari</option>
                             <option value="Week">Minggu</option>
                         </select>
@@ -27,5 +43,5 @@
     </div>
 </section>
 <section>
-    <input type="button" class="btn btn-small" value="Simpan" data-bind="click: saveCommand" />
+    <input type="button" class="btn btn-primary" value="Simpan" data-bind="click: saveCommand" />
 </section>

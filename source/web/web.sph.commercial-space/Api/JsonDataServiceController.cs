@@ -58,6 +58,15 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         {
             return await ExecuteAsync<Rent>(filter, page, size, includeTotal);
         }
+        
+        public async Task<ActionResult> Rebate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Rebate>(filter, page, size, includeTotal);
+        }
+        public async Task<ActionResult> Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Setting>(filter, page, size, includeTotal);
+        }
 
         public async Task<ActionResult> Payment(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {

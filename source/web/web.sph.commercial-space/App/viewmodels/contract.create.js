@@ -40,7 +40,7 @@ define(['services/datacontext', './_contract.clauses', './_audittrail.list'],
             context.post(json, "/Contract/Generate")
                 .then(function (t) {
                     vm.contract(t);
-                    clauses.init(vm.contract);
+                    clauses.init(vm.contract());
                     tcs.resolve(t);
                 });
 

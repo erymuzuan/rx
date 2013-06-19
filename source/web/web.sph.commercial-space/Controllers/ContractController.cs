@@ -21,7 +21,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             if (0 != contract.ContractId) throw new ArgumentException("Contract must be new", "contract");
 
             var context = new SphDataContext();
-
+            var application = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == rentalApplicationId);
+            var cs = await context.LoadOneAsync<CommercialSpace>(c => c.CommercialSpaceId == application.CommercialSpaceId);
             var audit = new AuditTrail
             {
                 Operation = "Contract is created from application",
@@ -37,6 +38,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             {
                 contract.RentalApplicationId = rentalApplicationId;
                 contract.Status = "Active";
+                contract.CommercialSpace = cs;
+                
                 session.Attach(contract, audit);
                 await session.SubmitChanges();
             }
@@ -70,7 +73,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 {
                     Title = string.Format("Kotrak sewaan dengan {0} dan {1}", app.CompanyName, "Bespoke"),
                     ReferenceNo = string.Format("BSPB/2013/{0}", app.RegistrationNo),
-                    Date = DateTime.Today,
                     Owner = new Owner
                         {
                             Name = "To get from settings",
@@ -95,10 +97,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                             Name = app.CompanyName ?? app.Contact.Name,
                             RegistrationNo = app.RegistrationNo,
                             Address = app.Address
-                        },
-                    StartDate = app.Offer.ExpiryDate,
-                    EndDate = app.Offer.ExpiryDate.AddYears(app.Offer.Period)
-
+                        }
                 };
 
             contract.TopicCollection.AddRange(template.TopicCollection);

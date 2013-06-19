@@ -236,6 +236,7 @@
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\RebateController.cs" />
     <Compile Include="Controllers\RentalApplicationController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="default.aspx.cs">
@@ -317,7 +318,7 @@
     <Content Include="App\viewmodels\organization.detail.js" />
     <Content Include="App\viewmodels\payment.js" />
     <Content Include="App\viewmodels\_setting.interest.js" />
-    <Content Include="App\viewmodels\_setting.Rebate.js" />
+    <Content Include="App\viewmodels\_tenant.rebate.js" />
     <Content Include="App\viewmodels\_tenant.rent.js" />
     <Content Include="App\viewmodels\rentalapplication.js" />
     <Content Include="App\viewmodels\returnedapplication.js" />
@@ -352,7 +353,7 @@
     <Content Include="App\views\offerdetails.html" />
     <Content Include="App\views\payment.html" />
     <Content Include="App\views\_setting.interest.html" />
-    <Content Include="App\views\_setting.rebate.html" />
+    <Content Include="App\views\_tenant.rebate.html" />
     <Content Include="App\views\_tenant.adhoc.html" />
     <Content Include="App\views\_tenant.rent.html" />
     <Content Include="App\views\rentalapplication.html" />

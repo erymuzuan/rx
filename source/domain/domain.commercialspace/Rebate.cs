@@ -1,6 +1,6 @@
 ﻿namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public partial class Rebate : DomainObject
+    public partial class Rebate : Entity
     {
     }
 }

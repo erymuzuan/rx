@@ -15,7 +15,6 @@ define(['services/datacontext'],
 
 	    var isBusy = ko.observable(false),
 	         adhocInvoice = ko.observable(new bespoke.sphcommercialspace.domain.AdhocInvoice()),
-	        
 		     activate = function (tenant) {
 		         context.getTuplesAsync("Contract", "TenantIdSsmNo eq '" + tenant.IdSsmNo() + "'", "ContractId", "ReferenceNo")
                      .done(function (list) {
@@ -30,7 +29,6 @@ define(['services/datacontext'],
                          vm.invoiceCollection(lo.itemCollection);
                          tcs.resolve(true);
                      });
-		         vm.invoice().TenantIdSsmNo(tenant.IdSsmNo());
 		         return tcs.promise();
 
 		     },

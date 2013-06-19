@@ -1,5 +1,5 @@
 ﻿<form class="form-horizontal" data-bind="with : contract">
-    <h3>maklumat Kontak</h3>
+    <h3>maklumat Kontrak</h3>
     <div class="control-group">
         <label for="contract.Title" class="control-label">Tajuk Perjanjian</label>
         <div class="controls">
@@ -20,8 +20,13 @@
             <input data-bind="kendoDate: Date" id="contract.Date" type="text" name="contract.Date" />
         </div>
     </div>
-
     <div class="control-group">
+        <label for="contract.StartDate" class="control-label">Tarikh Mula Kontrak </label>
+        <div class="controls">
+            <input data-bind="kendoDate: Date" id="contract.StartDate" type="text" name="contract.StartDate" />
+        </div>
+    </div>
+   <div class="control-group">
         <label for="contract.Value" class="control-label">Nilai</label>
         <div class="controls">
             <div class="input-prepend">
@@ -31,11 +36,16 @@
         </div>
     </div>
     <div class="control-group">
-        <label for="contract.Period" class="control-label">Tempoh</label>
+        <label for="contract.Period" class="control-label">Tempoh Kontrak</label>
         <div class="controls">
             <div class="input-append">
-                <input data-bind="value: Period" id="contract.Period" type="number" name="contract.Period" />
-                <span class="add-on" data-bind="text: PeriodUnit"></span>
+                <input data-bind="value: PeriodUnit" id="contract.Period" type="number" name="contract.Period" />
+                <span>
+                    <select data-bind="value: Period">
+                        <option value="Month">Bulan</option>
+                        <option value="Year">Tahun</option>
+                    </select>
+                </span>
             </div>
         </div>
     </div>

@@ -62,6 +62,14 @@
             settings: { caption: 'Senarai Bangunan' }
         },
         {
+            url: 'commercialspace',
+            moduleId: 'viewmodels/commercialspace',
+            name: 'Ruang Komersial',
+            visible: true,
+            icon: 'icon-laptop',
+            caption: 'Senarai Ruang Komersial'
+        },
+        {
             url: 'setting',
             moduleId: 'viewmodels/setting',
             name: 'Setting',
@@ -93,14 +101,6 @@
             visible: false,
             icon: 'icon-laptop',
             caption: 'Buat jenis kontrak'
-        },
-        {
-            url: 'commercialspace',
-            moduleId: 'viewmodels/commercialspace',
-            name: 'Ruang Komersial',
-            visible: true,
-            icon: 'icon-laptop',
-            caption: 'Senarai Ruang Komersial'
         },
         {
             url: 'buildingbound',
@@ -185,15 +185,6 @@
             settings: { caption: 'Kembalikan Permohonan' }
         },
         {
-            url: 'deposit',
-            moduleId: 'viewmodels/deposit',
-            name: 'deposit',
-            visible: true,
-            caption: 'deposit',
-            icon: 'icon-laptop',
-            settings: { caption: 'Senarai deposit' }
-        },
-        {
             url: 'tenant',
             moduleId: 'viewmodels/tenant',
             name: 'Penyewa',
@@ -201,6 +192,15 @@
             caption: 'Penyewa',
             icon: 'icon-laptop',
             settings: { caption: 'Senarai tenant' }
+        },
+        {
+            url: 'deposit',
+            moduleId: 'viewmodels/deposit',
+            name: 'Bayaran Deposit',
+            visible: true,
+            caption: 'deposit',
+            icon: 'icon-laptop',
+            settings: { caption: 'Senarai deposit' }
         },
         {
             url: 'tenant.detail/:tenantId',
@@ -214,7 +214,7 @@
         {
             url: 'payment',
             moduleId: 'viewmodels/payment',
-            name: 'Bayaran',
+            name: 'Bayaran Sewa',
             visible: true,
             caption: 'Bayaran',
             icon: 'icon-laptop',

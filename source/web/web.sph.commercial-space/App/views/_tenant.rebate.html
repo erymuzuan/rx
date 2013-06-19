@@ -1,0 +1,96 @@
+﻿<div>
+    <span>
+        <input type="button" name="add-rebate-button" class="btn pull-right" value="Sejarah" />
+    </span>
+    <a type="button" class="btn pull-right" data-toggle="modal" href="#add-rebate-modal">+ Rebat</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Bangunan</th>
+                <th>Tingkat</th>
+                <th>Kategori</th>
+                <th>Amaun</th>
+                <th>Tarikh Mula</th>
+                <th>Tarikh Akhir</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: rebateCollection">
+            <tr>
+                <td data-bind="text: Building"></td>
+                <td data-bind="text: Floor"></td>
+                <td data-bind="text: CommercialSpaceCategory"></td>
+                <td>
+                    <span class="add-on">RM</span><input type="text" data-bind="text: Amount" /></td>
+                <td>
+                    <input type="text" data-bind="date: { value: StartDate, format: 'DD/MM/YYYY' }" /></td>
+                <td>
+                    <input type="text" data-bind="date: { value: EndDate, format: 'DD/MM/YYYY' }" /></td>
+                <td>
+                    <input type="button" data-bind="click: $parent.removeRebateCommand, uniqueName: true" class="btn btn-mini" value="-" /></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<section id="add-rebate-modal" class="modal fade hide">
+    <form class="form-horizontal"></form>
+    <div class="modal-header">
+        <a class="btn btn-small pull-right" data-dismiss="modal">X</a>
+    </div>
+    <div class="modal-body" data-bind="with: rebate">
+
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label for="Building" class="control-label">Bangunan : </label>
+                <div class="controls">
+                    <select id="Building" data-bind="value: Building, options: $parent.buildingOptions, optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Semua]'" name="Building">
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="Floor" class="control-label">Tingkat :</label>
+                <div class="controls">
+                    <select id="Floor" data-bind="value: Floor, options: $parent.floorOptions, optionsCaption: '[Semua]'" name="Floor">
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="CommercialSpaceCategory" class="control-label">Kategori Ruang :</label>
+                <div class="controls">
+                    <select id="commercialSpaceCategory" data-bind="value: $parent.CommercialSpaceCategory, options: $parent.cspaceOptions, optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Semua]'" name="CommercialSpaceCategory">
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Amount" class="control-label">Amaun :</label>
+                <div class="controls">
+                    <input data-bind="value: Amount" id="Amount" type="text" name="Amount" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="StartDate" class="control-label">Tarikh Mula :</label>
+                <div class="controls">
+                    <input data-bind="kendoDate: StartDate" id="StartDate" type="text" name="StartDate" />
+                </div>
+
+            </div>
+
+            <div class="control-group">
+
+                <label for="EndDate" class="control-label">Tarikh Akhir :</label>
+                <div class="controls">
+                    <input data-bind="kendoDate: EndDate" id="EndDate" type="text" name="EndDate" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button id="close-button" class="btn btn-primary" data-dismiss="modal">Batal</button>
+        <input id="save-button" type="button" class="btn btn-primary" value="Simpan" data-bind="command: saveCommand" data-loading-text="Saving..."
+            data-dismiss="modal" data-complete-text="Rebate Saved" />
+    </div>
+</section>

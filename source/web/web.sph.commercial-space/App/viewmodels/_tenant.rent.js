@@ -10,8 +10,8 @@
 /// <reference path="~/App/services/Rent.js" />
 
 
-define(['services/datacontext', 'services/logger'],
-    function (context, logger) {
+define(['services/datacontext'],
+    function (context) {
 
         var isBusy = ko.observable(false),
             activate = function (tenant) {

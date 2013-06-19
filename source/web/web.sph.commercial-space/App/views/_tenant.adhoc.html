@@ -40,22 +40,22 @@
                     </select>
                 </div>
             </div>
-            <div data-bind="with: invoice">
+            <div>
                 <div class="control-group">
                     <div class="controls">
-                        <span><input data-bind="value: No" id="invoice-no" type="text" name="invoice().No" /></span>
-                        <span><input id="get-no-button" type="button" class="btn btn-primary inline" value="Jana No. Invois " data-bind="command: $parent.getInvoiceNoCommand" data-loading-text="Sila tunggu..." data-complete-text="Done" /></span>
+                        <span><input data-bind="value: invoice().No" id="invoice-no" type="text" name="invoice().No" /></span>
+                        <span><input id="get-no-button" type="button" class="btn btn-primary inline" value="Jana No. Invois " data-bind="command: getInvoiceNoCommand" data-loading-text="Sila tunggu..." data-complete-text="Done" /></span>
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label for="invoice-date" class="control-label">Tarikh</label>
                     <div class="controls">
-                        <input data-bind="kendoDate: Date" id="invoice-date" type="text" name="Date" />
+                        <input data-bind="kendoDate: invoice().Date" id="invoice-date" type="text" name="Date" />
                     </div>
                 </div>
 
-                <a class="btn btn-mini" data-bind="click: $parent.addItem">+Item </a>
+                <a class="btn btn-mini" data-bind="click:addItem">+Item </a>
                 <table class="table span4">
                     <thead>
                         <tr>
@@ -65,7 +65,7 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody data-bind="foreach: InvoiceItemCollection">
+                    <tbody data-bind="foreach: invoice().InvoiceItemCollection">
                         <tr>
                             <td>
                                 <input type="text" data-bind="value: Category" />
@@ -75,7 +75,7 @@
                             <td>
                                 <input type="text" data-bind="value: Note" /></td>
                             <td>
-                                <input type="button" data-bind="click: $parents[1].removeItemCommand" value="-" /></td>
+                                <input type="button" data-bind="click: $parent.removeItemCommand" value="-" /></td>
                         </tr>
                     </tbody>
                 </table>

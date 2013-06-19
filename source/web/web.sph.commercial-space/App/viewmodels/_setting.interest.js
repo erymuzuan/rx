@@ -18,25 +18,14 @@ define(['services/datacontext', 'durandal/app'],
             activate = function () {
                 
             },
-            init = function () {
-                var query = String.format("BuildingId gt 0");
+            addInterest = function () {
                 var tcs = new $.Deferred();
-
-                context.loadAsync("Building", query)
-                    .done(function (lo) {
-                        isBusy(false);
-                        _.each(lo.itemCollection, function (item) {
-                            var interest = new bespoke.sphcommercialspace.domain.Interest();
-                            interest.Building(item.Name());
-                            interest.Period(1);
-                            interest.CommercialSpaceCategory('Cafeteria');
-                            interest.PeriodType('Week');
-                            interest.Percentage(10);
-                            vm.interestCollection.push(interest);
-                        });
-
-                        tcs.resolve(true);
-                    });
+                context.getTuplesAsync("Building", "BuildingId gt 0", "BuildingId", "Name").done(function (list) {
+                    vm.buildingOptions(list);
+                    tcs.resolve(true);
+                });
+                var interest = new bespoke.sphcommercialspace.domain.Interest();
+                vm.interestCollection.push(interest);
                 return tcs.promise();
             },
             save = function() {
@@ -57,13 +46,44 @@ define(['services/datacontext', 'durandal/app'],
 
         var vm = {
             isBusy: isBusy,
-            init: init,
             activate: activate,
             setting: ko.observable(setting),
+            buildingOptions : ko.observableArray(),
+            floorOptions : ko.observableArray(),
+            cspaceOptions : ko.observableArray(),
+            selectedBuildingId : ko.observable(),
+            selectedFloor : ko.observable(),
             interestCollection: ko.observableArray(),
-            saveCommand:save
+            addInterestCommand: addInterest,
+            saveCommand: save
         };
 
+        vm.selectedBuildingId.subscribe(function (id) {
+            vm.isBusy(true);
+            var tcs = new $.Deferred();
+            context.loadOneAsync("Building", "BuildingId eq " + id)
+                .then(function (b) {
+                    var floors = _(b.FloorCollection()).map(function (f) {
+                        return f.Name();
+                    });
+                    vm.floorOptions(floors);
+                    vm.isBusy(false);
+                    tcs.resolve(true);
+                });
+            return tcs.promise();
+        });
+
+        vm.selectedFloor.subscribe(function (floorname) {
+            vm.isBusy(true);
+            var tcs = new $.Deferred();
+            context.getTuplesAsync("CommercialSpace", "BuildingId eq " + vm.selectedBuildingId() + "and FloorName eq '" + floorname + "'", "CommercialSpaceId", "Category")
+                .then(function (b) {
+                    vm.cspaceOptions(b);
+                    vm.isBusy(false);
+                    tcs.resolve(true);
+                });
+            return tcs.promise();
+        });
         return vm;
 
     });

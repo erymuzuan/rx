@@ -15,7 +15,7 @@ define(['services/datacontext', 'services/logger', 'viewmodels/_setting.interest
 
         var isBusy = ko.observable(false),
             activate = function () {
-                interestvm.init();
+                interestvm.activate();
                 rebatevm.activate();
             },
             viewAttached = function () {

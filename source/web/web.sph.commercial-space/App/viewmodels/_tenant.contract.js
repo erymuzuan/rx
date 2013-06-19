@@ -33,8 +33,8 @@ define(['services/datacontext', 'durandal/app'],
 
 	    var vm = {
 	        isBusy: isBusy,
-	        init: function (b) {
-	            var query = "ContractId gt 0";
+	        init: function (tenant) {
+	            var query = "TenantIdSsmNo eq '" + tenant.IdSsmNo() +"'";
 	            var tcs = new $.Deferred();
 	            context.loadAsync("Contract", query).done(function (lo) {
 	                vm.contractCollection(lo.itemCollection);
