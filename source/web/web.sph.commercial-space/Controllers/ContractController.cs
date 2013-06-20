@@ -73,6 +73,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 {
                     Title = string.Format("Kotrak sewaan dengan {0} dan {1}", app.CompanyName, "Bespoke"),
                     ReferenceNo = string.Format("BSPB/2013/{0}", app.RegistrationNo),
+                    Date = DateTime.Now,
                     Owner = new Owner
                         {
                             Name = "To get from settings",
@@ -97,7 +98,9 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                             Name = app.CompanyName ?? app.Contact.Name,
                             RegistrationNo = app.RegistrationNo,
                             Address = app.Address
-                        }
+                        },
+                        StartDate = app.Offer.ExpiryDate,
+                        EndDate = app.Offer.ExpiryDate.AddYears(1)
                 };
 
             contract.TopicCollection.AddRange(template.TopicCollection);

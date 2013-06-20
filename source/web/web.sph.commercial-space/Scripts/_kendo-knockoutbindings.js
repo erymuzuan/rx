@@ -131,8 +131,13 @@ ko.bindingHandlers.kendoDate = {
 
         $(element).on("change", function () {
             var nv = $(this).val();
-            date = moment(nv, "DD/MM/YYYY");
-            value(date.format("YYYY-MM-DD"));
+            if (typeof nv == "string") {
+                date = moment(nv, "DD/MM/YYYY");
+            } else {
+              date = moment(nv);
+            }
+            value = date.format("DD/MM/YYYY");
+            picker.value(value);
         });
     },
     update: function (element, valueAccessor) {

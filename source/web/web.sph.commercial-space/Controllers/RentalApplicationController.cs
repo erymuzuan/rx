@@ -353,56 +353,28 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json("");
         }
 
-        public async Task<ActionResult> RejectedOfferLetter(int id)
+        public async Task<ActionResult> Complete(int id)
         {
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            dbItem.Status = "OfferRejected";
+            dbItem.Status = "Completed";
+
+
+            var audit = new AuditTrail
+            {
+                Operation = "application flow completed",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(RentalApplication).Name,
+                EntityId = id
+            };
             using (var session = context.OpenSession())
             {
-                session.Attach(dbItem);
+                session.Attach(dbItem, audit);
                 await session.SubmitChanges();
             }
 
             return Json(true);
-        }
-
-        public async Task<ActionResult> ConfirmOffer(int id)
-        {
-            var context = new SphDataContext();
-            var application = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            application.Status = "Confirmed";
-
-
-            var existing = await context.LoadOneAsync<Tenant>(t => t.RegistrationNo == application.RegistrationNo);
-            if (null == existing)
-            {
-                var tenant = new Tenant
-                    {
-                        Name = application.CompanyName ?? application.Contact.Name,
-                        IdSsmNo = application.CompanyRegistrationNo ?? application.Contact.IcNo,
-                        BussinessType = application.CompanyType,
-                        Phone = application.Contact.OfficeNo,
-                        MobilePhone = application.Contact.MobileNo,
-                        Email = application.Contact.Email,
-                        RegistrationNo = application.RegistrationNo,
-                        Address = application.Address
-                    };
-                using (var session = context.OpenSession())
-                {
-                    session.Attach(tenant);
-                    await session.SubmitChanges("Confirm offer");
-                }
-
-                return Json(true);
-            }
-            using (var session = context.OpenSession())
-            {
-                session.Attach(application);
-                await session.SubmitChanges("Confirm offer");
-            }
-
-            return Json("Penyewa sudah didaftarkan");
         }
 
         public async Task<ActionResult> SaveDepositPayment(int id, Offer offer)
