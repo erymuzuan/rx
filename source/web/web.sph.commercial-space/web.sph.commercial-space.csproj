@@ -239,6 +239,7 @@
     <Compile Include="Controllers\RebateController.cs" />
     <Compile Include="Controllers\RentalApplicationController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
+    <Compile Include="Controllers\TenantController.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

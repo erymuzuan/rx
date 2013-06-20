@@ -1,5 +1,6 @@
-﻿<input type="button" class="btn btn-success" value="SEDIAKAN TAWARAN" data-bind="click: generateOfferLetterCommand, visible: rentalapplication().Status() == 'Approved' || rentalapplication().Status() == 'WaitingConfirmation'" />
-<input type="button" class="btn btn-success" value="CETAK SURAT PENOLAKAN" data-bind="click: generateDeclinedLetterCommand, visible: rentalapplication().Status() == 'Declined'" data-loading-text="processing.." data-complete-text="Surat penolakan" />
-<input type="button" class="btn btn-danger" value="TOLAK TAWARAN" data-bind="command: rejectOfferLetterCommand, visible: rentalapplication().Status() == 'Confirmed'" data-loading-text="processing.." data-complete-text="Surat tolak" />
-<input type="button" class="btn btn-success" value="SAH TERIMA TAWARAN" data-bind="command: confirmOfferCommand, visible: rentalapplication().Status() == 'Confirmed'" data-loading-text="processing.." data-complete-text="Kontrak" />
-<input type="button" class="btn btn-warning" value="SEDIAKAN KONTRAK" data-bind="click: contractCommand, visible: rentalapplication().Status() == 'Approved'"/>
+﻿<input type="button" class="btn btn-warning" value="1. SEDIAKAN TAWARAN" data-bind="click: generateOfferLetterCommand, visible: rentalapplication().Status() == 'Approved'"/>
+<input type="button" class="btn btn-primary" value="2. SEDIAKAN KONTRAK" data-bind="click: contractCommand, visible: rentalapplication().Status() == 'Approved'"/>
+<input type="button" class="btn btn-success" value="3. SELESAI" data-bind="    click: completeCommand, visible: rentalapplication().Status() == 'Approved'"  data-loading-text="processing.." data-complete-text="Selesai"/>
+<input type="button" class="btn btn-danger" value="CETAK SURAT PEMBATALAN" data-bind="click: generateDeclinedLetterCommand, visible: rentalapplication().Status() == 'Declined'" data-loading-text="processing.." data-complete-text="Surat penolakan" />
+<input type="button" class="btn btn-success" value="SEDIAKAN MAKLUMAT PENYEWA" data-bind="command: createTenantCommand, visible: rentalapplication().Status() == 'Completed'" data-loading-text="processing.." data-complete-text="Selesai" />
+

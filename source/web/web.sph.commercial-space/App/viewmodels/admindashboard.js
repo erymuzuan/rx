@@ -4,19 +4,17 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger'], function (context, logger) {
+define(['services/datacontext'], function (context) {
 
     var isBusy = ko.observable(false),
         activate = function () {
             isBusy(true);
-            var apps = [{ status: 'New', count: -1, text: "Baru", color: "bred" },
-                { status: 'Approved', count: -1, text: "Lulus", color: "bgreen" },
-                { status: 'Waiting', count: -1, text: "Menunggu", color: "bviolet" },
-                { status: 'Declined', count: -1, text: "Ditolak", color: "bred" },
-                { status: 'Confirmed', count: -1, text: "Tawaran diterima", color: "bblue" },
-                { status: 'OfferRejected', count: -1, text: "Tawaran ditolak", color: "bred" },
-                { status: 'Offered', count: -1, text: "Ditawarkan", color: "bgreen" },
-                { status: 'Returned', count: -1, text: "Dikembalikan", color: "borange" }
+            var apps = [{ status: 'New', count: -1, text: "BARU", color: "bred" },
+                { status: 'Approved', count: -1, text: "LULUS", color: "bgreen" },
+                { status: 'Waiting', count: -1, text: "MENUNGGU", color: "bviolet" },
+                { status: 'Returned', count: -1, text: "DIKEMBALIKAN", color: "borange" },
+                { status: 'Declined', count: -1, text: "BATAL", color: "bred" },
+                { status: 'Completed', count: -1, text: "SELESAI", color: "bblue" }
             ];
             var tcs = new $.Deferred();
             _(apps).each(function (s) {

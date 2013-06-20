@@ -23,7 +23,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         },
          generateDeclinedOfferLetter = function () {
              var tcs = new $.Deferred();
-             var data = JSON.stringify({ id: id() });
+             var data = JSON.stringify({ id: vm.rentalapplication().RentalApplicationId() });
              context.post(data, "/RentalApplication/GenerateDeclinedLetter").done(function (e) {
                  logger.log("Declined letter generated ", e, "rentalapplication.verify", true);
                  window.open("/RentalApplication/Download");
@@ -31,34 +31,33 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
              });
              return tcs.promise();
          },
-        confirmedOffer = function () {
+        complete = function() {
             var tcs = new $.Deferred();
-            var data = JSON.stringify({ id: vm.rentalapplication().RentalApplicationId()});
-            context.post(data, "/RentalApplication/ConfirmOffer").done(function (e) {
-                logger.log(e, "rentalapplication.verify", true);
+            var data = JSON.stringify({ id: vm.rentalapplication().RentalApplicationId() });
+            context.post(data, "/RentalApplication/Complete").done(function (e) {
+                logger.log("Permohonan selesai ", e, "rentalapplication.verify", true);
                 tcs.resolve(true);
             });
             return tcs.promise();
         },
-        rejectOfferLetter = function () {
+        createTenant = function() {
             var tcs = new $.Deferred();
-            var data = JSON.stringify({ id: id() });
-            context.post(data, "/RentalApplication/RejectedOfferLetter").done(function (e) {
-                logger.log("Offer letter received & Confirmed ", e, "rentalapplication.verify", true);
+            var data = JSON.stringify({ id: vm.rentalapplication().RentalApplicationId() });
+            context.post(data, "/Tenant/Create").done(function (e) {
+                logger.log("Penyewa dijana ", e, "rentalapplication.verify", true);
                 tcs.resolve(true);
             });
             return tcs.promise();
-        }
-    ;
+        };
 
     var vm = {
         isBusy: isBusy,
         activate: activate,
         rentalapplication : ko.observable(new bespoke.sphcommercialspace.domain.RentalApplication()),
         generateOfferLetterCommand: generateOfferLetter,
-        confirmOfferCommand: confirmedOffer,
-        rejectOfferLetterCommand: rejectOfferLetter,
         generateDeclinedLetterCommand: generateDeclinedOfferLetter,
+        completeCommand: complete,
+        createTenantCommand: createTenant,
         contractCommand: function () {
             router.navigateTo("/#/contract.create/" + vm.rentalapplication().RentalApplicationId());
         },

@@ -84,7 +84,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             return tcs.promise();
         },
         
-        declined = function () {
+        decline = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: id() });
             context.post(data, "/RentalApplication/Declined").done(function (e) {
@@ -94,7 +94,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             return tcs.promise();
         },
         
-        approved = function () {
+        approve = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: id() });
             context.post(data, "/RentalApplication/Approved").done(function (e) {
@@ -115,10 +115,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
         commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         waitingListCommand: waitingList,
         returnedCommand: returned,
-        declinedCommand: declined,
+        declinedCommand: decline,
         showAuditTrailCommand: showAuditTrail,
         showDetailsCommand: showDetails,
-        approvedCommand: approved,
+        approvedCommand: approve,
         addAttachmentCommand: addAttachment,
         remark: ko.observable('')
     };
