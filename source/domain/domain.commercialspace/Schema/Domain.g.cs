@@ -4187,6 +4187,11 @@
                     public const string PropertyNameStatus = "Status";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  double  m_interest;
+                    public const string PropertyNameInterest = "Interest";
+
+                  
 			private readonly ObjectCollection<DocumentTemplate>  m_DocumentTemplateCollection = new ObjectCollection<DocumentTemplate> ();
 
 			///<summary>
@@ -4318,6 +4323,34 @@
                     get
                     {
                     return m_status;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public double Interest
+                    {
+                    set
+                    {
+                    if( m_interest == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameInterest, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_interest= value;
+                    OnPropertyChanged(PropertyNameInterest);
+                    }
+                    }
+                    get
+                    {
+                    return m_interest;}
                     }
 
                   
@@ -4479,6 +4512,11 @@
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private  string  m_rentType;
                     public const string PropertyNameRentType = "RentType";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  double  m_interestRate;
+                    public const string PropertyNameInterestRate = "InterestRate";
 
                   
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -4966,6 +5004,34 @@
                     get
                     {
                     return m_rentType;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public double InterestRate
+                    {
+                    set
+                    {
+                    if( m_interestRate == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameInterestRate, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_interestRate= value;
+                    OnPropertyChanged(PropertyNameInterestRate);
+                    }
+                    }
+                    get
+                    {
+                    return m_interestRate;}
                     }
 
                   
@@ -8390,13 +8456,13 @@
           {
           
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_building;
-                    public const string PropertyNameBuilding = "Building";
+                    private  int  m_rebateId;
+                    public const string PropertyNameRebateId = "RebateId";
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_floor;
-                    public const string PropertyNameFloor = "Floor";
+                    private  string  m_contractNo;
+                    public const string PropertyNameContractNo = "ContractNo";
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -8414,9 +8480,32 @@
                     public const string PropertyNameEndDate = "EndDate";
 
                   
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_commercialSpaceCategory;
-                    public const string PropertyNameCommercialSpaceCategory = "CommercialSpaceCategory";
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public int RebateId
+                    {
+                    set
+                    {
+                    if( m_rebateId == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameRebateId, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_rebateId= value;
+                    OnPropertyChanged(PropertyNameRebateId);
+                    }
+                    }
+                    get
+                    {
+                    return m_rebateId;}
+                    }
 
                   
                 ///<summary>
@@ -8428,50 +8517,22 @@
                 
                 [DebuggerHidden]
                 
-                    public string Building
+                    public string ContractNo
                     {
                     set
                     {
-                    if( String.Equals( m_building, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameBuilding, value);
+                    if( String.Equals( m_contractNo, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameContractNo, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)
                     {
-                    m_building= value;
-                    OnPropertyChanged(PropertyNameBuilding);
+                    m_contractNo= value;
+                    OnPropertyChanged(PropertyNameContractNo);
                     }
                     }
                     get
                     {
-                    return m_building;}
-                    }
-
-                  
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                  [Required]
-                
-                [DebuggerHidden]
-                
-                    public string Floor
-                    {
-                    set
-                    {
-                    if( String.Equals( m_floor, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameFloor, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_floor= value;
-                    OnPropertyChanged(PropertyNameFloor);
-                    }
-                    }
-                    get
-                    {
-                    return m_floor;}
+                    return m_contractNo;}
                     }
 
                   
@@ -8556,34 +8617,6 @@
                     get
                     {
                     return m_endDate;}
-                    }
-
-                  
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                  [Required]
-                
-                [DebuggerHidden]
-                
-                    public string CommercialSpaceCategory
-                    {
-                    set
-                    {
-                    if( String.Equals( m_commercialSpaceCategory, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameCommercialSpaceCategory, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_commercialSpaceCategory= value;
-                    OnPropertyChanged(PropertyNameCommercialSpaceCategory);
-                    }
-                    }
-                    get
-                    {
-                    return m_commercialSpaceCategory;}
                     }
 
                   

@@ -5,16 +5,11 @@
             <li>
                 <a href="#template-tab" data-toggle="tab">Templat</a>
             </li>
-            <li>
-                <a href="#rebate-tab" data-toggle="tab">Rebat</a>
-            </li>
-            <li>
-                <a href="#interest-tab" data-toggle="tab">Faedah</a>
-            </li>
+          
         </ul>
 
         <div class="tab-content">
-            <div id="template-tab" class="tab-pane">
+            <div id="template-tab" class="tab-pane active">
                 <form class="form-horizontal">
                     <div class="control-group">
                         <label for="returnLetterTemplate" class="control-label">Returned letter template</label>
@@ -35,14 +30,7 @@
                     </div>
                 </form>
             </div>
-            <div id="rebate-tab" class="tab-pane">
-                <!--ko compose:'viewmodels/_setting.rebate' -->
-                <!--/ko-->
-            </div>
-            <div id="interest-tab" class="tab-pane active">
-                <!--ko compose:'viewmodels/_setting.interest' -->
-                <!--/ko-->
-            </div>
+            
         </div>
     </div>
 </section>

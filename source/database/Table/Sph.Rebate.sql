@@ -7,6 +7,7 @@ GO
 CREATE TABLE [Sph].[Rebate](
 	[RebateId] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[Amount] [decimal](18, 0) NOT NULL,
+	[ContractNo] VARCHAR(255) NOT NULL,
 	[Data] XML NOT NULL	,
 	[StartDate] SMALLDATETIME NULL,
 	[EndDate] SMALLDATETIME NULL,

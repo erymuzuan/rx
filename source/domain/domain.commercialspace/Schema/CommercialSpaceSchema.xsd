@@ -260,6 +260,7 @@
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="Status" type="xs:string" use="required"/>
+			<xs:attribute name="Interest" type="xs:double" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="DocumentTemplate">
@@ -306,6 +307,7 @@
 			<xs:attribute name="RentalApplicationId" type="xs:int" use="required"/>
 			<xs:attribute name="Status" type="xs:string" use="required"/>
 			<xs:attribute name="RentType" type="xs:string" use="required"/>
+			<xs:attribute name="InterestRate" type="xs:double" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Document">
@@ -594,12 +596,11 @@
 	</xs:element>
 	<xs:element name="Rebate">
 		<xs:complexType>
-			<xs:attribute name="Building" type="xs:string" use="required"/>
-			<xs:attribute name="Floor" type="xs:string" use="required"/>
+			<xs:attribute name="RebateId" type="xs:int" use="required"/>
+			<xs:attribute name="ContractNo" type="xs:string" use="required"/>
 			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
 			<xs:attribute name="StartDate" type="xs:dateTime" use="required"/>
 			<xs:attribute name="EndDate" type="xs:dateTime" use="required"/>
-			<xs:attribute name="CommercialSpaceCategory" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Interest">

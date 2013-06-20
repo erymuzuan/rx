@@ -329,6 +329,7 @@ bespoke.sphcommercialspace.domain.ContractTemplate = function (webId) {
         Type: ko.observable(),
         Description: ko.observable(),
         Status: ko.observable(),
+        Interest: ko.observable(),
         DocumentTemplateCollection: ko.observableArray(),
         TopicCollection: ko.observableArray(),
         isBusy: ko.observable(false),
@@ -375,6 +376,7 @@ bespoke.sphcommercialspace.domain.Contract = function (webId) {
         RentalApplicationId: ko.observable(),
         Status: ko.observable(),
         RentType: ko.observable(),
+        InterestRate: ko.observable(),
         DocumentCollection: ko.observableArray(),
         Owner: ko.observable(new bespoke.sphcommercialspace.domain.Owner()),
         ContractingParty: ko.observable(new bespoke.sphcommercialspace.domain.ContractingParty()),
@@ -775,12 +777,11 @@ bespoke.sphcommercialspace.domain.Setting = function (webId) {
 bespoke.sphcommercialspace.domain.Rebate = function (webId) {
 
     var model = {
-        Building: ko.observable(),
-        Floor: ko.observable(),
+        RebateId: ko.observable(),
+        ContractNo: ko.observable(),
         Amount: ko.observable(),
         StartDate: ko.observable(),
         EndDate: ko.observable(),
-        CommercialSpaceCategory: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

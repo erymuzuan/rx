@@ -6,17 +6,13 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
-/// <reference path="_setting.interest.js" />
-/// <reference path="../viewmodels/_setting.rebate.js" />
 
 
-define(['services/datacontext', 'services/logger', 'viewmodels/_setting.interest', './_setting.rebate'],
-    function (context, logger,interestvm,rebatevm) {
+define(['services/datacontext', 'services/logger'],
+    function (context, logger) {
 
         var isBusy = ko.observable(false),
             activate = function () {
-                interestvm.activate();
-                rebatevm.activate();
             },
             viewAttached = function () {
                 $("#returnLetterTemplate,#offerLetterTemplate").kendoUpload({

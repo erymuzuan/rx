@@ -125,8 +125,10 @@ ko.bindingHandlers.kendoDate = {
 
         if (date.year() == 1) { // DateTime.Min
             picker.value(null);
+            value(null);
         } else {
             picker.value(date.toDate());
+            value(date);
         }
 
         $(element).on("change", function () {
@@ -137,7 +139,6 @@ ko.bindingHandlers.kendoDate = {
               date = moment(nv);
             }
             value = date.format("DD/MM/YYYY");
-            picker.value(value);
         });
     },
     update: function (element, valueAccessor) {

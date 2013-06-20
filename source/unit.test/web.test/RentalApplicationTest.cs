@@ -24,7 +24,7 @@ namespace web.test
             driver.Sleep(TimeSpan.FromSeconds(3));
 
             driver
-                .Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/rentalapplication/9");
+                .Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/rentalapplication/10");
             driver.Sleep(TimeSpan.FromSeconds(3));
             driver
                 .Click("[name='rentalapplication.IsCompany']")

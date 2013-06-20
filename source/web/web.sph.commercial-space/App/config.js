@@ -219,6 +219,15 @@
             caption: 'Bayaran',
             icon: 'icon-laptop',
             settings: { caption: 'Bayaran' }
+        },
+        {
+            url: 'rebate',
+            moduleId: 'viewmodels/rebate',
+            name: 'Senarai Rebat',
+            visible: true,
+            caption: 'Rebat',
+            icon: 'icon-laptop',
+            settings: { caption: 'Rebat' }
         }
     ];
     
