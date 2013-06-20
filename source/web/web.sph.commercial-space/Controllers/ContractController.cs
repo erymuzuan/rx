@@ -74,6 +74,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                     Title = string.Format("Kotrak sewaan dengan {0} dan {1}", app.CompanyName, "Bespoke"),
                     ReferenceNo = string.Format("BSPB/2013/{0}", app.RegistrationNo),
                     Date = DateTime.Now,
+                    InterestRate = template.InterestRate,
                     Owner = new Owner
                         {
                             Name = "To get from settings",

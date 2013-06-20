@@ -26,12 +26,20 @@
             <input data-bind="kendoDate: StartDate" id="contract.StartDate" type="text" name="contract.StartDate" />
         </div>
     </div>
-   <div class="control-group">
+    <div class="control-group">
         <label for="contract.Value" class="control-label">Nilai</label>
         <div class="controls">
             <div class="input-prepend">
                 <span class="add-on">RM</span>
                 <input data-bind="value: Value" id="contract.Value" type="text" name="contract.Value" />
+            </div>
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="contract.InterestRate" class="control-label">Kadar Faedah</label>
+        <div class="controls">
+            <div class="input-prepend">
+                <input data-bind="value: InterestRate" id="contract.InterestRate" type="text" name="contract.InterestRate" />
             </div>
         </div>
     </div>

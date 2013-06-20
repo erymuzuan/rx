@@ -329,7 +329,7 @@ bespoke.sphcommercialspace.domain.ContractTemplate = function (webId) {
         Type: ko.observable(),
         Description: ko.observable(),
         Status: ko.observable(),
-        Interest: ko.observable(),
+        InterestRate: ko.observable(),
         DocumentTemplateCollection: ko.observableArray(),
         TopicCollection: ko.observableArray(),
         isBusy: ko.observable(false),

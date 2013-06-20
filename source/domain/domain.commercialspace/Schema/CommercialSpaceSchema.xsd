@@ -260,7 +260,7 @@
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="Status" type="xs:string" use="required"/>
-			<xs:attribute name="Interest" type="xs:double" use="required"/>
+			<xs:attribute name="InterestRate" type="xs:double" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="DocumentTemplate">

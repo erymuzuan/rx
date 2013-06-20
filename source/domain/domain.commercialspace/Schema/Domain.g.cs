@@ -4188,8 +4188,8 @@
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  double  m_interest;
-                    public const string PropertyNameInterest = "Interest";
+                    private  double  m_interestRate;
+                    public const string PropertyNameInterestRate = "InterestRate";
 
                   
 			private readonly ObjectCollection<DocumentTemplate>  m_DocumentTemplateCollection = new ObjectCollection<DocumentTemplate> ();
@@ -4335,22 +4335,22 @@
                 
                 [DebuggerHidden]
                 
-                    public double Interest
+                    public double InterestRate
                     {
                     set
                     {
-                    if( m_interest == value) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameInterest, value);
+                    if( m_interestRate == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameInterestRate, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)
                     {
-                    m_interest= value;
-                    OnPropertyChanged(PropertyNameInterest);
+                    m_interestRate= value;
+                    OnPropertyChanged(PropertyNameInterestRate);
                     }
                     }
                     get
                     {
-                    return m_interest;}
+                    return m_interestRate;}
                     }
 
                   
