@@ -67,7 +67,7 @@ namespace Bespoke.SphCommercialSpace.LedgerMsxl
                 .ThenBy(v => v.Type)
                 )
             {
-
+                
                 ws.Cells[31 + i, 1].Value = string.Format("{0}{1}{2}-{3}", rt.Month, rt.Quarter, rt.Half, rt.Year);
                 //ws.Cells[31 + i, 2].Value = rt.PaymentDistributionCollection.Sum(p => p.Amount);
                 ws.Cells[31 + i, 3].Value = rt.Amount;

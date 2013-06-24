@@ -7,6 +7,7 @@ CREATE TABLE [Sph].[Contract]
 (
 	 [ContractId] INT PRIMARY KEY IDENTITY(1,1)	
 	,[ReferenceNo] VARCHAR(255) NULL
+	,[Title] VARCHAR(255) NULL
 	,[Status] VARCHAR(255) NOT NULL
 	,[TenantName] VARCHAR(255) NOT NULL
 	,[TenantIdSsmNo] VARCHAR(255) NOT NULL
@@ -22,3 +23,5 @@ CREATE TABLE [Sph].[Contract]
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
+ALTER TABLE [Sph].[Sph].[Contract]
+ADD [Title] VARCHAR(255) NULL

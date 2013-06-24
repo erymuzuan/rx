@@ -7010,6 +7010,11 @@
                     public const string PropertyNameTenantIdSsmNo = "TenantIdSsmNo";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_receiptNo;
+                    public const string PropertyNameReceiptNo = "ReceiptNo";
+
+                  
                 ///<summary>
                 /// 
                 ///</summary>
@@ -7147,6 +7152,34 @@
                     get
                     {
                     return m_tenantIdSsmNo;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string ReceiptNo
+                    {
+                    set
+                    {
+                    if( String.Equals( m_receiptNo, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameReceiptNo, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_receiptNo= value;
+                    OnPropertyChanged(PropertyNameReceiptNo);
+                    }
+                    }
+                    get
+                    {
+                    return m_receiptNo;}
                     }
 
                   

@@ -462,6 +462,7 @@
 			<xs:attribute name="Date" type="xs:string" use="required"/>
 			<xs:attribute name="ContractNo" type="xs:string" use="required"/>
 			<xs:attribute name="TenantIdSsmNo" type="xs:string" use="required"/>
+			<xs:attribute name="ReceiptNo" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:simpleType name="InvoiceType">

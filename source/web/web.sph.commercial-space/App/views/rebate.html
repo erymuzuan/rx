@@ -22,13 +22,19 @@
 </section>
 <section id="rebate-modal" class="modal hide fade">
     <div class="modal-header">
-        <a class="btn btn-mini" data-dismiss="modal">x</a>
+        <a class="btn btn-mini pull-right" data-dismiss="modal">x</a>
     </div>
     <div class="modal-body" data-bind="with : rebate">
-         <div class="control-group">
+        <div class="control-group">
             <label for="rebate.ContractNo" class="control-label">No. Kontrak :</label>
             <div class="controls">
-                <select data-bind="value: ContractNo,options:$parent.contracts,optionsText:'Item2',optionsValue:'Item1',optionsCaption:'[Sila Pilih]'" id="rebate.ContractNo" name="rebate.ContractNo" />
+                <select data-bind="value: ContractNo,options:$parent.contracts,optionsText:'Item1',optionsValue:'Item2',optionsCaption:'[Sila Pilih]'" id="rebate.ContractNo" name="rebate.ContractNo" />
+            </div>
+        </div>
+         <div class="control-group">
+            <label class="control-label">Tajuk Kontrak :</label>
+            <div class="controls">
+                <span data-bind="text: $parent.contractTitle"/>
             </div>
         </div>
         <div class="control-group">
@@ -49,7 +55,6 @@
                 <input data-bind="kendoDate: EndDate" id="rebate.EndDate" type="text" name="rebate.EndDate" />
             </div>
         </div>
-        <h3>Sila pilih no kontrak : </h3>
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" data-dismiss="modal">Batal</button>

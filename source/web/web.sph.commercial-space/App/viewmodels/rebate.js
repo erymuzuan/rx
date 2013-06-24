@@ -44,9 +44,21 @@ define(['services/datacontext'],
             rebateCollection: ko.observableArray(),
             contracts: ko.observableArray(),
             rebate: ko.observable(new bespoke.sphcommercialspace.domain.Rebate()),
+            contractTitle: ko.observable(''),
             saveCommand: save
         };
 
+        vm.rebate().ContractNo.subscribe(function (contractNo) {
+            var query = String.format("ReferenceNo eq '{0}'", contractNo);
+            var tcs = new $.Deferred();
+            context.loadOneAsync("Contract", query)
+                .done(function(b) {
+                    vm.contractTitle(b.Title());
+                    tcs.resolve(true);
+                });
+
+            return tcs.promise();
+        });
         return vm;
 
     });

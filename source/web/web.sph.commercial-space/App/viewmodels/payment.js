@@ -31,7 +31,10 @@ define(['services/datacontext', 'services/logger'],
                     var query4 = String.format("TenantIdSsmNo eq '{0}'", vm.idSsmNo());
                     query = query + query4;
 				}
-
+                if (!vm.idSsmNo() && !vm.contractNo()) {
+                    var query5 = String.format("ContractId gt 0", vm.idSsmNo());
+                    query = query + query5;
+                }
 				context.loadAsync("Contract", query)
                     .done(function (lo) {
                         isBusy(false);
@@ -65,8 +68,14 @@ define(['services/datacontext', 'services/logger'],
                 var json = JSON.stringify({payment: payment });
                 context.post(json, "/Payment/Save")
 					.done(function (e) {
-						logger.log("Payment received", e, "payment", true);
-						tcs.resolve(true);
+					    var query = String.format("ContractId gt 0");
+					    context.loadAsync("Contract", query)
+					        .then(function(lo) {
+					            isBusy(false);
+					            vm.contractCollection(lo.itemCollection);
+					        });
+					    logger.log("Payment received", e, "payment", true);
+                        tcs.resolve(true);
                 });
                 return tcs.promise();
             };

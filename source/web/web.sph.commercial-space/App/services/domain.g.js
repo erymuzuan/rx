@@ -630,6 +630,7 @@ bespoke.sphcommercialspace.domain.Payment = function (webId) {
         Date: ko.observable(),
         ContractNo: ko.observable(),
         TenantIdSsmNo: ko.observable(),
+        ReceiptNo: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
