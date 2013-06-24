@@ -9,7 +9,7 @@ namespace Bespoke.SphCommercialSpace.LedgerMsxl
 {
     public class ExcelEppExport : ILedgerExport
     {
-        public string GenerateLedger(Contract contract, IEnumerable<Rent> rents, string filename)
+        public string GenerateLedger(Contract contract, IEnumerable<Invoice> invoices, string filename)
         {
 
             var input = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ruang.komersil.utility.ledger.xlsx");
@@ -49,11 +49,22 @@ namespace Bespoke.SphCommercialSpace.LedgerMsxl
             // ws.Cells["F24"].Value = contract.Deposit.ReceiptNo;
 
             var i = 0;
+
+            var rents = from inv in invoices
+                        where inv.Type == InvoiceType.Rental
+                        select new Rent
+                            {
+                                No = inv.No,
+                                Date = inv.Date,
+                                Amount = inv.Amount,
+                                ContractNo = inv.ContractNo,
+                                Month = inv.Date.Month,
+                                Year = inv.Date.Year
+                            };
             foreach (var rt in rents
-                .OrderBy(d => d.Year)
-                .ThenBy(d => d.Month)
-                .ThenBy(d => d.Quarter)
-                .ThenBy(d => d.Half)
+                .Where(v => v.Type == InvoiceType.Rental)
+                .OrderBy(v => v.ContractNo)
+                .ThenBy(v => v.Type)
                 )
             {
 

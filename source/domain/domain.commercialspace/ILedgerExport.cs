@@ -4,6 +4,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
 {
     public interface ILedgerExport
     {
-        string GenerateLedger(Contract contract, IEnumerable<Rent> rents, string filename);
+        string GenerateLedger(Contract contract, IEnumerable<Invoice> invoices, string filename);
     }
 }

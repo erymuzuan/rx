@@ -214,13 +214,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var contractId = id != 0 ? id : 1;
             var context = new SphDataContext();
             var contract = await context.LoadOneAsync<Contract>(c => c.ContractId == contractId);
-            var rentLo = await context.LoadAsync(context.Rents.Where(r => r.ContractNo == contract.ReferenceNo));
+            var invoiceLo = await context.LoadAsync(context.Invoices.Where(r => r.ContractNo == contract.ReferenceNo));
 
             var export = ObjectBuilder.GetObject<ILedgerExport>();
             var filename = string.Format("{0}-{1:MMyyyy}.lejer.xlsx", contract.Tenant.RegistrationNo, DateTime.Today);
             var temp = System.IO.Path.GetTempFileName() + ".xlsx";
 
-            export.GenerateLedger(contract, rentLo.ItemCollection, temp);
+            export.GenerateLedger(contract, invoiceLo.ItemCollection, temp);
             
             this.Response.ContentType = "application/json";
             return File(System.IO.File.ReadAllBytes(temp), MimeMapping.GetMimeMapping(".xlsx"), filename);
