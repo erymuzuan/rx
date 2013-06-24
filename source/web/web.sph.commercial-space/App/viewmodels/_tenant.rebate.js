@@ -48,34 +48,4 @@ define(['services/datacontext'],
             floorOptions: ko.observableArray(),
             saveCommand: save
         };
-
-        vm.rebate().Building.subscribe(function (id) {
-            vm.isBusy(true);
-            var tcs = new $.Deferred();
-            context.loadOneAsync("Building", "BuildingId eq " + id)
-                .then(function (b) {
-                    var floors = _(b.FloorCollection()).map(function (f) {
-                        return f.Name();
-                    });
-                    vm.floorOptions(floors);
-                    vm.isBusy(false);
-                    tcs.resolve(true);
-                });
-            return tcs.promise();
-        });
-
-        vm.rebate().Floor.subscribe(function (floorname) {
-            vm.isBusy(true);
-            var tcs = new $.Deferred();
-            context.getTuplesAsync("CommercialSpace", "BuildingId eq " + vm.rebate.Building() + "and FloorName eq '" + floorname + "'", "CommercialSpaceId", "Category")
-                .then(function (b) {
-                    vm.cspaceOptions(b);
-                    vm.isBusy(false);
-                    tcs.resolve(true);
-                });
-            return tcs.promise();
-        });
-
-        return vm;
-
     });

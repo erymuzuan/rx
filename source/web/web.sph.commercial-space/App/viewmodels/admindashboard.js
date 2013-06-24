@@ -10,8 +10,8 @@ define(['services/datacontext'], function (context) {
         activate = function () {
             isBusy(true);
             var apps = [{ status: 'New', count: -1, text: "BARU", color: "bred" },
-                { status: 'Approved', count: -1, text: "LULUS", color: "bgreen" },
                 { status: 'Waiting', count: -1, text: "MENUNGGU", color: "bviolet" },
+                { status: 'Approved', count: -1, text: "LULUS", color: "bgreen" },
                 { status: 'Returned', count: -1, text: "DIKEMBALIKAN", color: "borange" },
                 { status: 'Declined', count: -1, text: "BATAL", color: "bred" },
                 { status: 'Completed', count: -1, text: "SELESAI", color: "bblue" }

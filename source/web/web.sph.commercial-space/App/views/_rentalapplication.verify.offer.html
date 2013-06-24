@@ -3,4 +3,5 @@
 <input type="button" class="btn btn-success" value="3. SELESAI" data-bind="    click: completeCommand, visible: rentalapplication().Status() == 'Approved'"  data-loading-text="processing.." data-complete-text="Selesai"/>
 <input type="button" class="btn btn-danger" value="CETAK SURAT PEMBATALAN" data-bind="click: generateDeclinedLetterCommand, visible: rentalapplication().Status() == 'Declined'" data-loading-text="processing.." data-complete-text="Surat penolakan" />
 <input type="button" class="btn btn-success" value="SEDIAKAN MAKLUMAT PENYEWA" data-bind="command: createTenantCommand, visible: rentalapplication().Status() == 'Completed'" data-loading-text="processing.." data-complete-text="Selesai" />
+<input type="button" class="btn btn-danger" value="TIDAK BERJAYA" data-bind="command: unsuccesCommand, visible: rentalapplication().Status() == 'Waiting'" data-loading-text="processing.." data-complete-text="Selesai" />
 

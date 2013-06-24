@@ -2901,6 +2901,23 @@
 			}
 			}
 		
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			private CommercialSpace m_commercialSpace
+					=  new CommercialSpace();
+				
+			public const string PropertyNameCommercialSpace = "CommercialSpace";
+			[DebuggerHidden]
+
+			public CommercialSpace CommercialSpace
+			{
+			get{ return m_commercialSpace;}
+			set
+			{
+			m_commercialSpace = value;
+			OnPropertyChanged(PropertyNameCommercialSpace);
+			}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -3902,11 +3919,6 @@
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_title;
-                    public const string PropertyNameTitle = "Title";
-
-                  
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private  string  m_icNo;
                     public const string PropertyNameIcNo = "IcNo";
 
@@ -3984,34 +3996,6 @@
                     get
                     {
                     return m_name;}
-                    }
-
-                  
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                  [Required]
-                
-                [DebuggerHidden]
-                
-                    public string Title
-                    {
-                    set
-                    {
-                    if( String.Equals( m_title, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameTitle, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_title= value;
-                    OnPropertyChanged(PropertyNameTitle);
-                    }
-                    }
-                    get
-                    {
-                    return m_title;}
                     }
 
                   
@@ -9028,6 +9012,51 @@
                     get
                     {
                     return m_note;}
+                    }
+
+                  
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("State",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class State
+          {
+          
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_name;
+                    public const string PropertyNameName = "Name";
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Name
+                    {
+                    set
+                    {
+                    if( String.Equals( m_name, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_name= value;
+                    OnPropertyChanged(PropertyNameName);
+                    }
+                    }
+                    get
+                    {
+                    return m_name;}
                     }
 
                   

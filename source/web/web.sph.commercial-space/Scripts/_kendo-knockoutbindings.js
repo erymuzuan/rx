@@ -125,7 +125,6 @@ ko.bindingHandlers.kendoDate = {
 
         if (date.year() == 1) { // DateTime.Min
             picker.value(null);
-            value(null);
         } else {
             picker.value(date.toDate());
             value(date);

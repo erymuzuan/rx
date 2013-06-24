@@ -10,7 +10,7 @@ namespace web.test
     [TestFixture]
     public class RentalApplicationTest : BrowserTest
     {
-        public const string RA_COMPANYREGISTRATION_NO = "B19999";
+        public const string RA_COMPANYREGISTRATION_NO = "B29999";
 
         [Test]
         public void _001_New()
@@ -27,16 +27,15 @@ namespace web.test
                 .Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/rentalapplication/10");
             driver.Sleep(TimeSpan.FromSeconds(3));
             driver
-                .Click("[name='rentalapplication.IsCompany']")
-                .Value("[name='rentalapplication.Contact.Title']","Cik")
-                .Value("[name='rentalapplication.Contact.Name']","Ruzzaima")
-                .Value("[name='rentalapplication.Contact.IcNo']","860908-29-5604")
+                .Value("[name='rentalapplication.Contact.Name']","Zaima")
+                .Value("[name='rentalapplication.Contact.IcNo']","860908-03-5604")
                 .Value("[name='rentalapplication.Contact.MobileNo']","013-6312237")
-                .Value("[name='rentalapplication.Contact.OfficeNo']","03-7724568")
                 .Value("[name='rentalapplication.Contact.Email']","ruzzaima@hotmail.com")
+                .Click("[name='rentalapplication.IsCompany']")
                 .Value("[name='rentalapplication.CompanyName']", "Bespoke Technology Sdn Bhd")
-                .Value("[name='rentalapplication.CompanyRegistrationNo']", "B19999")
+                .Value("[name='rentalapplication.CompanyRegistrationNo']", "B29999")
                 .SelectOption("[name='rentalapplication.CompanyType']", "Partnership")
+                .Value("[name='rentalapplication.Contact.OfficeNo']", "03-7724568")
                 .Value("[name='rentalapplication.Address.Street']", "Jalan SS20/27")
                 .Value("[name='rentalapplication.Address.City']", "Petaling Jaya")
                 .Value("[name='rentalapplication.Address.Postcode']", "47300")

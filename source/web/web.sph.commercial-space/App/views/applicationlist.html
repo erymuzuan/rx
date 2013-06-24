@@ -6,7 +6,7 @@
             <input type="text" data-bind="value:selectedIdSsm" id="selectedIdSsm"/>
         </div>
         <div class="labelLeft">
-            <label for="selectedRegistrationNo">No. Pendaftaran :</label>
+            <label for="selectedRegistrationNo">No. Rujukan :</label>
             <input type="text" id="selectedRegistrationNo" data-bind="value: selectedRegistrationNo"/>
         </div>
         <div>
@@ -18,7 +18,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>No daftar</th>
+                    <th>No Rujukan</th>
                     <th>Nama</th>
                     <th>Syarikat</th>
                     <th>Ruang Komersil</th>
@@ -29,7 +29,12 @@
                     <td><a data-bind="attr: { href: '/#/rentalapplication.verify/' + RentalApplicationId() }, text: RegistrationNo"></a></td>
                     <td data-bind="text: Contact.Name"></td>
                     <td data-bind="text: CompanyName"></td>
-                    <td data-bind="text: Offer.Building"></td>
+                    <td>
+                        <span data-bind="text: CommercialSpace.Category"></span>,
+                        <span data-bind="text: CommercialSpace.BuildingName"></span>,
+                        <span data-bind="text: CommercialSpace.FloorName"></span>,
+                        <span data-bind="text: CommercialSpace.LotName"></span>
+                    </td>
                 </tr>
             </tbody>
         </table>

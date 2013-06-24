@@ -42,7 +42,32 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             }
         },
         search = function() {
+            vm.applications.removeAll();
+            var tcs = new $.Deferred();
+            var query = "";
+            if (!vm.selectedIdSsm() && vm.selectedRegistrationNo()) {
+                var query1 = String.format("Status eq '{0}' and RegistrationNo eq '{1}' ",status(), vm.selectedState());
+                query = query1;
+            }
+            if (vm.selectedIdSsm() && !vm.selectedRegistrationNo()) {
+                var query2 = String.format("Status eq '{0}' and CompanyRegistrationNo eq '{1}' or ContactIcNo eq '{1}'", status(), vm.selectedIdSsm());
+                query = query2;
+            }
+            if (vm.selectedIdSsm() && vm.selectedRegistrationNo()) {
+                var query3 = String.format("Status eq '{0}' and RegistrationNo eq '{1}' and (CompanyRegistrationNo eq '{2}' or ContactIcNo eq '{2}')", status(), vm.selectedRegistrationNo(), vm.selectedIdSsm());
+                query = query3;
+            }
+            if (!vm.selectedIdSsm() && !vm.selectedRegistrationNo()) {
+                var query4 = String.format("Status eq '{0}'", status());
+                query = query + query4;
+            }
             
+            context.loadAsync('RentalApplication', query).done(function (lo) {
+                vm.applications(lo.itemCollection);
+                tcs.resolve(true);
+            });
+
+            return tcs.promise();
         };
 
     var vm = {

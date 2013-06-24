@@ -183,6 +183,7 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element ref="Offer"/>
+				<xs:element ref="CommercialSpace" minOccurs="0"/>
 			</xs:all>
 			<xs:attribute name="RentalApplicationId" type="xs:int" use="required"/>
 			<xs:attribute name="CompanyName" type="xs:string" use="required"/>
@@ -230,7 +231,6 @@
 		<xs:complexType>
 			<xs:attribute name="ContractId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="Title" type="xs:string" use="required"/>
 			<xs:attribute name="IcNo" type="xs:string" use="required"/>
 			<xs:attribute name="Role" type="xs:string" use="required"/>
 			<xs:attribute name="MobileNo" type="xs:string" use="required"/>
@@ -672,6 +672,11 @@
 			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
 			<xs:attribute name="Category" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="State">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

@@ -494,6 +494,7 @@
     <Content Include="Images\azure\icon-drawer-add.png" />
     <Content Include="Images\azure\icons-action-32-sprites.png" />
     <Content Include="Images\dashboard-approved.png" />
+    <Content Include="Images\dashboard-completed.png" />
     <Content Include="Images\dashboard-confirmed.png" />
     <Content Include="Images\dashboard-declined.png" />
     <Content Include="Images\dashboard-new.png" />
@@ -501,6 +502,7 @@
     <Content Include="Images\dashboard-offerrejected.png" />
     <Content Include="Images\dashboard-returned.png" />
     <Content Include="Images\dashboard-waiting.png" />
+    <Content Include="Images\no-image.png" />
     <Content Include="Images\spinner-md.gif" />
     <Content Include="Images\user_24_white.png" />
     <Content Include="kendo\js\cultures\kendo.culture.ms-MY.js" />
@@ -664,6 +666,8 @@
     <Content Include="App\viewmodels\_tenant.contract.js" />
     <Content Include="App\viewmodels\_tenant.adhoc.js" />
     <Content Include="App\views\_rentalapplication.verify.offer.html" />
+    <Content Include="App\views\_setting.state.html" />
+    <Content Include="App\viewmodels\_setting.state.js" />
     <None Include="Properties\PublishProfiles\web.sph.pubxml" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.debug.js" />

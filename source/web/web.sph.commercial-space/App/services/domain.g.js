@@ -248,6 +248,7 @@ bespoke.sphcommercialspace.domain.RentalApplication = function (webId) {
         PreviousYearSales: ko.observable(),
         AttachmentCollection: ko.observableArray(),
         Offer: ko.observable(new bespoke.sphcommercialspace.domain.Offer()),
+        CommercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -305,7 +306,6 @@ bespoke.sphcommercialspace.domain.Contact = function (webId) {
     var model = {
         ContractId: ko.observable(),
         Name: ko.observable(),
-        Title: ko.observable(),
         IcNo: ko.observable(),
         Role: ko.observable(),
         MobileNo: ko.observable(),
@@ -861,6 +861,21 @@ bespoke.sphcommercialspace.domain.InvoiceItem = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.InvoiceItemPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.InvoiceItemPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.State = function (webId) {
+
+    var model = {
+        Name: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.StatePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.StatePartial(model));
     }
     return model;
 };

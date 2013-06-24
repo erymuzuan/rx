@@ -10,13 +10,16 @@ define(['services/datacontext', 'durandal/plugins/router'], function (context, r
 
     var buildingOptions = ko.observableArray(),
         activate = function () {
-        var tcs = new $.Deferred();
-        context.loadAsync('CommercialSpace', 'IsAvailable eq 1 ').done(function (lo) {
-            vm.commercialspaces(lo.itemCollection);
-            tcs.resolve(true);
-        });
+            var query = String.format("Key eq 'State'");
+            var tcs = new $.Deferred();
+            context.loadOneAsync("Setting", query)
+                .done(function(s) {
+                    var states = JSON.parse(ko.mapping.toJS(s.Value));
+                    vm.stateOptions(states);
+                    tcs.resolve(true);
+                });
 
-        return tcs.promise();
+            return tcs.promise();
         },
         applyCommercialSpace = function (selectedCs) {
             if (selectedCs && selectedCs.CommercialSpaceId()) {
@@ -48,7 +51,10 @@ define(['services/datacontext', 'durandal/plugins/router'], function (context, r
                  var query5 = String.format("State eq '{0}' and Category eq '{1}'", vm.selectedState(), vm.selectedCategory());
                  query = query + query5;
              }
-
+             if (!vm.selectedState() && !vm.selectedBuildingId() && !vm.selectedCategory()) {
+                 var query6 = String.format("CommercialSpaceId gt 0");
+                 query = query + query6;
+             }
              context.loadAsync('CommercialSpace', query).done(function (lo) {
                  vm.commercialspaces(lo.itemCollection);
                  tcs.resolve(true);
@@ -65,6 +71,7 @@ define(['services/datacontext', 'durandal/plugins/router'], function (context, r
         searchCommand: search,
         selectedBuildingId: ko.observable(),
         buildingOptions: buildingOptions,
+        stateOptions: ko.observableArray([]),
         selectedState: ko.observable(),
         selectedCategory : ko.observable()
     };

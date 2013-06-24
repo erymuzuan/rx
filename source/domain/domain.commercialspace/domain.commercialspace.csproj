@@ -148,6 +148,7 @@
     <Compile Include="Schema\Domain.g.cs" />
     <Compile Include="SpatialStore.cs" />
     <Compile Include="SphDataContext.cs" />
+    <Compile Include="State.cs" />
     <Compile Include="SubmitOperation.cs" />
     <Compile Include="Tenant.cs" />
     <Compile Include="Topic.cs" />

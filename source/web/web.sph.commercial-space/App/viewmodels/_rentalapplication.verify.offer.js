@@ -48,6 +48,14 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 tcs.resolve(true);
             });
             return tcs.promise();
+        },
+        unsucces = function() {
+            var tcs = new $.Deferred();
+            var data = JSON.stringify({ id: vm.rentalapplication().RentalApplicationId() });
+            context.post(data, "/RentalApplication/Unsuccess").done(function (e) {
+               tcs.resolve(true);
+            });
+            return tcs.promise();
         };
 
     var vm = {
@@ -58,6 +66,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         generateDeclinedLetterCommand: generateDeclinedOfferLetter,
         completeCommand: complete,
         createTenantCommand: createTenant,
+        unsuccesCommand: unsucces,
         contractCommand: function () {
             router.navigateTo("/#/contract.create/" + vm.rentalapplication().RentalApplicationId());
         },

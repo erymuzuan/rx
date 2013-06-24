@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -10,13 +9,14 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public class RentalApplicationController : Controller
     {
-
         public async Task<ActionResult> Submit(RentalApplication rentalApplication)
         {
             await Task.Delay(2500);
             var context = new SphDataContext();
+            var c = await context.LoadOneAsync<CommercialSpace>(cs => cs.CommercialSpaceId == rentalApplication.CommercialSpaceId);
             rentalApplication.Status = "New";
             rentalApplication.ApplicationDate = DateTime.Now;
+            rentalApplication.CommercialSpace = c;
 
             var audit = new AuditTrail
                 {
@@ -45,7 +45,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json(new { status = "success", registrationNo = rentalApplication.RegistrationNo });
         }
-
         public async Task<ActionResult> WaitingList(int id)
         {
             var context = new SphDataContext();
@@ -59,7 +58,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json(true);
         }
-
         public async Task<ActionResult> Approved(int id)
         {
             var context = new SphDataContext();
@@ -83,18 +81,17 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json(true);
         }
-
-        public async Task<ActionResult> Declined(int id)
+        public async Task<ActionResult> Unsuccess(int id)
         {
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            dbItem.Status = "Declined";
+            dbItem.Status = "Unsuccess";
 
 
 
             var audit = new AuditTrail
             {
-                Operation = "Declined",
+                Operation = "Set application to not succeed",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
                 Type = typeof(RentalApplication).Name,
@@ -109,7 +106,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json(true);
         }
-
         public async Task<ActionResult> Returned(int id, ObjectCollection<Attachment> attachments)
         {
             await Task.Delay(5000);
@@ -135,7 +131,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json(dbItem.RentalApplicationId);
         }
-
         public async Task<ActionResult> SendReturnedEmail(int id, ObjectCollection<Attachment> attachments, string remarks)
         {
             var context = new SphDataContext();
@@ -177,7 +172,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json(dbItem.RentalApplicationId);
         }
-
         public async Task<ActionResult> GenerateReturnedLetter(int id, ObjectCollection<Attachment> attachments, string remarks)
         {
             var context = new SphDataContext();
@@ -216,7 +210,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json("");
         }
-
         public ActionResult Download()
         {
             var temp = Session["DocumentPath"] as string;
@@ -227,7 +220,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var type = MimeMapping.GetMimeMapping(".docx");
             return File(content, type, file);
         }
-
         public async Task<ActionResult> SaveOffer(int id, Offer offer)
         {
             var context = new SphDataContext();
@@ -252,28 +244,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             }
             return Json("");
         }
-
-        private static async Task<Deposit> CreateOrUpdateDeposit(RentalApplication rental)
-        {
-            var context = new SphDataContext();
-            var deposit = await context.LoadOneAsync<Deposit>(d => d.RegistrationNo == rental.RegistrationNo) ?? new Deposit();
-            if (0 == deposit.DepositId)
-            {
-                deposit.DateTime = DateTime.Now;
-                deposit.Name = rental.CompanyName ?? rental.Contact.Name;
-                deposit.IDNumber = rental.CompanyRegistrationNo ?? rental.Contact.IcNo;
-                deposit.RegistrationNo = rental.RegistrationNo;
-                deposit.DueDate = rental.Offer.ExpiryDate;
-                deposit.Amount = rental.Offer.Deposit;
-            }
-            else
-            {
-                deposit.Amount = rental.Offer.Deposit;
-                deposit.DueDate = rental.Offer.ExpiryDate;
-            }
-            return deposit;
-        }
-
         public async Task<ActionResult> GenerateOfferLetter(int id)
         {
           
@@ -312,6 +282,31 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             word.Generate(output, rentalApplication, audit, cs);
 
             return Json("");
+        }
+        public async Task<ActionResult> Declined(int id)
+        {
+            var context = new SphDataContext();
+            var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+            dbItem.Status = "Declined";
+
+
+
+            var audit = new AuditTrail
+            {
+                Operation = "Declined",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(RentalApplication).Name,
+                EntityId = id
+            };
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(dbItem, audit);
+                await session.SubmitChanges();
+            }
+
+            return Json(true);
         }
         public async Task<ActionResult> GenerateDeclinedLetter(int id)
         {
@@ -352,7 +347,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json("");
         }
-
         public async Task<ActionResult> Complete(int id)
         {
             var context = new SphDataContext();
@@ -376,7 +370,26 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json(true);
         }
-
+        private static async Task<Deposit> CreateOrUpdateDeposit(RentalApplication rental)
+        {
+            var context = new SphDataContext();
+            var deposit = await context.LoadOneAsync<Deposit>(d => d.RegistrationNo == rental.RegistrationNo) ?? new Deposit();
+            if (0 == deposit.DepositId)
+            {
+                deposit.DateTime = DateTime.Now;
+                deposit.Name = rental.CompanyName ?? rental.Contact.Name;
+                deposit.IDNumber = rental.CompanyRegistrationNo ?? rental.Contact.IcNo;
+                deposit.RegistrationNo = rental.RegistrationNo;
+                deposit.DueDate = rental.Offer.ExpiryDate;
+                deposit.Amount = rental.Offer.Deposit;
+            }
+            else
+            {
+                deposit.Amount = rental.Offer.Deposit;
+                deposit.DueDate = rental.Offer.ExpiryDate;
+            }
+            return deposit;
+        }
         public async Task<ActionResult> SaveDepositPayment(int id, Offer offer)
         {
             var context = new SphDataContext();

@@ -7,18 +7,7 @@
 
     <div class="labelLeft">
         <label>Negeri:</label>
-        <select data-bind="value : selectedState">
-            <option value="">[Sila Pilih]</option>
-            <option value="Selangor">Selangor</option>
-            <option value="Johor">Johor</option>
-            <option value="Melaka">Melaka</option>
-            <option value="Kelantan">Kelantan</option>
-            <option value="Perak">Perak</option>
-            <option value="Pahang">Pahang</option>
-            <option value="Sarawak">Sarawak</option>
-            <option value="Sabah">Sabah</option>
-            <option value="Pulau Pinang">Pulau Pinang</option>
-            <option value="Terengganu">Terengganu</option>
+        <select data-bind="options: stateOptions,value:selectedState,optionsCaption:'[Sila Pilih]',optionsText:'Name',optionsValue:'Name'">
         </select>
     </div>
     <div class="labelLeft" data-bind="with: buildingOptions">
