@@ -13,23 +13,28 @@ define(['services/datacontext',
         'viewmodels/map',
         'services/logger'
 ],
-    function (datacontext, router, system, app, mapvm, logger) {
+    function (context, router, system, app, mapvm, logger) {
 
 
         var isBusy = ko.observable(false),
             activate = function (routeData) {
                 var id = parseInt(routeData.id);
+                
+                var tcs = new $.Deferred();
+                context.loadOneAsync("Setting", "Key eq 'State'").done(function (s) {
+                    var states = JSON.parse(ko.mapping.toJS(s.Value));
+                    vm.stateOptions(states);
+                    tcs.resolve(true);
+                });
                 if (!id) {
                     return true;
                 }
                 var query = "BuildingId eq " + id;
-                var tcs = new $.Deferred();
-                datacontext.loadOneAsync("Building", query)
-                    .done(function (b) {
-                        ko.mapping.fromJSON(ko.mapping.toJSON(b), {}, vm.building);
-                        tcs.resolve(true);
-                    });
-
+                context.loadOneAsync("Building", query).done(function (b) {
+                    vm.building(b);
+                    tcs.resolve(true);
+                });
+                
                 return tcs.promise();
             };
 
@@ -65,7 +70,7 @@ define(['services/datacontext',
         var saveAsync = function () {
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON(vm.building);
-            datacontext.post(data, "/Building/SaveBuilding")
+            context.post(data, "/Building/SaveBuilding")
                 .done(function (e) {
                     if (e.status) {
                         vm.building.BuildingId(e.buildingId);
@@ -148,7 +153,7 @@ define(['services/datacontext',
                 }
                 var tcs = new $.Deferred();
                 var data = JSON.stringify({ buildingId: vm.building.BuildingId(), path: mapvm.getEncodedPath(buildingPolygon) });
-                datacontext
+                context
                     .post(data, "/Building/SaveMap")
                     .then(function (e) {
                         logger.log("Map has been successfully saved ", e, "buildingdetail", true);
@@ -161,27 +166,8 @@ define(['services/datacontext',
 
         var vm = {
             activate: activate,
-            building: {
-                Name: ko.observable(''),
-                Note: ko.observable(''),
-                Floors: ko.observable(1),
-                BuildingId: ko.observable(0),
-                Address: {
-                    Street: ko.observable(''),
-                    State: ko.observable(''),
-                    City: ko.observable(''),
-                    Postcode: ko.observable(''),
-                },
-                FloorCollection: ko.observableArray([{
-                    Name: ko.observable(),
-                    Number: ko.observable(),
-                    Note: ko.observable(),
-                    Size: ko.observable()
-                }]),
-                LotNo: ko.observable(''),
-                Size: ko.observable(''),
-                Status: ko.observable(''),
-            },
+            building: ko.observable(new bespoke.sphcommercialspace.domain.Building()),
+            stateOptions: ko.observableArray(),
             saveCommand: saveAsync,
             showMapCommand: showMap,
             saveMapCommand: saveMap,

@@ -66,17 +66,10 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="control-group">
+                    <div class="control-group" data-bind="with: $parent.categoryOptions">
                         <label for="commercialSpace.Category" class="control-label">Kategori</label>
                         <div class="controls">
-                            <select id="commercialSpace.Category" data-bind="value: Category">
-                                <option value="Cafeteria">Cafeteria</option>
-                                <option value="ATM">ATM</option>
-                                <option value="Restaurant">Restaurant</option>
-                                <option value="Laundry">Laundry</option>
-                                <option value="Nursery">Nursery</option>
-                            </select>
+                            <select id="commercialSpace.Category" name="commercialSpace.Category" data-bind="options: $data, optionsText: 'Name', optionsValue: 'Name', value: $parent.Category, optionsCaption: '[Sila Pilih]'"></select>
                         </div>
                     </div>
 

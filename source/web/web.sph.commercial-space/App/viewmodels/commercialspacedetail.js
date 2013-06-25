@@ -23,9 +23,14 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
             floorname(routeData.floorname);
             lotname(routeData.lotname);
             title('Tambah ruang komersil');
-
-
+            
             var tcs = new $.Deferred();
+            context.loadOneAsync("Setting", "Key eq 'Categories'").done(function (s) {
+                var categories = JSON.parse(ko.mapping.toJS(s.Value));;
+                vm.categoryOptions(categories);
+                tcs.resolve(true);
+            });
+            
             if (buildingId()) {
                 var query = String.format("CommercialSpaceId eq {0} ", routeData.commercialspaceid);
                 context.loadOneAsync("CommercialSpace", query)
@@ -95,6 +100,7 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
         buildingOptions: ko.observableArray(),
         floorOptions: ko.observableArray(),
         lotOptions: ko.observableArray(),
+        categoryOptions: ko.observableArray([]),
         selectedBuilding: ko.observable(),
         selectedFloor: ko.observable(),
         selectedLots: ko.observableArray(),
