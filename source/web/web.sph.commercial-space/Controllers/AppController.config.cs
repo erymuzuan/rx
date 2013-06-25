@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bespoke.Sph.Commerspace.Web.Models;
 using Bespoke.SphCommercialSpaces.Domain;
 using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Station.Web.Controllers
 {
@@ -17,10 +19,14 @@ namespace Bespoke.Station.Web.Controllers
         {
             var vm = new ApplicationConfigurationViewModel { StartModule = "admindashboard" };
 
-            string routeConfig = Server.MapPath("~/routes.config.js");
+            var routeConfig = Server.MapPath("~/routes.config.js");
             var json = System.IO.File.ReadAllText(routeConfig);
-            var routes = await JsonConvert.DeserializeObjectAsync<JsRoute[]>(json);
-            vm.Routes.AddRange(routes.Where(r => User.IsInRole(r.role) || string.IsNullOrWhiteSpace(r.role)));
+
+            var settings = new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()};
+            var routes = await JsonConvert.DeserializeObjectAsync<JsRoute[]>(json, settings);
+            vm.Routes.AddRange(routes.Where(r => User.IsInRole(r.Role) || string.IsNullOrWhiteSpace(r.Role)));
+
+
             return View(vm);
         }
 

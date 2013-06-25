@@ -104,6 +104,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CustomFilterBehavior.cs" />
+    <Compile Include="CustomFilterDescriptor.cs" />
     <Compile Include="JsRoute.cs" />
     <Compile Include="JsRouteSetting.cs" />
     <Compile Include="MainViewModel.cs" />
@@ -113,6 +115,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

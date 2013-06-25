@@ -1,4 +1,7 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using Telerik.Windows.Controls;
 
 namespace routes.editor
 {
@@ -6,15 +9,19 @@ namespace routes.editor
     {
         public MainWindow()
         {
+            StyleManager.ApplicationTheme = new Windows8Theme();
             InitializeComponent();
-            this.Loaded += MainWindow_Loaded;
+            this.Loaded += MainWindowLoaded;
         }
 
-        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        void MainWindowLoaded(object sender, RoutedEventArgs e)
         {
             var vm = new MainViewModel();
             this.DataContext = vm;
             vm.Load();
         }
+
+
+
     }
 }
