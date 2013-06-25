@@ -10,12 +10,14 @@ define(['services/datacontext', 'durandal/plugins/router'], function (context, r
 
     var buildingOptions = ko.observableArray(),
         activate = function () {
-            var query = String.format("Key eq 'State'");
             var tcs = new $.Deferred();
-            context.loadOneAsync("Setting", query)
-                .done(function(s) {
+            var stateTask =  context.loadOneAsync("Setting", "Key eq 'State'");
+            var categoryTask = context.loadOneAsync("Setting", "Key eq 'Categories'");
+            $.when(stateTask,categoryTask).then(function (s,c) {
                     var states = JSON.parse(ko.mapping.toJS(s.Value));
+                    var categories = JSON.parse(ko.mapping.toJS(c.Value));
                     vm.stateOptions(states);
+                    vm.categoryOptions(categories);
                     tcs.resolve(true);
                 });
 
@@ -71,6 +73,7 @@ define(['services/datacontext', 'durandal/plugins/router'], function (context, r
         searchCommand: search,
         selectedBuildingId: ko.observable(),
         buildingOptions: buildingOptions,
+        categoryOptions: ko.observableArray([]),
         stateOptions: ko.observableArray([]),
         selectedState: ko.observable(),
         selectedCategory : ko.observable()

@@ -1,0 +1,22 @@
+﻿<section id="setting.category">
+    <a class="btn btn-primary" data-bind="click: addCategoryCommand" >+ Kategori Ruang</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Kategori</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: categories">
+            <tr>
+                <td>
+                    <input type="text" data-bind="value: Name"/>
+                </td><td>
+                    <input type="button" class="btn btn-danger" data-bind="click: $parent.removeCategory" value="-"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="button" data-bind="command: saveCategoryCommand" class="btn btn-primary" value="Simpan" data-loading-text="diproses.." data-complete-text="Selesai"/>
+</section>
+

@@ -7,6 +7,9 @@
             </li>
            <li>
                 <a href="#state-tab" data-toggle="tab">Negeri</a>
+           </li> 
+            <li>
+                <a href="#category-tab" data-toggle="tab">Kategori Ruang</a>
             </li>
         </ul>
 
@@ -28,12 +31,16 @@
                     </div>
 
                     <div class="btn-group">
-                        <button class="btn btn-primary" data-bind="command: saveCommand" data-loading-text="Saving...." data-complete-text="Done">Save</button>
+                        <button class="btn btn-primary" data-bind="command: saveCommand" data-loading-text="Diproses...." data-complete-text="Selesai">Simpan</button>
                     </div>
                 </form>
             </div>
             <div id="state-tab" class="tab-pane">
                  <!--ko compose:'viewmodels/_setting.state' -->
+                <!--/ko-->
+            </div> 
+            <div id="category-tab" class="tab-pane">
+                 <!--ko compose:'viewmodels/_setting.commercialspace.category' -->
                 <!--/ko-->
             </div>
         </div>

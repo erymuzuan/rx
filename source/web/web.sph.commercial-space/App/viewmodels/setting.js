@@ -8,12 +8,13 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger','viewmodels/_setting.state'],
-    function (context, logger,statevm) {
+define(['services/datacontext', 'services/logger', 'viewmodels/_setting.state', 'viewmodels/_setting.commercialspace.category'],
+    function (context, logger,statevm,categoryvm) {
 
         var isBusy = ko.observable(false),
             activate = function () {
                 statevm.activate();
+                categoryvm.activate();
             },
             viewAttached = function () {
                 $("#returnLetterTemplate,#offerLetterTemplate").kendoUpload({

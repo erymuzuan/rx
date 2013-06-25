@@ -319,6 +319,7 @@
     <Content Include="App\viewmodels\offerdetails.js" />
     <Content Include="App\viewmodels\organization.detail.js" />
     <Content Include="App\viewmodels\payment.js" />
+    <Content Include="App\viewmodels\_setting.commercialspace.category.js" />
     <Content Include="App\viewmodels\_setting.interest.js" />
     <Content Include="App\viewmodels\_tenant.rebate.js" />
     <Content Include="App\viewmodels\_tenant.rent.js" />
@@ -355,6 +356,7 @@
     <Content Include="App\views\nav.html" />
     <Content Include="App\views\offerdetails.html" />
     <Content Include="App\views\payment.html" />
+    <Content Include="App\views\_setting.commercialspace.category.html" />
     <Content Include="App\views\_setting.interest.html" />
     <Content Include="App\views\_tenant.rebate.html" />
     <Content Include="App\views\_tenant.adhoc.html" />
