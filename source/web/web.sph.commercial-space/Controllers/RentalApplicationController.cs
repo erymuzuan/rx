@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Station.Web.Controllers;
 using WebGrease.Css.Extensions;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
@@ -58,13 +61,26 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json(true);
         }
+        
         public async Task<ActionResult> Approved(int id)
         {
             var context = new SphDataContext();
+            string message;
+            bool result;
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            dbItem.Status = "Approved";
-
-
+            var existingApprovedCs =
+                await context.GetCountAsync<RentalApplication>(r => r.CommercialSpaceId == dbItem.CommercialSpaceId && r.Status == "Approved" || r.Status == "Completed");
+            if (existingApprovedCs == 0)
+            {
+                dbItem.Status = "Approved";
+                message = "Approved";
+                result = true;
+            }
+            else
+            {
+                message = "Ruang komersil sudah ada penyewa";
+                result = false;
+            }
             var audit = new AuditTrail
             {
                 Operation = "Approval",
@@ -79,7 +95,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 await session.SubmitChanges();
             }
 
-            return Json(true);
+            return Json(new {message, result});
         }
         public async Task<ActionResult> Unsuccess(int id)
         {
@@ -111,11 +127,11 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             await Task.Delay(5000);
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            dbItem.AttachmentCollection.ClearAndAddRange(attachments);
+            if (null != attachments) dbItem.AttachmentCollection.ClearAndAddRange(attachments);
 
             var audit = new AuditTrail
             {
-                Operation = "Retured",
+                Operation = "Returned rental application",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
                 Type = typeof(RentalApplication).Name,

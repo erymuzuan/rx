@@ -15,7 +15,7 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
             id(routedata.id);
             var tcs = new $.Deferred();
             context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id()).done(function (r) {
-                ko.mapping.fromJSON(ko.mapping.toJSON(r), {}, vm.rentalApplication);
+                vm.application(r);
                 var incompleted = $.grep(r.AttachmentCollection(), function (x) { return x.IsCompleted() == false; });
                 $(incompleted).each(function (e) {
                     vm.incompleteAttachments.push(e);
@@ -26,8 +26,8 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
         },
         sendEmail = function () {
             var tcs = new $.Deferred();
-            var attachments = ko.mapping.toJS(vm.rentalApplication.AttachmentCollection);
-            var data = JSON.stringify({ id: id(), attachments: attachments, remarks: vm.rentalApplication.Remarks() });
+            var attachments = ko.mapping.toJS(vm.application.AttachmentCollection);
+            var data = JSON.stringify({ id: id(), attachments: attachments, remarks: vm.application.Remarks() });
             context.post(data, "/RentalApplication/SendReturnedEmail")
                 .done(function (result) {
                     logger.log("Successfully send the email", result, this, true);
@@ -37,8 +37,8 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
         },
         generateLetter = function () {
             var tcs = new $.Deferred();
-            var attachments = ko.mapping.toJS(vm.rentalApplication.AttachmentCollection);
-            var data = JSON.stringify({ id: id(), attachments: attachments, remarks: vm.rentalApplication.Remarks() });
+            var attachments = ko.mapping.toJS(vm.application.AttachmentCollection);
+            var data = JSON.stringify({ id: id(), attachments: attachments, remarks: vm.application.Remarks() });
             context.post(data, "/RentalApplication/GenerateReturnedLetter")
                 .done(function (result) {
                     window.open("/RentalApplication/Download/" + result);
@@ -49,10 +49,7 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
 
     var vm = {
         activate: activate,
-        rentalApplication: {
-            Remarks: ko.observable(''),
-            AttachmentCollection: ko.observableArray([])
-        },
+        application: ko.observable(new bespoke.sphcommercialspace.domain.RentalApplication()),
         incompleteAttachments: ko.observableArray([]),
         sendEmailCommand: sendEmail,
         generateLetterCommand: generateLetter

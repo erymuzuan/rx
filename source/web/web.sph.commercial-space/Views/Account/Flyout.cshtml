@@ -1,0 +1,145 @@
+﻿@model dynamic
+@{
+    Layout = null;
+    dynamic profile = this.Profile;
+}
+<style type="text/css">
+    div.c_om li.c_omti a
+    {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+    }
+
+    div.c_om a.c_thmb
+    {
+        text-align: center;
+        display: inline-block;
+        white-space: nowrap;
+        margin-top: 1px;
+        margin-bottom: 1px;
+        margin-right: 2px;
+        margin-left: 0;
+        padding: 1px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .c_m li a:visited, .c_m li a, .c_m li span.link:visited, .c_m li span.link
+    {
+        color: black;
+    }
+
+    .c_c li .c_m a, .c_c div.c_cme a
+    {
+        float: none;
+        height: auto;
+    }
+
+    div.c_om li.c_omti
+    {
+        white-space: nowrap;
+        clear: both;
+        padding: 0 15px;
+        line-height: 0;
+        border: none;
+    }
+
+    .c_c .c_m li
+    {
+        display: block;
+        float: none;
+        zoom: 0;
+    }
+
+    div.c_om ul li
+    {
+        border: 1px solid white;
+        display: block;
+        list-style: none;
+    }
+
+    .c_mli, .c_m li
+    {
+        margin: 0;
+    }
+
+    .c_ms
+    {
+    }
+
+    .noresize
+    {
+    }
+
+    .t_hovl
+    {
+    }
+
+    .c_oblock
+    {
+    }
+
+    .c_ot
+    {
+    }
+</style>
+
+<div class="flyout">
+    <div class="header-section">
+        <h3>My Profile Setting</h3>
+    </div>
+    <p>
+        <a href="@Url.Action("ChangePassword", "Account")">Change my password</a>
+
+    </p>
+    <div>
+        <span>@profile.FullName</span>
+    </div>
+    <div>
+        <span>@profile.Designation</span>
+    </div>
+    <div>
+        <span>@profile.Mobile</span>
+    </div>
+    <div>
+        <span>@profile.HospitalCode</span>
+    </div>
+    <p>
+        <a href="@Url.Action("UpdateProfile", "Account")">Update my profile</a>
+    </p>
+
+    <div>
+        <div id="c_h_theme_m" class="c_om noresize t_hovl" style="display: block;">
+            <ul class="c_oblock c_ot" id="c_h_theme_m_ul">
+                <li class="c_omti"><a href="#" data-color="#DC4FAD" class="c_thmb" title="Pink">
+                    <div style="background-color: rgb(220, 79, 173); width: 100%; height: 100%;" title="Pink"></div>
+                </a><a href="#" data-color="#AC193D" class="c_thmb" title="Dark Red">
+                    <div style="background-color: rgb(172, 25, 61); width: 100%; height: 100%;" title="Dark Red"></div>
+                </a><a href="#" data-color="#D24726" class="c_thmb" title="Dark Orange">
+                    <div style="background-color: rgb(210, 71, 38); width: 100%; height: 100%;" title="Dark Orange"></div>
+                </a><a href="#" data-color="#FF8F32" class="c_thmb" title="Orange">
+                    <div style="background-color: rgb(255, 143, 50); width: 100%; height: 100%;" title="Orange"></div>
+                </a><a href="#" data-color="#82BA00" class="c_thmb" title="Light Green">
+                    <div style="background-color: rgb(130, 186, 0); width: 100%; height: 100%;" title="Light Green"></div>
+                </a><a href="#" data-color="#008A17" class="c_thmb" title="Green">
+                    <div style="background-color: rgb(0, 138, 23); width: 100%; height: 100%;" title="Green"></div>
+                </a></li>
+                <li class="c_omti"><a href="#" data-color="#03B3B2" class="c_thmb" title="Light Teal">
+                    <div style="background-color: rgb(3, 179, 178); width: 100%; height: 100%;" title="Light Teal"></div>
+                </a><a href="#" data-color="#008299" class="c_thmb" title="Teal">
+                    <div style="background-color: rgb(0, 130, 153); width: 100%; height: 100%;" title="Teal"></div>
+                </a><a href="#" data-color="#5DB2FF" class="c_thmb" title="Light Blue">
+                    <div style="background-color: rgb(93, 178, 255); width: 100%; height: 100%;" title="Light Blue"></div>
+                </a><a href="#" data-color="#0072C6" class="c_thmb" title="Blue">
+                    <div style="background-color: rgb(0, 114, 198); width: 100%; height: 100%;" title="Blue"></div>
+                </a><a href="#" data-color="#4617B4" class="c_thmb" title="Dark Purple">
+                    <div style="background-color: rgb(70, 23, 180); width: 100%; height: 100%;" title="Dark Purple"></div>
+                </a><a href="#" data-color="#8C0095" class="c_thmb" title="Purple">
+                    <div style="background-color: rgb(140, 0, 149); width: 100%; height: 100%;" title="Purple"></div>
+                </a></li>
+            </ul>
+            <span class="c_ms"></span>
+        </div>
+    </div>
+</div>

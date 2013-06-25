@@ -102,3 +102,6 @@
 /source/dependencies/razor.template/obj/Debug
 /source/dependencies/razor.template/bin/Debug
 /source/dependencies/web.sph.commercial-space/bin
+/source/tools/routes.editor/bin/Debug
+/source/tools/routes.editor/obj/Debug/TempPE
+/source/tools/routes.editor/obj/Debug

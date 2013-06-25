@@ -97,9 +97,12 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
         approve = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: id() });
-            context.post(data, "/RentalApplication/Approved").done(function (e) {
-                logger.log("Application has been approved ", e, "rentalapplication.verify", true);
-                vm.rentalapplication().Status('Approved');
+            context.post(data, "/RentalApplication/Approved").done(function (r) {
+                logger.log(r.message, r.message, "rentalapplication.verify", true);
+                if (r.result) {
+                     vm.rentalapplication().Status('Approved');
+                }
+               
                 tcs.resolve(true);
             });
             return tcs.promise();

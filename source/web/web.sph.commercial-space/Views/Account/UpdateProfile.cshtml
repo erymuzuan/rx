@@ -1,0 +1,78 @@
+﻿@using Bespoke.Nsrm.Web.Helpers
+@model Bespoke.Nsrm.Web.ViewModel.AccountProfileViewModel
+@{
+    ViewBag.Title = "My Profile page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>My Profile page</h1>
+<div class="header-box">
+    <div class="header-section">
+        <h3>Credential</h3>
+    </div>
+    <div class="labelLeft">
+        <label>Full name</label>
+        <input type="text" class="k-textbox" data-bind="value: profile.FullName" />
+    </div>
+    <div class="labelLeft">
+        <label for="profile_email">Email</label>
+        <input type="email" class="k-textbox" id="profile_email" name="profile.Email" data-bind="value: profile.Email" />
+    </div>
+    <div class="labelLeft">
+        <label for="telephone">Telephone</label>
+        <input type="text" class="k-textbox" id="telephone" name="profile.Telephone" data-bind="value: profile.Telephone" />
+    </div>
+    <div class="labelLeft">
+        <label for="mobile">Mobile Phone</label>
+        <input type="text" class="k-textbox" id="mobile" name="profile.Mobile" data-bind="value: profile.Mobile" />
+    </div>
+    <div class="labelLeft">
+        <label for="Designation">Designation</label>
+        <input type="text" class="k-textbox" id="Designation" name="profile.Designation" data-bind="value: profile.Designation" />
+    </div>
+</div>
+<div class="header-box">
+    <div class="header-section">
+        <h3>Hospital</h3>
+    </div>
+    <div class="labelLeft">
+        <label for="hospital_state">State</label>
+        <span id="hospital_state" name="hospitals.State" data-bind="text: profile.Hospital.State">
+        </span>
+    </div>
+    <div class="labelLeft">
+        <label for="hospital">Hospital</label>
+        <span  id="hospital" name="user_state" data-bind="text: profile.Hospital.Name"></span>
+    </div>
+    <div style="height: 40px" class="labelLeft">
+        <label for="hospital" style="visibility: hidden;">p</label>
+        <img src="~/Images/progress.gif" data-bind="visible: isBusy"/>
+    </div>
+</div>
+<div class="submitpanel">
+    <button id="saveButton" class="k-button" data-bind="enable: !isBusy()">
+        <span>Save</span>
+        <span class="k-icon k-i-arrow-e"></span>
+    </button>
+</div>
+
+@section Script
+{
+    <script type="text/javascript" src="~/Scripts/Account/ProfileViewModel.js"></script>
+    <script type="text/javascript">
+        var vm;
+        var profile = @Html.Raw(Model.ToJson());
+        $(function () {
+            vm = new ProfileViewModel(profile);
+            ko.applyBindings(vm);
+            $('#saveButton').live('click',function(e){
+                e.preventDefault();
+                vm.save(function(result){
+                    if(result){
+                        bespoke.messageBox("Your profile has been updated", "NSRM");
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,34 @@
+﻿@using Newtonsoft.Json
+@model Bespoke.Station.Web.Controllers.ApplicationConfigurationViewModel
+
+@{
+    Layout = null;
+}
+<script src="~/Scripts/knockout-2.2.1.debug.js"></script>
+<script src="~/Scripts/underscore.min.js"></script>
+<script type="text/javascript" data-script="true">
+
+    define(function () {
+        toastr.options.timeOut = 4000;
+        toastr.options.positionClass = 'toast-bottom-right';
+
+        var imageSettings = {
+            imageBasePath: '../content/images/photos/',
+            unknownPersonImageSource: 'unknown_person.jpg'
+        };
+
+
+        var routes =@Html.Raw(JsonConvert.SerializeObject(Model.Routes));
+
+        var startModule = '@Model.StartModule';
+
+        return {
+            debugEnabled: ko.observable(true),
+            imageSettings: imageSettings,
+            userName: '@User.Identity.Name',
+            isAuthenticated : @(User.Identity.IsAuthenticated.ToString().ToLower()),
+            routes: routes,
+            startModule: startModule
+        };
+    });
+</script>

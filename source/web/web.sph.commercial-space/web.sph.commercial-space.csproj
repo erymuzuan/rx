@@ -225,16 +225,25 @@
     <Compile Include="App_Start\HotTowelRouteConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AppController.config.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\ContractSettingController.cs" />
+    <Compile Include="Controllers\AppController.nav.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\RebateController.cs" />
     <Compile Include="Controllers\RentalApplicationController.cs" />
@@ -263,7 +272,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App\config.js" />
     <Content Include="App\durandal\amd\almond-custom.js" />
     <Content Include="App\durandal\amd\optimizer.exe" />
     <Content Include="App\durandal\amd\r.js" />
@@ -298,6 +306,8 @@
     <Content Include="App\services\Rent.js" />
     <Content Include="App\viewmodels\admindashboard.js" />
     <Content Include="App\viewmodels\applicationlist.js" />
+    <Content Include="App\viewmodels\building.details.js" />
+    <Content Include="App\viewmodels\building.details.ts" />
     <Content Include="App\viewmodels\building.js" />
     <Content Include="App\viewmodels\buildingdetail.js" />
     <Content Include="App\viewmodels\rebate.js" />
@@ -356,6 +366,7 @@
     <Content Include="App\views\nav.html" />
     <Content Include="App\views\offerdetails.html" />
     <Content Include="App\views\payment.html" />
+    <Content Include="App\views\toolbar.html" />
     <Content Include="App\views\_setting.commercialspace.category.html" />
     <Content Include="App\views\_setting.interest.html" />
     <Content Include="App\views\_tenant.rebate.html" />
@@ -630,6 +641,7 @@
     <Content Include="kendo\styles\textures\stripe6.png" />
     <Content Include="kendo\styles\textures\transparency.png" />
     <Content Include="kendo\styles\textures\transtexture.png" />
+    <Content Include="routes.config.js" />
     <Content Include="Scripts\bootmetro-charms.js" />
     <Content Include="Scripts\bootmetro.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
@@ -671,6 +683,7 @@
     <Content Include="App\views\_setting.state.html" />
     <Content Include="App\viewmodels\_setting.state.js" />
     <None Include="Properties\PublishProfiles\web.sph.pubxml" />
+    <Content Include="ruang.komersil.utility.ledger.xlsx" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.debug.js" />
     <Content Include="Scripts\breeze.min.js" />
@@ -749,6 +762,13 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\HotTowel\index.cshtml" />
     <Content Include="Views\HotTowel\_splash.cshtml" />
+    <Content Include="Views\App\ConfigJs.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
+    <Content Include="Views\Account\Flyout.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\UpdateProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

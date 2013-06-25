@@ -115,7 +115,7 @@
             <input type="button" class="btn btn-info" value="SENARAI MENUNGGU" data-bind="command: waitingListCommand, visible: rentalapplication().Status() == 'New'" data-loading-text="processing.." data-complete-text="Menunggu" />
             <input type="button" class="btn btn-warning" value="KEMBALIKAN" data-bind="command: returnedCommand, visible: rentalapplication().Status() == 'New'" data-loading-text="processing.." data-complete-text="DiKembalikan" />
             <input type="button" class="btn btn-danger" value="BATALKAN" data-bind="command: declinedCommand, visible: rentalapplication().Status() == 'New' || rentalapplication().Status() == 'Returned'" data-loading-text="processing.." data-complete-text="Di tolak" />
-            <input type="button" class="btn btn-success" value="LULUSKAN" data-bind="command: approvedCommand, visible: rentalapplication().Status() == 'Waiting' || rentalapplication().Status() == 'Returned'" data-loading-text="processing.." data-complete-text="Lulus!" />
+            <input type="button" class="btn btn-success" value="LULUSKAN" data-bind="command: approvedCommand, visible: rentalapplication().Status() == 'Waiting' || rentalapplication().Status() == 'Returned'" data-loading-text="LULUSKAN" data-complete-text="LULUSKAN" />
            
             <!-- ko compose :  'viewmodels/_rentalapplication.verify.offer' -->
                 

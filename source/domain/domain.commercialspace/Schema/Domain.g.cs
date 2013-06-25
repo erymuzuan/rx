@@ -6875,6 +6875,11 @@
           {
           
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  int  m_depositPaymentId;
+                    public const string PropertyNameDepositPaymentId = "DepositPaymentId";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private  string  m_receiptNo;
                     public const string PropertyNameReceiptNo = "ReceiptNo";
 
@@ -6889,12 +6894,43 @@
                     public const string PropertyNameDate = "Date";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_registrationNo;
+                    public const string PropertyNameRegistrationNo = "RegistrationNo";
+
+                  
                 ///<summary>
                 /// 
                 ///</summary>
                 [XmlAttribute]
                 
                   [Required]
+                
+                [DebuggerHidden]
+                
+                    public int DepositPaymentId
+                    {
+                    set
+                    {
+                    if( m_depositPaymentId == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameDepositPaymentId, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_depositPaymentId= value;
+                    OnPropertyChanged(PropertyNameDepositPaymentId);
+                    }
+                    }
+                    get
+                    {
+                    return m_depositPaymentId;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
                 
                 [DebuggerHidden]
                 
@@ -6970,6 +7006,34 @@
                     get
                     {
                     return m_date;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string RegistrationNo
+                    {
+                    set
+                    {
+                    if( String.Equals( m_registrationNo, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameRegistrationNo, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_registrationNo= value;
+                    OnPropertyChanged(PropertyNameRegistrationNo);
+                    }
+                    }
+                    get
+                    {
+                    return m_registrationNo;}
                     }
 
                   

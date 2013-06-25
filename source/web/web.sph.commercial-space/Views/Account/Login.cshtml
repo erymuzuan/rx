@@ -1,0 +1,44 @@
+@model Bespoke.Sph.Commerspace.Web.Controllers.LoginModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>Enter your user name and password.</h2>
+</hgroup>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+@using (Html.BeginForm((string)ViewBag.FormAction, "Account"))
+{
+    <div class="header-box">
+        @Html.ValidationSummary(true, "Log in was unsuccessful. Please correct the errors and try again.")
+
+        <fieldset>
+            <legend>Log in Form</legend>
+            <ol>
+                <li>
+                    @Html.LabelFor(m => m.UserName)
+                    @Html.TextBoxFor(m => m.UserName)
+                    @Html.ValidationMessageFor(m => m.UserName)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password)
+                    @Html.ValidationMessageFor(m => m.Password)
+                </li>
+                <li>
+                    @Html.CheckBoxFor(m => m.RememberMe)
+                    @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
+                </li>
+            </ol>
+        </fieldset>
+
+
+    </div>
+    <div class="submitpanel">
+        <input type="hidden" name="ReturnUrl" value="@Request.QueryString["ReturnUrl"]"/>
+        <input type="submit" value="Log in" class="k-button" />
+    </div>
+}

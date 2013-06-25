@@ -2,8 +2,6 @@
 /// <reference path="../../Scripts/underscore.js" />
 
 bespoke.sphcommercialspace.domain.ContractPartial = function () {
-
-
     var calculateAccumulatedAccrued = function (context) {
         var r = this;
         var queryInvoice = String.format("ContractNo eq '{0}'", r.ReferenceNo());

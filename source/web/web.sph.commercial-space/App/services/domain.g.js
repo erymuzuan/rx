@@ -608,9 +608,11 @@ bespoke.sphcommercialspace.domain.ContractingParty = function (webId) {
 bespoke.sphcommercialspace.domain.DepositPayment = function (webId) {
 
     var model = {
+        DepositPaymentId: ko.observable(),
         ReceiptNo: ko.observable(),
         Amount: ko.observable(),
         Date: ko.observable(),
+        RegistrationNo: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
