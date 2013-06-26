@@ -493,6 +493,9 @@ bespoke.sphcommercialspace.domain.Organization = function (webId) {
     var model = {
         Name: ko.observable(),
         RegistrationNo: ko.observable(),
+        Email: ko.observable(),
+        OfficeNo: ko.observable(),
+        FaxNo: ko.observable(),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)

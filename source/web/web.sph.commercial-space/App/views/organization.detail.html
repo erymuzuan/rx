@@ -1,3 +1,61 @@
-﻿<div>
-    organization.detail.html
-</div>
+﻿<section id="organization-detail" data-bind="with: organization">
+    <div class="control-group">
+        <label for="organization.Name" class="control-label">Nama Syarikat</label>
+        <div class="controls">
+            <input data-bind="value: Name" id="organization.Name" type="text" name="Name" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="organization.RegistrationNo" class="control-label">No Pendaftaran :</label>
+        <div class="controls">
+            <input data-bind="value: RegistrationNo" id="organization.RegistrationNo" type="text" name="RegistrationNo" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="organization.Email" class="control-label">Emel : </label>
+        <div class="controls">
+            <input data-bind="value: Email" id="organization.Email" type="text" name="Email" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="organization.OfficeNo" class="control-label">No. Telefon :</label>
+        <div class="controls">
+            <input data-bind="value: OfficeNo" id="organization.OfficeNo" type="text" name="OfficeNo" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="organization.FaxNo" class="control-label">No. Faks :</label>
+        <div class="controls">
+            <input data-bind="value: FaxNo" id="organization.FaxNo" type="text" name="FaxNo" />
+        </div>
+    </div>
+
+    <h3>Alamat : </h3>
+    <div class="control-group">
+        <label for="organization.Address.Street" class="control-label">Jalan</label>
+        <div class="controls">
+            <input data-bind="value: Address.Street" id="organization.Address.Street" type="text" name="organization.Address.StreetAddress.StreetAddress.Street" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="organization.Address.City" class="control-label">Bandar</label>
+        <div class="controls">
+            <input data-bind="value: Address.City" id="organization.Address.City" type="text" name="organization.Address.City" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="organization.Address.Postcode" class="control-label">Poskod</label>
+        <div class="controls">
+            <input data-bind="value: Address.Postcode" id="organization.Address.Postcode" type="text" name="organization.Address.Postcode" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="organization.Address.State" class="control-label">Negeri</label>
+        <div class="controls">
+            <input data-bind="value: Address.State" id="organization.Address.State" type="text" name="organization.Address.State" />
+        </div>
+    </div>
+</section>
+<section>
+    <input type="button" value="Simpan" data-bind="command:saveCommand" class="btn btn-primary"/>
+</section>

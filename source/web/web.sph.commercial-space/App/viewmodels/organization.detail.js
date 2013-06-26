@@ -8,21 +8,47 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-    function (context, logger, router) {
+define(['services/datacontext'],
+    function (context) {
 
         var isBusy = ko.observable(false),
             activate = function () {
+                var query = String.format("Key eq 'Organization'");
+                var tcs = new $.Deferred();
+                context.loadOneAsync("Setting", query)
+                    .done(function (s) {
+                        if (s) {
+                            var organization = JSON.parse(ko.mapping.toJS(s.Value));
+                            vm.organization(organization);
+                        }
+                        tcs.resolve(true);
+                    });
 
+                return tcs.promise();
             },
-            viewAttached = function (view) {
+            save = function () {
+                var tcs = new $.Deferred();
+                var data = JSON.stringify({
+                    settings: [{
+                        Key: "Organization",
+                        Value: ko.mapping.toJSON(vm.organization())
+                    }]
+                });;
+                isBusy(true);
+                context.post(data, "/Setting/Save")
+                    .then(function(result) {
+                        isBusy(false);
 
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
             };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached
+            organization: ko.observable(new bespoke.sphcommercialspace.domain.Organization()),
+            saveCommand : save
         };
 
         return vm;

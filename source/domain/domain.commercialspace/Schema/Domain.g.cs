@@ -4004,8 +4004,6 @@
                 ///</summary>
                 [XmlAttribute]
                 
-                  [Required]
-                
                 [DebuggerHidden]
                 
                     public string IcNo
@@ -5820,6 +5818,21 @@
                     public const string PropertyNameRegistrationNo = "RegistrationNo";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_email;
+                    public const string PropertyNameEmail = "Email";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_officeNo;
+                    public const string PropertyNameOfficeNo = "OfficeNo";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_faxNo;
+                    public const string PropertyNameFaxNo = "FaxNo";
+
+                  
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			private Address m_address
 					=  new Address();
@@ -5890,6 +5903,90 @@
                     get
                     {
                     return m_registrationNo;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Email
+                    {
+                    set
+                    {
+                    if( String.Equals( m_email, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameEmail, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_email= value;
+                    OnPropertyChanged(PropertyNameEmail);
+                    }
+                    }
+                    get
+                    {
+                    return m_email;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string OfficeNo
+                    {
+                    set
+                    {
+                    if( String.Equals( m_officeNo, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameOfficeNo, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_officeNo= value;
+                    OnPropertyChanged(PropertyNameOfficeNo);
+                    }
+                    }
+                    get
+                    {
+                    return m_officeNo;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string FaxNo
+                    {
+                    set
+                    {
+                    if( String.Equals( m_faxNo, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameFaxNo, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_faxNo= value;
+                    OnPropertyChanged(PropertyNameFaxNo);
+                    }
+                    }
+                    get
+                    {
+                    return m_faxNo;}
                     }
 
                   

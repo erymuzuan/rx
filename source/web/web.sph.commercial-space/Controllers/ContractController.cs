@@ -68,17 +68,21 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var template = await context.LoadOneAsync<ContractTemplate>(t => t.ContractTemplateId == templateId);
             var app = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == rentalApplicationId);
             var cs = await context.LoadOneAsync<CommercialSpace>(r => r.CommercialSpaceId == app.Offer.CommercialSpaceId);
-
+            var setting = await context.LoadOneAsync<Setting>(s => s.Key == "Organization");
+            var org = JsonConvert.DeserializeObject<Organization>(setting.Value);
             var contract = new Contract
                 {
-                    Title = string.Format("Kotrak sewaan dengan {0} dan {1}", app.CompanyName, "Bespoke"),
+                    Title = string.Format("Kontrak sewaan dengan {0} dan {1}", app.CompanyName, org.Name),
                     ReferenceNo = string.Format("BSPB/2013/{0}", app.RegistrationNo),
                     Date = DateTime.Now,
                     InterestRate = template.InterestRate,
                     Owner = new Owner
                         {
-                            Name = "To get from settings",
-                            Email = "someone@bespoke.com.my"
+                            Name = org.Name,
+                            Email = org.Email,
+                            TelephoneNo = org.OfficeNo,
+                            FaxNo = org.FaxNo,
+                            Address = org.Address
                         },
                     Type = template.Type,
                     CommercialSpace = cs,

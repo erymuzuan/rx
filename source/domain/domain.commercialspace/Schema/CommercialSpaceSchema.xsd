@@ -231,7 +231,7 @@
 		<xs:complexType>
 			<xs:attribute name="ContractId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="IcNo" type="xs:string" use="required"/>
+			<xs:attribute name="IcNo" type="xs:string"/>
 			<xs:attribute name="Role" type="xs:string" use="required"/>
 			<xs:attribute name="MobileNo" type="xs:string" use="required"/>
 			<xs:attribute name="OfficeNo" type="xs:string" use="required"/>
@@ -378,6 +378,9 @@
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="RegistrationNo" type="xs:string" use="required"/>
+			<xs:attribute name="Email" type="xs:string" use="required"/>
+			<xs:attribute name="OfficeNo" type="xs:string" use="required"/>
+			<xs:attribute name="FaxNo" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Offer">
