@@ -11,10 +11,12 @@ namespace routes.editor
 {
     public class MainViewModel : ViewModelBase
     {
+        //
         public RelayCommand OpenCommand { get; set; }
         public RelayCommand SaveCommand { get; set; }
         public RelayCommand ValidateCommand { get; set; }
 
+        //
         public MainViewModel()
         {
             this.OpenCommand = new RelayCommand(Open);
