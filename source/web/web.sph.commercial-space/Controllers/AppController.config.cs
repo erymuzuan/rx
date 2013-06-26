@@ -6,7 +6,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Bespoke.Station.Web.Controllers
+namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public static class Roles
     {
@@ -24,8 +24,7 @@ namespace Bespoke.Station.Web.Controllers
 
             var settings = new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()};
             var routes = await JsonConvert.DeserializeObjectAsync<JsRoute[]>(json, settings);
-            vm.Routes.AddRange(routes.Where(r => User.IsInRole(r.Role) || string.IsNullOrWhiteSpace(r.Role)));
-
+            vm.Routes.AddRange(routes.Where(r => User.IsInRole(r.role) || string.IsNullOrWhiteSpace(r.role)));
 
             return View(vm);
         }
