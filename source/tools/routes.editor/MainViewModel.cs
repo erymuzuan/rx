@@ -65,7 +65,9 @@ namespace routes.editor
                     Title = "Select routes json file"
                 };
 
+// ReSharper disable ConstantNullCoalescingCondition
             if (dlg.ShowDialog() ?? false)
+// ReSharper restore ConstantNullCoalescingCondition
             {
                 this.FileName = dlg.FileName;
                 this.ReadJson();
