@@ -1,6 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using Telerik.Windows.Controls;
 
 namespace routes.editor
