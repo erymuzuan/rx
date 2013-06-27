@@ -7352,28 +7352,13 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("User",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class User
+          [XmlType("UserProfile",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class UserProfile
           {
           
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  int  m_userId;
-                    public const string PropertyNameUserId = "UserId";
-
-                  
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  int  m_organizationId;
-                    public const string PropertyNameOrganizationId = "OrganizationId";
-
-                  
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_userName;
-                    public const string PropertyNameUserName = "UserName";
-
-                  
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_email;
-                    public const string PropertyNameEmail = "Email";
+                    private  string  m_username;
+                    public const string PropertyNameUsername = "Username";
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -7381,32 +7366,39 @@
                     public const string PropertyNameFullName = "FullName";
 
                   
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                  [Required]
-                
-                [DebuggerHidden]
-                
-                    public int UserId
-                    {
-                    set
-                    {
-                    if( m_userId == value) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameUserId, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_userId= value;
-                    OnPropertyChanged(PropertyNameUserId);
-                    }
-                    }
-                    get
-                    {
-                    return m_userId;}
-                    }
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_designation;
+                    public const string PropertyNameDesignation = "Designation";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_telephone;
+                    public const string PropertyNameTelephone = "Telephone";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_mobile;
+                    public const string PropertyNameMobile = "Mobile";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_hospitalCode;
+                    public const string PropertyNameHospitalCode = "HospitalCode";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_roleTypes;
+                    public const string PropertyNameRoleTypes = "RoleTypes";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_startModule;
+                    public const string PropertyNameStartModule = "StartModule";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_email;
+                    public const string PropertyNameEmail = "Email";
 
                   
                 ///<summary>
@@ -7418,78 +7410,22 @@
                 
                 [DebuggerHidden]
                 
-                    public int OrganizationId
+                    public string Username
                     {
                     set
                     {
-                    if( m_organizationId == value) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameOrganizationId, value);
+                    if( String.Equals( m_username, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameUsername, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)
                     {
-                    m_organizationId= value;
-                    OnPropertyChanged(PropertyNameOrganizationId);
+                    m_username= value;
+                    OnPropertyChanged(PropertyNameUsername);
                     }
                     }
                     get
                     {
-                    return m_organizationId;}
-                    }
-
-                  
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                  [Required]
-                
-                [DebuggerHidden]
-                
-                    public string UserName
-                    {
-                    set
-                    {
-                    if( String.Equals( m_userName, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameUserName, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_userName= value;
-                    OnPropertyChanged(PropertyNameUserName);
-                    }
-                    }
-                    get
-                    {
-                    return m_userName;}
-                    }
-
-                  
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                  [Required]
-                
-                [DebuggerHidden]
-                
-                    public string Email
-                    {
-                    set
-                    {
-                    if( String.Equals( m_email, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameEmail, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_email= value;
-                    OnPropertyChanged(PropertyNameEmail);
-                    }
-                    }
-                    get
-                    {
-                    return m_email;}
+                    return m_username;}
                     }
 
                   
@@ -7518,6 +7454,202 @@
                     get
                     {
                     return m_fullName;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Designation
+                    {
+                    set
+                    {
+                    if( String.Equals( m_designation, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameDesignation, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_designation= value;
+                    OnPropertyChanged(PropertyNameDesignation);
+                    }
+                    }
+                    get
+                    {
+                    return m_designation;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Telephone
+                    {
+                    set
+                    {
+                    if( String.Equals( m_telephone, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameTelephone, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_telephone= value;
+                    OnPropertyChanged(PropertyNameTelephone);
+                    }
+                    }
+                    get
+                    {
+                    return m_telephone;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Mobile
+                    {
+                    set
+                    {
+                    if( String.Equals( m_mobile, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameMobile, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_mobile= value;
+                    OnPropertyChanged(PropertyNameMobile);
+                    }
+                    }
+                    get
+                    {
+                    return m_mobile;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string HospitalCode
+                    {
+                    set
+                    {
+                    if( String.Equals( m_hospitalCode, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameHospitalCode, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_hospitalCode= value;
+                    OnPropertyChanged(PropertyNameHospitalCode);
+                    }
+                    }
+                    get
+                    {
+                    return m_hospitalCode;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string RoleTypes
+                    {
+                    set
+                    {
+                    if( String.Equals( m_roleTypes, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameRoleTypes, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_roleTypes= value;
+                    OnPropertyChanged(PropertyNameRoleTypes);
+                    }
+                    }
+                    get
+                    {
+                    return m_roleTypes;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string StartModule
+                    {
+                    set
+                    {
+                    if( String.Equals( m_startModule, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameStartModule, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_startModule= value;
+                    OnPropertyChanged(PropertyNameStartModule);
+                    }
+                    }
+                    get
+                    {
+                    return m_startModule;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Email
+                    {
+                    set
+                    {
+                    if( String.Equals( m_email, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameEmail, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_email= value;
+                    OnPropertyChanged(PropertyNameEmail);
+                    }
+                    }
+                    get
+                    {
+                    return m_email;}
                     }
 
                   

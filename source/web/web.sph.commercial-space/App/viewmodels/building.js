@@ -8,41 +8,35 @@
 
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
 
-   
-    var addNew = function() {
-        var url = '/#/buildingdetail/0';
-        router.navigateTo(url);
-    };
-    
-    var viewAttached = function (view) {
-        bindEventToList(view, '#div-building', gotoDetails);
-    };
-
-    var bindEventToList = function (rootSelector, selector, callback, eventName) {
-        var eName = eventName || 'click';
-        $(rootSelector).on(eName, selector, function () {
-            var building = ko.dataFor(this);
-            callback(building);
-            return false;
-        });
-    };
-    var gotoDetails = function (selectedBuilding) {
-        if (selectedBuilding && selectedBuilding.BuildingId()) {
-            var url = '/#/buildingdetail/' + selectedBuilding.BuildingId();
-            router.navigateTo(url);
-        }
-    };
-    var activate = function() {
-        logger.log('Building View Activated', null, 'building', true);
-
+    var activate = function () {
         var tcs = new $.Deferred();
         context.loadAsync("Building", "BuildingId gt 0").done(function (lo) {
             vm.buildings(lo.itemCollection);
             tcs.resolve(true);
         });
         tcs.promise();
+    },
+    addNew = function () {
+        var url = '/#/buildingdetail/0';
+        router.navigateTo(url);
+    },
+    viewAttached = function (view) {
+        bindEventToList(view, '#div-building', gotoDetails);
+    },
+    bindEventToList = function (rootSelector, selector, callback, eventName) {
+        var eName = eventName || 'click';
+        $(rootSelector).on(eName, selector, function () {
+            var building = ko.dataFor(this);
+            callback(building);
+            return false;
+        });
+    },
+        gotoDetails = function (selectedBuilding) {
+        if (selectedBuilding && selectedBuilding.BuildingId()) {
+            var url = '/#/buildingdetail/' + selectedBuilding.BuildingId();
+            router.navigateTo(url);
+        }
     };
-
 
     var vm = {
         activate: activate,

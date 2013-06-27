@@ -647,19 +647,23 @@ bespoke.sphcommercialspace.domain.Payment = function (webId) {
 
 
 
-bespoke.sphcommercialspace.domain.User = function (webId) {
+bespoke.sphcommercialspace.domain.UserProfile = function (webId) {
 
     var model = {
-        UserId: ko.observable(),
-        OrganizationId: ko.observable(),
-        UserName: ko.observable(),
-        Email: ko.observable(),
+        Username: ko.observable(),
         FullName: ko.observable(),
+        Designation: ko.observable(),
+        Telephone: ko.observable(),
+        Mobile: ko.observable(),
+        HospitalCode: ko.observable(),
+        RoleTypes: ko.observable(),
+        StartModule: ko.observable(),
+        Email: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
-    if (bespoke.sphcommercialspace.domain.UserPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.UserPartial(model));
+    if (bespoke.sphcommercialspace.domain.UserProfilePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.UserProfilePartial(model));
     }
     return model;
 };

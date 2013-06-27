@@ -1,24 +1,22 @@
 ﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
 @model Bespoke.Sph.Commerspace.Web.Controllers.ApplicationConfigurationViewModel
 
 @{
     Layout = null;
+    var settings = new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()};
 }
 <script src="~/Scripts/knockout-2.2.1.debug.js"></script>
 <script src="~/Scripts/underscore.min.js"></script>
 <script type="text/javascript" data-script="true">
-
-    define(function () {
+    define(function() {
         toastr.options.timeOut = 4000;
         toastr.options.positionClass = 'toast-bottom-right';
-
         var imageSettings = {
             imageBasePath: '../content/images/photos/',
             unknownPersonImageSource: 'unknown_person.jpg'
         };
-
-
-        var routes =@Html.Raw(JsonConvert.SerializeObject(Model.Routes));
+        var routes = @Html.Raw(JsonConvert.SerializeObject(Model.Routes,Formatting.Indented,settings));
 
         var startModule = '@Model.StartModule';
 

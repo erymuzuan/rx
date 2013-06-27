@@ -23,7 +23,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public IQueryable<Rent> Rents { get; set; }
         public IQueryable<Role> Roles { get; set; }
         public IQueryable<Setting> Settings { get; set; }
-        public IQueryable<User> Users{ get; set; }
+        public IQueryable<UserProfile> UserProfiles { get; set; }
 
         public SphDataContext()
         {
@@ -39,7 +39,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             this.Rents = new Query<Rent>(provider);
             this.Roles = new Query<Role>(provider);
             this.Settings = new Query<Setting>(provider);
-            this.Users = new Query<User>(provider);
+            this.UserProfiles = new Query<UserProfile>(provider);
         }
 
 

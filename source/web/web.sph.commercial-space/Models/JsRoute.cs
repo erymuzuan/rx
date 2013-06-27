@@ -2,13 +2,13 @@
 {
     public  class JsRoute
     {
-        public string role { set; get; }
-        public string url { set; get; }
-        public string moduleId{ set; get; }
-        public string name{ set; get; }
-        public bool visible{ set; get; }
-        public string icon{ set; get; }
-        public string caption { set; get; }
-        public JsRouteSetting settings { set; get; }
+        public string Role { set; get; }
+        public string Url { set; get; }
+        public string ModuleId{ set; get; }
+        public string Name{ set; get; }
+        public bool Visible{ set; get; }
+        public string Icon{ set; get; }
+        public string Caption { set; get; }
+        public JsRouteSetting Settings { set; get; }
     }
 }

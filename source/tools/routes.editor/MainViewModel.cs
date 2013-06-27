@@ -13,6 +13,7 @@ namespace routes.editor
     {
         //
         public RelayCommand OpenCommand { get; set; }
+        public RelayCommand AddCommand { get; set; }
         public RelayCommand SaveCommand { get; set; }
         public RelayCommand ValidateCommand { get; set; }
 
@@ -20,6 +21,7 @@ namespace routes.editor
         public MainViewModel()
         {
             this.OpenCommand = new RelayCommand(Open);
+            this.AddCommand = new RelayCommand(Add);
             this.SaveCommand = new RelayCommand(Save);
             this.ValidateCommand = new RelayCommand(Validate);
         }
@@ -90,7 +92,11 @@ namespace routes.editor
             this.RouteCollection.Clear();
             routes.ToList().ForEach(this.RouteCollection.Add);
         }
-
+        private void Add()
+        {
+            var route = new JsRoute();
+            this.RouteCollection.Add(route);
+        }
         private void Save()
         {
             var settings = new JsonSerializerSettings

@@ -120,6 +120,7 @@
     <Compile Include="Payment.cs" />
     <Compile Include="PaymentDistribution.cs" />
     <Compile Include="Permission.cs" />
+    <Compile Include="UserProfile.cs" />
     <Compile Include="Rebate.cs" />
     <Compile Include="Rent.cs" />
     <Compile Include="Reply.cs" />

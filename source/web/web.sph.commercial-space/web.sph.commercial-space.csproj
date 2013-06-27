@@ -226,10 +226,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AppController.config.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AppController.cs" />
+    <Compile Include="Controllers\AppController.users.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
@@ -345,6 +349,7 @@
     <Content Include="App\viewmodels\_commercialspace.contract.js" />
     <Content Include="App\viewmodels\_contract.clauses.js" />
     <Content Include="App\viewmodels\_contract.documents.js" />
+    <Content Include="App\viewmodels\_users.role.js" />
     <Content Include="App\views\admindashboard.html" />
     <Content Include="App\views\applicationlist.html" />
     <Content Include="App\views\building.html" />
@@ -385,6 +390,7 @@
     <Content Include="App\views\_commercialspace.contract.html" />
     <Content Include="App\views\_contract.form.html" />
     <Content Include="App\views\_tenant.contract.html" />
+    <Content Include="App\views\_users.role.html" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
@@ -684,6 +690,8 @@
     <Content Include="App\views\_rentalapplication.verify.offer.html" />
     <Content Include="App\views\_setting.state.html" />
     <Content Include="App\viewmodels\_setting.state.js" />
+    <Content Include="App\viewmodels\_users.designation.js" />
+    <Content Include="App\views\_users.designation.html" />
     <None Include="Properties\PublishProfiles\web.sph.pubxml" />
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
     <None Include="Scripts\breeze.intellisense.js" />
@@ -771,6 +779,8 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\UpdateProfile.cshtml" />
+    <Content Include="Views\App\UsersHtml.cshtml" />
+    <Content Include="Views\App\UsersJs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,49 @@
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
+@model Bespoke.Sph.Commerspace.Web.Controllers.AdminController
+@{
+    ViewBag.Title = "UsersJs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var roles = Roles.GetAllRoles();
+    
+}
+
+<script type="text/javascript" data-script="true">
+    define(['services/datacontext','viewmodels/_users.role','viewmodels/_users.designation'], function (context,rolevm,designationvm) {
+        var isBusy = ko.observable(false),
+            roles = @Html.Raw(JsonConvert.SerializeObject(roles)),
+            profiles = ko.observableArray(),
+            activate = function() {
+                var query = String.format("UserProfileId gt 0");
+                var tcs = new $.Deferred();
+                rolevm.activate(roles);
+                designationvm.activate(roles);
+                var profileTask = context.loadAsync("UserProfile", query);
+                var designationTask = context.loadOneAsync("Setting", "Key eq 'Designation.Role'");
+                    $.when(designationTask,profileTask)
+                     .then(function(s,p) {
+                         isBusy(false);
+                         var designation = JSON.parse(ko.mapping.toJS(s.Value));;
+                         vm.designationOptions(designation);
+                         vm.profiles(p.itemCollection);
+                         tcs.resolve(true);
+                    });
+                return tcs.promise();
+            },
+            save = function() {
+
+            };
+            
+
+        var vm = {
+            activate: activate,
+            profile: ko.observable(new bespoke.sphcommercialspace.domain.UserProfile()),
+            profiles: profiles,
+            designationOptions : ko.observableArray(),
+            saveCommand: save
+        };
+
+        return vm;
+    });
+</script>

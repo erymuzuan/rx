@@ -53,9 +53,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             if (matches.Count == 0)
                 return string.Empty;
 
-
             var scripts = new StringBuilder();
-            foreach (Match m in matches)
+            foreach(Match m in matches)
             {
                 scripts.AppendLine(m.Groups["script"].Value);
                 scripts.AppendLine();
