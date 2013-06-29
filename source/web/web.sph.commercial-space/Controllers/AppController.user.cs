@@ -1,11 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
-    public class AppController
+    public partial class AppController
     {
+        //[ActionName("user.profile")]
+        public ActionResult UserProfileHtml()
+        {
+            return View();
+        }
+        public ActionResult UserProfileJs()
+        {
+            var member = Membership.GetUser();
+            return View(member);
+        }
     }
 }

@@ -1,0 +1,53 @@
+﻿@model MembershipUser
+@{
+    Layout = null;
+}
+<script type="text/javascript" data-script="true">
+    
+define(['services/datacontext',
+        'services/logger'],
+    function (context, logger) {
+
+
+        var isBusy = ko.observable(false),
+            email = ko.observable('@Model.Email'),
+            fullName = ko.observable('@Model.Comment'),
+            activate = function () {
+                return true;
+            };
+
+
+
+
+        var saveAsync = function () {
+            var tcs = new $.Deferred();
+            var data = ko.mapping.toJSON(vm.building);
+            context.post(data, "/Building/SaveBuilding")
+                .done(function (e) {
+                    if (e.status) {
+                        vm.building.BuildingId(e.buildingId);
+                        logger.log(e.message, e, "buildingdetail", true);
+                    } else {
+                        logger.logError(e.message, e, this, true);
+                    }
+                    tcs.resolve(e);
+                });
+            return tcs.promise();
+        };
+
+
+
+
+        var vm = {
+            activate: activate,
+            email: email,
+            fullName: fullName,
+            saveCommand: saveAsync,
+            isBusy: isBusy,
+            title: 'User profile Details'
+        };
+
+        return vm;
+    });
+
+</script>

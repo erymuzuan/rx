@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web.Mvc;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
-    public class AppController
+    public partial class AppController
     {
+        public ActionResult HeaderHtml()
+        {
+            return View();
+        }
     }
 }

@@ -9,7 +9,8 @@ $packagesFiles | foreach{
             Write-Host "Downloading " $folder
             $arg = "install " + $_.id + " -Version " + $_.version
            # Write-Host $arg
-           Start-Process -FilePath ".\.nuget\NuGet.exe" -WorkingDirectory ".\packages" -ArgumentList $arg -Wait > output.txt
+           Start-Process -FilePath ".\.nuget\NuGet.exe" -WorkingDirectory ".\packages" -NoNewWindow -WindowStyle Hidden -ArgumentList $arg -Wait > output.txt
+            
         }
     }    
 }

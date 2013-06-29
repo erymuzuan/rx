@@ -26,7 +26,9 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
             
             var tcs = new $.Deferred();
             context.loadOneAsync("Setting", "Key eq 'Categories'").done(function (s) {
-                var categories = JSON.parse(ko.mapping.toJS(s.Value));;
+                s = s || {};
+                var value = s.Value || "[]";
+                var categories = JSON.parse(ko.mapping.toJS(value));
                 vm.categoryOptions(categories);
                 tcs.resolve(true);
             });
