@@ -323,5 +323,16 @@
     "caption": "Profil",
     "settings": null,
     "error": ""
+  },
+  {
+    "role": "admin",
+    "url": "role.settings",
+    "moduleId": "viewmodels/role.settings",
+    "name": "Role settings",
+    "visible": true,
+    "icon": "icon-desktop",
+    "caption": "Roles",
+    "settings": null,
+    "error": ""
   }
 ]
