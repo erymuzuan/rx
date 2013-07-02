@@ -9429,15 +9429,15 @@
 			get{ return m_ComplaintCategoryCollection;}
 			}
 		
-			private readonly ObjectCollection<ComplaintCustomField>  m_CustomFieldCollection = new ObjectCollection<ComplaintCustomField> ();
+			private readonly ObjectCollection<ComplaintCustomField>  m_ComplaintCustomFieldCollection = new ObjectCollection<ComplaintCustomField> ();
 
 			///<summary>
 			/// 
 			///</summary>
 			[XmlArrayItem("ComplaintCustomField", IsNullable = false)]
-			public ObjectCollection<ComplaintCustomField> CustomFieldCollection
+			public ObjectCollection<ComplaintCustomField> ComplaintCustomFieldCollection
 			{
-			get{ return m_CustomFieldCollection;}
+			get{ return m_ComplaintCustomFieldCollection;}
 			}
 		
                 ///<summary>
@@ -9667,6 +9667,11 @@
                     public const string PropertyNameSize = "Size";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_listing;
+                    public const string PropertyNameListing = "Listing";
+
+                  
                 ///<summary>
                 /// 
                 ///</summary>
@@ -9804,6 +9809,32 @@
                     get
                     {
                     return m_size;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                [DebuggerHidden]
+                
+                    public string Listing
+                    {
+                    set
+                    {
+                    if( String.Equals( m_listing, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameListing, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_listing= value;
+                    OnPropertyChanged(PropertyNameListing);
+                    }
+                    }
+                    get
+                    {
+                    return m_listing;}
                     }
 
                   

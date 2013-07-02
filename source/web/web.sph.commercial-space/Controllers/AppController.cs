@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public ActionResult ViewModels(string id)
         {
             this.Response.ContentType = APPLICATION_JAVASCRIPT;
-            var script = this.RenderScript(id.Replace(".js", string.Empty) + "Js");
+            var script = this.RenderScript(id.Replace(".", string.Empty) );
             return Content(script);
         }
         public ActionResult Views(string id)

@@ -1,0 +1,79 @@
+﻿<h3>Maklumat Templat Aduan </h3>
+<section>
+    <form data-bind="with: complaintTemplate" class="form-horizontal">
+        <div class="control-group">
+            <label for="complainttemplate.Name" class="control-label">Jenis</label>
+            <div class="controls">
+                <input data-bind="value: Name" id="complainttemplate.Name" type="text" name="Name" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="complainttemplate.Description" class="control-label">Keterangan </label>
+            <div class="controls">
+                <textarea cols="5" rows="5" data-bind="value: Description" id="complainttemplate.Description" type="text" name="Description" />
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input data-bind="checked: IsActive" id="complainttemplate.IsActive" type="checkbox" name="IsActive" />
+                    Aktif
+                </label>
+            </div>
+        </div>
+        <a type="button" class="btn btn-mini pull-right" href="#" data-bind="click: $root.addComplaintCategory">+ Category</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Keterangan</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: ComplaintCategoryCollection">
+                <tr>
+                    <td><input type="text" data-bind="value: Name"/></td>
+                    <td><input type="text" data-bind="value: Description"/></td>
+                    <td>
+                        <a href="#">-</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+         <a type="button" class="btn btn-mini pull-right" href="#" data-bind="click: $root.addCustomField">+ Custom Field</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order</th>
+                    <th>Nama</th>
+                    <th>Jenis</th>
+                    <th>Saiz</th>
+                    <th>Diwajbkan</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: ComplaintCustomFieldCollection">
+                <tr>
+                    <td><input type="text" data-bind="value: Order"/></td>
+                    <td><input type="text" data-bind="value: Name"/></td>
+                    <td><span><select data-bind="value: Type">
+                            <option value="Text">Teks</option>
+                            <option value="Number">Nombor</option>
+                            <option value="Boolean">Betul/Salah</option>
+                            <option value="DateTime">Tarikh</option>
+                            <option value="List">Senarai</option>
+                              </select></span><span data-bind="visible: Type() == 'List'"> Senaraikan <input type="text" data-bind="value:Listing"/>
+                                              </span></td>
+                    <td><input type="text" data-bind="value: Size"/></td>
+                    <td><input type="checkbox" data-bind="checked: IsMandatory"/></td>
+                    <td>
+                        <a href="#">-</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div>
+        <input type="button" value="Simpan" class="btn btn-primary pull-right" data-bind="command: saveCommand" data-loading-text="processing.." data-complete-text="done"></input>
+    </div>
+</section>

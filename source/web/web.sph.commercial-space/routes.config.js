@@ -326,8 +326,8 @@
   },
   {
     "role": null,
-    "url": "complainttemplate",
-    "moduleId": "viewmodels/complainttemplate",
+    "url": "complaint.template.list",
+    "moduleId": "viewmodels/complaint.template.list",
     "name": "Tetapan Aduan",
     "visible": true,
     "icon": "icon-desktop",
@@ -337,8 +337,8 @@
   },
   {
     "role": null,
-    "url": "_complainttemplate.form/:templateId",
-    "moduleId": "viewmodels/_complainttemplate.form",
+    "url": "complaint.template.form/:templateId",
+    "moduleId": "viewmodels/complaint.template.form",
     "name": "Tetapan Aduan",
     "visible": false,
     "icon": "icon-dekstop",

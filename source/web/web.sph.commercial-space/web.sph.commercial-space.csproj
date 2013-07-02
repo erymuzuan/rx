@@ -329,7 +329,7 @@
     <Content Include="App\viewmodels\contracttype.js" />
     <Content Include="App\viewmodels\contracttypetemplate.js" />
     <Content Include="App\viewmodels\contractdetails.js" />
-    <Content Include="App\viewmodels\_complainttemplate.form.js" />
+    <Content Include="App\viewmodels\complaint.template.form.js" />
     <Content Include="App\viewmodels\_rentalapplication.verify.offer.js" />
     <Content Include="App\viewmodels\contract.create.js" />
     <Content Include="App\viewmodels\deposit.js" />
@@ -697,7 +697,7 @@
     <Content Include="App\viewmodels\_setting.state.js" />
     <Content Include="App\viewmodels\_users.designation.js" />
     <Content Include="App\views\_users.designation.html" />
-    <Content Include="App\views\_complainttemplate.form.html" />
+    <Content Include="App\views\complaint.template.form.html" />
     <None Include="Properties\PublishProfiles\web.sph.pubxml" />
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
     <None Include="Scripts\breeze.intellisense.js" />
@@ -787,8 +787,8 @@
     <Content Include="Views\Account\UpdateProfile.cshtml" />
     <Content Include="Views\App\UsersHtml.cshtml" />
     <Content Include="Views\App\UsersJs.cshtml" />
-    <Content Include="Views\App\ComplainttemplateHtml.cshtml" />
-    <Content Include="Views\App\ComplainttemplateJs.cshtml" />
+    <Content Include="Views\App\ComplaintTemplateListHtml.cshtml" />
+    <Content Include="Views\App\ComplaintTemplateListJs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

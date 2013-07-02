@@ -726,6 +726,7 @@
 			<xs:attribute name="IsMandatory" type="xs:boolean" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="Size" type="xs:int" use="required"/>
+			<xs:attribute name="Listing" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

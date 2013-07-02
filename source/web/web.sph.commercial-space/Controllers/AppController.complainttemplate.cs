@@ -4,13 +4,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public partial class AppController
     {
-        
-        public ActionResult ComplainttemplateHtml()
+
+        public ActionResult ComplaintTemplateListHtml()
         {
             return View();
         }
 
-        public ActionResult ComplainttemplateJs()
+        public ActionResult ComplaintTemplateListJs()
         {
             return View();
         }

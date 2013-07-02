@@ -936,6 +936,7 @@ bespoke.sphcommercialspace.domain.ComplaintCustomField = function (webId) {
         IsMandatory: ko.observable(),
         Type: ko.observable(),
         Size: ko.observable(),
+        Listing: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

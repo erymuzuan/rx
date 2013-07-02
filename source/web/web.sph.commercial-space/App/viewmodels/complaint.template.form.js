@@ -10,47 +10,46 @@
 
 
 define(['services/datacontext'],
-    function(context) {
+    function (context) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
-            activate = function(routeData) {
-                templateId(routeData.templateId);
-                
-                if (routeData.templateId) {
+            activate = function (routeData) {
+                var id = parseInt(routeData.templateId);
+                templateId(id);
+                if (id) {
                     var query = String.format("ComplaintTemplateId eq {0}", templateId());
                     var tcs = new $.Deferred();
                     context.loadOneAsync("ComplaintTemplate", query)
-                        .done(function(b) {
-                            vm.complainttemplate(b);
+                        .done(function (b) {
+                            vm.complaintTemplate(b);
                             tcs.resolve(true);
                         });
 
                     return tcs.promise();
                 } else {
-                    vm.complainttemplate().ComplaintTemplateId(0);
-                    vm.complainttemplate().Name('');
-                    vm.complainttemplate().Description('');
-                    vm.complainttemplate().IsActive(false);
+                    vm.complaintTemplate(new bespoke.sphcommercialspace.domain.ComplaintTemplate());
                     return true;
                 }
             },
-            addComplaintCategory = function(category) {
-                vm.ComplaintCategoryCollection.push(category);
+            addComplaintCategory = function () {
+                var category = new bespoke.sphcommercialspace.domain.ComplaintCategory();
+                vm.complaintTemplate().ComplaintCategoryCollection.push(category);
             },
-            addNewComplaintCategory = function () {
-                $('#add-complaint-category').modal();
+            addCustomField = function () {
+                var customfield = new bespoke.sphcommercialspace.domain.ComplaintCustomField();
+                vm.complaintTemplate().ComplaintCustomFieldCollection.push(customfield);
             },
-            save = function() {
+            save = function () {
                 var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON({ complainttemplate: vm.complainttemplate });
+                var data = ko.mapping.toJSON({ complaintTemplate: vm.complaintTemplate });
                 isBusy(true);
 
                 context.post(data, "/ComplaintTemplate/Save")
-                    .then(function(result) {
+                    .then(function (result) {
                         isBusy(false);
 
-                        
+
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -59,11 +58,10 @@ define(['services/datacontext'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            complainttemplate: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
-            complaintCategory: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintCategory()),
-            addNewComplaintCategory: addNewComplaintCategory,
+            complaintTemplate: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
             addComplaintCategory: addComplaintCategory,
-            saveCommand : save
+            addCustomField: addCustomField,
+            saveCommand: save
         };
 
         return vm;
