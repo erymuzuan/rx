@@ -97,11 +97,11 @@
                     <td>
                         <input type="text" data-bind="value: Size, uniqueName: true" /></td>
                     <td>
-                        <input type="button" data-bind="click: $parent[0].removeFloorCommand, uniqueName:true" class="btn btn-mini" value="-" /></td>
+                        <input type="button" data-bind="click: $root.removeFloorCommand, uniqueName: true" class="btn btn-mini" value="-" /></td>
                     <td>
-                        <input type="button" data-bind="click: $parent[0].addLotCommand, enable: $parent[0].building.BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="+Lot" /></td>
+                        <input type="button" data-bind="click: $root.addLotCommand, enable: $root.building().BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="+Lot" /></td>
                     <td>
-                        <input type="button" data-bind="click: $parent[0].viewFloorPlanCommand, enable: $parent[0].building.BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="Pelan Lantai" /></td>
+                        <input type="button" data-bind="click: $root.viewFloorPlanCommand, enable: $root.building().BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="Pelan Lantai" /></td>
                 </tr>
             </tbody>
         </table>
