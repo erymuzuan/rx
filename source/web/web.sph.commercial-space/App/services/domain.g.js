@@ -891,6 +891,61 @@ bespoke.sphcommercialspace.domain.State = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.ComplaintTemplate = function (webId) {
+
+    var model = {
+        ComplaintTemplateId: ko.observable(),
+        Name: ko.observable(),
+        Description: ko.observable(),
+        IsActive: ko.observable(),
+        ComplaintCategoryCollection: ko.observableArray(),
+        ComplaintCustomFieldCollection: ko.observableArray(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ComplaintTemplatePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintTemplatePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ComplaintCategory = function (webId) {
+
+    var model = {
+        Name: ko.observable(),
+        Description: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ComplaintCategoryPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintCategoryPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ComplaintCustomField = function (webId) {
+
+    var model = {
+        Order: ko.observable(),
+        Name: ko.observable(),
+        IsMandatory: ko.observable(),
+        Type: ko.observable(),
+        Size: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ComplaintCustomFieldPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintCustomFieldPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {

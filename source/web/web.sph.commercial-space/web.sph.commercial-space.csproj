@@ -227,6 +227,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AppController.complainttemplate.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AppController.config.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
@@ -237,6 +240,7 @@
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
+    <Compile Include="Controllers\ComplaintTemplateController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\ContractSettingController.cs" />
     <Compile Include="Controllers\AppController.nav.cs">
@@ -325,6 +329,7 @@
     <Content Include="App\viewmodels\contracttype.js" />
     <Content Include="App\viewmodels\contracttypetemplate.js" />
     <Content Include="App\viewmodels\contractdetails.js" />
+    <Content Include="App\viewmodels\_complainttemplate.form.js" />
     <Content Include="App\viewmodels\_rentalapplication.verify.offer.js" />
     <Content Include="App\viewmodels\contract.create.js" />
     <Content Include="App\viewmodels\deposit.js" />
@@ -692,6 +697,7 @@
     <Content Include="App\viewmodels\_setting.state.js" />
     <Content Include="App\viewmodels\_users.designation.js" />
     <Content Include="App\views\_users.designation.html" />
+    <Content Include="App\views\_complainttemplate.form.html" />
     <None Include="Properties\PublishProfiles\web.sph.pubxml" />
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
     <None Include="Scripts\breeze.intellisense.js" />
@@ -781,6 +787,8 @@
     <Content Include="Views\Account\UpdateProfile.cshtml" />
     <Content Include="Views\App\UsersHtml.cshtml" />
     <Content Include="Views\App\UsersJs.cshtml" />
+    <Content Include="Views\App\ComplainttemplateHtml.cshtml" />
+    <Content Include="Views\App\ComplainttemplateJs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

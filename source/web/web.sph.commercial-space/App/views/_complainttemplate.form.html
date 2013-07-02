@@ -1,0 +1,79 @@
+﻿<h3>Maklumat Templat Aduan </h3>
+<section>
+    <form data-bind="with: complainttemplate" class="form-horizontal">
+        <div class="control-group">
+            <label for="complainttemplate.Name" class="control-label">Jenis</label>
+            <div class="controls">
+                <input data-bind="value: Name" id="complainttemplate.Name" type="text" name="Name" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="complainttemplate.Description" class="control-label">Keterangan </label>
+            <div class="controls">
+                <input data-bind="value: Description" id="complainttemplate.Description" type="text" name="Description" />
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input data-bind="checked: IsActive" id="complainttemplate.IsActive" type="checkbox" name="IsActive" />
+                    Aktif
+                </label>
+            </div>
+        </div>
+
+
+        <a type="button" class="btn"
+            data-toggle="modal"
+            href="#category-modal">+ Category</a>
+
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: ComplaintCategoryCollection">
+                    <tr>
+                        <td data-bind="text: Name"></td>
+                        <td data-bind="text: Description"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+    <div>
+        <input type="button" value="Simpan" class="btn btn-primary" data-bind="command: saveCommand" data-loading-text="processing.." data-complete-text="done"></input>
+    </div>
+</section>
+
+<section class="modal hide" id="category-modal">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Category</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label for="complaintCategory.Name" class="control-label">Nama</label>
+                <div class="controls">
+                    <input data-bind="value: Name" id="complaintCategory.Name" type="text" name="complaintCategory.Name" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="complaintCategory.Description" class="control-label">Keterangan</label>
+                <div class="controls">
+                    <input data-bind="value: Description" id="complaintCategory.Description" type="text" name="complaintCategory.Description" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: saveCategoryCommand" />
+    </div>
+</section>

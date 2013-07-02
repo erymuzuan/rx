@@ -1,0 +1,29 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Templat Aduan</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nama</th>
+            <th>Keterangan</th>
+            <th>Aktif</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach:templates">
+        <tr>
+            <td>
+                <a data-bind="attr: { href: '/#/_complainttemplate.form/' + ComplaintTemplateId() }, text: Name"></a>
+            </td>
+            <td data-bind="text:Description"></td>
+            <td>
+                <input type="checkbox" data-bind="checked:IsActive"/>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<a href="/#/_complainttemplate.form/0" class="btn btn-primary">+ Jenis Aduan</a>

@@ -24,8 +24,14 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var designation = await JsonConvert.DeserializeObjectAsync<Designation[]>(setting.Value);
             var userRoles = designation.Where(d => d.Name == userprofile.Designation).Select(d => d.Roles);
             user.RoleTypes = string.Join(",", userRoles);
+            
             return Json(true);
         }
+
+        private static async void CreateProfile(UserProfile userprofile)
+        {
+        }
+
         public ActionResult LoadRoles()
         {
             var roleCollection = new List<string>();

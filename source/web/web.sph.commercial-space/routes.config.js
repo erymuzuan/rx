@@ -323,5 +323,27 @@
     "caption": "org",
     "settings": null,
     "error": ""
+  },
+  {
+    "role": null,
+    "url": "complainttemplate",
+    "moduleId": "viewmodels/complainttemplate",
+    "name": "Tetapan Aduan",
+    "visible": true,
+    "icon": "icon-desktop",
+    "caption": "aduan",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": null,
+    "url": "_complainttemplate.form/:templateId",
+    "moduleId": "viewmodels/_complainttemplate.form",
+    "name": "Tetapan Aduan",
+    "visible": false,
+    "icon": "icon-dekstop",
+    "caption": "aduan",
+    "settings": null,
+    "error": ""
   }
 ]
