@@ -1,0 +1,21 @@
+﻿<h4>KLIK UNTUK PILIH JENIS ADUAN</h4>
+<section id="rental-list">
+    <ul class="today-datas" data-bind="foreach: complaintTemplates">
+
+        <li>
+            <div class="pull-left">
+                <img data-bind="attr: { src: '/Images/dashboard-waiting.png'}" src="/Images/dashboard-new.png" alt="baru" />
+            </div>
+            <div class="pull-right">
+                <a data-bind="attr: { href: '/#/complaint.form/' + ComplaintTemplateId() }, text: Name"></a>
+                
+            </div>
+        </li>
+    </ul>
+    <div class="control-group" data-bind="with : complaintTemplate">
+        <label for="complaintemplate" class="control-label">Jenis Aduan</label>
+        <div class="controls">
+            <select name="complaintemplate" id="complaintemplate" data-bind="value:Name, options: $parent.complaintTemplates, optionsText: 'Name', optionsValue: 'ComplainTemplateId', optionsCaption: '[Sila Pilih]'"></select>
+        </div>
+    </div>
+</section>

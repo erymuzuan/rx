@@ -323,5 +323,27 @@
     "caption": "org",
     "settings": null,
     "error": ""
+  },
+  {
+    "role": null,
+    "url": "complaint",
+    "moduleId": "viewmodels/complaint",
+    "name": "Aduan",
+    "visible": true,
+    "icon": "icon-laptop",
+    "caption": "Aduan",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": null,
+    "url": "complaint.form/:id",
+    "moduleId": "viewmodels/complaint.form",
+    "name": "PerincianAduan",
+    "visible": false,
+    "icon": "icon-laptop",
+    "caption": "Perinci Aduan",
+    "settings": null,
+    "error": ""
   }
 ]

@@ -67,6 +67,8 @@
     <Compile Include="Clause.cs" />
     <Compile Include="CommercialSpace.cs" />
     <Compile Include="Complaint.cs" />
+    <Compile Include="ComplaintCategory.cs" />
+    <Compile Include="ComplaintTemplate.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Contract.cs" />
     <Compile Include="ContractHistory.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Core\Strings.cs" />
     <Compile Include="Core\XmlSerializerService.cs" />
     <Compile Include="CredentialProvider.cs" />
+    <Compile Include="CustomField.cs" />
     <Compile Include="Deposit.cs" />
     <Compile Include="DepositPayment.cs" />
     <Compile Include="Document.cs" />

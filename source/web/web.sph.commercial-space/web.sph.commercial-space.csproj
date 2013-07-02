@@ -305,6 +305,7 @@
     <Content Include="App\services\Deposit.js" />
     <Content Include="App\services\domain.g.js" />
     <Content Include="App\services\logger.js" />
+    <Content Include="App\services\mockComplaintTemplateContext.js" />
     <Content Include="App\services\mockRentContext.js" />
     <Content Include="App\services\mockTenantContext.js" />
     <Content Include="App\services\Object.xslt" />
@@ -316,6 +317,8 @@
     <Content Include="App\viewmodels\building.details.ts" />
     <Content Include="App\viewmodels\building.js" />
     <Content Include="App\viewmodels\buildingdetail.js" />
+    <Content Include="App\viewmodels\complaint.form.js" />
+    <Content Include="App\viewmodels\complaint.js" />
     <Content Include="App\viewmodels\rebate.js" />
     <Content Include="App\viewmodels\rentalapplication.selectspace.js" />
     <Content Include="App\viewmodels\commercialspace.js" />
@@ -354,6 +357,7 @@
     <Content Include="App\views\applicationlist.html" />
     <Content Include="App\views\building.html" />
     <Content Include="App\views\buildingdetail.html" />
+    <Content Include="App\views\complaint.html" />
     <Content Include="App\views\rebate.html" />
     <Content Include="App\views\rentalapplication.selectspace.html" />
     <Content Include="App\views\commercialspace.html" />
@@ -692,6 +696,7 @@
     <Content Include="App\viewmodels\_setting.state.js" />
     <Content Include="App\viewmodels\_users.designation.js" />
     <Content Include="App\views\_users.designation.html" />
+    <Content Include="App\views\complaint.form.html" />
     <None Include="Properties\PublishProfiles\web.sph.pubxml" />
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
     <None Include="Scripts\breeze.intellisense.js" />
