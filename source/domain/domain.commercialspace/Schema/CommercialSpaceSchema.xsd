@@ -689,12 +689,20 @@
 			<xs:attribute name="Category" type="xs:string" use="required"/>
 			<xs:attribute name="SubCategory" type="xs:string" use="required"/>
 			<xs:attribute name="ReferenceNo" type="xs:string" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="AttachmentStoreId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ComplaintCategory">
 		<xs:complexType>
 			<xs:all>
-				<xs:element name="ComplainSubCategory" type="xs:string" minOccurs="0"/>
+				<xs:element name="SubCategoryCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SubCategory" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
@@ -703,7 +711,7 @@
 	<xs:element name="ComplaintTemplate">
 		<xs:complexType>
 			<xs:all>
-				<xs:element name="ComplainCategoryCollection">
+				<xs:element name="ComplaintCategoryCollection">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="ComplaintCategory" minOccurs="0" maxOccurs="unbounded"/>

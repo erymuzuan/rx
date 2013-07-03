@@ -237,6 +237,7 @@
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
+    <Compile Include="Controllers\ComplaintController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\ContractSettingController.cs" />
     <Compile Include="Controllers\AppController.nav.cs">

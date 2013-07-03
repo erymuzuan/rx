@@ -1,28 +1,43 @@
 ﻿<div class="container">
     <h3>BORANG ADUAN</h3>
     <form class="form-horizontal">
+        <div class="control-group" >
+            <label for="complaint.template" class="span2">Jenis Aduan:</label>
+            <div class="controls">
+                <span data-bind="text: name" id="complaint.template" />
+            </div>
+        </div>
+
         <div class="control-group">
             <label class="span2">Lokasi:</label>
             <select data-bind="options: locationOptions, optionsCaption: '[Sila Pilih]'"></select>
         </div>
         <div class="control-group">
             <label class="span2">Kategori:</label>
-            <select data-bind="options: categoryOptions, optionsCaption: '[Sila Pilih]', optionsText: 'Name', optionsValue: 'Name'"></select>
+            <select data-bind="options: categoryOptions, optionsCaption: '[Sila Pilih]', value:complaint().Category"></select>
         </div>
         <div class="control-group">
             <label class="span2">Sub-Kategori:</label>
+            <select data-bind="options: subCategoryOptions, optionsCaption: '[Sila Pilih]', value:complaint().SubCategory"></select>
         </div>
         <div class="control-group" data-bind="with : complaint">
             <label for="complaint.remarks" class="span2">Nota:</label>
             <div class="controls">
-                <input data-bind="value: Remarks" id="complaint.remarks" type="text" name="Remarks" />
+                <textarea data-bind="value: Remarks" id="complaint.remarks" cols="4" rows="4" name="Remarks" />
             </div>
         </div>
         <div class="control-group">
-            <label for="complaint.attachment" class="span2">Lampiran:</label>
+            <label for="AttachmentStoreId" class="span2">Lampiran:</label>
             <div class="controls">
-                <input id="complaint.attachment" type="file" name="files" />
+                <input id="AttachmentStoreId" type="file" name="files" />
             </div>
+        </div>
+
+        <div class="control-group">
+            <label for="submit-button" class="control-label">-</label>
+            <div class="controls">
+                <input id="submit-button" type="button" class="btn btn-primary" value="Hantar" data-bind="command: submitCommand" data-loading-text="Sila tunggu..." data-complete-text="Siap" />
+    </div>
         </div>
     </form>
 </div>

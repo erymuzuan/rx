@@ -59,21 +59,23 @@ function (logger) {
 
             var cat = new bespoke.sphcommercialspace.domain.ComplaintCategory();
             cat.Name("Pendawaian");
+            cat.SubCategoryCollection.push("test 1","test 2");
             
             var cat2 = new bespoke.sphcommercialspace.domain.ComplaintCategory();
             cat2.Name("Litar Pintas");
+            cat2.SubCategoryCollection.push("test A","test B");
             
             
             var c = new bespoke.sphcommercialspace.domain.ComplaintTemplate();
             c.ComplaintTemplateId(1);
-            c.Name("Elektrik");
+            c.Name("Kerosakan");
             c.IsActive(true);
-            c.ComplainCategoryCollection.push(cat, cat2);
+            c.ComplaintCategoryCollection.push(cat, cat2);
            
 
             var c2 = new bespoke.sphcommercialspace.domain.ComplaintTemplate();
             c2.ComplaintTemplateId(2);
-            c2.Name("Paip");
+            c2.Name("Mekanikal");
             c2.IsActive(true);
 
             var c3 = new bespoke.sphcommercialspace.domain.ComplaintTemplate();

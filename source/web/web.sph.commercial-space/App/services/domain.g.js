@@ -882,6 +882,8 @@ bespoke.sphcommercialspace.domain.Complaint = function (webId) {
         Category: ko.observable(),
         SubCategory: ko.observable(),
         ReferenceNo: ko.observable(),
+        Type: ko.observable(),
+        AttachmentStoreId: ko.observable(),
         CustomFieldValueCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -899,7 +901,7 @@ bespoke.sphcommercialspace.domain.ComplaintCategory = function (webId) {
     var model = {
         Name: ko.observable(),
         Description: ko.observable(),
-        ComplainSubCategory: ko.observable(),
+        SubCategoryCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -918,7 +920,7 @@ bespoke.sphcommercialspace.domain.ComplaintTemplate = function (webId) {
         Name: ko.observable(),
         Description: ko.observable(),
         IsActive: ko.observable(),
-        ComplainCategoryCollection: ko.observableArray(),
+        ComplaintCategoryCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
