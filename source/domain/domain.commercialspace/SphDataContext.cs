@@ -15,6 +15,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
     {
         public IQueryable<Building> Buildings { get; set; }
         public IQueryable<CommercialSpace> CommercialSpaces { get; set; }
+        public IQueryable<Complaint> Complaints { get; set; }
         public IQueryable<Contract> Contracts { get; set; }
         public IQueryable<Deposit> Deposits { get; set; }
         public IQueryable<Invoice> Invoices { get; set; }
@@ -31,6 +32,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
             this.Buildings = new Query<Building>(provider);
             this.CommercialSpaces = new Query<CommercialSpace>(provider);
+            this.Complaints = new Query<Complaint>(provider);
             this.Contracts = new Query<Contract>(provider);
             this.Deposits = new Query<Deposit>(provider);
             this.Invoices = new Query<Invoice>(provider);

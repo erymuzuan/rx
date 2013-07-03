@@ -227,6 +227,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AppController.complaintlist.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AppController.complainttemplate.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
@@ -240,6 +243,7 @@
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
+    <Compile Include="Controllers\ComplaintController.cs" />
     <Compile Include="Controllers\ComplaintTemplateController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\ContractSettingController.cs" />
@@ -309,6 +313,7 @@
     <Content Include="App\services\Deposit.js" />
     <Content Include="App\services\domain.g.js" />
     <Content Include="App\services\logger.js" />
+    <Content Include="App\services\mockComplaintContext.js" />
     <Content Include="App\services\mockRentContext.js" />
     <Content Include="App\services\mockTenantContext.js" />
     <Content Include="App\services\Object.xslt" />
@@ -320,6 +325,7 @@
     <Content Include="App\viewmodels\building.details.ts" />
     <Content Include="App\viewmodels\building.js" />
     <Content Include="App\viewmodels\buildingdetail.js" />
+    <Content Include="App\viewmodels\complaint.inspection.js" />
     <Content Include="App\viewmodels\rebate.js" />
     <Content Include="App\viewmodels\rentalapplication.selectspace.js" />
     <Content Include="App\viewmodels\commercialspace.js" />
@@ -359,6 +365,8 @@
     <Content Include="App\views\applicationlist.html" />
     <Content Include="App\views\building.html" />
     <Content Include="App\views\buildingdetail.html" />
+    <Content Include="App\views\complaint.inspection.html" />
+    <Content Include="App\views\_complaint.tenant.detail.html" />
     <Content Include="App\views\rebate.html" />
     <Content Include="App\views\rentalapplication.selectspace.html" />
     <Content Include="App\views\commercialspace.html" />
@@ -698,6 +706,7 @@
     <Content Include="App\viewmodels\_users.designation.js" />
     <Content Include="App\views\_users.designation.html" />
     <Content Include="App\views\complaint.template.form.html" />
+    <Content Include="App\views\_complaint.commercialspace.detail.html" />
     <None Include="Properties\PublishProfiles\web.sph.pubxml" />
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
     <None Include="Scripts\breeze.intellisense.js" />
@@ -789,6 +798,8 @@
     <Content Include="Views\App\UsersJs.cshtml" />
     <Content Include="Views\App\ComplaintTemplateListHtml.cshtml" />
     <Content Include="Views\App\ComplaintTemplateListJs.cshtml" />
+    <Content Include="Views\App\ComplaintListHtml.cshtml" />
+    <Content Include="Views\App\ComplaintListJs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

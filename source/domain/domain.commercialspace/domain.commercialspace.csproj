@@ -89,6 +89,7 @@
     <Compile Include="Core\XmlSerializerService.cs" />
     <Compile Include="CredentialProvider.cs" />
     <Compile Include="ComplaintCustomField.cs" />
+    <Compile Include="CustomFieldValue.cs" />
     <Compile Include="Deposit.cs" />
     <Compile Include="DepositPayment.cs" />
     <Compile Include="Document.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="ILedgerExport.cs" />
     <Compile Include="INotificationChannel.cs" />
     <Compile Include="INotificationService.cs" />
+    <Compile Include="Inspection.cs" />
     <Compile Include="Interest.cs" />
     <Compile Include="Invoice.cs" />
     <Compile Include="InvoiceFactory.cs" />
