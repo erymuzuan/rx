@@ -1,21 +1,17 @@
 USE [Sph]
-IF OBJECT_ID('Sph.Contract', 'U') IS NOT NULL
-  DROP TABLE Sph.[Contract]
+IF OBJECT_ID('Sph.Complaint', 'U') IS NOT NULL
+  DROP TABLE Sph.[Complaint]
 GO
 
-CREATE TABLE [Sph].[Contract]
+CREATE TABLE [Sph].[Complaint]
 (
-	 [ContractId] INT PRIMARY KEY IDENTITY(1,1)	
+	 [ComplaintId] INT PRIMARY KEY IDENTITY(1,1)	
 	,[ReferenceNo] VARCHAR(255) NULL
-	,[Title] VARCHAR(255) NULL
+	,[Type] VARCHAR (255) NOT NULL
+	,[Category] VARCHAR(255) NOT NULL
+	,[SubCategory] VARCHAR (255) NULL
 	,[Status] VARCHAR(255) NOT NULL
-	,[TenantName] VARCHAR(255) NOT NULL
-	,[TenantIdSsmNo] VARCHAR(255) NOT NULL
-	,[TenantRegistrationNo] VARCHAR(255) NOT NULL
-	,[StartDate] SMALLDATETIME  NOT NULL
-	,[EndDate] SMALLDATETIME NOT NULL
-	,[CommercialSpaceId] INT NOT NULL
-	,[CommercialSpaceRegistrationNo] VARCHAR(255) NOT NULL
+	,[TenantId] INT NULL
 	,[Data] XML NOT NULL
 	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
 	,[CreatedBy] VARCHAR(255) NULL
@@ -23,5 +19,3 @@ CREATE TABLE [Sph].[Contract]
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
-ALTER TABLE [Sph].[Sph].[Contract]
-ADD [Title] VARCHAR(255) NULL

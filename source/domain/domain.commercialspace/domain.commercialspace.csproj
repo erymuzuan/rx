@@ -68,6 +68,7 @@
     <Compile Include="CommercialSpace.cs" />
     <Compile Include="Complaint.cs" />
     <Compile Include="ComplaintCategory.cs" />
+    <Compile Include="ComplaintCustomField.cs" />
     <Compile Include="ComplaintTemplate.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Contract.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="ILedgerExport.cs" />
     <Compile Include="INotificationChannel.cs" />
     <Compile Include="INotificationService.cs" />
+    <Compile Include="Inspection.cs" />
     <Compile Include="Interest.cs" />
     <Compile Include="Invoice.cs" />
     <Compile Include="InvoiceFactory.cs" />

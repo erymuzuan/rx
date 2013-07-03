@@ -4,7 +4,7 @@
         <div class="control-group" >
             <label for="complaint.template" class="span2">Jenis Aduan:</label>
             <div class="controls">
-                <span data-bind="text: name" id="complaint.template" />
+                <span data-bind="text: template().Name" id="complaint.template" />
             </div>
         </div>
 
@@ -36,7 +36,7 @@
         <div class="control-group">
             <label for="submit-button" class="control-label">-</label>
             <div class="controls">
-                <input id="submit-button" type="button" class="btn btn-primary" value="Hantar" data-bind="command: submitCommand" data-loading-text="Sila tunggu..." data-complete-text="Siap" />
+                <input id="submit-button" type="button" class="btn btn-primary pull-left span2" value="Hantar" data-bind="command: submitCommand" data-loading-text="Sila tunggu..." data-complete-text="Siap" />
     </div>
         </div>
     </form>

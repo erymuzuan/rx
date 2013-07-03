@@ -874,7 +874,6 @@ bespoke.sphcommercialspace.domain.Complaint = function (webId) {
     var model = {
         ComplaintId: ko.observable(),
         TemplateId: ko.observable(),
-        Title: ko.observable(),
         Remarks: ko.observable(),
         TenantId: ko.observable(),
         CommercialSpaceId: ko.observable(),
@@ -885,47 +884,12 @@ bespoke.sphcommercialspace.domain.Complaint = function (webId) {
         Type: ko.observable(),
         AttachmentStoreId: ko.observable(),
         CustomFieldValueCollection: ko.observableArray(),
+        Inspection: ko.observable(new bespoke.sphcommercialspace.domain.Inspection()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.ComplaintPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintPartial(model));
-    }
-    return model;
-};
-
-
-
-bespoke.sphcommercialspace.domain.ComplaintCategory = function (webId) {
-
-    var model = {
-        Name: ko.observable(),
-        Description: ko.observable(),
-        SubCategoryCollection: ko.observableArray(),
-        isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
-    };
-    if (bespoke.sphcommercialspace.domain.ComplaintCategoryPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintCategoryPartial(model));
-    }
-    return model;
-};
-
-
-
-bespoke.sphcommercialspace.domain.ComplaintTemplate = function (webId) {
-
-    var model = {
-        ComplaintTemplateId: ko.observable(),
-        Name: ko.observable(),
-        Description: ko.observable(),
-        IsActive: ko.observable(),
-        ComplaintCategoryCollection: ko.observableArray(),
-        isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
-    };
-    if (bespoke.sphcommercialspace.domain.ComplaintTemplatePartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintTemplatePartial(model));
     }
     return model;
 };
@@ -962,6 +926,82 @@ bespoke.sphcommercialspace.domain.CustomFieldValue = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.CustomFieldValuePartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.CustomFieldValuePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ComplaintTemplate = function (webId) {
+
+    var model = {
+        ComplaintTemplateId: ko.observable(),
+        Name: ko.observable(),
+        Description: ko.observable(),
+        IsActive: ko.observable(),
+        ComplaintCategoryCollection: ko.observableArray(),
+        ComplaintCustomFieldCollection: ko.observableArray(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ComplaintTemplatePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintTemplatePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ComplaintCategory = function (webId) {
+
+    var model = {
+        Name: ko.observable(),
+        Description: ko.observable(),
+        SubCategoryCollection: ko.observableArray(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ComplaintCategoryPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintCategoryPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ComplaintCustomField = function (webId) {
+
+    var model = {
+        Order: ko.observable(),
+        Name: ko.observable(),
+        IsMandatory: ko.observable(),
+        Type: ko.observable(),
+        Size: ko.observable(),
+        Listing: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ComplaintCustomFieldPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintCustomFieldPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Inspection = function (webId) {
+
+    var model = {
+        PersonInCharge: ko.observable(),
+        AssignedDate: ko.observable(),
+        Remark: ko.observable(),
+        InspectionDate: ko.observable(),
+        Resolution: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.InspectionPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.InspectionPartial(model));
     }
     return model;
 };

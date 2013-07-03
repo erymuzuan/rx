@@ -27,7 +27,6 @@ define(['services/mockComplaintTemplateContext', 'services/logger'],
 	            var query = "ComplaintTemplateId eq " + id;
 	            context.loadOneAsync("ComplaintTemplate", query).then(function (ct) {
 	                template(ct);
-
 	                var categories = _(ct.ComplaintCategoryCollection()).map(function (c) {
 	                    return c.Name();
 	                });
@@ -70,6 +69,8 @@ define(['services/mockComplaintTemplateContext', 'services/logger'],
 
 	        submit = function () {
 	            var tcs = new $.Deferred();
+	            var templateName = template().Name();
+	            vm.complaint().Type(templateName);
 	            var data = ko.toJSON(vm.complaint);
 	            isBusy(true);
 
