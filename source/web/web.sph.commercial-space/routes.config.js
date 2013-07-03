@@ -345,5 +345,27 @@
     "caption": "Perinci Aduan",
     "settings": null,
     "error": ""
+  },
+  {
+    "role": null,
+    "url": "complaint.template.list",
+    "moduleId": "viewmodels/complaint.template.list",
+    "name": "Tetapan Aduan",
+    "visible": true,
+    "icon": "icon-desktop",
+    "caption": "aduan",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": null,
+    "url": "complaint.template.form/:templateId",
+    "moduleId": "viewmodels/complaint.template.form",
+    "name": "Tetapan Aduan",
+    "visible": false,
+    "icon": "icon-dekstop",
+    "caption": "aduan",
+    "settings": null,
+    "error": ""
   }
 ]

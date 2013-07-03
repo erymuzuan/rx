@@ -53,7 +53,7 @@ define(['services/datacontext',
         };
 
         var removeFloor = function (floor) {
-            vm.building.FloorCollection.remove(floor);
+            vm.building().FloorCollection.remove(floor);
 
         };
 
@@ -64,7 +64,7 @@ define(['services/datacontext',
                 Note: ko.observable(),
                 Size: ko.observable()
             };
-            vm.building.FloorCollection.push(floor);
+            vm.building().FloorCollection.push(floor);
         };
 
         var saveAsync = function () {
