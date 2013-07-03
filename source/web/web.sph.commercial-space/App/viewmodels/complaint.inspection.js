@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/mockComplaintContext', 'services/datacontext'],
-    function (mockcontext,context) {
+define(['services/datacontext'],
+    function (context) {
 
         var isBusy = ko.observable(false),
             id = ko.observable(),
@@ -18,7 +18,7 @@ define(['services/mockComplaintContext', 'services/datacontext'],
                 id(routeData.id);
                 var query = String.format("ComplaintId eq {0}", id());
                 var tcs = new $.Deferred();
-                mockcontext.loadOneAsync("Complaint", query)
+                context.loadOneAsync("Complaint", query)
                     .done(function (b) {
                         vm.complaint(b);
                         var tenantTask = context.loadOneAsync("Tenant", "TenantId eq " + b.TenantId());
