@@ -89,8 +89,7 @@
     <Compile Include="Core\Strings.cs" />
     <Compile Include="Core\XmlSerializerService.cs" />
     <Compile Include="CredentialProvider.cs" />
-    <Compile Include="CustomField.cs" />
-    <Compile Include="CustomFieldValue.cs" />
+    <Compile Include="ComplaintCustomField.cs" />
     <Compile Include="Deposit.cs" />
     <Compile Include="DepositPayment.cs" />
     <Compile Include="Document.cs" />

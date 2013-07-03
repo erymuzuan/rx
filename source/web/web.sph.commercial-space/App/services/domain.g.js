@@ -727,6 +727,50 @@ bespoke.sphcommercialspace.domain.Permission = function (webId) {
 
 
 
+bespoke.sphcommercialspace.domain.Complaint = function (webId) {
+
+    var model = {
+        ComplaintId: ko.observable(),
+        TemplateId: ko.observable(),
+        Title: ko.observable(),
+        Remarks: ko.observable(),
+        TenantId: ko.observable(),
+        CommercialSpaceId: ko.observable(),
+        Status: ko.observable(),
+        Category: ko.observable(),
+        SubCategory: ko.observable(),
+        ReferenceNo: ko.observable(),
+        Type: ko.observable(),
+        CustomFieldValueCollection: ko.observableArray(),
+        Inspection: ko.observable(new bespoke.sphcommercialspace.domain.Inspection()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ComplaintPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.CustomFieldValue = function (webId) {
+
+    var model = {
+        Name: ko.observable(),
+        Type: ko.observable(),
+        Value: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.CustomFieldValuePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.CustomFieldValuePartial(model));
+    }
+    return model;
+};
+
+
+
 bespoke.sphcommercialspace.domain.Reply = function (webId) {
 
     var model = {
