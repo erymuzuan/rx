@@ -367,5 +367,27 @@
     "caption": "aduan",
     "settings": null,
     "error": ""
+  },
+  {
+    "role": null,
+    "url": "complaint.list",
+    "moduleId": "viewmodels/complaint.list",
+    "name": "Senarai Aduan",
+    "visible": true,
+    "icon": "icon-desktop",
+    "caption": "aduan",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": null,
+    "url": "complaint.inspection/:id",
+    "moduleId": "viewmodels/complaint.inspection",
+    "name": "Pemeriksaan",
+    "visible": false,
+    "icon": "icon-desktop",
+    "caption": "pemeriksaan",
+    "settings": null,
+    "error": ""
   }
 ]

@@ -21,6 +21,7 @@
                 </label>
             </div>
         </div>
+        <h5>Kategori Aduan</h5>
         <a type="button" class="btn btn-mini pull-right" href="#" data-bind="click: $root.addComplaintCategory">+ Category</a>
         <table class="table">
             <thead>
@@ -28,19 +29,26 @@
                     <th>Nama</th>
                     <th>Keterangan</th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: ComplaintCategoryCollection">
                 <tr>
-                    <td><input type="text" data-bind="value: Name"/></td>
-                    <td><input type="text" data-bind="value: Description"/></td>
+                    <td>
+                        <input type="text" data-bind="value: Name" /></td>
+                    <td>
+                        <input type="text" data-bind="value: Description" /></td>
+                    <td><a type="button" class="btn"
+                        data-toggle="modal"
+                        href="#category-details-modal">Edit</a></td>
                     <td>
                         <a href="#">-</a>
                     </td>
                 </tr>
             </tbody>
         </table>
-         <a type="button" class="btn btn-mini pull-right" href="#" data-bind="click: $root.addCustomField">+ Custom Field</a>
+        <h5>Maklumat Tambahan</h5>
+        <a type="button" class="btn btn-mini pull-right" href="#" data-bind="click: $root.addCustomField">+ Custom Field</a>
         <table class="table">
             <thead>
                 <tr>
@@ -54,18 +62,24 @@
             </thead>
             <tbody data-bind="foreach: ComplaintCustomFieldCollection">
                 <tr>
-                    <td><input type="text" data-bind="value: Order"/></td>
-                    <td><input type="text" data-bind="value: Name"/></td>
-                    <td><span><select data-bind="value: Type">
+                    <td>
+                        <input type="text" data-bind="value: Order" /></td>
+                    <td>
+                        <input type="text" data-bind="value: Name" /></td>
+                    <td><span>
+                        <select data-bind="value: Type">
                             <option value="Text">Teks</option>
                             <option value="Number">Nombor</option>
                             <option value="Boolean">Betul/Salah</option>
                             <option value="DateTime">Tarikh</option>
                             <option value="List">Senarai</option>
-                              </select></span><span data-bind="visible: Type() == 'List'"> Senaraikan <input type="text" data-bind="value:Listing"/>
-                                              </span></td>
-                    <td><input type="text" data-bind="value: Size"/></td>
-                    <td><input type="checkbox" data-bind="checked: IsMandatory"/></td>
+                        </select></span><span data-bind="visible: Type() == 'List'"> Senaraikan
+                            <input type="text" data-bind="value: Listing" />
+                        </span></td>
+                    <td>
+                        <input type="text" data-bind="value: Size" /></td>
+                    <td>
+                        <input type="checkbox" data-bind="checked: IsMandatory" /></td>
                     <td>
                         <a href="#">-</a>
                     </td>
@@ -77,3 +91,23 @@
         <input type="button" value="Simpan" class="btn btn-primary pull-right" data-bind="command: saveCommand" data-loading-text="processing.." data-complete-text="done"></input>
     </div>
 </section>
+
+<section class="modal hide" id="category-details-modal">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Maklumat Kategori</h3>
+    </div>
+    <div class="modal-body">
+        <div class="control-group">
+            <span class="control-label">Nama : </span>
+            <span data-bind="text: Category().Name" id="Category().Name" />
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateCategory" />
+    </div>
+</section>
+

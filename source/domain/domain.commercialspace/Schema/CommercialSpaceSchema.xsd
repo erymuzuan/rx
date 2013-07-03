@@ -567,6 +567,27 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Complaint">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Contact"/>
+				<xs:element ref="Address"/>
+				<xs:element name="ReplyCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Reply" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="ComplaintId" type="xs:string" use="required"/>
+			<xs:attribute name="No" type="xs:string" use="required"/>
+			<xs:attribute name="Status" type="xs:string" use="required"/>
+			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="Text" type="xs:string" use="required"/>
+			<xs:attribute name="Category" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Reply">
 		<xs:complexType>
 			<xs:attribute name="Title" type="xs:string" use="required"/>
@@ -755,6 +776,15 @@
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="Size" type="xs:int" use="required"/>
 			<xs:attribute name="Listing" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Inspection">
+		<xs:complexType>
+			<xs:attribute name="PersonInCharge" type="xs:string" use="required"/>
+			<xs:attribute name="AssignedDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Remark" type="xs:string" use="required"/>
+			<xs:attribute name="InspectionDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Resolution" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
