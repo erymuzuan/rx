@@ -9149,6 +9149,11 @@
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  int  m_templateId;
+                    public const string PropertyNameTemplateId = "TemplateId";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private  string  m_title;
                     public const string PropertyNameTitle = "Title";
 
@@ -9156,11 +9161,6 @@
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private  string  m_remarks;
                     public const string PropertyNameRemarks = "Remarks";
-
-                  
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_commercialSpaceLocation;
-                    public const string PropertyNameCommercialSpaceLocation = "CommercialSpaceLocation";
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -9178,21 +9178,30 @@
                     public const string PropertyNameStatus = "Status";
 
                   
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			private ComplaintTemplate m_complaintTemplate
-					=  new ComplaintTemplate();
-				
-			public const string PropertyNameComplaintTemplate = "ComplaintTemplate";
-			[DebuggerHidden]
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_category;
+                    public const string PropertyNameCategory = "Category";
 
-			public ComplaintTemplate ComplaintTemplate
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_subCategory;
+                    public const string PropertyNameSubCategory = "SubCategory";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_referenceNo;
+                    public const string PropertyNameReferenceNo = "ReferenceNo";
+
+                  
+			private readonly ObjectCollection<CustomFieldValue>  m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomFieldValue", IsNullable = false)]
+			public ObjectCollection<CustomFieldValue> CustomFieldValueCollection
 			{
-			get{ return m_complaintTemplate;}
-			set
-			{
-			m_complaintTemplate = value;
-			OnPropertyChanged(PropertyNameComplaintTemplate);
-			}
+			get{ return m_CustomFieldValueCollection;}
 			}
 		
                 ///<summary>
@@ -9220,6 +9229,34 @@
                     get
                     {
                     return m_complaintId;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public int TemplateId
+                    {
+                    set
+                    {
+                    if( m_templateId == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameTemplateId, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_templateId= value;
+                    OnPropertyChanged(PropertyNameTemplateId);
+                    }
+                    }
+                    get
+                    {
+                    return m_templateId;}
                     }
 
                   
@@ -9276,34 +9313,6 @@
                     get
                     {
                     return m_remarks;}
-                    }
-
-                  
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                  [Required]
-                
-                [DebuggerHidden]
-                
-                    public string CommercialSpaceLocation
-                    {
-                    set
-                    {
-                    if( String.Equals( m_commercialSpaceLocation, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameCommercialSpaceLocation, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_commercialSpaceLocation= value;
-                    OnPropertyChanged(PropertyNameCommercialSpaceLocation);
-                    }
-                    }
-                    get
-                    {
-                    return m_commercialSpaceLocation;}
                     }
 
                   
@@ -9388,6 +9397,90 @@
                     get
                     {
                     return m_status;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Category
+                    {
+                    set
+                    {
+                    if( String.Equals( m_category, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameCategory, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_category= value;
+                    OnPropertyChanged(PropertyNameCategory);
+                    }
+                    }
+                    get
+                    {
+                    return m_category;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string SubCategory
+                    {
+                    set
+                    {
+                    if( String.Equals( m_subCategory, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameSubCategory, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_subCategory= value;
+                    OnPropertyChanged(PropertyNameSubCategory);
+                    }
+                    }
+                    get
+                    {
+                    return m_subCategory;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string ReferenceNo
+                    {
+                    set
+                    {
+                    if( String.Equals( m_referenceNo, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameReferenceNo, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_referenceNo= value;
+                    OnPropertyChanged(PropertyNameReferenceNo);
+                    }
+                    }
+                    get
+                    {
+                    return m_referenceNo;}
                     }
 
                   
@@ -9826,6 +9919,117 @@
                     get
                     {
                     return m_size;}
+                    }
+
+                  
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("CustomFieldValue",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class CustomFieldValue
+          {
+          
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_name;
+                    public const string PropertyNameName = "Name";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_type;
+                    public const string PropertyNameType = "Type";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_value;
+                    public const string PropertyNameValue = "Value";
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Name
+                    {
+                    set
+                    {
+                    if( String.Equals( m_name, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_name= value;
+                    OnPropertyChanged(PropertyNameName);
+                    }
+                    }
+                    get
+                    {
+                    return m_name;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Type
+                    {
+                    set
+                    {
+                    if( String.Equals( m_type, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameType, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_type= value;
+                    OnPropertyChanged(PropertyNameType);
+                    }
+                    }
+                    get
+                    {
+                    return m_type;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Value
+                    {
+                    set
+                    {
+                    if( String.Equals( m_value, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameValue, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_value= value;
+                    OnPropertyChanged(PropertyNameValue);
+                    }
+                    }
+                    get
+                    {
+                    return m_value;}
                     }
 
                   

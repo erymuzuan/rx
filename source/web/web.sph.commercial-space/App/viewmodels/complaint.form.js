@@ -50,12 +50,12 @@ define(['services/mockComplaintTemplateContext'],
 	        activate: activate,
 	        categoryOptions: ko.observableArray([]),
 	        subCategoryOptions: ko.observableArray([]),
+	        locationOptions : ko.observableArray(),
 	        complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
 	        submitCommand: submit
 	    };
 
-
-
+        
 	    return vm;
 
 	});

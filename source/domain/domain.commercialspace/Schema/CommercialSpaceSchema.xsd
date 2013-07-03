@@ -688,6 +688,7 @@
 			<xs:attribute name="Status" type="xs:string" use="required"/>
 			<xs:attribute name="Category" type="xs:string" use="required"/>
 			<xs:attribute name="SubCategory" type="xs:string" use="required"/>
+			<xs:attribute name="ReferenceNo" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ComplaintCategory">

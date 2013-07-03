@@ -1,5 +1,28 @@
 ﻿<div class="container">
+    <h3>BORANG ADUAN</h3>
     <form class="form-horizontal">
-       
+        <div class="control-group">
+            <label class="span2">Lokasi:</label>
+            <select data-bind="options: locationOptions, optionsCaption: '[Sila Pilih]'"></select>
+        </div>
+        <div class="control-group">
+            <label class="span2">Kategori:</label>
+            <select data-bind="options: categoryOptions, optionsCaption: '[Sila Pilih]', optionsText: 'Name', optionsValue: 'Name'"></select>
+        </div>
+        <div class="control-group">
+            <label class="span2">Sub-Kategori:</label>
+        </div>
+        <div class="control-group" data-bind="with : complaint">
+            <label for="complaint.remarks" class="span2">Nota:</label>
+            <div class="controls">
+                <input data-bind="value: Remarks" id="complaint.remarks" type="text" name="Remarks" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="complaint.attachment" class="span2">Lampiran:</label>
+            <div class="controls">
+                <input id="complaint.attachment" type="file" name="files" />
+            </div>
+        </div>
     </form>
 </div>
