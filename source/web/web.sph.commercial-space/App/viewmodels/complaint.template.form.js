@@ -36,6 +36,10 @@ define(['services/datacontext'],
                 var category = new bespoke.sphcommercialspace.domain.ComplaintCategory();
                 vm.complaintTemplate().ComplaintCategoryCollection.push(category);
             },
+            addSubCategory = function() {
+                var subCategory = ko.observable();
+                vm.complaintTemplate.subCategoryCollection.push(subCategory);
+            },
             addCustomField = function () {
                 var customfield = new bespoke.sphcommercialspace.domain.ComplaintCustomField();
                 vm.complaintTemplate().ComplaintCustomFieldCollection.push(customfield);
@@ -48,8 +52,6 @@ define(['services/datacontext'],
                 context.post(data, "/ComplaintTemplate/Save")
                     .then(function (result) {
                         isBusy(false);
-
-
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -61,6 +63,7 @@ define(['services/datacontext'],
             complaintTemplate: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
             addComplaintCategory: addComplaintCategory,
             addCustomField: addCustomField,
+            addSubCategory:addSubCategory,
             saveCommand: save
         };
 

@@ -13,7 +13,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
     function(context, logger, router) {
 
         var isBusy = ko.observable(false),
-            activate = function(roles) {
+            activate = function (roles) {
+                vm.roles.removeAll();
                 _.each(roles, function (v, i) {
                     var r = { RoleName: ko.observable(''), Index: ko.observable() };
                     r.Index(i + 1);

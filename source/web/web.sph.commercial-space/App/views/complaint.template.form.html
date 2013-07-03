@@ -1,5 +1,5 @@
 ﻿<h3>Maklumat Templat Aduan </h3>
-<section>
+<section class="well">
     <form data-bind="with: complaintTemplate" class="form-horizontal">
         <div class="control-group">
             <label for="complainttemplate.Name" class="control-label">Jenis</label>
@@ -40,7 +40,7 @@
                         <input type="text" data-bind="value: Description" /></td>
                     <td><a type="button" class="btn"
                         data-toggle="modal"
-                        href="#category-details-modal">Edit</a></td>
+                        href="#category-details-modal">Sub Kategori</a></td>
                     <td>
                         <a href="#">-</a>
                     </td>
@@ -98,13 +98,26 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h3>Maklumat Kategori</h3>
     </div>
-    <div class="modal-body">
-        <div class="control-group">
-            <span class="control-label">Nama : </span>
-            <span data-bind="text: Category().Name" id="Category().Name" />
-        </div>
+    <div class="modal-body" data-bind="with: complaintTemplate">
+        <form class="form-horizontal">
+            <h5>Sub Kategori</h5>
+            <input type="button" data-bind="click: $parent.addSubCategory"/>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :SubCategoryCollection">
+                <tr>
+                    <td>
+                        <input type="text" data-bind="value:SubCategory"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table></form>
     </div>
-
+    
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
         <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateCategory" />
