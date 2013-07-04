@@ -10322,6 +10322,11 @@
                     public const string PropertyNameResolution = "Resolution";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_observation;
+                    public const string PropertyNameObservation = "Observation";
+
+                  
                 ///<summary>
                 /// 
                 ///</summary>
@@ -10459,6 +10464,34 @@
                     get
                     {
                     return m_resolution;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Observation
+                    {
+                    set
+                    {
+                    if( String.Equals( m_observation, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameObservation, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_observation= value;
+                    OnPropertyChanged(PropertyNameObservation);
+                    }
+                    }
+                    get
+                    {
+                    return m_observation;}
                     }
 
                   

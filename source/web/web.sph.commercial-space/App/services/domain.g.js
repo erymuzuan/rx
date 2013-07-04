@@ -997,6 +997,7 @@ bespoke.sphcommercialspace.domain.Inspection = function (webId) {
         Remark: ko.observable(),
         InspectionDate: ko.observable(),
         Resolution: ko.observable(),
+        Observation: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

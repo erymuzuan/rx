@@ -10,6 +10,7 @@
         var isBusy = ko.observable(false),
             activate = function () {
                 var query = String.format("ComplaintId gt 0");
+                
                 var tcs = new $.Deferred();
                 context.loadAsync("Complaint", query)
                     .then(function(lo) {

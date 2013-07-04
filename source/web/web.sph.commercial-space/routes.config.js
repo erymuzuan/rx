@@ -381,6 +381,17 @@
   },
   {
     "role": null,
+    "url": "complaint.assign/:id",
+    "moduleId": "viewmodels/complaint.assign",
+    "name": "Pemeriksaan",
+    "visible": false,
+    "icon": "icon-desktop",
+    "caption": "pemeriksaan",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": null,
     "url": "complaint.inspection/:id",
     "moduleId": "viewmodels/complaint.inspection",
     "name": "Pemeriksaan",

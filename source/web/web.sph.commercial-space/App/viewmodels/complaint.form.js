@@ -12,7 +12,7 @@
 /// <reference path="../services/mockComplainTemplateContext.js" />
 
 
-define(['services/mockComplaintTemplateContext', 'services/logger'],
+define(['services/datacontext', 'services/logger'],
 	function (context, logger) {
 
 	    var template = ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
@@ -24,7 +24,7 @@ define(['services/mockComplaintTemplateContext', 'services/logger'],
 	            isBusy(true);
 	            id(parseInt(routedata.id));
 	            var tcs = new $.Deferred();
-	            var query = "ComplaintTemplateId eq " + id;
+	            var query = "ComplaintTemplateId eq " + id();
 	            context.loadOneAsync("ComplaintTemplate", query).then(function (ct) {
 	                template(ct);
 	                var categories = _(ct.ComplaintCategoryCollection()).map(function (c) {

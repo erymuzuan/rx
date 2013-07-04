@@ -303,6 +303,8 @@
     <Compile Include="Models\JsRoute.cs" />
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="App\viewmodels\complaint.inspection.js" />
+    <Content Include="App\views\complaint.inspection.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="routes.config.js" />
@@ -313,6 +315,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\breeze.debug.js" />
+    <Content Include="App\views\_complaint.details.html" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\demo.js" />
@@ -380,7 +383,7 @@
     <Content Include="App\viewmodels\commercialspace.js" />
     <Content Include="App\viewmodels\commercialspacedetail.js" />
     <Content Include="App\viewmodels\complaint.form.js" />
-    <Content Include="App\viewmodels\complaint.inspection.js" />
+    <Content Include="App\viewmodels\complaint.assign.js" />
     <Content Include="App\viewmodels\complaint.js" />
     <Content Include="App\viewmodels\complaint.template.form.js" />
     <Content Include="App\viewmodels\contract.create.js" />
@@ -428,7 +431,7 @@
     <Content Include="App\views\commercialspacedetail.html" />
     <Content Include="App\views\complaint.form.html" />
     <Content Include="App\views\complaint.html" />
-    <Content Include="App\views\complaint.inspection.html" />
+    <Content Include="App\views\complaint.assign.html" />
     <Content Include="App\views\complaint.template.form.html" />
     <Content Include="App\views\contract.create.html" />
     <Content Include="App\views\contractdetails.html" />
