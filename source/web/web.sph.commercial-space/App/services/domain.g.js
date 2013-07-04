@@ -1007,7 +1007,6 @@ bespoke.sphcommercialspace.domain.Inspection = function (webId) {
     return model;
 };
 
-
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {
