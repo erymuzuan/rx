@@ -1,7 +1,6 @@
 ﻿namespace Bespoke.SphCommercialSpaces.Domain
 {
-    partial class ComplaintCustomField : DomainObject
+    public partial class ComplaintCustomField :DomainObject
     {
-         
     }
 }

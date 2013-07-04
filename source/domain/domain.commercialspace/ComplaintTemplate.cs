@@ -2,5 +2,6 @@
 {
     partial class ComplaintTemplate : Entity
     {
+
     }
 }

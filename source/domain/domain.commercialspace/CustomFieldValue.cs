@@ -1,6 +1,7 @@
 ﻿namespace Bespoke.SphCommercialSpaces.Domain
 {
-    partial class CustomFieldValue : DomainObject
+
+    public partial class CustomFieldValue : DomainObject
     {
     }
 }
