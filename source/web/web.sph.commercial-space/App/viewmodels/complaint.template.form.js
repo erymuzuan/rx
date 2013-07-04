@@ -38,7 +38,7 @@ define(['services/datacontext'],
             },
             addSubCategory = function() {
                 var subCategory = ko.observable();
-                vm.complaintTemplate.subCategoryCollection.push(subCategory);
+                vm.complaintTemplate.SubCategoryCollection.push(subCategory);
             },
             addCustomField = function () {
                 var customfield = new bespoke.sphcommercialspace.domain.ComplaintCustomField();

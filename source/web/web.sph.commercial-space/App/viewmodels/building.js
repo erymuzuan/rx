@@ -14,7 +14,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             vm.buildings(lo.itemCollection);
             tcs.resolve(true);
         });
-        tcs.promise();
+       return tcs.promise();
     },
     addNew = function () {
         var url = '/#/buildingdetail/0';
