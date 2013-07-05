@@ -38,7 +38,7 @@ define(['services/datacontext'],
                 var data = ko.mapping.toJSON({ comp: vm.complaint() });
                 isBusy(true);
 
-                context.post(data, "/Complaint/UpdateInspection")
+                context.post(data, "/Complaint/Assign")
                     .then(function (result) {
                         isBusy(false);
 
@@ -50,6 +50,7 @@ define(['services/datacontext'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
+            officerCollection: ko.observableArray(),
             complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
             tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
             commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),

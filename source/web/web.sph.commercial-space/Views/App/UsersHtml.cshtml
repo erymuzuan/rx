@@ -22,7 +22,7 @@
         <div id="user-tab" class="tab-pane active">
 
             <div>
-                <a href="#user-details-modal" data-toggle="modal" class="btn btn-primary pull-right">Tambah Pengguna</a>
+                <a href="#user-details-modal" id="add-user-button" data-toggle="modal" class="btn btn-primary pull-right">Tambah Pengguna</a>
             </div>
             <table class="table table-striped">
                 <thead>
@@ -61,7 +61,7 @@
 
 <section id="user-details-modal" class="modal hide fade">
     <div class="modal-header">
-        <button data-dismiss="modal" class="btn btn-mini">x</button>
+        <button data-dismiss="modal" class="btn btn-mini pull-right">x</button>
     </div>
     <div class="modal-body">
         <h3>Pengguna baru</h3>
@@ -69,9 +69,22 @@
             <div class="control-group">
                 <label for="Username" class="control-label">Nama pengguna :</label>
                 <div class="controls">
-                    <input data-bind="value: Username" id="Username" type="text" name="Username" />
+                    <input data-bind="value: UserName" id="Username" type="text" name="Username" />
                 </div>
             </div>
+            <div class="control-group">
+                <label for="Password" class="control-label">Password :</label>
+                <div class="controls">
+                    <input data-bind="value: Password" id="Password" type="text" name="Password" />
+                </div>
+            </div>
+              <div class="control-group">
+                <label for="ConfirmPassword" class="control-label">Confirm Password :</label>
+                <div class="controls">
+                    <input data-bind="value: ConfirmPassword" id="ConfirmPassword" type="text" name="ConfirmPassword" />
+                </div>
+            </div>
+              
             <div class="control-group">
                 <label for="FullName" class="control-label">Nama penuh :</label>
                 <div class="controls">
@@ -100,5 +113,8 @@
            
         </form>
     </div>
-    <div class="modal-footer"></div>
+    <div class="modal-footer">
+        <input type="button" class="btn btn-primary" data-dismiss="modal" value="Batal"/>
+        <input type="button" id="save-button" class="btn btn-primary" data-bind="click:saveCommand" data-dismiss="modal" value="Simpan"/>
+    </div>
 </section>

@@ -36,9 +36,22 @@ define(['services/datacontext'],
                 var category = new bespoke.sphcommercialspace.domain.ComplaintCategory();
                 vm.complaintTemplate().ComplaintCategoryCollection.push(category);
             },
+            addSubCategory = function() {
+                var subCategory = {subCategory:ko.observable()};
+                vm.complaintCategory().SubCategoryCollection.push(subCategory);
+            },
+            updateCategory = function() {
+                 vm.complaintTemplate().ComplaintCategoryCollection.push(vm.complaintCategory());
+            },
+            removeCategory = function(category) {
+                vm.complaintTemplate().ComplaintCategoryCollection.remove(category);
+            },
             addCustomField = function () {
                 var customfield = new bespoke.sphcommercialspace.domain.ComplaintCustomField();
                 vm.complaintTemplate().ComplaintCustomFieldCollection.push(customfield);
+            },
+            removeCustomField = function(customfield) {
+                vm.complaintTemplate().ComplaintCustomFieldCollection.remove(customfield);
             },
             save = function () {
                 var tcs = new $.Deferred();
@@ -48,8 +61,6 @@ define(['services/datacontext'],
                 context.post(data, "/ComplaintTemplate/Save")
                     .then(function (result) {
                         isBusy(false);
-
-
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -59,8 +70,13 @@ define(['services/datacontext'],
             isBusy: isBusy,
             activate: activate,
             complaintTemplate: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
+            complaintCategory : ko.observable(new bespoke.sphcommercialspace.domain.ComplaintCategory()),
             addComplaintCategory: addComplaintCategory,
             addCustomField: addCustomField,
+            addSubCategory: addSubCategory,
+            removeCategory: removeCategory,
+            removeCustomField: removeCustomField,
+            updateCategoryCommand : updateCategory,
             saveCommand: save
         };
 

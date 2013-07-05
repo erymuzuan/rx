@@ -655,10 +655,10 @@ bespoke.sphcommercialspace.domain.UserProfile = function (webId) {
         Designation: ko.observable(),
         Telephone: ko.observable(),
         Mobile: ko.observable(),
-        HospitalCode: ko.observable(),
         RoleTypes: ko.observable(),
         StartModule: ko.observable(),
         Email: ko.observable(),
+        UserProfileId: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -997,6 +997,7 @@ bespoke.sphcommercialspace.domain.Inspection = function (webId) {
         Remark: ko.observable(),
         InspectionDate: ko.observable(),
         Resolution: ko.observable(),
+        Observation: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

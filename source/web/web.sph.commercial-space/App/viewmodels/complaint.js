@@ -10,7 +10,7 @@
 /// <reference path="../services/mockComplainTemplateContext.js" />
 
 
-define(['services/mockComplaintTemplateContext', 'services/logger', 'durandal/plugins/router'],
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 	function (context) {
 
 	    var

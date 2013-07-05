@@ -7382,11 +7382,6 @@
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_hospitalCode;
-                    public const string PropertyNameHospitalCode = "HospitalCode";
-
-                  
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private  string  m_roleTypes;
                     public const string PropertyNameRoleTypes = "RoleTypes";
 
@@ -7399,6 +7394,11 @@
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private  string  m_email;
                     public const string PropertyNameEmail = "Email";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  int  m_userProfileId;
+                    public const string PropertyNameUserProfileId = "UserProfileId";
 
                   
                 ///<summary>
@@ -7550,34 +7550,6 @@
                 
                 [DebuggerHidden]
                 
-                    public string HospitalCode
-                    {
-                    set
-                    {
-                    if( String.Equals( m_hospitalCode, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameHospitalCode, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_hospitalCode= value;
-                    OnPropertyChanged(PropertyNameHospitalCode);
-                    }
-                    }
-                    get
-                    {
-                    return m_hospitalCode;}
-                    }
-
-                  
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                  [Required]
-                
-                [DebuggerHidden]
-                
                     public string RoleTypes
                     {
                     set
@@ -7650,6 +7622,34 @@
                     get
                     {
                     return m_email;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public int UserProfileId
+                    {
+                    set
+                    {
+                    if( m_userProfileId == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameUserProfileId, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_userProfileId= value;
+                    OnPropertyChanged(PropertyNameUserProfileId);
+                    }
+                    }
+                    get
+                    {
+                    return m_userProfileId;}
                     }
 
                   
@@ -10322,6 +10322,11 @@
                     public const string PropertyNameResolution = "Resolution";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_observation;
+                    public const string PropertyNameObservation = "Observation";
+
+                  
                 ///<summary>
                 /// 
                 ///</summary>
@@ -10459,6 +10464,34 @@
                     get
                     {
                     return m_resolution;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Observation
+                    {
+                    set
+                    {
+                    if( String.Equals( m_observation, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameObservation, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_observation= value;
+                    OnPropertyChanged(PropertyNameObservation);
+                    }
+                    }
+                    get
+                    {
+                    return m_observation;}
                     }
 
                   

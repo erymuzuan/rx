@@ -12,7 +12,7 @@
 /// <reference path="../services/mockComplainTemplateContext.js" />
 
 
-define(['services/mockComplaintTemplateContext', 'services/logger'],
+define(['services/datacontext', 'services/logger'],
 	function (context, logger) {
 
 	    var template = ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
