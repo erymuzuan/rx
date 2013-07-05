@@ -876,7 +876,7 @@ bespoke.sphcommercialspace.domain.Complaint = function (webId) {
         TemplateId: ko.observable(),
         Remarks: ko.observable(),
         TenantId: ko.observable(),
-        CommercialSpaceId: ko.observable(),
+        CommercialSpace: ko.observable(),
         Status: ko.observable(),
         Category: ko.observable(),
         SubCategory: ko.observable(),

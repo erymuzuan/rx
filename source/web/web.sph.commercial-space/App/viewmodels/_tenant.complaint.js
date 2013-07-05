@@ -7,32 +7,32 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
-/// <reference path="../services/mockComplainTemplateContext.js" />
 
 
-define(['services/mockComplaintTemplateContext', 'services/logger', 'durandal/plugins/router'],
+define(['services/datacontext'],
 	function (context) {
+	    var isBusy = ko.observable(false),
+	        activate = function (tenant) {
 
-	    var
-        isBusy = ko.observable(false),
-        activate = function () {
-            var query = String.format("ComplaintTemplateId gt 0");
-            var tcs = new $.Deferred();
-            context.loadAsync("ComplaintTemplate", query)
-                .done(function(lo) {
-                    isBusy(false);
-                    vm.complaintTemplates(lo.itemCollection);
+	        var query = String.format("TenantId eq {0}", tenant.TenantId());
+	        var tcs = new $.Deferred();
+
+	        context.loadAsync("Complaint", query)
+	            .done(function (lo) {
+	                isBusy(false);
+	                vm.complaintCollection(lo.itemCollection);
                     tcs.resolve(true);
-                });
-            return tcs.promise();
-        };
+	            });
+	        return tcs.promise();
+	    };
 
 	    var vm = {
 	        isBusy: isBusy,
 	        activate: activate,
-	        complaintTemplates: ko.observableArray()
+	        complaintCollection: ko.observableArray()
 	    };
 
 	    return vm;
 
 	});
+

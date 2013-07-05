@@ -9,32 +9,41 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" /> 
-/// <reference path="../services/mockComplainTemplateContext.js" />
 
 
-define(['services/mockComplaintTemplateContext', 'services/logger'],
+define(['services/datacontext', 'services/logger'],
 	function (context, logger) {
 
 	    var template = ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
-	        id = ko.observable(),
 	        isBusy = ko.observable(false),
-
-
-	        activate = function (routedata) {
+	        tenantId = ko.observable(),
+	        
+            activate = function (tenant) {
+                tenantId(parseInt(tenant.TenantId()));
+                vm.complaint().TenantId(tenantId);
+                var query = "TenantIdSsmNo eq '" + tenant.IdSsmNo() + "'";
 	            isBusy(true);
-	            id(parseInt(routedata.id));
 	            var tcs = new $.Deferred();
-	            var query = "ComplaintTemplateId eq " + id();
-	            context.loadOneAsync("ComplaintTemplate", query).then(function (ct) {
-	                template(ct);
-	                var categories = _(ct.ComplaintCategoryCollection()).map(function (c) {
-	                    return c.Name();
-	                });
-	                vm.categoryOptions(categories);
-	                tcs.resolve(true);
-	                isBusy(false);
-	            });
-	            tcs.promise();
+
+	            var getContractTask = context.loadAsync("Contract", query);
+	            var getComplaintTemplateTask = context.getTuplesAsync("ComplaintTemplate", "ComplaintTemplateId gt 0", "ComplaintTemplateId", "Name");
+                
+                $.when(getContractTask, getComplaintTemplateTask)
+                    .then(function (lo, list) {
+                        _.each(lo.itemCollection, function (cs) {
+                            var list2 =
+                                {
+                                    Name: ko.observable()
+                                };
+                            list2.Name(cs.CommercialSpace.BuildingName() + " , " + cs.CommercialSpace.FloorName()+ " , " + cs.CommercialSpace.LotName());
+                            vm.locationOptions.push(list2);
+                        });
+                        vm.typeOptions(_(list).sortBy(function (b) {
+                            return b.Item2;
+                        }));
+                        tcs.resolve(true);
+                    });
+                tcs.promise();
 	        },
 
             viewAttached = function (view) {
@@ -69,8 +78,7 @@ define(['services/mockComplaintTemplateContext', 'services/logger'],
 
 	        submit = function () {
 	            var tcs = new $.Deferred();
-	            var templateName = template().Name();
-	            vm.complaint().Type(templateName);
+	            vm.complaint().TenantId(tenantId);
 	            var data = ko.toJSON(vm.complaint);
 	            isBusy(true);
 
@@ -84,28 +92,41 @@ define(['services/mockComplaintTemplateContext', 'services/logger'],
 
 	    var vm = {
 	        isBusy: isBusy,
-	        
 	        activate: activate,
 	        viewAttached: viewAttached,
-	        
+	        locationOptions: ko.observableArray(),
+            typeOptions: ko.observableArray(),
 	        categoryOptions: ko.observableArray([]),
 	        subCategoryOptions: ko.observableArray([]),
-	        locationOptions: ko.observableArray(),
-	        
-	        template: template,
+	        selectedType: ko.observable(),
+	        selectedCategory: ko.observable(),
+	        template : template,
 	        complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
-	        
 	        submitCommand: submit
 	    };
 
-	    vm.complaint().Category.subscribe(function (category) {
-
-	        var cat = _(template().ComplaintCategoryCollection()).find(function (c) {
-	            return c.Name() === category;
-	        });
-	        vm.subCategoryOptions(cat.SubCategoryCollection());
+	    vm.complaint().Type.subscribe(function(type) {
+	         vm.isBusy(true);
+	         context.loadOneAsync("ComplaintTemplate", "Name eq '" + type + "'")
+	            .then(function (t) {
+	                vm.template(t);
+	                var categories = _(t.ComplaintCategoryCollection()).map(function(c) {
+	                    return c.Name();
+	                });
+	                vm.categoryOptions(categories);
+	                vm.isBusy(false);
+	                selectedType = t;
+	            });
 	    });
-
+	     
+	    vm.complaint().Category.subscribe(function (category) {
+	       var cat = _(template().ComplaintCategoryCollection()).find(function (c) {
+	           return c.Name() === category;
+	       });
+	        
+	        vm.subCategoryOptions(cat.SubCategoryCollection());
+	   });
+	    
 	    return vm;
 
 	});

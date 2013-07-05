@@ -9164,8 +9164,8 @@
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  int  m_commercialSpaceId;
-                    public const string PropertyNameCommercialSpaceId = "CommercialSpaceId";
+                    private  string  m_commercialSpace;
+                    public const string PropertyNameCommercialSpace = "CommercialSpace";
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -9347,22 +9347,22 @@
                 
                 [DebuggerHidden]
                 
-                    public int CommercialSpaceId
+                    public string CommercialSpace
                     {
                     set
                     {
-                    if( m_commercialSpaceId == value) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameCommercialSpaceId, value);
+                    if( String.Equals( m_commercialSpace, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameCommercialSpace, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)
                     {
-                    m_commercialSpaceId= value;
-                    OnPropertyChanged(PropertyNameCommercialSpaceId);
+                    m_commercialSpace= value;
+                    OnPropertyChanged(PropertyNameCommercialSpace);
                     }
                     }
                     get
                     {
-                    return m_commercialSpaceId;}
+                    return m_commercialSpace;}
                     }
 
                   

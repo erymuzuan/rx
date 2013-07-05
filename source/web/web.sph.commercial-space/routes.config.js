@@ -370,23 +370,23 @@
   },
   {
     "role": null,
-    "url": "complaint.list",
-    "moduleId": "viewmodels/complaint.list",
-    "name": "Senarai Aduan",
+    "url": "tenant.portal/4",
+    "moduleId": "viewmodels/tenant.portal",
+    "name": "Portal Penyewa",
     "visible": true,
     "icon": "icon-desktop",
-    "caption": "aduan",
+    "caption": "Portal Penyewa",
     "settings": null,
     "error": ""
   },
   {
     "role": null,
-    "url": "complaint.inspection/:id",
-    "moduleId": "viewmodels/complaint.inspection",
-    "name": "Pemeriksaan",
+    "url": "complaintform.tenant/:id",
+    "moduleId": "viewmodels/complaintform.tenant",
+    "name": "Borang Aduan Penyewa",
     "visible": false,
-    "icon": "icon-desktop",
-    "caption": "pemeriksaan",
+    "icon": "icon-laptop",
+    "caption": "Borang Aduan",
     "settings": null,
     "error": ""
   }
