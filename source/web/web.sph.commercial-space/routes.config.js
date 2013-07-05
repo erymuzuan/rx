@@ -381,9 +381,6 @@
   },
   {
     "role": null,
-    "url": "complaintform.tenant/:id",
-    "moduleId": "viewmodels/complaintform.tenant",
-    "name": "Borang Aduan Penyewa",
     "url": "complaint.assign/:id",
     "moduleId": "viewmodels/complaint.assign",
     "name": "Pemeriksaan",
@@ -401,6 +398,17 @@
     "visible": false,
     "icon": "icon-laptop",
     "caption": "Borang Aduan",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": null,
+    "url": "complaint.list",
+    "moduleId": "viewmodels/complaint.list",
+    "name": "Senarai Aduan",
+    "visible": true,
+    "icon": "icon-laptop",
+    "caption": "Senarai Aduan",
     "settings": null,
     "error": ""
   }

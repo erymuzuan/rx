@@ -6,19 +6,19 @@
 
         <div data-bind="with: Inspection">
             <div class="control-group">
-                <span class="control-label">Tarikh Ditugaskan : </span>
+                <span class="control-label ">Tarikh Ditugaskan : </span>
                 <span class="controls">
                     <span data-bind="date: { value: AssignedDate, format: 'DD/MM/YYYY' }" id="AssignedDate" />
                 </span>
             </div>
             <div class="control-group">
-                <span class="control-label">Tarikh Pemeriksaan </span>
+                <span class="control-label ">Tarikh Pemeriksaan </span>
                 <span class="controls">
                     <input data-bind="kendoDate: InspectionDate" id="InspectionDate" type="text" name="InspectionDate" />
                 </span>
             </div>
             <div class="control-group">
-                <label class="control-label">Resolusi :  </label>
+                <label class="control-label ">Resolusi :  </label>
                 <select class="controls" data-bind="value: Resolution" id="Inspection().PersonInCharge">
                     <option value="WontFix">Tidak Boleh Selesai</option>
                     <option value="Duplicate">Duplicate</option>
@@ -28,8 +28,8 @@
                 </select>
             </div>
             <div class="control-group">
-                <span class="control-label">Catatan Pemeriksaan </span>
-                <span class="controls">
+                <span class="control-label ">Catatan Pemeriksaan </span>
+                <span class="controls ">
                     <textarea cols="5" rows="5" data-bind="value: Observation" id="Observation" name="Observation" />
                 </span>
             </div>

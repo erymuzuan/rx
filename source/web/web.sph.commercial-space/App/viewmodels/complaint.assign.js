@@ -21,11 +21,9 @@ define(['services/datacontext'],
                 context.loadOneAsync("Complaint", query)
                     .done(function (b) {
                         vm.complaint(b);
-                        var tenantTask = context.loadOneAsync("Tenant", "TenantId eq " + b.TenantId());
-                        var csTask = context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + b.CommercialSpaceId());
-                        $.when(tenantTask, csTask).then(function (tenant, cs) {
+                        context.loadOneAsync("Tenant", "TenantId eq " + b.TenantId())
+                        .done(function (tenant) {
                             vm.tenant(tenant);
-                            vm.commercialSpace(cs);
                         });
 
                         tcs.resolve(true);
