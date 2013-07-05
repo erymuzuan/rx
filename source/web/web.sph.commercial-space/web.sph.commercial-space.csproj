@@ -302,6 +302,7 @@
     <Compile Include="Mocks\TemplateEngine.cs" />
     <Compile Include="Models\JsRoute.cs" />
     <Compile Include="Models\JsRouteSetting.cs" />
+    <Compile Include="Models\Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App\viewmodels\complaint.inspection.js" />
     <Content Include="App\views\complaint.inspection.html" />

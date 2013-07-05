@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminTest.cs" />
     <Compile Include="BrowserHelper.cs" />
     <Compile Include="BrowserTest.cs" />
     <Compile Include="BuildingTest.cs" />

@@ -20,24 +20,48 @@
                 designationvm.activate(roles);
                 var profileTask = context.loadAsync("UserProfile", query);
                 var designationTask = context.loadOneAsync("Setting", "Key eq 'Designation.Role'");
-                    $.when(designationTask,profileTask)
-                     .then(function(s,p) {
-                         isBusy(false);
+                $.when(designationTask,profileTask)
+                 .then(function(s,p) {
+                     isBusy(false);
+                     if (s) {
                          var designation = JSON.parse(ko.mapping.toJS(s.Value));;
                          vm.designationOptions(designation);
-                         vm.profiles(p.itemCollection);
-                         tcs.resolve(true);
-                    });
+                     }
+                        
+                     vm.profiles(p.itemCollection);
+                     tcs.resolve(true);
+                 });
                 return tcs.promise();
             },
             save = function() {
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON({profile : vm.profile}) ;
+                isBusy(true);
 
+                context.post(data, "/Admin/AddUser")
+                    .then(function(result) {
+                        isBusy(false);
+                        vm.profiles.push(result);
+                        tcs.resolve(true);
+                    });
+                return tcs.promise();
             };
             
 
         var vm = {
             activate: activate,
-            profile: ko.observable(new bespoke.sphcommercialspace.domain.UserProfile()),
+            profile: {
+                FullName : ko.observable(),
+                UserName : ko.observable(),
+                Email : ko.observable(),
+                Password : ko.observable(),
+                ConfirmPassword: ko.observable(''),
+                Status : ko.observable(),
+                Designation: ko.observable(),
+                Telephone : ko.observable(),
+                Mobile : ko.observable(),
+                IsNew : ko.observable()
+            },
             profiles: profiles,
             designationOptions : ko.observableArray(),
             saveCommand: save

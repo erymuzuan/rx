@@ -483,10 +483,10 @@
 			<xs:attribute name="Designation" type="xs:string" use="required"/>
 			<xs:attribute name="Telephone" type="xs:string" use="required"/>
 			<xs:attribute name="Mobile" type="xs:string" use="required"/>
-			<xs:attribute name="HospitalCode" type="xs:string" use="required"/>
 			<xs:attribute name="RoleTypes" type="xs:string" use="required"/>
 			<xs:attribute name="StartModule" type="xs:string" use="required"/>
 			<xs:attribute name="Email" type="xs:string" use="required"/>
+			<xs:attribute name="UserProfileId" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Deposit">
