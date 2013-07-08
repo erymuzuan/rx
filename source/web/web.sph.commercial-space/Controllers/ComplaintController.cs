@@ -12,12 +12,30 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             complaint.Status = "New";
+
+            var audit = new AuditTrail
+                {
+                    Operation = "Submit",
+                    DateTime = DateTime.Now,
+                    User = User.Identity.Name,
+                    Type = typeof(Complaint).Name,
+                    EntityId = complaint.ComplaintId,
+                    Note = "Aduan melalui portal"
+                };
+
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(complaint);
+                await session.SubmitChanges("Submit");
+            }
+
             using (var session = context.OpenSession())
             {
                 var ticket = string.Format("AD{0:yyyy}{1}", DateTime.Today, complaint.ComplaintId).PadLeft(8, '0');
                 complaint.ReferenceNo = ticket;
 
-                session.Attach(complaint);
+                session.Attach(audit,complaint);
                 await session.SubmitChanges("Submit");
             }
 
