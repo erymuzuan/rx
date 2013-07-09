@@ -679,7 +679,6 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element ref="Inspection" minOccurs="0"/>
 			</xs:all>
 			<xs:attribute name="ComplaintId" type="xs:int" use="required"/>
 			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
@@ -692,6 +691,7 @@
 			<xs:attribute name="ReferenceNo" type="xs:string" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="AttachmentStoreId" type="xs:string" use="required"/>
+			<xs:attribute name="Department" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CustomField">

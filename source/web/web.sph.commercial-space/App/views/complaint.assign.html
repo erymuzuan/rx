@@ -3,15 +3,11 @@
     <form class="form-horizontal" data-bind="with: complaint">
         <!--ko compose:'_complaint.details.html' -->
                 <!--/ko-->                                              
-        <div class="control-group" data-bind="with : Inspection">
-            <label class="control-label">Petugas :  </label>
-            <select class="controls" data-bind="value: PersonInCharge" id="Inspection().PersonInCharge">
-                <option value="Samad">Samad</option>
-                <option value="Ahmad">Ahmad</option>
-                <option value="Sani">Sani</option>
-                <option value="Mohamad">Mohamad</option>
-            </select>
-        </div>
+        <div class="control-group" data-bind="with: $parent.departmentOptions">
+                <label for="department" class="control-label">Jabatan :</label>
+                <select class="controls" id="department" name="department" data-bind="options: $data, optionsText: 'Name', optionsValue: 'Name', value: $parent.Department, optionsCaption: '[Sila Pilih]'"></select>
+                
+            </div>
         <div class="control-group" data-bind="with: Inspection">
             <label for="Inspection.Remark" class="control-label">Catatan : </label>
             <textarea class="controls" cols="5" rows="5" data-bind="value: Remark" id="Inspection.Remark" name="Inspection().Remark" />

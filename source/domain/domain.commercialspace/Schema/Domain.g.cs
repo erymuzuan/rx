@@ -9231,6 +9231,11 @@
                     public const string PropertyNameAttachmentStoreId = "AttachmentStoreId";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_department;
+                    public const string PropertyNameDepartment = "Department";
+
+                  
 			private readonly ObjectCollection<CustomFieldValue>  m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue> ();
 
 			///<summary>
@@ -9240,23 +9245,6 @@
 			public ObjectCollection<CustomFieldValue> CustomFieldValueCollection
 			{
 			get{ return m_CustomFieldValueCollection;}
-			}
-		
-			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			private Inspection m_inspection
-					=  new Inspection();
-				
-			public const string PropertyNameInspection = "Inspection";
-			[DebuggerHidden]
-
-			public Inspection Inspection
-			{
-			get{ return m_inspection;}
-			set
-			{
-			m_inspection = value;
-			OnPropertyChanged(PropertyNameInspection);
-			}
 			}
 		
                 ///<summary>
@@ -9564,6 +9552,34 @@
                     get
                     {
                     return m_attachmentStoreId;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Department
+                    {
+                    set
+                    {
+                    if( String.Equals( m_department, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameDepartment, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_department= value;
+                    OnPropertyChanged(PropertyNameDepartment);
+                    }
+                    }
+                    get
+                    {
+                    return m_department;}
                     }
 
                   
