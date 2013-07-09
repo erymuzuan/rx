@@ -11,16 +11,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> Submit(Complaint complaint)
         {
             var context = new SphDataContext();
-            complaint.Status = "Baru";
-            var inspection = new Inspection{Resolution = "Belum Diperiksa"};
-            complaint.Inspection = inspection;
-
+            complaint.Status = "New";
             using (var session = context.OpenSession())
             {
                 var ticket = string.Format("AD{0:yyyy}{1}", DateTime.Today, complaint.ComplaintId).PadLeft(8, '0');
                 complaint.ReferenceNo = ticket;
 
-                session.Attach(complaint);
+                session.Attach(audit,complaint);
                 await session.SubmitChanges("Submit");
             }
 
