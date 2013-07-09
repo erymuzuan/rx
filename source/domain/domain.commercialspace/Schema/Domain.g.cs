@@ -7401,6 +7401,11 @@
                     public const string PropertyNameUserProfileId = "UserProfileId";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_department;
+                    public const string PropertyNameDepartment = "Department";
+
+                  
                 ///<summary>
                 /// 
                 ///</summary>
@@ -7650,6 +7655,34 @@
                     get
                     {
                     return m_userProfileId;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Department
+                    {
+                    set
+                    {
+                    if( String.Equals( m_department, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameDepartment, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_department= value;
+                    OnPropertyChanged(PropertyNameDepartment);
+                    }
+                    }
+                    get
+                    {
+                    return m_department;}
                     }
 
                   

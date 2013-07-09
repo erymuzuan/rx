@@ -22,9 +22,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                     vm.roles.push(r);
                 });
             },
-            viewAttached = function(view) {
-
-            },
             saveRole = function () {
                 var tcs = new $.Deferred();
                 var data = JSON.stringify({ role: vm.role() });
@@ -50,7 +47,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
             role: ko.observable(''),
             roles: ko.observableArray(),
             saveroleCommand: saveRole

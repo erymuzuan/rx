@@ -308,11 +308,13 @@
     <Content Include="App\viewmodels\tenant.portal.js" />
     <Content Include="App\viewmodels\complaintform.tenant.js" />
     <Content Include="App\viewmodels\_tenant.complaint.js" />
+    <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\complaint.assign.html" />
     <Content Include="App\views\tenant.portal.html" />
     <Content Include="App\views\complaintform.tenant.html" />
     <Content Include="App\views\_complaint.details.html" />
     <Content Include="App\views\_tenant.complaint.html" />
+    <Content Include="App\views\_users.department.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="routes.config.js" />
