@@ -25,16 +25,17 @@
             <div class="control-group">
                 <label class="control-label ">Catatan Pemeriksaan :</label>
                 <div class="controls ">
-                    <span data-bind="text: Observation" id="Observation" name="Observation" />
+                    <span data-bind="text: Observation" id="Observation"/>
                 </div>
             </div>
         </div>
     </form>
-    <section id="submit-panel" class="span6">
+    <section id="submit-panel" class="span6" data-bind="with: complaint">
         <div >
-            <input id="done-button" type="button" class="btn btn-success pull-right" value="SELESAI" data-bind="command: saveCommand" data-loading-text="Sila tunggu..." data-complete-text=" OK" />
+            <input id="done-button" type="button" class="btn btn-success pull-right" value="PEMERIKSAAN SELESAI" data-bind="command: saveCommand, visible: Inspection.Resolution() == 'Selesai'" data-loading-text="Sila tunggu..." data-complete-text=" OK" />
         </div>
         <div>
-            <a id="work-order-button"data-bind="attr: { href: '/#/work.order/' + ComplaintId()}" type="button" class="btn btn-primary pull-right">WORK ORDER</a>
-        </div> </section>
+            <a id="work-order-button"data-bind="attr: { href: '/#/work.order/' + ComplaintId() }, visible: Inspection.Resolution() != 'Selesai'" class="btn btn-primary pull-right">MOHON KONTRAKTOR</a>
+        </div> 
+    </section>
 </div>

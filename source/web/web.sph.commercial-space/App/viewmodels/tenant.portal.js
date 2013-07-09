@@ -17,9 +17,9 @@ define(['services/datacontext', './_tenant.rent', './_tenant.contract','./_tenan
 	    var isBusy = ko.observable(false),
         id = ko.observable(),
         tenant = new bespoke.sphcommercialspace.domain.Tenant(),
-        activate = function (routeData) {
-            //id(parseInt(routeData.tenantId));
-            var query = String.format("TenantId eq 4");//{0}", id()); 
+        activate = function () {
+            id(4);
+            var query = String.format("TenantId eq {0}", id()); 
             var tcs = new $.Deferred();
             var detailLoaded = function (tnt) {
                 vm.tenant(tnt);
@@ -33,7 +33,6 @@ define(['services/datacontext', './_tenant.rent', './_tenant.contract','./_tenan
             };
             context.loadOneAsync("Tenant", query)
                 .then(detailLoaded);
-
             return tcs.promise();
         };
 
