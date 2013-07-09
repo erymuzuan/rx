@@ -6,32 +6,53 @@
 
         <div data-bind="with: Inspection">
             <div class="control-group">
-                <span class="control-label ">Tarikh Ditugaskan : </span>
-                <span class="controls">
+                <label class="control-label ">Tarikh Ditugaskan : </label>
+                <div class="controls">
                     <span data-bind="date: { value: AssignedDate, format: 'DD/MM/YYYY' }" id="AssignedDate" />
-                </span>
+                </div>
             </div>
             <div class="control-group">
-                <span class="control-label ">Tarikh Pemeriksaan </span>
-                <span class="controls">
+                <label class="control-label ">Tarikh Pemeriksaan </label>
+                <div class="controls">
                     <input data-bind="kendoDate: InspectionDate" id="InspectionDate" type="text" name="InspectionDate" />
-                </span>
+                </div>
+            </div>
+                <div class="control-group">
+                <label class="control-label ">Keutamaan : </label>
+                <div class="controls">
+                    <select data-bind="value:Priority">
+                        <option value="Segera">Segera</option>
+                        <option value="Sederhana">Sederhana</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label ">Tahap Kerosakan : </label>
+                <div class="controls">
+                   <select data-bind="value: Severity">
+                        <option value="Major">Major</option>
+                        <option value="Minor">Minor</option>
+                        <option value="Trivial">Trivial</option>
+                    </select>
+                </div>
             </div>
             <div class="control-group">
                 <label class="control-label ">Resolusi :  </label>
-                <select class="controls" data-bind="value: Resolution" id="Inspection().PersonInCharge">
-                    <option value="WontFix">Tidak Boleh Selesai</option>
+                <div class="controls">
+                <select data-bind="value: Resolution" id="Inspection().PersonInCharge">
+                    <option value="Tidak Boleh Selesai">Tidak Boleh Selesai</option>
                     <option value="Duplicate">Duplicate</option>
-                    <option value="Fake">Tipu</option>
-                    <option value="Deferred">Perlu external</option>
-                    <option value="Complete">Selesai</option>
-                </select>
+                    <option value="Tipu">Tipu</option>
+                    <option value="Perlu external">Perlu external</option>
+                    <option value="Selesai">Selesai</option>
+                </select></div>
             </div>
             <div class="control-group">
-                <span class="control-label ">Catatan Pemeriksaan </span>
-                <span class="controls ">
+                <label class="control-label ">Catatan Pemeriksaan </label>
+                <div class="controls ">
                     <textarea cols="5" rows="5" data-bind="value: Observation" id="Observation" name="Observation" />
-                </span>
+                </div>
             </div>
         </div>
     </form>

@@ -411,5 +411,16 @@
     "caption": "Senarai Aduan",
     "settings": null,
     "error": ""
+  },
+  {
+    "role": null,
+    "url": "complaint.close/:id",
+    "moduleId": "viewmodels/complaint.close",
+    "name": "Penyenggaraan",
+    "visible": false,
+    "icon": "icon-laptop",
+    "caption": "Penyenggaraan",
+    "settings": null,
+    "error": ""
   }
 ]

@@ -998,11 +998,29 @@ bespoke.sphcommercialspace.domain.Inspection = function (webId) {
         InspectionDate: ko.observable(),
         Resolution: ko.observable(),
         Observation: ko.observable(),
+        Contractor: ko.observable(),
+        Priority: ko.observable(),
+        Severity: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
     if (bespoke.sphcommercialspace.domain.InspectionPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.InspectionPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ComplaintSubCategory = function (webId) {
+
+    var model = {
+        Description: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ComplaintSubCategoryPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintSubCategoryPartial(model));
     }
     return model;
 };

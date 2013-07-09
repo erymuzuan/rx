@@ -30,6 +30,7 @@ define(['services/datacontext', 'services/logger'],
                 
                 $.when(getContractTask, getComplaintTemplateTask)
                     .then(function (lo, list) {
+                        vm.locationOptions.removeAll();
                         _.each(lo.itemCollection, function (cs) {
                             var list2 =
                                 {

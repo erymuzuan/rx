@@ -11,7 +11,10 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> Submit(Complaint complaint)
         {
             var context = new SphDataContext();
-            complaint.Status = "New";
+            complaint.Status = "Baru";
+            var inspection = new Inspection{Resolution = "Belum Diperiksa"};
+            complaint.Inspection = inspection;
+
             using (var session = context.OpenSession())
             {
                 var ticket = string.Format("AD{0:yyyy}{1}", DateTime.Today, complaint.ComplaintId).PadLeft(8, '0');
@@ -30,7 +33,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var complaint = await context.LoadOneAsync<Complaint>(c => c.ComplaintId == comp.ComplaintId);
             complaint.Inspection = comp.Inspection;
             complaint.Inspection.AssignedDate = DateTime.Today;
-            complaint.Status = "InProgress";
+            complaint.Status = "Dalam Proses";
             using (var session = context.OpenSession())
             {
                 session.Attach(complaint);

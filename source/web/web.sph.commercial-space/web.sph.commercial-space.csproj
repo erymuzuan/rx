@@ -323,6 +323,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\breeze.debug.js" />
+    <Content Include="App\viewmodels\complaint.close.js" />
+    <Content Include="App\views\complaint.close.html" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\demo.js" />

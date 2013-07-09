@@ -9,20 +9,21 @@
             <th>No. Aduan</th>
             <th>Kategori</th>
             <th>Sub Kategori</th>
-            <th>Resolusi</th>
             <th>Status</th>
+            <th>Resolusi</th>
         </tr>
     </thead>
     <tbody data-bind="foreach :complaintCollection">
         <tr>
             <td>
-                 <a data-bind="attr: { href: '/#/complaint.assign/' + ComplaintId() }, text: ReferenceNo, visible: Status() == 'New'"></a>
-                 <a data-bind="attr: { href: '/#/complaint.inspection/' + ComplaintId() }, text: ReferenceNo, visible:Status() =='InProgress'"></a>
-            </td>
+                 <a data-bind="attr: { href: '/#/complaint.assign/' + ComplaintId() }, text: ReferenceNo, visible: Status() == 'Baru'"></a>
+                 <a data-bind="attr: { href: '/#/complaint.inspection/' + ComplaintId() }, text: ReferenceNo, visible: Status() == 'Dalam Proses' && Inspection.Resolution() == 'Belum Diperiksa' "></a>
+                 <a data-bind="attr: { href: '/#/complaint.close/' + ComplaintId() }, text: ReferenceNo, visible: Status() == 'Dalam Proses' && Inspection.Resolution() != 'Belum Diperiksa' "></a>
+           </td>
             <td data-bind="text:Category"></td>
             <td data-bind="text: SubCategory"></td>
-            <td data-bind="text: Inspection.Resolution"></td>
             <td data-bind="text: Status"></td>
+            <td data-bind="text: Inspection.Resolution"></td>
         </tr>
     </tbody>
 </table>

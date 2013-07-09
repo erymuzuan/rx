@@ -739,7 +739,7 @@
 				<xs:element name="SubCategoryCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="SubCategory" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="ComplaintSubCategory" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -766,6 +766,14 @@
 			<xs:attribute name="InspectionDate" type="xs:dateTime" use="required"/>
 			<xs:attribute name="Resolution" type="xs:string" use="required"/>
 			<xs:attribute name="Observation" type="xs:string" use="required"/>
+			<xs:attribute name="Contractor" type="xs:string" use="required"/>
+			<xs:attribute name="Priority" type="xs:string" use="required"/>
+			<xs:attribute name="Severity" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ComplaintSubCategory">
+		<xs:complexType>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

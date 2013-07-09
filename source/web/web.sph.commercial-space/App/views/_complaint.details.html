@@ -1,32 +1,61 @@
 ﻿<div class="control-group">
     <label class="control-label ">No. Aduan : </label>
-    <span class="controls" data-bind="text: ReferenceNo" id="ReferenceNo" />
+    <div class="controls">
+        <span data-bind="text: ReferenceNo" id="ReferenceNo" />
+    </div>
 </div>
 <div class="control-group" data-bind="with: $parent.tenant">
     <label class="control-label ">Pengadu : </label>
-    <span class="controls" data-bind="text: Name" id="tenant().Name" />
+    <div class="controls">
+        <span data-bind="text: Name" id="tenant().Name" />
+    </div>
 </div>
 <div class="control-group" data-bind="with: $parent.tenant">
     <label class="control-label ">Id / SsmNo : </label>
-    <span class="controls" data-bind="text: IdSsmNo" id="tenant().IdSsmNo" />
+    <div class="controls">
+        <span data-bind="text: IdSsmNo" id="tenant().IdSsmNo" />
+    </div>
 </div>
+<div class="control-group" data-bind="with: $parent.tenant">
+    <label class="control-label ">No. Telefon : </label>
+    <div class="controls">
+        <span data-bind="text: Phone" id="Phone" />
+    </div>
+</div>
+<div class="control-group" data-bind="with: $parent.tenant">
+    <label class="control-label ">Email : </label>
+    <div class="controls">
+        <span data-bind="text: Email" id="Email" />
+    </div>
+</div>
+
 <div class="control-group">
     <label class="control-label ">Jenis Aduan :  </label>
-    <span class="controls" data-bind="text: Type" id="Type" />
+    <div class="controls">
+        <span data-bind="text: Type" id="Type" />
+    </div>
 </div>
 <div class="control-group">
     <label class="control-label ">Kategori :  </label>
-    <span class="controls" data-bind="text: Category" id="Category" />
+    <div class="controls">
+        <span data-bind="text: Category" id="Category" />
+    </div>
 </div>
 <div class="control-group">
     <label class="control-label ">SubKategori :  </label>
-    <span class="controls" data-bind="text: SubCategory" id="SubCategory" />
+    <div class="controls">
+        <span data-bind="text: SubCategory" id="SubCategory" />
+    </div>
 </div>
 <div class="control-group">
     <label class="control-label ">Keterangan :  </label>
-    <span class="controls" data-bind="text: Remarks" id="Remarks" />
+    <div class="controls">
+        <span data-bind="text: Remarks" id="Remarks" />
+    </div>
 </div>
 <div class="control-group">
     <label class="control-label ">Lokasi :  </label>
-    <span class="controls" data-bind="text: CommercialSpace" />
+    <div class="controls">
+        <span data-bind="text: CommercialSpace" id="CommercialSpace" />
+    </div>
 </div>
