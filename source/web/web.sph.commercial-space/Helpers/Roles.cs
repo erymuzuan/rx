@@ -7,6 +7,7 @@ namespace Bespoke.Sph.Commerspace.Web.Helpers
     {
         public const string ADMIN_DASHBOARD = "admin_dashboard";
         public const string ADMIN_SETTING = "admin_setting";
+        public const string ADMIN_USERS = "admin_users";
 
         public static List<Permission> Permissions
         {

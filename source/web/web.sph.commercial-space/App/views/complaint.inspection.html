@@ -1,0 +1,61 @@
+﻿<h3>Maklumat Pemeriksaan</h3>
+<div class="span8">
+    <form class="form-horizontal" data-bind="with: complaint">
+        <!--ko compose:'_complaint.details.html' -->
+        <!--/ko-->
+
+        <div data-bind="with: Inspection">
+            <div class="control-group">
+                <label class="control-label ">Tarikh Ditugaskan : </label>
+                <div class="controls">
+                    <span data-bind="date: { value: AssignedDate, format: 'DD/MM/YYYY' }" id="AssignedDate" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label ">Tarikh Pemeriksaan </label>
+                <div class="controls">
+                    <input data-bind="kendoDate: InspectionDate" id="InspectionDate" type="text" name="InspectionDate" />
+                </div>
+            </div>
+                <div class="control-group">
+                <label class="control-label ">Keutamaan : </label>
+                <div class="controls">
+                    <select data-bind="value:Priority">
+                        <option value="Segera">Segera</option>
+                        <option value="Sederhana">Sederhana</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label ">Tahap Kerosakan : </label>
+                <div class="controls">
+                   <select data-bind="value: Severity">
+                        <option value="Major">Major</option>
+                        <option value="Minor">Minor</option>
+                        <option value="Trivial">Trivial</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label ">Resolusi :  </label>
+                <div class="controls">
+                <select data-bind="value: Resolution" id="Inspection().PersonInCharge">
+                    <option value="Tidak Boleh Selesai">Tidak Boleh Selesai</option>
+                    <option value="Duplicate">Duplicate</option>
+                    <option value="Tipu">Tipu</option>
+                    <option value="Perlu external">Perlu external</option>
+                    <option value="Selesai">Selesai</option>
+                </select></div>
+            </div>
+            <div class="control-group">
+                <label class="control-label ">Catatan Pemeriksaan </label>
+                <div class="controls ">
+                    <textarea cols="5" rows="5" data-bind="value: Observation" id="Observation" name="Observation" />
+                </div>
+            </div>
+        </div>
+    </form>
+    <input id="save-button" type="button" class="btn btn-primary pull-right" value="Simpan" data-bind="command: saveCommand" data-loading-text="Sila tunggu..." data-complete-text=" OK" />
+
+</div>

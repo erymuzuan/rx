@@ -10,6 +10,10 @@ using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
+    public static class RoleType
+    {
+        public const string ADMIN_DASHBOARD = "admin_dashboard";
+    }
     public partial class AppController
     {
 
@@ -22,7 +26,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             var settings = new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()};
             var routes = await JsonConvert.DeserializeObjectAsync<JsRoute[]>(json, settings);
-            vm.Routes.AddRange(routes.Where(r => User.IsInRole(r.role) || string.IsNullOrWhiteSpace(r.role)));
+            vm.Routes.AddRange(routes.Where(r => User.IsInRole(r.Role) || string.IsNullOrWhiteSpace(r.Role)));
 
             return View(vm);
         }

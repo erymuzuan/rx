@@ -1,0 +1,26 @@
+﻿<section>
+   <input type="button" class="btn btn-primary" data-bind="click : addCommand" value="+ Jawatan"/>
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Jawatan</th>
+                <th>Peranan</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :designationCollection">
+            <tr>
+                <td>
+                     <input data-bind="value: Name" id="Designation" type="text" name="Designation" />
+                </td>
+                <td>
+                     <div data-bind="foreach :$parent.roles">
+        <span><input type="checkbox" name="user_roles" data-bind="value:RoleName, checked: $parent.Roles"/></span>
+            <span for="user_roles" data-bind="text:RoleName"></span>
+    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table></div>
+    <input type="button" class="btn btn-primary" data-bind="command : saveCommand" value="Simpan" />
+</section>

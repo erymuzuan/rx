@@ -1,0 +1,134 @@
+﻿@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div>
+    <h3>Pengurusan Pengguna</h3>
+</div>
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li>
+            <a href="#user-tab" data-toggle="tab">Tambah Pengguna</a>
+        </li>
+        <li>
+            <a href="#designation-tab" data-toggle="tab">Setting Jawatan</a>
+        </li>
+         <li>
+            <a href="#department-tab" data-toggle="tab">Setting Jabatan</a>
+        </li>
+        <li>
+            <a href="#role-tab" data-toggle="tab">Setting Peranan</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="user-tab" class="tab-pane active">
+
+            <div>
+                <a href="#user-details-modal" id="add-user-button" data-toggle="modal" class="btn btn-primary pull-right">Tambah Pengguna</a>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nama Pengguna</th>
+                        <th>Nama Penuh</th>
+                        <th>Jabatan</th>
+                        <th>Email</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: profiles">
+                    <tr>
+                        <td data-bind="text: Username"></td>
+                        <td data-bind="text: FullName"></td>
+                        <td data-bind="text: Department"></td>
+                        <td data-bind="text: Email"></td>
+                        <td>
+                            <button class="btn btn-mini" data-bind="click: $parent.editCommand">Edit</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-mini" data-bind="click: $parent.changePasswordCommand">Tukar Kata Laluan</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="designation-tab" class="tab-pane ">
+            <!--ko compose:'viewmodels/_users.designation' -->
+            <!--/ko-->
+        </div>
+         <div id="department-tab" class="tab-pane ">
+            <!--ko compose:'viewmodels/_users.department' -->
+            <!--/ko-->
+        </div>
+        <div id="role-tab" class="tab-pane ">
+            <!--ko compose:'viewmodels/_users.role' -->
+            <!--/ko-->
+        </div>
+    </div>
+</div>
+
+<section id="user-details-modal" class="modal hide fade">
+    <div class="modal-header">
+        <button data-dismiss="modal" class="btn btn-mini pull-right">x</button>
+    </div>
+    <div class="modal-body">
+        <h3>Pengguna baru</h3>
+        <form class="form-horizontal" data-bind="with: profile">
+            <div class="control-group">
+                <label for="Username" class="control-label">Nama pengguna :</label>
+                <div class="controls">
+                    <input data-bind="value: UserName" id="Username" type="text" name="Username" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Password" class="control-label">Password :</label>
+                <div class="controls">
+                    <input data-bind="value: Password" id="Password" type="text" name="Password" />
+                </div>
+            </div>
+              <div class="control-group">
+                <label for="ConfirmPassword" class="control-label">Confirm Password :</label>
+                <div class="controls">
+                    <input data-bind="value: ConfirmPassword" id="ConfirmPassword" type="text" name="ConfirmPassword" />
+                </div>
+            </div>
+              
+            <div class="control-group">
+                <label for="FullName" class="control-label">Nama penuh :</label>
+                <div class="controls">
+                    <input data-bind="value: FullName" id="FullName" type="text" name="FullName" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Email" class="control-label">Emel :</label>
+                <div class="controls">
+                    <input data-bind="value: Email" id="Email" type="text" name="Email" />
+                </div>
+            </div>
+             <div class="control-group" data-bind="with: $parent.departmentOptions">
+                <label for="department" class="control-label">Jabatan :</label>
+                <div class="controls">
+                    <select id="department" name="department" data-bind="options: $data, optionsText: 'Name', optionsValue: 'Name', value: $parent.Department, optionsCaption: '[Sila Pilih]'"></select>
+                </div>
+            </div>
+            <div class="control-group" data-bind="with: $parent.designationOptions">
+                <label for="designation" class="control-label">Jawatan :</label>
+                <div class="controls">
+                    <select id="designation" name="designation" data-bind="options: $data, optionsText: 'Name', optionsValue: 'Name', value: $parent.Designation, optionsCaption: '[Sila Pilih]'"></select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Telephone" class="control-label">No. Telefon :</label>
+                <div class="controls">
+                    <input data-bind="value: Telephone" id="Telephone" type="text" name="Telephone" />
+                </div>
+            </div>
+           
+        </form>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn btn-primary" data-dismiss="modal" value="Batal"/>
+        <input type="button" id="save-button" class="btn btn-primary" data-bind="click:saveCommand" data-dismiss="modal" value="Simpan"/>
+    </div>
+</section>

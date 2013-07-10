@@ -1,5 +1,5 @@
 ﻿<section>
-    <h2><span data-bind="text: title"></span></h2>
+    <h2>Senarai Ruang Komersil</h2>
 
     <div class="pull-right">
         <form class="form-search">
@@ -24,13 +24,11 @@
                 <td>
                     <a data-bind="attr :{href :'/#/commercialspacedetail/' + BuildingId() + '/' + FloorName() + '/' + CommercialSpaceId()}, text:RegistrationNo"></a>
                 </td>
-                <td data-bind="text:LotName">
-                    
-                </td>
+                <td data-bind="text:LotName"></td>
                 <td>
                      <a data-bind="attr: { href: '/#/buildingdetail/' + BuildingId() }, text: BuildingName"></a>
                 </td>
-                <td >
+                <td>
                       <a data-bind="attr :{href :'/#/floorplan/' + BuildingId() + '/' + FloorName()}, text:FloorName"></a>
                 </td>
                 <td data-bind="text:Category">4</td>

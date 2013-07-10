@@ -44,36 +44,30 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Breeze.WebApi, Version=1.2.9.0, Culture=neutral, PublicKeyToken=f6085f1a45e2ac59, processorArchitecture=MSIL">
+    <Reference Include="Breeze.WebApi, Version=1.2.8.0, Culture=neutral, PublicKeyToken=f6085f1a45e2ac59, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Breeze.WebApi.1.3.6\lib\Breeze.WebApi.dll</HintPath>
+      <HintPath>..\..\..\packages\Breeze.WebApi.1.3.4\lib\Breeze.WebApi.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging">
       <HintPath>..\..\..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="DotNetOpenAuth.AspNet, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotNetOpenAuth.AspNet.4.3.1.13153\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.AspNet">
+      <HintPath>..\..\..\packages\DotNetOpenAuth.AspNet.4.3.0.13117\lib\net40-full\DotNetOpenAuth.AspNet.dll</HintPath>
     </Reference>
-    <Reference Include="DotNetOpenAuth.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotNetOpenAuth.Core.4.3.1.13153\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.Core">
+      <HintPath>..\..\..\packages\DotNetOpenAuth.Core.4.3.0.13117\lib\net40-full\DotNetOpenAuth.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotNetOpenAuth.OAuth.Core.4.3.1.13153\lib\net45-full\DotNetOpenAuth.OAuth.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.OAuth">
+      <HintPath>..\..\..\packages\DotNetOpenAuth.OAuth.Core.4.3.0.13117\lib\net40-full\DotNetOpenAuth.OAuth.dll</HintPath>
     </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotNetOpenAuth.OAuth.Consumer.4.3.1.13153\lib\net45-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer">
+      <HintPath>..\..\..\packages\DotNetOpenAuth.OAuth.Consumer.4.3.0.13117\lib\net40-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
     </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotNetOpenAuth.OpenId.Core.4.3.1.13153\lib\net45-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.OpenId">
+      <HintPath>..\..\..\packages\DotNetOpenAuth.OpenId.Core.4.3.0.13117\lib\net40-full\DotNetOpenAuth.OpenId.dll</HintPath>
     </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.1.13153\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty">
+      <HintPath>..\..\..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.0.13117\lib\net40-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -88,16 +82,7 @@
     </Reference>
     <Reference Include="Irony, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ca48ace7223ead47, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Breeze.WebApi.1.3.6\lib\Irony.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Core">
-      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.Core.1.0.0\lib\net40\Microsoft.AspNet.SignalR.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Owin">
-      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.Owin.1.0.0\lib\net45\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
-      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.SystemWeb.1.0.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <HintPath>..\..\..\packages\Breeze.WebApi.1.3.4\lib\Irony.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -107,9 +92,6 @@
     <Reference Include="Microsoft.Data.OData, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.Data.OData.5.5.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb">
-      <HintPath>..\..\..\packages\Microsoft.Owin.Host.SystemWeb.1.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -121,10 +103,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Owin">
-      <HintPath>..\..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="Spring.Core, Version=2.0.0.40000, Culture=neutral, processorArchitecture=MSIL">
@@ -180,9 +159,8 @@
       <Private>True</Private>
       <HintPath>..\..\..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.0-Beta1\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -248,23 +226,23 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AppController.config.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AppController.complaintlist.cs" />
+    <Compile Include="Controllers\AppController.complainttemplate.cs" />
+    <Compile Include="Controllers\AppController.config.cs" />
     <Compile Include="Controllers\AppController.cs" />
-    <Compile Include="Controllers\AppController.header.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Controllers\AppController.header.cs" />
+    <Compile Include="Controllers\AppController.nav.cs" />
     <Compile Include="Controllers\AppController.role.cs" />
     <Compile Include="Controllers\AppController.user.cs" />
+    <Compile Include="Controllers\AppController.users.cs" />
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
+    <Compile Include="Controllers\ComplaintController.cs" />
+    <Compile Include="Controllers\ComplaintTemplateController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\ContractSettingController.cs" />
-    <Compile Include="Controllers\AppController.nav.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
@@ -288,17 +266,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\AssemblyInfo.cs" />
-    <Compile Include="Helpers\DateTimeModelBinder.cs" />
-    <Compile Include="Helpers\GoogleMapHelper.cs" />
-    <Compile Include="Helpers\MobileCapableWebFormViewEngine.cs" />
-    <Compile Include="Helpers\OdataSqlTranslator.cs" />
-    <Compile Include="Helpers\QueryHelper.cs" />
-    <Compile Include="Helpers\Roles.cs" />
-    <Compile Include="Mocks\TemplateEngine.cs" />
-    <Compile Include="Models\JsRoute.cs" />
-    <Compile Include="Models\JsRouteSetting.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\durandal\amd\almond-custom.js" />
@@ -328,9 +295,98 @@
     <Content Include="App\services\Deposit.js" />
     <Content Include="App\services\domain.g.js" />
     <Content Include="App\services\logger.js" />
+    <Compile Include="Helpers\AssemblyInfo.cs" />
+    <Compile Include="Helpers\DateTimeModelBinder.cs" />
+    <Compile Include="Helpers\GoogleMapHelper.cs" />
+    <Compile Include="Helpers\MobileCapableWebFormViewEngine.cs" />
+    <Compile Include="Helpers\OdataSqlTranslator.cs" />
+    <Compile Include="Helpers\QueryHelper.cs" />
+    <Compile Include="Helpers\Roles.cs" />
+    <Compile Include="Mocks\TemplateEngine.cs" />
+    <Compile Include="Models\JsRoute.cs" />
+    <Compile Include="Models\JsRouteSetting.cs" />
+    <Compile Include="Models\Profile.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="App\viewmodels\complaint.assign.js" />
+    <Content Include="App\viewmodels\tenant.portal.js" />
+    <Content Include="App\viewmodels\complaintform.tenant.js" />
+    <Content Include="App\viewmodels\_tenant.complaint.js" />
+    <Content Include="App\viewmodels\_users.department.js" />
+    <Content Include="App\views\complaint.assign.html" />
+    <Content Include="App\views\tenant.portal.html" />
+    <Content Include="App\views\complaintform.tenant.html" />
+    <Content Include="App\views\_complaint.details.html" />
+    <Content Include="App\views\_tenant.complaint.html" />
+    <Content Include="App\views\_users.department.html" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="routes.config.js" />
+    <Content Include="Scripts\bootmetro-charms.js" />
+    <Content Include="Scripts\bootmetro.js" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap-datepicker.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\breeze.debug.js" />
+    <Content Include="App\viewmodels\complaint.close.js" />
+    <Content Include="App\views\complaint.close.html" />
+    <None Include="Scripts\breeze.intellisense.js" />
+    <Content Include="Scripts\breeze.min.js" />
+    <Content Include="Scripts\demo.js" />
+    <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
+    <Content Include="Scripts\guide.js" />
+    <Content Include="Scripts\holder.js" />
+    <None Include="Scripts\jquery-2.0.1.intellisense.js" />
+    <Content Include="Scripts\jquery-2.0.1.js" />
+    <Content Include="Scripts\jquery-2.0.1.min.js" />
+    <Content Include="Scripts\jquery-ui-1.10.3.js" />
+    <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
+    <Content Include="Scripts\jquery.blockUI.js" />
+    <Content Include="Scripts\jquery.form.js" />
+    <Content Include="Scripts\jquery.mousewheel.js" />
+    <Content Include="Scripts\jquery.scrollTo.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-2.2.1.debug.js" />
+    <Content Include="Scripts\knockout-2.2.1.js" />
+    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
+    <Content Include="Scripts\knockout.mapping-latest.js" />
+    <Content Include="Scripts\loadoperation.js" />
+    <Content Include="Scripts\modernizr-2.6.1.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\mustache.js" />
+    <Content Include="Scripts\q.js" />
+    <Content Include="Scripts\q.min.js" />
+    <Content Include="Scripts\sammy-0.7.4.js" />
+    <Content Include="Scripts\sammy-0.7.4.min.js" />
+    <Content Include="Scripts\string.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Scripts\_kendo-knockoutbindings.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Scripts\_uiready.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Filters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App\services\mockComplaintContext.js" />
+    <Content Include="App\services\mockComplaintTemplateContext.js" />
     <Content Include="App\services\mockRentContext.js" />
     <Content Include="App\services\mockTenantContext.js" />
-    <Content Include="App\services\Object.xslt" />
+    <Content Include="App\services\Object.xslt">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App\services\ReferenceObject.xslt" />
     <Content Include="App\services\Rent.js" />
     <Content Include="App\viewmodels\admindashboard.js" />
@@ -338,21 +394,19 @@
     <Content Include="App\viewmodels\building.details.js" />
     <Content Include="App\viewmodels\building.details.ts" />
     <Content Include="App\viewmodels\building.js" />
+    <Content Include="App\viewmodels\buildingbound.js" />
     <Content Include="App\viewmodels\buildingdetail.js" />
-    <Content Include="App\views\role.settings.html" />
-    <Content Include="Views\App\RoleSettingsJs.cshtml" />
-    <None Include="Views\App\UserProfileJs.cshtml" />
-    <Content Include="App\viewmodels\rebate.js" />
-    <Content Include="App\viewmodels\rentalapplication.selectspace.js" />
     <Content Include="App\viewmodels\commercialspace.js" />
     <Content Include="App\viewmodels\commercialspacedetail.js" />
-    <Content Include="App\viewmodels\buildingbound.js" />
+    <Content Include="App\viewmodels\complaint.form.js" />
+    <Content Include="App\viewmodels\complaint.inspection.js" />
+    <Content Include="App\viewmodels\complaint.js" />
+    <Content Include="App\viewmodels\complaint.template.form.js" />
+    <Content Include="App\viewmodels\contract.create.js" />
+    <Content Include="App\viewmodels\contractdetails.js" />
     <Content Include="App\viewmodels\contractlist.js" />
     <Content Include="App\viewmodels\contracttype.js" />
     <Content Include="App\viewmodels\contracttypetemplate.js" />
-    <Content Include="App\viewmodels\contractdetails.js" />
-    <Content Include="App\viewmodels\_rentalapplication.verify.offer.js" />
-    <Content Include="App\viewmodels\contract.create.js" />
     <Content Include="App\viewmodels\deposit.js" />
     <Content Include="App\viewmodels\floorplan.js" />
     <Content Include="App\viewmodels\home.js" />
@@ -361,66 +415,90 @@
     <Content Include="App\viewmodels\offerdetails.js" />
     <Content Include="App\viewmodels\organization.detail.js" />
     <Content Include="App\viewmodels\payment.js" />
-    <Content Include="App\viewmodels\_setting.commercialspace.category.js" />
-    <Content Include="App\viewmodels\_setting.interest.js" />
-    <Content Include="App\viewmodels\_tenant.rebate.js" />
-    <Content Include="App\viewmodels\_tenant.rent.js" />
+    <Content Include="App\viewmodels\rebate.js" />
     <Content Include="App\viewmodels\rentalapplication.js" />
+    <Content Include="App\viewmodels\rentalapplication.selectspace.js" />
+    <Content Include="App\viewmodels\rentalapplication.verify.js" />
     <Content Include="App\viewmodels\returnedapplication.js" />
     <Content Include="App\viewmodels\setting.js" />
     <Content Include="App\viewmodels\shell.js" />
+    <Content Include="App\viewmodels\tenant.detail.js" />
     <Content Include="App\viewmodels\tenant.js" />
-    <Content Include="App\viewmodels\rentalapplication.verify.js" />
     <Content Include="App\viewmodels\_audittrail.list.js" />
     <Content Include="App\viewmodels\_commercialspace.contract.js" />
     <Content Include="App\viewmodels\_contract.clauses.js" />
     <Content Include="App\viewmodels\_contract.documents.js" />
+    <Content Include="App\viewmodels\_rentalapplication.verify.offer.js" />
+    <Content Include="App\viewmodels\_setting.commercialspace.category.js" />
+    <Content Include="App\viewmodels\_setting.interest.js" />
+    <Content Include="App\viewmodels\_setting.state.js" />
+    <Content Include="App\viewmodels\_tenant.adhoc.js" />
+    <Content Include="App\viewmodels\_tenant.contract.js" />
+    <Content Include="App\viewmodels\_tenant.rebate.js" />
+    <Content Include="App\viewmodels\_tenant.rent.js" />
+    <Content Include="App\viewmodels\_users.designation.js" />
+    <Content Include="App\viewmodels\_users.role.js" />
     <Content Include="App\views\admindashboard.html" />
     <Content Include="App\views\applicationlist.html" />
     <Content Include="App\views\building.html" />
+    <Content Include="App\views\buildingbound.html" />
     <Content Include="App\views\buildingdetail.html" />
-    <Content Include="App\views\rebate.html" />
-    <Content Include="App\views\rentalapplication.selectspace.html" />
     <Content Include="App\views\commercialspace.html" />
     <Content Include="App\views\commercialspacedetail.html" />
-    <Content Include="App\views\buildingbound.html" />
+    <Content Include="App\views\complaint.form.html" />
+    <Content Include="App\views\complaint.html" />
+    <Content Include="App\views\complaint.inspection.html" />
+    <Content Include="App\views\complaint.template.form.html" />
+    <Content Include="App\views\contract.create.html" />
+    <Content Include="App\views\contractdetails.html" />
     <Content Include="App\views\contractlist.html" />
     <Content Include="App\views\contracttype.html" />
     <Content Include="App\views\contracttypetemplate.html" />
-    <Content Include="App\views\contractdetails.html" />
-    <Content Include="App\views\contract.create.html" />
     <Content Include="App\views\deposit.html" />
     <Content Include="App\views\floorplan.html" />
     <Content Include="App\views\footer.html" />
-    <Content Include="Content\toastr.css" />
-    <Content Include="Content\toastr.less" />
-    <None Include="Scripts\jquery-2.0.2.intellisense.js" />
-    <Content Include="Scripts\jquery-2.0.2.js" />
-    <Content Include="Scripts\jquery-2.0.2.min.js" />
-    <Content Include="Scripts\jquery-2.0.2.min.map" />
-    <None Include="Views\App\HeaderHtml.cshtml" />
+    <Content Include="App\views\header.html" />
     <Content Include="App\views\home.html" />
     <Content Include="App\views\lotdetail.html" />
     <Content Include="App\views\nav.html" />
     <Content Include="App\views\offerdetails.html" />
+    <Content Include="App\views\organization.detail.html" />
     <Content Include="App\views\payment.html" />
-    <Content Include="App\views\toolbar.html" />
-    <Content Include="App\views\_setting.commercialspace.category.html" />
-    <Content Include="App\views\_setting.interest.html" />
-    <Content Include="App\views\_tenant.rebate.html" />
-    <Content Include="App\views\_tenant.adhoc.html" />
-    <Content Include="App\views\_tenant.rent.html" />
+    <Content Include="App\views\rebate.html" />
     <Content Include="App\views\rentalapplication.html" />
+    <Content Include="App\views\rentalapplication.selectspace.html" />
+    <Content Include="App\views\rentalapplication.verify.html" />
     <Content Include="App\views\returnedapplication.html" />
     <Content Include="App\views\setting.html" />
     <Content Include="App\views\shell.html" />
     <Content Include="App\views\tenant.detail.html" />
     <Content Include="App\views\tenant.html" />
-    <Content Include="App\views\rentalapplication.verify.html" />
+    <Content Include="App\views\toolbar.html" />
     <Content Include="App\views\_audittrail.list.html" />
     <Content Include="App\views\_commercialspace.contract.html" />
+    <Content Include="App\views\_complaint.commercialspace.detail.html" />
+    <Content Include="App\views\_complaint.tenant.detail.html" />
+    <Content Include="App\views\_contract.clauses.html" />
+    <Content Include="App\views\_contract.documents.html" />
     <Content Include="App\views\_contract.form.html" />
+    <Content Include="App\views\_rentalapplication.verify.offer.html" />
+    <Content Include="App\views\_setting.commercialspace.category.html" />
+    <Content Include="App\views\_setting.interest.html" />
+    <Content Include="App\views\_setting.state.html" />
+    <Content Include="App\views\_tenant.adhoc.html" />
     <Content Include="App\views\_tenant.contract.html" />
+    <Content Include="App\views\_tenant.rebate.html" />
+    <Content Include="App\views\_tenant.rent.html" />
+    <Content Include="App\views\_users.designation.html" />
+    <Content Include="App\views\_users.role.html" />
+    <Content Include="bootstrap\css\bootstrap-responsive.css" />
+    <Content Include="bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="bootstrap\css\bootstrap.css" />
+    <Content Include="bootstrap\css\bootstrap.min.css" />
+    <Content Include="bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="bootstrap\js\bootstrap.js" />
+    <Content Include="bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
@@ -471,6 +549,8 @@
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\metro-ui-dark.css" />
     <Content Include="Content\metro-ui-light.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\site2.css" />
     <Content Include="Content\sprite.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
@@ -535,14 +615,15 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\widgets.css" />
     <Content Include="default.aspx" />
-    <Content Include="favicon.ico" />
-    <Content Include="Global.asax" />
+    <Content Include="Images\accent.png" />
     <Content Include="Images\azure\drawer-icons.1.png" />
     <Content Include="Images\azure\icon-drawer-add.png" />
     <Content Include="Images\azure\icons-action-32-sprites.png" />
+    <Content Include="Images\bullet.png" />
     <Content Include="Images\dashboard-approved.png" />
     <Content Include="Images\dashboard-completed.png" />
     <Content Include="Images\dashboard-confirmed.png" />
@@ -552,7 +633,18 @@
     <Content Include="Images\dashboard-offerrejected.png" />
     <Content Include="Images\dashboard-returned.png" />
     <Content Include="Images\dashboard-waiting.png" />
+    <Content Include="Images\heroAccent.png" />
     <Content Include="Images\no-image.png" />
+    <Content Include="Images\orderedList0.png" />
+    <Content Include="Images\orderedList1.png" />
+    <Content Include="Images\orderedList2.png" />
+    <Content Include="Images\orderedList3.png" />
+    <Content Include="Images\orderedList4.png" />
+    <Content Include="Images\orderedList5.png" />
+    <Content Include="Images\orderedList6.png" />
+    <Content Include="Images\orderedList7.png" />
+    <Content Include="Images\orderedList8.png" />
+    <Content Include="Images\orderedList9.png" />
     <Content Include="Images\spinner-md.gif" />
     <Content Include="Images\user_24_white.png" />
     <Content Include="kendo\js\cultures\kendo.culture.ms-MY.js" />
@@ -678,18 +770,29 @@
     <Content Include="kendo\styles\textures\stripe6.png" />
     <Content Include="kendo\styles\textures\transparency.png" />
     <Content Include="kendo\styles\textures\transtexture.png" />
-    <Content Include="routes.config.js" />
-    <Content Include="Scripts\bootmetro-charms.js" />
-    <Content Include="Scripts\bootmetro.js" />
-    <Content Include="Scripts\bootstrap-datepicker.js" />
-    <Content Include="Scripts\bootstrap-datepicker.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="kendo\styles\images\KendoUI.ttf" />
-    <Content Include="kendo\styles\images\KendoUI.woff" />
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\dependencies\ledger.msxl\ledger.msxl.csproj">
+      <Project>{247853F5-C1F5-4B4D-8EE4-C14B0E93706A}</Project>
+      <Name>ledger.msxl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\domain\domain.commercialspace\domain.commercialspace.csproj">
+      <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
+      <Name>domain.commercialspace</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\font\fontawesome-webfont.eot" />
+    <Content Include="Content\font\fontawesome-webfont.ttf" />
+    <Content Include="Content\font\fontawesome-webfont.woff" />
+    <Content Include="Content\font\FontAwesome.otf" />
     <Content Include="Content\font\IcoMoon.eot" />
     <Content Include="Content\font\IcoMoon.ttf" />
     <Content Include="Content\font\IcoMoon.woff" />
+    <Content Include="Content\font\icomoon97172\IcoMoon.eot" />
+    <Content Include="Content\font\icomoon97172\IcoMoon.ttf" />
+    <Content Include="Content\font\icomoon97172\IcoMoon.woff" />
     <Content Include="Content\font\opensans-bold-webfont.eot" />
     <Content Include="Content\font\opensans-bold-webfont.ttf" />
     <Content Include="Content\font\opensans-bold-webfont.woff" />
@@ -702,122 +805,48 @@
     <Content Include="Content\font\opensans-semibold-webfont.eot" />
     <Content Include="Content\font\opensans-semibold-webfont.ttf" />
     <Content Include="Content\font\opensans-semibold-webfont.woff" />
-    <Content Include="Content\font\icomoon97172\IcoMoon.eot" />
-    <Content Include="Content\font\icomoon97172\IcoMoon.ttf" />
-    <Content Include="Content\font\icomoon97172\IcoMoon.woff" />
-    <Content Include="App\views\_contract.clauses.html" />
-    <Content Include="App\views\_contract.documents.html" />
-    <Content Include="Content\font\fontawesome-webfont.woff" />
-    <Content Include="Content\font\fontawesome-webfont.ttf" />
-    <Content Include="Content\font\fontawesome-webfont.eot" />
-    <Content Include="Content\font\FontAwesome.otf" />
-    <Content Include="App\views\organization.detail.html" />
-    <Content Include="App\viewmodels\tenant.detail.js" />
-    <Content Include="App\viewmodels\_tenant.contract.js" />
-    <Content Include="App\viewmodels\_tenant.adhoc.js" />
-    <Content Include="App\views\_rentalapplication.verify.offer.html" />
-    <Content Include="App\views\_setting.state.html" />
-    <Content Include="App\viewmodels\_setting.state.js" />
-    <None Include="Properties\PublishProfiles\web.sph.pubxml" />
+    <Content Include="Content\toastr.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="kendo\styles\images\KendoUI.ttf" />
+    <Content Include="kendo\styles\images\KendoUI.woff" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
-    <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
-    <None Include="Scripts\breeze.intellisense.js" />
-    <Content Include="Scripts\breeze.debug.js" />
-    <Content Include="Scripts\breeze.min.js" />
-    <Content Include="Scripts\demo.js" />
-    <Content Include="Scripts\guide.js" />
-    <Content Include="Scripts\holder.js" />
-    <Content Include="Scripts\jquery-ui-1.10.3.js" />
-    <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
-    <Content Include="Scripts\jquery.blockUI.js" />
-    <Content Include="Scripts\jquery.form.js" />
-    <Content Include="Scripts\jquery.mousewheel.js" />
-    <Content Include="Scripts\jquery.scrollTo.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.signalR-1.0.0.js" />
-    <Content Include="Scripts\jquery.signalR-1.0.0.min.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\knockout-2.2.1.debug.js" />
-    <Content Include="Scripts\knockout-2.2.1.js" />
-    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
-    <Content Include="Scripts\knockout.mapping-latest.js" />
-    <Content Include="Scripts\loadoperation.js" />
-    <Content Include="Scripts\modernizr-2.6.1.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\moment.js" />
-    <Content Include="Scripts\moment.min.js" />
-    <Content Include="Scripts\mustache.js" />
-    <Content Include="Scripts\q.js" />
-    <Content Include="Scripts\q.min.js" />
-    <Content Include="Scripts\sammy-0.7.4.js" />
-    <Content Include="Scripts\sammy-0.7.4.min.js" />
-    <Content Include="Scripts\string.js" />
-    <Content Include="Scripts\toastr.js" />
-    <Content Include="Scripts\toastr.min.js" />
-    <Content Include="Scripts\underscore.js" />
-    <Content Include="Scripts\underscore.min.js" />
-    <Content Include="Scripts\_kendo-knockoutbindings.js" />
-    <Content Include="Scripts\_uiready.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Content\Site.css" />
-    <Content Include="Scripts\_references.js" />
-    <Content Include="Images\accent.png" />
-    <Content Include="Images\bullet.png" />
-    <Content Include="Images\heroAccent.png" />
-    <Content Include="Images\orderedList0.png" />
-    <Content Include="Images\orderedList1.png" />
-    <Content Include="Images\orderedList2.png" />
-    <Content Include="Images\orderedList3.png" />
-    <Content Include="Images\orderedList4.png" />
-    <Content Include="Images\orderedList5.png" />
-    <Content Include="Images\orderedList6.png" />
-    <Content Include="Images\orderedList7.png" />
-    <Content Include="Images\orderedList8.png" />
-    <Content Include="Images\orderedList9.png" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\HotTowel\index.cshtml" />
-    <Content Include="Views\HotTowel\_splash.cshtml" />
-    <Content Include="Views\App\ConfigJs.cshtml" />
+    <Content Include="Scripts\jquery-2.0.1.min.map" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\Flyout.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\UpdateProfile.cshtml" />
+    <Content Include="Views\App\ComplaintListHtml.cshtml" />
+    <Content Include="Views\App\ComplaintListJs.cshtml" />
+    <Content Include="Views\App\ComplaintTemplateListHtml.cshtml" />
+    <Content Include="Views\App\ComplaintTemplateListJs.cshtml" />
+    <Content Include="Views\App\ConfigJs.cshtml" />
+    <Content Include="Views\App\UsersHtml.cshtml" />
+    <Content Include="Views\App\UsersJs.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\HotTowel\index.cshtml" />
+    <Content Include="Views\HotTowel\_splash.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Web.config" />
+    <Content Include="Views\App\HeaderHtml.cshtml" />
+    <Content Include="Views\App\RoleSettingsJs.cshtml" />
     <Content Include="Views\App\UserProfileHtml.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Filters\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\dependencies\ledger.msxl\ledger.msxl.csproj">
-      <Project>{247853F5-C1F5-4B4D-8EE4-C14B0E93706A}</Project>
-      <Name>ledger.msxl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\domain\domain.commercialspace\domain.commercialspace.csproj">
-      <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
-      <Name>domain.commercialspace</Name>
-    </ProjectReference>
+    <Content Include="Views\App\UserProfileJs.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -848,7 +877,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.7\tools\Microsoft.Bcl.Build.targets" />
+  <Import Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.6\tools\Microsoft.Bcl.Build.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

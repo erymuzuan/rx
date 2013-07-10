@@ -14,6 +14,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         id = ko.observable(),
         registrationNo = ko.observable(),
         activate = function (routeData) {
+            
             id(routeData.id);
             var tcs = new $.Deferred();
             context.loadOneAsync('CommercialSpace', 'CommercialSpaceId eq ' + id()).done(function(cs) {
@@ -62,6 +63,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 logger.log("Data has been successfully saved ", e, "rentalapplication", true);
                 isBusy(false);
                 registrationNo(e.registrationNo);
+                vm.rentalapplication.clear();
                 $('#success-panel').modal({})
                     .on('hidden', function() {
                         router.navigateTo('/#/');

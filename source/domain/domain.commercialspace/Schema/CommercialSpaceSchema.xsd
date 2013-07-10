@@ -476,13 +476,18 @@
 			<xs:enumeration value="Rental"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:element name="User">
+	<xs:element name="UserProfile">
 		<xs:complexType>
-			<xs:attribute name="UserId" type="xs:int" use="required"/>
-			<xs:attribute name="OrganizationId" type="xs:int" use="required"/>
-			<xs:attribute name="UserName" type="xs:string" use="required"/>
-			<xs:attribute name="Email" type="xs:string" use="required"/>
+			<xs:attribute name="Username" type="xs:string" use="required"/>
 			<xs:attribute name="FullName" type="xs:string" use="required"/>
+			<xs:attribute name="Designation" type="xs:string" use="required"/>
+			<xs:attribute name="Telephone" type="xs:string" use="required"/>
+			<xs:attribute name="Mobile" type="xs:string" use="required"/>
+			<xs:attribute name="RoleTypes" type="xs:string" use="required"/>
+			<xs:attribute name="StartModule" type="xs:string" use="required"/>
+			<xs:attribute name="Email" type="xs:string" use="required"/>
+			<xs:attribute name="UserProfileId" type="xs:int" use="required"/>
+			<xs:attribute name="Department" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Deposit">
@@ -561,27 +566,6 @@
 		<xs:complexType>
 			<xs:attribute name="IsAuthorized" type="xs:boolean" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Complaint">
-		<xs:complexType>
-			<xs:all>
-				<xs:element ref="Contact"/>
-				<xs:element ref="Address"/>
-				<xs:element name="ReplyCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Reply" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:all>
-			<xs:attribute name="ComplaintId" type="xs:string" use="required"/>
-			<xs:attribute name="No" type="xs:string" use="required"/>
-			<xs:attribute name="Status" type="xs:string" use="required"/>
-			<xs:attribute name="Title" type="xs:string" use="required"/>
-			<xs:attribute name="Text" type="xs:string" use="required"/>
-			<xs:attribute name="Category" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Reply">
@@ -685,4 +669,113 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Complaint">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="CustomFieldValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomFieldValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="ComplaintId" type="xs:int" use="required"/>
+			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
+			<xs:attribute name="Remarks" type="xs:string" use="required"/>
+			<xs:attribute name="TenantId" type="xs:int" use="required"/>
+			<xs:attribute name="CommercialSpace" type="xs:string" use="required"/>
+			<xs:attribute name="Status" type="xs:string" use="required"/>
+			<xs:attribute name="Category" type="xs:string" use="required"/>
+			<xs:attribute name="SubCategory" type="xs:string" use="required"/>
+			<xs:attribute name="ReferenceNo" type="xs:string" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="AttachmentStoreId" type="xs:string" use="required"/>
+			<xs:attribute name="Department" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CustomField">
+		<xs:complexType>
+			<xs:attribute name="Order" type="xs:int" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="IsMandatory" type="xs:boolean" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="Size" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CustomFieldValue">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="Value" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ComplaintTemplate">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="ComplaintCategoryCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ComplaintCategory" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ComplaintCustomFieldCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ComplaintCustomField" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="ComplaintTemplateId" type="xs:int" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ComplaintCategory">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="SubCategoryCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ComplaintSubCategory" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ComplaintCustomField">
+		<xs:complexType>
+			<xs:attribute name="Order" type="xs:int" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="IsMandatory" type="xs:boolean" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="Size" type="xs:int" use="required"/>
+			<xs:attribute name="Listing" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Inspection">
+		<xs:complexType>
+			<xs:attribute name="PersonInCharge" type="xs:string" use="required"/>
+			<xs:attribute name="AssignedDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Remark" type="xs:string" use="required"/>
+			<xs:attribute name="InspectionDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Resolution" type="xs:string" use="required"/>
+			<xs:attribute name="Observation" type="xs:string" use="required"/>
+			<xs:attribute name="Contractor" type="xs:string" use="required"/>
+			<xs:attribute name="Priority" type="xs:string" use="required"/>
+			<xs:attribute name="Severity" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ComplaintSubCategory">
+		<xs:complexType>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Maintenance"/>
 </xs:schema>

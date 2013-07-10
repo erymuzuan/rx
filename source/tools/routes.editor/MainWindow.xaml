@@ -20,12 +20,11 @@
                              ShowInsertRow="True"
                              vm:CustomFilterBehavior.TextBox="{Binding ElementName=filter}"
                              Margin="5" Grid.Row="1" ItemsSource="{Binding RouteCollection}">
-            
         </telerik:RadGridView>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
             <telerik:RadButton FontSize="18" Margin="5" Grid.Row="2" Content="Validate" Command="{Binding ValidateCommand}" />
+            <telerik:RadButton FontSize="18" Margin="5" Grid.Row="2" Content="Add" Command="{Binding AddCommand}" />
             <telerik:RadButton FontSize="18" HorizontalAlignment="Left" Margin="5" Grid.Row="2" Content="Save" Command="{Binding SaveCommand}" />
-
         </StackPanel>
     </Grid>
 </Window>

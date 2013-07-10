@@ -1,0 +1,82 @@
+﻿@using Newtonsoft.Json
+@model Bespoke.Sph.Commerspace.Web.Controllers.AdminController
+@{
+    ViewBag.Title = "UsersJs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var roles = Roles.GetAllRoles();
+    
+}
+
+<script type="text/javascript" data-script="true">
+    define(['services/datacontext','viewmodels/_users.role','viewmodels/_users.designation','viewmodels/_users.department'], function (context,rolevm,designationvm,departmentvm) {
+        var isBusy = ko.observable(false),
+            roles = @Html.Raw(JsonConvert.SerializeObject(roles)),
+            profiles = ko.observableArray(),
+            activate = function() {
+                var query = String.format("UserProfileId gt 0");
+                var tcs = new $.Deferred();
+                loadDetails();
+                var profileTask = context.loadAsync("UserProfile", query);
+                var designationTask = context.loadOneAsync("Setting", "Key eq 'Designation.Role'");
+                var departmentTask = context.loadOneAsync("Setting", "Key eq 'Departments'");
+                $.when(designationTask,profileTask,departmentTask)
+                 .then(function(s,p,d) {
+                     isBusy(false);
+                     if (s) {
+                         var designation = JSON.parse(ko.mapping.toJS(s.Value));;
+                         vm.designationOptions(designation);
+                     } if (d) {
+                         var departments = JSON.parse(ko.mapping.toJS(d.Value));;
+                         vm.departmentOptions(departments);
+                     }
+                        
+                     vm.profiles(p.itemCollection);
+                     tcs.resolve(true);
+                 });
+                return tcs.promise();
+            },
+            loadDetails = function() {
+                rolevm.activate(roles);
+                designationvm.activate(roles);
+                departmentvm.activate();
+            },
+            save = function() {
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON({profile : vm.profile}) ;
+                isBusy(true);
+
+                context.post(data, "/Admin/AddUser")
+                    .then(function(result) {
+                        isBusy(false);
+                        vm.profiles.push(result);
+                        tcs.resolve(true);
+                    });
+                return tcs.promise();
+            };
+            
+
+        var vm = {
+            activate: activate,
+            profile: {
+                FullName : ko.observable(),
+                UserName : ko.observable(),
+                Email : ko.observable(),
+                Password : ko.observable(),
+                ConfirmPassword: ko.observable(''),
+                Status : ko.observable(),
+                Designation: ko.observable(),
+                Department: ko.observable(),
+                Telephone : ko.observable(),
+                Mobile : ko.observable(),
+                IsNew : ko.observable()
+            },
+            profiles: profiles,
+            designationOptions : ko.observableArray(),
+            departmentOptions : ko.observableArray(),
+            saveCommand: save
+        };
+
+        return vm;
+    });
+</script>

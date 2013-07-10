@@ -5,7 +5,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public partial class AppController
     {
-        //[ActionName("user.profile")]
         public ActionResult UserProfileHtml()
         {
             return View();

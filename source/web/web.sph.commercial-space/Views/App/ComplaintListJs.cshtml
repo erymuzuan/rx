@@ -1,0 +1,33 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript" data-script="true">
+    define(['services/datacontext'], function (context) {
+        var isBusy = ko.observable(false),
+            activate = function () {
+                var query = String.format("ComplaintId gt 0");
+                
+                var tcs = new $.Deferred();
+                context.loadAsync("Complaint", query)
+                    .then(function(lo) {
+                        isBusy(false);
+                        vm.complaintCollection(lo.itemCollection);
+                        
+                        tcs.resolve(true);
+                    });
+                return tcs.promise();
+            };
+            
+
+        var vm = {
+            activate: activate,
+            complaintCollection: ko.observableArray()
+        };
+
+        return vm;
+    });
+</script>

@@ -39,11 +39,11 @@ define(['services/datacontext',
             };
 
         var addLot = function (floor) {
-            var url = '/#/lotdetail/' + vm.building.BuildingId() + '/' + floor.Name();
+            var url = '/#/lotdetail/' + vm.building().BuildingId() + '/' + floor.Name();
             router.navigateTo(url);
         },
             viewFloorPlan = function (floor) {
-                var url = '/#/floorplan/' + vm.building.BuildingId() + '/' + floor.Name();
+                var url = '/#/floorplan/' + vm.building().BuildingId() + '/' + floor.Name();
                 router.navigateTo(url);
             };
 
@@ -53,7 +53,7 @@ define(['services/datacontext',
         };
 
         var removeFloor = function (floor) {
-            vm.building.FloorCollection.remove(floor);
+            vm.building().FloorCollection.remove(floor);
 
         };
 
@@ -64,16 +64,16 @@ define(['services/datacontext',
                 Note: ko.observable(),
                 Size: ko.observable()
             };
-            vm.building.FloorCollection.push(floor);
+            vm.building().FloorCollection.push(floor);
         };
 
         var saveAsync = function () {
             var tcs = new $.Deferred();
-            var data = ko.mapping.toJSON(vm.building);
+            var data = ko.mapping.toJSON(vm.building());
             context.post(data, "/Building/SaveBuilding")
                 .done(function (e) {
                     if (e.status) {
-                        vm.building.BuildingId(e.buildingId);
+                        vm.building().BuildingId(e.buildingId);
                         logger.log(e.message, e, "buildingdetail", true);
                     } else {
                         logger.logError(e.message, e, this, true);
@@ -86,13 +86,13 @@ define(['services/datacontext',
         var showMap = function () {
             isBusy(true);
             var point = new google.maps.LatLng(3.1282, 101.6441);
-            var buildingId = vm.building.BuildingId();
+            var buildingId = vm.building().BuildingId();
             if (!buildingId) {
                 mapvm.geocode(
-                    vm.building.Address.Street() + ","
-                   + vm.building.Address.City() + ","
-                   + vm.building.Address.Postcode() + ","
-                   + vm.building.Address.State() + ","
+                    vm.building().Address.Street() + ","
+                   + vm.building().Address.City() + ","
+                   + vm.building().Address.Postcode() + ","
+                   + vm.building().Address.State() + ","
                    + "Malaysia.")
                 .then(function (result) {
                     if (result.status) {
@@ -152,7 +152,7 @@ define(['services/datacontext',
                     return false;
                 }
                 var tcs = new $.Deferred();
-                var data = JSON.stringify({ buildingId: vm.building.BuildingId(), path: mapvm.getEncodedPath(buildingPolygon) });
+                var data = JSON.stringify({ buildingId: vm.building().BuildingId(), path: mapvm.getEncodedPath(buildingPolygon) });
                 context
                     .post(data, "/Building/SaveMap")
                     .then(function (e) {

@@ -3,8 +3,6 @@
     var title = ko.observable(''),
         isBusy = ko.observable(false),
         activate = function() {
-            title('Senarai ruang komersil');
-
             var tcs = new $.Deferred();
             context.loadAsync("CommercialSpace", "CommercialSpaceId gt 0").done(function(lo) {
                 vm.commercialspaces(lo.itemCollection);
@@ -16,8 +14,7 @@
     var vm = {
         activate: activate,
         isBusy : isBusy,
-        commercialspaces: ko.observableArray([]),
-        title: title
+        commercialspaces: ko.observableArray([])
     };
 
     return vm;

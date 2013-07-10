@@ -23,6 +23,10 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         {
             return await ExecuteAsync<Contract>(filter, page, size, includeTotal);
         }
+        public async Task<ActionResult> Complaint(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Complaint>(filter, page, size, includeTotal);
+        }
 
         public async Task<ActionResult> AuditTrail(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
@@ -42,6 +46,11 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         public async Task<ActionResult> CommercialSpace(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<CommercialSpace>(filter, page, size, includeTotal);
+        }
+
+        public async Task<ActionResult> ComplaintTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<ComplaintTemplate>(filter, page, size, includeTotal);
         }
 
         public async Task<ActionResult> Deposit(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
@@ -71,6 +80,11 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         public async Task<ActionResult> Payment(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Payment>(filter, page, size, includeTotal);
+        }
+        
+        public async Task<ActionResult> UserProfile(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<UserProfile>(filter, page, size, includeTotal);
         }
 
         public async Task<ActionResult> Tenant(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
