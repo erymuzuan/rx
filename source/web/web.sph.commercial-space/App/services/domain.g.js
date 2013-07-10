@@ -1027,6 +1027,30 @@ bespoke.sphcommercialspace.domain.ComplaintSubCategory = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.Maintenance = function (webId) {
+
+    var model = {
+        MaintenanceId: ko.observable(),
+        ComplaintId: ko.observable(),
+        WorkOrderNo: ko.observable(),
+        Department: ko.observable(),
+        Status: ko.observable(),
+        Resolution: ko.observable(),
+        Officer: ko.observable(),
+        StartDate: ko.observable(),
+        EndDate: ko.observable(),
+        Complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.MaintenancePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.MaintenancePartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {
