@@ -18,8 +18,15 @@
                         tcs.resolve(true);
                     });
                 return tcs.promise();
+            },            
+            viewAttached = function() {
+
+                $('#status-option').on('click', 'button', function(e) {
+                    var status = ko.dataFor(this);
+                    vm.selectedStatus(status);
+                });
             },
-            
+
             assign = function() {
                var tcs = new $.Deferred();
                var data = ko.toJSON(vm.maintenances);
@@ -36,9 +43,26 @@
 
         var vm = {
             activate: activate,
+            viewAttached: viewAttached,
             maintenances: ko.observableArray(),
+            selectedStatus : ko.observable(),
+            statusOptions : ko.observableArray(['New','Inspection', 'Maintenance']),
             assignCommand : assign
         };
+
+        vm.selectedStatus.subscribe(function(status) {
+            var query = String.format("Status eq '{0}'", status);
+            var tcs = new $.Deferred();
+
+            context.loadAsync("Maintenance", query)
+                .then(function(lo) {
+                    isBusy(false);
+                    vm.maintenances(lo.itemCollection);
+                    tcs.resolve(true);
+                });
+            return tcs.promise();
+
+        });
 
         return vm;
     });

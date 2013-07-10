@@ -36,21 +36,25 @@ define(['services/datacontext'],
                 var category = new bespoke.sphcommercialspace.domain.ComplaintCategory();
                 vm.complaintTemplate().ComplaintCategoryCollection.push(category);
             },
-            addSubCategory = function() {
-                var subCategory = {subCategory:ko.observable()};
-                vm.complaintCategory().SubCategoryCollection.push(subCategory);
+            addSubCategory = function () {
+                vm.subCategoryOptions.push({ text: ko.observable() });
             },
-            updateCategory = function() {
-                 vm.complaintTemplate().ComplaintCategoryCollection.push(vm.complaintCategory());
+
+            removeSubCategory = function (sub) {
+                vm.subCategoryOptions.remove(sub);
             },
-            removeCategory = function(category) {
+
+            updateCategory = function () {
+                vm.complaintTemplate().ComplaintCategoryCollection.push(vm.selectedComplaintCategory());
+            },
+            removeCategory = function (category) {
                 vm.complaintTemplate().ComplaintCategoryCollection.remove(category);
             },
             addCustomField = function () {
                 var customfield = new bespoke.sphcommercialspace.domain.ComplaintCustomField();
                 vm.complaintTemplate().ComplaintCustomFieldCollection.push(customfield);
             },
-            removeCustomField = function(customfield) {
+            removeCustomField = function (customfield) {
                 vm.complaintTemplate().ComplaintCustomFieldCollection.remove(customfield);
             },
             save = function () {
@@ -64,20 +68,45 @@ define(['services/datacontext'],
                         tcs.resolve(result);
                     });
                 return tcs.promise();
-            };
+            },
+
+        editCategory = function (category) {
+            vm.selectedComplaintCategory(category);
+            var subs = _(category.SubCategoryCollection()).map(function (s) {
+                return { text: ko.observable(s) };
+            });
+
+            vm.subCategoryOptions(subs);
+        },
+
+         saveSubCategory = function () {
+             var subs = (vm.subCategoryOptions()).map(function(s) {
+                 return s.text();
+             });
+             vm.selectedComplaintCategory().SubCategoryCollection(subs);
+         };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
+            
+            subCategoryOptions: ko.observableArray(),
+            
             complaintTemplate: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
-            complaintCategory : ko.observable(new bespoke.sphcommercialspace.domain.ComplaintCategory()),
+            selectedComplaintCategory: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintCategory()),
+            
             addComplaintCategory: addComplaintCategory,
-            addCustomField: addCustomField,
-            addSubCategory: addSubCategory,
             removeCategory: removeCategory,
+            addCustomField: addCustomField,
             removeCustomField: removeCustomField,
-            updateCategoryCommand : updateCategory,
-            saveCommand: save
+            addSubCategory: addSubCategory,
+            removeSubCategory: removeSubCategory,
+            
+            updateCategoryCommand: updateCategory,
+            saveCommand: save,
+
+            editCategory: editCategory,
+            saveSubCategoryCommand: saveSubCategory
         };
 
         return vm;

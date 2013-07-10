@@ -39,7 +39,8 @@
                     <td>
                         <input type="text" data-bind="value: Description" /></td>
                     <td><a type="button" class="btn"
-                        data-toggle="modal"
+                           data-toggle="modal"
+                           data-bind="click: $root.setCategoryParent"
                         href="#category-details-modal">Sub Kategori</a></td>
                     <td>
                         <input type="button" class="btn btn-danger" data-bind="click: $root.removeCategory" value="-"/>
@@ -98,7 +99,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h3>Senarai Subkategori</h3>
     </div>
-    <div class="modal-body" data-bind="with: complaintCategory">
+    <div class="modal-body">
         <form class="form-horizontal">
             <h5>Sub Kategori</h5>
             <input type="button" value="+" class="btn btn-mini pull-right" data-bind="click: $root.addSubCategory"/>
@@ -106,12 +107,16 @@
             <thead>
                 <tr>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: SubCategoryCollection">
+            <tbody data-bind="foreach: subCategoryOptions">
                 <tr>
                     <td>
-                        <input type="text" data-bind="value: Description"/>
+                        <input type="text" data-bind="value: text"/>
+                    </td>
+                    <td>
+                        <a href="#category-details-modal" class="btn btn-danger" data-bind="click : $root.removeSubCategory">-</a>
                     </td>
                 </tr>
             </tbody>
@@ -120,7 +125,7 @@
     
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click : saveSubCategoryCommand" />
     </div>
 </section>
 
