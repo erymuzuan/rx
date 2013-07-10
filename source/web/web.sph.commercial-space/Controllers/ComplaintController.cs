@@ -29,10 +29,19 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var context = new SphDataContext();
             var complaint = await context.LoadOneAsync<Complaint>(c => c.ComplaintId == comp.ComplaintId);
             complaint.Status = "InProgress";
+            complaint.Department = comp.Department;
+
+            var maintenance = new Maintenance();
+            maintenance.Status = "New";
+            maintenance.Resolution = "Not Started";
+            maintenance.Department = comp.Department;
+            maintenance.ComplaintId = comp.ComplaintId;
+            maintenance.StartDate = null;
+            maintenance.EndDate = null;
             
             using (var session = context.OpenSession())
             {
-                session.Attach(complaint);
+                session.Attach(complaint,maintenance);
                 await session.SubmitChanges();
             }
             return Json(true);

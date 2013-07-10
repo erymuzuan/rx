@@ -433,5 +433,16 @@
     "caption": null,
     "settings": null,
     "error": ""
+  },
+  {
+    "role": null,
+    "url": "maintenance.list",
+    "moduleId": "viewmodels/maintenance.list",
+    "name": "Senarai Penyenggaraan",
+    "visible": true,
+    "icon": "icon-laptop",
+    "caption": "Senarai Penyenggaraan",
+    "settings": null,
+    "error": ""
   }
 ]

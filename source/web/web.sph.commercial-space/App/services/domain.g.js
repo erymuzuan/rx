@@ -885,6 +885,7 @@ bespoke.sphcommercialspace.domain.Complaint = function (webId) {
         Type: ko.observable(),
         AttachmentStoreId: ko.observable(),
         Department: ko.observable(),
+        Note: ko.observable(),
         CustomFieldValueCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -1022,6 +1023,30 @@ bespoke.sphcommercialspace.domain.ComplaintSubCategory = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.ComplaintSubCategoryPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintSubCategoryPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Maintenance = function (webId) {
+
+    var model = {
+        MaintenanceId: ko.observable(),
+        ComplaintId: ko.observable(),
+        WorkOrderNo: ko.observable(),
+        Department: ko.observable(),
+        Status: ko.observable(),
+        Resolution: ko.observable(),
+        Officer: ko.observable(),
+        Complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
+        StartDate: ko.observable(),
+        EndDate: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.MaintenancePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.MaintenancePartial(model));
     }
     return model;
 };

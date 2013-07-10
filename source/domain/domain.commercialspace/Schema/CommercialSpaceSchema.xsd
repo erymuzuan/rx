@@ -692,6 +692,7 @@
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="AttachmentStoreId" type="xs:string" use="required"/>
 			<xs:attribute name="Department" type="xs:string" use="required"/>
+			<xs:attribute name="Note" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CustomField">
@@ -777,5 +778,20 @@
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Maintenance"/>
+	<xs:element name="Maintenance">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Complaint" minOccurs="0"/>
+				<xs:element name="StartDate" type="xs:dateTime" nillable="true"/>
+				<xs:element name="EndDate" type="xs:dateTime" nillable="true"/>
+			</xs:all>
+			<xs:attribute name="MaintenanceId" type="xs:int" use="required"/>
+			<xs:attribute name="ComplaintId" type="xs:int" use="required"/>
+			<xs:attribute name="WorkOrderNo" type="xs:string" use="required"/>
+			<xs:attribute name="Department" type="xs:string" use="required"/>
+			<xs:attribute name="Status" type="xs:string" use="required"/>
+			<xs:attribute name="Resolution" type="xs:string" use="required"/>
+			<xs:attribute name="Officer" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

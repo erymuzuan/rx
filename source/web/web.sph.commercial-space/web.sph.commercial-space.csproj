@@ -232,6 +232,7 @@
     <Compile Include="Controllers\AppController.config.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AppController.header.cs" />
+    <Compile Include="Controllers\AppController.maintenancelist.cs.cs" />
     <Compile Include="Controllers\AppController.nav.cs" />
     <Compile Include="Controllers\AppController.role.cs" />
     <Compile Include="Controllers\AppController.user.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
+    <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
@@ -307,6 +309,7 @@
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="App\services\mockMaintenanceContext.js" />
     <Content Include="App\viewmodels\complaint.assign.js" />
     <Content Include="App\viewmodels\tenant.portal.js" />
     <Content Include="App\viewmodels\complaintform.tenant.js" />
@@ -841,6 +844,8 @@
     <Content Include="Views\App\RoleSettingsJs.cshtml" />
     <Content Include="Views\App\UserProfileHtml.cshtml" />
     <Content Include="Views\App\UserProfileJs.cshtml" />
+    <Content Include="Views\App\MaintenanceListHtml.cshtml" />
+    <Content Include="Views\App\MaintenanceListJs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
