@@ -235,7 +235,7 @@
     <Compile Include="Controllers\AppController.maintenancelist.cs.cs" />
     <Compile Include="Controllers\AppController.nav.cs" />
     <Compile Include="Controllers\AppController.role.cs" />
-    <Compile Include="Controllers\AppController.user.cs" />
+    <Compile Include="Controllers\AppController.userprofile.cs" />
     <Compile Include="Controllers\AppController.users.cs" />
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
@@ -323,6 +323,7 @@
     <Content Include="App\views\_users.department.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />
     <Content Include="Scripts\bootmetro-charms.js" />
     <Content Include="Scripts\bootmetro.js" />
