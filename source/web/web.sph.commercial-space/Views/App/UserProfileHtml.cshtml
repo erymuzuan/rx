@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-﻿@{
+@{
     ViewBag.Title = "UserprofileHtml";
     Layout = null;
 }
@@ -29,35 +28,3 @@
     </form>
 
 </div>
-=======
-﻿@{
-    ViewBag.Title = "UserprofileHtml";
-    Layout = null;
-}
-
-<h2>User profile @User.Identity.Name</h2>
-<div>
-    <form class="form-horizontal">
-        <div class="control-group">
-            <label for="FullName" class="control-label">Nama penuh</label>
-            <div class="controls">
-                <input data-bind="value: fullName" id="FullName" type="text" name="FullName" />
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="email" class="control-label">Email</label>
-            <div class="controls">
-                <input data-bind="value: email" id="email" type="email" name="email" />
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="submit-button" class="control-label">-</label>
-            <div class="controls">
-                <input id="submit-button" type="button" class="btn btn-primary" value="Simpan" data-bind="command: saveCommand" data-loading-text="Sila tunggu..." data-complete-text=" OK" />
-    
-            </div>
-        </div>
-    </form>
-
-</div>
->>>>>>> 7d25030947e14ce64ad0e9692662c7745ee785e9
