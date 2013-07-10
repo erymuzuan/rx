@@ -18,14 +18,19 @@ define(['services/datacontext'],
                 id(routeData.id);
                 var query = String.format("ComplaintId eq {0}", id());
                 var tcs = new $.Deferred();
-                context.loadOneAsync("Complaint", query)
-                    .done(function (b) {
+                var complaintTask = context.loadOneAsync("Complaint", query);
+                var departmentTask =context.loadOneAsync("Setting","Key eq 'Departments'");
+               
+                    $.when(complaintTask,departmentTask).done(function (b,s) {
                         vm.complaint(b);
                         context.loadOneAsync("Tenant", "TenantId eq " + b.TenantId())
                         .done(function (tenant) {
                             vm.tenant(tenant);
                         });
-
+                        if (s) {
+                            var departments = JSON.parse(s.Value());
+                            vm.departmentOptions(departments);
+                        }
                         tcs.resolve(true);
                     });
 
@@ -48,7 +53,7 @@ define(['services/datacontext'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            officerCollection: ko.observableArray(),
+            departmentOptions: ko.observableArray(),
             complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
             tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
             commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),

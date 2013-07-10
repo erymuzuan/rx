@@ -54,6 +54,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                     Username = profile.UserName,
                     FullName = profile.FullName,
                     Designation = profile.Designation,
+                    Department = profile.Department,
                     Mobile = profile.Mobile,
                     Telephone = profile.Telephone,
                     Email = profile.Email,
