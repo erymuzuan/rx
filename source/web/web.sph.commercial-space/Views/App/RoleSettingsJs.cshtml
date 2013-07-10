@@ -1,5 +1,5 @@
-﻿@using Bespoke.SphCommercialSpaces.Domain
-@model IEnumerable<string>
+@using Bespoke.SphCommercialSpaces.Domain
+@model IEnumerable<Bespoke.Sph.Commerspace.Web.Controllers.RoleModel>
 @{
     ViewBag.Title = "RoleSettingsJs";
     Layout = null;
@@ -12,45 +12,26 @@
             'services/logger'],
         function (context, logger) {
 
-            var permissions = ko.observableArray([@Html.Raw(roles)]),
-                roles = ko.observableArray(),
-                isBusy = ko.observable(),
+            var isBusy = ko.observable(),
 
-            activate = function () {
-
-                var query = "RoleId ge 0";
+            activate = function (id) {
+                
+                var query = String.format("DesignationId eq {0}", id);
                 var tcs = new $.Deferred();
-
-                context.loadAsync("ENTITY", query)
-                    .then(function (lo) {
-                        isBusy(false);
-                        roles(lo.itemCollection);
+                context.loadOneAsync("Designation", query)
+                    .done(function(b) {
+                        vm.designation(b);
                         tcs.resolve(true);
                     });
-                return tcs.promise();
 
-            },
-            addRole = function () {
-                var tcs = new $.Deferred();
-                var data = JSON.stringify({ role: vm.role().Name() });
-                isBusy(true);
-
-                context.post(data, "/Admin/AddRole")
-                    .then(function (result) {
-                        isBusy(false);
-                        tcs.resolve(result);
-                        vm.roles.push(vm.role);
-                    });
                 return tcs.promise();
+    
             };
 
             var vm = {
-                permissions: permissions,
-                roles: roles,
-                role: ko.observable(bespoke.sphcommercialspace.domain.Role()),
+                designation: ko.observable(),
                 isBusy: isBusy,
-                active: activate,
-                addRoleCommand: addRole
+                active: activate
             };
 
             return vm;

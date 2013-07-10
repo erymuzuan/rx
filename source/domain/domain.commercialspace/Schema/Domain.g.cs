@@ -8160,173 +8160,6 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("Role",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class Role
-          {
-          
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_roleId;
-                    public const string PropertyNameRoleId = "RoleId";
-
-                  
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_name;
-                    public const string PropertyNameName = "Name";
-
-                  
-			private readonly ObjectCollection<Permission>  m_PermissionCollection = new ObjectCollection<Permission> ();
-
-			///<summary>
-			/// 
-			///</summary>
-			[XmlArrayItem("Permission", IsNullable = false)]
-			public ObjectCollection<Permission> PermissionCollection
-			{
-			get{ return m_PermissionCollection;}
-			}
-		
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                  [Required]
-                
-                [DebuggerHidden]
-                
-                    public string RoleId
-                    {
-                    set
-                    {
-                    if( String.Equals( m_roleId, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameRoleId, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_roleId= value;
-                    OnPropertyChanged(PropertyNameRoleId);
-                    }
-                    }
-                    get
-                    {
-                    return m_roleId;}
-                    }
-
-                  
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                  [Required]
-                
-                [DebuggerHidden]
-                
-                    public string Name
-                    {
-                    set
-                    {
-                    if( String.Equals( m_name, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameName, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_name= value;
-                    OnPropertyChanged(PropertyNameName);
-                    }
-                    }
-                    get
-                    {
-                    return m_name;}
-                    }
-
-                  
-
-          }
-        
-          ///<summary>
-          /// 
-          ///</summary>
-          [DataObject(true)]
-          [Serializable]
-          [XmlType("Permission",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class Permission
-          {
-          
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  bool  m_isAuthorized;
-                    public const string PropertyNameIsAuthorized = "IsAuthorized";
-
-                  
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_name;
-                    public const string PropertyNameName = "Name";
-
-                  
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                  [Required]
-                
-                [DebuggerHidden]
-                
-                    public bool IsAuthorized
-                    {
-                    set
-                    {
-                    if( m_isAuthorized == value) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameIsAuthorized, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_isAuthorized= value;
-                    OnPropertyChanged(PropertyNameIsAuthorized);
-                    }
-                    }
-                    get
-                    {
-                    return m_isAuthorized;}
-                    }
-
-                  
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                  [Required]
-                
-                [DebuggerHidden]
-                
-                    public string Name
-                    {
-                    set
-                    {
-                    if( String.Equals( m_name, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameName, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_name= value;
-                    OnPropertyChanged(PropertyNameName);
-                    }
-                    }
-                    get
-                    {
-                    return m_name;}
-                    }
-
-                  
-
-          }
-        
-          ///<summary>
-          /// 
-          ///</summary>
-          [DataObject(true)]
-          [Serializable]
           [XmlType("Reply",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Reply
           {
@@ -10684,18 +10517,6 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("ComplaintSubCategory",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class ComplaintSubCategory
-          {
-          
-
-          }
-        
-          ///<summary>
-          /// 
-          ///</summary>
-          [DataObject(true)]
-          [Serializable]
           [XmlType("Maintenance",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class Maintenance
           {
@@ -11004,6 +10825,95 @@
                 get { return m_endDate;}
                 }
               
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("Designation",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class Designation
+          {
+          
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_name;
+                    public const string PropertyNameName = "Name";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_description;
+                    public const string PropertyNameDescription = "Description";
+
+                  
+			private readonly ObjectCollection<string>  m_RoleCollection = new ObjectCollection<string> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("", IsNullable = false)]
+			public ObjectCollection<string> RoleCollection
+			{
+			get{ return m_RoleCollection;}
+			}
+		
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Name
+                    {
+                    set
+                    {
+                    if( String.Equals( m_name, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_name= value;
+                    OnPropertyChanged(PropertyNameName);
+                    }
+                    }
+                    get
+                    {
+                    return m_name;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Description
+                    {
+                    set
+                    {
+                    if( String.Equals( m_description, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameDescription, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_description= value;
+                    OnPropertyChanged(PropertyNameDescription);
+                    }
+                    }
+                    get
+                    {
+                    return m_description;}
+                    }
+
+                  
 
           }
         

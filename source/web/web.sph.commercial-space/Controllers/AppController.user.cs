@@ -1,3 +1,4 @@
+
 ﻿using System.Web.Mvc;
 using System.Web.Security;
 
@@ -9,7 +10,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             return View();
         }
-
         public ActionResult UserProfileJs()
         {
             var member = Membership.GetUser();
