@@ -28,8 +28,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             var complaint = await context.LoadOneAsync<Complaint>(c => c.ComplaintId == comp.ComplaintId);
-            complaint.Inspection = comp.Inspection;
-            complaint.Inspection.AssignedDate = DateTime.Today;
             complaint.Status = "Dalam Proses";
             using (var session = context.OpenSession())
             {
@@ -43,10 +41,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             var complaint = await context.LoadOneAsync<Complaint>(c => c.ComplaintId == comp.ComplaintId);
-            complaint.Inspection.InspectionDate = comp.Inspection.InspectionDate;
-            complaint.Inspection.Resolution = comp.Inspection.Resolution;
-            complaint.Inspection.Observation = comp.Inspection.Observation;
-            using (var session = context.OpenSession())
+             using (var session = context.OpenSession())
             {
                 session.Attach(complaint);
                 await session.SubmitChanges();

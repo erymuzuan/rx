@@ -4,6 +4,9 @@
 }
 <h3>DASHBOARD SENGGARA</h3>
 <div>
+    <ul id="status-option" class="nav" data-bind="foreach :statusOptions">
+        <li><button type="button" class="btn btn-primary" data-bind="text:$data"></button></li>
+    </ul>
 </div>
 
 <table class="table table-striped">
