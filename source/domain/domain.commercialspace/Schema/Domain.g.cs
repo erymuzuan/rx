@@ -7401,6 +7401,11 @@
                     public const string PropertyNameUserProfileId = "UserProfileId";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_department;
+                    public const string PropertyNameDepartment = "Department";
+
+                  
                 ///<summary>
                 /// 
                 ///</summary>
@@ -7650,6 +7655,34 @@
                     get
                     {
                     return m_userProfileId;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Department
+                    {
+                    set
+                    {
+                    if( String.Equals( m_department, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameDepartment, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_department= value;
+                    OnPropertyChanged(PropertyNameDepartment);
+                    }
+                    }
+                    get
+                    {
+                    return m_department;}
                     }
 
                   
@@ -9198,6 +9231,16 @@
                     public const string PropertyNameAttachmentStoreId = "AttachmentStoreId";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_department;
+                    public const string PropertyNameDepartment = "Department";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_note;
+                    public const string PropertyNameNote = "Note";
+
+                  
 			private readonly ObjectCollection<CustomFieldValue>  m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue> ();
 
 			///<summary>
@@ -9514,6 +9557,62 @@
                     get
                     {
                     return m_attachmentStoreId;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Department
+                    {
+                    set
+                    {
+                    if( String.Equals( m_department, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameDepartment, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_department= value;
+                    OnPropertyChanged(PropertyNameDepartment);
+                    }
+                    }
+                    get
+                    {
+                    return m_department;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Note
+                    {
+                    set
+                    {
+                    if( String.Equals( m_note, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_note= value;
+                    OnPropertyChanged(PropertyNameNote);
+                    }
+                    }
+                    get
+                    {
+                    return m_note;}
                     }
 
                   
@@ -10669,16 +10768,18 @@
                     public const string PropertyNameOfficer = "Officer";
 
                   
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  DateTime  m_startDate;
-                    public const string PropertyNameStartDate = "StartDate";
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private DateTime?  m_startDate;
+                public const string PropertyNameStartDate = "StartDate";
 
-                  
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  DateTime  m_endDate;
-                    public const string PropertyNameEndDate = "EndDate";
 
-                  
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private DateTime?  m_endDate;
+                public const string PropertyNameEndDate = "EndDate";
+
+
+              
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			private Complaint m_complaint
 					=  new Complaint();
@@ -10892,58 +10993,50 @@
                     }
 
                   
+
                 ///<summary>
                 /// 
                 ///</summary>
-                [XmlAttribute]
-                
                 [DebuggerHidden]
-                
-                    public DateTime StartDate
-                    {
-                    set
-                    {
-                    if( m_startDate == value) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameStartDate, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_startDate= value;
-                    OnPropertyChanged(PropertyNameStartDate);
-                    }
-                    }
-                    get
-                    {
-                    return m_startDate;}
-                    }
 
-                  
+                public DateTime? StartDate
+                {
+                set
+                {
+                if(m_startDate == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameStartDate, value);
+                OnPropertyChanging(arg);
+                if(! arg.Cancel)
+                {
+                m_startDate= value;
+                OnPropertyChanged(PropertyNameStartDate);
+                }
+                }
+                get { return m_startDate;}
+                }
+              
+
                 ///<summary>
                 /// 
                 ///</summary>
-                [XmlAttribute]
-                
                 [DebuggerHidden]
-                
-                    public DateTime EndDate
-                    {
-                    set
-                    {
-                    if( m_endDate == value) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameEndDate, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_endDate= value;
-                    OnPropertyChanged(PropertyNameEndDate);
-                    }
-                    }
-                    get
-                    {
-                    return m_endDate;}
-                    }
 
-                  
+                public DateTime? EndDate
+                {
+                set
+                {
+                if(m_endDate == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEndDate, value);
+                OnPropertyChanging(arg);
+                if(! arg.Cancel)
+                {
+                m_endDate= value;
+                OnPropertyChanged(PropertyNameEndDate);
+                }
+                }
+                get { return m_endDate;}
+                }
+              
 
           }
         

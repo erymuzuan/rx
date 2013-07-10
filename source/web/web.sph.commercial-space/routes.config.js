@@ -314,7 +314,7 @@
     "error": ""
   },
   {
-    "role": "",
+    "role": "admin_setting",
     "url": "organization.detail",
     "moduleId": "viewmodels/organization.detail",
     "name": "Tetapan Organisasi",
@@ -420,6 +420,17 @@
     "visible": false,
     "icon": "icon-laptop",
     "caption": "Penyenggaraan",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": null,
+    "url": "user.profile",
+    "moduleId": "viewmodels/user.profile",
+    "name": "Profile",
+    "visible": false,
+    "icon": null,
+    "caption": null,
     "settings": null,
     "error": ""
   },

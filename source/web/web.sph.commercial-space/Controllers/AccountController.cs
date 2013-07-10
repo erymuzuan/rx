@@ -7,6 +7,12 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        public ActionResult Logoff()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login","Account");
+        }
+
         [AllowAnonymous]
         public ActionResult Login()
         {
@@ -39,7 +45,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 if (Membership.ValidateUser(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    return RedirectToAction("ConfigJs" ,"App");
+                    return RedirectToAction("Index" ,"HotTowel");
                 }
                 var user = Membership.GetUser(model.UserName);
                 if (null != user && user.IsLockedOut)

@@ -105,6 +105,8 @@
 /source/tools/routes.editor/bin/Debug
 /source/tools/routes.editor/obj/Debug/TempPE
 /source/tools/routes.editor/obj/Debug
+/source/tools/permissions.editor/bin/Debug
+/source/tools/permissions.editor/obj/Debug
 *.orig
 /source/domain/domain.commercialspace/CustomFieldValue.cs.BACKUP.1632.cs
 /source/domain/domain.commercialspace/CustomFieldValue.cs.BACKUP.8100.cs

@@ -231,8 +231,11 @@
     <Compile Include="Controllers\AppController.complainttemplate.cs" />
     <Compile Include="Controllers\AppController.config.cs" />
     <Compile Include="Controllers\AppController.cs" />
+    <Compile Include="Controllers\AppController.header.cs" />
     <Compile Include="Controllers\AppController.maintenancelist.cs.cs" />
     <Compile Include="Controllers\AppController.nav.cs" />
+    <Compile Include="Controllers\AppController.role.cs" />
+    <Compile Include="Controllers\AppController.user.cs" />
     <Compile Include="Controllers\AppController.users.cs" />
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
@@ -242,7 +245,6 @@
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\ContractSettingController.cs" />
     <Compile Include="Controllers\DepositController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
@@ -301,6 +303,7 @@
     <Compile Include="Helpers\MobileCapableWebFormViewEngine.cs" />
     <Compile Include="Helpers\OdataSqlTranslator.cs" />
     <Compile Include="Helpers\QueryHelper.cs" />
+    <Compile Include="Helpers\Roles.cs" />
     <Compile Include="Mocks\TemplateEngine.cs" />
     <Compile Include="Models\JsRoute.cs" />
     <Compile Include="Models\JsRouteSetting.cs" />
@@ -837,6 +840,10 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Views\App\HeaderHtml.cshtml" />
+    <Content Include="Views\App\RoleSettingsJs.cshtml" />
+    <Content Include="Views\App\UserProfileHtml.cshtml" />
+    <Content Include="Views\App\UserProfileJs.cshtml" />
     <Content Include="Views\App\MaintenanceListHtml.cshtml" />
     <Content Include="Views\App\MaintenanceListJs.cshtml" />
     <None Include="Web.Debug.config">

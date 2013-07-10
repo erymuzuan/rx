@@ -6,6 +6,7 @@ using System.Web.Mvc.Html;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
+    [Authorize]
     public partial class AppController : Controller
     {
         public const string APPLICATION_JAVASCRIPT = "application/javascript";
@@ -14,7 +15,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public ActionResult ViewModels(string id)
         {
             this.Response.ContentType = APPLICATION_JAVASCRIPT;
-            var script = this.RenderScript(id.Replace(".", string.Empty) );
+            var script = this.RenderScript(id.Replace(".", string.Empty));
             return Content(script);
         }
         public ActionResult Views(string id)

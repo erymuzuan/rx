@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using Bespoke.Sph.Commerspace.Web.Models;
 using Bespoke.SphCommercialSpaces.Domain;
 using System.Linq;
@@ -33,6 +35,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public ActionResult Config(string id)
         {
             this.Response.ContentType = APPLICATION_JAVASCRIPT;
+            this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+
             var script = this.RenderScript("ConfigJs");
             return Content(script);
         }
