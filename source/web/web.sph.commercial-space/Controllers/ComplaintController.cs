@@ -32,6 +32,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             complaint.Department = comp.Department;
 
             var maintenance = new Maintenance();
+            maintenance.Status = "New";
+            maintenance.Resolution = "Not Started";
+            maintenance.Department = comp.Department;
+            maintenance.ComplaintId = comp.ComplaintId;
+            maintenance.StartDate = null;
+            maintenance.EndDate = null;
+            
             using (var session = context.OpenSession())
             {
                 session.Attach(complaint,maintenance);

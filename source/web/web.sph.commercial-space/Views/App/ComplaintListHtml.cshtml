@@ -9,10 +9,6 @@
             <th>No. Aduan</th>
             <th>Kategori</th>
             <th>Sub Kategori</th>
-<<<<<<< HEAD
-=======
-            <th>Resolusi</th>
->>>>>>> master
             <th>Status</th>
         </tr>
     </thead>
@@ -20,14 +16,10 @@
         <tr>
             <td>
                  <a data-bind="attr: { href: '/#/complaint.assign/' + ComplaintId() }, text: ReferenceNo, visible: Status() == 'New'"></a>
-                 <a data-bind="attr: { href: '/#/complaint.inspection/' + ComplaintId() }, text: ReferenceNo, visible:Status() =='Dalam Proses'"></a>
+                 <a data-bind="attr: { href: '/#/complaint.detail/' + ComplaintId() }, text: ReferenceNo, visible:Status() !='New'"></a>
             </td>
             <td data-bind="text:Category"></td>
             <td data-bind="text: SubCategory"></td>
-<<<<<<< HEAD
-=======
-            <td data-bind="text: Inspection.Resolution"></td>
->>>>>>> master
             <td data-bind="text: Status"></td>
         </tr>
     </tbody>
