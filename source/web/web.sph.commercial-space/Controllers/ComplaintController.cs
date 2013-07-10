@@ -11,7 +11,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> Submit(Complaint complaint)
         {
             var context = new SphDataContext();
-            complaint.Status = "Baru";
+            complaint.Status = "New";
             using (var session = context.OpenSession())
             {
                 var ticket = string.Format("AD{0:yyyy}{1}", DateTime.Today, complaint.ComplaintId).PadLeft(8, '0');
@@ -28,9 +28,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             var complaint = await context.LoadOneAsync<Complaint>(c => c.ComplaintId == comp.ComplaintId);
-            complaint.Inspection = comp.Inspection;
-            complaint.Inspection.AssignedDate = DateTime.Today;
-            complaint.Status = "Dalam Proses";
+            complaint.Status = "InProgress";
+            
             using (var session = context.OpenSession())
             {
                 session.Attach(complaint);
@@ -38,21 +37,5 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             }
             return Json(true);
         }
-
-        public async Task<ActionResult> UpdateInspection(Complaint comp)
-        {
-            var context = new SphDataContext();
-            var complaint = await context.LoadOneAsync<Complaint>(c => c.ComplaintId == comp.ComplaintId);
-            complaint.Inspection.InspectionDate = comp.Inspection.InspectionDate;
-            complaint.Inspection.Resolution = comp.Inspection.Resolution;
-            complaint.Inspection.Observation = comp.Inspection.Observation;
-            using (var session = context.OpenSession())
-            {
-                session.Attach(complaint);
-                await session.SubmitChanges();
-            }
-            return Json(true);
-        }
-
     }
 }

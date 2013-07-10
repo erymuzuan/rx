@@ -659,6 +659,7 @@ bespoke.sphcommercialspace.domain.UserProfile = function (webId) {
         StartModule: ko.observable(),
         Email: ko.observable(),
         UserProfileId: ko.observable(),
+        Department: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -883,6 +884,7 @@ bespoke.sphcommercialspace.domain.Complaint = function (webId) {
         ReferenceNo: ko.observable(),
         Type: ko.observable(),
         AttachmentStoreId: ko.observable(),
+        Department: ko.observable(),
         CustomFieldValueCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)

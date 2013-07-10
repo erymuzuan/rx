@@ -14,32 +14,32 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 	    var
         isBusy = ko.observable(false),
         activate = function () {
-            var query = String.format("Key eq 'State'");
+            var query = String.format("Key eq 'Departments'");
             var tcs = new $.Deferred();
             context.loadOneAsync("Setting", query)
                 .done(function (s) {
                     if (s) {
-                        var states =JSON.parse(ko.mapping.toJS(s.Value));
-                        vm.states(states);
+                        var departments = JSON.parse(ko.mapping.toJS(s.Value));
+                        vm.departments(departments);
                     }
                     tcs.resolve(true);
                 });
 
             return tcs.promise();
         },
-        addState = function () {
-            var state = new bespoke.sphcommercialspace.domain.State();
-            vm.states.push(state);
+        addDepartment = function () {
+            var department ={Name : ko.observable()};
+            vm.departments.push(department);
         },
-        removeState = function (state) {
-            vm.states.remove(state);
+        removeDepartment = function (department) {
+            vm.departments.remove(department);
         },
-            saveState = function () {
+            saveDepartment = function () {
                 var tcs = new $.Deferred();
                 var data = JSON.stringify({
                     settings: [{
-                        Key: "State",
-                        Value: ko.mapping.toJSON(vm.states())
+                        Key: "Departments",
+                        Value: ko.mapping.toJSON(vm.departments())
                     }]
                 });;
                 isBusy(true);
@@ -55,10 +55,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 	    var vm = {
 	        isBusy: isBusy,
 	        activate: activate,
-	        states: ko.observableArray([]),
-	        addStateCommand: addState,
-	        removeState: removeState,
-	        saveStateCommand: saveState
+	        departments: ko.observableArray([]),
+	        addCommand: addDepartment,
+	        removeCommand: removeDepartment,
+	        saveCommand: saveDepartment
 	    };
 
 	    return vm;
