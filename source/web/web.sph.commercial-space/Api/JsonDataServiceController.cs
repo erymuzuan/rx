@@ -65,7 +65,7 @@ namespace Bespoke.Sph.Commerspace.Web.Api
 
         public async Task<ActionResult> Maintenance(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return await ExecuteAsync<Invoice>(filter, page, size, includeTotal);
+            return await ExecuteAsync<Maintenance>(filter, page, size, includeTotal);
         }
 
         public async Task<ActionResult> Rent(string filter = null, int page = 1, int size = 40, bool includeTotal = false)

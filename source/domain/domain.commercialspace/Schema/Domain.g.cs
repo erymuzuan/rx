@@ -10092,13 +10092,13 @@
                     public const string PropertyNameDescription = "Description";
 
                   
-			private readonly ObjectCollection<ComplaintSubCategory>  m_SubCategoryCollection = new ObjectCollection<ComplaintSubCategory> ();
+			private readonly ObjectCollection<string>  m_SubCategoryCollection = new ObjectCollection<string> ();
 
 			///<summary>
 			/// 
 			///</summary>
-			[XmlArrayItem("ComplaintSubCategory", IsNullable = false)]
-			public ObjectCollection<ComplaintSubCategory> SubCategoryCollection
+			[XmlArrayItem("", IsNullable = false)]
+			public ObjectCollection<string> SubCategoryCollection
 			{
 			get{ return m_SubCategoryCollection;}
 			}
@@ -10688,39 +10688,6 @@
           public  partial class ComplaintSubCategory
           {
           
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_description;
-                    public const string PropertyNameDescription = "Description";
-
-                  
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                  [Required]
-                
-                [DebuggerHidden]
-                
-                    public string Description
-                    {
-                    set
-                    {
-                    if( String.Equals( m_description, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameDescription, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_description= value;
-                    OnPropertyChanged(PropertyNameDescription);
-                    }
-                    }
-                    get
-                    {
-                    return m_description;}
-                    }
-
-                  
 
           }
         

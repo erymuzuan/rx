@@ -6,7 +6,7 @@
 }
 
 <script type="text/javascript" data-script="true">
-    define(['services/mockMaintenanceContext'], function (context) {
+    define(['services/datacontext'], function (context) {
         var isBusy = ko.observable(false),
             activate = function() {
                 var query = String.format("MaintenanceId gt 0");
@@ -21,15 +21,20 @@
             },            
             viewAttached = function() {
 
-                $('#status-option').on('click', 'button', function(e) {
+                $('#status-option').on('click', 'a', function (e) {
                     var status = ko.dataFor(this);
                     vm.selectedStatus(status);
                 });
             },
 
-            assign = function() {
+            saveAssignment = function(officer) {
+                vm.selectedMaintenance(officer);
+                assign(vm.selectedMaintenance());
+            },
+
+            assign = function(maintenance) {
                var tcs = new $.Deferred();
-               var data = ko.toJSON(vm.maintenances);
+               var data = ko.toJSON(maintenance);
                isBusy(true);
 
                context.post(data, "/Maintenance/Assign")
@@ -45,8 +50,12 @@
             activate: activate,
             viewAttached: viewAttached,
             maintenances: ko.observableArray(),
-            selectedStatus : ko.observable(),
-            statusOptions : ko.observableArray(['New','Inspection', 'Maintenance']),
+            
+            selectedMaintenance: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
+            selectedStatus: ko.observable(),
+            
+            statusOptions: ko.observableArray(['New', 'Inspection', 'Maintenance']),
+            saveAssignment : saveAssignment,
             assignCommand : assign
         };
 

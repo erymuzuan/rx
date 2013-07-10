@@ -1017,7 +1017,6 @@ bespoke.sphcommercialspace.domain.Inspection = function (webId) {
 bespoke.sphcommercialspace.domain.ComplaintSubCategory = function (webId) {
 
     var model = {
-        Description: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

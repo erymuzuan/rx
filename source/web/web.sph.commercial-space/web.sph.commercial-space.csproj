@@ -316,6 +316,7 @@
     <Content Include="App\viewmodels\_tenant.complaint.js" />
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\complaint.assign.html" />
+    <Content Include="App\views\role.settings.html" />
     <Content Include="App\views\tenant.portal.html" />
     <Content Include="App\views\complaintform.tenant.html" />
     <Content Include="App\views\_complaint.details.html" />
@@ -460,7 +461,6 @@
     <Content Include="App\views\deposit.html" />
     <Content Include="App\views\floorplan.html" />
     <Content Include="App\views\footer.html" />
-    <Content Include="App\views\header.html" />
     <Content Include="App\views\home.html" />
     <Content Include="App\views\lotdetail.html" />
     <Content Include="App\views\nav.html" />

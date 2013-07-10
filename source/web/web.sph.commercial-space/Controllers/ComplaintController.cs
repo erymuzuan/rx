@@ -31,14 +31,17 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             complaint.Status = "InProgress";
             complaint.Department = comp.Department;
 
-            var maintenance = new Maintenance();
-            maintenance.Status = "New";
-            maintenance.Resolution = "Not Started";
-            maintenance.Department = comp.Department;
-            maintenance.ComplaintId = comp.ComplaintId;
-            maintenance.StartDate = null;
-            maintenance.EndDate = null;
-            
+            var maintenance = new Maintenance
+                {
+                    Status = "New",
+                    Resolution = "Not Started",
+                    Department = comp.Department,
+                    ComplaintId = comp.ComplaintId,
+                    StartDate = null,
+                    EndDate = null,
+                    Complaint = comp
+                };
+
             using (var session = context.OpenSession())
             {
                 session.Attach(complaint,maintenance);
