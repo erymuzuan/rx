@@ -40,7 +40,7 @@
                         <input type="text" data-bind="value: Description" /></td>
                     <td><a type="button" class="btn"
                            data-toggle="modal"
-                           data-bind="click: $root.setCategoryParent"
+                           data-bind="click: $root.editCategory"
                         href="#category-details-modal">Sub Kategori</a></td>
                     <td>
                         <input type="button" class="btn btn-danger" data-bind="click: $root.removeCategory" value="-"/>
@@ -102,7 +102,7 @@
     <div class="modal-body">
         <form class="form-horizontal">
             <h5>Sub Kategori</h5>
-            <input type="button" value="+" class="btn btn-mini pull-right" data-bind="click: $root.addSubCategory"/>
+            <input type="button" value="+" class="btn btn-mini pull-right" data-bind="click:addSubCategory"/>
         <table class="table table-striped">
             <thead>
                 <tr>

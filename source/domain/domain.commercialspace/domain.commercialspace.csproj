@@ -93,6 +93,7 @@
     <Compile Include="CustomFieldValue.cs" />
     <Compile Include="Deposit.cs" />
     <Compile Include="DepositPayment.cs" />
+    <Compile Include="Designation.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="DocumentTemplate.cs" />
     <Compile Include="DocumentVersion.cs" />

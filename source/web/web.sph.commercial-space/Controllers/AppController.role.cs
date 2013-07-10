@@ -1,30 +1,41 @@
-<<<<<<< HEAD
+using System.Linq;
 ﻿using System.Web.Mvc;
-using Bespoke.Sph.Commerspace.Web.Helpers;
+﻿using Newtonsoft.Json;
+﻿using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public partial class AppController
     {
-        public ActionResult RoleSettingsJs()
+        public ActionResult RoleSettingsHtml()
         {
-            var roles = new[] { Roles.ADMIN_DASHBOARD , Roles.ADMIN_SETTING};
-            return View(roles);
-        }
-    }
-=======
-﻿using System.Web.Mvc;
-using Bespoke.Sph.Commerspace.Web.Helpers;
+            var rolesConfig = Server.MapPath("~/roles.config.js");
+            var json = System.IO.File.ReadAllText(rolesConfig);
 
-namespace Bespoke.Sph.Commerspace.Web.Controllers
-{
-    public partial class AppController
-    {
-        public ActionResult RoleSettingsJs()
-        {
-            var roles = new[] { Roles.ADMIN_DASHBOARD , Roles.ADMIN_SETTING};
+            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+            var roles = JsonConvert.DeserializeObject<RoleModel[]>(json, settings);
+            
             return View(roles);
         }
+
+        public ActionResult RoleSettingsJs()
+        {
+            var rolesConfig = Server.MapPath("~/roles.config.js");
+            var json = System.IO.File.ReadAllText(rolesConfig);
+
+            var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+            var roles = JsonConvert.DeserializeObject<RoleModel[]>(json, settings);
+            
+            return View(roles.AsEnumerable());
+        }
     }
->>>>>>> 7d25030947e14ce64ad0e9692662c7745ee785e9
+
+    public class RoleModel
+    {
+        public string Group { get; set; }
+        public string Name { get; set; }
+        public string Role { get; set; }
+        public string Description { get; set; }
+        public bool IsActive { get; set; }
+    }
 }

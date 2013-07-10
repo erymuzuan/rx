@@ -547,27 +547,6 @@
 			<xs:attribute name="IsVoid" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Role">
-		<xs:complexType>
-			<xs:all>
-				<xs:element name="PermissionCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Permission" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:all>
-			<xs:attribute name="RoleId" type="xs:string" use="required"/>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Permission">
-		<xs:complexType>
-			<xs:attribute name="IsAuthorized" type="xs:boolean" use="required"/>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="Reply">
 		<xs:complexType>
 			<xs:attribute name="Title" type="xs:string" use="required"/>
@@ -741,7 +720,7 @@
 				<xs:element name="SubCategoryCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="ComplaintSubCategory" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element name="subCategory" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -773,11 +752,6 @@
 			<xs:attribute name="Severity" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="ComplaintSubCategory">
-		<xs:complexType>
-			<xs:attribute name="Description" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="Maintenance">
 		<xs:complexType>
 			<xs:all>
@@ -792,6 +766,21 @@
 			<xs:attribute name="Status" type="xs:string" use="required"/>
 			<xs:attribute name="Resolution" type="xs:string" use="required"/>
 			<xs:attribute name="Officer" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Designation">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="RoleCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Role" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

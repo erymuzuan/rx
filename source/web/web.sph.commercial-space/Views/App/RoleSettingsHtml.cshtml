@@ -1,0 +1,25 @@
+﻿@model Bespoke.Sph.Commerspace.Web.Controllers.RoleModel[]
+
+@{
+    Layout = null;
+}
+<form class="form-horizontal">
+    @foreach (var r in Model)
+    {
+    
+
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input data-bind="checked: designation().RoleCollection" value="@r.Role" type="checkbox" name="role" />
+                    @r.Name
+                </label>
+                <span class="help-block">@r.Description</span>
+            </div>
+        </div>
+    }
+</form>
+
+<input id="save-button" type="button" class="btn btn-primary" value="Simpan" data-bind="command: saveCommand" data-loading-text="Sila tunggu..." data-complete-text="Siap" />
+        
+
