@@ -120,6 +120,7 @@
     <Compile Include="ISpatialService.cs" />
     <Compile Include="ITemplateEngine.cs" />
     <Compile Include="Land.cs" />
+    <Compile Include="Maintenance.cs" />
     <Compile Include="Offer.cs" />
     <Compile Include="OfferCondition.cs" />
     <Compile Include="Organization.cs" />

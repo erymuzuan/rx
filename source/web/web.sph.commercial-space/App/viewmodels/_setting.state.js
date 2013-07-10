@@ -30,7 +30,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
         addState = function () {
             var state = new bespoke.sphcommercialspace.domain.State();
             vm.states.push(state);
-        }, removeState= function(state) {
+        },
+        removeState = function (state) {
             vm.states.remove(state);
         },
             saveState = function () {

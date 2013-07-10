@@ -9,6 +9,7 @@
         public string Password { get; set; }
         public string Status { get; set; }
         public string Designation { get; set; }
+        public string Department { get; set; }
         public string Telephone { get; set; }
         public string Mobile { get; set; }
         public string IsNew { get; set; }
