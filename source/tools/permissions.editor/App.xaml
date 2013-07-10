@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿<Application x:Class="permissions.editor.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,3 +7,13 @@
          
     </Application.Resources>
 </Application>
+=======
+﻿<Application x:Class="permissions.editor.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
+>>>>>>> 7d25030947e14ce64ad0e9692662c7745ee785e9
