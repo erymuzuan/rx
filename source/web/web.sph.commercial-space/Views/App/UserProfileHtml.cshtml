@@ -3,26 +3,37 @@
     Layout = null;
 }
 
-<h2>User profile @User.Identity.Name</h2>
+<h2>Profil @User.Identity.Name</h2>
 <div>
-    <form class="form-horizontal">
+    <form class="form-horizontal" data-bind="with: userProfile">
         <div class="control-group">
             <label for="FullName" class="control-label">Nama penuh</label>
             <div class="controls">
-                <input data-bind="value: fullName" id="FullName" type="text" name="FullName" />
+                <input data-bind="value: FullName" id="FullName" type="text" name="FullName" />
             </div>
         </div>
         <div class="control-group">
             <label for="email" class="control-label">Email</label>
             <div class="controls">
-                <input data-bind="value: email" id="email" type="email" name="email" />
+                <input data-bind="value: Email" id="email" type="email" name="email" />
             </div>
         </div>
         <div class="control-group">
-            <label for="submit-button" class="control-label">-</label>
+            <label for="email" class="control-label">Jawatan </label>
+            <div class="controls">
+                <span data-bind="text: Designation" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Telephone" class="control-label">No Telefon </label>
+            <div class="controls">
+                <input data-bind="value: Telephone" id="Telephone" type="text" name="Telephone" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="submit-button" class="control-label"></label>
             <div class="controls">
                 <input id="submit-button" type="button" class="btn btn-primary" value="Simpan" data-bind="command: saveCommand" data-loading-text="Sila tunggu..." data-complete-text=" OK" />
-    
             </div>
         </div>
     </form>

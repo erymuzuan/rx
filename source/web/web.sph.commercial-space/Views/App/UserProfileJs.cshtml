@@ -4,42 +4,36 @@
 }
 <script type="text/javascript" data-script="true">
     
-define(['services/datacontext',
-        'services/logger'],
-    function (context, logger) {
+define(['services/datacontext'],
+    function (context) {
 
 
         var isBusy = ko.observable(false),
-            email = ko.observable('@Model.Email'),
-            fullName = ko.observable('@Model.Comment'),
+            username = ko.observable('@Model.UserName'),
             activate = function () {
-                return true;
-            };
+                var query = String.format("Username eq '{0}'", username());
+                var tcs = new $.Deferred();
+                context.loadOneAsync("UserProfile", query)
+                    .done(function(b) {
+                        vm.userProfile(b);
+                        tcs.resolve(true);
+                    });
 
-
-        var saveAsync = function () {
+                return tcs.promise();
+            },
+            saveAsync = function () {
             var tcs = new $.Deferred();
-            var data = ko.mapping.toJSON(vm.building);
-            context.post(data, "/Building/SaveBuilding")
+            var data = ko.mapping.toJSON(vm.userProfile());
+                context.post(data, "/Admin/UpdateUser")
                 .done(function (e) {
-                    if (e.status) {
-                        vm.building.BuildingId(e.buildingId);
-                        logger.log(e.message, e, "buildingdetail", true);
-                    } else {
-                        logger.logError(e.message, e, this, true);
-                    }
-                    tcs.resolve(e);
+                  tcs.resolve(e);
                 });
             return tcs.promise();
         };
 
-
-
-
         var vm = {
             activate: activate,
-            email: email,
-            fullName: fullName,
+            userProfile : ko.observable(new bespoke.sphcommercialspace.domain.UserProfile()),
             saveCommand: saveAsync,
             isBusy: isBusy,
             title: 'User profile Details'

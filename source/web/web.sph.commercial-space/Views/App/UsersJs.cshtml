@@ -97,7 +97,6 @@
             var tcs = new $.Deferred();
             var data = JSON.stringify({userName : username});
             isBusy(true);
-
             context.post(data, "/Admin/ValidateUserName")
                 .then(function(result) {
                     isBusy(false);
