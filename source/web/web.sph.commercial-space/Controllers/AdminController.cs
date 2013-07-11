@@ -27,7 +27,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var role = userRoles.FirstOrDefault();
             if (null != em)
             {
-
                 var roles = Roles.GetRolesForUser(profile.UserName);
                 if (roles.Any())
                     Roles.RemoveUserFromRoles(profile.UserName, roles);
