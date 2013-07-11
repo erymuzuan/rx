@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -24,7 +23,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var user = Membership.GetUser(userName);
             if (null != user)
                 return Json(new {status = "DUPLICATE", message = string.Format("Username '{0}' already exists!!!!",userName)});
-
             this.Response.ContentType = "application/json; charset=utf-8";
             return Content(await JsonConvert.SerializeObjectAsync(true));
 
@@ -67,11 +65,19 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return userprofile;
         }
 
-        public async Task<ActionResult> UpdateUser(Profile profile)
+        public async Task<ActionResult> UpdateUser(UserProfile profile)
         {
             var context = new SphDataContext();
-            profile.Roles = roles;
-            var userprofile = await CreateProfile(profile);
+            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.Username == profile.Username);
+            userprofile.Email = profile.Email;
+            userprofile.Telephone = profile.Telephone;
+            userprofile.FullName = profile.FullName;
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(userprofile);
+                await session.SubmitChanges();
+            }
 
             return Json(userprofile);
         }

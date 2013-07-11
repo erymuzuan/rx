@@ -303,7 +303,7 @@
     "error": ""
   },
   {
-    "role": "admin_user",
+    "role": "",
     "url": "users",
     "moduleId": "viewmodels/users",
     "name": "Pengurusan Pengguna",
@@ -424,7 +424,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "",
     "url": "user.profile",
     "moduleId": "viewmodels/user.profile",
     "name": "Profile",
@@ -446,7 +446,7 @@
     "error": ""
   },
   {
-    "role": "admin_user",
+    "role": "",
     "url": "role.settings/:id",
     "moduleId": "viewmodels/role.settings",
     "name": "Jawatan dan Role",

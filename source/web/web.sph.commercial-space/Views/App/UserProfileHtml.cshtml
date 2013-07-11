@@ -4,7 +4,7 @@
 }
 
 <h2>Profil @User.Identity.Name</h2>
-<div>
+<div class="span4">
     <form class="form-horizontal" data-bind="with: userProfile">
         <div class="control-group">
             <label for="FullName" class="control-label">Nama penuh</label>
@@ -30,12 +30,12 @@
                 <input data-bind="value: Telephone" id="Telephone" type="text" name="Telephone" />
             </div>
         </div>
-        <div class="control-group">
-            <label for="submit-button" class="control-label"></label>
-            <div class="controls">
-                <input id="submit-button" type="button" class="btn btn-primary" value="Simpan" data-bind="command: saveCommand" data-loading-text="Sila tunggu..." data-complete-text=" OK" />
-            </div>
-        </div>
-    </form>
 
+    </form>
+    <div class="control-group pull-right" >
+        <label for="submit-button" class="control-label"></label>
+        <div class="controls">
+            <input id="submit-button" type="button" class="btn btn-primary" value="Simpan" data-bind="command: saveCommand" data-loading-text="Sila tunggu..." data-complete-text=" OK" />
+        </div>
+    </div>
 </div>
