@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -17,32 +17,32 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             Roles.CreateRole(role);
             return Json(true);
         }
+
+        public async Task<ActionResult> ValidateUserName(string userName)
+        {
+            await Task.Delay(2000);
+            var user = Membership.GetUser(userName);
+            if (null != user)
+                return Json(new {status = "DUPLICATE", message = string.Format("Username '{0}' already exists!!!!",userName)});
+
+            this.Response.ContentType = "application/json; charset=utf-8";
+            return Content(await JsonConvert.SerializeObjectAsync(true));
+
+        }
+
         public async Task<ActionResult> AddUser(Profile profile)
         {
             var context = new SphDataContext();
-            var setting = await context.LoadOneAsync<Setting>(s => s.Key == "Designation.Role");
-            var designation = await JsonConvert.DeserializeObjectAsync<Designation[]>(setting.Value);
-            var userRoles = designation.Where(d => d.Name == profile.Designation).Select(d => d.Roles);
-            var em = Membership.GetUser(profile.UserName);
-            var role = userRoles.FirstOrDefault();
-            if (null != em)
-            {
-                var roles = Roles.GetRolesForUser(profile.UserName);
-                if (roles.Any())
-                    Roles.RemoveUserFromRoles(profile.UserName, roles);
+            var designation = await context.LoadOneAsync<Designation>(d => d.Name == profile.Designation);
+            if (null == designation) throw new InvalidOperationException("Cannot find designation " + profile.Designation);
+            var roles = designation.RoleCollection.ToArray();
 
-                Roles.AddUserToRoles(profile.UserName, role);
-                em.Email = profile.Email;
-                Membership.UpdateUser(em);
-                var user= await CreateProfile(profile);
-                return Json(user);
-            }
             Membership.CreateUser(profile.UserName, profile.Password, profile.Email);
-            Roles.AddUserToRoles(profile.UserName, role);
-            profile.Roles = role;
-           var userprofile = await CreateProfile(profile);
+            Roles.AddUserToRoles(profile.UserName, roles);
+            profile.Roles = roles;
+            var userprofile = await CreateProfile(profile);
 
-           return Json(userprofile);
+            return Json(userprofile);
         }
 
         private static async Task<UserProfile> CreateProfile(Profile profile)
@@ -57,7 +57,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                     Mobile = profile.Mobile,
                     Telephone = profile.Telephone,
                     Email = profile.Email,
-                    RoleTypes = string.Join(",",profile.Roles)
+                    RoleTypes = string.Join(",", profile.Roles)
                 };
 
             using (var session = context.OpenSession())
@@ -78,9 +78,4 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         }
     }
 
-    public class Designation
-    {
-        public string Name { get; set; }
-        public string[] Roles { get; set; }
-    }
 }

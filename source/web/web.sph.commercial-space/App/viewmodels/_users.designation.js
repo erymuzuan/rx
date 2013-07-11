@@ -22,14 +22,11 @@ define(['services/datacontext'],
 	                vm.roles.push(r);
 	            });
 	            
-	            var query = String.format("Key eq 'Designation.Role'");
+	            var query = String.format("DesignationId gt 0");
 	            var tcs = new $.Deferred();
-	            context.loadOneAsync("Setting", query)
-                    .done(function (s) {
-                        if (s) {
-                            var designation = JSON.parse(ko.mapping.toJS(s.Value));
-                            vm.designationCollection(designation);
-                        }
+	            context.loadAsync("Designation", query)
+                    .done(function (lo) {
+                        vm.designationCollection(lo.itemCollection);
                         tcs.resolve(true);
                     });
 
