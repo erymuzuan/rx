@@ -59,6 +59,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(true);
         }
         
+        [Authorize(Roles = "can_approve_rental_application")]
         public async Task<ActionResult> Approved(int id)
         {
             var context = new SphDataContext();

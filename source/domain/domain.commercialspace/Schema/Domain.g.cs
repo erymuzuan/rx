@@ -10872,6 +10872,11 @@
           {
           
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  int  m_designationId;
+                    public const string PropertyNameDesignationId = "DesignationId";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private  string  m_name;
                     public const string PropertyNameName = "Name";
 
@@ -10892,6 +10897,34 @@
 			get{ return m_RoleCollection;}
 			}
 		
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public int DesignationId
+                    {
+                    set
+                    {
+                    if( m_designationId == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameDesignationId, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_designationId= value;
+                    OnPropertyChanged(PropertyNameDesignationId);
+                    }
+                    }
+                    get
+                    {
+                    return m_designationId;}
+                    }
+
+                  
                 ///<summary>
                 /// 
                 ///</summary>
