@@ -22,6 +22,9 @@ define(['services/datacontext',
                 
                 var tcs = new $.Deferred();
                 context.loadOneAsync("Setting", "Key eq 'State'").done(function (s) {
+                    s = s || {
+                        Value : '[]'
+                    };
                     var states = JSON.parse(ko.mapping.toJS(s.Value));
                     vm.stateOptions(states);
                     tcs.resolve(true);
