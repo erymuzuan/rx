@@ -1,5 +1,5 @@
 ﻿<section>
-   <input type="button" class="btn btn-primary" data-bind="click : addCommand" value="+ Jawatan"/>
+    <a href="/#/role.settings/0" class="btn btn-primary">+ Jawatan</a>
 <div>
     <table class="table table-striped">
         <thead>
@@ -11,13 +11,10 @@
         <tbody data-bind="foreach :designationCollection">
             <tr>
                 <td>
-                     <input data-bind="value: Name" id="Designation" type="text" name="Designation" />
+                    <a data-bind="attr : {href:'/#/role.settings/' + DesignationId()},text: Name"></a>
                 </td>
-                <td>
-                     <div data-bind="foreach :$parent.roles">
-        <span><input type="checkbox" name="user_roles" data-bind="value:RoleName, checked: $parent.Roles"/></span>
-            <span for="user_roles" data-bind="text:RoleName"></span>
-    </div>
+                <td data-bind="text:Description">
+                     
                 </td>
             </tr>
         </tbody>
