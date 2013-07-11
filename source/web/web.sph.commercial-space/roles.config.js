@@ -23,7 +23,7 @@
   {
     "Group": "tenant",
     "Name": "Penyewa",
-    "Role": "tenant",
+    "Role": "can_view_tenant_details",
     "Description": "penyewa",
     "IsActive": true
   },
@@ -32,6 +32,27 @@
     "Name": "Penyelia Senggara",
     "Role": "can_inspect",
     "Description": "Boleh buat pemeriksaan",
+    "IsActive": true
+  },
+  {
+    "Group": "pengguna",
+    "Name": "Penyewa",
+    "Role": "tenant",
+    "Description": "sebagai penyewa",
+    "IsActive": true
+  },
+  {
+    "Group": "admin",
+    "Name": "Penetapan ",
+    "Role": "can_edit_setting",
+    "Description": null,
+    "IsActive": true
+  },
+  {
+    "Group": "pengguna",
+    "Name": "Pemohon",
+    "Role": "applicant",
+    "Description": "sebagai pemohon ",
     "IsActive": true
   }
 ]

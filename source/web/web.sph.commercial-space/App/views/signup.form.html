@@ -1,9 +1,46 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body>
+﻿<h3>Pendaftaran Pengguna Portal</h3>
+<form class="form-horizontal span5" data-bind="with: profile">
+    <div class="control-group">
+        <label for="Username" class="control-label">Nama pengguna :</label>
+        <div class="controls">
+            <input data-bind="value: UserName" id="Username" type="text" name="Username" />
+            <i class="icon-spinner icon-spin icon-large" data-bind="visible: $root.isBusyValidatingUserName"></i>
+            <span class="help-block alert alert-error" data-bind="text: $root.userNameValidationStatus, visible: $root.userNameValidationStatus() "></span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="Password" class="control-label">Password :</label>
+        <div class="controls">
+            <input data-bind="value: Password" id="Password" type="password" name="Password" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="ConfirmPassword" class="control-label">Confirm Password :</label>
+        <div class="controls">
+            <input data-bind="value: ConfirmPassword" id="ConfirmPassword" type="password" name="ConfirmPassword" />
+        </div>
+    </div>
 
-</body>
-</html>
+    <div class="control-group">
+        <label for="FullName" class="control-label">Nama penuh :</label>
+        <div class="controls">
+            <input data-bind="value: FullName" id="FullName" type="text" name="FullName" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="Email" class="control-label">Emel :</label>
+        <div class="controls">
+            <input data-bind="value: Email" id="Email" type="text" name="Email" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="Telephone" class="control-label">No. Telefon :</label>
+        <div class="controls">
+            <input data-bind="value: Telephone" id="Telephone" type="text" name="Telephone" />
+        </div>
+    </div>
+    <div class="pull-right">
+    <input type="button" class="btn btn-primary" data-bind="click: $parent.submitCommand" value="Daftar" />
+</div>
+</form>
+

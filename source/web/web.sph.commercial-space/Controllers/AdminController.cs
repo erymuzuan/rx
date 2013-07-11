@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             await Task.Delay(2000);
             var user = Membership.GetUser(userName);
             if (null != user)
-                return Json(new {status = "DUPLICATE", message = string.Format("Username '{0}' already exists!!!!",userName)});
+                return Json(new {status = "DUPLICATE", message = string.Format("nama pengguna '{0}' sudah digunakan",userName)});
             this.Response.ContentType = "application/json; charset=utf-8";
             return Content(await JsonConvert.SerializeObjectAsync(true));
 
@@ -43,6 +43,21 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(userprofile);
         }
 
+        public async Task<ActionResult> Register(Profile profile)
+        {
+            var context = new SphDataContext();
+            var designation = await context.LoadOneAsync<Designation>(d => d.Name == "Pengguna");
+            if (null == designation) throw new InvalidOperationException("Cannot find designation Pengguna");
+            var roles = designation.RoleCollection.ToArray();
+
+            Membership.CreateUser(profile.UserName, profile.Password, profile.Email);
+            Roles.AddUserToRoles(profile.UserName, roles);
+            profile.Roles = roles;
+            profile.Designation = "Pengguna";
+            var userprofile = await CreateProfile(profile);
+
+            return Json(userprofile);
+        }
         private static async Task<UserProfile> CreateProfile(Profile profile)
         {
             var context = new SphDataContext();

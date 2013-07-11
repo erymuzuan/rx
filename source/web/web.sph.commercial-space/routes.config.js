@@ -455,5 +455,16 @@
     "caption": "Senarai Jawatan",
     "settings": null,
     "error": ""
+  },
+  {
+    "role": null,
+    "url": "signup.form",
+    "moduleId": "viewmodels/signup.form",
+    "name": "Borang Pendaftaran",
+    "visible": true,
+    "icon": "icon-laptop",
+    "caption": "Pendaftaran",
+    "settings": null,
+    "error": ""
   }
 ]

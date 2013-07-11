@@ -1,48 +1,111 @@
-@model Bespoke.Nsrm.Web.Models.RegisterModel
+<section class="span3">
+    <h3>Daftar Pengguna Baru </h3>
+    <form class="form-horizontal span5" data-bind="with: profile">
+        <div class="control-group">
+            <label for="Username" class="control-label">Nama pengguna :</label>
+            <div class="controls">
+                <input data-bind="value: UserName" id="Username" type="text" name="Username" />
+                <i class="icon-spinner icon-spin icon-large" data-bind="visible: $root.isBusyValidatingUserName"></i>
+                <span class="help-block alert alert-error" data-bind="text: $root.userNameValidationStatus, visible: $root.userNameValidationStatus() "></span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Password" class="control-label">Password :</label>
+            <div class="controls">
+                <input data-bind="value: Password" id="Password" type="password" name="Password" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="ConfirmPassword" class="control-label">Confirm Password :</label>
+            <div class="controls">
+                <input data-bind="value: ConfirmPassword" id="ConfirmPassword" type="password" name="ConfirmPassword" />
+            </div>
+        </div>
 
-@{
-    ViewBag.Title = "Register";
-}
+        <div class="control-group">
+            <label for="FullName" class="control-label">Nama penuh :</label>
+            <div class="controls">
+                <input data-bind="value: FullName" id="FullName" type="text" name="FullName" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Email" class="control-label">Emel :</label>
+            <div class="controls">
+                <input data-bind="value: Email" id="Email" type="text" name="Email" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Telephone" class="control-label">No. Telefon :</label>
+            <div class="controls">
+                <input data-bind="value: Telephone" id="Telephone" type="text" name="Telephone" />
+            </div>
+        </div>
+        <div class="pull-right">
+            <input type="button" class="btn btn-primary" data-bind="click: $parent.submitCommand" value="Daftar" />
+        </div>
+    </form>
+</section>
+<script src="https://raw.github.com/ExactTarget/fuelux/master/lib/require.js"></script>
+<script type="text/javascript" src="https://raw.github.com/ExactTarget/fuelux/master/dist/datagrid.js"></script>
+<script type="text/javascript" data-script="true">
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Use the form below to create a new account.</h2>
-</hgroup>
+    define(['services/datacontext'], function (context) {
+        var isBusy = ko.observable(false),
+            activate = function () {
 
-<p class="message-info">
-    Passwords are required to be a minimum of @Membership.MinRequiredPasswordLength characters in length.
-</p>
+            },
 
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+            register = function () {
+                var tcs = new $.Deferred();
+                var data = ko.toJSON(vm.profile);
+                isBusy(true);
 
-@using (Html.BeginForm((string)ViewBag.FormAction, "Account")) {
-    @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
+                context.post(data, "/Admin/Register")
+                    .then(function (result) {
+                        isBusy(false);
 
-    <fieldset>
-        <legend>Registration Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Email)
-                @Html.TextBoxFor(m => m.Email)
-                @Html.ValidationMessageFor(m => m.Email)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
-                @Html.ValidationMessageFor(m => m.ConfirmPassword)
-            </li>
-        </ol>
-        <input type="submit" value="Register" />
-    </fieldset>
-}
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            };
+
+
+        var vm = {
+            activate: activate,
+            isBusyValidatingUserName: ko.observable(false),
+            profile: {
+                FullName: ko.observable(),
+                UserName: ko.observable(),
+                Email: ko.observable(),
+                Password: ko.observable(),
+                ConfirmPassword: ko.observable(''),
+                Status: ko.observable(),
+                Designation: ko.observable(),
+                Department: ko.observable(),
+                Telephone: ko.observable(),
+                Mobile: ko.observable(),
+                IsNew: ko.observable()
+            },
+            userNameValidationStatus: ko.observable(),
+            submitCommand: register
+        };
+        vm.profile.UserName.subscribe(function (username) {
+            vm.isBusyValidatingUserName(true);
+            var tcs = new $.Deferred();
+            var data = JSON.stringify({ userName: username });
+            isBusy(true);
+            context.post(data, "/Admin/ValidateUserName")
+                .then(function (result) {
+                    isBusy(false);
+                    vm.isBusyValidatingUserName(false);
+                    if (result.status !== "OK") {
+                        vm.userNameValidationStatus(result.message);
+                    }
+
+                    tcs.resolve(result);
+                });
+            return tcs.promise();
+        });
+        return vm;
+    });
+</script>
