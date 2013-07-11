@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 
@@ -20,7 +21,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         }
         public ActionResult Views(string id)
         {
-            this.Response.ContentType = APPLICATION_JAVASCRIPT;
+            this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            this.Response.ContentType = TEXT_HTML;
             var script = this.RenderHtml(id.Replace(".", string.Empty));
             return Content(script);
         }

@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Linq;
+﻿using Telerik.Windows.Controls;
 
 namespace permissions.editor
 {
@@ -7,19 +6,15 @@ namespace permissions.editor
     {
         public MainWindow()
         {
+            StyleManager.ApplicationTheme = new Windows8Theme();
             InitializeComponent();
             this.Loaded += MainWindowLoaded;
         }
 
         void MainWindowLoaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            var list = from i in Enumerable.Range(1, 10)
-                select new Permission
-                {
-                    Name = i.ToString(CultureInfo.InvariantCulture).PadLeft(6,'0'),
-                    Description = i.ToString(CultureInfo.InvariantCulture)
-                };
-            this.DataContext = list;
+            var vm = new MainViewModel();
+            this.DataContext = vm;
         }
     }
 }

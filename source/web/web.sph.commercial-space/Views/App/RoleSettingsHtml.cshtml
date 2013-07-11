@@ -3,15 +3,28 @@
 @{
     Layout = null;
 }
-<form class="form-horizontal">
+<form class="form-horizontal" data-bind="with : designation">
+    <div class="control-group">
+        <label for="Name" class="control-label">Nama jawatan</label>
+        <div class="controls">
+            <input data-bind="value: Name" id="Name" type="text" name="Name" />
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label for="description" class="control-label">Keterangan</label>
+        <div class="controls">
+            <textarea data-bind="value: Description" id="description" name="description"></textarea>
+        </div>
+    </div>
     @foreach (var r in Model)
     {
-    
-
         <div class="control-group">
             <div class="controls">
                 <label class="checkbox">
-                    <input data-bind="checked: designation().RoleCollection" value="@r.Role" type="checkbox" name="role" />
+                    <input data-bind="checked: RoleCollection" value="@r.Role" 
+                           type="checkbox" 
+                           name="role" />
                     @r.Name
                 </label>
                 <span class="help-block">@r.Description</span>
