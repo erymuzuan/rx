@@ -38,7 +38,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                     Department = comp.Department,
                     ComplaintId = comp.ComplaintId,
                     StartDate = null,
-                    EndDate = null
+                    EndDate = null,
+                    Complaint = comp
                 };
 
             using (var session = context.OpenSession())

@@ -3,43 +3,49 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h3>DASHBOARD SENGGARA</h3>
-<div>
-    <ul id="status-option" class="nav" data-bind="foreach :statusOptions">
-        <li><button type="button" class="btn btn-primary" data-bind="text:$data"></button></li>
+<div class="navbar">
+  <div class="navbar-inner">
+    <ul class="nav nav-header" id="status-option" data-bind="foreach: statusOptions">
+      <li><a class="active " href="#tab" data-toggle="tab" data-bind="text: $data"></a></li>
     </ul>
+  </div>
 </div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>No. Rujukan Aduan</th>
-            <th>Kategori Kerosakan</th>
-            <th>Sub-Kategori</th>
-            <th>Resolusi</th>
-            <th>Work Order No</th>
-            <th>Petugas Bertanggungjawab</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody data-bind="foreach: maintenances">
-        <tr>
-            <td data-bind="text: Complaint().ReferenceNo"></td>
-            <td data-bind="text: Complaint().Category"></td>
-            <td data-bind="text: Complaint().SubCategory"></td>
-            <td data-bind="text: Resolution"></td>
-            <td data-bind="text: WorkOrderNo"></td>
-            <td>
-                <select name="maintenance.Officer" data-bind="value: Officer">
-                    <option value="Ima">Ima</option>
-                    <option value="Syazwan">Syazwan</option>
-                    <option value="Shamsuriati">Shamsuriati</option>
-                    <option value="Hasmin">Hasmin</option>
-                </select>
-            </td>
-            
-            <td>
-                <input type="button" class="btn btn-primary" value="Agih Tugas" data-bind="click : $parent.assignCommand , visible: Status() == 'New'"/>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="tab-content">
+    <div class="tab-pane active" id="tab">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>No. Rujukan Aduan</th>
+                    <th>Kategori Kerosakan</th>
+                    <th>Sub-Kategori</th>
+                    <th>Resolusi</th>
+                    <th>Work Order No</th>
+                    <th>Petugas Bertanggungjawab</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: maintenances">
+                <tr>
+                    <td data-bind="text: Complaint.ReferenceNo"></td>
+                    <td data-bind="text: Complaint.Category"></td>
+                    <td data-bind="text: Complaint.SubCategory"></td>
+                    <td data-bind="text: Resolution"></td>
+                    <td data-bind="text: WorkOrderNo"></td>
+                    <td>
+                        <select name="maintenance.Officer" data-bind="value: Officer">
+                            <option value="Ima">Ima</option>
+                            <option value="Syazwan">Syazwan</option>
+                            <option value="Shamsuriati">Shamsuriati</option>
+                            <option value="Hasmin">Hasmin</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <input type="button" class="btn btn-primary" value="Agih Tugas" data-bind="click: $parent.saveAssignment, visible: Status() == 'New'" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
