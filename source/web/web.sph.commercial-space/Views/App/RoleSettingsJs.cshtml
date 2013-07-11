@@ -1,9 +1,6 @@
-﻿@using Bespoke.SphCommercialSpaces.Domain
-@model IEnumerable<Bespoke.Sph.Commerspace.Web.Controllers.RoleModel>
+﻿@model IEnumerable<Bespoke.Sph.Commerspace.Web.Controllers.RoleModel>
 @{
-    ViewBag.Title = "RoleSettingsJs";
     Layout = null;
-    var roles = string.Join(",", Model.Select(s => string.Format("'{0}'", s)));
 }
 
 <h2>RoleSettingsJs</h2>
@@ -14,24 +11,47 @@
 
             var isBusy = ko.observable(),
 
-            activate = function (id) {
-                
-                var query = String.format("DesignationId eq {0}", id);
-                var tcs = new $.Deferred();
-                context.loadOneAsync("Designation", query)
-                    .done(function(b) {
-                        vm.designation(b);
-                        tcs.resolve(true);
-                    });
+            activate = function (routeData) {
+                var id = parseInt(routeData.id);
+                if (id) {
+                    var query = String.format("DesignationId eq {0}", id);
+                    var tcs = new $.Deferred();
+                    context.loadOneAsync("Designation", query)
+                        .done(function (b) {
+                            vm.designation(b);
+                            tcs.resolve(true);
+                        });
 
+                    return tcs.promise();
+
+                } else {
+                    vm.designation(new bespoke.sphcommercialspace.domain.Designation());
+                }
+
+                return true;
+
+            },
+
+            save = function () {
+                var tcs = new $.Deferred();
+                var data = ko.toJSON(vm.designation);
+                isBusy(true);
+
+                context.post(data, "/Designation/Save")
+                    .then(function (result) {
+                        isBusy(false);
+
+
+                        tcs.resolve(result);
+                    });
                 return tcs.promise();
-    
             };
 
             var vm = {
+                activate: activate,
                 designation: ko.observable(),
                 isBusy: isBusy,
-                active: activate
+                saveCommand: save
             };
 
             return vm;

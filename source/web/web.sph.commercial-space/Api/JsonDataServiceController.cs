@@ -23,6 +23,10 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         {
             return await ExecuteAsync<Contract>(filter, page, size, includeTotal);
         }
+        public async Task<ActionResult> Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Designation>(filter, page, size, includeTotal);
+        }
         public async Task<ActionResult> Complaint(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Complaint>(filter, page, size, includeTotal);

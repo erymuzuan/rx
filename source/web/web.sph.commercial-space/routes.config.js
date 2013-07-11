@@ -72,7 +72,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin_user",
     "url": "setting",
     "moduleId": "viewmodels/setting",
     "name": "Tetapan Umum",
@@ -303,7 +303,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin_user",
     "url": "users",
     "moduleId": "viewmodels/users",
     "name": "Pengurusan Pengguna",
@@ -314,7 +314,7 @@
     "error": ""
   },
   {
-    "role": "admin_setting",
+    "role": "admin_user",
     "url": "organization.detail",
     "moduleId": "viewmodels/organization.detail",
     "name": "Tetapan Organisasi",
@@ -442,6 +442,17 @@
     "visible": true,
     "icon": "icon-laptop",
     "caption": "Senarai Penyenggaraan",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": "admin_user",
+    "url": "role.settings/:id",
+    "moduleId": "viewmodels/role.settings",
+    "name": "Jawatan dan Role",
+    "visible": false,
+    "icon": "icon-laptop",
+    "caption": "Senarai Jawatan",
     "settings": null,
     "error": ""
   }

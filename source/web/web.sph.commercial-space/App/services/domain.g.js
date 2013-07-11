@@ -695,39 +695,6 @@ bespoke.sphcommercialspace.domain.Deposit = function (webId) {
 
 
 
-bespoke.sphcommercialspace.domain.Role = function (webId) {
-
-    var model = {
-        RoleId: ko.observable(),
-        Name: ko.observable(),
-        PermissionCollection: ko.observableArray(),
-        isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
-    };
-    if (bespoke.sphcommercialspace.domain.RolePartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.RolePartial(model));
-    }
-    return model;
-};
-
-
-
-bespoke.sphcommercialspace.domain.Permission = function (webId) {
-
-    var model = {
-        IsAuthorized: ko.observable(),
-        Name: ko.observable(),
-        isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
-    };
-    if (bespoke.sphcommercialspace.domain.PermissionPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.PermissionPartial(model));
-    }
-    return model;
-};
-
-
-
 bespoke.sphcommercialspace.domain.Reply = function (webId) {
 
     var model = {
@@ -1014,21 +981,6 @@ bespoke.sphcommercialspace.domain.Inspection = function (webId) {
 
 
 
-bespoke.sphcommercialspace.domain.ComplaintSubCategory = function (webId) {
-
-    var model = {
-        Description: ko.observable(),
-        isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
-    };
-    if (bespoke.sphcommercialspace.domain.ComplaintSubCategoryPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintSubCategoryPartial(model));
-    }
-    return model;
-};
-
-
-
 bespoke.sphcommercialspace.domain.Maintenance = function (webId) {
 
     var model = {
@@ -1047,6 +999,24 @@ bespoke.sphcommercialspace.domain.Maintenance = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.MaintenancePartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.MaintenancePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Designation = function (webId) {
+
+    var model = {
+        DesignationId: ko.observable(),
+        Name: ko.observable(),
+        Description: ko.observable(),
+        RoleCollection: ko.observableArray(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.DesignationPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.DesignationPartial(model));
     }
     return model;
 };

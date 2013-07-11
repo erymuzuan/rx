@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Web.Security;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
@@ -53,10 +54,10 @@ namespace permissions.editor
         {
             var json = JsonConvert.SerializeObject(this.RoleCollection, Formatting.Indented);
             System.IO.File.WriteAllText(this.FileName, json);
-
-          
+            Properties.Settings.Default.LastFile = this.FileName;
             Properties.Settings.Default.Save();
         }
+
         private readonly ObservableCollection<RoleModel> m_roleCollection = new ObservableCollection<RoleModel>();
         private string m_fileName;
 

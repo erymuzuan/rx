@@ -13,7 +13,7 @@
         <li>
             <a href="#designation-tab" data-toggle="tab">Setting Jawatan</a>
         </li>
-         <li>
+        <li>
             <a href="#department-tab" data-toggle="tab">Setting Jabatan</a>
         </li>
         <li>
@@ -25,7 +25,7 @@
         <div id="user-tab" class="tab-pane active">
 
             <div>
-                <a href="#user-details-modal" id="add-user-button" data-toggle="modal" class="btn btn-primary pull-right">Tambah Pengguna</a>
+                <a href="#user-details-modal" id="add-user-button" data-toggle="modal" data-bind="click: $parent.addCommand" class="btn btn-primary pull-right">Tambah Pengguna</a>
             </div>
             <table class="table table-striped">
                 <thead>
@@ -45,7 +45,7 @@
                         <td data-bind="text: Department"></td>
                         <td data-bind="text: Email"></td>
                         <td>
-                            <button class="btn btn-mini" data-bind="click: $parent.editCommand">Edit</button>
+                            <a class="btn btn-mini" data-toggle="modal" href="#user-details-modal" data-bind="click: $parent.editCommand">Edit</a>
                         </td>
                         <td>
                             <button class="btn btn-mini" data-bind="click: $parent.changePasswordCommand">Tukar Kata Laluan</button></td>
@@ -57,7 +57,7 @@
             <!--ko compose:'viewmodels/_users.designation' -->
             <!--/ko-->
         </div>
-         <div id="department-tab" class="tab-pane ">
+        <div id="department-tab" class="tab-pane ">
             <!--ko compose:'viewmodels/_users.department' -->
             <!--/ko-->
         </div>
@@ -79,21 +79,23 @@
                 <label for="Username" class="control-label">Nama pengguna :</label>
                 <div class="controls">
                     <input data-bind="value: UserName" id="Username" type="text" name="Username" />
+                    <i class="icon-spinner icon-spin" data-bind="visible: $root.isBusyValidatingUserName"></i>
+                    <span class="help-block alert alert-error" data-bind="text: $root.userNameValidationStatus, visible: $root.userNameValidationStatus() "></span>
                 </div>
             </div>
             <div class="control-group">
                 <label for="Password" class="control-label">Password :</label>
                 <div class="controls">
-                    <input data-bind="value: Password" id="Password" type="text" name="Password" />
+                    <input data-bind="value: Password" id="Password" type="password" name="Password" />
                 </div>
             </div>
-              <div class="control-group">
+            <div class="control-group">
                 <label for="ConfirmPassword" class="control-label">Confirm Password :</label>
                 <div class="controls">
-                    <input data-bind="value: ConfirmPassword" id="ConfirmPassword" type="text" name="ConfirmPassword" />
+                    <input data-bind="value: ConfirmPassword" id="ConfirmPassword" type="password" name="ConfirmPassword" />
                 </div>
             </div>
-              
+
             <div class="control-group">
                 <label for="FullName" class="control-label">Nama penuh :</label>
                 <div class="controls">
@@ -106,7 +108,7 @@
                     <input data-bind="value: Email" id="Email" type="text" name="Email" />
                 </div>
             </div>
-             <div class="control-group" data-bind="with: $parent.departmentOptions">
+            <div class="control-group" data-bind="with: $parent.departmentOptions">
                 <label for="department" class="control-label">Jabatan :</label>
                 <div class="controls">
                     <select id="department" name="department" data-bind="options: $data, optionsText: 'Name', optionsValue: 'Name', value: $parent.Department, optionsCaption: '[Sila Pilih]'"></select>
@@ -115,7 +117,7 @@
             <div class="control-group" data-bind="with: $parent.designationOptions">
                 <label for="designation" class="control-label">Jawatan :</label>
                 <div class="controls">
-                    <select id="designation" name="designation" data-bind="options: $data, optionsText: 'Name', optionsValue: 'Name', value: $parent.Designation, optionsCaption: '[Sila Pilih]'"></select>
+                    <select id="designation" name="designation" data-bind="options: $data, value: $parent.Designation, optionsCaption: '[Sila Pilih]'"></select>
                 </div>
             </div>
             <div class="control-group">
@@ -124,11 +126,38 @@
                     <input data-bind="value: Telephone" id="Telephone" type="text" name="Telephone" />
                 </div>
             </div>
-           
+
         </form>
     </div>
     <div class="modal-footer">
-        <input type="button" class="btn btn-primary" data-dismiss="modal" value="Batal"/>
-        <input type="button" id="save-button" class="btn btn-primary" data-bind="click:saveCommand" data-dismiss="modal" value="Simpan"/>
+        <input type="button" class="btn btn-primary" data-dismiss="modal" value="Batal" />
+        <input type="button" id="save-button" class="btn btn-primary" data-bind="click: saveCommand" data-dismiss="modal" value="Simpan" />
+    </div>
+</section>
+<section id="user-change-password" class="modal hide fade">
+    <div class="modal-header"></div>
+    <div class="modal-body">
+        <div class="control-group">
+                <label for="OldPassword" class="control-label">Katalaluan lama :</label>
+                <div class="controls">
+                    <input data-bind="value: OldPassword" id="OldPassword" type="password" name="OldPassword" />
+                </div>
+            </div>
+        <div class="control-group">
+            <label for="NewPassword" class="control-label">Katalaluan baru :</label>
+            <div class="controls">
+                <input data-bind="value: NewPassword" id="NewPassword" type="password" name="NewPassword" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="ConfirmNewPassword" class="control-label">Katalaluan lama :</label>
+            <div class="controls">
+                <input data-bind="value: ConfirmNewPassword" id="ConfirmNewPassword" type="password" name="ConfirmNewPassword" />
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn btn-primary" data-dismiss="modal" value="Batal" />
+        <input type="button" id="save-password-button" class="btn btn-primary" data-bind="click: saveCommand" data-dismiss="modal" value="Simpan" />
     </div>
 </section>
