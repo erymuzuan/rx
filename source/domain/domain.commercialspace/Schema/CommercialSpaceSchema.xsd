@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
 	<xs:element name="ContractHistory">
 		<xs:complexType>
@@ -658,6 +658,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="Tenant" minOccurs="0"/>
 			</xs:all>
 			<xs:attribute name="ComplaintId" type="xs:int" use="required"/>
 			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
@@ -758,6 +759,7 @@
 				<xs:element ref="Complaint" minOccurs="0"/>
 				<xs:element name="StartDate" type="xs:dateTime" nillable="true"/>
 				<xs:element name="EndDate" type="xs:dateTime" nillable="true"/>
+				<xs:element ref="WorkOrder" minOccurs="0"/>
 			</xs:all>
 			<xs:attribute name="MaintenanceId" type="xs:int" use="required"/>
 			<xs:attribute name="ComplaintId" type="xs:int" use="required"/>
@@ -781,6 +783,58 @@
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WorkOrder">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="CommentCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Comment" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PartsAndLaborCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="PartsAndLabor" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="WarrantyCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Warranty" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Priority" type="xs:string" use="required"/>
+			<xs:attribute name="Severity" type="xs:string" use="required"/>
+			<xs:attribute name="EstimationCost" type="xs:decimal" use="required"/>
+			<xs:attribute name="WorkOrderId" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Comment">
+		<xs:complexType>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="User" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PartsAndLabor">
+		<xs:complexType>
+			<xs:attribute name="Quantity" type="xs:int" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="Cost" type="xs:decimal" use="required"/>
+			<xs:attribute name="Total" type="xs:decimal" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Warranty">
+		<xs:complexType>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="YearWarranty" type="xs:string" use="required"/>
+			<xs:attribute name="StartDate" type="xs:dateTime" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

@@ -444,5 +444,16 @@
     "caption": "Senarai Penyenggaraan",
     "settings": null,
     "error": ""
+  },
+  {
+    "role": null,
+    "url": "officer.list",
+    "moduleId": "viewmodels/officer.list",
+    "name": "Senarai Penyenggaraan Officer",
+    "visible": true,
+    "icon": "icon-laptop",
+    "caption": "Senarai Penyenggaraan Officer",
+    "settings": null,
+    "error": ""
   }
 ]

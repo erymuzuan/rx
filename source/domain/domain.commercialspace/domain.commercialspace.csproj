@@ -65,6 +65,7 @@
     <Compile Include="Change.cs" />
     <Compile Include="ChangeSubmission.cs" />
     <Compile Include="Clause.cs" />
+    <Compile Include="Comment.cs" />
     <Compile Include="CommercialSpace.cs" />
     <Compile Include="Complaint.cs" />
     <Compile Include="ComplaintCategory.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="OfferCondition.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="Owner.cs" />
+    <Compile Include="PartsAndLabor.cs" />
     <Compile Include="Payment.cs" />
     <Compile Include="PaymentDistribution.cs" />
     <Compile Include="Permission.cs" />
@@ -162,6 +164,8 @@
     <Compile Include="Tenant.cs" />
     <Compile Include="Topic.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="Warranty.cs" />
+    <Compile Include="WorkOrder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Schema\Object.xslt">

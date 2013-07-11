@@ -22,14 +22,17 @@ define(['services/datacontext', 'services/logger'],
                 tenantId(parseInt(tenant.TenantId()));
                 vm.complaint().TenantId(tenantId);
                 var query = "TenantIdSsmNo eq '" + tenant.IdSsmNo() + "'";
+                var query2 = "TenantId eq " + tenant.TenantId();
 	            isBusy(true);
 	            var tcs = new $.Deferred();
 
 	            var getContractTask = context.loadAsync("Contract", query);
+                var getTenantInfoTask = context.loadOneAsync("Tenant", query2);
 	            var getComplaintTemplateTask = context.getTuplesAsync("ComplaintTemplate", "ComplaintTemplateId gt 0", "ComplaintTemplateId", "Name");
                 
-                $.when(getContractTask, getComplaintTemplateTask)
-                    .then(function (lo, list) {
+                $.when(getTenantInfoTask,getContractTask, getComplaintTemplateTask)
+                    .then(function (t, lo, list) {
+                        vm.complaint().Tenant(t);
                         vm.locationOptions.removeAll();
                         _.each(lo.itemCollection, function (cs) {
                             var list2 =
