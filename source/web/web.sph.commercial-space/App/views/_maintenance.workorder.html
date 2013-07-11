@@ -1,6 +1,58 @@
 ﻿<h3>WORK ORDER</h3>
 <div>
     <form class="form form-horizontal">
-        <div></div>
+        <div class="inline">
+            <div class="control-group">
+                <label for="Status" class="control-label">Status:</label>
+                <div class="controls">
+                    <select name="Status" data-bind="value: Status">
+                            <option value="New">New</option>
+                            <option value="Inspection">Inspection</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Close">Close</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Priority" class="control-label">Priority:</label>
+                <div class="controls">
+                    <select name="Priority" data-bind="value: Priority">
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Severity" class="control-label">Severity:</label>
+                <div class="controls">
+                    <select name="Severity" data-bind="value: Severity">
+                        <option value="Minor">Minor</option>
+                        <option value="Major">Major</option>
+                        <option value="Trivial">Trivial</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="Resolution" class="control-label">Resolution:</label>
+                <div class="controls">
+                    <select name="Resolution" data-bind="value: Resolution">
+                        <option value="Fake">Minor</option>
+                        <option value="Duplicate">Major</option>
+                        <option value="Not Started">Trivial</option>
+                        <option value="Attach Technician">Trivial</option>
+                        <option value="Attach Vendor">Trivial</option>
+                        <option value="Attach Done">Trivial</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="EstimationCost" class="control-label">Est.Cost:</label>
+                <div class="controls">
+                    <input data-bind="value: EstimationCost" id="EstimationCost" type="text" name="EstimationCost" />
+                </div>
+            </div>
+        </div>
     </form>
 </div>
