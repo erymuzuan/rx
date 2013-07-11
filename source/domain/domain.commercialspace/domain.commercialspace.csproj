@@ -70,6 +70,7 @@
     <Compile Include="Complaint.cs" />
     <Compile Include="ComplaintCategory.cs" />
     <Compile Include="ComplaintCustomField.cs" />
+    <Compile Include="ComplaintSubCategory.cs" />
     <Compile Include="ComplaintTemplate.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Contract.cs" />
