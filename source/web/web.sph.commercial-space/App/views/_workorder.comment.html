@@ -1,0 +1,17 @@
+﻿<div>
+    <input type="button" class="btn btn-primary" value="+ Maklum Balas" data-bind="click: $parent.addNewCommentCommand" />
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Maklum Balas/Komen</th>
+            <th>Pengguna</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: CommentCollection()">
+        <tr>
+            <td><input type="text" data-bind="value: Description" /></td>
+            <td><input type="text" data-bind="value: User" /></td>
+        </tr>
+    </tbody>
+</table>

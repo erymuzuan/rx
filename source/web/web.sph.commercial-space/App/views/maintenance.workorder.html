@@ -1,0 +1,168 @@
+﻿<h3>WORK ORDER</h3>
+<div class="container">
+    <form class="well form-inline span12">
+        <section data-bind="with : maintenance">
+            <label for="Status" class="control-label">Status:</label>
+            <select name="Status" data-bind="value: Status">
+                <option value="New">New</option>
+                <option value="Inspection">Pemeriksaan</option>
+                <option value="Maintenance">Proses Senggara</option>
+                <option value="Completed">Selesai</option>
+                <option value="Close">Tutup</option>
+            </select>
+            <label for="Priority" class="control-label">Keutamaan:</label>
+            <select name="Priority" data-bind="value: WorkOrder.Priority">
+                <option value="Low">Rendah</option>
+                <option value="Medium">Sederhana</option>
+                <option value="High">Tinggi</option>
+            </select>
+            <label for="Severity" class="control-label">Tahap:</label>
+            <select name="Severity" data-bind="value: WorkOrder.Severity">
+                <option value="Minor">Sederhana</option>
+                <option value="Major">Utama</option>
+                <option value="Trivial">Kompleks</option>
+            </select>
+            <label for="Resolution" class="control-label">Resolusi:</label>
+            <select name="Resolution" data-bind="value: Resolution">
+                <option value="Fake">Aduan Palsu</option>
+                <option value="Duplicate">Salinan Ke-2</option>
+                <option value="Not Started">Belum Bermula</option>
+                <option value="Attach Technician">Khidmat Juruteknik</option>
+                <option value="Attach Vendor">Khidmat Vendor</option>
+                <option value="Done">Selesai</option>
+            </select>
+        </section>
+    </form>
+    <form class="well form-inline span12" data-bind="with : maintenance().WorkOrder">
+        <label for="EstimationCost" class="control-label">Anggaran Kos:</label>
+        <input data-bind="value:EstimationCost" id="EstimationCost" type="text" name="EstimationCost" />
+    </form>
+    <form class="well form-horizontal span6">
+        <h6><strong>Pemilik Premis</strong></h6>
+        <section data-bind="with : maintenance().Complaint.Tenant">
+            <div class="control-group">
+                <label class="span2">Nama:</label>
+                <label class="span3" data-bind="text: Name" id="tenant.Name" />
+            </div>
+            <div class="control-group ">
+                <label class="span2">No. Telefon:</label>
+                <label class="span3" data-bind="text: Phone" id="tenant().PhoneNo" />
+            </div>
+            <div class="control-group ">
+                <label class="span2">No. Telefon Bimbit:</label>
+                <label class="span3" data-bind="text: MobilePhone" id="tenant().MobilePhoneNo" />
+            </div>
+
+            <div class="control-group ">
+                <label class="span3">Alamat :</label>
+                <div class="control-group span6" data-bind="with: Address">
+                    <div>
+                        <label class="span4" data-bind="text: UnitNo" />
+                    </div>
+                    <div>
+                        <label class="span4" data-bind="text: Street" />
+                    </div>
+                    <div>
+                        <label class="span4" data-bind="text: City" />
+                    </div>
+                    <div>
+                        <label class="span4" data-bind="text: Postcode" />
+                    </div>
+                    <div>
+                        <label class="span4" data-bind="text: State" />
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+
+    <form class="well form-horizontal span5" data-bind="with: maintenance">
+        <h6><strong>Maklumat Vendor/Juruteknik</strong></h6>
+        <section>
+            <div class="control-group">
+                <label class="span2">Lampiran</label>
+                :
+                <input id="File1" type="file" name="files" />
+            </div>
+            <div class="control-group">
+                <label class="span2">Tarikh Mula</label>
+                :
+                <input data-bind="kendoDate: Date" id="maintenance.StartDate" type="text" name="maintenance.StartDate" />
+            </div>
+            <div class="control-group">
+                <label class="span2">Tarikh Akhir</label>
+                :
+                <input data-bind="kendoDate: Date" id="maintenance.EndDate" type="text" name="maintenance.EndDate" />
+            </div>
+        </section>
+    </form>
+
+    <form class="well form-horizontal span12">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li>
+                    <a href="#general-tab" data-toggle="tab">
+                        <h6>Maklumat Aduan</h6>
+                    </a>
+                </li>
+                <li>
+                    <a href="#partsandlabor-tab" data-toggle="tab">
+                        <h6>Buruh/Perkakas</h6>
+                    </a>
+                </li>
+                <li>
+                    <a href="#warranty-tab" data-toggle="tab">
+                        <h6>Jaminan</h6>
+                    </a>
+                </li>
+                <li>
+                    <a href="#comment-tab" data-toggle="tab">
+                        <h6>Komen</h6>
+                    </a>
+                </li>
+
+            </ul>
+
+            <div class="tab-content">
+                <div id="general-tab" class="tab-pane" data-bind="with : maintenance().Complaint">
+                    <div class="control-group">
+                        <label class="control-label ">Kategori :  </label>
+                        <div class="controls">
+                            <span data-bind="text: Category" id="Category" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label ">SubKategori :  </label>
+                        <div class="controls">
+                            <span data-bind="text: SubCategory" id="SubCategory" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label ">Keterangan :  </label>
+                        <div class="controls">
+                            <span data-bind="text: Remarks" id="Remarks" />
+                        </div>
+                    </div>
+                </div>
+                <div id="partsandlabor-tab" class="tab-pane" data-bind="with: maintenance().WorkOrder">
+                    <!--ko compose:'_workorder.partsandlabor.html' -->
+                    <!--/ko-->
+                </div>
+                <div id="warranty-tab" class="tab-pane" data-bind="with: maintenance().WorkOrder">
+                    <!--ko compose:'_workorder.warranty.html' -->
+                    <!--/ko-->
+                </div>
+                <div id="comment-tab" class="tab-pane" data-bind="with: maintenance().WorkOrder">
+                    <!--ko compose:'_workorder.comment.html' -->
+                    <!--/ko-->
+                </div>
+            </div>
+        </div>
+    </form>
+    <form class="well form-inline span12">
+        <input class="btn btn-primary pull-right" type="button" value="SIMPAN" data-bind="command : saveCommand" data-loading-text="Sila tunggu..." data-complete-text="Selesai" />
+        <input class="btn btn-primary pull-right" type="button" value="CETAK WORK ORDER" />
+        <input class="btn btn-primary pull-right" type="button" value="CETAK WARRANTY" />
+        <input class="btn btn-primary pull-right" type="button" value="CETAK NCR" />
+    </form>
+</div>

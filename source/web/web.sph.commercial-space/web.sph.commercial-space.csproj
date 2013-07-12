@@ -311,6 +311,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App\services\mockMaintenanceContext.js" />
     <Content Include="App\viewmodels\complaint.assign.js" />
+    <Content Include="App\viewmodels\maintenance.workorder.js" />
     <Content Include="App\viewmodels\tenant.portal.js" />
     <Content Include="App\viewmodels\complaintform.tenant.js" />
     <Content Include="App\viewmodels\_tenant.complaint.js" />
@@ -320,9 +321,13 @@
     <Content Include="App\views\tenant.portal.html" />
     <Content Include="App\views\complaintform.tenant.html" />
     <Content Include="App\views\_complaint.details.html" />
-    <Content Include="App\views\_maintenance.workorder.html" />
+    <Content Include="App\views\maintenance.workorder.html" />
     <Content Include="App\views\_tenant.complaint.html" />
     <Content Include="App\views\_users.department.html" />
+    <Content Include="App\views\_workorder.comment.html" />
+    <Content Include="App\views\_workorder.complaint.html" />
+    <Content Include="App\views\_workorder.partsandlabor.html" />
+    <Content Include="App\views\_workorder.warranty.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="roles.config.js" />
