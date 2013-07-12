@@ -43,21 +43,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(userprofile);
         }
 
-        public async Task<ActionResult> Register(Profile profile)
-        {
-            var context = new SphDataContext();
-            var designation = await context.LoadOneAsync<Designation>(d => d.Name == "Pengguna");
-            if (null == designation) throw new InvalidOperationException("Cannot find designation Pengguna");
-            var roles = designation.RoleCollection.ToArray();
-
-            Membership.CreateUser(profile.UserName, profile.Password, profile.Email);
-            Roles.AddUserToRoles(profile.UserName, roles);
-            profile.Roles = roles;
-            profile.Designation = "Pengguna";
-            var userprofile = await CreateProfile(profile);
-
-            return Json(userprofile);
-        }
+     
         private static async Task<UserProfile> CreateProfile(Profile profile)
         {
             var context = new SphDataContext();

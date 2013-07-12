@@ -1,0 +1,42 @@
+﻿@{
+    Layout = null;
+    var username = @User.Identity.Name;
+}
+
+<script type="text/javascript" data-script="true">
+    define(['services/datacontext', './_tenant.rent', './_tenant.contract', './_tenant.complaint', './complaintform.tenant'],
+	function (context, rentvm, contractvm, complaintListvm, cfvm) {
+
+	    var isBusy = ko.observable(false),
+        idSsm = ko.observable(),
+        tenant = new bespoke.sphcommercialspace.domain.Tenant(),
+        activate = function () {
+            idSsm('@Html.Raw(username)');
+            var query = String.format("IdSsmNo eq '{0}'", idSsm());
+            var tcs = new $.Deferred();
+            var detailLoaded = function (tnt) {
+                vm.tenant(tnt);
+                var rentTask = rentvm.activate(tnt);
+                var contractTask = contractvm.init(tnt);
+                var complaintListTask = complaintListvm.activate(tnt);
+                var complaintFormTask = cfvm.activate(tnt);
+                $.when(rentTask, contractTask, complaintListTask, complaintFormTask).done(function () {
+                    tcs.resolve(true);
+                });
+            };
+            context.loadOneAsync("Tenant", query)
+                .then(detailLoaded);
+            return tcs.promise();
+        };
+
+	    var vm = {
+	        isBusy: isBusy,
+	        activate: activate,
+	        tenant: ko.observable(tenant)
+	    };
+
+	    return vm;
+
+	});
+
+</script>

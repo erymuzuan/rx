@@ -1,5 +1,7 @@
 USE [Sph]
 GO
+DROP TABLE [Sph].[Tenant]
+GO
 /*
 DROP TABLE [Sph].[Tenant]
 GO

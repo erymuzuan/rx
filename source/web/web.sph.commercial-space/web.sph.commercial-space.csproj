@@ -249,6 +249,7 @@
     <Compile Include="Controllers\AppController.role.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AppController.tenantportal.cs" />
     <Compile Include="Controllers\AppController.userprofile.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
@@ -330,14 +331,12 @@
     <Content Include="App\services\mockMaintenanceContext.js" />
     <Content Include="App\viewmodels\complaint.assign.js" />
     <Content Include="App\viewmodels\signup.form.js" />
-    <Content Include="App\viewmodels\tenant.portal.js" />
     <Content Include="App\viewmodels\complaintform.tenant.js" />
     <Content Include="App\viewmodels\_tenant.complaint.js" />
     <Content Include="App\viewmodels\_user.designation.details.js" />
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\complaint.assign.html" />
     <Content Include="App\views\signup.form.html" />
-    <Content Include="App\views\tenant.portal.html" />
     <Content Include="App\views\complaintform.tenant.html" />
     <Content Include="App\views\_complaint.details.html" />
     <Content Include="App\views\_tenant.complaint.html" />
@@ -463,7 +462,6 @@
     <Content Include="App\viewmodels\_tenant.rebate.js" />
     <Content Include="App\viewmodels\_tenant.rent.js" />
     <Content Include="App\viewmodels\_users.designation.js" />
-    <Content Include="App\viewmodels\_users.role.js" />
     <Content Include="App\views\admindashboard.html" />
     <Content Include="App\views\applicationlist.html" />
     <Content Include="App\views\building.html" />
@@ -515,7 +513,6 @@
     <Content Include="App\views\_tenant.rebate.html" />
     <Content Include="App\views\_tenant.rent.html" />
     <Content Include="App\views\_users.designation.html" />
-    <Content Include="App\views\_users.role.html" />
     <Content Include="bootstrap\css\bootstrap-responsive.css" />
     <Content Include="bootstrap\css\bootstrap-responsive.min.css" />
     <Content Include="bootstrap\css\bootstrap.css" />
@@ -869,6 +866,8 @@
     <Content Include="Views\App\MaintenanceListHtml.cshtml" />
     <Content Include="Views\App\MaintenanceListJs.cshtml" />
     <Content Include="Views\App\RoleSettingsHtml.cshtml" />
+    <Content Include="Views\App\TenantPortalHtml.cshtml" />
+    <Content Include="Views\App\TenantPortalJs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
