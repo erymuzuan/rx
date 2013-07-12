@@ -992,6 +992,7 @@ bespoke.sphcommercialspace.domain.Maintenance = function (webId) {
         Status: ko.observable(),
         Resolution: ko.observable(),
         Officer: ko.observable(),
+        AttachmentStoreId: ko.observable(),
         Complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
         StartDate: ko.observable(),
         EndDate: ko.observable(),

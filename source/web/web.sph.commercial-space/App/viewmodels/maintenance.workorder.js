@@ -12,23 +12,53 @@ define(['services/datacontext'], function (context) {
         //id = ko.observable(),
         activate = function () {
             //id(routedata.won);
-            //var query = String.format("WorkOrderNo eq 'WO201312'"); //'{0}'", id());
+            //var query = String.format("WorkOrderNo eq '{0}'", id());
             var query = String.format("ComplaintId eq 20 ");
             var tcs = new $.Deferred();
             context.loadOneAsync("Maintenance", query)
-                .then(function(wo) {
+                .then(function(m) {
                     isBusy(false);
-                    vm.workOrder(wo);
+                    vm.maintenance(m);
                     tcs.resolve(true);
                 });
             return tcs.promise();
+        },
+        
+        addNewComment = function() {
+            var comment  = new bespoke.sphcommercialspace.domain.Comment();
+            vm.maintenance().WorkOrder.CommentCollection.push(comment);
+        },
+        
+        addNewWarranty = function() {
+            var warranty = new bespoke.sphcommercialspace.domain.Warranty();
+            vm.maintenance().WorkOrder.WarrantyCollection.push(warranty);
+        },
+        
+        addNewPartAndLabor = function() {
+            var partAndLabor = new bespoke.sphcommercialspace.domain.PartsAndLabor();
+            vm.maintenance().WorkOrder.PartsAndLaborCollection.push(partAndLabor);
+        },
+        
+        save = function () {
+           var tcs = new $.Deferred();
+           var data = ko.toJSON(vm.maintenance);
+           isBusy(true);
+           context.post(data, "/Maintenance/Save")
+               .then(function (result) {
+                   isBusy(false);
+                   tcs.resolve(result);
+               });
+           return tcs.promise();
         };
 
 
     var vm = {
         activate: activate,
-        workOrder: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance())
-            
+        maintenance: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
+        addNewCommentCommand: addNewComment,
+        addNewWarrantyCommand: addNewWarranty,
+        addNewPartAndLaborCommand: addNewPartAndLabor,
+        saveCommand: save
     };
 
     return vm;

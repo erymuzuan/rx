@@ -24,5 +24,17 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(true);
         }
 
+        public async Task<ActionResult> Save(Maintenance maintenance)
+        {
+            var context = new SphDataContext();
+            
+            using (var session = context.OpenSession())
+            {
+                session.Attach(maintenance);
+                await session.SubmitChanges();
+            }
+            return Json(true);
+        }
+
     }
 }
