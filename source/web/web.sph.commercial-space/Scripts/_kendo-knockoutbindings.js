@@ -137,11 +137,14 @@ ko.bindingHandlers.kendoDate = {
             } else {
               date = moment(nv);
             }
-            value = date.format("DD/MM/YYYY");
+            // DO NOT fire update
+            $(element).data("stop", "true");
+            valueAccessor()(date.format("DD/MM/YYYY"));
+            $(element).data("stop", "false");
         });
     },
     update: function (element, valueAccessor) {
-
+        if ($(element).data("stop") == "true") return;
         var value = valueAccessor();
         var modelValue = ko.utils.unwrapObservable(value);
 
