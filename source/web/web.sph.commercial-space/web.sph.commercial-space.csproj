@@ -236,8 +236,9 @@
     <Compile Include="Controllers\AppController.nav.cs" />
     <Compile Include="Controllers\AppController.officerdashboard.cs" />
     <Compile Include="Controllers\AppController.role.cs" />
+    <Compile Include="Controllers\AppController.tenantportal.cs" />
     <Compile Include="Controllers\AppController.userprofile.cs" />
-    <Compile Include="Controllers\AppController.nav.cs">
+    <Compile Include="Controllers\AppController.users.cs" />
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\ContractSettingController.cs" />
     <Compile Include="Controllers\DepositController.cs" />
+    <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
@@ -304,6 +306,7 @@
     <Compile Include="Helpers\MobileCapableWebFormViewEngine.cs" />
     <Compile Include="Helpers\OdataSqlTranslator.cs" />
     <Compile Include="Helpers\QueryHelper.cs" />
+    <Compile Include="Helpers\Roles.cs" />
     <Compile Include="Mocks\TemplateEngine.cs" />
     <Compile Include="Models\JsRoute.cs" />
     <Compile Include="Models\JsRouteSetting.cs" />
@@ -316,7 +319,6 @@
     <Content Include="App\viewmodels\_tenant.complaint.js" />
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\complaint.assign.html" />
-    <Content Include="App\views\role.settings.html" />
     <Content Include="App\views\complaintform.tenant.html" />
     <Content Include="App\views\_complaint.details.html" />
     <Content Include="App\views\maintenance.workorder.html" />
@@ -849,7 +851,8 @@
     <Content Include="Views\App\UserProfileJs.cshtml" />
     <Content Include="Views\App\MaintenanceListHtml.cshtml" />
     <Content Include="Views\App\MaintenanceListJs.cshtml" />
-    <Content Include="Views\App\RoleSettingsHtml.cshtml" />    <Content Include="Views\App\ComplaintFormHtml.cshtml" />
+    <Content Include="Views\App\RoleSettingsHtml.cshtml" />
+    <Content Include="Views\App\ComplaintFormHtml.cshtml" />
     <Content Include="Views\App\OfficerListHtml.cshtml" />
     <Content Include="Views\App\OfficerListJs.cshtml" />
     <Content Include="Views\App\TenantPortalHtml.cshtml" />
