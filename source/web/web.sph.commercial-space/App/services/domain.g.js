@@ -1014,6 +1014,7 @@ bespoke.sphcommercialspace.domain.Designation = function (webId) {
         DesignationId: ko.observable(),
         Name: ko.observable(),
         Description: ko.observable(),
+        IsActive: ko.observable(),
         RoleCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)

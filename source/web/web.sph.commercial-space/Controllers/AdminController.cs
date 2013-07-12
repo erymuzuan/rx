@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -23,8 +22,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             await Task.Delay(2000);
             var user = Membership.GetUser(userName);
             if (null != user)
-                return Json(new {status = "DUPLICATE", message = string.Format("Username '{0}' already exists!!!!",userName)});
-
+                return Json(new {status = "DUPLICATE", message = string.Format("nama pengguna '{0}' sudah digunakan",userName)});
             this.Response.ContentType = "application/json; charset=utf-8";
             return Content(await JsonConvert.SerializeObjectAsync(true));
 
@@ -45,20 +43,19 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(userprofile);
         }
 
+     
         private static async Task<UserProfile> CreateProfile(Profile profile)
         {
             var context = new SphDataContext();
-            var userprofile = new UserProfile
-                {
-                    Username = profile.UserName,
-                    FullName = profile.FullName,
-                    Designation = profile.Designation,
-                    Department = profile.Department,
-                    Mobile = profile.Mobile,
-                    Telephone = profile.Telephone,
-                    Email = profile.Email,
-                    RoleTypes = string.Join(",", profile.Roles)
-                };
+            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.Username == profile.UserName)?? new UserProfile();
+            userprofile.Username = profile.UserName;
+            userprofile.FullName = profile.FullName;
+            userprofile.Designation = profile.Designation;
+            userprofile.Department = profile.Department;
+            userprofile.Mobile = profile.Mobile;
+            userprofile.Telephone = profile.Telephone;
+            userprofile.Email = profile.Email;
+            userprofile.RoleTypes = string.Join(",", profile.Roles);
 
             using (var session = context.OpenSession())
             {
@@ -69,12 +66,21 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return userprofile;
         }
 
-        public ActionResult LoadRoles()
+        public async Task<ActionResult> UpdateUser(UserProfile profile)
         {
-            var roleCollection = new List<string>();
-            var roles = Roles.GetAllRoles();
-            roleCollection.AddRange(roles);
-            return Json(roleCollection);
+            var context = new SphDataContext();
+            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.Username == profile.Username);
+            userprofile.Email = profile.Email;
+            userprofile.Telephone = profile.Telephone;
+            userprofile.FullName = profile.FullName;
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(userprofile);
+                await session.SubmitChanges();
+            }
+
+            return Json(userprofile);
         }
     }
 

@@ -15,6 +15,7 @@ namespace permissions.editor
         {
             var vm = new MainViewModel();
             this.DataContext = vm;
+            vm.Load();
         }
     }
 }

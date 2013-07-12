@@ -16,16 +16,13 @@
         <li>
             <a href="#department-tab" data-toggle="tab">Setting Jabatan</a>
         </li>
-        <li>
-            <a href="#role-tab" data-toggle="tab">Setting Peranan</a>
-        </li>
     </ul>
 
     <div class="tab-content">
         <div id="user-tab" class="tab-pane active">
 
             <div>
-                <a href="#user-details-modal" id="add-user-button" data-toggle="modal" data-bind="click: $parent.addCommand" class="btn btn-primary pull-right">Tambah Pengguna</a>
+                <a href="#user-details-modal" id="add-user-button" data-toggle="modal" data-bind="click: addCommand" class="btn btn-primary pull-right">Tambah Pengguna</a>
             </div>
             <table class="table table-striped">
                 <thead>
@@ -61,10 +58,6 @@
             <!--ko compose:'viewmodels/_users.department' -->
             <!--/ko-->
         </div>
-        <div id="role-tab" class="tab-pane ">
-            <!--ko compose:'viewmodels/_users.role' -->
-            <!--/ko-->
-        </div>
     </div>
 </div>
 
@@ -79,7 +72,7 @@
                 <label for="Username" class="control-label">Nama pengguna :</label>
                 <div class="controls">
                     <input data-bind="value: UserName" id="Username" type="text" name="Username" />
-                    <i class="icon-spinner icon-spin" data-bind="visible: $root.isBusyValidatingUserName"></i>
+                    <i class="icon-spinner icon-spin icon-large" data-bind="visible: $root.isBusyValidatingUserName"></i>
                     <span class="help-block alert alert-error" data-bind="text: $root.userNameValidationStatus, visible: $root.userNameValidationStatus() "></span>
                 </div>
             </div>

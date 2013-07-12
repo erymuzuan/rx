@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
@@ -24,14 +25,37 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             tenant.Email = application.Contact.Email;
             tenant.RegistrationNo = application.RegistrationNo;
             tenant.Address = application.Address;
+            
+            var userprofile = await CreateUserProfile(tenant);
 
             using (var session = context.OpenSession())
             {
-                session.Attach(tenant);
+                session.Attach(tenant, userprofile);
                 await session.SubmitChanges();
             }
             return Json(true);
         }
 
+        private static async Task<UserProfile> CreateUserProfile(Tenant tenant)
+        {
+            var context = new SphDataContext();
+            var designation = await context.LoadOneAsync<Designation>(d => d.Name == "Penyewa");
+            if (null == designation) throw new InvalidOperationException("Cannot find designation " + "Penyewa");
+            var roles = designation.RoleCollection.ToArray();
+
+            var userProfile = new UserProfile
+                {
+                    FullName = tenant.Name,
+                    Designation = "Penyewa",
+                    Email = tenant.Email,
+                    Telephone = string.Join(",", new[]{tenant.Phone,tenant.MobilePhone}),
+                    Username = tenant.IdSsmNo,
+                    RoleTypes = string.Join(",",roles)
+                };
+
+            Membership.CreateUser(userProfile.Username, "123456", userProfile.Email);
+            Roles.AddUserToRoles(userProfile.Username, roles);
+            return userProfile;
+        }
     }
 }

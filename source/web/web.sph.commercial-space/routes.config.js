@@ -370,7 +370,7 @@
   },
   {
     "role": null,
-    "url": "tenant.portal/4",
+    "url": "tenant.portal",
     "moduleId": "viewmodels/tenant.portal",
     "name": "Portal Penyewa",
     "visible": true,
@@ -424,7 +424,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "",
     "url": "user.profile",
     "moduleId": "viewmodels/user.profile",
     "name": "Profile",

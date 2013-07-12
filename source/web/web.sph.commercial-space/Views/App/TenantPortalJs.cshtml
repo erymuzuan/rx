@@ -1,25 +1,18 @@
-﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
-/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-/// <reference path="../../Scripts/require.js" />
-/// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/moment.js" />
-/// <reference path="../services/datacontext.js" />
-/// <reference path="../services/domain.g.js" />
-/// <reference path="../../Scripts/bootstrap.js" />
-/// <reference path="../viewmodels/_tenant.rent.js" />
-/// <reference path="../viewmodels/_tenant.contract.js" />
+﻿@{
+    Layout = null;
+    var username = @User.Identity.Name;
+}
 
-
-define(['services/datacontext', './_tenant.rent', './_tenant.contract','./_tenant.complaint','./complaintform.tenant'],
-	function (context, rentvm, contractvm, complaintListvm,cfvm) {
+<script type="text/javascript" data-script="true">
+    define(['services/datacontext', './_tenant.rent', './_tenant.contract', './_tenant.complaint', './complaintform.tenant'],
+	function (context, rentvm, contractvm, complaintListvm, cfvm) {
 
 	    var isBusy = ko.observable(false),
-        id = ko.observable(),
+        idSsm = ko.observable(),
         tenant = new bespoke.sphcommercialspace.domain.Tenant(),
         activate = function () {
-            id(4);
-            var query = String.format("TenantId eq {0}", id()); 
+            idSsm('@Html.Raw(username)');
+            var query = String.format("IdSsmNo eq '{0}'", idSsm());
             var tcs = new $.Deferred();
             var detailLoaded = function (tnt) {
                 vm.tenant(tnt);
@@ -45,3 +38,5 @@ define(['services/datacontext', './_tenant.rent', './_tenant.contract','./_tenan
 	    return vm;
 
 	});
+
+</script>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Web.Security;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
@@ -19,7 +20,15 @@ namespace permissions.editor
             this.OpenCommand = new RelayCommand(Open);
             this.SaveCommand = new RelayCommand(Save);
         }
+        public void Load()
+        {
+            var lastFile = Properties.Settings.Default.LastFile;
+            if (string.IsNullOrWhiteSpace(lastFile)) return;
+            if (!System.IO.File.Exists(lastFile)) return;
 
+            this.FileName = lastFile;
+            this.ReadJson();
+        }
         private void Open()
         {
             var dlg = new OpenFileDialog
@@ -53,6 +62,12 @@ namespace permissions.editor
         {
             var json = JsonConvert.SerializeObject(this.RoleCollection, Formatting.Indented);
             System.IO.File.WriteAllText(this.FileName, json);
+            foreach (var r in this.RoleCollection)
+            {
+                var existing = Roles.RoleExists(r.Role);
+                if (existing == false)
+                    Roles.CreateRole(r.Role);
+            }
             Properties.Settings.Default.LastFile = this.FileName;
             Properties.Settings.Default.Save();
         }
