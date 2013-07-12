@@ -19,29 +19,15 @@ define(['services/datacontext'],
                 var query = String.format("ComplaintId eq {0}", id());
                 var tcs = new $.Deferred();
                 context.loadOneAsync("Complaint", query)
-                    .done(function (b) {
-                        vm.complaint(b);
-                        context.loadOneAsync("Tenant", "TenantId eq " + b.TenantId())
-                        .done(function (tenant) {
-                            vm.tenant(tenant);
-                        });
-
-                        tcs.resolve(true);
+                    .done(function (c) {
+                    vm.complaint(c);
+                    context.loadOneAsync("Tenant", "TenantId eq " + c.TenantId())
+                    .done(function (tenant) {
+                        vm.tenant(tenant);
                     });
+                    tcs.resolve(true);
+                });
 
-                return tcs.promise();
-            },
-            save = function () {
-                var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON({ comp: vm.complaint() });
-                isBusy(true);
-
-                context.post(data, "/Complaint/UpdateInspection")
-                    .then(function (result) {
-                        isBusy(false);
-
-                        tcs.resolve(result);
-                    });
                 return tcs.promise();
             };
 
@@ -49,9 +35,7 @@ define(['services/datacontext'],
             isBusy: isBusy,
             activate: activate,
             complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
-            tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
-            commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
-            saveCommand: save
+            tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant())
         };
 
         return vm;

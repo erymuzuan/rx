@@ -56,7 +56,6 @@ define(['services/datacontext'],
             departmentOptions: ko.observableArray(),
             complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
             tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
-            commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
             saveCommand: save
         };
 

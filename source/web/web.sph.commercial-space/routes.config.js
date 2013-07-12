@@ -392,17 +392,6 @@
   },
   {
     "role": null,
-    "url": "complaint.inspection/:id",
-    "moduleId": "viewmodels/complaint.inspection",
-    "name": "Pemeriksaan",
-    "visible": false,
-    "icon": "icon-laptop",
-    "caption": "Borang Aduan",
-    "settings": null,
-    "error": ""
-  },
-  {
-    "role": null,
     "url": "complaint.list",
     "moduleId": "viewmodels/complaint.list",
     "name": "Senarai Aduan",
@@ -463,6 +452,17 @@
     "name": "Work Order",
     "visible": true,
     "icon": "",
+    "caption": null,
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": null,
+    "url": "complaint.detail/:id",
+    "moduleId": "viewmodels/complaint.detail",
+    "name": null,
+    "visible": false,
+    "icon": null,
     "caption": null,
     "settings": null,
     "error": ""

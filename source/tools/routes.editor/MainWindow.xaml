@@ -22,13 +22,13 @@
                              vm:CustomFilterBehavior.TextBox="{Binding ElementName=filter}"
                              Margin="5" Grid.Row="1" ItemsSource="{Binding RouteCollection}">
             <telerik:RadGridView.Columns>
-                <telerik:GridViewDataColumn Header="Group" DataMemberBinding="{Binding Role}"  Width="150"/>
-                <telerik:GridViewDataColumn Header="Role" DataMemberBinding="{Binding ModuleId}" Width="150"/>
-                <telerik:GridViewDataColumn Header="Role" DataMemberBinding="{Binding Url}" Width="150"/>
-                <telerik:GridViewDataColumn Header="Name" DataMemberBinding="{Binding Name}" Width="150"/>
-                <telerik:GridViewDataColumn Header="Description" DataMemberBinding="{Binding Icon}" Width="200"/>
-                <telerik:GridViewCheckBoxColumn Header="IsActive" DataMemberBinding="{Binding Caption}" Width="120"/>
-                <telerik:GridViewCheckBoxColumn Header="IsActive" DataMemberBinding="{Binding Visible}" Width="120"/>
+                <telerik:GridViewDataColumn Header="Role" DataMemberBinding="{Binding Role}"  Width="150"/>
+                <telerik:GridViewDataColumn Header="ModuleId" DataMemberBinding="{Binding ModuleId}" Width="250"/>
+                <telerik:GridViewDataColumn Header="Url" DataMemberBinding="{Binding Url}" Width="250"/>
+                <telerik:GridViewDataColumn Header="Name" DataMemberBinding="{Binding Name}" Width="250"/>
+                <telerik:GridViewDataColumn Header="Icon" DataMemberBinding="{Binding Icon}" Width="100"/>
+                <telerik:GridViewDataColumn Header="Caption" DataMemberBinding="{Binding Caption}" Width="200"/>
+                <telerik:GridViewCheckBoxColumn Header="IsVisible" DataMemberBinding="{Binding Visible}" Width="120"/>
                 <telerik:GridViewColumn Width="80">
                     <telerik:GridViewColumn.CellTemplate>
                         <DataTemplate>
