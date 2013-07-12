@@ -869,6 +869,7 @@
     <Content Include="Views\App\MaintenanceListHtml.cshtml" />
     <Content Include="Views\App\MaintenanceListJs.cshtml" />
     <Content Include="Views\App\RoleSettingsHtml.cshtml" />
+    <Content Include="Views\App\ComplaintFormHtml.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
