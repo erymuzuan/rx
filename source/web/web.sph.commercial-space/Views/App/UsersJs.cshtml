@@ -9,7 +9,7 @@
 }
 
 <script type="text/javascript" data-script="true">
-    define(['services/datacontext','viewmodels/_users.role','viewmodels/_users.designation','viewmodels/_users.department'], function (context,rolevm,designationvm,departmentvm) {
+    define(['services/datacontext','viewmodels/_users.designation','viewmodels/_users.department'], function (context,designationvm,departmentvm) {
         var isBusy = ko.observable(false),
             roles = @Html.Raw(JsonConvert.SerializeObject(roles)),
             profiles = ko.observableArray(),
@@ -37,7 +37,6 @@
                 return tcs.promise();
             },
             loadDetails = function() {
-                rolevm.activate(roles);
                 designationvm.activate(roles);
                 departmentvm.activate();
             },

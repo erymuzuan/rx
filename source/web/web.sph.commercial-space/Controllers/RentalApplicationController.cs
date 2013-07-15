@@ -59,7 +59,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(true);
         }
         
-        [Authorize(Roles = "can_approve_rental_application")]
         public async Task<ActionResult> Approved(int id)
         {
             var context = new SphDataContext();
@@ -67,7 +66,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             bool result;
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
             var existingApprovedCs =
-                await context.GetCountAsync<RentalApplication>(r => r.CommercialSpaceId == dbItem.CommercialSpaceId && r.Status == "Approved" || r.Status == "Completed");
+                await context.GetCountAsync<RentalApplication>(r => r.CommercialSpaceId == dbItem.CommercialSpaceId && (r.Status == "Approved" || r.Status == "Completed") );
             if (existingApprovedCs == 0)
             {
                 dbItem.Status = "Approved";

@@ -9,12 +9,15 @@
     define(['services/datacontext'], function (context) {
         var isBusy = ko.observable(false),
             activate = function() {
-                var query = String.format("MaintenanceId gt 0");
+                var maintenanceQuery = String.format("MaintenanceId gt 0");
+                var officerQuery = String.format("Designation eq 'Petugas' && Department eq 'Senggaraan'");
                 var tcs = new $.Deferred();
-                context.loadAsync("Maintenance", query)
-                    .then(function(lo) {
+                var maintenanceTask = context.loadAsync("Maintenance", maintenanceQuery);
+                var officerTask = context.getTuplesAsync("UserProfile", officerQuery, 'Username', 'FullName');
+                   $.when(maintenanceTask,officerTask).then(function(mLo,oLo) {
                         isBusy(false);
-                        vm.maintenances(lo.itemCollection);
+                        vm.maintenances(mLo.itemCollection);
+                        vm.officerOptions(oLo);
                         tcs.resolve(true);
                     });
                 return tcs.promise();
@@ -54,6 +57,7 @@
             selectedMaintenance: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
             selectedStatus: ko.observable(),
             
+            officerOptions : ko.observableArray(),
             statusOptions: ko.observableArray(['New', 'Inspection', 'Maintenance']),
             saveAssignment : saveAssignment,
             assignCommand : assign
