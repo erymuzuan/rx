@@ -295,6 +295,7 @@
     <Content Include="App\durandal\widget.js" />
     <Content Include="App\main.js" />
     <Content Include="App\services\CommercialSpace.js" />
+    <Content Include="App\services\Complaint.js" />
     <Content Include="App\services\Contract.js" />
     <Content Include="App\services\datacontext.js" />
     <Content Include="App\services\Deposit.js" />
@@ -312,7 +313,6 @@
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="App\services\mockMaintenanceContext.js" />
     <Content Include="App\viewmodels\complaint.assign.js" />
     <Content Include="App\viewmodels\complaint.detail.js" />
     <Content Include="App\viewmodels\maintenance.workorder.js" />
@@ -390,10 +390,6 @@
     <Folder Include="Filters\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App\services\mockComplaintContext.js" />
-    <Content Include="App\services\mockComplaintTemplateContext.js" />
-    <Content Include="App\services\mockRentContext.js" />
-    <Content Include="App\services\mockTenantContext.js" />
     <Content Include="App\services\Object.xslt">
       <SubType>Designer</SubType>
     </Content>

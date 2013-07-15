@@ -32,6 +32,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/App/services/Deposit.js")
                 .Include("~/App/services/Rent.js")
                 .Include("~/App/services/Contract.js")
+                .Include("~/App/services/Complaint.js")
                 .Include("~/App/services/CommercialSpace.js")
               );
 

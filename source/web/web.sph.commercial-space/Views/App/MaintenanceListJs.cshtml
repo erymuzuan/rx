@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "title";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
 }
 
 <script type="text/javascript" data-script="true">
@@ -15,8 +16,15 @@
                 var maintenanceTask = context.loadAsync("Maintenance", maintenanceQuery);
                 var officerTask = context.getTuplesAsync("UserProfile", officerQuery, 'Username', 'FullName');
                    $.when(maintenanceTask,officerTask).then(function(mLo,oLo) {
-                        isBusy(false);
-                        vm.maintenances(mLo.itemCollection);
+                       isBusy(false);
+                       var maintenances = mLo.itemCollection;
+                       _(maintenances).each(function (m2) {
+                           m2.getMaintenanceStatus(context)
+                               .done(function (status) {
+                                   m2.MaintenanceStatus(status);
+                               });
+                       });
+                        vm.maintenances(maintenances);
                         vm.officerOptions(oLo);
                         tcs.resolve(true);
                     });
