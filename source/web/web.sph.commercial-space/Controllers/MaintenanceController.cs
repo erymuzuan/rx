@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var maint = await context.LoadOneAsync<Maintenance>(m => m.MaintenanceId == maintenance.MaintenanceId);
             maint.Status = "Inspection";
             maint.Officer = maintenance.Officer;
-            var workOrderNo = string.Format("WO{0:yyyy}{1}", DateTime.Today, maintenance.MaintenanceId).PadRight(8, '0');
+            var workOrderNo = string.Format("WO{0:yyyy}{1}", DateTime.Today, maintenance.MaintenanceId);
             maint.WorkOrderNo = workOrderNo;
 
             using (var session = context.OpenSession())

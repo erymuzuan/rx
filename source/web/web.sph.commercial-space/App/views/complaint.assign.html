@@ -15,7 +15,8 @@
                 <textarea cols="5" rows="5" data-bind="value: Note" id="Note" name="Note" />
             </div>
         </div>
+            <input id="save-button" type="submit" class="btn btn-primary pull-right" value="Simpan" data-bind="command: $parent.saveCommand" data-loading-text="Sila tunggu..." data-complete-text=" OK" />
+
     </form>
-    <input id="save-button" type="button" class="btn btn-primary pull-right" value="Simpan" data-bind="command: saveCommand" data-loading-text="Sila tunggu..." data-complete-text=" OK" />
 
 </div>
