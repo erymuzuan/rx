@@ -31,16 +31,13 @@
                 });
             };
 
-
         var vm = {
             activate: activate,
-            viewAttached: viewAttached,
             maintenances: ko.observableArray(),
-
-            selectedMaintenance: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
+            viewAttached: viewAttached,
             selectedStatus: ko.observable(),
-
-            statusOptions: ko.observableArray(['Inspection', 'Completed'])
+            statusOptions: ko.observableArray(['Inspection','Maintenance','Completed']),
+            officer : officer
             
         };
 
@@ -55,7 +52,6 @@
                     tcs.resolve(true);
                 });
             return tcs.promise();
-
         });
         
         return vm;

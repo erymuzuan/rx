@@ -370,7 +370,7 @@
   },
   {
     "role": null,
-    "url": "tenant.portal",
+    "url": "tenant.portal/B19999",
     "moduleId": "viewmodels/tenant.portal",
     "name": "Portal Penyewa",
     "visible": true,
@@ -447,10 +447,10 @@
   },
   {
     "role": null,
-    "url": "maintenance.workorder",
+    "url": "maintenance.workorder/:id",
     "moduleId": "viewmodels/maintenance.workorder",
     "name": "Work Order",
-    "visible": true,
+    "visible": false,
     "icon": "",
     "caption": null,
     "settings": null,

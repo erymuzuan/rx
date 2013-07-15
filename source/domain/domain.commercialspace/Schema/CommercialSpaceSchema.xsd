@@ -769,6 +769,7 @@
 			<xs:attribute name="Resolution" type="xs:string" use="required"/>
 			<xs:attribute name="Officer" type="xs:string" use="required"/>
 			<xs:attribute name="AttachmentStoreId" type="xs:string" use="required"/>
+			<xs:attribute name="AttachmentName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Designation">
