@@ -6,7 +6,7 @@
 <div class="navbar">
   <div class="navbar-inner">
     <ul class="nav nav-header" id="status-option" data-bind="foreach: statusOptions">
-      <li><a class="active " href="#tab" data-toggle="tab" data-bind="text: $data"></a></li>
+      <li><a class="blue" href="#tab" data-toggle="tab" data-bind="text: $data"></a></li>
     </ul>
   </div>
 </div>
@@ -24,7 +24,9 @@
             </thead>
             <tbody data-bind="foreach: maintenances">
                 <tr>
-                    <td data-bind="attr: { href: '/#/maintenance.workorder' + WorkOrderNo() }, text: WorkOrderNo"></td>
+                    <td>
+                        <a data-bind="attr: { href: '/#/maintenance.workorder/' + MaintenanceId() }, text: WorkOrderNo"></a>
+                    </td>
                     <td data-bind="text: Complaint.Category"></td>
                     <td data-bind="text: Complaint.SubCategory"></td>
                     <td data-bind="text: Resolution"></td>

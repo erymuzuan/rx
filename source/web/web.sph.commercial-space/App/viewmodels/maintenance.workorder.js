@@ -7,13 +7,13 @@
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" /> 
 /// <reference path="../services/datacontext.js" />
-define(['services/datacontext'], function (context) {
+
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger,router) {
     var isBusy = ko.observable(false),
-        //id = ko.observable(),
-        activate = function () {
-            //id(routedata.won);
-            //var query = String.format("WorkOrderNo eq '{0}'", id());
-            var query = String.format("ComplaintId eq 20 ");
+        id = ko.observable(),
+        activate = function (routedata) {
+            id(parseInt(routedata.id));
+            var query = String.format("MaintenanceId eq {0}", id());
             var tcs = new $.Deferred();
             context.loadOneAsync("Maintenance", query)
                 .then(function(m) {
@@ -22,6 +22,36 @@ define(['services/datacontext'], function (context) {
                     tcs.resolve(true);
                 });
             return tcs.promise();
+        },
+        viewAttached = function (view) {
+            $("#AttachmentStoreId").kendoUpload({
+                async: {
+                    saveUrl: "/BinaryStore/Upload",
+                    removeUrl: "/BinaryStore/Remove",
+                    autoUpload: true
+                },
+                multiple: false,
+                error: function (e) {
+                    logger.logError(e, e, this, true);
+                },
+                success: function (e) {
+                    logger.log('Your file has been ' + e.operation, e, this, true);
+                    var storeId = e.response.storeId;
+                    var uploaded = e.operation === "upload";
+                    var removed = e.operation != "upload";
+                    // NOTE : the input file name is "files" and the id should equal to the vm.propertyName
+                    if (uploaded) {
+                        vm.maintenance().AttachmentStoreId(storeId);
+                    }
+
+                    if (removed) {
+                        vm.maintenance().AttachmentStoreId("");
+                        vm.maintenance().AttachmentName("");
+                    }
+
+
+                }
+            });
         },
         
         addNewComment = function() {
@@ -48,12 +78,16 @@ define(['services/datacontext'], function (context) {
                    isBusy(false);
                    tcs.resolve(result);
                });
+           var url = '/#/officer.list';
+           router.navigateTo(url);
            return tcs.promise();
+           
         };
 
 
     var vm = {
         activate: activate,
+        viewAttached : viewAttached,
         maintenance: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
         addNewCommentCommand: addNewComment,
         addNewWarrantyCommand: addNewWarranty,

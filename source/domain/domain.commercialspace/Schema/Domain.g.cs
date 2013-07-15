@@ -10578,6 +10578,11 @@
                     public const string PropertyNameAttachmentStoreId = "AttachmentStoreId";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_attachmentName;
+                    public const string PropertyNameAttachmentName = "AttachmentName";
+
+                  
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private DateTime?  m_startDate;
                 public const string PropertyNameStartDate = "StartDate";
@@ -10845,6 +10850,34 @@
                     get
                     {
                     return m_attachmentStoreId;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string AttachmentName
+                    {
+                    set
+                    {
+                    if( String.Equals( m_attachmentName, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameAttachmentName, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_attachmentName= value;
+                    OnPropertyChanged(PropertyNameAttachmentName);
+                    }
+                    }
+                    get
+                    {
+                    return m_attachmentName;}
                     }
 
                   
