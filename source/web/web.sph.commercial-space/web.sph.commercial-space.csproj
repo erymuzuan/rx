@@ -349,9 +349,6 @@
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <Content Include="Scripts\guide.js" />
     <Content Include="Scripts\holder.js" />
-    <None Include="Scripts\jquery-2.0.1.intellisense.js" />
-    <Content Include="Scripts\jquery-2.0.1.js" />
-    <Content Include="Scripts\jquery-2.0.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
@@ -730,7 +727,6 @@
     <Content Include="kendo\js\kendo.userevents.js" />
     <Content Include="kendo\js\kendo.validator.js" />
     <Content Include="kendo\js\kendo.view.js" />
-    <Content Include="kendo\js\kendo.web.js" />
     <Content Include="kendo\js\kendo.window.js" />
     <Content Include="kendo\styles\images\back.png" />
     <Content Include="kendo\styles\images\wp8_icons.png" />
@@ -821,7 +817,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
-    <Content Include="Scripts\jquery-2.0.1.min.map" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\Flyout.cshtml" />
@@ -835,9 +830,6 @@
     <Content Include="Views\App\ConfigJs.cshtml" />
     <Content Include="Views\App\UsersHtml.cshtml" />
     <Content Include="Views\App\UsersJs.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\HotTowel\index.cshtml" />
     <Content Include="Views\HotTowel\_splash.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
