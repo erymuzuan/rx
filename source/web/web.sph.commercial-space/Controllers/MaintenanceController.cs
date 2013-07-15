@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using Bespoke.SphCommercialSpaces.Domain;
 
@@ -34,6 +35,22 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 await session.SubmitChanges();
             }
             return Json(true);
+        }
+
+        public async Task<ActionResult> GenerateWorkOrder(int id = 0)
+        {
+            var maintenanceId = id != 0 ? id : 1;
+            var context = new SphDataContext();
+            var maintenance = await context.LoadOneAsync<Maintenance>(c => c.MaintenanceId == maintenanceId);
+            
+            var export = ObjectBuilder.GetObject<IWorkOrderExport>();
+            var filename = string.Format("{0}-{1:MMyyyy}.workOrder.xlsx", maintenance.MaintenanceId, DateTime.Today);
+            var temp = System.IO.Path.GetTempFileName() + ".xlsx";
+
+            export.GenerateWorkOrder(maintenance, temp);
+
+            this.Response.ContentType = "application/json";
+            return File(System.IO.File.ReadAllBytes(temp), MimeMapping.GetMimeMapping(".xlsx"), filename);
         }
 
     }

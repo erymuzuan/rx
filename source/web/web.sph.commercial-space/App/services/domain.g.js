@@ -1,6 +1,7 @@
 ﻿
-/// <reference path="~/scripts/knockout-2.2.1.debug.js" />
-/// <reference path="~/Scripts/underscore.js" />
+
+/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
+/// <reference path="../../Scripts/underscore.js" />
 
 
 var bespoke = bespoke || {};
@@ -1038,6 +1039,7 @@ bespoke.sphcommercialspace.domain.WorkOrder = function (webId) {
         CommentCollection: ko.observableArray(),
         PartsAndLaborCollection: ko.observableArray(),
         WarrantyCollection: ko.observableArray(),
+        NonComplianceCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1094,6 +1096,24 @@ bespoke.sphcommercialspace.domain.Warranty = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.WarrantyPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.WarrantyPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.NonCompliance = function (webId) {
+
+    var model = {
+        Description: ko.observable(),
+        Date: ko.observable(),
+        Reason: ko.observable(),
+        Action: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.NonCompliancePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.NonCompliancePartial(model));
     }
     return model;
 };

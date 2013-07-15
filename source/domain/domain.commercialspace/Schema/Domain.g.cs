@@ -11145,6 +11145,17 @@
 			get{ return m_WarrantyCollection;}
 			}
 		
+			private readonly ObjectCollection<NonCompliance>  m_NonComplianceCollection = new ObjectCollection<NonCompliance> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("NonCompliance", IsNullable = false)]
+			public ObjectCollection<NonCompliance> NonComplianceCollection
+			{
+			get{ return m_NonComplianceCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -11587,6 +11598,150 @@
                     get
                     {
                     return m_startDate;}
+                    }
+
+                  
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("NonCompliance",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class NonCompliance
+          {
+          
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_description;
+                    public const string PropertyNameDescription = "Description";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  DateTime  m_date;
+                    public const string PropertyNameDate = "Date";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_reason;
+                    public const string PropertyNameReason = "Reason";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_action;
+                    public const string PropertyNameAction = "Action";
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Description
+                    {
+                    set
+                    {
+                    if( String.Equals( m_description, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameDescription, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_description= value;
+                    OnPropertyChanged(PropertyNameDescription);
+                    }
+                    }
+                    get
+                    {
+                    return m_description;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public DateTime Date
+                    {
+                    set
+                    {
+                    if( m_date == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameDate, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_date= value;
+                    OnPropertyChanged(PropertyNameDate);
+                    }
+                    }
+                    get
+                    {
+                    return m_date;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Reason
+                    {
+                    set
+                    {
+                    if( String.Equals( m_reason, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameReason, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_reason= value;
+                    OnPropertyChanged(PropertyNameReason);
+                    }
+                    }
+                    get
+                    {
+                    return m_reason;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Action
+                    {
+                    set
+                    {
+                    if( String.Equals( m_action, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameAction, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_action= value;
+                    OnPropertyChanged(PropertyNameAction);
+                    }
+                    }
+                    get
+                    {
+                    return m_action;}
                     }
 
                   

@@ -48,8 +48,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                         vm.maintenance().AttachmentStoreId("");
                         vm.maintenance().AttachmentName("");
                     }
-
-
                 }
             });
         },
@@ -67,6 +65,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         addNewPartAndLabor = function() {
             var partAndLabor = new bespoke.sphcommercialspace.domain.PartsAndLabor();
             vm.maintenance().WorkOrder.PartsAndLaborCollection.push(partAndLabor);
+        },
+        
+        addNonCompliance = function() {
+            var noncompliance = new bespoke.sphcommercialspace.domain.NonCompliance();
+            vm.maintenance().WorkOrder.NonComplianceCollection.push(noncompliance);
         },
         
         save = function () {
@@ -92,7 +95,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         addNewCommentCommand: addNewComment,
         addNewWarrantyCommand: addNewWarranty,
         addNewPartAndLaborCommand: addNewPartAndLabor,
+        addNonComplianceCommand : addNonCompliance,
         saveCommand: save
+        
     };
 
     return vm;
