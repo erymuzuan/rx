@@ -11,9 +11,8 @@
         idSsm = ko.observable(),
         tenant = new bespoke.sphcommercialspace.domain.Tenant(),
         activate = function () {
-            //idSsm('@Html.Raw(username)');
-            //var query = String.format("IdSsmNo eq '{0}'", idSsm());
-            var query = String.format("IdSsmNo eq 'B19999'");
+            idSsm('@Html.Raw(username)');
+            var query = String.format("IdSsmNo eq '{0}'", idSsm());
             var tcs = new $.Deferred();
             var detailLoaded = function (tnt) {
                 vm.tenant(tnt);
