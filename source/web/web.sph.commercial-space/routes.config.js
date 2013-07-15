@@ -466,5 +466,16 @@
     "caption": null,
     "settings": null,
     "error": ""
+  },
+  {
+    "role": null,
+    "url": "role.settings/:id",
+    "moduleId": "viewmodels/role.settings",
+    "name": null,
+    "visible": false,
+    "icon": null,
+    "caption": null,
+    "settings": null,
+    "error": ""
   }
 ]
