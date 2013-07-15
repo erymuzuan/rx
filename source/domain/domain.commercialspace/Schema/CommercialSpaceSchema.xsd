@@ -813,6 +813,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="NonComplianceCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="NonCompliance" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="Priority" type="xs:string" use="required"/>
 			<xs:attribute name="Severity" type="xs:string" use="required"/>
@@ -839,6 +846,14 @@
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="YearWarranty" type="xs:string" use="required"/>
 			<xs:attribute name="StartDate" type="xs:dateTime" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="NonCompliance">
+		<xs:complexType>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Reason" type="xs:string" use="required"/>
+			<xs:attribute name="Action" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

@@ -121,6 +121,11 @@
                         <h6>Komen</h6>
                     </a>
                 </li>
+                <li>
+                    <a href="#ncr-tab" data-toggle="tab">
+                        <h6>Rekod NCR</h6>
+                    </a>
+                </li>
 
             </ul>
 
@@ -157,13 +162,15 @@
                     <!--ko compose:'_workorder.comment.html' -->
                     <!--/ko-->
                 </div>
+                <div id="ncr-tab" class="tab-pane" data-bind="with: maintenance().WorkOrder">
+                    <!--ko compose:'_workorder.ncr.html' -->
+                    <!--/ko-->
+                </div>
             </div>
         </div>
     </form>
     <form class="well form-inline span12">
         <input class="btn btn-primary pull-right" type="button" value="SIMPAN" data-bind="command : saveCommand" data-loading-text="Sila tunggu..." data-complete-text="Selesai" />
-        <input class="btn btn-primary pull-right" type="button" value="CETAK WORK ORDER" />
-        <input class="btn btn-primary pull-right" type="button" value="CETAK WARRANTY" />
-        <input class="btn btn-primary pull-right" type="button" value="CETAK NCR" />
+        <a class="btn btn-primary pull-right" download data-bind="attr: { href: 'Maintenance/GenerateWorkOrder/' + maintenance().MaintenanceId() }">CETAK ARAHAN KERJA</a>
     </form>
 </div>

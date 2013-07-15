@@ -326,7 +326,7 @@
     <Content Include="App\views\_tenant.complaint.html" />
     <Content Include="App\views\_users.department.html" />
     <Content Include="App\views\_workorder.comment.html" />
-    <Content Include="App\views\_workorder.complaint.html" />
+    <Content Include="App\views\_workorder.ncr.html" />
     <Content Include="App\views\_workorder.partsandlabor.html" />
     <Content Include="App\views\_workorder.warranty.html" />
     <Content Include="favicon.ico" />

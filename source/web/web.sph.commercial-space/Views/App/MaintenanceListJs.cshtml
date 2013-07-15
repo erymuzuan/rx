@@ -10,7 +10,7 @@
         var isBusy = ko.observable(false),
             activate = function() {
                 var maintenanceQuery = String.format("MaintenanceId gt 0");
-                var officerQuery = String.format("Designation eq 'Petugas' && Department eq 'Senggaraan'");
+                var officerQuery = String.format("Designation eq 'Petugas' and Department eq 'Unit Senggara'");
                 var tcs = new $.Deferred();
                 var maintenanceTask = context.loadAsync("Maintenance", maintenanceQuery);
                 var officerTask = context.getTuplesAsync("UserProfile", officerQuery, 'Username', 'FullName');
