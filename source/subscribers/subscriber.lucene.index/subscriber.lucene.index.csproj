@@ -51,6 +51,7 @@
     <Compile Include="BuildingIndexerSubscriber.cs" />
     <Compile Include="CommercialSpaceIndexerSubscriber.cs" />
     <Compile Include="EntityIndexer.cs" />
+    <Compile Include="RentalApplicationIndexerSubscriber.cs" />
     <Compile Include="SearchMetadata.cs" />
     <Compile Include="LuceneIndexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

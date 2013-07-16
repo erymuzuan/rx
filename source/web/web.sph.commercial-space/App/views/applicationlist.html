@@ -1,18 +1,6 @@
 ﻿<div class="row">
-    <h1>Senarai permohonan : <span data-bind="text: status"></span></h1>
-    <div class="span3 border-box">
-        <div class="labelLeft">
-            <label for="selectedIdSsm">Id / SSM No:</label>
-            <input type="text" data-bind="value:selectedIdSsm" id="selectedIdSsm"/>
-        </div>
-        <div class="labelLeft">
-            <label for="selectedRegistrationNo">No. Rujukan :</label>
-            <input type="text" id="selectedRegistrationNo" data-bind="value: selectedRegistrationNo"/>
-        </div>
-        <div>
-            <button data-bind="click : searchCommand" class="btn btn-primary">Carian</button>
-        </div>
-    </div>
+    <h1>Senarai permohonan : <span data-bind="text: status"></span>(<span data-bind="text: applications().length"></span>)</h1>
+    
     <div class="span9">
     
         <table class="table table-striped">
@@ -41,4 +29,8 @@
     
     
     </div>
+</div>
+<div class="row">
+    <input id="save-button" type="button" class="btn btn-primary" value="Refresh" data-bind="command: refreshCommand" data-loading-text="Sila tunggu..." data-complete-text="Siap" />
+    
 </div>

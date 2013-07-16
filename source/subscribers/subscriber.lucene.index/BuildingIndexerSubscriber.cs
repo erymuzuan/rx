@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.SphCommercialSpaces.Domain;
 
@@ -12,7 +13,7 @@ namespace Bespoke.Sph.Messaging
                   {
                       Title = item.Name,
                       Text = item.ToString(),
-                      Created = item.CreatedDate,
+                      Created = item.CreatedDate == DateTime.MinValue ? DateTime.Today : item.CreatedDate,
                       OwnerCode = item.CreatedBy,
                       Summary = item.ToString(),
                       Code = item.LotNo,
