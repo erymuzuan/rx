@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.SphCommercialSpaces.Domain;
@@ -22,7 +21,7 @@ namespace Bespoke.Sph.Messaging
         {
             await Task.Delay(500);
             Console.WriteLine("{0}:{1}", item.Name, operation);
-            var metada = new BuildingMetadata
+            var metada = new SearchMetadata
                 {
                     Title = item.Name,
                     Text = item.ToString(),
@@ -36,19 +35,5 @@ namespace Bespoke.Sph.Messaging
             indexer.AddDocuments(metada);
 
         }
-    }
-
-    class BuildingMetadata : ISearchable
-    {
-        public int Id { get; set; }
-        public string Type { get; set; }
-        public string Summary { get; set; }
-        public string Text { get; set; }
-        public DateTime Created { get; set; }
-        public string Title { get; set; }
-        public Dictionary<string, object> CustomFields { get; set; }
-        public string Code { get; set; }
-        public string Status { get; set; }
-        public string OwnerCode { get; set; }
     }
 }

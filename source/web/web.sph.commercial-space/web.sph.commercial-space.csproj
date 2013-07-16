@@ -844,7 +844,7 @@
     <Content Include="Views\App\MaintenanceListHtml.cshtml" />
     <Content Include="Views\App\MaintenanceListJs.cshtml" />
     <Content Include="Views\App\RoleSettingsHtml.cshtml" />
-    <Content Include="Views\App\ComplaintFormHtml.cshtml" />
+    <Content Include="Views\App\ComplaintCustomFieldHtml.cshtml" />
     <Content Include="Views\App\OfficerListHtml.cshtml" />
     <Content Include="Views\App\OfficerListJs.cshtml" />
     <Content Include="Views\App\TenantPortalHtml.cshtml" />
