@@ -46,28 +46,28 @@
   <ItemGroup>
     <Reference Include="Breeze.WebApi, Version=1.2.8.0, Culture=neutral, PublicKeyToken=f6085f1a45e2ac59, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Breeze.WebApi.1.3.4\lib\Breeze.WebApi.dll</HintPath>
+      <HintPath>..\..\..\packages\Breeze.WebApi.1.3.6\lib\Breeze.WebApi.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging">
       <HintPath>..\..\..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.AspNet">
-      <HintPath>..\..\..\packages\DotNetOpenAuth.AspNet.4.3.0.13117\lib\net40-full\DotNetOpenAuth.AspNet.dll</HintPath>
+      <HintPath>..\..\..\packages\DotNetOpenAuth.AspNet.4.3.1.13153\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.Core">
-      <HintPath>..\..\..\packages\DotNetOpenAuth.Core.4.3.0.13117\lib\net40-full\DotNetOpenAuth.Core.dll</HintPath>
+      <HintPath>..\..\..\packages\DotNetOpenAuth.Core.4.3.1.13153\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.OAuth">
-      <HintPath>..\..\..\packages\DotNetOpenAuth.OAuth.Core.4.3.0.13117\lib\net40-full\DotNetOpenAuth.OAuth.dll</HintPath>
+      <HintPath>..\..\..\packages\DotNetOpenAuth.OAuth.Core.4.3.1.13153\lib\net45-full\DotNetOpenAuth.OAuth.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.OAuth.Consumer">
-      <HintPath>..\..\..\packages\DotNetOpenAuth.OAuth.Consumer.4.3.0.13117\lib\net40-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+      <HintPath>..\..\..\packages\DotNetOpenAuth.OAuth.Consumer.4.3.1.13153\lib\net45-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.OpenId">
-      <HintPath>..\..\..\packages\DotNetOpenAuth.OpenId.Core.4.3.0.13117\lib\net40-full\DotNetOpenAuth.OpenId.dll</HintPath>
+      <HintPath>..\..\..\packages\DotNetOpenAuth.OpenId.Core.4.3.1.13153\lib\net45-full\DotNetOpenAuth.OpenId.dll</HintPath>
     </Reference>
     <Reference Include="DotNetOpenAuth.OpenId.RelyingParty">
-      <HintPath>..\..\..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.0.13117\lib\net40-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+      <HintPath>..\..\..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.1.13153\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -82,7 +82,7 @@
     </Reference>
     <Reference Include="Irony, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ca48ace7223ead47, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Breeze.WebApi.1.3.4\lib\Irony.dll</HintPath>
+      <HintPath>..\..\..\packages\Breeze.WebApi.1.3.6\lib\Irony.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -160,7 +160,7 @@
       <HintPath>..\..\..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization">
-      <HintPath>..\..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.0-Beta1\lib\net40\System.Web.Optimization.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.0\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -227,35 +227,18 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\AppController.complaintlist.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.complainttemplate.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.config.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Controllers\AppController.complaintlist.cs" />
+    <Compile Include="Controllers\AppController.complainttemplate.cs" />
+    <Compile Include="Controllers\AppController.config.cs" />
     <Compile Include="Controllers\AppController.cs" />
-    <Compile Include="Controllers\AppController.header.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.maintenancelist.cs.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.nav.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.role.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Controllers\AppController.header.cs" />
+    <Compile Include="Controllers\AppController.maintenancelist.cs.cs" />
+    <Compile Include="Controllers\AppController.nav.cs" />
+    <Compile Include="Controllers\AppController.officerdashboard.cs" />
+    <Compile Include="Controllers\AppController.role.cs" />
     <Compile Include="Controllers\AppController.tenantportal.cs" />
-    <Compile Include="Controllers\AppController.userprofile.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.users.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Controllers\AppController.userprofile.cs" />
+    <Compile Include="Controllers\AppController.users.cs" />
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
@@ -273,6 +256,7 @@
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\RebateController.cs" />
     <Compile Include="Controllers\RentalApplicationController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\TenantController.cs" />
     <Compile Include="default.aspx.cs">
@@ -284,6 +268,7 @@
     </Compile>
     <Compile Include="Dependencies\DummyChangeListener.cs" />
     <Compile Include="Dependencies\DummyChangeTracker.cs" />
+    <Compile Include="Dependencies\DummySearchProvider.cs" />
     <Compile Include="Dependencies\EmailService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -312,6 +297,7 @@
     <Content Include="App\durandal\widget.js" />
     <Content Include="App\main.js" />
     <Content Include="App\services\CommercialSpace.js" />
+    <Content Include="App\services\Complaint.js" />
     <Content Include="App\services\Contract.js" />
     <Content Include="App\services\datacontext.js" />
     <Content Include="App\services\Deposit.js" />
@@ -323,24 +309,30 @@
     <Compile Include="Helpers\MobileCapableWebFormViewEngine.cs" />
     <Compile Include="Helpers\OdataSqlTranslator.cs" />
     <Compile Include="Helpers\QueryHelper.cs" />
+    <Compile Include="Helpers\Roles.cs" />
     <Compile Include="Mocks\TemplateEngine.cs" />
     <Compile Include="Models\JsRoute.cs" />
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="App\services\mockMaintenanceContext.js" />
     <Content Include="App\viewmodels\complaint.assign.js" />
-    <Content Include="App\viewmodels\signup.form.js" />
+    <Content Include="App\viewmodels\complaint.detail.js" />
+    <Content Include="App\viewmodels\search.js" />
+    <Content Include="App\viewmodels\maintenance.workorder.js" />
     <Content Include="App\viewmodels\complaintform.tenant.js" />
     <Content Include="App\viewmodels\_tenant.complaint.js" />
-    <Content Include="App\viewmodels\_user.designation.details.js" />
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\complaint.assign.html" />
-    <Content Include="App\views\signup.form.html" />
     <Content Include="App\views\complaintform.tenant.html" />
+    <Content Include="App\views\search.html" />
     <Content Include="App\views\_complaint.details.html" />
+    <Content Include="App\views\maintenance.workorder.html" />
     <Content Include="App\views\_tenant.complaint.html" />
     <Content Include="App\views\_users.department.html" />
+    <Content Include="App\views\_workorder.comment.html" />
+    <Content Include="App\views\_workorder.ncr.html" />
+    <Content Include="App\views\_workorder.partsandlabor.html" />
+    <Content Include="App\views\_workorder.warranty.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="roles.config.js" />
@@ -354,16 +346,13 @@
     <Content Include="Scripts\breeze.debug.js" />
     <Content Include="App\viewmodels\complaint.close.js" />
     <Content Include="App\views\complaint.close.html" />
-    <Content Include="App\views\_user.designation.details.html" />
+    <Content Include="App\views\complaint.detail.html" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\demo.js" />
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <Content Include="Scripts\guide.js" />
     <Content Include="Scripts\holder.js" />
-    <None Include="Scripts\jquery-2.0.1.intellisense.js" />
-    <Content Include="Scripts\jquery-2.0.1.js" />
-    <Content Include="Scripts\jquery-2.0.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
@@ -405,10 +394,6 @@
     <Folder Include="Filters\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App\services\mockComplaintContext.js" />
-    <Content Include="App\services\mockComplaintTemplateContext.js" />
-    <Content Include="App\services\mockRentContext.js" />
-    <Content Include="App\services\mockTenantContext.js" />
     <Content Include="App\services\Object.xslt">
       <SubType>Designer</SubType>
     </Content>
@@ -424,7 +409,6 @@
     <Content Include="App\viewmodels\commercialspace.js" />
     <Content Include="App\viewmodels\commercialspacedetail.js" />
     <Content Include="App\viewmodels\complaint.form.js" />
-    <Content Include="App\viewmodels\complaint.inspection.js" />
     <Content Include="App\viewmodels\complaint.js" />
     <Content Include="App\viewmodels\complaint.template.form.js" />
     <Content Include="App\viewmodels\contract.create.js" />
@@ -471,7 +455,6 @@
     <Content Include="App\views\commercialspacedetail.html" />
     <Content Include="App\views\complaint.form.html" />
     <Content Include="App\views\complaint.html" />
-    <Content Include="App\views\complaint.inspection.html" />
     <Content Include="App\views\complaint.template.form.html" />
     <Content Include="App\views\contract.create.html" />
     <Content Include="App\views\contractdetails.html" />
@@ -744,7 +727,6 @@
     <Content Include="kendo\js\kendo.userevents.js" />
     <Content Include="kendo\js\kendo.validator.js" />
     <Content Include="kendo\js\kendo.view.js" />
-    <Content Include="kendo\js\kendo.web.js" />
     <Content Include="kendo\js\kendo.window.js" />
     <Content Include="kendo\styles\images\back.png" />
     <Content Include="kendo\styles\images\wp8_icons.png" />
@@ -835,7 +817,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
-    <Content Include="Scripts\jquery-2.0.1.min.map" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\Flyout.cshtml" />
@@ -849,9 +830,6 @@
     <Content Include="Views\App\ConfigJs.cshtml" />
     <Content Include="Views\App\UsersHtml.cshtml" />
     <Content Include="Views\App\UsersJs.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\HotTowel\index.cshtml" />
     <Content Include="Views\HotTowel\_splash.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
@@ -866,6 +844,9 @@
     <Content Include="Views\App\MaintenanceListHtml.cshtml" />
     <Content Include="Views\App\MaintenanceListJs.cshtml" />
     <Content Include="Views\App\RoleSettingsHtml.cshtml" />
+    <Content Include="Views\App\ComplaintCustomFieldHtml.cshtml" />
+    <Content Include="Views\App\OfficerListHtml.cshtml" />
+    <Content Include="Views\App\OfficerListJs.cshtml" />
     <Content Include="Views\App\TenantPortalHtml.cshtml" />
     <Content Include="Views\App\TenantPortalJs.cshtml" />
     <None Include="Web.Debug.config">
@@ -904,7 +885,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.6\tools\Microsoft.Bcl.Build.targets" />
+  <Import Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.7\tools\Microsoft.Bcl.Build.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

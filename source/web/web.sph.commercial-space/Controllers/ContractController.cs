@@ -18,16 +18,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var context = new SphDataContext();
             var application = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == rentalApplicationId);
             var cs = await context.LoadOneAsync<CommercialSpace>(c => c.CommercialSpaceId == application.CommercialSpaceId);
-            var audit = new AuditTrail
-            {
-                Operation = "Contract is created from application",
-                DateTime = DateTime.Now,
-                User = User.Identity.Name,
-                Type = typeof(RentalApplication).Name,
-                EntityId = rentalApplicationId,
-                Note = "-"
-            };
-
+            cs.IsAvailable = false;
 
             using (var session = context.OpenSession())
             {
@@ -35,23 +26,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 contract.Status = "Active";
                 contract.CommercialSpace = cs;
                 
-                session.Attach(contract, audit);
-                await session.SubmitChanges();
-            }
-            var audit2 = new AuditTrail
-            {
-                Operation = "Contract is created from application",
-                DateTime = DateTime.Now,
-                User = User.Identity.Name,
-                Type = typeof(Contract).Name,
-                EntityId = rentalApplicationId,
-                Note = "-"
-            };
-
-            using (var session = context.OpenSession())
-            {
-                session.Attach(audit2);
-                await session.SubmitChanges();
+                session.Attach(contract,cs);
+                await session.SubmitChanges("Contract is created from application");
             }
 
             return Json(contract);

@@ -33,73 +33,73 @@
         </div>
     </section>
     <section class="span8">
-        <form class="form-horizontal">
+        <form class="form-horizontal" data-bind="with: rentalapplication">
 
             <div class="fc-header-title">
                 <h3>Maklumat Pemohon</h3>
             </div>
             <div class="row-fluid">
-               <div class="control-group">
+                <div class="control-group">
                     <label class="control-label ">Nama</label>
                     <div class="controls ">
-                        <input type="text" name="rentalapplication.Contact.Name" data-bind="value: rentalapplication.Contact.Name" />
+                        <input type="text" name="rentalapplication.Contact.Name" data-bind="value: Contact().Name" />
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label">No. Kad Pengenalan</label>
                     <div class="controls">
-                        <input type="text" name="rentalapplication.Contact.IcNo" data-bind="value: rentalapplication.Contact.IcNo" />
+                        <input type="text" name="rentalapplication.Contact.IcNo" data-bind="value: Contact().IcNo" />
                     </div>
 
                 </div>
                 <div class="control-group">
                     <label class="control-label">Jawatan</label>
                     <div class="controls">
-                        <input type="text" name="rentalapplication.Contact.Role" data-bind="value: rentalapplication.Contact.Role" />
+                        <input type="text" name="rentalapplication.Contact.Role" data-bind="value: Contact().Role" />
                     </div>
                 </div>
                 <div class="control-group ">
                     <label class="control-label">No. Telefon </label>
                     <div class="controls">
-                        <input type="text" name="rentalapplication.Contact.MobileNo" data-bind="value: rentalapplication.Contact.MobileNo" />
+                        <input type="text" name="rentalapplication.Contact.MobileNo" data-bind="value: Contact().MobileNo" />
                     </div>
                 </div>
                 <div class="control-group ">
                     <label class="control-label">Emel</label>
                     <div class="controls">
-                        <input type="email" name="rentalapplication.Contact.Email" data-bind="value: rentalapplication.Contact.Email" />
+                        <input type="email" name="rentalapplication.Contact.Email" data-bind="value: Contact().Email" />
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="controls">
                         <label class="checkbox">
-                            <input data-bind="checked: rentalapplication.IsCompany" id="rentalapplication.IsCompany" type="checkbox" name="rentalapplication.IsCompany" />
+                            <input data-bind="checked: IsCompany" id="rentalapplication.IsCompany" type="checkbox" name="rentalapplication.IsCompany" />
                             Permohonan bagi pihak syarikat
                         </label>
                     </div>
                 </div>
-                <section data-bind="visible: rentalapplication.IsCompany() == true">
+                <section data-bind="visible: IsCompany() == true">
                     <div class="fc-header-title">
                         <h3>Maklumat Syarikat</h3>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Nama Syarikat</label>
                         <div class="controls">
-                            <input type="text" name="rentalapplication.CompanyName" data-bind="value: rentalapplication.CompanyName" />
+                            <input type="text" name="rentalapplication.CompanyName" data-bind="value: CompanyName" />
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">No Pendaftaran Syarikat</label>
                         <div class="controls">
-                            <input type="text" name="rentalapplication.CompanyRegistrationNo" data-bind="value: rentalapplication.CompanyRegistrationNo" />
+                            <input type="text" name="rentalapplication.CompanyRegistrationNo" data-bind="value: CompanyRegistrationNo" />
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label">Jenis Syarikat</label>
                         <div class="controls">
-                            <select name="rentalapplication.CompanyType" data-bind="value: rentalapplication.CompanyType">
+                            <select name="rentalapplication.CompanyType" data-bind="value: CompanyType">
                                 <option value="Business Corporate">Business Corporate</option>
                                 <option value="Partnership">Partnership</option>
                                 <option value="Sole Proprietorship">Sole Proprietorship</option>
@@ -110,7 +110,7 @@
                     <div class="control-group ">
                         <label class="control-label">No. Telefon Pejabat</label>
                         <div class="controls">
-                            <input type="text" name="rentalapplication.Contact.OfficeNo" data-bind="value: rentalapplication.Contact.OfficeNo" />
+                            <input type="text" name="rentalapplication.Contact.OfficeNo" data-bind="value: Contact().OfficeNo" />
                         </div>
                     </div>
                     <div>
@@ -119,35 +119,25 @@
                     <div class="control-group">
                         <label class="control-label">Jalan</label>
                         <div class="controls">
-                            <input type="text" name="rentalapplication.Address.Street" data-bind="value: rentalapplication.Address.Street" />
+                            <input type="text" name="rentalapplication.Address.Street" data-bind="value: Address().Street" />
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Bandar</label>
                         <div class="controls">
-                            <input type="text" name="rentalapplication.Address.City" data-bind="value: rentalapplication.Address.City" />
+                            <input type="text" name="rentalapplication.Address.City" data-bind="value: Address().City" />
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Poskod</label>
                         <div class="controls">
-                            <input type="text" name="rentalapplication.Address.Postcode" data-bind="value: rentalapplication.Address.Postcode" />
+                            <input type="text" name="rentalapplication.Address.Postcode" data-bind="value: Address().Postcode" />
                         </div>
                     </div>
-                    <div class="control-group">
+                    <div class="labelLeft">
                         <label class="control-label">Negeri</label>
                         <div class="controls">
-                            <select name="rentalapplication.Address.State" data-bind="value: rentalapplication.Address.State">
-                                <option value="Selangor">Selangor</option>
-                                <option value="Johor">Johor</option>
-                                <option value="Melaka">Melaka</option>
-                                <option value="Kelantan">Kelantan</option>
-                                <option value="W.P Kuala Lumpur">W.P Kuala Lumpur</option>
-                                <option value="Pahang">Pahang</option>
-                                <option value="Perak">Perak</option>
-                                <option value="Terengganu">Terengganu</option>
-                                <option value="Sabah">Sabah</option>
-                                <option value="Sarawak">Sarawak</option>
+                            <select data-bind="options: $parent.stateOptions, value: Address().State, optionsCaption: '[Sila Pilih]', optionsText: 'Name', optionsValue: 'Name'">
                             </select>
                         </div>
                     </div>
@@ -159,13 +149,13 @@
                 <div class="control-group">
                     <label class="control-label">Tujuan Permohonan</label>
                     <div class="controls">
-                        <textarea cols="3" rows="4" name="rentalapplication.Purpose" data-bind="value: rentalapplication.Purpose" class="input-block-level"></textarea>
+                        <textarea cols="3" rows="4" name="rentalapplication.Purpose" data-bind="value: Purpose" class="input-block-level"></textarea>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Pengalaman</label>
                     <div class="controls">
-                        <textarea cols="3" rows="4" name="rentalapplication.Experience" data-bind="value: rentalapplication.Experience" class="input-block-level"></textarea>
+                        <textarea cols="3" rows="4" name="rentalapplication.Experience" data-bind="value: Experience" class="input-block-level"></textarea>
                         <span class="help-block">Nyatakan pengalaman anda/syarikat berdasarkan permohonan diatas</span>
                     </div>
 
@@ -174,15 +164,15 @@
                 <div class="control-group">
                     <label class="control-label">Sejarah </label>
                     <div class="controls">
-                        <input type="checkbox" name="rentalapplication.IsRecordExist" class="checkbox" data-bind="checked: rentalapplication.IsRecordExist" />
+                        <input type="checkbox" name="rentalapplication.IsRecordExist" class="checkbox" data-bind="checked: IsRecordExist" />
                         <span class="help-inline">Pernah/Sudah Ada menyewa mana-mana Ruang Komersial dengan BPH? </span>
                     </div>
                 </div>
-                <div class="control-group" data-bind="visible: rentalapplication.IsRecordExist">
+                <div class="control-group" data-bind="visible: IsRecordExist">
                     <label class="control-label">-</label>
                     <div class="controls">
                         <span class="help-block">Sila nyatakan alamat</span>
-                        <textarea cols="3" rows="4" name="rentalapplication.PreviousAddress" data-bind="value: rentalapplication.PreviousAddress"></textarea>
+                        <textarea cols="3" rows="4" name="rentalapplication.PreviousAddress" data-bind="value: PreviousAddress"></textarea>
 
                     </div>
                 </div>
@@ -200,7 +190,7 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody data-bind="foreach: { data: rentalapplication.AttachmentCollection, afterAdd: configureUpload }">
+                        <tbody data-bind="foreach: { data: AttachmentCollection, afterAdd: $parent.configureUpload }">
                             <tr>
                                 <td>
                                     <input type="text" data-bind="value: Type, uniqueName: true" /></td>
@@ -216,7 +206,7 @@
                         </tbody>
                     </table>
 
-                    <input type="button" name="addAttachmentCommand" class="btn pull-right" value="+ Dokument" data-bind="click: addAttachmentCommand" />
+                    <input type="button" name="addAttachmentCommand" class="btn pull-right" value="+ Dokument" data-bind="click: $parent.addAttachmentCommand" />
 
                 </div>
                 <div class="text-warning warning">

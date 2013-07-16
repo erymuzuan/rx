@@ -12,16 +12,22 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             complaint.Status = "New";
+ 
+            using (var session = context.OpenSession())
+            {
+                session.Attach(complaint);
+                await session.SubmitChanges("tenant submit complaint");
+            }
+
             using (var session = context.OpenSession())
             {
                 var ticket = string.Format("AD{0:yyyy}{1}", DateTime.Today, complaint.ComplaintId).PadLeft(8, '0');
                 complaint.ReferenceNo = ticket;
-
                 session.Attach(complaint);
-                await session.SubmitChanges("Submit");
+                await session.SubmitChanges("generate complaint number");
             }
 
-            return Json(new {status = "success", referenceNo = complaint.ReferenceNo});
+            return Json(new { status = "success", referenceNo = complaint.ReferenceNo });
         }
 
         public async Task<ActionResult> Assign(Complaint comp)

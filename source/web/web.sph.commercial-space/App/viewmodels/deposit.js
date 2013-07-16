@@ -12,13 +12,13 @@
 
 define(['services/datacontext', 'services/logger'],
     function (context, logger) {
-
+        
         var isBusy = ko.observable(false),
             activate = function () {
                 var tcs = new $.Deferred();
                 context.loadAsync("Deposit", "IsPaid eq 0").done(function (lo) {
-                    vm.depositCollection(lo.itemCollection);
-                    tcs.resolve(true);
+                  vm.depositCollection(lo.itemCollection);
+                  tcs.resolve(true);
                 });
                 return tcs.promise();
             },
@@ -46,7 +46,6 @@ define(['services/datacontext', 'services/logger'],
                 var depositPayment = ko.mapping.toJS(vm.deposit().DepositPaymentCollection());
                 var postdata = JSON.stringify({ id: vm.deposit().DepositId(), deposits: depositPayment });
                 context.post(postdata, "/Deposit/Save").done(function (e) {
-                    logger.log("Deposit payment received", e, "deposit", true);
                     tcs.resolve(true);
                 });
                 return tcs.promise();
@@ -56,7 +55,7 @@ define(['services/datacontext', 'services/logger'],
             isBusy: isBusy,
             activate: activate,
             showDetailsCommand: showDetails,
-            depositCollection: ko.observableArray([]),
+            depositCollection: ko.observableArray(),
             deposit: ko.observable(new bespoke.sphcommercialspace.domain.Deposit()),
             addPaymentCommand: addPayment,
             saveCommand: save

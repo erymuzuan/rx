@@ -23,15 +23,15 @@ namespace web.test
             driver.Sleep(TimeSpan.FromSeconds(3));
 
             driver
-                .Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/rentalapplication/10");
+                .Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/rentalapplication/13");
             driver.Sleep(TimeSpan.FromSeconds(3));
             driver
                 .Value("[name='rentalapplication.Contact.Name']","Zaima")
                 .Value("[name='rentalapplication.Contact.IcNo']","860908-03-5604")
                 .Value("[name='rentalapplication.Contact.MobileNo']","013-6312237")
-                .Value("[name='rentalapplication.Contact.Email']","ruzzaima@hotmail.com")
+                .Value("[name='rentalapplication.Contact.Email']","zaima@hotmail.com")
                 .Click("[name='rentalapplication.IsCompany']")
-                .Value("[name='rentalapplication.CompanyName']", "Bespoke Technology Sdn Bhd")
+                .Value("[name='rentalapplication.CompanyName']", "Yunaz Sdn Bhd")
                 .Value("[name='rentalapplication.CompanyRegistrationNo']", "B29999")
                 .SelectOption("[name='rentalapplication.CompanyType']", "Partnership")
                 .Value("[name='rentalapplication.Contact.OfficeNo']", "03-7724568")

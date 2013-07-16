@@ -3,10 +3,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h3>DASHBOARD SENGGARA</h3>
-<div class="navbar">
+<div class="navi navbar">
   <div class="navbar-inner">
     <ul class="nav nav-header" id="status-option" data-bind="foreach: statusOptions">
-      <li><a class="active " href="#tab" data-toggle="tab" data-bind="text: $data"></a></li>
+      <li class="nred" ><a class="blue " href="#" data-toggle="tab" data-bind="text: $data"></a></li>
     </ul>
   </div>
 </div>
@@ -31,16 +31,12 @@
                     <td data-bind="text: Complaint.Category"></td>
                     <td data-bind="text: Complaint.SubCategory"></td>
                     <td data-bind="text: Resolution"></td>
-                    <td data-bind="text: WorkOrderNo"></td>
-                    <td>
-                        <select name="maintenance.Officer" data-bind="value: Officer">
-                            <option value="Ima">Ima</option>
-                            <option value="Syazwan">Syazwan</option>
-                            <option value="Shamsuriati">Shamsuriati</option>
-                            <option value="Hasmin">Hasmin</option>
-                        </select>
+                    <td><a  data-bind="text: WorkOrderNo, attr: { href: '#/maintenance.workorder/' + MaintenanceId()}" title="navigate to work order"></a></td>
+                    <td data-bind="with: $parent.officerOptions">
+                        <span data-bind="text: $parent.Officer, visible: $parent.Officer != null"></span>
+                        <select name="maintenance.Officer" data-bind="options: $data, optionsText: 'Item2', optionsValue: 'Item1', optionsCaption: '[Sila Pilih]', value: $parent.Officer, visible: $parent.Officer() == null || $parent.WorkOrderNo() == null"></select>
                     </td>
-
+                   
                     <td>
                         <input type="button" class="btn btn-primary" value="Agih Tugas" data-bind="click: $parent.saveAssignment, visible: Status() == 'New'" />
                     </td>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.IO.Compression;
@@ -26,26 +27,26 @@ namespace Bespoke.Sph.RabbitMqPublisher
         }
 
 
-        public async Task PublishAdded(IEnumerable<Entity> attachedCollection)
+        public async Task PublishAdded(string operation, IEnumerable<Entity> attachedCollection)
         {
             var items = attachedCollection.ToArray();
-            await SendMessage("added", items);
+            await SendMessage("added",operation, items);
         }
 
-        public async Task PublishChanges(IEnumerable<Entity> attachedCollection)
+        public async Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection)
         {
             var items = attachedCollection.ToArray();
-            await SendMessage("changed", items);
+            await SendMessage("changed",operation, items);
         }
 
-        public async Task PublishDeleted(IEnumerable<Entity> deletedCollection)
+        public async Task PublishDeleted(string operation, IEnumerable<Entity> deletedCollection)
         {
-            await SendMessage("deleted", deletedCollection.ToArray());
+            await SendMessage("deleted",operation, deletedCollection.ToArray());
         }
 
-        private async Task SendMessage(string action, params Entity[] items)
+        private async Task SendMessage(string action, string operation, params Entity[] items)
         {
-
+            Console.WriteLine("sending....");
             var factory = new ConnectionFactory
             {
                 UserName = m_connection.Username,
@@ -60,6 +61,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
                 channel.ExchangeDeclare(this.Exchange, ExchangeType.Topic, true);
                 foreach (var item in items)
                 {
+
                     var entityType = this.GetEntityType(item);
                     var routingKey = entityType.Name + "." + action;
                     var item1 = item;
@@ -69,9 +71,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
                     var props = channel.CreateBasicProperties();
                     props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
                     props.ContentType = "application/xml";
-
+                    props.Headers = new Dictionary<string, string> {{"operation", operation}};
 
                     channel.BasicPublish(this.Exchange, routingKey, props, body);
+
+                    Console.WriteLine("Published to {0}, exc : {1}, keys : {2}", factory.VirtualHost,this.Exchange, routingKey);
                 }
 
             }

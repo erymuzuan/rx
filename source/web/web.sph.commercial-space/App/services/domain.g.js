@@ -1,6 +1,7 @@
 ﻿
-/// <reference path="~/scripts/knockout-2.2.1.debug.js" />
-/// <reference path="~/Scripts/underscore.js" />
+
+/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
+/// <reference path="../../Scripts/underscore.js" />
 
 
 var bespoke = bespoke || {};
@@ -854,6 +855,7 @@ bespoke.sphcommercialspace.domain.Complaint = function (webId) {
         Department: ko.observable(),
         Note: ko.observable(),
         CustomFieldValueCollection: ko.observableArray(),
+        Tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -991,9 +993,12 @@ bespoke.sphcommercialspace.domain.Maintenance = function (webId) {
         Status: ko.observable(),
         Resolution: ko.observable(),
         Officer: ko.observable(),
+        AttachmentStoreId: ko.observable(),
+        AttachmentName: ko.observable(),
         Complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
         StartDate: ko.observable(),
         EndDate: ko.observable(),
+        WorkOrder: ko.observable(new bespoke.sphcommercialspace.domain.WorkOrder()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1018,6 +1023,97 @@ bespoke.sphcommercialspace.domain.Designation = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.DesignationPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.DesignationPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.WorkOrder = function (webId) {
+
+    var model = {
+        Priority: ko.observable(),
+        Severity: ko.observable(),
+        EstimationCost: ko.observable(),
+        WorkOrderId: ko.observable(),
+        CommentCollection: ko.observableArray(),
+        PartsAndLaborCollection: ko.observableArray(),
+        WarrantyCollection: ko.observableArray(),
+        NonComplianceCollection: ko.observableArray(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.WorkOrderPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.WorkOrderPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Comment = function (webId) {
+
+    var model = {
+        Description: ko.observable(),
+        User: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.CommentPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.CommentPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.PartsAndLabor = function (webId) {
+
+    var model = {
+        Quantity: ko.observable(),
+        Description: ko.observable(),
+        Cost: ko.observable(),
+        Total: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.PartsAndLaborPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.PartsAndLaborPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Warranty = function (webId) {
+
+    var model = {
+        Description: ko.observable(),
+        YearWarranty: ko.observable(),
+        StartDate: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.WarrantyPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.WarrantyPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.NonCompliance = function (webId) {
+
+    var model = {
+        Description: ko.observable(),
+        Date: ko.observable(),
+        Reason: ko.observable(),
+        Action: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.NonCompliancePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.NonCompliancePartial(model));
     }
     return model;
 };

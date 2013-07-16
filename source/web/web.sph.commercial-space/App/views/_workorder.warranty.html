@@ -1,0 +1,25 @@
+﻿<div>
+    <input type="button" class="btn btn-primary pull-right" value="+ Jaminan" data-bind="click: $parent.addNewWarrantyCommand" />
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Keterangan</th>
+            <th>Tahun Jaminan</th>
+            <th>Tarikh Mula</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: WarrantyCollection()">
+        <tr>
+            <td>
+                <input type="text" data-bind="value: Description" />
+            </td>
+            <td>
+                <input type="text" data-bind="value: YearWarranty" />
+            </td>
+            <td>
+                <input data-bind="kendoDate: Date" id="warranty.StartDate" type="text" name="warranty.StartDate" />
+            </td>
+        </tr>
+    </tbody>
+</table>

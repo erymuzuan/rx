@@ -145,7 +145,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             using (var session = context.OpenSession())
             {
                 session.Attach(item);
-                await session.SubmitChanges();
+                await session.SubmitChanges("Editing building details");
             }
             return Json(new { status = "success", buildingId = building.BuildingId });
         }

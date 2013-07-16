@@ -1,0 +1,29 @@
+﻿<div>
+    <input type="button" class="btn btn-primary pull-right" value="+ Perkakas/Buruh" data-bind="click: $parent.addNewPartAndLaborCommand" />
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Kuantiti</th>
+            <th>Keterangan</th>
+            <th>Kos/Unit</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: PartsAndLaborCollection()">
+        <tr>
+            <td>
+                <input type="text" data-bind="value: Quantity" />
+            </td>
+            <td>
+                <input type="text" data-bind="value: Description" />
+            </td>
+            <td>
+                <input type="text" data-bind="value: Cost" />
+            </td>
+            <td>
+                <input type="text" data-bind="value: Total" />
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -14,3 +14,8 @@ obj/
 /_UpgradeReport_Files
 /UpgradeLog.htm
 /UpgradeLog.XML
+*.BASE.*.cs
+*.BACKUP.*.cs
+*.REMOTE.*.cs
+*.REMOTE.*.cs
+*.LOCAL.*.cs

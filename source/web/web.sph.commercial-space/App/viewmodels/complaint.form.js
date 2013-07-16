@@ -33,11 +33,27 @@ define(['services/datacontext', 'services/logger'],
 	                vm.categoryOptions(categories);
 	                tcs.resolve(true);
 	                isBusy(false);
+	                
+	                // build custom fields value
+	                var cfs = _(template().ComplaintCustomFieldCollection()).map(function(f) {
+	                    var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(system.guid.newGuid());
+	                    v.Name(f.Name());
+	                    v.Type(f.Type());
+	                    return v;
+	                });
+
+	                vm.complaint().CustomFieldValueCollection(cfs);
 	            });
 	            tcs.promise();
 	        },
 
             viewAttached = function (view) {
+                
+                $('#custom-fields-panel').load("/App/complaint.custom.field.html/" + vm.template().ComplaintTemplateId(),
+                function() {
+                    ko.applyBindings(vm, document.getElementById('custom-fields-panel'));
+                });
+
                 $("#AttachmentStoreId").kendoUpload({
                     async: {
                         saveUrl: "/BinaryStore/Upload",
@@ -91,6 +107,7 @@ define(['services/datacontext', 'services/logger'],
 	        categoryOptions: ko.observableArray([]),
 	        subCategoryOptions: ko.observableArray([]),
 	        locationOptions: ko.observableArray(),
+            customFields : ko.observable(),
 	        
 	        template: template,
 	        complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),

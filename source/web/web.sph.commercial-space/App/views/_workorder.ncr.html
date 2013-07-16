@@ -1,0 +1,30 @@
+﻿<div>
+    <input type="button" class="btn btn-primary pull-right" value="+ Pelanggaran Syarat" data-bind="click: $parent.addNonComplianceCommand" />
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Keterangan</th>
+            <th>Tarikh</th>
+            <th>Sebab</th>
+            <th>Tindakan Pembetulan</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: NonComplianceCollection()">
+        <tr>
+            <td>
+                <textarea data-bind="value: Description" rows="3"/>
+            </td>
+            <td>
+                <input data-bind="kendoDate: Date" id="warranty.StartDate" type="text" name="warranty.StartDate"/>
+            </td>
+            <td>
+                <textarea data-bind="value: Reason" rows="3"/>
+            </td>
+            <td>
+                <textarea data-bind="value: Action" rows="3"/>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
