@@ -11,8 +11,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             var deposit = await context.LoadOneAsync<Deposit>(d => d.DepositId == id);
-
-            deposit.DepositPaymentCollection.AddRange(deposits);
+            deposit.DepositPaymentCollection.ClearAndAddRange(deposits);
 
             using (var session = context.OpenSession())
             {

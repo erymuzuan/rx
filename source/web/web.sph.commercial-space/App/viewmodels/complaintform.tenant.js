@@ -17,20 +17,20 @@ define(['services/datacontext', 'services/logger'],
 	    var template = ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
 	        isBusy = ko.observable(false),
 	        tenantId = ko.observable(),
-	        
+
             activate = function (tenant) {
                 tenantId(parseInt(tenant.TenantId()));
                 vm.complaint().TenantId(tenantId);
                 var query = "TenantIdSsmNo eq '" + tenant.IdSsmNo() + "'";
                 var query2 = "TenantId eq " + tenant.TenantId();
-	            isBusy(true);
-	            var tcs = new $.Deferred();
+                isBusy(true);
+                var tcs = new $.Deferred();
 
-	            var getContractTask = context.loadAsync("Contract", query);
+                var getContractTask = context.loadAsync("Contract", query);
                 var getTenantInfoTask = context.loadOneAsync("Tenant", query2);
-	            var getComplaintTemplateTask = context.getTuplesAsync("ComplaintTemplate", "ComplaintTemplateId gt 0", "ComplaintTemplateId", "Name");
-                
-                $.when(getTenantInfoTask,getContractTask, getComplaintTemplateTask)
+                var getComplaintTemplateTask = context.getTuplesAsync("ComplaintTemplate", "ComplaintTemplateId gt 0", "ComplaintTemplateId", "Name");
+
+                $.when(getTenantInfoTask, getContractTask, getComplaintTemplateTask)
                     .then(function (t, lo, list) {
                         vm.complaint().Tenant(t);
                         vm.locationOptions.removeAll();
@@ -39,18 +39,20 @@ define(['services/datacontext', 'services/logger'],
                                 {
                                     Name: ko.observable()
                                 };
-                            list2.Name(cs.CommercialSpace.BuildingName() + " , " + cs.CommercialSpace.FloorName()+ " , " + cs.CommercialSpace.LotName());
+                            list2.Name(cs.CommercialSpace.BuildingName() + " , " + cs.CommercialSpace.FloorName() + " , " + cs.CommercialSpace.LotName());
                             vm.locationOptions.push(list2);
                         });
                         vm.typeOptions(_(list).sortBy(function (b) {
                             return b.Item2;
                         }));
                         tcs.resolve(true);
+
                     });
                 tcs.promise();
-	        },
+            },
 
             viewAttached = function (view) {
+
                 $("#AttachmentStoreId").kendoUpload({
                     async: {
                         saveUrl: "/BinaryStore/Upload",
@@ -99,38 +101,56 @@ define(['services/datacontext', 'services/logger'],
 	        activate: activate,
 	        viewAttached: viewAttached,
 	        locationOptions: ko.observableArray(),
-            typeOptions: ko.observableArray(),
+	        typeOptions: ko.observableArray(),
 	        categoryOptions: ko.observableArray([]),
 	        subCategoryOptions: ko.observableArray([]),
 	        selectedType: ko.observable(),
 	        selectedCategory: ko.observable(),
-	        template : template,
+	        template: template,
 	        complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
 	        submitCommand: submit
 	    };
 
-	    vm.complaint().Type.subscribe(function(type) {
-	         vm.isBusy(true);
-	         context.loadOneAsync("ComplaintTemplate", "Name eq '" + type + "'")
+	    vm.complaint().Type.subscribe(function (type) {
+	        vm.isBusy(true);
+	        
+	        context.loadOneAsync("ComplaintTemplate", "ComplaintTemplateId eq '" + type + "'")
 	            .then(function (t) {
 	                vm.template(t);
-	                var categories = _(t.ComplaintCategoryCollection()).map(function(c) {
+	                //build custom fields value
+	                var cfs = _(template().ComplaintCustomFieldCollection()).map(function (f) {
+	                    var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(system.guid.newGuid());
+	                    v.Name(f.Name());
+	                    v.Type(f.Type());
+	                    return v;
+	                });
+
+	                vm.complaint().CustomFieldValueCollection(cfs);
+	                
+	                $('#custom-fields-panel')
+                                .load("/App/complaint.custom.field.html/" + type,
+                                    function () {
+                                        ko.applyBindings(vm, document.getElementById('custom-fields-panel'));
+                                    });
+	                
+	                var categories = _(t.ComplaintCategoryCollection()).map(function (c) {
 	                    return c.Name();
 	                });
+	                
 	                vm.categoryOptions(categories);
 	                vm.isBusy(false);
 	                selectedType = t;
 	            });
 	    });
-	     
+
 	    vm.complaint().Category.subscribe(function (category) {
-	       var cat = _(template().ComplaintCategoryCollection()).find(function (c) {
-	           return c.Name() === category;
-	       });
-	        
+	        var cat = _(template().ComplaintCategoryCollection()).find(function (c) {
+	            return c.Name() === category;
+	        });
+
 	        vm.subCategoryOptions(cat.SubCategoryCollection());
-	   });
-	    
+	    });
+
 	    return vm;
 
 	});
