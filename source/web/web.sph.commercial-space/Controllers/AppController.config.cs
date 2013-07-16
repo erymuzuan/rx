@@ -21,13 +21,14 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var vm = new ApplicationConfigurationViewModel { StartModule = "admindashboard" };
 
+            var context = new SphDataContext();
             var routeConfig = Server.MapPath("~/routes.config.js");
             var json = System.IO.File.ReadAllText(routeConfig);
-
+            var username = User.Identity.Name;
+            var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == username);
             var settings = new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()};
             var routes = await JsonConvert.DeserializeObjectAsync<JsRoute[]>(json, settings);
             vm.Routes.AddRange(routes.Where(r => User.IsInRole(r.Role) || string.IsNullOrWhiteSpace(r.Role)));
-
             return View(vm);
         }
 

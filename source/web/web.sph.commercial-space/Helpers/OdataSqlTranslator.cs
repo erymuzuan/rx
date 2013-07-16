@@ -33,7 +33,6 @@ namespace Bespoke.Sph.Commerspace.Web.Helpers
 
 
             var output = Regex.Replace(input, @"^([\w\-]+)", m => "[" + m + "]");
-            output = Regex.Replace(input, @"substringof(?<paramater>.*,?<column>.*?)", m => m.Groups["column"].Value + " LIKE '%" + m.Groups["paramater"].Value + "%'");
             output = Regex.Replace(output, @" and ([\w\-]+)", m => " AND [" + m.ToString().Replace(" and ", string.Empty) + "]");
             output = Regex.Replace(output, @" or ([\w\-]+)", m => " OR [" + m.ToString().Replace(" or ", string.Empty) + "]");
             output = output.Replace(" = DateTime ", " [DateTime] ");
