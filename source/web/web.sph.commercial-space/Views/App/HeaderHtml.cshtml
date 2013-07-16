@@ -146,35 +146,9 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="dropdown dropdown-big" data-bind="css: { open: searchResults().length > 0 }">
-                        <form data-bind="submit:searchCommand" class="form-search">
-                            <input data-bind="value:searchText" placeholder="Search..." type="search" class="search-query" />
-                            <i class="icon-search"></i>
-                        </form>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <h5><i class="icon-user"></i>Search results</h5>
-                                <hr>
-                            </li>
-                            <!-- ko  foreach : searchResults -->
-                            <li>
-                                <!-- List item heading h6-->
-                                <a href="#" data-bind="text: Title, click: $root.navigateSearch"></a> <span class="label label-warning pull-right">
-                                                                            <i class="icon-building"></i>
-                                    Building
-                                                                        </span>
-                                <div class="clearfix"></div>
-                                <hr>
-                            </li>
-                            <!-- /ko -->
-                            <li>
-                                <div class="drop-foot">
-                                    <a href="#">View All</a>
-                                    <a href="#" class="pull-right">&times;</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
+                    <!-- ko compose : 'viewmodels/search' -->
+                    <!-- /ko -->
+                   
 
                 </ul>
 
