@@ -45,11 +45,11 @@
         <label for="contract.Period" class="control-label">Tempoh Kontrak</label>
         <div class="controls">
             <div class="input-append">
-                <input data-bind="value: PeriodUnit" id="contract.Period" type="number" name="contract.Period" />
+                <input data-bind="value: Period" id="contract.Period" type="text" name="contract.Period" />
                 <span>
-                    <select data-bind="value: Period">
-                        <option value="Month">Bulan</option>
-                        <option value="Year">Tahun</option>
+                    <select data-bind="value: PeriodUnit">
+                        <option value="m">Bulan</option>
+                        <option value="y">Tahun</option>
                     </select>
                 </span>
             </div>

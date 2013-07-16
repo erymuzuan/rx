@@ -51,7 +51,7 @@ define(['services/datacontext', './_contract.clauses', './_audittrail.list'],
                 var tcs = new $.Deferred();
                 context.post(json, "Contract/Create")
                     .then(function (c) {
-                        vm.contract(c);
+                        vm.contract(ko.mapping.fromJS(c));
                         tcs.resolve(c);
                     });
                 return tcs.promise();
