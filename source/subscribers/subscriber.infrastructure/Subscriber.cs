@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
+using Bespoke.SphCommercialSpaces.Domain;
 using RabbitMQ.Client;
 
 //using sql = Bespoke.Sph.SqlRepository;
@@ -11,7 +12,7 @@ using RabbitMQ.Client;
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
     [Serializable]
-    public abstract class Subscriber : MarshalByRefObject
+    public abstract class Subscriber<T> : MarshalByRefObject where T : Entity
     {
         public string HostName { get; set; }
         public string UserName { get; set; }
@@ -20,7 +21,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public abstract string QueueName { get; }
         public abstract string[] RoutingKeys { get; }
 
-        protected abstract Task ProcessMessage(string json);
+        protected abstract Task ProcessMessage(string operation, T item) ;
 
         protected void WriteError(Exception exception)
         {
@@ -58,8 +59,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             PrintSubscriberInformation();
 
             const bool noAck = false;
-            const string exchangeName = "station.ms.changes";
-            const string deadLetterExchange = "station.ms-dead-letter";
+            const string exchangeName = "ruang.komersial.changes";
+            const string deadLetterExchange = "sph.ms-dead-letter";
             const string deadLetterQueue = "ms_dead_letter_queue";
 
             var factory = new ConnectionFactory
@@ -94,7 +95,18 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     {
                         byte[] body = e.Body;
                         var xml = await this.DecompressAsync(body);
-                        ProcessMessage(xml)
+                        var operation = e.Properties.Headers["operation"] as string;
+                        foreach (var key in e.Properties.Headers.Keys)
+                        {
+                            Console.WriteLine(key);
+                            var val = e.Properties.Headers[key];
+                            var vak = ByteToString((byte[]) val);
+                            Console.WriteLine(vak);
+                            operation = vak;
+
+                        }
+                        var item = XmlSerializerService.DeserializeFromXml<T>(xml.Replace("utf-16", "utf-8"));
+                        ProcessMessage(operation,item)
                             .ContinueWith(_ =>
                             {
                                 if (_.IsFaulted && null != _.Exception)
@@ -110,7 +122,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                             })
                             .Wait();
 
-                       
+
 
                     };
 
@@ -143,8 +155,20 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 destinationStream.Position = 0;
                 using (var sr = new StreamReader(destinationStream))
                 {
-                    var json = await sr.ReadToEndAsync();
-                    return json;
+                    var xml = await sr.ReadToEndAsync();
+                    return xml;
+                }
+            }
+        }
+
+        private string ByteToString(byte[] content)
+        {
+            using (var orginalStream = new MemoryStream(content))
+            {
+                using (var sr = new StreamReader(orginalStream))
+                {
+                    var xml = sr.ReadToEnd();
+                    return xml;
                 }
             }
         }

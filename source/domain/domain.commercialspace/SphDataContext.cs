@@ -51,8 +51,9 @@ namespace Bespoke.SphCommercialSpaces.Domain
             return session;
         }
 
-        internal async Task<SubmitOperation> SubmitChangesAsync(PersistenceSession session)
+        internal async Task<SubmitOperation> SubmitChangesAsync(string operation, PersistenceSession session)
         {
+            Console.WriteLine("sending  to changes {0} {1} items" , operation, session.AttachedCollection.Count);
             var addedItems = session.AttachedCollection.Where(t => this.GetId(t) == 0).ToArray();
             var changedItems = session.AttachedCollection.Where(t => this.GetId(t) > 0).ToArray();
 
@@ -60,12 +61,12 @@ namespace Bespoke.SphCommercialSpaces.Domain
             var so = await persistence.SubmitChanges(session.AttachedCollection, session.DeletedCollection, session);
 
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
-            var addedTask = publisher.PublishAdded(addedItems);
-            var changedTask = publisher.PublishChanges(changedItems);
-            var deletedTask = publisher.PublishDeleted(session.DeletedCollection);
+            var addedTask = publisher.PublishAdded(operation, addedItems);
+            var changedTask = publisher.PublishChanges(operation, changedItems);
+            var deletedTask = publisher.PublishDeleted(operation, session.DeletedCollection);
             await Task.WhenAll(addedTask, changedTask, deletedTask);
-            
-            
+
+
             return so;
         }
 
@@ -114,7 +115,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             var provider = ObjectBuilder.GetObject<QueryProvider>();
             var query = new Query<T>(provider).Where(predicate);
             return query;
-        } 
+        }
 
         public async Task<TResult> GetSumAsync<T, TResult>(IQueryable<T> query, Expression<Func<T, TResult>> selector)
             where T : Entity
@@ -231,7 +232,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             where T : Entity
         {
             var repos = ObjectBuilder.GetObject<IRepository<T>>();
-            return await repos.GetList2Async(query, selector,selector2);
+            return await repos.GetList2Async(query, selector, selector2);
         }
 
 

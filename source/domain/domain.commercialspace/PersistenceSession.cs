@@ -57,7 +57,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
         public async Task<SubmitOperation> SubmitChanges(string operation = "")
         {
-            var so = await m_context.SubmitChangesAsync(this);
+            var so = await m_context.SubmitChangesAsync(operation, this);
             m_attachedCollection.Clear();
             m_deletedCollection.Clear();
             m_context = null;

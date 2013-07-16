@@ -5,7 +5,7 @@ using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.Messaging
 {
-    public class LuceneIndexSubscriber : Subscriber<Building>
+    public class BuildingIndexerSubscriber : Subscriber<Building>
     {
         public override string QueueName
         {

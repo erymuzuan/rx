@@ -59,7 +59,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             var subscriber = appdomain.CreateInstanceAndUnwrap(startInfo.Assembly, startInfo.FullName);
             var thread = new Thread(o =>
                 {
-                    var o1 = (Subscriber)o;
+                    dynamic o1 = o;
                     o1.HostName = this.HostName;
                     o1.VirtualHost = this.VirtualHost;
                     o1.UserName = this.UserName;
