@@ -25,7 +25,7 @@ define(['services/datacontext',
                     .done(function (s) {
                         s = s || {
                             Value: function () {
-                                return "['Kelantan','Selangor', 'Kuala Lumpur']";
+                                return '[{ "State": "Kelantan", "Name": "Kelantan" }, { "State": "Selangor", "Name": "Selangor" }, {"State": "Kuala Lumpur" ,"Name": "Kuala Lumpur" }]';
                             }
                         };
                         var states = JSON.parse(s.Value());
