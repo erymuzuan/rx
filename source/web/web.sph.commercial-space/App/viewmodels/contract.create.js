@@ -10,8 +10,8 @@
 /// <reference path="./_contract.clauses.js" />
 
 
-define(['services/datacontext', './_contract.clauses', './_audittrail.list'],
-    function (context, clauses, audittrailvm) {
+define(['services/datacontext','durandal/plugins/router', './_contract.clauses', './_audittrail.list'],
+    function (context, router, clauses, audittrailvm) {
         var isBusy = ko.observable(false),
             application,
             activate = function (routeData) {
@@ -51,8 +51,10 @@ define(['services/datacontext', './_contract.clauses', './_audittrail.list'],
                 var tcs = new $.Deferred();
                 context.post(json, "Contract/Create")
                     .then(function (c) {
-                        vm.contract(c);
+                        vm.contract(ko.mapping.fromJS(c));
                         tcs.resolve(c);
+                        var url = '/#/rentalapplication.verify/' + vm.contract().RentalApplicationId();
+                        router.navigateTo(url);
                     });
                 return tcs.promise();
             };

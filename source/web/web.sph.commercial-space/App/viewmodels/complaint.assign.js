@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext'],
-    function (context) {
+define(['services/datacontext', 'durandal/plugins/router'],
+    function (context, router) {
 
         var isBusy = ko.observable(false),
             id = ko.observable(),
@@ -44,7 +44,8 @@ define(['services/datacontext'],
                 context.post(data, "/Complaint/Assign")
                     .then(function (result) {
                         isBusy(false);
-
+                        var url = '/#/complaint.list';
+                        router.navigateTo(url);
                         tcs.resolve(result);
                     });
                 return tcs.promise();

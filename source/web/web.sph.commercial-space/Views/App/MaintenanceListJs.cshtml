@@ -11,23 +11,17 @@
         var isBusy = ko.observable(false),
             activate = function() {
                 var maintenanceQuery = String.format("MaintenanceId gt 0");
-                var officerQuery = String.format("Designation eq 'Petugas' and Department eq 'Unit Senggara'");
+                var officerQuery = String.format("Designation eq 'Petugas'");
                 var tcs = new $.Deferred();
                 var maintenanceTask = context.loadAsync("Maintenance", maintenanceQuery);
                 var officerTask = context.getTuplesAsync("UserProfile", officerQuery, 'Username', 'FullName');
-                   $.when(maintenanceTask,officerTask).then(function(mLo,oLo) {
-                       isBusy(false);
-                       var maintenances = mLo.itemCollection;
-                       _(maintenances).each(function (m2) {
-                           m2.getMaintenanceStatus(context)
-                               .done(function (status) {
-                                   m2.MaintenanceStatus(status);
-                               });
-                       });
-                        vm.maintenances(maintenances);
-                        vm.officerOptions(oLo);
-                        tcs.resolve(true);
-                    });
+                $.when(maintenanceTask,officerTask).then(function(mLo,oLo) {
+                    isBusy(false);
+                    var maintenances = mLo.itemCollection;
+                    vm.maintenances(maintenances);
+                    vm.officerOptions(oLo);
+                    tcs.resolve(true);
+                });
                 return tcs.promise();
             },            
             viewAttached = function() {
@@ -36,6 +30,7 @@
                     var status = ko.dataFor(this);
                     vm.selectedStatus(status);
                 });
+               
             },
 
             saveAssignment = function(officer) {
@@ -44,47 +39,47 @@
             },
 
             assign = function(maintenance) {
-               var tcs = new $.Deferred();
-               var data = ko.toJSON(maintenance);
-               isBusy(true);
+                var tcs = new $.Deferred();
+                var data = ko.toJSON(maintenance);
+                isBusy(true);
 
-               context.post(data, "/Maintenance/Assign")
-                   .then(function (result) {
-                       isBusy(false);
-                       tcs.resolve(result);
-                   });
-               return tcs.promise();
+                context.post(data, "/Maintenance/Assign")
+                    .then(function (result) {
+                        isBusy(false);
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
             };
 
 
-        var vm = {
-            activate: activate,
-            viewAttached: viewAttached,
-            maintenances: ko.observableArray(),
+    var vm = {
+        activate: activate,
+        viewAttached: viewAttached,
+        maintenances: ko.observableArray(),
             
-            selectedMaintenance: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
-            selectedStatus: ko.observable(),
+        selectedMaintenance: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
+        selectedStatus: ko.observable(),
             
-            officerOptions : ko.observableArray(),
-            statusOptions: ko.observableArray(['New', 'Inspection', 'Maintenance']),
-            saveAssignment : saveAssignment,
-            assignCommand : assign
-        };
+        officerOptions : ko.observableArray(),
+        statusOptions: ko.observableArray(['New', 'Inspection', 'Maintenance']),
+        saveAssignment : saveAssignment,
+        assignCommand : assign
+    };
 
-        vm.selectedStatus.subscribe(function(status) {
-            var query = String.format("Status eq '{0}'", status);
-            var tcs = new $.Deferred();
+    vm.selectedStatus.subscribe(function(status) {
+        var query = String.format("Status eq '{0}'", status);
+        var tcs = new $.Deferred();
 
-            context.loadAsync("Maintenance", query)
-                .then(function(lo) {
-                    isBusy(false);
-                    vm.maintenances(lo.itemCollection);
-                    tcs.resolve(true);
-                });
-            return tcs.promise();
+        context.loadAsync("Maintenance", query)
+            .then(function(lo) {
+                isBusy(false);
+                vm.maintenances(lo.itemCollection);
+                tcs.resolve(true);
+            });
+        return tcs.promise();
 
-        });
+    });
 
-        return vm;
+    return vm;
     });
 </script>

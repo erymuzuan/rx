@@ -68,6 +68,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             context.post(data, "/RentalApplication/WaitingList").done(function (e) {
                 logger.log("Application has been insert into waiting list ", e, "rentalapplication.verify", true);
                 tcs.resolve(true);
+                var url = '/#/admindashboard';
+                router.navigateTo(url);
             });
             return tcs.promise();
         },

@@ -1,15 +1,15 @@
 ﻿<div class="container">
     <h3>BORANG ADUAN</h3>
-    <form class="form-horizontal well" >
-        <div class="control-group" >
+    <form class="form-horizontal well">
+        <div class="control-group">
             <label for="complaint.CommercialSpace" class="span2">Lokasi:</label>
             <div class="controls">
-                <select data-bind="options: locationOptions, optionsCaption: '[Sila pilih]', optionsText: 'Name', optionsValue:'Name', value: complaint().CommercialSpace" id="complaint.CommercialSpace" name="complaint.CommercialSpace">
+                <select data-bind="options: locationOptions, optionsCaption: '[Sila pilih]', optionsText: 'Name', optionsValue: 'Name', value: complaint().CommercialSpace" id="complaint.CommercialSpace" name="complaint.CommercialSpace">
                 </select>
             </div>
         </div>
 
-        <div class="control-group" >
+        <div class="control-group">
             <label for="complaint.Type" class="span2">Jenis Aduan:</label>
             <div class="controls">
                 <select data-bind="value: complaint().Type, options: typeOptions, optionsValue: 'Item2', optionsText: 'Item2', optionsCaption: '[Sila pilih]'" id="complaint.Type" name="complaint.Type">
@@ -41,8 +41,24 @@
         <div class="control-group">
             <label for="submit-button" class="control-label"></label>
             <div class="controls">
-                <input id="submit-button" type="button" class="btn btn-primary  span2 offset2 pull-left" value="Hantar" data-bind="command: submitCommand" data-loading-text="Sila tunggu..." data-complete-text="Siap" />
+                <input id="submit-button" type="button" class="btn btn-primary  span2 offset2 pull-left" value="Hantar" data-bind="command: submitCommand" data-loading-text="Sila tunggu..." data-complete-text="Selesai" />
             </div>
         </div>
     </form>
+
+    <section class="modal hide" id="success-panel">
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3>Aduan</h3>
+        </div>
+        <div class="modal-body">
+            <span>Aduan anda sudah berjaya direkodkan, No.Rujukan Aduan anda ialah <strong data-bind="text: complaintNo"></strong></span>
+        </div>
+
+        <div class="modal-footer">
+            <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" />
+        </div>
+    </section>
+
 </div>

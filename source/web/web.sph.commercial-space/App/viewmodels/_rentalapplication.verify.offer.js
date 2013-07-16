@@ -37,6 +37,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             context.post(data, "/RentalApplication/Complete").done(function (e) {
                 logger.log("Permohonan selesai ", e, "rentalapplication.verify", true);
                 tcs.resolve(true);
+                var url = '/#/admindashboard';
+                router.navigateTo(url);
             });
             return tcs.promise();
         },
@@ -46,6 +48,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             context.post(data, "/Tenant/Create").done(function (e) {
                 logger.log("Penyewa dijana ", e, "rentalapplication.verify", true);
                 tcs.resolve(true);
+                var url = '/#/admindashboard';
+                router.navigateTo(url);
             });
             return tcs.promise();
         },
