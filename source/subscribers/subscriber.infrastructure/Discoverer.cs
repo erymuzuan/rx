@@ -26,7 +26,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             var assembly = Assembly.LoadFile(dll);
             var types = assembly.GetTypes()
                             .Where(t => t.IsMarshalByRef)
-                            .Where(t => t.BaseType == typeof(Subscriber))
+                            //.Where(t => t.BaseType == typeof(Subscriber))
                             .Where(t => !t.IsAbstract)
                             .Where(t => t.FullName.EndsWith("Subscriber"))
                             .Select(t => new SubscriberMetadata

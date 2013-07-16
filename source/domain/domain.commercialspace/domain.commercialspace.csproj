@@ -118,6 +118,7 @@
     <Compile Include="InvoiceItem.cs" />
     <Compile Include="IPersistence.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="ISearchProvider.cs" />
     <Compile Include="ISettingProvider.cs" />
     <Compile Include="ISpatialService.cs" />
     <Compile Include="ITemplateEngine.cs" />

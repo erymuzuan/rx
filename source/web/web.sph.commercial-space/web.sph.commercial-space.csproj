@@ -256,6 +256,7 @@
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\RebateController.cs" />
     <Compile Include="Controllers\RentalApplicationController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\TenantController.cs" />
     <Compile Include="default.aspx.cs">
@@ -267,6 +268,7 @@
     </Compile>
     <Compile Include="Dependencies\DummyChangeListener.cs" />
     <Compile Include="Dependencies\DummyChangeTracker.cs" />
+    <Compile Include="Dependencies\DummySearchProvider.cs" />
     <Compile Include="Dependencies\EmailService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -315,12 +317,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App\viewmodels\complaint.assign.js" />
     <Content Include="App\viewmodels\complaint.detail.js" />
+    <Content Include="App\viewmodels\search.js" />
     <Content Include="App\viewmodels\maintenance.workorder.js" />
     <Content Include="App\viewmodels\complaintform.tenant.js" />
     <Content Include="App\viewmodels\_tenant.complaint.js" />
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\complaint.assign.html" />
     <Content Include="App\views\complaintform.tenant.html" />
+    <Content Include="App\views\search.html" />
     <Content Include="App\views\_complaint.details.html" />
     <Content Include="App\views\maintenance.workorder.html" />
     <Content Include="App\views\_tenant.complaint.html" />

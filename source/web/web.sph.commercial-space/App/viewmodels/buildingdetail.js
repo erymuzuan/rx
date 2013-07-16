@@ -19,16 +19,26 @@ define(['services/datacontext',
         var isBusy = ko.observable(false),
             activate = function (routeData) {
                 var id = parseInt(routeData.id);
-                
+
                 var tcs = new $.Deferred();
-                context.loadOneAsync("Setting", "Key eq 'State'").done(function (s) {
-                    s = s || {
-                        Value : '[]'
-                    };
-                    var states = JSON.parse(ko.mapping.toJS(s.Value));
-                    vm.stateOptions(states);
-                    tcs.resolve(true);
-                });
+                context.loadOneAsync("Setting", "Key eq 'State'")
+                    .done(function (s) {
+                        s = s || {
+                            Value: function () {
+                                return '[{ "State": "Kelantan", "Name": "Kelantan" }, { "State": "Selangor", "Name": "Selangor" }, {"State": "Kuala Lumpur" ,"Name": "Kuala Lumpur" }]';
+                            }
+                        };
+                        var states = JSON.parse(s.Value());
+                        vm.stateOptions(states);
+                        tcs.resolve(true);
+                    })
+                    .fail(function () {
+                        var states = [{ State: 'Kelantan', Name: 'Kelantan' }, { State: 'Selangor', Name: 'Selangor' }, { State: 'Kuala Lumpur' ,Name: 'Kuala Lumpur' }];
+                        vm.stateOptions(states);
+                        tcs.resolve(true);
+                    });
+                
+
                 if (!id) {
                     return true;
                 }
@@ -37,7 +47,7 @@ define(['services/datacontext',
                     vm.building(b);
                     tcs.resolve(true);
                 });
-                
+
                 return tcs.promise();
             };
 

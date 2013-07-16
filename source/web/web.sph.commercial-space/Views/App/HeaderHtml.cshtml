@@ -23,16 +23,16 @@
                 <!-- Links -->
                 <ul class="nav pull-right">
                     <li class="dropdown pull-right">
-                            <a id="user-profile" data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <img src="/Images/user_24_white.png" alt="" class="nav-user-pic">
-                                @User.Identity.Name <b class="caret"></b>
-                            </a>
-                            <!-- Dropdown menu -->
-                            <ul class="dropdown-menu">
-                                <li><a href="#/user.profile"><i class="icon-user"></i>Profile</a></li>
-                                <li><a href="#/user.setting"><i class="icon-cogs"></i>Settings</a></li>
-                                <li><a href="@Url.Action("Logoff", "Account")"><i class="icon-off"></i>Logout</a></li>
-                            </ul>
+                        <a id="user-profile" data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <img src="/Images/user_24_white.png" alt="" class="nav-user-pic">
+                            @User.Identity.Name <b class="caret"></b>
+                        </a>
+                        <!-- Dropdown menu -->
+                        <ul class="dropdown-menu">
+                            <li><a href="#/user.profile"><i class="icon-user"></i>Profile</a></li>
+                            <li><a href="#/user.setting"><i class="icon-cogs"></i>Settings</a></li>
+                            <li><a href="@Url.Action("Logoff", "Account")"><i class="icon-off"></i>Logout</a></li>
+                        </ul>
                     </li>
 
                 </ul>
@@ -42,7 +42,7 @@
 
                     <!-- Comment button with number of latest comments count -->
                     <li class="dropdown dropdown-big">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                        <a id="application-menu" class="dropdown-toggle" href="#" data-toggle="dropdown">
                             <i class="icon-comments"></i>Permohonan <span class="badge badge-info">6</span>
                         </a>
 
@@ -146,6 +146,9 @@
                             </li>
                         </ul>
                     </li>
+                    <!-- ko compose : 'viewmodels/search' -->
+                    <!-- /ko -->
+                   
 
                 </ul>
 

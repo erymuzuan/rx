@@ -11,7 +11,7 @@ namespace workers.console.runner
         public static int Main(string[] args)
         {
             var host = ParseArg("h") ?? "localhost";
-            var vhost = ParseArg("v") ?? "i90009000";
+            var vhost = ParseArg("v") ?? "sph.0009";
             var username = ParseArg("u") ?? "guest";
             var password = ParseArg("p") ?? "guest";
             var silent = ParseArgExist("quiet");
