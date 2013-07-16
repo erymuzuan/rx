@@ -1,7 +1,7 @@
 ﻿/// <reference path="modernizr-2.6.2.js" />
 /// <reference path="knockout-2.2.1.debug.js" />
 /// <reference path="moment.js" />
-/// <reference path="~/Scripts/jquery-2.0.1.intellisense.js" />
+/// <reference path="~/Scripts/jquery-2.0.2.intellisense.js" />
 
 ko.bindingHandlers.kendoDropDownListValue = {
     init: function (element, valueAccessor) {
@@ -135,7 +135,7 @@ ko.bindingHandlers.kendoDate = {
             if (typeof nv == "string") {
                 date = moment(nv, "DD/MM/YYYY");
             } else {
-              date = moment(nv);
+                date = moment(nv);
             }
             // DO NOT fire update
             $(element).data("stop", "true");
@@ -194,16 +194,22 @@ ko.bindingHandlers.kendoEnable = {
 };
 
 ko.bindingHandlers.command = {
-    init: function (element, valueAccessor) {
-        var action = valueAccessor();
-        var button = $(element);
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        var action = valueAccessor(),
+            button = $(element),
+            allBindings = allBindingsAccessor();
+
+        var completeText = button.data("complete-text") || button.html();
+
         button.click(function (e) {
             e.preventDefault();
             action()
                 .then(function () {
-
-                    if (button.data("complete-text")) {
-                        button.button("complete");
+                    button.button("complete");
+                    if (button.get(0).tagName == 'BUTTON' || button.get(0).tagName == 'A') {
+                        button.html(completeText);
+                    } else {
+                        button.val(completeText);
                     }
                 });
             if (button.data("loading-text")) {

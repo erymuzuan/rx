@@ -44,7 +44,7 @@ define(['services/datacontext', 'services/logger'],
 
 	                vm.complaint().CustomFieldValueCollection(cfs);
 	            });
-	            tcs.promise();
+	           return tcs.promise();
 	        },
 
             viewAttached = function (view) {

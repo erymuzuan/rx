@@ -50,7 +50,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                         }));
                         tcs.resolve(true);
                     });
-                tcs.promise();
+               return  tcs.promise();
             },
 
             viewAttached = function (view) {

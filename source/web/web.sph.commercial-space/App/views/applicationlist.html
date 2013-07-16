@@ -1,7 +1,7 @@
 ﻿<div class="row">
     <h1>Senarai permohonan : <span data-bind="text: status"></span>(<span data-bind="text: applications().length"></span>)</h1>
     
-    <div class="span9">
+    <div class="span9 offset3">
     
         <table class="table table-striped">
             <thead>
@@ -31,6 +31,8 @@
     </div>
 </div>
 <div class="row">
-    <input id="save-button" type="button" class="btn btn-primary" value="Refresh" data-bind="command: refreshCommand" data-loading-text="Sila tunggu..." data-complete-text="Siap" />
+    <button type="button" class="btn offset3" data-bind="command: refreshCommand" data-loading-text="Sila tunggu..." >
+        <i class="icon-refresh"></i>
+    </button>
     
 </div>
