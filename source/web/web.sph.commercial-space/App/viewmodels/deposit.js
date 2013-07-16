@@ -46,7 +46,6 @@ define(['services/datacontext', 'services/logger'],
                 var depositPayment = ko.mapping.toJS(vm.deposit().DepositPaymentCollection());
                 var postdata = JSON.stringify({ id: vm.deposit().DepositId(), deposits: depositPayment });
                 context.post(postdata, "/Deposit/Save").done(function (e) {
-                    logger.log("Deposit payment received", e, "deposit", true);
                     tcs.resolve(true);
                 });
                 return tcs.promise();

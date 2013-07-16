@@ -11,9 +11,11 @@ bespoke.sphcommercialspace.domain.DepositPartial = function (model) {
         return sum.toFixed(2);
     },
         calcBalance = function () {
-              var r = this;
-              var sum = model.Amount() - r.DepositPaid;
-              return sum.toFixed(2);
+            var paid = _(model.DepositPaymentCollection()).reduce(function (memo, val) {
+                return memo + parseFloat(val.Amount());
+            }, 0);
+             var sum = model.Amount() - paid;
+             return sum.toFixed(2);
         };
     
     return {

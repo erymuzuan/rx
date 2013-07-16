@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Role.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight.WPF45">
       <HintPath>..\..\..\bin\Debug\GalaSoft.MvvmLight.WPF45.dll</HintPath>
@@ -125,6 +128,12 @@
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.commercialspace</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="tool-pro.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Role.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
