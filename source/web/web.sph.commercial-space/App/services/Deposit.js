@@ -4,8 +4,8 @@
 
 bespoke.sphcommercialspace.domain.DepositPartial = function (model) {
     var calcPayment = function () {
-        var sum = _(model.DepositPaymentCollection).reduce(function (memo, val) {
-            return memo + parseFloat(val.Amount);
+        var sum = _(model.DepositPaymentCollection()).reduce(function (memo, val) {
+            return memo + parseFloat(val.Amount());
         }, 0);
 
         return sum.toFixed(2);
