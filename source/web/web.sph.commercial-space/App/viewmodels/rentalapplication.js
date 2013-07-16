@@ -67,6 +67,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 logger.log("Data has been successfully saved ", e, "rentalapplication", true);
                 isBusy(false);
                 registrationNo(e.registrationNo);
+                vm.rentalapplication(new bespoke.sphcommercialspace.domain.RentalApplication());
                 $('#success-panel').modal({})
                     .on('hidden', function() {
                         router.navigateTo('/#/');
