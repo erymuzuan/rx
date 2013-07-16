@@ -12,8 +12,8 @@
         <li>
             <!-- List item heading h6-->
             <a href="#" data-bind="text: Title, click: $root.navigateSearch"></a><span class="label label-warning pull-right">
-                <i class="icon-building"></i>
-                Building
+                <i class="icon-home" data-bind="css : {'icon-building':Type === 'Building','icon-home': Type === 'CommercialSpace'}" ></i>
+                <span data-bind2="text:Type"></span>
             </span>
             <div class="clearfix"></div>
             <hr>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Bespoke.Sph.Messaging
 {
-    class SearchMetadata : ISearchable
+   public class SearchMetadata : ISearchable
     {
         public int Id { get; set; }
         public string Type { get; set; }

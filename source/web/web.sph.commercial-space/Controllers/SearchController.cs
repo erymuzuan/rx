@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.SphCommercialSpaces.Domain;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
@@ -10,8 +11,10 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var provider = ObjectBuilder.GetObject<ISearchProvider>();
             var results = await provider.SearchAsync(text);
-            return Json(results);
+            this.Response.ContentType = "application/json; charset=utf-8";
+            return Content(await JsonConvert.SerializeObjectAsync(results));
         }
+
 
     }
 }

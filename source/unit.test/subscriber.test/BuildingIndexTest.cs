@@ -1,4 +1,6 @@
-﻿using Bespoke.Sph.Messaging;
+﻿using System.Collections.Generic;
+using Bespoke.Sph.Messaging;
+using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.SphCommercialSpaces.Domain;
 using NUnit.Framework;
 
@@ -18,7 +20,7 @@ namespace subscriber.test
         {
             public void Execute(string operation, Building item)
             {
-                base.ProcessMessage(operation, item).Wait(5000);
+               // base.ProcessMessage(item).Wait(5000);
             }
         }
 

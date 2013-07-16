@@ -15,7 +15,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public int Id { get; set; }
         public string Summary { get; set; }
         public float Score { get; set; }
-        public int ItemId { get; set; }
         public string Status { get; set; }
         public string OwnerCode { get; set; }
         public string Code { get; set; }
