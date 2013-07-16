@@ -256,6 +256,7 @@
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\RebateController.cs" />
     <Compile Include="Controllers\RentalApplicationController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\TenantController.cs" />
     <Compile Include="default.aspx.cs">
@@ -267,6 +268,7 @@
     </Compile>
     <Compile Include="Dependencies\DummyChangeListener.cs" />
     <Compile Include="Dependencies\DummyChangeTracker.cs" />
+    <Compile Include="Dependencies\DummySearchProvider.cs" />
     <Compile Include="Dependencies\EmailService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

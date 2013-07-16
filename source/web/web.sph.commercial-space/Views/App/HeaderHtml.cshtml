@@ -23,16 +23,16 @@
                 <!-- Links -->
                 <ul class="nav pull-right">
                     <li class="dropdown pull-right">
-                            <a id="user-profile" data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <img src="/Images/user_24_white.png" alt="" class="nav-user-pic">
-                                @User.Identity.Name <b class="caret"></b>
-                            </a>
-                            <!-- Dropdown menu -->
-                            <ul class="dropdown-menu">
-                                <li><a href="#/user.profile"><i class="icon-user"></i>Profile</a></li>
-                                <li><a href="#/user.setting"><i class="icon-cogs"></i>Settings</a></li>
-                                <li><a href="@Url.Action("Logoff", "Account")"><i class="icon-off"></i>Logout</a></li>
-                            </ul>
+                        <a id="user-profile" data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <img src="/Images/user_24_white.png" alt="" class="nav-user-pic">
+                            @User.Identity.Name <b class="caret"></b>
+                        </a>
+                        <!-- Dropdown menu -->
+                        <ul class="dropdown-menu">
+                            <li><a href="#/user.profile"><i class="icon-user"></i>Profile</a></li>
+                            <li><a href="#/user.setting"><i class="icon-cogs"></i>Settings</a></li>
+                            <li><a href="@Url.Action("Logoff", "Account")"><i class="icon-off"></i>Logout</a></li>
+                        </ul>
                     </li>
 
                 </ul>
@@ -42,7 +42,7 @@
 
                     <!-- Comment button with number of latest comments count -->
                     <li class="dropdown dropdown-big">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                        <a id="application-menu" class="dropdown-toggle" href="#" data-toggle="dropdown">
                             <i class="icon-comments"></i>Permohonan <span class="badge badge-info">6</span>
                         </a>
 
@@ -142,6 +142,35 @@
                             <li>
                                 <div class="drop-foot">
                                     <a href="#">View All</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown dropdown-big" data-bind="css: { open: searchResults().length > 0 }">
+                        <form data-bind="submit:searchCommand" class="form-search">
+                            <input data-bind="value:searchText" placeholder="Search..." type="search" class="search-query" />
+                            <i class="icon-search"></i>
+                        </form>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h5><i class="icon-user"></i>Search results</h5>
+                                <hr>
+                            </li>
+                            <!-- ko  foreach : searchResults -->
+                            <li>
+                                <!-- List item heading h6-->
+                                <a href="#" data-bind="text: Title, click: $root.navigateSearch"></a> <span class="label label-warning pull-right">
+                                                                            <i class="icon-building"></i>
+                                    Building
+                                                                        </span>
+                                <div class="clearfix"></div>
+                                <hr>
+                            </li>
+                            <!-- /ko -->
+                            <li>
+                                <div class="drop-foot">
+                                    <a href="#">View All</a>
+                                    <a href="#" class="pull-right">&times;</a>
                                 </div>
                             </li>
                         </ul>
