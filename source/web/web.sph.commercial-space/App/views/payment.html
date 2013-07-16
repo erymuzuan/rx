@@ -28,7 +28,7 @@
                 <td data-bind="text:Tenant.IdSsmNo"></td>
                 <td data-bind="date: { value: Date, format: 'MM/YYYY' }"></td>
                 <td data-bind="text:Accrued"></td>
-                <td><a type="button" class="btn pull-left" data-bind="click:$parent.showDetailsCommand" href="#set-payment-modal">Set Bayar</a></td>
+                <td><a type="button" class="btn btn-warning pull-left" data-bind="click: $parent.showDetailsCommand, visible: CanPaid" href="#set-payment-modal">Set Bayar</a></td>
             </tr>
         </tbody>
     </table>

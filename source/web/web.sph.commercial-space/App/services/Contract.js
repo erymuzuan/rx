@@ -15,12 +15,17 @@ bespoke.sphcommercialspace.domain.ContractPartial = function () {
             .then(function (totalinvoice, totalpayment) {
                 var accrued = parseFloat(totalinvoice) - parseFloat(totalpayment);
                 r.Accrued(accrued);
+                r.CanPaid(true);
+                if (!accrued) {
+                    r.CanPaid(false);
+                }
                 tcs.resolve(accrued);
             });
         return tcs.promise();
     };
     return {
         Accrued: ko.observable(),
+        CanPaid: ko.observable(),
         getAccruedAmount: calculateAccumulatedAccrued
     };
 };
