@@ -7,7 +7,10 @@ namespace routes.editor
 {
     public class JsRoute : INotifyPropertyChanged, IDataErrorInfo
     {
-
+        public override string ToString()
+        {
+            return this.ModuleId;
+        }
         public string Role { get; set; }
 
         public string Url { set; get; }

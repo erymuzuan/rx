@@ -23,6 +23,17 @@
   },
   {
     "role": "admin",
+    "url": "contracttypetemplate/:id",
+    "moduleId": "viewmodels/contracttypetemplate",
+    "name": "contract type",
+    "visible": false,
+    "icon": "icon-laptop",
+    "caption": "Buat jenis kontrak",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": "admin",
     "url": "offerdetails/:rentalId/:csId",
     "moduleId": "viewmodels/offerdetails",
     "name": "Tawaran",
@@ -30,6 +41,30 @@
     "icon": "icon-laptop",
     "caption": "Tawaran",
     "settings": null,
+    "error": ""
+  },
+  {
+    "role": "admin",
+    "url": "lotdetail/:buildingId/:floorname",
+    "moduleId": "viewmodels/lotdetail",
+    "name": "LotDetail",
+    "visible": false,
+    "icon": "icon-tablet",
+    "caption": "Lot Details",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": "admin",
+    "url": "setting",
+    "moduleId": "viewmodels/setting",
+    "name": "Tetapan Umum",
+    "visible": true,
+    "icon": "icon-laptop",
+    "caption": "Setting",
+    "settings": {
+      "caption": "Settings"
+    },
     "error": ""
   },
   {
@@ -73,6 +108,28 @@
   },
   {
     "role": "admin",
+    "url": "commercialspacedetail/:buildingId/:floorname/:commercialspaceid",
+    "moduleId": "viewmodels/commercialspacedetail",
+    "name": "ruang komersial",
+    "visible": false,
+    "icon": "icon-laptop",
+    "caption": "commercial space",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": "admin",
+    "url": "users",
+    "moduleId": "viewmodels/users",
+    "name": "Pengurusan Pengguna",
+    "visible": true,
+    "icon": "icon-laptop",
+    "caption": "Pengguna",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": "admin",
     "url": "commercialspace",
     "moduleId": "viewmodels/commercialspace",
     "name": "Ruang Komersial",
@@ -80,19 +137,6 @@
     "icon": "icon-laptop",
     "caption": "Senarai Ruang Komersial",
     "settings": null,
-    "error": ""
-  },
-  {
-    "role": "admin",
-    "url": "setting",
-    "moduleId": "viewmodels/setting",
-    "name": "Tetapan Umum",
-    "visible": true,
-    "icon": "icon-laptop",
-    "caption": "Setting",
-    "settings": {
-      "caption": "Settings"
-    },
     "error": ""
   },
   {
@@ -112,17 +156,6 @@
     "moduleId": "viewmodels/contracttype",
     "name": "Tetapan Kontrak",
     "visible": true,
-    "icon": "icon-laptop",
-    "caption": "Buat jenis kontrak",
-    "settings": null,
-    "error": ""
-  },
-  {
-    "role": "admin",
-    "url": "contracttypetemplate/:id",
-    "moduleId": "viewmodels/contracttypetemplate",
-    "name": "contract type",
-    "visible": false,
     "icon": "icon-laptop",
     "caption": "Buat jenis kontrak",
     "settings": null,
@@ -152,17 +185,6 @@
   },
   {
     "role": "admin",
-    "url": "lotdetail/:buildingId/:floorname",
-    "moduleId": "viewmodels/lotdetail",
-    "name": "LotDetail",
-    "visible": false,
-    "icon": "icon-tablet",
-    "caption": "Lot Details",
-    "settings": null,
-    "error": ""
-  },
-  {
-    "role": "admin",
     "url": "floorplan/:buildingId/:floorname",
     "moduleId": "viewmodels/floorplan",
     "name": "FloorPlan",
@@ -170,43 +192,6 @@
     "icon": "icon-laptop",
     "caption": "Floor plan",
     "settings": null,
-    "error": ""
-  },
-  {
-    "role": "admin",
-    "url": "commercialspacedetail/:buildingId/:floorname/:commercialspaceid",
-    "moduleId": "viewmodels/commercialspacedetail",
-    "name": "ruang komersial",
-    "visible": false,
-    "icon": "icon-laptop",
-    "caption": "commercial space",
-    "settings": null,
-    "error": ""
-  },
-  {
-    "role": null,
-    "url": "rentalapplication/:id",
-    "moduleId": "viewmodels/rentalapplication",
-    "name": "rental application",
-    "visible": false,
-    "icon": "icon-laptop",
-    "caption": "rentalapplication",
-    "settings": {
-      "caption": "Permohonan"
-    },
-    "error": ""
-  },
-  {
-    "role": null,
-    "url": "rentalapplication.selectspace",
-    "moduleId": "viewmodels/rentalapplication.selectspace",
-    "name": "Permohonan",
-    "visible": true,
-    "icon": "icon-envelope",
-    "caption": "permohonan",
-    "settings": {
-      "caption": "Permohonan"
-    },
     "error": ""
   },
   {
@@ -314,17 +299,6 @@
     "error": ""
   },
   {
-    "role": "admin",
-    "url": "users",
-    "moduleId": "viewmodels/users",
-    "name": "Pengurusan Pengguna",
-    "visible": true,
-    "icon": "icon-laptop",
-    "caption": "Pengguna",
-    "settings": null,
-    "error": ""
-  },
-  {
     "role": "admin_setting",
     "url": "organization.detail",
     "moduleId": "viewmodels/organization.detail",
@@ -332,28 +306,6 @@
     "visible": true,
     "icon": "icon-desktop",
     "caption": "org",
-    "settings": null,
-    "error": ""
-  },
-  {
-    "role": null,
-    "url": "complaint",
-    "moduleId": "viewmodels/complaint",
-    "name": "Aduan",
-    "visible": true,
-    "icon": "icon-laptop",
-    "caption": "Aduan",
-    "settings": null,
-    "error": ""
-  },
-  {
-    "role": null,
-    "url": "complaint.form/:id",
-    "moduleId": "viewmodels/complaint.form",
-    "name": "PerincianAduan",
-    "visible": false,
-    "icon": "icon-laptop",
-    "caption": "Perinci Aduan",
     "settings": null,
     "error": ""
   },
@@ -468,9 +420,9 @@
     "error": ""
   },
   {
-    "role": null,
-    "url": "complaint.detail/:id",
-    "moduleId": "viewmodels/complaint.detail",
+    "role": "admin",
+    "url": "role.settings/:id",
+    "moduleId": "viewmodels/role.settings",
     "name": null,
     "visible": false,
     "icon": null,
@@ -479,9 +431,57 @@
     "error": ""
   },
   {
-    "role": "admin",
-    "url": "role.settings/:id",
-    "moduleId": "viewmodels/role.settings",
+    "role": null,
+    "url": "rentalapplication/:id",
+    "moduleId": "viewmodels/rentalapplication",
+    "name": "rental application",
+    "visible": false,
+    "icon": "icon-laptop",
+    "caption": "rentalapplication",
+    "settings": {
+      "caption": "Permohonan"
+    },
+    "error": ""
+  },
+  {
+    "role": null,
+    "url": "rentalapplication.selectspace",
+    "moduleId": "viewmodels/rentalapplication.selectspace",
+    "name": "Permohonan",
+    "visible": true,
+    "icon": "icon-envelope",
+    "caption": "permohonan",
+    "settings": {
+      "caption": "Permohonan"
+    },
+    "error": ""
+  },
+  {
+    "role": null,
+    "url": "complaint.form/:id",
+    "moduleId": "viewmodels/complaint.form",
+    "name": "PerincianAduan",
+    "visible": false,
+    "icon": "icon-laptop",
+    "caption": "Perinci Aduan",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": null,
+    "url": "complaint",
+    "moduleId": "viewmodels/complaint",
+    "name": "Aduan",
+    "visible": true,
+    "icon": "icon-laptop",
+    "caption": "Aduan",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": null,
+    "url": "complaint.detail/:id",
+    "moduleId": "viewmodels/complaint.detail",
     "name": null,
     "visible": false,
     "icon": null,
