@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.WebPages;
 using Bespoke.Sph.Commerspace.Web.Models;
 using Bespoke.SphCommercialSpaces.Domain;
 using System.Linq;
@@ -10,16 +9,14 @@ using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
-    public static class RoleType
-    {
-        public const string ADMIN_DASHBOARD = "admin_dashboard";
-    }
     public partial class AppController
     {
 
         public async Task<ActionResult> ConfigJs()
         {
             var vm = new ApplicationConfigurationViewModel { StartModule = "admindashboard" };
+            if (!User.Identity.IsAuthenticated)
+                vm.StartModule = "public.index";
 
             var context = new SphDataContext();
             var routeConfig = Server.MapPath("~/routes.config.js");
@@ -43,17 +40,5 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         }
 
 
-    }
-
-    public class ApplicationConfigurationViewModel
-    {
-        private readonly ObjectCollection<JsRoute> m_routesCollection = new ObjectCollection<JsRoute>();
-
-        public ObjectCollection<JsRoute> Routes
-        {
-            get { return m_routesCollection; }
-        }
-
-        public string StartModule { get; set; }
     }
 }

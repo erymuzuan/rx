@@ -1,6 +1,17 @@
 [
   {
-    "role": "",
+    "role": null,
+    "url": "public.index",
+    "moduleId": "viewmodels/public.index",
+    "name": "Public index page",
+    "visible": true,
+    "icon": "icon-home",
+    "caption": "Utama",
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": "admin",
     "url": "admindashboard",
     "moduleId": "viewmodels/admindashboard",
     "name": "Papan Tugas",
@@ -11,7 +22,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "offerdetails/:rentalId/:csId",
     "moduleId": "viewmodels/offerdetails",
     "name": "Tawaran",
@@ -22,7 +33,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "contractlist",
     "moduleId": "viewmodels/contractlist",
     "name": "Kontrak",
@@ -35,7 +46,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "contractdetails/:id",
     "moduleId": "viewmodels/contractdetails",
     "name": "contractdetails",
@@ -48,7 +59,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "building",
     "moduleId": "viewmodels/building",
     "name": "Bangunan",
@@ -61,7 +72,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "commercialspace",
     "moduleId": "viewmodels/commercialspace",
     "name": "Ruang Komersial",
@@ -72,7 +83,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "setting",
     "moduleId": "viewmodels/setting",
     "name": "Tetapan Umum",
@@ -85,7 +96,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "contract.create/:rentalApplicationId",
     "moduleId": "viewmodels/contract.create",
     "name": "create contract",
@@ -96,7 +107,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "contracttype",
     "moduleId": "viewmodels/contracttype",
     "name": "Tetapan Kontrak",
@@ -107,7 +118,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "contracttypetemplate/:id",
     "moduleId": "viewmodels/contracttypetemplate",
     "name": "contract type",
@@ -118,7 +129,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "buildingbound",
     "moduleId": "viewmodels/buildingbound",
     "name": "Peta Kawasan",
@@ -129,7 +140,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "buildingdetail/:id",
     "moduleId": "viewmodels/buildingdetail",
     "name": "BuildingDetail",
@@ -140,7 +151,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "lotdetail/:buildingId/:floorname",
     "moduleId": "viewmodels/lotdetail",
     "name": "LotDetail",
@@ -151,7 +162,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "floorplan/:buildingId/:floorname",
     "moduleId": "viewmodels/floorplan",
     "name": "FloorPlan",
@@ -162,7 +173,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "commercialspacedetail/:buildingId/:floorname/:commercialspaceid",
     "moduleId": "viewmodels/commercialspacedetail",
     "name": "ruang komersial",
@@ -199,7 +210,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "applicationlist/:status",
     "moduleId": "viewmodels/applicationlist",
     "name": "applicationlist",
@@ -212,7 +223,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "rentalapplication.verify/:applicationId",
     "moduleId": "viewmodels/rentalapplication.verify",
     "name": "rentalapplication.verify",
@@ -225,7 +236,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "returnedapplication/:id",
     "moduleId": "viewmodels/returnedapplication",
     "name": "rental application",
@@ -238,7 +249,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "tenant",
     "url": "tenant",
     "moduleId": "viewmodels/tenant",
     "name": "Penyewa",
@@ -251,7 +262,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "deposit",
     "moduleId": "viewmodels/deposit",
     "name": "Bayaran Deposit",
@@ -264,7 +275,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "tenant.detail/:tenantId",
     "moduleId": "viewmodels/tenant.detail",
     "name": "tenant.detail",
@@ -277,7 +288,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "payment",
     "moduleId": "viewmodels/payment",
     "name": "Bayaran Sewa",
@@ -290,7 +301,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "rebate",
     "moduleId": "viewmodels/rebate",
     "name": "Senarai Rebat",
@@ -303,7 +314,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "users",
     "moduleId": "viewmodels/users",
     "name": "Pengurusan Pengguna",
@@ -347,7 +358,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin_setting",
     "url": "complaint.template.list",
     "moduleId": "viewmodels/complaint.template.list",
     "name": "Tetapan Aduan",
@@ -358,7 +369,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin_setting",
     "url": "complaint.template.form/:templateId",
     "moduleId": "viewmodels/complaint.template.form",
     "name": "Tetapan Aduan",
@@ -369,7 +380,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "tenant",
     "url": "tenant.portal",
     "moduleId": "viewmodels/tenant.portal",
     "name": "Portal Penyewa",
@@ -380,7 +391,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "complaint.assign/:id",
     "moduleId": "viewmodels/complaint.assign",
     "name": "Pemeriksaan",
@@ -391,7 +402,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "complaint.list",
     "moduleId": "viewmodels/complaint.list",
     "name": "Senarai Aduan",
@@ -402,7 +413,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "complaint.close/:id",
     "moduleId": "viewmodels/complaint.close",
     "name": "Penyenggaraan",
@@ -413,7 +424,7 @@
     "error": ""
   },
   {
-    "role": "",
+    "role": "admin",
     "url": "user.profile",
     "moduleId": "viewmodels/user.profile",
     "name": "Profile",
@@ -424,7 +435,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "maintenance.list",
     "moduleId": "viewmodels/maintenance.list",
     "name": "Senarai Penyenggaraan",
@@ -435,7 +446,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "officer.list",
     "moduleId": "viewmodels/officer.list",
     "name": "Senarai Penyenggaraan Officer",
@@ -446,7 +457,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "maintenance.workorder/:id",
     "moduleId": "viewmodels/maintenance.workorder",
     "name": "Work Order",
@@ -468,7 +479,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "admin",
     "url": "role.settings/:id",
     "moduleId": "viewmodels/role.settings",
     "name": null,

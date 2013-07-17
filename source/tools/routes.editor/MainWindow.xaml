@@ -17,6 +17,7 @@
         <telerik:RadButton FontSize="18" Margin="5" HorizontalAlignment="Left" Content="Open" Command="{Binding OpenCommand}" />
         <telerik:RadWatermarkTextBox x:Name="filter" Margin="5" Width="200" HorizontalAlignment="Right" WatermarkContent="Filter..." />
         <telerik:RadGridView x:Name="routesGridView"
+                             SelectedItem="{Binding SelectedRoute}"
                              ShowInsertRow="True"
                              AutoGenerateColumns="False"
                              vm:CustomFilterBehavior.TextBox="{Binding ElementName=filter}"
@@ -50,6 +51,10 @@
             <telerik:RadButton FontSize="18" Margin="5" Grid.Row="2" Content="Validate" Command="{Binding ValidateCommand}" />
             <telerik:RadButton FontSize="18" Margin="5" Grid.Row="2" Content="Add" Command="{Binding AddCommand}" />
             <telerik:RadButton FontSize="18" HorizontalAlignment="Left" Margin="5" Grid.Row="2" Content="Save" Command="{Binding SaveCommand}" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal">
+            <telerik:RadButton FontSize="18" Margin="5" Grid.Row="2" Content="Up" Command="{Binding MoveUpCommand}" CommandParameter="{Binding ElementName=routesGridView, Path=SelectedItem}" />
+            <telerik:RadButton FontSize="18" Margin="5" Grid.Row="2" Content="Down" Command="{Binding MoveDownCommand}"  CommandParameter="{Binding ElementName=routesGridView, Path=SelectedItem}" />
         </StackPanel>
     </Grid>
 </Window>
