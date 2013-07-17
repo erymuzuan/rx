@@ -68,6 +68,7 @@
         var vm = {
             activate: activate,
             isBusyValidatingUserName : ko.observable(false),
+            profiles: profiles,
             profile: {
                 FullName : ko.observable(),
                 UserName : ko.observable(),
@@ -81,7 +82,7 @@
                 Mobile : ko.observable(),
                 IsNew : ko.observable()
             },
-            profiles: profiles,
+            password : ko.observable(),
             designationOptions : ko.observableArray(),
             departmentOptions : ko.observableArray(),
             userNameValidationStatus : ko.observable(),

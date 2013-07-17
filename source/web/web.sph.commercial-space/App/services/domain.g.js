@@ -1,7 +1,6 @@
 ﻿
-
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
-/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="~/scripts/knockout-2.2.1.debug.js" />
+/// <reference path="~/Scripts/underscore.js" />
 
 
 var bespoke = bespoke || {};
@@ -1017,6 +1016,7 @@ bespoke.sphcommercialspace.domain.Designation = function (webId) {
         Name: ko.observable(),
         Description: ko.observable(),
         IsActive: ko.observable(),
+        StartModule: ko.observable(),
         RoleCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)

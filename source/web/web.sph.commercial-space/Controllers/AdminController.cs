@@ -73,7 +73,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             userprofile.Email = profile.Email;
             userprofile.Telephone = profile.Telephone;
             userprofile.FullName = profile.FullName;
-
             using (var session = context.OpenSession())
             {
                 session.Attach(userprofile);
@@ -81,6 +80,24 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             }
 
             return Json(userprofile);
+        }
+
+        public ActionResult ResetPassword(string userName, string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+                return Json(new { OK = false, messages = "Please specify new Password" });
+
+            var em = Membership.GetUser(userName);
+            if (null == em) return Json(new { OK = false, messages = "User does notexist" });
+            if (em.IsLockedOut)
+            {
+                em.UnlockUser();
+            }
+
+            var oldPassword = em.ResetPassword();
+            var result = em.ChangePassword(oldPassword, password);
+            Membership.UpdateUser(em);
+            return Json(new { OK = result, messages = "Password for user has been reset." });
         }
     }
 

@@ -10957,6 +10957,11 @@
                     public const string PropertyNameIsActive = "IsActive";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_startModule;
+                    public const string PropertyNameStartModule = "StartModule";
+
+                  
 			private readonly ObjectCollection<string>  m_RoleCollection = new ObjectCollection<string> ();
 
 			///<summary>
@@ -11077,6 +11082,34 @@
                     get
                     {
                     return m_isActive;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string StartModule
+                    {
+                    set
+                    {
+                    if( String.Equals( m_startModule, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameStartModule, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_startModule= value;
+                    OnPropertyChanged(PropertyNameStartModule);
+                    }
+                    }
+                    get
+                    {
+                    return m_startModule;}
                     }
 
                   

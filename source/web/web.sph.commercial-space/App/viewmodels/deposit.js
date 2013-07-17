@@ -12,25 +12,20 @@
 
 define(['services/datacontext', 'services/logger'],
     function (context, logger) {
-        
+
         var isBusy = ko.observable(false),
             activate = function () {
                 var tcs = new $.Deferred();
                 context.loadAsync("Deposit", "IsPaid eq 0").done(function (lo) {
-                  vm.depositCollection(lo.itemCollection);
-                  tcs.resolve(true);
+                    vm.depositCollection(lo.itemCollection);
+                    tcs.resolve(true);
                 });
                 return tcs.promise();
             },
-            showDetails = function () {
+            showDetails = function (deposit) {
                 isBusy(true);
-                var data = this;
-                var query = "DepositId eq " + data.DepositId();
-                context.loadOneAsync("Deposit", query)
-                     .then(function (d) {
-                         vm.deposit(d);
-                         isBusy(false);
-                     });
+                vm.deposit(deposit);
+
                 $('#deposit-modal').modal({});
             },
             addPayment = function () {
@@ -43,11 +38,14 @@ define(['services/datacontext', 'services/logger'],
             },
             save = function () {
                 var tcs = new $.Deferred();
-                var depositPayment = ko.mapping.toJS(vm.deposit().DepositPaymentCollection());
-                var postdata = JSON.stringify({ id: vm.deposit().DepositId(), deposits: depositPayment });
-                context.post(postdata, "/Deposit/Save").done(function (e) {
-                    tcs.resolve(true);
+                var postdata = ko.mapping.toJSON({
+                    id: vm.deposit().DepositId,
+                    deposits: vm.deposit().DepositPaymentCollection
                 });
+                context.post(postdata, "/Deposit/Save")
+                    .done(function () {
+                        tcs.resolve(true);
+                    });
                 return tcs.promise();
             };
 
