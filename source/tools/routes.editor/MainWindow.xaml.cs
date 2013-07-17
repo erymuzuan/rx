@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using Telerik.Windows.Controls;
 
 namespace routes.editor
@@ -20,6 +21,9 @@ namespace routes.editor
         }
 
 
-
+        private void ViewIconsButtonClick(object sender, RoutedEventArgs e)
+        {
+            Process.Start("http://fortawesome.github.io/Font-Awesome/icons/");
+        }
     }
 }

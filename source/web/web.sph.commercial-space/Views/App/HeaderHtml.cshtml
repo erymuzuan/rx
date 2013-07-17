@@ -23,16 +23,24 @@
                 <!-- Links -->
                 <ul class="nav pull-right">
                     <li class="dropdown pull-right">
-                        <a id="user-profile" data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img src="/Images/user_24_white.png" alt="" class="nav-user-pic">
-                            @User.Identity.Name <b class="caret"></b>
-                        </a>
-                        <!-- Dropdown menu -->
-                        <ul class="dropdown-menu">
-                            <li><a href="#/user.profile"><i class="icon-user"></i>Profile</a></li>
-                            <li><a href="#/user.setting"><i class="icon-cogs"></i>Settings</a></li>
-                            <li><a href="@Url.Action("Logoff", "Account")"><i class="icon-off"></i>Logout</a></li>
-                        </ul>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a id="user-profile" data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <img src="/Images/user_24_white.png" alt="" class="nav-user-pic">@User.Identity.Name <b class="caret"></b>
+                            </a>
+                            <!-- Dropdown menu -->
+                            <ul class="dropdown-menu">
+                                <li><a href="#/user.profile"><i class="icon-user"></i>Profile</a></li>
+                                <li><a href="#/user.setting"><i class="icon-cogs"></i>Settings</a></li>
+                                <li><a href="@Url.Action("Logoff", "Account")"><i class="icon-off"></i>Logout</a></li>
+                            </ul>
+                        }
+                        else
+                        {
+                           <a  href="@Url.Action("Login","Account")">
+                                <img src="/Images/user_24_white.png" alt="" class="nav-user-pic">Login <b class="caret"></b>
+                            </a> 
+                        }
                     </li>
 
                 </ul>

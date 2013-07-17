@@ -92,6 +92,7 @@
             <telerik:RadButton FontSize="18" HorizontalAlignment="Left" Margin="5" Grid.Row="2" Content="Save" Command="{Binding SaveCommand}" />
         </StackPanel>
         <StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal">
+            <telerik:RadButton FontSize="18" Margin="5" Grid.Row="2" Content="View Icons" Click="ViewIconsButtonClick"/>
             <telerik:RadButton FontSize="18" Margin="5" Grid.Row="2" Content="Up" Command="{Binding MoveUpCommand}" CommandParameter="{Binding ElementName=routesGridView, Path=SelectedItem}" />
             <telerik:RadButton FontSize="18" Margin="5" Grid.Row="2" Content="Down" Command="{Binding MoveDownCommand}"  CommandParameter="{Binding ElementName=routesGridView, Path=SelectedItem}" />
         </StackPanel>

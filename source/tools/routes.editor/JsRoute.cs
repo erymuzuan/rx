@@ -21,6 +21,10 @@ namespace routes.editor
         public string Caption { set; get; }
         public JsRouteSetting Settings { set; get; }
         public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Show if the user if logged in, applicable only for route null or empty role
+        /// </summary>
+        public bool ShowWhenLoggedIn { get; set; }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

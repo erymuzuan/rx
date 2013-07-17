@@ -3,11 +3,12 @@
     "role": null,
     "url": "public.index",
     "moduleId": "viewmodels/public.index",
-    "name": "Public index page",
+    "name": "Utama",
     "visible": true,
     "icon": "icon-home",
     "caption": "Utama",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -19,6 +20,7 @@
     "icon": "icon-desktop",
     "caption": "Papan Tugas",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -30,6 +32,7 @@
     "icon": "icon-laptop",
     "caption": "Buat jenis kontrak",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -41,6 +44,7 @@
     "icon": "icon-laptop",
     "caption": "Tawaran",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -52,6 +56,7 @@
     "icon": "icon-tablet",
     "caption": "Lot Details",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -65,6 +70,7 @@
     "settings": {
       "caption": "Settings"
     },
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -78,6 +84,7 @@
     "settings": {
       "caption": "Senarai Kontraks"
     },
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -91,6 +98,7 @@
     "settings": {
       "caption": "Maklumat Kontraks"
     },
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -104,6 +112,7 @@
     "settings": {
       "caption": "Senarai Bangunan"
     },
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -115,6 +124,7 @@
     "icon": "icon-laptop",
     "caption": "commercial space",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -126,6 +136,7 @@
     "icon": "icon-laptop",
     "caption": "Pengguna",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -137,6 +148,7 @@
     "icon": "icon-laptop",
     "caption": "Senarai Ruang Komersial",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -148,6 +160,7 @@
     "icon": "icon-laptop",
     "caption": "Buat kontrak",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -159,6 +172,7 @@
     "icon": "icon-laptop",
     "caption": "Buat jenis kontrak",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -170,6 +184,7 @@
     "icon": "icon-globe",
     "caption": "Peta Kawasan",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -181,6 +196,7 @@
     "icon": "icon-laptop",
     "caption": "Building Details",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -192,6 +208,7 @@
     "icon": "icon-laptop",
     "caption": "Floor plan",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -205,6 +222,7 @@
     "settings": {
       "caption": "Senarai permohonan"
     },
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -218,6 +236,7 @@
     "settings": {
       "caption": "Maklumat permohonan"
     },
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -231,6 +250,7 @@
     "settings": {
       "caption": "Kembalikan Permohonan"
     },
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -244,6 +264,7 @@
     "settings": {
       "caption": "Senarai tenant"
     },
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -257,6 +278,7 @@
     "settings": {
       "caption": "Senarai deposit"
     },
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -270,6 +292,7 @@
     "settings": {
       "caption": "Penyewa"
     },
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -283,6 +306,7 @@
     "settings": {
       "caption": "Bayaran"
     },
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -296,6 +320,7 @@
     "settings": {
       "caption": "Rebat"
     },
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -307,6 +332,7 @@
     "icon": "icon-desktop",
     "caption": "org",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -318,6 +344,7 @@
     "icon": "icon-desktop",
     "caption": "aduan",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -329,6 +356,7 @@
     "icon": "icon-dekstop",
     "caption": "aduan",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -340,6 +368,7 @@
     "icon": "icon-desktop",
     "caption": "Portal Penyewa",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -351,6 +380,7 @@
     "icon": "icon-desktop",
     "caption": "pemeriksaan",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -362,6 +392,7 @@
     "icon": "icon-laptop",
     "caption": "Senarai Aduan",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -373,6 +404,7 @@
     "icon": "icon-laptop",
     "caption": "Penyenggaraan",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -384,6 +416,7 @@
     "icon": null,
     "caption": null,
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -395,6 +428,7 @@
     "icon": "icon-laptop",
     "caption": "Senarai Penyenggaraan",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -406,6 +440,7 @@
     "icon": "icon-laptop",
     "caption": "Senarai Penyenggaraan Officer",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -417,6 +452,7 @@
     "icon": "",
     "caption": null,
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -428,6 +464,7 @@
     "icon": null,
     "caption": null,
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -441,6 +478,7 @@
     "settings": {
       "caption": "Permohonan"
     },
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -454,6 +492,7 @@
     "settings": {
       "caption": "Permohonan"
     },
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -465,6 +504,7 @@
     "icon": "icon-laptop",
     "caption": "Perinci Aduan",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -473,9 +513,10 @@
     "moduleId": "viewmodels/complaint",
     "name": "Aduan",
     "visible": true,
-    "icon": "icon-laptop",
+    "icon": "icon-bullhorn",
     "caption": "Aduan",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   },
   {
@@ -487,6 +528,7 @@
     "icon": null,
     "caption": null,
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   }
 ]

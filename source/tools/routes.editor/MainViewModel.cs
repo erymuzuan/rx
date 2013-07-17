@@ -62,12 +62,26 @@ namespace routes.editor
 
         public void Load()
         {
-            var lastFile = Properties.Settings.Default.LastFile;
-            if (string.IsNullOrWhiteSpace(lastFile)) return;
-            if (!System.IO.File.Exists(lastFile)) return;
+            var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (args.Length > 1
+                && !string.IsNullOrWhiteSpace(args.Last())
+                && System.IO.File.Exists(args.Last()))
+            {
 
-            this.FileName = lastFile;
-            this.ReadJson();
+                this.FileName = args.Last();
+                this.ReadJson();
+
+            }
+            else
+            {
+                var lastFile = Properties.Settings.Default.LastFile;
+                if (string.IsNullOrWhiteSpace(lastFile)) return;
+                if (!System.IO.File.Exists(lastFile)) return;
+
+                this.FileName = lastFile;
+                this.ReadJson();
+
+            }
         }
 
         private void Open()

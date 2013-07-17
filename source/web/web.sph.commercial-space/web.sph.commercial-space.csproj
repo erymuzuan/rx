@@ -880,6 +880,7 @@
     <Content Include="Views\App\UsersJs.cshtml" />
     <Content Include="Views\HotTowel\index.cshtml" />
     <Content Include="Views\HotTowel\_splash.cshtml" />
+    <Content Include="Views\routes.config.js" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />

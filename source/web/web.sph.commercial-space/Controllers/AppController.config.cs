@@ -24,8 +24,11 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var username = User.Identity.Name;
             var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == username);
             var settings = new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()};
-            var routes = await JsonConvert.DeserializeObjectAsync<JsRoute[]>(json, settings);
-            vm.Routes.AddRange(routes.Where(r => User.IsInRole(r.Role) || string.IsNullOrWhiteSpace(r.Role)));
+            var routes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings).AsQueryable()
+                .WhereIf(r => r.ShowWhenLoggedIn || User.IsInRole(r.Role), User.Identity.IsAuthenticated)
+                .WhereIf(r => string.IsNullOrWhiteSpace(r.Role), !User.Identity.IsAuthenticated);
+            vm.Routes.AddRange(routes);
+
             return View(vm);
         }
 
