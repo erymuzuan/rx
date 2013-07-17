@@ -1,0 +1,18 @@
+﻿<h3 class="well-small">AGIHAN TUGASAN</h3>
+<div class="span8 well">
+    <form class="form-horizontal" data-bind="with: complaint">
+        <!--ko compose:'_complaint.details.html' -->
+        <!--/ko-->
+    </form>
+    <form>
+        <div data-bind="with: officerOptions">
+            <label class="span1">Petugas :</label>
+            <!--<span data-bind="text: Officer, visible: Officer != null"></span>-->
+            <select multiple="multiple" name="maintenance.Officer" data-bind="options: $data, optionsText: 'Item2', optionsValue: 'Item1', value: 'FullName'"></select>
+        </div>
+
+        <div>
+            <input type="button" class="btn btn-primary" value="Agih Tugas" data-bind="click: saveAssignmentCommand" />
+        </div>
+    </form>
+</div>
