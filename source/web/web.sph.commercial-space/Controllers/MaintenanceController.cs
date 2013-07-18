@@ -8,13 +8,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public class MaintenanceController : Controller
     {
-        public async Task<ActionResult> Assign(Maintenance maintenance)
+        public async Task<ActionResult> Assign(string[] officer,int id)
         {
             var context = new SphDataContext();
-            var maint = await context.LoadOneAsync<Maintenance>(m => m.MaintenanceId == maintenance.MaintenanceId);
+            var maint = await context.LoadOneAsync<Maintenance>(m => m.MaintenanceId == id);
             maint.Status = "Inspection";
-            maint.Officer = maintenance.Officer;
-            var workOrderNo = string.Format("WO{0:yyyy}{1}", DateTime.Today, maintenance.MaintenanceId);
+            maint.Officer = string.Join(",", officer);
+            var workOrderNo = string.Format("WO{0:yyyy}{1}", DateTime.Today, id);
             maint.WorkOrderNo = workOrderNo;
 
             using (var session = context.OpenSession())
@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 session.Attach(maint);
                 await session.SubmitChanges();
             }
-            return Json(true);
+            return Json(new { status = "success", officer = maint.Officer });
         }
 
         public async Task<ActionResult> Save(Maintenance maintenance)
