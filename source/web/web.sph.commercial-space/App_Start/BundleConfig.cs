@@ -49,6 +49,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/Content/durandal.css")
                 .Include("~/Content/style.css")
                 .Include("~/Content/widget.css")
+                .Include("~/Content/icomoon.css")
                 .Include("~/Content/font-awesome.css")
                 .Include("~/Content/toastr.css")
                 .Include("~/Content/sprite.css")

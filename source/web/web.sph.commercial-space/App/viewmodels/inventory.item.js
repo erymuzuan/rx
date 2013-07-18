@@ -17,7 +17,18 @@ define(['services/datacontext'],
             return true;
         },
 	     saveInventory = function() {
-	         
+	         var tcs = new $.Deferred();
+	         var data = ko.mapping.toJSON({inventory : vm.inventory()});
+	         isBusy(true);
+
+	         context.post(data, "/Inventory/Save")
+	             .then(function(result) {
+	                 isBusy(false);
+
+	                 
+	                 tcs.resolve(result);
+	             });
+	         return tcs.promise();
 	     };
 
 	    var vm = {

@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public ActionResult Logoff()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Login","Account");
+            return RedirectToAction("Index","HotTowel");
         }
 
         [AllowAnonymous]

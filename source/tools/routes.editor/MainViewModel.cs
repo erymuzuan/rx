@@ -16,6 +16,8 @@ namespace routes.editor
         public RelayCommand AddCommand { get; set; }
         public RelayCommand SaveCommand { get; set; }
         public RelayCommand ValidateCommand { get; set; }
+        public RelayCommand<JsRoute> MoveUpCommand { get; set; }
+        public RelayCommand<JsRoute> MoveDownCommand { get; set; }
 
         //
         public MainViewModel()
@@ -24,6 +26,15 @@ namespace routes.editor
             this.AddCommand = new RelayCommand(Add);
             this.SaveCommand = new RelayCommand(Save);
             this.ValidateCommand = new RelayCommand(Validate);
+            this.MoveDownCommand = new RelayCommand<JsRoute>(r => Move(r, 1), r => null != r && this.RouteCollection.IndexOf(r) < this.RouteCollection.Count - 1);
+            this.MoveUpCommand = new RelayCommand<JsRoute>(r => Move(r, -1), r => null != r && this.RouteCollection.IndexOf(r) > 0);
+        }
+
+        private void Move(JsRoute route, int step)
+        {
+            var index = this.RouteCollection.IndexOf(route);
+            this.RouteCollection.Move(index, index + step);
+            this.SelectedRoute = route;
         }
 
         private void Validate()
@@ -39,7 +50,7 @@ namespace routes.editor
             if (System.IO.File.Exists(vm))
             {
                 route.RemoveErrors("ModuleId");
-                
+
             }
             else
             {
@@ -51,12 +62,26 @@ namespace routes.editor
 
         public void Load()
         {
-            var lastFile = Properties.Settings.Default.LastFile;
-            if (string.IsNullOrWhiteSpace(lastFile)) return;
-            if (!System.IO.File.Exists(lastFile)) return;
+            var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (args.Length > 1
+                && !string.IsNullOrWhiteSpace(args.Last())
+                && System.IO.File.Exists(args.Last()))
+            {
 
-            this.FileName = lastFile;
-            this.ReadJson();
+                this.FileName = args.Last();
+                this.ReadJson();
+
+            }
+            else
+            {
+                var lastFile = Properties.Settings.Default.LastFile;
+                if (string.IsNullOrWhiteSpace(lastFile)) return;
+                if (!System.IO.File.Exists(lastFile)) return;
+
+                this.FileName = lastFile;
+                this.ReadJson();
+
+            }
         }
 
         private void Open()
@@ -69,9 +94,9 @@ namespace routes.editor
                     Title = "Select routes json file"
                 };
 
-// ReSharper disable ConstantNullCoalescingCondition
+            // ReSharper disable ConstantNullCoalescingCondition
             if (dlg.ShowDialog() ?? false)
-// ReSharper restore ConstantNullCoalescingCondition
+            // ReSharper restore ConstantNullCoalescingCondition
             {
                 this.FileName = dlg.FileName;
                 this.ReadJson();
@@ -87,7 +112,7 @@ namespace routes.editor
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
             var json = System.IO.File.ReadAllText(this.FileName);
-            var routes = JsonConvert.DeserializeObject<JsRoute[]>(json,settings);
+            var routes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings);
 
             this.RouteCollection.Clear();
             routes.ToList().ForEach(this.RouteCollection.Add);
@@ -103,7 +128,7 @@ namespace routes.editor
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 };
-            var json = JsonConvert.SerializeObject(this.RouteCollection, Formatting.Indented,settings);
+            var json = JsonConvert.SerializeObject(this.RouteCollection, Formatting.Indented, settings);
             System.IO.File.WriteAllText(this.FileName, json);
 
             Properties.Settings.Default.LastFile = this.FileName;
@@ -112,7 +137,17 @@ namespace routes.editor
 
         private readonly ObservableCollection<JsRoute> m_routeCollection = new ObservableCollection<JsRoute>();
         private string m_fileName;
+        private JsRoute m_selectedRoute;
 
+        public JsRoute SelectedRoute
+        {
+            get { return m_selectedRoute; }
+            set
+            {
+                m_selectedRoute = value;
+                RaisePropertyChanged("SelectedRoute");
+            }
+        }
         public string FileName
         {
             get { return m_fileName; }

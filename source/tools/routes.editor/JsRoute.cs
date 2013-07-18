@@ -7,7 +7,10 @@ namespace routes.editor
 {
     public class JsRoute : INotifyPropertyChanged, IDataErrorInfo
     {
-
+        public override string ToString()
+        {
+            return this.ModuleId;
+        }
         public string Role { get; set; }
 
         public string Url { set; get; }
@@ -18,6 +21,10 @@ namespace routes.editor
         public string Caption { set; get; }
         public JsRouteSetting Settings { set; get; }
         public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Show if the user if logged in, applicable only for route null or empty role
+        /// </summary>
+        public bool ShowWhenLoggedIn { get; set; }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

@@ -57,14 +57,14 @@ namespace Bespoke.Sph.Searching
                 var id = int.Parse(doc.Get("id"));
                 var type = doc.Get("type");
                 var owner2 = doc.Get("ownercode");
-                var owner = "";
+                const string owner = "";
                 if (!string.IsNullOrWhiteSpace(owner) && owner2 != owner) continue;
-                if (list.Any(d => d.Type == type && d.ItemId == id)) continue; // remove duplicate
+                if (list.Any(d => d.Type == type && d.Id == id)) continue; // remove duplicate
                 var sc = new SearchResult
                 {
                     Score = score,
                     Title = doc.Get("title"),
-                    ItemId = id,
+                    Id = id,
                     Status = doc.Get("status"),
                     OwnerCode = doc.Get("ownercode"),
                     Code = doc.Get("code"),
