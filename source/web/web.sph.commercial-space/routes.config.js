@@ -444,7 +444,7 @@
     "error": ""
   },
   {
-    "role": "admin_user",
+    "role": "maintenance_officer",
     "url": "maintenance.workorder/:id",
     "moduleId": "viewmodels/maintenance.workorder",
     "name": "Work Order",
