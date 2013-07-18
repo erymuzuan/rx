@@ -82,5 +82,12 @@
     "Role": "can_add_commercial_space",
     "Description": "Mengemaskini dan menambah bangunan, lot dan ruang komersial",
     "IsActive": true
+  },
+  {
+    "Group": "maintenance",
+    "Name": "Petugas Senggara",
+    "Role": "maintenance_officer",
+    "Description": "Ditugaskan untuk membat pemeriksaan terhadap aduan",
+    "IsActive": true
   }
 ]

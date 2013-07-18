@@ -435,7 +435,7 @@
     "error": ""
   },
   {
-    "role": "can_inspect",
+    "role": "maintenance_officer",
     "url": "officer.list",
     "moduleId": "viewmodels/officer.list",
     "name": "Senarai Penyenggaraan Officer",
@@ -475,6 +475,17 @@
     "visible": false,
     "icon": null,
     "caption": null,
+    "settings": null,
+    "error": ""
+  },
+  {
+    "role": null,
+    "url": "inventory.item",
+    "moduleId": "viewmodels/inventory.item",
+    "name": "Senarai Inventori",
+    "visible": true,
+    "icon": "icon-laptop",
+    "caption": "Senarai Inventori",
     "settings": null,
     "error": ""
   }

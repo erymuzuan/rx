@@ -1119,6 +1119,26 @@ bespoke.sphcommercialspace.domain.NonCompliance = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.Inventory = function (webId) {
+
+    var model = {
+        Name: ko.observable(),
+        Category: ko.observable(),
+        Brand: ko.observable(),
+        Specification: ko.observable(),
+        Quantity: ko.observable(),
+        InventoryId: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.InventoryPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.InventoryPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {
