@@ -44,11 +44,13 @@
                 vm.profile();
             },
             edit = function(user) {
+                vm.profile.IsNew(false);
                 vm.profile.FullName(user.FullName());
                 vm.profile.UserName(user.Username());
                 vm.profile.Email(user.Email());
                 vm.profile.Designation(user.Designation());
                 vm.profile.Department(user.Department());
+                vm.profile.Telephone(user.Telephone());
             },
             save = function() {
                 var tcs = new $.Deferred();
@@ -68,6 +70,7 @@
         var vm = {
             activate: activate,
             isBusyValidatingUserName : ko.observable(false),
+            profiles: profiles,
             profile: {
                 FullName : ko.observable(),
                 UserName : ko.observable(),
@@ -79,9 +82,9 @@
                 Department: ko.observable(),
                 Telephone : ko.observable(),
                 Mobile : ko.observable(),
-                IsNew : ko.observable()
+                IsNew : ko.observable(true)
             },
-            profiles: profiles,
+            password : ko.observable(),
             designationOptions : ko.observableArray(),
             departmentOptions : ko.observableArray(),
             userNameValidationStatus : ko.observable(),
@@ -92,7 +95,7 @@
 
 
         vm.profile.UserName.subscribe(function(username) {
-            vm.isBusyValidatingUserName(true);
+           vm.isBusyValidatingUserName(true);
             var tcs = new $.Deferred();
             var data = JSON.stringify({userName : username});
             isBusy(true);
@@ -108,6 +111,7 @@
                 });
             return tcs.promise();
         });
+        
         return vm;
     });
 </script>

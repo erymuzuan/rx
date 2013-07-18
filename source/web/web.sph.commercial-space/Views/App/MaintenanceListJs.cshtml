@@ -31,24 +31,6 @@
                     vm.selectedStatus(status);
                 });
                
-            },
-
-            saveAssignment = function(officer) {
-                vm.selectedMaintenance(officer);
-                assign(vm.selectedMaintenance());
-            },
-
-            assign = function(maintenance) {
-                var tcs = new $.Deferred();
-                var data = ko.toJSON(maintenance);
-                isBusy(true);
-
-                context.post(data, "/Maintenance/Assign")
-                    .then(function (result) {
-                        isBusy(false);
-                        tcs.resolve(result);
-                    });
-                return tcs.promise();
             };
 
 
@@ -57,13 +39,11 @@
         viewAttached: viewAttached,
         maintenances: ko.observableArray(),
             
-        selectedMaintenance: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
         selectedStatus: ko.observable(),
             
         officerOptions : ko.observableArray(),
         statusOptions: ko.observableArray(['New', 'Inspection', 'Maintenance']),
-        saveAssignment : saveAssignment,
-        assignCommand : assign
+        
     };
 
     vm.selectedStatus.subscribe(function(status) {

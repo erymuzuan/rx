@@ -38,13 +38,14 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             Membership.CreateUser(profile.UserName, profile.Password, profile.Email);
             Roles.AddUserToRoles(profile.UserName, roles);
             profile.Roles = roles;
-            var userprofile = await CreateProfile(profile);
+            
+            var userprofile = await CreateProfile(profile,designation);
 
             return Json(userprofile);
         }
 
      
-        private static async Task<UserProfile> CreateProfile(Profile profile)
+        private static async Task<UserProfile> CreateProfile(Profile profile,Designation designation)
         {
             var context = new SphDataContext();
             var userprofile = await context.LoadOneAsync<UserProfile>(p => p.Username == profile.UserName)?? new UserProfile();
@@ -56,6 +57,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             userprofile.Telephone = profile.Telephone;
             userprofile.Email = profile.Email;
             userprofile.RoleTypes = string.Join(",", profile.Roles);
+            userprofile.StartModule = designation.StartModule;
 
             using (var session = context.OpenSession())
             {
@@ -73,7 +75,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             userprofile.Email = profile.Email;
             userprofile.Telephone = profile.Telephone;
             userprofile.FullName = profile.FullName;
-
             using (var session = context.OpenSession())
             {
                 session.Attach(userprofile);
@@ -81,6 +82,24 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             }
 
             return Json(userprofile);
+        }
+
+        public ActionResult ResetPassword(string userName, string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+                return Json(new { OK = false, messages = "Please specify new Password" });
+
+            var em = Membership.GetUser(userName);
+            if (null == em) return Json(new { OK = false, messages = "User does notexist" });
+            if (em.IsLockedOut)
+            {
+                em.UnlockUser();
+            }
+
+            var oldPassword = em.ResetPassword();
+            var result = em.ChangePassword(oldPassword, password);
+            Membership.UpdateUser(em);
+            return Json(new { OK = result, messages = "Password for user has been reset." });
         }
     }
 

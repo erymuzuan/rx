@@ -12,25 +12,26 @@
 
 define(['services/datacontext', 'services/logger'],
     function (context, logger) {
-        
+
         var isBusy = ko.observable(false),
             activate = function () {
                 var tcs = new $.Deferred();
                 context.loadAsync("Deposit", "IsPaid eq 0").done(function (lo) {
-                  vm.depositCollection(lo.itemCollection);
-                  tcs.resolve(true);
+                    vm.depositCollection(lo.itemCollection);
+                    tcs.resolve(true);
                 });
                 return tcs.promise();
             },
-            showDetails = function () {
+            
+            editedDeposit = ko.observable(),
+
+            showDetails = function (deposit) {
                 isBusy(true);
-                var data = this;
-                var query = "DepositId eq " + data.DepositId();
-                context.loadOneAsync("Deposit", query)
-                     .then(function (d) {
-                         vm.deposit(d);
-                         isBusy(false);
-                     });
+                var c1 = ko.mapping.fromJSON(ko.mapping.toJSON(deposit));
+                var clone = _(c1).extend(new bespoke.sphcommercialspace.domain.DepositPartial(c1));
+                editedDeposit(deposit);
+                vm.deposit(clone);
+
                 $('#deposit-modal').modal({});
             },
             addPayment = function () {
@@ -42,13 +43,18 @@ define(['services/datacontext', 'services/logger'],
                 vm.deposit().DepositPaymentCollection.push(payment);
             },
             save = function () {
+
+                vm.depositCollection.replace(editedDeposit(), vm.deposit());
+
                 var tcs = new $.Deferred();
-                var depositPayment = ko.mapping.toJS(vm.deposit().DepositPaymentCollection());
-                var postdata = JSON.stringify({ id: vm.deposit().DepositId(), deposits: depositPayment });
-                context.post(postdata, "/Deposit/Save").done(function (e) {
-                    logger.log("Deposit payment received", e, "deposit", true);
-                    tcs.resolve(true);
+                var postdata = ko.mapping.toJSON({
+                    id: vm.deposit().DepositId,
+                    deposits: vm.deposit().DepositPaymentCollection
                 });
+                context.post(postdata, "/Deposit/Save")
+                    .done(function () {
+                        tcs.resolve(true);
+                    });
                 return tcs.promise();
             };
 

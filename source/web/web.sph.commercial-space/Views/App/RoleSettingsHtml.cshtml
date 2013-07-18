@@ -1,25 +1,41 @@
-﻿@model Bespoke.Sph.Commerspace.Web.Controllers.RoleModel[]
+﻿@model Bespoke.Sph.Commerspace.Web.ViewModels.RoleSettingViewModel
 
 @{
     Layout = null;
 }
-<form class="form-horizontal" data-bind="with : designation">
+
+<h1>Maklumat Jawatan</h1>
+<form class="form-horizontal" data-bind="with: designation">
     <div class="control-group">
         <label for="Name" class="control-label">Nama jawatan</label>
         <div class="controls">
             <input data-bind="value: Name" id="Name" type="text" name="Name" />
         </div>
     </div>
-    
+
     <div class="control-group">
         <label for="description" class="control-label">Keterangan</label>
         <div class="controls">
             <textarea data-bind="value: Description" id="description" name="description"></textarea>
         </div>
     </div>
-    @foreach (var r in Model)
+    
+    <div class="control-group">
+        <label for="StartModule" class="control-label">Modul Permulaan</label>
+        <div class="controls">
+            <select id="StartModule" data-bind="value: StartModule">
+                @foreach (var r in Model.Routes.Where(j => j.Visible))
+                {
+                    <option value="@r.Url">@r.Name</option>
+        
+                }
+
+            </select>
+        </div>
+    </div>
+    @foreach (var r in Model.Roles)
     {
-        <div class="control-group">
+        <div class="control-group span6">
             <div class="controls">
                 <label class="checkbox">
                     <input data-bind="checked: RoleCollection" value="@r.Role" 
@@ -32,7 +48,7 @@
         </div>
     }
 </form>
-
-<input id="save-button" type="button" class="btn btn-primary" value="Simpan" data-bind="command: saveCommand" data-loading-text="Sila tunggu..." data-complete-text="Siap" />
-        
+<div class="span4 pull-right">
+<input id="save-button" type="button" class="btn btn-primary" value="SIMPAN" data-bind="command: saveCommand" data-loading-text="Sila tunggu..." data-complete-text="Siap" />
+</div>
 

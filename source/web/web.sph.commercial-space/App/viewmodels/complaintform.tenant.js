@@ -19,20 +19,20 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 	        tenantId = ko.observable(),
 	        complaintNo = ko.observable(),
 	        tenantInfo = ko.observable(),
-
+	        
             activate = function (tenant) {
                 tenantId(parseInt(tenant.TenantId()));
                 vm.complaint().TenantId(tenantId);
                 vm.tenantInfo(tenant);
                 var query = "TenantIdSsmNo eq '" + tenant.IdSsmNo() + "'";
                 var query2 = "TenantId eq " + tenant.TenantId();
-                isBusy(true);
-                var tcs = new $.Deferred();
+	            isBusy(true);
+	            var tcs = new $.Deferred();
 
-                var getContractTask = context.loadAsync("Contract", query);
+	            var getContractTask = context.loadAsync("Contract", query);
                 var getTenantInfoTask = context.loadOneAsync("Tenant", query2);
-                var getComplaintTemplateTask = context.getTuplesAsync("ComplaintTemplate", "ComplaintTemplateId gt 0", "ComplaintTemplateId", "Name");
-
+	            var getComplaintTemplateTask = context.getTuplesAsync("ComplaintTemplate", "ComplaintTemplateId gt 0", "ComplaintTemplateId", "Name");
+                
                 $.when(getTenantInfoTask, getContractTask, getComplaintTemplateTask)
                     .then(function (t, lo, list) {
                         vm.complaint().Tenant(t);
@@ -49,11 +49,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                             return b.Item2;
                         }));
                         tcs.resolve(true);
+
                     });
                return  tcs.promise();
-            },
+	        },
 
             viewAttached = function (view) {
+
                 $("#AttachmentStoreId").kendoUpload({
                     async: {
                         saveUrl: "/BinaryStore/Upload",
@@ -111,39 +113,40 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 	        viewAttached: viewAttached,
 	        complaintNo : complaintNo,
 	        locationOptions: ko.observableArray(),
-	        typeOptions: ko.observableArray(),
+            typeOptions: ko.observableArray(),
 	        categoryOptions: ko.observableArray([]),
 	        subCategoryOptions: ko.observableArray([]),
 	        selectedType: ko.observable(),
 	        selectedCategory: ko.observable(),
-	        template: template,
-	        tenantInfo: tenantInfo,
+	        template : template,
 	        complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
 	        submitCommand: submit
 	    };
 
 	    vm.complaint().Type.subscribe(function (type) {
-	        vm.isBusy(true);
-	        context.loadOneAsync("ComplaintTemplate", "Name eq '" + type + "'")
-               .then(function (t) {
-                   vm.template(t);
-                   var categories = _(t.ComplaintCategoryCollection()).map(function (c) {
-                       return c.Name();
-                   });
-                   vm.categoryOptions(categories);
-                   vm.isBusy(false);
-                   selectedType = t;
-               });
+	         vm.isBusy(true);
+	        
+	        context.loadOneAsync("ComplaintTemplate", "ComplaintTemplateId eq '" + type + "'")
+	            .then(function (t) {
+	                vm.template(t);
+	                var categories = _(t.ComplaintCategoryCollection()).map(function(c) {
+	                    return c.Name();
+	                });
+	                
+	                vm.categoryOptions(categories);
+	                vm.isBusy(false);
+	                selectedType = t;
+	            });
 	    });
-
+	     
 	    vm.complaint().Category.subscribe(function (category) {
-	        var cat = _(template().ComplaintCategoryCollection()).find(function (c) {
-	            return c.Name() === category;
-	        });
-
+	       var cat = _(template().ComplaintCategoryCollection()).find(function (c) {
+	           return c.Name() === category;
+	       });
+	        
 	        vm.subCategoryOptions(cat.SubCategoryCollection());
-	    });
-
+	   });
+	    
 	    return vm;
 
 	});

@@ -44,7 +44,7 @@ define(['services/datacontext', 'services/logger'],
                         _(contracts).each(function(r2){
                             r2.getAccruedAmount(context)
                                 .done(function(amount){
-                                    r2.Accrued(amount);
+                                    r2.Accrued(amount.toFixed(2));
                                 });
                         });
                         vm.contractCollection(contracts);

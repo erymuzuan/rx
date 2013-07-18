@@ -102,8 +102,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.Data.OData.5.5.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb">
-      <HintPath>..\..\..\packages\Microsoft.Owin.Host.SystemWeb.1.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\..\..\packages\Microsoft.Owin.1.1.0-beta2\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Owin.Host.SystemWeb.1.1.0-beta2\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -116,9 +120,6 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Owin">
-      <HintPath>..\..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="Spring.Core, Version=2.0.0.40000, Culture=neutral, processorArchitecture=MSIL">
@@ -264,6 +265,7 @@
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
+    <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="Controllers\MapController.cs" />
@@ -288,6 +290,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ApplicationConfigurationViewModel.cs" />
+    <Compile Include="Models\RoleType.cs" />
+    <Compile Include="ViewModels\RoleSettingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\durandal\amd\almond-custom.js" />
@@ -332,6 +337,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App\viewmodels\complaint.assign.js" />
     <Content Include="App\viewmodels\complaint.detail.js" />
+    <Content Include="App\viewmodels\inventory.detail.js" />
+    <Content Include="App\viewmodels\inventory.list.js" />
+    <Content Include="App\viewmodels\public.index.js" />
+    <Content Include="App\viewmodels\maintenance.assignment.js" />
     <Content Include="App\viewmodels\search.js" />
     <Content Include="App\viewmodels\maintenance.workorder.js" />
     <Content Include="App\viewmodels\complaintform.tenant.js" />
@@ -339,9 +348,13 @@
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\complaint.assign.html" />
     <Content Include="App\views\complaintform.tenant.html" />
+    <Content Include="App\views\inventory.detail.html" />
+    <Content Include="App\views\inventory.list.html" />
+    <Content Include="App\views\public.index.html" />
     <Content Include="App\views\search.html" />
     <Content Include="App\views\_complaint.details.html" />
     <Content Include="App\views\maintenance.workorder.html" />
+    <Content Include="App\views\maintenance.assignment.html" />
     <Content Include="App\views\_tenant.complaint.html" />
     <Content Include="App\views\_users.department.html" />
     <Content Include="App\views\_workorder.comment.html" />
@@ -350,7 +363,6 @@
     <Content Include="App\views\_workorder.warranty.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Images\arrow.png" />
     <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />
     <Content Include="Scripts\bootmetro-charms.js" />

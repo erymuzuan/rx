@@ -1,6 +1,8 @@
 using System.Linq;
 ﻿using System.Web.Mvc;
-﻿using Newtonsoft.Json;
+using Bespoke.Sph.Commerspace.Web.Models;
+using Bespoke.Sph.Commerspace.Web.ViewModels;
+using Newtonsoft.Json;
 ﻿using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
@@ -10,12 +12,17 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public ActionResult RoleSettingsHtml()
         {
             var rolesConfig = Server.MapPath("~/roles.config.js");
+            var routeConfig = Server.MapPath("~/routes.config.js");
             var json = System.IO.File.ReadAllText(rolesConfig);
+            var routeJson = System.IO.File.ReadAllText(routeConfig);
 
+            var vm = new RoleSettingViewModel();
             var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
             var roles = JsonConvert.DeserializeObject<RoleModel[]>(json, settings);
-            
-            return View(roles);
+            var routes = JsonConvert.DeserializeObject<JsRoute[]>(routeJson, settings);
+            vm.Roles.ClearAndAddRange(roles);
+            vm.Routes.ClearAndAddRange(routes);
+            return View(vm);
         }
 
         public ActionResult RoleSettingsJs()

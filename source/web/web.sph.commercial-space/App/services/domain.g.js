@@ -1,7 +1,6 @@
 ﻿
-
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
-/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="~/scripts/knockout-2.2.1.debug.js" />
+/// <reference path="~/Scripts/underscore.js" />
 
 
 var bespoke = bespoke || {};
@@ -1017,6 +1016,7 @@ bespoke.sphcommercialspace.domain.Designation = function (webId) {
         Name: ko.observable(),
         Description: ko.observable(),
         IsActive: ko.observable(),
+        StartModule: ko.observable(),
         RoleCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -1114,6 +1114,26 @@ bespoke.sphcommercialspace.domain.NonCompliance = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.NonCompliancePartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.NonCompliancePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Inventory = function (webId) {
+
+    var model = {
+        Name: ko.observable(),
+        Category: ko.observable(),
+        Brand: ko.observable(),
+        Specification: ko.observable(),
+        Quantity: ko.observable(),
+        InventoryId: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.InventoryPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.InventoryPartial(model));
     }
     return model;
 };

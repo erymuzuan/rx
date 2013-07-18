@@ -21,28 +21,18 @@
                     <th>Sub-Kategori</th>
                     <th>Resolusi</th>
                     <th>Work Order No</th>
-                    <th>Petugas Bertanggungjawab</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: maintenances">
                 <tr>
                     <td>
-                        <a data-bind="text: Complaint.ReferenceNo, attr: { href: '#/complaint.detail/' + Complaint.ComplaintId() }"></a>
+                        <a data-bind="text: Complaint.ReferenceNo, attr: { href: '#/maintenance.assignment/' + MaintenanceId() }"></a>
                     </td>
                     <td data-bind="text: Complaint.Category"></td>
                     <td data-bind="text: Complaint.SubCategory"></td>
                     <td data-bind="text: Resolution"></td>
                     <td><a  data-bind="text: WorkOrderNo, attr: { href: '#/maintenance.workorder/' + MaintenanceId()}" title="navigate to work order"></a></td>
-                    <td data-bind="with: $parent.officerOptions">
-                        <span data-bind="text: $parent.Officer, visible: $parent.Officer != null"></span>
-                        <select name="maintenance.Officer" data-bind="options: $data, optionsText: 'Item2', optionsValue: 'Item1', optionsCaption: '[Sila Pilih]', value: $parent.Officer, visible: $parent.Officer() == null || $parent.WorkOrderNo() == null"></select>
-                    </td>
-                   
-                    <td>
-                        <input type="button" class="btn btn-primary" value="Agih Tugas" data-bind="click: $parent.saveAssignment, visible: Status() == 'New'" />
-                    </td>
-                </tr>
+               </tr>
             </tbody>
         </table>
     </div>

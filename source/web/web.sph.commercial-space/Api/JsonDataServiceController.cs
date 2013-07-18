@@ -66,7 +66,10 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         {
             return await ExecuteAsync<Invoice>(filter, page, size, includeTotal);
         }
-
+        public async Task<ActionResult> Inventory(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Inventory>(filter, page, size, includeTotal);
+        }
         public async Task<ActionResult> Maintenance(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Maintenance>(filter, page, size, includeTotal);

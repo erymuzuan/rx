@@ -11,7 +11,8 @@ namespace web.test
     public class AdminTest : BrowserTest
     {
         public const string USERNAME = "izzati";
-        [Test]
+
+       [Test]
         public void _001_AddUser()
         {
             const string sphDatabase = "sph";
@@ -37,5 +38,7 @@ namespace web.test
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();
         }
+
+       
     }
 }

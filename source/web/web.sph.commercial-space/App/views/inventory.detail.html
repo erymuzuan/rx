@@ -1,0 +1,37 @@
+﻿<h1>Maklumat Inventori</h1>
+<form class="form-horizontal" data-bind="with : inventory">
+    <div class="control-group">
+        <span class="control-label">Nama Item</span>
+        <div class="controls">
+            <input data-bind="value: Name" id="ItemName" type="text" name="ItemName" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="Category" class="control-label">Kategori</label>
+        <div class="controls">
+            <input data-bind="value: Category" id="Category" type="text" name="Category" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="Brand" class="control-label">Jenama</label>
+        <div class="controls">
+            <input data-bind="value: Brand" id="Brand" type="text" name="Brand" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="Specification" class="control-label">Spesifikasi</label>
+        <div class="controls">
+            <input data-bind="value: Specification" id="Specification" type="text" name="Specification" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="Quantity" class="control-label">Kuantiti</label>
+        <div class="controls">
+            <input data-bind="value: Quantity" id="Quantity" type="text" name="Quantity" />
+        </div>
+    </div>
+</form>
+<div class="span3">
+    <input type="button" value="SIMPAN" class="btn btn-primary" data-bind="command:saveCommand" data-loading-text="processing" data-complete-text="done"/>
+
+</div>

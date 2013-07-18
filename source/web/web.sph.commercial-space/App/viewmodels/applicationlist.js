@@ -8,16 +8,18 @@
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
     var status = ko.observable(),
         isBusy = ko.observable(false),
-        activate = function(routedata) {
+        activate = function (routedata) {
             isBusy(true);
             status(routedata.status);
             var tcs = new $.Deferred();
             var query = String.format("Status eq '{0}'", status());
-            context.loadAsync("RentalApplication", query).done(function(lo) {
+            context.loadAsync("RentalApplication", query).done(function (lo) {
                 vm.applications.removeAll();
                 vm.applications(lo.itemCollection);
                 tcs.resolve(true);
                 isBusy(false);
+                
+                vm.statusbar().text(lo.itemCollection.length + " items")
             });
             return tcs.promise();
         };
@@ -28,9 +30,14 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         activate: activate,
         title: 'Senarai Permohonan',
         applications: ko.observableArray([]),
-        refreshCommand: function () {
-           return activate({ status: status() });
-        }
+        toolbar: ko.observable({
+            reloadCommand: function () {
+                return activate({ status: status() });
+            }
+        }),
+        statusbar : ko.observable({
+            text : ko.observable()
+        })
     };
     return vm;
 });

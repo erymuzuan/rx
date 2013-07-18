@@ -19,8 +19,9 @@
             <div class="nav-collapse collapse">
 
 
-
-                <!-- Links -->
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <!-- Links -->
                 <ul class="nav pull-right">
                     <li class="dropdown pull-right">
                         <a id="user-profile" data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -42,7 +43,7 @@
 
                     <!-- Comment button with number of latest comments count -->
                     <li class="dropdown dropdown-big">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                        <a id="application-menu" class="dropdown-toggle" href="#" data-toggle="dropdown">
                             <i class="icon-comments"></i>Permohonan <span class="badge badge-info">6</span>
                         </a>
 
@@ -115,9 +116,53 @@
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">
                             <i class="icon-user"></i>Users <span class="badge badge-success">6</span>
                         </a>
+
+                        <ul class="dropdown-menu">
+                            <li>
+                                <!-- Heading - h5 -->
+                                <h5><i class="icon-user"></i>Users</h5>
+                                <!-- Use hr tag to add border -->
+                                <hr>
+                            </li>
+                            <li>
+                                <!-- List item heading h6-->
+                                <a href="#">Ravi Kumar</a> <span class="label label-warning pull-right">Free</span>
+                                <div class="clearfix"></div>
+                                <hr>
+                            </li>
+                            <li>
+                                <a href="#">Balaji</a> <span class="label label-important pull-right">Premium</span>
+                                <div class="clearfix"></div>
+                                <hr>
+                            </li>
+                            <li>
+                                <a href="#">Kumarasamy</a> <span class="label label-warning pull-right">Free</span>
+                                <div class="clearfix"></div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="drop-foot">
+                                    <a href="#">View All</a>
+                                </div>
+                            </li>
+                        </ul>
                     </li>
+                    <!-- ko compose : 'viewmodels/search' -->
+                    <!-- /ko -->
+                   
+
                 </ul>
+                }
+                @if (!User.Identity.IsAuthenticated)
+                {
+                   <ul class="nav pull-right">
+                    <li><a href="@Url.Action("Login", "Account")"><i class="icon-signin"></i>Sign In</a></li>
+                   </ul>
+                }
+                
+
             </div>
+
         </div>
-    </div>                        
+    </div>
 </div>
