@@ -39,6 +39,7 @@
       <HintPath>..\..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,7 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildingIndexerSubscriber.cs" />
-    <Compile Include="CommercialSpaceIndexeSubscriber.cs" />
+    <Compile Include="CommercialSpaceIndexerSubscriber.cs" />
+    <Compile Include="EntityIndexer.cs" />
+    <Compile Include="RentalApplicationIndexerSubscriber.cs" />
     <Compile Include="SearchMetadata.cs" />
     <Compile Include="LuceneIndexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +67,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

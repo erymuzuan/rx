@@ -52,10 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleNotification.cs" />
+    <Compile Include="CrudOperation.cs" />
     <Compile Include="Discoverer.cs" />
     <Compile Include="EventLogNotification.cs" />
     <Compile Include="FileLog.cs" />
     <Compile Include="INotificationService.cs" />
+    <Compile Include="MessageHeaders.cs" />
     <Compile Include="ProcessTimeOutException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

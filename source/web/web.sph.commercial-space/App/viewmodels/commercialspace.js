@@ -1,6 +1,6 @@
 ﻿define(['services/datacontext'], function(context) {
 
-    var title = ko.observable(''),
+    var title = ko.observable('Senarai Ruang Komersil'),
         isBusy = ko.observable(false),
         activate = function() {
             var tcs = new $.Deferred();
@@ -8,10 +8,11 @@
                 vm.commercialspaces(lo.itemCollection);
                 tcs.resolve(true);
             });
-            tcs.promise();
+           return tcs.promise();
         };
 
     var vm = {
+        title: title,
         activate: activate,
         isBusy : isBusy,
         commercialspaces: ko.observableArray([])

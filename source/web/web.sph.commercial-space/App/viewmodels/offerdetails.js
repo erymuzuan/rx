@@ -9,7 +9,7 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 
-define(['services/datacontext', 'services/logger'], function (context, logger) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger,router) {
 
     var rentalId = ko.observable(),
         isBusy = ko.observable(false),
@@ -51,6 +51,8 @@ define(['services/datacontext', 'services/logger'], function (context, logger) {
                 logger.log("Offer has been successfully saved ", "offerdetails", true);
                 isBusy(false);
                 tcs.resolve(true);
+                var url = '/#/rentalapplication.verify/' + rentalId();
+                router.navigateTo(url);
             });
             return tcs.promise();
         },

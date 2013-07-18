@@ -1,4 +1,4 @@
-﻿define(['durandal/system', 'durandal/plugins/router', 'services/logger', 'config','services/datacontext'],
+﻿define(['durandal/system', 'durandal/plugins/router', 'services/logger', 'config', 'services/datacontext'],
     function (system, router, logger, config, context) {
 
         var isBusy = ko.observable(),
@@ -23,16 +23,25 @@
                     });
                 return tcs.promise();
             }
-            ,            
-            navigateSearch = function(sr) {
+            ,
+            navigateSearch = function (sr) {
                 console.log(sr);
+                switch (sr.Type) {
+                    case "Building":
+                        router.navigateTo('/#/buildingdetail/' + sr.Id);
+                        break;
+                    case "CommercialSpace":
+                        router.navigateTo('/#/commercialspacedetail/' + 0 + '/' + 0 + '/' + sr.Id);
+                        break;
+                    default:
+                }
             };
 
         var shell = {
             activate: activate,
             searchCommand: search,
             searchResults: ko.observableArray(),
-            navigateSearch : navigateSearch, 
+            navigateSearch: navigateSearch,
             isBusy: isBusy,
             searchText: ko.observable(),
             viewAttached: viewAttached,

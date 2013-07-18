@@ -21,7 +21,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public abstract string QueueName { get; }
         public abstract string[] RoutingKeys { get; }
 
-        protected abstract Task ProcessMessage(string operation, T item) ;
+        protected abstract Task ProcessMessage(T item, MessageHeaders header);
 
         protected void WriteError(Exception exception)
         {
@@ -95,18 +95,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     {
                         byte[] body = e.Body;
                         var xml = await this.DecompressAsync(body);
-                        var operation = e.Properties.Headers["operation"] as string;
-                        foreach (var key in e.Properties.Headers.Keys)
-                        {
-                            Console.WriteLine(key);
-                            var val = e.Properties.Headers[key];
-                            var vak = ByteToString((byte[]) val);
-                            Console.WriteLine(vak);
-                            operation = vak;
 
-                        }
+                        var header = new MessageHeaders(e);
                         var item = XmlSerializerService.DeserializeFromXml<T>(xml.Replace("utf-16", "utf-8"));
-                        ProcessMessage(operation,item)
+                        ProcessMessage(item, header)
                             .ContinueWith(_ =>
                             {
                                 if (_.IsFaulted && null != _.Exception)
@@ -161,17 +153,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
         }
 
-        private string ByteToString(byte[] content)
-        {
-            using (var orginalStream = new MemoryStream(content))
-            {
-                using (var sr = new StreamReader(orginalStream))
-                {
-                    var xml = sr.ReadToEnd();
-                    return xml;
-                }
-            }
-        }
 
         private void PrintSubscriberInformation()
         {

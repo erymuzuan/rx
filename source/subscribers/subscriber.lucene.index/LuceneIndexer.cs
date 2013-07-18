@@ -91,6 +91,7 @@ namespace Bespoke.Sph.Messaging
 
         public void AddDocuments(params ISearchable[] list)
         {
+            Console.WriteLine("adding document");
             this.Initialized();
             var writer = new IndexWriter(m_directory, m_analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
 

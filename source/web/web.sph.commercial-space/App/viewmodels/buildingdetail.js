@@ -190,7 +190,10 @@ define(['services/datacontext',
             goBackCommand: goBack,
             isBusy: isBusy,
             removeFloorCommand: removeFloor,
-            title: 'Building Details'
+            title: 'Building Details',
+            toolbar : ko.observable({
+                saveCommand : saveAsync
+            })
         };
 
         return vm;

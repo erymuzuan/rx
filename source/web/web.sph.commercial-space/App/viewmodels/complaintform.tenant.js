@@ -11,25 +11,28 @@
 /// <reference path="../services/domain.g.js" /> 
 
 
-define(['services/datacontext', 'services/logger'],
-	function (context, logger) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
+	function (context, logger,router) {
 
 	    var template = ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
 	        isBusy = ko.observable(false),
 	        tenantId = ko.observable(),
-
+	        complaintNo = ko.observable(),
+	        tenantInfo = ko.observable(),
+	        
             activate = function (tenant) {
                 tenantId(parseInt(tenant.TenantId()));
                 vm.complaint().TenantId(tenantId);
+                vm.tenantInfo(tenant);
                 var query = "TenantIdSsmNo eq '" + tenant.IdSsmNo() + "'";
                 var query2 = "TenantId eq " + tenant.TenantId();
-                isBusy(true);
-                var tcs = new $.Deferred();
+	            isBusy(true);
+	            var tcs = new $.Deferred();
 
-                var getContractTask = context.loadAsync("Contract", query);
+	            var getContractTask = context.loadAsync("Contract", query);
                 var getTenantInfoTask = context.loadOneAsync("Tenant", query2);
-                var getComplaintTemplateTask = context.getTuplesAsync("ComplaintTemplate", "ComplaintTemplateId gt 0", "ComplaintTemplateId", "Name");
-
+	            var getComplaintTemplateTask = context.getTuplesAsync("ComplaintTemplate", "ComplaintTemplateId gt 0", "ComplaintTemplateId", "Name");
+                
                 $.when(getTenantInfoTask, getContractTask, getComplaintTemplateTask)
                     .then(function (t, lo, list) {
                         vm.complaint().Tenant(t);
@@ -48,8 +51,8 @@ define(['services/datacontext', 'services/logger'],
                         tcs.resolve(true);
 
                     });
-                tcs.promise();
-            },
+               return  tcs.promise();
+	        },
 
             viewAttached = function (view) {
 
@@ -89,9 +92,17 @@ define(['services/datacontext', 'services/logger'],
 	            isBusy(true);
 
 	            context.post(data, "/Complaint/Submit")
-	                .then(function (result) {
+	                .done(function (e) {
+	                    logger.log("Data has been successfully saved ", e, "complaint", true);
 	                    isBusy(false);
-	                    tcs.resolve(result);
+	                    complaintNo(e.referenceNo);
+	                    isBusy(false);
+	                    $('#success-panel').modal({})
+                         .on('hidden', function () {
+                             vm.complaint(new bespoke.sphcommercialspace.domain.Complaint());
+                             vm.activate(vm.tenantInfo);
+                         });
+	                    tcs.resolve(e);
 	                });
 	            return tcs.promise();
 	        };
@@ -100,40 +111,25 @@ define(['services/datacontext', 'services/logger'],
 	        isBusy: isBusy,
 	        activate: activate,
 	        viewAttached: viewAttached,
+	        complaintNo : complaintNo,
 	        locationOptions: ko.observableArray(),
-	        typeOptions: ko.observableArray(),
+            typeOptions: ko.observableArray(),
 	        categoryOptions: ko.observableArray([]),
 	        subCategoryOptions: ko.observableArray([]),
 	        selectedType: ko.observable(),
 	        selectedCategory: ko.observable(),
-	        template: template,
+	        template : template,
 	        complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
 	        submitCommand: submit
 	    };
 
 	    vm.complaint().Type.subscribe(function (type) {
-	        vm.isBusy(true);
+	         vm.isBusy(true);
 	        
 	        context.loadOneAsync("ComplaintTemplate", "ComplaintTemplateId eq '" + type + "'")
 	            .then(function (t) {
 	                vm.template(t);
-	                //build custom fields value
-	                var cfs = _(template().ComplaintCustomFieldCollection()).map(function (f) {
-	                    var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(system.guid.newGuid());
-	                    v.Name(f.Name());
-	                    v.Type(f.Type());
-	                    return v;
-	                });
-
-	                vm.complaint().CustomFieldValueCollection(cfs);
-	                
-	                $('#custom-fields-panel')
-                                .load("/App/complaint.custom.field.html/" + type,
-                                    function () {
-                                        ko.applyBindings(vm, document.getElementById('custom-fields-panel'));
-                                    });
-	                
-	                var categories = _(t.ComplaintCategoryCollection()).map(function (c) {
+	                var categories = _(t.ComplaintCategoryCollection()).map(function(c) {
 	                    return c.Name();
 	                });
 	                
@@ -142,15 +138,15 @@ define(['services/datacontext', 'services/logger'],
 	                selectedType = t;
 	            });
 	    });
-
+	     
 	    vm.complaint().Category.subscribe(function (category) {
-	        var cat = _(template().ComplaintCategoryCollection()).find(function (c) {
-	            return c.Name() === category;
-	        });
-
+	       var cat = _(template().ComplaintCategoryCollection()).find(function (c) {
+	           return c.Name() === category;
+	       });
+	        
 	        vm.subCategoryOptions(cat.SubCategoryCollection());
-	    });
-
+	   });
+	    
 	    return vm;
 
 	});

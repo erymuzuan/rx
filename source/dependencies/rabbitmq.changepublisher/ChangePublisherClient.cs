@@ -71,7 +71,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
                     var props = channel.CreateBasicProperties();
                     props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
                     props.ContentType = "application/xml";
-                    props.Headers = new Dictionary<string, string> {{"operation", operation}};
+                    props.Headers = new Dictionary<string, string> {{"operation", operation},{"crud", action}};
 
                     channel.BasicPublish(this.Exchange, routingKey, props, body);
 

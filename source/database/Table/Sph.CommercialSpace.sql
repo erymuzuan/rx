@@ -27,11 +27,14 @@ GO
 
 )
 
-ALTER TABLE [Sph].[Sph].[CommercialSpace]
+ALTER TABLE [Sph].[CommercialSpace]
 ADD [State] VARCHAR(255) NOT NULL DEFAULT ''
 
-ALTER TABLE [Sph].[Sph].[CommercialSpace]
+ALTER TABLE [Sph].[CommercialSpace]
 ADD [City] VARCHAR(255) NOT NULL DEFAULT ''
 
-ALTER TABLE [Sph].[Sph].[CommercialSpace]
+ALTER TABLE [Sph].[CommercialSpace]
 ADD [IsAvailable] BIT NOT NULL DEFAULT 1
+
+GO
+SELECT * FROM [Sph].[CommercialSpace]

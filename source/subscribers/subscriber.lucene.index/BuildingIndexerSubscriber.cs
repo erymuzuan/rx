@@ -5,35 +5,23 @@ using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.Messaging
 {
-    public class BuildingIndexerSubscriber : Subscriber<Building>
+    public class BuildingIndexerSubscriber : EntityIndexer<Building>
     {
-        public override string QueueName
+        protected override Task<SearchMetadata> GetMetadata(Building item, MessageHeaders header)
         {
-            get { return "building_lucene"; }
+            var metadata = new SearchMetadata
+                  {
+                      Title = item.Name,
+                      Text = item.ToString(),
+                      Created = item.CreatedDate == DateTime.MinValue ? DateTime.Today : item.CreatedDate,
+                      OwnerCode = item.CreatedBy,
+                      Summary = item.ToString(),
+                      Code = item.LotNo,
+                      Type = typeof(Building).Name,
+                      Id = item.BuildingId
+                  };
+            return Task.FromResult(metadata);
         }
 
-        public override string[] RoutingKeys
-        {
-            get { return new[] {"Building.*"}; }
-        }
-
-        protected async override Task ProcessMessage(string operation, Building item)
-        {
-            await Task.Delay(500);
-            Console.WriteLine("{0}:{1}", item.Name, operation);
-            var metada = new SearchMetadata
-                {
-                    Title = item.Name,
-                    Text = item.ToString(),
-                    Created = item.CreatedDate,
-                    OwnerCode = item.CreatedBy,
-                    Summary = item.ToString(),
-                    Code = item.LotNo,
-                    Type = typeof(Building).Name
-                };
-            var indexer = new LuceneIndexer(@"g:\temp\index");
-            indexer.AddDocuments(metada);
-
-        }
     }
 }
