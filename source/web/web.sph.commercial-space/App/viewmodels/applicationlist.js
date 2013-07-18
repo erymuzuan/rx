@@ -18,6 +18,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 vm.applications(lo.itemCollection);
                 tcs.resolve(true);
                 isBusy(false);
+                
+                vm.statusbar().text(lo.itemCollection.length + " items")
             });
             return tcs.promise();
         };
@@ -32,6 +34,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             reloadCommand: function () {
                 return activate({ status: status() });
             }
+        }),
+        statusbar : ko.observable({
+            text : ko.observable()
         })
     };
     return vm;

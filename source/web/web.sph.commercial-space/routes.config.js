@@ -24,7 +24,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_edit_contract_template",
     "url": "contracttypetemplate/:id",
     "moduleId": "viewmodels/contracttypetemplate",
     "name": "contract type",
@@ -56,20 +56,6 @@
     "icon": "icon-tablet",
     "caption": "Lot Details",
     "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_edit_setting",
-    "url": "setting",
-    "moduleId": "viewmodels/setting",
-    "name": "Tetapan Umum",
-    "visible": true,
-    "icon": "icon-laptop",
-    "caption": "Setting",
-    "settings": {
-      "caption": "Settings"
-    },
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -360,6 +346,18 @@
     "error": ""
   },
   {
+    "role": "can_edit_complaint_template",
+    "url": "complaint.list",
+    "moduleId": "viewmodels/complaint.list",
+    "name": "Senarai Aduan",
+    "visible": true,
+    "icon": "icon-laptop",
+    "caption": "Senarai Aduan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
     "role": "can_view_tenant_details",
     "url": "tenant.portal",
     "moduleId": "viewmodels/tenant.portal",
@@ -379,18 +377,6 @@
     "visible": false,
     "icon": "icon-desktop",
     "caption": "pemeriksaan",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_edit_complaint_template",
-    "url": "complaint.list",
-    "moduleId": "viewmodels/complaint.list",
-    "name": "Senarai Aduan",
-    "visible": true,
-    "icon": "icon-laptop",
-    "caption": "Senarai Aduan",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -439,6 +425,18 @@
     "visible": true,
     "icon": "icon-laptop",
     "caption": "Senarai Penyenggaraan Officer",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_inventory",
+    "url": "inventory.list",
+    "moduleId": "viewmodels/inventory.list",
+    "name": "Senarai Inventori",
+    "visible": true,
+    "icon": "icon-laptop",
+    "caption": "Senarai Inventori",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -532,15 +530,30 @@
     "error": ""
   },
   {
-      "role": null,
-      "url": "maintenance.assignment/:id",
-      "moduleId": "viewmodels/maintenance.assignment",
-      "name": "Perincian Aduan and Assisgment",
-      "visible": false,
-      "icon": null,
-      "caption": null,
-      "settings": null,
-      "error": ""
+    "role": null,
+    "url": "maintenance.assignment/:id",
+    "moduleId": "viewmodels/maintenance.assignment",
+    "name": "Perincian Aduan and Assisgment",
+    "visible": false,
+    "icon": null,
+    "caption": null,
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_setting",
+    "url": "setting",
+    "moduleId": "viewmodels/setting",
+    "name": "Tetapan Umum",
+    "visible": true,
+    "icon": "icon-laptop",
+    "caption": "Setting",
+    "settings": {
+      "caption": "Settings"
+    },
+    "showWhenLoggedIn": false,
+    "error": ""
   },
   {
     "role": "can_edit_inventory",
@@ -550,18 +563,6 @@
     "visible": false,
     "icon": "icon-laptop",
     "caption": "Maklumat Inventori",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_edit_inventory",
-    "url": "inventory.list",
-    "moduleId": "viewmodels/inventory.list",
-    "name": "Senarai Inventori",
-    "visible": true,
-    "icon": "icon-laptop",
-    "caption": "Senarai Inventori",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""

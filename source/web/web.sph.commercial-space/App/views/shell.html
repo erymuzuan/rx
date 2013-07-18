@@ -38,12 +38,22 @@
                     Email
                 </button>
                 <!-- /ko -->
+                <!-- ko if: typeof commands === "function"-->
+                <!-- ko foreach: commands-->
+                <button class="btn" data-bind="command: command" data-loading-text="Sendin....">
+                    <i data-bind=" attr: { 'class': icon }"></i>
+                    <span data-bind="text: caption"></span>
+                </button>
+                <!-- /ko -->
+                <!-- /ko -->
+
             </div>
         </div>
         <!--ko compose: {model: router.activeItem, 
             afterCompose: router.afterCompose, 
             transition: 'entrance'} -->
         <!--/ko-->
+
     </section>
 
 </div>

@@ -104,7 +104,7 @@ define(['services/datacontext', 'services/logger'],
         },
             cachedTopic,
             cachedClause,
-            selectTopic = function (tp,ev) {
+            selectTopic = function (tp, ev) {
                 if (cachedTopic) { // copy it back
                     ko.mapping.fromJS(ko.mapping.toJS(vm.topic), {}, cachedTopic);
                 }
@@ -115,13 +115,13 @@ define(['services/datacontext', 'services/logger'],
                     .removeClass("selected");
                 element.parents("li").addClass("selected");
             },
-            selectClause = function (cl,ev) {
+            selectClause = function (cl, ev) {
                 if (cachedClause) { // copy it back
                     ko.mapping.fromJS(ko.mapping.toJS(vm.clause), {}, cachedClause);
                 }
                 ko.mapping.fromJS(ko.mapping.toJS(cl), {}, vm.clause);
                 cachedClause = cl;
-                
+
 
                 var element = $(ev.target);
                 element.parents("ul").children()
@@ -146,7 +146,7 @@ define(['services/datacontext', 'services/logger'],
             },
             startAddTopic = function () {
                 cachedTopic = null;
-                
+
                 topic.Text('');
                 topic.Title('');
                 topic.Description('');
@@ -161,7 +161,7 @@ define(['services/datacontext', 'services/logger'],
                 clause.Title('');
                 clause.Description('');
             },
-            removeDocument = function(doc) {
+            removeDocument = function (doc) {
                 template.DocumentTemplateCollection.remove(doc);
             };
 
@@ -175,7 +175,29 @@ define(['services/datacontext', 'services/logger'],
             addClauseCommand: addClause,
             startAddTopicCommand: startAddTopic,
             startAddClauseCommand: startAddClause,
-            saveCommand: save,
+            toolbar: {
+                saveCommand: save,
+                printCommand: save,
+                emailCommand: save,
+                removeCommand: save,
+                reloadCommand: function () {
+                    return activate({ id: vm.template.ContractTemplateId() });
+                },
+                commands: ko.observableArray([{
+                    command: save,
+                    icon: "icon-check",
+                    caption : "Approve"
+                },{
+                    command: save,
+                    icon: "icon-bolt",
+                    caption : "Reject"
+                }
+                ])
+            },
+            statusbar : {
+                text: ko.observable(),
+                progress : ko.observable()
+            },
             configureUpload: configureUpload,
             template: template,
             topic: topic,

@@ -22,9 +22,15 @@ define(['services/datacontext', 'services/logger'],
                 });
                 return tcs.promise();
             },
+            
+            editedDeposit = ko.observable(),
+
             showDetails = function (deposit) {
                 isBusy(true);
-                vm.deposit(deposit);
+                var c1 = ko.mapping.fromJSON(ko.mapping.toJSON(deposit));
+                var clone = _(c1).extend(new bespoke.sphcommercialspace.domain.DepositPartial(c1));
+                editedDeposit(deposit);
+                vm.deposit(clone);
 
                 $('#deposit-modal').modal({});
             },
@@ -37,6 +43,9 @@ define(['services/datacontext', 'services/logger'],
                 vm.deposit().DepositPaymentCollection.push(payment);
             },
             save = function () {
+
+                vm.depositCollection.replace(editedDeposit(), vm.deposit());
+
                 var tcs = new $.Deferred();
                 var postdata = ko.mapping.toJSON({
                     id: vm.deposit().DepositId,
