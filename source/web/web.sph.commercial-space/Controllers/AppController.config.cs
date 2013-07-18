@@ -14,8 +14,16 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public async Task<ActionResult> ConfigJs()
         {
-            var vm = new ApplicationConfigurationViewModel { StartModule = "admindashboard" };
-
+            var username = User.Identity.Name;
+            var context = new SphDataContext();
+            var userprofile = await context.LoadOneAsync<UserProfile>(u => u.Username == username);
+            var vm = new ApplicationConfigurationViewModel { StartModule = "public.index" };
+            
+            if (null != userprofile)
+            {
+                 vm.StartModule = userprofile.StartModule;
+            }
+           
             var routeConfig = Server.MapPath("~/routes.config.js");
             var json = System.IO.File.ReadAllText(routeConfig);
             

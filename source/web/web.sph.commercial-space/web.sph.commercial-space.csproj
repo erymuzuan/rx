@@ -310,6 +310,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\RoleSettingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\durandal\amd\almond-custom.js" />
@@ -369,6 +370,8 @@
     <Content Include="App\views\_complaint.details.html" />
     <Content Include="App\views\maintenance.workorder.html" />
     <Content Include="App\views\_tenant.complaint.html" />
+    <Content Include="App\views\_user.add.html" />
+    <Content Include="App\views\_user.change.password.html" />
     <Content Include="App\views\_users.department.html" />
     <Content Include="App\views\_workorder.comment.html" />
     <Content Include="App\views\_workorder.ncr.html" />

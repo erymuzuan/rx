@@ -12,7 +12,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "admin_dashboard",
     "url": "admindashboard",
     "moduleId": "viewmodels/admindashboard",
     "name": "Papan Tugas",
@@ -60,7 +60,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_edit_setting",
     "url": "setting",
     "moduleId": "viewmodels/setting",
     "name": "Tetapan Umum",
@@ -74,7 +74,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_edit_setting",
     "url": "contractlist",
     "moduleId": "viewmodels/contractlist",
     "name": "Kontrak",
@@ -102,7 +102,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_add_commercial_space",
     "url": "building",
     "moduleId": "viewmodels/building",
     "name": "Bangunan",
@@ -128,7 +128,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "admin_user",
     "url": "users",
     "moduleId": "viewmodels/users",
     "name": "Pengurusan Pengguna",
@@ -140,7 +140,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_add_commercial_space",
     "url": "commercialspace",
     "moduleId": "viewmodels/commercialspace",
     "name": "Ruang Komersial",
@@ -164,7 +164,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_edit_setting",
     "url": "contracttype",
     "moduleId": "viewmodels/contracttype",
     "name": "Tetapan Kontrak",
@@ -268,7 +268,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_edit_payment",
     "url": "deposit",
     "moduleId": "viewmodels/deposit",
     "name": "Bayaran Deposit",
@@ -296,7 +296,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_edit_payment",
     "url": "payment",
     "moduleId": "viewmodels/payment",
     "name": "Bayaran Sewa",
@@ -310,7 +310,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_edit_payment",
     "url": "rebate",
     "moduleId": "viewmodels/rebate",
     "name": "Senarai Rebat",
@@ -324,7 +324,7 @@
     "error": ""
   },
   {
-    "role": "admin_setting",
+    "role": "can_edit_setting",
     "url": "organization.detail",
     "moduleId": "viewmodels/organization.detail",
     "name": "Tetapan Organisasi",
@@ -336,7 +336,7 @@
     "error": ""
   },
   {
-    "role": "admin_setting",
+    "role": "can_edit_complaint_template",
     "url": "complaint.template.list",
     "moduleId": "viewmodels/complaint.template.list",
     "name": "Tetapan Aduan",
@@ -360,7 +360,7 @@
     "error": ""
   },
   {
-    "role": "tenant",
+    "role": "can_view_tenant_details",
     "url": "tenant.portal",
     "moduleId": "viewmodels/tenant.portal",
     "name": "Portal Penyewa",
@@ -384,7 +384,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_edit_complaint_template",
     "url": "complaint.list",
     "moduleId": "viewmodels/complaint.list",
     "name": "Senarai Aduan",
@@ -420,7 +420,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_assign_maintenance_officer",
     "url": "maintenance.list",
     "moduleId": "viewmodels/maintenance.list",
     "name": "Senarai Penyenggaraan",
@@ -432,7 +432,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_inspect",
     "url": "officer.list",
     "moduleId": "viewmodels/officer.list",
     "name": "Senarai Penyenggaraan Officer",
