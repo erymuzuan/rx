@@ -102,8 +102,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.Data.OData.5.5.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb">
-      <HintPath>..\..\..\packages\Microsoft.Owin.Host.SystemWeb.1.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\..\..\packages\Microsoft.Owin.1.1.0-beta2\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.Owin.Host.SystemWeb.1.1.0-beta2\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -116,9 +120,6 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Owin">
-      <HintPath>..\..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="Spring.Core, Version=2.0.0.40000, Culture=neutral, processorArchitecture=MSIL">
@@ -242,40 +243,18 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\AppController.complaintlist.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.complainttemplate.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.config.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Controllers\AppController.complaintlist.cs" />
+    <Compile Include="Controllers\AppController.complainttemplate.cs" />
+    <Compile Include="Controllers\AppController.config.cs" />
     <Compile Include="Controllers\AppController.cs" />
-    <Compile Include="Controllers\AppController.header.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.maintenancelist.cs.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.nav.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.officerdashboard.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.role.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.tenantportal.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.userprofile.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.users.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Controllers\AppController.header.cs" />
+    <Compile Include="Controllers\AppController.maintenancelist.cs.cs" />
+    <Compile Include="Controllers\AppController.nav.cs" />
+    <Compile Include="Controllers\AppController.officerdashboard.cs" />
+    <Compile Include="Controllers\AppController.role.cs" />
+    <Compile Include="Controllers\AppController.tenantportal.cs" />
+    <Compile Include="Controllers\AppController.userprofile.cs" />
+    <Compile Include="Controllers\AppController.users.cs" />
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
@@ -311,7 +290,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\RoleSettingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\durandal\amd\almond-custom.js" />
@@ -350,17 +328,16 @@
     <Compile Include="Helpers\QueryHelper.cs" />
     <Compile Include="Helpers\Roles.cs" />
     <Compile Include="Mocks\TemplateEngine.cs" />
-    <Compile Include="Models\ApplicationConfigurationViewModel.cs" />
     <Compile Include="Models\JsRoute.cs" />
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Models\Profile.cs" />
-    <Compile Include="Models\RoleType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App\viewmodels\complaint.assign.js" />
     <Content Include="App\viewmodels\complaint.detail.js" />
     <Content Include="App\viewmodels\inventory.detail.js" />
     <Content Include="App\viewmodels\inventory.list.js" />
     <Content Include="App\viewmodels\public.index.js" />
+    <Content Include="App\viewmodels\maintenance.assignment.js" />
     <Content Include="App\viewmodels\search.js" />
     <Content Include="App\viewmodels\maintenance.workorder.js" />
     <Content Include="App\viewmodels\complaintform.tenant.js" />
@@ -374,9 +351,8 @@
     <Content Include="App\views\search.html" />
     <Content Include="App\views\_complaint.details.html" />
     <Content Include="App\views\maintenance.workorder.html" />
+    <Content Include="App\views\maintenance.assignment.html" />
     <Content Include="App\views\_tenant.complaint.html" />
-    <Content Include="App\views\_user.add.html" />
-    <Content Include="App\views\_user.change.password.html" />
     <Content Include="App\views\_users.department.html" />
     <Content Include="App\views\_workorder.comment.html" />
     <Content Include="App\views\_workorder.ncr.html" />
@@ -384,7 +360,6 @@
     <Content Include="App\views\_workorder.warranty.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Images\arrow.png" />
     <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />
     <Content Include="Scripts\bootmetro-charms.js" />

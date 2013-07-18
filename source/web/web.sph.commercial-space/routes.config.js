@@ -532,6 +532,16 @@
     "error": ""
   },
   {
+    "role": null,
+    "url": "maintenance.assignment/:id",
+    "moduleId": "viewmodels/maintenance.assignment",
+    "name": "Perincian Aduan and Assisgment",
+    "visible": false,
+    "icon": null,
+    "caption": null,
+    "settings": null,
+    "error": ""
+  {
     "role": "can_edit_inventory",
     "url": "inventory.detail",
     "moduleId": "viewmodels/inventory.detail",
