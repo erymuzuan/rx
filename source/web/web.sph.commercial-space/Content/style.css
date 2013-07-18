@@ -9,14 +9,6 @@
 	font-weight: 400;
 }
 
-.header1 {
-    background-color: yellow;
-    padding-left: 35px; 
-    background-image:url('../Images/arrow.png');
-    background-repeat: no-repeat;
-    background-position: left;
-}
-
 .navbar *{
 	background-image: none !important;
 }
@@ -76,6 +68,12 @@ h1,h2,h3,h4,h5,h6{
 h2{
 	font-size: 30px;
 	line-height: 40px;
+    background-color: yellow;
+    padding-left: 35px; 
+    background-image:url('../Images/arrow.png');
+    background-repeat: no-repeat;
+    background-position: left;
+    max-width: 400px;
 }
 
 h3{
