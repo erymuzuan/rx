@@ -1,0 +1,24 @@
+﻿<h1>Senarai Inventori</h1>
+<div>
+    <a class="btn btn-primary pull-right" href="/#/inventory.detail">+ Tambah Inventori</a>
+    <table class=" table table-striped">
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Kategori</th>
+                <th>Jenama</th>
+                <th>Spesifikasi</th>
+                <th>Kuantiti</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :inventoryCollection">
+            <tr>
+                <td data-bind="text:Name"></td>
+                <td data-bind="text:Category"></td>
+                <td data-bind="text:Brand"></td>
+                <td data-bind="text:Specification"></td>
+                <td data-bind="text:Quantity"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

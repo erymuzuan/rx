@@ -88,7 +88,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_view_contract_details",
     "url": "contractdetails/:id",
     "moduleId": "viewmodels/contractdetails",
     "name": "contractdetails",
@@ -116,7 +116,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_add_commercial_space",
     "url": "commercialspacedetail/:buildingId/:floorname/:commercialspaceid",
     "moduleId": "viewmodels/commercialspacedetail",
     "name": "ruang komersial",
@@ -152,7 +152,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_edit_contract_template",
     "url": "contract.create/:rentalApplicationId",
     "moduleId": "viewmodels/contract.create",
     "name": "create contract",
@@ -164,7 +164,7 @@
     "error": ""
   },
   {
-    "role": "can_edit_setting",
+    "role": "can_edit_contract_template",
     "url": "contracttype",
     "moduleId": "viewmodels/contracttype",
     "name": "Tetapan Kontrak",
@@ -176,7 +176,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_add_commercial_space",
     "url": "buildingbound",
     "moduleId": "viewmodels/buildingbound",
     "name": "Peta Kawasan",
@@ -188,7 +188,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_add_commercial_space",
     "url": "buildingdetail/:id",
     "moduleId": "viewmodels/buildingdetail",
     "name": "BuildingDetail",
@@ -200,7 +200,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_add_commercial_space",
     "url": "floorplan/:buildingId/:floorname",
     "moduleId": "viewmodels/floorplan",
     "name": "FloorPlan",
@@ -212,7 +212,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "admin_dashboard",
     "url": "applicationlist/:status",
     "moduleId": "viewmodels/applicationlist",
     "name": "applicationlist",
@@ -226,7 +226,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "admin_dashboard",
     "url": "rentalapplication.verify/:applicationId",
     "moduleId": "viewmodels/rentalapplication.verify",
     "name": "rentalapplication.verify",
@@ -240,7 +240,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "admin_dashboard",
     "url": "returnedapplication/:id",
     "moduleId": "viewmodels/returnedapplication",
     "name": "rental application",
@@ -254,7 +254,7 @@
     "error": ""
   },
   {
-    "role": "tenant",
+    "role": "admin_dashboard",
     "url": "tenant",
     "moduleId": "viewmodels/tenant",
     "name": "Penyewa",
@@ -282,7 +282,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "admin_dashboard",
     "url": "tenant.detail/:tenantId",
     "moduleId": "viewmodels/tenant.detail",
     "name": "tenant.detail",
@@ -372,7 +372,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_assign_complaint",
     "url": "complaint.assign/:id",
     "moduleId": "viewmodels/complaint.assign",
     "name": "Pemeriksaan",
@@ -396,7 +396,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_assign_complaint",
     "url": "complaint.close/:id",
     "moduleId": "viewmodels/complaint.close",
     "name": "Penyenggaraan",
@@ -408,7 +408,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "",
     "url": "user.profile",
     "moduleId": "viewmodels/user.profile",
     "name": "Profile",
@@ -444,7 +444,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "admin_user",
     "url": "maintenance.workorder/:id",
     "moduleId": "viewmodels/maintenance.workorder",
     "name": "Work Order",
@@ -456,7 +456,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "admin_user",
     "url": "role.settings/:id",
     "moduleId": "viewmodels/role.settings",
     "name": null,
@@ -532,14 +532,27 @@
     "error": ""
   },
   {
-    "role": null,
-    "url": "inventory.item",
-    "moduleId": "viewmodels/inventory.item",
+    "role": "can_edit_inventory",
+    "url": "inventory.detail",
+    "moduleId": "viewmodels/inventory.detail",
+    "name": "Maklumat Inventori",
+    "visible": false,
+    "icon": "icon-laptop",
+    "caption": "Maklumat Inventori",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_inventory",
+    "url": "inventory.list",
+    "moduleId": "viewmodels/inventory.list",
     "name": "Senarai Inventori",
     "visible": true,
     "icon": "icon-laptop",
     "caption": "Senarai Inventori",
     "settings": null,
+    "showWhenLoggedIn": false,
     "error": ""
   }
 ]

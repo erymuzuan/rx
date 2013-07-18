@@ -19,8 +19,9 @@
             <div class="nav-collapse collapse">
 
 
-
-                <!-- Links -->
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <!-- Links -->
                 <ul class="nav pull-right">
                     <li class="dropdown pull-right">
                         <a id="user-profile" data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -151,6 +152,14 @@
                    
 
                 </ul>
+                }
+                @if (!User.Identity.IsAuthenticated)
+                {
+                   <ul class="nav pull-right">
+                    <li><a href="@Url.Action("Login", "Account")"><i class="icon-signin"></i>Sign In</a></li>
+                   </ul>
+                }
+                
 
             </div>
 

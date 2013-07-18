@@ -1,9 +1,9 @@
-﻿<h1>Senarai Inventori</h1>
+﻿<h1>Maklumat Inventori</h1>
 <form class="form-horizontal" data-bind="with : inventory">
     <div class="control-group">
         <span class="control-label">Nama Item</span>
         <div class="controls">
-            <input data-bind="value: ItemName" id="ItemName" type="text" name="ItemName" />
+            <input data-bind="value: Name" id="ItemName" type="text" name="ItemName" />
         </div>
     </div>
     <div class="control-group">
@@ -32,6 +32,6 @@
     </div>
 </form>
 <div class="span3">
-    <input type="button" class="btn btn-primary pull-right" value="SIMPAN" data-bind="command: saveCommand"/>
+    <input type="button" value="SIMPAN" class="btn btn-primary" data-bind="command:saveCommand" data-loading-text="processing" data-complete-text="done"/>
 
 </div>

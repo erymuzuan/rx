@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext'],
-	function (context) {
+define(['services/datacontext', 'durandal/plugins/router'],
+	function (context,router) {
 	    var
         isBusy = ko.observable(false),
         activate = function () {
@@ -18,14 +18,14 @@ define(['services/datacontext'],
         },
 	     saveInventory = function() {
 	         var tcs = new $.Deferred();
-	         var data = ko.mapping.toJSON({inventory : vm.inventory()});
+	         var data = ko.toJSON({inventory : vm.inventory()});
 	         isBusy(true);
 
 	         context.post(data, "/Inventory/Save")
 	             .then(function(result) {
 	                 isBusy(false);
-
-	                 
+	                 vm.inventory(new bespoke.sphcommercialspace.domain.Inventory());
+	                 router.navigateTo("/#/inventory.list");
 	                 tcs.resolve(result);
 	             });
 	         return tcs.promise();

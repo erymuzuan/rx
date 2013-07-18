@@ -89,5 +89,12 @@
     "Role": "maintenance_officer",
     "Description": "Ditugaskan untuk membat pemeriksaan terhadap aduan",
     "IsActive": true
+  },
+  {
+    "Group": "inventory",
+    "Name": "Admin Inventori",
+    "Role": "can_edit_inventory",
+    "Description": "Menambah dan mengemaskini senarai inventori",
+    "IsActive": true
   }
 ]
