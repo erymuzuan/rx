@@ -66,7 +66,7 @@
                 <telerik:GridViewDataColumn Header="ModuleId" DataMemberBinding="{Binding ModuleId}" Width="250"/>
                 <telerik:GridViewDataColumn Header="Url" DataMemberBinding="{Binding Url}" Width="250"/>
                 <telerik:GridViewDataColumn Header="Name" DataMemberBinding="{Binding Name}" Width="250"/>
-                <telerik:GridViewDataColumn Header="Icon" DataMemberBinding="{Binding Icon}" Width="100"/>
+                <telerik:GridViewComboBoxColumn x:Name="iconsComboBox" IsComboBoxEditable="True" Header="Icon" DataMemberBinding="{Binding Icon}" Width="100"/>
                 <telerik:GridViewDataColumn Header="Caption" DataMemberBinding="{Binding Caption}" Width="200"/>
                 <telerik:GridViewCheckBoxColumn Header="IsVisible" DataMemberBinding="{Binding Visible}" Width="120"/>
                 <telerik:GridViewColumn Width="80">
