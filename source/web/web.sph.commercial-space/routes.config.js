@@ -36,7 +36,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "admin_dashboard",
     "url": "offerdetails/:rentalId/:csId",
     "moduleId": "viewmodels/offerdetails",
     "name": "Tawaran",
@@ -48,7 +48,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "admin_dashboard",
     "url": "lotdetail/:buildingId/:floorname",
     "moduleId": "viewmodels/lotdetail",
     "name": "LotDetail",
@@ -457,9 +457,9 @@
     "role": "admin_user",
     "url": "role.settings/:id",
     "moduleId": "viewmodels/role.settings",
-    "name": null,
+    "name": "Setting Jawatan",
     "visible": false,
-    "icon": null,
+    "icon": "icon-flag",
     "caption": null,
     "settings": null,
     "showWhenLoggedIn": false,
