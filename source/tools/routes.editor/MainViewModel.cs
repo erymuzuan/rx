@@ -34,7 +34,7 @@ namespace routes.editor
         {
             var roles = this.RouteCollection.Where(r => !string.IsNullOrWhiteSpace(r.Role)).Select(r => r.Role).Distinct();
 
-            var config = System.IO.Path.GetDirectoryName(this.FileName) + "Web.config";
+            var config = System.IO.Path.GetDirectoryName(this.FileName) + @"\Web.config";
             var mru = new MembershipRoleManagement(config);
             mru.UpdateRoles(roles);
         }
