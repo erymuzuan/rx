@@ -334,7 +334,7 @@
     "error": ""
   },
   {
-    "role": "admin_setting",
+    "role": "can_edit_complaint_template",
     "url": "complaint.template.form/:templateId",
     "moduleId": "viewmodels/complaint.template.form",
     "name": "Tetapan Aduan",
