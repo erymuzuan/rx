@@ -530,7 +530,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "can_assign_maintenance_officer",
     "url": "maintenance.assignment/:id",
     "moduleId": "viewmodels/maintenance.assignment",
     "name": "Perincian Aduan and Assisgment",
@@ -563,6 +563,30 @@
     "visible": false,
     "icon": "icon-laptop",
     "caption": "Maklumat Inventori",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "maintenance_officer",
+    "url": "inventory.request",
+    "moduleId": "viewmodels/inventory.request",
+    "name": "Permohonan Inventori",
+    "visible": false,
+    "icon": "icon-flag",
+    "caption": "Permohonan Inventori",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "admin_dashboard",
+    "url": "setting.trigger",
+    "moduleId": "viewmodels/setting.trigger",
+    "name": "Setting Trigger",
+    "visible": true,
+    "icon": "icon-flag",
+    "caption": "Setting Trigger",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""

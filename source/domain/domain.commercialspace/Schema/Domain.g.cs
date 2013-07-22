@@ -11991,6 +11991,117 @@
 
           }
         
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("Trigger",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class Trigger
+          {
+          
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_name;
+                    public const string PropertyNameName = "Name";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_entity;
+                    public const string PropertyNameEntity = "Entity";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_typeOf;
+                    public const string PropertyNameTypeOf = "TypeOf";
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Name
+                    {
+                    set
+                    {
+                    if( String.Equals( m_name, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_name= value;
+                    OnPropertyChanged(PropertyNameName);
+                    }
+                    }
+                    get
+                    {
+                    return m_name;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Entity
+                    {
+                    set
+                    {
+                    if( String.Equals( m_entity, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_entity= value;
+                    OnPropertyChanged(PropertyNameEntity);
+                    }
+                    }
+                    get
+                    {
+                    return m_entity;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string TypeOf
+                    {
+                    set
+                    {
+                    if( String.Equals( m_typeOf, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameTypeOf, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_typeOf= value;
+                    OnPropertyChanged(PropertyNameTypeOf);
+                    }
+                    }
+                    get
+                    {
+                    return m_typeOf;}
+                    }
+
+                  
+
+          }
+        
       [XmlType("Invoice",  Namespace=Strings.DEFAULT_NAMESPACE)]
       public partial class Invoice
       {

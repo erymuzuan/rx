@@ -1139,6 +1139,23 @@ bespoke.sphcommercialspace.domain.Inventory = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.Trigger = function (webId) {
+
+    var model = {
+        Name: ko.observable(),
+        Entity: ko.observable(),
+        TypeOf: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.TriggerPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.TriggerPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {

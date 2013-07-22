@@ -867,4 +867,11 @@
 			<xs:attribute name="InventoryId" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Trigger">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Entity" type="xs:string" use="required"/>
+			<xs:attribute name="TypeOf" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

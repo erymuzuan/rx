@@ -1,0 +1,58 @@
+﻿<h1>Buat trigger baru </h1>
+<form class="form-horizontal">
+    <div class="control-group">
+        <label for="Name" class="control-label">Nama</label>
+        <div class="controls">
+            <input data-bind="value: Name" id="Name" type="text" name="Name" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="Entity" class="control-label">Entiti</label>
+        <div class="controls">
+            <input data-bind="value: Entity" id="Entity" type="text" name="Entity" />
+        </div>
+    </div>
+    <h3>Rules</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Left</th>
+                <th>Operator</th>
+                <th>Right</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td> <select>
+                        <option value="or">OR</option>
+                        <option value="and">AND</option>
+                        <option value="lt">Less Than</option>
+                    </select></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    
+     <h3>Action</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Input</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <select>
+                        <option value="email">Email</option>
+                        <option value="setter">Setter</option>
+                        <option value="update">Kemaskini</option>
+                    </select>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
