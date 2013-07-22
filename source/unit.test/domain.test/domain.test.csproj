@@ -55,6 +55,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\dependencies\roslyn.scriptengine\roslyn.scriptengine.csproj">
+      <Project>{E32D7760-5A94-4A0F-8354-52223C593A8E}</Project>
+      <Name>roslyn.scriptengine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\domain\domain.commercialspace\domain.commercialspace.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.commercialspace</Name>

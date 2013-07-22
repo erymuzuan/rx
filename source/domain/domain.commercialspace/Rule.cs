@@ -51,15 +51,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
         Ge
     }
 
-    public class FuctionField : Field
-    {
-        public string Script { get; set; }
-        public override object GetValue(Entity item)
-        {
-            return this;
-        }
-    }
-
     public class ConstantField : Field
     {
         public object Value { get; set; }
