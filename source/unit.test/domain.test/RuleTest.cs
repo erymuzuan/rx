@@ -37,10 +37,12 @@ namespace domain.test
         public void GetXPathValueOnDocumentField()
         {
             var building = new Building{BuildingId = 500};
-            var field = new DocumentField {Path = "//Building/@BuildingId"};
+            var field = new DocumentField {Path = "//bs:Building/@BuildingId", Type = typeof(int)};
             var val = field.GetValue(building);
             Assert.AreEqual(500, val);
         }
+
+
 
 
         [Test]
@@ -49,9 +51,9 @@ namespace domain.test
             var building = new Building{BuildingId = 500};
             var rule = new Rule
                 {
-                    Left = new DocumentField {Path = "//bs:Building/@BuildingId"},
+                    Left = new DocumentField {Path = "//bs:Building/@BuildingId", Type = typeof(int)},
                     Operator = Operator.Equal,
-                    Right = new ConstantField {Value = "500"}
+                    Right = new ConstantField {Value = 500}
                 };
 
             var result = rule.Execute(building);
@@ -64,7 +66,7 @@ namespace domain.test
             var building = new Building{BuildingId = 500};
             var rule = new Rule
                 {
-                    Left = new DocumentField {Path = "//bs:Building/@CreatedDate"},
+                    Left = new DocumentField {Path = "//bs:Building/@CreatedDate",Type = typeof(DateTime)},
                     Operator = Operator.Equal,
                     Right = new FuctionField {Script = "DateTime.Today"}
                 };
@@ -74,28 +76,58 @@ namespace domain.test
         }
 
         [Test]
-        public void DocumentFieldLtConst()
-        {
-            var building = new Building{BuildingId = 500};
-            var rule = new Rule
-                {
-                    Left = new DocumentField {Path = "//bs:Building/@BuildingId"},
-                    Operator = Operator.Equal,
-                    Right = new ConstantField {Value = "500"}
-                };
-
-            var result = rule.Execute(building);
-            Assert.IsTrue(result);
-        }
-        [Test]
         public void DocumentFieldLeConst()
         {
             var building = new Building{BuildingId = 500};
             var rule = new Rule
                 {
-                    Left = new DocumentField {Path = "//bs:Building/@BuildingId"},
+                    Left = new DocumentField {Path = "//bs:Building/@BuildingId", Type = typeof(int)},
+                    Operator = Operator.Le,
+                    Right = new ConstantField {Value = 500}
+                };
+
+            var result = rule.Execute(building);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void DateTimeDocumentFieldLtConst()
+        {
+            var app = new RentalApplication{ApplicationDate= new DateTime(2010,5,5)};
+            var rule = new Rule
+                {
+                    Left = new DocumentField { Path = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
+                    Operator = Operator.Lt,
+                    Right = new ConstantField {Value = new DateTime(2012,5,5)}
+                };
+
+            var result = rule.Execute(app);
+            Assert.IsTrue(result);
+        }
+        [Test]
+        public void DateTimeDocumentFieldEqConst()
+        {
+            var app = new RentalApplication{ApplicationDate= new DateTime(2010,5,5)};
+            var rule = new Rule
+                {
+                    Left = new DocumentField { Path = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
                     Operator = Operator.Equal,
-                    Right = new ConstantField {Value = "500"}
+                    Right = new ConstantField {Value = new DateTime(2010,5,5)}
+                };
+
+            var result = rule.Execute(app);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void DocumentFieldLtConst()
+        {
+            var building = new Building{BuildingId = 300};
+            var rule = new Rule
+                {
+                    Left = new DocumentField {Path = "//bs:Building/@BuildingId", Type = typeof(int)},
+                    Operator = Operator.Lt,
+                    Right = new ConstantField {Value = 400}
                 };
 
             var result = rule.Execute(building);

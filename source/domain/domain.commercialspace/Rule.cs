@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
@@ -17,11 +16,25 @@ namespace Bespoke.SphCommercialSpaces.Domain
             var left = this.Left.GetValue(item);
             var right = this.Right.GetValue(item);
 
-            Console.WriteLine("Evaluate : {0} {1} {2}", left, Operator, right);
+            if (null == left) return false;
+            if (null == right) return false;
+
+            Console.WriteLine("Evaluate : ({3}){0} {1} ({4}){2}", left, Operator, right, left.GetType().Name, right.GetType().Name);
             if (Operator == Operator.Equal)
                 return left.Equals(right);
-            if (Operator == Operator.Lt)
-                return left.Equals(right);
+            var lc = left as IComparable;
+            var rc = right as IComparable;
+            if (null != lc && null != rc)
+            {
+                if (Operator == Operator.Lt)
+                    return lc.CompareTo(rc) < 0;
+                if (Operator == Operator.Le)
+                    return lc.CompareTo(rc) <= 0;
+                if (Operator == Operator.Gt)
+                    return lc.CompareTo(rc) >  0;
+                if (Operator == Operator.Ge)
+                    return lc.CompareTo(rc) >=  0;
+            }
 
             return false;
         }
@@ -30,7 +43,10 @@ namespace Bespoke.SphCommercialSpaces.Domain
     public enum Operator
     {
         Equal,
-        Lt
+        Lt,
+        Le,
+        Gt,
+        Ge
     }
 
     public class FuctionField : Field
@@ -42,7 +58,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
         }
     }
 
-    public class ConstantField :Field
+    public class ConstantField : Field
     {
         public object Value { get; set; }
         public override object GetValue(Entity item)
@@ -55,13 +71,18 @@ namespace Bespoke.SphCommercialSpaces.Domain
     {
         public virtual object GetValue(Entity item)
         {
-            throw new NotImplementedException("wjo");
+            throw new NotImplementedException("who");
         }
     }
 
     public class DocumentField : Field
     {
+        public DocumentField()
+        {
+            this.NamespacePrefix = "bs";
+        }
         public string Path { get; set; }
+        public string NamespacePrefix { get; set; }
         public Type Type { get; set; }
 
         public override object GetValue(Entity item)
@@ -71,16 +92,44 @@ namespace Bespoke.SphCommercialSpaces.Domain
             doc.LoadXml(xml);
 
             var ns = new XmlNamespaceManager(doc.NameTable);
-            ns.AddNamespace("bs", "http://www.bespoke.com.my/");
+            ns.AddNamespace(this.NamespacePrefix, "http://www.bespoke.com.my/");
 
-            var node = doc.SelectSingleNode(this.Path,ns);
+            var node = doc.SelectSingleNode(this.Path, ns);
             if (null == node) return null;
-            if(Type ==typeof(DateTime))
+            if (Type == typeof(DateTime))
             {
                 DateTime dv;
                 if (DateTime.TryParse(node.Value, out dv))
                     return dv;
             }
+
+            if (Type == typeof(int))
+            {
+                int dv;
+                if (int.TryParse(node.Value, out dv))
+                    return dv;
+            }
+
+            if (Type == typeof(decimal))
+            {
+                decimal dv;
+                if (decimal.TryParse(node.Value, out dv))
+                    return dv;
+            }
+
+            if (Type == typeof(bool))
+            {
+                bool dv;
+                if (bool.TryParse(node.Value, out dv))
+                    return dv;
+            }
+
+            if (Type == typeof(string))
+            {
+                return node.Value;
+            }
+
+
             return null;
 
         }
