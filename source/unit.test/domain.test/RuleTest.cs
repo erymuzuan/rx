@@ -60,20 +60,6 @@ namespace domain.test
             Assert.IsTrue(result);
         }
 
-        [Test]
-        public void DocumentFieldEqFuction()
-        {
-            var building = new Building{BuildingId = 500};
-            var rule = new Rule
-                {
-                    Left = new DocumentField {Path = "//bs:Building/@CreatedDate",Type = typeof(DateTime)},
-                    Operator = Operator.Equal,
-                    Right = new FuctionField {Script = "DateTime.Today"}
-                };
-
-            var result = rule.Execute(building);
-            Assert.IsTrue(result);
-        }
 
         [Test]
         public void DocumentFieldLeConst()

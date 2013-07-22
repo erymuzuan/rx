@@ -46,8 +46,10 @@
   <ItemGroup>
     <Compile Include="ActionTest.cs" />
     <Compile Include="ContractChangeTest.cs" />
+    <Compile Include="FunctionFieldTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleTest.cs" />
+    <Compile Include="SerializationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -20,20 +20,22 @@ namespace Bespoke.SphCommercialSpaces.Domain
             if (null == right) return false;
 
             Console.WriteLine("Evaluate : ({3}){0} {1} ({4}){2}", left, Operator, right, left.GetType().Name, right.GetType().Name);
-            if (Operator == Operator.Equal)
-                return left.Equals(right);
+
             var lc = left as IComparable;
             var rc = right as IComparable;
             if (null != lc && null != rc)
             {
+                if (Operator == Operator.Equal)
+                    return lc.CompareTo(rc) == 0;
+
                 if (Operator == Operator.Lt)
                     return lc.CompareTo(rc) < 0;
                 if (Operator == Operator.Le)
                     return lc.CompareTo(rc) <= 0;
                 if (Operator == Operator.Gt)
-                    return lc.CompareTo(rc) >  0;
+                    return lc.CompareTo(rc) > 0;
                 if (Operator == Operator.Ge)
-                    return lc.CompareTo(rc) >=  0;
+                    return lc.CompareTo(rc) >= 0;
             }
 
             return false;
@@ -67,7 +69,10 @@ namespace Bespoke.SphCommercialSpaces.Domain
         }
     }
 
-    public abstract class Field
+    [System.Xml.Serialization.XmlInclude(typeof(DocumentField))]
+    [System.Xml.Serialization.XmlInclude(typeof(FuctionField))]
+    [System.Xml.Serialization.XmlInclude(typeof(ConstantField))]
+    public abstract class Field : DomainObject
     {
         public virtual object GetValue(Entity item)
         {
@@ -81,9 +86,26 @@ namespace Bespoke.SphCommercialSpaces.Domain
         {
             this.NamespacePrefix = "bs";
         }
+
+        [System.Xml.Serialization.XmlAttribute]
         public string Path { get; set; }
+        [System.Xml.Serialization.XmlAttribute]
         public string NamespacePrefix { get; set; }
-        public Type Type { get; set; }
+
+        [System.Xml.Serialization.XmlIgnore]
+        public Type Type
+        {
+            get
+            {
+                return Type.GetType(this.TypeName);
+            }
+            set
+            {
+                this.TypeName = value.AssemblyQualifiedName;
+            }
+        }
+        [System.Xml.Serialization.XmlAttribute]
+        public string TypeName { get; set; }
 
         public override object GetValue(Entity item)
         {
@@ -107,6 +129,19 @@ namespace Bespoke.SphCommercialSpaces.Domain
             {
                 int dv;
                 if (int.TryParse(node.Value, out dv))
+                    return dv;
+            }
+
+            if (Type == typeof(double))
+            {
+                double dv;
+                if (double.TryParse(node.Value, out dv))
+                    return dv;
+            }
+            if (Type == typeof(float))
+            {
+                float dv;
+                if (float.TryParse(node.Value, out dv))
                     return dv;
             }
 

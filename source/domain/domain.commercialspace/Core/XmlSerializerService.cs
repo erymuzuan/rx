@@ -346,11 +346,10 @@ namespace Bespoke.SphCommercialSpaces.Domain
         /// </summary>
         /// <param name="graph"></param>
         /// <returns></returns>
-        public static string ToUTF8EncodedXmlString(object graph)
+        public static string ToUtf8EncodedXmlString(object graph)
         {
             if (graph == null) return string.Empty;
-
-
+            
             var strm = new MemoryStream();
             var xs = GetDefaultSerializer(graph.GetType());
             var xmlTextWriter = new XmlTextWriter(strm, Encoding.UTF8);
