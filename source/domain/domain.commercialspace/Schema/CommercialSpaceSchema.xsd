@@ -869,6 +869,22 @@
 	</xs:element>
 	<xs:element name="Trigger">
 		<xs:complexType>
+			<xs:all>
+				<xs:element name="RuleCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Rule" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ActionCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Action" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
 			<xs:attribute name="TypeOf" type="xs:string" use="required"/>
@@ -905,8 +921,8 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="Field">
-		<xs:attribute name="Name" type="xs:int" use="required"/>
-		<xs:attribute name="Note" type="xs:dateTime" use="required"/>
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="Note" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:simpleType name="FieldType">
 		<xs:restriction base="xs:string">

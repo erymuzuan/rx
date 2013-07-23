@@ -22,6 +22,7 @@
         </div>
     </div>
     <h3>Rules</h3>
+    <a class="btn btn-mini pull-right" data-bind="click : $parent.addRuleCommand">+</a>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -30,13 +31,13 @@
                 <th>Right</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody data-bind="foreach : RuleCollection">
             <tr>
                 <td>
                     <!-- if : typeof Left === "undefined"-->
-                    <a type="button" class="btn btn-link" data-toggle="modal" href="#function-panel">Add Document Field</a>
-                    <a type="button" class="btn btn-link" data-toggle="modal" href="#function-panel">Add Constant Field</a>
-                    <a type="button" class="btn btn-link" data-toggle="modal" href="#function-panel">Add Function Field</a>
+                    <a class="btn btn-link" data-bind="click: $root.addDocumentFieldCommand" href="#function-panel-modal">Add Document Field</a>
+                    <a class="btn btn-link" data-bind="click: $root.addConstantFieldCommand" href="#function-panel-modal">Add Constant Field</a>
+                    <a class="btn btn-link" data-bind="click: $root.addFunctionFieldCommand" href="#function-panel-modal">Add Function Field</a>
                     <!-- /ko-->
                     <!-- if : typeof Left === "function"-->
                     <a href="#" class="btn btn-link" data-bind="attr: { href: '' }, text: Left().Name"></a>
@@ -78,7 +79,7 @@
     </table>
 </form>
 
-<section class="modal hide" id="function-panel">
+<section class="modal hide" id="function-panel-modal">
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -86,25 +87,104 @@
     </div>
     <div class="modal-body" data-bind="with: functionField">
         <div class="control-group">
-            <label for="function-panel-name" class="control-label">Name</label>
+            <label for="function-panel-name" class="control-label">Nama</label>
             <div class="controls">
                 <input data-bind="value: Name" id="function-panel-name" type="text" name="Name" />
             </div>
         </div>
         <div class="control-group">
-            <label for="func-note" class="control-label">Note</label>
+            <label for="func-note" class="control-label">Nota</label>
             <div class="controls">
                 <input data-bind="value: Note" id="func-note" type="text" name="Note" />
             </div>
         </div>
+          <div class="control-group">
+            <label for="func-script" class="control-label">Skrip</label>
+            <div class="controls">
+                <textarea id="func-script" data-bind="value: Script" class="input-xlarge"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: addToRuleCommand" />
+    </div>
+</section>
 
-        <textarea data-bind="value: Script">
+<section class="modal hide" id="document-panel-modal">
 
-</textarea>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Function</h3>
+    </div>
+    <div class="modal-body" data-bind="with: documentField">
+        <div class="control-group">
+            <label for="doc-panel-name" class="control-label">Nama</label>
+            <div class="controls">
+                <input data-bind="value: Name" id="doc-panel-name" type="text" name="Name" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="doc-note" class="control-label">Nota</label>
+            <div class="controls">
+                <input data-bind="value: Note" id="doc-note" type="text" name="Note" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="doc-xpath" class="control-label">Path</label>
+            <div class="controls">
+                <input id="doc-xpath" data-bind="value: XPath" class="input-medium"/>
+            </div>
+        </div>
     </div>
 
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: saveCommand" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: addToRuleCommand" />
+    </div>
+</section>
+
+<section class="modal hide" id="constant-panel-modal">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Function</h3>
+    </div>
+    <div class="modal-body" data-bind="with: constantField">
+        <div class="control-group">
+            <label for="constant-panel-name" class="control-label">Nama</label>
+            <div class="controls">
+                <input data-bind="value: Name" id="constant-panel-name" type="text" name="Name" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="constant-note" class="control-label">Nota</label>
+            <div class="controls">
+                <input data-bind="value: Note" id="constant-note" type="text" name="Note" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="constant-typename" class="control-label">Type</label>
+            <div class="controls">
+                <select id="constant-typename" data-bind="value: TypeName">
+                    <option value="DateTime">Tarikh</option>
+                    <option value="Number">Nombor</option>
+                    <option value="Boolean">Betul/Salah</option>
+                    <option value="Decimal">Decimal</option>
+                    <option value="Double">Double</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="constant-value" class="control-label">Nilai</label>
+            <div class="controls">
+                <input data-bind="value: Value" id="constant-value" type="text" name="Value" />
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: addToRuleCommand" />
     </div>
 </section>

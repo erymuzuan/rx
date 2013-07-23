@@ -16,16 +16,49 @@ define(['services/datacontext'],
             activate = function () {
                 return true;
             },
-            
+           addRule = function () {
+                var rule = new bespoke.sphcommercialspace.domain.Rule();
+                vm.trigger().RuleCollection.push(rule);
+           },
             editedRule = ko.observable(),
-            showDetails = function (rule) {
+            editedFunctionField = ko.observable(),
+            addFunctionField = function (rule) {
                 isBusy(true);
-                var c1 = ko.mapping.fromJSON(ko.mapping.toJSON(rule));
-                var clone = _(c1).extend(new bespoke.sphcommercialspace.domain.DepositPartial(c1));
-                editedRule(rule);
-                vm.trigger(clone);
-
-                $('#deposit-modal').modal({});
+                var functionField = new bespoke.sphcommercialspace.domain.FunctionField();
+                var r1 = rule;
+                var clone = r1;
+                editedRule(r1);
+                
+                vm.rule(clone);
+                vm.functionField(functionField);
+               
+                
+                $('#function-panel-modal').modal({});
+            },
+            addDocumentField = function (rule) {
+                isBusy(true);
+                var documentField = new bespoke.sphcommercialspace.domain.DocumentField();
+                var r1 = rule;
+                var clone = r1;
+                editedRule(r1);
+                
+                vm.rule(clone);
+                vm.documentField(documentField);
+                $('#document-panel-modal').modal({});
+            }, addConstantField = function (rule) {
+                isBusy(true);
+                var constantField = new bespoke.sphcommercialspace.domain.ConstantField();
+                var r1 = rule;
+                var clone = r1;
+                editedRule(r1);
+                
+                vm.rule(clone);
+                vm.constantField(constantField);
+                $('#constant-panel-modal').modal({});
+            },
+            addToRule = function () {
+                vm.rule().Left(vm.functionField());
+                vm.trigger().RuleCollection.replace(editedRule, vm.rule());
             },
             save = function () {
                 var tcs = new $.Deferred();
@@ -46,8 +79,14 @@ define(['services/datacontext'],
             activate: activate,
             functionField : ko.observable(new bespoke.sphcommercialspace.domain.FunctionField()),
             constantField : ko.observable(new bespoke.sphcommercialspace.domain.ConstantField()),
+            documentField: ko.observable(new bespoke.sphcommercialspace.domain.DocumentField()),
             trigger: ko.observable(new bespoke.sphcommercialspace.domain.Trigger()),
             rule : ko.observable(new bespoke.sphcommercialspace.domain.Rule()),
+            addRuleCommand: addRule,
+            addFunctionFieldCommand: addFunctionField,
+            addToRuleCommand: addToRule,
+            addDocumentFieldCommand: addDocumentField,
+            addConstantFieldCommand: addConstantField,
             saveCommand: save
         };
 

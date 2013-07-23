@@ -1146,6 +1146,8 @@ bespoke.sphcommercialspace.domain.Trigger = function (webId) {
         Name: ko.observable(),
         Entity: ko.observable(),
         TypeOf: ko.observable(),
+        RuleCollection: ko.observableArray(),
+        ActionCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1174,7 +1176,6 @@ bespoke.sphcommercialspace.domain.ConstantField = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.Field(webId);
 
-    v.Value = ko.observable();
     v.TypeName = ko.observable();
     if (bespoke.sphcommercialspace.domain.ConstantFieldPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.ConstantFieldPartial(v));
@@ -1237,7 +1238,6 @@ bespoke.sphcommercialspace.domain.Field = function (webId) {
     return {
         Name: ko.observable(),
         Note: ko.observable(),
-        Type: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

@@ -34,6 +34,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/App/services/Contract.js")
                 .Include("~/App/services/Complaint.js")
                 .Include("~/App/services/CommercialSpace.js")
+                .Include("~/App/services/ConstantField.js")
               );
 
             bundles.Add(

@@ -12015,6 +12015,28 @@
                     public const string PropertyNameTypeOf = "TypeOf";
 
                   
+			private readonly ObjectCollection<Rule>  m_RuleCollection = new ObjectCollection<Rule> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("Rule", IsNullable = false)]
+			public ObjectCollection<Rule> RuleCollection
+			{
+			get{ return m_RuleCollection;}
+			}
+		
+			private readonly ObjectCollection<string>  m_ActionCollection = new ObjectCollection<string> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("", IsNullable = false)]
+			public ObjectCollection<string> ActionCollection
+			{
+			get{ return m_ActionCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -12460,12 +12482,12 @@
       
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
-        private  int  m_name;
+        private  string  m_name;
         public const string PropertyNameName = "Name";
       
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
-        private  DateTime  m_note;
+        private  string  m_note;
         public const string PropertyNameNote = "Note";
       
 
@@ -12474,7 +12496,7 @@
 
 
         [XmlAttribute]
-        public int Name
+        public string Name
         {
         set
         {
@@ -12495,7 +12517,7 @@
 
 
         [XmlAttribute]
-        public DateTime Note
+        public string Note
         {
         set
         {
