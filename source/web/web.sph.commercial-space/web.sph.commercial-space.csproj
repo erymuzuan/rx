@@ -262,6 +262,7 @@
     <Compile Include="Controllers\ComplaintTemplateController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\ContractSettingController.cs" />
+    <Compile Include="Controllers\AppController.trigger.cs" />
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
@@ -894,6 +895,7 @@
     <Content Include="Views\App\TenantPortalHtml.cshtml" />
     <Content Include="Views\App\TenantPortalJs.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
+    <Content Include="Views\App\TriggerPathPickerHtml.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
