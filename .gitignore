@@ -31,3 +31,4 @@ debug/
 *.g.i.cs
 *.g.cs
 !domain.g.cs
+SQLQuery[0-9].sql
