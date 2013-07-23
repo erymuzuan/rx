@@ -132,7 +132,6 @@
     <Compile Include="ITemplateEngine.cs" />
     <Compile Include="IWorkOrderExport.cs" />
     <Compile Include="Land.cs" />
-    <Compile Include="Left.cs" />
     <Compile Include="Maintenance.cs" />
     <Compile Include="NonCompliance.cs" />
     <Compile Include="Offer.cs" />

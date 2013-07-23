@@ -1,12 +1,31 @@
 ﻿using System;
 using Bespoke.SphCommercialSpaces.Domain;
 using NUnit.Framework;
+using roslyn.scriptengine;
 
 namespace domain.test
 {
     [TestFixture]
     class SerializationTest
     {
+        [Test]
+        public void FunctionFieldToXml()
+        {
+            var original = new FunctionField{ Script = "DateTime.Today"};
+            var xml = XmlSerializerService.ToUtf8EncodedXmlString(original);
+            Console.WriteLine(xml);
+            
+            
+            var ff = XmlSerializerService.DeserializeFromXml<FunctionField>(xml);
+            ff.ScriptEngine  = new RoslynScriptEngine();
+            Assert.IsNotNull(ff);
+            Assert.IsInstanceOf<FunctionField>(ff);
+
+            var val = ff.GetValue(new Building());
+            Assert.AreEqual(DateTime.Today,val );
+
+        }
+
         [Test]
         public void DocumentFieldToXml()
         {

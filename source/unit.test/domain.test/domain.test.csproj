@@ -47,9 +47,9 @@
     <Compile Include="ActionTest.cs" />
     <Compile Include="ContractChangeTest.cs" />
     <Compile Include="FunctionFieldTest.cs" />
-    <Compile Include="MockChangePublisher.cs" />
-    <Compile Include="MockPersistence.cs" />
-    <Compile Include="MockQueryProvider.cs" />
+    <Compile Include="mocks\MockChangePublisher.cs" />
+    <Compile Include="mocks\MockPersistence.cs" />
+    <Compile Include="mocks\MockQueryProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleTest.cs" />
     <Compile Include="SerializationTest.cs" />

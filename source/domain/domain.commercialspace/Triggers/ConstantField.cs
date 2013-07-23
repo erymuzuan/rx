@@ -5,6 +5,8 @@ namespace Bespoke.SphCommercialSpaces.Domain
 {
     public partial class ConstantField : Field
     {
+        private object m_value;
+
         [XmlIgnore]
         public Type Type
         {
@@ -17,32 +19,45 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 this.TypeName = value.AssemblyQualifiedName;
             }
         }
-      
+
+        public object Value
+        {
+            get { return m_value; }
+            set
+            {
+                m_value = value;
+                RaisePropertyChanged();
+                this.Type = value.GetType();
+            }
+        }
+
+
         public override object GetValue(Entity item)
         {
-            if (this.Type == typeof (int))
+            var val = string.Format("{0}", this.Value);
+            if (this.Type == typeof(int))
             {
                 int f;
-                if (int.TryParse(this.Value, out f))
+                if (int.TryParse(val, out f))
                     return f;
             }
 
-            if (this.Type == typeof (DateTime))
+            if (this.Type == typeof(DateTime))
             {
                 DateTime f;
-                if (DateTime.TryParse(this.Value, out f))
+                if (DateTime.TryParse(val, out f))
                     return f;
             }
-            if (this.Type == typeof (bool))
+            if (this.Type == typeof(bool))
             {
                 bool f;
-                if (bool.TryParse(this.Value, out f))
+                if (bool.TryParse(val, out f))
                     return f;
             }
-            if (this.Type == typeof (decimal))
+            if (this.Type == typeof(decimal))
             {
                 decimal f;
-                if (decimal.TryParse(this.Value, out f))
+                if (decimal.TryParse(val, out f))
                     return f;
             }
 

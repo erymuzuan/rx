@@ -12128,10 +12128,6 @@
           {
           
                     [XmlAttribute]
-                    public  string Value {get;set;}
-
-                  
-                    [XmlAttribute]
                     public  string TypeName {get;set;}
 
                   
@@ -12472,11 +12468,6 @@
         private  DateTime  m_note;
         public const string PropertyNameNote = "Note";
       
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-
-        private  FieldType  m_type;
-        public const string PropertyNameType = "Type";
-      
 
       // public properties members
       
@@ -12520,27 +12511,6 @@
         get
         {
         return m_note;}
-        }
-      
-
-
-        [XmlAttribute]
-        public FieldType Type
-        {
-        set
-        {
-        if(m_type== value) return;
-        var arg = new PropertyChangingEventArgs(PropertyNameType, value);
-        OnPropertyChanging(arg);
-        if( !arg.Cancel)
-        {
-        m_type= value;
-        OnPropertyChanged(PropertyNameType);
-        }
-        }
-        get
-        {
-        return m_type;}
         }
       
 
