@@ -10,7 +10,7 @@ namespace domain.test
         [Test]
         public void DocumentFieldToXml()
         {
-            var df = new DocumentField{ Path = "//bs:Building/@BuildingId", Type = typeof(int), NamespacePrefix = "bs"};
+            var df = new DocumentField{ XPath = "//bs:Building/@BuildingId", Type = typeof(int), NamespacePrefix = "bs"};
             var xml = XmlSerializerService.ToUtf8EncodedXmlString(df);
             Console.WriteLine(xml);
             var ff = XmlSerializerService.DeserializeFromXml<DocumentField>(xml);

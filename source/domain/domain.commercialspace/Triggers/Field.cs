@@ -1,11 +1,12 @@
 using System;
+using System.Xml.Serialization;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
-    [System.Xml.Serialization.XmlInclude(typeof(DocumentField))]
-    [System.Xml.Serialization.XmlInclude(typeof(FuctionField))]
-    [System.Xml.Serialization.XmlInclude(typeof(ConstantField))]
-    public abstract class Field : DomainObject
+    [XmlInclude(typeof(DocumentField))]
+    [XmlInclude(typeof(FunctionField))]
+    [XmlInclude(typeof(ConstantField))]
+    public partial class Field : DomainObject
     {
         public virtual object GetValue(Entity item)
         {

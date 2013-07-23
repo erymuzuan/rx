@@ -1139,6 +1139,83 @@ bespoke.sphcommercialspace.domain.Inventory = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.Trigger = function (webId) {
+
+    var model = {
+        Name: ko.observable(),
+        Entity: ko.observable(),
+        TypeOf: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.TriggerPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.TriggerPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.FunctionField = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.Field(webId);
+
+    v.Script = ko.observable();
+    if (bespoke.sphcommercialspace.domain.FunctionFieldPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.FunctionFieldPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ConstantField = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.Field(webId);
+
+    v.Value = ko.observable();
+    v.TypeName = ko.observable();
+    if (bespoke.sphcommercialspace.domain.ConstantFieldPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.ConstantFieldPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.DocumentField = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.Field(webId);
+
+    v.XPath = ko.observable();
+    v.NamespacePrefix = ko.observable();
+    v.TypeName = ko.observable();
+    v.Path = ko.observable();
+    if (bespoke.sphcommercialspace.domain.DocumentFieldPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.DocumentFieldPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Rule = function (webId) {
+
+    var model = {
+        Left: ko.observable(),
+        Right: ko.observable(),
+        Operator: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.RulePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.RulePartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {
@@ -1155,10 +1232,47 @@ bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 };
 
 
+bespoke.sphcommercialspace.domain.Field = function (webId) {
+
+    return {
+        Name: ko.observable(),
+        Note: ko.observable(),
+        Type: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+};
+
+
 bespoke.sphcommercialspace.domain.InvoiceType = function () {
     return {
         ADHOC_INVOICE: 'AdhocInvoice',
         RENTAL: 'Rental',
+
+        DO_NOT_SELECT: 'DONTDOTHIS'
+    };
+}();
+
+bespoke.sphcommercialspace.domain.FieldType = function () {
+    return {
+        DOCUMENT_FIELD: 'DocumentField',
+        CONSTANT_FIELD: 'ConstantField',
+        FUNCTION_FIELD: 'FunctionField',
+
+        DO_NOT_SELECT: 'DONTDOTHIS'
+    };
+}();
+
+bespoke.sphcommercialspace.domain.Operator = function () {
+    return {
+        EQ: 'Eq',
+        LT: 'Lt',
+        LE: 'Le',
+        GT: 'Gt',
+        GE: 'Ge',
+        SUBSTRINGOF: 'Substringof',
+        STARTS_WITH: 'StartsWith',
+        ENDS_WITH: 'EndsWith',
 
         DO_NOT_SELECT: 'DONTDOTHIS'
     };

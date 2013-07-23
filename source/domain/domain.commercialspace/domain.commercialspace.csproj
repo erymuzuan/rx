@@ -108,7 +108,7 @@
     <Compile Include="EmailMessage.cs" />
     <Compile Include="EntityTypeAttribute.cs" />
     <Compile Include="Floor.cs" />
-    <Compile Include="FuctionField.cs" />
+    <Compile Include="FunctionField.cs" />
     <Compile Include="IBinaryStore.cs" />
     <Compile Include="IComputable.cs" />
     <Compile Include="IDocumentExport.cs" />
@@ -132,6 +132,7 @@
     <Compile Include="ITemplateEngine.cs" />
     <Compile Include="IWorkOrderExport.cs" />
     <Compile Include="Land.cs" />
+    <Compile Include="Left.cs" />
     <Compile Include="Maintenance.cs" />
     <Compile Include="NonCompliance.cs" />
     <Compile Include="Offer.cs" />
@@ -146,11 +147,11 @@
     <Compile Include="Triggers\ConstantField.cs" />
     <Compile Include="Triggers\DocumentField.cs" />
     <Compile Include="Triggers\Field.cs" />
-    <Compile Include="Triggers\Operator.cs" />
     <Compile Include="Triggers\Rule.cs" />
     <Compile Include="Triggers\CustomAction.cs" />
     <Compile Include="Triggers\EmailAction.cs" />
     <Compile Include="Triggers\SetterAction.cs" />
+    <Compile Include="Trigger.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="Rebate.cs" />
     <Compile Include="Rent.cs" />

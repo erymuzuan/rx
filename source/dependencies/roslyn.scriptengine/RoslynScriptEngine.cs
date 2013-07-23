@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using Bespoke.SphCommercialSpaces.Domain;
-using Roslyn.Compilers;
 using Roslyn.Scripting.CSharp;
 
 namespace roslyn.scriptengine
@@ -22,6 +20,7 @@ namespace roslyn.scriptengine
             var scriptEngine = new ScriptEngine();
             var session = scriptEngine.CreateSession(host);
             session.AddReference("System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
+            session.AddReference("System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
             session.AddReference("mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
             session.Execute("#r \".\\domain.commercialspace.dll\"");
             session.Execute("#r \".\\roslyn.scriptengine.dll\"");
@@ -29,17 +28,18 @@ namespace roslyn.scriptengine
             var block = script;
             if (!block.EndsWith(";"))
                 block = string.Format("return {0};", script);
-            var code = string.Format("using System;" +
-                                     "using Bespoke.SphCommercialSpaces.Domain;" +
+            var code = string.Format("using System;\r\n" +
+                                     "using Bespoke.SphCommercialSpaces.Domain;\r\n" +
+                                     "using System.Linq;\r\n" +
                                      "" +
-                                     "public object Evaluate()" +
+                                     "public object Evaluate()\r\n" +
                                      "{{\r\n" +
                                         "var item = Item as {1};\r\n"+
 
                                         "{0}\r\n" +
                                      "}}", block, item.GetType().Name);
             session.Execute(code);
-
+            Console.WriteLine(code);
 
             var result = session.Execute("Evaluate();");
             Console.WriteLine("result :" + result);

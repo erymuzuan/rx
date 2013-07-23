@@ -2,14 +2,8 @@
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public class Rule
+    public partial class Rule : DomainObject
     {
-        public Field Left { get; set; }
-
-        public Operator Operator { get; set; }
-
-        public Field Right { get; set; }
-
         public bool Execute(Entity item)
         {
             var left = this.Left.GetValue(item);
@@ -26,7 +20,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
             {
                 if (Operator == Operator.Eq)
                     return lc.CompareTo(rc) == 0;
-
                 if (Operator == Operator.Lt)
                     return lc.CompareTo(rc) < 0;
                 if (Operator == Operator.Le)

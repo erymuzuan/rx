@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
     public class SetterAction : CustomAction
     {
-        private readonly Dictionary<string, string> m_pathValueCollection = new Dictionary<string, string>();
+        private readonly Dictionary<string, Field> m_pathValueCollection = new Dictionary<string, Field>();
 
-        public Dictionary<string, string> PathValueCollection
+        public Dictionary<string, Field> PathValueCollection
         {
             get { return m_pathValueCollection; }
         }
@@ -19,16 +20,25 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
         public async override Task ExecuteAsync(Entity item)
         {
+            var script = ObjectBuilder.GetObject<IScriptEngine>();
             // TODO : translate path to the property path
+            var code = new StringBuilder();
             foreach (var path in this.PathValueCollection.Keys)
             {
-                Console.WriteLine(path + "=" + this.PathValueCollection[path]);
-            }
+                var val = this.PathValueCollection[path].GetValue(item);
+                if (val is string)
+                    val = string.Format("\"{0}\"", val);
 
+                code.AppendLine("item." + path + " = " + val + ";");
+            }
+            code.Append("return item;");
+            Console.WriteLine(code);
+
+            var modifiedItem = script.Evaluate(code.ToString(), item) as Entity;
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
-                session.Attach(item);
+                session.Attach(modifiedItem);
                 // NOTE : the subscriber should watch for the Trigger:{TriggerId} property and ignore this particular trigger
                 // to avoid StackOverflow
                 await session.SubmitChanges("Trigger:" + this.TriggerId);

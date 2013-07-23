@@ -1,6 +1,7 @@
 ﻿using System;
 using Bespoke.SphCommercialSpaces.Domain;
 using NUnit.Framework;
+using roslyn.scriptengine;
 
 namespace domain.test
 {
@@ -13,9 +14,9 @@ namespace domain.test
             var building = new Building();
             var rule = new Rule
                 {
-                    Left = new ConstantField {Value = 500},
+                    Left = new ConstantField { Value = 500 },
                     Operator = Operator.Eq,
-                    Right = new ConstantField {Value = 500}
+                    Right = new ConstantField { Value = 500 }
                 };
 
             var result = rule.Execute(building);
@@ -27,17 +28,42 @@ namespace domain.test
         [Test]
         public void GetXPathDateValueOnDocumentField()
         {
-            var app = new RentalApplication{ApplicationDate = DateTime.Today};
-            var field = new DocumentField { Path = "//bs:RentalApplication/@ApplicationDate",Type = typeof(DateTime)};
+            var app = new RentalApplication { ApplicationDate = DateTime.Today };
+            var field = new DocumentField { XPath = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) };
             var val = field.GetValue(app);
             Assert.AreEqual(DateTime.Today, val);
         }
 
         [Test]
+        public void ExecuteLinqValueOnDocumentField()
+        {
+            var script = new RoslynScriptEngine();
+            var v = new Deposit { DepositId = 45 };
+            v.DepositPaymentCollection.Add(new DepositPayment { Amount = 50m });
+            v.DepositPaymentCollection.Add(new DepositPayment { Amount = 50m });
+
+            var field = new FunctionField { Script = "item.DepositPaymentCollection.Sum(d => d.Amount)", ScriptEngine = script };
+            var val = field.GetValue(v);
+            Assert.AreEqual(100m, val);
+        }
+        [Test]
+        public void GetPathValueOnDocumentField()
+        {
+            ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
+            var v = new Deposit { DepositId = 45 };
+            v.DepositPaymentCollection.Add(new DepositPayment { Amount = 50m });
+            v.DepositPaymentCollection.Add(new DepositPayment { Amount = 50m });
+
+            var field = new DocumentField { Path = "DepositPaid", Type = typeof(decimal) };
+            var val = field.GetValue(v);
+            Assert.AreEqual(100m, val);
+        }
+
+        [Test]
         public void GetXPathValueOnDocumentField()
         {
-            var building = new Building{BuildingId = 500};
-            var field = new DocumentField {Path = "//bs:Building/@BuildingId", Type = typeof(int)};
+            var building = new Building { BuildingId = 500 };
+            var field = new DocumentField { XPath = "//bs:Building/@BuildingId", Type = typeof(int) };
             var val = field.GetValue(building);
             Assert.AreEqual(500, val);
         }
@@ -48,12 +74,12 @@ namespace domain.test
         [Test]
         public void DocumentFieldEqConst()
         {
-            var building = new Building{BuildingId = 500};
+            var building = new Building { BuildingId = 500 };
             var rule = new Rule
                 {
-                    Left = new DocumentField {Path = "//bs:Building/@BuildingId", Type = typeof(int)},
+                    Left = new DocumentField { XPath = "//bs:Building/@BuildingId", Type = typeof(int) },
                     Operator = Operator.Eq,
-                    Right = new ConstantField {Value = 500}
+                    Right = new ConstantField { Value = 500 }
                 };
 
             var result = rule.Execute(building);
@@ -64,12 +90,12 @@ namespace domain.test
         [Test]
         public void DocumentFieldLeConst()
         {
-            var building = new Building{BuildingId = 500};
+            var building = new Building { BuildingId = 500 };
             var rule = new Rule
                 {
-                    Left = new DocumentField {Path = "//bs:Building/@BuildingId", Type = typeof(int)},
+                    Left = new DocumentField { XPath = "//bs:Building/@BuildingId", Type = typeof(int) },
                     Operator = Operator.Le,
-                    Right = new ConstantField {Value = 500}
+                    Right = new ConstantField { Value = 500 }
                 };
 
             var result = rule.Execute(building);
@@ -79,12 +105,12 @@ namespace domain.test
         [Test]
         public void DateTimeDocumentFieldLtConst()
         {
-            var app = new RentalApplication{ApplicationDate= new DateTime(2010,5,5)};
+            var app = new RentalApplication { ApplicationDate = new DateTime(2010, 5, 5) };
             var rule = new Rule
                 {
-                    Left = new DocumentField { Path = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
+                    Left = new DocumentField { XPath = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
                     Operator = Operator.Lt,
-                    Right = new ConstantField {Value = new DateTime(2012,5,5)}
+                    Right = new ConstantField { Value = new DateTime(2012, 5, 5) }
                 };
 
             var result = rule.Execute(app);
@@ -93,12 +119,12 @@ namespace domain.test
         [Test]
         public void DateTimeDocumentFieldEqConst()
         {
-            var app = new RentalApplication{ApplicationDate= new DateTime(2010,5,5)};
+            var app = new RentalApplication { ApplicationDate = new DateTime(2010, 5, 5) };
             var rule = new Rule
                 {
-                    Left = new DocumentField { Path = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
+                    Left = new DocumentField { XPath = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
                     Operator = Operator.Eq,
-                    Right = new ConstantField {Value = new DateTime(2010,5,5)}
+                    Right = new ConstantField { Value = new DateTime(2010, 5, 5) }
                 };
 
             var result = rule.Execute(app);
@@ -108,12 +134,12 @@ namespace domain.test
         [Test]
         public void DocumentFieldLtConst()
         {
-            var building = new Building{BuildingId = 300};
+            var building = new Building { BuildingId = 300 };
             var rule = new Rule
                 {
-                    Left = new DocumentField {Path = "//bs:Building/@BuildingId", Type = typeof(int)},
+                    Left = new DocumentField { XPath = "//bs:Building/@BuildingId", Type = typeof(int) },
                     Operator = Operator.Lt,
-                    Right = new ConstantField {Value = 400}
+                    Right = new ConstantField { Value = 400 }
                 };
 
             var result = rule.Execute(building);

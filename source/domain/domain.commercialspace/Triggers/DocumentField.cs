@@ -3,17 +3,13 @@ using System.Xml;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public class DocumentField : Field
+    public partial class DocumentField : Field
     {
+
         public DocumentField()
         {
             this.NamespacePrefix = "bs";
         }
-
-        [System.Xml.Serialization.XmlAttribute]
-        public string Path { get; set; }
-        [System.Xml.Serialization.XmlAttribute]
-        public string NamespacePrefix { get; set; }
 
         [System.Xml.Serialization.XmlIgnore]
         public Type Type
@@ -27,10 +23,17 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 this.TypeName = value.AssemblyQualifiedName;
             }
         }
-        [System.Xml.Serialization.XmlAttribute]
-        public string TypeName { get; set; }
 
         public override object GetValue(Entity item)
+        {
+            if (string.IsNullOrWhiteSpace(this.Path)) return this.GetXPathValue(item);
+            //
+            var script = ObjectBuilder.GetObject<IScriptEngine>();
+            var result = script.Evaluate("item." + this.Path, item);
+            return result;
+        }
+
+        public object GetXPathValue(Entity item)
         {
             var doc = new XmlDocument();
             var xml = item.ToXmlString();
@@ -39,7 +42,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             var ns = new XmlNamespaceManager(doc.NameTable);
             ns.AddNamespace(this.NamespacePrefix, "http://www.bespoke.com.my/");
 
-            var node = doc.SelectSingleNode(this.Path, ns);
+            var node = doc.SelectSingleNode(this.XPath, ns);
             if (null == node) return null;
             if (Type == typeof(DateTime))
             {

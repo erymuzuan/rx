@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
 	<xs:element name="ContractHistory">
 		<xs:complexType>
@@ -866,4 +867,75 @@
 			<xs:attribute name="InventoryId" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Trigger">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Entity" type="xs:string" use="required"/>
+			<xs:attribute name="TypeOf" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FunctionField">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Field">
+					<xs:attribute name="Script" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ConstantField">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Field">
+					<xs:attribute name="Value" type="xs:string" use="optional"/>
+					<xs:attribute name="TypeName" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DocumentField">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Field">
+					<xs:attribute name="XPath" type="xs:string" use="optional"/>
+					<xs:attribute name="NamespacePrefix" type="xs:string" use="required"/>
+					<xs:attribute name="TypeName" type="xs:string" use="required"/>
+					<xs:attribute name="Path" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Field">
+		<xs:attribute name="Name" type="xs:int" use="required"/>
+		<xs:attribute name="Note" type="xs:dateTime" use="required"/>
+		<xs:attribute name="Type" type="FieldType" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="FieldType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DocumentField"/>
+			<xs:enumeration value="ConstantField"/>
+			<xs:enumeration value="FunctionField"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Rule">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Left" type="Field"/>
+				<xs:element name="Right" type="Field"/>
+				<xs:element name="Operator" type="Operator"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="Operator">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Eq"/>
+			<xs:enumeration value="Lt"/>
+			<xs:enumeration value="Le"/>
+			<xs:enumeration value="Gt"/>
+			<xs:enumeration value="Ge"/>
+			<xs:enumeration value="Substringof"/>
+			<xs:enumeration value="StartsWith"/>
+			<xs:enumeration value="EndsWith"/>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>

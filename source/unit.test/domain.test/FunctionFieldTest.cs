@@ -12,37 +12,37 @@ namespace domain.test
         [Test]
         public void FuctionDateTimeValue()
         {
-            var building = new FuctionField { Script = "DateTime.Today", ScriptEngine = new RoslynScriptEngine()};
+            var building = new FunctionField { Script = "DateTime.Today", ScriptEngine = new RoslynScriptEngine() };
 
             var result = building.GetValue(new Building());
             Assert.AreEqual(DateTime.Today, result);
         }
 
         [Test]
-        public void DocumentFieldEqFuction()
+        public void DocumentFieldEqFunction()
         {
             var script = new RoslynScriptEngine();
-            var building = new RentalApplication{ ApplicationDate= DateTime.Today};
+            var building = new RentalApplication { ApplicationDate = DateTime.Today };
             var rule = new Rule
             {
-                Left = new DocumentField { Path = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
+                Left = new DocumentField { XPath = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
                 Operator = Operator.Eq,
-                Right = new FuctionField { Script = "return DateTime.Today;", ScriptEngine = script }
+                Right = new FunctionField { Script = "return DateTime.Today;", ScriptEngine = script }
             };
 
             var result = rule.Execute(building);
             Assert.IsTrue(result);
         }
         [Test]
-        public void DocumentFieldEqFuctionExpression()
+        public void DocumentFieldEqFunctionExpression()
         {
             var script = new RoslynScriptEngine();
-            var building = new RentalApplication{ ApplicationDate= DateTime.Today.AddDays(-2)};
+            var building = new RentalApplication { ApplicationDate = DateTime.Today.AddDays(-2) };
             var rule = new Rule
             {
-                Left = new DocumentField { Path = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
+                Left = new DocumentField { XPath = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
                 Operator = Operator.Eq,
-                Right = new FuctionField { Script = "DateTime.Today.AddDays(-2)", ScriptEngine = script }
+                Right = new FunctionField { Script = "DateTime.Today.AddDays(-2)", ScriptEngine = script }
             };
 
             var result = rule.Execute(building);
@@ -50,18 +50,23 @@ namespace domain.test
         }
 
         [Test]
-        public void DocumentFieldEqFuctionWithItem()
+        public void DocumentFieldEqFunctionWithItem()
         {
             var script = new RoslynScriptEngine();
-            var building = new RentalApplication{ ApplicationDate= DateTime.Today.AddDays(-2),RentalApplicationId = 1, RegistrationNo = "1234"};
+            var app = new RentalApplication
+            {
+                ApplicationDate = DateTime.Today.AddDays(-2),
+                RentalApplicationId = 1,
+                RegistrationNo = "1234"
+            };
             var rule = new Rule
             {
-                Left = new DocumentField { Path = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
+                Left = new DocumentField { XPath = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
                 Operator = Operator.Eq,
-                Right = new FuctionField { Script = "Console.WriteLine(item);return item.ApplicationDate;", ScriptEngine = script }
+                Right = new FunctionField { Script = "Console.WriteLine(item.RegistrationNo);return item.ApplicationDate;", ScriptEngine = script }
             };
 
-            var result = rule.Execute(building);
+            var result = rule.Execute(app);
             Assert.IsTrue(result);
         }
     }

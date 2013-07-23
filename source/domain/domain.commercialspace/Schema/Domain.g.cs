@@ -11991,6 +11991,277 @@
 
           }
         
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("Trigger",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class Trigger
+          {
+          
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_name;
+                    public const string PropertyNameName = "Name";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_entity;
+                    public const string PropertyNameEntity = "Entity";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_typeOf;
+                    public const string PropertyNameTypeOf = "TypeOf";
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Name
+                    {
+                    set
+                    {
+                    if( String.Equals( m_name, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_name= value;
+                    OnPropertyChanged(PropertyNameName);
+                    }
+                    }
+                    get
+                    {
+                    return m_name;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Entity
+                    {
+                    set
+                    {
+                    if( String.Equals( m_entity, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_entity= value;
+                    OnPropertyChanged(PropertyNameEntity);
+                    }
+                    }
+                    get
+                    {
+                    return m_entity;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string TypeOf
+                    {
+                    set
+                    {
+                    if( String.Equals( m_typeOf, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameTypeOf, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_typeOf= value;
+                    OnPropertyChanged(PropertyNameTypeOf);
+                    }
+                    }
+                    get
+                    {
+                    return m_typeOf;}
+                    }
+
+                  
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("FunctionField",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class FunctionField
+          {
+          
+                    [XmlAttribute]
+                    public  string Script {get;set;}
+
+                  
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("ConstantField",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class ConstantField
+          {
+          
+                    [XmlAttribute]
+                    public  string Value {get;set;}
+
+                  
+                    [XmlAttribute]
+                    public  string TypeName {get;set;}
+
+                  
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("DocumentField",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class DocumentField
+          {
+          
+                    [XmlAttribute]
+                    public  string XPath {get;set;}
+
+                  
+                    [XmlAttribute]
+                    public  string NamespacePrefix {get;set;}
+
+                  
+                    [XmlAttribute]
+                    public  string TypeName {get;set;}
+
+                  
+                    [XmlAttribute]
+                    public  string Path {get;set;}
+
+                  
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("Rule",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class Rule
+          {
+          
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private Field  m_left;
+                public const string PropertyNameLeft = "Left";
+
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private Field  m_right;
+                public const string PropertyNameRight = "Right";
+
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private Operator  m_operator;
+                public const string PropertyNameOperator = "Operator";
+
+
+              
+
+                ///<summary>
+                /// 
+                ///</summary>
+                [DebuggerHidden]
+
+                public Field Left
+                {
+                set
+                {
+                if(m_left == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLeft, value);
+                OnPropertyChanging(arg);
+                if(! arg.Cancel)
+                {
+                m_left= value;
+                OnPropertyChanged(PropertyNameLeft);
+                }
+                }
+                get { return m_left;}
+                }
+              
+
+                ///<summary>
+                /// 
+                ///</summary>
+                [DebuggerHidden]
+
+                public Field Right
+                {
+                set
+                {
+                if(m_right == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRight, value);
+                OnPropertyChanging(arg);
+                if(! arg.Cancel)
+                {
+                m_right= value;
+                OnPropertyChanged(PropertyNameRight);
+                }
+                }
+                get { return m_right;}
+                }
+              
+
+                ///<summary>
+                /// 
+                ///</summary>
+                [DebuggerHidden]
+
+                public Operator Operator
+                {
+                set
+                {
+                if(m_operator == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOperator, value);
+                OnPropertyChanging(arg);
+                if(! arg.Cancel)
+                {
+                m_operator= value;
+                OnPropertyChanged(PropertyNameOperator);
+                }
+                }
+                get { return m_operator;}
+                }
+              
+
+          }
+        
       [XmlType("Invoice",  Namespace=Strings.DEFAULT_NAMESPACE)]
       public partial class Invoice
       {
@@ -12186,10 +12457,120 @@
       }
 
     
+      [XmlType("Field",  Namespace=Strings.DEFAULT_NAMESPACE)]
+      public partial class Field
+      {
+
+      
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private  int  m_name;
+        public const string PropertyNameName = "Name";
+      
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private  DateTime  m_note;
+        public const string PropertyNameNote = "Note";
+      
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private  FieldType  m_type;
+        public const string PropertyNameType = "Type";
+      
+
+      // public properties members
+      
+
+
+        [XmlAttribute]
+        public int Name
+        {
+        set
+        {
+        if(m_name== value) return;
+        var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+        OnPropertyChanging(arg);
+        if( !arg.Cancel)
+        {
+        m_name= value;
+        OnPropertyChanged(PropertyNameName);
+        }
+        }
+        get
+        {
+        return m_name;}
+        }
+      
+
+
+        [XmlAttribute]
+        public DateTime Note
+        {
+        set
+        {
+        if(m_note== value) return;
+        var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+        OnPropertyChanging(arg);
+        if( !arg.Cancel)
+        {
+        m_note= value;
+        OnPropertyChanged(PropertyNameNote);
+        }
+        }
+        get
+        {
+        return m_note;}
+        }
+      
+
+
+        [XmlAttribute]
+        public FieldType Type
+        {
+        set
+        {
+        if(m_type== value) return;
+        var arg = new PropertyChangingEventArgs(PropertyNameType, value);
+        OnPropertyChanging(arg);
+        if( !arg.Cancel)
+        {
+        m_type= value;
+        OnPropertyChanged(PropertyNameType);
+        }
+        }
+        get
+        {
+        return m_type;}
+        }
+      
+
+
+      }
+
+    
       public enum InvoiceType
       {
       AdhocInvoice,
       Rental,
+      }
+    
+      public enum FieldType
+      {
+      DocumentField,
+      ConstantField,
+      FunctionField,
+      }
+    
+      public enum Operator
+      {
+      Eq,
+      Lt,
+      Le,
+      Gt,
+      Ge,
+      Substringof,
+      StartsWith,
+      EndsWith,
       }
     
     }

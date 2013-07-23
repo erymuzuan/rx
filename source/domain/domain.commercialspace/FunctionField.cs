@@ -2,12 +2,11 @@
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public class FuctionField : Field
+    public partial class FunctionField : Field
     {
         [XmlIgnore]
         public IScriptEngine ScriptEngine { get; set; }
-        public string Script { get; set; }
-
+        
         public override object GetValue(Entity item)
         {
             return this.ScriptEngine.Evaluate(this.Script, item);

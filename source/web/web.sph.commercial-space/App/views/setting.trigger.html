@@ -1,0 +1,110 @@
+﻿<h1>Buat trigger baru </h1>
+<form class="form-horizontal" data-bind="with: trigger">
+    <div class="control-group">
+        <label for="Name" class="control-label">Nama</label>
+        <div class="controls">
+            <input data-bind="value: Name" id="Name" type="text" name="Name" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="Entity" class="control-label">Entiti</label>
+        <div class="controls">
+            <select data-bind="value: Entity" id="Entity" name="Entity" >
+                <option value="">[--Sila Pilih--]</option>
+                <option value="Building">Bangunan</option>
+                <option value="RentalApplication">Permohonan Sewa</option>
+                <option value="Deposit">Deposit</option>
+                <option value="Contract">Kontrak</option>
+                <option value="CommercialSpace">Ruang Komersil</option>
+                <option value="Tenant">Penyewa</option>
+                <option value="Invoice">Invois</option>
+            </select>
+        </div>
+    </div>
+    <h3>Rules</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Left</th>
+                <th>Operator</th>
+                <th>Right</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <!-- if : typeof Left === "undefined"-->
+                    <a type="button" class="btn btn-link" data-toggle="modal" href="#function-panel">Add Document Field</a>
+                    <a type="button" class="btn btn-link" data-toggle="modal" href="#function-panel">Add Constant Field</a>
+                    <a type="button" class="btn btn-link" data-toggle="modal" href="#function-panel">Add Function Field</a>
+                    <!-- /ko-->
+                    <!-- if : typeof Left === "function"-->
+                    <a href="#" class="btn btn-link" data-bind="attr: { href: '' }, text: Left().Name"></a>
+                    <!-- /ko-->
+                </td>
+                <td>
+                    <select>
+                        <option value="Eq">=</option>
+                        <option value="Le">&lt;=</option>
+                        <option value="Lt">&lt;</option>
+                        <option value="Ge">&gt;=</option>
+                        <option value="Gt">&gt;</option>
+                    </select></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Action</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Input</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <select>
+                        <option value="email">Email</option>
+                        <option value="setter">Setter</option>
+                        <option value="update">Kemaskini</option>
+                    </select>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+<section class="modal hide" id="function-panel">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Function</h3>
+    </div>
+    <div class="modal-body" data-bind="with: functionField">
+        <div class="control-group">
+            <label for="function-panel-name" class="control-label">Name</label>
+            <div class="controls">
+                <input data-bind="value: Name" id="function-panel-name" type="text" name="Name" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="func-note" class="control-label">Note</label>
+            <div class="controls">
+                <input data-bind="value: Note" id="func-note" type="text" name="Note" />
+            </div>
+        </div>
+
+        <textarea data-bind="value: Script">
+
+</textarea>
+    </div>
+
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: saveCommand" />
+    </div>
+</section>
