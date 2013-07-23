@@ -26,7 +26,7 @@ namespace domain.test
             var rule = new Rule
             {
                 Left = new DocumentField { Path = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
-                Operator = Operator.Equal,
+                Operator = Operator.Eq,
                 Right = new FuctionField { Script = "return DateTime.Today;", ScriptEngine = script }
             };
 
@@ -41,7 +41,7 @@ namespace domain.test
             var rule = new Rule
             {
                 Left = new DocumentField { Path = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
-                Operator = Operator.Equal,
+                Operator = Operator.Eq,
                 Right = new FuctionField { Script = "DateTime.Today.AddDays(-2)", ScriptEngine = script }
             };
 
@@ -57,7 +57,7 @@ namespace domain.test
             var rule = new Rule
             {
                 Left = new DocumentField { Path = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
-                Operator = Operator.Equal,
+                Operator = Operator.Eq,
                 Right = new FuctionField { Script = "Console.WriteLine(item);return item.ApplicationDate;", ScriptEngine = script }
             };
 

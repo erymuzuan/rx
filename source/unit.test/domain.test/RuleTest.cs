@@ -14,7 +14,7 @@ namespace domain.test
             var rule = new Rule
                 {
                     Left = new ConstantField {Value = 500},
-                    Operator = Operator.Equal,
+                    Operator = Operator.Eq,
                     Right = new ConstantField {Value = 500}
                 };
 
@@ -52,7 +52,7 @@ namespace domain.test
             var rule = new Rule
                 {
                     Left = new DocumentField {Path = "//bs:Building/@BuildingId", Type = typeof(int)},
-                    Operator = Operator.Equal,
+                    Operator = Operator.Eq,
                     Right = new ConstantField {Value = 500}
                 };
 
@@ -97,7 +97,7 @@ namespace domain.test
             var rule = new Rule
                 {
                     Left = new DocumentField { Path = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
-                    Operator = Operator.Equal,
+                    Operator = Operator.Eq,
                     Right = new ConstantField {Value = new DateTime(2010,5,5)}
                 };
 

@@ -143,7 +143,14 @@
     <Compile Include="PaymentDistribution.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="QueryHelper.cs" />
-    <Compile Include="Rule.cs" />
+    <Compile Include="Triggers\ConstantField.cs" />
+    <Compile Include="Triggers\DocumentField.cs" />
+    <Compile Include="Triggers\Field.cs" />
+    <Compile Include="Triggers\Operator.cs" />
+    <Compile Include="Triggers\Rule.cs" />
+    <Compile Include="Triggers\CustomAction.cs" />
+    <Compile Include="Triggers\EmailAction.cs" />
+    <Compile Include="Triggers\SetterAction.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="Rebate.cs" />
     <Compile Include="Rent.cs" />
