@@ -12015,6 +12015,11 @@
                     public const string PropertyNameTypeOf = "TypeOf";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  int  m_triggerId;
+                    public const string PropertyNameTriggerId = "TriggerId";
+
+                  
 			private readonly ObjectCollection<Rule>  m_RuleCollection = new ObjectCollection<Rule> ();
 
 			///<summary>
@@ -12118,6 +12123,34 @@
                     get
                     {
                     return m_typeOf;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public int TriggerId
+                    {
+                    set
+                    {
+                    if( m_triggerId == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameTriggerId, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_triggerId= value;
+                    OnPropertyChanged(PropertyNameTriggerId);
+                    }
+                    }
+                    get
+                    {
+                    return m_triggerId;}
                     }
 
                   
