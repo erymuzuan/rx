@@ -361,6 +361,7 @@
     <Content Include="App\views\_complaint.details.html" />
     <Content Include="App\views\maintenance.workorder.html" />
     <Content Include="App\views\maintenance.assignment.html" />
+    <Content Include="App\views\_setting.trigger.modal.html" />
     <Content Include="App\views\_tenant.complaint.html" />
     <Content Include="App\views\_user.add.html" />
     <Content Include="App\views\_user.change.password.html" />

@@ -1146,6 +1146,7 @@ bespoke.sphcommercialspace.domain.Trigger = function (webId) {
         Name: ko.observable(),
         Entity: ko.observable(),
         TypeOf: ko.observable(),
+        TriggerId: ko.observable(),
         RuleCollection: ko.observableArray(),
         ActionCollection: ko.observableArray(),
         isBusy: ko.observable(false),

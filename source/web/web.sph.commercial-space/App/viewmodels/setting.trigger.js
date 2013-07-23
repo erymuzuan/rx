@@ -45,7 +45,8 @@ define(['services/datacontext'],
                 vm.rule(clone);
                 vm.documentField(documentField);
                 $('#document-panel-modal').modal({});
-            }, addConstantField = function (rule) {
+            },
+            addConstantField = function (rule) {
                 isBusy(true);
                 var constantField = new bespoke.sphcommercialspace.domain.ConstantField();
                 var r1 = rule;
@@ -62,7 +63,7 @@ define(['services/datacontext'],
             },
             save = function () {
                 var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON({ comp: vm.trigger() });
+                var data = ko.mapping.toJSON({ trigger: vm.trigger() });
                 isBusy(true);
                 
                 context.post(data, "/Trigger/Save")

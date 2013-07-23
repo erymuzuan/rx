@@ -10,7 +10,7 @@ GO
  CREATE TABLE [Sph].[Trigger]
 (
 	 [TriggerId] INT PRIMARY KEY IDENTITY(1,1)
-	,[Title] VARCHAR(255) NOT NULL
+	,[Name] VARCHAR(255) NOT NULL
 	,[Entity] VARCHAR(255) NULL
 	,[TypeOf] VARCHAR(255) NULL
 	,[Data] XML NOT NULL
