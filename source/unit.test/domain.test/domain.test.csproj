@@ -44,15 +44,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionTest.cs" />
-    <Compile Include="ContractChangeTest.cs" />
-    <Compile Include="FunctionFieldTest.cs" />
+    <Compile Include="triggers\ActionTest.cs" />
+    <Compile Include="change.tracker\ContractChangeTest.cs" />
+    <Compile Include="triggers\FunctionFieldTest.cs" />
     <Compile Include="mocks\MockChangePublisher.cs" />
     <Compile Include="mocks\MockPersistence.cs" />
     <Compile Include="mocks\MockQueryProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RuleTest.cs" />
-    <Compile Include="SerializationTest.cs" />
+    <Compile Include="triggers\RuleTest.cs" />
+    <Compile Include="triggers\SerializationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

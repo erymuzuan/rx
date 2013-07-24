@@ -3,7 +3,7 @@ using Bespoke.SphCommercialSpaces.Domain;
 using NUnit.Framework;
 using roslyn.scriptengine;
 
-namespace domain.test
+namespace domain.test.triggers
 {
     [TestFixture]
     class RuleTest
