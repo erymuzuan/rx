@@ -9,7 +9,7 @@
     <div class="control-group">
         <label for="Entity" class="control-label">Entiti</label>
         <div class="controls">
-            <select data-bind="value: Entity" id="Entity" name="Entity" >
+            <select data-bind="value: Entity" id="Entity" name="Entity">
                 <option value="">[--Sila Pilih--]</option>
                 <option value="Building">Bangunan</option>
                 <option value="RentalApplication">Permohonan Sewa</option>
@@ -22,7 +22,7 @@
         </div>
     </div>
     <h3>Rules</h3>
-    <a class="btn btn-mini pull-right" data-bind="click : $parent.addRuleCommand">+</a>
+    <a class="btn btn-mini pull-right" data-bind="click: $parent.addRuleCommand">+</a>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -31,27 +31,37 @@
                 <th>Right</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach : RuleCollection">
+        <tbody data-bind="foreach: RuleCollection">
             <tr>
                 <td>
-                    <!-- if : typeof Left === "undefined"-->
-                    <a class="btn btn-link" data-bind="click: $root.addDocumentFieldCommand" href="#function-panel-modal">Add Document Field</a>
-                    <a class="btn btn-link" data-bind="click: $root.addConstantFieldCommand" href="#function-panel-modal">Add Constant Field</a>
-                    <a class="btn btn-link" data-bind="click: $root.addFunctionFieldCommand" href="#function-panel-modal">Add Function Field</a>
-                    <!-- /ko-->
-                    <!-- if : typeof Left === "function"-->
-                    <a href="#" class="btn btn-link" data-bind="attr: { href: '' }, text: Left().Name"></a>
-                    <!-- /ko-->
+                    <div data-bind="visible:Left().Name() === ''">
+                        <a class="btn btn-link" data-bind="click: $root.addDocumentFieldCommand" href="#document-panel-modal">Add Document Field</a>
+                        <a class="btn btn-link" data-bind="click: $root.addConstantFieldCommand" href="#constant-panel-modal">Add Constant Field</a>
+                        <a class="btn btn-link" data-bind="click: $root.addFunctionFieldCommand" href="#function-panel-modal">Add Function Field</a>
+                    </div>
+                    <div data-bind="with: Left">
+                        <a href="#" class="btn btn-link" data-bind="attr: { href: '' }, text: Name">Add here</a>
+                    </div>
                 </td>
                 <td>
-                    <select>
+                    <select data-bind="value: Operator">
                         <option value="Eq">=</option>
                         <option value="Le">&lt;=</option>
                         <option value="Lt">&lt;</option>
                         <option value="Ge">&gt;=</option>
                         <option value="Gt">&gt;</option>
-                    </select></td>
-                <td></td>
+                    </select>
+                </td>
+                <td>
+                    <div data-bind="visible: Right().Name() === ''">
+                        <a class="btn btn-link" data-bind="click: $root.addDocumentFieldToRightCommand" href="#document-panel-modal">Add Document Field</a>
+                        <a class="btn btn-link" data-bind="click: $root.addConstantFieldToRightCommand" href="#constant-panel-modal">Add Constant Field</a>
+                        <a class="btn btn-link" data-bind="click: $root.addFunctionFieldToRightCommand" href="#function-panel-modal">Add Function Field</a>
+                    </div>
+                    <div data-bind="with: Right">
+                        <a href="#" class="btn btn-link" data-bind="attr: { href: '' }, text: Name">Add here</a>
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -64,7 +74,7 @@
                 <th>Input</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody data-bind="foreach: ActionCollection">
             <tr>
                 <td>
                     <select>
@@ -79,7 +89,7 @@
     </table>
 </form>
 <input id="save-button" type="button" class="btn btn-primary" value="Simpan" data-bind="command: saveCommand" data-loading-text="Sila tunggu..." data-complete-text="Siap" />
-        
+
 <section class="modal hide" id="function-panel-modal">
 
     <div class="modal-header">
@@ -99,7 +109,7 @@
                 <input data-bind="value: Note" id="func-note" type="text" name="Note" />
             </div>
         </div>
-          <div class="control-group">
+        <div class="control-group">
             <label for="func-script" class="control-label">Skrip</label>
             <div class="controls">
                 <textarea id="func-script" data-bind="value: Script" class="input-xlarge"></textarea>
@@ -108,7 +118,8 @@
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: addToRuleCommand" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateFunctionLeftToRuleCommand, visible: !isRight()" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateFunctionRightToRuleCommand, visible: isRight()" />
     </div>
 </section>
 
@@ -134,14 +145,15 @@
         <div class="control-group">
             <label for="doc-xpath" class="control-label">Path</label>
             <div class="controls">
-                <input id="doc-xpath" data-bind="value: XPath" class="input-medium"/>
+                <input id="doc-xpath" data-bind="value: XPath" class="input-medium" />
             </div>
         </div>
     </div>
 
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: addToRuleCommand" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateDocumentLeftToRuleCommand,visible:!isRight()" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateDocumentRightToRuleCommand, visible:isRight()" />
     </div>
 </section>
 
@@ -186,6 +198,7 @@
 
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: addToRuleCommand" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateConstantLeftToRuleCommand,visible:!isRight()" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateConstantRightToRuleCommand,visible:isRight()" />
     </div>
 </section>
