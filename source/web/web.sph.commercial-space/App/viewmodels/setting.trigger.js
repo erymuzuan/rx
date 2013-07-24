@@ -12,6 +12,7 @@ define(['services/datacontext'],
     function (context) {
 
         var isBusy = ko.observable(false),
+            isRight = ko.observable(false),
             activate = function () {
                 return true;
             },
@@ -24,6 +25,16 @@ define(['services/datacontext'],
             editedField,
             addFunctionField = function (field) {
                 isBusy(true);
+                isRight(false);
+                var functionField = new bespoke.sphcommercialspace.domain.FunctionField();
+                editedField = field;
+                vm.functionField(functionField);
+
+                $('#function-panel-modal').modal({});
+            },
+            addFunctionFieldToRight = function (field) {
+                isBusy(true);
+                isRight(true);
                 var functionField = new bespoke.sphcommercialspace.domain.FunctionField();
                 editedField = field;
                 vm.functionField(functionField);
@@ -51,6 +62,16 @@ define(['services/datacontext'],
             },
             addDocumentField = function (field) {
                 isBusy(true);
+                isRight(false);
+                var documentField = new bespoke.sphcommercialspace.domain.DocumentField();
+                editedField = field;
+                vm.documentField(documentField);
+                
+                $('#document-panel-modal').modal({});
+            },
+            addDocumentFieldToRight = function (field) {
+                isBusy(true);
+                isRight(true);
                 var documentField = new bespoke.sphcommercialspace.domain.DocumentField();
                 editedField = field;
                 vm.documentField(documentField);
@@ -59,6 +80,15 @@ define(['services/datacontext'],
             },
             addConstantField = function (field) {
                 isBusy(true);
+                isRight(false);
+                var constantField = new bespoke.sphcommercialspace.domain.ConstantField();
+                editedField = field;
+                vm.constantField(constantField);
+                $('#constant-panel-modal').modal({});
+            },
+            addConstantFieldToRight = function (field) {
+                isBusy(true);
+                isRight(true);
                 var constantField = new bespoke.sphcommercialspace.domain.ConstantField();
                 editedField = field;
                 vm.constantField(constantField);
@@ -80,6 +110,7 @@ define(['services/datacontext'],
 
         var vm = {
             isBusy: isBusy,
+            isRight: isRight,
             activate: activate,
             functionField: ko.observable(new bespoke.sphcommercialspace.domain.FunctionField()),
             constantField: ko.observable(new bespoke.sphcommercialspace.domain.ConstantField()),
@@ -87,12 +118,15 @@ define(['services/datacontext'],
             trigger: ko.observable(new bespoke.sphcommercialspace.domain.Trigger()),
             addRuleCommand: addRule,
             addFunctionFieldCommand: addFunctionField,
+            addFunctionFieldToRightCommand: addFunctionFieldToRight,
             updateFunctionLeftToRuleCommand: updateFunctionLeftToRule,
             updateFunctionRightToRuleCommand: updateFunctionRightToRule,
             addDocumentFieldCommand: addDocumentField,
+            addDocumentFieldToRightCommand: addDocumentFieldToRight,
             updateDocumentLeftToRuleCommand: updateDocumentLeftToRule,
             updateDocumentRightToRuleCommand: updateDocumentRightToRule,
             addConstantFieldCommand: addConstantField,
+            addConstantFieldToRightCommand: addConstantFieldToRight,
             updateConstantLeftToRuleCommand: updateConstantLeftToRule,
             updateConstantRightToRuleCommand: updateConstantRightToRule,
             saveCommand: save

@@ -54,9 +54,9 @@
                 </td>
                 <td>
                     <div data-bind="visible: Right().Name() === ''">
-                        <a class="btn btn-link" data-bind="click: $root.addDocumentFieldCommand" href="#document-panel-modal">Add Document Field</a>
-                        <a class="btn btn-link" data-bind="click: $root.addConstantFieldCommand" href="#constant-panel-modal">Add Constant Field</a>
-                        <a class="btn btn-link" data-bind="click: $root.addFunctionFieldCommand" href="#function-panel-modal">Add Function Field</a>
+                        <a class="btn btn-link" data-bind="click: $root.addDocumentFieldToRightCommand" href="#document-panel-modal">Add Document Field</a>
+                        <a class="btn btn-link" data-bind="click: $root.addConstantFieldToRightCommand" href="#constant-panel-modal">Add Constant Field</a>
+                        <a class="btn btn-link" data-bind="click: $root.addFunctionFieldToRightCommand" href="#function-panel-modal">Add Function Field</a>
                     </div>
                     <div data-bind="with: Right">
                         <a href="#" class="btn btn-link" data-bind="attr: { href: '' }, text: Name">Add here</a>
@@ -118,8 +118,8 @@
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateFunctionLeftToRuleCommand" />
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateFunctionRightToRuleCommand" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateFunctionLeftToRuleCommand, visible: !isRight()" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateFunctionRightToRuleCommand, visible: isRight()" />
     </div>
 </section>
 
@@ -152,8 +152,8 @@
 
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateDocumentLeftToRuleCommand" />
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateDocumentRightToRuleCommand" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateDocumentLeftToRuleCommand,visible:!isRight()" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateDocumentRightToRuleCommand, visible:isRight()" />
     </div>
 </section>
 
@@ -198,7 +198,7 @@
 
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateConstantLeftToRuleCommand" />
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateConstantRightToRuleCommand" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateConstantLeftToRuleCommand,visible:!isRight()" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateConstantRightToRuleCommand,visible:isRight()" />
     </div>
 </section>
