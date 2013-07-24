@@ -1,9 +1,6 @@
 using System.Web.Mvc;
 using Bespoke.Sph.Commerspace.Web.App_Start;
 
-[assembly: WebActivator.PreApplicationStartMethod(
-    typeof(HotTowelRouteConfig), "RegisterHotTowelPreStart", Order = 2)]
-
 namespace Bespoke.Sph.Commerspace.Web.App_Start {
   ///<summary>
   /// Inserts the HotTowel SPA sample view controller to the front of all MVC routes
