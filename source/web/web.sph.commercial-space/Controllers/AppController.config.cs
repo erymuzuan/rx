@@ -16,11 +16,11 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var username = User.Identity.Name;
             var context = new SphDataContext();
-            var userprofile = await context.LoadOneAsync<UserProfile>(u => u.Username == username);
+            var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == username);
             var vm = new ApplicationConfigurationViewModel { StartModule = "public.index" };
-            if (null != userprofile)
+            if (null != profile)
             {
-                 vm.StartModule = userprofile.StartModule;
+                 vm.StartModule = profile.StartModule;
             }
            
             var routeConfig = Server.MapPath("~/routes.config.js");
@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             
             var settings = new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()};
             var routes = JsonConvert.DeserializeObject<JsRoute[]>(json, settings).AsQueryable()
-                .WhereIf(r => r.ShowWhenLoggedIn || User.IsInRole(r.Role), User.Identity.IsAuthenticated)
+               // .WhereIf(r => r.ShowWhenLoggedIn || User.IsInRole(r.Role), User.Identity.IsAuthenticated)
                 .WhereIf(r => string.IsNullOrWhiteSpace(r.Role), !User.Identity.IsAuthenticated);
             vm.Routes.AddRange(routes);
 
