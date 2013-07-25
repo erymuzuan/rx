@@ -1309,14 +1309,30 @@ bespoke.sphcommercialspace.domain.SetterAction = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.CustomAction(webId);
 
-    v.ValueTypeName = ko.observable();
-    v.Path = ko.observable();
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.SetterAction, domain.commercialspace";
 
+    v.SetterActionChildCollection = ko.observableArray();
     if (bespoke.sphcommercialspace.domain.SetterActionPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.SetterActionPartial(v));
     }
     return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.SetterActionChild = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.SetterActionChild, domain.commercialspace",
+        Path: ko.observable(),
+        Field: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.SetterActionChildPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.SetterActionChildPartial(model));
+    }
+    return model;
 };
 
 
