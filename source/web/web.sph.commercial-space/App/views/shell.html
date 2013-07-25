@@ -38,6 +38,20 @@
                     Email
                 </button>
                 <!-- /ko -->
+
+                <!-- ko if: typeof watchCommand === "function"-->
+                <button class="btn" data-bind="command: watchCommand, visible:watching() === false" data-loading-text="saving....">
+                    <i class="icon-eye-open"></i>
+                    Watch
+                </button>
+                <!-- /ko -->
+                <!-- ko if: typeof unwatchCommand === "function"-->
+                <button class="btn" data-bind="command: unwatchCommand, visible:watching" data-loading-text="saving....">
+                    <i class="icon-eye-close"></i>
+                    Unwatch
+                </button>
+                <!-- /ko -->
+
                 <!-- ko if: typeof commands === "function"-->
                 <!-- ko foreach: commands-->
                 <button class="btn" data-bind="command: command" data-loading-text="Sendin....">

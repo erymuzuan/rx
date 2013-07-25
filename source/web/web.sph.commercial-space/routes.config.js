@@ -61,8 +61,8 @@
   },
   {
     "role": "can_edit_setting",
-    "url": "contractlist",
-    "moduleId": "viewmodels/contractlist",
+    "url": "contract.list",
+    "moduleId": "viewmodels/contract.list",
     "name": "Kontrak",
     "visible": true,
     "icon": "icon-briefcase",
@@ -75,8 +75,8 @@
   },
   {
     "role": "can_view_contract_details",
-    "url": "contractdetails/:id",
-    "moduleId": "viewmodels/contractdetails",
+    "url": "contract.details/:id",
+    "moduleId": "viewmodels/contract.details",
     "name": "contractdetails",
     "visible": false,
     "icon": "icon-laptop",

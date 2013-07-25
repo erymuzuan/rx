@@ -303,6 +303,7 @@
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\TenantController.cs" />
     <Compile Include="Controllers\TriggerController.cs" />
+    <Compile Include="Controllers\WatchController.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -488,8 +489,8 @@
     <Content Include="App\viewmodels\complaint.js" />
     <Content Include="App\viewmodels\complaint.template.form.js" />
     <Content Include="App\viewmodels\contract.create.js" />
-    <Content Include="App\viewmodels\contractdetails.js" />
-    <Content Include="App\viewmodels\contractlist.js" />
+    <Content Include="App\viewmodels\contract.details.js" />
+    <Content Include="App\viewmodels\contract.list.js" />
     <Content Include="App\viewmodels\contracttype.js" />
     <Content Include="App\viewmodels\contracttypetemplate.js" />
     <Content Include="App\viewmodels\deposit.js" />
@@ -533,8 +534,8 @@
     <Content Include="App\views\complaint.html" />
     <Content Include="App\views\complaint.template.form.html" />
     <Content Include="App\views\contract.create.html" />
-    <Content Include="App\views\contractdetails.html" />
-    <Content Include="App\views\contractlist.html" />
+    <Content Include="App\views\contract.details.html" />
+    <Content Include="App\views\contract.list.html" />
     <Content Include="App\views\contracttype.html" />
     <Content Include="App\views\contracttypetemplate.html" />
     <Content Include="App\views\deposit.html" />
