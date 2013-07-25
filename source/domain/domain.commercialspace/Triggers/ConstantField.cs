@@ -1,5 +1,6 @@
 using System;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
@@ -8,6 +9,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
         private object m_value;
 
         [XmlIgnore]
+        [JsonIgnore]
         public Type Type
         {
             get
@@ -25,9 +27,19 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get { return m_value; }
             set
             {
-                m_value = value;
+                var val = string.Format("{0}", value);
+                if (this.Type == typeof(int))
+                    m_value = int.Parse(val);
+                if (this.Type == typeof(DateTime))
+                    m_value = DateTime.Parse(val);
+                if (this.Type == typeof(decimal))
+                    m_value = decimal.Parse(val);
+                if (this.Type == typeof(bool))
+                    m_value = bool.Parse(val);
+                if (this.Type == typeof(string))
+                    m_value = val;
+
                 RaisePropertyChanged();
-                this.Type = value.GetType();
             }
         }
 

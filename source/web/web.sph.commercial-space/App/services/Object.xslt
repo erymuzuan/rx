@@ -41,6 +41,7 @@
             <xsl:otherwise>
               <!-- attribute-->
               var model =  {
+				"$type" : "Bespoke.SphCommercialSpaces.Domain.<xsl:value-of select="@name"/>, domain.commercialspace",
               <xsl:for-each select="xs:complexType/xs:attribute">
                 <xsl:if test="@type">
                   <xsl:value-of select="@name"/> : ko.observable(),
@@ -48,7 +49,7 @@
               </xsl:for-each>
               <!-- Element -->
               <xsl:apply-templates select="xs:complexType/xs:all/xs:element"/>isBusy : ko.observable(false),
-              WebId : ko.observable(webId)
+				WebId : ko.observable(webId)
               };
               if(bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/>Partial){
               return _(model).extend(new bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/>Partial(model));
@@ -65,15 +66,16 @@
       bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/> = function(webId) {
       <!-- attribute-->
       return {
+		"$type" : "Bespoke.SphCommercialSpaces.Domain.<xsl:value-of select="@name"/>, domain.commercialspace",
       <xsl:for-each select="xs:attribute">
         <xsl:value-of select="@name"/> : ko.observable(),
       </xsl:for-each>
       <xsl:apply-templates select="xs:all/xs:element"/>isBusy : ko.observable(false),
-      WebId : ko.observable(webId)
-      };
-      };
+		WebId : ko.observable(webId)
+		};
+		};
 
-    </xsl:for-each>
+	</xsl:for-each>
     <!-- enum -->
     <xsl:for-each select="xs:simpleType">
       bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/> = function()

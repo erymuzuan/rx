@@ -3,9 +3,25 @@
     <div class="control-group">
         <label for="Name" class="control-label">Nama</label>
         <div class="controls">
-            <input data-bind="value: Name" id="Name" type="text" name="Name" />
+            <input class="input-xxlarge" data-bind="value: Name" id="Name" type="text" name="Name" />
         </div>
     </div>
+    <div class="control-group">
+        <label for="Note" class="control-label">Nota</label>
+        <div class="controls">
+            <textarea class="input-xxlarge" data-bind="value: Note" id="Note"  name="Note"></textarea>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <div class="controls">
+            <label class="checkbox">
+                <input data-bind="checked: IsActive" id="isActive" type="checkbox" name="IsActive" />
+                Aktif
+            </label>
+        </div>
+    </div>
+    
     <div class="control-group">
         <label for="Entity" class="control-label">Entiti</label>
         <div class="controls">
@@ -23,7 +39,7 @@
     </div>
     <h3>Rules</h3>
     <a class="btn btn-mini pull-right" data-bind="click: $parent.addRuleCommand">+</a>
-    <table class="table table-striped">
+    <table id="rules-table" class="table table-striped">
         <thead>
             <tr>
                 <th>Left</th>
@@ -34,14 +50,22 @@
         <tbody data-bind="foreach: RuleCollection">
             <tr>
                 <td>
-                    <div data-bind="visible:Left().Name() === ''">
-                        <a class="btn btn-link" data-bind="click: $root.addDocumentFieldCommand" href="#document-panel-modal">Add Document Field</a>
-                        <a class="btn btn-link" data-bind="click: $root.addConstantFieldCommand" href="#constant-panel-modal">Add Constant Field</a>
-                        <a class="btn btn-link" data-bind="click: $root.addFunctionFieldCommand" href="#function-panel-modal">Add Function Field</a>
+                    <div class="btn-group">
+                        <a class="btn dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
+                            <!-- ko text : Left().Name -->
+                            <!-- /ko -->
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="btn btn-link" data-bind="click: $root.addDocumentFieldCommand" href="#document-panel-modal">+ Document Field</a>
+                            </li>
+                            <li><a class="btn btn-link" data-bind="click: $root.addConstantFieldCommand" href="#constant-panel-modal">+ Constant Field</a>
+                            </li>
+                            <li><a class="btn btn-link" data-bind="click: $root.addFunctionFieldCommand" href="#function-panel-modal">+ Function Field</a>
+                            </li>
+                        </ul>
                     </div>
-                    <div data-bind="with: Left">
-                        <a href="#" class="btn btn-link" data-bind="attr: { href: '' }, text: Name">Add here</a>
-                    </div>
+
                 </td>
                 <td>
                     <select data-bind="value: Operator">
@@ -50,17 +74,29 @@
                         <option value="Lt">&lt;</option>
                         <option value="Ge">&gt;=</option>
                         <option value="Gt">&gt;</option>
+                        <option value="Substringof">Mengandungi</option>
+                        <option value="StartsWith">Mula dengan</option>
+                        <option value="EndsWith">Akhir</option>
+                       
                     </select>
                 </td>
                 <td>
-                    <div data-bind="visible: Right().Name() === ''">
-                        <a class="btn btn-link" data-bind="click: $root.addDocumentFieldToRightCommand" href="#document-panel-modal">Add Document Field</a>
-                        <a class="btn btn-link" data-bind="click: $root.addConstantFieldToRightCommand" href="#constant-panel-modal">Add Constant Field</a>
-                        <a class="btn btn-link" data-bind="click: $root.addFunctionFieldToRightCommand" href="#function-panel-modal">Add Function Field</a>
+                    <div class="btn-group">
+                        <a class="btn dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
+                            <!-- ko text : Right().Name -->
+                            <!-- /ko -->
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="btn btn-link" data-bind="click: $root.addDocumentFieldToRightCommand" href="#document-panel-modal">Add Document Field</a>
+                            </li>
+                            <li><a class="btn btn-link" data-bind="click: $root.addConstantFieldToRightCommand" href="#constant-panel-modal">Add Constant Field</a>
+                            </li>
+                            <li><a class="btn btn-link" data-bind="click: $root.addFunctionFieldToRightCommand" href="#function-panel-modal">Add Function Field</a>
+                            </li>
+                        </ul>
                     </div>
-                    <div data-bind="with: Right">
-                        <a href="#" class="btn btn-link" data-bind="attr: { href: '' }, text: Name">Add here</a>
-                    </div>
+
                 </td>
             </tr>
         </tbody>
@@ -110,9 +146,9 @@
             </div>
         </div>
         <div class="control-group">
-            <label for="func-script" class="control-label">Skrip</label>
+            <label for="func-script" class="control-label">Skript</label>
             <div class="controls">
-                <textarea id="func-script" data-bind="value: Script" class="input-xlarge"></textarea>
+                <textarea id="func-script" data-bind="value: Script" class="input-xxlarge" rows="5"></textarea>
             </div>
         </div>
     </div>
@@ -143,17 +179,17 @@
             </div>
         </div>
         <div class="control-group">
-            <label for="doc-xpath" class="control-label">Path</label>
+            <label for="doc-path" class="control-label">Path</label>
             <div class="controls">
-                <input id="doc-xpath" data-bind="value: XPath" class="input-medium" />
+                <input id="doc-path" data-bind="value: Path" class="input-xxlarge" />
             </div>
         </div>
     </div>
 
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateDocumentLeftToRuleCommand,visible:!isRight()" />
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateDocumentRightToRuleCommand, visible:isRight()" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateDocumentLeftToRuleCommand, visible: !isRight()" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateDocumentRightToRuleCommand, visible: isRight()" />
     </div>
 </section>
 
@@ -180,11 +216,11 @@
             <label for="constant-typename" class="control-label">Type</label>
             <div class="controls">
                 <select id="constant-typename" data-bind="value: TypeName">
-                    <option value="DateTime">Tarikh</option>
-                    <option value="Number">Nombor</option>
-                    <option value="Boolean">Betul/Salah</option>
-                    <option value="Decimal">Decimal</option>
-                    <option value="Double">Double</option>
+                    <option value="System.String, mscorlib">Teks</option>
+                    <option value="System.DateTime">Tarikh</option>
+                    <option value="System.Int32, mscorlib">Nombor bulat</option>
+                    <option value="System.Decimal">Nombor pecahan</option>
+                    <option value="System.Boolean, mscorlib">Betul/Salah</option>
                 </select>
             </div>
         </div>
@@ -198,7 +234,7 @@
 
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateConstantLeftToRuleCommand,visible:!isRight()" />
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateConstantRightToRuleCommand,visible:isRight()" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateConstantLeftToRuleCommand, visible: !isRight()" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateConstantRightToRuleCommand, visible: isRight()" />
     </div>
 </section>

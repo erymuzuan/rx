@@ -889,6 +889,8 @@
 			<xs:attribute name="Entity" type="xs:string" use="required"/>
 			<xs:attribute name="TypeOf" type="xs:string" use="required"/>
 			<xs:attribute name="TriggerId" type="xs:int" use="required"/>
+			<xs:attribute name="Note" type="xs:string" use="required"/>
+			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="FunctionField">
@@ -935,8 +937,16 @@
 	<xs:element name="Rule">
 		<xs:complexType>
 			<xs:all>
-				<xs:element name="Left" type="Field"/>
-				<xs:element name="Right" type="Field"/>
+				<xs:element name="Left" type="Field">
+					<xs:annotation>
+						<xs:appinfo source="attr"> [JsonProperty(TypeNameHandling = TypeNameHandling.All)] </xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Right" type="Field">
+					<xs:annotation>
+						<xs:appinfo source="attr">[JsonProperty(TypeNameHandling = TypeNameHandling.All)] </xs:appinfo>
+					</xs:annotation>
+				</xs:element>
 				<xs:element name="Operator" type="Operator"/>
 			</xs:all>
 		</xs:complexType>

@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
+﻿/// <reference path="../../Scripts/jquery-2.0.2.intellisense.js" />
 /// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -16,11 +16,20 @@ define(['services/datacontext'],
             activate = function () {
                 return true;
             },
+
+            viewAttached = function () {
+            // NOTE: there's a bug someweher that makes bootstrap data-toggle didn't work
+            $('#rules-table').on('click', 'a.dropdown-toggle', function () {
+                $(this).parent().toggleClass("open");
+            });
+
+        },
            addRule = function () {
                var rule = new bespoke.sphcommercialspace.domain.Rule();
-               rule.Left({ Name: ko.observable("") });
-               rule.Right({ Name: ko.observable("") });
+               rule.Left({ Name: ko.observable(" + field ") });
+               rule.Right({ Name: ko.observable(" + field ") });
                vm.trigger().RuleCollection.push(rule);
+               $('#rules-table .dropdown-toggle').dropdown();
            },
             editedField,
             addFunctionField = function (field) {
@@ -66,7 +75,7 @@ define(['services/datacontext'],
                 var documentField = new bespoke.sphcommercialspace.domain.DocumentField();
                 editedField = field;
                 vm.documentField(documentField);
-                
+
                 $('#document-panel-modal').modal({});
             },
             addDocumentFieldToRight = function (field) {
@@ -75,7 +84,7 @@ define(['services/datacontext'],
                 var documentField = new bespoke.sphcommercialspace.domain.DocumentField();
                 editedField = field;
                 vm.documentField(documentField);
-                
+
                 $('#document-panel-modal').modal({});
             },
             addConstantField = function (field) {
@@ -96,13 +105,13 @@ define(['services/datacontext'],
             },
             save = function () {
                 var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON({ trigger: vm.trigger() });
+                var data = ko.mapping.toJSON(vm.trigger);
                 isBusy(true);
 
-                context.post(data, "/Trigger/Save") 
+                context.post(data, "/Trigger/Save")
                     .then(function (result) {
                         isBusy(false);
-
+                        vm.trigger().TriggerId(result);
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -112,6 +121,7 @@ define(['services/datacontext'],
             isBusy: isBusy,
             isRight: isRight,
             activate: activate,
+            viewAttached: viewAttached,
             functionField: ko.observable(new bespoke.sphcommercialspace.domain.FunctionField()),
             constantField: ko.observable(new bespoke.sphcommercialspace.domain.ConstantField()),
             documentField: ko.observable(new bespoke.sphcommercialspace.domain.DocumentField()),
