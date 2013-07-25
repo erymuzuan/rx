@@ -131,6 +131,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json.Glimpse">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.Glimpse.1.0.1\lib\net35\Newtonsoft.Json.Glimpse.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="Spring.Core, Version=2.0.0.40000, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -323,6 +326,7 @@
     <Compile Include="Models\ApplicationConfigurationViewModel.cs" />
     <Compile Include="Models\RoleType.cs" />
     <Compile Include="ViewModels\RoleSettingViewModel.cs" />
+    <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\durandal\amd\almond-custom.js" />
@@ -379,7 +383,6 @@
     <Content Include="App\viewmodels\trigger.setup.js" />
     <Content Include="App\viewmodels\_tenant.complaint.js" />
     <Content Include="App\viewmodels\_users.department.js" />
-    <Content Include="App\viewmodels\inventory.request.js" />
     <Content Include="App\views\complaint.assign.html" />
     <Content Include="App\views\complaintform.tenant.html" />
     <Content Include="App\views\inventory.detail.html" />

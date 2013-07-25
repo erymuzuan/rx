@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             await Task.Delay(2000);
             var user = Membership.GetUser(userName);
             if (null != user)
-                return Json(new {status = "DUPLICATE", message = string.Format("nama pengguna '{0}' sudah digunakan",userName)});
+                return Json(new { status = "DUPLICATE", message = string.Format("nama pengguna '{0}' sudah digunakan", userName) });
             this.Response.ContentType = "application/json; charset=utf-8";
             return Content(await JsonConvert.SerializeObjectAsync(true));
 
@@ -38,17 +38,17 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             Membership.CreateUser(profile.UserName, profile.Password, profile.Email);
             Roles.AddUserToRoles(profile.UserName, roles);
             profile.Roles = roles;
-            
-            var userprofile = await CreateProfile(profile,designation);
+
+            var userprofile = await CreateProfile(profile, designation);
 
             return Json(userprofile);
         }
 
-     
-        private static async Task<UserProfile> CreateProfile(Profile profile,Designation designation)
+
+        private static async Task<UserProfile> CreateProfile(Profile profile, Designation designation)
         {
             var context = new SphDataContext();
-            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.Username == profile.UserName)?? new UserProfile();
+            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.Username == profile.UserName) ?? new UserProfile();
             userprofile.Username = profile.UserName;
             userprofile.FullName = profile.FullName;
             userprofile.Designation = profile.Designation;
@@ -71,10 +71,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> UpdateUser(UserProfile profile)
         {
             var context = new SphDataContext();
-            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.Username == profile.Username);
+            var userprofile = await context.LoadOneAsync<UserProfile>(p => p.Username == profile.Username)
+                ?? new UserProfile { Username = User.Identity.Name };
             userprofile.Email = profile.Email;
             userprofile.Telephone = profile.Telephone;
             userprofile.FullName = profile.FullName;
+            userprofile.StartModule = profile.StartModule;
+
             using (var session = context.OpenSession())
             {
                 session.Attach(userprofile);
