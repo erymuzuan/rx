@@ -60,7 +60,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_contractNo = value;
-                    OnPropertyChanged(PropertyNameContractNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -89,7 +89,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_dateFrom = value;
-                    OnPropertyChanged(PropertyNameDateFrom);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -118,7 +118,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_dateStart = value;
-                    OnPropertyChanged(PropertyNameDateStart);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -144,7 +144,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_dateEnd = value;
-                    OnPropertyChanged(PropertyNameDateEnd);
+                    OnPropertyChanged();
                 }
             }
             get { return m_dateEnd; }
@@ -231,7 +231,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_address = value;
-                OnPropertyChanged(PropertyNameAddress);
+                OnPropertyChanged();
             }
         }
 
@@ -254,7 +254,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_tenantId = value;
-                    OnPropertyChanged(PropertyNameTenantId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -283,7 +283,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_idSsmNo = value;
-                    OnPropertyChanged(PropertyNameIdSsmNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -312,7 +312,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -341,7 +341,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_bussinessType = value;
-                    OnPropertyChanged(PropertyNameBussinessType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -370,7 +370,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_phone = value;
-                    OnPropertyChanged(PropertyNamePhone);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -397,7 +397,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_fax = value;
-                    OnPropertyChanged(PropertyNameFax);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -424,7 +424,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_mobilePhone = value;
-                    OnPropertyChanged(PropertyNameMobilePhone);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -451,7 +451,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_email = value;
-                    OnPropertyChanged(PropertyNameEmail);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -480,7 +480,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_registrationNo = value;
-                    OnPropertyChanged(PropertyNameRegistrationNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -619,7 +619,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_owner = value;
-                OnPropertyChanged(PropertyNameOwner);
+                OnPropertyChanged();
             }
         }
 
@@ -636,7 +636,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_address = value;
-                OnPropertyChanged(PropertyNameAddress);
+                OnPropertyChanged();
             }
         }
 
@@ -659,7 +659,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_lot = value;
-                    OnPropertyChanged(PropertyNameLot);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -688,7 +688,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_title = value;
-                    OnPropertyChanged(PropertyNameTitle);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -717,7 +717,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_location = value;
-                    OnPropertyChanged(PropertyNameLocation);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -746,7 +746,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_size = value;
-                    OnPropertyChanged(PropertyNameSize);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -775,7 +775,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_sizeUnit = value;
-                    OnPropertyChanged(PropertyNameSizeUnit);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -804,7 +804,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_currentMarketValue = value;
-                    OnPropertyChanged(PropertyNameCurrentMarketValue);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -831,7 +831,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_rezabNo = value;
-                    OnPropertyChanged(PropertyNameRezabNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -860,7 +860,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_sheetNo = value;
-                    OnPropertyChanged(PropertyNameSheetNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -889,7 +889,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_approvedPlanNo = value;
-                    OnPropertyChanged(PropertyNameApprovedPlanNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -918,7 +918,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_landOffice = value;
-                    OnPropertyChanged(PropertyNameLandOffice);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -947,7 +947,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_usage = value;
-                    OnPropertyChanged(PropertyNameUsage);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -976,7 +976,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_note = value;
-                    OnPropertyChanged(PropertyNameNote);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1005,7 +1005,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_ownLevel = value;
-                    OnPropertyChanged(PropertyNameOwnLevel);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1034,7 +1034,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_planNo = value;
-                    OnPropertyChanged(PropertyNamePlanNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1063,7 +1063,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_status = value;
-                    OnPropertyChanged(PropertyNameStatus);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1092,7 +1092,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isApproved = value;
-                    OnPropertyChanged(PropertyNameIsApproved);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1118,7 +1118,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_leaseExpiryDate = value;
-                    OnPropertyChanged(PropertyNameLeaseExpiryDate);
+                    OnPropertyChanged();
                 }
             }
             get { return m_leaseExpiryDate; }
@@ -1140,7 +1140,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_leasePeriod = value;
-                    OnPropertyChanged(PropertyNameLeasePeriod);
+                    OnPropertyChanged();
                 }
             }
             get { return m_leasePeriod; }
@@ -1162,7 +1162,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_approvedDateTime = value;
-                    OnPropertyChanged(PropertyNameApprovedDateTime);
+                    OnPropertyChanged();
                 }
             }
             get { return m_approvedDateTime; }
@@ -1184,7 +1184,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_approvedBy = value;
-                    OnPropertyChanged(PropertyNameApprovedBy);
+                    OnPropertyChanged();
                 }
             }
             get { return m_approvedBy; }
@@ -1256,7 +1256,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_address = value;
-                OnPropertyChanged(PropertyNameAddress);
+                OnPropertyChanged();
             }
         }
 
@@ -1290,7 +1290,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_buildingId = value;
-                    OnPropertyChanged(PropertyNameBuildingId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1319,7 +1319,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1348,7 +1348,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_lotNo = value;
-                    OnPropertyChanged(PropertyNameLotNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1377,7 +1377,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_size = value;
-                    OnPropertyChanged(PropertyNameSize);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1406,7 +1406,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_status = value;
-                    OnPropertyChanged(PropertyNameStatus);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1435,7 +1435,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_floors = value;
-                    OnPropertyChanged(PropertyNameFloors);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1464,7 +1464,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_note = value;
-                    OnPropertyChanged(PropertyNameNote);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1490,7 +1490,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_height = value;
-                    OnPropertyChanged(PropertyNameHeight);
+                    OnPropertyChanged();
                 }
             }
             get { return m_height; }
@@ -1543,7 +1543,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_lat = value;
-                    OnPropertyChanged(PropertyNameLat);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1572,7 +1572,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_lng = value;
-                    OnPropertyChanged(PropertyNameLng);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1592,14 +1592,13 @@ namespace Bespoke.SphCommercialSpaces.Domain
         {
             set
             {
-                if (m_elevation.HasValue && value.HasValue)
-                    if (/* if nillable use ?? 0d temp */ Math.Abs(m_elevation.Value - value.Value) < 0.00001d) return;
+                if (/* if nillable use ?? 0d temp */ Math.Abs(m_elevation ?? 0d  - value ?? 0d ) < 0.00001d) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameElevation, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
                     m_elevation = value;
-                    OnPropertyChanged(PropertyNameElevation);
+                    OnPropertyChanged();
                 }
             }
             get { return m_elevation; }
@@ -1676,7 +1675,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_unitNo = value;
-                    OnPropertyChanged(PropertyNameUnitNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1703,7 +1702,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_floor = value;
-                    OnPropertyChanged(PropertyNameFloor);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1730,7 +1729,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_block = value;
-                    OnPropertyChanged(PropertyNameBlock);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1759,7 +1758,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_street = value;
-                    OnPropertyChanged(PropertyNameStreet);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1788,7 +1787,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_city = value;
-                    OnPropertyChanged(PropertyNameCity);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1817,7 +1816,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_postcode = value;
-                    OnPropertyChanged(PropertyNamePostcode);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1846,7 +1845,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_state = value;
-                    OnPropertyChanged(PropertyNameState);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1873,7 +1872,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_country = value;
-                    OnPropertyChanged(PropertyNameCountry);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1945,7 +1944,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -1974,7 +1973,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_size = value;
-                    OnPropertyChanged(PropertyNameSize);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2003,7 +2002,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_number = value;
-                    OnPropertyChanged(PropertyNameNumber);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2032,7 +2031,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_note = value;
-                    OnPropertyChanged(PropertyNameNote);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2093,7 +2092,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2122,7 +2121,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_size = value;
-                    OnPropertyChanged(PropertyNameSize);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2151,7 +2150,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_floorNo = value;
-                    OnPropertyChanged(PropertyNameFloorNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2180,7 +2179,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isCommercialSpace = value;
-                    OnPropertyChanged(PropertyNameIsCommercialSpace);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2317,7 +2316,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_commercialSpaceId = value;
-                    OnPropertyChanged(PropertyNameCommercialSpaceId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2346,7 +2345,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_buildingId = value;
-                    OnPropertyChanged(PropertyNameBuildingId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2375,7 +2374,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_lotName = value;
-                    OnPropertyChanged(PropertyNameLotName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2404,7 +2403,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_floorName = value;
-                    OnPropertyChanged(PropertyNameFloorName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2433,7 +2432,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_size = value;
-                    OnPropertyChanged(PropertyNameSize);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2462,7 +2461,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_category = value;
-                    OnPropertyChanged(PropertyNameCategory);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2491,7 +2490,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_rentalType = value;
-                    OnPropertyChanged(PropertyNameRentalType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2520,7 +2519,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isOnline = value;
-                    OnPropertyChanged(PropertyNameIsOnline);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2549,7 +2548,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_registrationNo = value;
-                    OnPropertyChanged(PropertyNameRegistrationNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2578,7 +2577,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isAvailable = value;
-                    OnPropertyChanged(PropertyNameIsAvailable);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2605,7 +2604,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_contactPerson = value;
-                    OnPropertyChanged(PropertyNameContactPerson);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2632,7 +2631,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_contactNo = value;
-                    OnPropertyChanged(PropertyNameContactNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2661,7 +2660,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_state = value;
-                    OnPropertyChanged(PropertyNameState);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2690,7 +2689,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_city = value;
-                    OnPropertyChanged(PropertyNameCity);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2719,7 +2718,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_buildingName = value;
-                    OnPropertyChanged(PropertyNameBuildingName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2748,7 +2747,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_buildingLot = value;
-                    OnPropertyChanged(PropertyNameBuildingLot);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2777,7 +2776,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_rentalRate = value;
-                    OnPropertyChanged(PropertyNameRentalRate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -2915,7 +2914,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_address = value;
-                OnPropertyChanged(PropertyNameAddress);
+                OnPropertyChanged();
             }
         }
 
@@ -2943,7 +2942,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_contact = value;
-                OnPropertyChanged(PropertyNameContact);
+                OnPropertyChanged();
             }
         }
 
@@ -2971,7 +2970,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_offer = value;
-                OnPropertyChanged(PropertyNameOffer);
+                OnPropertyChanged();
             }
         }
 
@@ -2988,7 +2987,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_commercialSpace = value;
-                OnPropertyChanged(PropertyNameCommercialSpace);
+                OnPropertyChanged();
             }
         }
 
@@ -3011,7 +3010,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_rentalApplicationId = value;
-                    OnPropertyChanged(PropertyNameRentalApplicationId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3040,7 +3039,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_companyName = value;
-                    OnPropertyChanged(PropertyNameCompanyName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3069,7 +3068,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_companyRegistrationNo = value;
-                    OnPropertyChanged(PropertyNameCompanyRegistrationNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3098,7 +3097,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_dateStart = value;
-                    OnPropertyChanged(PropertyNameDateStart);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3127,7 +3126,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_dateEnd = value;
-                    OnPropertyChanged(PropertyNameDateEnd);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3156,7 +3155,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_purpose = value;
-                    OnPropertyChanged(PropertyNamePurpose);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3185,7 +3184,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_companyType = value;
-                    OnPropertyChanged(PropertyNameCompanyType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3214,7 +3213,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_commercialSpaceId = value;
-                    OnPropertyChanged(PropertyNameCommercialSpaceId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3243,7 +3242,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_status = value;
-                    OnPropertyChanged(PropertyNameStatus);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3272,7 +3271,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_experience = value;
-                    OnPropertyChanged(PropertyNameExperience);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3301,7 +3300,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isRecordExist = value;
-                    OnPropertyChanged(PropertyNameIsRecordExist);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3330,7 +3329,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_previousAddress = value;
-                    OnPropertyChanged(PropertyNamePreviousAddress);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3359,7 +3358,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isCompany = value;
-                    OnPropertyChanged(PropertyNameIsCompany);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3388,7 +3387,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_type = value;
-                    OnPropertyChanged(PropertyNameType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3415,7 +3414,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_remarks = value;
-                    OnPropertyChanged(PropertyNameRemarks);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3444,7 +3443,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_registrationNo = value;
-                    OnPropertyChanged(PropertyNameRegistrationNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3473,7 +3472,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_applicationDate = value;
-                    OnPropertyChanged(PropertyNameApplicationDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3499,7 +3498,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_currentYearSales = value;
-                    OnPropertyChanged(PropertyNameCurrentYearSales);
+                    OnPropertyChanged();
                 }
             }
             get { return m_currentYearSales; }
@@ -3521,7 +3520,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_lastYearSales = value;
-                    OnPropertyChanged(PropertyNameLastYearSales);
+                    OnPropertyChanged();
                 }
             }
             get { return m_lastYearSales; }
@@ -3543,7 +3542,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_previousYearSales = value;
-                    OnPropertyChanged(PropertyNamePreviousYearSales);
+                    OnPropertyChanged();
                 }
             }
             get { return m_previousYearSales; }
@@ -3628,7 +3627,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_type = value;
-                    OnPropertyChanged(PropertyNameType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3657,7 +3656,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3686,7 +3685,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isRequired = value;
-                    OnPropertyChanged(PropertyNameIsRequired);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3715,7 +3714,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isReceived = value;
-                    OnPropertyChanged(PropertyNameIsReceived);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3744,7 +3743,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_storeId = value;
-                    OnPropertyChanged(PropertyNameStoreId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3773,7 +3772,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isCompleted = value;
-                    OnPropertyChanged(PropertyNameIsCompleted);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3799,7 +3798,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_receivedDateTime = value;
-                    OnPropertyChanged(PropertyNameReceivedDateTime);
+                    OnPropertyChanged();
                 }
             }
             get { return m_receivedDateTime; }
@@ -3821,7 +3820,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_receivedBy = value;
-                    OnPropertyChanged(PropertyNameReceivedBy);
+                    OnPropertyChanged();
                 }
             }
             get { return m_receivedBy; }
@@ -3843,7 +3842,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_note = value;
-                    OnPropertyChanged(PropertyNameNote);
+                    OnPropertyChanged();
                 }
             }
             get { return m_note; }
@@ -3900,7 +3899,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3929,7 +3928,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_location = value;
-                    OnPropertyChanged(PropertyNameLocation);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3958,7 +3957,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_accountNo = value;
-                    OnPropertyChanged(PropertyNameAccountNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -3987,7 +3986,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_accountType = value;
-                    OnPropertyChanged(PropertyNameAccountType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4063,7 +4062,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_contractId = value;
-                    OnPropertyChanged(PropertyNameContractId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4092,7 +4091,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4119,7 +4118,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_icNo = value;
-                    OnPropertyChanged(PropertyNameIcNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4148,7 +4147,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_role = value;
-                    OnPropertyChanged(PropertyNameRole);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4177,7 +4176,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_mobileNo = value;
-                    OnPropertyChanged(PropertyNameMobileNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4206,7 +4205,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_officeNo = value;
-                    OnPropertyChanged(PropertyNameOfficeNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4235,7 +4234,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_email = value;
-                    OnPropertyChanged(PropertyNameEmail);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4323,7 +4322,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_contractTemplateId = value;
-                    OnPropertyChanged(PropertyNameContractTemplateId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4352,7 +4351,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_type = value;
-                    OnPropertyChanged(PropertyNameType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4381,7 +4380,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_description = value;
-                    OnPropertyChanged(PropertyNameDescription);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4410,7 +4409,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_status = value;
-                    OnPropertyChanged(PropertyNameStatus);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4439,7 +4438,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_interestRate = value;
-                    OnPropertyChanged(PropertyNameInterestRate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4490,7 +4489,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4519,7 +4518,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_storeId = value;
-                    OnPropertyChanged(PropertyNameStoreId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4646,7 +4645,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_owner = value;
-                OnPropertyChanged(PropertyNameOwner);
+                OnPropertyChanged();
             }
         }
 
@@ -4663,7 +4662,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_contractingParty = value;
-                OnPropertyChanged(PropertyNameContractingParty);
+                OnPropertyChanged();
             }
         }
 
@@ -4680,7 +4679,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_tenant = value;
-                OnPropertyChanged(PropertyNameTenant);
+                OnPropertyChanged();
             }
         }
 
@@ -4697,7 +4696,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_commercialSpace = value;
-                OnPropertyChanged(PropertyNameCommercialSpace);
+                OnPropertyChanged();
             }
         }
 
@@ -4731,7 +4730,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_contractId = value;
-                    OnPropertyChanged(PropertyNameContractId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4760,7 +4759,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_referenceNo = value;
-                    OnPropertyChanged(PropertyNameReferenceNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4789,7 +4788,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_type = value;
-                    OnPropertyChanged(PropertyNameType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4818,7 +4817,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_date = value;
-                    OnPropertyChanged(PropertyNameDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4847,7 +4846,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_value = value;
-                    OnPropertyChanged(PropertyNameValue);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4876,7 +4875,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_title = value;
-                    OnPropertyChanged(PropertyNameTitle);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4905,7 +4904,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_remarks = value;
-                    OnPropertyChanged(PropertyNameRemarks);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4934,7 +4933,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_period = value;
-                    OnPropertyChanged(PropertyNamePeriod);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4963,7 +4962,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_periodUnit = value;
-                    OnPropertyChanged(PropertyNamePeriodUnit);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -4992,7 +4991,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_startDate = value;
-                    OnPropertyChanged(PropertyNameStartDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5021,7 +5020,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_endDate = value;
-                    OnPropertyChanged(PropertyNameEndDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5050,7 +5049,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_rentalApplicationId = value;
-                    OnPropertyChanged(PropertyNameRentalApplicationId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5079,7 +5078,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_status = value;
-                    OnPropertyChanged(PropertyNameStatus);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5108,7 +5107,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_rentType = value;
-                    OnPropertyChanged(PropertyNameRentType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5137,7 +5136,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_interestRate = value;
-                    OnPropertyChanged(PropertyNameInterestRate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5163,7 +5162,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_option = value;
-                    OnPropertyChanged(PropertyNameOption);
+                    OnPropertyChanged();
                 }
             }
             get { return m_option; }
@@ -5221,7 +5220,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_title = value;
-                    OnPropertyChanged(PropertyNameTitle);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5250,7 +5249,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_extension = value;
-                    OnPropertyChanged(PropertyNameExtension);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5316,7 +5315,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_storeId = value;
-                    OnPropertyChanged(PropertyNameStoreId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5345,7 +5344,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_date = value;
-                    OnPropertyChanged(PropertyNameDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5374,7 +5373,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_commitedBy = value;
-                    OnPropertyChanged(PropertyNameCommitedBy);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5403,7 +5402,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_no = value;
-                    OnPropertyChanged(PropertyNameNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5430,7 +5429,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_note = value;
-                    OnPropertyChanged(PropertyNameNote);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5485,7 +5484,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_address = value;
-                OnPropertyChanged(PropertyNameAddress);
+                OnPropertyChanged();
             }
         }
 
@@ -5508,7 +5507,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5537,7 +5536,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_telephoneNo = value;
-                    OnPropertyChanged(PropertyNameTelephoneNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5566,7 +5565,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_faxNo = value;
-                    OnPropertyChanged(PropertyNameFaxNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5595,7 +5594,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_email = value;
-                    OnPropertyChanged(PropertyNameEmail);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5672,7 +5671,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_user = value;
-                    OnPropertyChanged(PropertyNameUser);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5701,7 +5700,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_dateTime = value;
-                    OnPropertyChanged(PropertyNameDateTime);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5730,7 +5729,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_operation = value;
-                    OnPropertyChanged(PropertyNameOperation);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5759,7 +5758,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_type = value;
-                    OnPropertyChanged(PropertyNameType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5788,7 +5787,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_entityId = value;
-                    OnPropertyChanged(PropertyNameEntityId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5849,7 +5848,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_propertyName = value;
-                    OnPropertyChanged(PropertyNamePropertyName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5878,7 +5877,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_oldValue = value;
-                    OnPropertyChanged(PropertyNameOldValue);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5907,7 +5906,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_newValue = value;
-                    OnPropertyChanged(PropertyNameNewValue);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5936,7 +5935,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_action = value;
-                    OnPropertyChanged(PropertyNameAction);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -5996,7 +5995,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_address = value;
-                OnPropertyChanged(PropertyNameAddress);
+                OnPropertyChanged();
             }
         }
 
@@ -6019,7 +6018,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6048,7 +6047,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_registrationNo = value;
-                    OnPropertyChanged(PropertyNameRegistrationNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6077,7 +6076,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_email = value;
-                    OnPropertyChanged(PropertyNameEmail);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6106,7 +6105,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_officeNo = value;
-                    OnPropertyChanged(PropertyNameOfficeNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6135,7 +6134,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_faxNo = value;
-                    OnPropertyChanged(PropertyNameFaxNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6253,7 +6252,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_businessPlan = value;
-                    OnPropertyChanged(PropertyNameBusinessPlan);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6282,7 +6281,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_commercialSpaceId = value;
-                    OnPropertyChanged(PropertyNameCommercialSpaceId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6311,7 +6310,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_size = value;
-                    OnPropertyChanged(PropertyNameSize);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6340,7 +6339,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_building = value;
-                    OnPropertyChanged(PropertyNameBuilding);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6369,7 +6368,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_floor = value;
-                    OnPropertyChanged(PropertyNameFloor);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6398,7 +6397,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_deposit = value;
-                    OnPropertyChanged(PropertyNameDeposit);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6427,7 +6426,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_rent = value;
-                    OnPropertyChanged(PropertyNameRent);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6456,7 +6455,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_date = value;
-                    OnPropertyChanged(PropertyNameDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6485,7 +6484,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_expiryDate = value;
-                    OnPropertyChanged(PropertyNameExpiryDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6514,7 +6513,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_period = value;
-                    OnPropertyChanged(PropertyNamePeriod);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6543,7 +6542,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_periodUnit = value;
-                    OnPropertyChanged(PropertyNamePeriodUnit);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6572,7 +6571,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_option = value;
-                    OnPropertyChanged(PropertyNameOption);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6598,7 +6597,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_businessPlanText = value;
-                    OnPropertyChanged(PropertyNameBusinessPlanText);
+                    OnPropertyChanged();
                 }
             }
             get { return m_businessPlanText; }
@@ -6655,7 +6654,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_title = value;
-                    OnPropertyChanged(PropertyNameTitle);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6684,7 +6683,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_description = value;
-                    OnPropertyChanged(PropertyNameDescription);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6713,7 +6712,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_note = value;
-                    OnPropertyChanged(PropertyNameNote);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6742,7 +6741,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isRequired = value;
-                    OnPropertyChanged(PropertyNameIsRequired);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6809,7 +6808,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_title = value;
-                    OnPropertyChanged(PropertyNameTitle);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6838,7 +6837,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_description = value;
-                    OnPropertyChanged(PropertyNameDescription);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6867,7 +6866,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_text = value;
-                    OnPropertyChanged(PropertyNameText);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6928,7 +6927,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_title = value;
-                    OnPropertyChanged(PropertyNameTitle);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6957,7 +6956,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_description = value;
-                    OnPropertyChanged(PropertyNameDescription);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -6986,7 +6985,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_no = value;
-                    OnPropertyChanged(PropertyNameNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7015,7 +7014,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_text = value;
-                    OnPropertyChanged(PropertyNameText);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7060,7 +7059,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_contact = value;
-                OnPropertyChanged(PropertyNameContact);
+                OnPropertyChanged();
             }
         }
 
@@ -7077,7 +7076,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_address = value;
-                OnPropertyChanged(PropertyNameAddress);
+                OnPropertyChanged();
             }
         }
 
@@ -7100,7 +7099,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7129,7 +7128,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_registrationNo = value;
-                    OnPropertyChanged(PropertyNameRegistrationNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7195,7 +7194,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_depositPaymentId = value;
-                    OnPropertyChanged(PropertyNameDepositPaymentId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7222,7 +7221,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_receiptNo = value;
-                    OnPropertyChanged(PropertyNameReceiptNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7251,7 +7250,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_amount = value;
-                    OnPropertyChanged(PropertyNameAmount);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7280,7 +7279,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_date = value;
-                    OnPropertyChanged(PropertyNameDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7309,7 +7308,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_registrationNo = value;
-                    OnPropertyChanged(PropertyNameRegistrationNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7380,7 +7379,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_paymentId = value;
-                    OnPropertyChanged(PropertyNamePaymentId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7409,7 +7408,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_amount = value;
-                    OnPropertyChanged(PropertyNameAmount);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7438,7 +7437,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_date = value;
-                    OnPropertyChanged(PropertyNameDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7467,7 +7466,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_contractNo = value;
-                    OnPropertyChanged(PropertyNameContractNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7496,7 +7495,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_tenantIdSsmNo = value;
-                    OnPropertyChanged(PropertyNameTenantIdSsmNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7525,7 +7524,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_receiptNo = value;
-                    OnPropertyChanged(PropertyNameReceiptNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7616,7 +7615,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_username = value;
-                    OnPropertyChanged(PropertyNameUsername);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7645,7 +7644,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_fullName = value;
-                    OnPropertyChanged(PropertyNameFullName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7674,7 +7673,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_designation = value;
-                    OnPropertyChanged(PropertyNameDesignation);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7703,7 +7702,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_telephone = value;
-                    OnPropertyChanged(PropertyNameTelephone);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7732,7 +7731,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_mobile = value;
-                    OnPropertyChanged(PropertyNameMobile);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7761,7 +7760,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_roleTypes = value;
-                    OnPropertyChanged(PropertyNameRoleTypes);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7790,7 +7789,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_startModule = value;
-                    OnPropertyChanged(PropertyNameStartModule);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7819,7 +7818,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_email = value;
-                    OnPropertyChanged(PropertyNameEmail);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7848,7 +7847,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_userProfileId = value;
-                    OnPropertyChanged(PropertyNameUserProfileId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -7877,7 +7876,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_department = value;
-                    OnPropertyChanged(PropertyNameDepartment);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8002,7 +8001,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_depositId = value;
-                    OnPropertyChanged(PropertyNameDepositId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8031,7 +8030,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_dateTime = value;
-                    OnPropertyChanged(PropertyNameDateTime);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8060,7 +8059,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8089,7 +8088,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_iDNumber = value;
-                    OnPropertyChanged(PropertyNameIDNumber);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8118,7 +8117,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_registrationNo = value;
-                    OnPropertyChanged(PropertyNameRegistrationNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8147,7 +8146,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_amount = value;
-                    OnPropertyChanged(PropertyNameAmount);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8176,7 +8175,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isPaid = value;
-                    OnPropertyChanged(PropertyNameIsPaid);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8205,7 +8204,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isRefund = value;
-                    OnPropertyChanged(PropertyNameIsRefund);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8232,7 +8231,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_receiptNo = value;
-                    OnPropertyChanged(PropertyNameReceiptNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8259,7 +8258,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_refundedBy = value;
-                    OnPropertyChanged(PropertyNameRefundedBy);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8288,7 +8287,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isVoid = value;
-                    OnPropertyChanged(PropertyNameIsVoid);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8314,7 +8313,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_paymentDateTime = value;
-                    OnPropertyChanged(PropertyNamePaymentDateTime);
+                    OnPropertyChanged();
                 }
             }
             get { return m_paymentDateTime; }
@@ -8336,7 +8335,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_refundDateTime = value;
-                    OnPropertyChanged(PropertyNameRefundDateTime);
+                    OnPropertyChanged();
                 }
             }
             get { return m_refundDateTime; }
@@ -8358,7 +8357,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_dueDate = value;
-                    OnPropertyChanged(PropertyNameDueDate);
+                    OnPropertyChanged();
                 }
             }
             get { return m_dueDate; }
@@ -8405,7 +8404,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_title = value;
-                    OnPropertyChanged(PropertyNameTitle);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8434,7 +8433,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_text = value;
-                    OnPropertyChanged(PropertyNameText);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8497,7 +8496,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_settingId = value;
-                    OnPropertyChanged(PropertyNameSettingId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8526,7 +8525,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_username = value;
-                    OnPropertyChanged(PropertyNameUsername);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8552,7 +8551,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_key = value;
-                    OnPropertyChanged(PropertyNameKey);
+                    OnPropertyChanged();
                 }
             }
             get { return m_key; }
@@ -8574,7 +8573,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_value = value;
-                    OnPropertyChanged(PropertyNameValue);
+                    OnPropertyChanged();
                 }
             }
             get { return m_value; }
@@ -8636,7 +8635,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_rebateId = value;
-                    OnPropertyChanged(PropertyNameRebateId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8665,7 +8664,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_contractNo = value;
-                    OnPropertyChanged(PropertyNameContractNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8694,7 +8693,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_amount = value;
-                    OnPropertyChanged(PropertyNameAmount);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8723,7 +8722,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_startDate = value;
-                    OnPropertyChanged(PropertyNameStartDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8752,7 +8751,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_endDate = value;
-                    OnPropertyChanged(PropertyNameEndDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8818,7 +8817,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_building = value;
-                    OnPropertyChanged(PropertyNameBuilding);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8847,7 +8846,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_commercialSpaceCategory = value;
-                    OnPropertyChanged(PropertyNameCommercialSpaceCategory);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8876,7 +8875,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_percentage = value;
-                    OnPropertyChanged(PropertyNamePercentage);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8905,7 +8904,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_period = value;
-                    OnPropertyChanged(PropertyNamePeriod);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8934,7 +8933,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_periodType = value;
-                    OnPropertyChanged(PropertyNamePeriodType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -8956,12 +8955,36 @@ namespace Bespoke.SphCommercialSpaces.Domain
     public partial class Rent
     {
 
+        private string m_Half;
         [XmlAttribute]
-        public string Half { get; set; }
+        public string Half
+        {
+            get
+            {
+                return m_Half;
+            }
+            set
+            {
+                m_Half = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
+        private int m_Year;
         [XmlAttribute]
-        public int Year { get; set; }
+        public int Year
+        {
+            get
+            {
+                return m_Year;
+            }
+            set
+            {
+                m_Year = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
         public int? Month { get; set; }
@@ -8981,7 +9004,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_tenant = value;
-                OnPropertyChanged(PropertyNameTenant);
+                OnPropertyChanged();
             }
         }
 
@@ -8997,12 +9020,36 @@ namespace Bespoke.SphCommercialSpaces.Domain
     public partial class AdhocInvoice
     {
 
+        private string m_Category;
         [XmlAttribute]
-        public string Category { get; set; }
+        public string Category
+        {
+            get
+            {
+                return m_Category;
+            }
+            set
+            {
+                m_Category = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
+        private int m_F2;
         [XmlAttribute]
-        public int F2 { get; set; }
+        public int F2
+        {
+            get
+            {
+                return m_F2;
+            }
+            set
+            {
+                m_F2 = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
         public DateTime? SentDate { get; set; }
@@ -9035,7 +9082,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_tenant = value;
-                OnPropertyChanged(PropertyNameTenant);
+                OnPropertyChanged();
             }
         }
 
@@ -9052,7 +9099,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_address = value;
-                OnPropertyChanged(PropertyNameAddress);
+                OnPropertyChanged();
             }
         }
 
@@ -9113,7 +9160,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_amount = value;
-                    OnPropertyChanged(PropertyNameAmount);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9142,7 +9189,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_category = value;
-                    OnPropertyChanged(PropertyNameCategory);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9171,7 +9218,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_note = value;
-                    OnPropertyChanged(PropertyNameNote);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9217,7 +9264,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9328,7 +9375,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_tenant = value;
-                OnPropertyChanged(PropertyNameTenant);
+                OnPropertyChanged();
             }
         }
 
@@ -9351,7 +9398,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_complaintId = value;
-                    OnPropertyChanged(PropertyNameComplaintId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9380,7 +9427,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_templateId = value;
-                    OnPropertyChanged(PropertyNameTemplateId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9409,7 +9456,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_remarks = value;
-                    OnPropertyChanged(PropertyNameRemarks);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9438,7 +9485,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_tenantId = value;
-                    OnPropertyChanged(PropertyNameTenantId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9467,7 +9514,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_commercialSpace = value;
-                    OnPropertyChanged(PropertyNameCommercialSpace);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9496,7 +9543,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_status = value;
-                    OnPropertyChanged(PropertyNameStatus);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9525,7 +9572,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_category = value;
-                    OnPropertyChanged(PropertyNameCategory);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9554,7 +9601,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_subCategory = value;
-                    OnPropertyChanged(PropertyNameSubCategory);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9583,7 +9630,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_referenceNo = value;
-                    OnPropertyChanged(PropertyNameReferenceNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9612,7 +9659,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_type = value;
-                    OnPropertyChanged(PropertyNameType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9641,7 +9688,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_attachmentStoreId = value;
-                    OnPropertyChanged(PropertyNameAttachmentStoreId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9670,7 +9717,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_department = value;
-                    OnPropertyChanged(PropertyNameDepartment);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9699,7 +9746,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_note = value;
-                    OnPropertyChanged(PropertyNameNote);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9765,7 +9812,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_order = value;
-                    OnPropertyChanged(PropertyNameOrder);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9794,7 +9841,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9823,7 +9870,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isMandatory = value;
-                    OnPropertyChanged(PropertyNameIsMandatory);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9852,7 +9899,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_type = value;
-                    OnPropertyChanged(PropertyNameType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9881,7 +9928,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_size = value;
-                    OnPropertyChanged(PropertyNameSize);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9937,7 +9984,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9966,7 +10013,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_type = value;
-                    OnPropertyChanged(PropertyNameType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -9995,7 +10042,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_value = value;
-                    OnPropertyChanged(PropertyNameValue);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10078,7 +10125,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_complaintTemplateId = value;
-                    OnPropertyChanged(PropertyNameComplaintTemplateId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10107,7 +10154,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10136,7 +10183,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_description = value;
-                    OnPropertyChanged(PropertyNameDescription);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10165,7 +10212,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isActive = value;
-                    OnPropertyChanged(PropertyNameIsActive);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10227,7 +10274,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10256,7 +10303,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_description = value;
-                    OnPropertyChanged(PropertyNameDescription);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10327,7 +10374,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_order = value;
-                    OnPropertyChanged(PropertyNameOrder);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10356,7 +10403,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10385,7 +10432,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isMandatory = value;
-                    OnPropertyChanged(PropertyNameIsMandatory);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10414,7 +10461,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_type = value;
-                    OnPropertyChanged(PropertyNameType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10443,7 +10490,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_size = value;
-                    OnPropertyChanged(PropertyNameSize);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10470,7 +10517,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_listing = value;
-                    OnPropertyChanged(PropertyNameListing);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10556,7 +10603,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_personInCharge = value;
-                    OnPropertyChanged(PropertyNamePersonInCharge);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10585,7 +10632,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_assignedDate = value;
-                    OnPropertyChanged(PropertyNameAssignedDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10614,7 +10661,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_remark = value;
-                    OnPropertyChanged(PropertyNameRemark);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10643,7 +10690,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_inspectionDate = value;
-                    OnPropertyChanged(PropertyNameInspectionDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10672,7 +10719,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_resolution = value;
-                    OnPropertyChanged(PropertyNameResolution);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10701,7 +10748,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_observation = value;
-                    OnPropertyChanged(PropertyNameObservation);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10730,7 +10777,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_contractor = value;
-                    OnPropertyChanged(PropertyNameContractor);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10759,7 +10806,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_priority = value;
-                    OnPropertyChanged(PropertyNamePriority);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10788,7 +10835,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_severity = value;
-                    OnPropertyChanged(PropertyNameSeverity);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10880,7 +10927,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_complaint = value;
-                OnPropertyChanged(PropertyNameComplaint);
+                OnPropertyChanged();
             }
         }
 
@@ -10897,7 +10944,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set
             {
                 m_workOrder = value;
-                OnPropertyChanged(PropertyNameWorkOrder);
+                OnPropertyChanged();
             }
         }
 
@@ -10920,7 +10967,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_maintenanceId = value;
-                    OnPropertyChanged(PropertyNameMaintenanceId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10949,7 +10996,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_complaintId = value;
-                    OnPropertyChanged(PropertyNameComplaintId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -10978,7 +11025,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_workOrderNo = value;
-                    OnPropertyChanged(PropertyNameWorkOrderNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11007,7 +11054,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_department = value;
-                    OnPropertyChanged(PropertyNameDepartment);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11036,7 +11083,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_status = value;
-                    OnPropertyChanged(PropertyNameStatus);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11065,7 +11112,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_resolution = value;
-                    OnPropertyChanged(PropertyNameResolution);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11094,7 +11141,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_officer = value;
-                    OnPropertyChanged(PropertyNameOfficer);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11123,7 +11170,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_attachmentStoreId = value;
-                    OnPropertyChanged(PropertyNameAttachmentStoreId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11152,7 +11199,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_attachmentName = value;
-                    OnPropertyChanged(PropertyNameAttachmentName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11178,7 +11225,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_startDate = value;
-                    OnPropertyChanged(PropertyNameStartDate);
+                    OnPropertyChanged();
                 }
             }
             get { return m_startDate; }
@@ -11200,7 +11247,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_endDate = value;
-                    OnPropertyChanged(PropertyNameEndDate);
+                    OnPropertyChanged();
                 }
             }
             get { return m_endDate; }
@@ -11273,7 +11320,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_designationId = value;
-                    OnPropertyChanged(PropertyNameDesignationId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11302,7 +11349,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11331,7 +11378,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_description = value;
-                    OnPropertyChanged(PropertyNameDescription);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11360,7 +11407,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_isActive = value;
-                    OnPropertyChanged(PropertyNameIsActive);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11389,7 +11436,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_startModule = value;
-                    OnPropertyChanged(PropertyNameStartModule);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11494,7 +11541,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_priority = value;
-                    OnPropertyChanged(PropertyNamePriority);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11523,7 +11570,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_severity = value;
-                    OnPropertyChanged(PropertyNameSeverity);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11552,7 +11599,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_estimationCost = value;
-                    OnPropertyChanged(PropertyNameEstimationCost);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11581,7 +11628,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_workOrderId = value;
-                    OnPropertyChanged(PropertyNameWorkOrderId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11632,7 +11679,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_description = value;
-                    OnPropertyChanged(PropertyNameDescription);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11661,7 +11708,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_user = value;
-                    OnPropertyChanged(PropertyNameUser);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11722,7 +11769,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_quantity = value;
-                    OnPropertyChanged(PropertyNameQuantity);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11751,7 +11798,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_description = value;
-                    OnPropertyChanged(PropertyNameDescription);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11780,7 +11827,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_cost = value;
-                    OnPropertyChanged(PropertyNameCost);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11809,7 +11856,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_total = value;
-                    OnPropertyChanged(PropertyNameTotal);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11865,7 +11912,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_description = value;
-                    OnPropertyChanged(PropertyNameDescription);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11894,7 +11941,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_yearWarranty = value;
-                    OnPropertyChanged(PropertyNameYearWarranty);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11923,7 +11970,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_startDate = value;
-                    OnPropertyChanged(PropertyNameStartDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -11984,7 +12031,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_description = value;
-                    OnPropertyChanged(PropertyNameDescription);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12013,7 +12060,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_date = value;
-                    OnPropertyChanged(PropertyNameDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12042,7 +12089,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_reason = value;
-                    OnPropertyChanged(PropertyNameReason);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12071,7 +12118,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_action = value;
-                    OnPropertyChanged(PropertyNameAction);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12142,7 +12189,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12171,7 +12218,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_category = value;
-                    OnPropertyChanged(PropertyNameCategory);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12200,7 +12247,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_brand = value;
-                    OnPropertyChanged(PropertyNameBrand);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12229,7 +12276,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_specification = value;
-                    OnPropertyChanged(PropertyNameSpecification);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12258,7 +12305,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_quantity = value;
-                    OnPropertyChanged(PropertyNameQuantity);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12287,7 +12334,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_inventoryId = value;
-                    OnPropertyChanged(PropertyNameInventoryId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12327,6 +12374,16 @@ namespace Bespoke.SphCommercialSpaces.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int m_triggerId;
         public const string PropertyNameTriggerId = "TriggerId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_note;
+        public const string PropertyNameNote = "Note";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isActive;
+        public const string PropertyNameIsActive = "IsActive";
 
 
         private readonly ObjectCollection<Rule> m_RuleCollection = new ObjectCollection<Rule>();
@@ -12370,7 +12427,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12399,7 +12456,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_entity = value;
-                    OnPropertyChanged(PropertyNameEntity);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12428,7 +12485,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_typeOf = value;
-                    OnPropertyChanged(PropertyNameTypeOf);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12457,12 +12514,70 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_triggerId = value;
-                    OnPropertyChanged(PropertyNameTriggerId);
+                    OnPropertyChanged();
                 }
             }
             get
             {
                 return m_triggerId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Note
+        {
+            set
+            {
+                if (String.Equals(m_note, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_note = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_note;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsActive
+        {
+            set
+            {
+                if (m_isActive == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsActive, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isActive = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isActive;
             }
         }
 
@@ -12479,8 +12594,20 @@ namespace Bespoke.SphCommercialSpaces.Domain
     public partial class FunctionField
     {
 
+        private string m_Script;
         [XmlAttribute]
-        public string Script { get; set; }
+        public string Script
+        {
+            get
+            {
+                return m_Script;
+            }
+            set
+            {
+                m_Script = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
 
@@ -12495,8 +12622,20 @@ namespace Bespoke.SphCommercialSpaces.Domain
     public partial class ConstantField
     {
 
+        private string m_TypeName;
         [XmlAttribute]
-        public string TypeName { get; set; }
+        public string TypeName
+        {
+            get
+            {
+                return m_TypeName;
+            }
+            set
+            {
+                m_TypeName = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
 
@@ -12511,20 +12650,68 @@ namespace Bespoke.SphCommercialSpaces.Domain
     public partial class DocumentField
     {
 
+        private string m_XPath;
         [XmlAttribute]
-        public string XPath { get; set; }
+        public string XPath
+        {
+            get
+            {
+                return m_XPath;
+            }
+            set
+            {
+                m_XPath = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
+        private string m_NamespacePrefix;
         [XmlAttribute]
-        public string NamespacePrefix { get; set; }
+        public string NamespacePrefix
+        {
+            get
+            {
+                return m_NamespacePrefix;
+            }
+            set
+            {
+                m_NamespacePrefix = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
+        private string m_TypeName;
         [XmlAttribute]
-        public string TypeName { get; set; }
+        public string TypeName
+        {
+            get
+            {
+                return m_TypeName;
+            }
+            set
+            {
+                m_TypeName = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
+        private string m_Path;
         [XmlAttribute]
-        public string Path { get; set; }
+        public string Path
+        {
+            get
+            {
+                return m_Path;
+            }
+            set
+            {
+                m_Path = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
 
@@ -12573,7 +12760,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_left = value;
-                    OnPropertyChanged(PropertyNameLeft);
+                    OnPropertyChanged();
                 }
             }
             get { return m_left; }
@@ -12595,7 +12782,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_right = value;
-                    OnPropertyChanged(PropertyNameRight);
+                    OnPropertyChanged();
                 }
             }
             get { return m_right; }
@@ -12617,7 +12804,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_operator = value;
-                    OnPropertyChanged(PropertyNameOperator);
+                    OnPropertyChanged();
                 }
             }
             get { return m_operator; }
@@ -12682,7 +12869,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_invoiceId = value;
-                    OnPropertyChanged(PropertyNameInvoiceId);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12704,7 +12891,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_date = value;
-                    OnPropertyChanged(PropertyNameDate);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12726,7 +12913,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_amount = value;
-                    OnPropertyChanged(PropertyNameAmount);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12748,7 +12935,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_no = value;
-                    OnPropertyChanged(PropertyNameNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12770,7 +12957,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_type = value;
-                    OnPropertyChanged(PropertyNameType);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12792,7 +12979,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_contractNo = value;
-                    OnPropertyChanged(PropertyNameContractNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12814,7 +13001,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_tenantIdSsmNo = value;
-                    OnPropertyChanged(PropertyNameTenantIdSsmNo);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12859,7 +13046,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_name = value;
-                    OnPropertyChanged(PropertyNameName);
+                    OnPropertyChanged();
                 }
             }
             get
@@ -12881,7 +13068,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 if (!arg.Cancel)
                 {
                     m_note = value;
-                    OnPropertyChanged(PropertyNameNote);
+                    OnPropertyChanged();
                 }
             }
             get

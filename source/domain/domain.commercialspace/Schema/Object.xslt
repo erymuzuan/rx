@@ -37,8 +37,14 @@
               <xsl:for-each select="xs:complexType/xs:complexContent/xs:extension/xs:attribute">
                 <xsl:choose>
                   <xsl:when test="@type">
+                    private <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/> m_<xsl:value-of select="@name"/>;
                     [XmlAttribute]
-                    public  <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/> <xsl:value-of select="@name"/> {get;set;}
+                    public  <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/> <xsl:value-of select="@name"/> {get{
+                    return m_<xsl:value-of select="@name"/>;}
+                    set{
+                    m_<xsl:value-of select="@name"/> = value;
+                      RaisePropertyChanged();
+                    }}
 
                   </xsl:when>
                   <xsl:otherwise>
@@ -112,7 +118,7 @@
                     if( !arg.Cancel)
                     {
                     m_<xsl:value-of select="bspk:CamelCase(@name)"/>= value;
-                    OnPropertyChanged(PropertyName<xsl:value-of select="@name"/>);
+                    OnPropertyChanged();
                     }
                     }
                     get
@@ -141,7 +147,7 @@
                     if( !arg.Cancel)
                     {
                     m_<xsl:value-of select="bspk:CamelCase(@name)"/>= value;
-                    OnPropertyChanged(PropertyName<xsl:value-of select="@name"/>);
+                    OnPropertyChanged();
                     }
                     }
                     get
@@ -170,7 +176,7 @@
                 if(! arg.Cancel)
                 {
                 m_<xsl:value-of select="bspk:CamelCase(@name)"/>= value;
-                OnPropertyChanged(PropertyName<xsl:value-of select="@name"/>);
+                OnPropertyChanged();
                 }
                 }
                 get { return m_<xsl:value-of select="bspk:CamelCase(@name)"/>;}
@@ -224,7 +230,7 @@
         if( !arg.Cancel)
         {
         m_<xsl:value-of select="bspk:CamelCase(@name)"/>= value;
-        OnPropertyChanged(PropertyName<xsl:value-of select="@name"/>);
+        OnPropertyChanged();
         }
         }
         get
@@ -248,7 +254,7 @@
         if(! arg.Cancel)
         {
         m_<xsl:value-of select="bspk:CamelCase(@name)"/>= value;
-        OnPropertyChanged(PropertyName<xsl:value-of select="@name"/>);
+        OnPropertyChanged();
         }
         }
         get { return m_<xsl:value-of select="bspk:CamelCase(@name)"/>;}
