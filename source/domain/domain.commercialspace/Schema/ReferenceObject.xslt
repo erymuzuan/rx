@@ -43,7 +43,7 @@
 			set
 			{
 			m_<xsl:value-of select="bspk:CamelCase(@ref)"/> = value;
-			OnPropertyChanged(PropertyName<xsl:value-of select="@ref"/>);
+			OnPropertyChanged();
 			}
 			}
 		</xsl:if>
@@ -92,7 +92,7 @@
 
 			m_<xsl:value-of select="@name"/> = value;
 			ClearColumnError(PropertyName<xsl:value-of select="@name"/>);
-			OnPropertyChanged(PropertyName<xsl:value-of select="@name"/>);
+			OnPropertyChanged();
 			}
 			}
 		</xsl:if>

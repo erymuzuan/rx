@@ -14,9 +14,9 @@ namespace domain.test.triggers
             var building = new Building();
             var rule = new Rule
                 {
-                    Left = new ConstantField { Value = 500 },
+                    Left = new ConstantField { Value = 500, Type = typeof(int) },
                     Operator = Operator.Eq,
-                    Right = new ConstantField { Value = 500 }
+                    Right = new ConstantField { Value = 500, Type = typeof(int)}
                 };
 
             var result = rule.Execute(building);

@@ -152,6 +152,7 @@
     <Compile Include="Triggers\EmailAction.cs" />
     <Compile Include="Triggers\SetterAction.cs" />
     <Compile Include="Trigger.cs" />
+    <Compile Include="Triggers\SetterActionChild.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="Rebate.cs" />
     <Compile Include="Rent.cs" />

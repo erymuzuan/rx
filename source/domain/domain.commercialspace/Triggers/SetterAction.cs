@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -7,12 +6,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
 {
     public partial class SetterAction : CustomAction
     {
-        private readonly Dictionary<string, Field> m_pathValueCollection = new Dictionary<string, Field>();
-
-        public Dictionary<string, Field> PathValueCollection
-        {
-            get { return m_pathValueCollection; }
-        }
         public override void Execute(Entity item)
         {
             throw new System.NotImplementedException();
@@ -23,13 +16,13 @@ namespace Bespoke.SphCommercialSpaces.Domain
             var script = ObjectBuilder.GetObject<IScriptEngine>();
             // TODO : translate path to the property path
             var code = new StringBuilder();
-            foreach (var path in this.PathValueCollection.Keys)
+            foreach (var action in this.SetterActionChildCollection)
             {
-                var val = this.PathValueCollection[path].GetValue(item);
+                var val = action.Field.GetValue(item);
                 if (val is string)
                     val = string.Format("\"{0}\"", val);
 
-                code.AppendLine("item." + path + " = " + val + ";");
+                code.AppendLine("item." + action.Path + " = " + val + ";");
             }
             code.Append("return item;");
             Console.WriteLine(code);

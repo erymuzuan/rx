@@ -22,23 +22,49 @@ namespace Bespoke.SphCommercialSpaces.Domain
             }
         }
 
+
+        protected override void OnPropertyChanged(string propertyName = null)
+        {
+            if (propertyName == "TypeName" && !string.IsNullOrWhiteSpace(this.TypeName) && null != m_tempVal)
+            {
+
+                var val = string.Format("{0}", m_tempVal);
+                this.Value = this.ParseValue(val);
+                m_tempVal = null;
+                RaisePropertyChanged("Value");
+
+            }
+            base.OnPropertyChanged(propertyName);
+        }
+
+        private object ParseValue(string val)
+        {
+            if (this.Type == typeof(int))
+                return int.Parse(val);
+            if (this.Type == typeof(DateTime))
+                return DateTime.Parse(val);
+            if (this.Type == typeof(decimal))
+                return decimal.Parse(val);
+            if (this.Type == typeof(bool))
+                return bool.Parse(val);
+
+            return val;
+
+
+        }
+
+        private object m_tempVal;
         public object Value
         {
             get { return m_value; }
             set
             {
-                var val = string.Format("{0}", value);
-                if (this.Type == typeof(int))
-                    m_value = int.Parse(val);
-                if (this.Type == typeof(DateTime))
-                    m_value = DateTime.Parse(val);
-                if (this.Type == typeof(decimal))
-                    m_value = decimal.Parse(val);
-                if (this.Type == typeof(bool))
-                    m_value = bool.Parse(val);
-                if (this.Type == typeof(string))
-                    m_value = val;
-
+                if (string.IsNullOrWhiteSpace(this.TypeName))
+                {
+                    m_tempVal = value;
+                    return;
+                }
+                m_value = this.ParseValue(string.Format("{0}",value));
                 RaisePropertyChanged();
             }
         }
@@ -46,6 +72,10 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
         public override object GetValue(Entity item)
         {
+            if (string.IsNullOrWhiteSpace(this.TypeName) && null != m_tempVal)
+            {
+                this.Type = m_tempVal.GetType();
+            }
             var val = string.Format("{0}", this.Value);
             if (this.Type == typeof(int))
             {

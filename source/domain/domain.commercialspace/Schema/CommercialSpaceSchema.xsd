@@ -918,7 +918,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="ActionCollection">
+				<xs:element name="ActionCollection">					
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="Action" type="CustomAction" minOccurs="0" maxOccurs="unbounded">
@@ -992,6 +992,15 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CustomAction">
+					<xs:all>
+						<xs:element name="SetterActionChildCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="SetterActionChild" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
 					<xs:attribute name="Path" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>

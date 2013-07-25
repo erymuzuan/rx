@@ -31,10 +31,10 @@ namespace domain.test.triggers
             ObjectBuilder.AddCacheList<IPersistence>(persistence);
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher());
 
-            var building = new Building{LotNo = "4444"};
+            var building = new Building { LotNo = "4444" };
             var setter = new SetterAction();
-            setter.PathValueCollection.Add("Name", new ConstantField{ Type = typeof(string), Value = "Damansara Intan"});;
-            setter.PathValueCollection.Add("Note", new DocumentField{ Path = "LotNo", Type = typeof(string)});
+            setter.SetterActionChildCollection.Add(new SetterActionChild { Path = "Name", Field = new ConstantField { Type = typeof(string), Value = "Damansara Intan" } }); ;
+            setter.SetterActionChildCollection.Add(new SetterActionChild { Path = "Note", Field = new DocumentField { Path = "LotNo", Type = typeof(string) } });
             setter.ExecuteAsync(building).Wait(5000);
 
             Assert.AreEqual("Damansara Intan", persistence.Building.Name);

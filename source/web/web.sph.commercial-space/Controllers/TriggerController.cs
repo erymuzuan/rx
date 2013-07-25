@@ -1,24 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bespoke.Sph.Commerspace.Web.Helpers;
 using Bespoke.SphCommercialSpaces.Domain;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public class TriggerController : Controller
     {
-        private string GetRequestBody()
-        {
-
-            using (var reader = new StreamReader(this.Request.InputStream))
-            {
-                string text = reader.ReadToEnd();
-                return text;
-            }
-        }
 
         public async Task<ActionResult> Save()
         {
