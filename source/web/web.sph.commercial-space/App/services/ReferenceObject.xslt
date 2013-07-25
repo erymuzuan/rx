@@ -9,6 +9,7 @@
 
   <!-- inheritance with extension -->
   <xsl:template match="xs:extension">
+	  v["$type"] = "Bespoke.SphCommercialSpaces.Domain.<xsl:value-of select="../../../@name"/>, domain.commercialspace";
     <!-- collection -->
     <xsl:for-each select="xs:all/xs:element/xs:complexType/xs:sequence/xs:element">
       v.<xsl:value-of select="../../../@name"/> = ko.observableArray();</xsl:for-each>
@@ -27,11 +28,9 @@
       <!-- 
       Element with simple restriction rules- for string and integer
       -->
-      <xsl:if test="xs:simpleType">
-        v.<xsl:value-of select="@name"/>= ko.observable(); //enum
+      <xsl:if test="xs:simpleType">v.<xsl:value-of select="@name"/>= ko.observable(); //enum
       </xsl:if>
     </xsl:for-each>
-
 
   </xsl:template>
 

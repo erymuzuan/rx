@@ -5,15 +5,18 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xsl:output method="text" />
   <xsl:template match="xs:schema">
-    using System;
-    using System.Xml.Serialization;
-    using System.ComponentModel;
-    using System.Diagnostics;
-    using System.ComponentModel.DataAnnotations;
+	  using System;
+	  using System.Xml.Serialization;
+	  using System.ComponentModel;
+	  using System.Diagnostics;
+	  using System.ComponentModel.DataAnnotations;
+	  using Newtonsoft.Json;
 
-    namespace Bespoke.SphCommercialSpaces.Domain
-    {
-    <!-- ELEMENT -->
+
+	  // ReSharper disable InconsistentNaming
+	  namespace Bespoke.SphCommercialSpaces.Domain
+	  {
+	  <!-- ELEMENT -->
     <xsl:for-each select="xs:element">
       <xsl:choose>
         <!-- Complex TYPE -->
@@ -155,7 +158,7 @@
                 /// <xsl:value-of select="xs:annotation/xs:documentation"/>
                 ///&lt;/summary&gt;
                 [DebuggerHidden]
-
+				<xsl:value-of select="xs:annotation/xs:appinfo[@source='attr']"/>
                 public <xsl:value-of select="bspk:GetCLRDataType(@type, @nillable)"/>
                 <xsl:value-of select="@name"/>
                 {
@@ -265,6 +268,7 @@
       </xsl:for-each>}
     </xsl:for-each>
     }
+// ReSharper restore InconsistentNaming
 
   </xsl:template>
   <xsl:include href="ReferenceObject.xslt"/>

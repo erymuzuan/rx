@@ -106,6 +106,7 @@
 		}	
 		public string RemovePrefixMember(string value, string maxOccur)
 		{
+			
 			int max;
 			string suffix = string.Empty;
 			if( int.TryParse(maxOccur, out max))
@@ -121,6 +122,14 @@
 		}	
 		public string RemovePrefixDataType(string value, string maxOccur, string type)
 		{
+		
+		if(string.IsNullOrEmpty(value))
+		{
+			
+			if(type == "xs:string") return " ObjectCollection<string> ";
+			if(type == "xs:int") return "int ";
+		}
+		
 			int max ;
 			string suffix = string.Empty;
 			string prefix = string.Empty;
@@ -199,6 +208,10 @@
 			if( String.Equals("xs:string", xsType, StringComparison.Ordinal))
 			{
 				return "String.Equals( m_" + field + ", value, StringComparison.Ordinal)";
+			}
+			if( String.Equals("xs:double", xsType, StringComparison.Ordinal))
+			{
+				return "/* if nillable use ?? 0d temp */ Math.Abs(m_" + field +" - value) < 0.00001d";
 			}
 			return "m_" + field + " == value";
 		

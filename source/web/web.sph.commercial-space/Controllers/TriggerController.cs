@@ -1,59 +1,30 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.SphCommercialSpaces.Domain;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public class TriggerController : Controller
     {
-
-        private Field GetField(dynamic field)
+        private string GetRequestBody()
         {
 
-            Field left = null;
-            // function field
-            try
+            using (var reader = new StreamReader(this.Request.InputStream))
             {
-                var ff = new FunctionField
-                {
-                    Note = field.Note,
-                    Name = field.Name,
-                    Script = field.Script
-                };
-                left = ff;
+                string text = reader.ReadToEnd();
+                return text;
             }
-            catch { }
-
-            try
-            {
-                var df = new DocumentField
-                {
-                    Note = field.Note,
-                    Name = field.Name,
-                    XPath = field.XPath,
-                    Path = field.Path,
-                    TypeName = field.TypeName
-                };
-                left = df;
-            }
-            catch { }
-            try
-            {
-                var cf = new ConstantField
-                {
-                    Note = field.Note,
-                    Name = field.Name,
-                    Value = field.Value,
-                    TypeName = field.TypeName
-                };
-                left = cf;
-            }
-            catch { }
-            return left;
         }
 
-        public async Task<ActionResult> Save(Trigger trigger)
+        public async Task<ActionResult> Save()
         {
+            var json = this.GetRequestBody();
+            var trigger = JsonConvert.DeserializeObject<Trigger>(json);
+
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
@@ -62,7 +33,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             }
 
 
-            return Json(true);
+            return Json(trigger.TriggerId);
         }
 
     }
