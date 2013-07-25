@@ -188,6 +188,7 @@
     <Compile Include="Topic.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Warranty.cs" />
+    <Compile Include="Watcher.cs" />
     <Compile Include="WorkOrder.cs" />
   </ItemGroup>
   <ItemGroup>
