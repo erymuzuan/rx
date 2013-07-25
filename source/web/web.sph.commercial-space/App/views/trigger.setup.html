@@ -96,7 +96,6 @@
                             </li>
                         </ul>
                     </div>
-
                 </td>
             </tr>
         </tbody>
@@ -106,20 +105,26 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Nama</th>
-                <th>Input</th>
+                <th>Tajuk</th>
             </tr>
         </thead>
         <tbody data-bind="foreach: ActionCollection">
             <tr>
                 <td>
-                    <select>
-                        <option value="email">Email</option>
-                        <option value="setter">Setter</option>
-                        <option value="update">Kemaskini</option>
-                    </select>
+                   <div class="btn-group">
+                        <a class="btn dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
+                            <!-- ko text : Title().Name -->
+                            <!-- /ko -->
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="btn btn-link" data-bind="click: $root.addEmailActionCommand" href="#email-action-modal">Add Email Action</a>
+                            </li>
+                            <li><a class="btn btn-link" data-bind="click: $root.addSetterActionCommand" href="#setter-action-modal">Add Setter Action</a>
+                            </li>
+                        </ul>
+                    </div>
                 </td>
-                <td></td>
             </tr>
         </tbody>
     </table>

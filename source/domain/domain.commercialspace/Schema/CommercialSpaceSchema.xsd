@@ -867,32 +867,6 @@
 			<xs:attribute name="InventoryId" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Trigger">
-		<xs:complexType>
-			<xs:all>
-				<xs:element name="RuleCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Rule" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="ActionCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Action" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:all>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="Entity" type="xs:string" use="required"/>
-			<xs:attribute name="TypeOf" type="xs:string" use="required"/>
-			<xs:attribute name="TriggerId" type="xs:int" use="required"/>
-			<xs:attribute name="Note" type="xs:string" use="required"/>
-			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="FunctionField">
 		<xs:complexType>
 			<xs:complexContent>
@@ -934,6 +908,36 @@
 			<xs:enumeration value="FunctionField"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:element name="Trigger">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="RuleCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Rule" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ActionCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Action" type="CustomAction" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:appinfo source="attr"> [JsonProperty(TypeNameHandling = TypeNameHandling.All)] </xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Entity" type="xs:string" use="required"/>
+			<xs:attribute name="TypeOf" type="xs:string" use="required"/>
+			<xs:attribute name="TriggerId" type="xs:int" use="required"/>
+			<xs:attribute name="Note" type="xs:string" use="required"/>
+			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Rule">
 		<xs:complexType>
 			<xs:all>
@@ -963,4 +967,46 @@
 			<xs:enumeration value="EndsWith"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:complexType name="CustomAction">
+		<xs:attribute name="Title" type="xs:string" use="required"/>
+		<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+		<xs:attribute name="TriggerId" type="xs:int" use="required"/>
+		<xs:attribute name="Note" type="xs:string" use="required"/>
+		<xs:attribute name="CustomActionId" type="xs:int" use="required"/>
+	</xs:complexType>
+	<xs:element name="EmailAction">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="CustomAction">
+					<xs:attribute name="From" type="xs:string" use="required"/>
+					<xs:attribute name="To" type="xs:string" use="required"/>
+					<xs:attribute name="SubjectTemplate" type="xs:string" use="required"/>
+					<xs:attribute name="BodyTemplate" type="xs:string" use="required"/>
+					<xs:attribute name="Bcc" type="xs:string" use="required"/>
+					<xs:attribute name="Cc" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SetterAction">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="CustomAction">
+					<xs:attribute name="Path" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SetterActionChild">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Field" type="Field">
+					<xs:annotation>
+						<xs:appinfo source="attr"> [JsonProperty(TypeNameHandling = TypeNameHandling.All)] </xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Path" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

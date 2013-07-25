@@ -13,8 +13,18 @@ define(['services/datacontext'],
 
         var isBusy = ko.observable(false),
             isRight = ko.observable(false),
-            activate = function () {
-                return true;
+            id = ko.observable(),
+            activate = function (routeData) {
+                id(parseInt(routeData.id));
+                var query = String.format("TriggerId eq {0} ", id());
+                var tcs = new $.Deferred();
+                context.loadOneAsync("Trigger", query)
+                    .done(function(t) {
+                        vm.trigger(t);
+                        tcs.resolve(true);
+                    });
+
+                return tcs.promise();
             },
 
             viewAttached = function () {
@@ -103,6 +113,21 @@ define(['services/datacontext'],
                 vm.constantField(constantField);
                 $('#constant-panel-modal').modal({});
             },
+            addEmailAction = function(action) {
+                var constantField = new bespoke.sphcommercialspace.domain.EmailAction();
+                editedField = action;
+                vm.constantField(constantField);
+                $('#constant-panel-modal').modal({});
+            },
+            addSetterAction = function() {
+                
+            },
+            updateEmailAction = function () {
+                
+            },
+            updateSetterAction = function () {
+                
+            },
             save = function () {
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.trigger);
@@ -125,6 +150,8 @@ define(['services/datacontext'],
             functionField: ko.observable(new bespoke.sphcommercialspace.domain.FunctionField()),
             constantField: ko.observable(new bespoke.sphcommercialspace.domain.ConstantField()),
             documentField: ko.observable(new bespoke.sphcommercialspace.domain.DocumentField()),
+            emailAction: ko.observable(new bespoke.sphcommercialspace.domain.EmailAction()),
+            setterAction: ko.observable(new bespoke.sphcommercialspace.domain.SetterAction()),
             trigger: ko.observable(new bespoke.sphcommercialspace.domain.Trigger()),
             addRuleCommand: addRule,
             addFunctionFieldCommand: addFunctionField,
@@ -139,6 +166,10 @@ define(['services/datacontext'],
             addConstantFieldToRightCommand: addConstantFieldToRight,
             updateConstantLeftToRuleCommand: updateConstantLeftToRule,
             updateConstantRightToRuleCommand: updateConstantRightToRule,
+            addEmailActionCommand: addEmailAction,
+            addSetterActionCommand: addSetterAction,
+            updateEmailActionCommand: updateEmailAction,
+            updateSetterActionCommand: updateSetterAction,
             saveCommand: save
         };
 

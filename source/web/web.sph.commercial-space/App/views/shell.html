@@ -6,63 +6,9 @@
         <!--/ko-->
     </header>
     <section id="content" class="container-fluid">
-        <div class="pull-right" data-bind="if: router.activeItem().toolbar">
-            <div data-bind="with: router.activeItem().toolbar">
-                <!-- ko if: typeof saveCommand === "function"-->
-                <button class="btn" data-bind="command: saveCommand" data-loading-text="Saving....">
-                    <i class="icon-save"></i>
-                    Save
-                </button>
-                <!-- /ko -->
-                <!-- ko if: typeof removeCommand === "function"-->
-                <button class="btn" data-bind="command: removeCommand" data-loading-text="Removing....">
-                    <i class="icon-remove"></i>
-                    Remove
-                </button>
-                <!-- /ko -->
-                <!-- ko if: typeof reloadCommand === "function"-->
-                <button class="btn" data-bind="command: reloadCommand" data-loading-text="Loading....">
-                    <i class="icon-refresh"></i>
-                    Reload
-                </button>
-                <!-- /ko -->
-                <!-- ko if: typeof printCommand === "function"-->
-                <button class="btn" data-bind="command: printCommand" data-loading-text="Printing....">
-                    <i class="icon-print"></i>
-                    Print
-                </button>
-                <!-- /ko -->
-                <!-- ko if: typeof emailCommand === "function"-->
-                <button class="btn" data-bind="command: emailCommand" data-loading-text="Sendin....">
-                    <i class="icon-envelope"></i>
-                    Email
-                </button>
-                <!-- /ko -->
-
-                <!-- ko if: typeof watchCommand === "function"-->
-                <button class="btn" data-bind="command: watchCommand, visible:watching() === false" data-loading-text="saving....">
-                    <i class="icon-eye-open"></i>
-                    Watch
-                </button>
-                <!-- /ko -->
-                <!-- ko if: typeof unwatchCommand === "function"-->
-                <button class="btn" data-bind="command: unwatchCommand, visible:watching" data-loading-text="saving....">
-                    <i class="icon-eye-close"></i>
-                    Unwatch
-                </button>
-                <!-- /ko -->
-
-                <!-- ko if: typeof commands === "function"-->
-                <!-- ko foreach: commands-->
-                <button class="btn" data-bind="command: command" data-loading-text="Sendin....">
-                    <i data-bind=" attr: { 'class': icon }"></i>
-                    <span data-bind="text: caption"></span>
-                </button>
-                <!-- /ko -->
-                <!-- /ko -->
-
-            </div>
-        </div>
+     
+        <!--ko compose: {view: 'toolbar'} -->
+        <!--/ko-->
         <!--ko compose: {model: router.activeItem, 
             afterCompose: router.afterCompose, 
             transition: 'entrance'} -->

@@ -1,0 +1,18 @@
+﻿
+<h1>Senarai Trigger</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nama</th>
+            <th>Entiti</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach :triggerCollection">
+        <tr>
+            <td>
+                <a data-bind="attr: { href: '/#/trigger.setup/' + TriggerId() }, text: Name" ></a>
+            </td>
+            <td data-bind="text:Entity"></td>
+        </tr>
+    </tbody>
+</table>

@@ -143,6 +143,7 @@
     <Compile Include="PaymentDistribution.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="QueryHelper.cs" />
+    <Compile Include="Triggers\Action.cs" />
     <Compile Include="Triggers\ConstantField.cs" />
     <Compile Include="Triggers\DocumentField.cs" />
     <Compile Include="Triggers\Field.cs" />

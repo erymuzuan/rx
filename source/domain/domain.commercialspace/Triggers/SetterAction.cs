@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public class SetterAction : CustomAction
+    public partial class SetterAction : CustomAction
     {
         private readonly Dictionary<string, Field> m_pathValueCollection = new Dictionary<string, Field>();
 

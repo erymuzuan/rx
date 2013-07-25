@@ -1196,29 +1196,6 @@ bespoke.sphcommercialspace.domain.Inventory = function (webId) {
 
 
 
-bespoke.sphcommercialspace.domain.Trigger = function (webId) {
-
-    var model = {
-        "$type": "Bespoke.SphCommercialSpaces.Domain.Trigger, domain.commercialspace",
-        Name: ko.observable(),
-        Entity: ko.observable(),
-        TypeOf: ko.observable(),
-        TriggerId: ko.observable(),
-        Note: ko.observable(),
-        IsActive: ko.observable(),
-        RuleCollection: ko.observableArray(),
-        ActionCollection: ko.observableArray(),
-        isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
-    };
-    if (bespoke.sphcommercialspace.domain.TriggerPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.TriggerPartial(model));
-    }
-    return model;
-};
-
-
-
 bespoke.sphcommercialspace.domain.FunctionField = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.Field(webId);
@@ -1267,6 +1244,29 @@ bespoke.sphcommercialspace.domain.DocumentField = function (webId) {
 
 
 
+bespoke.sphcommercialspace.domain.Trigger = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.Trigger, domain.commercialspace",
+        Name: ko.observable(),
+        Entity: ko.observable(),
+        TypeOf: ko.observable(),
+        TriggerId: ko.observable(),
+        Note: ko.observable(),
+        IsActive: ko.observable(),
+        RuleCollection: ko.observableArray(),
+        ActionCollection: ko.observableArray(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.TriggerPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.TriggerPartial(model));
+    }
+    return model;
+};
+
+
+
 bespoke.sphcommercialspace.domain.Rule = function (webId) {
 
     var model = {
@@ -1281,6 +1281,42 @@ bespoke.sphcommercialspace.domain.Rule = function (webId) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.RulePartial(model));
     }
     return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.EmailAction = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.CustomAction(webId);
+
+    v.From = ko.observable();
+    v.To = ko.observable();
+    v.SubjectTemplate = ko.observable();
+    v.BodyTemplate = ko.observable();
+    v.Bcc = ko.observable();
+    v.Cc = ko.observable();
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.EmailAction, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.EmailActionPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.EmailActionPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.SetterAction = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.CustomAction(webId);
+
+    v.ValueTypeName = ko.observable();
+    v.Path = ko.observable();
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.SetterAction, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.SetterActionPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.SetterActionPartial(v));
+    }
+    return v;
 };
 
 
@@ -1307,6 +1343,21 @@ bespoke.sphcommercialspace.domain.Field = function (webId) {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Field, domain.commercialspace",
         Name: ko.observable(),
         Note: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+};
+
+
+bespoke.sphcommercialspace.domain.CustomAction = function (webId) {
+
+    return {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.CustomAction, domain.commercialspace",
+        Title: ko.observable(),
+        IsActive: ko.observable(),
+        TriggerId: ko.observable(),
+        Note: ko.observable(),
+        CustomActionId: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
