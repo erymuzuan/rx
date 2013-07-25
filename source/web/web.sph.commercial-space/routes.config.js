@@ -48,7 +48,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "can_add_commercial_space",
     "url": "lotdetail/:buildingId/:floorname",
     "moduleId": "viewmodels/lotdetail",
     "name": "LotDetail",
@@ -394,7 +394,7 @@
     "error": ""
   },
   {
-    "role": "",
+    "role": "admin_user",
     "url": "user.profile",
     "moduleId": "viewmodels/user.profile",
     "name": "Profile",

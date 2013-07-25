@@ -2,12 +2,19 @@
     function (system, router, logger, config) {
 
         var viewAttached = function (view) {
-                // NOTE: there's a bug someweher that makes bootstrap data-toggle didn't work
-                $(view).on('click', 'li.dropdown>a.dropdown-toggle', function () {
-                    $(this).parent().toggleClass("open");
-                });
+            // NOTE: there's a bug someweher that makes bootstrap data-toggle didn't work
+            $(view).on('click', 'li.dropdown>a.dropdown-toggle', function () {
+                $(this).parent().toggleClass("open");
+            });
 
-            };
+            var jPM = $.jPanelMenu({
+                menu: '#menu',
+                trigger: '#drawer-menu',
+                duration: 300
+            });
+            jPM.on();
+
+        };
 
         var shell = {
             activate: activate,

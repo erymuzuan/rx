@@ -1,8 +1,11 @@
 ﻿
-<nav class="navbar navbar-fixed-bottom">
+<div class="jPanelMenu-panel">		
+    <nav id="jPanelMenu-menu">
+		
     <ul class="navi nav" data-bind="foreach: router.visibleRoutes">
         <li class="nred" data-bind="css: { current: isActive }"><a href="#" data-bind=" attr: { href: hash }">
             <i data-bind="attr : {class : icon}"></i><span data-bind="text: name"></span>
         </a></li>
     </ul>
-</nav>
+    </nav>
+</div>

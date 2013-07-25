@@ -24,6 +24,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/scripts/bootstrap-datepicker.js")
                 .Include("~/scripts/moment.js")
                 .Include("~/scripts/string.js")
+                .Include("~/scripts/jPanelMenu.js")
                 .Include("~/scripts/underscore.js")
                 .Include("~/kendo/js/kendo.all.js")
                 .Include("~/scripts/_kendo-knockoutbindings.js")

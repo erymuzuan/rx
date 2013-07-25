@@ -388,6 +388,7 @@
     <Content Include="Scripts\guide.js" />
     <Content Include="Scripts\holder.js" />
     <None Include="Scripts\jquery-2.0.2.intellisense.js" />
+    <Content Include="Scripts\jPanelMenu.js" />
     <Content Include="Scripts\jquery-2.0.2.js" />
     <Content Include="Scripts\jquery-2.0.2.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />

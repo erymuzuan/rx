@@ -48,12 +48,12 @@ body{
 	line-height: 23px;
 	color: #666;
 	background:#111;  
-	padding-top: 45px;
+	padding-top: 0px;
 	-webkit-font-smoothing: antialiased;
 }
 
 body .container{
-	width: 97%;
+	width: 100%;
 	padding-left: 1.5%;
 	padding-right: 1.5%;
 }
@@ -1563,6 +1563,146 @@ border:1px solid #eee;
 	}
 }
 
+#trigger-on {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: -moz-linear-gradient(center top , #3F94BF, #2D7498) repeat scroll 0 0 transparent;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-color: -moz-use-text-color #1B5572 #1B5572;
+    border-right: 1px solid #1B5572;
+    border-style: none solid solid;
+    border-width: medium 1px 1px;
+    box-shadow: 0 1px 10px #222222;
+    color: #F7F7F7;
+    display: block;
+    font-family: "museo-sans","Museo Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+    padding: 0.25em 1em;
+    position: fixed;
+    right: 7.5%;
+    text-decoration: none;
+    text-shadow: 0 -1px 1px #222222;
+    top: 0;
+}
+footer.main {
+    margin-bottom: 0;
+    padding-bottom: 1em;
+    text-align: center;
+}
+.jPanelMenu header.main {
+    background: -moz-linear-gradient(center top , #3F94BF, #246485) repeat scroll 0 0 transparent;
+    border-bottom: 1px solid #1B5572;
+    box-shadow: 0 1px 5px rgba(34, 34, 34, 0.5);
+    height: 50px;
+    margin: 0;
+    max-width: none;
+    padding: 0 7.5%;
+    position: fixed;
+    top: 0;
+    width: 85%;
+    z-index: 10;
+}
+.jPanelMenu header.main .logo a, .jPanelMenu header.main .menu-trigger {
+    color: #F7F7F7;
+    display: block;
+    height: 100%;
+    line-height: 50px;
+    text-shadow: 0 -1px 1px #222222;
+}
+.jPanelMenu header.main .logo {
+    float: none;
+    font-family: "museo-sans","Museo Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+    margin: 0 auto;
+    width: 60%;
+}
+.jPanelMenu header.main .logo a {
+    position: static;
+}
+.jPanelMenu header.main .logo a:before {
+    display: none !important;
+}
+.jPanelMenu header.main .menu-trigger {
+    font-size: 1.2em;
+    left: 0;
+    line-height: 57.5px;
+    padding: 0 1.5em;
+    position: absolute;
+    top: 0;
+}
+.jPanelMenu header.main .menu-trigger:active {
+    text-shadow: 0 -1px 1px #222222, 0 0 50px #F7F7F7;
+}
+.jPanelMenu header.main nav {
+    text-indent: -9999px;
+}
+.jPanelMenu .content {
+    padding-top: 4em;
+}
+.jPanelMenu .content section.intro h2 {
+    padding-top: 0;
+}
+.jPanelMenu .content h2 {
+    margin-top: 0;
+    padding-top: 62.5px;
+}
+.jPanelMenu .content .spec, .jPanelMenu .content h3 {
+    margin-top: 0;
+    padding-top: 4em;
+}
+.jPanelMenu .content .spec h3 {
+    padding-top: 0;
+}
+.jPanelMenu .content .jPM-specific {
+    display: block;
+}
+#jPanelMenu-menu {
+    width: 250px; z-index: 1; display: block;
+    background: none repeat scroll 0 0 #3B3B3B;
+
+}
+#jPanelMenu-menu ul {
+    border-bottom: 1px solid #484848;
+}
+#jPanelMenu-menu li a {
+    background: -moz-linear-gradient(center top , #3E3E3E, #383838) repeat scroll 0 0 transparent;
+    border-bottom: 1px solid #2E2E2E;
+    border-top: 1px solid #484848;
+    color: #F7F7F7;
+    display: block;
+    font-family: "museo-sans","Museo Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+    padding: 0.5em 5%;
+    text-decoration: none;
+    text-shadow: 0 -1px 2px #222222;
+}
+#jPanelMenu-menu li a:hover, #jPanelMenu-menu li a:focus {
+    background-color: #484848;
+}
+#jPanelMenu-menu li a:active {
+    background-color: #3E3E3E;
+    border-top-color: #222222;
+    box-shadow: 0 2px 7px #222222 inset;
+    padding-bottom: 0.45em;
+    padding-top: 0.55em;
+}
+#jPanelMenu-menu span {
+    margin-left: 10px;
+}
+
+.jPanelMenu-panel {
+    position: relative; left: 0px;
+    box-shadow: 0 0 25px #222222;
+}
+
+#drawer-menu {
+    display: block;
+    float: left;
+}
 
 
 
