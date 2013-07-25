@@ -1,9 +1,6 @@
 using System.Web.Optimization;
 using Bespoke.Sph.Commerspace.Web.App_Start;
 
-[assembly: WebActivator.PostApplicationStartMethod(
-    typeof(HotTowelConfig), "PreStart")]
-
 namespace Bespoke.Sph.Commerspace.Web.App_Start
 {
     public static class HotTowelConfig

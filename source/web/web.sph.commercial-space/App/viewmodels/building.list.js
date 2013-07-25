@@ -14,36 +14,29 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             vm.buildings(lo.itemCollection);
             tcs.resolve(true);
         });
-       return tcs.promise();
+        return tcs.promise();
     },
     addNew = function () {
-        var url = '/#/buildingdetail/0';
+        var url = '/#/building.detail/0';
         router.navigateTo(url);
+        return {
+            then: function () { }
+        };
     },
-    viewAttached = function (view) {
-        bindEventToList(view, '#div-building', gotoDetails);
-    },
-    bindEventToList = function (rootSelector, selector, callback, eventName) {
-        var eName = eventName || 'click';
-        $(rootSelector).on(eName, selector, function () {
-            var building = ko.dataFor(this);
-            callback(building);
-            return false;
-        });
-    },
-        gotoDetails = function (selectedBuilding) {
-        if (selectedBuilding && selectedBuilding.BuildingId()) {
-            var url = '/#/buildingdetail/' + selectedBuilding.BuildingId();
-            router.navigateTo(url);
-        }
-    };
+
+
+            exportList = function () {
+
+            };
 
     var vm = {
         activate: activate,
         title: 'Building',
         buildings: ko.observableArray([]),
-        viewAttached: viewAttached,
-        addNewCommand: addNew
+        toolbar: {
+            addNewCommand: addNew,
+            exportCommand: exportList
+        }
     };
 
     return vm;

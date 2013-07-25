@@ -11,15 +11,14 @@ namespace routes.editor
 {
     public class MainViewModel : ViewModelBase
     {
-        //
         public RelayCommand OpenCommand { get; set; }
         public RelayCommand AddCommand { get; set; }
         public RelayCommand SaveCommand { get; set; }
         public RelayCommand ValidateCommand { get; set; }
         public RelayCommand<JsRoute> MoveUpCommand { get; set; }
         public RelayCommand<JsRoute> MoveDownCommand { get; set; }
+        public RelayCommand ManageRoleCommand { get; set; }
 
-        //
         public MainViewModel()
         {
             this.OpenCommand = new RelayCommand(Open);
@@ -28,6 +27,16 @@ namespace routes.editor
             this.ValidateCommand = new RelayCommand(Validate);
             this.MoveDownCommand = new RelayCommand<JsRoute>(r => Move(r, 1), r => null != r && this.RouteCollection.IndexOf(r) < this.RouteCollection.Count - 1);
             this.MoveUpCommand = new RelayCommand<JsRoute>(r => Move(r, -1), r => null != r && this.RouteCollection.IndexOf(r) > 0);
+            this.ManageRoleCommand = new RelayCommand(ManageRoles);
+        }
+
+        private void ManageRoles()
+        {
+            var roles = this.RouteCollection.Where(r => !string.IsNullOrWhiteSpace(r.Role)).Select(r => r.Role).Distinct();
+
+            var config = System.IO.Path.GetDirectoryName(this.FileName) + @"\Web.config";
+            var mru = new MembershipRoleManagement(config);
+            mru.UpdateRoles(roles);
         }
 
         private void Move(JsRoute route, int step)

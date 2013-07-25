@@ -1,0 +1,87 @@
+{
+	"$type": "Bespoke.SphCommercialSpaces.Domain.Trigger, domain.commercialspace",
+	"Name": "test 0002",
+	"Entity": "Building",
+	"RuleCollection": [{
+		"$type": "Bespoke.SphCommercialSpaces.Domain.Rule, domain.commercialspace",
+		"Left": {
+			"$type": "Bespoke.SphCommercialSpaces.Domain.DocumentField, domain.commercialspace",
+			"Name": "r1",
+			"Note": "r1",
+			"isBusy": false,
+			"XPath": "Name"
+		},
+		"Right": {
+			"$type": "Bespoke.SphCommercialSpaces.Domain.ConstantField, domain.commercialspace",
+			"Name": "r1",
+			"Note": "r1",
+			"isBusy": false,
+			"TypeName": "System.String, mscorlib",
+			"Value": "d"
+		},
+		"Operator": "Eq",
+		"isBusy": false
+	},
+	{
+		"$type": "Bespoke.SphCommercialSpaces.Domain.Rule, domain.commercialspace",
+		"Left": {
+			"$type": "Bespoke.SphCommercialSpaces.Domain.DocumentField, domain.commercialspace",
+			"Name": "l2",
+			"Note": "l2",
+			"isBusy": false,
+			"XPath": "BuildingId"
+		},
+		"Right": {
+			"$type": "Bespoke.SphCommercialSpaces.Domain.ConstantField, domain.commercialspace",
+			"Name": "r2",
+			"Note": "r2",
+			"isBusy": false,
+			"TypeName": "System.Int32, mscorlib",
+			"Value": "10"
+		},
+		"Operator": "Gt",
+		"isBusy": false
+	},
+	{
+		"$type": "Bespoke.SphCommercialSpaces.Domain.Rule, domain.commercialspace",
+		"Left": {
+			"$type": "Bespoke.SphCommercialSpaces.Domain.DocumentField, domain.commercialspace",
+			"Name": "l2",
+			"Note": "l2",
+			"isBusy": false,
+			"XPath": "BuildingId"
+		},
+		"Right": {
+			"$type": "Bespoke.SphCommercialSpaces.Domain.ConstantField, domain.commercialspace",
+			"Name": "r2",
+			"Note": "r2",
+			"isBusy": false,
+			"TypeName": "System.DateTime, mscorlib",
+			"Value": "27/10/2012"
+		},
+		"Operator": "Gt",
+		"isBusy": false
+	},
+	{
+		"$type": "Bespoke.SphCommercialSpaces.Domain.Rule, domain.commercialspace",
+		"Left": {
+			"$type": "Bespoke.SphCommercialSpaces.Domain.DocumentField, domain.commercialspace",
+			"Name": "l2",
+			"Note": "l2",
+			"isBusy": false,
+			"XPath": "BuildingId"
+		},
+		"Right": {
+			"$type": "Bespoke.SphCommercialSpaces.Domain.ConstantField, domain.commercialspace",
+			"Name": "r2",
+			"Note": "r2",
+			"isBusy": false,
+			"TypeName": "System.Decimal, mscorlib",
+			"Value": "12.50"
+		},
+		"Operator": "Gt",
+		"isBusy": false
+	}],
+	"ActionCollection": [],
+	"isBusy": false
+}

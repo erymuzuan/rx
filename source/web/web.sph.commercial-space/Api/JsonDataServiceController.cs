@@ -79,7 +79,7 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         {
             return await ExecuteAsync<Rent>(filter, page, size, includeTotal);
         }
-        
+
         public async Task<ActionResult> Rebate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Rebate>(filter, page, size, includeTotal);
@@ -93,7 +93,7 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         {
             return await ExecuteAsync<Payment>(filter, page, size, includeTotal);
         }
-        
+
         public async Task<ActionResult> UserProfile(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<UserProfile>(filter, page, size, includeTotal);
@@ -102,6 +102,11 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         public async Task<ActionResult> Tenant(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Tenant>(filter, page, size, includeTotal);
+        }
+
+        public async Task<ActionResult> Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Trigger>(filter, page, size, includeTotal);
         }
 
         public async Task<ActionResult> ExecuteAsync<T>(string filter = null, int page = 1, int size = 40, bool includeTotal = false) where T : Entity
@@ -138,9 +143,13 @@ namespace Bespoke.Sph.Commerspace.Web.Api
                 previousPageToken,
                 size
             };
+            var setting = new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Objects
+                };
 
             this.Response.ContentType = "application/json";
-            return Content(JsonConvert.SerializeObject(json));
+            return Content(JsonConvert.SerializeObject(json, Formatting.None,setting));
         }
 
         private async Task<int> ExecuteScalarAsync(string sql)

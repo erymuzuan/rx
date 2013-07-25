@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -44,13 +48,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContractChangeTest.cs" />
+    <Compile Include="triggers\ActionTest.cs" />
+    <Compile Include="change.tracker\ContractChangeTest.cs" />
+    <Compile Include="triggers\FunctionFieldTest.cs" />
+    <Compile Include="mocks\MockChangePublisher.cs" />
+    <Compile Include="mocks\MockPersistence.cs" />
+    <Compile Include="mocks\MockQueryProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="triggers\JsonSerializationTest.cs" />
+    <Compile Include="triggers\RuleTest.cs" />
+    <Compile Include="triggers\SerializationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="triggers\trigger.json" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\dependencies\roslyn.scriptengine\roslyn.scriptengine.csproj">
+      <Project>{E32D7760-5A94-4A0F-8354-52223C593A8E}</Project>
+      <Name>roslyn.scriptengine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\domain\domain.commercialspace\domain.commercialspace.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.commercialspace</Name>

@@ -21,6 +21,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/scripts/Q.js")
                 .Include("~/scripts/breeze.debug.js")
                 .Include("~/scripts/bootstrap.js")
+                .Include("~/scripts/bootstrap.min.js")
                 .Include("~/scripts/bootstrap-datepicker.js")
                 .Include("~/scripts/moment.js")
                 .Include("~/scripts/string.js")
@@ -35,6 +36,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/App/services/Contract.js")
                 .Include("~/App/services/Complaint.js")
                 .Include("~/App/services/CommercialSpace.js")
+                .Include("~/App/services/ConstantField.js")
               );
 
             bundles.Add(
@@ -44,6 +46,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/kendo/styles/kendo.dataviz.css")
                 .Include("~/kendo/styles/kendo.dataviz.metrol.css")
                 .Include("~/Content/ie10mobile.css")
+                .Include("~/Content/bootstrap.css")
                 .Include("~/Content/bootstrap.min.css")
                 .Include("~/Content/bootstrap-responsive.css")
                 .Include("~/Content/bootstrap-datepicker.css")

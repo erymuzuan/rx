@@ -35,11 +35,11 @@ define(['services/datacontext', 'durandal/plugins/router'], function (context, r
              var query = "IsAvailable eq 'true'";
              if (vm.selectedState() && !vm.selectedBuildingId() && !vm.selectedCategory()) {
                  var query1 = String.format("and State eq '{0}'", vm.selectedState());
-                 query = query1;
+                 query = query + query1;
              }
              if (vm.selectedCategory() && !vm.selectedState() && !vm.selectedBuildingId()) {
                  var query2 = String.format("and Category eq '{0}'", vm.selectedCategory());
-                 query = query2;
+                 query = query + query2;
              }
              if (vm.selectedState() && vm.selectedBuildingId() && !vm.selectedCategory()) {
                  var query3 = String.format("and State eq '{0}' and BuildingId eq '{1}'", vm.selectedState(), vm.selectedBuildingId());
