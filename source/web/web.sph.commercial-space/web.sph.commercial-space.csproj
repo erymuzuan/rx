@@ -493,8 +493,8 @@
     <Content Include="App\viewmodels\contract.create.js" />
     <Content Include="App\viewmodels\contract.details.js" />
     <Content Include="App\viewmodels\contract.list.js" />
-    <Content Include="App\viewmodels\contracttype.js" />
-    <Content Include="App\viewmodels\contracttypetemplate.js" />
+    <Content Include="App\viewmodels\contract.type.js" />
+    <Content Include="App\viewmodels\contract.type.template.js" />
     <Content Include="App\viewmodels\deposit.js" />
     <Content Include="App\viewmodels\floorplan.js" />
     <Content Include="App\viewmodels\home.js" />
@@ -538,8 +538,8 @@
     <Content Include="App\views\contract.create.html" />
     <Content Include="App\views\contract.details.html" />
     <Content Include="App\views\contract.list.html" />
-    <Content Include="App\views\contracttype.html" />
-    <Content Include="App\views\contracttypetemplate.html" />
+    <Content Include="App\views\contract.type.html" />
+    <Content Include="App\views\contract.type.template.html" />
     <Content Include="App\views\deposit.html" />
     <Content Include="App\views\floorplan.html" />
     <Content Include="App\views\footer.html" />
