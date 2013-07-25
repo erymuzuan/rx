@@ -159,7 +159,7 @@
                 </td>
                 <td>
                     <!-- ko if: $data.hasOwnProperty("Bcc") -->
-                    <a type="button" class="btn btn-link" data-bind="command : startEditEmailAction" href="#email-action-modal">Edit Email Template</a>
+                    <a type="button" class="btn btn-link" data-bind="click : $root.startEditEmailAction" href="#email-action-modal">Edit Email Template</a>
                     <!-- /ko -->
                     <!-- ko if: $data.hasOwnProperty("SetterActionChildCollection") -->
                     <a type="button" class="btn btn-link" data-toggle="modal" href="#setter-action-modal">Edit Setter Template</a>
@@ -320,6 +320,6 @@
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateEmailActionCommand" />
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: $root.saveEmail" />
     </div>
 </section>
