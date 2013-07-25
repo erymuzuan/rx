@@ -13,7 +13,7 @@ define(['services/datacontext'],
 
         var isBusy = ko.observable(false),
             isRight = ko.observable(false),
-            isAction = ko.observable(false),
+            isEmail = ko.observable(false),
             id = ko.observable(),
             activate = function (routeData) {
                 id(parseInt(routeData.id));
@@ -141,15 +141,17 @@ define(['services/datacontext'],
                 vm.constantField(constantField);
                 $('#constant-panel-modal').modal({});
             },
-            addEmailAction = function() {
+            addEmailAction = function () {
+                isEmail(true);
                 var emailAction = new bespoke.sphcommercialspace.domain.EmailAction();
-                 vm.emailAction(emailAction);
-                $('#email-action-modal').modal({});
+                vm.emailAction(emailAction);
+                vm.trigger().ActionCollection.push(emailAction);
             },
-            addSetterAction = function() {
+            addSetterAction = function () {
+                isEmail(false);
                 var setterAction = new bespoke.sphcommercialspace.domain.SetterAction();
                 vm.setterAction(setterAction);
-                $('#setter-action-modal').modal({});
+                vm.trigger().ActionCollection.push(setterAction);
             },
             updateEmailAction = function () {
                 
@@ -201,7 +203,7 @@ define(['services/datacontext'],
         var vm = {
             isBusy: isBusy,
             isRight: isRight,
-            isAction: isAction,
+            isEmail: isEmail,
             activate: activate,
             viewAttached: viewAttached,
             functionField: ko.observable(new bespoke.sphcommercialspace.domain.FunctionField()),
