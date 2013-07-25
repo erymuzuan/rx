@@ -59,7 +59,6 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
                         }));
                         tcs.resolve(true);
                     });
-
             }
 
 

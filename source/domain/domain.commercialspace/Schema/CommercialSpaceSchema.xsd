@@ -1001,7 +1001,6 @@
 							</xs:complexType>
 						</xs:element>
 					</xs:all>
-					<xs:attribute name="Path" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
