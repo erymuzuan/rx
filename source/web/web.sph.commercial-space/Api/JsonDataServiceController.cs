@@ -109,6 +109,11 @@ namespace Bespoke.Sph.Commerspace.Web.Api
             return await ExecuteAsync<Trigger>(filter, page, size, includeTotal);
         }
 
+        public async Task<ActionResult> Watcher(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Watcher>(filter, page, size, includeTotal);
+        }
+
         public async Task<ActionResult> ExecuteAsync<T>(string filter = null, int page = 1, int size = 40, bool includeTotal = false) where T : Entity
         {
             if (size > 200)

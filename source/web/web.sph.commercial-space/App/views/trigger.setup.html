@@ -9,10 +9,10 @@
     <div class="control-group">
         <label for="Note" class="control-label">Nota</label>
         <div class="controls">
-            <textarea class="input-xxlarge" data-bind="value: Note" id="Note"  name="Note"></textarea>
+            <textarea class="input-xxlarge" data-bind="value: Note" id="Note" name="Note"></textarea>
         </div>
     </div>
-    
+
     <div class="control-group">
         <div class="controls">
             <label class="checkbox">
@@ -21,7 +21,7 @@
             </label>
         </div>
     </div>
-    
+
     <div class="control-group">
         <label for="Entity" class="control-label">Entiti</label>
         <div class="controls">
@@ -50,10 +50,8 @@
         <tbody data-bind="foreach: RuleCollection">
             <tr>
                 <td>
-                    <div class="btn-group">
-                        <a class="btn dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
-                            <!-- ko text : Left().Name -->
-                            <!-- /ko -->
+                    <div class="btn-group" data-bind="visible: Left().Name() === ''">
+                        <a class="btn dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">+ Field
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
@@ -65,7 +63,9 @@
                             </li>
                         </ul>
                     </div>
-
+                    <div data-bind="with: Left">
+                        <a href="#" class="btn btn-link" data-bind="attr: { href: '' }, text: Name">Add here</a>
+                    </div>
                 </td>
                 <td>
                     <select data-bind="value: Operator">
@@ -77,24 +77,25 @@
                         <option value="Substringof">Mengandungi</option>
                         <option value="StartsWith">Mula dengan</option>
                         <option value="EndsWith">Akhir</option>
-                       
+
                     </select>
                 </td>
                 <td>
-                    <div class="btn-group">
-                        <a class="btn dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
-                            <!-- ko text : Right().Name -->
-                            <!-- /ko -->
+                    <div class="btn-group" data-bind="visible: Right().Name() === ''">
+                        <a class="btn dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">+ Field
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="btn btn-link" data-bind="click: $root.addDocumentFieldToRightCommand" href="#document-panel-modal">Add Document Field</a>
+                            <li><a class="btn btn-link" data-bind="click: $root.addDocumentFieldToRightCommand" href="#document-panel-modal">+ Add Document Field</a>
                             </li>
-                            <li><a class="btn btn-link" data-bind="click: $root.addConstantFieldToRightCommand" href="#constant-panel-modal">Add Constant Field</a>
+                            <li><a class="btn btn-link" data-bind="click: $root.addConstantFieldToRightCommand" href="#constant-panel-modal">+ Add Constant Field</a>
                             </li>
-                            <li><a class="btn btn-link" data-bind="click: $root.addFunctionFieldToRightCommand" href="#function-panel-modal">Add Function Field</a>
+                            <li><a class="btn btn-link" data-bind="click: $root.addFunctionFieldToRightCommand" href="#function-panel-modal">+ Add Function Field</a>
                             </li>
                         </ul>
+                    </div>
+                    <div data-bind="with: Right">
+                        <a href="#" class="btn btn-link" data-bind="attr: { href: '' }, text: Name">Add here</a>
                     </div>
                 </td>
             </tr>
@@ -102,34 +103,49 @@
     </table>
 
     <h3>Action</h3>
+    <div class="btn-group" id="action-panel">
+        <a class="btn dropdown-toggle input-xlarge" data-toggle="drop-down">Add Action<span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="btn btn-link" data-bind="click: $root.addEmailActionCommand">Add Email Action</a>
+            </li>
+            <li><a class="btn btn-link" data-bind="click: $root.addSetterActionCommand">Add Setter Action</a>
+            </li>
+
+        </ul>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Tajuk</th>
+                <th>Nota</th>
+                <th>Template</th>
+                <th>Aktif</th>
             </tr>
         </thead>
         <tbody data-bind="foreach: ActionCollection">
             <tr>
                 <td>
-                   <div class="btn-group">
-                        <a class="btn dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
-                            <!-- ko text : Title().Name -->
-                            <!-- /ko -->
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="btn btn-link" data-bind="click: $root.addEmailActionCommand" href="#email-action-modal">Add Email Action</a>
-                            </li>
-                            <li><a class="btn btn-link" data-bind="click: $root.addSetterActionCommand" href="#setter-action-modal">Add Setter Action</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <input type="text" data-bind="value: Title" />
+                </td>
+                <td>
+                    <input type="text" data-bind="value: Note" />
+                </td>
+                <td>
+                    <!-- ko if: $data.hasOwnProperty("Bcc") -->
+                    <a type="button" class="btn btn-link" data-toggle="modal" href="#email-action-modal">Edit Email Template</a>
+                    <!-- /ko -->
+                    <!-- ko if: $data.hasOwnProperty("SetterActionChildCollection") -->
+                    <a type="button" class="btn btn-link" data-toggle="modal" href="#setter-action-modal">Edit Setter Template</a>
+                    <!-- /ko -->
+                </td>
+                <td>
+                    <input data-bind="checked: IsActive" id="IsActive" type="checkbox" name="IsActive" />
                 </td>
             </tr>
         </tbody>
     </table>
 </form>
-<input id="save-button" type="button" class="btn btn-primary" value="Simpan" data-bind="command: saveCommand" data-loading-text="Sila tunggu..." data-complete-text="Siap" />
 
 <section class="modal hide" id="function-panel-modal">
 
@@ -241,5 +257,95 @@
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
         <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateConstantLeftToRuleCommand, visible: !isRight()" />
         <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateConstantRightToRuleCommand, visible: isRight()" />
+    </div>
+</section>
+
+<section class="modal hide" id="email-action-modal">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Function</h3>
+    </div>
+    <div class="modal-body" data-bind="with: emailAction">
+        <div class="control-group">
+            <label for="email-action-to" class="control-label">To</label>
+            <div class="controls">
+                <input data-bind="value: To" id="email-action-to" type="text" name="Note" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="email-action-from" class="control-label">From</label>
+            <div class="controls">
+                <input data-bind="value: From" id="email-action-from" type="text" name="Name" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="email-action-subject" class="control-label">Subject Template</label>
+            <div class="controls">
+                <textarea id="email-action-subject" data-bind="value: SubjectTemplate" class="input-xxlarge" rows="5"></textarea>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="email-action-body" class="control-label">Body Template</label>
+            <div class="controls">
+                <textarea id="email-action-body" data-bind="value: BodyTemplate" class="input-xxlarge" rows="5"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateEmailActionCommand" />
+    </div>
+</section>
+
+<section class="modal hide" id="setter-action-modal">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Function</h3>
+    </div>
+    <div class="modal-body" data-bind="with: setterAction">
+        <div class="control-group">
+            <label for="function-panel-note" class="control-label">Nota</label>
+            <div class="controls">
+                <input data-bind="value: Note" id="function-panel-note" type="text" name="Note" />
+            </div>
+        </div>
+        <a class="btn btn-mini pull-right" data-bind="click: $root.addSetterActionChildCosmmand">+</a>
+        <table id="action-table" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Path</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: SetterActionChildCollection">
+                <tr>
+                    <td>
+                        <input type="text" data-bind="value: Path" id="setter-action-child-path" />
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn dropdown-toggle input-xlarge" data-toggle="drop-down">+ Field
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="btn btn-link" data-bind="click: $root.addDocumentFieldToActionCommand" href="#document-panel-modal">Add Document Field</a>
+                                </li>
+                                <li><a class="btn btn-link" data-bind="click: $root.addConstantFieldToActionCommand" href="#constant-panel-modal">Add Constant Field</a>
+                                </li>
+                                <li><a class="btn btn-link" data-bind="click: $root.addFunctionFieldToActionCommand" href="#function-panel-modal">Add Function Field</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: updateSetterActionCommand" />
     </div>
 </section>

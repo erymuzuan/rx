@@ -1,13 +1,29 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public class WatchController : Controller
     {
-        public async Task<ActionResult> Register(string entity, int id)
+        public async Task<ActionResult> Register(int id, string entity)
         {
-            await Task.Delay(2500);
+            var context = new SphDataContext();
+            var watcher = new Watcher();
+            var watch = await context.LoadOneAsync<Watcher>(w => w.EntityId == id) ?? watcher;
+            
+            watch.DateTime = DateTime.Now;
+            watch.User = User.Identity.Name;
+            watch.EntityName = entity;
+            watch.EntityId = id;
+            
+            using (var session = context.OpenSession())
+            {
+                session.Attach(watch);
+                await session.SubmitChanges("Watcher saved");
+            }
+
             return Json(true);
         }
 

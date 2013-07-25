@@ -83,8 +83,6 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
                 context.post(data, "/Watch/Register")
                     .then(function (result) {
                         isBusy(false);
-
-
                         tcs.resolve(result);
                     });
                 return tcs.promise();
