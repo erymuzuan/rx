@@ -569,8 +569,8 @@
   },
   {
     "role": "admin_dashboard",
-    "url": "trigger.setup",
-    "moduleId": "viewmodels/trigger.setup/:id",
+    "url": "trigger.setup/:id",
+    "moduleId": "viewmodels/trigger.setup",
     "name": "Setting Trigger",
     "visible": false,
     "icon": "icon-flag",
