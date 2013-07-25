@@ -566,5 +566,29 @@
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": "admin_dashboard",
+    "url": "trigger.setup",
+    "moduleId": "viewmodels/trigger.setup/:id",
+    "name": "Setting Trigger",
+    "visible": false,
+    "icon": "icon-flag",
+    "caption": "Setting Trigger",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "admin_dashboard",
+    "url": "trigger.list",
+    "moduleId": "viewmodels/trigger.list",
+    "name": "Senarai Trigger",
+    "visible": true,
+    "icon": "icon-flag",
+    "caption": "Senarai Trigger",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
   }
 ]
