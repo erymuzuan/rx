@@ -1,5 +1,6 @@
 using System;
 using System.Xml;
+using Newtonsoft.Json;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
@@ -12,6 +13,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
         }
 
         [System.Xml.Serialization.XmlIgnore]
+        [JsonIgnore]
         public Type Type
         {
             get
