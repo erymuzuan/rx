@@ -374,6 +374,7 @@
     <Content Include="App\viewmodels\complaint.detail.js" />
     <Content Include="App\viewmodels\inventory.detail.js" />
     <Content Include="App\viewmodels\inventory.list.js" />
+    <Content Include="App\viewmodels\messages.js" />
     <Content Include="App\viewmodels\public.index.js" />
     <Content Include="App\viewmodels\maintenance.assignment.js" />
     <Content Include="App\viewmodels\search.js" />
@@ -387,6 +388,7 @@
     <Content Include="App\views\complaintform.tenant.html" />
     <Content Include="App\views\inventory.detail.html" />
     <Content Include="App\views\inventory.list.html" />
+    <Content Include="App\views\messages.html" />
     <Content Include="App\views\public.index.html" />
     <Content Include="App\views\search.html" />
     <Content Include="App\views\trigger.list.html" />

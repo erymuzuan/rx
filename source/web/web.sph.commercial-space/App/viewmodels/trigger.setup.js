@@ -15,132 +15,80 @@ define(['services/datacontext'],
             isRight = ko.observable(false),
             isEmail = ko.observable(false),
             id = ko.observable(),
+            isAction = ko.observable(),
+            editedField,
             activate = function (routeData) {
                 id(parseInt(routeData.id));
-                if (!id()) {
-                    vm.trigger(new bespoke.sphcommercialspace.domain.Trigger());
-                    return true;
-                }
+
                 var query = String.format("TriggerId eq {0} ", id());
                 var tcs = new $.Deferred();
                 context.loadOneAsync("Trigger", query)
-                    .done(function(t) {
-                        vm.trigger(t);
+                    .done(function (t) {
+                        if (t) {
+                            vm.trigger(t);
+                        } else {
+                            vm.trigger(new bespoke.sphcommercialspace.domain.Trigger());
+                        }
                         tcs.resolve(true);
                     });
 
                 return tcs.promise();
             },
-
             viewAttached = function () {
-            // NOTE: there's a bug someweher that makes bootstrap data-toggle didn't work
-            $('#rules-table').on('click', 'a.dropdown-toggle', function () {
-                $(this).parent().toggleClass("open");
-            });
-                
-            $('#action-panel').on('click', 'a.dropdown-toggle', function () {
-                $(this).parent().toggleClass("open");
-            });
+                $('#rules-table').on('click', 'a.dropdown-toggle', function () {
+                    $(this).parent().toggleClass("open");
+                });
 
-            $('#action-table').on('click', 'a.dropdown-toggle', function () {
-                $(this).parent().toggleClass("open");
-            });
+                $('#action-panel').on('click', 'a.dropdown-toggle', function () {
+                    $(this).parent().toggleClass("open");
+                });
 
-        },
-           addRule = function () {
-               var rule = new bespoke.sphcommercialspace.domain.Rule();
-               rule.Left({ Name: ko.observable("") });
-               rule.Right({ Name: ko.observable("") });
-               vm.trigger().RuleCollection.push(rule);
-               $('#rules-table .dropdown-toggle').dropdown();
-           },
-            addSetterActionChild = function () {
-               var child = new bespoke.sphcommercialspace.domain.SetterActionChild();
-               child.Field({ Name: ko.observable("") });
-               vm.setterAction().SetterActionChildCollection.push(child);
-               $('#action-table .dropdown-toggle').dropdown();
-           },
-            editedField,
-            addFunctionField = function (field) {
-                isBusy(true);
-                isRight(false);
-                var functionField = new bespoke.sphcommercialspace.domain.FunctionField();
-                editedField = field;
-                vm.functionField(functionField);
+                $('#action-table').on('click', 'a.dropdown-toggle', function () {
+                    $(this).parent().toggleClass("open");
+                });
 
+            },
+            addRule = function () {
+                var rule = new bespoke.sphcommercialspace.domain.Rule();
+                rule.Left({ Name: ko.observable("+ Field") });
+                rule.Right({ Name: ko.observable("+ Field") });
+                vm.trigger().RuleCollection.push(rule);
+                $('#rules-table .dropdown-toggle').dropdown();
+            },
+            /* fields */
+            startAddDocumentField = function (accessor) {
+                editedField = accessor;
+
+                var documentField = new bespoke.sphcommercialspace.domain.DocumentField();
+                vm.documentField(documentField);
+
+                $('#document-panel-modal').modal({});
+            },
+            startAddConstantField = function (accessor) {
+                editedField = accessor;
+
+                vm.constantField( new bespoke.sphcommercialspace.domain.ConstantField());
+                $('#constant-panel-modal').modal({});
+            },
+            startAddFunctionField = function (accessor) {
+                editedField = accessor;
+
+                vm.functionField(new bespoke.sphcommercialspace.domain.FunctionField());
                 $('#function-panel-modal').modal({});
+            },            
+            saveField = function(field) {
+                editedField(field);
             },
-           
-            updateFunctionLeftToRule = function () {
-                editedField.Left(vm.functionField());
-            },
-            updateConstantLeftToRule = function () {
-                editedField.Left(vm.constantField());
-            },
-            updateDocumentLeftToRule = function () {
-                editedField.Left(vm.documentField());
-            },
-            updateFunctionRightToRule = function () {
-                editedField.Right(vm.functionField());
-            },
-            updateConstantRightToRule = function () {
-                editedField.Right(vm.constantField());
-            },
-            updateDocumentRightToRule = function () {
-                editedField.Right(vm.documentField());
-            },
-            updateDocumentFieldToAction = function () {
-                editedField.Right(vm.functionField());
-            },
-            updateConstantFieldToAction = function () {
-                editedField.Right(vm.constantField());
-            },
-            updateFunctionFieldToAction = function () {
-                editedField.Right(vm.documentField());
-            },
-            addDocumentField = function (field) {
-                isBusy(true);
-                isRight(false);
-                var documentField = new bespoke.sphcommercialspace.domain.DocumentField();
-                editedField = field;
-                vm.documentField(documentField);
 
-                $('#document-panel-modal').modal({});
-            },
-            addConstantField = function (field) {
-                isBusy(true);
-                isRight(false);
-                var constantField = new bespoke.sphcommercialspace.domain.ConstantField();
-                editedField = field;
-                vm.constantField(constantField);
-                $('#constant-panel-modal').modal({});
-            },
-             addFunctionFieldToRight = function (field) {
-                 isBusy(true);
-                 isRight(true);
-                 var functionField = new bespoke.sphcommercialspace.domain.FunctionField();
-                 editedField = field;
-                 vm.functionField(functionField);
 
-                 $('#function-panel-modal').modal({});
-             },
-            addDocumentFieldToRight = function (field) {
-                isBusy(true);
-                isRight(true);
-                var documentField = new bespoke.sphcommercialspace.domain.DocumentField();
-                editedField = field;
-                vm.documentField(documentField);
+            addSetterActionChild = function () {
+                var child = new bespoke.sphcommercialspace.domain.SetterActionChild();
+                child.Field({ Name: ko.observable("") });
+                vm.setterAction().SetterActionChildCollection.push(child);
+                $('#action-table .dropdown-toggle').dropdown();
+            },
 
-                $('#document-panel-modal').modal({});
-            },
-            addConstantFieldToRight = function (field) {
-                isBusy(true);
-                isRight(true);
-                var constantField = new bespoke.sphcommercialspace.domain.ConstantField();
-                editedField = field;
-                vm.constantField(constantField);
-                $('#constant-panel-modal').modal({});
-            },
+
             addEmailAction = function () {
                 isEmail(true);
                 var emailAction = new bespoke.sphcommercialspace.domain.EmailAction();
@@ -154,37 +102,10 @@ define(['services/datacontext'],
                 vm.trigger().ActionCollection.push(setterAction);
             },
             updateEmailAction = function () {
-                
+
             },
             updateSetterAction = function () {
-                
-            },
 
-             addFunctionFieldToAction = function (field) {
-                 isBusy(true);
-                 isAction(true);
-                 var functionField = new bespoke.sphcommercialspace.domain.FunctionField();
-                 editedField = field;
-                 vm.functionField(functionField);
-
-                 $('#function-panel-modal').modal({});
-             },
-            addDocumentFieldToAction = function (field) {
-                isBusy(true);
-                isAction(true);
-                var documentField = new bespoke.sphcommercialspace.domain.DocumentField();
-                editedField = field;
-                vm.documentField(documentField);
-
-                $('#document-panel-modal').modal({});
-            },
-            addConstantFieldToAction = function (field) {
-                isBusy(true);
-                isAction(true);
-                var constantField = new bespoke.sphcommercialspace.domain.ConstantField();
-                editedField = field;
-                vm.constantField(constantField);
-                $('#setter-action-modal').modal({});
             },
             save = function () {
                 var tcs = new $.Deferred();
@@ -206,47 +127,37 @@ define(['services/datacontext'],
             isEmail: isEmail,
             activate: activate,
             viewAttached: viewAttached,
+
             functionField: ko.observable(new bespoke.sphcommercialspace.domain.FunctionField()),
             constantField: ko.observable(new bespoke.sphcommercialspace.domain.ConstantField()),
             documentField: ko.observable(new bespoke.sphcommercialspace.domain.DocumentField()),
             emailAction: ko.observable(new bespoke.sphcommercialspace.domain.EmailAction()),
             setterAction: ko.observable(new bespoke.sphcommercialspace.domain.SetterAction()),
             trigger: ko.observable(new bespoke.sphcommercialspace.domain.Trigger()),
-            addRuleCommand: addRule,
-            addSetterActionChildCommand: addSetterActionChild,
-            
-            addFunctionFieldCommand: addFunctionField,
-            addDocumentFieldCommand: addDocumentField,
-            addConstantFieldCommand: addConstantField,
-            
-            addFunctionFieldToRightCommand: addFunctionFieldToRight,
-            addDocumentFieldToRightCommand: addDocumentFieldToRight,
-            addConstantFieldToRightCommand: addConstantFieldToRight,
-            
-            updateFunctionLeftToRuleCommand: updateFunctionLeftToRule,
-            updateDocumentLeftToRuleCommand: updateDocumentLeftToRule,
-            updateConstantLeftToRuleCommand: updateConstantLeftToRule,
-            
-            updateDocumentRightToRuleCommand: updateDocumentRightToRule,
-            updateFunctionRightToRuleCommand: updateFunctionRightToRule,
-            updateConstantRightToRuleCommand: updateConstantRightToRule,
 
-            updateDocumentFieldToActionCommand: updateDocumentFieldToAction,
-            updateFunctionFieldToActionCommand: updateFunctionFieldToAction,
-            updateConstantFieldToActionCommand: updateConstantFieldToAction,
-            
+            addRuleCommand: addRule,
             addEmailActionCommand: addEmailAction,
             addSetterActionCommand: addSetterAction,
+            addSetterActionChildCommand: addSetterActionChild,
+
+
+            /*** FIELD */
+            startAddDocumentField: startAddDocumentField,
+            startAddFunctionField: startAddFunctionField,
+            startAddConstantField: startAddConstantField,
+            
+            saveField: saveField,
+
+
             updateEmailActionCommand: updateEmailAction,
             updateSetterActionCommand: updateSetterAction,
-            
-            addDocumentFieldToActionCommand: addDocumentFieldToAction,
-            addConstantFieldToActionCommand: addConstantFieldToAction,
-            addFunctionFieldToActionCommand: addFunctionFieldToAction,
-            toolbar : {
-                 saveCommand: save
+
+
+            toolbar: {
+                saveCommand: save,
+                reloadCommand: function () { return activate({ id: id() }); }
             }
-           
+
         };
 
         return vm;

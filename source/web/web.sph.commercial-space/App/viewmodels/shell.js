@@ -6,13 +6,13 @@
             $(view).on('click', 'li.dropdown>a.dropdown-toggle', function () {
                 $(this).parent().toggleClass("open");
             });
-
+            /*
             var jPM = $.jPanelMenu({
                 menu: '#menu',
                 trigger: '#drawer-menu',
                 duration: 300
             });
-            jPM.on();
+            jPM.on();*/
 
         };
 

@@ -1686,7 +1686,6 @@ footer.main {
 #jPanelMenu-menu li a:active {
     background-color: #3E3E3E;
     border-top-color: #222222;
-    box-shadow: 0 2px 7px #222222 inset;
     padding-bottom: 0.45em;
     padding-top: 0.55em;
 }
@@ -1696,7 +1695,7 @@ footer.main {
 
 .jPanelMenu-panel {
     position: relative; left: 0px;
-    box-shadow: 0 0 25px #222222;
+    display: none;
 }
 
 #drawer-menu {

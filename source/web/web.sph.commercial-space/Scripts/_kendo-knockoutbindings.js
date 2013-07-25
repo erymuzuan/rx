@@ -217,7 +217,20 @@ ko.bindingHandlers.command = {
             }
         });
     }
+};
 
+ko.bindingHandlers.unwrapClick = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        var action = valueAccessor(),
+            button = $(element),
+            allBindings = allBindingsAccessor();
+
+
+        button.click(function (e) {
+            e.preventDefault();
+            action(allBindings.accessor);
+        });
+    }
 };
 ko.bindingHandlers.commandWithParameter = {
     init: function (element, valueAccessor) {
