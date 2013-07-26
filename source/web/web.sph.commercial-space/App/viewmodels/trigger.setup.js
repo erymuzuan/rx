@@ -23,6 +23,13 @@ define(['services/datacontext'],
                 context.loadOneAsync("Trigger", query)
                     .done(function (t) {
                         if (t) {
+                            // convert the property Left , Right and Field to ko.observable
+                            _(t.RuleCollection()).each(function (r) {
+                                var left = r.Left;
+                                r.Left = ko.observable(left);
+                                var right = r.Right;
+                                r.Right = ko.observable(right);
+                            });
                             vm.trigger(t);
                         } else {
                             vm.trigger(new bespoke.sphcommercialspace.domain.Trigger());
@@ -33,21 +40,21 @@ define(['services/datacontext'],
                 return tcs.promise();
             },
             viewAttached = function () {
-                var dropDown = function(e) {
+                var dropDown = function (e) {
                     e.preventDefault();
                     e.stopPropagation();
 
                     var button = $(this);
                     button.parent().toggleClass("open");
 
-                    $(document).one('click', function() {
+                    $(document).one('click', function () {
                         button.parent().toggleClass("open");
                     });
                 };
 
                 $('#rules-table').on('click', 'a.dropdown-toggle', dropDown);
 
-                $('#action-panel').on('click', 'a.dropdown-toggle',dropDown);
+                $('#action-panel').on('click', 'a.dropdown-toggle', dropDown);
 
                 $('#action-table').on('click', 'a.dropdown-toggle', dropDown);
 
@@ -91,12 +98,39 @@ define(['services/datacontext'],
                 vm.functionField(new bespoke.sphcommercialspace.domain.FunctionField());
                 $('#function-panel-modal').modal({});
             },
-            
-            startEditField = function(accessor) {
-                var type = accessor().type();
-                console.log(type);
+
+            startEditField = function (accessor) {
+                if (typeof accessor === "function") {
+                    var tf = accessor().$type;
+                    var fieldType = typeof tf === "function" ? tf() : tf;
+
+
+                    editedField = accessor;
+                    var clone = ko.mapping.fromJS(ko.mapping.toJS(accessor()));
+
+                    switch (fieldType) {
+                        case "Bespoke.SphCommercialSpaces.Domain.ConstantField, domain.commercialspace":
+                            vm.constantField(clone);
+                            $('#constant-panel-modal').modal({});
+                            break;
+                        case "Bespoke.SphCommercialSpaces.Domain.DocumentField, domain.commercialspace":
+                            vm.documentField(clone);
+                            $('#document-panel-modal').modal({});
+                            break;
+                        case "Bespoke.SphCommercialSpaces.Domain.FunctionField, domain.commercialspace":
+                            vm.functionField(clone);
+                            $('#function-panel-modal').modal({});
+                            break;
+                        default:
+                            throw "unrecognized type : " + fieldType;
+                    }
+                }
+
+                if (typeof accessor === "object") {
+                    console.log("this is hard", accessor);
+                }
             },
-            
+
             saveField = function (field) {
                 editedField(field);
             },
@@ -183,7 +217,7 @@ define(['services/datacontext'],
             startAddFunctionField: startAddFunctionField,
             startAddConstantField: startAddConstantField,
             saveField: saveField,
-            startEditField : startEditField,
+            startEditField: startEditField,
 
             /* email action*/
             addEmailActionCommand: addEmailAction,

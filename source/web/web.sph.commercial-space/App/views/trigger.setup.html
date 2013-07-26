@@ -58,8 +58,8 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li data-bind="with : Left">
-                                <a class="btn btn-link" data-bind="visible:Name() !== '+ Field'">
+                            <li>
+                                <a class="btn btn-link" data-bind="unwrapClick: $root.startEditField, accessor : $data.Left">
                                     <i class="icon-edit-sign"></i>
                                     Edit Field
                                 </a>
