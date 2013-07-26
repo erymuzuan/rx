@@ -1,0 +1,72 @@
+﻿
+<section class="modal hide" style="z-index: 100" id="setter-action-modal">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Kemaskini data</h3>
+    </div>
+    <div class="modal-body" data-bind="with: setterAction">
+
+        <div class="control-group">
+            <label for="setter-action-title" class="control-label">Tajuk</label>
+            <div class="controls">
+                <input data-bind="value: Title" id="setter-action-title" type="text" name="Title" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="function-panel-note" class="control-label">Nota</label>
+            <div class="controls">
+                <textarea data-bind="value: Note" id="function-panel-note" class="input-xlarge" name="Note"></textarea>
+            </div>
+        </div>
+        <a class="btn btn-mini pull-right" data-bind="click: $root.addSetterActionChild">+</a>
+        <table id="action-table" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Path</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: SetterActionChildCollection">
+                <tr>
+                    <td>
+                        <input type="text" data-bind="value: Path" id="setter-action-child-path" />
+                    </td>
+                    <td>
+
+                        <div class="btn-group">
+                            <a data-bind="with : Field" class="btn btn-link dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
+                                <!-- ko text : Name -->
+                                <!-- /ko -->
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li data-bind="with : Field">
+                                    <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $root.startEditField, accessor : $parent, property:'Field'">
+                                        <i class="icon-edit-sign"></i>
+                                        Edit Field
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn btn-link" data-bind="unwrapClick: $root.startAddDocumentField, accessor : $data.Field" href="#document-panel-modal">+ Document Field</a>
+                                </li>
+                                <li>
+                                    <a class="btn btn-link" data-bind="unwrapClick: $root.startAddConstantField, accessor : $data.Field" href="#constant-panel-modal">+ Constant Field</a>
+                                </li>
+                                <li>
+                                    <a class="btn btn-link" data-bind="unwrapClick: $root.startAddFunctionField, accessor : $data.Field" href="#function-panel-modal">+ Function Field</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <a href="#" data-dismiss="modal" class="btn btn-primary" data-bind="click: saveSetter">OK</a>
+    </div>
+</section>
