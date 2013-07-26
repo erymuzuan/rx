@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.SphCommercialSpaces.Domain;
@@ -56,8 +57,9 @@ namespace Bespoke.Sph.CustomTriggers
             }
 
 
-            foreach (var customAction in this.Trigger.ActionCollection)
+            foreach (var customAction in this.Trigger.ActionCollection.Where(a => a.IsActive))
             {
+                this.WriteMessage(" ==== Executing {0} ======", customAction.Title);
                 if (customAction.UseAsync)
                     await customAction.ExecuteAsync(item);
                 else

@@ -45,7 +45,7 @@ namespace Bespoke.Sph.Messaging
                     break;
             }
 
-            this.WriteMessage("{0} {2} id = {3}",typeof(T).Name, headers.Crud, metadata.Id);
+            this.WriteMessage("{0} {1} id = {2}",typeof(T).Name, headers.Crud, metadata.Id);
 
         }
     }

@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using Bespoke.SphCommercialSpaces.Domain;
 using RazorEngine;
 
-namespace razor.template
+namespace Bespoke.Sph.Templating
 {
-    public class TemplateEngine : ITemplateEngine
+    public class RazorEngine : ITemplateEngine
     {
         public Task<string> GenerateAsync(string template, dynamic model)
         {

@@ -14,13 +14,15 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public async override Task ExecuteAsync(Entity item)
         {
             var script = ObjectBuilder.GetObject<IScriptEngine>();
-            // TODO : translate path to the property path
+
             var code = new StringBuilder();
             foreach (var action in this.SetterActionChildCollection)
             {
                 var val = action.Field.GetValue(item);
                 if (val is string)
                     val = string.Format("\"{0}\"", val);
+                if (val is DateTime)
+                    val = string.Format("DateTime.Parse(\"{0:s}\")", val);
 
                 code.AppendLine("item." + action.Path + " = " + val + ";");
             }

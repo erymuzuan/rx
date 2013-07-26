@@ -97,6 +97,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="CopyOutputDirClientAndWeb">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph.commercial-space\bin" />
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\subscribers\workers.console.runner\bin\Debug" />
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\subscribers\workers.windowsservice.runner\bin\Debug" />
   </Target>
   <PropertyGroup>
     <BuildDependsOn>
