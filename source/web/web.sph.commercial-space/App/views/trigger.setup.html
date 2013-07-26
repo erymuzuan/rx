@@ -45,7 +45,7 @@
                 <th>Left</th>
                 <th>Operator</th>
                 <th>Right</th>
-                <th>Remove</th>
+                <th></th>
             </tr>
         </thead>
         <tbody data-bind="foreach: RuleCollection">
@@ -58,8 +58,8 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a class="btn btn-link" data-bind="visible:Left().Name() !== '+ Field'">
+                            <li data-bind="with : Left">
+                                <a class="btn btn-link" data-bind="visible:Name() !== '+ Field'">
                                     <i class="icon-edit-sign"></i>
                                     Edit Field
                                 </a>
@@ -98,8 +98,8 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a class="btn btn-link" data-bind="visible:Left().Name() !== '+ Field'">
+                            <li data-bind="with : Right">
+                                <a class="btn btn-link" data-bind="visible:Name() !== '+ Field'">
                                     <i class="icon-edit-sign"></i>
                                     Edit Field
                                 </a>
@@ -118,24 +118,30 @@
                     </div>
                 </td>
                 <td>
-                    <a rel="nofollow" href="#">Remove</a>
+                    <a rel="nofollow" href="#" data-bind="click : $root.removeRule">Remove</a>
                 </td>
             </tr>
         </tbody>
     </table>
 
     <h3>Action</h3>
-    <div id="action-panel">
+    <div id="action-panel" class="pull-right">
         <div class="btn-group">
-            <a class="btn dropdown-toggle input-xlarge" data-toggle="drop-down">
-                Add Action<span class="caret"></span>
+            <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
+                Add Action &nbsp;<span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="btn btn-link" data-bind="click: $root.addEmailActionCommand">Add Email Action</a>
+                    <a class="btn btn-link" data-bind="click: $root.addEmailActionCommand">
+                        <i class="icon-envelope"></i>
+                        Add Email Action
+                    </a>
                 </li>
                 <li>
-                    <a class="btn btn-link" data-bind="click: $root.addSetterActionCommand">Add Setter Action</a>
+                    <a class="btn btn-link" data-bind="click: $root.addSetterActionCommand">
+                        <i class="icon-gear"></i>
+                        Add Setter Action
+                    </a>
                 </li>
 
             </ul>
@@ -172,7 +178,7 @@
                     <input data-bind="checked: IsActive" id="IsActive" type="checkbox" name="IsActive" />
                 </td>
                 <td>
-                    <a rel="nofollow" href="#">Remove</a>
+                    <a rel="nofollow" href="#" data-bind="click : $root.removeAction">Remove</a>
                 </td>
             </tr>
         </tbody>
@@ -327,9 +333,6 @@
     </div>
 </section>
 
-
-
-
 <section class="modal hide" style="z-index: 100" id="setter-action-modal">
 
     <div class="modal-header">
@@ -365,8 +368,8 @@
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li>
-                                    <a class="btn btn-link" data-bind="visible:Field().Name() !== '+ Field'">
+                                <li data-bind="with : Field">
+                                    <a class="btn btn-link" data-bind="visible: Name() !== '+ Field'">
                                         <i class="icon-edit-sign"></i>
                                         Edit Field
                                     </a>

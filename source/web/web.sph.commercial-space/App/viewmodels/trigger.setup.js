@@ -33,17 +33,23 @@ define(['services/datacontext'],
                 return tcs.promise();
             },
             viewAttached = function () {
-                $('#rules-table').on('click', 'a.dropdown-toggle', function () {
-                    $(this).parent().toggleClass("open");
-                });
+                var dropDown = function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
 
-                $('#action-panel').on('click', 'a.dropdown-toggle', function () {
-                    $(this).parent().toggleClass("open");
-                });
+                    var button = $(this);
+                    button.parent().toggleClass("open");
 
-                $('#action-table').on('click', 'a.dropdown-toggle', function () {
-                    $(this).parent().toggleClass("open");
-                });
+                    $(document).one('click', function() {
+                        button.parent().toggleClass("open");
+                    });
+                };
+
+                $('#rules-table').on('click', 'a.dropdown-toggle', dropDown);
+
+                $('#action-panel').on('click', 'a.dropdown-toggle',dropDown);
+
+                $('#action-table').on('click', 'a.dropdown-toggle', dropDown);
 
                 $('#setter-action-modal').on('click', 'a.btn,button.close', function (e) {
                     e.preventDefault(true);
@@ -60,6 +66,10 @@ define(['services/datacontext'],
                 vm.trigger().RuleCollection.push(rule);
                 $('#rules-table .dropdown-toggle').dropdown();
             },
+
+        removeRule = function (rule) {
+            vm.trigger().RuleCollection.remove(rule);
+        },
             /* fields */
             startAddDocumentField = function (accessor) {
                 editedField = accessor;
@@ -81,6 +91,12 @@ define(['services/datacontext'],
                 vm.functionField(new bespoke.sphcommercialspace.domain.FunctionField());
                 $('#function-panel-modal').modal({});
             },
+            
+            startEditField = function(accessor) {
+                var type = accessor().type();
+                console.log(type);
+            },
+            
             saveField = function (field) {
                 editedField(field);
             },
@@ -129,6 +145,10 @@ define(['services/datacontext'],
                 vm.trigger().ActionCollection.replace(editedSetter, clone);
             },
 
+        removeAction = function (action) {
+            vm.trigger().ActionCollection.remove(action);
+        },
+
 
             save = function () {
                 var tcs = new $.Deferred();
@@ -155,6 +175,7 @@ define(['services/datacontext'],
             trigger: ko.observable(new bespoke.sphcommercialspace.domain.Trigger()),
 
             addRuleCommand: addRule,
+            removeRule: removeRule,
 
 
             /*** FIELD */
@@ -162,6 +183,7 @@ define(['services/datacontext'],
             startAddFunctionField: startAddFunctionField,
             startAddConstantField: startAddConstantField,
             saveField: saveField,
+            startEditField : startEditField,
 
             /* email action*/
             addEmailActionCommand: addEmailAction,
@@ -175,6 +197,7 @@ define(['services/datacontext'],
             addSetterActionChild: addSetterActionChild,
             startEditSetterAction: startEditSetterAction,
             saveSetter: saveSetter,
+            removeAction: removeAction,
 
 
             toolbar: {
