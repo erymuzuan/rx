@@ -52,14 +52,15 @@
             <tr>
                 <td>
                     <div class="btn-group">
-                        <a data-bind="with : Left" class="btn dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
+                        <a data-bind="with : Left" class="btn btn-link dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
+                            <img data-bind="fieldImage : $type" class="pull-left" alt="." />
                             <!-- ko text : Name -->
                             <!-- /ko -->
-                            <span class="caret"></span>
+                            <span class="caret pull-right"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a class="btn btn-link" data-bind="unwrapClick: $root.startEditField, accessor : $data.Left">
+                            <li data-bind="with : Left">
+                                <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $root.startEditField, accessor : $parent.Left">
                                     <i class="icon-edit-sign"></i>
                                     Edit Field
                                 </a>
@@ -92,14 +93,15 @@
                 </td>
                 <td>
                     <div class="btn-group">
-                        <a data-bind="with : Right" class="btn dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
+                        <a data-bind="with : Right" class="btn btn-link dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
+                            <img data-bind="fieldImage : $type" class="pull-left" alt="." />
                             <!-- ko text : Name -->
                             <!-- /ko -->
-                            <span class="caret"></span>
+                            <span class="caret pull-right"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li data-bind="with : Right">
-                                <a class="btn btn-link" data-bind="visible:Name() !== '+ Field'">
+                                <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $root.startEditField, accessor : $parent.Right">
                                     <i class="icon-edit-sign"></i>
                                     Edit Field
                                 </a>
@@ -153,7 +155,6 @@
             <tr>
                 <th>Tajuk</th>
                 <th>Nota</th>
-                <th>Template</th>
                 <th>Aktif</th>
                 <th></th>
             </tr>
@@ -161,18 +162,26 @@
         <tbody data-bind="foreach: ActionCollection">
             <tr>
                 <td>
-                    <input type="text" data-bind="value: Title" />
+                       <!-- ko if: $data.hasOwnProperty("Bcc") -->
+                    <a type="button" class="btn btn-link" data-bind="click : $root.startEditEmailAction" href="#email-action-modal">
+
+                        <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                        &nbsp;
+                        <!-- ko text : Title -->
+                        <!-- /ko -->
+                    </a>
+                    <!-- /ko -->
+                    <!-- ko if: $data.hasOwnProperty("SetterActionChildCollection") -->
+                    <a type="button" class="btn btn-link" data-bind="click : $root.startEditSetterAction" href="#setter-action-modal">
+                        <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                        &nbsp;
+                        <!-- ko text : Title -->
+                        <!-- /ko -->
+                    </a>
+                    <!-- /ko -->
                 </td>
                 <td>
                     <input type="text" data-bind="value: Note" />
-                </td>
-                <td>
-                    <!-- ko if: $data.hasOwnProperty("Bcc") -->
-                    <a type="button" class="btn btn-link" data-bind="click : $root.startEditEmailAction" href="#email-action-modal">Edit Email Template</a>
-                    <!-- /ko -->
-                    <!-- ko if: $data.hasOwnProperty("SetterActionChildCollection") -->
-                    <a type="button" class="btn btn-link" data-bind="click : $root.startEditSetterAction" href="#setter-action-modal">Edit Setter Template</a>
-                    <!-- /ko -->
                 </td>
                 <td>
                     <input data-bind="checked: IsActive" id="IsActive" type="checkbox" name="IsActive" />
@@ -299,9 +308,15 @@
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3>Function</h3>
+        <h3>Hantar email notifikasi</h3>
     </div>
     <div class="modal-body" data-bind="with: emailAction">
+        <div class="control-group">
+            <label for="email-action-title" class="control-label">Tajuk</label>
+            <div class="controls">
+                <input data-bind="value: Title" id="email-action-title" type="text" name="Title" />
+            </div>
+        </div>
         <div class="control-group">
             <label for="email-action-to" class="control-label">To</label>
             <div class="controls">
@@ -337,13 +352,20 @@
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3>Function</h3>
+        <h3>Kemaskini data</h3>
     </div>
     <div class="modal-body" data-bind="with: setterAction">
+        
+        <div class="control-group">
+            <label for="setter-action-title" class="control-label">Tajuk</label>
+            <div class="controls">
+                <input data-bind="value: Title" id="setter-action-title" type="text" name="Title" />
+            </div>
+        </div>
         <div class="control-group">
             <label for="function-panel-note" class="control-label">Nota</label>
             <div class="controls">
-                <input data-bind="value: Note" id="function-panel-note" type="text" name="Note" />
+                <textarea data-bind="value: Note" id="function-panel-note" class="input-xlarge" name="Note"></textarea>
             </div>
         </div>
         <a class="btn btn-mini pull-right" data-bind="click: $root.addSetterActionChild">+</a>
@@ -362,14 +384,14 @@
                     <td>
 
                         <div class="btn-group">
-                            <a data-bind="with : Field" class="btn dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
+                            <a data-bind="with : Field" class="btn btn-link dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
                                 <!-- ko text : Name -->
                                 <!-- /ko -->
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li data-bind="with : Field">
-                                    <a class="btn btn-link" data-bind="visible: Name() !== '+ Field'">
+                                    <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $root.startEditField, accessor : $parent.Field">
                                         <i class="icon-edit-sign"></i>
                                         Edit Field
                                     </a>

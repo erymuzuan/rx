@@ -232,6 +232,20 @@ ko.bindingHandlers.unwrapClick = {
         });
     }
 };
+
+ko.bindingHandlers.fieldImage = {
+    init: function (element, valueAccessor) {
+        var type = valueAccessor(),
+            img = $(element);
+
+        var ft = typeof type === "function" ? type() : type;
+        img.attr("src", "/image/index/" + ft);        
+
+
+    }
+};
+
+
 ko.bindingHandlers.commandWithParameter = {
     init: function (element, valueAccessor) {
         var command = valueAccessor();
