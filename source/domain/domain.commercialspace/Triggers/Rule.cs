@@ -4,6 +4,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
 {
     public partial class Rule : DomainObject
     {
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2}", this.Left.Name, this.Operator, this.Right.Name);
+        }
+
         public bool Execute(Entity item)
         {
             var left = this.Left.GetValue(item);

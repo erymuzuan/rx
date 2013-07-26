@@ -20,3 +20,7 @@ GO
 	,[ChangedBy] VARCHAR(255) NULL
 
 )
+
+GO 
+ALTER TABLE [Sph].[Trigger]
+ADD [IsActive] BIT NOT NULL DEFAULT 1

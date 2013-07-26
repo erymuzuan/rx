@@ -38,10 +38,10 @@ namespace Bespoke.Sph.SqlRepository
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
+                await conn.OpenAsync().ConfigureAwait(false);
+                using (var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false))
                 {
-                    while (await reader.ReadAsync())
+                    while (await reader.ReadAsync().ConfigureAwait(false))
                     {
                         var xml = XElement.Parse(reader.GetString(1));
                         dynamic t = xml.DeserializeFromXml(elementType);
@@ -62,9 +62,9 @@ namespace Bespoke.Sph.SqlRepository
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                await conn.OpenAsync();
+                await conn.OpenAsync().ConfigureAwait(false);
                 var list = new ObjectCollection<TResult>();
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false))
                 {
                     while (reader.Read())
                     {
@@ -85,9 +85,9 @@ namespace Bespoke.Sph.SqlRepository
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                await conn.OpenAsync();
+                await conn.OpenAsync().ConfigureAwait(false);
                 var list = new ObjectCollection<Tuple<TResult, TResult2>>();
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false))
                 {
                     while (reader.Read())
                     {
@@ -122,10 +122,10 @@ namespace Bespoke.Sph.SqlRepository
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql.ToString(), conn))
             {
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
+                await conn.OpenAsync().ConfigureAwait(false);
+                using (var reader = await cmd.ExecuteReaderAsync().ConfigureAwait(false))
                 {
-                    while (await reader.ReadAsync())
+                    while (await reader.ReadAsync().ConfigureAwait(false))
                     {
                         var xml = XElement.Parse(reader.GetString(1));
                         dynamic t = xml.DeserializeFromXml(elementType);
@@ -149,7 +149,7 @@ namespace Bespoke.Sph.SqlRepository
                 var sql2 = query.ToString().Replace("[Data]", "COUNT(*)");
                 var order = sql2.IndexOf("ORDER", StringComparison.Ordinal);
                 var count = order == -1 ? sql2 : sql2.Substring(0, order);
-                lo.TotalRows = await GetCountAsync(count);
+                lo.TotalRows = await GetCountAsync(count).ConfigureAwait(false);
             }
             return lo;
         }

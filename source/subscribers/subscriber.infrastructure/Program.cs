@@ -11,7 +11,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     {
         private INotificationService m_notificationService;
         private static INotificationService m_notificationService2;
-        public SubscriberMetadata[] Subscribers { set; get; }
+        public SubscriberMetadata[] SubscribersMetadata { set; get; }
         public string Password { get; set; }
         public string UserName { get; set; }
         public string HostName { get; set; }
@@ -28,6 +28,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
         }
 
+        public dynamic Subscribers { get; set; }
 
 
         public void Start()
@@ -35,12 +36,12 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             this.NotificationService.Write("config {0}:{1}:{2}", this.HostName, this.UserName, this.Password);
             this.NotificationService.Write("Starts...");
             var threads = new List<Thread>();
-            foreach (var subscriber in Subscribers)
+            foreach (var metadata in SubscribersMetadata)
             {
-                this.NotificationService.Write("Starts..." + subscriber.FullName);
+                this.NotificationService.Write("Starts..." + metadata.FullName);
                 try
                 {
-                    var worker = StartAppDomain(subscriber);
+                    var worker = StartAppDomain(metadata);
                     threads.Add(worker);
                 }
                 catch (Exception e)
@@ -48,15 +49,27 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     this.NotificationService.Write(e.ToString());
                 }
             }
+
+            foreach (var o1 in this.Subscribers)
+            {
+                o1.HostName = this.HostName;
+                o1.VirtualHost = this.VirtualHost;
+                o1.UserName = this.UserName;
+                o1.Password = this.Password;
+                o1.Port = this.Port;
+                o1.NotificicationService = this.NotificationService;
+                o1.Run();
+                
+            }
             threads.ForEach(t => t.Join());
 
         }
 
-        private Thread StartAppDomain(SubscriberMetadata startInfo)
+        private Thread StartAppDomain(SubscriberMetadata metadata)
         {
-            var appdomain = this.CreateAppDomain(startInfo);
+            var appdomain = this.CreateAppDomain(metadata);
             appdomain.UnhandledException += AppdomainUnhandledException;
-            var subscriber = appdomain.CreateInstanceAndUnwrap(startInfo.Assembly, startInfo.FullName);
+            var subscriber = appdomain.CreateInstanceAndUnwrap(metadata.Assembly, metadata.FullName);
             var thread = new Thread(o =>
                 {
                     dynamic o1 = o;
@@ -73,10 +86,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             return thread;
         }
 
-        public AppDomain CreateAppDomain(SubscriberMetadata subscriber)
+        public AppDomain CreateAppDomain(SubscriberMetadata metadata)
         {
             var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var dll = subscriber.Type.Assembly.GetName().Name;
+            var dll = metadata.Type.Assembly.GetName().Name;
             var configurationFile = Path.Combine(baseDirectory, dll) + ".dll.config";
             var currentConfig = Path.Combine(baseDirectory, Assembly.GetEntryAssembly().GetName().Name + ".exe.config");
             var ads = new AppDomainSetup
@@ -86,7 +99,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 DisallowCodeDownload = true,
                 ConfigurationFile = File.Exists(configurationFile) ? configurationFile : currentConfig
             };
-            return AppDomain.CreateDomain(subscriber.FullName, null, ads);
+            return AppDomain.CreateDomain(metadata.FullName, null, ads);
         }
 
         private static void AppdomainUnhandledException(object sender, UnhandledExceptionEventArgs e)

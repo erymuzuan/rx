@@ -12,7 +12,7 @@ namespace Bespoke.Sph.SqlRepository
         public async Task<int> GetCountAsync(IQueryable<T> query)
         {
             var sql = query.ToString().Replace("[Data]", "COUNT(*)");
-            return await this.GetCountAsync(sql);
+            return await this.GetCountAsync(sql).ConfigureAwait(false);
         }
 
         private async Task<int> GetCountAsync(string sql)
@@ -20,8 +20,8 @@ namespace Bespoke.Sph.SqlRepository
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                await conn.OpenAsync();
-                var count = await cmd.ExecuteScalarAsync();
+                await conn.OpenAsync().ConfigureAwait(false);
+                var count = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
                 if (count != DBNull.Value)
                     return (int)count;
             }
@@ -38,8 +38,8 @@ namespace Bespoke.Sph.SqlRepository
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                await conn.OpenAsync();
-                var max = await cmd.ExecuteScalarAsync();
+                await conn.OpenAsync().ConfigureAwait(false);
+                var max = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
                 if (max != DBNull.Value)
                     return (TResult)max;
             }
@@ -56,8 +56,8 @@ namespace Bespoke.Sph.SqlRepository
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                await conn.OpenAsync();
-                var min = await cmd.ExecuteScalarAsync();
+                await conn.OpenAsync().ConfigureAwait(false);
+                var min = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
                 if (min != DBNull.Value)
                     return (TResult)min;
             }
@@ -74,8 +74,8 @@ namespace Bespoke.Sph.SqlRepository
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                await conn.OpenAsync();
-                var sum = await cmd.ExecuteScalarAsync();
+                await conn.OpenAsync().ConfigureAwait(false);
+                var sum = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
                 if (sum != DBNull.Value)
                     return (TResult)sum;
             }
@@ -91,8 +91,8 @@ namespace Bespoke.Sph.SqlRepository
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                await conn.OpenAsync();
-                var sum = await cmd.ExecuteScalarAsync();
+                await conn.OpenAsync().ConfigureAwait(false);
+                var sum = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
                 if (sum != DBNull.Value)
                     return (TResult)sum;
             }
@@ -109,8 +109,8 @@ namespace Bespoke.Sph.SqlRepository
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                await conn.OpenAsync();
-                var avg = await cmd.ExecuteScalarAsync();
+                await conn.OpenAsync().ConfigureAwait(false);
+                var avg = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
                 if (avg != DBNull.Value)
                     return (TResult)avg;
             }
@@ -126,8 +126,8 @@ namespace Bespoke.Sph.SqlRepository
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                await conn.OpenAsync();
-                var avg = await cmd.ExecuteScalarAsync();
+                await conn.OpenAsync().ConfigureAwait(false);
+                var avg = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
                 if (avg != DBNull.Value)
                     return (TResult)avg;
             }
@@ -155,7 +155,7 @@ namespace Bespoke.Sph.SqlRepository
 
         public async Task<bool> ExistAsync(IQueryable<T> query)
         {
-            return (await this.GetCountAsync(query)) > 0;
+            return (await this.GetCountAsync(query).ConfigureAwait(false)) > 0;
         }
 
         public async Task<TResult> GetScalarAsync<TResult>(IQueryable<T> query, Expression<Func<T, TResult>> selector)
@@ -167,8 +167,8 @@ namespace Bespoke.Sph.SqlRepository
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
-                await conn.OpenAsync();
-                var avg = await cmd.ExecuteScalarAsync();
+                await conn.OpenAsync().ConfigureAwait(false);
+                var avg = await cmd.ExecuteScalarAsync().ConfigureAwait(false);
                 if (avg != DBNull.Value)
                     return (TResult)avg;
             }

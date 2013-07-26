@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.SphCommercialSpaces.Domain;
+using FluentDateTime;
 using RabbitMQ.Client;
 
 //using sql = Bespoke.Sph.SqlRepository;
@@ -53,7 +54,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public string VirtualHost { get; set; }
 
 
-        public void Run()
+        public async void Run()
         {
             RegisterServices();
             PrintSubscriberInformation();
@@ -119,14 +120,20 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     };
 
                 channel.BasicConsume(this.QueueName, noAck, consumer);
-                while (true)
+                while (!m_stopped)
                 {
-                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
+                    await Task.Delay(5.Seconds()).ConfigureAwait(false);
                 }
 
 
             }
             // ReSharper disable FunctionNeverReturns
+        }
+
+        private bool m_stopped;
+        public void Stop()
+        {
+            m_stopped = true;
         }
         // ReSharper restore FunctionNeverReturns
 

@@ -37,16 +37,24 @@ namespace workers.console.runner
                 };
 
             var discoverer = new Discoverer();
-            program.Subscribers = discoverer.Find();
-            program.Subscribers.Select(d => d.FullName).ToList().ForEach(Console.WriteLine);
+            program.SubscribersMetadata = discoverer.Find();
+            program.Subscribers = discoverer.FindSubscriber();
+            program.SubscribersMetadata.Select(d => d.FullName).ToList().ForEach(Console.WriteLine);
 
-            Console.WriteLine("Found {0} subscribers", program.Subscribers.Length);
-            if (!silent)
-            {
-                Console.WriteLine("Press [ENTER] to Continue or ^C to exit");
-                Console.ReadLine();
-            }
+         
             program.Start();
+            bool quit = false;
+            Console.WriteLine("Welcome to [SPH] Type quit to quit at any time.");
+            while (!quit)
+            {
+                string code = Console.ReadLine();
+                quit = string.Format("{0}", code).ToLower() == "quit";
+                if (quit)
+                {
+                    break;
+                }
+            }
+        
 
             return 0;
         }

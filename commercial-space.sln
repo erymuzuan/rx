@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.20617.1 PREVIEW
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencies", "{799A5437-62C7-4385-95CC-ADEB4177B3FA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit.test", "unit.test", "{C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}"
@@ -77,6 +79,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lucene.search", "source\dependencies\lucene.search\lucene.search.csproj", "{99DE45F0-BCA8-45FA-98DE-F54016B3664D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "roslyn.scriptengine", "source\dependencies\roslyn.scriptengine\roslyn.scriptengine.csproj", "{E32D7760-5A94-4A0F-8354-52223C593A8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.trigger", "source\subscribers\subscriber.trigger\subscriber.trigger.csproj", "{119D14EE-D942-404B-A02F-BD338C7935AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -184,6 +188,10 @@ Global
 		{E32D7760-5A94-4A0F-8354-52223C593A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E32D7760-5A94-4A0F-8354-52223C593A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E32D7760-5A94-4A0F-8354-52223C593A8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{119D14EE-D942-404B-A02F-BD338C7935AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{119D14EE-D942-404B-A02F-BD338C7935AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{119D14EE-D942-404B-A02F-BD338C7935AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{119D14EE-D942-404B-A02F-BD338C7935AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -210,6 +218,7 @@ Global
 		{40892CEA-FD47-4C1F-B821-7939776E9B6B} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{F67CF883-208D-4721-B1B0-0625D7FA07D1} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{F82F88BA-3A8B-489F-9119-2A97C96B9DAE} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
+		{119D14EE-D942-404B-A02F-BD338C7935AD} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{4DC05B0D-B33A-4DBC-BF29-FF6FDEAA7C17} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{713F54A8-3F06-43C5-9312-E7BBC825A88C} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{9D9FD4B6-7475-41CF-8D65-CA3789DF93EF} = {DB65484E-BE1F-4944-B216-4A57026360EB}
