@@ -125,19 +125,22 @@
     </table>
 
     <h3>Action</h3>
-    <div class="btn-group" id="action-panel">
-        <a class="btn dropdown-toggle input-xlarge" data-toggle="drop-down">
-            Add Action<span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-            <li>
-                <a class="btn btn-link" data-bind="click: $root.addEmailActionCommand">Add Email Action</a>
-            </li>
-            <li>
-                <a class="btn btn-link" data-bind="click: $root.addSetterActionCommand">Add Setter Action</a>
-            </li>
+    <div id="action-panel">
+        <div class="btn-group">
+            <a class="btn dropdown-toggle input-xlarge" data-toggle="drop-down">
+                Add Action<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="btn btn-link" data-bind="click: $root.addEmailActionCommand">Add Email Action</a>
+                </li>
+                <li>
+                    <a class="btn btn-link" data-bind="click: $root.addSetterActionCommand">Add Setter Action</a>
+                </li>
 
-        </ul>
+            </ul>
+        </div>
+
     </div>
     <table class="table table-striped">
         <thead>
@@ -162,7 +165,7 @@
                     <a type="button" class="btn btn-link" data-bind="click : $root.startEditEmailAction" href="#email-action-modal">Edit Email Template</a>
                     <!-- /ko -->
                     <!-- ko if: $data.hasOwnProperty("SetterActionChildCollection") -->
-                    <a type="button" class="btn btn-link" data-bind="click : $root.startEditSetterAction"  href="#setter-action-modal">Edit Setter Template</a>
+                    <a type="button" class="btn btn-link" data-bind="click : $root.startEditSetterAction" href="#setter-action-modal">Edit Setter Template</a>
                     <!-- /ko -->
                 </td>
                 <td>
@@ -327,7 +330,7 @@
 
 
 
-<section class="modal hide" id="setter-action-modal">
+<section class="modal hide" style="z-index: 100" id="setter-action-modal">
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -354,7 +357,32 @@
                         <input type="text" data-bind="value: Path" id="setter-action-child-path" />
                     </td>
                     <td>
-                        
+
+                        <div class="btn-group">
+                            <a data-bind="with : Field" class="btn dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
+                                <!-- ko text : Name -->
+                                <!-- /ko -->
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="btn btn-link" data-bind="visible:Field().Name() !== '+ Field'">
+                                        <i class="icon-edit-sign"></i>
+                                        Edit Field
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn btn-link" data-bind="unwrapClick: $root.startAddDocumentField, accessor : $data.Field" href="#document-panel-modal">+ Document Field</a>
+                                </li>
+                                <li>
+                                    <a class="btn btn-link" data-bind="unwrapClick: $root.startAddConstantField, accessor : $data.Field" href="#constant-panel-modal">+ Constant Field</a>
+                                </li>
+                                <li>
+                                    <a class="btn btn-link" data-bind="unwrapClick: $root.startAddFunctionField, accessor : $data.Field" href="#function-panel-modal">+ Function Field</a>
+                                </li>
+
+                            </ul>
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -363,6 +391,6 @@
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: saveSetter" />
+        <a href="#" data-dismiss="modal" class="btn btn-primary" data-bind="click: saveSetter">OK</a>
     </div>
 </section>

@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> Save()
         {
             var json = this.GetRequestBody();
-            var trigger = JsonConvert.DeserializeObject<Trigger>(json);
+            var trigger = JsonConvert.DeserializeObject<Trigger>(json,new JsonSerializerSettings{ TypeNameHandling = TypeNameHandling.All});
 
             var context = new SphDataContext();
             using (var session = context.OpenSession())

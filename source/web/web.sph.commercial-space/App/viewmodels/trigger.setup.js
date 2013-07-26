@@ -45,6 +45,13 @@ define(['services/datacontext'],
                     $(this).parent().toggleClass("open");
                 });
 
+                $('#setter-action-modal').on('click', 'a.btn,button.close', function (e) {
+                    e.preventDefault(true);
+                    if ($(this).data("dismiss") === "modal") {
+                        $('#setter-action-modal').hide();
+                    }
+                });
+
             },
             addRule = function () {
                 var rule = new bespoke.sphcommercialspace.domain.Rule();
@@ -100,22 +107,22 @@ define(['services/datacontext'],
                 var setterAction = new bespoke.sphcommercialspace.domain.SetterAction();
                 vm.trigger().ActionCollection.push(setterAction);
             },
-            
+
              addSetterActionChild = function () {
                  var child = new bespoke.sphcommercialspace.domain.SetterActionChild();
-                 child.Field({ Name: ko.observable("") });
+                 child.Field({ Name: ko.observable("+ Field") });
                  vm.setterAction().SetterActionChildCollection.push(child);
                  $('#action-table .dropdown-toggle').dropdown();
              },
-            
+
             startEditSetterAction = function (setter) {
                 editedSetter = setter;
                 var clone = ko.mapping.fromJS(ko.mapping.toJS(setter));
                 vm.setterAction(clone);
 
-                $('#setter-action-modal').modal({});
+                $('#setter-action-modal').show();
             },
-            
+
             saveSetter = function () {
 
                 var clone = ko.mapping.fromJS(ko.mapping.toJS(vm.setterAction));
