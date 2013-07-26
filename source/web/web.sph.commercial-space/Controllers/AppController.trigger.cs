@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Web.Mvc;
@@ -13,9 +14,20 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return View();
         }
 
+        public ActionResult TriggerPathPickerJson(string id)
+        {
+            var type = Type.GetType(string.Format("Bespoke.SphCommercialSpaces.Domain.{0}, domain.commercialspace", id));
+
+            var text = new List<string>();
+            this.BuildFlatJsonTreeView(text, "", type);
+            this.Response.ContentType = APPLICATION_JAVASCRIPT;
+            return Content("[" + string.Join(",", text) + "]");
+        }
+
+
         public ActionResult TriggerPathPickerHtml(string id)
         {
-            var type = Type.GetType(string.Format("Bespoke.SphCommercialSpaces.Domain.{0}, domain.commercialspace, Version=1.0.2.1006, Culture=neutral", id));
+            var type = Type.GetType(string.Format("Bespoke.SphCommercialSpaces.Domain.{0}, domain.commercialspace", id));
 
             var text = new StringBuilder();
             this.BuildTreeView(text, "", type);
@@ -48,7 +60,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                     var gp = path + "." + p.Name;
                     if (gp.StartsWith("."))
                         gp = gp.Substring(1, gp.Length - 1);
-                    text.AppendFormat("<li class=\"k-sprite {3}\" data-path=\"{0}\" title=\"({2}){0}\">{1}</li>", 
+                    text.AppendFormat("<li class=\"k-sprite {3}\" data-path=\"{0}\" title=\"({2}){0}\">{1}</li>",
                         gp, p.Name, p.PropertyType.Name, p.PropertyType.Name.ToLowerInvariant());
                     text.AppendLine();
                 }
@@ -56,16 +68,30 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             text.AppendLine("</ul>");
         }
 
-        public ActionResult TriggerPathPickerJs()
+        private void BuildFlatJsonTreeView(IList<string> text, string path, Type type)
         {
-            return View();
+            foreach (var p in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            {
+                if (p.Name == "Error" && p.PropertyType == typeof(string)) continue;
+                if (p.Name == "Dirty" && p.PropertyType == typeof(bool)) continue;
+                if (p.Name == "Bil" && p.PropertyType == typeof(int)) continue;
+
+                if (p.PropertyType.Namespace == "Bespoke.SphCommercialSpaces.Domain")
+                {
+                    this.BuildFlatJsonTreeView(text, path + "." + p.Name, p.PropertyType);
+                }
+
+                var gp = path + "." + p.Name;
+                if (gp.StartsWith("."))
+                    gp = gp.Substring(1, gp.Length - 1);
+                var parent = path;
+                if (parent.StartsWith("."))
+                    parent = parent.Substring(1, parent.Length - 1) + ".";
+                text.Add(string.Format("{{ \"path\":\"{0}\", \"type\":\"{1}, {2}\", \"name\":\"{3}\", \"parent\":\"{4}\"}}",
+                    gp, p.PropertyType.FullName, p.PropertyType.Assembly.GetName().Name, p.Name, parent));
+
+            }
         }
 
-    }
-
-    public class TriggerPathPickerHtmlViewModel
-    {
-        public Type Type { get; set; }
-        public string Path { get; set; }
     }
 }

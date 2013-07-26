@@ -1,5 +1,6 @@
 ﻿/// <reference path="modernizr-2.6.2.js" />
 /// <reference path="knockout-2.2.1.debug.js" />
+/// <reference path="underscore.js" />
 /// <reference path="moment.js" />
 /// <reference path="~/Scripts/jquery-2.0.2.intellisense.js" />
 
@@ -263,6 +264,61 @@ ko.bindingHandlers.fieldImage = {
     }
 };
 
+
+ko.bindingHandlers.pathAutoComplete = {
+    init: function (element, valueAccessor) {
+        var command = valueAccessor();
+        var value = command.value;
+        var type = command.type;
+
+        $.get("/App/TriggerPathPickerJson/" + type())
+            .done(function (json) {
+                var tree = JSON.parse(json);
+                var data = _.chain(tree)
+                    .map(function (t) {
+                        if (t.parent === "")
+                            return t.name;
+                        return undefined;
+                    })
+                    .filter(function (t) {
+                        return typeof t !== "undefined";
+                    })
+                    .value();
+
+                console.log(data);
+
+                var input = $(element).data("kendoAutoComplete") ||
+                   $(element).kendoAutoComplete({
+                       dataSource: data,
+                       change: function () {
+                           var path = this.value();
+                           console.log("selected path " , path);
+                           value(path);
+
+                           var filtered = _.chain(tree)
+                               .filter(function (t) {
+                                   return t.parent === path;
+                               })
+                               .map(function (t) {
+                                   return t.name;
+                               })
+                               .value();
+                           console.log(filtered);
+                           var dataSource = new kendo.data.DataSource({
+                               data: filtered
+                           });
+                           input.setDataSource(dataSource);
+                       },
+                       filter: "startswith",
+                       placeholder: "Select path...",
+                       separator: "."
+                   }).data("kendoAutoComplete")
+                    .value(value());
+            });
+
+    }
+
+};
 
 ko.bindingHandlers.commandWithParameter = {
     init: function (element, valueAccessor) {

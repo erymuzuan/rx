@@ -22,7 +22,8 @@
         <div class="control-group">
             <label for="doc-path" class="control-label">Path</label>
             <div class="controls">
-                <input id="doc-path" data-bind="value: Path" class="input-xxlarge" />
+                <input id="doc-path" data-bind="pathAutoComplete: {value: Path, type : $root.trigger().Entity}" class="input-xxlarge" />
+                <span class="btn-block">You can use Path.Subpath convention</span>
             </div>
         </div>
     </div>
