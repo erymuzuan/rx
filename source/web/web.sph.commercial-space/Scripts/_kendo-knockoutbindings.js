@@ -228,7 +228,25 @@ ko.bindingHandlers.unwrapClick = {
 
         button.click(function (e) {
             e.preventDefault();
-            action(allBindings.accessor);
+            var prop = allBindings.property;
+            var accessor = allBindings.accessor;
+            /* if we can't get to the function , i.e. it's still object not ko.observable
+            
+            */
+            if (prop) {
+                if (typeof accessor[prop] === "undefined") {
+                    console.log("Can't figure out the accessor.prop");
+                }
+                if (typeof accessor[prop] === "object") {
+                    accessor[prop] = ko.observable(accessor[prop]);
+                }
+                if (typeof accessor[prop] === "function") {
+                    action(accessor[prop]);
+                }
+            } else {
+                action(accessor);
+            }
+
         });
     }
 };
@@ -239,7 +257,7 @@ ko.bindingHandlers.fieldImage = {
             img = $(element);
 
         var ft = typeof type === "function" ? type() : type;
-        img.attr("src", "/image/index/" + ft);        
+        img.attr("src", "/image/index/" + ft);
 
 
     }

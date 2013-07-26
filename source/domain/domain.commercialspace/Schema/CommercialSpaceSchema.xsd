@@ -951,7 +951,11 @@
 						<xs:appinfo source="attr">[JsonProperty(TypeNameHandling = TypeNameHandling.All)] </xs:appinfo>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="Operator" type="Operator"/>
+				<xs:element name="Operator" type="Operator">
+					<xs:annotation>
+						<xs:appinfo source="attr">[JsonConverter(typeof(StringEnumConverter))]</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
 			</xs:all>
 		</xs:complexType>
 	</xs:element>

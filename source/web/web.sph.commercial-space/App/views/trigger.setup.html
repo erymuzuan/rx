@@ -391,7 +391,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li data-bind="with : Field">
-                                    <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $root.startEditField, accessor : $parent.Field">
+                                    <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $root.startEditField, accessor : $parent, property:'Field'">
                                         <i class="icon-edit-sign"></i>
                                         Edit Field
                                     </a>

@@ -1,16 +1,17 @@
 ﻿
-	  using System;
-	  using System.Xml.Serialization;
-	  using System.ComponentModel;
-	  using System.Diagnostics;
-	  using System.ComponentModel.DataAnnotations;
-	  using Newtonsoft.Json;
+    using System;
+    using System.Xml.Serialization;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.ComponentModel.DataAnnotations;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
 
-	  // ReSharper disable InconsistentNaming
-	  namespace Bespoke.SphCommercialSpaces.Domain
-	  {
-	  
+    // ReSharper disable InconsistentNaming
+    namespace Bespoke.SphCommercialSpaces.Domain
+    {
+    
           ///<summary>
           /// 
           ///</summary>
@@ -1555,7 +1556,7 @@
                 {
                 set
                 {
-                    if (/* if nillable use ?? 0d temp */ Math.Abs(m_elevation ?? 0d - value ?? 0d) < 0.00001d) return;
+                if(/* if nillable use ?? 0d temp */ Math.Abs(m_elevation ?? 0d - value ?? 0d) < 0.00001d) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameElevation, value);
                 OnPropertyChanging(arg);
                 if(! arg.Cancel)
@@ -12422,7 +12423,7 @@
                 /// 
                 ///</summary>
                 [DebuggerHidden]
-				
+				[JsonConverter(typeof(StringEnumConverter))]
                 public Operator Operator
                 {
                 set
@@ -12523,16 +12524,6 @@
           public  partial class SetterAction
           {
           
-                    private string  m_Path;
-                    [XmlAttribute]
-                    public  string Path {get{
-                    return m_Path;}
-                    set{
-                    m_Path = value;
-                      RaisePropertyChanged();
-                    }}
-
-                  
 			private readonly ObjectCollection<SetterActionChild>  m_SetterActionChildCollection = new ObjectCollection<SetterActionChild> ();
 
 			///<summary>

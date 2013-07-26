@@ -30,6 +30,17 @@ define(['services/datacontext'],
                                 var right = r.Right;
                                 r.Right = ko.observable(right);
                             });
+                            
+                            // action
+                            _(t.ActionCollection()).each(function(a) {
+                                if (a["$type"]().indexOf("SetterAction") > -1) {
+                                    _(a.SetterActionChildCollection()).each(function(child) {
+                                        var field = child.Field;
+                                        child.Field = ko.observable(field);
+                                    });
+                                }
+                            });
+                           
                             vm.trigger(t);
                         } else {
                             vm.trigger(new bespoke.sphcommercialspace.domain.Trigger());
@@ -56,7 +67,7 @@ define(['services/datacontext'],
 
                 $('#action-panel').on('click', 'a.dropdown-toggle', dropDown);
 
-                $('#action-table').on('click', 'a.dropdown-toggle', dropDown);
+                $('#setter-action-modal').on('click', 'a.dropdown-toggle', dropDown);
 
                 $('#setter-action-modal').on('click', 'a.btn,button.close', function (e) {
                     e.preventDefault(true);
@@ -162,7 +173,7 @@ define(['services/datacontext'],
                  var child = new bespoke.sphcommercialspace.domain.SetterActionChild();
                  child.Field({ Name: ko.observable("+ Field") });
                  vm.setterAction().SetterActionChildCollection.push(child);
-                 $('#action-table .dropdown-toggle').dropdown();
+                 
              },
 
             startEditSetterAction = function (setter) {

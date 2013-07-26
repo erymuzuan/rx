@@ -5,18 +5,19 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xsl:output method="text" />
   <xsl:template match="xs:schema">
-	  using System;
-	  using System.Xml.Serialization;
-	  using System.ComponentModel;
-	  using System.Diagnostics;
-	  using System.ComponentModel.DataAnnotations;
-	  using Newtonsoft.Json;
+    using System;
+    using System.Xml.Serialization;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.ComponentModel.DataAnnotations;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
 
 
-	  // ReSharper disable InconsistentNaming
-	  namespace Bespoke.SphCommercialSpaces.Domain
-	  {
-	  <!-- ELEMENT -->
+    // ReSharper disable InconsistentNaming
+    namespace Bespoke.SphCommercialSpaces.Domain
+    {
+    <!-- ELEMENT -->
     <xsl:for-each select="xs:element">
       <xsl:choose>
         <!-- Complex TYPE -->
