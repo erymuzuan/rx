@@ -393,7 +393,6 @@
     <Content Include="App\views\public.index.html" />
     <Content Include="App\views\search.html" />
     <Content Include="App\views\trigger.list.html" />
-    <Content Include="App\views\trigger.setup.html" />
     <Content Include="App\views\_complaint.details.html" />
     <Content Include="App\views\maintenance.workorder.html" />
     <Content Include="App\views\maintenance.assignment.html" />
@@ -937,7 +936,13 @@
     <Content Include="Views\App\TenantPortalHtml.cshtml" />
     <Content Include="Views\App\TenantPortalJs.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
-    <Content Include="Views\App\TriggerPathPickerHtml.cshtml" />
+    <Content Include="Views\App\TriggerSetupHtml.cshtml" />
+    <Content Include="Views\App\_TriggerSetterAction.cshtml" />
+    <Content Include="Views\App\_TriggerEmailAction.cshtml" />
+    <Content Include="Views\App\_TriggerFunctionField.cshtml" />
+    <Content Include="Views\App\_TriggerDocumentField.cshtml" />
+    <Content Include="Views\App\_TriggerConstantField.cshtml" />
+    <Content Include="Views\App\_TriggerFieldDropDown.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

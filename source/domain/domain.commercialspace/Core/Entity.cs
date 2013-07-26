@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Xml.Serialization;
-using Newtonsoft.Json;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
@@ -23,18 +22,16 @@ namespace Bespoke.SphCommercialSpaces.Domain
     public abstract class Entity : DomainObject
     {
 
-        [JsonIgnore]
-        [XmlIgnore]
+        [XmlAttribute]
         public string CreatedBy { get; set; }
-        [XmlIgnore]
-        [JsonIgnore]
+       
+        [XmlAttribute]
         public DateTime CreatedDate { get; set; }
 
-        [XmlIgnore]
-        [JsonIgnore]
+        [XmlAttribute]
         public string ChangedBy { get; set; }
-        [XmlIgnore]
-        [JsonIgnore]
+
+        [XmlAttribute]
         public DateTime ChangedDate { get; set; }
 
 

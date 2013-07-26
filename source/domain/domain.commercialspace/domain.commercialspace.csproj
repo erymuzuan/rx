@@ -195,7 +195,9 @@
     <Content Include="Schema\Object.xslt">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Schema\ReferenceObject.xslt" />
+    <Content Include="Schema\ReferenceObject.xslt">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
