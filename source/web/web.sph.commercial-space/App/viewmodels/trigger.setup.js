@@ -15,13 +15,13 @@ define(['services/datacontext'],
             id = ko.observable(),
             editedField,
             editedEmail,
-            activate = function(routeData) {
+            activate = function (routeData) {
                 id(parseInt(routeData.id));
 
                 var query = String.format("TriggerId eq {0} ", id());
                 var tcs = new $.Deferred();
                 context.loadOneAsync("Trigger", query)
-                    .done(function(t) {
+                    .done(function (t) {
                         if (t) {
                             vm.trigger(t);
                         } else {
@@ -32,21 +32,21 @@ define(['services/datacontext'],
 
                 return tcs.promise();
             },
-            viewAttached = function() {
-                $('#rules-table').on('click', 'a.dropdown-toggle', function() {
+            viewAttached = function () {
+                $('#rules-table').on('click', 'a.dropdown-toggle', function () {
                     $(this).parent().toggleClass("open");
                 });
 
-                $('#action-panel').on('click', 'a.dropdown-toggle', function() {
+                $('#action-panel').on('click', 'a.dropdown-toggle', function () {
                     $(this).parent().toggleClass("open");
                 });
 
-                $('#action-table').on('click', 'a.dropdown-toggle', function() {
+                $('#action-table').on('click', 'a.dropdown-toggle', function () {
                     $(this).parent().toggleClass("open");
                 });
 
             },
-            addRule = function() {
+            addRule = function () {
                 var rule = new bespoke.sphcommercialspace.domain.Rule();
                 rule.Left({ Name: ko.observable("+ Field") });
                 rule.Right({ Name: ko.observable("+ Field") });
@@ -54,7 +54,7 @@ define(['services/datacontext'],
                 $('#rules-table .dropdown-toggle').dropdown();
             },
             /* fields */
-            startAddDocumentField = function(accessor) {
+            startAddDocumentField = function (accessor) {
                 editedField = accessor;
 
                 var documentField = new bespoke.sphcommercialspace.domain.DocumentField();
@@ -62,33 +62,22 @@ define(['services/datacontext'],
 
                 $('#document-panel-modal').modal({});
             },
-            startAddConstantField = function(accessor) {
+            startAddConstantField = function (accessor) {
                 editedField = accessor;
 
                 vm.constantField(new bespoke.sphcommercialspace.domain.ConstantField());
                 $('#constant-panel-modal').modal({});
             },
-            startAddFunctionField = function(accessor) {
+            startAddFunctionField = function (accessor) {
                 editedField = accessor;
 
                 vm.functionField(new bespoke.sphcommercialspace.domain.FunctionField());
                 $('#function-panel-modal').modal({});
             },
-            saveField = function(field) {
+            saveField = function (field) {
                 editedField(field);
             },
-            addSetterActionChild = function() {
-                var child = new bespoke.sphcommercialspace.domain.SetterActionChild();
-                child.Field({ Name: ko.observable("") });
-                vm.setterAction().SetterActionChildCollection.push(child);
-                $('#action-table .dropdown-toggle').dropdown();
-            },
-           
-            addSetterAction = function() {
-                var setterAction = new bespoke.sphcommercialspace.domain.SetterAction();
-                vm.setterAction(setterAction);
-                vm.trigger().ActionCollection.push(setterAction);
-            },            
+
             /* email */
             addEmailAction = function () {
                 var emailAction = new bespoke.sphcommercialspace.domain.EmailAction();
@@ -105,10 +94,35 @@ define(['services/datacontext'],
                 var clone = ko.mapping.fromJS(ko.mapping.toJS(vm.emailAction));
                 vm.trigger().ActionCollection.replace(editedEmail, clone);
             },
-
-            updateSetterAction = function () {
-
+            /* setter action */
+            editedSetter,
+            addSetterAction = function () {
+                var setterAction = new bespoke.sphcommercialspace.domain.SetterAction();
+                vm.trigger().ActionCollection.push(setterAction);
             },
+            
+             addSetterActionChild = function () {
+                 var child = new bespoke.sphcommercialspace.domain.SetterActionChild();
+                 child.Field({ Name: ko.observable("") });
+                 vm.setterAction().SetterActionChildCollection.push(child);
+                 $('#action-table .dropdown-toggle').dropdown();
+             },
+            
+            startEditSetterAction = function (setter) {
+                editedSetter = setter;
+                var clone = ko.mapping.fromJS(ko.mapping.toJS(setter));
+                vm.setterAction(clone);
+
+                $('#setter-action-modal').modal({});
+            },
+            
+            saveSetter = function () {
+
+                var clone = ko.mapping.fromJS(ko.mapping.toJS(vm.setterAction));
+                vm.trigger().ActionCollection.replace(editedSetter, clone);
+            },
+
+
             save = function () {
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.trigger);
@@ -131,13 +145,9 @@ define(['services/datacontext'],
             functionField: ko.observable(new bespoke.sphcommercialspace.domain.FunctionField()),
             constantField: ko.observable(new bespoke.sphcommercialspace.domain.ConstantField()),
             documentField: ko.observable(new bespoke.sphcommercialspace.domain.DocumentField()),
-            setterAction: ko.observable(new bespoke.sphcommercialspace.domain.SetterAction()),
             trigger: ko.observable(new bespoke.sphcommercialspace.domain.Trigger()),
 
             addRuleCommand: addRule,
-            addEmailActionCommand: addEmailAction,
-            addSetterActionCommand: addSetterAction,
-            addSetterActionChildCommand: addSetterActionChild,
 
 
             /*** FIELD */
@@ -146,11 +156,18 @@ define(['services/datacontext'],
             startAddConstantField: startAddConstantField,
             saveField: saveField,
 
-            /* email */
+            /* email action*/
+            addEmailActionCommand: addEmailAction,
             startEditEmailAction: startEditEmailAction,
             saveEmail: saveEmail,
-            emailAction : ko.observable(new bespoke.sphcommercialspace.domain.EmailAction()),
-            updateSetterActionCommand: updateSetterAction,
+            emailAction: ko.observable(new bespoke.sphcommercialspace.domain.EmailAction()),
+
+            /* setter action */
+            setterAction: ko.observable(new bespoke.sphcommercialspace.domain.SetterAction()),
+            addSetterActionCommand: addSetterAction,
+            addSetterActionChild: addSetterActionChild,
+            startEditSetterAction: startEditSetterAction,
+            saveSetter: saveSetter,
 
 
             toolbar: {
