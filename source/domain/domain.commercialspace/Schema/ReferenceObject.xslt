@@ -200,7 +200,7 @@
 		}
     
     
-    public string GetCLREqualitySymbol(string name, string xsType)
+    public string GetClrEqualitySymbol(string name, string xsType, bool nillable)
 		{
 			string first = name.Substring(0,1).ToLowerInvariant();
 			string field = first + name.Substring(1, name.Length - 1);
@@ -211,7 +211,8 @@
 			}
 			if( String.Equals("xs:double", xsType, StringComparison.Ordinal))
 			{
-				return "/* if nillable use ?? 0d temp */ Math.Abs(m_" + field +" - value) < 0.00001d";
+        if(nillable)return "Math.Abs(m_" + field +"  ?? 0d - value ?? 0d ) < 0.00001d";
+				return "Math.Abs(m_" + field +" - value) < 0.00001d";
 			}
 			return "m_" + field + " == value";
 		

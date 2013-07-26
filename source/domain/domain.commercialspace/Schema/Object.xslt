@@ -113,7 +113,7 @@
                     {
                     set
                     {
-                    if( <xsl:value-of select="bspk:GetCLREqualitySymbol(@name, @type)"/>) return;
+                    if( <xsl:value-of select="bspk:GetClrEqualitySymbol(@name, @type,false)"/>) return;
                     var arg = new PropertyChangingEventArgs(PropertyName<xsl:value-of select="@name"/>, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)
@@ -142,7 +142,7 @@
                     {
                     set
                     {
-                    if( <xsl:value-of select="bspk:GetCLREqualitySymbol(@name, xs:simpleType/xs:restriction/@base)"/>) return;
+                    if( <xsl:value-of select="bspk:GetClrEqualitySymbol(@name, xs:simpleType/xs:restriction/@base, false)"/>) return;
                     var arg = new PropertyChangingEventArgs(PropertyName<xsl:value-of select="@name"/>, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)
@@ -171,7 +171,7 @@
                 {
                 set
                 {
-                if(<xsl:value-of select="bspk:GetCLREqualitySymbol(@name, @type)"/>) return;
+                if(<xsl:value-of select="bspk:GetClrEqualitySymbol(@name, @type, @nillable)"/>) return;
                 var arg = new PropertyChangingEventArgs(PropertyName<xsl:value-of select="@name"/>, value);
                 OnPropertyChanging(arg);
                 if(! arg.Cancel)
@@ -268,6 +268,7 @@
     </xsl:for-each>
     <!-- enum -->
     <xsl:for-each select="xs:simpleType">
+      [JsonConverter(typeof(StringEnumConverter))]
       public enum <xsl:value-of select="@name"/>
       {
       <xsl:for-each select="xs:restriction/xs:enumeration">
