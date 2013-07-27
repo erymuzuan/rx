@@ -75,11 +75,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 if (p.Name == "Error" && p.PropertyType == typeof(string)) continue;
                 if (p.Name == "Dirty" && p.PropertyType == typeof(bool)) continue;
                 if (p.Name == "Bil" && p.PropertyType == typeof(int)) continue;
-
-                if (p.PropertyType.Namespace == "Bespoke.SphCommercialSpaces.Domain")
-                {
-                    this.BuildFlatJsonTreeView(text, path + "." + p.Name, p.PropertyType);
-                }
+                if (p.PropertyType == typeof(char)) continue;
+                if (p.PropertyType == typeof(DateTimeKind)) continue;
 
                 var gp = path + "." + p.Name;
                 if (gp.StartsWith("."))
@@ -89,6 +86,11 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                     parent = parent.Substring(1, parent.Length - 1) + ".";
                 text.Add(string.Format("{{ \"path\":\"{0}\", \"type\":\"{1}, {2}\", \"name\":\"{3}\", \"parent\":\"{4}\"}}",
                     gp, p.PropertyType.FullName, p.PropertyType.Assembly.GetName().Name, p.Name, parent));
+
+                if (path.Length < 255 && !path.EndsWith(".Date"))
+                    this.BuildFlatJsonTreeView(text, path + "." + p.Name, p.PropertyType);
+
+
 
             }
         }

@@ -287,33 +287,47 @@ ko.bindingHandlers.pathAutoComplete = {
 
                 console.log(data);
 
+                var dataSource = new kendo.data.DataSource({
+                    data: data
+                });
                 var input = $(element).data("kendoAutoComplete") ||
                    $(element).kendoAutoComplete({
-                       dataSource: data,
+                       dataSource: tree,
+                       dataTextField: "path",
                        change: function () {
                            var path = this.value();
-                           console.log("selected path " , path);
-                           value(path);
+                           console.log("selected path ", path);
 
-                           var filtered = _.chain(tree)
-                               .filter(function (t) {
-                                   return t.parent === path;
-                               })
-                               .map(function (t) {
-                                   return t.name;
-                               })
-                               .value();
-                           console.log(filtered);
-                           var dataSource = new kendo.data.DataSource({
-                               data: filtered
-                           });
-                           input.setDataSource(dataSource);
                        },
                        filter: "startswith",
                        placeholder: "Select path...",
-                       separator: "."
-                   }).data("kendoAutoComplete")
-                    .value(value());
+                       separator: ""
+                   }).data("kendoAutoComplete");
+
+                $(element)
+                        .change(function () {
+                            value($(this).val());
+                            console.log("new value", value());
+                        })
+                       .val(value())
+                    .on("keydown3", function (e) {
+                        if (e.which === 110 || e.which === 190) {
+                            var path = $(this).val() + ".";
+                            console.log("show the auto complete", path);
+                            var filtered = _.chain(tree)
+                                .filter(function (t) {
+                                    return t.parent === path;
+                                })
+                                .map(function (t) {
+                                    return t.name;
+                                })
+                                .value();
+                            console.log(filtered);
+                            //input.setDataSource(dataSource);
+                            dataSource.data(filtered);
+                            input.refresh();
+                        }
+                    });
             });
 
     }
