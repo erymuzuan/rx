@@ -1694,7 +1694,7 @@ footer.main {
 }
 
 .jPanelMenu-panel {
-    position: relative; left: 0px;
+    position: fixed; left: 0px;
     display: none;
 }
 

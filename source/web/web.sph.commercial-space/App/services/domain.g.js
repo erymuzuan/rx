@@ -1254,6 +1254,10 @@ bespoke.sphcommercialspace.domain.Trigger = function (webId) {
         TriggerId: ko.observable(),
         Note: ko.observable(),
         IsActive: ko.observable(),
+        IsFiredOnAdded: ko.observable(),
+        IsFiredOnDeleted: ko.observable(),
+        IsFiredOnChanged: ko.observable(),
+        FiredOnOperations: ko.observable(),
         RuleCollection: ko.observableArray(),
         ActionCollection: ko.observableArray(),
         isBusy: ko.observable(false),
@@ -1309,7 +1313,6 @@ bespoke.sphcommercialspace.domain.SetterAction = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.CustomAction(webId);
 
-    v.Path = ko.observable();
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.SetterAction, domain.commercialspace";
 
     v.SetterActionChildCollection = ko.observableArray();

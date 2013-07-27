@@ -13,13 +13,9 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
         public async override Task ExecuteAsync(Entity item)
         {
-            Console.WriteLine("Sending email to {0} ", this.To);
-
             var templateEngine = ObjectBuilder.GetObject<ITemplateEngine>();
             var subject = await templateEngine.GenerateAsync(this.SubjectTemplate, item).ConfigureAwait(false);
             var body = await templateEngine.GenerateAsync(this.BodyTemplate, item).ConfigureAwait(false);
-            Console.WriteLine("Subject " + subject);
-            Console.WriteLine( body);
             var message = new MailMessage
             {
                 Subject = subject,
@@ -32,8 +28,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 message.CC.Add(this.Cc);
 
             var smtp = new SmtpClient();
-            smtp.Send(message);
-            await Task.Delay(500);
             await smtp.SendMailAsync(message).ConfigureAwait(false);
         }
 

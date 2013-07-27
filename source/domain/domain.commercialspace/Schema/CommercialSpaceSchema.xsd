@@ -936,6 +936,10 @@
 			<xs:attribute name="TriggerId" type="xs:int" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsFiredOnAdded" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsFiredOnDeleted" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsFiredOnChanged" type="xs:boolean" use="required"/>
+			<xs:attribute name="FiredOnOperations" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Rule">

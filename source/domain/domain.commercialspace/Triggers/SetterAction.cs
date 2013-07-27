@@ -13,6 +13,10 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
         public async override Task ExecuteAsync(Entity item)
         {
+
+            if(this.TriggerId == 0)
+                throw new InvalidOperationException("Please set the trigger id");
+
             var script = ObjectBuilder.GetObject<IScriptEngine>();
 
             var code = new StringBuilder();
@@ -36,7 +40,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 session.Attach(modifiedItem);
                 // NOTE : the subscriber should watch for the Trigger:{TriggerId} property and ignore this particular trigger
                 // to avoid StackOverflow
-                await session.SubmitChanges("Trigger:" + this.TriggerId);
+                await session.SubmitChanges("Trigger:" + this.TriggerId + " " + this.Title);
             }
         }
 

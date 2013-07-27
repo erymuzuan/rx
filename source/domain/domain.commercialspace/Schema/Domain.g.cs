@@ -12519,6 +12519,26 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public const string PropertyNameIsActive = "IsActive";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isFiredOnAdded;
+        public const string PropertyNameIsFiredOnAdded = "IsFiredOnAdded";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isFiredOnDeleted;
+        public const string PropertyNameIsFiredOnDeleted = "IsFiredOnDeleted";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isFiredOnChanged;
+        public const string PropertyNameIsFiredOnChanged = "IsFiredOnChanged";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_firedOnOperations;
+        public const string PropertyNameFiredOnOperations = "FiredOnOperations";
+
+
         private readonly ObjectCollection<Rule> m_RuleCollection = new ObjectCollection<Rule>();
 
         ///<summary>
@@ -12711,6 +12731,122 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_isActive;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsFiredOnAdded
+        {
+            set
+            {
+                if (m_isFiredOnAdded == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsFiredOnAdded, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isFiredOnAdded = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isFiredOnAdded;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsFiredOnDeleted
+        {
+            set
+            {
+                if (m_isFiredOnDeleted == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsFiredOnDeleted, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isFiredOnDeleted = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isFiredOnDeleted;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsFiredOnChanged
+        {
+            set
+            {
+                if (m_isFiredOnChanged == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsFiredOnChanged, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isFiredOnChanged = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isFiredOnChanged;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string FiredOnOperations
+        {
+            set
+            {
+                if (String.Equals(m_firedOnOperations, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFiredOnOperations, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_firedOnOperations = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_firedOnOperations;
             }
         }
 

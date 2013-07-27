@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Commerspace.Web.Helpers;
 using Bespoke.SphCommercialSpaces.Domain;
 using Newtonsoft.Json;
+using WebGrease.Css.Extensions;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
@@ -21,6 +23,14 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 await session.SubmitChanges("Submit trigger");
             }
 
+            trigger.ActionCollection.OfType<SetterAction>()
+                .ForEach(s => s.TriggerId = trigger.TriggerId);
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(trigger);
+                await session.SubmitChanges("Submit trigger");
+            }
 
             return Json(trigger.TriggerId);
         }

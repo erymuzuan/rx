@@ -91,7 +91,6 @@ namespace Bespoke.Sph.Messaging
 
         public void AddDocuments(params ISearchable[] list)
         {
-            Console.WriteLine("adding document");
             this.Initialized();
             var writer = new IndexWriter(m_directory, m_analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
 
@@ -174,7 +173,6 @@ namespace Bespoke.Sph.Messaging
             foreach (var item in list)
             {
                 var uniqueid = new Term("uniqueid", item.Type + item.Id);
-                Console.WriteLine("Deleting {0} \tid : {1}", item.Type, item.Id);
                 writer.DeleteDocuments(uniqueid);
 
             }

@@ -6,13 +6,10 @@
             $(view).on('click', 'li.dropdown>a.dropdown-toggle', function () {
                 $(this).parent().toggleClass("open");
             });
-            /*
-            var jPM = $.jPanelMenu({
-                menu: '#menu',
-                trigger: '#drawer-menu',
-                duration: 300
+            $('#drawer-menu').on('click', function(e) {
+                e.preventDefault();
+                $('.jPanelMenu-panel').toggle();
             });
-            jPM.on();*/
 
         };
 

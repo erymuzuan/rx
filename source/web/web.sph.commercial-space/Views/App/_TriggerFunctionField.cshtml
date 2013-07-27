@@ -22,12 +22,19 @@
             <label for="func-script" class="control-label">Skript</label>
             <div class="controls">
                 <textarea id="func-script" data-bind="value: Script" class="input-xxlarge" rows="5"></textarea>
+                <span class="help-block">Must be a strict C# code, you can use ""item" member to access the current item, e.g. to return a Rental application status use <pre>return item.Status;</pre>
+                
+                    any C# construct is valid
+                    <pre>
+// return date = 1 Jan 2015
+return new DateTime(2015,1,1);
+</pre></span>
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
         <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: $root.saveField" />
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
     </div>
 </section>
 
