@@ -973,6 +973,7 @@
 			<xs:enumeration value="Substringof"/>
 			<xs:enumeration value="StartsWith"/>
 			<xs:enumeration value="EndsWith"/>
+			<xs:enumeration value="NotContains"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="CustomAction">

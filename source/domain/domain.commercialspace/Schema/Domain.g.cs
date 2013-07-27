@@ -13814,6 +13814,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
         Substringof,
         StartsWith,
         EndsWith,
+        NotContains,
     }
 
 }

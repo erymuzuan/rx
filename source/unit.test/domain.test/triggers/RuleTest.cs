@@ -9,6 +9,50 @@ namespace domain.test.triggers
     class RuleTest
     {
         [Test]
+        public void EndWith()
+        {
+            var building = new Building();
+            var rule = new Rule
+                {
+                    Left = new ConstantField { Value = "This e-mail is not a new bill; it is meant to help you to identify", Type = typeof(string) },
+                    Operator = Operator.Substringof,
+                    Right = new ConstantField { Value = "IDENTIFY", Type = typeof(string)}
+                };
+
+            var result = rule.Execute(building);
+            Assert.IsTrue(result);
+        }
+        [Test]
+        public void StartsWith()
+        {
+            var building = new Building();
+            var rule = new Rule
+                {
+                    Left = new ConstantField { Value = "This e-mail is not a new bill; it is meant to help you to identify the", Type = typeof(string) },
+                    Operator = Operator.Substringof,
+                    Right = new ConstantField { Value = "this", Type = typeof(string)}
+                };
+
+            var result = rule.Execute(building);
+            Assert.IsTrue(result);
+        }
+        
+        [Test]
+        public void Contains()
+        {
+            var building = new Building();
+            var rule = new Rule
+                {
+                    Left = new ConstantField { Value = "This e-mail is not a new bill; it is meant to help you to identify the", Type = typeof(string) },
+                    Operator = Operator.Substringof,
+                    Right = new ConstantField { Value = "Mail", Type = typeof(string)}
+                };
+
+            var result = rule.Execute(building);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
         public void ConstEqConst()
         {
             var building = new Building();

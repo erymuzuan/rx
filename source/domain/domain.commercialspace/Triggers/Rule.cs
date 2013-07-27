@@ -33,6 +33,22 @@ namespace Bespoke.SphCommercialSpaces.Domain
                     return lc.CompareTo(rc) > 0;
                 if (Operator == Operator.Ge)
                     return lc.CompareTo(rc) >= 0;
+
+               
+            }
+
+            var sl = left as string;
+            var sr = right as string;
+            if (null != sr && null != sl)
+            {
+                if (Operator == Operator.NotContains)
+                    return !sl.ToLowerInvariant().Contains(sr.ToLowerInvariant());
+                if (Operator == Operator.Substringof)
+                    return sl.ToLowerInvariant().Contains(sr.ToLowerInvariant());
+                if (Operator == Operator.StartsWith)
+                    return sl.ToLowerInvariant().StartsWith(sr.ToLowerInvariant());
+                if (Operator == Operator.EndsWith)
+                    return sl.ToLowerInvariant().EndsWith(sr.ToLowerInvariant());
             }
 
             return false;
