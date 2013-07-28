@@ -56,6 +56,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
         private async Task<IEnumerable<Entity>> GetPreviousItems(IEnumerable<Entity> items)
         {
             var list = new ObjectCollection<Entity>();
+            Console.WriteLine("Changed ITEMS {0}", items.Count());
             foreach (var item in items)
             {
                 var o1 = item;

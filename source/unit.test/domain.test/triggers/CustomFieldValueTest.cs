@@ -22,7 +22,7 @@ namespace domain.test.triggers
                 Path = "[a]"
             };
 
-            var a = docf.GetValue(cp);
+            var a = docf.GetValue(new RuleContext(cp));
             Assert.AreEqual("A", a);
         }    
         [Test]
@@ -39,7 +39,7 @@ namespace domain.test.triggers
                 Path = "CustomFieldValueCollection.Single(f => f.Name ==\"a\").Value"
             };
 
-            var a = docf.GetValue(cp);
+            var a = docf.GetValue(new RuleContext(cp));
             Assert.AreEqual("A", a);
         }
     }

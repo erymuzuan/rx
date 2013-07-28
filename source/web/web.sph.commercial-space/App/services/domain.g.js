@@ -1244,6 +1244,24 @@ bespoke.sphcommercialspace.domain.DocumentField = function (webId) {
 
 
 
+bespoke.sphcommercialspace.domain.FieldChangeField = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.Field(webId);
+
+    v.Path = ko.observable();
+    v.TypeName = ko.observable();
+    v.OldValue = ko.observable();
+    v.NewValue = ko.observable();
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.FieldChangeField, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.FieldChangeFieldPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.FieldChangeFieldPartial(v));
+    }
+    return v;
+};
+
+
+
 bespoke.sphcommercialspace.domain.Trigger = function (webId) {
 
     var model = {
@@ -1434,6 +1452,7 @@ bespoke.sphcommercialspace.domain.Operator = function () {
         SUBSTRINGOF: 'Substringof',
         STARTS_WITH: 'StartsWith',
         ENDS_WITH: 'EndsWith',
+        NOT_CONTAINS: 'NotContains',
 
         DO_NOT_SELECT: 'DONTDOTHIS'
     };

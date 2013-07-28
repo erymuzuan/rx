@@ -27,8 +27,9 @@ namespace Bespoke.SphCommercialSpaces.Domain
             }
         }
 
-        public override object GetValue(Entity item)
+        public override object GetValue(RuleContext context)
         {
+            var item = context.Item;
             if (string.IsNullOrWhiteSpace(this.Path)) return this.GetXPathValue(item);
             //
             var script = ObjectBuilder.GetObject<IScriptEngine>();

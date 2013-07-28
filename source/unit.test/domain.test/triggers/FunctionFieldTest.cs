@@ -14,7 +14,7 @@ namespace domain.test.triggers
         {
             var building = new FunctionField { Script = "DateTime.Today", ScriptEngine = new RoslynScriptEngine() };
 
-            var result = building.GetValue(new Building());
+            var result = building.GetValue(new RuleContext(new Building()));
             Assert.AreEqual(DateTime.Today, result);
         }
 
@@ -30,7 +30,7 @@ namespace domain.test.triggers
                 Right = new FunctionField { Script = "return DateTime.Today;", ScriptEngine = script }
             };
 
-            var result = rule.Execute(building);
+            var result = rule.Execute(new RuleContext(building));
             Assert.IsTrue(result);
         }
         [Test]
@@ -45,7 +45,7 @@ namespace domain.test.triggers
                 Right = new FunctionField { Script = "DateTime.Today.AddDays(-2)", ScriptEngine = script }
             };
 
-            var result = rule.Execute(building);
+            var result = rule.Execute(new RuleContext(building));
             Assert.IsTrue(result);
         }
 
@@ -66,7 +66,7 @@ namespace domain.test.triggers
                 Right = new FunctionField { Script = "Console.WriteLine(item.RegistrationNo);return item.ApplicationDate;", ScriptEngine = script }
             };
 
-            var result = rule.Execute(app);
+            var result = rule.Execute(new RuleContext(app));
             Assert.IsTrue(result);
         }
     }

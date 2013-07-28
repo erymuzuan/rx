@@ -109,6 +109,12 @@ define(['services/datacontext'],
                 vm.functionField(new bespoke.sphcommercialspace.domain.FunctionField());
                 $('#function-panel-modal').modal({});
             },
+            startAddChangedField = function (accessor) {
+                editedField = accessor;
+
+                vm.changedField(new bespoke.sphcommercialspace.domain.FieldChangeField());
+                $('#changed-panel-modal').modal({});
+            },
 
             startEditField = function (accessor) {
                 if (typeof accessor === "function") {
@@ -131,6 +137,10 @@ define(['services/datacontext'],
                         case "Bespoke.SphCommercialSpaces.Domain.FunctionField, domain.commercialspace":
                             vm.functionField(clone);
                             $('#function-panel-modal').modal({});
+                            break;
+                        case "Bespoke.SphCommercialSpaces.Domain.FieldChangeField, domain.commercialspace":
+                            vm.changedField(clone);
+                            $('#changed-panel-modal').modal({});
                             break;
                         default:
                             throw "unrecognized type : " + fieldType;
@@ -217,6 +227,7 @@ define(['services/datacontext'],
             functionField: ko.observable(new bespoke.sphcommercialspace.domain.FunctionField()),
             constantField: ko.observable(new bespoke.sphcommercialspace.domain.ConstantField()),
             documentField: ko.observable(new bespoke.sphcommercialspace.domain.DocumentField()),
+            changedField: ko.observable(new bespoke.sphcommercialspace.domain.FieldChangeField()),
             trigger: ko.observable(new bespoke.sphcommercialspace.domain.Trigger()),
 
             addRuleCommand: addRule,
@@ -227,6 +238,7 @@ define(['services/datacontext'],
             startAddDocumentField: startAddDocumentField,
             startAddFunctionField: startAddFunctionField,
             startAddConstantField: startAddConstantField,
+            startAddChangedField: startAddChangedField,
             saveField: saveField,
             startEditField: startEditField,
 

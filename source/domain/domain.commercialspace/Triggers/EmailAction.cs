@@ -6,13 +6,14 @@ namespace Bespoke.SphCommercialSpaces.Domain
 {
     public partial class EmailAction : CustomAction
     {
-        public override void Execute(Entity item)
+        public override void Execute(RuleContext context)
         {
             throw new Exception("Not implemented, use the asynhronous execute");
         }
 
-        public async override Task ExecuteAsync(Entity item)
+        public async override Task ExecuteAsync(RuleContext context)
         {
+            var item = context.Item;
             var templateEngine = ObjectBuilder.GetObject<ITemplateEngine>();
             var subject = await templateEngine.GenerateAsync(this.SubjectTemplate, item).ConfigureAwait(false);
             var body = await templateEngine.GenerateAsync(this.BodyTemplate, item).ConfigureAwait(false);

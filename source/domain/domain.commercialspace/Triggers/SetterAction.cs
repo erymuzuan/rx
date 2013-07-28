@@ -6,14 +6,14 @@ namespace Bespoke.SphCommercialSpaces.Domain
 {
     public partial class SetterAction : CustomAction
     {
-        public override void Execute(Entity item)
+        public override void Execute(RuleContext context)
         {
-            throw new System.NotImplementedException();
+            throw new Exception("Not implement, use the async");
         }
 
-        public async override Task ExecuteAsync(Entity item)
+        public async override Task ExecuteAsync(RuleContext context)
         {
-
+            var item = context.Item;
             if(this.TriggerId == 0)
                 throw new InvalidOperationException("Please set the trigger id");
 
@@ -22,7 +22,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             var code = new StringBuilder();
             foreach (var action in this.SetterActionChildCollection)
             {
-                var val = action.Field.GetValue(item);
+                var val = action.Field.GetValue(context);
                 if (val is string)
                     val = string.Format("\"{0}\"", val);
                 if (val is DateTime)
@@ -34,8 +34,8 @@ namespace Bespoke.SphCommercialSpaces.Domain
             Console.WriteLine(code);
 
             var modifiedItem = script.Evaluate(code.ToString(), item) as Entity;
-            var context = new SphDataContext();
-            using (var session = context.OpenSession())
+            var dcontext = new SphDataContext();
+            using (var session = dcontext.OpenSession())
             {
                 session.Attach(modifiedItem);
                 // NOTE : the subscriber should watch for the Trigger:{TriggerId} property and ignore this particular trigger

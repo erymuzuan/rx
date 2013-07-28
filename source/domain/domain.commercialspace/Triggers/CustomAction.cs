@@ -8,11 +8,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [XmlInclude(typeof(SetterAction))]
     public partial class CustomAction : DomainObject
     {
-        public virtual void Execute(Entity item)
+        public virtual void Execute(RuleContext context)
         {
             throw new Exception("NotImplemented");
         }
-        public virtual Task ExecuteAsync(Entity item)
+        public virtual Task ExecuteAsync(RuleContext context)
         {
             throw new Exception("NotImplemented");
         }

@@ -2,6 +2,15 @@
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
+    public class RuleContext
+    {
+        public RuleContext(Entity item)
+        {
+            this.Item = item;
+        }
+        public Entity Item { get; set; }
+        public AuditTrail Log { get; set; }
+    }
     public partial class Rule : DomainObject
     {
         public override string ToString()
@@ -9,10 +18,10 @@ namespace Bespoke.SphCommercialSpaces.Domain
             return string.Format("{0} {1} {2}", this.Left.Name, this.Operator, this.Right.Name);
         }
 
-        public bool Execute(Entity item)
+        public bool Execute(RuleContext context)
         {
-            var left = this.Left.GetValue(item);
-            var right = this.Right.GetValue(item);
+            var left = this.Left.GetValue(context);
+            var right = this.Right.GetValue(context);
 
             if (null == left) return false;
             if (null == right) return false;

@@ -33,9 +33,9 @@ namespace Bespoke.Sph.CustomTriggers
         private bool CanFire(MessageHeaders headers)
         {
             // look for special mark for operation if fired by this  trigger previously -- SetterAction
-            if (headers.Operation.StartsWith(string.Format("Trigger:{0}", this.Trigger.WebId)))
+            if (headers.Operation.StartsWith(string.Format("Trigger:{0}", this.Trigger.TriggerId)))
                 return false;
-            
+
             if (this.Trigger.IsFiredOnAdded && headers.Crud == CrudOperation.Added)
                 return true;
             if (this.Trigger.IsFiredOnChanged && headers.Crud == CrudOperation.Changed)
@@ -51,13 +51,11 @@ namespace Bespoke.Sph.CustomTriggers
 
         protected async override Task ProcessMessage(T item, MessageHeaders header)
         {
-            await Task.Delay(500);
-
             var fire = this.CanFire(header);
             if (!fire) return;
 
 
-            Console.WriteLine("Running triggers({0}) with {1} actions and {2} rules", this.Trigger.Name,
+            this.WriteMessage("Running triggers({0}) with {1} actions and {2} rules", this.Trigger.Name,
                 this.Trigger.ActionCollection.Count(x => x.IsActive),
                 this.Trigger.RuleCollection.Count);
 
@@ -66,7 +64,7 @@ namespace Bespoke.Sph.CustomTriggers
                 try
                 {
 
-                    var result = rule.Execute(item);
+                    var result = rule.Execute(new RuleContext(item) { Log = header.Log });
                     if (!result)
                     {
                         this.WriteMessage("Rule {0} evaluated to FALSE", rule);
@@ -85,9 +83,9 @@ namespace Bespoke.Sph.CustomTriggers
             {
                 this.WriteMessage(" ==== Executing {0} ======", customAction.Title);
                 if (customAction.UseAsync)
-                    await customAction.ExecuteAsync(item);
+                    await customAction.ExecuteAsync(new RuleContext(item)).ConfigureAwait(false);
                 else
-                    customAction.Execute(item);
+                    customAction.Execute(new RuleContext(item));
 
                 this.WriteMessage("done...");
             }

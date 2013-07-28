@@ -19,7 +19,7 @@ namespace domain.test.triggers
                     Right = new ConstantField { Value = "IDENTIFY", Type = typeof(string)}
                 };
 
-            var result = rule.Execute(building);
+            var result = rule.Execute(new RuleContext(building));
             Assert.IsTrue(result);
         }
         [Test]
@@ -33,7 +33,7 @@ namespace domain.test.triggers
                     Right = new ConstantField { Value = "this", Type = typeof(string)}
                 };
 
-            var result = rule.Execute(building);
+            var result = rule.Execute(new RuleContext(building));
             Assert.IsTrue(result);
         }
         
@@ -48,7 +48,7 @@ namespace domain.test.triggers
                     Right = new ConstantField { Value = "Mail", Type = typeof(string)}
                 };
 
-            var result = rule.Execute(building);
+            var result = rule.Execute(new RuleContext(building));
             Assert.IsTrue(result);
         }
 
@@ -63,7 +63,7 @@ namespace domain.test.triggers
                     Right = new ConstantField { Value = 500, Type = typeof(int)}
                 };
 
-            var result = rule.Execute(building);
+            var result = rule.Execute(new RuleContext(building));
             Assert.IsTrue(result);
         }
 
@@ -74,7 +74,7 @@ namespace domain.test.triggers
         {
             var app = new RentalApplication { ApplicationDate = DateTime.Today };
             var field = new DocumentField { XPath = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) };
-            var val = field.GetValue(app);
+            var val = field.GetValue(new RuleContext(app));
             Assert.AreEqual(DateTime.Today, val);
         }
 
@@ -87,7 +87,7 @@ namespace domain.test.triggers
             v.DepositPaymentCollection.Add(new DepositPayment { Amount = 50m });
 
             var field = new FunctionField { Script = "item.DepositPaymentCollection.Sum(d => d.Amount)", ScriptEngine = script };
-            var val = field.GetValue(v);
+            var val = field.GetValue(new RuleContext(v));
             Assert.AreEqual(100m, val);
         }
         [Test]
@@ -99,7 +99,7 @@ namespace domain.test.triggers
             v.DepositPaymentCollection.Add(new DepositPayment { Amount = 50m });
 
             var field = new DocumentField { Path = "DepositPaid", Type = typeof(decimal) };
-            var val = field.GetValue(v);
+            var val = field.GetValue(new RuleContext(v));
             Assert.AreEqual(100m, val);
         }
 
@@ -108,7 +108,7 @@ namespace domain.test.triggers
         {
             var building = new Building { BuildingId = 500 };
             var field = new DocumentField { XPath = "//bs:Building/@BuildingId", Type = typeof(int) };
-            var val = field.GetValue(building);
+            var val = field.GetValue(new RuleContext(building));
             Assert.AreEqual(500, val);
         }
 
@@ -126,7 +126,7 @@ namespace domain.test.triggers
                     Right = new ConstantField { Value = 500 }
                 };
 
-            var result = rule.Execute(building);
+            var result = rule.Execute(new RuleContext(building));
             Assert.IsTrue(result);
         }
 
@@ -142,7 +142,7 @@ namespace domain.test.triggers
                     Right = new ConstantField { Value = 500 }
                 };
 
-            var result = rule.Execute(building);
+            var result = rule.Execute(new RuleContext(building));
             Assert.IsTrue(result);
         }
 
@@ -157,7 +157,7 @@ namespace domain.test.triggers
                     Right = new ConstantField { Value = new DateTime(2012, 5, 5) }
                 };
 
-            var result = rule.Execute(app);
+            var result = rule.Execute(new RuleContext(app));
             Assert.IsTrue(result);
         }
         [Test]
@@ -171,7 +171,7 @@ namespace domain.test.triggers
                     Right = new ConstantField { Value = new DateTime(2010, 5, 5) }
                 };
 
-            var result = rule.Execute(app);
+            var result = rule.Execute(new RuleContext(app));
             Assert.IsTrue(result);
         }
 
@@ -186,7 +186,7 @@ namespace domain.test.triggers
                     Right = new ConstantField { Value = 400 }
                 };
 
-            var result = rule.Execute(building);
+            var result = rule.Execute(new RuleContext(building));
             Assert.IsTrue(result);
         }
     }

@@ -78,9 +78,30 @@ namespace Bespoke.SphCommercialSpaces.Domain
             throw new InvalidOperationException("Cannot find any object for " + typeof(T).FullName);
         }
 
-        public static dynamic GetObject(Type type)
+        public static dynamic GetObject(Type key)
         {
-            return m_cacheList[type];
+            if (m_cacheList.ContainsKey(key))
+                return m_cacheList[key];
+
+            var name = key.ToString();
+            if (key.IsGenericType)
+            {
+                //Bespoke.SphCommercialSpaces.Domain.IRepository`1[Bespoke.SphCommercialSpaces.Domain.Trigger]
+                name = name.Replace("Bespoke.SphCommercialSpaces.Domain.", string.Empty)
+                    .Replace("`1[", "<")
+                    .Replace("]", ">")
+                    ;
+                
+            }
+            Console.WriteLine("NAME: " + name);
+            var springObject = ContextRegistry.GetContext().GetObject(name);
+            if (null != springObject)
+            {
+                m_cacheList.Add(key, springObject);
+                return springObject;
+            }
+
+            throw new InvalidOperationException("Cannot find any object for " + key.FullName);
         }
 
     }

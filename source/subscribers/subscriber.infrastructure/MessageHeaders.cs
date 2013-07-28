@@ -32,7 +32,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 var operationBytes = m_args.Properties.Headers["log"] as byte[];
                 if (null != operationBytes)
                 {
-                    var xml = ByteToString(operationBytes);
+                    var xml = ByteToString(operationBytes).Replace("encoding=\"utf-16\"","encoding=\"utf-8\"");
+                   // Console.WriteLine(xml);
                     if (string.IsNullOrWhiteSpace(xml)) return null;
                     return XmlSerializerService.DeserializeFromXml<AuditTrail>(xml);
                 }

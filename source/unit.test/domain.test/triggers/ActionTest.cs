@@ -23,9 +23,9 @@ namespace domain.test.triggers
                 BodyTemplate = "What ever"
             };
             if (email.UseAsync)
-                email.ExecuteAsync(building).Wait(5000);
+                email.ExecuteAsync(new RuleContext(building)).Wait(5000);
             else
-                email.Execute(building);
+                email.Execute(new RuleContext(building));
 
 
         }
@@ -48,7 +48,7 @@ namespace domain.test.triggers
             };
             setter.SetterActionChildCollection.Add(new SetterActionChild { Path = "Name", Field = new ConstantField { Type = typeof(string), Value = "Damansara Intan" } }); ;
             setter.SetterActionChildCollection.Add(new SetterActionChild { Path = "Note", Field = new DocumentField { Path = "LotNo", Type = typeof(string) } });
-            setter.ExecuteAsync(building).Wait(5000);
+            setter.ExecuteAsync(new RuleContext(building)).Wait(5000);
 
             Assert.AreEqual("Damansara Intan", persistence.Building.Name);
             Assert.AreEqual("4444", persistence.Building.Note);

@@ -36,7 +36,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
         public async Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection, IEnumerable<AuditTrail> logs)
         {
             var items = attachedCollection.ToArray();
-            await SendMessage("changed", operation, items);
+            await SendMessage("changed", operation, items,logs);
         }
 
         public async Task PublishDeleted(string operation, IEnumerable<Entity> deletedCollection)

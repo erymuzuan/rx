@@ -22,6 +22,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 return RedirectPermanent("~/images/SetterAction.png");
             if (type == typeof (EmailAction))
                 return RedirectPermanent("~/images/EmailAction.png");
+            if (type == typeof (FieldChangeField))
+                return RedirectPermanent("~/images/FieldChangeField.png");
 
             return Content("www");
         }

@@ -70,7 +70,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
         }
 
 
-        public override object GetValue(Entity item)
+        public override object GetValue(RuleContext context)
         {
             if (string.IsNullOrWhiteSpace(this.TypeName) && null != m_tempVal)
             {

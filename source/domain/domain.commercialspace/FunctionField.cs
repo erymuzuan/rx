@@ -18,9 +18,9 @@ namespace Bespoke.SphCommercialSpaces.Domain
             set { m_scriptEngine = value; }
         }
 
-        public override object GetValue(Entity item)
+        public override object GetValue(RuleContext context)
         {
-            return this.ScriptEngine.Evaluate(this.Script, item);
+            return this.ScriptEngine.Evaluate(this.Script, context.Item);
         }
     }
 
