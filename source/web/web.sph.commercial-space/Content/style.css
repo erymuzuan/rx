@@ -70,10 +70,10 @@ h1{
 	line-height: 40px;
     background-color: yellow;
     padding-left: 35px; 
-    background-image:url('../Images/arrow.png');
+    background-image:url('/images/arrow.png');
     background-repeat: no-repeat;
     background-position: left;
-    max-width: 400px;
+    max-width: 700px;
 }
 
 h2 {
@@ -1696,6 +1696,7 @@ footer.main {
 .jPanelMenu-panel {
     position: fixed; left: 0px;
     display: none;
+    z-index: 1000;
 }
 
 #drawer-menu {

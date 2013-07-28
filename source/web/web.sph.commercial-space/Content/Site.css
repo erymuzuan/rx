@@ -6,63 +6,70 @@
     margin-bottom: 70px;
 }
 
-.google-maps
-{
+.google-maps {
     min-height: 700px;
 }
 
-    .google-maps img
-    {
+    .google-maps img {
         max-width: none;
     }
 
 
-    .modal {
-        margin-left: -400px;
-    }
-    
+.modal {
+    margin-left: -400px;
+}
+
 .loader .page-progress-bar {
-    margin: 14px 0 0 0 ;
+    margin: 14px 0 0 0;
 }
 
 .loader {
     visibility: hidden;
 }
-.loader.active {
-    visibility: visible;
-}
+
+    .loader.active {
+        visibility: visible;
+    }
 
 .selected {
     background-color: #e0e0e0;
     color: #ffffff;
 }
 
- .container > .content {
-        background-color: #fff;
-        padding: 20px;
-        margin: 0 -20px; 
-        -webkit-border-radius: 10px 10px 10px 10px;
-           -moz-border-radius: 10px 10px 10px 10px;
-                border-radius: 10px 10px 10px 10px;
-        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-                box-shadow: 0 1px 2px rgba(0,0,0,.15);
-      }
+.container > .content {
+    background-color: #fff;
+    padding: 20px;
+    margin: 0 -20px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+    box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
 
-	  .login-form {
-		margin-left: 65px;
-	  }
-	
-	  legend {
-		margin-right: -50px;
-		font-weight: bold;
-	  	color: #404040;
-	  }
-@media (max-height: 800px)
-{
+.login-form {
+    margin-left: 65px;
+}
 
-    .google-maps
-    {
+legend {
+    margin-right: -50px;
+    font-weight: bold;
+    color: #404040;
+}
+
+#shell-logviewer-modal {
+    width: 900px; /* SET THE WIDTH OF THE MODAL */
+    margin: 20px 0 0 -450px; /* CHANGE MARGINS TO ACCOMODATE THE NEW WIDTH (original = margin: -250px 0 0 -280px;) */
+}
+
+    #shell-logviewer-modal .modal {
+        max-height: 800px;
+    }
+
+@media (max-height: 800px) {
+
+    .google-maps {
         min-height: 400px;
     }
 }

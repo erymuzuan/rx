@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Xml.Serialization;
 
 namespace Bespoke.SphCommercialSpaces.Domain
@@ -21,7 +22,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [XmlInclude(typeof(Inventory))]
     public abstract class Entity : DomainObject
     {
-
         [XmlAttribute]
         public string CreatedBy { get; set; }
        

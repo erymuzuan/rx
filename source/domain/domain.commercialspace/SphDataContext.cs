@@ -53,11 +53,93 @@ namespace Bespoke.SphCommercialSpaces.Domain
             return session;
         }
 
+        private async Task<IEnumerable<Entity>> GetPreviousItems(IEnumerable<Entity> items)
+        {
+            var list = new ObjectCollection<Entity>();
+            foreach (var item in items)
+            {
+                var o1 = item;
+                var type = item.GetType();
+                var reposType = typeof(IRepository<>).MakeGenericType(new[] { type });
+                var repos = ObjectBuilder.GetObject(reposType);
+                var provider = ObjectBuilder.GetObject<QueryProvider>();
+
+                if (type == typeof(Tenant))
+                {
+                    Expression<Func<Tenant, bool>> predicate = t => t.TenantId == this.GetId(o1);
+                    var query = new Query<Tenant>(provider).Where(predicate);
+                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
+                    list.Add(p);
+                }
+                if (type == typeof(RentalApplication))
+                {
+                    Expression<Func<RentalApplication, bool>> predicate = t => t.RentalApplicationId == this.GetId(o1);
+                    var query = new Query<RentalApplication>(provider).Where(predicate);
+                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
+                    list.Add(p);
+                }
+                if (type == typeof(Trigger))
+                {
+                    Expression<Func<Trigger, bool>> predicate = t => t.TriggerId == this.GetId(o1);
+                    var query = new Query<Trigger>(provider).Where(predicate);
+                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
+                    list.Add(p);
+                }
+
+                if (type == typeof(Contract))
+                {
+                    Expression<Func<Contract, bool>> predicate = t => t.ContractId == this.GetId(o1);
+                    var query = new Query<Contract>(provider).Where(predicate);
+                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
+                    list.Add(p);
+
+                }
+                if (type == typeof(Building))
+                {
+                    Expression<Func<Building, bool>> predicate = t => t.BuildingId == this.GetId(o1);
+                    var query = new Query<Building>(provider).Where(predicate);
+                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
+                    list.Add(p);
+                }
+                if (type == typeof(Complaint))
+                {
+                    Expression<Func<Complaint, bool>> predicate = t => t.ComplaintId == this.GetId(o1);
+                    var query = new Query<Complaint>(provider).Where(predicate);
+                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
+                    list.Add(p);
+                }
+                if (type == typeof(Maintenance))
+                {
+                    Expression<Func<Maintenance, bool>> predicate = t => t.MaintenanceId == this.GetId(o1);
+                    var query = new Query<Maintenance>(provider).Where(predicate);
+                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
+                    list.Add(p);
+                }
+            }
+            return list;
+        }
         internal async Task<SubmitOperation> SubmitChangesAsync(string operation, PersistenceSession session)
         {
-            Console.WriteLine("sending  to changes {0} {1} items" , operation, session.AttachedCollection.Count);
             var addedItems = session.AttachedCollection.Where(t => this.GetId(t) == 0).ToArray();
             var changedItems = session.AttachedCollection.Where(t => this.GetId(t) > 0).ToArray();
+
+            var ds = ObjectBuilder.GetObject<IDirectoryService>();
+            var previous = await GetPreviousItems(changedItems);
+            // get changes to items
+            var logs = (from e in changedItems
+                        let e1 = previous.Single(t => t.WebId == e.WebId)
+                        where null != e1
+                        let diffs = (new ChangeGenerator().GetChanges(e1, e))
+                        select new AuditTrail(diffs)
+                        {
+                            Operation = operation,
+                            DateTime = DateTime.Now,
+                            User = ds.CurrentUserName,
+                            Type = e.GetType().Name,
+                            EntityId = this.GetId(e),
+                            Note = "-"
+                        }).ToArray();
+            session.AttachedCollection.AddRange(logs.Cast<Entity>());
 
             var persistence = ObjectBuilder.GetObject<IPersistence>();
             var so = await persistence.SubmitChanges(session.AttachedCollection, session.DeletedCollection, session)
@@ -65,7 +147,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
             var addedTask = publisher.PublishAdded(operation, addedItems);
-            var changedTask = publisher.PublishChanges(operation, changedItems);
+            var changedTask = publisher.PublishChanges(operation, changedItems, logs);
             var deletedTask = publisher.PublishDeleted(operation, session.DeletedCollection);
             await Task.WhenAll(addedTask, changedTask, deletedTask).ConfigureAwait(false);
 

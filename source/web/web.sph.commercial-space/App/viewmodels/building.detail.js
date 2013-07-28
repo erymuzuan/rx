@@ -33,15 +33,16 @@ define(['services/datacontext',
                         tcs.resolve(true);
                     })
                     .fail(function () {
-                        var states = [{ State: 'Kelantan', Name: 'Kelantan' }, { State: 'Selangor', Name: 'Selangor' }, { State: 'Kuala Lumpur' ,Name: 'Kuala Lumpur' }];
+                        var states = [{ State: 'Kelantan', Name: 'Kelantan' }, { State: 'Selangor', Name: 'Selangor' }, { State: 'Kuala Lumpur', Name: 'Kuala Lumpur' }];
                         vm.stateOptions(states);
                         tcs.resolve(true);
                     });
-                
+
 
                 if (!id) {
                     return true;
                 }
+                vm.toolbar().auditTrail.id(id);
                 var query = "BuildingId eq " + id;
                 context.loadOneAsync("Building", query).done(function (b) {
                     vm.building(b);
@@ -173,6 +174,9 @@ define(['services/datacontext',
                     });
                 return tcs.promise();
 
+            },
+            viewAuditTrail = function () {
+
             };
 
 
@@ -191,8 +195,12 @@ define(['services/datacontext',
             isBusy: isBusy,
             removeFloorCommand: removeFloor,
             title: 'Building Details',
-            toolbar : ko.observable({
-                saveCommand : saveAsync
+            toolbar: ko.observable({
+                saveCommand: saveAsync,
+                auditTrail: {
+                    entity: "Building",
+                    id: ko.observable()
+                }
             })
         };
 

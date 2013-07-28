@@ -315,6 +315,7 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Dependencies\AspNetDirectoryService.cs" />
     <Compile Include="Dependencies\DummyChangeListener.cs" />
     <Compile Include="Dependencies\DummyChangeTracker.cs" />
     <Compile Include="Dependencies\DummySearchProvider.cs" />
@@ -390,6 +391,7 @@
     <Content Include="App\views\complaintform.tenant.html" />
     <Content Include="App\views\inventory.detail.html" />
     <Content Include="App\views\inventory.list.html" />
+    <Content Include="App\views\logviewer.html" />
     <Content Include="App\views\messages.html" />
     <Content Include="App\views\public.index.html" />
     <Content Include="App\views\search.html" />

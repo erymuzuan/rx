@@ -85,16 +85,14 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 // look for change in the individual items, by what ? TrackingId on DomainObject is it's set
                 foreach (dynamic t in v1)
                 {
-                    dynamic t1 = t;
+                    var t1 = t;
                     if (string.IsNullOrWhiteSpace(t.WebId)) continue;
                     dynamic t2 = null;
-                    foreach (dynamic o in v2)
+                    foreach (var o in v2)
                     {
-                        if (o.WebId == t1.WebId)
-                        {
-                            t2 = o;
-                            break;
-                        }
+                        if (o.WebId != t1.WebId) continue;
+                        t2 = o;
+                        break;
                     }
                     if (null != t2)
                     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
@@ -24,6 +25,21 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
         }
 
+        public AuditTrail Log
+        {
+            get
+            {
+                var operationBytes = m_args.Properties.Headers["log"] as byte[];
+                if (null != operationBytes)
+                {
+                    var xml = ByteToString(operationBytes);
+                    if (string.IsNullOrWhiteSpace(xml)) return null;
+                    return XmlSerializerService.DeserializeFromXml<AuditTrail>(xml);
+                }
+
+                return null;
+            }
+        }
         public string Operation
         {
             get

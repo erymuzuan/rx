@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
@@ -6,6 +7,16 @@ namespace Bespoke.SphCommercialSpaces.Domain
     public partial class AuditTrail : Entity
     {
         private int m_auditTrailId;
+
+        public AuditTrail()
+        {
+            
+        }
+
+        public AuditTrail(IEnumerable<Change> changes)
+        {
+            this.ChangeCollection.AddRange(changes);
+        }
 
         [XmlAttribute]
         public int AuditTrailId

@@ -78,5 +78,10 @@ namespace Bespoke.SphCommercialSpaces.Domain
             throw new InvalidOperationException("Cannot find any object for " + typeof(T).FullName);
         }
 
+        public static dynamic GetObject(Type type)
+        {
+            return m_cacheList[type];
+        }
+
     }
 }

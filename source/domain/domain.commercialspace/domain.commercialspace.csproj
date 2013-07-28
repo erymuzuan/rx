@@ -111,6 +111,7 @@
     <Compile Include="FunctionField.cs" />
     <Compile Include="IBinaryStore.cs" />
     <Compile Include="IComputable.cs" />
+    <Compile Include="IDirectoryService.cs" />
     <Compile Include="IDocumentExport.cs" />
     <Compile Include="IDocumentGenerator.cs" />
     <Compile Include="IEntityChangedListener.cs" />

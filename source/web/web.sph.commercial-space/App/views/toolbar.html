@@ -23,6 +23,12 @@
                     Reload
                 </button>
                 <!-- /ko -->
+                <!-- ko if: typeof auditTrail === "object"-->
+                <a data-toggle="modal" href="#shell-logviewer-modal" class="btn" data-bind="commandWithParameter: {command : $root.viewAuditTrailCommand, commandParameter : auditTrail}" data-loading-text="Loading....">
+                    <i class="icon-calendar"></i>
+                    Audit trail
+                </a>
+                <!-- /ko -->
                 <!-- ko if: typeof printCommand === "function"-->
                 <button class="btn" data-bind="command: printCommand" data-loading-text="Printing....">
                     <i class="icon-print"></i>

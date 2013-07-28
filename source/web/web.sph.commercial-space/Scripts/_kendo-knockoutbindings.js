@@ -341,14 +341,18 @@ ko.bindingHandlers.commandWithParameter = {
         var parameter = command.commandParameter;
 
         var button = $(element);
+        var completeText = button.data("complete-text") || button.html();
         button.click(function (e) {
             e.preventDefault();
             callback(parameter)
                 .then(function () {
-
-                    if (button.data("complete-text")) {
-                        button.button("complete");
+                    button.button("complete");
+                    if (button.get(0).tagName == 'BUTTON' || button.get(0).tagName == 'A') {
+                        button.html(completeText);
+                    } else {
+                        button.val(completeText);
                     }
+
                 });
             if (button.data("loading-text")) {
                 button.button("loading");

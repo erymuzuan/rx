@@ -16,11 +16,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
     public class ChangePublisherClient : IEntityChangePublisher
     {
         private readonly IBrokerConnection m_connection;
-        public const int PERSISTENT_DELIVERY_MODE = 2; 
-      
+        public const int PERSISTENT_DELIVERY_MODE = 2;
+
         public string Exchange { get; set; }
 
-        public ChangePublisherClient(IBrokerConnection connection )
+        public ChangePublisherClient(IBrokerConnection connection)
         {
             m_connection = connection;
             this.Exchange = "ruang.komersial.changes";
@@ -30,21 +30,28 @@ namespace Bespoke.Sph.RabbitMqPublisher
         public async Task PublishAdded(string operation, IEnumerable<Entity> attachedCollection)
         {
             var items = attachedCollection.ToArray();
-            await SendMessage("added",operation, items);
+            await SendMessage("added", operation, items);
         }
 
-        public async Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection)
+        public async Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection, IEnumerable<AuditTrail> logs)
         {
             var items = attachedCollection.ToArray();
-            await SendMessage("changed",operation, items);
+            await SendMessage("changed", operation, items);
         }
 
         public async Task PublishDeleted(string operation, IEnumerable<Entity> deletedCollection)
         {
-            await SendMessage("deleted",operation, deletedCollection.ToArray());
+            await SendMessage("deleted", operation, deletedCollection.ToArray());
         }
 
-        private async Task SendMessage(string action, string operation, params Entity[] items)
+        private int GetId(Entity item)
+        {
+            var type = this.GetEntityType(item);
+            var id = type.GetProperties().AsQueryable().Single(p => p.PropertyType == typeof(int)
+                                                                    && p.Name == type.Name + "Id");
+            return (int)id.GetValue(item);
+        }
+        private async Task SendMessage(string action, string operation, IEnumerable<Entity> items, IEnumerable<AuditTrail> logs = null)
         {
             Console.WriteLine("sending....");
             var factory = new ConnectionFactory
@@ -61,8 +68,15 @@ namespace Bespoke.Sph.RabbitMqPublisher
                 channel.ExchangeDeclare(this.Exchange, ExchangeType.Topic, true);
                 foreach (var item in items)
                 {
-
                     var entityType = this.GetEntityType(item);
+                    var log = string.Empty;
+                    var id = this.GetId(item);
+                    if (null != logs && id > 0)
+                    {
+                        var audit = logs.SingleOrDefault(l => l.Type == entityType.Name && l.EntityId == id);
+                        if (null != audit)
+                            log = audit.ToXmlString();
+                    }
                     var routingKey = entityType.Name + "." + action;
                     var item1 = item;
                     var xml = item1.ToXmlString();
@@ -71,11 +85,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
                     var props = channel.CreateBasicProperties();
                     props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
                     props.ContentType = "application/xml";
-                    props.Headers = new Dictionary<string, string> {{"operation", operation},{"crud", action}};
+                    props.Headers = new Dictionary<string, string> { { "operation", operation }, { "crud", action }, { "log", log } };
 
                     channel.BasicPublish(this.Exchange, routingKey, props, body);
 
-                    Console.WriteLine("Published to {0}, exc : {1}, keys : {2}", factory.VirtualHost,this.Exchange, routingKey);
+                    Console.WriteLine("Published to {0}, exc : {1}, keys : {2}", factory.VirtualHost, this.Exchange, routingKey);
                 }
 
             }

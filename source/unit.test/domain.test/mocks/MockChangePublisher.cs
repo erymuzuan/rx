@@ -11,7 +11,7 @@ namespace domain.test
             await Task.Delay(500).ConfigureAwait(false);
         }
 
-        public async Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection)
+        public async Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection, IEnumerable<AuditTrail> logs)
         {
             await Task.Delay(500).ConfigureAwait(false);
         }

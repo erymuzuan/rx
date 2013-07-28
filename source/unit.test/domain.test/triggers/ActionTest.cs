@@ -34,6 +34,7 @@ namespace domain.test.triggers
         public void Setter()
         {
             var persistence = new MockPersistence();
+            ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
             ObjectBuilder.AddCacheList<IPersistence>(persistence);
@@ -53,6 +54,11 @@ namespace domain.test.triggers
             Assert.AreEqual("4444", persistence.Building.Note);
 
         }
+    }
+
+    internal class MockLdap : IDirectoryService
+    {
+        public string CurrentUserName { get { return "test"; } }
     }
 
     internal class MockTemplateEnging : ITemplateEngine

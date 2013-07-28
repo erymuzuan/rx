@@ -11,7 +11,7 @@ namespace Bespoke.Sph.Commerspace.Web.Dependencies
             await Task.Delay(500);
         }
 
-        public async Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection)
+        public async Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection, IEnumerable<AuditTrail> logs)
         {
             await Task.Delay(500);
         }

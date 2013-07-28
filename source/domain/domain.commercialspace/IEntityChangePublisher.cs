@@ -7,7 +7,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
     public interface IEntityChangePublisher
     {
         Task PublishAdded(string operation, IEnumerable<Entity> attachedCollection);
-        Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection);
+        Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection, IEnumerable<AuditTrail> logs);
         Task PublishDeleted(string operation, IEnumerable<Entity> deletedCollection);
     }
 }

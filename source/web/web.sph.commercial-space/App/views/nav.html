@@ -1,11 +1,21 @@
 ﻿
-<div class="jPanelMenu-panel">		
+<div class="jPanelMenu-panel">
     <nav id="jPanelMenu-menu">
-		
-    <ul class="navi nav" data-bind="foreach: router.visibleRoutes">
-        <li class="nred" data-bind="css: { current: isActive }"><a href="#" data-bind=" attr: { href: hash }">
-            <i data-bind="attr : {class : icon}"></i><span data-bind="text: name"></span>
-        </a></li>
-    </ul>
+        <ul class="navi nav" data-binddd="foreach: router.visibleRoutes">
+            <li class="nred">
+                <form class="form-search">
+                    <input id="filter-text" type="search" class="search-query input-medium" placeholder="Search items" />
+                    <i class="icon-search"></i>
+                </form>
+            </li>
+            <!-- ko foreach :router.visibleRoutes -->
+            <li class="nred" data-bind="css: { current: isActive }, attr :{'data-string':name}">
+                <a href="#" data-bind=" attr: { href: hash }">
+                    <i data-bind="attr : {class : icon}"></i><span data-bind="text: name"></span>
+                </a>
+            </li>
+            
+            <!-- /ko -->
+        </ul>
     </nav>
 </div>
