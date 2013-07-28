@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Bespoke.SphCommercialSpaces.Domain;
 using Roslyn.Scripting.CSharp;
 
@@ -38,8 +39,8 @@ namespace roslyn.scriptengine
 
                                         "{0}\r\n" +
                                      "}}", block, item.GetType().Name);
+            Debug.WriteLine(code, "Rosylyn code");
             session.Execute(code);
-            Console.WriteLine(code);
 
             var result = session.Execute("Evaluate();");
             Console.WriteLine("result :" + result);

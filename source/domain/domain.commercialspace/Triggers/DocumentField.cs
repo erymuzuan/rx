@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using System.Xml;
 using Newtonsoft.Json;
 
@@ -31,10 +32,26 @@ namespace Bespoke.SphCommercialSpaces.Domain
             if (string.IsNullOrWhiteSpace(this.Path)) return this.GetXPathValue(item);
             //
             var script = ObjectBuilder.GetObject<IScriptEngine>();
-            var result = script.Evaluate("item." + this.Path, item);
+            var path = this.Path;
+            if (path.StartsWith("["))
+                path = this.GetCustomFieldValue(this.Path);
+            var result = script.Evaluate("item." + path, item);
             return result;
         }
 
+        private string GetCustomFieldValue(string path)
+        {
+            var pattern = Regex.Escape("[") + "(?<field>.*?)]";
+            var output = this.RegexSingleValue(path, pattern, "field");
+            return string.Format("CustomFieldValueCollection.Single(f => f.Name ==\"{0}\").Value", output);
+
+        }
+        protected string RegexSingleValue(string input, string pattern, string group)
+        {
+            const RegexOptions option = RegexOptions.IgnoreCase | RegexOptions.Singleline;
+            var matches = Regex.Matches(input, pattern, option);
+            return matches.Count == 1 ? matches[0].Groups[@group].Value.Trim() : null;
+        }
         public object GetXPathValue(Entity item)
         {
             var doc = new XmlDocument();

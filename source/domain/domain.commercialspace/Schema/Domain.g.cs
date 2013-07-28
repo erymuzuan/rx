@@ -12485,6 +12485,82 @@ namespace Bespoke.SphCommercialSpaces.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    [XmlType("FieldChangeField", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class FieldChangeField
+    {
+
+        private string m_Path;
+        [XmlAttribute]
+        public string Path
+        {
+            get
+            {
+                return m_Path;
+            }
+            set
+            {
+                m_Path = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_TypeName;
+        [XmlAttribute]
+        public string TypeName
+        {
+            get
+            {
+                return m_TypeName;
+            }
+            set
+            {
+                m_TypeName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_OldValue;
+        [XmlAttribute]
+        public string OldValue
+        {
+            get
+            {
+                return m_OldValue;
+            }
+            set
+            {
+                m_OldValue = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_NewValue;
+        [XmlAttribute]
+        public string NewValue
+        {
+            get
+            {
+                return m_NewValue;
+            }
+            set
+            {
+                m_NewValue = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     [XmlType("Trigger", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Trigger
     {

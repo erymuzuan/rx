@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="triggers\ActionTest.cs" />
     <Compile Include="change.tracker\ContractChangeTest.cs" />
+    <Compile Include="triggers\CustomFieldValueTest.cs" />
     <Compile Include="triggers\FunctionFieldTest.cs" />
     <Compile Include="mocks\MockChangePublisher.cs" />
     <Compile Include="mocks\MockPersistence.cs" />

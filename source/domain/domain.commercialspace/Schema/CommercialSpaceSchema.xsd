@@ -867,6 +867,10 @@
 			<xs:attribute name="InventoryId" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:complexType name="Field">
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="Note" type="xs:string" use="required"/>
+	</xs:complexType>
 	<xs:element name="FunctionField">
 		<xs:complexType>
 			<xs:complexContent>
@@ -897,10 +901,18 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="Field">
-		<xs:attribute name="Name" type="xs:string" use="required"/>
-		<xs:attribute name="Note" type="xs:string" use="required"/>
-	</xs:complexType>
+	<xs:element name="FieldChangeField">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Field">
+					<xs:attribute name="Path" type="xs:string" use="required"/>
+					<xs:attribute name="TypeName" type="xs:string" use="required"/>
+					<xs:attribute name="OldValue" type="xs:string" use="required"/>
+					<xs:attribute name="NewValue" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:simpleType name="FieldType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="DocumentField"/>
