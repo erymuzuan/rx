@@ -175,7 +175,7 @@
   },
   {
     "role": "can_add_commercial_space",
-    "url": "building.detail/:id",
+    "url": "building.detail/:templateId/:id",
     "moduleId": "viewmodels/building.detail",
     "name": "BuildingDetail",
     "visible": false,
@@ -334,7 +334,7 @@
     "error": ""
   },
   {
-    "role": "admin_setting",
+    "role": "can_edit_complaint_template",
     "url": "complaint.template.form/:templateId",
     "moduleId": "viewmodels/complaint.template.form",
     "name": "Tetapan Aduan",
@@ -587,6 +587,30 @@
     "visible": true,
     "icon": "icon-flag",
     "caption": "Senarai Trigger",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_building_template",
+    "url": "building.template.list",
+    "moduleId": "viewmodels/building.template.list",
+    "name": "Senarai Templat Bangunan",
+    "visible": true,
+    "icon": "icon-building",
+    "caption": "Senarai Templat Bangunan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_building_template",
+    "url": "building.template.form/:id",
+    "moduleId": "viewmodels/building.template.form",
+    "name": "Form Templat Bangunan",
+    "visible": false,
+    "icon": null,
+    "caption": null,
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""

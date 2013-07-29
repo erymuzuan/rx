@@ -19,6 +19,7 @@ define(['services/datacontext',
         var isBusy = ko.observable(false),
             activate = function (routeData) {
                 var id = parseInt(routeData.id);
+                var templateId = parseInt(routeData.templateId);
 
                 var tcs = new $.Deferred();
                 context.loadOneAsync("Setting", "Key eq 'State'")
@@ -40,6 +41,23 @@ define(['services/datacontext',
 
 
                 if (!id) {
+
+                    // build custom fields value
+                    context.loadOneAsync("BuildingTemplate", "BuildingTemplateId eq " + templateId)
+                        .done(function (template) {
+                            var cfs = _(template.CustomFieldCollection()).map(function (f) {
+                                var webid = system.guid();
+                                var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
+                                v.Name(f.Name());
+                                v.Type(f.Type());
+                                return v;
+                            });
+
+                            vm.building().CustomFieldValueCollection(cfs);
+
+                        });
+
+                    vm.building().TemplateId(templateId);
                     return true;
                 }
                 vm.toolbar().auditTrail.id(id);
@@ -50,36 +68,27 @@ define(['services/datacontext',
                 });
 
                 return tcs.promise();
-            };
-
-        var addLot = function (floor) {
-            var url = '/#/lotdetail/' + vm.building().BuildingId() + '/' + floor.Name();
-            router.navigateTo(url);
-        },
+            },
+            addLot = function (floor) {
+                var url = '/#/lotdetail/' + vm.building().BuildingId() + '/' + floor.Name();
+                router.navigateTo(url);
+            },
             viewFloorPlan = function (floor) {
                 var url = '/#/floorplan/' + vm.building().BuildingId() + '/' + floor.Name();
                 router.navigateTo(url);
+            },
+            goBack = function () {
+                var url = '/#/building';
+                router.navigateTo(url);
+            },
+            removeFloor = function (floor) {
+                vm.building().FloorCollection.remove(floor);
+
+            },
+            addFloor = function () {
+                var floor = new bespoke.sphcommercialspace.domain.Floor();
+                vm.building().FloorCollection.push(floor);
             };
-
-        var goBack = function () {
-            var url = '/#/building';
-            router.navigateTo(url);
-        };
-
-        var removeFloor = function (floor) {
-            vm.building().FloorCollection.remove(floor);
-
-        };
-
-        var addFloor = function () {
-            var floor = {
-                Name: ko.observable(),
-                Number: ko.observable(),
-                Note: ko.observable(),
-                Size: ko.observable()
-            };
-            vm.building().FloorCollection.push(floor);
-        };
 
         var saveAsync = function () {
             var tcs = new $.Deferred();
@@ -174,9 +183,6 @@ define(['services/datacontext',
                     });
                 return tcs.promise();
 
-            },
-            viewAuditTrail = function () {
-
             };
 
 
@@ -184,6 +190,7 @@ define(['services/datacontext',
         var vm = {
             activate: activate,
             building: ko.observable(new bespoke.sphcommercialspace.domain.Building()),
+            template: ko.observable(new bespoke.sphcommercialspace.domain.BuildingTemplate()),
             stateOptions: ko.observableArray(),
             saveCommand: saveAsync,
             showMapCommand: showMap,

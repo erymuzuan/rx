@@ -49,7 +49,7 @@ define(['services/datacontext', 'services/logger'],
 
             viewAttached = function (view) {
                 
-                $('#custom-fields-panel').load("/App/complaint.custom.field.html/" + vm.template().ComplaintTemplateId(),
+                $('#custom-fields-panel').load("/CustomField/ComplaintTemplaint/" + vm.template().ComplaintTemplateId(),
                 function() {
                     ko.applyBindings(vm, document.getElementById('custom-fields-panel'));
                 });

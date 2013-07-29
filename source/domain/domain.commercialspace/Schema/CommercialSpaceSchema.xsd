@@ -74,14 +74,23 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="Height" type="xs:int" nillable="true"/>
+				<xs:element name="CustomFieldValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomFieldValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="BuildingId" type="xs:int" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="LotNo" type="xs:string" use="required"/>
 			<xs:attribute name="Size" type="xs:double" use="required"/>
 			<xs:attribute name="Status" type="xs:string" use="required"/>
 			<xs:attribute name="Floors" type="xs:int" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
+			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="LatLng">
@@ -682,6 +691,8 @@
 			<xs:attribute name="IsMandatory" type="xs:boolean" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="Size" type="xs:int" use="required"/>
+			<xs:attribute name="Listing" type="xs:string" use="optional"/>
+			<xs:attribute name="Group" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CustomFieldValue">
@@ -701,10 +712,10 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="ComplaintCustomFieldCollection">
+				<xs:element name="CustomFieldCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="ComplaintCustomField" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="CustomField" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -728,16 +739,6 @@
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="ComplaintCustomField">
-		<xs:complexType>
-			<xs:attribute name="Order" type="xs:int" use="required"/>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="IsMandatory" type="xs:boolean" use="required"/>
-			<xs:attribute name="Type" type="xs:string" use="required"/>
-			<xs:attribute name="Size" type="xs:int" use="required"/>
-			<xs:attribute name="Listing" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Inspection">
@@ -1046,6 +1047,23 @@
 			<xs:attribute name="User" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 			<xs:attribute name="DateTime" type="xs:dateTime" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BuildingTemplate">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="CustomFieldCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomField" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="BuildingTemplateId" type="xs:int" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

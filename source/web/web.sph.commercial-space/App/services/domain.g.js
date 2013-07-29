@@ -96,15 +96,18 @@ bespoke.sphcommercialspace.domain.Building = function (webId) {
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Building, domain.commercialspace",
         BuildingId: ko.observable(),
+        Type: ko.observable(),
         Name: ko.observable(),
         LotNo: ko.observable(),
         Size: ko.observable(),
         Status: ko.observable(),
         Floors: ko.observable(),
         Note: ko.observable(),
+        TemplateId: ko.observable(),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
         FloorCollection: ko.observableArray(),
         Height: ko.observable(),
+        CustomFieldValueCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -917,6 +920,8 @@ bespoke.sphcommercialspace.domain.CustomField = function (webId) {
         IsMandatory: ko.observable(),
         Type: ko.observable(),
         Size: ko.observable(),
+        Listing: ko.observable(),
+        Group: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -955,7 +960,7 @@ bespoke.sphcommercialspace.domain.ComplaintTemplate = function (webId) {
         Description: ko.observable(),
         IsActive: ko.observable(),
         ComplaintCategoryCollection: ko.observableArray(),
-        ComplaintCustomFieldCollection: ko.observableArray(),
+        CustomFieldCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -979,27 +984,6 @@ bespoke.sphcommercialspace.domain.ComplaintCategory = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.ComplaintCategoryPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintCategoryPartial(model));
-    }
-    return model;
-};
-
-
-
-bespoke.sphcommercialspace.domain.ComplaintCustomField = function (webId) {
-
-    var model = {
-        "$type": "Bespoke.SphCommercialSpaces.Domain.ComplaintCustomField, domain.commercialspace",
-        Order: ko.observable(),
-        Name: ko.observable(),
-        IsMandatory: ko.observable(),
-        Type: ko.observable(),
-        Size: ko.observable(),
-        Listing: ko.observable(),
-        isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
-    };
-    if (bespoke.sphcommercialspace.domain.ComplaintCustomFieldPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.ComplaintCustomFieldPartial(model));
     }
     return model;
 };
@@ -1374,6 +1358,26 @@ bespoke.sphcommercialspace.domain.Watcher = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.WatcherPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.WatcherPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.BuildingTemplate = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.BuildingTemplate, domain.commercialspace",
+        BuildingTemplateId: ko.observable(),
+        Name: ko.observable(),
+        Description: ko.observable(),
+        IsActive: ko.observable(),
+        CustomFieldCollection: ko.observableArray(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.BuildingTemplatePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.BuildingTemplatePartial(model));
     }
     return model;
 };

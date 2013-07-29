@@ -64,7 +64,7 @@
             var results = (funcNameRegex).exec((obj).constructor.toString());
             var typeName = (results && results.length > 1) ? results[1] : "";
 
-            return 'views/' + typeName;
+            return 'views/' + typeName ;
         },
         translateViewIdToArea: function (viewId, area) {
             return viewId;
