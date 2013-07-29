@@ -1,8 +1,14 @@
-﻿<div class="row">
-    <h1>Senarai permohonan : <span data-bind="text: status"></span></h1></div>   
-    <div class="span9">
-    
-        <table class="table table-striped">
+﻿<h1 class="headerbackground span12"><span data-bind="text: title"></span></h1>
+
+<div class="span12">
+    <form class="form-search">
+        <div class="input-append pull-right">
+            <input id="appra-filter-text" type="search" class="search-query input-medium" placeholder="Search items">
+            <i class="add-on icon-remove"></i>
+        </div>
+    </form>
+    <div>
+        <table id="app-list-table" class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th>No Rujukan</th>
@@ -18,14 +24,13 @@
                     <td data-bind="text: CompanyName"></td>
                     <td>
                         <span data-bind="text: CommercialSpace.Category"></span>,
-                        <span data-bind="text: CommercialSpace.BuildingName"></span>,
-                        <span data-bind="text: CommercialSpace.FloorName"></span>,
-                        <span data-bind="text: CommercialSpace.LotName"></span>
+                    <span data-bind="text: CommercialSpace.BuildingName"></span>,
+                    <span data-bind="text: CommercialSpace.FloorName"></span>,
+                    <span data-bind="text: CommercialSpace.LotName"></span>
                     </td>
                 </tr>
             </tbody>
         </table>
-    
-    
     </div>
 </div>
+

@@ -184,9 +184,7 @@ define(['services/datacontext',
                 return tcs.promise();
 
             };
-
-
-
+        
         var vm = {
             activate: activate,
             building: ko.observable(new bespoke.sphcommercialspace.domain.Building()),
