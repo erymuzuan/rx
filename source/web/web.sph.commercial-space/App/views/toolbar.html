@@ -68,7 +68,7 @@
                 <!-- ko foreach: commands-->
                 <button class="btn" data-bind="command: command" data-loading-text="Sendin....">
                     <i data-bind=" attr: { 'class': icon }"></i>
-                    <span data-bind="text: caption"></span>
+                    <span data-bind="text: caption, visible:status"></span>
                 </button>
                 <!-- /ko -->
                 <!-- /ko -->
