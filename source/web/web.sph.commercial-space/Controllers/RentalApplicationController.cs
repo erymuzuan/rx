@@ -1,17 +1,47 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Bespoke.Sph.Commerspace.Web.Helpers;
 using Bespoke.SphCommercialSpaces.Domain;
+using Newtonsoft.Json;
 using WebGrease.Css.Extensions;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public class RentalApplicationController : Controller
     {
+        public async Task<ActionResult> Print(int id)
+        {
+            var context = new SphDataContext();
+            var app = await context.LoadOneAsync<RentalApplication>(a => a.RentalApplicationId == id);
+            const string printSession = "print.rental.application";
+            if (null == app && this.Request.HttpMethod == "POST")
+            {
+                // get this from the post
+                var json = this.GetRequestBody();
+                app = JsonConvert.DeserializeObject<RentalApplication>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
+                this.Session[printSession] = app;
+            }
+            if (null == app && this.Request.HttpMethod == "GET")
+            {
+                app = this.Session[printSession] as RentalApplication;
+            }
+
+
+            if (Request.ContentType.StartsWith("application/json"))
+            {
+                this.Response.ContentType = "application/json; charset=utf-8";
+                return Content(await JsonConvert.SerializeObjectAsync(true));
+            }
+
+            return View(app);
+
+        }
+
         public async Task<ActionResult> Submit(RentalApplication rentalApplication)
         {
-            await Task.Delay(2500);
             var context = new SphDataContext();
             var c = await context.LoadOneAsync<CommercialSpace>(cs => cs.CommercialSpaceId == rentalApplication.CommercialSpaceId);
             rentalApplication.Status = "Baru";
@@ -58,7 +88,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json(true);
         }
-        
+
         public async Task<ActionResult> Approved(int id)
         {
             var context = new SphDataContext();
@@ -66,7 +96,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             bool result;
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
             var existingApprovedCs =
-                await context.GetCountAsync<RentalApplication>(r => r.CommercialSpaceId == dbItem.CommercialSpaceId && (r.Status == "Approved" || r.Status == "Completed") );
+                await context.GetCountAsync<RentalApplication>(r => r.CommercialSpaceId == dbItem.CommercialSpaceId && (r.Status == "Approved" || r.Status == "Completed"));
             if (existingApprovedCs == 0)
             {
                 dbItem.Status = "Diluluskan";
@@ -92,7 +122,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 await session.SubmitChanges();
             }
 
-            return Json(new {message, result});
+            return Json(new { message, result });
         }
         public async Task<ActionResult> Unsuccess(int id)
         {
@@ -151,7 +181,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
             if (null != attachments) dbItem.AttachmentCollection.ClearAndAddRange(attachments);
-           
+
             var audit = new AuditTrail
             {
                 Operation = "Permohonan Dikembalikan",
@@ -170,7 +200,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json(dbItem.RentalApplicationId);
         }
-        
+
         public async Task<ActionResult> SendReturnedEmail(int id, ObjectCollection<Attachment> attachments, string remarks)
         {
             var context = new SphDataContext();
@@ -286,10 +316,10 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         }
         public async Task<ActionResult> GenerateOfferLetter(int id)
         {
-          
+
             var context = new SphDataContext();
             var rentalApplication = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            
+
             var audit = new AuditTrail
             {
                 Operation = "Cetak surat tawaran",

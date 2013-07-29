@@ -969,6 +969,7 @@
     <Content Include="Views\App\_TriggerFieldDropDown.cshtml" />
     <Content Include="Views\App\_TriggerChangedField.cshtml" />
     <Content Include="Views\App\BuildingDetailHtml.cshtml" />
+    <Content Include="Views\RentalApplication\Print.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

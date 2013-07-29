@@ -30,7 +30,7 @@
                 </a>
                 <!-- /ko -->
                 <!-- ko if: typeof printCommand === "function"-->
-                <button class="btn" data-bind="command: printCommand" data-loading-text="Printing....">
+                <button class="btn" data-bind="commandWithParameter :{command: $root.printCommand, commandParameter : printCommand}" data-loading-text="Printing....">
                     <i class="icon-print"></i>
                     Print
                 </button>

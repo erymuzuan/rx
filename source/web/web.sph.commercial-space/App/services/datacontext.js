@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.2.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/loadoperation.js" />
 /// <reference path="logger.js" />

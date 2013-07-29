@@ -13,6 +13,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
     var isBusy = ko.observable(false),
         id = ko.observable(),
         registrationNo = ko.observable(),
+        rentalApplication = ko.observable(new bespoke.sphcommercialspace.domain.RentalApplication()),
+
         activate = function (routeData) {
             
             id(routeData.id);
@@ -86,9 +88,24 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         viewAttached: viewAttached,
         configureUpload: configureUpload,
         stateOptions: ko.observableArray(),
-        rentalapplication: ko.observable(new bespoke.sphcommercialspace.domain.RentalApplication()),
-        commercialSpace : ko.observable (new bespoke.sphcommercialspace.domain.CommercialSpace()),
-        saveCommand: saveApplication,
+        rentalapplication: rentalApplication,
+        commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
+        toolbar: ko.observable({
+            reloadCommand: function () {
+                return activate({ status: status() });
+            },
+            printCommand: ko.observable({
+                entity: ko.observable("RentalApplication"),
+                id: ko.observable(0),
+                item : rentalApplication,
+            }),
+            commands: ko.observableArray([{
+                caption: "Hantar Permohonan",
+                icon: 'icon-envelop',
+                status: id,
+                command: saveApplication
+            }])
+        }),
         addBankCommand: addBankCollection,
         isBusy: isBusy,
         addAttachmentCommand: addAttachment

@@ -62,6 +62,21 @@
             },
             selectAuditTrail = function (log) {
                 shell.selectedAuditTrail(log);
+            },
+            
+            print = function (commandParameter) {
+                var parameter =typeof commandParameter === "function" ? commandParameter()  :commandParameter;
+            
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(parameter.item);
+
+                var url = "/" + parameter.entity() + "/print/" + parameter.id();
+                context.post(data, url)
+                    .then(function(result) {
+                        tcs.resolve(result);
+                        window.open(url);
+                    });
+                return tcs.promise();
             };
 
         var shell = {
@@ -69,6 +84,7 @@
             viewAttached: viewAttached,
             router: router,
             viewAuditTrailCommand: viewAuditTrail,
+            printCommand : print,
             auditTrailCollection: ko.observableArray(),
             selectedAuditTrail: ko.observable(new bespoke.sphcommercialspace.domain.AuditTrail()),
             selectAuditTrail: selectAuditTrail
