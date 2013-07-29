@@ -21,7 +21,7 @@
             return url.substring(0, url.length - this.viewExtension.length);
         },
         convertViewIdToRequirePath: function (viewId) {
-            return this.viewPlugin + '!' + viewId + this.viewExtension + "?id=2";
+            return this.viewPlugin + '!' + viewId + this.viewExtension;
         },
         parseMarkup: function (markup) {
             var allElements = parseMarkupCore(markup);
