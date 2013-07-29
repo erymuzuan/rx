@@ -43,7 +43,7 @@
             searchResults: ko.observableArray(),
             navigateSearch: navigateSearch,
             isBusy: isBusy,
-            searchText: ko.observable(),
+            searchText: ko.observable(''),
             viewAttached: viewAttached,
             router: router
         };

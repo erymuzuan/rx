@@ -6,8 +6,10 @@
 /// <reference path="../../Scripts/google-maps-3-vs-1-0-vsdoc.js" />
 /// <reference path="../../Scripts/underscore.js" />
 
+// see this blog
+// http://blog.millermedeiros.com/requirejs-2-0-delayed-module-evaluation-and-google-maps/
 
-define(
+define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&libraries=geometry,drawing,places'],
     function () {
 
         var geocoder2, map;

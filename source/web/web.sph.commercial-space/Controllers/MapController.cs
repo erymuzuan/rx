@@ -21,7 +21,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                                b.BuildingId,
                                b.Address,
                                b.EncodedWkt,
-                               b.Size
+                               b.Size,
+                               b.Floors
                            };
             return Json(list.ToArray(), JsonRequestBehavior.AllowGet);
         }

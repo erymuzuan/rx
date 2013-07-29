@@ -45,8 +45,7 @@ define(['services/datacontext',
                 mapvm.setCenter(mapvm.getCenter(b.polygon));
                 */
                 isZoom = false;
-                ko.mapping.fromJS(ko.mapping.toJS(b.building), {}, vm.selectedBuilding);
-                vm.selectedBuilding.DetailsUrl("/#/buildingdetail/" + b.building.BuildingId());
+                vm.selectedBuilding(b.building);
             };
 
         var vm = {
@@ -54,21 +53,7 @@ define(['services/datacontext',
             viewAttached: viewAttached,
             highlightCommand: highlight,
             buildingCollection: buildingCollection,
-            selectedBuilding: {
-                Name: ko.observable(''),
-                Floors: ko.observable(1),
-                BuildingId: ko.observable(0),
-                Address: {
-                    Street: ko.observable(''),
-                    State: ko.observable(''),
-                    City: ko.observable(''),
-                    Postcode: ko.observable(''),
-                },
-                LotNo: ko.observable(''),
-                Size: ko.observable(''),
-                Status: ko.observable(''),
-                DetailsUrl : ko.observable()
-            },
+            selectedBuilding:ko.observable(new bespoke.sphcommercialspace.domain.Building()),
             isBusy: isBusy
         };
 

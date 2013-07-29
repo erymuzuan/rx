@@ -1,7 +1,9 @@
 ﻿<li class="dropdown dropdown-big" data-bind="css: { open: searchResults().length > 0 }">
     <form data-bind="submit: searchCommand" class="form-search">
-        <input data-bind="value: searchText" placeholder="Search..." type="search" class="search-query" />
-        <i class="icon-search"></i>
+        <div class="input-append">
+            <input data-bind="value: searchText, valueUpdate : 'keyup'" placeholder="Search..." type="search" class="search-query" />
+            <a class="add-on" href="#" data-bind="style : { visibility : searchText() === '' ? 'hidden' : 'visible'}, click : function(vm){ vm.searchText('');}"><i class="icon-remove"></i></a>
+        </div>
     </form>
     <ul class="dropdown-menu">
         <li>

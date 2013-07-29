@@ -1,11 +1,11 @@
 ﻿<div class="container">
     <div class="row">
-        <h2 class="span8 page-title">Peta Carian</h2>      
+        <h2 class="span8 page-title">Peta Carian</h2>
         <div class="span4">
             <form class="form-search">
                 <div class="input-append">
                     <input id="search" placeholder="Carian lokasi.." type="search" class="input-large search-query" />
-                    <a class="add-on" href="#"><span class="k-i-cancel k-icon"></span></a>
+                    <a class="add-on" href="#"><i class="icon-remove"></i></a>
                 </div>
             </form>
 
@@ -25,27 +25,30 @@
                     </div>
                 </li>
             </ul>
-            <div class="k-info-colored k-block" data-bind="visible: selectedBuilding.Name ">
-                <h3 data-bind="text: selectedBuilding.Name"></h3>
-                <div>
-                    <span data-bind="text: selectedBuilding.Size"></span> sqf
-                </div>
-                <div>
-                    <span data-bind="text: selectedBuilding.Floors"></span> floor(s)
-                </div>
-                <div>
-                    <address>
-                        <span data-bind="text:selectedBuilding.Address.Street"></span><br/>
-                        <span data-bind="text:selectedBuilding.Address.City"></span><br/>
-                        <span data-bind="text:selectedBuilding.Address.Postcode"></span><br/>
-                        <span data-bind="text:selectedBuilding.Address.State"></span><br/>
-                    </address>
-                </div>
-                <div>
-                    <a href="#" class="btn" data-bind="attr: { href: selectedBuilding.DetailsUrl }">
-                        <i class="icon-arrow-right"></i>
+            <div class="k-info-colored k-block" data-bind="visible: selectedBuilding().Name">
+                <div data-bind="with : selectedBuilding">
+                    <h3 data-bind="text: Name"></h3>
+                    <div>
+                        <span data-bind="text: Size"></span> sqf
+                    </div>
+                    <div>
+                        <span data-bind="text:Floors"></span> floor(s)
+                    </div>
+                    <div data-bind="with : Address">
+                        <address>
+                            <span data-bind="text:Street"></span><br />
+                            <span data-bind="text:City"></span><br />
+                            <span data-bind="text:Postcode"></span><br />
+                            <span data-bind="text:State"></span><br />
+                        </address>
+                    </div>
+                    <div>
+                        <a href="#" class="btn" data-bind="attr: { href: '/#/building.detail/' + BuildingId() }">
+                            <i class="icon-arrow-right"></i>
 
-                    </a>
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </div>

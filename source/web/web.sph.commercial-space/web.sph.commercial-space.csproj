@@ -332,6 +332,7 @@
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App\async.js" />
     <Content Include="App\durandal\amd\almond-custom.js" />
     <Content Include="App\durandal\amd\optimizer.exe" />
     <Content Include="App\durandal\amd\r.js" />

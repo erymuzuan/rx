@@ -1,5 +1,5 @@
 ﻿<section id="setting.category">
-    <a class="btn btn-primary" data-bind="click: addCategoryCommand" >+ Kategori Ruang</a>
+    <a class="btn btn-link" data-bind="click: addCategoryCommand" >+ Kategori Ruang</a>
     <table>
         <thead>
             <tr>
@@ -12,7 +12,7 @@
                 <td>
                     <input type="text" data-bind="value: Name"/>
                 </td><td>
-                    <input type="button" class="btn btn-danger" data-bind="click: $parent.removeCategory" value="-"/>
+                         <a class="btn btn-link" data-bind="click: $parent.removeCategory">Remove</a>
                 </td>
             </tr>
         </tbody>
