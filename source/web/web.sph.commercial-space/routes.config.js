@@ -614,5 +614,29 @@
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": "can_edit_commercialspace_template",
+    "url": "commercialspace.template.list",
+    "moduleId": "viewmodels/commercialspace.template.list",
+    "name": "Senarai Templat Ruang Komersil",
+    "visible": true,
+    "icon": "icon-flag",
+    "caption": "Senarai Templat Ruang Komersil",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_commercialspace_template",
+    "url": "commercialspace.template.form/:id",
+    "moduleId": "viewmodels/commercialspace.template.form",
+    "name": "Form templat ruang komersil",
+    "visible": false,
+    "icon": "icon-flag",
+    "caption": "Form templat ruang komersil",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
   }
 ]

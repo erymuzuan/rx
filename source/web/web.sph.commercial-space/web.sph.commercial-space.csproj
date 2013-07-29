@@ -292,10 +292,8 @@
     </Compile>
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
-    <Compile Include="Controllers\BuildingTemplateController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
     <Compile Include="Controllers\ComplaintController.cs" />
-    <Compile Include="Controllers\ComplaintTemplateController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\ContractSettingController.cs" />
     <Compile Include="Controllers\AppController.trigger.cs">
@@ -316,6 +314,7 @@
     <Compile Include="Controllers\RentalApplicationController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
+    <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\TenantController.cs" />
     <Compile Include="Controllers\TriggerController.cs" />
     <Compile Include="Controllers\WatchController.cs" />
@@ -388,6 +387,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App\viewmodels\building.template.form.js" />
     <Content Include="App\viewmodels\building.template.list.js" />
+    <Content Include="App\viewmodels\commercialspace.template.form.js" />
+    <Content Include="App\viewmodels\commercialspace.template.list.js" />
     <Content Include="App\viewmodels\complaint.assign.js" />
     <Content Include="App\viewmodels\complaint.detail.js" />
     <Content Include="App\viewmodels\inventory.detail.js" />
@@ -404,6 +405,8 @@
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\building.template.form.html" />
     <Content Include="App\views\building.template.list.html" />
+    <Content Include="App\views\commercialspace.template.form.html" />
+    <Content Include="App\views\commercialspace.template.list.html" />
     <Content Include="App\views\complaint.assign.html" />
     <Content Include="App\views\complaintform.tenant.html" />
     <Content Include="App\views\inventory.detail.html" />

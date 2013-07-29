@@ -74,6 +74,7 @@
     <Compile Include="Clause.cs" />
     <Compile Include="Comment.cs" />
     <Compile Include="CommercialSpace.cs" />
+    <Compile Include="CommercialSpaceTemplate.cs" />
     <Compile Include="Complaint.cs" />
     <Compile Include="ComplaintCategory.cs" />
     <Compile Include="ComplaintCustomField.cs" />

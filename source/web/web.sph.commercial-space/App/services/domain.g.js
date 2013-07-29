@@ -1383,6 +1383,26 @@ bespoke.sphcommercialspace.domain.BuildingTemplate = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.CommercialSpaceTemplate = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.CommercialSpaceTemplate, domain.commercialspace",
+        CommercialSpaceTemplateId: ko.observable(),
+        Name: ko.observable(),
+        Description: ko.observable(),
+        IsActive: ko.observable(),
+        CustomFieldCollection: ko.observableArray(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.CommercialSpaceTemplatePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.CommercialSpaceTemplatePartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {
