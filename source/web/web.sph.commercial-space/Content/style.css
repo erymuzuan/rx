@@ -1696,7 +1696,8 @@ footer.main {
 .jPanelMenu-panel {
     position: fixed; left: 0px;
     display: none;
-    z-index: 1000;
+    z-index: 1080;
+    background-color: #3b3b3b;
 }
 
 #drawer-menu {

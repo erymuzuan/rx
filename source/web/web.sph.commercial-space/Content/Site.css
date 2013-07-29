@@ -67,6 +67,14 @@ legend {
         max-height: 800px;
     }
 
+    
+header div.navbar-inner {
+    padding-left: 0px;
+}
+header div.container {
+    padding-left: 0px;
+    margin-left: 0px;
+}
 @media (max-height: 800px) {
 
     .google-maps {

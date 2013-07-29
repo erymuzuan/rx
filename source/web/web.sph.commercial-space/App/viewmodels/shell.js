@@ -34,7 +34,11 @@
 
             };
             var throttled = _.throttle(dofilter, 800);
-            filterInput.on('keyup', throttled);
+            filterInput.on('keyup', throttled).siblings('.icon-remove')
+                .click(function () {
+                    filterInput.val('');
+                    dofilter();
+                });
 
             if (filterInput.val()) {
                 dofilter();

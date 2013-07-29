@@ -4,8 +4,11 @@
         <ul class="navi nav" data-binddd="foreach: router.visibleRoutes">
             <li class="nred">
                 <form class="form-search">
-                    <input id="filter-text" type="search" class="search-query input-medium" placeholder="Search items" />
-                    <i class="icon-search"></i>
+                    <div class="input-append">
+                        <input id="filter-text" type="search" class="search-query input-medium" placeholder="Search items" />
+                        <i class="add-on icon-remove"></i>
+                    </div>
+
                 </form>
             </li>
             <!-- ko foreach :router.visibleRoutes -->
@@ -14,7 +17,7 @@
                     <i data-bind="attr : {class : icon}"></i><span data-bind="text: name"></span>
                 </a>
             </li>
-            
+
             <!-- /ko -->
         </ul>
     </nav>
