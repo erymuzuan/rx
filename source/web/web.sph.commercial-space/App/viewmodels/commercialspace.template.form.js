@@ -18,11 +18,11 @@ define(['services/datacontext'],
                 var id = parseInt(routeData.id);
                 templateId(id);
                 if (id) {
-                    var query = String.format("CommercialSpaceId eq {0}", templateId());
+                    var query = String.format("CommercialSpaceTemplateId eq {0}", templateId());
                     var tcs = new $.Deferred();
                     context.loadOneAsync("CommercialSpaceTemplate", query)
                         .done(function (b) {
-                            vm.buildingTemplate(b);
+                            vm.csTemplate(b);
                             tcs.resolve(true);
                         });
 
