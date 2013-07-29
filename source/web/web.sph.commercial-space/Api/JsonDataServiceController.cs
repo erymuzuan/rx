@@ -46,10 +46,18 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         {
             return await ExecuteAsync<Building>(filter, page, size, includeTotal);
         }
+        public async Task<ActionResult> BuildingTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<BuildingTemplate>(filter, page, size, includeTotal);
+        }
 
         public async Task<ActionResult> CommercialSpace(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<CommercialSpace>(filter, page, size, includeTotal);
+        }
+        public async Task<ActionResult> CommercialSpaceTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<CommercialSpaceTemplate>(filter, page, size, includeTotal);
         }
 
         public async Task<ActionResult> ComplaintTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)

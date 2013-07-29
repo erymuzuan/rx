@@ -13,14 +13,15 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
     function (context) {
 
         var isBusy = ko.observable(false),
+            id = ko.observable(),
             activate = function (routeData) {
-                var id = routeData.commercialspaceid;
-                console.log("from _commercialspace.contract.js" + id);
+                id(parseInt(routeData.csId));
+                console.log("from _commercialspace.contract.js" + id());
 
                 var tcs = new $.Deferred();
 
 
-                context.loadAsync("Contract", "CommercialSpaceId eq " + id)
+                context.loadAsync("Contract", "CommercialSpaceId eq " + id())
                     .then(function (result) {
                         isBusy(false);
                         vm.contractCollection(result.itemCollection);
@@ -28,16 +29,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                     });
                 return tcs.promise();
 
-            },
-            viewAttached = function () {
-
-
             };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
             contractCollection: ko.observableArray()
         };
 

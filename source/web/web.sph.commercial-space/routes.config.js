@@ -103,8 +103,8 @@
   },
   {
     "role": "can_add_commercial_space",
-    "url": "commercialspacedetail/:buildingId/:floorname/:commercialspaceid",
-    "moduleId": "viewmodels/commercialspacedetail",
+    "url": "commercialspace.detail/:buildingId/:floorname/:csId",
+    "moduleId": "viewmodels/commercialspace.detail",
     "name": "ruang komersial",
     "visible": false,
     "icon": "icon-road",
@@ -175,7 +175,7 @@
   },
   {
     "role": "can_add_commercial_space",
-    "url": "building.detail/:id",
+    "url": "building.detail/:templateId/:id",
     "moduleId": "viewmodels/building.detail",
     "name": "BuildingDetail",
     "visible": false,
@@ -334,7 +334,7 @@
     "error": ""
   },
   {
-    "role": "admin_setting",
+    "role": "can_edit_complaint_template",
     "url": "complaint.template.form/:templateId",
     "moduleId": "viewmodels/complaint.template.form",
     "name": "Tetapan Aduan",
@@ -587,6 +587,54 @@
     "visible": true,
     "icon": "icon-flag",
     "caption": "Senarai Trigger",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_building_template",
+    "url": "building.template.list",
+    "moduleId": "viewmodels/building.template.list",
+    "name": "Senarai Templat Bangunan",
+    "visible": true,
+    "icon": "icon-building",
+    "caption": "Senarai Templat Bangunan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_building_template",
+    "url": "building.template.form/:id",
+    "moduleId": "viewmodels/building.template.form",
+    "name": "Form Templat Bangunan",
+    "visible": false,
+    "icon": null,
+    "caption": null,
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_commercialspace_template",
+    "url": "commercialspace.template.list",
+    "moduleId": "viewmodels/commercialspace.template.list",
+    "name": "Senarai Templat Ruang Komersil",
+    "visible": true,
+    "icon": "icon-flag",
+    "caption": "Senarai Templat Ruang Komersil",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_commercialspace_template",
+    "url": "commercialspace.template.form/:id",
+    "moduleId": "viewmodels/commercialspace.template.form",
+    "name": "Form templat ruang komersil",
+    "visible": false,
+    "icon": "icon-flag",
+    "caption": "Form templat ruang komersil",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
