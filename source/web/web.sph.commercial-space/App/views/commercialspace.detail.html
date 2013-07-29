@@ -1,0 +1,148 @@
+﻿<section class="container-fluid">
+    <div class="row-fluid" id="cs-modal">
+        <h1 class="span12" data-bind="text: title"></h1>
+    </div>
+
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li>
+                <a href="#form-tab" data-toggle="tab">Am</a>
+            </li>
+            <li>
+                <a href="#contract-tab" data-toggle="tab">Kontrak</a>
+            </li>
+            <li>
+                <a href="#application-tab" data-toggle="tab">Permohonan</a>
+            </li>
+            <li>
+                <a href="#plan-tab" data-toggle="tab">Plan lantai</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="form-tab" class="tab-pane active">
+                <form id="cs" class="form-horizontal" data-bind="with: commercialSpace">
+                    <div class="control-group">
+                        <label for="commercialSpace_RegistrationNo" class="control-label">No Daftar</label>
+                        <div class="controls">
+                            <input data-bind="value: RegistrationNo" id="commercialSpace_RegistrationNo" type="text" name="commercialSpace.RegistrationNo" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="commercialSpace_LotName" class="control-label">Lot</label>
+                        <div class="controls">
+                            <input data-bind="value: LotName" id="commercialSpace_LotName" type="text" name="commercialSpace.LotName" readonly="readonly" />
+                            <a type="button" class="btn help-inline"
+                                data-toggle="modal" id="select-lot-button"
+                                href="#lot-selection-panel">Pilih lot</a>
+                        </div>
+
+                    </div>
+
+
+                    <div class="control-group">
+                        <label for="commercialSpace_Size" class="control-label">Saiz</label>
+                        <div class="controls">
+                            <input data-bind="value: Size" id="commercialSpace_Size" type="text" name="commercialSpace.Size" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="commercialSpace.RentalRate" class="control-label">Sewa</label>
+                        <div class="controls">
+                            <input data-bind="value: RentalRate" id="commercialSpace.RentalRate" type="text" name="commercialSpace.RentalRate" />
+                        </div>
+                    </div>
+
+
+                    <div class="control-group">
+                        <label for="commercialSpace.RentalType" class="control-label">Jenis Sewaan</label>
+                        <div class="controls">
+                            <select id="commercialSpace.RentalType" data-bind="value: RentalType">
+                                <option value="Monthly">Monthly</option>
+                                <option value="Quarterly">Quarterly</option>
+                                <option value="Half Year">Half Year</option>
+                                <option value="Yearly">Yearly</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group" data-bind="with: $parent.categoryOptions">
+                        <label for="commercialSpace.Category" class="control-label">Kategori</label>
+                        <div class="controls">
+                            <select id="commercialSpace.Category" name="commercialSpace.Category" data-bind="options: $data, optionsText: 'Name', optionsValue: 'Name', value: $parent.Category, optionsCaption: '[Sila Pilih]'"></select>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input data-bind="checked: IsOnline" id="commercialSpace.IsOnline" type="checkbox" name="commercialSpace.IsOnline" />
+                                Permohonan online
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input data-bind="checked: IsAvailable" id="commercialSpace.IsAvailable" type="checkbox" name="commercialSpace.IsAvailable" />
+                                Dibuka untuk tempahan
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <input id="save-button" type="button" class="btn btn-primary" value="Save" data-bind="command: $parent.saveCommand, disable: $parent.isBusy"
+                            data-loading-text="Saving..."
+                            data-complete-text="Saved!!" />
+                    </div>
+                </form>
+
+            </div>
+            <div id="contract-tab" class="tab-pane" data-bind="compose: 'viewmodels/_commercialspace.contract'">
+            </div>
+            <div id="application-tab" class="tab-pane">
+            </div>
+            <div id="plan-tab" class="tab-pane">
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="modal hide" id="lot-selection-panel">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Pilih lot</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label for="selectedBuilding" class="control-label">Bangunan</label>
+                <div class="controls">
+                    <select data-bind="value: selectedBuilding, options: buildingOptions, optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Sila pilih]'" id="selectedBuilding" name="selectedBuilding">
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="selectedFloor" class="control-label">Lantai</label>
+                <div class="controls">
+                    <select data-bind="value: selectedFloor, options: floorOptions, optionsCaption: '[Sila pilih]'" id="selectedFloor" name="selectedFloor">
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="selectedLots" class="control-label">Lot</label>
+                <div class="controls">
+                    <select data-bind="selectedOptions: selectedLots, options: lotOptions, optionsText: 'Name'" id="selectedLots" name="selectedLots" multiple="multiple">
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" id="add-lot-button" type="button" class="btn btn-primary" data-bind="click: addLotsCommand" value="OK" />
+    </div>
+</section>

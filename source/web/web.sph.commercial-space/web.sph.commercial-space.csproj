@@ -522,7 +522,7 @@
     <Content Include="App\viewmodels\building.bound.js" />
     <Content Include="App\viewmodels\building.detail.js" />
     <Content Include="App\viewmodels\commercialspace.js" />
-    <Content Include="App\viewmodels\commercialspacedetail.js" />
+    <Content Include="App\viewmodels\commercialspace.detail.js" />
     <Content Include="App\viewmodels\complaint.form.js" />
     <Content Include="App\viewmodels\complaint.js" />
     <Content Include="App\viewmodels\complaint.template.form.js" />
@@ -566,7 +566,7 @@
     <Content Include="App\views\building.list.html" />
     <Content Include="App\views\building.bound.html" />
     <Content Include="App\views\commercialspace.html" />
-    <Content Include="App\views\commercialspacedetail.html" />
+    <Content Include="App\views\commercialspace.detail.html" />
     <Content Include="App\views\complaint.form.html" />
     <Content Include="App\views\complaint.html" />
     <Content Include="App\views\complaint.template.form.html" />

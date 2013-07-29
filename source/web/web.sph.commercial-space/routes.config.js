@@ -103,8 +103,8 @@
   },
   {
     "role": "can_add_commercial_space",
-    "url": "commercialspacedetail/:buildingId/:floorname/:commercialspaceid",
-    "moduleId": "viewmodels/commercialspacedetail",
+    "url": "commercialspace.detail/:buildingId/:floorname/:csId",
+    "moduleId": "viewmodels/commercialspace.detail",
     "name": "ruang komersial",
     "visible": false,
     "icon": "icon-road",
