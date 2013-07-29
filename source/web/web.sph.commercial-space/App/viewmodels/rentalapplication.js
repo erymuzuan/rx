@@ -13,13 +13,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
     var isBusy = ko.observable(false),
         id = ko.observable(),
         registrationNo = ko.observable(),
-        activate = function (routeData) {
-            
+        activate = function(routeData) {
+
             id(routeData.id);
             var tcs = new $.Deferred();
             var csTask = context.loadOneAsync('CommercialSpace', 'CommercialSpaceId eq ' + id());
-            var stateTask =  context.loadOneAsync("Setting", "Key eq 'State'");
-            $.when(csTask, stateTask).done(function (cs, s) {
+            var stateTask = context.loadOneAsync("Setting", "Key eq 'State'");
+            $.when(csTask, stateTask).done(function(cs, s) {
                 var states = JSON.parse(ko.mapping.toJS(s.Value));
                 vm.stateOptions(states);
                 vm.commercialSpace(cs);
@@ -38,8 +38,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         viewAttached = function() {
             $('.datepicker').datepicker();
         },
-        configureUpload = function (element, index, attachment) {
-            
+        configureUpload = function(element, index, attachment) {
+
             $(element).find("input[type=file]").kendoUpload({
                 async: {
                     saveUrl: "/BinaryStore/Upload",
@@ -47,10 +47,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                     autoUpload: true
                 },
                 multiple: false,
-                error: function (e) {
+                error: function(e) {
                     logger.logError(e, e, this, true);
                 },
-                success: function (e) {
+                success: function(e) {
                     logger.log('Your file has been uploaded', e, "route/create", true);
                     attachment.StoreId(e.response.storeId);
                     attachment.IsReceived(e.operation === "upload");
@@ -58,12 +58,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 }
             });
         },
-        
-        saveApplication = function () {
+        saveApplication = function() {
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON(vm.rentalapplication());
             isBusy(true);
-            context.post(data, "/RentalApplication/Submit").done(function (e) {
+            context.post(data, "/RentalApplication/Submit").done(function(e) {
                 logger.log("Data has been successfully saved ", e, "rentalapplication", true);
                 isBusy(false);
                 registrationNo(e.registrationNo);
@@ -76,7 +75,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             });
             return tcs.promise();
         },
-        addBankCollection = function () {
+        addBankCollection = function() {
             var bank = {
                 Name: ko.observable(''),
                 Location: ko.observable(''),
@@ -85,7 +84,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             };
             vm.rentalapplication().BankCollection.push(bank);
         },
-        addAttachment = function () {
+        addAttachment = function() {
             var guid = guidGenerator();
             var attachment = {
                 Type: ko.observable(),
@@ -95,6 +94,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 StoreId: ko.observable(guid)
             };
             vm.rentalapplication().AttachmentCollection.push(attachment);
+        },
+        printApplication = function() {
         };
 
     var vm = {
@@ -104,8 +105,19 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         configureUpload: configureUpload,
         stateOptions: ko.observableArray(),
         rentalapplication: ko.observable(new bespoke.sphcommercialspace.domain.RentalApplication()),
-        commercialSpace : ko.observable (new bespoke.sphcommercialspace.domain.CommercialSpace()),
-        saveCommand: saveApplication,
+        commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
+        toolbar:ko.observable({
+            reloadCommand: function () {
+                return activate({ status: status() });
+            },
+            printCommand: printApplication,
+            commands : ko.observableArray([{
+                caption: "Hantar Permohonan",
+                icon: 'icon-envelop',
+                status: id,
+                command: saveApplication
+            }])
+        }),
         addBankCommand: addBankCollection,
         isBusy: isBusy,
         addAttachmentCommand: addAttachment

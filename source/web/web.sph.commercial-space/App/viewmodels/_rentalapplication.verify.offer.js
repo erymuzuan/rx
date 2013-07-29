@@ -21,7 +21,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             var url = '/#/offerdetails/' + vm.rentalapplication().RentalApplicationId() + '/' + vm.rentalapplication().CommercialSpaceId();
             router.navigateTo(url);
         },
-         generateDeclinedOfferLetter = function () {
+        generateDeclinedOfferLetter = function () {
              var tcs = new $.Deferred();
              var data = JSON.stringify({ id: vm.rentalapplication().RentalApplicationId() });
              context.post(data, "/RentalApplication/GenerateDeclinedLetter").done(function (e) {
@@ -65,15 +65,49 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
     var vm = {
         isBusy: isBusy,
         activate: activate,
-        rentalapplication : ko.observable(new bespoke.sphcommercialspace.domain.RentalApplication()),
-        generateOfferLetterCommand: generateOfferLetter,
-        generateDeclinedLetterCommand: generateDeclinedOfferLetter,
-        completeCommand: complete,
-        createTenantCommand: createTenant,
-        unsuccesCommand: unsucces,
-        contractCommand: function () {
-            router.navigateTo("/#/contract.create/" + vm.rentalapplication().RentalApplicationId());
-        },
+        rentalapplication: ko.observable(new bespoke.sphcommercialspace.domain.RentalApplication()),
+        toolbar : ko.observable({
+            commands: ko.observableArray([
+                {
+                    caption: '1. Sediakan Tawaran',
+                    icon: "icon-file-text ",
+                    command: generateOfferLetter,
+                    status: 'Approved'
+                },
+                {
+                    caption: '2. Sediakan Kontrak',
+                    icon: "icon-file-text ",
+                    command: function() {
+                        router.navigateTo("/#/contract.create/" + vm.rentalapplication().RentalApplicationId());
+                    },
+                    status: 'Approved'
+                },
+                {
+                    caption: '3. Selesai',
+                    icon: "icon-file-text ",
+                    command: complete,
+                    status: 'Approved'
+                },
+                {
+                    caption: 'Cetak Surat Pembatalan',
+                    icon: "icon-file-text ",
+                    command: generateDeclinedOfferLetter,
+                    status: 'Declined'
+                },
+                {
+                    caption: 'Sediakan Maklumat Penyewa',
+                    icon: "icon-file-text ",
+                    command: createTenant,
+                    status: 'Completed'
+                },
+                {
+                    caption: 'Tidak Berjaya',
+                    icon: "icon-file-text ",
+                    command: unsucces,
+                    status: 'Waiting'
+                }
+            ])
+        })
     };
 
     return vm;

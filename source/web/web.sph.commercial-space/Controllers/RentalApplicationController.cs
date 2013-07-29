@@ -144,6 +144,33 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return Json(dbItem.RentalApplicationId);
         }
+
+        public async Task<ActionResult> Update(int id, ObjectCollection<Attachment> attachments, string note)
+        {
+            await Task.Delay(5000);
+            var context = new SphDataContext();
+            var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+            if (null != attachments) dbItem.AttachmentCollection.ClearAndAddRange(attachments);
+           
+            var audit = new AuditTrail
+            {
+                Operation = "Permohonan Dikembalikan",
+                DateTime = DateTime.Now,
+                User = User.Identity.Name,
+                Type = typeof(RentalApplication).Name,
+                EntityId = id,
+                Note = "-"
+            };
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(dbItem, audit);
+                await session.SubmitChanges();
+            }
+
+            return Json(dbItem.RentalApplicationId);
+        }
+        
         public async Task<ActionResult> SendReturnedEmail(int id, ObjectCollection<Attachment> attachments, string remarks)
         {
             var context = new SphDataContext();
