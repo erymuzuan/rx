@@ -14,13 +14,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             await Task.Delay(2500);
             var context = new SphDataContext();
             var c = await context.LoadOneAsync<CommercialSpace>(cs => cs.CommercialSpaceId == rentalApplication.CommercialSpaceId);
-            rentalApplication.Status = "New";
+            rentalApplication.Status = "Baru";
             rentalApplication.ApplicationDate = DateTime.Now;
             rentalApplication.CommercialSpace = c;
 
             var audit = new AuditTrail
                 {
-                    Operation = "Submit",
+                    Operation = "Hantar",
                     DateTime = DateTime.Now,
                     User = User.Identity.Name,
                     Type = typeof(RentalApplication).Name,
@@ -49,7 +49,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            dbItem.Status = "Waiting";
+            dbItem.Status = "Menunggu";
             using (var session = context.OpenSession())
             {
                 session.Attach(dbItem);
@@ -69,8 +69,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 await context.GetCountAsync<RentalApplication>(r => r.CommercialSpaceId == dbItem.CommercialSpaceId && (r.Status == "Approved" || r.Status == "Completed") );
             if (existingApprovedCs == 0)
             {
-                dbItem.Status = "Approved";
-                message = "Approved";
+                dbItem.Status = "Diluluskan";
+                message = "Diluluskan";
                 result = true;
             }
             else
@@ -80,7 +80,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             }
             var audit = new AuditTrail
             {
-                Operation = "Approval",
+                Operation = "Kelulusan Permohonan",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
                 Type = typeof(RentalApplication).Name,
@@ -98,13 +98,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            dbItem.Status = "Unsuccess";
+            dbItem.Status = "Tidak Berjaya";
 
 
 
             var audit = new AuditTrail
             {
-                Operation = "Set application to not succeed",
+                Operation = "Permohonan Tidak Berjaya",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
                 Type = typeof(RentalApplication).Name,
@@ -128,7 +128,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             var audit = new AuditTrail
             {
-                Operation = "Returned rental application",
+                Operation = "Permohonan Dikembalikan",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
                 Type = typeof(RentalApplication).Name,
@@ -148,12 +148,12 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            dbItem.Status = "Returned";
+            dbItem.Status = "Dikembalikan";
 
 
             var audit = new AuditTrail
             {
-                Operation = "Email retured notice",
+                Operation = "Permohonan Dikembalikan melalui emel",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
                 Type = typeof(RentalApplication).Name,
@@ -189,12 +189,12 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            dbItem.Status = "Returned";
+            dbItem.Status = "Dikembalikan";
 
 
             var audit = new AuditTrail
             {
-                Operation = "Generate retured letter",
+                Operation = "Cetak Surat Permohonan Dikembalikan",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
                 Type = typeof(RentalApplication).Name,
@@ -265,7 +265,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             
             var audit = new AuditTrail
             {
-                Operation = "Keluarkan surat tawaran",
+                Operation = "Cetak surat tawaran",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
                 Type = typeof(RentalApplication).Name,
@@ -300,13 +300,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            dbItem.Status = "Declined";
+            dbItem.Status = "Ditolak";
 
 
 
             var audit = new AuditTrail
             {
-                Operation = "Declined",
+                Operation = "Permohonan Ditolak",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
                 Type = typeof(RentalApplication).Name,
@@ -323,7 +323,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         }
         public async Task<ActionResult> GenerateDeclinedLetter(int id)
         {
-            const string status = "Declined";
+            const string status = "Ditolak";
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
             dbItem.Status = status;
@@ -364,12 +364,12 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            dbItem.Status = "Completed";
+            dbItem.Status = "Selesai";
 
 
             var audit = new AuditTrail
             {
-                Operation = "application flow completed",
+                Operation = "Proses permohonan selesai",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
                 Type = typeof(RentalApplication).Name,

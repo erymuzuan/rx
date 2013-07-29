@@ -174,13 +174,8 @@ define(['services/datacontext',
                     });
                 return tcs.promise();
 
-            },
-            viewAuditTrail = function () {
-
             };
-
-
-
+        
         var vm = {
             activate: activate,
             building: ko.observable(new bespoke.sphcommercialspace.domain.Building()),

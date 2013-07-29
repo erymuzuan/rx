@@ -9,12 +9,12 @@ define(['services/datacontext'], function (context) {
     var isBusy = ko.observable(false),
         activate = function () {
             isBusy(true);
-            var apps = [{ status: 'New', count: -1, text: "BARU", color: "bred" },
-                { status: 'Waiting', count: -1, text: "MENUNGGU", color: "bviolet" },
-                { status: 'Approved', count: -1, text: "LULUS", color: "bgreen" },
-                { status: 'Returned', count: -1, text: "DIKEMBALIKAN", color: "borange" },
-                { status: 'Declined', count: -1, text: "BATAL", color: "bred" },
-                { status: 'Completed', count: -1, text: "SELESAI", color: "bblue" }
+            var apps = [{ status: 'Baru', count: -1, text: "BARU", color: "bred" },
+                { status: 'Menunggu', count: -1, text: "MENUNGGU", color: "bviolet" },
+                { status: 'Diluluskan', count: -1, text: "LULUS", color: "bgreen" },
+                { status: 'Dikembalikan', count: -1, text: "DIKEMBALIKAN", color: "borange" },
+                { status: 'Ditolak', count: -1, text: "BATAL", color: "bred" },
+                { status: 'Selesai', count: -1, text: "SELESAI", color: "bblue" }
             ];
             var tcs = new $.Deferred();
             _(apps).each(function (s) {
