@@ -1,0 +1,138 @@
+﻿@using Bespoke.Sph.Commerspace.Web.ViewModels
+@model IEnumerable<Bespoke.SphCommercialSpaces.Domain.CustomField>
+@{
+    Layout = null;
+}
+
+<form id="building-details" class="form-horizontal" data-bind="with: building">
+    <div class="page-header">
+        <h2 data-bind="text: $parent.title"></h2>
+    </div>
+
+    <div class="control-group">
+        <label for="building.Name" class="control-label">Nama</label>
+        <div class="controls">
+            <input class="input-xxlarge" data-bind="value: Name" id="building.Name" type="text" name="building.Name" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label for="building.LotNo" class="control-label">No lot :</label>
+        <div class="controls">
+            <input data-bind="value: LotNo" id="building.LotNo" type="text" name="building.LotNo" />
+        </div>
+    </div>
+
+    <div class="control-group" data-bind="with: Address">
+        <label for="building.Address.Street" class="control-label">Alamat</label>
+        <div class="controls">
+            <input class="input-xxlarge" data-bind="value: Street" id="building.Address.Street" type="text" name="building.Address.Street" />
+        </div>
+    </div>
+
+    <div class="control-group" data-bind="with: Address">
+        <label for="building.Address.City" class="control-label">Bandar/Daerah</label>
+        <div class="controls">
+            <input data-bind="value: City" id="building.Address.City" type="text" name="building.Address.City" />
+        </div>
+    </div>
+
+    <div class="control-group" data-bind="with: Address">
+        <label for="building.Address.Postcode" class="control-label">Poskod</label>
+        <div class="controls">
+            <input data-bind="value: Postcode" id="building.Address.Postcode" type="text" name="building.Address.Postcode" />
+        </div>
+    </div>
+
+    <div class="control-group" data-bind="with: Address">
+        <label for="building.Address.State" class="control-label">Negeri</label>
+        <div class="controls">
+            <select name="building.Address.State" id="building.Address.State" data-bind="value: State, options: $root.stateOptions, optionsText: 'Name', optionsValue: 'Name', optionsCaption: '[Sila Pilih]'"></select>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label for="building.Size" class="control-label">Saiz</label>
+        <div class="controls">
+            <div class="input-append">
+                <input class="input-small" data-bind="value: Size" id="building.Size" type="text" name="building.Size" />
+                <span class="add-on">kps</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label for="building.Floors" class="control-label">Jumlah tingkat</label>
+        <div class="controls">
+            <input data-bind="value: Floors" id="building.Floors" type="number" max="100" min="1" name="building.Floors" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label for="building.Status" class="control-label">Status</label>
+        <div class="controls">
+            <select name="building.Status" id="building.Status" data-bind="value: Status">
+                <option value="Good">Good</option>
+                <option value="Ready">Ready to Occupy</option>
+                <option value="Damage">Damage</option>
+                <option value="Maintenance">Under Maintenance</option>
+            </select>
+        </div>
+    </div>
+    
+<h2>Additional fields</h2>
+@Html.Partial("CustomFieldHtml", new CustomFieldViewModel(Model){RootObject = ""})
+
+    <a type="button" class="btn btn-success" data-toggle="modal" data-bind="click: $parent.showMapCommand" href="#map-panel">Show Map</a>
+    <div>
+        <input type="button" name="add-floor-button" class="btn pull-right" data-bind="click: $parent.addFloorCommand" value="+ Floor" />
+        <table class="table table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: FloorCollection">
+                <tr>
+                    <td>
+                        <input class="input-small" type="text" data-bind="value: Number, uniqueName: true" /></td>
+
+                    <td>
+                        <input class="input-large" type="text" data-bind="value: Name, uniqueName: true" /></td>
+                    <td>
+                        <input type="text" data-bind="value: Size, uniqueName: true" /></td>
+                    <td>
+                        <input type="button" data-bind="click: $root.removeFloorCommand, uniqueName: true" class="btn btn-mini" value="-" /></td>
+                    <td>
+                        <input type="button" data-bind="click: $root.addLotCommand, enable: $root.building().BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="+Lot" /></td>
+                    <td>
+                        <input type="button" data-bind="click: $root.viewFloorPlanCommand, enable: $root.building().BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="Pelan Lantai" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+
+
+
+<section class="modal hide google-maps" id="map-panel" style="margin-left: -500px; width: 940px">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h2>Peta bangunan</h2>
+    </div>
+    <div class="modal-body" style="width: 900px; height: 500px; max-height: 500px">
+        <div id="map" style="width: 900px; height: 500px"></div>
+    </div>
+
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="save map" data-bind="click: saveMapCommand" />
+    </div>
+</section>
+
