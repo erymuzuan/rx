@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Address.cs" />
     <Compile Include="AdhocInvoice.cs" />
+    <Compile Include="ApplicationTemplate.cs" />
     <Compile Include="assemblyinfo.cs" />
     <Compile Include="Attachment.cs" />
     <Compile Include="AuditTrail.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="IWorkOrderExport.cs" />
     <Compile Include="Land.cs" />
     <Compile Include="Maintenance.cs" />
+    <Compile Include="MaintenanceTemplate.cs" />
     <Compile Include="NonCompliance.cs" />
     <Compile Include="Offer.cs" />
     <Compile Include="OfferCondition.cs" />

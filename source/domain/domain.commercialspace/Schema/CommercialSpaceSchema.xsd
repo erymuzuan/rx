@@ -1066,6 +1066,40 @@
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="ApplicationTemplate">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="CustomFieldCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomField" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="ApplicationTemplateId" type="xs:int" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MaintenanceTemplate">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="CustomFieldCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomField" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="MaintenanceTemplateId" type="xs:int" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="CommercialSpaceTemplate">
 		<xs:complexType>
 			<xs:all>

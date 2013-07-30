@@ -638,5 +638,29 @@
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": "can_edit_application_template",
+    "url": "application.template.list",
+    "moduleId": "viewmodels/application.template.list",
+    "name": "Senarai Templat Permohonan",
+    "visible": true,
+    "icon": "icon-flag",
+    "caption": "Senarai Templat Permohonan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_application_template",
+    "url": "application.template.form/:id",
+    "moduleId": "viewmodels/application.template.form",
+    "name": "Form Templat Permohonan",
+    "visible": false,
+    "icon": null,
+    "caption": "Form Templat Permohonan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
   }
 ]

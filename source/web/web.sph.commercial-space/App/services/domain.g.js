@@ -1,5 +1,5 @@
 ﻿
-/// <reference path="~/scripts/knockout-2.2.1.debug.js" />
+/// <reference path="~/scripts/knockout-2.3.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 
 
@@ -1378,6 +1378,46 @@ bespoke.sphcommercialspace.domain.BuildingTemplate = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.BuildingTemplatePartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.BuildingTemplatePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ApplicationTemplate = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.ApplicationTemplate, domain.commercialspace",
+        ApplicationTemplateId: ko.observable(),
+        Name: ko.observable(),
+        Description: ko.observable(),
+        IsActive: ko.observable(),
+        CustomFieldCollection: ko.observableArray(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ApplicationTemplatePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ApplicationTemplatePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.MaintenanceTemplate = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.MaintenanceTemplate, domain.commercialspace",
+        MaintenanceTemplateId: ko.observable(),
+        Name: ko.observable(),
+        Description: ko.observable(),
+        IsActive: ko.observable(),
+        CustomFieldCollection: ko.observableArray(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.MaintenanceTemplatePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.MaintenanceTemplatePartial(model));
     }
     return model;
 };

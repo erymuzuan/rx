@@ -388,6 +388,8 @@
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="App\viewmodels\application.template.form.js" />
+    <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\building.template.form.js" />
     <Content Include="App\viewmodels\building.template.list.js" />
     <Content Include="App\viewmodels\commercialspace.template.form.js" />
@@ -406,6 +408,8 @@
     <Content Include="App\viewmodels\trigger.setup.js" />
     <Content Include="App\viewmodels\_tenant.complaint.js" />
     <Content Include="App\viewmodels\_users.department.js" />
+    <Content Include="App\views\application.template.form.html" />
+    <Content Include="App\views\application.template.list.html" />
     <Content Include="App\views\building.template.form.html" />
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\commercialspace.template.form.html" />
