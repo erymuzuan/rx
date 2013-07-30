@@ -16,12 +16,12 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         $.when(templateTask, listTask).done(function (tlo, lo) {
             vm.templates(tlo.itemCollection);
 
-            var commands = _(tlo.itemCollection).map(function(t) {
+            var commands = _(tlo.itemCollection).map(function (t) {
                 return {
-                    caption: ko.observable("+" + t.Name()),
+                    caption: ko.observable(t.Name()),
                     icon: "icon-plus",
-                    command : function() {
-                        var url = '/#/building.detail/' + t.BuildingTemplateId() + "/0";
+                    command: function () {
+                        var url = '/#/building.detail-templateid.' + t.BuildingTemplateId() + "/" + t.BuildingTemplateId() + "/0";
                         router.navigateTo(url);
                         return {
                             then: function () { }
@@ -30,7 +30,12 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 };
             });
 
-            vm.toolbar.commands(commands);
+            vm.toolbar.groupCommands([ko.observable(
+                {
+                    caption: ko.observable("Bangunan Baru"),
+                    commands: ko.observableArray(commands)
+                })
+            ]);
 
             vm.buildings(lo.itemCollection);
             tcs.resolve(true);
@@ -52,7 +57,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         buildings: ko.observableArray([]),
         templates: ko.observableArray([]),
         toolbar: {
-            commands: ko.observableArray(),
+            groupCommands: ko.observableArray(),
             exportCommand: exportList
         }
     };

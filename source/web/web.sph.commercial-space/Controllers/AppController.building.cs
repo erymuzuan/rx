@@ -8,13 +8,10 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
     public partial class AppController
     {
 
-        public async Task<ActionResult> BuildingDetailHtml(int id = 1)
+        public async Task<ActionResult> BuildingDetailHtml(int templateId)
         {
-            if (!string.IsNullOrWhiteSpace(this.Request.QueryString["id"]))
-                id = int.Parse(this.Request.QueryString["id"]);
-
             var context = new SphDataContext();
-            var template = await context.LoadOneAsync<BuildingTemplate>(t => t.BuildingTemplateId == id);
+            var template = await context.LoadOneAsync<BuildingTemplate>(t => t.BuildingTemplateId == templateId);
 
             return View(template.CustomFieldCollection);
         }

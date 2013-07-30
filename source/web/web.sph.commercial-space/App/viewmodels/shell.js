@@ -2,7 +2,8 @@
     function (system, router, logger, context, config) {
 
         var viewAttached = function (view) {
-            $(view).on('click', 'li.dropdown>a.dropdown-toggle', function () {
+            $(view).on('click', 'a.dropdown-toggle', function (e) {
+                e.preventDefault();
                 $(this).parent().toggleClass("open");
             });
             var $menu = $('.jPanelMenu-panel');
