@@ -1,5 +1,19 @@
 [
   {
+    "role": "can_edit_payment",
+    "url": "rebate",
+    "moduleId": "viewmodels/rebate",
+    "name": "Senarai Rebat",
+    "visible": true,
+    "icon": "icon-usd",
+    "caption": "Rebat",
+    "settings": {
+      "caption": "Rebat"
+    },
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
     "role": null,
     "url": "public.index",
     "moduleId": "viewmodels/public.index",
@@ -296,20 +310,6 @@
     "error": ""
   },
   {
-    "role": "can_edit_payment",
-    "url": "rebate",
-    "moduleId": "viewmodels/rebate",
-    "name": "Senarai Rebat",
-    "visible": true,
-    "icon": "icon-usd",
-    "caption": "Rebat",
-    "settings": {
-      "caption": "Rebat"
-    },
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
     "role": "can_edit_setting",
     "url": "organization.detail",
     "moduleId": "viewmodels/organization.detail",
@@ -495,7 +495,7 @@
   },
   {
     "role": null,
-    "url": "complaint.form/:id",
+    "url": "complaint.form/:templateId",
     "moduleId": "viewmodels/complaint.form",
     "name": "PerincianAduan",
     "visible": false,

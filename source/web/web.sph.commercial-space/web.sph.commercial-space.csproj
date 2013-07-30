@@ -303,6 +303,7 @@
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AppController.commercialspace.cs" />
+    <Compile Include="Controllers\AppController.complaint.cs" />
     <Compile Include="Controllers\CustomFieldController.cs" />
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
@@ -517,7 +518,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
-    <Folder Include="Views\CustomField\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\services\Object.xslt">
@@ -575,7 +575,6 @@
     <Content Include="App\views\building.list.html" />
     <Content Include="App\views\building.bound.html" />
     <Content Include="App\views\commercialspace.html" />
-    <Content Include="App\views\complaint.form.html" />
     <Content Include="App\views\complaint.html" />
     <Content Include="App\views\complaint.template.form.html" />
     <Content Include="App\views\contract.create.html" />
@@ -978,6 +977,7 @@
     <Content Include="Views\App\BuildingDetailHtml.cshtml" />
     <Content Include="Views\RentalApplication\Print.cshtml" />
     <Content Include="Views\App\CommercialSpaceDetailHtml.cshtml" />
+    <Content Include="Views\App\ComplaintFormHtml.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

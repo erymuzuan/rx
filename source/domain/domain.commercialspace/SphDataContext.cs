@@ -17,13 +17,14 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public IQueryable<BuildingTemplate> BuildingTemplates { get; set; }
         public IQueryable<CommercialSpace> CommercialSpaces { get; set; }
         public IQueryable<CommercialSpaceTemplate> CommercialSpaceTemplates { get; set; }
-        public IQueryable<MaintenanceTemplate> MaintenanceTemplates { get; set; }
+        public IQueryable<ComplaintTemplate> ComplaintTemplates { get; set; }
         public IQueryable<ApplicationTemplate> ApplicationTemplates { get; set; }
         public IQueryable<Complaint> Complaints { get; set; }
         public IQueryable<Contract> Contracts { get; set; }
         public IQueryable<Deposit> Deposits { get; set; }
         public IQueryable<Invoice> Invoices { get; set; }
         public IQueryable<Organization> Organizations { get; set; }
+        public IQueryable<MaintenanceTemplate> MaintenanceTemplates { get; set; }
         public IQueryable<RentalApplication> RentalApplications { get; set; }
         public IQueryable<Rent> Rents { get; set; }
         public IQueryable<Role> Roles { get; set; }
@@ -39,6 +40,8 @@ namespace Bespoke.SphCommercialSpaces.Domain
             this.BuildingTemplates = new Query<BuildingTemplate>(provider);
             this.CommercialSpaces = new Query<CommercialSpace>(provider);
             this.CommercialSpaceTemplates = new Query<CommercialSpaceTemplate>(provider);
+            this.MaintenanceTemplates = new Query<MaintenanceTemplate>(provider);
+            this.ComplaintTemplates = new Query<ComplaintTemplate>(provider);
             this.ApplicationTemplates = new Query<ApplicationTemplate>(provider);
             this.Complaints = new Query<Complaint>(provider);
             this.Contracts = new Query<Contract>(provider);

@@ -1,0 +1,46 @@
+﻿@using Bespoke.Sph.Commerspace.Web.ViewModels
+@model IEnumerable<Bespoke.SphCommercialSpaces.Domain.CustomField>
+
+@{
+    Layout = null;
+}
+
+<div class="container">
+    <h1>BORANG ADUAN</h1>
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label for="complaint.template" class="span2">Jenis Aduan:</label>
+            <div class="controls">
+                <span data-bind="text: template().Name" id="complaint.template" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="span2">Lokasi:</label>
+            <textarea cols="5" rows="5" data-bind="value: complaint().CommercialSpace"></textarea>
+        </div>
+        <div class="control-group">
+            <label class="span2">Kategori:</label>
+            <select data-bind="options: categoryOptions, optionsCaption: '[Sila Pilih]', value: complaint().Category"></select>
+        </div>
+        <div class="control-group">
+            <label class="span2">Sub-Kategori:</label>
+            <select data-bind="options: subCategoryOptions, optionsCaption: '[Sila Pilih]', value: complaint().SubCategory"></select>
+        </div>
+        <div class="control-group" data-bind="with: complaint">
+            <label for="complaint.remarks" class="span2">Nota:</label>
+            <div class="controls">
+                <textarea data-bind="value: Remarks" id="complaint.remarks" cols="4" rows="4" name="Remarks" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="AttachmentStoreId" class="span2">Lampiran:</label>
+            <div class="controls">
+                <input id="AttachmentStoreId" type="file" name="files" />
+            </div>
+        </div>
+
+        <h2>Maklumat Tambahan</h2>
+        @Html.Partial("CustomFieldHtml", new CustomFieldViewModel(Model) { RootObject = "" })
+    </form>
+</div>

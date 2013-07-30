@@ -21,7 +21,7 @@
     else
     {
         
-    <div class="control-group" data-bind="with : @(Model.RootObject)CustomFieldValueCollection()[@(i++)]">
+    <div class="control-group" data-bind="with : @(Model.RootObject).CustomFieldValueCollection()[@(i++)]">
         <label for="ff@(cf.Order)" class="span2">@cf.Name:</label>
         <div class="controls">
             @if (cf.Type == "Text")

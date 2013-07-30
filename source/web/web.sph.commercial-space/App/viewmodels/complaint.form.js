@@ -22,7 +22,7 @@ define(['services/datacontext', 'services/logger'],
 
 	        activate = function (routedata) {
 	            isBusy(true);
-	            id(parseInt(routedata.id));
+	            id(parseInt(routedata.templateId));
 	            var tcs = new $.Deferred();
 	            var query = "ComplaintTemplateId eq " + id();
 	            context.loadOneAsync("ComplaintTemplate", query).then(function (ct) {

@@ -27,6 +27,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
             var context = new SphDataContext();
             var buildingTemplates = await context.LoadAsync(context.BuildingTemplates.Where(t => t.IsActive == true));
             var csTemplates = await context.LoadAsync(context.CommercialSpaceTemplates.Where(t => t.IsActive == true));
+            var complaintTemplates = await context.LoadAsync(context.ComplaintTemplates.Where(t => t.IsActive == true));
 
             var routes = new List<JsRoute>();
             var buildingRoute = from t in buildingTemplates.ItemCollection
@@ -50,8 +51,19 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                                     Icon = "icon-building",
                                     ModuleId = string.Format("viewmodels/commercialspace.detail-templateid.{0}", t.CommercialSpaceTemplateId),
                                 };
+            var complaintRoute = from t in complaintTemplates.ItemCollection
+                                select new JsRoute
+                                {
+                                    Name = t.Name,
+                                    Url = string.Format("complaint.form-templateid.{0}/:templateId", t.ComplaintTemplateId),
+                                    Role = "can_edit_commercialspace_template",
+                                    Caption = t.Name,
+                                    Icon = "icon-building",
+                                    ModuleId = string.Format("viewmodels/complaint.form-templateid.{0}", t.ComplaintTemplateId),
+                                };
             routes.AddRange(buildingRoute);
             routes.AddRange(csRoute);
+            routes.AddRange(complaintRoute);
             return routes;
         } 
     }
