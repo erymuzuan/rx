@@ -530,7 +530,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "can_assign_maintenance_officer",
     "url": "maintenance.assignment/:id",
     "moduleId": "viewmodels/maintenance.assignment",
     "name": "Perincian Aduan and Assisgment",
