@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Bespoke.Sph.Commerspace.Web.Helpers;
 using Bespoke.SphCommercialSpaces.Domain;
 using Newtonsoft.Json;
-using WebGrease.Css.Extensions;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {

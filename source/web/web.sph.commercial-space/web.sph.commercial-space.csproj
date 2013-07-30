@@ -668,8 +668,7 @@
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\metro-ui-dark.css" />
     <Content Include="Content\metro-ui-light.css" />
-    <Content Include="Content\Site.css" />
-    <Content Include="Content\site2.css" />
+    <Content Include="Content\_site.css" />
     <Content Include="Content\sprite.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />

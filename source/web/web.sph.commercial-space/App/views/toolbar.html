@@ -7,21 +7,21 @@
 
         <div class="btn-group">
             <a class="btn dropdown-toggle input-large" data-toggle="drop-down" href="#">
-                
+
                 <!-- ko text : caption -->
                 <!-- /ko -->
                 <span class="caret pull-right"></span>
             </a>
             <ul class="dropdown-menu">
-               <!-- ko foreach: commands-->
+                <!-- ko foreach: commands-->
                 <li>
-                    <a class="btn btn-link" data-bind="command : command" href="#">
-                        <i data-bind="attr :{'class': icon}"></i>
+                    <a class="btn btn-link" data-bind="command: command" href="#">
+                        <i data-bind="attr: { 'class': icon }"></i>
                         <!-- ko text : caption -->
-                        <!-- /ko -->  
+                        <!-- /ko -->
                     </a>
                 </li>
-        <!-- /ko -->
+                <!-- /ko -->
 
             </ul>
         </div>
@@ -38,10 +38,10 @@
 
         <!-- ko if: typeof addNew === "object"-->
         <!-- ko with: addNew-->
-        <a class="btn" data-bind="attr: {href : location}" data-loading-text="Saving....">
+        <a class="btn" data-bind="attr: { href: location }" data-loading-text="Saving....">
             <i class="icon-plus"></i>
             <!-- ko text : caption -->
-            <!-- /ko -->  
+            <!-- /ko -->
         </a>
         <!-- /ko -->
         <!-- /ko -->
@@ -65,13 +65,13 @@
         </button>
         <!-- /ko -->
         <!-- ko if: typeof auditTrail === "object"-->
-        <a data-toggle="modal" href="#shell-logviewer-modal" class="btn" data-bind="commandWithParameter: {command : $root.viewAuditTrailCommand, commandParameter : auditTrail}" data-loading-text="Loading....">
+        <a data-toggle="modal" href="#shell-logviewer-modal" class="btn" data-bind="commandWithParameter: { command: $root.viewAuditTrailCommand, commandParameter: auditTrail }" data-loading-text="Loading....">
             <i class="icon-calendar"></i>
             Audit trail
         </a>
         <!-- /ko -->
         <!-- ko if: typeof printCommand === "function"-->
-        <button class="btn" data-bind="commandWithParameter :{command: $root.printCommand, commandParameter : printCommand}" data-loading-text="Printing....">
+        <button class="btn" data-bind="commandWithParameter: { command: $root.printCommand, commandParameter: printCommand }" data-loading-text="Printing....">
             <i class="icon-print"></i>
             Print
         </button>
@@ -109,7 +109,12 @@
         <!-- ko foreach: commands-->
         <button class="btn" data-bind="command: command" data-loading-text="Sendin....">
             <i data-bind=" attr: { 'class': icon }"></i>
-            <span data-bind="text: caption, visible:status"></span>
+            <!-- ko if: typeof status === "undefined"-->
+            <span data-bind="text: caption"></span>
+            <!-- /ko -->
+            <!-- ko if: typeof status === "function"-->
+            <span data-bind="text: caption, visible: status"></span>
+            <!-- /ko -->
         </button>
         <!-- /ko -->
         <!-- /ko -->

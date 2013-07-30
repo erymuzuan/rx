@@ -51,7 +51,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/Content/font-awesome.css")
                 .Include("~/Content/toastr.css")
                 .Include("~/Content/sprite.css")
-                .Include("~/Content/site.css")
+                .Include("~/Content/_site.css")
               );
         }
 
