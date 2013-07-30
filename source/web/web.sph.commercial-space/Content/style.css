@@ -67,7 +67,7 @@ h1,h2,h3,h4,h5,h6{
     display: block;
 }
 
-.headerbackground {
+h1 {
     color: #666;
     background-color: #f8f8f8;
     border-top:1px solid #bdbdbd;
@@ -78,7 +78,7 @@ h1,h2,h3,h4,h5,h6{
     box-shadow: 0 2px 4px rgba(0,0,0,0.1) inset;
 }
 h2 {
-    font-size: 30px;
+    font-size: 20px;
     line-height: 40px;
 }
 

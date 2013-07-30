@@ -35,6 +35,17 @@
             Add New Item
         </button>
         <!-- /ko -->
+
+        <!-- ko if: typeof addNew === "object"-->
+        <!-- ko with: addNew-->
+        <a class="btn" data-bind="attr: {href : location}" data-loading-text="Saving....">
+            <i class="icon-plus"></i>
+            <!-- ko text : caption -->
+            <!-- /ko -->  
+        </a>
+        <!-- /ko -->
+        <!-- /ko -->
+
         <!-- ko if: typeof saveCommand === "function"-->
         <button class="btn" data-bind="command: saveCommand" data-loading-text="Saving....">
             <i class="icon-save"></i>

@@ -58,7 +58,7 @@ define(['services/datacontext'],
             csTemplate: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpaceTemplate()),
             addCustomField: addCustomField,
             removeCustomField: removeCustomField,
-            saveCommand: save
+            toolbar: { saveCommand: save }
         };
 
         return vm;

@@ -1,5 +1,5 @@
-﻿<h3>Maklumat Templat Aduan </h3>
-<section class="well">
+﻿<h1>Maklumat Templat Aduan </h1>
+<section>
     <form data-bind="with: complaintTemplate" class="form-horizontal">
         <div class="control-group">
             <label for="complainttemplate.Name" class="control-label">Jenis</label>
@@ -10,7 +10,7 @@
         <div class="control-group">
             <label for="complainttemplate.Description" class="control-label">Keterangan </label>
             <div class="controls">
-                <textarea cols="5" rows="5" data-bind="value: Description" id="complainttemplate.Description" type="text" name="Description" />
+                <textarea class="input-xxlarge" cols="5" rows="5" data-bind="value: Description" id="complainttemplate.Description" name="Description" />
             </div>
         </div>
         <div class="control-group">
@@ -23,7 +23,7 @@
         </div>
         <h5>Kategori Aduan</h5>
         <a type="button" class="btn btn-mini pull-right" href="#" data-bind="click: $root.addComplaintCategory">+ Category</a>
-        <table class="table">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Nama</th>
@@ -38,10 +38,10 @@
                         <input type="text" data-bind="value: Name" /></td>
                     <td>
                         <input type="text" data-bind="value: Description" /></td>
-                    <td><a type="button" class="btn" data-toggle="modal" data-bind="click: $root.editCategory"
+                    <td><a type="button" class="btn btn-link" data-toggle="modal" data-bind="click: $root.editCategory"
                         href="#category-details-modal">Sub Kategori</a></td>
                     <td>
-                        <input type="button" class="btn btn-danger" data-bind="click: $root.removeCategory" value="-"/>
+                        <a class="btn btn-link" data-bind="click: $root.removeCategory">Buang</a>
                     </td>
                 </tr>
             </tbody>
@@ -50,9 +50,6 @@
         <!--/ko-->
 
     </form>
-    <div>
-        <input type="button" value="Simpan" class="btn btn-primary pull-right" data-bind="command: saveCommand" data-loading-text="processing.." data-complete-text="done"></input>
-    </div>
 </section>
 
 <section class="modal hide" id="category-details-modal">
@@ -78,7 +75,7 @@
                         <input type="text" data-bind="value: text"/>
                     </td>
                     <td>
-                        <a href="#category-details-modal" class="btn btn-danger" data-bind="click : $root.removeSubCategory">-</a>
+                        <a href="#category-details-modal" class="btn btn-link" data-bind="click : $root.removeSubCategory">Buang</a>
                     </td>
                 </tr>
             </tbody>

@@ -76,7 +76,7 @@ define(['services/datacontext'],
                 return { text: ko.observable(s) };
             });
             vm.subCategoryOptions(subs);
-            ('#category-details-modal').modal({});
+            $('#category-details-modal').modal({});
         },
 
          saveSubCategory = function () {
@@ -103,7 +103,7 @@ define(['services/datacontext'],
             removeSubCategory: removeSubCategory,
             
             updateCategoryCommand: updateCategory,
-            saveCommand: save,
+            toolbar: { saveCommand: save },
 
             editCategory: editCategory,
             saveSubCategoryCommand: saveSubCategory
