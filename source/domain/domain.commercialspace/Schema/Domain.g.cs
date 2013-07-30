@@ -2311,6 +2311,11 @@
                     public const string PropertyNameRentalRate = "RentalRate";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  int  m_templateId;
+                    public const string PropertyNameTemplateId = "TemplateId";
+
+                  
 			private readonly ObjectCollection<Lot>  m_LotCollection = new ObjectCollection<Lot> ();
 
 			///<summary>
@@ -2320,6 +2325,17 @@
 			public ObjectCollection<Lot> LotCollection
 			{
 			get{ return m_LotCollection;}
+			}
+		
+			private readonly ObjectCollection<CustomFieldValue>  m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomFieldValue", IsNullable = false)]
+			public ObjectCollection<CustomFieldValue> CustomFieldValueCollection
+			{
+			get{ return m_CustomFieldValueCollection;}
 			}
 		
                 ///<summary>
@@ -2791,6 +2807,34 @@
                     get
                     {
                     return m_rentalRate;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public int TemplateId
+                    {
+                    set
+                    {
+                    if( m_templateId == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameTemplateId, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_templateId= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_templateId;}
                     }
 
                   

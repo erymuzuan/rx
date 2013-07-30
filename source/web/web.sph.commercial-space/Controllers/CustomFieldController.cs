@@ -20,6 +20,11 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var template = await context.LoadOneAsync<ComplaintTemplate>(t => t.ComplaintTemplateId == id);
             return View("CustomFieldHtml", new CustomFieldViewModel(template.CustomFieldCollection) { RootObject = "$root.complaint()" });
         }
-
+        public async Task<ActionResult> CommercialSpaceTemplate(int id)
+        {
+            var context = new SphDataContext();
+            var template = await context.LoadOneAsync<CommercialSpaceTemplate>(t => t.CommercialSpaceTemplateId == id);
+            return View("CustomFieldHtml", new CustomFieldViewModel(template.CustomFieldCollection) { RootObject = "$root.complaint()" });
+        }
     }
 }

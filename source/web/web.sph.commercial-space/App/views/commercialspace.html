@@ -21,7 +21,7 @@
         <tbody data-bind="foreach: commercialspaces">
             <tr>
                 <td>
-                    <a data-bind="attr :{href :'/#/commercialspace.detail/' + BuildingId() + '/' + FloorName() + '/' + CommercialSpaceId()}, text:RegistrationNo"></a>
+                    <a data-bind="attr :{href :'/#/commercialspace.detail/'+ TemplateId() +'/' + BuildingId() + '/' + FloorName() + '/' + CommercialSpaceId()}, text:RegistrationNo"></a>
                 </td>
                 <td data-bind="text:LotName"></td>
                 <td>
@@ -35,11 +35,4 @@
             </tr>
         </tbody>
     </table>
-
-    <div>
-        <a href="/#/commercialspace.detail/0/-/0">
-            <i class="icon-plus-sign"></i>
-            Ruang Komersial
-        </a>
-    </div>
 </section>

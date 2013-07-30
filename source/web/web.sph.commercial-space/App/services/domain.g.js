@@ -1,5 +1,5 @@
 ﻿
-/// <reference path="~/scripts/knockout-2.3.0.debug.js" />
+/// <reference path="~/scripts/knockout-2.2.1.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 
 
@@ -220,7 +220,9 @@ bespoke.sphcommercialspace.domain.CommercialSpace = function (webId) {
         BuildingName: ko.observable(),
         BuildingLot: ko.observable(),
         RentalRate: ko.observable(),
+        TemplateId: ko.observable(),
         LotCollection: ko.observableArray(),
+        CustomFieldValueCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

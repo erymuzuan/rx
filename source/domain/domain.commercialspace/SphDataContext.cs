@@ -16,6 +16,9 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public IQueryable<Building> Buildings { get; set; }
         public IQueryable<BuildingTemplate> BuildingTemplates { get; set; }
         public IQueryable<CommercialSpace> CommercialSpaces { get; set; }
+        public IQueryable<CommercialSpaceTemplate> CommercialSpaceTemplates { get; set; }
+        public IQueryable<MaintenanceTemplate> MaintenanceTemplates { get; set; }
+        public IQueryable<ApplicationTemplate> ApplicationTemplates { get; set; }
         public IQueryable<Complaint> Complaints { get; set; }
         public IQueryable<Contract> Contracts { get; set; }
         public IQueryable<Deposit> Deposits { get; set; }
@@ -35,6 +38,8 @@ namespace Bespoke.SphCommercialSpaces.Domain
             this.Buildings = new Query<Building>(provider);
             this.BuildingTemplates = new Query<BuildingTemplate>(provider);
             this.CommercialSpaces = new Query<CommercialSpace>(provider);
+            this.CommercialSpaceTemplates = new Query<CommercialSpaceTemplate>(provider);
+            this.ApplicationTemplates = new Query<ApplicationTemplate>(provider);
             this.Complaints = new Query<Complaint>(provider);
             this.Contracts = new Query<Contract>(provider);
             this.Deposits = new Query<Deposit>(provider);
@@ -107,6 +112,13 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 {
                     Expression<Func<BuildingTemplate, bool>> predicate = t => t.BuildingTemplateId == this.GetId(o1);
                     var query = new Query<BuildingTemplate>(provider).Where(predicate);
+                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
+                    list.Add(p);
+                }
+                if (type == typeof(CommercialSpaceTemplate))
+                {
+                    Expression<Func<CommercialSpaceTemplate, bool>> predicate = t => t.CommercialSpaceTemplateId == this.GetId(o1);
+                    var query = new Query<CommercialSpaceTemplate>(provider).Where(predicate);
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
                 }

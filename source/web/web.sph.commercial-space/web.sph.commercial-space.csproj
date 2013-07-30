@@ -302,6 +302,7 @@
     <Compile Include="Controllers\AppController.trigger.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AppController.commercialspace.cs" />
     <Compile Include="Controllers\CustomFieldController.cs" />
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
@@ -398,6 +399,7 @@
     <Content Include="App\viewmodels\complaint.detail.js" />
     <Content Include="App\viewmodels\inventory.detail.js" />
     <Content Include="App\viewmodels\inventory.list.js" />
+    <Content Include="App\viewmodels\maintenance.template.form.js" />
     <Content Include="App\viewmodels\maintenance.template.list.js" />
     <Content Include="App\viewmodels\messages.js" />
     <Content Include="App\viewmodels\public.index.js" />
@@ -420,6 +422,7 @@
     <Content Include="App\views\inventory.detail.html" />
     <Content Include="App\views\inventory.list.html" />
     <Content Include="App\views\logviewer.html" />
+    <Content Include="App\views\maintenance.template.form.html" />
     <Content Include="App\views\maintenance.template.list.html" />
     <Content Include="App\views\messages.html" />
     <Content Include="App\views\public.index.html" />
@@ -572,7 +575,6 @@
     <Content Include="App\views\building.list.html" />
     <Content Include="App\views\building.bound.html" />
     <Content Include="App\views\commercialspace.html" />
-    <Content Include="App\views\commercialspace.detail.html" />
     <Content Include="App\views\complaint.form.html" />
     <Content Include="App\views\complaint.html" />
     <Content Include="App\views\complaint.template.form.html" />
@@ -975,6 +977,7 @@
     <Content Include="Views\App\_TriggerChangedField.cshtml" />
     <Content Include="Views\App\BuildingDetailHtml.cshtml" />
     <Content Include="Views\RentalApplication\Print.cshtml" />
+    <Content Include="Views\App\CommercialSpaceDetailHtml.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
