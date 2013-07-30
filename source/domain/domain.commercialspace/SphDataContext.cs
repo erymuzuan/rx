@@ -14,6 +14,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
     public class SphDataContext
     {
         public IQueryable<Building> Buildings { get; set; }
+        public IQueryable<BuildingTemplate> BuildingTemplates { get; set; }
         public IQueryable<CommercialSpace> CommercialSpaces { get; set; }
         public IQueryable<Complaint> Complaints { get; set; }
         public IQueryable<Contract> Contracts { get; set; }
@@ -32,6 +33,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             var provider = ObjectBuilder.GetObject<QueryProvider>();
 
             this.Buildings = new Query<Building>(provider);
+            this.BuildingTemplates = new Query<BuildingTemplate>(provider);
             this.CommercialSpaces = new Query<CommercialSpace>(provider);
             this.Complaints = new Query<Complaint>(provider);
             this.Contracts = new Query<Contract>(provider);
@@ -56,7 +58,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
         private async Task<IEnumerable<Entity>> GetPreviousItems(IEnumerable<Entity> items)
         {
             var list = new ObjectCollection<Entity>();
-            Console.WriteLine("Changed ITEMS {0}", items.Count());
             foreach (var item in items)
             {
                 var o1 = item;
@@ -102,6 +103,13 @@ namespace Bespoke.SphCommercialSpaces.Domain
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
                 }
+                if (type == typeof(BuildingTemplate))
+                {
+                    Expression<Func<BuildingTemplate, bool>> predicate = t => t.BuildingTemplateId == this.GetId(o1);
+                    var query = new Query<BuildingTemplate>(provider).Where(predicate);
+                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
+                    list.Add(p);
+                }
                 if (type == typeof(Complaint))
                 {
                     Expression<Func<Complaint, bool>> predicate = t => t.ComplaintId == this.GetId(o1);
@@ -128,7 +136,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             var previous = await GetPreviousItems(changedItems);
             // get changes to items
             var logs = (from e in changedItems
-                        let e1 = previous.Single(t => t.WebId == e.WebId)
+                        let e1 = previous.SingleOrDefault(t => t.WebId == e.WebId)
                         where null != e1
                         let diffs = (new ChangeGenerator().GetChanges(e1, e))
                         select new AuditTrail(diffs)

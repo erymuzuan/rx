@@ -1,6 +1,9 @@
-﻿<div data-bind="visible: isBusy">
-    <img src="/Images/spinner-md.gif" alt="loading.." />
-</div>
+﻿@using Bespoke.Sph.Commerspace.Web.ViewModels
+@model IEnumerable<Bespoke.SphCommercialSpaces.Domain.CustomField>
+@{
+    Layout = null;
+}
+
 <form id="building-details" class="form-horizontal" data-bind="with: building">
     <div class="page-header">
         <h2 data-bind="text: $parent.title"></h2>
@@ -19,35 +22,35 @@
             <input data-bind="value: LotNo" id="building.LotNo" type="text" name="building.LotNo" />
         </div>
     </div>
-   
-    <div class="control-group" data-bind="with : Address">
+
+    <div class="control-group" data-bind="with: Address">
         <label for="building.Address.Street" class="control-label">Alamat</label>
         <div class="controls">
             <input class="input-xxlarge" data-bind="value: Street" id="building.Address.Street" type="text" name="building.Address.Street" />
         </div>
     </div>
 
-    <div class="control-group" data-bind="with : Address">
+    <div class="control-group" data-bind="with: Address">
         <label for="building.Address.City" class="control-label">Bandar/Daerah</label>
         <div class="controls">
             <input data-bind="value: City" id="building.Address.City" type="text" name="building.Address.City" />
         </div>
     </div>
-    
-    <div class="control-group" data-bind="with : Address">
+
+    <div class="control-group" data-bind="with: Address">
         <label for="building.Address.Postcode" class="control-label">Poskod</label>
         <div class="controls">
             <input data-bind="value: Postcode" id="building.Address.Postcode" type="text" name="building.Address.Postcode" />
         </div>
     </div>
 
-    <div class="control-group" data-bind="with : Address">
+    <div class="control-group" data-bind="with: Address">
         <label for="building.Address.State" class="control-label">Negeri</label>
         <div class="controls">
             <select name="building.Address.State" id="building.Address.State" data-bind="value: State, options: $root.stateOptions, optionsText: 'Name', optionsValue: 'Name', optionsCaption: '[Sila Pilih]'"></select>
         </div>
     </div>
-    
+
     <div class="control-group">
         <label for="building.Size" class="control-label">Saiz</label>
         <div class="controls">
@@ -76,6 +79,9 @@
             </select>
         </div>
     </div>
+    
+<h2>Additional fields</h2>
+@Html.Partial("CustomFieldHtml", new CustomFieldViewModel(Model){RootObject = ""})
 
     <a type="button" class="btn btn-success" data-toggle="modal" data-bind="click: $parent.showMapCommand" href="#map-panel">Show Map</a>
     <div>
@@ -95,7 +101,7 @@
                 <tr>
                     <td>
                         <input class="input-small" type="text" data-bind="value: Number, uniqueName: true" /></td>
-                    
+
                     <td>
                         <input class="input-large" type="text" data-bind="value: Name, uniqueName: true" /></td>
                     <td>
@@ -111,6 +117,8 @@
         </table>
     </div>
 </form>
+
+
 
 <section class="modal hide google-maps" id="map-panel" style="margin-left: -500px; width: 940px">
 

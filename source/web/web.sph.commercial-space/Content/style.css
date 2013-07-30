@@ -61,21 +61,22 @@ body .container{
 h1,h2,h3,h4,h5,h6{
 	padding: 2px 0px;
 	margin: 2px 0px;
-	color: #777;
+	color: #666;
 	font-weight: 400;
+    width: 100%;
+    display: block;
 }
 
-h1{
-	font-size: 30px;
-	line-height: 40px;
-    background-color: yellow;
-    padding-left: 35px; 
-    background-image:url('/images/arrow.png');
-    background-repeat: no-repeat;
-    background-position: left;
-    max-width: 700px;
+.headerbackground {
+    color: #666;
+    background-color: #f8f8f8;
+    border-top:1px solid #bdbdbd;
+    border-bottom:1px solid #bdbdbd;
+    -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.1) inset;
+    -moz-box-shadow: 0 2px 4px rgba(0,0,0,0.1) inset;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) inset;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) inset;
 }
-
 h2 {
     font-size: 30px;
     line-height: 40px;

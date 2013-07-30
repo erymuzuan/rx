@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Bespoke.Sph.Commerspace.Web.App_Start;
 using Bespoke.Sph.Commerspace.Web.Models;
 using Bespoke.SphCommercialSpaces.Domain;
 using System.Linq;
@@ -31,6 +32,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 .WhereIf(r => r.ShowWhenLoggedIn || User.IsInRole(r.Role), User.Identity.IsAuthenticated)
                 .WhereIf(r => string.IsNullOrWhiteSpace(r.Role), !User.Identity.IsAuthenticated);
             vm.Routes.AddRange(routes);
+
+            vm.Routes.AddRange(await RouteConfig.GetJsRoutes());
 
             return View(vm);
         }

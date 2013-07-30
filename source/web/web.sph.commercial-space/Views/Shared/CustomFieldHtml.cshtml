@@ -1,14 +1,15 @@
-﻿@model Bespoke.SphCommercialSpaces.Domain.ComplaintTemplate
+﻿@model Bespoke.Sph.Commerspace.Web.ViewModels.CustomFieldViewModel
 @{
     Layout = null;
     var i = 0;
+    //var groups = Model.GroupBy(g => g)
 }
 
-@foreach (var cf in Model.ComplaintCustomFieldCollection.OrderBy(f => f.Order))
+@foreach (var cf in Model.CustomFieldCollection.OrderBy(f => f.Order))
 {
     if (cf.Type == "Boolean")
     {
-    <div class="control-group" data-bind="with : $root.complaint().CustomFieldValueCollection()[@(i++)]">
+    <div class="control-group" data-bind="with : @(Model.RootObject)CustomFieldValueCollection()[@(i++)]">
         <div class="controls">
             <label class="checkbox">
                 <input data-bind="checked: Value" id="ff@(cf.Order)" type="checkbox" name="ff@(cf.Order)" />
@@ -20,7 +21,7 @@
     else
     {
         
-    <div class="control-group" data-bind="with : $root.complaint().CustomFieldValueCollection()[@(i++)]">
+    <div class="control-group" data-bind="with : @(Model.RootObject).CustomFieldValueCollection()[@(i++)]">
         <label for="ff@(cf.Order)" class="span2">@cf.Name:</label>
         <div class="controls">
             @if (cf.Type == "Text")
@@ -40,13 +41,12 @@
             {
                 <select data-bind="value: Value" id="ff@(cf.Order)">
                     @{
-                        var options = cf.Listing.Split(new[]{","}, StringSplitOptions.RemoveEmptyEntries);
+                var options = cf.Listing.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                     }
                     <option value="">[Sila Pilih]</option>
                     @foreach (var opt in options)
                     {
-                        
-                    <option value="@opt">@opt</option>
+                        <option value="@opt">@opt</option>
                     }
                 </select>
             }

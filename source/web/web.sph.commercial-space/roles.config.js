@@ -96,5 +96,19 @@
     "Role": "can_edit_inventory",
     "Description": "Menambah dan mengemaskini senarai inventori",
     "IsActive": true
+  },
+  {
+    "Group": "admin",
+    "Name": "Admin Bangunan",
+    "Role": "can_edit_building_template",
+    "Description": "Menambah dan mengemaskini jenis-jenis bangunan",
+    "IsActive": true
+  },
+  {
+    "Group": "admin",
+    "Name": "Admin Templat Ruang Komersil",
+    "Role": "can_edit_commercialspace_template",
+    "Description": "Menambah dan mengemaskini templat ruang komersil",
+    "IsActive": true
   }
 ]

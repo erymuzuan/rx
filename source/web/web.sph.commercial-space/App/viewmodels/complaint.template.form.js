@@ -51,18 +51,18 @@ define(['services/datacontext'],
                 vm.complaintTemplate().ComplaintCategoryCollection.remove(category);
             },
             addCustomField = function () {
-                var customfield = new bespoke.sphcommercialspace.domain.ComplaintCustomField();
-                vm.complaintTemplate().ComplaintCustomFieldCollection.push(customfield);
+                var customfield = new bespoke.sphcommercialspace.domain.CustomField();
+                vm.complaintTemplate().CustomFieldCollection.push(customfield);
             },
             removeCustomField = function (customfield) {
-                vm.complaintTemplate().ComplaintCustomFieldCollection.remove(customfield);
+                vm.complaintTemplate().CustomFieldCollection.remove(customfield);
             },
             save = function () {
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON({ complaintTemplate: vm.complaintTemplate });
                 isBusy(true);
 
-                context.post(data, "/ComplaintTemplate/Save")
+                context.post(data, "/Template/SaveComplaintTemplate")
                     .then(function (result) {
                         isBusy(false);
                         tcs.resolve(result);
@@ -75,8 +75,8 @@ define(['services/datacontext'],
             var subs = _(category.SubCategoryCollection()).map(function (s) {
                 return { text: ko.observable(s) };
             });
-
             vm.subCategoryOptions(subs);
+            ('#category-details-modal').modal({});
         },
 
          saveSubCategory = function () {

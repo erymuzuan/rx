@@ -10,18 +10,40 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
 
     var activate = function () {
         var tcs = new $.Deferred();
-        context.loadAsync("Building", "BuildingId gt 0").done(function (lo) {
+        var templateTask = context.loadAsync("BuildingTemplate", "IsActive eq 1");
+        var listTask = context.loadAsync("Building", "BuildingId gt 0");
+
+        $.when(templateTask, listTask).done(function (tlo, lo) {
+            vm.templates(tlo.itemCollection);
+
+            var commands = _(tlo.itemCollection).map(function (t) {
+                return {
+                    caption: ko.observable(t.Name()),
+                    icon: "icon-plus",
+                    command: function () {
+                        var url = '/#/building.detail-templateid.' + t.BuildingTemplateId() + "/" + t.BuildingTemplateId() + "/0";
+                        router.navigateTo(url);
+                        return {
+                            then: function () { }
+                        };
+                    }
+                };
+            });
+
+            vm.toolbar.groupCommands([ko.observable(
+                {
+                    caption: ko.observable("Bangunan Baru"),
+                    commands: ko.observableArray(commands)
+                })
+            ]);
+
             vm.buildings(lo.itemCollection);
             tcs.resolve(true);
         });
+
+
+
         return tcs.promise();
-    },
-    addNew = function () {
-        var url = '/#/building.detail/0';
-        router.navigateTo(url);
-        return {
-            then: function () { }
-        };
     },
 
 
@@ -33,8 +55,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         activate: activate,
         title: 'Building',
         buildings: ko.observableArray([]),
+        templates: ko.observableArray([]),
         toolbar: {
-            addNewCommand: addNew,
+            groupCommands: ko.observableArray(),
             exportCommand: exportList
         }
     };

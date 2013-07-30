@@ -15,12 +15,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
         isBusy = ko.observable(false),
         activate = function (routedata) {
             id(routedata.applicationId);
-            vm.remark('');
-
+            vm.title('Perincian Borang Permohonan');
+            vm.toolbar().auditTrail.id(routedata.applicationId);
             var tcs = new $.Deferred();
             context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id())
                 .then(function (r) {
-
                     offervm.activate(r);
                     vm.rentalapplication(r);
                     context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + vm.rentalapplication().CommercialSpaceId())
@@ -33,29 +32,14 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                         .then(function (b) {
                             vm.commercialSpace().StaticMap(b);
                         });
-
-
                 });
+            
             return tcs.promise();
         },
         
         addAttachment = function () {
             var attachment = new bespoke.sphcommercialspace.domain.Attachment();
             vm.rentalapplication().AttachmentCollection.push(attachment);
-        },
-        
-        showAuditTrail = function () {
-            isBusy(true);
-            var query = "EntityId eq " + vm.rentalapplication().RentalApplicationId();
-            vm.auditTrailCollection.removeAll();
-
-            context.loadAsync("AuditTrail", query)
-                .then(function (lo) {
-                    vm.auditTrailCollection(lo.itemCollection);
-                    isBusy(false);
-                });
-            $('#audit-trail').modal({});
-
         },
         
         showDetails = function () {
@@ -86,6 +70,19 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             return tcs.promise();
         },
         
+        update = function () {
+            var tcs = new $.Deferred();
+            var attachments = ko.mapping.toJS(vm.rentalapplication().AttachmentCollection);
+            var note = ko.mapping.toJS(vm.rentalapplication().Remarks());
+            var data = JSON.stringify({ id: id(), attachments: attachments ,note :note });
+            context.post(data, "/RentalApplication/Update").done(function () {
+                var url = '/#/rentalapplication.verify/' + id();
+                router.navigateTo(url);
+                tcs.resolve(true);
+            });
+            return tcs.promise();
+        },
+        
         decline = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: id() });
@@ -108,24 +105,66 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                 tcs.resolve(true);
             });
             return tcs.promise();
-        }
+        },
+        
+        printList = function () { },
+        
+        exportList = function (){}
 
     ;
 
     var vm = {
         isBusy: isBusy,
         activate: activate,
-        auditTrailCollection: ko.observableArray([]),
+        title : ko.observable(),
         rentalapplication: ko.observable(new bespoke.sphcommercialspace.domain.RentalApplication()),
         commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
-        waitingListCommand: waitingList,
-        returnedCommand: returned,
-        declinedCommand: decline,
-        showAuditTrailCommand: showAuditTrail,
         showDetailsCommand: showDetails,
-        approvedCommand: approve,
         addAttachmentCommand: addAttachment,
-        remark: ko.observable('')
+        toolbar : ko.observable({
+            reloadCommand: function () {
+                return activate({ status: status() });
+            },
+            auditTrail: {
+                entity: "RentalApplication",
+                id: ko.observable()
+            },
+            printCommand: printList,
+            exportCommand: exportList,
+            commands: ko.observableArray([
+                {
+                caption: 'Kemaskini',
+                icon: "icon-eraser ",
+                command: update,
+                status: id
+                },
+                {
+                caption: 'Masuk Senarai Menunggu',
+                icon: "icon-reorder ",
+                command: waitingList,
+                status:'Baru'
+                },
+                {
+                caption: 'Kembalikan',
+                icon: "icon-reply ",
+                command: returned,
+                status: 'Baru'
+                },
+                {
+                caption: 'Batalkan',
+                icon: "icon-remove-sign ",
+                command: decline,
+                status: 'Baru'
+                },
+                {
+                caption: 'Luluskan',
+                icon: "icon-ok ",
+                command: approve,
+                status: 'Menunggu'
+                }
+                
+            ])
+        })
     };
 
     return vm;

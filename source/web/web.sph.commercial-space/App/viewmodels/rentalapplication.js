@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/__common.js" />
 /// <reference path="../../Scripts/require.js" />
@@ -8,11 +8,13 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/system'], function (context, logger, router, system) {
 
     var isBusy = ko.observable(false),
         id = ko.observable(),
         registrationNo = ko.observable(),
+        rentalApplication = ko.observable(new bespoke.sphcommercialspace.domain.RentalApplication()),
+
         activate = function (routeData) {
             
             id(routeData.id);
@@ -26,17 +28,12 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 tcs.resolve(true);
             });
             vm.rentalapplication().CommercialSpaceId(routeData.id);
-            var bank = {
-                Name: ko.observable(''),
-                Location: ko.observable(''),
-                AccountNo: ko.observable(''),
-                AccountType: ko.observable('')
-            };
+            var bank =new bespoke.sphcommercialspace.domain.Bank(system.guid());
             vm.rentalapplication().BankCollection.push(bank);
             return tcs.promise();
         },
-        viewAttached = function() {
-            $('.datepicker').datepicker();
+        viewAttached = function () {
+            
         },
         configureUpload = function (element, index, attachment) {
             
@@ -77,23 +74,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             return tcs.promise();
         },
         addBankCollection = function () {
-            var bank = {
-                Name: ko.observable(''),
-                Location: ko.observable(''),
-                AccountNo: ko.observable(''),
-                AccountType: ko.observable('')
-            };
+            var bank = new bespoke.sphcommercialspace.domain.Bank(system.guid());
             vm.rentalapplication().BankCollection.push(bank);
         },
         addAttachment = function () {
-            var guid = guidGenerator();
-            var attachment = {
-                Type: ko.observable(),
-                Name: ko.observable(),
-                IsRequired: ko.observable(false),
-                IsReceived: ko.observable(false),
-                StoreId: ko.observable(guid)
-            };
+            var attachment = new bespoke.sphcommercialspace.domain.Attachment(system.guid());
             vm.rentalapplication().AttachmentCollection.push(attachment);
         };
 
@@ -103,9 +88,24 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         viewAttached: viewAttached,
         configureUpload: configureUpload,
         stateOptions: ko.observableArray(),
-        rentalapplication: ko.observable(new bespoke.sphcommercialspace.domain.RentalApplication()),
-        commercialSpace : ko.observable (new bespoke.sphcommercialspace.domain.CommercialSpace()),
-        saveCommand: saveApplication,
+        rentalapplication: rentalApplication,
+        commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
+        toolbar: ko.observable({
+            reloadCommand: function () {
+                return activate({ status: status() });
+            },
+            printCommand: ko.observable({
+                entity: ko.observable("RentalApplication"),
+                id: ko.observable(0),
+                item : rentalApplication,
+            }),
+            commands: ko.observableArray([{
+                caption: "Hantar Permohonan",
+                icon: 'icon-envelop',
+                status: id,
+                command: saveApplication
+            }])
+        }),
         addBankCommand: addBankCollection,
         isBusy: isBusy,
         addAttachmentCommand: addAttachment
@@ -113,11 +113,4 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
 
     return vm;
 
-    function guidGenerator() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-        
-    }
 });

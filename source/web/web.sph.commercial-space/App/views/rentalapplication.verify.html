@@ -1,227 +1,192 @@
-﻿<div class="container">
-    <div class="row">
-        <div class="span8">
-            <section id="application-list" class="k-block">
-
-                <article data-bind="with: rentalapplication">
-                    <div id="div-application" title="Go to application details">
-                        <h2>Maklumat Pemohon (<span data-bind="text: Status"></span>)</h2>
-
-                        <div><span>No  :</span><span data-bind="text: RegistrationNo"></span></div>
-                        <div data-bind="visible: IsCompany"><span>Nama Syarikat  :</span><span data-bind="    text: CompanyName"></span></div>
-                        <div><span>ID / SSM   :</span><span data-bind="text: CompanyRegistrationNo"></span></div>
-                         <div data-bind="    with: Contact">
-                            <div><span>Nama Pegawai :</span><span data-bind="text: Name"></span></div>
-                            <div><span>No. Telefon (Pejabat) :</span><span data-bind="text: OfficeNo"></span></div>
-                            <div><span>No. Telefon (Mobile) :</span><span data-bind="text: MobileNo"></span></div>
-                        </div>
-                        <div data-bind="with: Address">
-                            <span>Alamat :</span>
-                            <span data-bind="text: Street"></span>,
-                            <span data-bind="text: Postcode"></span>,
-                            <span data-bind="text: City"></span>,
-                            <span data-bind="text: State"></span>
-                        </div>
-                        <div>
-                            <a data-bind="click: $parent.showDetailsCommand" href="#details-panel" class="btn">
-                                <i class="icon-camera"></i>
-                                Maklumat Lanjut
-                            </a>
-                            <a data-bind="click: $parent.showAuditTrailCommand" href="#audit-trail" class="btn">
-                                <i class="icon-book"></i>Sejarah Permohonan</a>
-                        </div>
-                    </div>
-                </article>
-
-            </section>
-            <br />
-            <br />
-            <br />
-            <section id="attachment-list" class="k-block">
-
-                <article>
-                    <h2>Dokumen sokongan</h2>
-                    <input type="button" class="btn" value="+ Dokumen" data-bind="click: addAttachmentCommand, visible: rentalapplication().Status() == 'New'" />
-                    <div>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Jenis</th>
-                                    <th>Nama</th>
-                                    <th>Diterima</th>
-                                    <th>Diperlukan</th>
-                                    <th>Lengkap</th>
-                                </tr>
-                            </thead>
-                            <tbody data-bind="foreach: rentalapplication().AttachmentCollection">
-                                <tr>
-                                    <td>
-                                        <input type="text" data-bind="value: Type, uniqueName: true" /></td>
-                                    <td>
-                                        <input type="text" data-bind="value: Name, uniqueName: true" /></td>
-                                    <td>
-                                        <input type="checkbox" class="checkbox" data-bind="checked: IsReceived" />
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" class="checkbox" data-bind="checked: IsRequired" /></td>
-                                    <td>
-                                        <input type="checkbox" class="checkbox" data-bind="checked: IsCompleted" /></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </article>
-
-            </section>
-        </div>
-
-        <div class="span4">
-            <section id="commercialSpace" class="widget wgreen">
-                <div class="widget-head">
-                    <div class="pull-left">RUANG KOMERSIAL</div>
-                    <div class="widget-icons pull-right">
-                        <a href="#"><i class="icon-chevron-down"></i></a>
-                        <a href="#"><i class="icon-remove"></i></a>
-                    </div>
-                    <div class="clearfix"></div>
+﻿<h1 class="headerbackground span12"><span data-bind="text: title"></span></h1>
+<div class="container">
+    <div class="span8">
+        <form class="form" data-bind="with: rentalapplication">
+            <div id="div-application">
+                <h2 class="headerbackground span7">Maklumat Pemohon</h2>
+                <div class="span7">
+                    <a data-bind="click: $parent.showDetailsCommand" href="#details-panel" class="btn btn-link pull-right">
+                        <i class="icon-camera"></i>Maklumat Lanjut</a>                    
                 </div>
-                <div class="widget-content wgreen" data-bind="with: commercialSpace">
-                    <article class="">
-                        <div id="commercialSpace-Detail" class="padd">
-                            <div><span>Negeri : </span><span data-bind="text: State"></span></div>
-                            <div><span>Bandar : </span><span data-bind="text: City"></span></div>
-                            <div><span>Nama Bangunan :</span><span data-bind="text: BuildingName"></span></div>
-                            <div><span>Lot Bangunan :</span><span data-bind="text: BuildingLot"></span></div>
-                            <div><span>Tingkat : </span><span data-bind="text: FloorName"></span></div>
-                            <div><span>Lot : </span><span data-bind="text: LotName"></span></div>
-                            <div><span>Jenis Ruang : </span><span data-bind="text: Category"></span></div>
+                <div class="control-group">
+                    <label class="span3">No</label><label class="span0.5">:</label>
+                    <label class="span3" data-bind="text: RegistrationNo" />
+                </div>
+                <div class="control-group">
+                    <label class="span3">Nama Syarikat</label><label class="span0.5">:</label>
+                    <label class="span3" data-bind="text: CompanyName, visible: IsCompany" />
+                </div>
+                <div class="control-group">
+                    <label class="span3">ID / SSM</label><label class="span0.5">:</label>
+                    <label class="span3" data-bind="text: CompanyRegistrationNo" />
+                </div>
+                <div class="control-group">
+                    <label class="span3">Nama Pegawai</label><label class="span0.5">:</label>
+                    <label class="span3" data-bind="text: Contact.Name" />
+                </div>
+                <div class="control-group">
+                    <label class="span3">No. Telefon Pejabat</label><label class="span0.5">:</label>
+                    <label class="span3" data-bind="text: Contact.OfficeNo" />
+                </div>
+                <div class="control-group">
+                    <label class="span3">No. Telefon Bimbit</label><label class="span0.5">:</label>
+                    <label class="span3" data-bind="text: Contact.MobileNo" />
+                </div>
+                <div class="control-group span7 ">
+                    <label>Alamat :</label>
+                    <div data-bind="with: Address">
+                        <div class="span5">
+                            <label data-bind="text: UnitNo" />
                         </div>
-                    </article>
-                    <div class="centered">
-                        <img alt="map" data-bind="attr: { src: $root.commercialSpace().StaticMap }" class="img-polaroid centered" src="/Images/accent.png" />
+                        <div class="span5">
+                            <label data-bind="text: Street" />
+                        </div>
+                        <div class="span5">
+                            <label data-bind="text: City" />
+                        </div>
+                        <div class="span5">
+                            <label data-bind="text: Postcode" />
+                        </div>
+                        <div class="span5">
+                            <label data-bind="text: State" />
+                        </div>
                     </div>
                 </div>
-
-            </section>
-        </div>
+            </div>
+        </form>
+        <form class="form">
+            <h2 class="headerbackground span7" >Dokumen sokongan</h2>
+            <div class="span7">
+                <a data-bind="click: addAttachmentCommand, visible: rentalapplication().Status() == 'Baru'" class="btn btn-link pull-right">
+                    <i class="icon-file-alt"></i> + Dokumen</a></div>
+            <div class="span7">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Jenis</th>
+                            <th>Nama</th>
+                            <th>Terima</th>
+                            <th>Perlu</th>
+                            <th>Lengkap</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: rentalapplication().AttachmentCollection">
+                        <tr>
+                            <td>
+                                <input type="text" data-bind="value: Type, uniqueName: true" /></td>
+                            <td>
+                                <input type="text" data-bind="value: Name, uniqueName: true" /></td>
+                            <td>
+                                <input type="checkbox" class="checkbox" data-bind="checked: IsReceived" />
+                            </td>
+                            <td>
+                                <input type="checkbox" class="checkbox" data-bind="checked: IsRequired" /></td>
+                            <td>
+                                <input type="checkbox" class="checkbox" data-bind="checked: IsCompleted" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <form>
+            <h2 class="headerbackground span7">Nota</h2>
+            <div class="span7">
+                <textarea class="span7" data-bind="value: rentalapplication().Remarks" rows="5" cols="3" />
+            </div>
+        </form>
     </div>
-    <div class="row">
-        <div class="span8">
-            <label>Nota</label>
-            <textarea class="input-block-level input-large" data-bind="value: remark" rows="5"></textarea>
-        </div>
-    </div>
-    <div class="row">
-      <section class="span6 pull-left">
-            <input type="button" class="btn btn-info" value="SENARAI MENUNGGU" data-bind="command: waitingListCommand, visible: rentalapplication().Status() == 'New'" data-loading-text="processing.." data-complete-text="Menunggu" />
-            <input type="button" class="btn btn-warning" value="KEMBALIKAN" data-bind="command: returnedCommand, visible: rentalapplication().Status() == 'New'" data-loading-text="processing.." data-complete-text="DiKembalikan" />
-            <input type="button" class="btn btn-danger" value="BATALKAN" data-bind="command: declinedCommand, visible: rentalapplication().Status() == 'New' || rentalapplication().Status() == 'Returned'" data-loading-text="processing.." data-complete-text="Di tolak" />
-            <input type="button" class="btn btn-success" value="LULUSKAN" data-bind="command: approvedCommand, visible: rentalapplication().Status() == 'Waiting' || rentalapplication().Status() == 'Returned'" data-loading-text="LULUSKAN" data-complete-text="LULUSKAN" />
-           
-            <!-- ko compose :  'viewmodels/_rentalapplication.verify.offer' -->
-                
-                
-              <!-- /ko -->
-        </section>
-
-    </div>
-    <section class="modal hide fade" id="details-panel">
+    <div class="modal hide fade" id="details-panel">
         <div class="modal-header">
-            <button class="pull-right btn" data-dismiss="modal">&times;</button>
-            <h3>Maklumat lanjut</h3>
+            <a class="btn btn-mini pull-right" data-dismiss="modal">X</a>
+            <h2 class="headerbackground">Maklumat Lanjut</h2>
         </div>
         <div class="modal-body" data-bind="with: rentalapplication">
             <div class="control-group">
-                <span class="control-label">No. Permohonan : </span>
-                <span data-bind="text: RegistrationNo" id="commercialspace.RegistrationNo" />
+                <span class="control-label"><strong>No. Permohonan :</strong> </span>
+                <span  data-bind="text: RegistrationNo" id="commercialspace.RegistrationNo" />
             </div>
             <div class="control-group">
-                <span class="control-label">Tarikh Permohonan : </span>
-                <span data-bind="date: { value: ApplicationDate, format: 'DD/MM/YYYY' }" />
+                <span class="control-label"><strong>Tarikh Permohonan : </strong></span>
+                <span  data-bind="date: { value: ApplicationDate, format: 'DD/MM/YYYY' }" />
             </div>
             <div class="control-group" data-bind="with: Contact">
-                <span class="control-label">Nama Pegawai : </span>
-                <span data-bind="text: Name" id="Contact.Name" />
+                <span class="control-label"><strong>Nama Pegawai : </strong></span>
+                <span  data-bind="text: Name" id="Contact.Name" />
             </div>
             <div class="control-group" data-bind="visible: IsCompany">
-                <span class="control-label">Nama Syarikat : </span>
-                <span data-bind="text: CompanyName" />
+                <span class="control-label"><strong>Nama Syarikat : </strong></span>
+                <span  data-bind="text: CompanyName" />
             </div>
             <div class="control-group"  data-bind="with: Contact" >
-                <span class="control-label">No. Telefon (Pejabat) : </span>
+                <span class="control-label"><strong>No. Telefon (Pejabat) : </strong></span>
                 <span data-bind="text: OfficeNo" />
             </div>
             <div class="control-group" data-bind="with: Contact">
-                <span class="control-label">No. Telefon (Bimbit) : </span>
+                <span class="control-label"><strong> No. Telefon (Bimbit) :</strong></span>
                 <span data-bind="text: MobileNo" />
             </div>
             <div class="control-group"  data-bind="with: Contact">
-                <span class="control-label">Email : </span>
-                <span data-bind="text:Email" />
+                <span class="control-label"><strong> Email : </strong></span>
+                <span data-bind="text: Email" />
             </div>
             <div class="control-group" data-bind="with: Address">
-                <span class="control-label">Alamat : </span>
+                <span class="control-label"><strong> Alamat : </strong></span>
                 <span data-bind="text: Street" />,
                 <span data-bind="text: Postcode" />
                 <span data-bind="text: City" />,
                 <span data-bind="text: State" />
             </div>
             <div class="control-group">
-                <span class="control-label">Tujuan Permohonan : </span>
+                <span class="control-label"><strong> Tujuan Permohonan : </strong></span>
                 <span data-bind="text: Purpose" />
             </div>
             <div class="control-group">
-                <span class="control-label">Pengalaman : </span>
+                <span class="control-label"><strong> Pengalaman : </strong></span>
                 <span data-bind="text: Experience" />
             </div>
             <div class="control-group">
-                <span class="control-label">Maklumat Kewangan : </span>
+                <span class="control-label"><strong> Maklumat Kewangan  </strong></span>
                 <br />
-                <span class="control-label">Tahun terkini : RM </span>
+                <span class="control-label"><strong> Tahun terkini : RM </strong></span>
                 <span data-bind="text: CurrentYearSales" />
                 <br />
-                <span class="control-label">Tahun terdahulu : RM </span>
+                <span class="control-label"><strong> Tahun terdahulu : RM </strong></span>
                 <span data-bind="text: LastYearSales" />
                 <br />
-                <span class="control-label">2 tahun terdahulu : RM </span>
+                <span class="control-label"><strong> 2 tahun terdahulu : RM </strong></span>
                 <span data-bind="text: PreviousYearSales" />
             </div>
         </div>
         <div class="modal-footer">
             <input type="button" class="btn-small btn-primary" value="OK" data-dismiss="modal" />
         </div>
-    </section>
-
-    <section class="modal hide fade" id="audit-trail">
-        <div class="modal-header">
-            <button class="pull-right btn close" data-dismiss="modal">&times;</button>
-            <h3>Sejarah Permohonan</h3>
+    </div>
+    <div class="span4 widget wlightblue" id="commercialSpace">
+        <div class="widget-head">
+            <div class="pull-left">Ruang Komersil</div>
+            <div class="widget-icons pull-right">
+            </div>
+            <div class="clearfix"></div>
         </div>
-        <div class="modal-body">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Tarikh/Masa</th>
-                        <th>Pengguna</th>
-                        <th>Operasi</th>
-                        <th>Note</th>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: auditTrailCollection">
-                    <tr>
-                        <td data-bind="date: { value: DateTime, format: 'DD MMM YYYY' }"></td>
-                        <td data-bind="text: User"></td>
-                        <td data-bind="text: Operation"></td>
-                        <td data-bind="text: Note"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <img alt="loading.." src="/Images/spinner-md.gif" data-bind="visible: isBusy" />
+        <div class="widget-content wgreen" data-bind="with: commercialSpace">
+            <article class="">
+                <div id="commercialSpace-Detail" class="padd">
+                    <div><strong>Negeri</strong> :<span data-bind="text: State"></span></div>
+                    <div><span>Bandar : </span><span data-bind="text: City"></span></div>
+                    <div><span>Nama Bangunan :</span><span data-bind="text: BuildingName"></span></div>
+                    <div><span>Lot Bangunan :</span><span data-bind="text: BuildingLot"></span></div>
+                    <div><span>Tingkat : </span><span data-bind="text: FloorName"></span></div>
+                    <div><span>Lot : </span><span data-bind="text: LotName"></span></div>
+                    <div><span>Jenis Ruang : </span><span data-bind="text: Category"></span></div>
+                </div>
+            </article>
+            <div class="centered">
+                <img alt="map" data-bind="attr: { src: $root.commercialSpace().StaticMap }" class="img-polaroid centered" src="/Images/accent.png" />
+            </div>
         </div>
-        <div class="modal-footer">
-            <input type="button" class="btn-small btn-primary" value="OK" data-dismiss="modal" />
-        </div>
-    </section>
-
-
+    </div>
+    <div class="span7 pull-left">
+     <!-- ko compose :  'viewmodels/_rentalapplication.verify.offer' -->              
+     <!-- /ko -->
+   </div>
 </div>
