@@ -1,4 +1,35 @@
-﻿<div>
-    <h1>Selamat datang!!!!</h1>
-    <div>may be some sliders here</div>
+﻿<div>  
+<h1>Selamat Datang</h1>
+      
+    <div class="row-fluid">
+      <div class="span6 offset3">
+        <div id="myCarousel" class="carousel slide vertical">
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+                <div class="active item">
+                    <img src="http://placehold.it/600x400&amp;text=First+Slide">
+                </div>
+                <div class="item">
+                    <img src="http://placehold.it/600x400&amp;text=Second+Slide">
+                </div>
+                <div class="item">
+                    <img src="http://placehold.it/600x400&amp;text=Third+Slide">
+                </div>
+            </div>
+            <!-- Carousel nav -->
+            <a class="carousel-control left" href="#myCarousel" data-slide="prev">‹</a>
+            <a class="carousel-control right" href="#myCarousel" data-slide="next">›</a>
+        </div>
+    </div>
 </div>
+  <hr>
+  <div class="row"><a class="btn btn-block btn-info" href="#">Sila Hubungi Kami Untuk Keterangan anjut</a></div>
+<hr>
+</div>
+
+
+<script>
+    $('.carousel').carousel({
+        interval: 3000
+    })
+</script>
