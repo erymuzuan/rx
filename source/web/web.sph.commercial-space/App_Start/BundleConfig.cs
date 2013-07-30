@@ -20,7 +20,6 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/scripts/toastr.js")
                 .Include("~/scripts/Q.js")
                 .Include("~/scripts/bootstrap.js")
-                .Include("~/scripts/bootstrap.min.js")
                 .Include("~/scripts/moment.js")
                 .Include("~/scripts/string.js")
                 .Include("~/scripts/underscore.js")

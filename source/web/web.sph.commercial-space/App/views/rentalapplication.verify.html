@@ -1,35 +1,35 @@
-﻿<h1 class="headerbackground span12"><span data-bind="text: title"></span></h1>
+﻿<h1 class=" span12"><span data-bind="text: title"></span></h1>
 <div class="container">
     <div class="span8">
         <form class="form" data-bind="with: rentalapplication">
             <div id="div-application">
-                <h2 class="headerbackground span7">Maklumat Pemohon</h2>
+                <h2 class=" span7">Maklumat Pemohon</h2>
                 <div class="span7">
                     <a data-bind="click: $parent.showDetailsCommand" href="#details-panel" class="btn btn-link pull-right">
                         <i class="icon-camera"></i>Maklumat Lanjut</a>                    
                 </div>
                 <div class="control-group">
-                    <label class="span3">No</label><label class="span0.5">:</label>
+                    <label class="span3">No</label><label class="span1">:</label>
                     <label class="span3" data-bind="text: RegistrationNo" />
                 </div>
                 <div class="control-group">
-                    <label class="span3">Nama Syarikat</label><label class="span0.5">:</label>
+                    <label class="span3">Nama Syarikat</label><label class="span1">:</label>
                     <label class="span3" data-bind="text: CompanyName, visible: IsCompany" />
                 </div>
                 <div class="control-group">
-                    <label class="span3">ID / SSM</label><label class="span0.5">:</label>
+                    <label class="span3">ID / SSM</label><label class="span1">:</label>
                     <label class="span3" data-bind="text: CompanyRegistrationNo" />
                 </div>
                 <div class="control-group">
-                    <label class="span3">Nama Pegawai</label><label class="span0.5">:</label>
+                    <label class="span3">Nama Pegawai</label><label class="span1">:</label>
                     <label class="span3" data-bind="text: Contact.Name" />
                 </div>
                 <div class="control-group">
-                    <label class="span3">No. Telefon Pejabat</label><label class="span0.5">:</label>
+                    <label class="span3">No. Telefon Pejabat</label><label class="span1">:</label>
                     <label class="span3" data-bind="text: Contact.OfficeNo" />
                 </div>
                 <div class="control-group">
-                    <label class="span3">No. Telefon Bimbit</label><label class="span0.5">:</label>
+                    <label class="span3">No. Telefon Bimbit</label><label class="span1">:</label>
                     <label class="span3" data-bind="text: Contact.MobileNo" />
                 </div>
                 <div class="control-group span7 ">
@@ -55,7 +55,7 @@
             </div>
         </form>
         <form class="form">
-            <h2 class="headerbackground span7" >Dokumen sokongan</h2>
+            <h2 class=" span7" >Dokumen sokongan</h2>
             <div class="span7">
                 <a data-bind="click: addAttachmentCommand, visible: rentalapplication().Status() == 'Baru'" class="btn btn-link pull-right">
                     <i class="icon-file-alt"></i> + Dokumen</a></div>
@@ -89,7 +89,7 @@
             </div>
         </form>
         <form>
-            <h2 class="headerbackground span7">Nota</h2>
+            <h2 class=" span7">Nota</h2>
             <div class="span7">
                 <textarea class="span7" data-bind="value: rentalapplication().Remarks" rows="5" cols="3" />
             </div>
@@ -98,7 +98,7 @@
     <div class="modal hide fade" id="details-panel">
         <div class="modal-header">
             <a class="btn btn-mini pull-right" data-dismiss="modal">X</a>
-            <h2 class="headerbackground">Maklumat Lanjut</h2>
+            <h2>Maklumat Lanjut</h2>
         </div>
         <div class="modal-body" data-bind="with: rentalapplication">
             <div class="control-group">
