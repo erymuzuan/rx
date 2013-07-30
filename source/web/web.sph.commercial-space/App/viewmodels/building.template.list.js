@@ -16,7 +16,13 @@
 
         var vm = {
             activate: activate,
-            buildingTemplates: ko.observableArray()
+            buildingTemplates: ko.observableArray(),
+            toolbar : {
+                addNew : {
+                    location: '/#/building.template.form/0',
+                    caption : 'Tambah Template bangunan'
+                }
+            }
         };
 
         return vm;

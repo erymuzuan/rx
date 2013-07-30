@@ -1,8 +1,8 @@
 ﻿/// <reference path="modernizr-2.6.2.js" />
-/// <reference path="knockout-2.2.1.debug.js" />
+/// <reference path="knockout-2.3.0.debug.js" />
 /// <reference path="underscore.js" />
 /// <reference path="moment.js" />
-/// <reference path="~/Scripts/jquery-2.0.2.intellisense.js" />
+/// <reference path="~/Scripts/jquery-2.0.3.intellisense.js" />
 
 ko.bindingHandlers.kendoDropDownListValue = {
     init: function (element, valueAccessor) {
@@ -360,4 +360,48 @@ ko.bindingHandlers.commandWithParameter = {
         });
     }
 
+};
+
+
+ko.bindingHandlers.filter = {
+    init: function (element, valueAccessor) {
+        var value = valueAccessor(),
+            path = value.path,
+            $element = $(element),
+            $filterInput = $("<input type='search' class='search-query input-medium' placeholder='Tapis..'>"),
+            $form = $("<form class='form-search'>" +
+            " <div class='input-append pull-right'>" +
+            " <i class='add-on icon-remove'></i>" +
+            "</div>" +
+            " </form>");
+        $form.find('i').before($filterInput);
+        $element.before($form);
+
+
+
+        var dofilter = function () {
+            var $rows = $element.find(path);
+            var filter = $filterInput.val().toLowerCase();
+            $rows.each(function () {
+                var $tr = $(this);
+                if ($tr.text().toLowerCase().indexOf(filter) > -1) {
+                    $tr.show();
+                } else {
+                    $tr.hide();
+                }
+            });
+        };
+
+        var throttled = _.throttle(dofilter, 800);
+        $filterInput.on('keyup', throttled).siblings('.icon-remove')
+            .click(function () {
+                $filterInput.val('');
+                dofilter();
+            });
+
+        if ($filterInput.val()) {
+            dofilter();
+        }
+
+    }
 };
