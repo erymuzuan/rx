@@ -27,32 +27,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             return tcs.promise();
         },
     viewAttached = function () {
-        var $links = $('#app-list-table>tbody>tr');
-        var filterInput = $('#appra-filter-text');
-
-        var dofilter = function () {
-            var filter = filterInput.val().toLowerCase();
-            $links.each(function () {
-                var $tr = $(this);
-                
-                if ($tr.text().toLowerCase().indexOf(filter) > -1) {
-                    $tr.show();
-                } else {
-                    $tr.hide();
-                }
-            });
-
-        };
-        var throttled = _.throttle(dofilter, 800);
-        filterInput.on('keyup', throttled).siblings('.icon-remove')
-            .click(function () {
-                filterInput.val('');
-                dofilter();
-            });
-
-        if (filterInput.val()) {
-            dofilter();
-        }
+      
 
     },
         printList = function () { },

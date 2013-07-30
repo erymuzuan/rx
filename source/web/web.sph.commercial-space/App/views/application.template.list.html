@@ -1,5 +1,5 @@
-﻿<h2>Templat Bangunan</h2>
-<table data-bind="filter: { path: 'tbody>tr' }" class="table table-striped">
+﻿<h2>Templat Permohonan</h2>
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Nama</th>
@@ -7,10 +7,10 @@
             <th>Aktif</th>
         </tr>
     </thead>
-    <tbody data-bind="foreach: buildingTemplates">
+    <tbody data-bind="foreach: applicationTemplates">
         <tr>
             <td>
-                <a data-bind="attr: { href: '/#/building.template.form/' + BuildingTemplateId() }, text: Name"></a>
+                <a data-bind="attr: { href: '/#/application.template.form/' + ApplicationTemplateId() }, text: Name"></a>
             </td>
             <td data-bind="text: Description"></td>
             <td>
@@ -19,3 +19,4 @@
         </tr>
     </tbody>
 </table>
+<a href="/#/application.template.form/0" class="btn btn-primary">+ Templat Permohonan</a>

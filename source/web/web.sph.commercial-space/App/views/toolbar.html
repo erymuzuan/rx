@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿<div class="navbar navbar-inverse navbar-fixed-bottom" data-bind="if: router.activeItem().toolbar">
             <div data-bind="with: router.activeItem().toolbar">
                 <!-- ko if: typeof addNewCommand === "function"-->
@@ -36,6 +37,94 @@
                 </button>
                 <!-- /ko -->
                 
+=======
+﻿<div class="pull-right" data-bind="if: router.activeItem().toolbar">
+    <div data-bind="with: router.activeItem().toolbar">
+
+
+        <!-- ko if: typeof groupCommands === "function"-->
+        <!-- ko foreach: groupCommands-->
+
+        <div class="btn-group">
+            <a class="btn dropdown-toggle input-large" data-toggle="drop-down" href="#">
+
+                <!-- ko text : caption -->
+                <!-- /ko -->
+                <span class="caret pull-right"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <!-- ko foreach: commands-->
+                <li>
+                    <a class="btn btn-link" data-bind="command: command" href="#">
+                        <i data-bind="attr: { 'class': icon }"></i>
+                        <!-- ko text : caption -->
+                        <!-- /ko -->
+                    </a>
+                </li>
+                <!-- /ko -->
+
+            </ul>
+        </div>
+
+        <!-- /ko -->
+        <!-- /ko -->
+
+        <!-- ko if: typeof addNewCommand === "function"-->
+        <button class="btn" data-bind="command: addNewCommand" data-loading-text="Saving....">
+            <i class="icon-plus"></i>
+            Add New Item
+        </button>
+        <!-- /ko -->
+
+        <!-- ko if: typeof addNew === "object"-->
+        <!-- ko with: addNew-->
+        <a class="btn" data-bind="attr: { href: location }" data-loading-text="Saving....">
+            <i class="icon-plus"></i>
+            <!-- ko text : caption -->
+            <!-- /ko -->
+        </a>
+        <!-- /ko -->
+        <!-- /ko -->
+
+        <!-- ko if: typeof saveCommand === "function"-->
+        <button class="btn" data-bind="command: saveCommand" data-loading-text="Saving....">
+            <i class="icon-save"></i>
+            Save
+        </button>
+        <!-- /ko -->
+        <!-- ko if: typeof removeCommand === "function"-->
+        <button class="btn" data-bind="command: removeCommand" data-loading-text="Removing....">
+            <i class="icon-remove"></i>
+            Remove
+        </button>
+        <!-- /ko -->
+        <!-- ko if: typeof reloadCommand === "function"-->
+        <button class="btn" data-bind="command: reloadCommand" data-loading-text="Loading....">
+            <i class="icon-refresh"></i>
+            Reload
+        </button>
+        <!-- /ko -->
+        <!-- ko if: typeof auditTrail === "object"-->
+        <a data-toggle="modal" href="#shell-logviewer-modal" class="btn" data-bind="commandWithParameter: { command: $root.viewAuditTrailCommand, commandParameter: auditTrail }" data-loading-text="Loading....">
+            <i class="icon-calendar"></i>
+            Audit trail
+        </a>
+        <!-- /ko -->
+        <!-- ko if: typeof printCommand === "function"-->
+        <button class="btn" data-bind="commandWithParameter: { command: $root.printCommand, commandParameter: printCommand }" data-loading-text="Printing....">
+            <i class="icon-print"></i>
+            Print
+        </button>
+        <!-- /ko -->
+
+
+        <!-- ko if: typeof exportCommand === "function"-->
+        <button class="btn" data-bind="command: exportCommand" data-loading-text="Sendin....">
+            <i class="icon-download"></i>
+            Export
+        </button>
+        <!-- /ko -->
+>>>>>>> 77ce1224236e7d07569f7990cc85c31b5411f3a4
 
                 <!-- ko if: typeof exportCommand === "function"-->
                 <button class="btn btn-default btn-large dropdown-toggle" data-bind="command: exportCommand" data-loading-text="Sendin....">
@@ -51,6 +140,7 @@
                 </button>
                 <!-- /ko -->
 
+<<<<<<< HEAD
                 <!-- ko if: typeof watchCommand === "function"-->
                 <button class="btn btn-default btn-large dropdown-toggle" data-bind="command: watchCommand, visible: watching() === false" data-loading-text="saving....">
                     <i class="icon-eye-open"></i>
@@ -63,6 +153,21 @@
                     Unwatch
                 </button>
                 <!-- /ko -->
+=======
+        <!-- ko if: typeof commands === "function"-->
+        <!-- ko foreach: commands-->
+        <button class="btn" data-bind="command: command" data-loading-text="Sendin....">
+            <i data-bind=" attr: { 'class': icon }"></i>
+            <!-- ko if: typeof status === "undefined"-->
+            <span data-bind="text: caption"></span>
+            <!-- /ko -->
+            <!-- ko if: typeof status === "function"-->
+            <span data-bind="text: caption, visible: status"></span>
+            <!-- /ko -->
+        </button>
+        <!-- /ko -->
+        <!-- /ko -->
+>>>>>>> 77ce1224236e7d07569f7990cc85c31b5411f3a4
 
                 <!-- ko if: typeof commands === "function"-->
                 <!-- ko foreach: commands-->

@@ -39,5 +39,27 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             }
             return Json(true);
         }
+        
+        public async Task<ActionResult> SaveApplicationTemplate(ApplicationTemplate template)
+        {
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(template);
+                await session.SubmitChanges();
+            }
+            return Json(true);
+        }
+
+        public async Task<ActionResult> SaveMaintenanceTemplate(MaintenanceTemplate template)
+        {
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(template);
+                await session.SubmitChanges();
+            }
+            return Json(true);
+        }
     }
 }

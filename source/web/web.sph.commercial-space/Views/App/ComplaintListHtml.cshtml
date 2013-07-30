@@ -2,7 +2,14 @@
     ViewBag.Title = "ComplaintListHtml";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h3>Senarai Aduan</h3>
+<h1>Senarai Aduan</h1>
+<form class="form-search">
+    <div class="input-append pull-right">
+        <input id="complaint-list-filter-text" type="search" class="search-query input-medium" placeholder="Tapis..">
+        <i class="add-on icon-remove"></i>
+    </div>
+</form>
+
 <table class="table table-striped">
     <thead>
         <tr>

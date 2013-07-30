@@ -13,7 +13,7 @@
     <tbody data-bind="foreach :buildings">
         <tr>
             <td>
-                <a data-bind="attr : {href:'/#/building.detail/'+ TemplateId()+ '/' + BuildingId()},text: Name" ></a> 
+                <a data-bind="attr: { href: '/#/building.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() }, text: Name" ></a> 
             </td>
             <td data-bind="text:Type"></td>
             <td></td>

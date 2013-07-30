@@ -18,33 +18,33 @@ define(['services/datacontext'],
                 var id = parseInt(routeData.id);
                 templateId(id);
                 if (id) {
-                    var query = String.format("CommercialSpaceTemplateId eq {0}", templateId());
+                    var query = String.format("ApplicationTemplateId eq {0}", templateId());
                     var tcs = new $.Deferred();
-                    context.loadOneAsync("CommercialSpaceTemplate", query)
+                    context.loadOneAsync("ApplicationTemplate", query)
                         .done(function (b) {
-                            vm.csTemplate(b);
+                            vm.applicationTemplate(b);
                             tcs.resolve(true);
                         });
 
                     return tcs.promise();
                 } else {
-                    vm.csTemplate(new bespoke.sphcommercialspace.domain.CommercialSpaceTemplate());
+                    vm.applicationTemplate(new bespoke.sphcommercialspace.domain.ApplicationTemplate());
                     return true;
                 }
             },
             addCustomField = function () {
                 var customfield = new bespoke.sphcommercialspace.domain.CustomField();
-                vm.csTemplate().CustomFieldCollection.push(customfield);
+                vm.applicationTemplate().CustomFieldCollection.push(customfield);
             },
             removeCustomField = function (customfield) {
-                vm.csTemplate().CustomFieldCollection.remove(customfield);
+                vm.applicationTemplate().CustomFieldCollection.remove(customfield);
             },
             save = function () {
                 var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON({ csTemplate: vm.csTemplate });
+                var data = ko.mapping.toJSON({ template: vm.applicationTemplate });
                 isBusy(true);
 
-                context.post(data, "/Template/SaveCommercialSpaceTemplate")
+                context.post(data, "/Template/SaveApplicationTemplate")
                     .then(function (result) {
                         isBusy(false);
                         tcs.resolve(result);
@@ -55,10 +55,12 @@ define(['services/datacontext'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            csTemplate: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpaceTemplate()),
+            applicationTemplate: ko.observable(new bespoke.sphcommercialspace.domain.ApplicationTemplate()),
             addCustomField: addCustomField,
             removeCustomField: removeCustomField,
-            toolbar: { saveCommand: save }
+            toolbar :{
+                saveCommand: save
+            }
         };
 
         return vm;

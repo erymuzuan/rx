@@ -374,10 +374,20 @@
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< HEAD
+=======
+    <Content Include="App\viewmodels\application.template.form.js" />
+    <Content Include="App\viewmodels\application.template.list.js" />
+    <Content Include="App\viewmodels\building.template.form.js" />
+    <Content Include="App\viewmodels\building.template.list.js" />
+    <Content Include="App\viewmodels\commercialspace.template.form.js" />
+    <Content Include="App\viewmodels\commercialspace.template.list.js" />
+>>>>>>> 77ce1224236e7d07569f7990cc85c31b5411f3a4
     <Content Include="App\viewmodels\complaint.assign.js" />
     <Content Include="App\viewmodels\complaint.detail.js" />
     <Content Include="App\viewmodels\inventory.detail.js" />
     <Content Include="App\viewmodels\inventory.list.js" />
+    <Content Include="App\viewmodels\maintenance.template.list.js" />
     <Content Include="App\viewmodels\messages.js" />
     <Content Include="App\viewmodels\public.index.js" />
     <Content Include="App\viewmodels\maintenance.assignment.js" />
@@ -388,11 +398,21 @@
     <Content Include="App\viewmodels\trigger.setup.js" />
     <Content Include="App\viewmodels\_tenant.complaint.js" />
     <Content Include="App\viewmodels\_users.department.js" />
+<<<<<<< HEAD
+=======
+    <Content Include="App\views\application.template.form.html" />
+    <Content Include="App\views\application.template.list.html" />
+    <Content Include="App\views\building.template.form.html" />
+    <Content Include="App\views\building.template.list.html" />
+    <Content Include="App\views\commercialspace.template.form.html" />
+    <Content Include="App\views\commercialspace.template.list.html" />
+>>>>>>> 77ce1224236e7d07569f7990cc85c31b5411f3a4
     <Content Include="App\views\complaint.assign.html" />
     <Content Include="App\views\complaintform.tenant.html" />
     <Content Include="App\views\inventory.detail.html" />
     <Content Include="App\views\inventory.list.html" />
     <Content Include="App\views\logviewer.html" />
+    <Content Include="App\views\maintenance.template.list.html" />
     <Content Include="App\views\messages.html" />
     <Content Include="App\views\public.index.html" />
     <Content Include="App\views\search.html" />
@@ -650,7 +670,10 @@
     <Content Include="Content\metro-ui-dark.css" />
     <Content Include="Content\metro-ui-light.css" />
     <Content Include="Content\_site.css" />
+<<<<<<< HEAD
     <Content Include="Content\site2.css" />
+=======
+>>>>>>> 77ce1224236e7d07569f7990cc85c31b5411f3a4
     <Content Include="Content\sprite.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />

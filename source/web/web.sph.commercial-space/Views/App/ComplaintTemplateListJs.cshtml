@@ -13,19 +13,25 @@
                 var query = String.format("ComplaintTemplateId gt 0");
                 var tcs = new $.Deferred();
                 context.loadAsync("ComplaintTemplate", query)
-                    .then(function(lo) {
+                    .then(function (lo) {
                         isBusy(false);
                         vm.templates(lo.itemCollection);
-                        
+
                         tcs.resolve(true);
                     });
                 return tcs.promise();
             };
-            
+
 
         var vm = {
             activate: activate,
-            templates: ko.observableArray()
+            templates: ko.observableArray(),
+            toolbar: {
+                addNew: {
+                    location: "/#/complaint.template.form/0",
+                    caption: "Template Aduan"
+                }
+            }
         };
 
         return vm;

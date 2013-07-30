@@ -19,6 +19,10 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         {
             return await ExecuteAsync<ContractTemplate>(filter, page, size, includeTotal);
         }
+        public async Task<ActionResult> ApplicationTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<ApplicationTemplate>(filter, page, size, includeTotal);
+        }
         public async Task<ActionResult> Contract(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Contract>(filter, page, size, includeTotal);
@@ -82,7 +86,10 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         {
             return await ExecuteAsync<Maintenance>(filter, page, size, includeTotal);
         }
-
+        public async Task<ActionResult> MaintenanceTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<MaintenanceTemplate>(filter, page, size, includeTotal);
+        }
         public async Task<ActionResult> Rent(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Rent>(filter, page, size, includeTotal);

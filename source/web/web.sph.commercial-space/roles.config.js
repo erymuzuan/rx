@@ -110,5 +110,19 @@
     "Role": "can_edit_commercialspace_template",
     "Description": "Menambah dan mengemaskini templat ruang komersil",
     "IsActive": true
+  },
+  {
+    "Group": "admin",
+    "Name": "Admin Templat Permohonan",
+    "Role": "can_edit_application_template",
+    "Description": "Menambah dan mengemaskini templat permohonan",
+    "IsActive": true
+  },
+  {
+    "Group": "maintenance",
+    "Name": "Admin Templat Penyelengaraan",
+    "Role": "can_edit_maintenance_template",
+    "Description": "Menambah dan mengemaskini templat penyelenggaraan",
+    "IsActive": true
   }
 ]
