@@ -1,39 +1,52 @@
-﻿<h5>Custom Field</h5>
-<a type="button" class="btn btn-mini pull-right" href="#" data-bind="click: $root.addCustomField">+ Custom Field</a>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Order</th>
-            <th>Nama</th>
-            <th>Jenis</th>
-            <th>Saiz</th>
-            <th>Diwajbkan</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody data-bind="foreach: CustomFieldCollection">
-        <tr>
-            <td>
-                <input type="text" data-bind="value: Order" /></td>
-            <td>
-                <input type="text" data-bind="value: Name" /></td>
-            <td><span>
-                <select data-bind="value: Type">
-                    <option value="Text">Teks</option>
-                    <option value="Number">Nombor</option>
-                    <option value="Boolean">Betul/Salah</option>
-                    <option value="DateTime">Tarikh</option>
-                    <option value="List">Senarai</option>
-                </select></span><span data-bind="visible: Type() == 'List'"> Senaraikan
-                    <input type="text" data-bind="value: Listing" />
-                </span></td>
-            <td>
-                <input type="text" data-bind="value: Size" /></td>
-            <td>
-                <input type="checkbox" data-bind="checked: IsMandatory" /></td>
-            <td>
-                <input type="button" class="btn btn-danger" data-bind="click: $root.removeCustomField" value="-"/>
-            </td>
-        </tr>
-    </tbody>
-</table>
+﻿<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#add-field" data-toggle="tab">Add a field</a>
+        </li>
+        <li>
+            <a href="#fields-settings" data-toggle="tab">Fields settings</a>
+        </li>
+        <li>
+            <a href="#form-settings" data-toggle="tab">Form Settings</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="add-field" class="tab-pane active">
+            <ul class="nav">
+                <li>
+                    <a class="btn input-medium">
+                        <i class="icon-text-width"></i>
+                        Text
+                    </a>
+                </li>
+                <li>
+                    <a class="btn input-medium">
+                        <i class="icon-calendar"></i>
+                        Date picker
+                    </a>
+                </li>
+                <li>
+                    <a class="btn input-medium">
+                        <i class="icon-time"></i>
+                        Time picker
+                    </a>
+                </li>
+                <li>
+                    <a class="btn input-medium">
+                        <i class="icon-check"></i>
+                        Boolean
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="fields-settings" class="tab-pane">
+            
+
+        </div>
+        <div id="form-settings" class="tab-pane">
+          
+
+        </div>
+
+    </div>
+</div>

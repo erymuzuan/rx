@@ -7,6 +7,7 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
+/// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
 
 define(['services/datacontext'],
@@ -32,6 +33,14 @@ define(['services/datacontext'],
                     return true;
                 }
             },
+            viewAttached = function (view) {
+
+                $.getScript('/Scripts/jquery-ui-1.10.3.js')
+                    .done(function () {
+                        $('#add-field a').draggable({ revert: "valid" });
+                        $('#building-template-form-designer').droppable();
+                    });
+            },
             addCustomField = function () {
                 var customfield = new bespoke.sphcommercialspace.domain.CustomField();
                 vm.buildingTemplate().CustomFieldCollection.push(customfield);
@@ -55,10 +64,11 @@ define(['services/datacontext'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
+            viewAttached: viewAttached,
             buildingTemplate: ko.observable(new bespoke.sphcommercialspace.domain.BuildingTemplate()),
             addCustomField: addCustomField,
             removeCustomField: removeCustomField,
-            toolbar : {
+            toolbar: {
                 saveCommand: save
             }
         };

@@ -266,6 +266,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AppController.building.cs" />
     <Compile Include="Controllers\AppController.complaintlist.cs" />
     <Compile Include="Controllers\AppController.complainttemplate.cs" />
     <Compile Include="Controllers\AppController.config.cs" />
@@ -296,12 +297,12 @@
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
     <Compile Include="Controllers\ComplaintController.cs" />
-    <Compile Include="Controllers\ComplaintTemplateController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
     <Compile Include="Controllers\ContractSettingController.cs" />
     <Compile Include="Controllers\AppController.trigger.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\CustomFieldController.cs" />
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
@@ -316,6 +317,7 @@
     <Compile Include="Controllers\RentalApplicationController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
+    <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\TenantController.cs" />
     <Compile Include="Controllers\TriggerController.cs" />
     <Compile Include="Controllers\WatchController.cs" />
@@ -365,6 +367,7 @@
     <Content Include="App\durandal\viewModel.js" />
     <Content Include="App\durandal\viewModelBinder.js" />
     <Content Include="App\durandal\widget.js" />
+    <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
     <Content Include="App\services\CommercialSpace.js" />
     <Content Include="App\services\Complaint.js" />
@@ -976,6 +979,7 @@
     <Content Include="Views\App\_TriggerFieldDropDown.cshtml" />
     <Content Include="Views\App\_TriggerChangedField.cshtml" />
     <Content Include="Views\RentalApplication\Print.cshtml" />
+    <Content Include="Views\Shared\CustomFieldHtml.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
