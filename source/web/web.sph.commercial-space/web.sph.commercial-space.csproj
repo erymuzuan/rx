@@ -980,6 +980,7 @@
     <Content Include="Views\App\_TriggerChangedField.cshtml" />
     <Content Include="Views\RentalApplication\Print.cshtml" />
     <Content Include="Views\Shared\CustomFieldHtml.cshtml" />
+    <Content Include="Views\Template\Building.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

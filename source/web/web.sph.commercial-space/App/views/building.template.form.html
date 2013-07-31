@@ -3,42 +3,74 @@
     <div class="row">
         <!-- left toobox-->
         <div class="span4">
-         
+            <!--ko compose:'_template.custom.field.html' -->
+            <!--/ko-->
         </div>
 
         <div class="span8">
 
-            <div id="add-field" class="tab-pane active">
-                <ul class="nav">
-                    <li>
-                        <a class="btn input-medium">
-                            <i class="icon-text-width"></i>
-                            Text
-                        </a>
-                    </li>
-                    <li>
-                        <a class="btn input-medium">
-                            <i class="icon-calendar"></i>
-                            Date picker
-                        </a>
-                    </li>
-                    <li>
-                        <a class="btn input-medium">
-                            <i class="icon-time"></i>
-                            Time picker
-                        </a>
-                    </li>
-                    <li>
-                        <a class="btn input-medium">
-                            <i class="icon-check"></i>
-                            Boolean
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <div data-bind="with: formDesign" id="building-template-form-designer">
+                <h1 data-bind="text:Name"></h1>
+                <span data-bind="text:Description"></span>
+                
+             <!--ko foreach:FormElementCollection -->
+                
+                <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.TextBox, domain.commercialspace" -->
+                <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+                    <label data-bind="text: Label"></label>
+                    <input type="text" data-bind="attr: { 'title': Tooltip , 'class':CssClass}" />
+                </div>
+                <!--/ko-->
+                
 
-            <div id="building-template-form-designer" class="bar-warning warning label-warning">
-                sd
+                <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.NumberTextBox, domain.commercialspace" -->
+                <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+                    <label data-bind="text: Label"></label>
+                    <input type="number" data-bind="attr: { 'title': Tooltip, 'step': Step, 'class': CssClass }" />
+                </div>
+                <!--/ko-->
+
+                <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.EmailFormElement, domain.commercialspace" -->
+                <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+                    <label data-bind="text: Label"></label>
+                    <input type="email" data-bind="attr: { 'title': Tooltip, 'class': CssClass }" />
+                </div>
+                <!--/ko-->
+
+                <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.TextAreaElement, domain.commercialspace" -->
+                <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+                    <label data-bind="text: Label"></label>
+                    <textarea data-bind="attr: { 'title': Tooltip, 'rows': Rows, 'class': CssClass }" />
+                </div>
+                <!--/ko-->
+
+                
+                <!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.CheckBox, domain.commercialspace" -->
+                <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+                    <label data-bind="text: Label"></label>
+                    <input type="checkbox" data-bind="attr: { 'title': Tooltip, 'class': CssClass }" />
+                </div>
+                <!--/ko-->
+
+                <!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.DatePicker, domain.commercialspace" -->
+                <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+                    <label data-bind="text: Label"></label>
+                    <div class="input-append">
+                        <input type="text" data-bind="attr: { 'title': Tooltip, 'class': CssClass }" />
+                        <i class="add-on icon-calendar"></i>
+                    </div>
+                </div>
+                <!--/ko-->
+
+                <!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.ComboBox, domain.commercialspace" -->
+                <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+                    <label data-bind="text: Label"></label>
+                    <select data-bind="attr : {'class':CssClass,'title': Tooltip },options : OptionCollection" ></select>
+                </div>
+                <!--/ko-->
+                
+
+                <!--/ko-->
             </div>
 
 

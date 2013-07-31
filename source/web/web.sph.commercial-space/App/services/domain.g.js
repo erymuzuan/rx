@@ -1443,6 +1443,141 @@ bespoke.sphcommercialspace.domain.CommercialSpaceTemplate = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.FormDesign = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.FormDesign, domain.commercialspace",
+        Name: ko.observable(),
+        Description: ko.observable(),
+        ConfirmationText: ko.observable(),
+        FormElementCollection: ko.observableArray(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.FormDesignPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.FormDesignPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.TextBox = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v.DefaultValue = ko.observable();
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.TextBox, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.TextBoxPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.TextBoxPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.CheckBox = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.CheckBox, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.CheckBoxPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.CheckBoxPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.DatePicker = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.DatePicker, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.DatePickerPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.DatePickerPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ComboBox = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.ComboBox, domain.commercialspace";
+
+    v.OptionCollection = ko.observableArray();
+    if (bespoke.sphcommercialspace.domain.ComboBoxPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.ComboBoxPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.TextAreaElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v.Rows = ko.observable();
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.TextAreaElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.TextAreaElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.TextAreaElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.WebsiteFormElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.WebsiteFormElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.WebsiteFormElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.WebsiteFormElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.EmailFormElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.EmailFormElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.EmailFormElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.EmailFormElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.NumberTextBox = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v.Step = ko.observable();
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.NumberTextBox, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.NumberTextBoxPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.NumberTextBoxPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {
@@ -1481,6 +1616,23 @@ bespoke.sphcommercialspace.domain.CustomAction = function (webId) {
         TriggerId: ko.observable(),
         Note: ko.observable(),
         CustomActionId: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+};
+
+
+bespoke.sphcommercialspace.domain.FormElement = function (webId) {
+
+    return {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.FormElement, domain.commercialspace",
+        Name: ko.observable(),
+        Label: ko.observable(),
+        Tooltip: ko.observable(),
+        Path: ko.observable(),
+        IsRequired: ko.observable(),
+        Size: ko.observable(),
+        CssClass: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

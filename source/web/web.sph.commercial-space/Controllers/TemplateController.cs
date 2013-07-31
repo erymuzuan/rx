@@ -39,7 +39,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             }
             return Json(true);
         }
-        
+
         public async Task<ActionResult> SaveApplicationTemplate(ApplicationTemplate template)
         {
             var context = new SphDataContext();
@@ -60,6 +60,29 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 await session.SubmitChanges();
             }
             return Json(true);
+        }
+
+        public async Task<ActionResult> Building()
+        {
+            var vm = new TemplateFormViewModel();
+            vm.FormElements.Add(new TextBox());
+            vm.FormElements.Add(new ComboBox());
+            vm.FormElements.Add(new WebsiteFormElement());
+            vm.FormElements.Add(new EmailFormElement());
+            vm.FormElements.Add(new NumberTextBox());
+            vm.FormElements.Add(new CheckBox());
+            vm.FormElements.Add(new TextAreaElement());
+            return View(vm);
+        }
+    }
+
+    public class TemplateFormViewModel
+    {
+        private readonly ObjectCollection<FormElement> m_nameCollection = new ObjectCollection<FormElement>();
+
+        public ObjectCollection<FormElement> FormElements
+        {
+            get { return m_nameCollection; }
         }
     }
 }

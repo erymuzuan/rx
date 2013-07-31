@@ -36,6 +36,39 @@
     color: #ffffff;
 }
 
+#building-template-form-designer {
+    min-height: 800px;
+}
+
+#building-template-form-designer div {
+    -ms-opacity: 0.6;
+    opacity: 0.6;
+    margin: 5px;
+    padding: 5px;
+}
+#add-field a {
+    margin: 5px;
+}
+
+.form-element
+{
+    margin: 5px;
+    padding: 5px;
+}
+.selected-form-element {
+    border: 1px dotted #000000;
+    margin: 5px;
+    padding: 5px;
+    -ms-opacity: 1.0 !important;
+    opacity: 1.0 !important;
+}
+
+.selected-form-element label
+{
+    font-weight: bold;
+    color: #000;
+}
+
 .container > .content {
     background-color: #fff;
     padding: 20px;

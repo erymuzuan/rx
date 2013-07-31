@@ -12,39 +12,84 @@
     </ul>
     <div class="tab-content">
         <div id="add-field" class="tab-pane active">
-            <ul class="nav">
+            <ul class="nav" data-bind="foreach: formElements">
                 <li>
-                    <a class="btn input-medium">
-                        <i class="icon-text-width"></i>
-                        Text
+                    <a class="btn input-medium" href="#add-field">
+                        <i data-bind="attr: { 'class': CssClass }"></i>
+                        <!-- ko text: Name -->
+                        <!-- /ko-->
                     </a>
                 </li>
-                <li>
-                    <a class="btn input-medium">
-                        <i class="icon-calendar"></i>
-                        Date picker
-                    </a>
-                </li>
-                <li>
-                    <a class="btn input-medium">
-                        <i class="icon-time"></i>
-                        Time picker
-                    </a>
-                </li>
-                <li>
-                    <a class="btn input-medium">
-                        <i class="icon-check"></i>
-                        Boolean
-                    </a>
-                </li>
+
             </ul>
         </div>
-        <div id="fields-settings" class="tab-pane">
-            
+        <div id="fields-settings" class="tab-pane" data-bind="with: selectedFormElement">
+            <form>
+                <div class="control-group">
+                    <label for="form-element-label" class="control-label">Label</label>
+                    <div class="controls">
+                        <input data-bind="value: Label, valueUpdate: 'keyup'" id="form-element-label" type="text" name="Label" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="form-element-tooltip" class="control-label">Tooltip</label>
+                    <div class="controls">
+                        <input data-bind="value: Tooltip" id="form-element-tooltip" type="text" name="Tooltip" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="form-element-css-class" class="control-label">Css Class</label>
+                    <div class="controls">
+                        <select data-bind="value: CssClass" id="form-element-css-class" name="CssClass">
+                            <option value="input-small">S</option>
+                            <option value="input-mini">S/M</option>
+                            <option value="input-medium">M</option>
+                            <option value="input-large">L</option>
+                            <option value="input-xlarge">XL</option>
+                            <option value="input-xxlarge">XXL</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.TextAreaElement, domain.commercialspace" -->
+                <div>
+                    <label>Rows</label>
+                    <input type="number" data-bind="value: Rows" />
+                </div>
+                <!--/ko-->
+                <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.ComboBox, domain.commercialspace" -->
+                <a href="#fields-settings" data-bind="click : $root.addComboBoxOption">+ option</a>
+                <ul data-bind="foreach: OptionCollection" class="nav">
+                    <li>
+                        <input type="text" data-bind="value:$data, valueUpdate:'keyup'"/>
+                        <a href="#fields-settings" data-bind="click : $root.removeComboBoxOption">
+                            <i class="icon-remove pull-right"></i>
+                        </a>
+                    </li>
+                </ul>
+                <!--/ko-->
+
+            </form>
 
         </div>
-        <div id="form-settings" class="tab-pane">
-          
+        <div id="form-settings" class="tab-pane" data-bind="with: formDesign">
+            <form>
+                <div class="control-group">
+                    <label for="form-design-name" class="control-label">Nama</label>
+                    <div class="controls">
+                        <input data-bind="value: Name, valueUpdate: 'keyup'" id="form-design-name" type="text" name="Name" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="form-design-description" class="control-label">Keterangan</label>
+                    <div class="controls">
+                        <input data-bind="value: Description, valueUpdate: 'keyup'" id="form-design-description" type="text" name="Description" />
+                    </div>
+                </div>
+            </form>
 
         </div>
 
