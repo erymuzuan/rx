@@ -112,7 +112,7 @@
             <!-- ko if: typeof status === "undefined"-->
             <span data-bind="text: caption"></span>
             <!-- /ko -->
-            <!-- ko if: typeof status === "function"-->
+            <!-- ko if: typeof status === "string"-->
             <span data-bind="text: caption, visible: status"></span>
             <!-- /ko -->
         </button>

@@ -4,11 +4,10 @@
     Layout = null;
 }
 
+<div>
+    <h1 data-bind="text: title"></h1>
+</div>
 <form id="building-details" class="form-horizontal" data-bind="with: building">
-    <div class="page-header">
-        <h2 data-bind="text: $parent.title"></h2>
-    </div>
-
     <div class="control-group">
         <label for="building.Name" class="control-label">Nama</label>
         <div class="controls">
@@ -79,9 +78,9 @@
             </select>
         </div>
     </div>
-    
-<h2>Additional fields</h2>
-@Html.Partial("CustomFieldHtml", new CustomFieldViewModel(Model){RootObject = ""})
+
+    <h2>Additional fields</h2>
+    @Html.Partial("CustomFieldHtml", new CustomFieldViewModel(Model) { RootObject = "" })
 
     <a type="button" class="btn btn-success" data-toggle="modal" data-bind="click: $parent.showMapCommand" href="#map-panel">Show Map</a>
     <div>

@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Bespoke.Sph.Commerspace.Web.Helpers;
 using Bespoke.SphCommercialSpaces.Domain;
 using Newtonsoft.Json;
+using WebGrease.Css.Extensions;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
@@ -178,6 +179,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             await Task.Delay(5000);
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+            dbItem.Remarks = note;
             if (null != attachments) dbItem.AttachmentCollection.ClearAndAddRange(attachments);
 
             var audit = new AuditTrail
