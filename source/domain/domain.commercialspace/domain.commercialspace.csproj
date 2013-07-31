@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Address.cs" />
     <Compile Include="AdhocInvoice.cs" />
+    <Compile Include="ApplicationTemplate.cs" />
     <Compile Include="assemblyinfo.cs" />
     <Compile Include="Attachment.cs" />
     <Compile Include="AuditTrail.cs" />
@@ -110,6 +111,15 @@
     <Compile Include="EmailMessage.cs" />
     <Compile Include="EntityTypeAttribute.cs" />
     <Compile Include="Floor.cs" />
+    <Compile Include="FormTemplates\CheckBox.cs" />
+    <Compile Include="FormTemplates\ComboBox.cs" />
+    <Compile Include="FormTemplates\EmailFormElement.cs" />
+    <Compile Include="FormTemplates\FormDesign.cs" />
+    <Compile Include="FormTemplates\FormElement.cs" />
+    <Compile Include="FormTemplates\NumberTextBox.cs" />
+    <Compile Include="FormTemplates\TextAreaElement.cs" />
+    <Compile Include="FormTemplates\TextBox.cs" />
+    <Compile Include="FormTemplates\WebsiteFormElement.cs" />
     <Compile Include="FunctionField.cs" />
     <Compile Include="IBinaryStore.cs" />
     <Compile Include="IComputable.cs" />
@@ -136,6 +146,7 @@
     <Compile Include="IWorkOrderExport.cs" />
     <Compile Include="Land.cs" />
     <Compile Include="Maintenance.cs" />
+    <Compile Include="MaintenanceTemplate.cs" />
     <Compile Include="NonCompliance.cs" />
     <Compile Include="Offer.cs" />
     <Compile Include="OfferCondition.cs" />

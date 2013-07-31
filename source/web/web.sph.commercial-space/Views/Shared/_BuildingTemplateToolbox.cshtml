@@ -1,0 +1,84 @@
+﻿@model Bespoke.Sph.Commerspace.Web.ViewModels.TemplateFormViewModel
+
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#add-field" data-toggle="tab">Add a field</a>
+        </li>
+        <li>
+            <a href="#fields-settings" data-toggle="tab">Fields settings</a>
+        </li>
+        <li>
+            <a href="#form-settings" data-toggle="tab">Form Settings</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="add-field" class="tab-pane active">
+            <ul class="nav" data-bind="foreach: formElements">
+                <li>
+                    <a class="btn input-medium" href="#add-field">
+                        <i data-bind="attr: { 'class': CssClass }"></i>
+                        <!-- ko text: Name -->
+                        <!-- /ko-->
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+        <div id="fields-settings" class="tab-pane" data-bind="with: selectedFormElement">
+            <form>
+                <div class="control-group">
+                    <label for="form-element-label" class="control-label">Label</label>
+                    <div class="controls">
+                        <input data-bind="value: Label, valueUpdate: 'keyup'" id="form-element-label" type="text" name="Label" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="form-element-tooltip" class="control-label">Tooltip</label>
+                    <div class="controls">
+                        <input data-bind="value: Tooltip" id="form-element-tooltip" type="text" name="Tooltip" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="form-element-css-class" class="control-label">Css Class</label>
+                    <div class="controls">
+                        <select data-bind="value: CssClass" id="form-element-css-class" name="CssClass">
+                            <option value="input-mini">XS</option>
+                            <option value="input-small">S</option>
+                            <option value="input-medium">M</option>
+                            <option value="input-large">L</option>
+                            <option value="input-xlarge">XL</option>
+                            <option value="input-xxlarge">XXL</option>
+                        </select>
+                    </div>
+                </div>
+                @foreach (var fe in Model.FormElements)
+                {
+                    @Html.EditorFor(m => fe)
+                }
+            </form>
+
+        </div>
+        <div id="form-settings" class="tab-pane" data-bind="with: formDesign">
+            <form>
+                <div class="control-group">
+                    <label for="form-design-name" class="control-label">Nama</label>
+                    <div class="controls">
+                        <input data-bind="value: Name, valueUpdate: 'keyup'" id="form-design-name" type="text" name="Name" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="form-design-description" class="control-label">Keterangan</label>
+                    <div class="controls">
+                        <input data-bind="value: Description, valueUpdate: 'keyup'" id="form-design-description" type="text" name="Description" />
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bespoke.Sph.Commerspace.Web.ViewModels;
 using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
@@ -38,6 +39,42 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 await session.SubmitChanges();
             }
             return Json(true);
+        }
+
+        public async Task<ActionResult> SaveApplicationTemplate(ApplicationTemplate template)
+        {
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(template);
+                await session.SubmitChanges();
+            }
+            return Json(true);
+        }
+
+        public async Task<ActionResult> SaveMaintenanceTemplate(MaintenanceTemplate template)
+        {
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(template);
+                await session.SubmitChanges();
+            }
+            return Json(true);
+        }
+
+        public ActionResult Building()
+        {
+            var vm = new TemplateFormViewModel();
+            vm.FormElements.Add(new TextBox());
+            vm.FormElements.Add(new ComboBox());
+            vm.FormElements.Add(new WebsiteFormElement());
+            vm.FormElements.Add(new EmailFormElement());
+            vm.FormElements.Add(new NumberTextBox());
+            vm.FormElements.Add(new CheckBox());
+            vm.FormElements.Add(new TextAreaElement());
+            vm.FormElements.Add(new DatePicker());
+            return View(vm);
         }
     }
 }
