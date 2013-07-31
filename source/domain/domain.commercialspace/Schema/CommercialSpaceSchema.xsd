@@ -688,7 +688,7 @@
 		<xs:complexType>
 			<xs:attribute name="Order" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="IsMandatory" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsRequired" type="xs:boolean" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="Size" type="xs:int" use="required"/>
 			<xs:attribute name="Listing" type="xs:string" use="optional"/>
@@ -1142,6 +1142,7 @@
 		<xs:attribute name="IsRequired" type="xs:boolean" use="required"/>
 		<xs:attribute name="Size" type="xs:string" use="required"/>
 		<xs:attribute name="CssClass" type="xs:string" use="required"/>
+		<xs:attribute name="Visible" type="xs:string" use="optional" default="true"/>
 	</xs:complexType>
 	<xs:element name="TextBox">
 		<xs:complexType>
