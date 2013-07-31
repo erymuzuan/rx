@@ -1059,6 +1059,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="FormDesign"/>
 			</xs:all>
 			<xs:attribute name="BuildingTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -1170,10 +1171,10 @@
 			<xs:complexContent>
 				<xs:extension base="FormElement">
 					<xs:all>
-						<xs:element name="OptionCollection">
+						<xs:element name="ComboBoxItemCollection">
 							<xs:complexType>
 								<xs:sequence>
-									<xs:element name="Option" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element ref="ComboBoxItem" minOccurs="0" maxOccurs="unbounded"/>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
@@ -1211,6 +1212,40 @@
 				<xs:extension base="FormElement">
 					<xs:attribute name="Step" type="xs:int" use="required"/>
 				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BuildingMapElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BuildingFloorsElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SectionFormElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ComboBoxItem">
+		<xs:complexType>
+			<xs:attribute name="Caption" type="xs:string" use="required"/>
+			<xs:attribute name="Value" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AddressElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>

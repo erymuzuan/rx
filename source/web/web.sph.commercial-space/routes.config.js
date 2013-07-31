@@ -605,8 +605,8 @@
   },
   {
     "role": "can_edit_building_template",
-    "url": "building.template.form/:id",
-    "moduleId": "viewmodels/building.template.form",
+    "url": "template.building-id.0/:id",
+    "moduleId": "viewmodels/template.building-id.0",
     "name": "Form Templat Bangunan",
     "visible": false,
     "icon": null,

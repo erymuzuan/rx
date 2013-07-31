@@ -5,7 +5,8 @@ using System.Web.Mvc;
 using Bespoke.Sph.Commerspace.Web.Helpers;
 using Bespoke.SphCommercialSpaces.Domain;
 using Newtonsoft.Json;
-using WebGrease.Css.Extensions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
@@ -238,7 +239,9 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 Subject = emailSubject
             };
             var channel = ObjectBuilder.GetObject<INotificationService>();
-            channel.NotificationChannelCollection.ForEach(c => c.Send(emailMessage));
+            channel.NotificationChannelCollection
+                .ToList()
+                .ForEach(c => c.Send(emailMessage));
 
             return Json(dbItem.RentalApplicationId);
         }

@@ -1,0 +1,9 @@
+﻿@model Bespoke.SphCommercialSpaces.Domain.WebsiteFormElement
+<div class="control-group">
+    <label for="@Model.Path" class="control-label">@Model.Label</label>
+    <div class="controls">
+        <input class="@Model.CssClass" title="@Model.Tooltip" data-bind="value: @Model.Path" id="@Model.Path" type="url" name="@Model.Path" />
+    </div>
+</div>
+
+

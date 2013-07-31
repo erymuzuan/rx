@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Web.Mvc;
+using Bespoke.Sph.Commerspace.Web.Helpers;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
@@ -19,7 +20,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var type = Type.GetType(string.Format("Bespoke.SphCommercialSpaces.Domain.{0}, domain.commercialspace", id));
 
             var text = new List<string>();
-            this.BuildFlatJsonTreeView(text, "", type);
+            TypeHelper.BuildFlatJsonTreeView(text, "", type);
             this.Response.ContentType = APPLICATION_JAVASCRIPT;
             return Content("[" + string.Join(",", text) + "]");
         }
@@ -68,32 +69,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             text.AppendLine("</ul>");
         }
 
-        private void BuildFlatJsonTreeView(IList<string> text, string path, Type type)
-        {
-            foreach (var p in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
-            {
-                if (p.Name == "Error" && p.PropertyType == typeof(string)) continue;
-                if (p.Name == "Dirty" && p.PropertyType == typeof(bool)) continue;
-                if (p.Name == "Bil" && p.PropertyType == typeof(int)) continue;
-                if (p.PropertyType == typeof(char)) continue;
-                if (p.PropertyType == typeof(DateTimeKind)) continue;
-
-                var gp = path + "." + p.Name;
-                if (gp.StartsWith("."))
-                    gp = gp.Substring(1, gp.Length - 1);
-                var parent = path;
-                if (parent.StartsWith("."))
-                    parent = parent.Substring(1, parent.Length - 1) + ".";
-                text.Add(string.Format("{{ \"path\":\"{0}\", \"type\":\"{1}, {2}\", \"name\":\"{3}\", \"parent\":\"{4}\"}}",
-                    gp, p.PropertyType.FullName, p.PropertyType.Assembly.GetName().Name, p.Name, parent));
-
-                if (path.Length < 255 && !path.EndsWith(".Date"))
-                    this.BuildFlatJsonTreeView(text, path + "." + p.Name, p.PropertyType);
-
-
-
-            }
-        }
+      
 
     }
 }

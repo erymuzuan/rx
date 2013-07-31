@@ -1,8 +1,0 @@
-﻿@model Bespoke.SphCommercialSpaces.Domain.TextAreaElement
-
-<!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.TextAreaElement, domain.commercialspace" -->
-<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
-    <label data-bind="text: Label"></label>
-    <textarea data-bind="attr: { 'title': Tooltip, 'rows': Rows, 'class': CssClass }" />
-</div>
-<!--/ko-->

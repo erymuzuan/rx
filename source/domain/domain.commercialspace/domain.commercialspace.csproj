@@ -111,8 +111,13 @@
     <Compile Include="EmailMessage.cs" />
     <Compile Include="EntityTypeAttribute.cs" />
     <Compile Include="Floor.cs" />
+    <Compile Include="FormTemplates\AddressElement.cs" />
+    <Compile Include="FormTemplates\BuildingFloorsElement.cs" />
+    <Compile Include="FormTemplates\BuildingMapElement.cs" />
     <Compile Include="FormTemplates\CheckBox.cs" />
     <Compile Include="FormTemplates\ComboBox.cs" />
+    <Compile Include="FormTemplates\ComboBoxItem.cs" />
+    <Compile Include="FormTemplates\DatePicker.cs" />
     <Compile Include="FormTemplates\EmailFormElement.cs" />
     <Compile Include="FormTemplates\FormDesign.cs" />
     <Compile Include="FormTemplates\FormElement.cs" />
