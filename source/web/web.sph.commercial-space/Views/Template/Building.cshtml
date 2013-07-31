@@ -1,5 +1,34 @@
-﻿@model Bespoke.Sph.Commerspace.Web.Controllers.TemplateFormViewModel
+﻿@model Bespoke.Sph.Commerspace.Web.ViewModels.TemplateFormViewModel
 
 @{
     Layout = null;
 }
+
+<h1>Maklumat Templat Bangunan </h1>
+<div class="container">
+    <div class="row">
+        <!-- left toobox-->
+        <div class="span4">
+           @Html.Partial("_BuildingTemplateToolbox")
+        </div>
+
+        <div class="span8">
+
+            <div data-bind="with: formDesign" id="building-template-form-designer">
+                <h1 data-bind="text: Name"></h1>
+                <span data-bind="text: Description"></span>
+
+                <!--ko foreach:FormElementCollection -->
+                @foreach (var fe in Model.FormElements)
+                {
+                    @Html.DisplayFor(m => fe)
+                }
+                <!--/ko-->
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+

@@ -342,6 +342,7 @@
     <Compile Include="Models\RoleType.cs" />
     <Compile Include="ViewModels\CustomFieldViewModel.cs" />
     <Compile Include="ViewModels\RoleSettingViewModel.cs" />
+    <Compile Include="ViewModels\TemplateFormViewModel.cs" />
     <Compile Include="ViewModels\TriggerPathPickerHtmlViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
@@ -416,7 +417,6 @@
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\application.template.form.html" />
     <Content Include="App\views\application.template.list.html" />
-    <Content Include="App\views\building.template.form.html" />
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\commercialspace.detail.html" />
     <Content Include="App\views\commercialspace.template.form.html" />
@@ -981,6 +981,24 @@
     <Content Include="Views\RentalApplication\Print.cshtml" />
     <Content Include="Views\Shared\CustomFieldHtml.cshtml" />
     <Content Include="Views\Template\Building.cshtml" />
+    <Content Include="Views\App\BuildingDetailHtml.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CheckBox.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ComboBox.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DatePicker.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\EmailFormElement.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\NumberTextBox.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\TextAreaElement.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\TextBox.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Views\Shared\_BuildingTemplateToolbox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CheckBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ComboBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DatePicker.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\EmailFormElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\NumberTextBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TextAreaElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TextBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\WebsiteFormElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

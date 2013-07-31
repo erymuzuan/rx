@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bespoke.Sph.Commerspace.Web.ViewModels;
 using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
@@ -62,7 +63,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(true);
         }
 
-        public async Task<ActionResult> Building()
+        public ActionResult Building()
         {
             var vm = new TemplateFormViewModel();
             vm.FormElements.Add(new TextBox());
@@ -72,17 +73,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             vm.FormElements.Add(new NumberTextBox());
             vm.FormElements.Add(new CheckBox());
             vm.FormElements.Add(new TextAreaElement());
+            vm.FormElements.Add(new DatePicker());
             return View(vm);
-        }
-    }
-
-    public class TemplateFormViewModel
-    {
-        private readonly ObjectCollection<FormElement> m_nameCollection = new ObjectCollection<FormElement>();
-
-        public ObjectCollection<FormElement> FormElements
-        {
-            get { return m_nameCollection; }
         }
     }
 }
