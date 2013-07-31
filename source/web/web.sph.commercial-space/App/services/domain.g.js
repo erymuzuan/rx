@@ -1373,6 +1373,7 @@ bespoke.sphcommercialspace.domain.BuildingTemplate = function (webId) {
         Description: ko.observable(),
         IsActive: ko.observable(),
         CustomFieldCollection: ko.observableArray(),
+        FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1512,7 +1513,7 @@ bespoke.sphcommercialspace.domain.ComboBox = function (webId) {
 
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.ComboBox, domain.commercialspace";
 
-    v.OptionCollection = ko.observableArray();
+    v.ComboBoxItemCollection = ko.observableArray();
     if (bespoke.sphcommercialspace.domain.ComboBoxPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.ComboBoxPartial(v));
     }
@@ -1573,6 +1574,79 @@ bespoke.sphcommercialspace.domain.NumberTextBox = function (webId) {
 
     if (bespoke.sphcommercialspace.domain.NumberTextBoxPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.NumberTextBoxPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.BuildingMapElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.BuildingMapElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.BuildingMapElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.BuildingMapElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.BuildingFloorsElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.BuildingFloorsElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.BuildingFloorsElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.BuildingFloorsElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.SectionFormElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.SectionFormElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.SectionFormElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.SectionFormElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ComboBoxItem = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.ComboBoxItem, domain.commercialspace",
+        Caption: ko.observable(),
+        Value: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ComboBoxItemPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ComboBoxItemPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.AddressElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.AddressElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.AddressElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.AddressElementPartial(v));
     }
     return v;
 };

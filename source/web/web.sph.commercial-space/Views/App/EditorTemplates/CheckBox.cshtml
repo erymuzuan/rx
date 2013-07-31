@@ -1,0 +1,10 @@
+﻿@model Bespoke.SphCommercialSpaces.Domain.CheckBox
+<div class="control-group">
+    <div class="controls">
+        <label class="checkbox">
+            <input data-bind="checked: @Model.Path" id="@Model.Path" title="@Model.Tooltip" type="checkbox" name="@Model.Path" />
+            @Model.Label
+        </label>
+    </div>
+</div>
+

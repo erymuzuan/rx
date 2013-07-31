@@ -45,6 +45,10 @@
     opacity: 0.6;
     margin: 5px;
     padding: 5px;
+     border: 1px solid #FFF;
+}
+#building-template-form-designer div:hover {
+    border: 1px dashed#000000;
 }
 #add-field a {
     margin: 5px;
@@ -56,11 +60,11 @@
     padding: 5px;
 }
 .selected-form-element {
-    border: 1px dotted #000000;
     margin: 5px;
     padding: 5px;
     -ms-opacity: 1.0 !important;
     opacity: 1.0 !important;
+    background-color: #e5ebeb;
 }
 
 .selected-form-element label

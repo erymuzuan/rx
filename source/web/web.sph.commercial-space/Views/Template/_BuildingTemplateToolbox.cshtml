@@ -1,0 +1,125 @@
+﻿@model Bespoke.Sph.Commerspace.Web.ViewModels.TemplateFormViewModel
+
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#form-settings" data-toggle="tab">Template Settings</a>
+        </li>
+        <li>
+            <a href="#add-field" data-toggle="tab">Add a field</a>
+        </li>
+        <li>
+            <a href="#fields-settings" data-toggle="tab">Fields settings</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+
+        <div id="form-settings" class="tab-pane active" data-bind="with: buildingTemplate">
+            <form>
+                <h3>Template</h3>
+                <div class="control-group">
+                    <label for="building-template-name" class="control-label">Nama</label>
+                    <div class="controls">
+                        <input data-bind="value: $root.buildingTemplate().Name" id="building-template-name" type="text" name="building-template-name" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <label class="checkbox">
+                            <input data-bind="checked: $root.buildingTemplate().IsActive" id="building-template-isactive" type="checkbox" name="$root.buildingTemplate().IsActive" />
+                            Aktiv
+                        </label>
+                    </div>
+                </div>
+
+
+
+                <h3>Design</h3>
+                <div data-bind="with: FormDesign">
+                    <div class="control-group">
+                        <label for="form-design-name" class="control-label">Header</label>
+                        <div class="controls">
+                            <input data-bind="value: Name, valueUpdate: 'keyup'" id="form-design-name" type="text" name="Name" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="form-design-description" class="control-label">Keterangan</label>
+                        <div class="controls">
+                            <input data-bind="value: Description, valueUpdate: 'keyup'" id="form-design-description" type="text" name="Description" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+
+        <div id="add-field" class="tab-pane">
+            <ul class="nav" data-bind="foreach: formElements">
+                <li>
+                    <a class="btn input-medium" href="#add-field">
+                        <i data-bind="attr: { 'class': CssClass }"></i>
+                        <!-- ko text: Name -->
+                        <!-- /ko-->
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav" data-bind="foreach: customFormElements">
+                <li>
+                    <a class="btn input-medium" href="#add-field">
+                        <i data-bind="attr: { 'class': CssClass }"></i>
+                        <!-- ko text: Name -->
+                        <!-- /ko-->
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="fields-settings" class="tab-pane" data-bind="with: selectedFormElement">
+            <form>
+                <div class="control-group">
+                    <label for="form-element-label" class="control-label">Label</label>
+                    <div class="controls">
+                        <input data-bind="value: Label, valueUpdate: 'keyup'" id="form-element-label" type="text" name="Label" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="form-element-path" class="control-label">Path</label>
+                    <div class="controls">
+                        <input data-bind="value: Path" id="form-element-path" type="text" name="Path" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="form-element-tooltip" class="control-label">Tooltip</label>
+                    <div class="controls">
+                        <input data-bind="value: Tooltip" id="form-element-tooltip" type="text" name="Tooltip" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="form-element-css-class" class="control-label">Css Class</label>
+                    <div class="controls">
+                        <select data-bind="value: CssClass" id="form-element-css-class" name="CssClass">
+                            <option value="input-mini">XS</option>
+                            <option value="input-small">S</option>
+                            <option value="input-medium">M</option>
+                            <option value="input-large">L</option>
+                            <option value="input-xlarge">XL</option>
+                            <option value="input-xxlarge">XXL</option>
+                        </select>
+                    </div>
+                </div>
+                @foreach (var fe in Model.FormElements)
+                {
+                    @Html.EditorFor(m => fe)
+                }
+                <!-- END OF EDITOR TOOLBOX -->
+            </form>
+
+        </div>
+    </div>
+</div>

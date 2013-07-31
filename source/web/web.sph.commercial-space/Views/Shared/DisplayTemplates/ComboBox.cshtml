@@ -1,9 +1,0 @@
-﻿@model Bespoke.SphCommercialSpaces.Domain.ComboBox
-
-
-<!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.ComboBox, domain.commercialspace" -->
-<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
-    <label data-bind="text: Label"></label>
-    <select data-bind="attr: { 'class': CssClass, 'title': Tooltip }, options: OptionCollection"></select>
-</div>
-<!--/ko-->
