@@ -1652,6 +1652,32 @@ bespoke.sphcommercialspace.domain.AddressElement = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.Profile = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.Profile, domain.commercialspace",
+        FullName: ko.observable(),
+        UserName: ko.observable(),
+        Email: ko.observable(),
+        Password: ko.observable(),
+        ConfirmPassword: ko.observable(),
+        Status: ko.observable(),
+        Designation: ko.observable(),
+        Telephone: ko.observable(),
+        Mobile: ko.observable(),
+        IsNew: ko.observable(),
+        Department: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ProfilePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ProfilePartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {

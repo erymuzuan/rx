@@ -390,7 +390,6 @@
     <Compile Include="Mocks\TemplateEngine.cs" />
     <Compile Include="Models\JsRoute.cs" />
     <Compile Include="Models\JsRouteSetting.cs" />
-    <Compile Include="Models\Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App\viewmodels\application.template.form.js" />
     <Content Include="App\viewmodels\application.template.list.js" />

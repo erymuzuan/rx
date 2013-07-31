@@ -161,6 +161,7 @@
     <Compile Include="Payment.cs" />
     <Compile Include="PaymentDistribution.cs" />
     <Compile Include="Permission.cs" />
+    <Compile Include="Profile.cs" />
     <Compile Include="QueryHelper.cs" />
     <Compile Include="Triggers\Action.cs" />
     <Compile Include="Triggers\ConstantField.cs" />

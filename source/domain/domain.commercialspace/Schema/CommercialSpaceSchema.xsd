@@ -1249,4 +1249,19 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Profile">
+		<xs:complexType>
+			<xs:attribute name="FullName" type="xs:string" use="required"/>
+			<xs:attribute name="UserName" type="xs:string" use="required"/>
+			<xs:attribute name="Email" type="xs:string" use="required"/>
+			<xs:attribute name="Password" type="xs:string" use="required"/>
+			<xs:attribute name="ConfirmPassword" type="xs:string" use="required"/>
+			<xs:attribute name="Status" type="xs:string" use="required"/>
+			<xs:attribute name="Designation" type="xs:string" use="required"/>
+			<xs:attribute name="Telephone" type="xs:string" use="required"/>
+			<xs:attribute name="Mobile" type="xs:string" use="optional"/>
+			<xs:attribute name="IsNew" type="xs:boolean" use="required"/>
+			<xs:attribute name="Department" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>
