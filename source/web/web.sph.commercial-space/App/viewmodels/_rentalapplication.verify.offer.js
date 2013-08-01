@@ -11,10 +11,9 @@
 
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
 
-    var id = ko.observable(),
-        isBusy = ko.observable(false),
+    var isBusy = ko.observable(false),
         activate = function (r) {
-          vm.rentalapplication(r);
+            vm.rentalapplication(r);
         },
 
         generateOfferLetter = function () {
@@ -22,16 +21,16 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             router.navigateTo(url);
         },
         generateDeclinedOfferLetter = function () {
-             var tcs = new $.Deferred();
-             var data = JSON.stringify({ id: vm.rentalapplication().RentalApplicationId() });
-             context.post(data, "/RentalApplication/GenerateDeclinedLetter").done(function (e) {
-                 logger.log("Declined letter generated ", e, "rentalapplication.verify", true);
-                 window.open("/RentalApplication/Download");
-                 tcs.resolve(true);
-             });
-             return tcs.promise();
-         },
-        complete = function() {
+            var tcs = new $.Deferred();
+            var data = JSON.stringify({ id: vm.rentalapplication().RentalApplicationId() });
+            context.post(data, "/RentalApplication/GenerateDeclinedLetter").done(function (e) {
+                logger.log("Declined letter generated ", e, "rentalapplication.verify", true);
+                window.open("/RentalApplication/Download");
+                tcs.resolve(true);
+            });
+            return tcs.promise();
+        },
+        complete = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: vm.rentalapplication().RentalApplicationId() });
             context.post(data, "/RentalApplication/Complete").done(function (e) {
@@ -42,7 +41,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             });
             return tcs.promise();
         },
-        createTenant = function() {
+        createTenant = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: vm.rentalapplication().RentalApplicationId() });
             context.post(data, "/Tenant/Create").done(function (e) {
@@ -53,11 +52,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             });
             return tcs.promise();
         },
-        unsucces = function() {
+        unsucces = function () {
             var tcs = new $.Deferred();
             var data = JSON.stringify({ id: vm.rentalapplication().RentalApplicationId() });
             context.post(data, "/RentalApplication/Unsuccess").done(function (e) {
-               tcs.resolve(true);
+                tcs.resolve(true);
             });
             return tcs.promise();
         };
@@ -66,45 +65,45 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         isBusy: isBusy,
         activate: activate,
         rentalapplication: ko.observable(new bespoke.sphcommercialspace.domain.RentalApplication()),
-        toolbar : ko.observable({
+        toolbar: ko.observable({
             commands: ko.observableArray([
                 {
                     caption: '1. Sediakan Tawaran',
                     icon: "icon-file-text ",
                     command: generateOfferLetter,
-                    status: 'Approved'
+                    status: 'Diluluskan'
                 },
                 {
                     caption: '2. Sediakan Kontrak',
                     icon: "icon-file-text ",
-                    command: function() {
+                    command: function () {
                         router.navigateTo("/#/contract.create/" + vm.rentalapplication().RentalApplicationId());
                     },
-                    status: 'Approved'
+                    status: 'Diluluskan'
                 },
                 {
                     caption: '3. Selesai',
                     icon: "icon-file-text ",
                     command: complete,
-                    status: 'Approved'
+                    status: 'Diluluskan'
                 },
                 {
                     caption: 'Cetak Surat Pembatalan',
                     icon: "icon-file-text ",
                     command: generateDeclinedOfferLetter,
-                    status: 'Declined'
+                    status: 'Ditolak'
                 },
                 {
                     caption: 'Sediakan Maklumat Penyewa',
                     icon: "icon-file-text ",
                     command: createTenant,
-                    status: 'Completed'
+                    status: 'Selesai'
                 },
                 {
                     caption: 'Tidak Berjaya',
                     icon: "icon-file-text ",
                     command: unsucces,
-                    status: 'Waiting'
+                    status: 'Menunggu'
                 }
             ])
         })

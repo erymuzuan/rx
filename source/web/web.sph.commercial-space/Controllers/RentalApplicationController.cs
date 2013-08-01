@@ -180,6 +180,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             await Task.Delay(5000);
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
+            dbItem.Remarks = note;
             if (null != attachments) dbItem.AttachmentCollection.ClearAndAddRange(attachments);
 
             var audit = new AuditTrail

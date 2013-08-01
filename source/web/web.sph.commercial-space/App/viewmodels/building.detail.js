@@ -203,7 +203,7 @@ define(['services/datacontext',
             goBackCommand: goBack,
             isBusy: isBusy,
             removeFloorCommand: removeFloor,
-            title: 'Building Details',
+            title: 'Perincian Bangunan',
             toolbar: ko.observable({
                 saveCommand: saveAsync,
                 auditTrail: {
