@@ -20,7 +20,7 @@
                 <div class="control-group">
                     <label for="building-template-name" class="control-label">Nama</label>
                     <div class="controls">
-                        <input data-bind="value: $root.buildingTemplate().Name" id="building-template-name" type="text" name="building-template-name" />
+                        <input class="input-xlarge" data-bind="value: $root.buildingTemplate().Name" id="building-template-name" type="text" name="building-template-name" />
                     </div>
                 </div>
 
@@ -40,14 +40,16 @@
                     <div class="control-group">
                         <label for="form-design-name" class="control-label">Header</label>
                         <div class="controls">
-                            <input data-bind="value: Name, valueUpdate: 'keyup'" id="form-design-name" type="text" name="Name" />
+                            <input class="input-xlarge"  data-bind="value: Name, valueUpdate: 'keyup'" id="form-design-name" type="text" name="Name" />
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label for="form-design-description" class="control-label">Keterangan</label>
                         <div class="controls">
-                            <input data-bind="value: Description, valueUpdate: 'keyup'" id="form-design-description" type="text" name="Description" />
+                            <textarea class="input-xlarge"  data-bind="value: Description, valueUpdate: 'keyup'" id="form-design-description" name="Description">
+
+</textarea>
                         </div>
                     </div>
                 </div>
@@ -116,7 +118,7 @@
                 <div class="control-group">
                     <label for="form-element-css-class" class="control-label">Css class</label>
                     <div class="controls">
-                        <input data-bind="value: CssClass, valueUpdate : 'keyup'" id="form-element-css-class" type="text" name="CssClass" />
+                        <input data-bind="cssAutoComplete: CssClass" id="form-element-css-class" type="text" name="CssClass" />
                     </div>
                 </div>
 

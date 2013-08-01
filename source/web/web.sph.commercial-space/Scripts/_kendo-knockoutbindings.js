@@ -3,6 +3,7 @@
 /// <reference path="underscore.js" />
 /// <reference path="moment.js" />
 /// <reference path="~/Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="~/kendo/js/kendo.all.js" />
 
 ko.bindingHandlers.kendoDropDownListValue = {
     init: function (element, valueAccessor) {
@@ -195,10 +196,9 @@ ko.bindingHandlers.kendoEnable = {
 };
 
 ko.bindingHandlers.command = {
-    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+    init: function (element, valueAccessor) {
         var action = valueAccessor(),
-            button = $(element),
-            allBindings = allBindingsAccessor();
+            button = $(element);
 
         var completeText = button.data("complete-text") || button.html();
 
@@ -221,7 +221,7 @@ ko.bindingHandlers.command = {
 };
 
 ko.bindingHandlers.unwrapClick = {
-    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+    init: function (element, valueAccessor, allBindingsAccessor) {
         var action = valueAccessor(),
             button = $(element),
             allBindings = allBindingsAccessor();
@@ -262,6 +262,34 @@ ko.bindingHandlers.fieldImage = {
 
 
     }
+};
+
+
+ko.bindingHandlers.cssAutoComplete = {
+    init: function (element, valueAccessor) {
+        var value = valueAccessor();
+
+        var data = ['btn', 'btn-warning', 'btn-success', 'btn-link'];
+
+        $(element).data("kendoAutoComplete") ||
+           $(element).kendoAutoComplete({
+               dataSource: data,
+               change: function () {
+                   value(this.value());
+               },
+               filter: "startswith",
+               placeholder: "Select class...",
+               separator: " "
+           }).data("kendoAutoComplete");
+
+        $(element).change(function () {
+            value($(this).val());
+            console.log("new value", value());
+        }).val(value());
+
+
+    }
+
 };
 
 
