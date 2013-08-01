@@ -454,6 +454,8 @@
     <Content Include="Images\EmailAction.png" />
     <Content Include="Images\functionfield.png" />
     <Content Include="Images\SetterAction.png" />
+    <Content Include="roles.config.js" />
+    <Content Include="routes.config.js" />
     <Content Include="Scripts\bootmetro-charms.js" />
     <Content Include="Scripts\bootmetro.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
