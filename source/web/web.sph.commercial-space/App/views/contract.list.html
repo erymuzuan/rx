@@ -1,19 +1,7 @@
 ﻿<h1>Senarai kontrak</h1>
 <div class="row-fluid">
-    <div class="span2 border-box">
-        <div class="labelLeft">
-            <label for="idSsmNo">Id / SSM No:</label>
-            <input type="text" data-bind="value: idSsmNo" id="idSsmNo" />
-        </div>
-        <div class="labelLeft">
-            <label for="contractNo">No. Kontrak :</label>
-            <input type="text" id="contractNo" data-bind="value: contractNo" />
-        </div>
-        <div>
-            <button data-bind="click: searchCommand" class="btn btn-primary">Carian</button>
-        </div>
-    </div>
-    <div class="container-fluid span8">
+   
+    <div class="container-fluid" data-bind="filter: { path: 'tbody>tr' }">
         <table class="table table-striped">
             <thead>
                 <tr>

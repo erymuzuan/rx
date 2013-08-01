@@ -2,12 +2,12 @@
     ViewBag.Title = "Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div>
-    <h2>Pengurusan Pengguna</h2>
-</div>
+
+<h1>Pengurusan Pengguna</h1>
+
 <div class="tabbable">
     <ul class="nav nav-tabs">
-        <li>
+        <li class="active">
             <a href="#user-tab" data-toggle="tab">Tambah Pengguna</a>
         </li>
         <li>
@@ -22,9 +22,9 @@
         <div id="user-tab" class="tab-pane active">
 
             <div>
-                <a href="#user-details-modal" id="add-user-button" data-toggle="modal" data-bind="click: addCommand" class="btn btn-primary pull-right">Tambah Pengguna</a>
+                <a href="#user-details-modal" id="add-user-button" data-toggle="modal" data-bind="click: addCommand" class="btn btn-link pull-left">+ Tambah Pengguna</a>
             </div>
-            <table class="table table-striped">
+            <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
                 <thead>
                     <tr>
                         <th>Nama Pengguna</th>
@@ -37,15 +37,16 @@
                 </thead>
                 <tbody data-bind="foreach: profiles">
                     <tr>
-                        <td data-bind="text: UserName"></td>
+                        <td >
+                            <a data-toggle="modal" href="#user-details-modal" 
+                                data-bind="click: $parent.editCommand,text: UserName">Kemaskini Maklumat</a>
+                       
+                        </td>
                         <td data-bind="text: FullName"></td>
                         <td data-bind="text: Department"></td>
                         <td data-bind="text: Designation"></td>
                         <td data-bind="text: Email"></td>
-                        <td>
-                            <a class="btn btn-mini btn-warning" data-toggle="modal" href="#user-details-modal" data-bind="click: $parent.editCommand">Kemaskini Maklumat</a>
-                        </td>
-                       </tr>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -61,4 +62,4 @@
 </div>
 
 <!--ko compose:'_user.add.html' -->
-        <!--/ko-->
+<!--/ko-->

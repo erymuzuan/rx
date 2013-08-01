@@ -30,7 +30,7 @@
                          var departments = JSON.parse(ko.mapping.toJS(d.Value));;
                          vm.departmentOptions(departments);
                      }
-                     _(p.itemCollection).each(function(item) {
+                     var list = _(p.itemCollection).map(function(item) {
                          var profile = new bespoke.sphcommercialspace.domain.Profile();
                          profile.IsNew(false);
                          profile.FullName(item.FullName());
@@ -39,8 +39,9 @@
                          profile.Designation(item.Designation());
                          profile.Department(item.Department());
                          profile.Telephone(item.Telephone());
-                         vm.profiles.push(profile);
+                         return profile;
                      });
+                     vm.profiles(list);
                     
                      tcs.resolve(true);
                  });
