@@ -392,6 +392,8 @@
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\building.details.js" />
     <Content Include="App\viewmodels\building.details.ts" />
+    <Content Include="App\viewmodels\template.complaint.js" />
+    <Content Include="App\viewmodels\template.base.js" />
     <Content Include="App\viewmodels\template.building.js" />
     <Content Include="App\viewmodels\building.template.list.js" />
     <Content Include="App\viewmodels\commercialspace.detail.js" />
@@ -535,7 +537,6 @@
     <Content Include="App\viewmodels\commercialspacedetail.js" />
     <Content Include="App\viewmodels\complaint.form.js" />
     <Content Include="App\viewmodels\complaint.js" />
-    <Content Include="App\viewmodels\complaint.template.form.js" />
     <Content Include="App\viewmodels\contract.create.js" />
     <Content Include="App\viewmodels\contract.details.js" />
     <Content Include="App\viewmodels\contract.list.js" />
@@ -1021,6 +1022,8 @@
     <Content Include="Views\App\EditorTemplates\AddressElement.cshtml" />
     <Content Include="Views\Template\EditorTemplates\AddressElement.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\AddressElement.cshtml" />
+    <Content Include="Views\Template\_Toolbox.cshtml" />
+    <Content Include="Views\Template\Complaint.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

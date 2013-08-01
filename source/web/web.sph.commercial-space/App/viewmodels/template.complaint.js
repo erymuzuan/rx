@@ -24,26 +24,15 @@ define(['services/datacontext', 'durandal/system', './template.base'],
                 address.Name("Address");
                 customElements.push(address);
 
-                var map = new bespoke.sphcommercialspace.domain.BuildingMapElement();
-                map.CssClass("icon-globe pull-left");
-                map.Name("Show map button");
-                map.Label("Show map");
-                customElements.push(map);
-
-                var floorsElement = new bespoke.sphcommercialspace.domain.BuildingFloorsElement();
-                floorsElement.CssClass("icon-table pull-left");
-                floorsElement.Name("Floors Table");
-                customElements.push(floorsElement);
-
                 templateBase.activate(customElements);
 
 
                 var id = parseInt(routeData.id);
                 templateId(id);
                 if (id) {
-                    var query = String.format("BuildingTemplateId eq {0}", templateId());
+                    var query = String.format("ComplaintTemplateId eq {0}", templateId());
                     var tcs = new $.Deferred();
-                    context.loadOneAsync("BuildingTemplate", query)
+                    context.loadOneAsync("ComplaintTemplate", query)
                         .done(function (b) {
                             var fd = b.FormDesign;
                             b.FormDesign = ko.observable(fd);
@@ -51,25 +40,57 @@ define(['services/datacontext', 'durandal/system', './template.base'],
                                 // add isSelected for the designer
                                 fe.isSelected = ko.observable(false);
                             });
-                            vm.buildingTemplate(b);
-                            templateBase.designer(vm.buildingTemplate().FormDesign());
+                            vm.complaintTemplate(b);
+                            templateBase.designer(vm.complaintTemplate().FormDesign());
                             tcs.resolve(true);
                         });
 
                     return tcs.promise();
                 } else {
-                    vm.buildingTemplate(new bespoke.sphcommercialspace.domain.BuildingTemplate());
+                    vm.complaintTemplate(new bespoke.sphcommercialspace.domain.ComplaintTemplate());
 
-                    vm.buildingTemplate().FormDesign().Name("My form 1");
-                    vm.buildingTemplate().FormDesign().Description("Do whatever it takes");
+                    vm.complaintTemplate().FormDesign().Name("My form 1");
+                    vm.complaintTemplate().FormDesign().Description("Do whatever it takes");
 
-                    templateBase.designer(vm.buildingTemplate().FormDesign());
+                    templateBase.designer(vm.complaintTemplate().FormDesign());
                     return true;
                 }
 
 
             },
+            addComplaintCategory = function () {
+                var category = new bespoke.sphcommercialspace.domain.ComplaintCategory();
+                vm.complaintTemplate().ComplaintCategoryCollection.push(category);
+            },
+            addSubCategory = function () {
+                vm.subCategoryOptions.push({ text: ko.observable() });
+            },
 
+            removeSubCategory = function (sub) {
+                vm.subCategoryOptions.remove(sub);
+            },
+
+            updateCategory = function () {
+                vm.complaintTemplate().ComplaintCategoryCollection.push(vm.selectedComplaintCategory());
+            },
+            removeCategory = function (category) {
+                vm.complaintTemplate().ComplaintCategoryCollection.remove(category);
+            },
+             editCategory = function (category) {
+                 vm.selectedComplaintCategory(category);
+                 var subs = _(category.SubCategoryCollection()).map(function (s) {
+                     return { text: ko.observable(s) };
+                 });
+                 vm.subCategoryOptions(subs);
+                 $('#category-details-modal').modal({});
+             },
+
+         saveSubCategory = function () {
+             var subs = (vm.subCategoryOptions()).map(function (s) {
+                 return s.text();
+             });
+             vm.selectedComplaintCategory().SubCategoryCollection(subs);
+         },
             save = function () {
                 var tcs = new $.Deferred();
 
@@ -77,10 +98,10 @@ define(['services/datacontext', 'durandal/system', './template.base'],
                 var elements = _($('#template-form-designer>form>div')).map(function (div) {
                     return ko.dataFor(div);
                 });
-                vm.buildingTemplate().FormDesign().FormElementCollection(elements);
-                var data = ko.mapping.toJSON(vm.buildingTemplate);
+                vm.complaintTemplate().FormDesign().FormElementCollection(elements);
+                var data = ko.mapping.toJSON(vm.complaintTemplate);
 
-                context.post(data, "/Template/SaveBuildingTemplate")
+                context.post(data, "/Template/SaveComplaintTemplate")
                     .then(function (result) {
                         isBusy(false);
                         tcs.resolve(result);
@@ -91,8 +112,17 @@ define(['services/datacontext', 'durandal/system', './template.base'],
         var vm = {
             activate: activate,
             viewAttached: templateBase.viewAttached,
-            buildingTemplate: ko.observable(new bespoke.sphcommercialspace.domain.BuildingTemplate()),
+            subCategoryOptions: ko.observableArray(),
+            complaintTemplate: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
+            selectedComplaintCategory: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintCategory()),
 
+            addComplaintCategory: addComplaintCategory,
+            removeCategory: removeCategory,
+            addSubCategory: addSubCategory,
+            removeSubCategory: removeSubCategory,
+            updateCategoryCommand: updateCategory,
+            editCategory: editCategory,
+            
             toolbar: {
                 saveCommand: save
             },

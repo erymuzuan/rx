@@ -963,6 +963,7 @@ bespoke.sphcommercialspace.domain.ComplaintTemplate = function (webId) {
         IsActive: ko.observable(),
         ComplaintCategoryCollection: ko.observableArray(),
         CustomFieldCollection: ko.observableArray(),
+        FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

@@ -335,8 +335,8 @@
   },
   {
     "role": "can_edit_complaint_template",
-    "url": "complaint.template.form/:templateId",
-    "moduleId": "viewmodels/complaint.template.form",
+    "url": "template.complaint-id.0/:templateId",
+    "moduleId": "viewmodels/template.complaint-id.0",
     "name": "Tetapan Aduan",
     "visible": false,
     "icon": "icon-comments-alt",

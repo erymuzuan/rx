@@ -105,7 +105,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public ActionResult Building()
         {
-            var vm = new TemplateFormViewModel();
+            var vm = new TemplateFormViewModel { Entity = "building" };
             vm.FormElements.Add(new FormElement());
             vm.FormElements.Add(new SectionFormElement());
             vm.FormElements.Add(new TextBox());
@@ -120,6 +120,27 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             vm.FormElements.Add(new AddressElement());
             vm.FormElements.Add(new BuildingFloorsElement());
             vm.FormElements.Add(new BuildingMapElement());
+
+
+            return View(vm);
+
+        }
+
+        public ActionResult Complaint()
+        {
+            var vm = new TemplateFormViewModel { Entity = "complaint" };
+            vm.FormElements.Add(new FormElement());
+            vm.FormElements.Add(new SectionFormElement());
+            vm.FormElements.Add(new TextBox());
+            vm.FormElements.Add(new ComboBox());
+            vm.FormElements.Add(new WebsiteFormElement());
+            vm.FormElements.Add(new EmailFormElement());
+            vm.FormElements.Add(new NumberTextBox());
+            vm.FormElements.Add(new CheckBox());
+            vm.FormElements.Add(new TextAreaElement());
+            vm.FormElements.Add(new DatePicker());
+
+            vm.FormElements.Add(new AddressElement());
 
 
             return View(vm);
