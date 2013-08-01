@@ -36,22 +36,28 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                                                                                        });
 
             var list = new List<string>();
-            TypeHelper.BuildFlatJsonTreeView(list, "", typeof (Building));
+            TypeHelper.BuildFlatJsonTreeView(list, "", typeof(Building));
             var tjson = "[" + string.Join(",", list) + "]";
             var models = JsonConvert.DeserializeObject<IEnumerable<TypeModel>>(tjson)
-                                    .Select(t => t.Path);
+                                    .Select(t => t.Path)
+                                    .ToArray();
 
             if (buildingTemplate.CustomFieldCollection.Any())
             {
                 buildingTemplate.CustomFieldCollection.Clear();
             }
-            
+
             foreach (var el in buildingTemplate.FormDesign.FormElementCollection)
             {
                 if (!models.Contains(el.Path))
                 {
                     var cf = el.GenerateCustomField();
-                    buildingTemplate.CustomFieldCollection.Add(cf);
+                    if (null != cf)
+                        buildingTemplate.CustomFieldCollection.Add(cf);
+                }
+                else
+                {
+                    el.CustomField = null;
                 }
             }
 

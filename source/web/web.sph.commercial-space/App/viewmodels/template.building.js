@@ -22,11 +22,13 @@ define(['services/datacontext', 'durandal/system'],
                 var textbox = new bespoke.sphcommercialspace.domain.TextBox(system.guid());
                 textbox.CssClass("icon-text-width pull-left");
                 textbox.Name("Single line text");
+                textbox.IsRequired(true);
 
                 var textarea = new bespoke.sphcommercialspace.domain.TextAreaElement(system.guid());
                 textarea.CssClass("icon-desktop pull-left");
                 textarea.Name("Paragrapah text");
                 textarea.Rows(5);
+                textarea.IsRequired(true);
 
                 var checkbox = new bespoke.sphcommercialspace.domain.CheckBox(system.guid());
                 checkbox.CssClass("icon-check pull-left");
@@ -35,26 +37,33 @@ define(['services/datacontext', 'durandal/system'],
                 var cbb = new bespoke.sphcommercialspace.domain.ComboBox(system.guid());
                 cbb.CssClass("icon-chevron-down pull-left");
                 cbb.Name("Select list");
+                cbb.ComboBoxItemCollection.push(new bespoke.sphcommercialspace.domain.ComboBoxItem());
+                cbb.ComboBoxItemCollection.push(new bespoke.sphcommercialspace.domain.ComboBoxItem());
+                cbb.ComboBoxItemCollection.push(new bespoke.sphcommercialspace.domain.ComboBoxItem());
+                cbb.IsRequired(true);
 
                 var datepicker = new bespoke.sphcommercialspace.domain.DatePicker(system.guid());
                 datepicker.CssClass("icon-calendar pull-left");
                 datepicker.Name("Tarikh");
+                datepicker.IsRequired(true);
 
                 var number = new bespoke.sphcommercialspace.domain.NumberTextBox(system.guid());
                 number.CssClass("icon-html5 pull-left");
                 number.Name("Nombor");
                 number.Step(1);
+                number.IsRequired(true);
 
                 var email = new bespoke.sphcommercialspace.domain.EmailFormElement(system.guid());
                 email.CssClass("icon-envelope pull-left");
                 email.Name("Emel");
+                email.IsRequired(true);
 
                 var section = new bespoke.sphcommercialspace.domain.SectionFormElement(system.guid());
-                section.CssClass("icon-group");
+                section.CssClass("icon-group pull-left");
                 section.Name("Section");
 
                 var address = new bespoke.sphcommercialspace.domain.AddressElement(system.guid());
-                address.CssClass("icon-envelope");
+                address.CssClass("icon-envelope pull-left");
                 address.Name("Address");
 
                 elements.push(textbox);
@@ -71,13 +80,14 @@ define(['services/datacontext', 'durandal/system'],
 
                 /* */
                 var customElements = [];
-                var map = new bespoke.sphcommercialspace.domain.FormElement();
-                map.CssClass("icon-globe");
+                var map = new bespoke.sphcommercialspace.domain.BuildingMapElement();
+                map.CssClass("icon-globe pull-left");
                 map.Name("Show map button");
+                map.Label("Show map");
                 customElements.push(map);
 
                 var floorsElement = new bespoke.sphcommercialspace.domain.BuildingFloorsElement();
-                floorsElement.CssClass("icon-table");
+                floorsElement.CssClass("icon-table pull-left");
                 floorsElement.Name("Floors Table");
                 customElements.push(floorsElement);
 
@@ -93,7 +103,7 @@ define(['services/datacontext', 'durandal/system'],
                         .done(function (b) {
                             var fd = b.FormDesign;
                             b.FormDesign = ko.observable(fd);
-                            _(b.FormDesign().FormElementCollection()).each(function(fe) {
+                            _(b.FormDesign().FormElementCollection()).each(function (fe) {
                                 // add isSelected for the designer
                                 fe.isSelected = ko.observable(false);
                             });
@@ -122,18 +132,22 @@ define(['services/datacontext', 'durandal/system'],
                         f.isSelected(false);
                     });
 
+                    // clone
                     var fe = ko.mapping.fromJS(ko.mapping.toJS(ko.dataFor(this)));
                     fe.isSelected = ko.observable(true);
                     fe.Label("Label " + designer.FormElementCollection().length);
-                    fe.CssClass("input-large");
+                    fe.CssClass("");
+                    fe.Visible("true");
+                    fe.Size("input-large");
+                    fe.ElementId(system.guid());
 
                     designer.FormElementCollection.push(fe);
                     vm.selectedFormElement(fe);
 
                 });
-                $.getScript('/Scripts/jquery-ui-1.10.3.js')
+                $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js')// only contains UI core and interactions API 
                     .done(function () {
-                        $('#building-template-form-designer').sortable();
+                        $('#building-template-form-designer>form').sortable();
                     });
             },
             selectFormElement = function (fe) {
@@ -143,8 +157,11 @@ define(['services/datacontext', 'durandal/system'],
                 fe.isSelected(true);
                 vm.selectedFormElement(fe);
             },
+            removeFormElement = function (fe) {
+                vm.buildingTemplate().FormDesign().FormElementCollection.remove(fe);
+            },
             addComboBoxOption = function () {
-                
+
                 vm.selectedFormElement().ComboBoxItemCollection.push(new bespoke.sphcommercialspace.domain.ComboBoxItem);
             },
             removeComboBoxOption = function (option) {
@@ -159,8 +176,13 @@ define(['services/datacontext', 'durandal/system'],
             },
             save = function () {
                 var tcs = new $.Deferred();
+
+                // get the sorted element
+                var elements = _($('#building-template-form-designer>form>div')).map(function (div) {
+                    return ko.dataFor(div);
+                });
+                vm.buildingTemplate().FormDesign().FormElementCollection(elements);
                 var data = ko.mapping.toJSON(vm.buildingTemplate);
-                isBusy(true);
 
                 context.post(data, "/Template/SaveBuildingTemplate")
                     .then(function (result) {
@@ -184,6 +206,7 @@ define(['services/datacontext', 'durandal/system'],
             formElements: ko.observableArray(),
             selectFormElement: selectFormElement,
             selectedFormElement: ko.observable(),
+            removeFormElement: removeFormElement,
             removeComboBoxOption: removeComboBoxOption,
             addComboBoxOption: addComboBoxOption
         };

@@ -2,27 +2,27 @@
 <div class="control-group" data-bind="with: Address">
 
     <div class="control-group">
-        <label for="building.Address.Street" class="control-label">Jalan</label>
+        <label for="address.Street" class="control-label">Jalan</label>
         <div class="controls">
-            <input class="input-xxlarge" data-bind="value: Street" id="building.Address.Street" type="text" name="building.Address.Street" />
+            <input class="input-xxlarge" data-bind="value: Street" id="address.Street" type="text" name="address.Street" />
         </div>
     </div>
     <div class="control-group">
-        <label for="building.Address.City" class="control-label">Bandar/Daerah</label>
+        <label for="address.City" class="control-label">Bandar/Daerah</label>
         <div class="controls">
-            <input data-bind="value: City" id="building.Address.City" type="text" name="building.Address.City" />
+            <input data-bind="value: City" id="address.City" type="text" name="address.City" />
         </div>
     </div>
     <div class="control-group">
-        <label for="building.Address.Postcode" class="control-label">Poskod</label>
+        <label for="address.Postcode" class="control-label">Poskod</label>
         <div class="controls">
-            <input data-bind="value: Postcode" id="building.Address.Postcode" type="text" name="building.Address.Postcode" />
+            <input data-bind="value: Postcode" id="address.Postcode" type="text" name="address.Postcode" />
         </div>
     </div>
     <div class="control-group">
-        <label for="building.Address.State" class="control-label">Negeri</label>
+        <label for="address.State" class="control-label">Negeri</label>
         <div class="controls">
-            <select name="building.Address.State" id="building.Address.State" data-bind="value: State, options: $root.stateOptions, optionsText: 'Name', optionsValue: 'Name', optionsCaption: '[Sila Pilih]'"></select>
+            <select name="address.State" id="address.State" data-bind="value: State, options: $root.stateOptions, optionsText: 'Name', optionsValue: 'Name', optionsCaption: '[Sila Pilih]'"></select>
         </div>
     </div>
 </div>

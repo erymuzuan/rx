@@ -1,32 +1,32 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.BuildingFloorsElement
 
-       <input type="button" name="add-floor-button" class="btn pull-right" data-bind="click: $parent.addFloorCommand" value="+ Floor" />
-        <table class="table table-condensed table-striped">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Name</th>
-                    <th>Size</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: FloorCollection">
-                <tr>
-                    <td>
-                        <input class="input-small" type="text" data-bind="value: Number, uniqueName: true" value="G" /></td>
+<input type="button" name="add-floor-button" class="btn pull-right" data-bind="click: $parent.addFloorCommand" value="+ Floor" />
+<table class="table table-condensed table-striped">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Size</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: FloorCollection">
+        <tr>
+            <td>
+                <input class="input-small" type="text" data-bind="value: Number, uniqueName: true" value="G" /></td>
 
-                    <td>
-                        <input class="input-large" type="text" data-bind="value: Name, uniqueName: true"  value="Ground Floor"/></td>
-                    <td>
-                        <input type="text" data-bind="value: Size, uniqueName: true" value="5000" /></td>
-                    <td>
-                        <input type="button" data-bind="click: $root.removeFloorCommand, uniqueName: true" class="btn btn-mini" value="-" /></td>
-                    <td>
-                        <input type="button" data-bind="click: $root.addLotCommand, enable: $root.building().BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="+Lot" /></td>
-                    <td>
-                        <input type="button" data-bind="click: $root.viewFloorPlanCommand, enable: $root.building().BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="Pelan Lantai" /></td>
-                </tr>   
-            </tbody>
-        </table>
+            <td>
+                <input class="input-large" type="text" data-bind="value: Name, uniqueName: true" value="Ground Floor" /></td>
+            <td>
+                <input type="text" data-bind="value: Size, uniqueName: true" value="5000" /></td>
+            <td>
+                <input type="button" data-bind="click: $root.removeFloorCommand, uniqueName: true" class="btn btn-mini" value="-" /></td>
+            <td>
+                <input type="button" data-bind="click: $root.addLotCommand, enable: $root.building().BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="+Lot" /></td>
+            <td>
+                <input type="button" data-bind="click: $root.viewFloorPlanCommand, enable: $root.building().BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="Pelan Lantai" /></td>
+        </tr>
+    </tbody>
+</table>

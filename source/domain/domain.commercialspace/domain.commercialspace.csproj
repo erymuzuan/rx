@@ -122,6 +122,7 @@
     <Compile Include="FormTemplates\FormDesign.cs" />
     <Compile Include="FormTemplates\FormElement.cs" />
     <Compile Include="FormTemplates\NumberTextBox.cs" />
+    <Compile Include="FormTemplates\SectionFormElement.cs" />
     <Compile Include="FormTemplates\TextAreaElement.cs" />
     <Compile Include="FormTemplates\TextBox.cs" />
     <Compile Include="FormTemplates\WebsiteFormElement.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Payment.cs" />
     <Compile Include="PaymentDistribution.cs" />
     <Compile Include="Permission.cs" />
+    <Compile Include="Profile.cs" />
     <Compile Include="QueryHelper.cs" />
     <Compile Include="Triggers\Action.cs" />
     <Compile Include="Triggers\ConstantField.cs" />

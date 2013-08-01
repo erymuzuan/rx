@@ -6,13 +6,20 @@ namespace Bespoke.SphCommercialSpaces.Domain
     {
         public override CustomField GenerateCustomField()
         {
-            var cf = new CustomField
-                {
-                    Name = this.Path,
-                    Type = typeof(DateTime).Name
-                };
-            this.CustomField = cf;
-            return cf;
+            return new CustomField
+                 {
+                     Name = this.Path,
+                     Type = typeof(DateTime).Name,
+                     IsRequired = this.IsRequired
+                 };
+        }
+
+
+        public override string GetKnockoutBindingExpression()
+        {
+            return string.Format("kendoDate: {0}, visible :{1}",
+                this.Path,
+                this.Visible);
         }
 
     }

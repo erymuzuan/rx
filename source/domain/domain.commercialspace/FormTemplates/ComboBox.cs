@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
@@ -6,7 +7,20 @@ namespace Bespoke.SphCommercialSpaces.Domain
     {
         public override CustomField GenerateCustomField()
         {
-            throw new Exception("Custom field is not supported for Building Template.Please provide path");
+            return new CustomField
+            {
+                IsRequired = this.IsRequired,
+                Name = this.Path,
+                Listing =string.Join(",", this.ComboBoxItemCollection.Select(c => c.Value).ToArray())
+            };
+        }
+
+        
+        public override string GetKnockoutBindingExpression()
+        {
+            return string.Format("value: {0}, visible :{1}",
+                this.Path,
+                this.Visible);
         }
     }
 }

@@ -3,6 +3,6 @@
 <!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.CheckBox, domain.commercialspace" -->
 <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
     <label data-bind="text: Label"></label>
-    <input type="checkbox" data-bind="attr: { 'title': Tooltip, 'class': CssClass }" />
+    <input type="checkbox" data-bind="attr: { 'title': Tooltip, 'class': CssClass() + ' ' + Size() }" />
 </div>
 <!--/ko-->

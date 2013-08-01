@@ -3,6 +3,6 @@
 <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.TextAreaElement, domain.commercialspace" -->
 <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
     <label data-bind="text: Label"></label>
-    <textarea data-bind="attr: { 'title': Tooltip, 'rows': Rows, 'class': CssClass }" />
+    <textarea data-bind="attr: { 'title': Tooltip, 'rows': Rows, 'class': CssClass() + ' ' + Size() }" />
 </div>
 <!--/ko-->
