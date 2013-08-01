@@ -917,11 +917,13 @@ bespoke.sphcommercialspace.domain.CustomField = function (webId) {
         "$type": "Bespoke.SphCommercialSpaces.Domain.CustomField, domain.commercialspace",
         Order: ko.observable(),
         Name: ko.observable(),
-        IsMandatory: ko.observable(),
+        IsRequired: ko.observable(),
         Type: ko.observable(),
         Size: ko.observable(),
         Listing: ko.observable(),
         Group: ko.observable(),
+        MaxLength: ko.observable(),
+        MinLength: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1471,6 +1473,8 @@ bespoke.sphcommercialspace.domain.TextBox = function (webId) {
     v.DefaultValue = ko.observable();
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.TextBox, domain.commercialspace";
 
+    v.MinLength = ko.observable();//nillable
+    v.MaxLength = ko.observable();//nillable
     if (bespoke.sphcommercialspace.domain.TextBoxPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.TextBoxPartial(v));
     }
@@ -1584,6 +1588,7 @@ bespoke.sphcommercialspace.domain.BuildingMapElement = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
 
+    v.Icon = ko.observable();
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.BuildingMapElement, domain.commercialspace";
 
     if (bespoke.sphcommercialspace.domain.BuildingMapElementPartial) {
@@ -1733,6 +1738,9 @@ bespoke.sphcommercialspace.domain.FormElement = function (webId) {
         IsRequired: ko.observable(),
         Size: ko.observable(),
         CssClass: ko.observable(),
+        Visible: ko.observable(),
+        Enable: ko.observable(),
+        ElementId: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

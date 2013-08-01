@@ -3,7 +3,7 @@
 <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.EmailFormElement, domain.commercialspace" -->
 <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
     <label data-bind="text: Label"></label>
-    <input type="email" data-bind="attr: { 'title': Tooltip, 'class': CssClass }" />
+    <input type="email" data-bind="attr: { 'title': Tooltip, 'class': CssClass() + ' ' + Size() }" />
 </div>
 <!--/ko-->
 

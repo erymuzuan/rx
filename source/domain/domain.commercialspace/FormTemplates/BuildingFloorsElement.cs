@@ -2,13 +2,6 @@
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public partial class SectionFormElement : FormElement
-    {
-        public override CustomField GenerateCustomField()
-        {
-            throw new Exception("No Custom Field Element");
-        }
-    }
     public partial class BuildingFloorsElement : FormElement
     {
         public override CustomField GenerateCustomField()

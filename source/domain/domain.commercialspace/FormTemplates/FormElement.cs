@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Security;
+using System.Xml.Serialization;
 
 
 namespace Bespoke.SphCommercialSpaces.Domain
@@ -14,11 +15,17 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [XmlInclude(typeof(BuildingMapElement))]
     [XmlInclude(typeof(EmailFormElement))]
     [XmlInclude(typeof(WebsiteFormElement))]
+    [XmlInclude(typeof(SectionFormElement))]
     public partial class FormElement : DomainObject
     {
         public virtual CustomField GenerateCustomField()
         {
             throw new System.NotImplementedException();
+        }
+
+        public virtual string GetKnockoutBindingExpression()
+        {
+            return null;
         }
 
         public CustomField CustomField { get; set; }

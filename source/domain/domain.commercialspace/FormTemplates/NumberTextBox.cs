@@ -4,13 +4,19 @@
     {
         public override CustomField GenerateCustomField()
         {
-            var cf = new CustomField
+            return  new CustomField
             {
                 Name = this.Path,
-                Type = typeof(int).Name
+                Type = typeof(int).Name,
+                IsRequired = this.IsRequired
             };
-            this.CustomField = cf;
-            return cf;
+        }
+
+        public override string GetKnockoutBindingExpression()
+        {
+            return string.Format("value: {0}, visible :{1}",
+                this.Path,
+                this.Visible);
         }
     }
 }

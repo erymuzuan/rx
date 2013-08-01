@@ -1,5 +1,17 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.TextBox
 
 <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.TextBox, domain.commercialspace" -->
+<div class="control-group">
+    <label for="form-element-textbox-minlength" class="control-label">Min length</label>
+    <div class="controls">
+        <input data-bind="value: MinLength" id="form-element-textbox-minlength" type="text" name="MinLength" />
+    </div>
+</div>
 
+<div class="control-group">
+    <label for="form-element-textbox-maxlength" class="control-label">Max length</label>
+    <div class="controls">
+        <input data-bind="value: MaxLength" id="form-element-textbox-maxlength" type="text" name="MaxLength" />
+    </div>
+</div>
 <!--/ko-->

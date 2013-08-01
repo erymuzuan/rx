@@ -6,7 +6,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
     {
         public override CustomField GenerateCustomField()
         {
-           throw new Exception("No Custom Field Element");
+           throw new Exception("No Custom Field Element for addres");
         }
     }
 }

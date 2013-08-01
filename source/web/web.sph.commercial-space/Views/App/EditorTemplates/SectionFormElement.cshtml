@@ -1,3 +1,3 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.SectionFormElement
-   <h2>@Model.Label</h2>
+<h2 data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))">@Model.Label</h2>
 

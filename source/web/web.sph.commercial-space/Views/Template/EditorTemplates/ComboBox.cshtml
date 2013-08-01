@@ -2,12 +2,15 @@
 
 <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.ComboBox, domain.commercialspace" -->
 <a href="#fields-settings" data-bind="click: $root.addComboBoxOption">+ option</a>
+<div>
+    <span class="input-small">Value</span>
+    <span style="margin-left: 70px" class="input-small">Caption</span>
+</div>
 <ul data-bind="foreach: ComboBoxItemCollection" class="nav">
     <li>
         <div class="input-append">
-
-            <input type="text" data-bind="value: Value, valueUpdate: 'keyup'" />
-            <input type="text" data-bind="value: Caption, valueUpdate: 'keyup'" />
+            <input class="input-small" type="text" data-bind="value: Value, valueUpdate: 'keyup'" />
+            <input class="input-small" type="text" data-bind="value: Caption, valueUpdate: 'keyup'" />
             <a class="add-on" href="#fields-settings" data-bind="click: $root.removeComboBoxOption">
                 <i class="icon-remove"></i>
             </a>
