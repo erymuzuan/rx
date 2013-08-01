@@ -452,8 +452,14 @@
     <Content Include="Images\documentfield.png" />
     <Content Include="Images\EmailAction.png" />
     <Content Include="Images\functionfield.png" />
+    <Content Include="Images\gelanggang.png" />
+    <Content Include="Images\kuarters.png" />
+    <Content Include="Images\office.png" />
     <Content Include="Images\pic1.png" />
     <Content Include="Images\pic2.png" />
+    <Content Include="Images\pic3.png" />
+    <Content Include="Images\pic4.png" />
+    <Content Include="Images\rumah_peranginan.png" />
     <Content Include="Images\SetterAction.png" />
     <Content Include="Scripts\bootmetro-charms.js" />
     <Content Include="Scripts\bootmetro.js" />
