@@ -454,6 +454,8 @@
     <Content Include="Images\documentfield.png" />
     <Content Include="Images\EmailAction.png" />
     <Content Include="Images\functionfield.png" />
+    <Content Include="Images\pic1.png" />
+    <Content Include="Images\pic2.png" />
     <Content Include="Images\SetterAction.png" />
     <Content Include="Scripts\bootmetro-charms.js" />
     <Content Include="Scripts\bootmetro.js" />
