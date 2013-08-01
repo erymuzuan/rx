@@ -9,6 +9,7 @@
   <xsl:template match="xs:schema">
     /// &lt;reference path="~/scripts/knockout-2.3.0.debug.js" /&gt;
     /// &lt;reference path="~/Scripts/underscore.js" /&gt;
+    /// &lt;reference path="~/Scripts/moment.js" /&gt;
 
 
     var bespoke = bespoke || {};
@@ -30,7 +31,7 @@
               var v = new bespoke.sphcommercialspace.domain.<xsl:value-of select="xs:complexType/xs:complexContent/xs:extension/@base"/>(webId);
               <xsl:for-each select="xs:complexType/xs:complexContent/xs:extension/xs:attribute">
                 <xsl:if test="@type">
-                  v.<xsl:value-of select="@name"/> = ko.observable();</xsl:if>
+                  v.<xsl:value-of select="@name"/> = ko.observable(<xsl:value-of select="bspk:GetJsDefaultValue(@type, @nillable)"/>);</xsl:if>
               </xsl:for-each>
               <xsl:apply-templates select="xs:complexType/xs:complexContent/xs:extension"/>
               if(bespoke.sphcommercialspace.domain.<xsl:value-of select="@name"/>Partial){
@@ -44,7 +45,7 @@
 				"$type" : "Bespoke.SphCommercialSpaces.Domain.<xsl:value-of select="@name"/>, domain.commercialspace",
               <xsl:for-each select="xs:complexType/xs:attribute">
                 <xsl:if test="@type">
-                  <xsl:value-of select="@name"/> : ko.observable(),
+                  <xsl:value-of select="@name"/> : ko.observable(<xsl:value-of select="bspk:GetJsDefaultValue(@type, @nillable)"/>),
                 </xsl:if>
               </xsl:for-each>
               <!-- Element -->
@@ -68,7 +69,7 @@
       return {
 		"$type" : "Bespoke.SphCommercialSpaces.Domain.<xsl:value-of select="@name"/>, domain.commercialspace",
       <xsl:for-each select="xs:attribute">
-        <xsl:value-of select="@name"/> : ko.observable(),
+        <xsl:value-of select="@name"/> : ko.observable(<xsl:value-of select="bspk:GetJsDefaultValue(@type, @nillable)"/>),
       </xsl:for-each>
       <xsl:apply-templates select="xs:all/xs:element"/>isBusy : ko.observable(false),
 		WebId : ko.observable(webId)
