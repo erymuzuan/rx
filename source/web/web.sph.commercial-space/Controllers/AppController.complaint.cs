@@ -1,0 +1,24 @@
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
+using Bespoke.SphCommercialSpaces.Domain;
+
+namespace Bespoke.Sph.Commerspace.Web.Controllers
+{
+    public partial class AppController
+    {
+         public ActionResult TemplateComplaintHtml()
+        {
+            return RedirectToAction("Complaint", "Template");
+     
+        }
+
+         public async Task<ActionResult> ComplaintDetailHtml(int templateId)
+         {
+             var context = new SphDataContext();
+             var template = await context.LoadOneAsync<ComplaintTemplate>(t => t.ComplaintTemplateId == templateId);
+
+             return View(template);
+         }
+
+    }
+}

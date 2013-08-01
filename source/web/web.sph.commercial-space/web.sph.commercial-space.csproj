@@ -264,6 +264,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AppController.building.cs" />
+    <Compile Include="Controllers\AppController.complaint.cs" />
     <Compile Include="Controllers\AppController.complaintlist.cs" />
     <Compile Include="Controllers\AppController.complainttemplate.cs" />
     <Compile Include="Controllers\AppController.config.cs" />
@@ -580,7 +581,6 @@
     <Content Include="App\views\commercialspacedetail.html" />
     <Content Include="App\views\complaint.form.html" />
     <Content Include="App\views\complaint.html" />
-    <Content Include="App\views\complaint.template.form.html" />
     <Content Include="App\views\contract.create.html" />
     <Content Include="App\views\contract.details.html" />
     <Content Include="App\views\contract.list.html" />
@@ -1024,6 +1024,7 @@
     <Content Include="Views\Template\DisplayTemplates\AddressElement.cshtml" />
     <Content Include="Views\Template\_Toolbox.cshtml" />
     <Content Include="Views\Template\Complaint.cshtml" />
+    <Content Include="Views\App\ComplaintDetailHtml.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -108,7 +108,7 @@ define(['services/datacontext', 'durandal/system', './template.base'],
                     });
                 return tcs.promise();
             };
-
+        
         var vm = {
             activate: activate,
             viewAttached: templateBase.viewAttached,
@@ -122,7 +122,7 @@ define(['services/datacontext', 'durandal/system', './template.base'],
             removeSubCategory: removeSubCategory,
             updateCategoryCommand: updateCategory,
             editCategory: editCategory,
-            
+            saveSubCategoryCommand: saveSubCategory,
             toolbar: {
                 saveCommand: save
             },

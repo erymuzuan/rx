@@ -70,6 +70,43 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <section class="modal hide" id="category-details-modal">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h3>Senarai Subkategori</h3>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal">
+                                <h5>Sub Kategori</h5>
+                                <input type="button" value="+" class="btn btn-mini pull-right" data-bind="click: addSubCategory" />
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: subCategoryOptions">
+                                        <tr>
+                                            <td>
+                                                <input type="text" data-bind="value: text" />
+                                            </td>
+                                            <td>
+                                                <a href="#category-details-modal" class="btn btn-link" data-bind="click: $root.removeSubCategory">Buang</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                            <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: saveSubCategoryCommand" />
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
