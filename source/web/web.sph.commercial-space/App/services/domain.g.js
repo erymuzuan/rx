@@ -1,5 +1,5 @@
 ﻿
-/// <reference path="~/scripts/knockout-2.2.1.debug.js" />
+/// <reference path="~/scripts/knockout-2.3.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 
 
@@ -919,11 +919,13 @@ bespoke.sphcommercialspace.domain.CustomField = function (webId) {
         "$type": "Bespoke.SphCommercialSpaces.Domain.CustomField, domain.commercialspace",
         Order: ko.observable(),
         Name: ko.observable(),
-        IsMandatory: ko.observable(),
+        IsRequired: ko.observable(),
         Type: ko.observable(),
         Size: ko.observable(),
         Listing: ko.observable(),
         Group: ko.observable(),
+        MaxLength: ko.observable(),
+        MinLength: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -963,6 +965,7 @@ bespoke.sphcommercialspace.domain.ComplaintTemplate = function (webId) {
         IsActive: ko.observable(),
         ComplaintCategoryCollection: ko.observableArray(),
         CustomFieldCollection: ko.observableArray(),
+        FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1375,6 +1378,7 @@ bespoke.sphcommercialspace.domain.BuildingTemplate = function (webId) {
         Description: ko.observable(),
         IsActive: ko.observable(),
         CustomFieldCollection: ko.observableArray(),
+        FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1445,6 +1449,244 @@ bespoke.sphcommercialspace.domain.CommercialSpaceTemplate = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.FormDesign = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.FormDesign, domain.commercialspace",
+        Name: ko.observable(),
+        Description: ko.observable(),
+        ConfirmationText: ko.observable(),
+        ImageStoreId: ko.observable(),
+        FormElementCollection: ko.observableArray(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.FormDesignPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.FormDesignPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.TextBox = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v.DefaultValue = ko.observable();
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.TextBox, domain.commercialspace";
+
+    v.MinLength = ko.observable();//nillable
+    v.MaxLength = ko.observable();//nillable
+    if (bespoke.sphcommercialspace.domain.TextBoxPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.TextBoxPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.CheckBox = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.CheckBox, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.CheckBoxPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.CheckBoxPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.DatePicker = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.DatePicker, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.DatePickerPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.DatePickerPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ComboBox = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.ComboBox, domain.commercialspace";
+
+    v.ComboBoxItemCollection = ko.observableArray();
+    if (bespoke.sphcommercialspace.domain.ComboBoxPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.ComboBoxPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.TextAreaElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v.Rows = ko.observable();
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.TextAreaElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.TextAreaElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.TextAreaElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.WebsiteFormElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.WebsiteFormElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.WebsiteFormElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.WebsiteFormElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.EmailFormElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.EmailFormElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.EmailFormElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.EmailFormElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.NumberTextBox = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v.Step = ko.observable();
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.NumberTextBox, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.NumberTextBoxPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.NumberTextBoxPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.BuildingMapElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v.Icon = ko.observable();
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.BuildingMapElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.BuildingMapElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.BuildingMapElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.BuildingFloorsElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.BuildingFloorsElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.BuildingFloorsElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.BuildingFloorsElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.SectionFormElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.SectionFormElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.SectionFormElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.SectionFormElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ComboBoxItem = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.ComboBoxItem, domain.commercialspace",
+        Caption: ko.observable(),
+        Value: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ComboBoxItemPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ComboBoxItemPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.AddressElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.AddressElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.AddressElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.AddressElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Profile = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.Profile, domain.commercialspace",
+        FullName: ko.observable(),
+        UserName: ko.observable(),
+        Email: ko.observable(),
+        Password: ko.observable(),
+        ConfirmPassword: ko.observable(),
+        Status: ko.observable(),
+        Designation: ko.observable(),
+        Telephone: ko.observable(),
+        Mobile: ko.observable(),
+        IsNew: ko.observable(),
+        Department: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ProfilePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ProfilePartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {
@@ -1483,6 +1725,26 @@ bespoke.sphcommercialspace.domain.CustomAction = function (webId) {
         TriggerId: ko.observable(),
         Note: ko.observable(),
         CustomActionId: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+};
+
+
+bespoke.sphcommercialspace.domain.FormElement = function (webId) {
+
+    return {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.FormElement, domain.commercialspace",
+        Name: ko.observable(),
+        Label: ko.observable(),
+        Tooltip: ko.observable(),
+        Path: ko.observable(),
+        IsRequired: ko.observable(),
+        Size: ko.observable(),
+        CssClass: ko.observable(),
+        Visible: ko.observable(),
+        Enable: ko.observable(),
+        ElementId: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

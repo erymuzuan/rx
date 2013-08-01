@@ -1,0 +1,9 @@
+﻿@model Bespoke.SphCommercialSpaces.Domain.DatePicker
+
+<div class="control-group">
+    <label for="@Model.ElementId" class="control-label">@Model.Label</label>
+    <div class="controls">
+        <input class="@(Model.CssClass + " "+ Model.Size)" data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" type="text" 
+            name="@Model.Path" />
+    </div>
+</div>

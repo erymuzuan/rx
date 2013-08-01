@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Commerspace.Web.Helpers;
 using Bespoke.SphCommercialSpaces.Domain;
 using Newtonsoft.Json;
-using WebGrease.Css.Extensions;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
@@ -28,6 +26,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             if (newItem)
             {
                 trigger.ActionCollection.OfType<SetterAction>()
+                    .ToList()
                     .ForEach(s => s.TriggerId = trigger.TriggerId);
 
                 using (var session = context.OpenSession())

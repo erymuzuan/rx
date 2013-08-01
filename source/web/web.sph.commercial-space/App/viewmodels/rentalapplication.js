@@ -16,11 +16,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         rentalApplication = ko.observable(new bespoke.sphcommercialspace.domain.RentalApplication()),
 
         activate = function (routeData) {
-            
+
             id(routeData.id);
             var tcs = new $.Deferred();
             var csTask = context.loadOneAsync('CommercialSpace', 'CommercialSpaceId eq ' + id());
-            var stateTask =  context.loadOneAsync("Setting", "Key eq 'State'");
+            var stateTask = context.loadOneAsync("Setting", "Key eq 'State'");
             $.when(csTask, stateTask).done(function (cs, s) {
                 var states = JSON.parse(ko.mapping.toJS(s.Value));
                 vm.stateOptions(states);
@@ -28,15 +28,15 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 tcs.resolve(true);
             });
             vm.rentalapplication().CommercialSpaceId(routeData.id);
-            var bank =new bespoke.sphcommercialspace.domain.Bank(system.guid());
+            var bank = new bespoke.sphcommercialspace.domain.Bank(system.guid());
             vm.rentalapplication().BankCollection.push(bank);
             return tcs.promise();
         },
         viewAttached = function () {
-            
+
         },
         configureUpload = function (element, index, attachment) {
-            
+
             $(element).find("input[type=file]").kendoUpload({
                 async: {
                     saveUrl: "/BinaryStore/Upload",
@@ -55,7 +55,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 }
             });
         },
-        
+
         saveApplication = function () {
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON(vm.rentalapplication());
@@ -66,7 +66,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 registrationNo(e.registrationNo);
                 vm.rentalapplication(new bespoke.sphcommercialspace.domain.RentalApplication());
                 $('#success-panel').modal({})
-                    .on('hidden', function() {
+                    .on('hidden', function () {
                         router.navigateTo('/#/');
                     });
                 tcs.resolve(e.status);
@@ -80,7 +80,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         addAttachment = function () {
             var attachment = new bespoke.sphcommercialspace.domain.Attachment(system.guid());
             vm.rentalapplication().AttachmentCollection.push(attachment);
-        };
+        },
+        removeAttachement = function (attachment) {
+            vm.rentalapplication().AttachmentCollection.remove(attachment);
+        }
+    ;
 
     var vm = {
         activate: activate,
@@ -97,7 +101,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             printCommand: ko.observable({
                 entity: ko.observable("RentalApplication"),
                 id: ko.observable(0),
-                item : rentalApplication,
+                item: rentalApplication,
             }),
             commands: ko.observableArray([{
                 caption: "Hantar Permohonan",
@@ -108,7 +112,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         }),
         addBankCommand: addBankCollection,
         isBusy: isBusy,
-        addAttachmentCommand: addAttachment
+        addAttachmentCommand: addAttachment,
+        removeAttachmentCommand: removeAttachement
     };
 
     return vm;

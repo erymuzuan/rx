@@ -694,11 +694,15 @@
 	</xs:element>
 	<xs:element name="CustomField">
 		<xs:complexType>
+			<xs:all>
+				<xs:element name="MaxLength" type="xs:int" nillable="true"/>
+				<xs:element name="MinLength" type="xs:int" nillable="true"/>
+			</xs:all>
 			<xs:attribute name="Order" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="IsMandatory" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsRequired" type="xs:boolean" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
-			<xs:attribute name="Size" type="xs:int" use="required"/>
+			<xs:attribute name="Size" type="xs:string" use="required"/>
 			<xs:attribute name="Listing" type="xs:string" use="optional"/>
 			<xs:attribute name="Group" type="xs:string" use="optional"/>
 		</xs:complexType>
@@ -727,6 +731,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="FormDesign"/>
 			</xs:all>
 			<xs:attribute name="ComplaintTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -1067,6 +1072,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="FormDesign"/>
 			</xs:all>
 			<xs:attribute name="BuildingTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -1123,6 +1129,162 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FormDesign">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="FormElementCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FormElement" type="FormElement" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="ConfirmationText" type="xs:string" use="required"/>
+			<xs:attribute name="ImageStoreId" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="FormElement">
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="Label" type="xs:string" use="required"/>
+		<xs:attribute name="Tooltip" type="xs:string" use="optional"/>
+		<xs:attribute name="Path" type="xs:string" use="required"/>
+		<xs:attribute name="IsRequired" type="xs:boolean" use="required"/>
+		<xs:attribute name="Size" type="xs:string" use="required"/>
+		<xs:attribute name="CssClass" type="xs:string" use="required"/>
+		<xs:attribute name="Visible" type="xs:string" use="optional" default="true"/>
+		<xs:attribute name="Enable" type="xs:string" use="optional" default="true"/>
+		<xs:attribute name="ElementId" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:element name="TextBox">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:all>
+						<xs:element name="MinLength" type="xs:int" nillable="true"/>
+						<xs:element name="MaxLength" type="xs:int" nillable="true"/>
+					</xs:all>
+					<xs:attribute name="DefaultValue" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CheckBox">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DatePicker">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ComboBox">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:all>
+						<xs:element name="ComboBoxItemCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ComboBoxItem" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TextAreaElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:attribute name="Rows" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WebsiteFormElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EmailFormElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="NumberTextBox">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:attribute name="Step" type="xs:int" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BuildingMapElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:attribute name="Icon" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BuildingFloorsElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SectionFormElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ComboBoxItem">
+		<xs:complexType>
+			<xs:attribute name="Caption" type="xs:string" use="required"/>
+			<xs:attribute name="Value" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AddressElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Profile">
+		<xs:complexType>
+			<xs:attribute name="FullName" type="xs:string" use="required"/>
+			<xs:attribute name="UserName" type="xs:string" use="required"/>
+			<xs:attribute name="Email" type="xs:string" use="required"/>
+			<xs:attribute name="Password" type="xs:string" use="required"/>
+			<xs:attribute name="ConfirmPassword" type="xs:string" use="required"/>
+			<xs:attribute name="Status" type="xs:string" use="required"/>
+			<xs:attribute name="Designation" type="xs:string" use="required"/>
+			<xs:attribute name="Telephone" type="xs:string" use="required"/>
+			<xs:attribute name="Mobile" type="xs:string" use="optional"/>
+			<xs:attribute name="IsNew" type="xs:boolean" use="required"/>
+			<xs:attribute name="Department" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

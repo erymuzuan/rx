@@ -19,7 +19,7 @@
             buildingTemplates: ko.observableArray(),
             toolbar : {
                 addNew : {
-                    location: '/#/building.template.form/0',
+                    location: '/#/template.building-id.0/0',
                     caption : 'Tambah Template bangunan'
                 }
             }

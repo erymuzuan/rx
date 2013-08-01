@@ -8,7 +8,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
+    <div class="icon-2x icon-address">
     
     </div>
     </form>

@@ -1,68 +1,66 @@
 ﻿<h1 class="row-fluid"><span>Borang Permohonan</span></h1>
-<div class="span8">
+<div class="span7">
     <form class="form-horizontal" data-bind="with: rentalapplication">
         <div>
             <h2>Maklumat Pemohon</h2>
         </div>
-        <div class="row-fluid">
+        <div>
             <div class="control-group">
-                <label class="control-label ">Nama</label>
-                <div class="controls ">
+                <label class="span2">Nama</label>
+                <div class="span4 ">
                     <input type="text" name="rentalapplication.Contact.Name" data-bind="value: Contact().Name" />
                 </div>
             </div>
 
             <div class="control-group">
-                <label class="control-label">No. Kad Pengenalan</label>
-                <div class="controls">
+                <label class="span2">No. Kad Pengenalan</label>
+                <div class="span4">
                     <input type="text" name="rentalapplication.Contact.IcNo" data-bind="value: Contact().IcNo" />
                 </div>
 
             </div>
             <div class="control-group">
-                <label class="control-label">Jawatan</label>
-                <div class="controls">
+                <label class="span2">Jawatan</label>
+                <div class="span4">
                     <input type="text" name="rentalapplication.Contact.Role" data-bind="value: Contact().Role" />
                 </div>
             </div>
             <div class="control-group ">
-                <label class="control-label">No. Telefon </label>
-                <div class="controls">
+                <label class="span2">No. Telefon </label>
+                <div class="span4">
                     <input type="text" name="rentalapplication.Contact.MobileNo" data-bind="value: Contact().MobileNo" />
                 </div>
             </div>
-            <div class="control-group ">
-                <label class="control-label">Emel</label>
-                <div class="controls">
+            <div class="control-group">
+                <label class="span2">Emel</label>
+                <div class="span4">
                     <input type="email" name="rentalapplication.Contact.Email" data-bind="value: Contact().Email" />
                 </div>
             </div>
             <div class="control-group">
-                <div class="controls">
-                    <label class="checkbox">
-                        <input data-bind="checked: IsCompany" id="rentalapplication.IsCompany" type="checkbox" name="rentalapplication.IsCompany" />
-                        Permohonan bagi pihak syarikat
-                    </label>
+                <label class="span2">Mohon bagi pihak syarikat</label>
+                <div class="span4">
+                <input data-bind="checked: IsCompany" id="rentalapplication.IsCompany" type="checkbox" name="rentalapplication.IsCompany" />
                 </div>
             </div>
             <section data-bind="visible: IsCompany() == true">
                 <div><h2>Maklumat Syarikat</h2></div>
                 <div class="control-group">
-                    <label class="control-label">Nama Syarikat</label>
-                    <div class="controls">
+                    <label class="span2">Nama Syarikat</label>
+                    <div class="span4">
                         <input type="text" name="rentalapplication.CompanyName" data-bind="value: CompanyName" />
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">No Pendaftaran Syarikat</label>
-                    <div class="controls">
+                    <label class="span2">No Pendaftaran Syarikat</label>
+                    <div class="span4">
                         <input type="text" name="rentalapplication.CompanyRegistrationNo" data-bind="value: CompanyRegistrationNo" />
                     </div>
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label">Jenis Syarikat</label>
-                    <div class="controls">
+                    <label class="span2">Jenis Syarikat</label>
+                    <div class="span4">
                         <select name="rentalapplication.CompanyType" data-bind="value: CompanyType">
                             <option value="Business Corporate">Business Corporate</option>
                             <option value="Partnership">Partnership</option>
@@ -72,8 +70,8 @@
                     </div>
                 </div>
                 <div class="control-group ">
-                    <label class="control-label">No. Telefon Pejabat</label>
-                    <div class="controls">
+                    <label class="span2">No. Telefon Pejabat</label>
+                    <div class="span4">
                         <input type="text" name="rentalapplication.Contact.OfficeNo" data-bind="value: Contact().OfficeNo" />
                     </div>
                 </div>
@@ -81,26 +79,26 @@
                     <h6>Alamat</h6>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Jalan</label>
-                    <div class="controls">
+                    <label class="span2">Jalan</label>
+                    <div class="span4">
                         <input type="text" name="rentalapplication.Address.Street" data-bind="value: Address().Street" />
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Bandar</label>
-                    <div class="controls">
+                    <label class="span2">Bandar</label>
+                    <div class="span4">
                         <input type="text" name="rentalapplication.Address.City" data-bind="value: Address().City" />
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Poskod</label>
-                    <div class="controls">
+                    <label class="span2">Poskod</label>
+                    <div class="span4">
                         <input type="text" name="rentalapplication.Address.Postcode" data-bind="value: Address().Postcode" />
                     </div>
                 </div>
                 <div class="labelLeft">
-                    <label class="control-label">Negeri</label>
-                    <div class="controls">
+                    <label class="span2">Negeri</label>
+                    <div class="span4">
                         <select data-bind="options: $parent.stateOptions, value: Address().State, optionsCaption: '[Sila Pilih]', optionsText: 'Name', optionsValue: 'Name'">
                         </select>
                     </div>
@@ -111,44 +109,39 @@
                 <h2>Cadangan Perniagaan</h2>
             </div>
             <div class="control-group">
-                <label class="control-label">Tujuan Permohonan</label>
-                <div class="controls">
+                <label class="span2">Tujuan Permohonan</label>
+                <div class="span6">
                     <textarea cols="3" rows="4" name="rentalapplication.Purpose" data-bind="value: Purpose" class="input-block-level"></textarea>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Pengalaman</label>
-                <div class="controls">
+                <label class="span6">Nyatakan pengalaman anda/syarikat berdasarkan permohonan diatas</label>
+                <div class="span6">
                     <textarea cols="3" rows="4" name="rentalapplication.Experience" data-bind="value: Experience" class="input-block-level"></textarea>
-                    <span class="help-block">Nyatakan pengalaman anda/syarikat berdasarkan permohonan diatas</span>
                 </div>
-
             </div>
 
             <div class="control-group">
-                <label class="control-label">Sejarah </label>
-                <div class="controls">
+                <div>
+                    <span class="span5">Pernah/Sudah Ada menyewa mana-mana Ruang Komersial dengan BPH? </span>
                     <input type="checkbox" name="rentalapplication.IsRecordExist" class="checkbox" data-bind="checked: IsRecordExist" />
-                    <span class="help-inline">Pernah/Sudah Ada menyewa mana-mana Ruang Komersial dengan BPH? </span>
-                </div>
+               </div>
             </div>
             <div class="control-group" data-bind="visible: IsRecordExist">
-                <label class="control-label">-</label>
-                <div class="controls">
-                    <span class="help-block">Sila nyatakan alamat</span>
-                    <textarea cols="3" rows="4" name="rentalapplication.PreviousAddress" data-bind="value: PreviousAddress"></textarea>
-
+            <label class="span2">Sila Nyatakan Alamat</label>
+                <div class="span6">
+                    <textarea cols="3" rows="4" name="rentalapplication.PreviousAddress" data-bind="value: PreviousAddress" class="input-block-level"></textarea>
                 </div>
             </div>
             <div>
                 <h2>Dokumen sokongan</h2>
             </div>
             <div>
-                <div>
-                    <a data-bind="click:$parent.addAttachmentCommand" class="btn btn-link pull-right">
+                <div class="span6">
+                    <a data-bind="click: $parent.addAttachmentCommand" class="btn btn-link pull-right">
                         <i class="icon-file-alt"></i>+ Dokumen</a>
                 </div>
-                <table id="document-sokongan-table" class="table table-bordered table-bordered">
+                <table id="document-sokongan-table" class="table table-bordered span6">
                     <thead>
                         <tr>
                             <th>Jenis</th>
@@ -167,15 +160,14 @@
                                 <input class="input-medium " type="file" value="upload" name="files" />
                             </td>
                             <td>
-                                <a class="btn btn-link pull-right">Buang</a>
+                                <a href="#" class="btn btn-link pull-right" data-bind="click: $root.removeAttachmentCommand">Buang</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="text-warning warning">
-                <p>Sila pastikan semua maklumat yang diberi adalah benar dan tepat.</p>
-                <p>Permohonan anda akan dibatalkan sekiranya pihak pengurusan mendapati maklumat yang diberi tidak benar.</p>
+            <div class="text-warning warning span12">
+                <p>Sila pastikan semua maklumat yang diberi adalah benar dan tepat.Permohonan anda akan dibatalkan sekiranya pihak pengurusan mendapati maklumat yang diberi tidak benar.</p>
                 <p>Terima Kasih atas kerjasama yang diberikan.</p>
             </div>
         </div>
@@ -185,10 +177,10 @@
 
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h3>Makluman Permohonan</h3>
+            <h2>Makluman Permohonan</h2>
         </div>
         <div class="modal-body">
-            <span>Permohonan anda sudah berjaya direkodkan, no rujukan permohonan anda ialah <strong data-bind="text: registrationNo"></strong></span>
+            <span>Permohonan anda sudah berjaya direkodkan, No Rujukan permohonan anda ialah <strong data-bind="text: registrationNo"></strong></span>
         </div>
 
         <div class="modal-footer">
@@ -196,32 +188,54 @@
         </div>
     </section>
 </div>
-<div class="span4 widget wlightblue" id="commercialSpace">
+<div class="span5 widget wlightblue" id="commercialSpace">
     <div class="widget-head">
-        <div class="pull-left">RUANG KOMERSIAL</div>
-        <div class="widget-icons pull-right">
-            <a href="#"><i class="icon-chevron-down"></i></a>
-            <a href="#"><i class="icon-remove"></i></a>
-        </div>
+        <div class="pull-left">Ruang Komersil</div>
+        <div class="widget-icons pull-right"></div>
         <div class="clearfix"></div>
     </div>
-    <div class="widget-content wgreen">
-        <article class="">
-            <div id="commercialSpace-Detail" class="padd" data-bind="with: commercialSpace">
-                <div><span>Negeri : </span><span data-bind="text: State"></span></div>
-                <div><span>Bandar : </span><span data-bind="text: City"></span></div>
-                <div><span>Nama Bangunan :</span><span data-bind="text: BuildingName"></span></div>
-                <div><span>Lot Bangunan :</span><span data-bind="text: BuildingLot"></span></div>
-                <div><span>Tingkat : </span><span data-bind="text: FloorName"></span></div>
-                <div><span>Lot : </span><span data-bind="text: LotName"></span></div>
-                <div><span>Jenis Ruang : </span><span data-bind="text: Category"></span></div>
-                <div><span>Saiz : </span><span data-bind="text: Size"></span></div>
-                <div><span>Kadar Sewa : </span><span data-bind="text: RentalRate"></span></div>
+    <div class="span5">
+        <div>
+            <div id="commercialSpace-Detail" data-bind="with: commercialSpace">
+                <div class="control-group">
+                    <label class="span2">Negeri :</label>
+                    <label class="span2" data-bind="text: State"/>
+                </div>
+                <div class="control-group">
+                    <label class="span2">Bandar :</label>
+                    <label class="span2" data-bind="text: City"/>
+                </div>
+                <div class="control-group">
+                    <label class="span2">Nama Bangunan :</label>
+                    <label class="span2" data-bind="text: BuildingName"/>
+                </div>
+               <div class="control-group">
+                    <label class="span2">Lot Bangunan :</label>
+                    <label class="span2" data-bind="text: BuildingLot"/>
+                </div>
+                <div class="control-group">
+                    <label class="span2">Tingkat :</label>
+                    <label class="span2" data-bind="text: FloorName"/>
+                </div>
+                <div class="control-group">
+                    <label class="span2">Lot :</label>
+                    <label class="span2" data-bind="text: LotName"/>
+                </div>
+                <div class="control-group">
+                    <label class="span2">Jenis Ruang :</label>
+                    <label class="span2" data-bind="text: Category"/>
+                </div>
+                <div class="control-group">
+                    <label class="span2">Saiz :</label>
+                    <label class="span2" data-bind="text: Size"/>
+                </div>
+                <div class="control-group">
+                    <label class="span2">Kadar Sewa :</label>
+                    <label class="span2" data-bind="text: RentalRate"/>
+                </div>
+                
             </div>
-        </article>
-        <div class="centered">
-            <img alt="map" data-bind="attr: { src: commercialSpace.StaticMap }" class="img-polaroid centered" src="/Images/accent.png" />
         </div>
+        
     </div>
 </div>
-

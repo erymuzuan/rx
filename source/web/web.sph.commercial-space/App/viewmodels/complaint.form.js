@@ -34,27 +34,13 @@ define(['services/datacontext', 'services/logger'],
 	                tcs.resolve(true);
 	                isBusy(false);
 	                
-	                // build custom fields value
-	                var cfs = _(template().ComplaintCustomFieldCollection()).map(function(f) {
-	                    var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(system.guid.newGuid());
-	                    v.Name(f.Name());
-	                    v.Type(f.Type());
-	                    return v;
-	                });
-
-	                vm.complaint().CustomFieldValueCollection(cfs);
 	            });
 	           return tcs.promise();
 	        },
 
             viewAttached = function (view) {
                 
-                $('#custom-fields-panel').load("/CustomField/ComplaintTemplaint/" + vm.template().ComplaintTemplateId(),
-                function() {
-                    ko.applyBindings(vm, document.getElementById('custom-fields-panel'));
-                });
-
-                $("#AttachmentStoreId").kendoUpload({
+             $("#AttachmentStoreId").kendoUpload({
                     async: {
                         saveUrl: "/BinaryStore/Upload",
                         removeUrl: "/BinaryStore/Remove",
