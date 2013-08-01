@@ -111,7 +111,7 @@ define(['services/datacontext', 'durandal/system'],
 
                     }
                 });
-               $('#add-field').on("click", 'a', function (e) {
+                $('#add-field').on("click", 'a', function (e) {
                     e.preventDefault();
                     _(designer().FormElementCollection()).each(function (f) {
                         f.isSelected(false);
@@ -132,7 +132,37 @@ define(['services/datacontext', 'durandal/system'],
                 });
                 $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js')// only contains UI core and interactions API 
                     .done(function () {
-                        $('#template-form-designer>form').sortable();
+
+                        var initDesigner = function () {
+                            $('#template-form-designer>form').sortable({
+                                items: 'div',
+                                placeholder: 'ph',
+                                helper: 'original',
+                                dropOnEmpty: true,
+                                forcePlaceholderSize: true,
+                                forceHelperSize: false,
+                                receive: receive
+                            });
+
+                        },
+                            receive = function (evt, ui) {
+                                var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                                    return ko.dataFor(div);
+                                });
+                                var fe = ko.dataFor(ui.item[0]);
+                                fe.isSelected = ko.observable(true);
+                                elements.splice(2, 0, fe);
+                                $('#template-form-designer>form').sortable("destroy");
+
+
+                                designer().FormElementCollection(elements);
+                            };
+
+                        initDesigner();
+                        $('#add-field>ul>li').draggable({
+                            helper: 'clone',
+                            connectToSortable: "#template-form-designer>form"
+                        });
                     });
             },
             selectFormElement = function (fe) {
@@ -164,7 +194,7 @@ define(['services/datacontext', 'durandal/system'],
             removeFormElement: removeFormElement,
             removeComboBoxOption: removeComboBoxOption,
             addComboBoxOption: addComboBoxOption,
-            designer : designer
+            designer: designer
         };
 
         return vm;
