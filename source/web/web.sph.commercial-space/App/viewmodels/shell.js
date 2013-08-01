@@ -2,10 +2,22 @@
     function (system, router, logger, context, config) {
 
         var viewAttached = function (view) {
-            $(view).on('click', 'a.dropdown-toggle', function (e) {
+
+
+            var dropDown = function (e) {
                 e.preventDefault();
-                $(this).parent().toggleClass("open");
-            });
+                e.stopPropagation();
+
+                var button = $(this);
+                button.parent().addClass("open");
+
+                $(document).one('click', function () {
+                    button.parent().removeClass("open");
+                });
+            };
+
+            $(document).on('click', 'a.dropdown-toggle', dropDown);
+
             var $menu = $('.jPanelMenu-panel');
             $('#drawer-menu').on('click', function (e) {
                 e.preventDefault();
