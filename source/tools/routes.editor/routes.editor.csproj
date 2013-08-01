@@ -86,7 +86,7 @@
       <HintPath>..\..\..\telerik\Telerik.Windows.Controls.Input.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Controls.Navigation">
-      <HintPath>..\..\..\bin\Debug\Telerik.Windows.Controls.Navigation.dll</HintPath>
+      <HintPath>..\..\..\telerik\Telerik.Windows.Controls.Navigation.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.Windows.Data, Version=2011.2.921.1135, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -220,7 +220,9 @@ bespoke.sphcommercialspace.domain.CommercialSpace = function (webId) {
         BuildingName: ko.observable(),
         BuildingLot: ko.observable(),
         RentalRate: ko.observable(),
+        TemplateId: ko.observable(),
         LotCollection: ko.observableArray(),
+        CustomFieldValueCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -963,6 +965,7 @@ bespoke.sphcommercialspace.domain.ComplaintTemplate = function (webId) {
         IsActive: ko.observable(),
         ComplaintCategoryCollection: ko.observableArray(),
         CustomFieldCollection: ko.observableArray(),
+        FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1454,6 +1457,7 @@ bespoke.sphcommercialspace.domain.FormDesign = function (webId) {
         Name: ko.observable(),
         Description: ko.observable(),
         ConfirmationText: ko.observable(),
+        ImageStoreId: ko.observable(),
         FormElementCollection: ko.observableArray(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)

@@ -7,30 +7,56 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
+/// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
 
-define(['services/datacontext'],
-    function (context) {
+define(['services/datacontext', 'durandal/system', './template.base', 'services/logger'],
+    function (context, system, templateBase,logger) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
             activate = function (routeData) {
-                var id = parseInt(routeData.templateId);
+
+
+                var customElements = [];
+                var address = new bespoke.sphcommercialspace.domain.AddressElement(system.guid());
+                address.CssClass("icon-envelope pull-left");
+                address.Name("Address");
+                customElements.push(address);
+
+                templateBase.activate(customElements);
+
+
+                var id = parseInt(routeData.id);
                 templateId(id);
                 if (id) {
                     var query = String.format("ComplaintTemplateId eq {0}", templateId());
                     var tcs = new $.Deferred();
                     context.loadOneAsync("ComplaintTemplate", query)
                         .done(function (b) {
+                            var fd = b.FormDesign;
+                            b.FormDesign = ko.observable(fd);
+                            _(b.FormDesign().FormElementCollection()).each(function (fe) {
+                                // add isSelected for the designer
+                                fe.isSelected = ko.observable(false);
+                            });
                             vm.complaintTemplate(b);
+                            templateBase.designer(vm.complaintTemplate().FormDesign());
                             tcs.resolve(true);
                         });
 
                     return tcs.promise();
                 } else {
                     vm.complaintTemplate(new bespoke.sphcommercialspace.domain.ComplaintTemplate());
+
+                    vm.complaintTemplate().FormDesign().Name("My form 1");
+                    vm.complaintTemplate().FormDesign().Description("Do whatever it takes");
+
+                    templateBase.designer(vm.complaintTemplate().FormDesign());
                     return true;
                 }
+
+
             },
             addComplaintCategory = function () {
                 var category = new bespoke.sphcommercialspace.domain.ComplaintCategory();
@@ -50,17 +76,30 @@ define(['services/datacontext'],
             removeCategory = function (category) {
                 vm.complaintTemplate().ComplaintCategoryCollection.remove(category);
             },
-            addCustomField = function () {
-                var customfield = new bespoke.sphcommercialspace.domain.CustomField();
-                vm.complaintTemplate().CustomFieldCollection.push(customfield);
-            },
-            removeCustomField = function (customfield) {
-                vm.complaintTemplate().CustomFieldCollection.remove(customfield);
-            },
+             editCategory = function (category) {
+                 vm.selectedComplaintCategory(category);
+                 var subs = _(category.SubCategoryCollection()).map(function (s) {
+                     return { text: ko.observable(s) };
+                 });
+                 vm.subCategoryOptions(subs);
+                 $('#category-details-modal').modal({});
+             },
+
+         saveSubCategory = function () {
+             var subs = (vm.subCategoryOptions()).map(function (s) {
+                 return s.text();
+             });
+             vm.selectedComplaintCategory().SubCategoryCollection(subs);
+         },
             save = function () {
                 var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON({ complaintTemplate: vm.complaintTemplate });
-                isBusy(true);
+
+                // get the sorted element
+                var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                    return ko.dataFor(div);
+                });
+                vm.complaintTemplate().FormDesign().FormElementCollection(elements);
+                var data = ko.mapping.toJSON(vm.complaintTemplate);
 
                 context.post(data, "/Template/SaveComplaintTemplate")
                     .then(function (result) {
@@ -68,45 +107,31 @@ define(['services/datacontext'],
                         tcs.resolve(result);
                     });
                 return tcs.promise();
-            },
-
-        editCategory = function (category) {
-            vm.selectedComplaintCategory(category);
-            var subs = _(category.SubCategoryCollection()).map(function (s) {
-                return { text: ko.observable(s) };
-            });
-            vm.subCategoryOptions(subs);
-            $('#category-details-modal').modal({});
-        },
-
-         saveSubCategory = function () {
-             var subs = (vm.subCategoryOptions()).map(function(s) {
-                 return s.text();
-             });
-             vm.selectedComplaintCategory().SubCategoryCollection(subs);
-         };
-
+            };
+        
         var vm = {
-            isBusy: isBusy,
             activate: activate,
-            
+            viewAttached: templateBase.viewAttached,
             subCategoryOptions: ko.observableArray(),
-            
             complaintTemplate: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
             selectedComplaintCategory: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintCategory()),
-            
             addComplaintCategory: addComplaintCategory,
             removeCategory: removeCategory,
-            addCustomField: addCustomField,
-            removeCustomField: removeCustomField,
             addSubCategory: addSubCategory,
             removeSubCategory: removeSubCategory,
-            
             updateCategoryCommand: updateCategory,
-            toolbar: { saveCommand: save },
-
             editCategory: editCategory,
-            saveSubCategoryCommand: saveSubCategory
+            saveSubCategoryCommand: saveSubCategory,
+            toolbar: {
+                saveCommand: save
+            },
+            customFormElements: templateBase.customFormElements,
+            formElements: templateBase.formElements,
+            selectFormElement: templateBase.selectFormElement,
+            selectedFormElement: templateBase.selectedFormElement,
+            removeFormElement: templateBase.removeFormElement,
+            removeComboBoxOption: templateBase.removeComboBoxOption,
+            addComboBoxOption: templateBase.addComboBoxOption
         };
 
         return vm;

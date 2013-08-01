@@ -1,4 +1,12 @@
-﻿<section class="container-fluid">
+﻿@using Bespoke.Sph.Commerspace.Web.ViewModels
+@model IEnumerable<Bespoke.SphCommercialSpaces.Domain.CustomField>
+
+@{
+    ViewBag.Title = "title";
+    Layout = null;
+}
+
+<section class="container-fluid">
     <div class="row-fluid" id="cs-modal">
         <h1 class="span12" data-bind="text: title"></h1>
     </div>
@@ -89,12 +97,9 @@
                             </label>
                         </div>
                     </div>
-
-                    <div>
-                        <input id="save-button" type="button" class="btn btn-primary" value="Save" data-bind="command: $parent.saveCommand, disable: $parent.isBusy"
-                            data-loading-text="Saving..."
-                            data-complete-text="Saved!!" />
-                    </div>
+                    <h2>Additional fields</h2>
+                    @Html.Partial("CustomFieldHtml", new CustomFieldViewModel(Model){RootObject = ""})
+                    
                 </form>
 
             </div>
@@ -119,8 +124,8 @@
         <form class="form-horizontal">
             <div class="control-group">
                 <label for="selectedBuilding" class="control-label">Bangunan</label>
-                <div class="controls">
-                    <select data-bind="value: selectedBuilding, options: buildingOptions, optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Sila pilih]'" id="selectedBuilding" name="selectedBuilding">
+                <div class="controls" data-bind="with : buildingOptions">
+                    <select data-bind="value: $root.selectedBuilding, options:$data , optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Sila pilih]'" id="selectedBuilding" name="selectedBuilding">
                     </select>
                 </div>
             </div>

@@ -1,8 +1,12 @@
-﻿<h1 class="row-fluid">Senarai Bangunan</h1>
+﻿<h1>Senarai Bangunan</h1>
 
-<table class="table table-striped row-fluid" data-bind ="filter: { path: 'tbody>tr' }">
+<table class="table" data-bind="filter: { path: 'tbody>tr' }">
     <thead>
         <tr>
+            <th>Nama</th>
+            <th>Jenis</th>
+            <th>Keluasan</th>
+            <th>Tingkat</th>
             <th></th>
         </tr>
     </thead>
@@ -11,6 +15,10 @@
             <td>
                 <a data-bind="attr: { href: '/#/building.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() }, text: Name" ></a> 
             </td>
+            <td data-bind="text:Type"></td>
+            <td data-bind="text:Size"></td>
+            <td data-bind="text:Floors"></td>
+            <td></td>
         </tr>
     </tbody>
 </table>

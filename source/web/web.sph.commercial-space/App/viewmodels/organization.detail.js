@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -48,7 +48,7 @@ define(['services/datacontext'],
             isBusy: isBusy,
             activate: activate,
             organization: ko.observable(new bespoke.sphcommercialspace.domain.Organization()),
-            saveCommand : save
+            toolbar: { saveCommand: save }
         };
 
         return vm;

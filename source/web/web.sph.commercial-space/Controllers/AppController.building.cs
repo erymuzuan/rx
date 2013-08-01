@@ -6,7 +6,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public partial class AppController
     {
-
         public ActionResult TemplateBuildingHtml()
         {
             return RedirectToAction("Building", "Template");

@@ -23,7 +23,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             activate = function (tenant) {
                 tenantId(parseInt(tenant.TenantId()));
                 vm.complaint().TenantId(tenantId);
-                vm.tenantInfo(tenant);
                 var query = "TenantIdSsmNo eq '" + tenant.IdSsmNo() + "'";
                 var query2 = "TenantId eq " + tenant.TenantId();
 	            isBusy(true);

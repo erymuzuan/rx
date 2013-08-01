@@ -1,6 +1,6 @@
-﻿<div class="container">
+﻿<h1>Peta Carian</h1>
+<div class="container">
     <div class="row">
-        <h2 class="span8 page-title">Peta Carian</h2>
         <div class="span4">
             <form class="form-search">
                 <div class="input-append">
@@ -26,20 +26,24 @@
                 </li>
             </ul>
             <div class="k-info-colored k-block" data-bind="visible: selectedBuilding().Name">
-                <div data-bind="with : selectedBuilding">
+                <div data-bind="with: selectedBuilding">
                     <h3 data-bind="text: Name"></h3>
                     <div>
-                        <span data-bind="text: Size"></span> sqf
+                        <span data-bind="text: Size"></span>sqf
                     </div>
                     <div>
-                        <span data-bind="text:Floors"></span> floor(s)
+                        <span data-bind="text: Floors"></span>floor(s)
                     </div>
-                    <div data-bind="with : Address">
+                    <div data-bind="with: Address">
                         <address>
-                            <span data-bind="text:Street"></span><br />
-                            <span data-bind="text:City"></span><br />
-                            <span data-bind="text:Postcode"></span><br />
-                            <span data-bind="text:State"></span><br />
+                            <span data-bind="text: Street"></span>
+                            <br />
+                            <span data-bind="text: City"></span>
+                            <br />
+                            <span data-bind="text: Postcode"></span>
+                            <br />
+                            <span data-bind="text: State"></span>
+                            <br />
                         </address>
                     </div>
                     <div>

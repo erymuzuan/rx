@@ -5979,6 +5979,7 @@ a.badge:focus {
   position: relative;
   width: 100%;
   overflow: hidden;
+    margin-top: 20px;
 }
 
 .carousel-inner > .item {

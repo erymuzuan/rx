@@ -3,13 +3,13 @@
     Layout = null;
 }
 
-<h2>Profil @User.Identity.Name</h2>
-<div class="span4">
+<h1>Profil @User.Identity.Name</h1>
+<div>
     <form class="form-horizontal" data-bind="with: userProfile">
         <div class="control-group">
             <label for="FullName" class="control-label">Nama penuh</label>
             <div class="controls">
-                <input data-bind="value: FullName" id="FullName" type="text" name="FullName" />
+                <input class="input-xxlarge" data-bind="value: FullName" id="FullName" type="text" name="FullName" />
             </div>
         </div>
         <div class="control-group">

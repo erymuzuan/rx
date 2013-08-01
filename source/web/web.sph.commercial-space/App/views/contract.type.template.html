@@ -1,6 +1,6 @@
 ﻿<div class="container-fluid">
     <div class="row-fluid">
-        <h1 class="span12">jenis kontrak</h1>
+        <h1 class="span12">Jenis kontrak</h1>
     </div>
 </div>
 <div class="tabbable">
@@ -30,12 +30,13 @@
                 </div>
                 <div class="control-group">
                     <label for="template.InterestRate" class="control-label">Kadar Faedah </label>
-                    <div class="controls">
-                        <input data-bind="value: template.InterestRate" id="template.InterestRate" type="text" name="InterestRate" /><span class="add-on">%</span>
+                    <div class="controls input-append">
+                        <input data-bind="value: template.InterestRate" class="input-small" id="template.InterestRate" type="text" name="InterestRate" />
+                        <span class="add-on">%</span>
                     </div>
                 </div>
                 <div>
-                    <table id="document-sokongan-table" class="table table-bordered table-bordered">
+                    <table id="document-sokongan-table" class="table table-striped">
                         <thead>
                             <tr>
 
@@ -57,7 +58,7 @@
                                     <a download data-bind="visible: StoreId, attr: { href: '/BinaryStore/Get/' + StoreId() }">Download</a>
                                 </td>
                                 <td>
-                                    <button class="btn" title="Buang dokumen ini" data-bind="click: $parent.removeDocumentCommand">-</button>
+                                    <button class="btn btn-link" title="Buang dokumen ini" data-bind="click: $parent.removeDocumentCommand">Buang</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -75,7 +76,7 @@
                             <a href="#" data-bind="text: Title, click: $parent.selectTopicCommand"></a>
                         </li>
                     </ul>
-                    <a type="button" class="btn"
+                    <a type="button" class="btn btn-link"
                         data-toggle="modal"
                         href="#add-topic" data-bind="click: startAddTopicCommand">+Topic</a>
                     <label>Title</label>
@@ -86,7 +87,7 @@
                     <textarea rows="2" data-bind="value: topic.Description"></textarea>
                 </div>
                 <div class="span8" data-bind="visible: topic.Title">
-                    <a type="button" class="btn"
+                    <a type="button" class="btn btn-link"
                         data-toggle="modal"
                         href="#add-clause"
                         data-bind="click: startAddClauseCommand">+ Klaus</a>

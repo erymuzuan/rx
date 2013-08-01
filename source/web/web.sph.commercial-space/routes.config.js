@@ -1,5 +1,19 @@
 [
   {
+    "role": "can_edit_payment",
+    "url": "rebate",
+    "moduleId": "viewmodels/rebate",
+    "name": "Senarai Rebat",
+    "visible": true,
+    "icon": "icon-usd",
+    "caption": "Rebat",
+    "settings": {
+      "caption": "Rebat"
+    },
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
     "role": null,
     "url": "public.index",
     "moduleId": "viewmodels/public.index",
@@ -103,7 +117,7 @@
   },
   {
     "role": "can_add_commercial_space",
-    "url": "commercialspace.detail/:buildingId/:floorname/:csId",
+    "url": "commercialspace.detail/:templateId/:buildingId/:floorname/:csId",
     "moduleId": "viewmodels/commercialspace.detail",
     "name": "ruang komersial",
     "visible": false,
@@ -296,20 +310,6 @@
     "error": ""
   },
   {
-    "role": "can_edit_payment",
-    "url": "rebate",
-    "moduleId": "viewmodels/rebate",
-    "name": "Senarai Rebat",
-    "visible": true,
-    "icon": "icon-usd",
-    "caption": "Rebat",
-    "settings": {
-      "caption": "Rebat"
-    },
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
     "role": "can_edit_setting",
     "url": "organization.detail",
     "moduleId": "viewmodels/organization.detail",
@@ -325,7 +325,7 @@
     "role": "can_edit_complaint_template",
     "url": "complaint.template.list",
     "moduleId": "viewmodels/complaint.template.list",
-    "name": "Tetapan Aduan",
+    "name": "Templat Aduan",
     "visible": true,
     "icon": "icon-comments-alt",
     "caption": "aduan",
@@ -335,8 +335,8 @@
   },
   {
     "role": "can_edit_complaint_template",
-    "url": "complaint.template.form/:templateId",
-    "moduleId": "viewmodels/complaint.template.form",
+    "url": "template.complaint-id.0/:id",
+    "moduleId": "viewmodels/template.complaint-id.0",
     "name": "Tetapan Aduan",
     "visible": false,
     "icon": "icon-comments-alt",
@@ -495,7 +495,7 @@
   },
   {
     "role": null,
-    "url": "complaint.form/:id",
+    "url": "complaint.form/:templateId",
     "moduleId": "viewmodels/complaint.form",
     "name": "PerincianAduan",
     "visible": false,
@@ -530,7 +530,7 @@
     "error": ""
   },
   {
-    "role": null,
+    "role": "can_assign_maintenance_officer",
     "url": "maintenance.assignment/:id",
     "moduleId": "viewmodels/maintenance.assignment",
     "name": "Perincian Aduan and Assisgment",

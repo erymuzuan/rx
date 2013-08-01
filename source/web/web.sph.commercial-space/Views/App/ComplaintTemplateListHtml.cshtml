@@ -25,8 +25,8 @@
     <tbody data-bind="foreach:templates">
         <tr>
             <td>
-                <a data-bind="attr: { href: '/#/complaint.template.form/' + ComplaintTemplateId() }, text: Name"></a>
-            </td>
+                 <a data-bind="attr: { href: '/#/template.complaint-id.0/' + ComplaintTemplateId() }, text: Name"></a>
+             </td>
             <td data-bind="text:Description"></td>
             <td>
                 <input type="checkbox" data-bind="checked:IsActive"/>

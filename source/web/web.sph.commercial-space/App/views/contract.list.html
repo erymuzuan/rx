@@ -1,26 +1,29 @@
-﻿<h1 class="row-fluid">Senarai kontrak</h1>
-
-<table class="table table-striped row-fluid" data-bind="filter: { path: 'tbody>tr' }">
-    <thead>
-        <tr>
-            <th>No. Kontrak</th>
-            <th>Tajuk</th>
-            <th>Jenis Ruang</th>
-            <th>ID Penyewa</th>
-            <th>Nama Penyewa</th>
-        </tr>
-    </thead>
-    <tbody data-bind="foreach: contracts">
-        <tr>
-            <td>
-                <a href="#" data-bind="attr: { href: '/#/contract.details/' + ContractId() }, text: ReferenceNo"></a>
-            </td>
-            <td data-bind="text: Title"></td>
-            <td data-bind="text: CommercialSpace.Category"></td>
-            <td data-bind="text: Tenant.IdSsmNo"></td>
-            <td data-bind="text: Tenant.Name"></td>
-        </tr>
-    </tbody>
-</table>
-
-
+﻿<h1>Senarai kontrak</h1>
+<div class="row-fluid">
+   
+    <div class="container-fluid" data-bind="filter: { path: 'tbody>tr' }">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>No. Kontrak</th>
+                    <th>Tajuk</th>
+                    <th>Jenis Ruang</th>
+                    <th>ID Penyewa</th>
+                    <th>Nama Penyewa</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: contracts">
+                <tr>
+                    <td>
+                        <a href="#" data-bind="attr: { href: '/#/contract.details/' + ContractId() }, text: ReferenceNo"></a>
+                    </td>
+                   <td data-bind="text:Title"></td>
+                   <td data-bind="text:CommercialSpace.Category"></td>
+                   <td data-bind="text: Tenant.IdSsmNo"></td>
+                   <td data-bind="text:Tenant.Name"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+</div>
