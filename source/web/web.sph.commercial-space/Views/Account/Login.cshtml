@@ -10,33 +10,31 @@
  
         
                 
-<body class="login_body">
-    <div class="wrap">
-        <h2>Daftar Masuk Pengguna</h2>
-        <form action="#" autocomplete="off" method="post" class="validate" novalidate="novalidate">
-            <div class="login">
-                <div class="email">
-                    <label class="controls">Nama Pengguna </label>
-                    @Html.TextBoxFor(m => m.UserName)
-                    @Html.ValidationMessageFor(m => m.UserName)
-                </div>
-                <div class="pw">
-                    <label class="controls">Kata Laluan </label>
-                    @Html.PasswordFor(m => m.Password)
-                    @Html.ValidationMessageFor(m => m.Password)
-                </div>
-                <div class="remember">
-                    <label class="checkbox">
-	                <input type="checkbox" value="1" name="remember"> Remember me on this computer
-                </label>
-                </div>      
-            </div>
-            <div class="pull-right">
-                <input type="submit" class="btn btn-primary" value="Daftar Masuk" />
-            </div>
-        </form>	
+    <div>
+    <div class="row-fluid">
+        <div class="span4 offset4 well">
+                  <legend>Daftar Masuk Pengguna</legend>
+                  <div class="alert alert-error">
+                      <a class="close" data-dismiss="alert" href="#">×</a>Kata Laluan dan nama tidak sah!
+                  </div>
+                  <form method="POST" action="" accept-charset="UTF-8">
+                      <label class="controls">Nama Pengguna </label>
+                      @Html.TextBoxFor(m => m.UserName)
+                      @Html.ValidationMessageFor(m => m.UserName)
+                      <label class="controls">Kata Laluan </label>
+                      @Html.PasswordFor(m => m.Password)
+                      @Html.ValidationMessageFor(m => m.Password)
+                      <label class="checkbox">
+                          <input type="checkbox" name="remember" value="1"> Ingat saya
+                      </label>
+                      <button type="submit" name="submit" class="btn btn-info btn-block">Daftar Masuk</button>
+                  </form>    
+              </div>
+
     </div>
-</body>
+	</div>	
+	
+
                 
                 
             

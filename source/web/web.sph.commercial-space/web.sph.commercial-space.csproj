@@ -446,6 +446,8 @@
     <Content Include="App\views\_workorder.warranty.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\1200x480.gif" />
+    <Content Include="Images\1200x480.png" />
     <Content Include="Images\background.png" />
     <Content Include="Images\blank.png" />
     <Content Include="Images\constantfield.png" />
