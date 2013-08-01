@@ -51,23 +51,7 @@ define(['services/datacontext'],
                 return tcs.promise();
             },
             viewAttached = function () {
-                var dropDown = function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    var button = $(this);
-                    button.parent().toggleClass("open");
-
-                    $(document).one('click', function () {
-                        button.parent().toggleClass("open");
-                    });
-                };
-
-                $('#rules-table').on('click', 'a.dropdown-toggle', dropDown);
-
-                $('#action-panel').on('click', 'a.dropdown-toggle', dropDown);
-
-                $('#setter-action-modal').on('click', 'a.dropdown-toggle', dropDown);
+              
 
                 $('#setter-action-modal').on('click', 'a.btn,button.close', function (e) {
                     e.preventDefault(true);
