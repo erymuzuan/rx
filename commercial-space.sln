@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.20617.1 PREVIEW
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencies", "{799A5437-62C7-4385-95CC-ADEB4177B3FA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit.test", "unit.test", "{C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}"
@@ -14,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "domain", "domain", "{FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "windows", "windows", "{C53886C3-E262-4B51-8F6A-7218356FF069}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{402F5682-5851-4DC5-AC3D-B176A302BBE1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F1AD165B-1A46-4B5A-9711-D73FF7104796}"
@@ -23,14 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F1AD16
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "infrastructure.interface", "source\windows\infrastructure.interface\infrastructure.interface.csproj", "{817BF4AC-CB84-4BC3-BB16-AF1FCB66E2E1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dashboard.shell", "source\windows\dashboard.shell\dashboard.shell.csproj", "{516264BE-D656-4F58-9F94-FECA5C455BEA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "commercialspace.module", "source\windows\commercialspace.module\commercialspace.module.csproj", "{8C1D3125-0D5A-4FDA-AC11-227C1389CC75}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "admin.module", "source\windows\admin.module\admin.module.csproj", "{76E24183-BF8D-4D5D-B3FC-B84AED44F3DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "domain.commercialspace", "source\domain\domain.commercialspace\domain.commercialspace.csproj", "{7BF1DE5A-3756-4A31-8B82-491C71D263D7}"
 EndProject
@@ -88,22 +76,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{817BF4AC-CB84-4BC3-BB16-AF1FCB66E2E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{817BF4AC-CB84-4BC3-BB16-AF1FCB66E2E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{817BF4AC-CB84-4BC3-BB16-AF1FCB66E2E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{817BF4AC-CB84-4BC3-BB16-AF1FCB66E2E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{516264BE-D656-4F58-9F94-FECA5C455BEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{516264BE-D656-4F58-9F94-FECA5C455BEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{516264BE-D656-4F58-9F94-FECA5C455BEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{516264BE-D656-4F58-9F94-FECA5C455BEA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8C1D3125-0D5A-4FDA-AC11-227C1389CC75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C1D3125-0D5A-4FDA-AC11-227C1389CC75}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C1D3125-0D5A-4FDA-AC11-227C1389CC75}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8C1D3125-0D5A-4FDA-AC11-227C1389CC75}.Release|Any CPU.Build.0 = Release|Any CPU
-		{76E24183-BF8D-4D5D-B3FC-B84AED44F3DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76E24183-BF8D-4D5D-B3FC-B84AED44F3DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76E24183-BF8D-4D5D-B3FC-B84AED44F3DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76E24183-BF8D-4D5D-B3FC-B84AED44F3DC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7BF1DE5A-3756-4A31-8B82-491C71D263D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7BF1DE5A-3756-4A31-8B82-491C71D263D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BF1DE5A-3756-4A31-8B82-491C71D263D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -210,10 +182,6 @@ Global
 		{E3A54166-4231-47E7-BA4C-A391CDD6937D} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{748FB901-3754-49E4-8E31-D09005CBA44E} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{7BF1DE5A-3756-4A31-8B82-491C71D263D7} = {FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}
-		{817BF4AC-CB84-4BC3-BB16-AF1FCB66E2E1} = {C53886C3-E262-4B51-8F6A-7218356FF069}
-		{516264BE-D656-4F58-9F94-FECA5C455BEA} = {C53886C3-E262-4B51-8F6A-7218356FF069}
-		{8C1D3125-0D5A-4FDA-AC11-227C1389CC75} = {C53886C3-E262-4B51-8F6A-7218356FF069}
-		{76E24183-BF8D-4D5D-B3FC-B84AED44F3DC} = {C53886C3-E262-4B51-8F6A-7218356FF069}
 		{ACE7D8D5-1100-4E9A-852E-564E46083AA2} = {402F5682-5851-4DC5-AC3D-B176A302BBE1}
 		{40892CEA-FD47-4C1F-B821-7939776E9B6B} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{F67CF883-208D-4721-B1B0-0625D7FA07D1} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}

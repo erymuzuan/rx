@@ -63,6 +63,10 @@ define(['services/datacontext',
                 vm.toolbar().auditTrail.id(id);
                 var query = "BuildingId eq " + id;
                 context.loadOneAsync("Building", query).done(function (b) {
+                    if (typeof b.Address !== "function") {
+                        var address = b.Address;
+                        b.Address = ko.observable(address);
+                    }
                     vm.building(b);
                     tcs.resolve(true);
                 });
@@ -112,10 +116,10 @@ define(['services/datacontext',
             var buildingId = vm.building().BuildingId();
             if (!buildingId) {
                 mapvm.geocode(
-                    vm.building().Address.Street() + ","
-                   + vm.building().Address.City() + ","
-                   + vm.building().Address.Postcode() + ","
-                   + vm.building().Address.State() + ","
+                    vm.building().Address().Street() + ","
+                   + vm.building().Address().City() + ","
+                   + vm.building().Address().Postcode() + ","
+                   + vm.building().Address().State() + ","
                    + "Malaysia.")
                 .then(function (result) {
                     if (result.status) {
@@ -199,7 +203,7 @@ define(['services/datacontext',
             goBackCommand: goBack,
             isBusy: isBusy,
             removeFloorCommand: removeFloor,
-            title: 'Building Details',
+            title: 'Perincian Bangunan',
             toolbar: ko.observable({
                 saveCommand: saveAsync,
                 auditTrail: {

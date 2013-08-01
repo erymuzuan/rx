@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -35,13 +36,30 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             if (null == designation) throw new InvalidOperationException("Cannot find designation " + profile.Designation);
             var roles = designation.RoleCollection.ToArray();
 
+            var em = Membership.GetUser(profile.UserName);
+
+            if (null != em)
+            {
+                //var userroles = Roles.GetRolesForUser(profile.UserName);
+                //if (userroles.Any())
+                //    Roles.RemoveUserFromRoles(profile.UserName, roles);
+
+                //Roles.AddUserToRoles(profile.UserName, profile.Roles);
+                //em.Email = profile.Email;
+                Membership.UpdateUser(em);
+                profile.Roles = roles;
+                await CreateProfile(profile, designation);
+                return Json(profile);
+            }
+
+
             Membership.CreateUser(profile.UserName, profile.Password, profile.Email);
             Roles.AddUserToRoles(profile.UserName, roles);
             profile.Roles = roles;
 
-            var userprofile = await CreateProfile(profile, designation);
+            await CreateProfile(profile, designation);
 
-            return Json(userprofile);
+            return Json(profile);
         }
 
 

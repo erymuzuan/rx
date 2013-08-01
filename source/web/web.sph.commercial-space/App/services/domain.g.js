@@ -917,11 +917,13 @@ bespoke.sphcommercialspace.domain.CustomField = function (webId) {
         "$type": "Bespoke.SphCommercialSpaces.Domain.CustomField, domain.commercialspace",
         Order: ko.observable(),
         Name: ko.observable(),
-        IsMandatory: ko.observable(),
+        IsRequired: ko.observable(),
         Type: ko.observable(),
         Size: ko.observable(),
         Listing: ko.observable(),
         Group: ko.observable(),
+        MaxLength: ko.observable(),
+        MinLength: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1373,6 +1375,7 @@ bespoke.sphcommercialspace.domain.BuildingTemplate = function (webId) {
         Description: ko.observable(),
         IsActive: ko.observable(),
         CustomFieldCollection: ko.observableArray(),
+        FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1470,6 +1473,8 @@ bespoke.sphcommercialspace.domain.TextBox = function (webId) {
     v.DefaultValue = ko.observable();
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.TextBox, domain.commercialspace";
 
+    v.MinLength = ko.observable();//nillable
+    v.MaxLength = ko.observable();//nillable
     if (bespoke.sphcommercialspace.domain.TextBoxPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.TextBoxPartial(v));
     }
@@ -1512,7 +1517,7 @@ bespoke.sphcommercialspace.domain.ComboBox = function (webId) {
 
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.ComboBox, domain.commercialspace";
 
-    v.OptionCollection = ko.observableArray();
+    v.ComboBoxItemCollection = ko.observableArray();
     if (bespoke.sphcommercialspace.domain.ComboBoxPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.ComboBoxPartial(v));
     }
@@ -1578,6 +1583,106 @@ bespoke.sphcommercialspace.domain.NumberTextBox = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.BuildingMapElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v.Icon = ko.observable();
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.BuildingMapElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.BuildingMapElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.BuildingMapElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.BuildingFloorsElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.BuildingFloorsElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.BuildingFloorsElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.BuildingFloorsElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.SectionFormElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.SectionFormElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.SectionFormElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.SectionFormElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ComboBoxItem = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.ComboBoxItem, domain.commercialspace",
+        Caption: ko.observable(),
+        Value: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ComboBoxItemPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ComboBoxItemPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.AddressElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.AddressElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.AddressElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.AddressElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Profile = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.Profile, domain.commercialspace",
+        FullName: ko.observable(),
+        UserName: ko.observable(),
+        Email: ko.observable(),
+        Password: ko.observable(),
+        ConfirmPassword: ko.observable(),
+        Status: ko.observable(),
+        Designation: ko.observable(),
+        Telephone: ko.observable(),
+        Mobile: ko.observable(),
+        IsNew: ko.observable(),
+        Department: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ProfilePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ProfilePartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {
@@ -1633,6 +1738,9 @@ bespoke.sphcommercialspace.domain.FormElement = function (webId) {
         IsRequired: ko.observable(),
         Size: ko.observable(),
         CssClass: ko.observable(),
+        Visible: ko.observable(),
+        Enable: ko.observable(),
+        ElementId: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

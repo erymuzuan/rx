@@ -9,21 +9,24 @@
     <div class="row">
         <!-- left toobox-->
         <div class="span4">
-           @Html.Partial("_BuildingTemplateToolbox")
+            @Html.Partial("_BuildingTemplateToolbox")
         </div>
 
-        <div class="span8">
+        <div class="span8" data-bind="with: buildingTemplate">
 
-            <div data-bind="with: formDesign" id="building-template-form-designer">
+            <div data-bind="with: FormDesign" id="building-template-form-designer">
                 <h1 data-bind="text: Name"></h1>
                 <span data-bind="text: Description"></span>
 
-                <!--ko foreach:FormElementCollection -->
-                @foreach (var fe in Model.FormElements)
-                {
-                    @Html.DisplayFor(m => fe)
-                }
-                <!--/ko-->
+                <form class="form-horizontal">
+                    <!--ko foreach:FormElementCollection -->
+                    @foreach (var fe in Model.FormElements)
+                    {
+                        @Html.DisplayFor(m => fe)
+                    }
+                    <!--/ko-->
+
+                </form>
             </div>
 
 

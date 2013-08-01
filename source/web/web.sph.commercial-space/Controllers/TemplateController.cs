@@ -1,7 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bespoke.Sph.Commerspace.Web.Helpers;
+using Bespoke.Sph.Commerspace.Web.Models;
 using Bespoke.Sph.Commerspace.Web.ViewModels;
 using Bespoke.SphCommercialSpaces.Domain;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
@@ -19,8 +24,43 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(true);
         }
 
-        public async Task<ActionResult> SaveBuildingTemplate(BuildingTemplate buildingTemplate)
+        public async Task<ActionResult> SaveBuildingTemplate()
         {
+
+            var json = this.GetRequestBody();
+            var buildingTemplate = JsonConvert.DeserializeObject<BuildingTemplate>(json,
+                                                                                   new JsonSerializerSettings
+                                                                                       {
+                                                                                           TypeNameHandling =
+                                                                                               TypeNameHandling.All
+                                                                                       });
+
+            var list = new List<string>();
+            TypeHelper.BuildFlatJsonTreeView(list, "", typeof(Building));
+            var tjson = "[" + string.Join(",", list) + "]";
+            var models = JsonConvert.DeserializeObject<IEnumerable<TypeModel>>(tjson)
+                                    .Select(t => t.Path)
+                                    .ToArray();
+
+            if (buildingTemplate.CustomFieldCollection.Any())
+            {
+                buildingTemplate.CustomFieldCollection.Clear();
+            }
+
+            foreach (var el in buildingTemplate.FormDesign.FormElementCollection)
+            {
+                if (!models.Contains(el.Path))
+                {
+                    var cf = el.GenerateCustomField();
+                    if (null != cf)
+                        buildingTemplate.CustomFieldCollection.Add(cf);
+                }
+                else
+                {
+                    el.CustomField = null;
+                }
+            }
+
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
@@ -66,6 +106,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public ActionResult Building()
         {
             var vm = new TemplateFormViewModel();
+            vm.FormElements.Add(new FormElement());
+            vm.FormElements.Add(new SectionFormElement());
             vm.FormElements.Add(new TextBox());
             vm.FormElements.Add(new ComboBox());
             vm.FormElements.Add(new WebsiteFormElement());
@@ -74,7 +116,14 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             vm.FormElements.Add(new CheckBox());
             vm.FormElements.Add(new TextAreaElement());
             vm.FormElements.Add(new DatePicker());
+
+            vm.FormElements.Add(new AddressElement());
+            vm.FormElements.Add(new BuildingFloorsElement());
+            vm.FormElements.Add(new BuildingMapElement());
+
+
             return View(vm);
+
         }
     }
 }

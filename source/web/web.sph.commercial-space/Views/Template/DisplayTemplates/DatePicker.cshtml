@@ -1,0 +1,12 @@
+﻿@model Bespoke.SphCommercialSpaces.Domain.DatePicker
+
+
+<!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.DatePicker, domain.commercialspace" -->
+<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+    <label data-bind="text: Label"></label>
+    <div class="input-append">
+        <input type="text" data-bind="attr: { 'title': Tooltip, 'class': CssClass() + ' ' + Size() }" />
+        <i class="add-on icon-calendar"></i>
+    </div>
+</div>
+<!--/ko-->

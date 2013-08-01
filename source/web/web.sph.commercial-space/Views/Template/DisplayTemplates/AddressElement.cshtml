@@ -1,0 +1,32 @@
+﻿@model Bespoke.SphCommercialSpaces.Domain.AddressElement
+
+<!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.AddressElement, domain.commercialspace" -->
+<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+    <div class="control-group" data-bind2="with: Address">
+
+    <div class="control-group">
+        <label for="building.Address.Street" class="control-label">Jalan</label>
+        <div class="controls">
+            <input class="input-xxlarge" data-bind2="value: Street" id="building.Address.Street" type="text" name="building.Address.Street" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="building.Address.City" class="control-label">Bandar/Daerah</label>
+        <div class="controls">
+            <input data-bind2="value: City" id="building.Address.City" type="text" name="building.Address.City" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="building.Address.Postcode" class="control-label">Poskod</label>
+        <div class="controls">
+            <input data-bind2="value: Postcode" id="building.Address.Postcode" type="text" name="building.Address.Postcode" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="building.Address.State" class="control-label">Negeri</label>
+        <div class="controls">
+            <select name="building.Address.State" id="building.Address.State" data-bind2="value: State, options: $root.stateOptions, optionsText: 'Name', optionsValue: 'Name', optionsCaption: '[Sila Pilih]'"></select>
+        </div>
+    </div>
+</div></div>
+<!--/ko-->

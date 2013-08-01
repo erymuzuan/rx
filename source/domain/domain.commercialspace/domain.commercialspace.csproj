@@ -111,12 +111,18 @@
     <Compile Include="EmailMessage.cs" />
     <Compile Include="EntityTypeAttribute.cs" />
     <Compile Include="Floor.cs" />
+    <Compile Include="FormTemplates\AddressElement.cs" />
+    <Compile Include="FormTemplates\BuildingFloorsElement.cs" />
+    <Compile Include="FormTemplates\BuildingMapElement.cs" />
     <Compile Include="FormTemplates\CheckBox.cs" />
     <Compile Include="FormTemplates\ComboBox.cs" />
+    <Compile Include="FormTemplates\ComboBoxItem.cs" />
+    <Compile Include="FormTemplates\DatePicker.cs" />
     <Compile Include="FormTemplates\EmailFormElement.cs" />
     <Compile Include="FormTemplates\FormDesign.cs" />
     <Compile Include="FormTemplates\FormElement.cs" />
     <Compile Include="FormTemplates\NumberTextBox.cs" />
+    <Compile Include="FormTemplates\SectionFormElement.cs" />
     <Compile Include="FormTemplates\TextAreaElement.cs" />
     <Compile Include="FormTemplates\TextBox.cs" />
     <Compile Include="FormTemplates\WebsiteFormElement.cs" />
@@ -156,6 +162,7 @@
     <Compile Include="Payment.cs" />
     <Compile Include="PaymentDistribution.cs" />
     <Compile Include="Permission.cs" />
+    <Compile Include="Profile.cs" />
     <Compile Include="QueryHelper.cs" />
     <Compile Include="Triggers\Action.cs" />
     <Compile Include="Triggers\ConstantField.cs" />

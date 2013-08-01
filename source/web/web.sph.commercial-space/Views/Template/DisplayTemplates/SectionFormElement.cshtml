@@ -1,0 +1,7 @@
+﻿@model Bespoke.SphCommercialSpaces.Domain.SectionFormElement
+
+<!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.SectionFormElement, domain.commercialspace" -->
+<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+    <h2 data-bind="text: Label"></h2>
+</div>
+<!--/ko-->

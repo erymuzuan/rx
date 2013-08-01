@@ -30,8 +30,18 @@
                          var departments = JSON.parse(ko.mapping.toJS(d.Value));;
                          vm.departmentOptions(departments);
                      }
-                        
-                     vm.profiles(p.itemCollection);
+                     _(p.itemCollection).each(function(item) {
+                         var profile = new bespoke.sphcommercialspace.domain.Profile();
+                         profile.IsNew(false);
+                         profile.FullName(item.FullName());
+                         profile.UserName(item.Username());
+                         profile.Email(item.Email());
+                         profile.Designation(item.Designation());
+                         profile.Department(item.Department());
+                         profile.Telephone(item.Telephone());
+                         vm.profiles.push(profile);
+                     });
+                    
                      tcs.resolve(true);
                  });
                 return tcs.promise();
@@ -41,16 +51,15 @@
                 departmentvm.activate();
             },
             add = function() {
-                vm.profile();
+                vm.profile(new bespoke.sphcommercialspace.domain.Profile());
+                vm.profile().IsNew(true);
             },
+            editedProfile = ko.observable(),
             edit = function(user) {
-                vm.profile.IsNew(false);
-                vm.profile.FullName(user.FullName());
-                vm.profile.UserName(user.Username());
-                vm.profile.Email(user.Email());
-                vm.profile.Designation(user.Designation());
-                vm.profile.Department(user.Department());
-                vm.profile.Telephone(user.Telephone());
+                editedProfile(user);
+                var c1 = ko.mapping.fromJSON(ko.mapping.toJSON(user));
+                var clone = c1;
+                vm.profile(clone);
             },
             save = function() {
                 var tcs = new $.Deferred();
@@ -71,20 +80,7 @@
             activate: activate,
             isBusyValidatingUserName : ko.observable(false),
             profiles: profiles,
-            profile: {
-                FullName : ko.observable(),
-                UserName : ko.observable(),
-                Email : ko.observable(),
-                Password : ko.observable(),
-                ConfirmPassword: ko.observable(''),
-                Status : ko.observable(),
-                Designation: ko.observable(),
-                Department: ko.observable(),
-                Telephone : ko.observable(),
-                Mobile : ko.observable(),
-                IsNew : ko.observable(true)
-            },
-            password : ko.observable(),
+            profile: ko.observable(new bespoke.sphcommercialspace.domain.Profile()),
             designationOptions : ko.observableArray(),
             departmentOptions : ko.observableArray(),
             userNameValidationStatus : ko.observable(),
@@ -94,8 +90,8 @@
         };
 
 
-        vm.profile.UserName.subscribe(function(username) {
-           vm.isBusyValidatingUserName(true);
+        vm.profile().UserName.subscribe(function(username) {
+            vm.isBusyValidatingUserName(true);
             var tcs = new $.Deferred();
             var data = JSON.stringify({userName : username});
             isBusy(true);
