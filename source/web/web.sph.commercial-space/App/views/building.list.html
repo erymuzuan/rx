@@ -1,12 +1,12 @@
 ﻿<h1>Senarai Bangunan</h1>
 
-<table class="table">
+<table class="table" data-bind="filter: { path: 'tbody>tr' }">
     <thead>
         <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th>Nama</th>
+            <th>Jenis</th>
+            <th>Keluasan</th>
+            <th>Tingkat</th>
             <th></th>
         </tr>
     </thead>
@@ -16,8 +16,8 @@
                 <a data-bind="attr: { href: '/#/building.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() }, text: Name" ></a> 
             </td>
             <td data-bind="text:Type"></td>
-            <td></td>
-            <td></td>
+            <td data-bind="text:Size"></td>
+            <td data-bind="text:Floors"></td>
             <td></td>
         </tr>
     </tbody>

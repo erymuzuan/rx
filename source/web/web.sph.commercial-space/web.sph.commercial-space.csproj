@@ -141,10 +141,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Spring.Core.2.0.0-M2\lib\net40\Spring.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SQLSpatialTools, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\SQLSpatialTools.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -299,7 +295,9 @@
     <Compile Include="Controllers\AppController.trigger.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AppController.commercialspace.cs" />
     <Compile Include="Controllers\CustomFieldController.cs" />
+    <Compile Include="Controllers\AppController.complaint.cs" />
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
@@ -392,6 +390,8 @@
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\building.details.js" />
     <Content Include="App\viewmodels\building.details.ts" />
+    <Content Include="App\viewmodels\template.complaint.js" />
+    <Content Include="App\viewmodels\template.base.js" />
     <Content Include="App\viewmodels\template.building.js" />
     <Content Include="App\viewmodels\building.template.list.js" />
     <Content Include="App\viewmodels\commercialspace.detail.js" />
@@ -545,7 +545,6 @@
     <Content Include="App\viewmodels\commercialspacedetail.js" />
     <Content Include="App\viewmodels\complaint.form.js" />
     <Content Include="App\viewmodels\complaint.js" />
-    <Content Include="App\viewmodels\complaint.template.form.js" />
     <Content Include="App\viewmodels\contract.create.js" />
     <Content Include="App\viewmodels\contract.details.js" />
     <Content Include="App\viewmodels\contract.list.js" />
@@ -586,10 +585,7 @@
     <Content Include="App\views\building.list.html" />
     <Content Include="App\views\building.bound.html" />
     <Content Include="App\views\commercialspace.html" />
-    <Content Include="App\views\commercialspacedetail.html" />
-    <Content Include="App\views\complaint.form.html" />
     <Content Include="App\views\complaint.html" />
-    <Content Include="App\views\complaint.template.form.html" />
     <Content Include="App\views\contract.create.html" />
     <Content Include="App\views\contract.details.html" />
     <Content Include="App\views\contract.list.html" />
@@ -988,7 +984,9 @@
     <Content Include="Views\App\_TriggerFieldDropDown.cshtml" />
     <Content Include="Views\App\_TriggerChangedField.cshtml" />
     <Content Include="Views\RentalApplication\Print.cshtml" />
+    <Content Include="Views\App\CommercialSpaceDetailHtml.cshtml" />
     <Content Include="Views\Shared\CustomFieldHtml.cshtml" />
+    <Content Include="Views\App\ComplaintFormHtml.cshtml" />
     <Content Include="Views\Template\Building.cshtml" />
     <Content Include="Views\App\BuildingDetailHtml.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\CheckBox.cshtml" />
@@ -1031,6 +1029,9 @@
     <Content Include="Views\App\EditorTemplates\AddressElement.cshtml" />
     <Content Include="Views\Template\EditorTemplates\AddressElement.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\AddressElement.cshtml" />
+    <Content Include="Views\Template\_Toolbox.cshtml" />
+    <Content Include="Views\Template\Complaint.cshtml" />
+    <Content Include="Views\App\ComplaintDetailHtml.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

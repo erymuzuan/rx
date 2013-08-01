@@ -1,0 +1,128 @@
+﻿@model Bespoke.Sph.Commerspace.Web.ViewModels.TemplateFormViewModel
+
+@{
+    Layout = null;
+}
+
+<h1>Maklumat Templat Aduan </h1>
+<div class="container">
+    <div class="row">
+        <!-- left toobox-->
+        <div class="span4">
+            @Html.Partial("_Toolbox")
+        </div>
+
+        <div class="tabbable span8">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#complaint-designer" data-toggle="tab">Designer</a>
+                </li>
+                <li>
+                    <a href="#complaint-category" data-toggle="tab">Categories</a>
+                </li>
+                <li>
+                    <a href="#complaint-others" data-toggle="tab">Others Information</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="complaint-designer" class="tab-pane active" data-bind="with: complaintTemplate">
+
+                    <div data-bind="with: FormDesign" id="template-form-designer">
+                        <h1 data-bind="text: Name"></h1>
+                        <span data-bind="text: Description"></span>
+
+                        <form class="form-horizontal">
+                            <!--ko foreach:FormElementCollection -->
+                            @foreach (var fe in Model.FormElements)
+                            {
+                                @Html.DisplayFor(m => fe)
+                            }
+                            <!--/ko-->
+
+                        </form>
+                    </div>
+
+
+                </div>
+                <div id="complaint-category" class="tab-pane">
+                    <h5>Kategori Aduan</h5>
+                    <a type="button" class="btn btn-mini pull-right" href="#" data-bind="click: addComplaintCategory">+ Category</a>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Keterangan</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: complaintTemplate().ComplaintCategoryCollection">
+                            <tr>
+                                <td>
+                                    <input type="text" data-bind="value: Name" /></td>
+                                <td>
+                                    <input type="text" data-bind="value: Description" /></td>
+                                <td>
+                                    <button class="btn btn-link" data-bind="click: $root.editCategory">Sub Kategori</button></td>
+                                <td>
+                                    <a class="btn btn-link" data-bind="click: $root.removeCategory">Buang</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <section class="modal hide" id="category-details-modal">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h3>Senarai Subkategori</h3>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal">
+                                <h5>Sub Kategori</h5>
+                                <input type="button" value="+" class="btn btn-mini pull-right" data-bind="click: addSubCategory" />
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: subCategoryOptions">
+                                        <tr>
+                                            <td>
+                                                <input type="text" data-bind="value: text" />
+                                            </td>
+                                            <td>
+                                                <a href="#category-details-modal" class="btn btn-link" data-bind="click: $root.removeSubCategory">Buang</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                            <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: saveSubCategoryCommand" />
+                        </div>
+                    </section>
+                </div>
+                <div id="complaint-others" class="tab-pane">
+                    <form class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label">Imej</label>
+                            <div class="controls">
+                                <input class="input-medium " type="file" value="upload" name="files" id="files"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

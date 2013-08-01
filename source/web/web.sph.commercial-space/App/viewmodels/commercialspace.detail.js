@@ -101,7 +101,9 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
         selectedBuilding: ko.observable(),
         selectedFloor: ko.observable(),
         selectedLots: ko.observableArray(),
-        saveCommand: saveCs,
+        toolbar : {
+            saveCommand: saveCs
+        },
         selectLotCommand: selectLot,
         addLotsCommand: addLots,
         isBusy: isBusy

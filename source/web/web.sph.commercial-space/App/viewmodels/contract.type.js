@@ -24,7 +24,13 @@ function (context) {
     var vm = {
         isBusy: isBusy,
         activate: activate,
-        contractTemplateCollection : ko.observableArray([])
+        contractTemplateCollection: ko.observableArray([]),
+        toolbar : {
+            addNew : {
+                location: '/#/contract.type.template/0',
+                caption : 'Tambah jenis kontrak'
+            }
+        }
     };
 
     return vm;

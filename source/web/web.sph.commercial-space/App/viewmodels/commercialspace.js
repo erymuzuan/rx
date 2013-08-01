@@ -14,7 +14,7 @@
                         caption: ko.observable("" + t.Name()),
                         icon: "icon-plus",
                         command : function() {
-                            var url = '/#/commercialspace.detail/' + t.CommercialSpaceTemplateId() + "/0/-/0";
+                            var url = '/#/commercialspace.detail-templateid.' + t.CommercialSpaceTemplateId() + "/" + t.CommercialSpaceTemplateId() + "/0/-/0";
                             router.navigateTo(url);
                             return {
                                 then: function () { }
@@ -22,7 +22,12 @@
                         }
                     };
                 });
-                vm.toolbar.commands(commands);
+                vm.toolbar.groupCommands([ko.observable(
+                {
+                    caption: ko.observable("Ruang Komersil Baru"),
+                    commands: ko.observableArray(commands)
+                })
+                ]);
                 vm.commercialspaces(lo.itemCollection);
                 tcs.resolve(true);
             });
@@ -34,8 +39,8 @@
         activate: activate,
         isBusy : isBusy,
         commercialspaces: ko.observableArray([]),
-        toolbar : {
-            commands: ko.observableArray()
+        toolbar: {
+            groupCommands: ko.observableArray()
         }
     };
 
