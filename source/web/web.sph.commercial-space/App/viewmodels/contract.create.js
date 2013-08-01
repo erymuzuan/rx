@@ -65,7 +65,15 @@ define(['services/datacontext','durandal/plugins/router', './_contract.clauses',
             viewAttached: viewAttached,
             contract: ko.observable(new bespoke.sphcommercialspace.domain.Contract()),
             selectedTemplateId: ko.observable(),
-            saveCommand: save,
+            toolbar : ko.observable({
+                commands: ko.observableArray([
+                    {
+                        caption: "Simpan",
+                        icon: "icon-ok",
+                        command: save
+                    }
+                ])
+            }),
             generateContractCommand: generateContract,
             contractTypeOptions: ko.observableArray()
         };

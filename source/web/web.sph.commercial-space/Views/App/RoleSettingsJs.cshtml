@@ -39,8 +39,6 @@
                 context.post(data, "/Designation/Save")
                     .then(function (result) {
                         isBusy(false);
-
-
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -50,7 +48,13 @@
                 activate: activate,
                 designation: ko.observable(),
                 isBusy: isBusy,
-                saveCommand: save
+                toolbar: ko.observable({
+                    commands: ko.observableArray([{
+                        caption: 'Simpan',
+                        icon: 'icon-save',
+                        command: save
+                    }])
+                })
             };
 
             return vm;

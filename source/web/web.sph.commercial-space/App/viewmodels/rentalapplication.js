@@ -106,7 +106,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             commands: ko.observableArray([{
                 caption: "Hantar Permohonan",
                 icon: 'icon-envelop',
-                status: id,
+                status: 'none',
                 command: saveApplication
             }])
         }),
