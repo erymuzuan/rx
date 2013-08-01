@@ -1,6 +1,6 @@
 ﻿<section id="setting.department">
-    <a class="btn btn-primary" data-bind="click: addCommand" >+ Jabatan</a>
-    <table>
+    <a class="pull-right" href="#setting.department" data-bind="click: addCommand" >+ Jabatan</a>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Nama</th>
@@ -10,9 +10,9 @@
         <tbody data-bind="foreach: departments">
             <tr>
                 <td>
-                    <input type="text" data-bind="value: Name"/>
+                    <input class="input-xlarge" type="text" data-bind="value: Name"/>
                 </td><td>
-                    <input type="button" class="btn btn-danger" data-bind="click: $parent.removeCommand" value="-"/>
+                         <a href="#setting.department" data-bind="click: $parent.removeCommand" >Buang</a>
                 </td>
             </tr>
         </tbody>
