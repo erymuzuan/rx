@@ -8,6 +8,7 @@
 <script type="text/javascript" data-script="true">
     define(['services/datacontext'], function (context) {
         var isBusy = ko.observable(false),
+            complaint = ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
             activate = function () {
                 var query = String.format("ComplaintId gt 0");
                 
@@ -20,12 +21,24 @@
                         tcs.resolve(true);
                     });
                 return tcs.promise();
-            };
+            },
+            exportList = function (){};
             
 
         var vm = {
             activate: activate,
-            complaintCollection: ko.observableArray()
+            complaintCollection: ko.observableArray(),
+            toolbar: ko.observable({
+                reloadCommand: function () {
+                    return activate();
+                },
+                printCommand: ko.observable({
+                    entity: ko.observable("Complaint"),
+                    id: ko.observable(0),
+                    item: complaint,
+                }),
+                exportCommand: exportList,
+            })
         };
 
         return vm;

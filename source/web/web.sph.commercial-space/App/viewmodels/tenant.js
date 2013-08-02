@@ -13,6 +13,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 
 	var 
 	isBusy = ko.observable(false),
+	tenant = ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
 	activate = function () {
 	    var query = String.format("TenantId gt 0");
 	    var tcs = new $.Deferred();
@@ -30,13 +31,26 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 	},
 	viewAttached = function(view){
 
-	};
+	},
+	
+	exportList = function (){};
 
 	var vm = {
 		isBusy : isBusy,
 		activate : activate,
 		viewAttached: viewAttached,
-		tenantCollection: ko.observableArray()
+		tenantCollection: ko.observableArray(),
+		toolbar: ko.observable({
+		    reloadCommand: function () {
+		        return activate();
+		    },
+		    printCommand: ko.observable({
+		        entity: ko.observable("Tenant"),
+		        id: ko.observable(0),
+		        item: tenant,
+		    }),
+		    exportCommand: exportList
+		})
 	};
 
 	return vm;
