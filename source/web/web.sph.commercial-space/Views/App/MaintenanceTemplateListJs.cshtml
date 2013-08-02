@@ -14,7 +14,6 @@
                      .then(function (lo) {
                          isBusy(false);
                          vm.maintenanceTemplates(lo.itemCollection);
-
                          tcs.resolve(true);
                      });
                  return tcs.promise();
