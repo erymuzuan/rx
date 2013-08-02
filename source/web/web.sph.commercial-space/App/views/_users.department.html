@@ -1,6 +1,10 @@
-﻿<section id="setting.department">
-    <a class="pull-right" href="#setting.department" data-bind="click: addCommand" >+ Jabatan</a>
-    <table class="table table-striped">
+﻿<div class="span10">
+    <div class="span10">
+        <a href="#" class="btn btn-link pull-left">
+            <img data-bind="click: addCommand, attr: { src: '/Images/add_dept.png' }" src="/Images/add_dept.png" alt="Tambah Jabatan" />
+        </a>
+    </div>
+    <table class="table table-striped span10">
         <thead>
             <tr>
                 <th>Nama</th>
@@ -10,13 +14,17 @@
         <tbody data-bind="foreach: departments">
             <tr>
                 <td>
-                    <input class="input-xlarge" type="text" data-bind="value: Name"/>
-                </td><td>
-                         <a href="#setting.department" data-bind="click: $parent.removeCommand" >Buang</a>
+                    <input type="text" data-bind="value: Name" />
+                </td>
+                <td>
+                    <img data-bind="click: $parent.removeCommand, attr: { src: '/Images/remove_icon.png' }" src="/Images/remove_icon.png" alt="buang" />
                 </td>
             </tr>
         </tbody>
     </table>
-    <input type="button" data-bind="command: saveCommand" class="btn btn-primary" value="Simpan" data-loading-text="diproses.." data-complete-text="Selesai"/>
-</section>
+</div>
+<div class="span10">
+        <input type="button" data-bind="command: saveCommand" class="btn btn-primary" value="Simpan" data-loading-text="diproses.." data-complete-text="Selesai" />
+
+</div>
 

@@ -2,27 +2,28 @@
     ViewBag.Title = "Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Pengurusan Pengguna</h1>
-
-<div class="tabbable">
+<div>
+    <h1 class="row-fluid">Pengurusan Pengguna</h1>
+</div>
+<div class="tabbable row-fluid">
     <ul class="nav nav-tabs">
         <li class="active">
-            <a href="#user-tab" data-toggle="tab">Tambah Pengguna</a>
+            <a href="#user-tab" data-toggle="tab">Pengguna</a>
         </li>
         <li>
-            <a href="#designation-tab" data-toggle="tab">Setting Jawatan</a>
+            <a href="#designation-tab" data-toggle="tab">Tetapan Jawatan</a>
         </li>
         <li>
-            <a href="#department-tab" data-toggle="tab">Setting Jabatan</a>
+            <a href="#department-tab" data-toggle="tab">Tetapan Jabatan</a>
         </li>
     </ul>
 
     <div class="tab-content">
         <div id="user-tab" class="tab-pane active">
-
             <div>
-                <a href="#user-details-modal" id="add-user-button" data-toggle="modal" data-bind="click: addCommand" class="btn btn-link pull-left">+ Tambah Pengguna</a>
+                <a href="#user-details-modal" id="add-user-button" data-toggle="modal" class="btn btn-link pull-left">
+                    <img data-bind="click: addCommand, attr: { src: '/Images/add_user.png' }" src="/Images/add_user.png" alt="Tambah Pengguna" />
+                </a>
             </div>
             <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
                 <thead>
@@ -31,21 +32,21 @@
                         <th>Nama Penuh</th>
                         <th>Jabatan</th>
                         <th>Jawatan</th>
-                        <th>Email</th>
+                        <th>Emel</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: profiles">
                     <tr>
-                        <td >
-                            <a data-toggle="modal" href="#user-details-modal" 
-                                data-bind="click: $parent.editCommand,text: UserName">Kemaskini Maklumat</a>
-                       
-                        </td>
+                        <td data-bind="text: UserName"></td>
                         <td data-bind="text: FullName"></td>
                         <td data-bind="text: Department"></td>
                         <td data-bind="text: Designation"></td>
                         <td data-bind="text: Email"></td>
+                        <td>
+                            <a href="#user-details-modal" data-toggle="modal">
+                                <img data-bind="click: $root.editCommand, attr: { src: '/Images/edit_icon.png' }" src="/Images/edit_icon.png" alt="Kemaskini" /></a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

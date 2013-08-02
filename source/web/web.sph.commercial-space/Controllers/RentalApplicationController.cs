@@ -151,7 +151,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         }
         public async Task<ActionResult> Returned(int id, ObjectCollection<Attachment> attachments)
         {
-            await Task.Delay(5000);
+            await Task.Delay(2000);
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
             if (null != attachments) dbItem.AttachmentCollection.ClearAndAddRange(attachments);

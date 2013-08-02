@@ -8,7 +8,7 @@
   },
   {
     "Group": "admin",
-    "Name": "Admin User",
+    "Name": "Admin Pengguna",
     "Role": "admin_user",
     "Description": "Mengemaskini dan menambah pengguna sistem",
     "IsActive": true
@@ -17,21 +17,21 @@
     "Group": "tenant",
     "Name": "Penyewa",
     "Role": "can_view_tenant_details",
-    "Description": "penyewa",
+    "Description": "Mengakses portal penyewa",
     "IsActive": true
   },
   {
     "Group": "maintenance",
     "Name": "Petugas Senggara",
     "Role": "can_inspect",
-    "Description": "Ditugaskan untuk membat pemeriksaan terhadap aduan",
+    "Description": "Ditugaskan untuk membuat pemeriksaan terhadap aduan",
     "IsActive": true
   },
   {
     "Group": "admin",
-    "Name": "Pentadbir Setting",
+    "Name": "Pentadbir Tetapan",
     "Role": "can_edit_setting",
-    "Description": "Mengemaskini tetapan parameter sistem seperti negeri,jenis ruang etc..",
+    "Description": "Mengemaskini tetapan parameter sistem seperti negeri dan jenis ruang ",
     "IsActive": true
   },
   {
@@ -123,6 +123,13 @@
     "Name": "Admin Templat Penyelengaraan",
     "Role": "can_edit_maintenance_template",
     "Description": "Menambah dan mengemaskini templat penyelenggaraan",
+    "IsActive": true
+  },
+  {
+    "Group": "admin",
+    "Name": "Admin Permohonan",
+    "Role": "admin",
+    "Description": "Sediakan Tawaran",
     "IsActive": true
   }
 ]

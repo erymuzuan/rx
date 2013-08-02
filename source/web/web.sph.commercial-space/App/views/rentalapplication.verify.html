@@ -68,7 +68,7 @@
                         <th>Terima</th>
                         <th>Perlu</th>
                         <th>Lengkap</th>
-                        <th></th>
+                        <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: rentalapplication().AttachmentCollection">
@@ -85,7 +85,7 @@
                         <td>
                             <input type="checkbox" class="checkbox" data-bind="checked: IsCompleted" /></td>
                         <td>
-                            <a href="#" class="btn btn-link pull-right" data-bind="click: $root.removeAttachmentCommand">Buang</a>
+                            <img data-bind="click: $root.removeAttachmentCommand, attr: { src: '/Images/remove_icon.png'}" src="/Images/remove_icon.png" alt="buang" />
                         </td>
                     </tr>
                 </tbody>
@@ -211,9 +211,12 @@
                     <label class="span2" data-bind="text: RentalRate" />
                 </div>
                 <div class="control-group">
-                    <img alt="map" data-bind="attr: { src: $root.commercialSpace().StaticMap }" class="img-polaroid centered" src="/Images/accent.png" />
+                    <label class="span1">Lokasi :</label>
+                    <img alt="map" data-bind="attr: { src: $root.commercialSpace().StaticMap }" class="img-polaroid centered span3" src="/Images/accent.png" />
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
