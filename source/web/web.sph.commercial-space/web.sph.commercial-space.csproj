@@ -259,17 +259,23 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\AppController.building.cs" />
-    <Compile Include="Controllers\AppController.complaintlist.cs" />
-    <Compile Include="Controllers\AppController.complainttemplate.cs" />
-    <Compile Include="Controllers\AppController.config.cs" />
+    <Compile Include="Controllers\AppController.building.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AppController.complainttemplate.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AppController.config.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AppController.header.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.maintenancelist.cs.cs">
+    <Compile Include="Controllers\AppController.maintenance.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AppController.maintenancetemplate.cs.cs" />
     <Compile Include="Controllers\AppController.nav.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
@@ -285,7 +291,9 @@
     <Compile Include="Controllers\AppController.userprofile.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.users.cs" />
+    <Compile Include="Controllers\AppController.users.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
@@ -295,9 +303,13 @@
     <Compile Include="Controllers\AppController.trigger.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.commercialspace.cs" />
+    <Compile Include="Controllers\AppController.commercialspace.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\CustomFieldController.cs" />
-    <Compile Include="Controllers\AppController.complaint.cs" />
+    <Compile Include="Controllers\AppController.complaint.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
@@ -335,6 +347,7 @@
     <Compile Include="Helpers\ControllerHelpers.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Models\ApplicationConfigurationViewModel.cs" />
+    <Compile Include="Models\ComplainCategoriesElement.cs" />
     <Compile Include="Models\RoleType.cs" />
     <Compile Include="Models\TypeModel.cs" />
     <Compile Include="ViewModels\CustomFieldViewModel.cs" />
@@ -390,6 +403,8 @@
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\building.details.js" />
     <Content Include="App\viewmodels\building.details.ts" />
+    <Content Include="App\viewmodels\maintenance.form.js" />
+    <Content Include="App\viewmodels\template.maintenance.js" />
     <Content Include="App\viewmodels\template.complaint.js" />
     <Content Include="App\viewmodels\template.base.js" />
     <Content Include="App\viewmodels\template.building.js" />
@@ -402,7 +417,6 @@
     <Content Include="App\viewmodels\inventory.detail.js" />
     <Content Include="App\viewmodels\inventory.list.js" />
     <Content Include="App\viewmodels\maintenance.template.form.js" />
-    <Content Include="App\viewmodels\maintenance.template.list.js" />
     <Content Include="App\viewmodels\messages.js" />
     <Content Include="App\viewmodels\public.index.js" />
     <Content Include="App\viewmodels\maintenance.assignment.js" />
@@ -424,7 +438,6 @@
     <Content Include="App\views\inventory.list.html" />
     <Content Include="App\views\logviewer.html" />
     <Content Include="App\views\maintenance.template.form.html" />
-    <Content Include="App\views\maintenance.template.list.html" />
     <Content Include="App\views\messages.html" />
     <Content Include="App\views\public.index.html" />
     <Content Include="App\views\search.html" />
@@ -1034,6 +1047,13 @@
     <Content Include="Views\Template\_Toolbox.cshtml" />
     <Content Include="Views\Template\Complaint.cshtml" />
     <Content Include="Views\App\ComplaintDetailHtml.cshtml" />
+    <Content Include="Views\App\MaintenanceFormHtml.cshtml" />
+    <Content Include="Views\App\MaintenanceTemplateListHtml.cshtml" />
+    <Content Include="Views\App\MaintenanceTemplateListJs.cshtml" />
+    <Content Include="Views\App\EditorTemplates\ComplaintCategoriesElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\ComplaintCategoriesElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\ComplaintCategoriesElement.cshtml" />
+    <Content Include="Views\Template\Maintenance.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

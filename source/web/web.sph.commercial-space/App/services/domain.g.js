@@ -52,8 +52,6 @@ bespoke.sphcommercialspace.domain.Tenant = function (webId) {
     return model;
 };
 
-
-
 bespoke.sphcommercialspace.domain.Land = function (webId) {
 
     var model = {
@@ -116,8 +114,6 @@ bespoke.sphcommercialspace.domain.Building = function (webId) {
     }
     return model;
 };
-
-
 
 bespoke.sphcommercialspace.domain.LatLng = function (webId) {
 
@@ -1399,6 +1395,7 @@ bespoke.sphcommercialspace.domain.ApplicationTemplate = function (webId) {
         Description: ko.observable(),
         IsActive: ko.observable(),
         CustomFieldCollection: ko.observableArray(),
+        FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1419,6 +1416,7 @@ bespoke.sphcommercialspace.domain.MaintenanceTemplate = function (webId) {
         Description: ko.observable(),
         IsActive: ko.observable(),
         CustomFieldCollection: ko.observableArray(),
+        FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1439,6 +1437,7 @@ bespoke.sphcommercialspace.domain.CommercialSpaceTemplate = function (webId) {
         Description: ko.observable(),
         IsActive: ko.observable(),
         CustomFieldCollection: ko.observableArray(),
+        FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

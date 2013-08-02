@@ -13265,6 +13265,23 @@
 			get{ return m_CustomFieldCollection;}
 			}
 		
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			private FormDesign m_formDesign
+					=  new FormDesign();
+				
+			public const string PropertyNameFormDesign = "FormDesign";
+			[DebuggerHidden]
+
+			public FormDesign FormDesign
+			{
+			get{ return m_formDesign;}
+			set
+			{
+			m_formDesign = value;
+			OnPropertyChanged();
+			}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -13420,6 +13437,23 @@
 			get{ return m_CustomFieldCollection;}
 			}
 		
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			private FormDesign m_formDesign
+					=  new FormDesign();
+				
+			public const string PropertyNameFormDesign = "FormDesign";
+			[DebuggerHidden]
+
+			public FormDesign FormDesign
+			{
+			get{ return m_formDesign;}
+			set
+			{
+			m_formDesign = value;
+			OnPropertyChanged();
+			}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -13573,6 +13607,23 @@
 			public ObjectCollection<CustomField> CustomFieldCollection
 			{
 			get{ return m_CustomFieldCollection;}
+			}
+		
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			private FormDesign m_formDesign
+					=  new FormDesign();
+				
+			public const string PropertyNameFormDesign = "FormDesign";
+			[DebuggerHidden]
+
+			public FormDesign FormDesign
+			{
+			get{ return m_formDesign;}
+			set
+			{
+			m_formDesign = value;
+			OnPropertyChanged();
+			}
 			}
 		
                 ///<summary>

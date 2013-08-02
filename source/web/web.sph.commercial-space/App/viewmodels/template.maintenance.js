@@ -30,9 +30,9 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 var id = parseInt(routeData.id);
                 templateId(id);
                 if (id) {
-                    var query = String.format("ComplaintTemplateId eq {0}", templateId());
+                    var query = String.format("MaintenanceTemplateId eq {0}", templateId());
                     var tcs = new $.Deferred();
-                    context.loadOneAsync("ComplaintTemplate", query)
+                    context.loadOneAsync("MaintenanceTemplate", query)
                         .done(function (b) {
                             var fd = b.FormDesign;
                             b.FormDesign = ko.observable(fd);
@@ -40,57 +40,22 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                                 // add isSelected for the designer
                                 fe.isSelected = ko.observable(false);
                             });
-                            vm.complaintTemplate(b);
-                            templateBase.designer(vm.complaintTemplate().FormDesign());
+                            vm.maintenanceTemplate(b);
+                            templateBase.designer(vm.maintenanceTemplate().FormDesign());
                             tcs.resolve(true);
                         });
 
                     return tcs.promise();
                 } else {
-                    vm.complaintTemplate(new bespoke.sphcommercialspace.domain.ComplaintTemplate());
+                    vm.maintenanceTemplate(new bespoke.sphcommercialspace.domain.MaintenanceTemplate());
 
-                    vm.complaintTemplate().FormDesign().Name("My form 1");
-                    vm.complaintTemplate().FormDesign().Description("Do whatever it takes");
+                    vm.maintenanceTemplate().FormDesign().Name("My form 1");
+                    vm.maintenanceTemplate().FormDesign().Description("Do whatever it takes");
 
-                    templateBase.designer(vm.complaintTemplate().FormDesign());
+                    templateBase.designer(vm.maintenanceTemplate().FormDesign());
                     return true;
                 }
-
-
             },
-            addComplaintCategory = function () {
-                var category = new bespoke.sphcommercialspace.domain.ComplaintCategory();
-                vm.complaintTemplate().ComplaintCategoryCollection.push(category);
-            },
-            addSubCategory = function () {
-                vm.subCategoryOptions.push({ text: ko.observable() });
-            },
-
-            removeSubCategory = function (sub) {
-                vm.subCategoryOptions.remove(sub);
-            },
-
-            updateCategory = function () {
-                vm.complaintTemplate().ComplaintCategoryCollection.push(vm.selectedComplaintCategory());
-            },
-            removeCategory = function (category) {
-                vm.complaintTemplate().ComplaintCategoryCollection.remove(category);
-            },
-             editCategory = function (category) {
-                 vm.selectedComplaintCategory(category);
-                 var subs = _(category.SubCategoryCollection()).map(function (s) {
-                     return { text: ko.observable(s) };
-                 });
-                 vm.subCategoryOptions(subs);
-                 $('#category-details-modal').modal({});
-             },
-
-         saveSubCategory = function () {
-             var subs = (vm.subCategoryOptions()).map(function (s) {
-                 return s.text();
-             });
-             vm.selectedComplaintCategory().SubCategoryCollection(subs);
-         },
             save = function () {
                 var tcs = new $.Deferred();
 
@@ -98,10 +63,10 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 var elements = _($('#template-form-designer>form>div')).map(function (div) {
                     return ko.dataFor(div);
                 });
-                vm.complaintTemplate().FormDesign().FormElementCollection(elements);
-                var data = ko.mapping.toJSON(vm.complaintTemplate);
+                vm.maintenanceTemplate().FormDesign().FormElementCollection(elements);
+                var data = ko.mapping.toJSON(vm.maintenanceTemplate);
 
-                context.post(data, "/Template/SaveComplaintTemplate")
+                context.post(data, "/Template/SaveMaintenanceTemplate")
                     .then(function (result) {
                         isBusy(false);
                         tcs.resolve(result);
@@ -112,16 +77,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
         var vm = {
             activate: activate,
             viewAttached: templateBase.viewAttached,
-            subCategoryOptions: ko.observableArray(),
-            complaintTemplate: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
-            selectedComplaintCategory: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintCategory()),
-            addComplaintCategory: addComplaintCategory,
-            removeCategory: removeCategory,
-            addSubCategory: addSubCategory,
-            removeSubCategory: removeSubCategory,
-            updateCategoryCommand: updateCategory,
-            editCategory: editCategory,
-            saveSubCategoryCommand: saveSubCategory,
+            maintenanceTemplate: ko.observable(new bespoke.sphcommercialspace.domain.MaintenanceTemplate()),
             toolbar: {
                 saveCommand: save
             },
