@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext'],
-	function (context) {
+define(['services/datacontext', 'durandal/plugins/router'],
+	function (context,router) {
 
 	    var isBusy = ko.observable(false),
 	        activate = function (roles) {

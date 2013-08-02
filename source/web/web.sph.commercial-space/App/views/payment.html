@@ -1,17 +1,6 @@
 ﻿<section>
-    <h2>Pembayaran</h2>
-    <div class="control-group">
-        <div class="controls">
-        <span>ID/SSM No : </span><span><input data-bind="value: idSsmNo" id="TenantIdSsmNo" type="text" name="TenantIdSsmNo" /></span>
-        </div>
-    </div>
-    <div class="control-group">
-        <div class="controls">
-        <span>No. Kontrak : </span><span><input data-bind="value: contractNo" id="contractNo" type="text" name="contractNo" /></span>
-        </div>
-    </div>
-    <input type="button" class="btn btn-primary centered" data-bind="click : searchPaymentCommand" value="Cari" />
-    <table class="table table-condensed table-striped">
+    <h1 class="row-fluid">Rekod Bayaran Sewa</h1>
+    <table class="table table-condensed table-striped" data-bind="filter: { path: 'tbody>tr' }">
         <thead>
             <tr>
                 <th>No.Kontrak</th>
@@ -36,7 +25,7 @@
 
 <section id="set-payment-modal" class="modal hide fade" style="margin-left: -400px; width: 400px">
     <div class="modal-header">
-        <h4>Maklumat Bayaran</h4>
+        <h2>Maklumat Bayaran</h2>
     </div>
     <div class="modal-body" style="width: 400px; height: 250px; max-height: 350px" data-bind="with : payment">
         <div class="control-group">

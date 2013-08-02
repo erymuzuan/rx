@@ -13,6 +13,7 @@ define(['services/datacontext'],
     function(context) {
 
         var isBusy = ko.observable(false),
+            rebateprint = ko.observable(new bespoke.sphcommercialspace.domain.Rebate()),
             activate = function() {
                 var tcs = new $.Deferred();
                 var rebateTask = context.loadAsync("Rebate", "RebateId gt 0");
@@ -36,7 +37,8 @@ define(['services/datacontext'],
                         tcs.resolve(result);
                     });
                 return tcs.promise();
-            };
+            },
+            exportList = function (){};
 
         var vm = {
             isBusy: isBusy,
@@ -44,8 +46,20 @@ define(['services/datacontext'],
             rebateCollection: ko.observableArray(),
             contracts: ko.observableArray(),
             rebate: ko.observable(new bespoke.sphcommercialspace.domain.Rebate()),
+            rebateprint : rebateprint,
             contractTitle: ko.observable(''),
-            saveCommand: save
+            saveCommand:save,
+            toolbar: ko.observable({
+                reloadCommand: function () {
+                    return activate();
+                },
+                printCommand: ko.observable({
+                    entity: ko.observable("Rebate"),
+                    id: ko.observable(0),
+                    item: rebateprint,
+                }),
+                exportCommand: exportList
+                })
         };
 
         vm.rebate().ContractNo.subscribe(function (contractNo) {
