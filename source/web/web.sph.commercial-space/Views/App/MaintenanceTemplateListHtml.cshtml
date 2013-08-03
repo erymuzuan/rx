@@ -1,4 +1,10 @@
-﻿<h2>Templat Penyelenggaraan</h2>
+﻿@model dynamic
+
+@{
+    Layout = null;
+}
+
+<h2>Templat Penyelenggaraan</h2>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -10,13 +16,12 @@
     <tbody data-bind="foreach: maintenanceTemplates">
         <tr>
             <td>
-                <a data-bind="attr: { href: '/#/maintenance.template.form/' + MaintenanceTemplateId() }, text: Name"></a>
+                <a data-bind="attr: { href: '/#/template.maintenance-id.0/' + MaintenanceTemplateId() }, text: Name"></a>
             </td>
-            <td data-bind="text: Description"></td>
+            <td data-bind="text: FormDesign().Description"></td>
             <td>
                 <input type="checkbox" data-bind="checked: IsActive"/>
             </td>
         </tr>
     </tbody>
 </table>
-<a href="/#/maintenance.template.form/0" class="btn btn-primary">+ Templat Penyelenggaraan</a>

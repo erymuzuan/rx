@@ -39,7 +39,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             _uiready.init(view);
         },
         addCondition = function () {
-            var condition =new bespoke.sphcommercialspace.domain.OfferCondition(system.guid.newGuid());
+            var condition =new bespoke.sphcommercialspace.domain.OfferCondition();
             vm.offer().OfferConditionCollection.push(condition);
         },
         saveOffer = function () {
@@ -76,9 +76,23 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         viewAttached: viewAttached,
         commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         offer: ko.observable(new bespoke.sphcommercialspace.domain.Offer()),
+        toolbar : ko.observable({
+            commands: ko.observableArray([
+                {
+                    caption: "Simpan",
+                    icon: "icon-envelop",
+                    command: saveOffer,
+                    status: "none"
+                },
+                {
+                    caption: "Cetak Surat Tawaran",
+                    icon: "icon-download-alt",
+                    command: generateOfferLetter,
+                    status: "none"
+                }
+            ])
+        }),
         addConditionCommand: addCondition,
-        saveCommand: saveOffer,
-        generateOfferLetterCommand: generateOfferLetter,
         removeOfferCondition: removeOfferCondition
     };
 

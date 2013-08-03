@@ -196,26 +196,50 @@ ko.bindingHandlers.kendoEnable = {
 };
 
 ko.bindingHandlers.command = {
-    init: function (element, valueAccessor) {
+    init: function (element, valueAccessor, allBindingsAccessor) {
         var action = valueAccessor(),
-            button = $(element);
+            $button = $(element),
+            allBindings = allBindingsAccessor();
 
-        var completeText = button.data("complete-text") || button.html();
+        if (allBindings.isvisible) {
+            var visible = typeof allBindings.isvisible === "function" ? allBindings.isvisible() : allBindings.isvisible;
+            if (!visible) {
+                $button.hide();
+            } else {
+                $button.show();
+            }
 
-        button.click(function (e) {
+            if (typeof allBindings.isvisible === "function") {
+                allBindings.isvisible.subscribe(function (v) {
+                    if (v)
+                        $button.show();
+                    else
+                        $button.hide();
+                });
+            }
+        }
+
+
+        $button.click(function (e) {
             e.preventDefault();
+
+            var $spinner = $("<i class='icon-spin icon-spinner icon-large'></i>");
+            $spinner.css({ "margin-left": -($button.width() / 2) - 16, "position" : "fixed" , "margin-top" : "10px" });
+            $button.after($spinner).show();
             action()
                 .then(function () {
-                    button.button("complete");
-                    if (button.get(0).tagName == 'BUTTON' || button.get(0).tagName == 'A') {
-                        button.html(completeText);
-                    } else {
-                        button.val(completeText);
-                    }
+                    $button
+                        .button("complete")
+                        .prop('disabled', true)
+                        .removeClass('btn-disabled');
+                    $spinner.hide();
+                   
                 });
-            if (button.data("loading-text")) {
-                button.button("loading");
+            if ($button.data("loading-text")) {
+                $button.button("loading");
             }
+            $button.addClass('btn-disabled').prop('disabled', true);
+
         });
     }
 };

@@ -2,15 +2,8 @@
     ViewBag.Title = "ComplaintListHtml";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>Senarai Aduan</h1>
-<form class="form-search">
-    <div class="input-append pull-right">
-        <input id="complaint-list-filter-text" type="search" class="search-query input-medium" placeholder="Tapis..">
-        <i class="add-on icon-remove"></i>
-    </div>
-</form>
-
-<table class="table table-striped">
+<h1 class="row-fluid">Senarai Aduan</h1>
+<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
     <thead>
         <tr>
             <th>No. Aduan</th>
@@ -19,7 +12,7 @@
             <th>Status</th>
         </tr>
     </thead>
-    <tbody data-bind="foreach :complaintCollection">
+    <tbody data-bind="foreach :complaintCollection" >
         <tr>
             <td>
                  <a data-bind="attr: { href: '/#/complaint.assign/' + ComplaintId() }, text: ReferenceNo, visible: Status() == 'New'"></a>

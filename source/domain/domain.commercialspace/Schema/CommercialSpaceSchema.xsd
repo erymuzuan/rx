@@ -1090,6 +1090,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="FormDesign"/>
 			</xs:all>
 			<xs:attribute name="ApplicationTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -1107,6 +1108,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="FormDesign"/>
 			</xs:all>
 			<xs:attribute name="MaintenanceTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -1124,6 +1126,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="FormDesign"/>
 			</xs:all>
 			<xs:attribute name="CommercialSpaceTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>

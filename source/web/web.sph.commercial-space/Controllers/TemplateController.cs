@@ -103,8 +103,41 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(true);
         }
 
-        public async Task<ActionResult> SaveCommercialSpaceTemplate(CommercialSpaceTemplate csTemplate)
+        public async Task<ActionResult> SaveCommercialSpaceTemplate()
         {
+            var json = this.GetRequestBody();
+            var csTemplate = JsonConvert.DeserializeObject<CommercialSpaceTemplate>(json,
+                                                                                   new JsonSerializerSettings
+                                                                                   {
+                                                                                       TypeNameHandling =
+                                                                                           TypeNameHandling.All
+                                                                                   });
+
+            var list = new List<string>();
+            TypeHelper.BuildFlatJsonTreeView(list, "", typeof(Maintenance));
+            var tjson = "[" + string.Join(",", list) + "]";
+            var models = JsonConvert.DeserializeObject<IEnumerable<TypeModel>>(tjson)
+                                    .Select(t => t.Path)
+                                    .ToArray();
+
+            if (csTemplate.CustomFieldCollection.Any())
+            {
+                csTemplate.CustomFieldCollection.Clear();
+            }
+
+            foreach (var el in csTemplate.FormDesign.FormElementCollection)
+            {
+                if (!models.Contains(el.Path))
+                {
+                    var cf = el.GenerateCustomField();
+                    if (null != cf)
+                        csTemplate.CustomFieldCollection.Add(cf);
+                }
+                else
+                {
+                    el.CustomField = null;
+                }
+            }
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
@@ -114,23 +147,89 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(true);
         }
 
-        public async Task<ActionResult> SaveApplicationTemplate(ApplicationTemplate template)
+        public async Task<ActionResult> SaveApplicationTemplate()
         {
+            var json = this.GetRequestBody();
+            var apptemplate = JsonConvert.DeserializeObject<ApplicationTemplate>(json,
+                                                                                   new JsonSerializerSettings
+                                                                                   {
+                                                                                       TypeNameHandling =
+                                                                                           TypeNameHandling.All
+                                                                                   });
+
+            var list = new List<string>();
+            TypeHelper.BuildFlatJsonTreeView(list, "", typeof(RentalApplication));
+            var tjson = "[" + string.Join(",", list) + "]";
+            var models = JsonConvert.DeserializeObject<IEnumerable<TypeModel>>(tjson)
+                                    .Select(t => t.Path)
+                                    .ToArray();
+
+            if (apptemplate.CustomFieldCollection.Any())
+            {
+                apptemplate.CustomFieldCollection.Clear();
+            }
+
+            foreach (var el in apptemplate.FormDesign.FormElementCollection)
+            {
+                if (!models.Contains(el.Path))
+                {
+                    var cf = el.GenerateCustomField();
+                    if (null != cf)
+                        apptemplate.CustomFieldCollection.Add(cf);
+                }
+                else
+                {
+                    el.CustomField = null;
+                }
+            }
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
-                session.Attach(template);
+                session.Attach(apptemplate);
                 await session.SubmitChanges();
             }
             return Json(true);
         }
 
-        public async Task<ActionResult> SaveMaintenanceTemplate(MaintenanceTemplate template)
+        public async Task<ActionResult> SaveMaintenanceTemplate()
         {
+            var json = this.GetRequestBody();
+            var maintenanceTemplate = JsonConvert.DeserializeObject<MaintenanceTemplate>(json,
+                                                                                   new JsonSerializerSettings
+                                                                                   {
+                                                                                       TypeNameHandling =
+                                                                                           TypeNameHandling.All
+                                                                                   });
+
+            var list = new List<string>();
+            TypeHelper.BuildFlatJsonTreeView(list, "", typeof(Maintenance));
+            var tjson = "[" + string.Join(",", list) + "]";
+            var models = JsonConvert.DeserializeObject<IEnumerable<TypeModel>>(tjson)
+                                    .Select(t => t.Path)
+                                    .ToArray();
+
+            if (maintenanceTemplate.CustomFieldCollection.Any())
+            {
+                maintenanceTemplate.CustomFieldCollection.Clear();
+            }
+
+            foreach (var el in maintenanceTemplate.FormDesign.FormElementCollection)
+            {
+                if (!models.Contains(el.Path))
+                {
+                    var cf = el.GenerateCustomField();
+                    if (null != cf)
+                        maintenanceTemplate.CustomFieldCollection.Add(cf);
+                }
+                else
+                {
+                    el.CustomField = null;
+                }
+            }
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
-                session.Attach(template);
+                session.Attach(maintenanceTemplate);
                 await session.SubmitChanges();
             }
             return Json(true);
@@ -177,6 +276,25 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return View(vm);
 
+        }
+
+        public ActionResult Maintenance()
+        {
+            var vm = new TemplateFormViewModel { Entity = "maintenance" };
+            vm.FormElements.Add(new SectionFormElement());
+            vm.FormElements.Add(new TextBox());
+            vm.FormElements.Add(new ComboBox());
+            vm.FormElements.Add(new WebsiteFormElement());
+            vm.FormElements.Add(new EmailFormElement());
+            vm.FormElements.Add(new NumberTextBox());
+            vm.FormElements.Add(new CheckBox());
+            vm.FormElements.Add(new TextAreaElement());
+            vm.FormElements.Add(new DatePicker());
+
+            vm.FormElements.Add(new AddressElement());
+
+
+            return View(vm);
         }
     }
 }

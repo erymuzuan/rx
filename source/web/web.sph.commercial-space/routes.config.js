@@ -686,5 +686,17 @@
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": "can_edit_maintenance_template",
+    "url": "template.maintenance-id.0/:id",
+    "moduleId": "viewmodels/template.maintenance-id.0",
+    "name": "Tetapan Penyenggaraan",
+    "visible": false,
+    "icon": null,
+    "caption": null,
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
   }
 ]

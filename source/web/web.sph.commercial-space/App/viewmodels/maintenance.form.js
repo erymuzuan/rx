@@ -15,7 +15,7 @@
 define(['services/datacontext', 'services/logger'],
 	function (context, logger) {
 
-	    var template = ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
+	    var template = ko.observable(new bespoke.sphcommercialspace.domain.MaintenanceTemplate()),
 	        id = ko.observable(),
 	        isBusy = ko.observable(false),
 
@@ -24,13 +24,9 @@ define(['services/datacontext', 'services/logger'],
 	            isBusy(true);
 	            id(parseInt(routedata.templateId));
 	            var tcs = new $.Deferred();
-	            var query = "ComplaintTemplateId eq " + id();
-	            context.loadOneAsync("ComplaintTemplate", query).then(function (ct) {
+	            var query = "MaintenanceTemplateId eq " + id();
+	            context.loadOneAsync("MaintenanceTemplate", query).then(function (ct) {
 	                template(ct);
-	                var categories = _(ct.ComplaintCategoryCollection()).map(function (c) {
-	                    return c.Name();
-	                });
-	                vm.categoryOptions(categories);
 	                tcs.resolve(true);
 	                isBusy(false);
 	                
@@ -57,11 +53,11 @@ define(['services/datacontext', 'services/logger'],
                         var removed = e.operation != "upload";
                         // NOTE : the input file name is "files" and the id should equal to the vm.propertyName
                         if (uploaded) {
-                            vm.complaint().AttachmentStoreId(storeId);
+                            vm.maintenance().AttachmentStoreId(storeId);
                         }
 
                         if (removed) {
-                            vm.complaint().AttachmentStoreId("");
+                            vm.maintenance().AttachmentStoreId("");
                         }
 
 
@@ -72,11 +68,11 @@ define(['services/datacontext', 'services/logger'],
 	        submit = function () {
 	            var tcs = new $.Deferred();
 	            var templateName = template().Name();
-	            vm.complaint().Type(templateName);
-	            var data = ko.toJSON(vm.complaint);
+	            vm.maintenance().Type(templateName);
+	            var data = ko.toJSON(vm.maintenance);
 	            isBusy(true);
 
-	            context.post(data, "/Complaint/Submit")
+	            context.post(data, "/Maintenance/Submit")
 	                .then(function (result) {
 	                    isBusy(false);
 	                    tcs.resolve(result);
@@ -89,28 +85,14 @@ define(['services/datacontext', 'services/logger'],
 	        
 	        activate: activate,
 	        viewAttached: viewAttached,
-	        
-	        categoryOptions: ko.observableArray([]),
-	        subCategoryOptions: ko.observableArray([]),
 	        locationOptions: ko.observableArray(),
-            customFields : ko.observable(),
-	        
 	        template: template,
-	        complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
+	        maintenance: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
 	        toolbar : {
-	             saveCommand: submit
+	             submitCommand: submit
 	        }
 	       
 	    };
-
-	    vm.complaint().Category.subscribe(function (category) {
-
-	        var cat = _(template().ComplaintCategoryCollection()).find(function (c) {
-	            return c.Name() === category;
-	        });
-	        vm.subCategoryOptions(cat.SubCategoryCollection());
-	    });
-
 	    return vm;
 
 	});

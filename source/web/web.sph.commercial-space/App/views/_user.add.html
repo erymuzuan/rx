@@ -1,12 +1,9 @@
-﻿<div id="user-details-modal" class="modal hide fade span6">
-    <div class="modal-header">
-        <button data-dismiss="modal" class="btn btn-mini pull-right">x</button>
-    </div>
-    <div class="modal-body">
-        <h3>Pengguna baru</h3>
+﻿<div id="user-details-modal" class="modal hide fade span6" >
+    <div class="modal-header"><h2>Pengguna baru</h2></div>
+    <div class="modal-body" style="max-height: 500px">
         <form class="form-horizontal" data-bind="with: profile">
             <div class="control-group">
-                <label for="Username" class="control-label">Nama pengguna :</label>
+                <label for="Username" class="span2">Nama pengguna :</label>
                 <div class="controls">
                     <input data-bind="value: UserName" id="Username" type="text" name="Username" />
                     <div data-bind="visible: IsNew()">
@@ -17,44 +14,44 @@
                 </div>
             </div>
             <div class="control-group" data-bind="visible: IsNew()">
-                <label for="Password" class="control-label">Password :</label>
+                <label for="Password" class="span2">Password :</label>
                 <div class="controls">
                     <input data-bind="value: Password" id="Password" type="password" name="Password" />
                 </div>
             </div>
             <div class="control-group" data-bind="visible: IsNew()">
-                <label for="ConfirmPassword" class="control-label">Confirm Password :</label>
+                <label for="ConfirmPassword" class="span2">Confirm Password :</label>
                 <div class="controls">
                     <input data-bind="value: ConfirmPassword" id="ConfirmPassword" type="password" name="ConfirmPassword" />
                 </div>
             </div>
 
             <div class="control-group">
-                <label for="FullName" class="control-label">Nama penuh :</label>
+                <label for="FullName" class="span2">Nama penuh :</label>
                 <div class="controls">
                     <input data-bind="value: FullName" id="FullName" type="text" name="FullName" />
                 </div>
             </div>
             <div class="control-group">
-                <label for="Email" class="control-label">Emel :</label>
+                <label for="Email" class="span2">Emel :</label>
                 <div class="controls">
                     <input data-bind="value: Email" id="Email" type="text" name="Email" />
                 </div>
             </div>
             <div class="control-group" data-bind="with: $parent.departmentOptions">
-                <label for="department" class="control-label">Jabatan :</label>
+                <label for="department" class="span2">Jabatan :</label>
                 <div class="controls">
                     <select id="department" name="department" data-bind="options: $data, optionsText: 'Name', optionsValue: 'Name', value: $parent.Department, optionsCaption: '[Sila Pilih]'"></select>
                 </div>
             </div>
             <div class="control-group" data-bind="with: $parent.designationOptions">
-                <label for="designation" class="control-label">Jawatan :</label>
+                <label for="designation" class="span2">Jawatan :</label>
                 <div class="controls">
                     <select id="designation" name="designation" data-bind="options: $data, value: $parent.Designation, optionsCaption: '[Sila Pilih]'"></select>
                 </div>
             </div>
             <div class="control-group">
-                <label for="Telephone" class="control-label">No. Telefon :</label>
+                <label for="Telephone" class="span2">No. Telefon :</label>
                 <div class="controls">
                     <input data-bind="value: Telephone" id="Telephone" type="text" name="Telephone" />
                 </div>
@@ -63,7 +60,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <input type="button" id="save-button" class="btn btn-primary" data-bind="click: saveCommand" data-dismiss="modal" value="Simpan" />
-        <input type="button" class="btn btn-primary" data-dismiss="modal" value="Batal" />
+        <input type="button" id="save-button" class="btn btn-inverse" data-bind="click: saveCommand" data-dismiss="modal" value="Simpan" />
+        <input type="button" class="btn btn-inverse" data-dismiss="modal" value="Batal" />
     </div>
 </div>

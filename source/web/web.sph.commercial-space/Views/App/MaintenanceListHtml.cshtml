@@ -26,7 +26,8 @@
             <tbody data-bind="foreach: maintenances">
                 <tr>
                     <td>
-                        <a data-bind="text: Complaint.ReferenceNo, attr: { href: '#/maintenance.assignment/' + MaintenanceId() }"></a>
+                        <a data-bind="text: Complaint.ReferenceNo, attr: { href: '#/maintenance.assignment/' + MaintenanceId() }, visible: Resolution() == 'Not Started'"></a>
+                        <a data-bind="text: Complaint.ReferenceNo, attr: { href: '#/maintenance.close/' + MaintenanceId() },visible:Resolution() != 'Not Started'"></a>
                     </td>
                     <td data-bind="text: Complaint.Category"></td>
                     <td data-bind="text: Complaint.SubCategory"></td>

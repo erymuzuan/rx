@@ -6,7 +6,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
     {
         public override CustomField GenerateCustomField()
         {
-            throw new Exception("Custom field is not supported for Building Template.Please provide path");
+            return null;
         }
     }
 }
