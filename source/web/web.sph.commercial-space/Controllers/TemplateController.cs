@@ -112,6 +112,12 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             }
         }
 
+        public ActionResult Application()
+        {
+            var vm = new TemplateFormViewModel { Entity = "rentalApplication" };
+            return View(vm);
+
+        }
         public ActionResult Building()
         {
             var vm = new TemplateFormViewModel { Entity = "building" };

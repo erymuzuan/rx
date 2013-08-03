@@ -653,8 +653,8 @@
   },
   {
     "role": "can_edit_application_template",
-    "url": "application.template.form/:id",
-    "moduleId": "viewmodels/application.template.form",
+    "url": "template.application-id.0/:id",
+    "moduleId": "viewmodels/template.application-id.0",
     "name": "Form Templat Permohonan",
     "visible": false,
     "icon": null,

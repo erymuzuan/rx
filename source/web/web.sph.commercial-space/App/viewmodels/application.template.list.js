@@ -16,7 +16,13 @@
 
     var vm = {
         activate: activate,
-        applicationTemplates: ko.observableArray()
+        applicationTemplates: ko.observableArray(),
+        toolbar : {
+            addNew : {
+                location: '/#/template.application-id.0/0',
+                caption :'tambah jenis permohonan'
+            }
+        }
     };
 
     return vm;

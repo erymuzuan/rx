@@ -46,19 +46,19 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                                 // add isSelected for the designer
                                 fe.isSelected = ko.observable(false);
                             });
-                            vm.complaintTemplate(b);
-                            templateBase.designer(vm.complaintTemplate().FormDesign());
+                            vm.template(b);
+                            templateBase.designer(vm.template().FormDesign());
                             tcs.resolve(true);
                         });
 
                     return tcs.promise();
                 } else {
-                    vm.complaintTemplate(new bespoke.sphcommercialspace.domain.ComplaintTemplate());
+                    vm.template(new bespoke.sphcommercialspace.domain.ComplaintTemplate());
 
-                    vm.complaintTemplate().FormDesign().Name("My form 1");
-                    vm.complaintTemplate().FormDesign().Description("Do whatever it takes");
+                    vm.template().FormDesign().Name("My form 1");
+                    vm.template().FormDesign().Description("Do whatever it takes");
 
-                    templateBase.designer(vm.complaintTemplate().FormDesign());
+                    templateBase.designer(vm.template().FormDesign());
                     return true;
                 }
 
@@ -80,11 +80,11 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                         var removed = e.operation != "upload";
                         // NOTE : the input file name is "files" and the id should equal to the vm.propertyName
                         if (uploaded) {
-                            vm.complaintTemplate().FormDesign().ImageStoreId(storeId);
+                            vm.template().FormDesign().ImageStoreId(storeId);
                         }
 
                         if (removed) {
-                            vm.complaintTemplate().FormDesign().ImageStoreId("");
+                            vm.template().FormDesign().ImageStoreId("");
                         }
 
 
@@ -94,7 +94,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             },
             addComplaintCategory = function () {
                 var category = new bespoke.sphcommercialspace.domain.ComplaintCategory();
-                vm.complaintTemplate().ComplaintCategoryCollection.push(category);
+                vm.template().ComplaintCategoryCollection.push(category);
             },
             addSubCategory = function () {
                 vm.subCategoryOptions.push({ text: ko.observable() });
@@ -105,10 +105,10 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             },
 
             updateCategory = function () {
-                vm.complaintTemplate().ComplaintCategoryCollection.push(vm.selectedComplaintCategory());
+                vm.template().ComplaintCategoryCollection.push(vm.selectedComplaintCategory());
             },
             removeCategory = function (category) {
-                vm.complaintTemplate().ComplaintCategoryCollection.remove(category);
+                vm.template().ComplaintCategoryCollection.remove(category);
             },
              editCategory = function (category) {
                  vm.selectedComplaintCategory(category);
@@ -132,14 +132,14 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 var elements = _($('#template-form-designer>form>div')).map(function (div) {
                     return ko.dataFor(div);
                 });
-                vm.complaintTemplate().FormDesign().FormElementCollection(elements);
-                var data = ko.mapping.toJSON(vm.complaintTemplate);
+                vm.template().FormDesign().FormElementCollection(elements);
+                var data = ko.mapping.toJSON(vm.template);
 
                 context.post(data, "/Template/SaveComplaintTemplate")
                     .then(function (result) {
                         isBusy(false);
                         tcs.resolve(result);
-                        vm.complaintTemplate().ComplaintTemplateId(result);
+                        vm.template().ComplaintTemplateId(result);
                     });
                 return tcs.promise();
             };
@@ -148,7 +148,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             activate: activate,
             viewAttached: viewAttached,
             subCategoryOptions: ko.observableArray(),
-            complaintTemplate: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
+            template: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
             selectedComplaintCategory: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintCategory()),
             addComplaintCategory: addComplaintCategory,
             removeCategory: removeCategory,
