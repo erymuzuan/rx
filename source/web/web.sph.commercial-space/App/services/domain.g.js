@@ -1706,6 +1706,34 @@ bespoke.sphcommercialspace.domain.ComplaintCategoryElement = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.RentalApplicationBanksElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.RentalApplicationBanksElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.RentalApplicationBanksElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.RentalApplicationBanksElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.RentalApplicationAttachmentsElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.RentalApplicationAttachmentsElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.RentalApplicationAttachmentsElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.RentalApplicationAttachmentsElementPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {

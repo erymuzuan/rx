@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -24,6 +24,16 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 address.CssClass("icon-envelope pull-left");
                 address.Name("Address");
                 customElements.push(address);
+                
+                var banks = new bespoke.sphcommercialspace.domain.RentalApplicationBanksElement(system.guid());
+                banks.CssClass("icon-table pull-left");
+                banks.Name("Banks");
+                customElements.push(banks);
+                
+                var docs = new bespoke.sphcommercialspace.domain.RentalApplicationAttachmentsElement(system.guid());
+                docs.CssClass("icon-calendar pull-left");
+                docs.Name("Documents");
+                customElements.push(docs);
 
                 templateBase.activate(customElements);
 

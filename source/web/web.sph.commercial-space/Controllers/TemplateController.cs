@@ -115,6 +115,9 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public ActionResult Application()
         {
             var vm = new TemplateFormViewModel { Entity = "rentalApplication" };
+            vm.FormElements.Add(new AddressElement());
+            vm.FormElements.Add(new RentalApplicationAttachmentsElement());
+            vm.FormElements.Add(new RentalApplicationBanksElement());
             return View(vm);
 
         }

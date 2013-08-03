@@ -15072,6 +15072,30 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("RentalApplicationBanksElement", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class RentalApplicationBanksElement
+    {
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("RentalApplicationAttachmentsElement", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class RentalApplicationAttachmentsElement
+    {
+
+
+    }
+
     [XmlType("Invoice", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Invoice
     {

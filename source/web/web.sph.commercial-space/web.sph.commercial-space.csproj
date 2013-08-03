@@ -1052,6 +1052,10 @@
     <Content Include="Views\Template\DisplayTemplates\ComplaintCategoryElement.cshtml" />
     <Content Include="Views\Template\Maintenance.cshtml" />
     <Content Include="Views\Template\Application.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\RentalApplicationBanksElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\RentalApplicationAttachmentsElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\RentalApplicationAttachmentsElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\RentalApplicationBanksElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

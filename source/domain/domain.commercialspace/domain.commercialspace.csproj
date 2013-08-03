@@ -126,6 +126,8 @@
     <Compile Include="FormTemplates\FormDesign.cs" />
     <Compile Include="FormTemplates\FormElement.cs" />
     <Compile Include="FormTemplates\NumberTextBox.cs" />
+    <Compile Include="FormTemplates\RentalApplicationAttachmentsElement.cs" />
+    <Compile Include="FormTemplates\RentalApplicationBanksElement.cs" />
     <Compile Include="FormTemplates\SectionFormElement.cs" />
     <Compile Include="FormTemplates\TextAreaElement.cs" />
     <Compile Include="FormTemplates\TextBox.cs" />
