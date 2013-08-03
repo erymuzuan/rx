@@ -1,11 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using Bespoke.Sph.Commerspace.Web.Models;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Commerspace.Web.Helpers
 {
     public static class TypeHelper
     {
+
+        public static string[] GetPropertyPath(Type type)
+        {
+            var list = new List<string>();
+            TypeHelper.BuildFlatJsonTreeView(list, "", type);
+            var tjson = "[" + string.Join(",", list) + "]";
+            var models = JsonConvert.DeserializeObject<IEnumerable<TypeModel>>(tjson)
+                                    .Select(t => t.Path)
+                                    .ToArray();
+            return models;
+        }
         public static  void BuildFlatJsonTreeView(IList<string> text, string path, Type type)
         {
             foreach (var p in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))

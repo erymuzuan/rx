@@ -1,6 +1,7 @@
 ﻿
 /// <reference path="~/scripts/knockout-2.3.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
+/// <reference path="~/Scripts/moment.js" />
 
 
 var bespoke = bespoke || {};
@@ -13,9 +14,9 @@ bespoke.sphcommercialspace.domain.ContractHistory = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.ContractHistory, domain.commercialspace",
-        ContractNo: ko.observable(),
-        DateFrom: ko.observable(),
-        DateStart: ko.observable(),
+        ContractNo: ko.observable(''),
+        DateFrom: ko.observable(moment().format('DD/MM/YYYY')),
+        DateStart: ko.observable(moment().format('DD/MM/YYYY')),
         DateEnd: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -32,16 +33,16 @@ bespoke.sphcommercialspace.domain.Tenant = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Tenant, domain.commercialspace",
-        TenantId: ko.observable(),
-        IdSsmNo: ko.observable(),
-        Name: ko.observable(),
-        BussinessType: ko.observable(),
-        Phone: ko.observable(),
-        Fax: ko.observable(),
-        MobilePhone: ko.observable(),
-        Email: ko.observable(),
-        RegistrationNo: ko.observable(),
-        ContractHistoryCollection: ko.observableArray(),
+        TenantId: ko.observable(0),
+        IdSsmNo: ko.observable(''),
+        Name: ko.observable(''),
+        BussinessType: ko.observable(''),
+        Phone: ko.observable(''),
+        Fax: ko.observable(''),
+        MobilePhone: ko.observable(''),
+        Email: ko.observable(''),
+        RegistrationNo: ko.observable(''),
+        ContractHistoryCollection: ko.observableArray([]),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -58,22 +59,22 @@ bespoke.sphcommercialspace.domain.Land = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Land, domain.commercialspace",
-        Lot: ko.observable(),
-        Title: ko.observable(),
-        Location: ko.observable(),
-        Size: ko.observable(),
-        SizeUnit: ko.observable(),
-        CurrentMarketValue: ko.observable(),
-        RezabNo: ko.observable(),
-        SheetNo: ko.observable(),
-        ApprovedPlanNo: ko.observable(),
-        LandOffice: ko.observable(),
-        Usage: ko.observable(),
-        Note: ko.observable(),
-        OwnLevel: ko.observable(),
-        PlanNo: ko.observable(),
-        Status: ko.observable(),
-        IsApproved: ko.observable(),
+        Lot: ko.observable(''),
+        Title: ko.observable(''),
+        Location: ko.observable(''),
+        Size: ko.observable(0.00),
+        SizeUnit: ko.observable(''),
+        CurrentMarketValue: ko.observable(0.00),
+        RezabNo: ko.observable(''),
+        SheetNo: ko.observable(''),
+        ApprovedPlanNo: ko.observable(''),
+        LandOffice: ko.observable(''),
+        Usage: ko.observable(''),
+        Note: ko.observable(''),
+        OwnLevel: ko.observable(''),
+        PlanNo: ko.observable(''),
+        Status: ko.observable(''),
+        IsApproved: ko.observable(false),
         Owner: ko.observable(new bespoke.sphcommercialspace.domain.Owner()),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
         LeaseExpiryDate: ko.observable(),
@@ -95,19 +96,19 @@ bespoke.sphcommercialspace.domain.Building = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Building, domain.commercialspace",
-        BuildingId: ko.observable(),
-        Type: ko.observable(),
-        Name: ko.observable(),
-        LotNo: ko.observable(),
-        Size: ko.observable(),
-        Status: ko.observable(),
-        Floors: ko.observable(),
-        Note: ko.observable(),
-        TemplateId: ko.observable(),
+        BuildingId: ko.observable(0),
+        Type: ko.observable(''),
+        Name: ko.observable(''),
+        LotNo: ko.observable(''),
+        Size: ko.observable(0.00),
+        Status: ko.observable(''),
+        Floors: ko.observable(0),
+        Note: ko.observable(''),
+        TemplateId: ko.observable(0),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
-        FloorCollection: ko.observableArray(),
+        FloorCollection: ko.observableArray([]),
         Height: ko.observable(),
-        CustomFieldValueCollection: ko.observableArray(),
+        CustomFieldValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -123,8 +124,8 @@ bespoke.sphcommercialspace.domain.LatLng = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.LatLng, domain.commercialspace",
-        Lat: ko.observable(),
-        Lng: ko.observable(),
+        Lat: ko.observable(0.00),
+        Lng: ko.observable(0.00),
         Elevation: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -141,14 +142,14 @@ bespoke.sphcommercialspace.domain.Address = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Address, domain.commercialspace",
-        UnitNo: ko.observable(),
-        Floor: ko.observable(),
-        Block: ko.observable(),
-        Street: ko.observable(),
-        City: ko.observable(),
-        Postcode: ko.observable(),
-        State: ko.observable(),
-        Country: ko.observable(),
+        UnitNo: ko.observable(''),
+        Floor: ko.observable(''),
+        Block: ko.observable(''),
+        Street: ko.observable(''),
+        City: ko.observable(''),
+        Postcode: ko.observable(''),
+        State: ko.observable(''),
+        Country: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -164,11 +165,11 @@ bespoke.sphcommercialspace.domain.Floor = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Floor, domain.commercialspace",
-        Name: ko.observable(),
-        Size: ko.observable(),
-        Number: ko.observable(),
-        Note: ko.observable(),
-        LotCollection: ko.observableArray(),
+        Name: ko.observable(''),
+        Size: ko.observable(0.00),
+        Number: ko.observable(0),
+        Note: ko.observable(''),
+        LotCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -184,10 +185,10 @@ bespoke.sphcommercialspace.domain.Lot = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Lot, domain.commercialspace",
-        Name: ko.observable(),
-        Size: ko.observable(),
-        FloorNo: ko.observable(),
-        IsCommercialSpace: ko.observable(),
+        Name: ko.observable(''),
+        Size: ko.observable(0.00),
+        FloorNo: ko.observable(''),
+        IsCommercialSpace: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -203,26 +204,26 @@ bespoke.sphcommercialspace.domain.CommercialSpace = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.CommercialSpace, domain.commercialspace",
-        CommercialSpaceId: ko.observable(),
-        BuildingId: ko.observable(),
-        LotName: ko.observable(),
-        FloorName: ko.observable(),
-        Size: ko.observable(),
-        Category: ko.observable(),
-        RentalType: ko.observable(),
-        IsOnline: ko.observable(),
-        RegistrationNo: ko.observable(),
-        IsAvailable: ko.observable(),
-        ContactPerson: ko.observable(),
-        ContactNo: ko.observable(),
-        State: ko.observable(),
-        City: ko.observable(),
-        BuildingName: ko.observable(),
-        BuildingLot: ko.observable(),
-        RentalRate: ko.observable(),
-        TemplateId: ko.observable(),
-        LotCollection: ko.observableArray(),
-        CustomFieldValueCollection: ko.observableArray(),
+        CommercialSpaceId: ko.observable(0),
+        BuildingId: ko.observable(0),
+        LotName: ko.observable(''),
+        FloorName: ko.observable(''),
+        Size: ko.observable(0.00),
+        Category: ko.observable(''),
+        RentalType: ko.observable(''),
+        IsOnline: ko.observable(false),
+        RegistrationNo: ko.observable(''),
+        IsAvailable: ko.observable(false),
+        ContactPerson: ko.observable(''),
+        ContactNo: ko.observable(''),
+        State: ko.observable(''),
+        City: ko.observable(''),
+        BuildingName: ko.observable(''),
+        BuildingLot: ko.observable(''),
+        RentalRate: ko.observable(0.00),
+        TemplateId: ko.observable(0),
+        LotCollection: ko.observableArray([]),
+        CustomFieldValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -238,30 +239,30 @@ bespoke.sphcommercialspace.domain.RentalApplication = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.RentalApplication, domain.commercialspace",
-        RentalApplicationId: ko.observable(),
-        CompanyName: ko.observable(),
-        CompanyRegistrationNo: ko.observable(),
-        DateStart: ko.observable(),
-        DateEnd: ko.observable(),
-        Purpose: ko.observable(),
-        CompanyType: ko.observable(),
-        CommercialSpaceId: ko.observable(),
-        Status: ko.observable(),
-        Experience: ko.observable(),
-        IsRecordExist: ko.observable(),
-        PreviousAddress: ko.observable(),
-        IsCompany: ko.observable(),
-        Type: ko.observable(),
-        Remarks: ko.observable(),
-        RegistrationNo: ko.observable(),
-        ApplicationDate: ko.observable(),
+        RentalApplicationId: ko.observable(0),
+        CompanyName: ko.observable(''),
+        CompanyRegistrationNo: ko.observable(''),
+        DateStart: ko.observable(moment().format('DD/MM/YYYY')),
+        DateEnd: ko.observable(moment().format('DD/MM/YYYY')),
+        Purpose: ko.observable(''),
+        CompanyType: ko.observable(''),
+        CommercialSpaceId: ko.observable(0),
+        Status: ko.observable(''),
+        Experience: ko.observable(''),
+        IsRecordExist: ko.observable(false),
+        PreviousAddress: ko.observable(''),
+        IsCompany: ko.observable(false),
+        Type: ko.observable(''),
+        Remarks: ko.observable(''),
+        RegistrationNo: ko.observable(''),
+        ApplicationDate: ko.observable(moment().format('DD/MM/YYYY')),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
-        BankCollection: ko.observableArray(),
+        BankCollection: ko.observableArray([]),
         Contact: ko.observable(new bespoke.sphcommercialspace.domain.Contact()),
         CurrentYearSales: ko.observable(),
         LastYearSales: ko.observable(),
         PreviousYearSales: ko.observable(),
-        AttachmentCollection: ko.observableArray(),
+        AttachmentCollection: ko.observableArray([]),
         Offer: ko.observable(new bespoke.sphcommercialspace.domain.Offer()),
         CommercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         isBusy: ko.observable(false),
@@ -279,12 +280,12 @@ bespoke.sphcommercialspace.domain.Attachment = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Attachment, domain.commercialspace",
-        Type: ko.observable(),
-        Name: ko.observable(),
-        IsRequired: ko.observable(),
-        IsReceived: ko.observable(),
-        StoreId: ko.observable(),
-        IsCompleted: ko.observable(),
+        Type: ko.observable(''),
+        Name: ko.observable(''),
+        IsRequired: ko.observable(false),
+        IsReceived: ko.observable(false),
+        StoreId: ko.observable(''),
+        IsCompleted: ko.observable(false),
         ReceivedDateTime: ko.observable(),
         ReceivedBy: ko.observable(),
         Note: ko.observable(),
@@ -303,10 +304,10 @@ bespoke.sphcommercialspace.domain.Bank = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Bank, domain.commercialspace",
-        Name: ko.observable(),
-        Location: ko.observable(),
-        AccountNo: ko.observable(),
-        AccountType: ko.observable(),
+        Name: ko.observable(''),
+        Location: ko.observable(''),
+        AccountNo: ko.observable(''),
+        AccountType: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -322,13 +323,13 @@ bespoke.sphcommercialspace.domain.Contact = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Contact, domain.commercialspace",
-        ContractId: ko.observable(),
-        Name: ko.observable(),
-        IcNo: ko.observable(),
-        Role: ko.observable(),
-        MobileNo: ko.observable(),
-        OfficeNo: ko.observable(),
-        Email: ko.observable(),
+        ContractId: ko.observable(0),
+        Name: ko.observable(''),
+        IcNo: ko.observable(''),
+        Role: ko.observable(''),
+        MobileNo: ko.observable(''),
+        OfficeNo: ko.observable(''),
+        Email: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -344,13 +345,13 @@ bespoke.sphcommercialspace.domain.ContractTemplate = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.ContractTemplate, domain.commercialspace",
-        ContractTemplateId: ko.observable(),
-        Type: ko.observable(),
-        Description: ko.observable(),
-        Status: ko.observable(),
-        InterestRate: ko.observable(),
-        DocumentTemplateCollection: ko.observableArray(),
-        TopicCollection: ko.observableArray(),
+        ContractTemplateId: ko.observable(0),
+        Type: ko.observable(''),
+        Description: ko.observable(''),
+        Status: ko.observable(''),
+        InterestRate: ko.observable(0.00),
+        DocumentTemplateCollection: ko.observableArray([]),
+        TopicCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -366,8 +367,8 @@ bespoke.sphcommercialspace.domain.DocumentTemplate = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.DocumentTemplate, domain.commercialspace",
-        Name: ko.observable(),
-        StoreId: ko.observable(),
+        Name: ko.observable(''),
+        StoreId: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -383,28 +384,28 @@ bespoke.sphcommercialspace.domain.Contract = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Contract, domain.commercialspace",
-        ContractId: ko.observable(),
-        ReferenceNo: ko.observable(),
-        Type: ko.observable(),
-        Date: ko.observable(),
-        Value: ko.observable(),
-        Title: ko.observable(),
-        Remarks: ko.observable(),
-        Period: ko.observable(),
-        PeriodUnit: ko.observable(),
-        StartDate: ko.observable(),
-        EndDate: ko.observable(),
-        RentalApplicationId: ko.observable(),
-        Status: ko.observable(),
-        RentType: ko.observable(),
-        InterestRate: ko.observable(),
-        DocumentCollection: ko.observableArray(),
+        ContractId: ko.observable(0),
+        ReferenceNo: ko.observable(''),
+        Type: ko.observable(''),
+        Date: ko.observable(moment().format('DD/MM/YYYY')),
+        Value: ko.observable(0.00),
+        Title: ko.observable(''),
+        Remarks: ko.observable(''),
+        Period: ko.observable(0),
+        PeriodUnit: ko.observable(''),
+        StartDate: ko.observable(moment().format('DD/MM/YYYY')),
+        EndDate: ko.observable(moment().format('DD/MM/YYYY')),
+        RentalApplicationId: ko.observable(0),
+        Status: ko.observable(''),
+        RentType: ko.observable(''),
+        InterestRate: ko.observable(0.00),
+        DocumentCollection: ko.observableArray([]),
         Owner: ko.observable(new bespoke.sphcommercialspace.domain.Owner()),
         ContractingParty: ko.observable(new bespoke.sphcommercialspace.domain.ContractingParty()),
         Option: ko.observable(),
         Tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
         CommercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
-        TopicCollection: ko.observableArray(),
+        TopicCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -420,9 +421,9 @@ bespoke.sphcommercialspace.domain.Document = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Document, domain.commercialspace",
-        Title: ko.observable(),
-        Extension: ko.observable(),
-        DocumentVersionCollection: ko.observableArray(),
+        Title: ko.observable(''),
+        Extension: ko.observable(''),
+        DocumentVersionCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -438,11 +439,11 @@ bespoke.sphcommercialspace.domain.DocumentVersion = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.DocumentVersion, domain.commercialspace",
-        StoreId: ko.observable(),
-        Date: ko.observable(),
-        CommitedBy: ko.observable(),
-        No: ko.observable(),
-        Note: ko.observable(),
+        StoreId: ko.observable(''),
+        Date: ko.observable(moment().format('DD/MM/YYYY')),
+        CommitedBy: ko.observable(''),
+        No: ko.observable(''),
+        Note: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -458,10 +459,10 @@ bespoke.sphcommercialspace.domain.Owner = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Owner, domain.commercialspace",
-        Name: ko.observable(),
-        TelephoneNo: ko.observable(),
-        FaxNo: ko.observable(),
-        Email: ko.observable(),
+        Name: ko.observable(''),
+        TelephoneNo: ko.observable(''),
+        FaxNo: ko.observable(''),
+        Email: ko.observable(''),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -478,12 +479,12 @@ bespoke.sphcommercialspace.domain.AuditTrail = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.AuditTrail, domain.commercialspace",
-        User: ko.observable(),
-        DateTime: ko.observable(),
-        Operation: ko.observable(),
-        Type: ko.observable(),
-        EntityId: ko.observable(),
-        ChangeCollection: ko.observableArray(),
+        User: ko.observable(''),
+        DateTime: ko.observable(moment().format('DD/MM/YYYY')),
+        Operation: ko.observable(''),
+        Type: ko.observable(''),
+        EntityId: ko.observable(0),
+        ChangeCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -499,10 +500,10 @@ bespoke.sphcommercialspace.domain.Change = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Change, domain.commercialspace",
-        PropertyName: ko.observable(),
-        OldValue: ko.observable(),
-        NewValue: ko.observable(),
-        Action: ko.observable(),
+        PropertyName: ko.observable(''),
+        OldValue: ko.observable(''),
+        NewValue: ko.observable(''),
+        Action: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -518,11 +519,11 @@ bespoke.sphcommercialspace.domain.Organization = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Organization, domain.commercialspace",
-        Name: ko.observable(),
-        RegistrationNo: ko.observable(),
-        Email: ko.observable(),
-        OfficeNo: ko.observable(),
-        FaxNo: ko.observable(),
+        Name: ko.observable(''),
+        RegistrationNo: ko.observable(''),
+        Email: ko.observable(''),
+        OfficeNo: ko.observable(''),
+        FaxNo: ko.observable(''),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -539,19 +540,19 @@ bespoke.sphcommercialspace.domain.Offer = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Offer, domain.commercialspace",
-        BusinessPlan: ko.observable(),
-        CommercialSpaceId: ko.observable(),
-        Size: ko.observable(),
-        Building: ko.observable(),
-        Floor: ko.observable(),
-        Deposit: ko.observable(),
-        Rent: ko.observable(),
-        Date: ko.observable(),
-        ExpiryDate: ko.observable(),
-        Period: ko.observable(),
-        PeriodUnit: ko.observable(),
-        Option: ko.observable(),
-        OfferConditionCollection: ko.observableArray(),
+        BusinessPlan: ko.observable(''),
+        CommercialSpaceId: ko.observable(0),
+        Size: ko.observable(0),
+        Building: ko.observable(''),
+        Floor: ko.observable(''),
+        Deposit: ko.observable(0.00),
+        Rent: ko.observable(0.00),
+        Date: ko.observable(moment().format('DD/MM/YYYY')),
+        ExpiryDate: ko.observable(moment().format('DD/MM/YYYY')),
+        Period: ko.observable(0),
+        PeriodUnit: ko.observable(''),
+        Option: ko.observable(0),
+        OfferConditionCollection: ko.observableArray([]),
         BusinessPlanText: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -568,10 +569,10 @@ bespoke.sphcommercialspace.domain.OfferCondition = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.OfferCondition, domain.commercialspace",
-        Title: ko.observable(),
-        Description: ko.observable(),
-        Note: ko.observable(),
-        IsRequired: ko.observable(),
+        Title: ko.observable(''),
+        Description: ko.observable(''),
+        Note: ko.observable(''),
+        IsRequired: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -587,10 +588,10 @@ bespoke.sphcommercialspace.domain.Topic = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Topic, domain.commercialspace",
-        Title: ko.observable(),
-        Description: ko.observable(),
-        Text: ko.observable(),
-        ClauseCollection: ko.observableArray(),
+        Title: ko.observable(''),
+        Description: ko.observable(''),
+        Text: ko.observable(''),
+        ClauseCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -606,10 +607,10 @@ bespoke.sphcommercialspace.domain.Clause = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Clause, domain.commercialspace",
-        Title: ko.observable(),
-        Description: ko.observable(),
-        No: ko.observable(),
-        Text: ko.observable(),
+        Title: ko.observable(''),
+        Description: ko.observable(''),
+        No: ko.observable(''),
+        Text: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -625,8 +626,8 @@ bespoke.sphcommercialspace.domain.ContractingParty = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.ContractingParty, domain.commercialspace",
-        Name: ko.observable(),
-        RegistrationNo: ko.observable(),
+        Name: ko.observable(''),
+        RegistrationNo: ko.observable(''),
         Contact: ko.observable(new bespoke.sphcommercialspace.domain.Contact()),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
         isBusy: ko.observable(false),
@@ -644,11 +645,11 @@ bespoke.sphcommercialspace.domain.DepositPayment = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.DepositPayment, domain.commercialspace",
-        DepositPaymentId: ko.observable(),
-        ReceiptNo: ko.observable(),
-        Amount: ko.observable(),
-        Date: ko.observable(),
-        RegistrationNo: ko.observable(),
+        DepositPaymentId: ko.observable(0),
+        ReceiptNo: ko.observable(''),
+        Amount: ko.observable(0.00),
+        Date: ko.observable(moment().format('DD/MM/YYYY')),
+        RegistrationNo: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -664,12 +665,12 @@ bespoke.sphcommercialspace.domain.Payment = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Payment, domain.commercialspace",
-        PaymentId: ko.observable(),
-        Amount: ko.observable(),
-        Date: ko.observable(),
-        ContractNo: ko.observable(),
-        TenantIdSsmNo: ko.observable(),
-        ReceiptNo: ko.observable(),
+        PaymentId: ko.observable(0),
+        Amount: ko.observable(0.00),
+        Date: ko.observable(''),
+        ContractNo: ko.observable(''),
+        TenantIdSsmNo: ko.observable(''),
+        ReceiptNo: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -685,16 +686,16 @@ bespoke.sphcommercialspace.domain.UserProfile = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.UserProfile, domain.commercialspace",
-        Username: ko.observable(),
-        FullName: ko.observable(),
-        Designation: ko.observable(),
-        Telephone: ko.observable(),
-        Mobile: ko.observable(),
-        RoleTypes: ko.observable(),
-        StartModule: ko.observable(),
-        Email: ko.observable(),
-        UserProfileId: ko.observable(),
-        Department: ko.observable(),
+        Username: ko.observable(''),
+        FullName: ko.observable(''),
+        Designation: ko.observable(''),
+        Telephone: ko.observable(''),
+        Mobile: ko.observable(''),
+        RoleTypes: ko.observable(''),
+        StartModule: ko.observable(''),
+        Email: ko.observable(''),
+        UserProfileId: ko.observable(0),
+        Department: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -710,16 +711,16 @@ bespoke.sphcommercialspace.domain.Deposit = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Deposit, domain.commercialspace",
-        DepositId: ko.observable(),
-        DateTime: ko.observable(),
-        Amount: ko.observable(),
-        IsPaid: ko.observable(),
-        IsRefund: ko.observable(),
-        IsVoid: ko.observable(),
+        DepositId: ko.observable(0),
+        DateTime: ko.observable(moment().format('DD/MM/YYYY')),
+        Amount: ko.observable(0.00),
+        IsPaid: ko.observable(false),
+        IsRefund: ko.observable(false),
+        IsVoid: ko.observable(false),
         PaymentDateTime: ko.observable(),
         RefundDateTime: ko.observable(),
         DueDate: ko.observable(),
-        DepositPaymentCollection: ko.observableArray(),
+        DepositPaymentCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -735,8 +736,8 @@ bespoke.sphcommercialspace.domain.Reply = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Reply, domain.commercialspace",
-        Title: ko.observable(),
-        Text: ko.observable(),
+        Title: ko.observable(''),
+        Text: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -752,8 +753,8 @@ bespoke.sphcommercialspace.domain.Setting = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Setting, domain.commercialspace",
-        SettingId: ko.observable(),
-        Username: ko.observable(),
+        SettingId: ko.observable(0),
+        Username: ko.observable(''),
         Key: ko.observable(),
         Value: ko.observable(),
         isBusy: ko.observable(false),
@@ -771,11 +772,11 @@ bespoke.sphcommercialspace.domain.Rebate = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Rebate, domain.commercialspace",
-        RebateId: ko.observable(),
-        ContractNo: ko.observable(),
-        Amount: ko.observable(),
-        StartDate: ko.observable(),
-        EndDate: ko.observable(),
+        RebateId: ko.observable(0),
+        ContractNo: ko.observable(''),
+        Amount: ko.observable(0.00),
+        StartDate: ko.observable(moment().format('DD/MM/YYYY')),
+        EndDate: ko.observable(moment().format('DD/MM/YYYY')),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -791,11 +792,11 @@ bespoke.sphcommercialspace.domain.Interest = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Interest, domain.commercialspace",
-        Building: ko.observable(),
-        CommercialSpaceCategory: ko.observable(),
-        Percentage: ko.observable(),
-        Period: ko.observable(),
-        PeriodType: ko.observable(),
+        Building: ko.observable(''),
+        CommercialSpaceCategory: ko.observable(''),
+        Percentage: ko.observable(0.00),
+        Period: ko.observable(0),
+        PeriodType: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -811,8 +812,8 @@ bespoke.sphcommercialspace.domain.Rent = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.Invoice(webId);
 
-    v.Half = ko.observable();
-    v.Year = ko.observable();
+    v.Half = ko.observable('');
+    v.Year = ko.observable(0);
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.Rent, domain.commercialspace";
 
     v.Month = ko.observable();//nillable
@@ -830,12 +831,12 @@ bespoke.sphcommercialspace.domain.AdhocInvoice = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.Invoice(webId);
 
-    v.Category = ko.observable();
-    v.F2 = ko.observable();
+    v.Category = ko.observable('');
+    v.F2 = ko.observable(0);
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.AdhocInvoice, domain.commercialspace";
 
-    v.InvoiceItemCollection = ko.observableArray();
-    v.DocumentCollection = ko.observableArray();
+    v.InvoiceItemCollection = ko.observableArray([]);
+    v.DocumentCollection = ko.observableArray([]);
     v.SentDate = ko.observable();//nillable
     v.Tenant = ko.observable(new bespoke.sphcommercialspace.domain.Tenant());
     v.Type2 = ko.observable();//type but not nillable
@@ -853,9 +854,9 @@ bespoke.sphcommercialspace.domain.InvoiceItem = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.InvoiceItem, domain.commercialspace",
-        Amount: ko.observable(),
-        Category: ko.observable(),
-        Note: ko.observable(),
+        Amount: ko.observable(0.00),
+        Category: ko.observable(''),
+        Note: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -871,7 +872,7 @@ bespoke.sphcommercialspace.domain.State = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.State, domain.commercialspace",
-        Name: ko.observable(),
+        Name: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -887,20 +888,20 @@ bespoke.sphcommercialspace.domain.Complaint = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Complaint, domain.commercialspace",
-        ComplaintId: ko.observable(),
-        TemplateId: ko.observable(),
-        Remarks: ko.observable(),
-        TenantId: ko.observable(),
-        CommercialSpace: ko.observable(),
-        Status: ko.observable(),
-        Category: ko.observable(),
-        SubCategory: ko.observable(),
-        ReferenceNo: ko.observable(),
-        Type: ko.observable(),
-        AttachmentStoreId: ko.observable(),
-        Department: ko.observable(),
-        Note: ko.observable(),
-        CustomFieldValueCollection: ko.observableArray(),
+        ComplaintId: ko.observable(0),
+        TemplateId: ko.observable(0),
+        Remarks: ko.observable(''),
+        TenantId: ko.observable(0),
+        CommercialSpace: ko.observable(''),
+        Status: ko.observable(''),
+        Category: ko.observable(''),
+        SubCategory: ko.observable(''),
+        ReferenceNo: ko.observable(''),
+        Type: ko.observable(''),
+        AttachmentStoreId: ko.observable(''),
+        Department: ko.observable(''),
+        Note: ko.observable(''),
+        CustomFieldValueCollection: ko.observableArray([]),
         Tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -917,13 +918,13 @@ bespoke.sphcommercialspace.domain.CustomField = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.CustomField, domain.commercialspace",
-        Order: ko.observable(),
-        Name: ko.observable(),
-        IsRequired: ko.observable(),
-        Type: ko.observable(),
-        Size: ko.observable(),
-        Listing: ko.observable(),
-        Group: ko.observable(),
+        Order: ko.observable(0),
+        Name: ko.observable(''),
+        IsRequired: ko.observable(false),
+        Type: ko.observable(''),
+        Size: ko.observable(''),
+        Listing: ko.observable(''),
+        Group: ko.observable(''),
         MaxLength: ko.observable(),
         MinLength: ko.observable(),
         isBusy: ko.observable(false),
@@ -941,9 +942,9 @@ bespoke.sphcommercialspace.domain.CustomFieldValue = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.CustomFieldValue, domain.commercialspace",
-        Name: ko.observable(),
-        Type: ko.observable(),
-        Value: ko.observable(),
+        Name: ko.observable(''),
+        Type: ko.observable(''),
+        Value: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -959,12 +960,12 @@ bespoke.sphcommercialspace.domain.ComplaintTemplate = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.ComplaintTemplate, domain.commercialspace",
-        ComplaintTemplateId: ko.observable(),
-        Name: ko.observable(),
-        Description: ko.observable(),
-        IsActive: ko.observable(),
-        ComplaintCategoryCollection: ko.observableArray(),
-        CustomFieldCollection: ko.observableArray(),
+        ComplaintTemplateId: ko.observable(0),
+        Name: ko.observable(''),
+        Description: ko.observable(''),
+        IsActive: ko.observable(false),
+        ComplaintCategoryCollection: ko.observableArray([]),
+        CustomFieldCollection: ko.observableArray([]),
         FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -981,9 +982,9 @@ bespoke.sphcommercialspace.domain.ComplaintCategory = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.ComplaintCategory, domain.commercialspace",
-        Name: ko.observable(),
-        Description: ko.observable(),
-        SubCategoryCollection: ko.observableArray(),
+        Name: ko.observable(''),
+        Description: ko.observable(''),
+        SubCategoryCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -999,15 +1000,15 @@ bespoke.sphcommercialspace.domain.Inspection = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Inspection, domain.commercialspace",
-        PersonInCharge: ko.observable(),
-        AssignedDate: ko.observable(),
-        Remark: ko.observable(),
-        InspectionDate: ko.observable(),
-        Resolution: ko.observable(),
-        Observation: ko.observable(),
-        Contractor: ko.observable(),
-        Priority: ko.observable(),
-        Severity: ko.observable(),
+        PersonInCharge: ko.observable(''),
+        AssignedDate: ko.observable(moment().format('DD/MM/YYYY')),
+        Remark: ko.observable(''),
+        InspectionDate: ko.observable(moment().format('DD/MM/YYYY')),
+        Resolution: ko.observable(''),
+        Observation: ko.observable(''),
+        Contractor: ko.observable(''),
+        Priority: ko.observable(''),
+        Severity: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1023,15 +1024,15 @@ bespoke.sphcommercialspace.domain.Maintenance = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Maintenance, domain.commercialspace",
-        MaintenanceId: ko.observable(),
-        ComplaintId: ko.observable(),
-        WorkOrderNo: ko.observable(),
-        Department: ko.observable(),
-        Status: ko.observable(),
-        Resolution: ko.observable(),
-        Officer: ko.observable(),
-        AttachmentStoreId: ko.observable(),
-        AttachmentName: ko.observable(),
+        MaintenanceId: ko.observable(0),
+        ComplaintId: ko.observable(0),
+        WorkOrderNo: ko.observable(''),
+        Department: ko.observable(''),
+        Status: ko.observable(''),
+        Resolution: ko.observable(''),
+        Officer: ko.observable(''),
+        AttachmentStoreId: ko.observable(''),
+        AttachmentName: ko.observable(''),
         Complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
         StartDate: ko.observable(),
         EndDate: ko.observable(),
@@ -1051,12 +1052,12 @@ bespoke.sphcommercialspace.domain.Designation = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Designation, domain.commercialspace",
-        DesignationId: ko.observable(),
-        Name: ko.observable(),
-        Description: ko.observable(),
-        IsActive: ko.observable(),
-        StartModule: ko.observable(),
-        RoleCollection: ko.observableArray(),
+        DesignationId: ko.observable(0),
+        Name: ko.observable(''),
+        Description: ko.observable(''),
+        IsActive: ko.observable(false),
+        StartModule: ko.observable(''),
+        RoleCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1072,14 +1073,14 @@ bespoke.sphcommercialspace.domain.WorkOrder = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.WorkOrder, domain.commercialspace",
-        Priority: ko.observable(),
-        Severity: ko.observable(),
-        EstimationCost: ko.observable(),
-        WorkOrderId: ko.observable(),
-        CommentCollection: ko.observableArray(),
-        PartsAndLaborCollection: ko.observableArray(),
-        WarrantyCollection: ko.observableArray(),
-        NonComplianceCollection: ko.observableArray(),
+        Priority: ko.observable(''),
+        Severity: ko.observable(''),
+        EstimationCost: ko.observable(0.00),
+        WorkOrderId: ko.observable(0),
+        CommentCollection: ko.observableArray([]),
+        PartsAndLaborCollection: ko.observableArray([]),
+        WarrantyCollection: ko.observableArray([]),
+        NonComplianceCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1095,8 +1096,8 @@ bespoke.sphcommercialspace.domain.Comment = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Comment, domain.commercialspace",
-        Description: ko.observable(),
-        User: ko.observable(),
+        Description: ko.observable(''),
+        User: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1112,10 +1113,10 @@ bespoke.sphcommercialspace.domain.PartsAndLabor = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.PartsAndLabor, domain.commercialspace",
-        Quantity: ko.observable(),
-        Description: ko.observable(),
-        Cost: ko.observable(),
-        Total: ko.observable(),
+        Quantity: ko.observable(0),
+        Description: ko.observable(''),
+        Cost: ko.observable(0.00),
+        Total: ko.observable(0.00),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1131,9 +1132,9 @@ bespoke.sphcommercialspace.domain.Warranty = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Warranty, domain.commercialspace",
-        Description: ko.observable(),
-        YearWarranty: ko.observable(),
-        StartDate: ko.observable(),
+        Description: ko.observable(''),
+        YearWarranty: ko.observable(''),
+        StartDate: ko.observable(moment().format('DD/MM/YYYY')),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1149,10 +1150,10 @@ bespoke.sphcommercialspace.domain.NonCompliance = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.NonCompliance, domain.commercialspace",
-        Description: ko.observable(),
-        Date: ko.observable(),
-        Reason: ko.observable(),
-        Action: ko.observable(),
+        Description: ko.observable(''),
+        Date: ko.observable(moment().format('DD/MM/YYYY')),
+        Reason: ko.observable(''),
+        Action: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1168,12 +1169,12 @@ bespoke.sphcommercialspace.domain.Inventory = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Inventory, domain.commercialspace",
-        Name: ko.observable(),
-        Category: ko.observable(),
-        Brand: ko.observable(),
-        Specification: ko.observable(),
-        Quantity: ko.observable(),
-        InventoryId: ko.observable(),
+        Name: ko.observable(''),
+        Category: ko.observable(''),
+        Brand: ko.observable(''),
+        Specification: ko.observable(''),
+        Quantity: ko.observable(0),
+        InventoryId: ko.observable(0),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1189,7 +1190,7 @@ bespoke.sphcommercialspace.domain.FunctionField = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.Field(webId);
 
-    v.Script = ko.observable();
+    v.Script = ko.observable('');
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.FunctionField, domain.commercialspace";
 
     if (bespoke.sphcommercialspace.domain.FunctionFieldPartial) {
@@ -1204,7 +1205,7 @@ bespoke.sphcommercialspace.domain.ConstantField = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.Field(webId);
 
-    v.TypeName = ko.observable();
+    v.TypeName = ko.observable('');
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.ConstantField, domain.commercialspace";
 
     if (bespoke.sphcommercialspace.domain.ConstantFieldPartial) {
@@ -1219,10 +1220,10 @@ bespoke.sphcommercialspace.domain.DocumentField = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.Field(webId);
 
-    v.XPath = ko.observable();
-    v.NamespacePrefix = ko.observable();
-    v.TypeName = ko.observable();
-    v.Path = ko.observable();
+    v.XPath = ko.observable('');
+    v.NamespacePrefix = ko.observable('');
+    v.TypeName = ko.observable('');
+    v.Path = ko.observable('');
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.DocumentField, domain.commercialspace";
 
     if (bespoke.sphcommercialspace.domain.DocumentFieldPartial) {
@@ -1237,10 +1238,10 @@ bespoke.sphcommercialspace.domain.FieldChangeField = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.Field(webId);
 
-    v.Path = ko.observable();
-    v.TypeName = ko.observable();
-    v.OldValue = ko.observable();
-    v.NewValue = ko.observable();
+    v.Path = ko.observable('');
+    v.TypeName = ko.observable('');
+    v.OldValue = ko.observable('');
+    v.NewValue = ko.observable('');
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.FieldChangeField, domain.commercialspace";
 
     if (bespoke.sphcommercialspace.domain.FieldChangeFieldPartial) {
@@ -1255,18 +1256,18 @@ bespoke.sphcommercialspace.domain.Trigger = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Trigger, domain.commercialspace",
-        Name: ko.observable(),
-        Entity: ko.observable(),
-        TypeOf: ko.observable(),
-        TriggerId: ko.observable(),
-        Note: ko.observable(),
-        IsActive: ko.observable(),
-        IsFiredOnAdded: ko.observable(),
-        IsFiredOnDeleted: ko.observable(),
-        IsFiredOnChanged: ko.observable(),
-        FiredOnOperations: ko.observable(),
-        RuleCollection: ko.observableArray(),
-        ActionCollection: ko.observableArray(),
+        Name: ko.observable(''),
+        Entity: ko.observable(''),
+        TypeOf: ko.observable(''),
+        TriggerId: ko.observable(0),
+        Note: ko.observable(''),
+        IsActive: ko.observable(false),
+        IsFiredOnAdded: ko.observable(false),
+        IsFiredOnDeleted: ko.observable(false),
+        IsFiredOnChanged: ko.observable(false),
+        FiredOnOperations: ko.observable(''),
+        RuleCollection: ko.observableArray([]),
+        ActionCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1300,12 +1301,12 @@ bespoke.sphcommercialspace.domain.EmailAction = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.CustomAction(webId);
 
-    v.From = ko.observable();
-    v.To = ko.observable();
-    v.SubjectTemplate = ko.observable();
-    v.BodyTemplate = ko.observable();
-    v.Bcc = ko.observable();
-    v.Cc = ko.observable();
+    v.From = ko.observable('');
+    v.To = ko.observable('');
+    v.SubjectTemplate = ko.observable('');
+    v.BodyTemplate = ko.observable('');
+    v.Bcc = ko.observable('');
+    v.Cc = ko.observable('');
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.EmailAction, domain.commercialspace";
 
     if (bespoke.sphcommercialspace.domain.EmailActionPartial) {
@@ -1322,7 +1323,7 @@ bespoke.sphcommercialspace.domain.SetterAction = function (webId) {
 
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.SetterAction, domain.commercialspace";
 
-    v.SetterActionChildCollection = ko.observableArray();
+    v.SetterActionChildCollection = ko.observableArray([]);
     if (bespoke.sphcommercialspace.domain.SetterActionPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.SetterActionPartial(v));
     }
@@ -1335,7 +1336,7 @@ bespoke.sphcommercialspace.domain.SetterActionChild = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.SetterActionChild, domain.commercialspace",
-        Path: ko.observable(),
+        Path: ko.observable(''),
         Field: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -1352,12 +1353,12 @@ bespoke.sphcommercialspace.domain.Watcher = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Watcher, domain.commercialspace",
-        WatcherId: ko.observable(),
-        EntityName: ko.observable(),
-        EntityId: ko.observable(),
-        User: ko.observable(),
-        IsActive: ko.observable(),
-        DateTime: ko.observable(),
+        WatcherId: ko.observable(0),
+        EntityName: ko.observable(''),
+        EntityId: ko.observable(0),
+        User: ko.observable(''),
+        IsActive: ko.observable(false),
+        DateTime: ko.observable(moment().format('DD/MM/YYYY')),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1373,11 +1374,11 @@ bespoke.sphcommercialspace.domain.BuildingTemplate = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.BuildingTemplate, domain.commercialspace",
-        BuildingTemplateId: ko.observable(),
-        Name: ko.observable(),
-        Description: ko.observable(),
-        IsActive: ko.observable(),
-        CustomFieldCollection: ko.observableArray(),
+        BuildingTemplateId: ko.observable(0),
+        Name: ko.observable(''),
+        Description: ko.observable(''),
+        IsActive: ko.observable(false),
+        CustomFieldCollection: ko.observableArray([]),
         FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -1394,11 +1395,11 @@ bespoke.sphcommercialspace.domain.ApplicationTemplate = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.ApplicationTemplate, domain.commercialspace",
-        ApplicationTemplateId: ko.observable(),
-        Name: ko.observable(),
-        Description: ko.observable(),
-        IsActive: ko.observable(),
-        CustomFieldCollection: ko.observableArray(),
+        ApplicationTemplateId: ko.observable(0),
+        Name: ko.observable(''),
+        Description: ko.observable(''),
+        IsActive: ko.observable(false),
+        CustomFieldCollection: ko.observableArray([]),
         FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -1415,11 +1416,11 @@ bespoke.sphcommercialspace.domain.MaintenanceTemplate = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.MaintenanceTemplate, domain.commercialspace",
-        MaintenanceTemplateId: ko.observable(),
-        Name: ko.observable(),
-        Description: ko.observable(),
-        IsActive: ko.observable(),
-        CustomFieldCollection: ko.observableArray(),
+        MaintenanceTemplateId: ko.observable(0),
+        Name: ko.observable(''),
+        Description: ko.observable(''),
+        IsActive: ko.observable(false),
+        CustomFieldCollection: ko.observableArray([]),
         FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -1436,11 +1437,11 @@ bespoke.sphcommercialspace.domain.CommercialSpaceTemplate = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.CommercialSpaceTemplate, domain.commercialspace",
-        CommercialSpaceTemplateId: ko.observable(),
-        Name: ko.observable(),
-        Description: ko.observable(),
-        IsActive: ko.observable(),
-        CustomFieldCollection: ko.observableArray(),
+        CommercialSpaceTemplateId: ko.observable(0),
+        Name: ko.observable(''),
+        Description: ko.observable(''),
+        IsActive: ko.observable(false),
+        CustomFieldCollection: ko.observableArray([]),
         FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -1457,11 +1458,11 @@ bespoke.sphcommercialspace.domain.FormDesign = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.FormDesign, domain.commercialspace",
-        Name: ko.observable(),
-        Description: ko.observable(),
-        ConfirmationText: ko.observable(),
-        ImageStoreId: ko.observable(),
-        FormElementCollection: ko.observableArray(),
+        Name: ko.observable(''),
+        Description: ko.observable(''),
+        ConfirmationText: ko.observable(''),
+        ImageStoreId: ko.observable(''),
+        FormElementCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1477,7 +1478,7 @@ bespoke.sphcommercialspace.domain.TextBox = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
 
-    v.DefaultValue = ko.observable();
+    v.DefaultValue = ko.observable('');
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.TextBox, domain.commercialspace";
 
     v.MinLength = ko.observable();//nillable
@@ -1524,7 +1525,7 @@ bespoke.sphcommercialspace.domain.ComboBox = function (webId) {
 
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.ComboBox, domain.commercialspace";
 
-    v.ComboBoxItemCollection = ko.observableArray();
+    v.ComboBoxItemCollection = ko.observableArray([]);
     if (bespoke.sphcommercialspace.domain.ComboBoxPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.ComboBoxPartial(v));
     }
@@ -1537,7 +1538,7 @@ bespoke.sphcommercialspace.domain.TextAreaElement = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
 
-    v.Rows = ko.observable();
+    v.Rows = ko.observable('');
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.TextAreaElement, domain.commercialspace";
 
     if (bespoke.sphcommercialspace.domain.TextAreaElementPartial) {
@@ -1580,7 +1581,7 @@ bespoke.sphcommercialspace.domain.NumberTextBox = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
 
-    v.Step = ko.observable();
+    v.Step = ko.observable(0);
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.NumberTextBox, domain.commercialspace";
 
     if (bespoke.sphcommercialspace.domain.NumberTextBoxPartial) {
@@ -1595,7 +1596,7 @@ bespoke.sphcommercialspace.domain.BuildingMapElement = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
 
-    v.Icon = ko.observable();
+    v.Icon = ko.observable('');
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.BuildingMapElement, domain.commercialspace";
 
     if (bespoke.sphcommercialspace.domain.BuildingMapElementPartial) {
@@ -1638,8 +1639,8 @@ bespoke.sphcommercialspace.domain.ComboBoxItem = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.ComboBoxItem, domain.commercialspace",
-        Caption: ko.observable(),
-        Value: ko.observable(),
+        Caption: ko.observable(''),
+        Value: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1669,17 +1670,17 @@ bespoke.sphcommercialspace.domain.Profile = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Profile, domain.commercialspace",
-        FullName: ko.observable(),
-        UserName: ko.observable(),
-        Email: ko.observable(),
-        Password: ko.observable(),
-        ConfirmPassword: ko.observable(),
-        Status: ko.observable(),
-        Designation: ko.observable(),
-        Telephone: ko.observable(),
-        Mobile: ko.observable(),
-        IsNew: ko.observable(),
-        Department: ko.observable(),
+        FullName: ko.observable(''),
+        UserName: ko.observable(''),
+        Email: ko.observable(''),
+        Password: ko.observable(''),
+        ConfirmPassword: ko.observable(''),
+        Status: ko.observable(''),
+        Designation: ko.observable(''),
+        Telephone: ko.observable(''),
+        Mobile: ko.observable(''),
+        IsNew: ko.observable(false),
+        Department: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1690,17 +1691,32 @@ bespoke.sphcommercialspace.domain.Profile = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.ComplaintCategoryElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v.SubCategoryLabel = ko.observable('');
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.ComplaintCategoryElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.ComplaintCategoryElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.ComplaintCategoryElementPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Invoice, domain.commercialspace",
-        InvoiceId: ko.observable(),
-        Date: ko.observable(),
-        Amount: ko.observable(),
-        No: ko.observable(),
-        Type: ko.observable(),
-        ContractNo: ko.observable(),
-        TenantIdSsmNo: ko.observable(),
+        InvoiceId: ko.observable(0),
+        Date: ko.observable(moment().format('DD/MM/YYYY')),
+        Amount: ko.observable(0.00),
+        No: ko.observable(''),
+        Type: ko.observable('InvoiceType'),
+        ContractNo: ko.observable(''),
+        TenantIdSsmNo: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1711,8 +1727,8 @@ bespoke.sphcommercialspace.domain.Field = function (webId) {
 
     return {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Field, domain.commercialspace",
-        Name: ko.observable(),
-        Note: ko.observable(),
+        Name: ko.observable(''),
+        Note: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1723,11 +1739,11 @@ bespoke.sphcommercialspace.domain.CustomAction = function (webId) {
 
     return {
         "$type": "Bespoke.SphCommercialSpaces.Domain.CustomAction, domain.commercialspace",
-        Title: ko.observable(),
-        IsActive: ko.observable(),
-        TriggerId: ko.observable(),
-        Note: ko.observable(),
-        CustomActionId: ko.observable(),
+        Title: ko.observable(''),
+        IsActive: ko.observable(false),
+        TriggerId: ko.observable(0),
+        Note: ko.observable(''),
+        CustomActionId: ko.observable(0),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1738,16 +1754,16 @@ bespoke.sphcommercialspace.domain.FormElement = function (webId) {
 
     return {
         "$type": "Bespoke.SphCommercialSpaces.Domain.FormElement, domain.commercialspace",
-        Name: ko.observable(),
-        Label: ko.observable(),
-        Tooltip: ko.observable(),
-        Path: ko.observable(),
-        IsRequired: ko.observable(),
-        Size: ko.observable(),
-        CssClass: ko.observable(),
-        Visible: ko.observable(),
-        Enable: ko.observable(),
-        ElementId: ko.observable(),
+        Name: ko.observable(''),
+        Label: ko.observable(''),
+        Tooltip: ko.observable(''),
+        Path: ko.observable(''),
+        IsRequired: ko.observable(false),
+        Size: ko.observable(''),
+        CssClass: ko.observable(''),
+        Visible: ko.observable(''),
+        Enable: ko.observable(''),
+        ElementId: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

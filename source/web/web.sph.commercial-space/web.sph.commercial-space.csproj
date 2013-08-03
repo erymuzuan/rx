@@ -347,7 +347,6 @@
     <Compile Include="Helpers\ControllerHelpers.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Models\ApplicationConfigurationViewModel.cs" />
-    <Compile Include="Models\ComplainCategoriesElement.cs" />
     <Compile Include="Models\RoleType.cs" />
     <Compile Include="Models\TypeModel.cs" />
     <Compile Include="ViewModels\CustomFieldViewModel.cs" />
@@ -1050,9 +1049,9 @@
     <Content Include="Views\App\MaintenanceFormHtml.cshtml" />
     <Content Include="Views\App\MaintenanceTemplateListHtml.cshtml" />
     <Content Include="Views\App\MaintenanceTemplateListJs.cshtml" />
-    <Content Include="Views\App\EditorTemplates\ComplaintCategoriesElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\ComplaintCategoriesElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\ComplaintCategoriesElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\ComplaintCategoryElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\ComplaintCategoryElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\ComplaintCategoryElement.cshtml" />
     <Content Include="Views\Template\Maintenance.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

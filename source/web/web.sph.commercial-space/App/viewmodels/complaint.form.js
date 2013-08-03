@@ -12,8 +12,8 @@
 /// <reference path="../services/mockComplainTemplateContext.js" />
 
 
-define(['services/datacontext', 'services/logger'],
-	function (context, logger) {
+define(['services/datacontext', 'services/logger', 'durandal/system'],
+	function (context, logger, system) {
 
 	    var template = ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
 	        id = ko.observable(),
@@ -31,6 +31,17 @@ define(['services/datacontext', 'services/logger'],
 	                    return c.Name();
 	                });
 	                vm.categoryOptions(categories);
+	                
+	                var cfs = _(ct.CustomFieldCollection()).map(function (f) {
+	                    var webid = system.guid();
+	                    var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
+	                    v.Name(f.Name());
+	                    v.Type(f.Type());
+	                    return v;
+	                });
+
+	                vm.complaint().CustomFieldValueCollection(cfs);
+	                
 	                tcs.resolve(true);
 	                isBusy(false);
 	                
@@ -80,6 +91,8 @@ define(['services/datacontext', 'services/logger'],
 	                .then(function (result) {
 	                    isBusy(false);
 	                    tcs.resolve(result);
+	                    vm.complaint().ReferenceNo(result.referenceNo);
+	                    $('#complaint-ticket-modal').modal();
 	                });
 	            return tcs.promise();
 	        };

@@ -61,10 +61,6 @@ define(['services/datacontext', 'durandal/system'],
                 section.CssClass("icon-group pull-left");
                 section.Name("Section");
 
-                var address = new bespoke.sphcommercialspace.domain.AddressElement(system.guid());
-                address.CssClass("icon-envelope pull-left");
-                address.Name("Address");
-
                 elements.push(textbox);
                 elements.push(textarea);
                 elements.push(checkbox);
@@ -73,7 +69,6 @@ define(['services/datacontext', 'durandal/system'],
                 elements.push(number);
                 elements.push(email);
                 elements.push(section);
-                elements.push(address);
 
                 vm.formElements(elements);
 
@@ -86,31 +81,7 @@ define(['services/datacontext', 'durandal/system'],
             },
             designer = ko.observable(),
             viewAttached = function () {
-                $("#files").kendoUpload({
-                    async: {
-                        saveUrl: "/BinaryStore/Upload",
-                        removeUrl: "/BinaryStore/Remove",
-                        autoUpload: true
-                    },
-                    multiple: false,
-                    error: function (e) {
-                    },
-                    success: function (e) {
-                        var storeId = e.response.storeId;
-                        var uploaded = e.operation === "upload";
-                        var removed = e.operation != "upload";
-                        // NOTE : the input file name is "files" and the id should equal to the vm.propertyName
-                        if (uploaded) {
-                            designer().ImageStoreId(storeId);
-                        }
-
-                        if (removed) {
-                            designer().ImageStoreId("");
-                        }
-
-
-                    }
-                });
+               
                 $('#add-field').on("click", 'a', function (e) {
                     e.preventDefault();
                     _(designer().FormElementCollection()).each(function (f) {

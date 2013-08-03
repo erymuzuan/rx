@@ -15,7 +15,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             };
         }
 
-        
+
         public override string GetKnockoutBindingExpression()
         {
             return string.Format("value: {0}, visible :{1}",

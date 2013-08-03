@@ -19,10 +19,16 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
 
 
                 var customElements = [];
+                
                 var address = new bespoke.sphcommercialspace.domain.AddressElement(system.guid());
                 address.CssClass("icon-envelope pull-left");
                 address.Name("Address");
                 customElements.push(address);
+
+                var cat = new bespoke.sphcommercialspace.domain.ComplaintCategoryElement(system.guid());
+                cat.CssClass("icon-globe pull-left");
+                cat.Name("Category");
+                customElements.push(cat);
 
                 templateBase.activate(customElements);
 
@@ -57,6 +63,34 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 }
 
 
+            },
+            viewAttached = function(view) {
+                $("#imageStoreId").kendoUpload({
+                    async: {
+                        saveUrl: "/BinaryStore/Upload",
+                        removeUrl: "/BinaryStore/Remove",
+                        autoUpload: true
+                    },
+                    multiple: false,
+                    error: function (e) {
+                    },
+                    success: function (e) {
+                        var storeId = e.response.storeId;
+                        var uploaded = e.operation === "upload";
+                        var removed = e.operation != "upload";
+                        // NOTE : the input file name is "files" and the id should equal to the vm.propertyName
+                        if (uploaded) {
+                            vm.complaintTemplate().FormDesign().ImageStoreId(storeId);
+                        }
+
+                        if (removed) {
+                            vm.complaintTemplate().FormDesign().ImageStoreId("");
+                        }
+
+
+                    }
+                });
+                templateBase.viewAttached(view);
             },
             addComplaintCategory = function () {
                 var category = new bespoke.sphcommercialspace.domain.ComplaintCategory();
@@ -105,13 +139,14 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                     .then(function (result) {
                         isBusy(false);
                         tcs.resolve(result);
+                        vm.complaintTemplate().ComplaintTemplateId(result);
                     });
                 return tcs.promise();
             };
         
         var vm = {
             activate: activate,
-            viewAttached: templateBase.viewAttached,
+            viewAttached: viewAttached,
             subCategoryOptions: ko.observableArray(),
             complaintTemplate: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
             selectedComplaintCategory: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintCategory()),
@@ -131,7 +166,8 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             selectedFormElement: templateBase.selectedFormElement,
             removeFormElement: templateBase.removeFormElement,
             removeComboBoxOption: templateBase.removeComboBoxOption,
-            addComboBoxOption: templateBase.addComboBoxOption
+            addComboBoxOption: templateBase.addComboBoxOption,
+            imageStoreId : ko.observable()
         };
 
         return vm;

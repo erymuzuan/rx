@@ -1290,4 +1290,13 @@
 			<xs:attribute name="Department" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="ComplaintCategoryElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:attribute name="SubCategoryLabel" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>
