@@ -1,0 +1,46 @@
+﻿@model Bespoke.SphCommercialSpaces.Domain.RentalApplicationBanksElement
+
+<!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.RentalApplicationBanksElement, domain.commercialspace" -->
+
+<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+
+    <button class="btn btn-link pull-right">
+        <i class="icon-file-alt"></i>+ Bank</button>
+
+    <table id="document-sokongan-table" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Akaun</th>
+                <th>Bank</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <input type="text" /></td>
+                <td>
+                    <input type="text" /></td>
+                <td>
+                    
+                </td>
+                <td>
+                    <button class="btn btn-link">Buang</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" /></td>
+                <td>
+                    <input type="text" /></td>
+                <td>
+                </td>
+                <td>
+                    <button class="btn btn-link">Buang</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!--/ko-->
