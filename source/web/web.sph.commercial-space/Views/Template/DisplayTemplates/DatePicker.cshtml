@@ -3,6 +3,7 @@
 
 <!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.DatePicker, domain.commercialspace" -->
 <div class="control-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+    @Html.Partial("_DesignerContextAction")
     <label data-bind="text: Label" class="control-label"></label>
     <div class="controls">
         <div class="input-append">

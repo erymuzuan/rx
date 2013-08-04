@@ -1061,6 +1061,7 @@
     <Content Include="Views\Template\CommercialSpace.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\CommercialSpaceLotsElement.cshtml" />
     <Content Include="Views\Template\EditorTemplates\CommercialSpaceLotsElement.cshtml" />
+    <Content Include="Views\Template\_DesignerContextAction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

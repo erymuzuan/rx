@@ -140,7 +140,7 @@ return tcs.promise();</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3BB1E11912D31E4E8552A8DBB0201638/Reformat/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3BB1E11912D31E4E8552A8DBB0201638/Scope/=A14108D8199BD94191FC02A2809F1F3D/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3BB1E11912D31E4E8552A8DBB0201638/Scope/=A14108D8199BD94191FC02A2809F1F3D/Type/@EntryValue">InHtmlLikeFile</s:String>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3BB1E11912D31E4E8552A8DBB0201638/Shortcut/@EntryValue">dialog-bootstrap</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3BB1E11912D31E4E8552A8DBB0201638/Shortcut/@EntryValue">bootstrap-dialog</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3BB1E11912D31E4E8552A8DBB0201638/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3BB1E11912D31E4E8552A8DBB0201638/Text/@EntryValue">&lt;a type="button" class="btn" &#xD;
 	data-toggle="modal" &#xD;
@@ -301,7 +301,7 @@ $END$</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7FB71A29899B084AA9F5989D33C91CD2/Text/@EntryValue">&lt;div class="tabbable"&gt;&#xD;
     &lt;ul class="nav nav-tabs"&gt;&#xD;
-        &lt;li&gt;&#xD;
+        &lt;li class="active"&gt;&#xD;
             &lt;a href="#$PANEL1$" data-toggle="tab"&gt;$TEXT1$&lt;/a&gt;&#xD;
         &lt;/li&gt;&#xD;
         &lt;li&gt;&#xD;
@@ -445,6 +445,22 @@ var dbItem = await context.LoadOneAsync&lt;$Entity$&gt;($p$ =&gt; $p$ .$Entity$I
     &lt;span class="control-label"&gt;$labelName$ : &lt;/span&gt;&#xD;
     &lt;span data-bind="text: $value$" id="$value$" /&gt;&#xD;
 &lt;/div&gt;</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=930E704E68A7544CB363F78FE12FAD30/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=930E704E68A7544CB363F78FE12FAD30/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=930E704E68A7544CB363F78FE12FAD30/Description/@EntryValue">addnew with location</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=930E704E68A7544CB363F78FE12FAD30/Field/=CAPTION/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=930E704E68A7544CB363F78FE12FAD30/Field/=CAPTION/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=930E704E68A7544CB363F78FE12FAD30/Field/=LOCATION/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=930E704E68A7544CB363F78FE12FAD30/Field/=LOCATION/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=930E704E68A7544CB363F78FE12FAD30/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=930E704E68A7544CB363F78FE12FAD30/Scope/=FFA15E6CFCBE90499C572A859225B012/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=930E704E68A7544CB363F78FE12FAD30/Scope/=FFA15E6CFCBE90499C572A859225B012/Type/@EntryValue">InJavaScriptFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=930E704E68A7544CB363F78FE12FAD30/Shortcut/@EntryValue">toolbar-addnew</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=930E704E68A7544CB363F78FE12FAD30/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=930E704E68A7544CB363F78FE12FAD30/Text/@EntryValue">addNew : {&#xD;
+                location: '/#/$LOCATION$',&#xD;
+                caption : '$CAPTION$'&#xD;
+            }</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9AEDE1BD1E256B4A86E62CFA5A90D09C/CustomProperties/=Extension/@EntryIndexedValue">js</s:String>
@@ -505,6 +521,20 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], &
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9CB7186BF562FA4B9114F871FCF88B9E/Shortcut/@EntryValue">dbv</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9CB7186BF562FA4B9114F871FCF88B9E/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9CB7186BF562FA4B9114F871FCF88B9E/Text/@EntryValue">data-bind="value:$VAL$"$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/Description/@EntryValue">data-bind filter for list and table</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/Field/=SELECTOR/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/Field/=SELECTOR/Expression/@EntryValue">list("tbody&gt;tr,&gt;li,&gt;dt")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/Field/=SELECTOR/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/Scope/=466BA2AAF8D68149BD1ECBB2749F2538/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/Scope/=466BA2AAF8D68149BD1ECBB2749F2538/Type/@EntryValue">InHtmlLikeAttribute</s:String>
+	
+	
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/Shortcut/@EntryValue">dbfilter</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/Text/@EntryValue"> data-bind="filter : {path:'$SELECTOR$'}"</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Description/@EntryValue">set observable from source to vm</s:String>

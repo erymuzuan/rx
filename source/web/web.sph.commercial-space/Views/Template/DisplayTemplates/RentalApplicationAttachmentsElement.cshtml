@@ -3,7 +3,8 @@
 <!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.RentalApplicationAttachmentsElement, domain.commercialspace" -->
 
 <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
-
+      @Html.Partial("_DesignerContextAction")
+  
     <button class="btn btn-link pull-right">
         <i class="icon-file-alt"></i>+ Dokumen</button>
 

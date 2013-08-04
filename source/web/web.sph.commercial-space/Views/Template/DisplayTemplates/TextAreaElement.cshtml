@@ -2,10 +2,11 @@
 
 <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.TextAreaElement, domain.commercialspace" -->
 <div class="control-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+    @Html.Partial("_DesignerContextAction")
     <label data-bind="text: Label" class="control-label"></label>
     <div class="controls">
         <textarea data-bind="attr: { 'title': Tooltip, 'rows': Rows, 'class': CssClass() + ' ' + Size() }" />
-           <span data-bind="text: HelpText" class="help-inline"></span>
- </div>
+        <span data-bind="text: HelpText" class="help-inline"></span>
+    </div>
 </div>
 <!--/ko-->

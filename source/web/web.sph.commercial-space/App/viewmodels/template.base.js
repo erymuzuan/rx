@@ -80,7 +80,26 @@ define(['services/datacontext', 'durandal/system'],
 
             },
             designer = ko.observable(),
-            viewAttached = function () {
+            viewAttached = function (view) {
+
+
+                var dropDown = function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    var button = $(this);
+                    button.parent().addClass("open")
+                        .find("input:first").focus();
+
+
+                };
+
+                // Fix input element click problem
+                $(view).on('click mouseup mousedown', '.dropdown-menu input, .dropdown-menu label',
+                    function (e) {
+                    e.stopPropagation();
+                });
+                $('#template-form-designer').on('click', 'button.dropdown-toggle', dropDown);
 
                 $('#add-field').on("click", 'a', function (e) {
                     e.preventDefault();
@@ -106,7 +125,7 @@ define(['services/datacontext', 'durandal/system'],
 
                         var initDesigner = function () {
                             $('#template-form-designer>form').sortable({
-                                items: 'div',
+                                items: '>div',
                                 placeholder: 'ph',
                                 helper: 'original',
                                 dropOnEmpty: true,
@@ -171,7 +190,7 @@ define(['services/datacontext', 'durandal/system'],
                         .done(function (html) {
                             $('#path-picker-treepanel').html(html);
                             tree = $('#path-picker-treepanel>ul').kendoTreeView({
-                                select : function(e) {
+                                select: function (e) {
                                     selectedPath($(e.node).find("span.k-sprite").data("path"));
                                 }
                             });

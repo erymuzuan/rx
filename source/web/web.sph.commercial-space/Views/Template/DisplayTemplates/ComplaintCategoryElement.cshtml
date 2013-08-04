@@ -1,7 +1,8 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.ComplaintCategoryElement
 <!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.ComplaintCategoryElement, domain.commercialspace" -->
 <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
-     <label data-bind="text: Label"></label>
+      @Html.Partial("_DesignerContextAction")
+   <label data-bind="text: Label"></label>
     <select data-bind="attr: { 'class': CssClass() + ' ' + Size(), 'title': Tooltip }"></select>
  
     <label data-bind="text: SubCategoryLabel"></label>

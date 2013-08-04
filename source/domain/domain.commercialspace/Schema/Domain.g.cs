@@ -15597,6 +15597,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
         private string m_elementId;
         public const string PropertyNameElementId = "ElementId";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_helpText;
+        public const string PropertyNameHelpText = "HelpText";
+
 
         // public properties members
 
@@ -15817,6 +15822,28 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_elementId;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string HelpText
+        {
+            set
+            {
+                if (m_helpText == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameHelpText, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_helpText = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_helpText;
             }
         }
 
