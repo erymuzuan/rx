@@ -224,6 +224,7 @@ bespoke.sphcommercialspace.domain.CommercialSpace = function (webId) {
         TemplateId: ko.observable(0),
         LotCollection: ko.observableArray([]),
         CustomFieldValueCollection: ko.observableArray([]),
+        Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1734,6 +1735,20 @@ bespoke.sphcommercialspace.domain.RentalApplicationAttachmentsElement = function
 };
 
 
+
+bespoke.sphcommercialspace.domain.CommercialSpaceLotsElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.CommercialSpaceLotsElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.CommercialSpaceLotsElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.CommercialSpaceLotsElementPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {
@@ -1792,6 +1807,7 @@ bespoke.sphcommercialspace.domain.FormElement = function (webId) {
         Visible: ko.observable(''),
         Enable: ko.observable(''),
         ElementId: ko.observable(''),
+        HelpText: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

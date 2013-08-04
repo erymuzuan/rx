@@ -156,6 +156,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="Address"/>
 			</xs:all>
 			<xs:attribute name="CommercialSpaceId" type="xs:int" use="required"/>
 			<xs:attribute name="BuildingId" type="xs:int" use="required"/>
@@ -1162,6 +1163,7 @@
 		<xs:attribute name="Visible" type="xs:string" use="optional" default="true"/>
 		<xs:attribute name="Enable" type="xs:string" use="optional" default="true"/>
 		<xs:attribute name="ElementId" type="xs:string" use="required"/>
+		<xs:attribute name="HelpText" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:element name="TextBox">
 		<xs:complexType>
@@ -1307,6 +1309,13 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="RentalApplicationAttachmentsElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CommercialSpaceLotsElement">
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="FormElement"/>

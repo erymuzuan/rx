@@ -629,8 +629,8 @@
   },
   {
     "role": "can_edit_commercialspace_template",
-    "url": "commercialspace.template.form/:id",
-    "moduleId": "viewmodels/commercialspace.template.form",
+    "url": "template.commercialspace-id.0/:id",
+    "moduleId": "viewmodels/template.commercialspace-id.0",
     "name": "Form templat ruang komersil",
     "visible": false,
     "icon": "icon-flag",

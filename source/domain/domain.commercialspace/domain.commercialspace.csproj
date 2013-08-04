@@ -120,6 +120,7 @@
     <Compile Include="FormTemplates\CheckBox.cs" />
     <Compile Include="FormTemplates\ComboBox.cs" />
     <Compile Include="FormTemplates\ComboBoxItem.cs" />
+    <Compile Include="FormTemplates\CommercialSpaceLotsElement.cs" />
     <Compile Include="FormTemplates\ComplaintCategoryElement.cs" />
     <Compile Include="FormTemplates\DatePicker.cs" />
     <Compile Include="FormTemplates\EmailFormElement.cs" />

@@ -20,6 +20,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [XmlInclude(typeof(ComplaintCategoryElement))]
     [XmlInclude(typeof(RentalApplicationBanksElement))]
     [XmlInclude(typeof(RentalApplicationAttachmentsElement))]
+    [XmlInclude(typeof(CommercialSpaceLotsElement))]
     public partial class FormElement : DomainObject
     {
         public virtual CustomField GenerateCustomField()

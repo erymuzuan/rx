@@ -8,7 +8,7 @@ namespace routes.editor
     {
         public MainWindow()
         {
-            StyleManager.ApplicationTheme = new Windows8Theme();
+            StyleManager.ApplicationTheme = new Expression_DarkTheme();
             InitializeComponent();
             this.Loaded += MainWindowLoaded;
         }

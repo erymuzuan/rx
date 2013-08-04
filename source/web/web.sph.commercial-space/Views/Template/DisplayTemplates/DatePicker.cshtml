@@ -2,11 +2,14 @@
 
 
 <!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.DatePicker, domain.commercialspace" -->
-<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
-    <label data-bind="text: Label"></label>
-    <div class="input-append">
-        <input type="text" data-bind="attr: { 'title': Tooltip, 'class': CssClass() + ' ' + Size() }" />
-        <i class="add-on icon-calendar"></i>
+<div class="control-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+    <label data-bind="text: Label" class="control-label"></label>
+    <div class="controls">
+        <div class="input-append">
+            <input type="text" data-bind="attr: { 'title': Tooltip, 'class': CssClass() + ' ' + Size() }" />
+            <i class="add-on icon-calendar"></i>
+        </div>
+        <span data-bind="text: HelpText" class="help-inline"></span>
     </div>
 </div>
 <!--/ko-->

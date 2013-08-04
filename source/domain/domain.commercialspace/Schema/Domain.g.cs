@@ -2393,6 +2393,23 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get { return m_CustomFieldValueCollection; }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Address m_address
+                = new Address();
+
+        public const string PropertyNameAddress = "Address";
+        [DebuggerHidden]
+
+        public Address Address
+        {
+            get { return m_address; }
+            set
+            {
+                m_address = value;
+                OnPropertyChanged();
+            }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -15091,6 +15108,18 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [Serializable]
     [XmlType("RentalApplicationAttachmentsElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class RentalApplicationAttachmentsElement
+    {
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("CommercialSpaceLotsElement", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class CommercialSpaceLotsElement
     {
 
 

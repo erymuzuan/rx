@@ -401,6 +401,7 @@
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\building.details.js" />
     <Content Include="App\viewmodels\building.details.ts" />
+    <Content Include="App\viewmodels\template.commercialspace.js" />
     <Content Include="App\viewmodels\template.application.js" />
     <Content Include="App\viewmodels\maintenance.form.js" />
     <Content Include="App\viewmodels\template.maintenance.js" />
@@ -1057,6 +1058,9 @@
     <Content Include="Views\Template\EditorTemplates\RentalApplicationAttachmentsElement.cshtml" />
     <Content Include="Views\Template\EditorTemplates\RentalApplicationBanksElement.cshtml" />
     <Content Include="Views\Template\_PathPicker.cshtml" />
+    <Content Include="Views\Template\CommercialSpace.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\CommercialSpaceLotsElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\CommercialSpaceLotsElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

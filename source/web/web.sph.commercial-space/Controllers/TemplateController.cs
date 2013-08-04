@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> SaveBuildingTemplate()
         {
 
-            var models = TypeHelper.GetPropertyPath(typeof (Building));
+            var models = TypeHelper.GetPropertyPath(typeof(Building));
             var template = this.GetRequestJson<BuildingTemplate>();
             this.BuildCustomFields(template.CustomFieldCollection, template.FormDesign, models);
 
@@ -78,8 +78,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             var models = TypeHelper.GetPropertyPath(typeof(Maintenance));
             var template = this.GetRequestJson<MaintenanceTemplate>();
-            this.BuildCustomFields(template.CustomFieldCollection,template.FormDesign, models);
-           
+            this.BuildCustomFields(template.CustomFieldCollection, template.FormDesign, models);
+
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
@@ -135,10 +135,20 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public ActionResult Complaint()
         {
-            var vm = new TemplateFormViewModel { Entity = "complaint" };
+            var vm = new TemplateFormViewModel { Entity = typeof(Complaint).Name };
             vm.FormElements.Add(new AddressElement());
             vm.FormElements.Add(new ComplaintCategoryElement());
 
+
+            return View(vm);
+
+        }
+
+        public ActionResult CommercialSpace()
+        {
+            var vm = new TemplateFormViewModel { Entity = typeof(CommercialSpace).Name };
+            vm.FormElements.Add(new AddressElement());
+            vm.FormElements.Add(new CommercialSpaceLotsElement());
 
             return View(vm);
 
