@@ -146,7 +146,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public ActionResult Maintenance()
         {
-            var vm = new TemplateFormViewModel { Entity = "maintenance" };
+            var vm = new TemplateFormViewModel { Entity = typeof(Maintenance).Name };
             vm.FormElements.Add(new AddressElement());
 
 

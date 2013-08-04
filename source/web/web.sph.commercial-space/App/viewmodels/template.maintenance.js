@@ -9,7 +9,6 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
-
 define(['services/datacontext', 'durandal/system', './template.base', 'services/logger'],
     function (context, system, templateBase) {
 
@@ -40,19 +39,19 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                                 // add isSelected for the designer
                                 fe.isSelected = ko.observable(false);
                             });
-                            vm.maintenanceTemplate(b);
-                            templateBase.designer(vm.maintenanceTemplate().FormDesign());
+                            vm.template(b);
+                            templateBase.designer(vm.template().FormDesign());
                             tcs.resolve(true);
                         });
 
                     return tcs.promise();
                 } else {
-                    vm.maintenanceTemplate(new bespoke.sphcommercialspace.domain.MaintenanceTemplate());
+                    vm.template(new bespoke.sphcommercialspace.domain.MaintenanceTemplate());
 
-                    vm.maintenanceTemplate().FormDesign().Name("My form 1");
-                    vm.maintenanceTemplate().FormDesign().Description("Do whatever it takes");
+                    vm.template().FormDesign().Name("My form 1");
+                    vm.template().FormDesign().Description("Do whatever it takes");
 
-                    templateBase.designer(vm.maintenanceTemplate().FormDesign());
+                    templateBase.designer(vm.template().FormDesign());
                     return true;
                 }
             },
@@ -63,8 +62,8 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 var elements = _($('#template-form-designer>form>div')).map(function (div) {
                     return ko.dataFor(div);
                 });
-                vm.maintenanceTemplate().FormDesign().FormElementCollection(elements);
-                var data = ko.mapping.toJSON(vm.maintenanceTemplate);
+                vm.template().FormDesign().FormElementCollection(elements);
+                var data = ko.mapping.toJSON(vm.template);
 
                 context.post(data, "/Template/SaveMaintenanceTemplate")
                     .then(function (result) {
@@ -77,7 +76,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
         var vm = {
             activate: activate,
             viewAttached: templateBase.viewAttached,
-            maintenanceTemplate: ko.observable(new bespoke.sphcommercialspace.domain.MaintenanceTemplate()),
+            emplate: ko.observable(new bespoke.sphcommercialspace.domain.MaintenanceTemplate()),
             toolbar: {
                 saveCommand: save
             },
@@ -87,6 +86,8 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             selectedFormElement: templateBase.selectedFormElement,
             removeFormElement: templateBase.removeFormElement,
             removeComboBoxOption: templateBase.removeComboBoxOption,
+            selectPathFromPicker: templateBase.selectPathFromPicker,
+            showPathPicker: templateBase.showPathPicker,
             addComboBoxOption: templateBase.addComboBoxOption
         };
 

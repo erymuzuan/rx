@@ -102,6 +102,8 @@ define(['services/datacontext', 'durandal/system', './template.base'],
             selectedFormElement: templateBase.selectedFormElement,
             removeFormElement: templateBase.removeFormElement,
             removeComboBoxOption: templateBase.removeComboBoxOption,
+            selectPathFromPicker: templateBase.selectPathFromPicker,
+            showPathPicker: templateBase.showPathPicker,
             addComboBoxOption: templateBase.addComboBoxOption
         };
 

@@ -5,10 +5,10 @@
 </section>
 <section class="span5">
 
-    <div class="labelLeft">
+    <div class="btn-group" data-toggle="button">
         <label>Negeri:</label>
         <!-- ko foreach : stateOptions -->
-        <label>
+        <label class="btn btn-success">
             <input type="checkbox" data-bind="value: Name" />
             <!-- ko text: Name -->
 
@@ -16,10 +16,10 @@
         </label>
         <!-- /ko -->
     </div>
-    <div class="labelLeft" >
+    <div class="btn-group" data-toggle="button" >
         <label>Building:</label>
         <!-- ko foreach : buildingOptions -->
-        <label>
+        <label class="btn btn-success">
             <input type="checkbox" data-bind="value: Item1" />
             <!-- ko text: Item2 -->
 
@@ -28,11 +28,11 @@
         <!-- /ko -->
 
     </div>
-    <div class="labelLeft">
+    <div class="btn-group" data-toggle="button">
         <label>Jenis Perniagaan:</label>
     
         <!-- ko foreach : categoryOptions -->
-        <label>
+        <label class="btn btn-success">
             <input type="checkbox" data-bind="value: Name" />
             <!-- ko text: Name -->
 
