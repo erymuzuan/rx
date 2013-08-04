@@ -81,7 +81,7 @@ define(['services/datacontext', 'durandal/system'],
             },
             designer = ko.observable(),
             viewAttached = function () {
-               
+
                 $('#add-field').on("click", 'a', function (e) {
                     e.preventDefault();
                     _(designer().FormElementCollection()).each(function (f) {
@@ -135,6 +135,15 @@ define(['services/datacontext', 'durandal/system'],
                             connectToSortable: "#template-form-designer>form"
                         });
                     });
+
+
+                // get the position
+                $('#template-form-designer').on('click', 'form>div', function (e) {
+                    e.preventDefault();
+                    var top = $(this).position().top;
+                    $('#form-designer-toolbox').animate({ "margin-top": top - 140 }, 300);
+
+                });
             },
             selectFormElement = function (fe) {
                 _(designer().FormElementCollection()).each(function (f) {
@@ -152,6 +161,29 @@ define(['services/datacontext', 'durandal/system'],
             },
             removeComboBoxOption = function (option) {
                 vm.selectedFormElement().ComboBoxItemCollection.remove(option);
+            },
+            tree,
+            selectedPath = ko.observable(),
+            showPathPicker = function (type) {
+                console.log(type);
+                if (!tree) {
+                    $.get("/App/TriggerPathPickerHtml/" + type)
+                        .done(function (html) {
+                            $('#path-picker-treepanel').html(html);
+                            tree = $('#path-picker-treepanel>ul').kendoTreeView({
+                                select : function(e) {
+                                    selectedPath($(e.node).find("span.k-sprite").data("path"));
+                                }
+                            });
+                            $('#path-picker-panel').modal({});
+                        });
+                } else {
+
+                    $('#path-picker-panel').modal({});
+                }
+            },
+            selectPathFromPicker = function () {
+                vm.selectedFormElement().Path(selectedPath());
             };
 
         var vm = {
@@ -165,7 +197,9 @@ define(['services/datacontext', 'durandal/system'],
             removeFormElement: removeFormElement,
             removeComboBoxOption: removeComboBoxOption,
             addComboBoxOption: addComboBoxOption,
-            designer: designer
+            designer: designer,
+            showPathPicker: showPathPicker,
+            selectPathFromPicker: selectPathFromPicker
         };
 
         return vm;

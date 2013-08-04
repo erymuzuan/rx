@@ -114,7 +114,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public ActionResult Application()
         {
-            var vm = new TemplateFormViewModel { Entity = "rentalApplication" };
+            var vm = new TemplateFormViewModel { Entity = typeof(RentalApplication).Name };
             vm.FormElements.Add(new AddressElement());
             vm.FormElements.Add(new RentalApplicationAttachmentsElement());
             vm.FormElements.Add(new RentalApplicationBanksElement());
@@ -123,7 +123,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         }
         public ActionResult Building()
         {
-            var vm = new TemplateFormViewModel { Entity = "building" };
+            var vm = new TemplateFormViewModel { Entity = typeof(Building).Name };
             vm.FormElements.Add(new AddressElement());
             vm.FormElements.Add(new BuildingFloorsElement());
             vm.FormElements.Add(new BuildingMapElement());

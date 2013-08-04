@@ -109,6 +109,8 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             removeFormElement: templateBase.removeFormElement,
             removeComboBoxOption: templateBase.removeComboBoxOption,
             addComboBoxOption: templateBase.addComboBoxOption,
+            selectPathFromPicker: templateBase.selectPathFromPicker,
+            showPathPicker: templateBase.showPathPicker,
             imageStoreId : ko.observable()
         };
 

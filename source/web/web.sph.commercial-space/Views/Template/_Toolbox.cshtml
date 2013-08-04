@@ -1,6 +1,6 @@
 ﻿@model Bespoke.Sph.Commerspace.Web.ViewModels.TemplateFormViewModel
 
-<div class="tabbable">
+<div class="tabbable" id="form-designer-toolbox">
     <ul class="nav nav-tabs">
         <li class="active">
             <a href="#form-settings" data-toggle="tab">Template Settings</a>
@@ -90,8 +90,11 @@
 
                 <div class="control-group">
                     <label for="form-element-path" class="control-label">Path</label>
-                    <div class="controls">
+                    <div class="controls input-append">
                         <input data-bind="value: Path" id="form-element-path" type="text" name="Path" />
+                        <a href="#" class="add-on" data-bind="click: $root.showPathPicker.bind($data,'@Model.Entity')">
+                            <i class="icon-search"></i>
+                        </a>
                     </div>
                 </div>
 
