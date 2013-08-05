@@ -135,14 +135,12 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
                 {
                     caption: 'Sambung Kontrak',
                     icon: 'icon-edit-sign',
-                    command: openExtensionDialog,
-                    visible: !isEnd
+                    command: openExtensionDialog
                 },
                 {
                     caption: 'Tamatkan Kontrak',
                     icon: 'icon-stop',
-                    command: openTerminationDialog,
-                    visible: !isEnd
+                    command: openTerminationDialog
                 }])
             },
             terminateCommand: termination,
