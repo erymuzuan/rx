@@ -17,7 +17,8 @@ define([],
             console.log(vm.topicCollection);
         },
         startAddTopic = function () {
-            topic(new bespoke.sphcommercialspace.domain.Topic(system.guid.newGuid()));
+            topic(new bespoke.sphcommercialspace.domain.Topic());
+            
         },
         addTopic = function () {
             vm.topicCollection.push(topic);
@@ -25,7 +26,7 @@ define([],
         editedTopic,
         startAddClause = function (tpc) {
             editedTopic = tpc;
-            clause(new bespoke.sphcommercialspace.domain.Clause(system.guid.newGuid()));
+            clause(new bespoke.sphcommercialspace.domain.Clause());
         },
         addClause = function () {
             editedTopic.ClauseCollection.push(clause);
