@@ -408,6 +408,8 @@ bespoke.sphcommercialspace.domain.Contract = function (webId) {
         Tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
         CommercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         TopicCollection: ko.observableArray([]),
+        Termination: ko.observable(new bespoke.sphcommercialspace.domain.Termination()),
+        Extension: ko.observable(new bespoke.sphcommercialspace.domain.Extension()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1747,6 +1749,41 @@ bespoke.sphcommercialspace.domain.CommercialSpaceLotsElement = function (webId) 
         return _(v).extend(new bespoke.sphcommercialspace.domain.CommercialSpaceLotsElementPartial(v));
     }
     return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Termination = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.Termination, domain.commercialspace",
+        Date: ko.observable(moment().format('DD/MM/YYYY')),
+        Remarks: ko.observable(''),
+        ApprovalOfficer: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.TerminationPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.TerminationPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Extension = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.Extension, domain.commercialspace",
+        Date: ko.observable(moment().format('DD/MM/YYYY')),
+        Remarks: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ExtensionPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ExtensionPartial(model));
+    }
+    return model;
 };
 
 

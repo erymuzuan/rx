@@ -113,6 +113,7 @@
     <Compile Include="DocumentVersion.cs" />
     <Compile Include="EmailMessage.cs" />
     <Compile Include="EntityTypeAttribute.cs" />
+    <Compile Include="Extension.cs" />
     <Compile Include="Floor.cs" />
     <Compile Include="FormTemplates\AddressElement.cs" />
     <Compile Include="FormTemplates\BuildingFloorsElement.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Permission.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="QueryHelper.cs" />
+    <Compile Include="Termination.cs" />
     <Compile Include="Triggers\Action.cs" />
     <Compile Include="Triggers\ConstantField.cs" />
     <Compile Include="Triggers\DocumentField.cs" />

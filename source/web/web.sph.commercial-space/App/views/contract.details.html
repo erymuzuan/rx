@@ -47,4 +47,68 @@
 
 </div>
 
+<section class="modal hide" id="extend-contract-panel">
 
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Sambung Kontrak</h3>
+    </div>
+    <div class="modal-body" data-bind="with: contract">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label">Tarikh Baru</label>
+                <div class="controls ">
+                    <input type="text" name="Contract.Extension.Date" data-bind="kendoDate: Extension.Date" />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Nota</label>
+                <div class="controls">
+                    <textarea cols="5" rows="5" class="large" name="Contract.Extension.Note" data-bind="value: Extension.Remarks" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: extendCommand" />
+    </div>
+</section>
+
+<section class="modal hide" id="terminate-contract-panel">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Tamatkan Kontrak</h3>
+    </div>
+    <div class="modal-body" data-bind="with: contract">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label">Tarikh Tamat</label>
+                <div class="controls">
+                    <input type="text" name="Contract.Termination.Date" data-bind="kendoDate: Termination.Date" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Pegawai Pelulus</label>
+                <div class="controls">
+                    <input type="text" name="Contract.Termination.Note" data-bind="value: Termination.ApprovalOfficer" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Catatan</label>
+                <div class="controls ">
+                    <textarea cols="5" rows="5" class="x" name="Contract.Termination.Note" data-bind="value: Termination.Remarks" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: terminateCommand" />
+    </div>
+</section>

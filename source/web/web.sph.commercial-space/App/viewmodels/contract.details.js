@@ -54,7 +54,7 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
                     .done(function(w) {
                         vm.toolbar.watching(w);
                     });
-
+                
                 return tcs.promise();
 
             },
@@ -86,6 +86,40 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
                         tcs.resolve(result);
                     });
                 return tcs.promise();
+            },
+            openExtensionDialog = function () {
+                $('#extend-contract-panel').modal();
+            },
+            extension = function () {
+                var tcs = new $.Deferred();
+                var data = ko.toJSON({ id: vm.contract().ContractId(), extension: vm.contract().Extension });
+                isBusy(true);
+
+                context.post(data, "/Contract/Extend")
+                    .then(function (result) {
+                        isBusy(false);
+
+
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            },
+            openTerminationDialog = function () {
+                $('#terminate-contract-panel').modal();
+            },
+            termination = function () {
+                var tcs = new $.Deferred();
+                var data = ko.toJSON({ id: vm.contract().ContractId(), termination: vm.contract().Termination });
+                isBusy(true);
+
+                context.post(data, "/Contract/Terminate")
+                    .then(function (result) {
+                        isBusy(false);
+
+
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
             };
 
         var vm = {
@@ -98,8 +132,21 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
                 saveCommand: save,
                 watchCommand: watch,
                 unwatchCommand: watch,
-                watching: ko.observable(false)
-            }
+                watching: ko.observable(false),
+                clicks: ko.observableArray([
+                {
+                    caption: 'Sambung Kontrak',
+                    icon: 'icon-edit-sign',
+                    command: openExtensionDialog,
+                },
+                {
+                    caption: 'Tamatkan Kontrak',
+                    icon: 'icon-stop',
+                    command: openTerminationDialog,
+                }])
+            },
+            terminateCommand: termination,
+            extendCommand : extension
         };
 
         return vm;

@@ -184,6 +184,35 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         }
 
+        public async Task<ActionResult> Terminate(int id,Termination termination)
+        {
+            
+            var context = new SphDataContext();
+            var dbItem = await context.LoadOneAsync<Contract>(c => c.ContractId == id);
+            dbItem.Termination = termination;
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(dbItem);
+                await session.SubmitChanges(string.Format("Contract was terminate on {0}", termination.Date));
+            }
+            return Json(true);
+        }
+
+        public async Task<ActionResult> Extend(int id, Extension extension)
+        {
+           var context = new SphDataContext();
+            var dbItem = await context.LoadOneAsync<Contract>(c => c.ContractId == id);
+            dbItem.Extension = extension;
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(dbItem);
+                await session.SubmitChanges(string.Format("Contract extended to date {0}", extension.Date));
+            }
+            return Json(true);
+        }
+
         public async Task<ActionResult> GenerateLedger(int id = 0)
         {
             var contractId = id != 0 ? id : 1;

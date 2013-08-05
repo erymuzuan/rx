@@ -311,6 +311,8 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="Termination"/>
+				<xs:element ref="Extension"/>
 			</xs:all>
 			<xs:attribute name="ContractId" type="xs:int" use="required"/>
 			<xs:attribute name="ReferenceNo" type="xs:string" use="required"/>
@@ -1321,6 +1323,19 @@
 			<xs:complexContent>
 				<xs:extension base="FormElement"/>
 			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Termination">
+		<xs:complexType>
+			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Remarks" type="xs:string" use="required"/>
+			<xs:attribute name="ApprovalOfficer" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Extension">
+		<xs:complexType>
+			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Remarks" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
