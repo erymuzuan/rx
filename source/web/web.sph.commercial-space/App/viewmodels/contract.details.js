@@ -16,13 +16,14 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
     function (context, clausesvm, documentsvm, audittrailvm) {
 
         var isBusy = ko.observable(false),
-
+            isEnd = ko.observable(false),
             activate = function (routeData) {
                 isBusy(true);
                 var tcs = new $.Deferred();
 
                 var contractLoaded = function (ctr) {
                     vm.contract(ctr);
+                    isEnd(ctr.IsEnd);
                     vm.title("Butiran kontrak " + ctr.ReferenceNo());
                     clausesvm.init(ctr);
                     documentsvm.init(ctr);
@@ -98,8 +99,6 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
                 context.post(data, "/Contract/Extend")
                     .then(function (result) {
                         isBusy(false);
-
-
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -115,8 +114,7 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
                 context.post(data, "/Contract/Terminate")
                     .then(function (result) {
                         isBusy(false);
-
-
+                        isEnd(true);
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -138,11 +136,13 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
                     caption: 'Sambung Kontrak',
                     icon: 'icon-edit-sign',
                     command: openExtensionDialog,
+                    visible: !isEnd
                 },
                 {
                     caption: 'Tamatkan Kontrak',
                     icon: 'icon-stop',
                     command: openTerminationDialog,
+                    visible: !isEnd
                 }])
             },
             terminateCommand: termination,

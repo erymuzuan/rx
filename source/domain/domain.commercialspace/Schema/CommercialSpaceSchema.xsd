@@ -329,6 +329,7 @@
 			<xs:attribute name="Status" type="xs:string" use="required"/>
 			<xs:attribute name="RentType" type="xs:string" use="required"/>
 			<xs:attribute name="InterestRate" type="xs:double" use="required"/>
+			<xs:attribute name="IsEnd" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Document">

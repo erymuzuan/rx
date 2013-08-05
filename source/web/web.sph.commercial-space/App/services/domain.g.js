@@ -401,6 +401,7 @@ bespoke.sphcommercialspace.domain.Contract = function (webId) {
         Status: ko.observable(''),
         RentType: ko.observable(''),
         InterestRate: ko.observable(0.00),
+        IsEnd: ko.observable(false),
         DocumentCollection: ko.observableArray([]),
         Owner: ko.observable(new bespoke.sphcommercialspace.domain.Owner()),
         ContractingParty: ko.observable(new bespoke.sphcommercialspace.domain.ContractingParty()),

@@ -4676,6 +4676,11 @@
                     public const string PropertyNameInterestRate = "InterestRate";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  bool  m_isEnd;
+                    public const string PropertyNameIsEnd = "IsEnd";
+
+                  
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private int?  m_option;
                 public const string PropertyNameOption = "Option";
@@ -5223,6 +5228,34 @@
                     get
                     {
                     return m_interestRate;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public bool IsEnd
+                    {
+                    set
+                    {
+                    if( m_isEnd == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameIsEnd, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_isEnd= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_isEnd;}
                     }
 
                   

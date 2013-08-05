@@ -190,6 +190,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<Contract>(c => c.ContractId == id);
             dbItem.Termination = termination;
+            dbItem.EndDate = termination.Date;
+            dbItem.IsEnd = true;
 
             using (var session = context.OpenSession())
             {
@@ -204,6 +206,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
            var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<Contract>(c => c.ContractId == id);
             dbItem.Extension = extension;
+            dbItem.EndDate = extension.Date;
 
             using (var session = context.OpenSession())
             {
