@@ -25,9 +25,20 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
         public static async Task<IEnumerable<JsRoute>> GetJsRoutes()
         {
             var context = new SphDataContext();
-            var buildingTemplates = await context.LoadAsync(context.BuildingTemplates.Where(t => t.IsActive == true));
-            var csTemplates = await context.LoadAsync(context.CommercialSpaceTemplates.Where(t => t.IsActive == true));
-            var complaintTemplates = await context.LoadAsync(context.ComplaintTemplates.Where(t => t.IsActive == true));
+// ReSharper disable RedundantBoolCompare
+            var buildingTemplatesTask =  context.LoadAsync(context.BuildingTemplates.Where(t => t.IsActive == true));
+            var complaintTemplatesTask =  context.LoadAsync(context.ComplaintTemplates.Where(t => t.IsActive == true));
+            var ruangTemplatesTask =  context.LoadAsync(context.CommercialSpaceTemplates.Where(t => t.IsActive == true));
+            var applicationTemplateTask =  context.LoadAsync(context.ApplicationTemplates.Where(t => t.IsActive == true));
+// ReSharper restore RedundantBoolCompare
+            await
+                Task.WhenAll(buildingTemplatesTask, complaintTemplatesTask, complaintTemplatesTask, ruangTemplatesTask,
+                             applicationTemplateTask);
+
+            var buildingTemplates = await buildingTemplatesTask;
+            var complaintTemplates = await complaintTemplatesTask;
+            var ruangTemplates = await ruangTemplatesTask;
+            var applicationTemplates = await applicationTemplateTask;
 
             var routes = new List<JsRoute>();
             var buildingRoute = from t in buildingTemplates.ItemCollection
@@ -41,7 +52,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                     ModuleId = string.Format("viewmodels/building.detail-templateid.{0}", t.BuildingTemplateId),
                 };
 
-            var csRoute = from t in csTemplates.ItemCollection
+            var csRoute = from t in ruangTemplates.ItemCollection
                                 select new JsRoute
                                 {
                                     Name = t.Name,
@@ -61,9 +72,20 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                                     Icon = "icon-building",
                                     ModuleId = string.Format("viewmodels/complaint.form-templateid.{0}", t.ComplaintTemplateId),
                                 };
+            var applicationRoutes = from t in applicationTemplates.ItemCollection
+                                select new JsRoute
+                                {
+                                    Name = t.Name,
+                                    Url = string.Format("application.detail-templateid.{0}/:id", t.ApplicationTemplateId),
+                                    Caption = t.Name,
+                                    Icon = "icon-building",
+                                    ModuleId = string.Format("viewmodels/capplication.detail-templateid.{0}", t.ApplicationTemplateId),
+                                };
+         
             routes.AddRange(buildingRoute);
             routes.AddRange(csRoute);
             routes.AddRange(complaintRoute);
+            routes.AddRange(applicationRoutes);
             return routes;
         } 
     }

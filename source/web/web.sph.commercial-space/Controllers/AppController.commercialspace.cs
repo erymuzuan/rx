@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var context = new SphDataContext();
             var template = await context.LoadOneAsync<CommercialSpaceTemplate>(t => t.CommercialSpaceTemplateId == templateId);
 
-            return View(template.CustomFieldCollection);
+            return View(template);
         }
 
     }
