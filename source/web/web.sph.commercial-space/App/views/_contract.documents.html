@@ -4,8 +4,8 @@
                                 <table class="table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Title</th>
-                                            <th>Entension</th>
+                                            <th>Tajuk</th>
+                                            <th>Lanjutan</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -19,12 +19,12 @@
                                 </table>
                                 <button  class="btn" 
                                     data-bind="command: startGenerateDocumentCommand, enable: contractId() > 0,attr:{title : contractId}"
-                                    data-loading-text="getting templates.."
-                                    data-complete-text="Generate agreement document">Generate agreement document</button>
+                                    data-loading-text="Peroleh Templat.."
+                                    data-complete-text="Selesai Jana Dokumen ">Jana Dokumen Perjanjian</button>
                             </div>
 
                             <div class="span2" data-bind="with: selectedDocument">
-                                <h3>Versions</h3>
+                                <h3>Versi</h3>
                                 <ul data-bind="foreach: DocumentVersionCollection">
                                     <li>
                                         <span data-bind="text: No"></span>

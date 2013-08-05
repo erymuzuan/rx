@@ -13,6 +13,7 @@ define(['services/datacontext'],
 	function (context) {
 	    var
         isBusy = ko.observable(false),
+	    inventory = ko.observable(new bespoke.sphcommercialspace.domain.Inventory()),
         activate = function () {
             var query = String.format("InventoryId gt 0");
             var tcs = new $.Deferred();
@@ -24,12 +25,25 @@ define(['services/datacontext'],
                 });
             return tcs.promise();
 
-        };
+        },
+	    exportList = function (){};
 
 	    var vm = {
 	        isBusy: isBusy,
 	        activate: activate,
-	        inventoryCollection: ko.observableArray()
+	        inventoryCollection: ko.observableArray(),
+	        inventory : inventory,
+	        toolbar: ko.observable({
+	            reloadCommand: function () {
+	                return activate();
+	            },
+	            printCommand: ko.observable({
+	                entity: ko.observable("Inventory"),
+	                id: ko.observable(0),
+	                item: inventory,
+	            }),
+	            exportCommand: exportList,
+	        })
 	    };
 
 	    return vm;
