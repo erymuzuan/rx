@@ -187,6 +187,9 @@ define(['services/datacontext',
                     });
                 return tcs.promise();
 
+            },            
+            viewAttached = function (view) {
+                $('*[title]').tooltip({placement:'right'});
             };
         
         var vm = {
@@ -202,6 +205,7 @@ define(['services/datacontext',
             viewFloorPlanCommand: viewFloorPlan,
             goBackCommand: goBack,
             isBusy: isBusy,
+            viewAttached: viewAttached,
             removeFloorCommand: removeFloor,
             title: 'Perincian Bangunan',
             toolbar: ko.observable({

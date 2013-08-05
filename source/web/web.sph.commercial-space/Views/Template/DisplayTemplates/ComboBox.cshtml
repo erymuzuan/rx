@@ -1,8 +1,13 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.ComboBox
 
 <!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.ComboBox, domain.commercialspace" -->
-<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
-    <label data-bind="text: Label"></label>
-    <select data-bind="attr: { 'class': CssClass() + ' ' + Size(), 'title': Tooltip }, options: ComboBoxItemCollection, optionsText: 'Caption'"></select>
+<div class="control-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+      @Html.Partial("_DesignerContextAction")
+  <label data-bind="text: Label" class="control-label">LABEL</label>
+    <div class="controls">
+        <select data-bind="attr: { 'class': CssClass() + ' ' + Size(), 'title': Tooltip }, options: ComboBoxItemCollection, optionsText: 'Caption'"></select>
+
+        <span data-bind="text: HelpText" class="help-inline"></span>
+    </div>
 </div>
 <!--/ko-->

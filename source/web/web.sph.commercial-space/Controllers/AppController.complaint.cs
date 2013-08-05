@@ -27,5 +27,15 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
              return View(template);
          }
+
+         public ActionResult ComplaintListHtml()
+         {
+             return View();
+         }
+
+         public ActionResult ComplaintListJs()
+         {
+             return View();
+         }
     }
 }

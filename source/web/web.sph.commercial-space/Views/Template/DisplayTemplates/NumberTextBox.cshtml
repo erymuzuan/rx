@@ -1,8 +1,11 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.NumberTextBox
 
 <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.NumberTextBox, domain.commercialspace" -->
-<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
-    <label data-bind="text: Label"></label>
-    <input type="number" data-bind="attr: { 'title': Tooltip, 'step': Step, 'class': CssClass() + ' ' + Size() }" />
+<div class="control-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+     @Html.Partial("_DesignerContextAction")
+   <label data-bind="text: Label" class="control-label"></label>
+    <div class="controls">
+        <input type="number" data-bind="attr: { 'title': Tooltip, 'step': Step, 'class': CssClass() + ' ' + Size() }" />
+    </div>
 </div>
 <!--/ko-->

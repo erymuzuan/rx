@@ -5,18 +5,41 @@
 </section>
 <section class="span5">
 
-    <div class="labelLeft">
+    <div class="btn-group" data-toggle="button">
         <label>Negeri:</label>
-        <select data-bind="options: stateOptions, value: selectedState, optionsCaption: '[Sila Pilih]', optionsText: 'Name', optionsValue: 'Name'">
-        </select>
+        <!-- ko foreach : stateOptions -->
+        <label class="btn btn-success">
+            <input type="checkbox" data-bind="value: Name" />
+            <!-- ko text: Name -->
+
+            <!-- /ko -->
+        </label>
+        <!-- /ko -->
     </div>
-    <div class="labelLeft" data-bind="with: buildingOptions">
+    <div class="btn-group" data-toggle="button">
         <label>Building:</label>
-        <select name="building" data-bind="options: $data, optionsText: 'Item2', optionsValue: 'Item1', value: $parent.selectedBuildingId, optionsCaption: '[Sila Pilih]'"></select>
+        <!-- ko foreach : buildingOptions -->
+        <label class="btn btn-success">
+            <input type="checkbox" data-bind="value: Item1" />
+            <!-- ko text: Item2 -->
+
+            <!-- /ko -->
+        </label>
+        <!-- /ko -->
+
     </div>
-    <div class="labelLeft" data-bind="with: categoryOptions">
+    <div class="btn-group" data-toggle="button">
         <label>Jenis Perniagaan:</label>
-        <select name="category" data-bind="options: $data, optionsText: 'Name', optionsValue: 'Name', value: $parent.selectedCategory, optionsCaption: '[Sila Pilih]'"></select>
+
+        <!-- ko foreach : categoryOptions -->
+        <label class="btn btn-success">
+            <input type="checkbox" data-bind="value: Name" />
+            <!-- ko text: Name -->
+
+            <!-- /ko -->
+        </label>
+        <!-- /ko -->
+
     </div>
     <div>
         <button class="btn btn-primary" id="apply-rent-button" value="Carian" data-bind="click: searchCommand">Carian</button>
@@ -35,12 +58,12 @@
 
                 <div id="div-building" class="span12">
                     <span class="span12">
-                        <img src="../Content/images/icon.png" width="60" height="60" alt="">
+                        <img src="/Content/images/icon.png" width="60" height="60" alt="">
                         <span>
                             <span>Size: <span data-bind="text: Size"></span></span>
                         </span>
                         <span>
-                            <input type="button" class="btn btn-mini" data-bind="click: $parent.applyCommercialSpaceCommand" value="Mohon Sewa" />
+                            <a data-bind="attr: { href: '/#/application.detail-templateid.' + ApplicationTemplateId() + '/' + CommercialSpaceId() }">Mohon Sewa</a>
                         </span>
                     </span>
 

@@ -61,10 +61,6 @@ define(['services/datacontext', 'durandal/system'],
                 section.CssClass("icon-group pull-left");
                 section.Name("Section");
 
-                var address = new bespoke.sphcommercialspace.domain.AddressElement(system.guid());
-                address.CssClass("icon-envelope pull-left");
-                address.Name("Address");
-
                 elements.push(textbox);
                 elements.push(textarea);
                 elements.push(checkbox);
@@ -73,7 +69,6 @@ define(['services/datacontext', 'durandal/system'],
                 elements.push(number);
                 elements.push(email);
                 elements.push(section);
-                elements.push(address);
 
                 vm.formElements(elements);
 
@@ -85,33 +80,28 @@ define(['services/datacontext', 'durandal/system'],
 
             },
             designer = ko.observable(),
-            viewAttached = function () {
-                $("#files").kendoUpload({
-                    async: {
-                        saveUrl: "/BinaryStore/Upload",
-                        removeUrl: "/BinaryStore/Remove",
-                        autoUpload: true
-                    },
-                    multiple: false,
-                    error: function (e) {
-                    },
-                    success: function (e) {
-                        var storeId = e.response.storeId;
-                        var uploaded = e.operation === "upload";
-                        var removed = e.operation != "upload";
-                        // NOTE : the input file name is "files" and the id should equal to the vm.propertyName
-                        if (uploaded) {
-                            designer().ImageStoreId(storeId);
-                        }
-
-                        if (removed) {
-                            designer().ImageStoreId("");
-                        }
+            viewAttached = function (view) {
 
 
-                    }
+                var dropDown = function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    var button = $(this);
+                    button.parent().addClass("open")
+                        .find("input:first").focus();
+
+
+                };
+
+                // Fix input element click problem
+                $(view).on('click mouseup mousedown', '.dropdown-menu input, .dropdown-menu label',
+                    function (e) {
+                    e.stopPropagation();
                 });
-               $('#add-field').on("click", 'a', function (e) {
+                $('#template-form-designer').on('click', 'button.dropdown-toggle', dropDown);
+
+                $('#add-field').on("click", 'a', function (e) {
                     e.preventDefault();
                     _(designer().FormElementCollection()).each(function (f) {
                         f.isSelected(false);
@@ -132,8 +122,47 @@ define(['services/datacontext', 'durandal/system'],
                 });
                 $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js')// only contains UI core and interactions API 
                     .done(function () {
-                        $('#template-form-designer>form').sortable();
+
+                        var initDesigner = function () {
+                            $('#template-form-designer>form').sortable({
+                                items: '>div',
+                                placeholder: 'ph',
+                                helper: 'original',
+                                dropOnEmpty: true,
+                                forcePlaceholderSize: true,
+                                forceHelperSize: false,
+                                receive: receive
+                            });
+
+                        },
+                            receive = function (evt, ui) {
+                                var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                                    return ko.dataFor(div);
+                                });
+                                var fe = ko.dataFor(ui.item[0]);
+                                fe.isSelected = ko.observable(true);
+                                elements.splice(2, 0, fe);
+                                $('#template-form-designer>form').sortable("destroy");
+
+
+                                designer().FormElementCollection(elements);
+                            };
+
+                        initDesigner();
+                        $('#add-field>ul>li').draggable({
+                            helper: 'clone',
+                            connectToSortable: "#template-form-designer>form"
+                        });
                     });
+
+
+                // get the position
+                $('#template-form-designer').on('click', 'form>div', function (e) {
+                    e.preventDefault();
+                    var top = $(this).position().top;
+                    $('#form-designer-toolbox').animate({ "margin-top": top - 140 }, 300);
+
+                });
             },
             selectFormElement = function (fe) {
                 _(designer().FormElementCollection()).each(function (f) {
@@ -151,6 +180,29 @@ define(['services/datacontext', 'durandal/system'],
             },
             removeComboBoxOption = function (option) {
                 vm.selectedFormElement().ComboBoxItemCollection.remove(option);
+            },
+            tree,
+            selectedPath = ko.observable(),
+            showPathPicker = function (type) {
+                console.log(type);
+                if (!tree) {
+                    $.get("/App/TriggerPathPickerHtml/" + type)
+                        .done(function (html) {
+                            $('#path-picker-treepanel').html(html);
+                            tree = $('#path-picker-treepanel>ul').kendoTreeView({
+                                select: function (e) {
+                                    selectedPath($(e.node).find("span.k-sprite").data("path"));
+                                }
+                            });
+                            $('#path-picker-panel').modal({});
+                        });
+                } else {
+
+                    $('#path-picker-panel').modal({});
+                }
+            },
+            selectPathFromPicker = function () {
+                vm.selectedFormElement().Path(selectedPath());
             };
 
         var vm = {
@@ -164,7 +216,9 @@ define(['services/datacontext', 'durandal/system'],
             removeFormElement: removeFormElement,
             removeComboBoxOption: removeComboBoxOption,
             addComboBoxOption: addComboBoxOption,
-            designer : designer
+            designer: designer,
+            showPathPicker: showPathPicker,
+            selectPathFromPicker: selectPathFromPicker
         };
 
         return vm;

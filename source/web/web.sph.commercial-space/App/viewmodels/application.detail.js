@@ -17,7 +17,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
 
         activate = function (routeData) {
 
-            id(routeData.id);
+            id(parseInt(routeData.id));
             var tcs = new $.Deferred();
             var csTask = context.loadOneAsync('CommercialSpace', 'CommercialSpaceId eq ' + id());
             var stateTask = context.loadOneAsync("Setting", "Key eq 'State'");

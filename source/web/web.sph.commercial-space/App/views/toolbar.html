@@ -106,25 +106,45 @@
         <!-- /ko -->
 
         <!-- ko if: typeof commands === "function"-->
-        <!-- ko foreach: commands-->
+            <!-- ko foreach: commands-->
 
-        <!-- ko if: typeof visible === "undefined"-->
-        <button class="btn" data-bind="command: command">
-            <i data-bind=" attr: { 'class': icon }"></i>
-            <!-- ko text: caption -->
+                <!-- ko if: typeof visible === "undefined"-->
+                <button class="btn" data-bind="command: command">
+                    <i data-bind=" attr: { 'class': icon }"></i>
+                    <!-- ko text: caption -->
+                    <!-- /ko -->
+                </button>
+                <!-- /ko -->
+                <!-- ko if: typeof visible === "function"-->
+                <button class="btn" data-bind="command: command, isvisible: visible">
+                    <i data-bind=" attr: { 'class': icon }"></i>
+                    <!-- ko text: caption -->
+                    <!-- /ko -->
+                </button>
+                <!-- /ko -->
+
             <!-- /ko -->
-        </button>
         <!-- /ko -->
-        <!-- ko if: typeof visible === "function"-->
-        <button class="btn" data-bind="command: command, isvisible: visible">
-            <i data-bind=" attr: { 'class': icon }"></i>
-            <!-- ko text: caption -->
+        
+        <!-- ko if: typeof clicks === "function"-->
+            <!-- ko foreach: clicks-->
+
+                <!-- ko if: typeof visible === "undefined"-->
+                <button class="btn" data-bind="click: command">
+                    <i data-bind=" attr: { 'class': icon }"></i>
+                    <!-- ko text: caption -->
+                    <!-- /ko -->
+                </button>
+                <!-- /ko -->
+                <!-- ko if: typeof visible === "function"-->
+                <button class="btn" data-bind="click: command, isvisible: visible">
+                    <i data-bind=" attr: { 'class': icon }"></i>
+                    <!-- ko text: caption -->
+                    <!-- /ko -->
+                </button>
+                <!-- /ko -->
+
             <!-- /ko -->
-        </button>
         <!-- /ko -->
-
-        <!-- /ko -->
-        <!-- /ko -->
-
     </div>
 </div>

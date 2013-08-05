@@ -14,8 +14,28 @@ define(['services/datacontext', 'services/logger'],
 	function (context, logger) {
 
 	    var isBusy = ko.observable(false),
-	        payment = payment,
-            activate = function () { return true; },
+	        payment = ko.observable(),
+            activate = function () {
+                var tcs = new $.Deferred();
+
+                context.loadAsync("Contract","ContractId gt 0")
+                    .done(function (lo) {
+                        isBusy(false);
+                        var contracts = _(lo.itemCollection).map(function (r) {
+                            return _(r).extend(new bespoke.sphcommercialspace.domain.ContractPartial());
+                        });
+                        _(contracts).each(function(r2){
+                            r2.getAccruedAmount(context)
+                                .done(function(amount){
+                                    r2.Accrued(amount);
+                                });
+                        });
+                        vm.contractCollection(contracts);
+                        tcs.resolve(true);
+                    });
+                return tcs.promise();
+
+            },
 	        showDetails = function (data) {
 	            vm.payment().ContractNo(data.ReferenceNo());
 	            vm.payment().TenantIdSsmNo(data.Tenant.IdSsmNo());
@@ -26,7 +46,7 @@ define(['services/datacontext', 'services/logger'],
 
             save = function () {
                 var tcs = new $.Deferred();
-                var payment = ko.mapping.toJS(vm.payment());
+                payment(ko.mapping.toJS(vm.payment()));
                 var json = JSON.stringify({payment: payment });
                 context.post(json, "/Payment/Save")
 					.done(function (e) {

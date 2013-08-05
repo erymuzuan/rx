@@ -3,8 +3,8 @@
     <ul class="today-datas" data-bind="foreach: complaintTemplates">
 
         <li>
-            <div class="pull-left">
-                <img data-bind="attr: { src: '/Images/dashboard-waiting.png'}" src="/Images/dashboard-baru.png" alt="baru" />
+            <div class="pull-left" data-bind="with : FormDesign">
+                <img data-bind="attr: { src: '/Image/store/' + ImageStoreId()}"  alt="baru" />
             </div>
             <div class="pull-right">
                 <a data-bind="attr: { href: '/#/complaint.form-templateid.'+ ComplaintTemplateId() +'/' + ComplaintTemplateId() }, text: Name"></a>

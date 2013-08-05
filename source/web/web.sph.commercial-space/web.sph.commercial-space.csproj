@@ -259,17 +259,23 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\AppController.building.cs" />
-    <Compile Include="Controllers\AppController.complaintlist.cs" />
-    <Compile Include="Controllers\AppController.complainttemplate.cs" />
-    <Compile Include="Controllers\AppController.config.cs" />
+    <Compile Include="Controllers\AppController.building.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AppController.complainttemplate.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AppController.config.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AppController.header.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.maintenancelist.cs.cs">
+    <Compile Include="Controllers\AppController.maintenance.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AppController.maintenancetemplate.cs.cs" />
     <Compile Include="Controllers\AppController.nav.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
@@ -285,7 +291,9 @@
     <Compile Include="Controllers\AppController.userprofile.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.users.cs" />
+    <Compile Include="Controllers\AppController.users.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
@@ -295,9 +303,13 @@
     <Compile Include="Controllers\AppController.trigger.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.commercialspace.cs" />
+    <Compile Include="Controllers\AppController.commercialspace.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\CustomFieldController.cs" />
-    <Compile Include="Controllers\AppController.complaint.cs" />
+    <Compile Include="Controllers\AppController.complaint.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
@@ -386,10 +398,13 @@
     <Compile Include="Models\JsRoute.cs" />
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="App\viewmodels\application.template.form.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\building.details.js" />
     <Content Include="App\viewmodels\building.details.ts" />
+    <Content Include="App\viewmodels\template.commercialspace.js" />
+    <Content Include="App\viewmodels\template.application.js" />
+    <Content Include="App\viewmodels\maintenance.form.js" />
+    <Content Include="App\viewmodels\template.maintenance.js" />
     <Content Include="App\viewmodels\template.complaint.js" />
     <Content Include="App\viewmodels\template.base.js" />
     <Content Include="App\viewmodels\template.building.js" />
@@ -402,7 +417,6 @@
     <Content Include="App\viewmodels\inventory.detail.js" />
     <Content Include="App\viewmodels\inventory.list.js" />
     <Content Include="App\viewmodels\maintenance.template.form.js" />
-    <Content Include="App\viewmodels\maintenance.template.list.js" />
     <Content Include="App\viewmodels\messages.js" />
     <Content Include="App\viewmodels\public.index.js" />
     <Content Include="App\viewmodels\maintenance.assignment.js" />
@@ -413,7 +427,6 @@
     <Content Include="App\viewmodels\trigger.setup.js" />
     <Content Include="App\viewmodels\_tenant.complaint.js" />
     <Content Include="App\viewmodels\_users.department.js" />
-    <Content Include="App\views\application.template.form.html" />
     <Content Include="App\views\application.template.list.html" />
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\commercialspace.template.form.html" />
@@ -424,7 +437,6 @@
     <Content Include="App\views\inventory.list.html" />
     <Content Include="App\views\logviewer.html" />
     <Content Include="App\views\maintenance.template.form.html" />
-    <Content Include="App\views\maintenance.template.list.html" />
     <Content Include="App\views\messages.html" />
     <Content Include="App\views\public.index.html" />
     <Content Include="App\views\search.html" />
@@ -560,7 +572,7 @@
     <Content Include="App\viewmodels\organization.detail.js" />
     <Content Include="App\viewmodels\payment.js" />
     <Content Include="App\viewmodels\rebate.js" />
-    <Content Include="App\viewmodels\rentalapplication.js" />
+    <Content Include="App\viewmodels\application.detail.js" />
     <Content Include="App\viewmodels\rentalapplication.selectspace.js" />
     <Content Include="App\viewmodels\rentalapplication.verify.js" />
     <Content Include="App\viewmodels\returnedapplication.js" />
@@ -962,7 +974,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\App\HeaderHtml.cshtml" />
     <Content Include="Views\App\RoleSettingsJs.cshtml" />
     <Content Include="Views\App\UserProfileHtml.cshtml" />
@@ -997,7 +1011,6 @@
     <Content Include="Views\Template\DisplayTemplates\TextAreaElement.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\TextBox.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\WebsiteFormElement.cshtml" />
-    <Content Include="Views\Template\_BuildingTemplateToolbox.cshtml" />
     <Content Include="Views\Template\EditorTemplates\CheckBox.cshtml" />
     <Content Include="Views\Template\EditorTemplates\ComboBox.cshtml" />
     <Content Include="Views\Template\EditorTemplates\DatePicker.cshtml" />
@@ -1032,6 +1045,25 @@
     <Content Include="Views\Template\_Toolbox.cshtml" />
     <Content Include="Views\Template\Complaint.cshtml" />
     <Content Include="Views\App\ComplaintDetailHtml.cshtml" />
+    <Content Include="Views\App\MaintenanceFormHtml.cshtml" />
+    <Content Include="Views\App\MaintenanceTemplateListHtml.cshtml" />
+    <Content Include="Views\App\MaintenanceTemplateListJs.cshtml" />
+    <Content Include="Views\App\EditorTemplates\ComplaintCategoryElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\ComplaintCategoryElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\ComplaintCategoryElement.cshtml" />
+    <Content Include="Views\Template\Maintenance.cshtml" />
+    <Content Include="Views\Template\Application.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\RentalApplicationBanksElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\RentalApplicationAttachmentsElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\RentalApplicationAttachmentsElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\RentalApplicationBanksElement.cshtml" />
+    <Content Include="Views\Template\_PathPicker.cshtml" />
+    <Content Include="Views\Template\CommercialSpace.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\CommercialSpaceLotsElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\CommercialSpaceLotsElement.cshtml" />
+    <Content Include="Views\Template\_DesignerContextAction.cshtml" />
+    <Content Include="Views\App\EditorTemplates\CommercialSpaceLotsElement.cshtml" />
+    <Content Include="Views\App\ApplicationDetailHtml.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -3,7 +3,8 @@
 <!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.BuildingMapElement, domain.commercialspace" -->
 
 <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
-    <button data-bind="attr: { 'class': CssClass() + ' ' + Size() }">
+     @Html.Partial("_DesignerContextAction")
+   <button data-bind="attr: { 'class': CssClass() + ' ' + Size() }">
         <i data-bind="attr: { 'class': Icon}"></i>
         <!-- ko text: Label -->
         <!-- /ko -->

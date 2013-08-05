@@ -15,7 +15,13 @@
 
     var vm = {
         activate: activate,
-        csTemplates: ko.observableArray()
+        csTemplates: ko.observableArray(),
+        toolbar : {
+            addNew : {
+                location: '/#/template.commercialspace-id.0/0',
+                caption : 'Tambah templat baru'
+            }
+        }
     };
 
     return vm;

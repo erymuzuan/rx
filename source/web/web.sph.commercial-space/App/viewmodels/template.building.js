@@ -51,19 +51,19 @@ define(['services/datacontext', 'durandal/system', './template.base'],
                                 // add isSelected for the designer
                                 fe.isSelected = ko.observable(false);
                             });
-                            vm.buildingTemplate(b);
-                            templateBase.designer(vm.buildingTemplate().FormDesign());
+                            vm.template(b);
+                            templateBase.designer(vm.template().FormDesign());
                             tcs.resolve(true);
                         });
 
                     return tcs.promise();
                 } else {
-                    vm.buildingTemplate(new bespoke.sphcommercialspace.domain.BuildingTemplate());
+                    vm.template(new bespoke.sphcommercialspace.domain.BuildingTemplate());
 
-                    vm.buildingTemplate().FormDesign().Name("My form 1");
-                    vm.buildingTemplate().FormDesign().Description("Do whatever it takes");
+                    vm.template().FormDesign().Name("My form 1");
+                    vm.template().FormDesign().Description("Do whatever it takes");
 
-                    templateBase.designer(vm.buildingTemplate().FormDesign());
+                    templateBase.designer(vm.template().FormDesign());
                     return true;
                 }
 
@@ -77,8 +77,8 @@ define(['services/datacontext', 'durandal/system', './template.base'],
                 var elements = _($('#template-form-designer>form>div')).map(function (div) {
                     return ko.dataFor(div);
                 });
-                vm.buildingTemplate().FormDesign().FormElementCollection(elements);
-                var data = ko.mapping.toJSON(vm.buildingTemplate);
+                vm.template().FormDesign().FormElementCollection(elements);
+                var data = ko.mapping.toJSON(vm.template);
 
                 context.post(data, "/Template/SaveBuildingTemplate")
                     .then(function (result) {
@@ -91,8 +91,7 @@ define(['services/datacontext', 'durandal/system', './template.base'],
         var vm = {
             activate: activate,
             viewAttached: templateBase.viewAttached,
-            buildingTemplate: ko.observable(new bespoke.sphcommercialspace.domain.BuildingTemplate()),
-
+            template: ko.observable(new bespoke.sphcommercialspace.domain.BuildingTemplate()),
             toolbar: {
                 saveCommand: save
             },
@@ -102,6 +101,8 @@ define(['services/datacontext', 'durandal/system', './template.base'],
             selectedFormElement: templateBase.selectedFormElement,
             removeFormElement: templateBase.removeFormElement,
             removeComboBoxOption: templateBase.removeComboBoxOption,
+            selectPathFromPicker: templateBase.selectPathFromPicker,
+            showPathPicker: templateBase.showPathPicker,
             addComboBoxOption: templateBase.addComboBoxOption
         };
 

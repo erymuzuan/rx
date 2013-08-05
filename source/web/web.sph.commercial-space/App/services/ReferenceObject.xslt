@@ -12,7 +12,7 @@
 	  v["$type"] = "Bespoke.SphCommercialSpaces.Domain.<xsl:value-of select="../../../@name"/>, domain.commercialspace";
     <!-- collection -->
     <xsl:for-each select="xs:all/xs:element/xs:complexType/xs:sequence/xs:element">
-      v.<xsl:value-of select="../../../@name"/> = ko.observableArray();</xsl:for-each>
+      v.<xsl:value-of select="../../../@name"/> = ko.observableArray([]);</xsl:for-each>
 
     <xsl:for-each select="xs:all/xs:element">
       <!-- 
@@ -38,7 +38,7 @@
   <xsl:template match="xs:element">
     <!-- Collection -->
     <xsl:for-each select="xs:complexType/xs:sequence/xs:element">
-      <xsl:value-of select="../../../@name"/> : ko.observableArray(),
+      <xsl:value-of select="../../../@name"/> : ko.observableArray([]),
     </xsl:for-each>
 
     <!-- 
@@ -68,106 +68,24 @@
 			string first = field.Substring(0,1).ToLowerInvariant();
 			return first + field.Substring(1, field.Length - 1);
 		}	
-		public string RemovePrefixMember(string value, string maxOccur)
+		public string GetJsDefaultValue(string xsType, bool nillable)
 		{
-			int max;
-			string suffix = string.Empty;
-			if( int.TryParse(maxOccur, out max))
-			{
-				if( max > 1) suffix = "Collection";
-			}else
-			{
-				if( maxOccur == "unbounded") suffix = "Collection";
-			}
-			
-			int indexOfColon = value.IndexOf(":") + 1;
-			return value.Substring(indexOfColon, value.Length - indexOfColon) + suffix;
-		}	
-		public string RemovePrefixDataType(string value, string maxOccur, string type)
-		{
-			int max ;
-			string suffix = string.Empty;
-			string prefix = string.Empty;
-      string className = value;
-      if(string.IsNullOrEmpty(value))
-      {
-        className = type;
-      }
-			if( int.TryParse(maxOccur, out max))
-			{
-				if( max > 1) 
-				{	
-					suffix = ">";
-					prefix = "BindingList<";
-				}
-			}else
-			{
-				if( maxOccur == "unbounded")
-				{	
-					suffix = "> ";
-					prefix = "ObjectCollection<";
-				}
-			}
-			
-			int indexOfColon = value.IndexOf(":") + 1;
-			return prefix + className.Substring(indexOfColon, className.Length - indexOfColon) + suffix;
-		}
-		
-		public string GetCLRDataType(string xsType, bool nillable)
-		{
-			string type = "object";
 			switch(xsType)
 			{
-				case "xs:string":
-					type = "string";
-					break;
+				case "xs:string":return "''";
 				case "xs:date":
-				case "xs:dateTime":
-					type = "DateTime";
-					break;
+				case "xs:dateTime": return "moment().format('DD/MM/YYYY')";
 				case "xs:int":
-					type = "int";
-					break;
-				case "xs:long":
-					type = "long";
-					break;
-				case "xs:boolean":
-					type = "bool";
-					break;
-				case "xs:float":
-					type="float";
-					break;
-				case "xs:double":
-					type = "double";
-					break;
-				case "xs:decimal":
-					type = "decimal";
-					break;
-				case "State":
-					type = "State";
-					break;
-				default:
-					type = xsType;
-					break;
+				case "xs:long":return "0";
+				case "xs:boolean":return "false";
+				case "xs:float":return "0.0";
+				case "xs:double":return "0.00";
+				case "xs:decimal":return "0.00";
+				default : return "'" + xsType + "'";
 			}
-			if( nillable) type += "?";
-			return type += " ";
+			return String.Empty;
 		}
     
-    
-    public string GetCLREqualitySymbol(string name, string xsType)
-		{
-			string first = name.Substring(0,1).ToLowerInvariant();
-			string field = first + name.Substring(1, name.Length - 1);
-			
-			if( String.Equals("xs:string", xsType, StringComparison.Ordinal))
-			{
-				return "String.Equals( m_" + field + ", value, StringComparison.Ordinal)";
-			}
-			return "m_" + field + " == value";
-		
-    
-		}
 	  ]]>
 
   </msxsl:script>

@@ -29,7 +29,7 @@
 
                     <div data-bind="with: FormDesign" id="template-form-designer">
                         <h1 data-bind="text: Name"></h1>
-                        <span data-bind="text: Description"></span>
+                        <span data-bind="html: Description"></span>
 
                         <form class="form-horizontal">
                             <!--ko foreach:FormElementCollection -->
@@ -113,7 +113,7 @@
                         <div class="control-group">
                             <label class="control-label">Imej</label>
                             <div class="controls">
-                                <input class="input-medium " type="file" value="upload" name="files" id="files"/>
+                                <input class="input-medium " type="file" value="upload" name="files" id="imageStoreId"/>
                             </div>
                         </div>
                     </form>

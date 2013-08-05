@@ -14,51 +14,61 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
 
     var title = ko.observable(),
         buildingId = ko.observable(),
+        template = ko.observable(),
         selectedBuilding = {},
         isBusy = ko.observable(false),
         activate = function (routeData) {
             buildingId(parseInt(routeData.buildingId));
+            var templateId = parseInt(routeData.templateId);
             title('Tambah ruang komersil');
-            
-            var tcs = new $.Deferred();
-            context.loadOneAsync("Setting", "Key eq 'Categories'").done(function (s) {
-                s = s || {};
-                var value = s.Value || "[]";
-                var categories = JSON.parse(ko.mapping.toJS(value));
-                vm.categoryOptions(categories);
-                tcs.resolve(true);
-            });
-            
-            if (buildingId()) {
-                var query = String.format("CommercialSpaceId eq {0} ", routeData.csId);
-                context.loadOneAsync("CommercialSpace", query)
-                    .done(function (cs) {
-                        if (!cs) {
-                            tcs.resolve(true);
-                            return;
-                        }
+
+            var tcs = new $.Deferred(),
+                settingTask = context.loadOneAsync("Setting", "Key eq 'Categories'"),
+                templateTask = context.loadOneAsync("CommercialSpaceTemplate", "CommercialSpaceTemplateId eq " + templateId),
+                buildingTask = context.getTuplesAsync("Building", "BuildingId gt 0", "BuildingId", "Name"),
+                csTask = context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + routeData.csId);
+
+
+            $.when(settingTask, templateTask, buildingTask, csTask)
+                .done(function (s) {
+                    s = s || {};
+                    var value = s.Value || "[]";
+                    var categories = JSON.parse(ko.mapping.toJS(value));
+                    vm.categoryOptions(categories);
+                    tcs.resolve(true);
+                })
+                .done(function (a, tpl) {
+                    template(tpl);
+                })
+                .done(function (a, b, list) {
+                    vm.buildingOptions(_(list).sortBy(function (bd) {
+                        return bd.Item2;
+                    }));
+                })
+                .done(function(a, b, c, cs) {
+                    if (!cs) {
+                        cs = new bespoke.sphcommercialspace.domain.CommercialSpace();
+                        cs.TemplateId(templateId);
+                        
                         vm.commercialSpace(cs);
-                        title('Maklumat ruang komersil ' + cs.RegistrationNo());
-                        contractlistvm.activate(routeData)
-                            .then(function () {
-                                tcs.resolve(true);
-                            });
-
-                    });
-
-            } else {
-                vm.commercialSpace(new bespoke.sphcommercialspace.domain.CommercialSpace());
-                context.getTuplesAsync("Building", "BuildingId gt 0", "BuildingId", "Name")
-                    .then(function (list) {
-                        vm.buildingOptions(_(list).sortBy(function (b) {
-                            return b.Item2;
-                        }));
-                        tcs.resolve(true);
-                    });
-            }
-
-
+                        
+                        return;
+                    }
+                    vm.commercialSpace(cs);
+                    title('Maklumat ruang komersil ' + cs.RegistrationNo());
+                    contractlistvm.activate(routeData)
+                        .then(function () {
+                            tcs.resolve(true);
+                        });
+                })
+                .done(function() {
+                    tcs.resolve();
+                });
+            
             return tcs.promise();
+        },
+        viewAttached = function (view) {
+            $(view).tooltip({ 'placement': 'right' });
         },
         saveCs = function () {
             var tcs = new $.Deferred();
@@ -93,6 +103,7 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
     var vm = {
         activate: activate,
         title: title,
+        viewAttached: viewAttached,
         commercialSpace: ko.observable(),
         buildingOptions: ko.observableArray(),
         floorOptions: ko.observableArray(),
@@ -101,7 +112,7 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
         selectedBuilding: ko.observable(),
         selectedFloor: ko.observable(),
         selectedLots: ko.observableArray(),
-        toolbar : {
+        toolbar: {
             saveCommand: saveCs
         },
         selectLotCommand: selectLot,
