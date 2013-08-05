@@ -1,4 +1,4 @@
-﻿@model Bespoke.SphCommercialSpaces.Domain.CommercialSpaceTemplate
+﻿@model Bespoke.Sph.Commerspace.Web.Controllers.CommercialSpaceDetailViewModel
 
 @{
     ViewBag.Title = "title";
@@ -30,7 +30,7 @@
             <div id="form-tab" class="tab-pane active">
                 <form id="cs" class="form-horizontal" data-bind="with: commercialSpace">
 
-                    @foreach (var fe in Model.FormDesign.FormElementCollection)
+                    @foreach (var fe in Model.Template.FormDesign.FormElementCollection)
                     {
                         if (null != fe.CustomField)
                         {
@@ -40,6 +40,17 @@
                         @Html.EditorFor(m => fe)
         
                     }
+                    <div class="control-group" data-bind="visible: IsOnline">
+                        <label for="app-templateid" class="control-label">Template Permohonan</label>
+                        <div class="controls">
+                            <select data-bind="value: ApplicationTemplateId" id="app-templateid" name="ApplicationTemplateId">
+                                @foreach (var t in Model.ApplicationTemplates)
+                                {
+                                    <option value="@t.ApplicationTemplateId">@t.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
 
                 </form>
 

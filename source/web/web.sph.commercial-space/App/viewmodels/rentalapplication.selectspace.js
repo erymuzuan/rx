@@ -33,31 +33,9 @@ define(['services/datacontext', 'durandal/plugins/router'], function (context, r
              vm.commercialspaces.removeAll();
              var tcs = new $.Deferred();
              var query = "IsAvailable eq 'true'";
-             if (vm.selectedState() && !vm.selectedBuildingId() && !vm.selectedCategory()) {
-                 var query1 = String.format("and State eq '{0}'", vm.selectedState());
-                 query = query + query1;
-             }
-             if (vm.selectedCategory() && !vm.selectedState() && !vm.selectedBuildingId()) {
-                 var query2 = String.format("and Category eq '{0}'", vm.selectedCategory());
-                 query = query + query2;
-             }
-             if (vm.selectedState() && vm.selectedBuildingId() && !vm.selectedCategory()) {
-                 var query3 = String.format("and State eq '{0}' and BuildingId eq '{1}'", vm.selectedState(), vm.selectedBuildingId());
-                 query = query + query3;
-             }
-             if (vm.selectedState() && vm.selectedBuildingId() && vm.selectedCategory()) {
-                 var query4 = String.format("and State eq '{0}' and BuildingId eq '{1}' and Category eq '{2}'", vm.selectedState(), vm.selectedBuildingId(),vm.selectedCategory());
-                 query = query + query4;
-             }
-             if (vm.selectedState() && !vm.selectedBuildingId() && vm.selectedCategory()) {
-                 var query5 = String.format("and State eq '{0}' and Category eq '{1}'", vm.selectedState(), vm.selectedCategory());
-                 query = query + query5;
-             }
-             if (!vm.selectedState() && !vm.selectedBuildingId() && !vm.selectedCategory()) {
-                 var query6 = String.format("and CommercialSpaceId gt 0");
-                 query = query + query6;
-             }
-             context.loadAsync('CommercialSpace', query).done(function (lo) {
+             
+             context.loadAsync('CommercialSpace', query)
+                 .done(function (lo) {
                  vm.commercialspaces(lo.itemCollection);
                  tcs.resolve(true);
              });

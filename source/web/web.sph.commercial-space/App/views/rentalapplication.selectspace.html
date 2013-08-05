@@ -16,7 +16,7 @@
         </label>
         <!-- /ko -->
     </div>
-    <div class="btn-group" data-toggle="button" >
+    <div class="btn-group" data-toggle="button">
         <label>Building:</label>
         <!-- ko foreach : buildingOptions -->
         <label class="btn btn-success">
@@ -30,7 +30,7 @@
     </div>
     <div class="btn-group" data-toggle="button">
         <label>Jenis Perniagaan:</label>
-    
+
         <!-- ko foreach : categoryOptions -->
         <label class="btn btn-success">
             <input type="checkbox" data-bind="value: Name" />
@@ -39,7 +39,7 @@
             <!-- /ko -->
         </label>
         <!-- /ko -->
-    
+
     </div>
     <div>
         <button class="btn btn-primary" id="apply-rent-button" value="Carian" data-bind="click: searchCommand">Carian</button>
@@ -58,12 +58,12 @@
 
                 <div id="div-building" class="span12">
                     <span class="span12">
-                        <img src="../Content/images/icon.png" width="60" height="60" alt="">
+                        <img src="/Content/images/icon.png" width="60" height="60" alt="">
                         <span>
                             <span>Size: <span data-bind="text: Size"></span></span>
                         </span>
                         <span>
-                            <input type="button" class="btn btn-mini" data-bind="click: $parent.applyCommercialSpaceCommand" value="Mohon Sewa" />
+                            <a data-bind="attr: { href: '/#/application.detail-templateid.' + ApplicationTemplateId() + '/' + CommercialSpaceId() }">Mohon Sewa</a>
                         </span>
                     </span>
 

@@ -2371,6 +2371,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public const string PropertyNameTemplateId = "TemplateId";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_applicationTemplateId;
+        public const string PropertyNameApplicationTemplateId = "ApplicationTemplateId";
+
+
         private readonly ObjectCollection<Lot> m_LotCollection = new ObjectCollection<Lot>();
 
         ///<summary>
@@ -2924,6 +2929,35 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_templateId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int ApplicationTemplateId
+        {
+            set
+            {
+                if (m_applicationTemplateId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameApplicationTemplateId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_applicationTemplateId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_applicationTemplateId;
             }
         }
 

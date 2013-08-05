@@ -222,6 +222,7 @@ bespoke.sphcommercialspace.domain.CommercialSpace = function (webId) {
         BuildingLot: ko.observable(''),
         RentalRate: ko.observable(0.00),
         TemplateId: ko.observable(0),
+        ApplicationTemplateId: ko.observable(0),
         LotCollection: ko.observableArray([]),
         CustomFieldValueCollection: ko.observableArray([]),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),

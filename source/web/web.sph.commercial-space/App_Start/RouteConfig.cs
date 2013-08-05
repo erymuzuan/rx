@@ -79,7 +79,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                                     Url = string.Format("application.detail-templateid.{0}/:id", t.ApplicationTemplateId),
                                     Caption = t.Name,
                                     Icon = "icon-building",
-                                    ModuleId = string.Format("viewmodels/capplication.detail-templateid.{0}", t.ApplicationTemplateId),
+                                    ModuleId = string.Format("viewmodels/application.detail-templateid.{0}", t.ApplicationTemplateId),
                                 };
          
             routes.AddRange(buildingRoute);
