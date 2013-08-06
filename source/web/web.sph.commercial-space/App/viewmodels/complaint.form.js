@@ -31,7 +31,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system'],
 	                    return c.Name();
 	                });
 	                vm.categoryOptions(categories);
-	                
+
 	                var cfs = _(ct.CustomFieldCollection()).map(function (f) {
 	                    var webid = system.guid();
 	                    var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
@@ -41,17 +41,18 @@ define(['services/datacontext', 'services/logger', 'durandal/system'],
 	                });
 
 	                vm.complaint().CustomFieldValueCollection(cfs);
-	                
+
 	                tcs.resolve(true);
 	                isBusy(false);
-	                
+
 	            });
-	           return tcs.promise();
+	            return tcs.promise();
 	        },
 
             viewAttached = function (view) {
-                
-             $("#AttachmentStoreId").kendoUpload({
+
+                $(view).find('*[title]').tooltip({ placement: 'right' });
+                $("#AttachmentStoreId").kendoUpload({
                     async: {
                         saveUrl: "/BinaryStore/Upload",
                         removeUrl: "/BinaryStore/Remove",
@@ -99,21 +100,21 @@ define(['services/datacontext', 'services/logger', 'durandal/system'],
 
 	    var vm = {
 	        isBusy: isBusy,
-	        
+
 	        activate: activate,
 	        viewAttached: viewAttached,
-	        
+
 	        categoryOptions: ko.observableArray([]),
 	        subCategoryOptions: ko.observableArray([]),
 	        locationOptions: ko.observableArray(),
-            customFields : ko.observable(),
-	        
+	        customFields: ko.observable(),
+
 	        template: template,
 	        complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
-	        toolbar : {
-	             saveCommand: submit
+	        toolbar: {
+	            saveCommand: submit
 	        }
-	       
+
 	    };
 
 	    vm.complaint().Category.subscribe(function (category) {

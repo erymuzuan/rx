@@ -41,14 +41,15 @@
         
                     }
                     <div class="control-group" data-bind="visible: IsOnline">
-                        <label for="app-templateid" class="control-label">Template Permohonan</label>
+                        <label  class="control-label">Template Permohonan</label>
                         <div class="controls">
-                            <select data-bind="value: ApplicationTemplateId" id="app-templateid" name="ApplicationTemplateId">
                                 @foreach (var t in Model.ApplicationTemplates)
                                 {
-                                    <option value="@t.ApplicationTemplateId">@t.Name</option>
+                                    <label>
+                                        <input type="checkbox" value="@t.ApplicationTemplateId" data-bind="checked: ApplicationTemplateOptions"/>
+                                        @t.Name
+                                    </label>
                                 }
-                            </select>
                         </div>
                     </div>
 

@@ -3,58 +3,16 @@
         <h1>Bangunan Untuk Disewa</h1>
     </div>
 </section>
-<section class="span5">
 
-    <div class="btn-group" data-toggle="button">
-        <label>Negeri:</label>
-        <!-- ko foreach : stateOptions -->
-        <label class="btn btn-success">
-            <input type="checkbox" data-bind="value: Name" />
-            <!-- ko text: Name -->
-
-            <!-- /ko -->
-        </label>
-        <!-- /ko -->
-    </div>
-    <div class="btn-group" data-toggle="button">
-        <label>Building:</label>
-        <!-- ko foreach : buildingOptions -->
-        <label class="btn btn-success">
-            <input type="checkbox" data-bind="value: Item1" />
-            <!-- ko text: Item2 -->
-
-            <!-- /ko -->
-        </label>
-        <!-- /ko -->
-
-    </div>
-    <div class="btn-group" data-toggle="button">
-        <label>Jenis Perniagaan:</label>
-
-        <!-- ko foreach : categoryOptions -->
-        <label class="btn btn-success">
-            <input type="checkbox" data-bind="value: Name" />
-            <!-- ko text: Name -->
-
-            <!-- /ko -->
-        </label>
-        <!-- /ko -->
-
-    </div>
-    <div>
-        <button class="btn btn-primary" id="apply-rent-button" value="Carian" data-bind="click: searchCommand">Carian</button>
-    </div>
-
-</section>
-<section id="building-list" class="span7" data-bind="foreach: commercialspaces">
-
+<section id="building-list" class="span7" data-bind="foreach: items">
+    
+    <h2 data-bind="text:name"></h2>
+    
+        <!-- ko foreach : spaces -->
     <div class="metro tile">
         <article class="tile">
             <div>
-                <span data-bind="text: BuildingName"></span>,
-                <span data-bind="text: FloorName"></span>,
-                <span data-bind="text: Category"></span>
-                RM<span data-bind="money: RentalRate"></span>
+                <h3 data-bind="text: RegistrationNo"></h3>
 
                 <div id="div-building" class="span12">
                     <span class="span12">
@@ -72,5 +30,8 @@
             </div>
         </article>
     </div>
+    
+    
+        <!-- /ko -->
 
 </section>

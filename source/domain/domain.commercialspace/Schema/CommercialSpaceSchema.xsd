@@ -176,7 +176,6 @@
 			<xs:attribute name="BuildingLot" type="xs:string" use="required"/>
 			<xs:attribute name="RentalRate" type="xs:decimal" use="required"/>
 			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
-			<xs:attribute name="ApplicationTemplateId" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="RentalApplication">
