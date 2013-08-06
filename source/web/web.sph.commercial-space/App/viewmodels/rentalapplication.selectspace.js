@@ -20,6 +20,7 @@ define(['services/datacontext', 'durandal/plugins/router'], function (context, r
                         });
                         return {
                             name: t.Name(),
+                            id :t.ApplicationTemplateId(),
                             spaces: filtered
                         };
                     });

@@ -5,23 +5,24 @@
 </section>
 
 <section id="building-list" class="span7" data-bind="foreach: items">
-    
-    <h2 data-bind="text:name"></h2>
-    
-        <!-- ko foreach : spaces -->
+
+    <h2 data-bind="text: name"></h2>
+    <h2 data-bind="text: id"></h2>
+
+    <!-- ko foreach : spaces -->
     <div class="metro tile">
         <article class="tile">
             <div>
                 <h3 data-bind="text: RegistrationNo"></h3>
 
-                <div id="div-building" class="span12">
-                    <span class="span12">
+                <div id="div-building">
+                    <span>
                         <img src="/Content/images/icon.png" width="60" height="60" alt="">
                         <span>
                             <span>Size: <span data-bind="text: Size"></span></span>
                         </span>
                         <span>
-                            <a data-bind="attr: { href: '/#/application.detail-templateid.' + ApplicationTemplateId() + '/' + CommercialSpaceId() }">Mohon Sewa</a>
+                            <a data-bind="attr: { href: '/#/application.detail-templateid.' + $parents[0].id + '/' + CommercialSpaceId() }">Mohon Sewa</a>
                         </span>
                     </span>
 
@@ -30,8 +31,6 @@
             </div>
         </article>
     </div>
-    
-    
-        <!-- /ko -->
+    <!-- /ko -->
 
 </section>
