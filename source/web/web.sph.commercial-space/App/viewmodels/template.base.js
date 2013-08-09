@@ -89,7 +89,8 @@ define(['services/datacontext', 'durandal/system'],
 
                     var button = $(this);
                     button.parent().addClass("open")
-                        .find("input:first").focus();
+                        .find("input:first").focus()
+                        .select();
 
 
                 };

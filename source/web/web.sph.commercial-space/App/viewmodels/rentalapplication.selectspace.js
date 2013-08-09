@@ -13,9 +13,9 @@ define(['services/datacontext', 'durandal/plugins/router'], function (context, r
             var templateTasks = context.loadAsync("ApplicationTemplate", "IsActive eq 1");
             var csTasks = context.loadAsync("CommercialSpace", "IsAvailable eq 1 and IsOnline eq 1");
             $.when(templateTasks, csTasks)
-                .done(function (templates, spaces) {
-                    var items = _(templates.itemCollection).map(function (t) {
-                        var filtered = _(spaces.itemCollection).filter(function(c) {
+                .done(function (tlo, cslo) {
+                    var items = _(tlo.itemCollection).map(function (t) {
+                        var filtered = _(cslo.itemCollection).filter(function(c) {
                             return c.ApplicationTemplateOptions().indexOf(t.ApplicationTemplateId()) > -1;
                         });
                         return {
