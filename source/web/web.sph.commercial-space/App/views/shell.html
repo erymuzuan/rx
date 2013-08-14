@@ -6,8 +6,10 @@
         <!--/ko-->
     </header>
     <section id="content" class="container-fluid">
-
+        
+        <!-- ko if: typeof router.activeItem().toolbar === "object"-->
         <!--ko compose: {view: 'toolbar'} -->
+        <!--/ko-->
         <!--/ko-->
         <!--ko compose: {model: router.activeItem,
             afterCompose: router.afterCompose,
