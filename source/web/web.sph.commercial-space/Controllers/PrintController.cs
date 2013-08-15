@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bespoke.Sph.Commerspace.Web.ViewModels;
 using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
@@ -11,17 +12,10 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var context = new SphDataContext();
             var item = await context.LoadOneAsync<Building>(b => b.BuildingId == id);
             var template = await context.LoadOneAsync<BuildingTemplate>(t => t.BuildingTemplateId == item.TemplateId);
-
-            var vm = new PrintViewModel {Item = item, FormDesign = template.FormDesign};
+            
+            var vm = new PrintViewModel {Name = item.Name, Item = item, FormDesign = template.FormDesign};
             return View("Index", vm);
         }
 
-    }
-
-    public class PrintViewModel
-    {
-        public Entity Item { get; set; }
-
-        public FormDesign FormDesign { get; set; }
     }
 }

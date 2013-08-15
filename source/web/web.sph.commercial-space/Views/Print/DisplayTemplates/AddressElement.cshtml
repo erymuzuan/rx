@@ -1,1 +1,18 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.AddressElement
+<h2>@Model.Label</h2>
+<p>
+    <label>Jalan</label>
+    <span data-bind="text: Address.Street"></span>
+</p>
+<p>
+    <label>Bandar/Daerah</label>
+    <span data-bind="text: Address.City"></span>
+</p>
+<p>
+    <label>Poskod</label>
+    <span data-bind="text: Address.Postcode"></span>
+</p>
+<p>
+    <label>Negeri</label>
+    <span data-bind="text: Address.State"></span>
+</p>

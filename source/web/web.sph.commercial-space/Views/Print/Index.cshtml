@@ -1,6 +1,6 @@
 ﻿@using System.Web.Optimization
 @using Newtonsoft.Json
-@model Bespoke.Sph.Commerspace.Web.Controllers.PrintViewModel
+@model Bespoke.Sph.Commerspace.Web.ViewModels.PrintViewModel
 
 @{
     Layout = null;
@@ -11,14 +11,19 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <title>SPH: Print Details</title>
 </head>
     <body>
-        <div>
-            @foreach (var fe in Model.FormDesign.FormElementCollection)
-            {
-                @Html.DisplayFor(m => fe)
-            }
+        
+        <div id="print-details">
+            <h1>@Model.Name</h1>
+            <div>
+                @foreach (var fe in Model.FormDesign.FormElementCollection)
+                {
+                    @Html.DisplayFor(m => fe)
+                }
+            </div>
+
         </div>
     </body>
     @Scripts.Render("~/scripts/vendor")

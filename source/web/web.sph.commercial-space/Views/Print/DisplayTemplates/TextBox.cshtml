@@ -1,8 +1,6 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.TextBox
 
-<div>
-    <label class="control-label">@Model.Label</label>
-    <div class="controls">
-        <span data-bind="text: @Model.Path"></span>
-    </div>
-</div>
+<p>
+    <label>@Model.Label</label>
+    <span data-bind="text: @Model.Path"></span>
+</p>
