@@ -19,6 +19,7 @@ define(['services/datacontext',
         var isBusy = ko.observable(false),
             activate = function (routeData) {
                 var id = parseInt(routeData.id);
+                
                 var templateId = parseInt(routeData.templateId);
 
                 var tcs = new $.Deferred();
@@ -61,6 +62,7 @@ define(['services/datacontext',
                     return true;
                 }
                 vm.toolbar().auditTrail.id(id);
+                vm.toolbar().printCommand.id(id);
                 var query = "BuildingId eq " + id;
                 context.loadOneAsync("Building", query).done(function (b) {
                     if (typeof b.Address !== "function") {
@@ -211,6 +213,10 @@ define(['services/datacontext',
             toolbar: ko.observable({
                 saveCommand: saveAsync,
                 auditTrail: {
+                    entity: "Building",
+                    id: ko.observable()
+                },
+                printCommand : {
                     entity: "Building",
                     id: ko.observable()
                 }
