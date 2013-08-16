@@ -125,7 +125,7 @@ ko.bindingHandlers.kendoDate = {
         var picker = $(element).data("kendoDatePicker") ||
             $(element).kendoDatePicker({ format: "dd/MM/yyyy" }).data("kendoDatePicker");
 
-        if (date.year() == 1) { // DateTime.Min
+        if (null === date || date.year() === 1) { // DateTime.Min
             picker.value(null);
         } else {
             picker.value(date.toDate());
