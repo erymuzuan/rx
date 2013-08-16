@@ -11,7 +11,7 @@
 
 
 define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger'],
-    function (context, system, templateBase, eximp) {
+    function (context, system, templateBase, eximp, logger) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -146,6 +146,18 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             
         exportTemplate = function () {
             return eximp.exportJson("template.complaint." + vm.template().ComplaintTemplateId() + ".json", ko.mapping.toJSON(vm.template));
+        },
+
+        importTemplateJson = function () {
+            return eximp.importJson()
+                .done(function (json) {
+                    try {
+                        vm.template(ko.mapping.fromJSON(json));
+                        vm.template().ComplaintTemplateId(0);
+                    } catch (error) {
+                        logger.logError('Fail template import tidak sah', error, this, true);
+                    }
+                });
         };
         
         var vm = {
@@ -163,7 +175,8 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             saveSubCategoryCommand: saveSubCategory,
             toolbar: {
                 saveCommand: save,
-                exportCommand: exportTemplate
+                exportCommand: exportTemplate,
+                importCommand: importTemplateJson
             },
             customFormElements: templateBase.customFormElements,
             formElements: templateBase.formElements,

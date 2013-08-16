@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport'],
-    function (context, system, designerHost, eximp) {
+define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger'],
+    function (context, system, designerHost, eximp, logger) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -86,14 +86,27 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             
         exportTemplate = function () {
             return eximp.exportJson("template.commercialspace." + vm.template().CommercialSpaceTemplateId() + ".json", ko.mapping.toJSON(vm.template));
-        };
+        },
+
+        importTemplateJson = function () {
+             return eximp.importJson()
+                 .done(function (json) {
+                     try {
+                         vm.template(ko.mapping.fromJSON(json));
+                         vm.template().CommercialSpaceTemplateId(0);
+                     } catch(error) {
+                         logger.logError('Fail template import tidak sah', error, this, true);
+                     }
+                 });
+         };
 
         var vm = {
             activate: activate,
             template: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpaceTemplate()),
             toolbar: {
                 saveCommand: save,
-                exportCommand: exportTemplate
+                exportCommand: exportTemplate,
+                importCommand: importTemplateJson
             },
 
             viewAttached: designerHost.viewAttached,

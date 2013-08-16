@@ -86,6 +86,13 @@
             Eksport
         </button>
         <!-- /ko -->
+        
+        <!-- ko if: typeof importCommand === "function"-->
+        <button class="btn" data-bind="command: importCommand">
+            <i class="icon-upload"></i>
+            Import
+        </button>
+        <!-- /ko -->
 
         <!-- ko if: typeof emailCommand === "function"-->
         <button class="btn" data-bind="command: emailCommand" data-loading-text="Sedang Proses....">
