@@ -10,8 +10,8 @@
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
 
-define(['services/datacontext', 'durandal/system', './template.base', 'services/logger'],
-    function (context, system, templateBase) {
+define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger'],
+    function (context, system, templateBase, eximp) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -92,7 +92,11 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                         vm.template().ApplicationTemplateId(result);
                     });
                 return tcs.promise();
-            };
+            },
+
+        exportTemplate = function () {
+            return eximp.exportJson("template.application." + vm.template().ApplicationTemplateId() + ".json", ko.mapping.toJSON(vm.template));
+        };
         
         var vm = {
             activate: activate,
@@ -100,7 +104,8 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             subCategoryOptions: ko.observableArray(),
             template: ko.observable(new bespoke.sphcommercialspace.domain.ApplicationTemplate()),
             toolbar: {
-                saveCommand: save
+                saveCommand: save,
+                exportCommand: exportTemplate
             },
             customFormElements: templateBase.customFormElements,
             formElements: templateBase.formElements,

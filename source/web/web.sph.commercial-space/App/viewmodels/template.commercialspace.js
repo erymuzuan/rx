@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'durandal/system', './template.base'],
-    function (context, system, designerHost) {
+define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport'],
+    function (context, system, designerHost, eximp) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -82,13 +82,18 @@ define(['services/datacontext', 'durandal/system', './template.base'],
                         tcs.resolve(result);
                     });
                 return tcs.promise();
-            };
+            },
+            
+        exportTemplate = function () {
+            return eximp.exportJson("template.commercialspace." + vm.template().CommercialSpaceTemplateId() + ".json", ko.mapping.toJSON(vm.template));
+        };
 
         var vm = {
             activate: activate,
             template: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpaceTemplate()),
             toolbar: {
-                saveCommand: save
+                saveCommand: save,
+                exportCommand: exportTemplate
             },
 
             viewAttached: designerHost.viewAttached,
