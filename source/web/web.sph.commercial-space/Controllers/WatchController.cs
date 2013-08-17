@@ -12,12 +12,12 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var context = new SphDataContext();
             var watcher = new Watcher();
             var watch = await context.LoadOneAsync<Watcher>(w => w.EntityId == id) ?? watcher;
-            
+
             watch.DateTime = DateTime.Now;
             watch.User = User.Identity.Name;
             watch.EntityName = entity;
             watch.EntityId = id;
-            
+
             using (var session = context.OpenSession())
             {
                 session.Attach(watch);
@@ -29,14 +29,24 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public async Task<ActionResult> Deregister(string entity, int id)
         {
-            await Task.Delay(2500);
+            var context = new SphDataContext();
+            var watch = await context.LoadOneAsync<Watcher>(w => w.EntityId == id);
+            if (null == watch) return Json(false);
+
+            using (var session = context.OpenSession())
+            {
+                session.Delete(watch);
+                await session.SubmitChanges("Watcher deregistered");
+            }
+
             return Json(true);
         }
 
         public async Task<ActionResult> GetWatch(string entity, int id)
         {
-            await Task.Delay(2500);
-            return Json(id % 2 == 0, JsonRequestBehavior.AllowGet);
+            var context = new SphDataContext();
+            var watch = await context.LoadOneAsync<Watcher>(w => w.EntityId == id);
+            return Json(null != watch);
         }
 
     }
