@@ -323,6 +323,8 @@ ko.bindingHandlers.pathAutoComplete = {
         var value = command.value;
         var type = command.type;
 
+        if (!type()) return;
+
         $.get("/App/TriggerPathPickerJson/" + type())
             .done(function (json) {
                 var tree = JSON.parse(json);
@@ -437,9 +439,9 @@ ko.bindingHandlers.filter = {
             $rows.each(function () {
                 var $tr = $(this);
                 if ($tr.text().toLowerCase().indexOf(filter) > -1) {
-                    $tr.show();
+                    $tr.slideDown();
                 } else {
-                    $tr.hide();
+                    $tr.slideUp();
                 }
             });
         };
