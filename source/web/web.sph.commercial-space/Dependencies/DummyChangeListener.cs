@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Commerspace.Web.Dependencies
             Task.Delay(TimeSpan.FromDays(1));
         }
 
-        public event EventHandler<T> Changed;
+        public event EntityChangedEventHandler<T> Changed;
 
         public void Run(System.Threading.SynchronizationContext synchronizationContext)
         {

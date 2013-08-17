@@ -17,6 +17,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             watch.User = User.Identity.Name;
             watch.EntityName = entity;
             watch.EntityId = id;
+            watch.IsActive = true;
 
             using (var session = context.OpenSession())
             {

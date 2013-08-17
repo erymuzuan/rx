@@ -6,7 +6,6 @@ using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.SphCommercialSpaces.Domain;
-using Newtonsoft.Json;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.RabbitMqPublisher
@@ -38,7 +37,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
 
             const bool noAck = true;
-            const string exchangeName = "station.ms.changes";
+            const string exchangeName = "ruang.komersial.changes";
 
             var factory = new ConnectionFactory
             {
@@ -65,7 +64,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
         }
 
-        public event EventHandler<T> Changed;
+        public event EntityChangedEventHandler<T> Changed;
 
         public void Run(SynchronizationContext synchronizationContext)
         {
@@ -76,15 +75,17 @@ namespace Bespoke.Sph.RabbitMqPublisher
         private async void MessageReceived(object sender, ReceivedMessageArgs e)
         {
             var body = e.Body;
-            var json = await this.DecompressAsync(body);
-            var t = await JsonConvert.DeserializeObjectAsync<T>(json);
+            var xml = await this.DecompressAsync(body);
+            var t = XmlSerializerService.DeserializeFromXml<T>(xml.Replace("utf-16", "utf-8"));
+            var arg = new EntityChangedEventArgs<T> {Item = t};
+            //arg.ChangeCollection.AddRange(e.);
 
             if (null != this.Changed && null != t)
             {
                 if (null != m_currentContext)
-                    m_currentContext.Post(d => this.Changed(this, t), t);
+                    m_currentContext.Post(d => this.Changed(this, arg), arg);
                 else
-                    this.Changed(this, t);// worker thread
+                    this.Changed(this, arg);// worker thread
 
             }
         }

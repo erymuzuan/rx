@@ -119,6 +119,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
                     };
 
+                this.OnStart();
+
                 channel.BasicConsume(this.QueueName, noAck, consumer);
                 while (!m_stopped)
                 {
@@ -130,10 +132,20 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             // ReSharper disable FunctionNeverReturns
         }
 
+        protected virtual void OnStart()
+        {
+                
+        }
+        protected virtual void OnStop()
+        {
+                
+        }
+
         private bool m_stopped;
         public void Stop()
         {
             m_stopped = true;
+            this.OnStop();
         }
         // ReSharper restore FunctionNeverReturns
 
