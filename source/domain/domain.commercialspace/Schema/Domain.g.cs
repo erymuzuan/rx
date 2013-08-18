@@ -15387,6 +15387,188 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("Message", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Message
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_messageId;
+        public const string PropertyNameMessageId = "MessageId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_subject;
+        public const string PropertyNameSubject = "Subject";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isRead;
+        public const string PropertyNameIsRead = "IsRead";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_body;
+        public const string PropertyNameBody = "Body";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_userName;
+        public const string PropertyNameUserName = "UserName";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int MessageId
+        {
+            set
+            {
+                if (m_messageId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMessageId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_messageId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_messageId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Subject
+        {
+            set
+            {
+                if (String.Equals(m_subject, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSubject, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_subject = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_subject;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsRead
+        {
+            set
+            {
+                if (m_isRead == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsRead, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isRead = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isRead;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Body
+        {
+            set
+            {
+                if (String.Equals(m_body, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBody, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_body = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_body;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string UserName
+        {
+            set
+            {
+                if (String.Equals(m_userName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameUserName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_userName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_userName;
+            }
+        }
+
+
+
+    }
+
     [XmlType("Invoice", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Invoice
     {

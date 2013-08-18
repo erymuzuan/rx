@@ -1787,6 +1787,26 @@ bespoke.sphcommercialspace.domain.Extension = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.Message = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.Message, domain.commercialspace",
+        MessageId: ko.observable(0),
+        Subject: ko.observable(''),
+        IsRead: ko.observable(false),
+        Body: ko.observable(''),
+        UserName: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.MessagePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.MessagePartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {

@@ -86,6 +86,11 @@ namespace Bespoke.Sph.Commerspace.Web.Api
         {
             return await ExecuteAsync<Maintenance>(filter, page, size, includeTotal);
         }
+        public async Task<ActionResult> Message(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Message>(filter, page, size, includeTotal);
+        }
+
         public async Task<ActionResult> MaintenanceTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<MaintenanceTemplate>(filter, page, size, includeTotal);
