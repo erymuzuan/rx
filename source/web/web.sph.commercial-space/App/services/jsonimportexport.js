@@ -51,8 +51,8 @@ define([],
                  pom.setAttribute('type', 'file');
                  pom.setAttribute('id', 'files');
                  pom.setAttribute('name', 'files[]');
-                 pom.click();
                  pom.addEventListener('change', handleFileSelect, false);
+                 pom.click();
              };
 
              upload();

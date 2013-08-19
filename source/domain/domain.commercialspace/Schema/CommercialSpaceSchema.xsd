@@ -137,6 +137,10 @@
 			<xs:attribute name="Size" type="xs:double" use="required"/>
 			<xs:attribute name="FloorNo" type="xs:string" use="required"/>
 			<xs:attribute name="IsCommercialSpace" type="xs:boolean" use="required"/>
+			<xs:attribute name="Usage" type="xs:string" use="required"/>
+			<xs:attribute name="FillOpacity" type="xs:double" use="required"/>
+			<xs:attribute name="FillColor" type="xs:string" use="required"/>
+			<xs:attribute name="PlanStoreId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CommercialSpace">

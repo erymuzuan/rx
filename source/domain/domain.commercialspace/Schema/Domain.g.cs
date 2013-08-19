@@ -2153,6 +2153,26 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public const string PropertyNameIsCommercialSpace = "IsCommercialSpace";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_usage;
+        public const string PropertyNameUsage = "Usage";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private double m_fillOpacity;
+        public const string PropertyNameFillOpacity = "FillOpacity";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_fillColor;
+        public const string PropertyNameFillColor = "FillColor";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_planStoreId;
+        public const string PropertyNamePlanStoreId = "PlanStoreId";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -2265,6 +2285,122 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_isCommercialSpace;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Usage
+        {
+            set
+            {
+                if (String.Equals(m_usage, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameUsage, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_usage = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_usage;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public double FillOpacity
+        {
+            set
+            {
+                if (Math.Abs(m_fillOpacity - value) < 0.00001d) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFillOpacity, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_fillOpacity = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_fillOpacity;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string FillColor
+        {
+            set
+            {
+                if (String.Equals(m_fillColor, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFillColor, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_fillColor = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_fillColor;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string PlanStoreId
+        {
+            set
+            {
+                if (String.Equals(m_planStoreId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePlanStoreId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_planStoreId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_planStoreId;
             }
         }
 

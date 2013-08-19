@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.IO.Compression;
@@ -53,7 +52,6 @@ namespace Bespoke.Sph.RabbitMqPublisher
         }
         private async Task SendMessage(string action, string operation, IEnumerable<Entity> items, IEnumerable<AuditTrail> logs = null)
         {
-            Console.WriteLine("sending....");
             var factory = new ConnectionFactory
             {
                 UserName = m_connection.Username,
@@ -89,7 +87,6 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
                     channel.BasicPublish(this.Exchange, routingKey, props, body);
 
-                    Console.WriteLine("Published to {0}, exc : {1}, keys : {2}", factory.VirtualHost, this.Exchange, routingKey);
                 }
 
             }

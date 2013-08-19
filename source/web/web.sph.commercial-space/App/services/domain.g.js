@@ -189,6 +189,10 @@ bespoke.sphcommercialspace.domain.Lot = function (webId) {
         Size: ko.observable(0.00),
         FloorNo: ko.observable(''),
         IsCommercialSpace: ko.observable(false),
+        Usage: ko.observable(''),
+        FillOpacity: ko.observable(0.00),
+        FillColor: ko.observable(''),
+        PlanStoreId: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
