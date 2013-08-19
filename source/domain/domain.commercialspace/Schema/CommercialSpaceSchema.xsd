@@ -44,6 +44,7 @@
 				<xs:element name="ApprovedDateTime" type="xs:dateTime" nillable="true"/>
 				<xs:element name="ApprovedBy" type="xs:string"/>
 			</xs:all>
+			<xs:attribute name="LandId" type="xs:int" use="required"/>
 			<xs:attribute name="Lot" type="xs:string" use="required"/>
 			<xs:attribute name="Title" type="xs:string" use="required"/>
 			<xs:attribute name="Location" type="xs:string" use="required"/>

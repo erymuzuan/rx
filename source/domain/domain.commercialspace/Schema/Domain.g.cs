@@ -504,6 +504,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_landId;
+        public const string PropertyNameLandId = "LandId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_lot;
         public const string PropertyNameLot = "Lot";
 
@@ -640,6 +645,35 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 OnPropertyChanged();
             }
         }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int LandId
+        {
+            set
+            {
+                if (m_landId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLandId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_landId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_landId;
+            }
+        }
+
 
         ///<summary>
         /// 
