@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Bespoke.SphCommercialSpaces.Domain
+﻿namespace Bespoke.SphCommercialSpaces.Domain
 {
     public partial class AddressElement : FormElement
     {
