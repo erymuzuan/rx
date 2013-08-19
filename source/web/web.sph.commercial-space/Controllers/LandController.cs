@@ -48,5 +48,22 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         }
 
 
+        public async Task<ActionResult> GetCenter(int id)
+        {
+            var spatial = ObjectBuilder.GetObject<ISpatialService<Land>>();
+            var center = await spatial.GetCenterAsync(b => b.LandId == id);
+            if (null == center) return Json(false, JsonRequestBehavior.AllowGet);
+            return Json(center, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> GetEncodedPath(int id)
+        {
+            var spatial = ObjectBuilder.GetObject<ISpatialService<Land>>();
+            var encodedPath = await spatial.GetEncodedPathAsync(b => b.LandId == id);
+            if (null == encodedPath) return Json(false, JsonRequestBehavior.AllowGet);
+            return Json(encodedPath, JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }
