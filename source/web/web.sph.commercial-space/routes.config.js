@@ -722,5 +722,29 @@
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": "can_edit_land",
+    "url": "land.list",
+    "moduleId": "viewmodels/land.list",
+    "name": "Senarai Tanah",
+    "visible": true,
+    "icon": "icon-flag",
+    "caption": "Senarai Tanah",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_land",
+    "url": "land.detail/:id",
+    "moduleId": "viewmodels/land.detail",
+    "name": "Butiran Tanah",
+    "visible": false,
+    "icon": "icon-flag",
+    "caption": "Butiran Tanah",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
   }
 ]

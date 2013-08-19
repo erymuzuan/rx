@@ -131,5 +131,12 @@
     "Role": "admin",
     "Description": "Sediakan Tawaran",
     "IsActive": true
+  },
+  {
+      "Group": "Admin",
+    "Name": "Admin Tanah",
+    "Role": "can_edit_land",
+    "Description": "Pentadbiran Tanah",
+    "IsActive": true
   }
 ]

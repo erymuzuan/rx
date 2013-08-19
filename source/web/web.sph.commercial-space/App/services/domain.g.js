@@ -59,6 +59,7 @@ bespoke.sphcommercialspace.domain.Land = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Land, domain.commercialspace",
+        LandId: ko.observable(0),
         Lot: ko.observable(''),
         Title: ko.observable(''),
         Location: ko.observable(''),
