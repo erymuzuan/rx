@@ -6,7 +6,6 @@ using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.SphCommercialSpaces.Domain;
-using Newtonsoft.Json;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.RabbitMqPublisher
@@ -24,7 +23,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
         public EntityChangedListener(IBrokerConnection connection)
         {
             m_brokerConnection = connection;
-            var guid = Process.GetCurrentProcess().Id.ToString(CultureInfo.InvariantCulture).PadLeft(4,'0');
+            var guid = Process.GetCurrentProcess().Id.ToString(CultureInfo.InvariantCulture).PadLeft(4, '0');
             this.QueueName = string.Format("_{0}_{1}_{2}", Environment.MachineName, guid, typeof(T).Name);
             this.RoutingKeys = new[] { typeof(T).Name + ".*" };
             m_currentContext = SynchronizationContext.Current;
@@ -38,7 +37,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
 
             const bool noAck = true;
-            const string exchangeName = "station.ms.changes";
+            const string exchangeName = "ruang.komersial.changes";
 
             var factory = new ConnectionFactory
             {
@@ -65,7 +64,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
 
         }
 
-        public event EventHandler<T> Changed;
+        public event EntityChangedEventHandler<T> Changed;
 
         public void Run(SynchronizationContext synchronizationContext)
         {
@@ -76,19 +75,52 @@ namespace Bespoke.Sph.RabbitMqPublisher
         private async void MessageReceived(object sender, ReceivedMessageArgs e)
         {
             var body = e.Body;
-            var json = await this.DecompressAsync(body);
-            var t = await JsonConvert.DeserializeObjectAsync<T>(json);
+            var xml = await this.DecompressAsync(body);
+            var t = XmlSerializerService.DeserializeFromXml<T>(xml.Replace("utf-16", "utf-8"));
+            var arg = new EntityChangedEventArgs<T>
+            {
+                Item = t,
+                AuditTrail = this.GetLog(e)
+            };
 
             if (null != this.Changed && null != t)
             {
                 if (null != m_currentContext)
-                    m_currentContext.Post(d => this.Changed(this, t), t);
+                    m_currentContext.Post(d => this.Changed(this, arg), arg);
                 else
-                    this.Changed(this, t);// worker thread
+                    this.Changed(this, arg);// worker thread
 
             }
         }
 
+
+        private string ByteToString(byte[] content)
+        {
+            using (var orginalStream = new MemoryStream(content))
+            {
+                using (var sr = new StreamReader(orginalStream))
+                {
+                    var xml = sr.ReadToEnd();
+                    return xml;
+                }
+            }
+        }
+
+        private AuditTrail GetLog(ReceivedMessageArgs args)
+        {
+
+            var operationBytes = args.Properties.Headers["log"] as byte[];
+            if (null != operationBytes)
+            {
+                var xml = ByteToString(operationBytes).Replace("encoding=\"utf-16\"", "encoding=\"utf-8\"");
+                // Console.WriteLine(xml);
+                if (string.IsNullOrWhiteSpace(xml)) return null;
+                return XmlSerializerService.DeserializeFromXml<AuditTrail>(xml);
+            }
+
+            return null;
+
+        }
         private async Task<string> DecompressAsync(byte[] content)
         {
             using (var orginalStream = new MemoryStream(content))

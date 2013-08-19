@@ -5,14 +5,14 @@
 }
 
 <h1>Maklumat Templat Penyenggaraan </h1>
-    <div class="container">
+<div class="container">
     <div class="row">
         <!-- left toobox-->
         <div class="span4">
             @Html.Partial("_Toolbox")
         </div>
 
-        <div class="span8" data-bind="with: maintenanceTemplate">
+        <div class="span8" data-bind="with: template">
 
             <div data-bind="with: FormDesign" id="template-form-designer">
                 <h1 data-bind="text: Name"></h1>
@@ -33,3 +33,5 @@
         </div>
     </div>
 </div>
+
+@Html.Partial("_PathPicker")

@@ -26,10 +26,6 @@ namespace Bespoke.Sph.Commerspace.Web.Helpers
         public static  void BuildTreeView(StringBuilder text, string path, Type type)
         {
             text.AppendLine("<ul>");
-            text.AppendLine("<li  data-expanded=\"true\">");
-            text.AppendLine("<span class=\"k-sprite folder\"></span>");
-            text.AppendLine(type.Name);
-            text.AppendLine("<ul>");
             foreach (var p in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
             {
 
@@ -67,8 +63,6 @@ namespace Bespoke.Sph.Commerspace.Web.Helpers
                     text.AppendLine();
                 }
             }
-            text.AppendLine("</ul>");
-            text.AppendLine("</li>");
             text.AppendLine("</ul>");
         }
 

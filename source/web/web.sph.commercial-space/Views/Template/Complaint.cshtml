@@ -25,7 +25,7 @@
                 </li>
             </ul>
             <div class="tab-content">
-                <div id="complaint-designer" class="tab-pane active" data-bind="with: complaintTemplate">
+                <div id="complaint-designer" class="tab-pane active" data-bind="with: template">
 
                     <div data-bind="with: FormDesign" id="template-form-designer">
                         <h1 data-bind="text: Name"></h1>
@@ -56,7 +56,7 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody data-bind="foreach: complaintTemplate().ComplaintCategoryCollection">
+                        <tbody data-bind="foreach: template().ComplaintCategoryCollection">
                             <tr>
                                 <td>
                                     <input type="text" data-bind="value: Name" /></td>
@@ -126,3 +126,4 @@
 </div>
 
 
+@Html.Partial("_PathPicker")

@@ -11,14 +11,16 @@ define(['services/datacontext',
         'durandal/system',
         'durandal/app',
         'viewmodels/map',
-        'services/logger'
+        'services/logger',
+        'services/watcher'
 ],
-    function (context, router, system, app, mapvm, logger) {
+    function (context, router, system, app, mapvm, logger, watcher) {
 
 
         var isBusy = ko.observable(false),
             activate = function (routeData) {
                 var id = parseInt(routeData.id);
+
                 var templateId = parseInt(routeData.templateId);
 
                 var tcs = new $.Deferred();
@@ -58,9 +60,11 @@ define(['services/datacontext',
                         });
 
                     vm.building().TemplateId(templateId);
+                    vm.toolbar.watching(false);
                     return true;
                 }
                 vm.toolbar().auditTrail.id(id);
+                vm.toolbar().printCommand.id(id);
                 var query = "BuildingId eq " + id;
                 context.loadOneAsync("Building", query).done(function (b) {
                     if (typeof b.Address !== "function") {
@@ -70,6 +74,13 @@ define(['services/datacontext',
                     vm.building(b);
                     tcs.resolve(true);
                 });
+
+                // watcher
+                context.loadOneAsync("Watcher", "EntityName eq 'Building' and EntityId eq " + id)
+                    .done(function(w) {
+                        vm.toolbar().watching(null !== w);
+                    });
+
 
                 return tcs.promise();
             },
@@ -187,11 +198,11 @@ define(['services/datacontext',
                     });
                 return tcs.promise();
 
-            },            
-            viewAttached = function (view) {
-                $('*[title]').tooltip({placement:'right'});
+            },
+            viewAttached = function () {
+                $('*[title]').tooltip({ placement: 'right' });
             };
-        
+
         var vm = {
             activate: activate,
             building: ko.observable(new bespoke.sphcommercialspace.domain.Building()),
@@ -209,8 +220,15 @@ define(['services/datacontext',
             removeFloorCommand: removeFloor,
             title: 'Perincian Bangunan',
             toolbar: ko.observable({
+                watchCommand: function () { return watcher.watch("Building", vm.building().BuildingId()); },
+                unwatchCommand: function () { return watcher.unwatch("Building", vm.building().BuildingId()); },
+                watching : ko.observable(false),
                 saveCommand: saveAsync,
                 auditTrail: {
+                    entity: "Building",
+                    id: ko.observable()
+                },
+                printCommand: {
                     entity: "Building",
                     id: ko.observable()
                 }

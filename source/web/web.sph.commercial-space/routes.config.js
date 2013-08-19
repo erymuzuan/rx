@@ -698,5 +698,29 @@
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": "everybody",
+    "url": "message.detail/:id",
+    "moduleId": "viewmodels/message.detail",
+    "name": "Mesej",
+    "visible": false,
+    "icon": "icon-check",
+    "caption": "Mesej",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "everybody",
+    "url": "message.inbox",
+    "moduleId": "viewmodels/message.inbox",
+    "name": "Mesej",
+    "visible": false,
+    "icon": "icon-envelope",
+    "caption": "Mesej",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
   }
 ]

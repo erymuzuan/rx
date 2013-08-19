@@ -12,8 +12,8 @@
 /// <reference path="./_contract.clauses.js" />
 
 
-define(['services/datacontext', './_contract.clauses', './_contract.documents', './_audittrail.list'],
-    function (context, clausesvm, documentsvm, audittrailvm) {
+define(['services/datacontext', './_contract.clauses', './_contract.documents', './_audittrail.list', 'services/watcher'],
+    function (context, clausesvm, documentsvm, audittrailvm, watcher) {
 
         var isBusy = ko.observable(false),
             isEnd = ko.observable(false),
@@ -76,18 +76,6 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
                     });
                 return tcs.promise();
             },
-            watch = function () {
-                var tcs = new $.Deferred();
-                var data = JSON.stringify({ id: vm.contract().ContractId(), entity: "Contract" });
-                isBusy(true);
-
-                context.post(data, "/Watch/Register")
-                    .then(function (result) {
-                        isBusy(false);
-                        tcs.resolve(result);
-                    });
-                return tcs.promise();
-            },
             openExtensionDialog = function () {
                 $('#extend-contract-panel').modal();
             },
@@ -128,8 +116,8 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
             contract: ko.observable(new bespoke.sphcommercialspace.domain.Contract()),
             toolbar: {
                 saveCommand: save,
-                watchCommand: watch,
-                unwatchCommand: watch,
+                watchCommand: function () { return watcher.watch("Contract", vm.contract().ContractId()); },
+                unwatchCommand: function () { return watcher.unwatch("Contract", vm.contract().ContractId()); },
                 watching: ko.observable(false),
                 clicks: ko.observableArray([
                 {

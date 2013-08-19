@@ -12,25 +12,30 @@
               
     <div class="login">
         <div class="box">
-        <div class="row-fluid">
-            <div class="span4 offset4 well">
-                <legend>Daftar Masuk Pengguna</legend>
-                <div class="alert alert-error">
-                    <a class="close" data-dismiss="alert" href="#">×</a>Nama Pengguna dan Kata laluan tidak sah!
+            <div class="row-fluid">
+                <div class="span6 offset3 well">
+                    <h2>Daftar Masuk Pengguna</h2>
+                    @if (!@ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-error">
+                            <a class="close" data-dismiss="alert" href="#">×</a>Nama Pengguna dan Kata laluan tidak sah!
+                        </div>
+                        
+                    }
+                    <form method="POST" action="" accept-charset="UTF-8">
+                        <label class="controls">Nama Pengguna </label>
+                        @Html.TextBoxFor(m => m.UserName)
+                        @Html.ValidationMessageFor(m => m.UserName)
+                        <label class="controls">Kata Laluan </label>
+                        @Html.PasswordFor(m => m.Password)
+                        @Html.ValidationMessageFor(m => m.Password)
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember" value="1">
+                            Ingat saya
+                        </label>
+                        <button type="submit" name="submit" class="btn btn-info">Daftar Masuk</button>
+                    </form>
                 </div>
-                <form method="POST" action="" accept-charset="UTF-8">
-                    <label class="controls">Nama Pengguna </label>
-                    @Html.TextBoxFor(m => m.UserName)
-                    @Html.ValidationMessageFor(m => m.UserName)
-                    <label class="controls">Kata Laluan </label>
-                    @Html.PasswordFor(m => m.Password)
-                    @Html.ValidationMessageFor(m => m.Password)
-                    <label class="checkbox">
-                        <input type="checkbox" name="remember" value="1"> Ingat saya
-                    </label>
-                    <button type="submit" name="submit" class="btn btn-info btn-block">Daftar Masuk</button>
-                </form>    
-            </div>
             </div>
         </div>
     </div>	

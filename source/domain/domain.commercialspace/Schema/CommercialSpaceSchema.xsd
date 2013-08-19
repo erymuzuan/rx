@@ -176,7 +176,6 @@
 			<xs:attribute name="BuildingLot" type="xs:string" use="required"/>
 			<xs:attribute name="RentalRate" type="xs:decimal" use="required"/>
 			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
-			<xs:attribute name="ApplicationTemplateId" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="RentalApplication">
@@ -1337,6 +1336,15 @@
 		<xs:complexType>
 			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
 			<xs:attribute name="Remarks" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Message">
+		<xs:complexType>
+			<xs:attribute name="MessageId" type="xs:int" use="required"/>
+			<xs:attribute name="Subject" type="xs:string" use="required"/>
+			<xs:attribute name="IsRead" type="xs:boolean" use="required"/>
+			<xs:attribute name="Body" type="xs:string" use="required"/>
+			<xs:attribute name="UserName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

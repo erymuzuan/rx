@@ -19,7 +19,7 @@
         toolbar : {
             addNew : {
                 location: '/#/template.commercialspace-id.0/0',
-                caption : 'Tambah templat baru'
+                caption : 'Tambah Templat Baru'
             }
         }
     };

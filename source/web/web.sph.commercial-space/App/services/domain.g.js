@@ -222,7 +222,6 @@ bespoke.sphcommercialspace.domain.CommercialSpace = function (webId) {
         BuildingLot: ko.observable(''),
         RentalRate: ko.observable(0.00),
         TemplateId: ko.observable(0),
-        ApplicationTemplateId: ko.observable(0),
         LotCollection: ko.observableArray([]),
         CustomFieldValueCollection: ko.observableArray([]),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
@@ -1783,6 +1782,26 @@ bespoke.sphcommercialspace.domain.Extension = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.ExtensionPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.ExtensionPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Message = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.Message, domain.commercialspace",
+        MessageId: ko.observable(0),
+        Subject: ko.observable(''),
+        IsRead: ko.observable(false),
+        Body: ko.observable(''),
+        UserName: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.MessagePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.MessagePartial(model));
     }
     return model;
 };

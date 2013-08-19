@@ -74,7 +74,7 @@ function (logger) {
                 var temp = _(msg.results).map(function (v) {
                     var item = ko.mapping.fromJS(v);
                     if (bespoke.sphcommercialspace.domain[entity + "Partial"]) {
-                        var extended = _(item).extend(new bespoke.sphcommercialspace.domain[entity + "Partial"](item));
+                        var extended = _(new bespoke.sphcommercialspace.domain[entity + "Partial"](item)).extend(item);
                         return extended;
                     }
                     return item;

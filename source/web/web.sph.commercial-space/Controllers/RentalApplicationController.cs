@@ -119,7 +119,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             using (var session = context.OpenSession())
             {
                 session.Attach(dbItem, audit);
-                await session.SubmitChanges();
+                await session.SubmitChanges("Approve");
             }
 
             return Json(new { message, result });
@@ -376,7 +376,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             using (var session = context.OpenSession())
             {
                 session.Attach(dbItem, audit);
-                await session.SubmitChanges();
+                await session.SubmitChanges("Deny");
             }
 
             return Json(true);

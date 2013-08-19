@@ -9,13 +9,13 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
-define(['services/datacontext', 'durandal/system', './template.base', 'services/logger'],
-    function (context, system, templateBase) {
+define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger'],
+    function (context, system, templateBase, eximp, logger) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
             activate = function (routeData) {
-
+                debugger;
 
                 var customElements = [];
                 var address = new bespoke.sphcommercialspace.domain.AddressElement(system.guid());
@@ -71,14 +71,32 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                         tcs.resolve(result);
                     });
                 return tcs.promise();
-            };
+            },
+            
+        exportTemplate = function () {
+            return eximp.exportJson("template.maintenance." + vm.template().MaintenanceTemplateId() + ".json", ko.mapping.toJSON(vm.template));
+        },
+
+        importTemplateJson = function () {
+             return eximp.importJson()
+                 .done(function (json) {
+                     try {
+                         vm.template(ko.mapping.fromJSON(json));
+                         vm.template().MaintenanceTemplateId(0);
+                     } catch(error) {
+                         logger.logError('Fail template import tidak sah', error, this, true);
+                     }
+                 });
+         };
         
         var vm = {
             activate: activate,
             viewAttached: templateBase.viewAttached,
-            emplate: ko.observable(new bespoke.sphcommercialspace.domain.MaintenanceTemplate()),
+            template: ko.observable(new bespoke.sphcommercialspace.domain.MaintenanceTemplate()),
             toolbar: {
-                saveCommand: save
+                saveCommand: save,
+                exportCommand: exportTemplate,
+                importCommand: importTemplateJson
             },
             customFormElements: templateBase.customFormElements,
             formElements: templateBase.formElements,

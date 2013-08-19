@@ -20,7 +20,7 @@
         toolbar : {
             addNew : {
                 location: '/#/template.application-id.0/0',
-                caption :'tambah jenis permohonan'
+                caption :'Tambah Templat Permohonan'
             }
         }
     };
