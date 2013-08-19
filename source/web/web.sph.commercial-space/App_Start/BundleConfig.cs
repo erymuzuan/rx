@@ -24,6 +24,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/scripts/string.js")
                 .Include("~/scripts/underscore.js")
                 .Include("~/kendo/js/kendo.all.js")
+                .Include("~/scripts/_pager.js")
                 .Include("~/scripts/_kendo-knockoutbindings.js")
                 .Include("~/scripts/_uiready.js")
                 .Include("~/App/services/domain.g.js")

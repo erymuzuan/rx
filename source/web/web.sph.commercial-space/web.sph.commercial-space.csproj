@@ -954,6 +954,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
+    <Content Include="Scripts\_pager.js" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\Flyout.cshtml" />

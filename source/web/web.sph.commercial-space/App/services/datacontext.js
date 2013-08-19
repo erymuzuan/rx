@@ -51,16 +51,25 @@ function (logger) {
         return tcs.promise();
     }
 
-    function loadAsync(entity, query, page, includeTotal) {
+    function loadAsync(entityOrOptions, query) {
+
+        if (!entityOrOptions) throw "This cannot be happending, you have to have entity or option";
+        var entity = entityOrOptions,
+            includeTotal = false,
+            size = 20,
+            page = 1;
+        if (typeof entityOrOptions === "object") {
+            entity = entityOrOptions.entity;
+            includeTotal = entityOrOptions.includeTotal || false;
+            page = entityOrOptions.page || 1;
+            size = entityOrOptions.size || 20;
+        }
+
         var url = "/JsonDataService/" + entity;
-        url += "/?filter=";
-        if (page) {
-            url += "/?page=" + page;
-        }
-        if (includeTotal) {
-            url += "/?includeTotal=" + includeTotal;
-        }
-        url += query;
+        url += "/?filter=" + query;
+        url += "&page=" + page;
+        url += "&includeTotal=" + includeTotal;
+        url += "&size=" + size;
         logger.log(url);
 
         var tcs = new $.Deferred();

@@ -1,5 +1,5 @@
 ﻿<h1>Senarai Tanah</h1>
-<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
+<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging :{entity : 'Land', query : 'LandId gt 0', list : lands}">
     <thead>
         <tr>
             <th>Title</th>

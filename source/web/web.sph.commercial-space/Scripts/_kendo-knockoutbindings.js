@@ -4,6 +4,7 @@
 /// <reference path="moment.js" />
 /// <reference path="~/Scripts/jquery-2.0.3.intellisense.js" />
 /// <reference path="~/kendo/js/kendo.all.js" />
+/// <reference path="_pager.js" />
 
 ko.bindingHandlers.kendoDropDownListValue = {
     init: function (element, valueAccessor) {
@@ -224,7 +225,7 @@ ko.bindingHandlers.command = {
             e.preventDefault();
 
             var $spinner = $("<i class='icon-spin icon-spinner icon-large'></i>");
-            $spinner.css({ "margin-left": -($button.width() / 2) - 16, "position" : "fixed" , "margin-top" : "10px" });
+            $spinner.css({ "margin-left": -($button.width() / 2) - 16, "position": "fixed", "margin-top": "10px" });
             $button.after($spinner).show();
             action()
                 .then(function () {
@@ -233,7 +234,7 @@ ko.bindingHandlers.command = {
                         .prop('disabled', true)
                         .removeClass('btn-disabled');
                     $spinner.hide();
-                   
+
                 });
             if ($button.data("loading-text")) {
                 $button.button("loading");
@@ -456,6 +457,57 @@ ko.bindingHandlers.filter = {
         if ($filterInput.val()) {
             dofilter();
         }
+
+    }
+};
+
+ko.bindingHandlers.serverPaging = {
+    init: function (element, valueAccessor) {
+        var value = valueAccessor(),
+            entity = value.entity,
+            query = value.query,
+            list = value.list,
+            $element = $(element),
+            context = require('services/datacontext'),
+            pagerPanel = $('<div></div>'),
+            changed = function (page, size) {
+                context.loadAsync({
+                    entity: entity,
+                    page: page,
+                    size: size,
+                    includeTotal: true
+                }, query)
+                     .then(function (lo) {
+                         list(lo.itemCollection);
+                     });
+            };
+
+        $element.after(pagerPanel);
+
+
+
+        var tcs = new $.Deferred();
+        context.loadAsync({
+            entity: entity,
+            page: 1,
+            size: 20,
+            includeTotal: true
+        }, query)
+            .then(function (lo) {
+
+                var options = {
+                    element: pagerPanel,
+                    count: lo.rows,
+                    changed: changed
+                },
+                    pager = new bespoke.utils.ServerPager(options);
+                console.log(pager);
+                list(lo.itemCollection);
+                tcs.resolve(true);
+            });
+        return tcs.promise();
+
+
 
     }
 };
