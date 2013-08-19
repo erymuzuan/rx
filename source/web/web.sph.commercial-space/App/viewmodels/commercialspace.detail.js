@@ -10,7 +10,7 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 
-define(['services/datacontext', 'services/logger', './_commercialspace.contract'], function (context, logger, contractlistvm) {
+define(['services/datacontext', 'services/logger', './_commercialspace.contract', 'durandal/system'], function (context, logger, contractlistvm,system) {
 
     var title = ko.observable(),
         buildingId = ko.observable(),
@@ -39,6 +39,15 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
                 })
                 .done(function (a, tpl) {
                     template(tpl);
+                    var cfs = _(tpl.CustomFieldCollection()).map(function (f) {
+                        var webid = system.guid();
+                        var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
+                        v.Name(f.Name());
+                        v.Type(f.Type());
+                        return v;
+                    });
+
+                    vm.commercialSpace().CustomFieldValueCollection(cfs);
                 })
                 .done(function (a, b, list) {
                     vm.buildingOptions(_(list).sortBy(function (bd) {
@@ -104,7 +113,7 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
         activate: activate,
         title: title,
         viewAttached: viewAttached,
-        commercialSpace: ko.observable(),
+        commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         buildingOptions: ko.observableArray(),
         floorOptions: ko.observableArray(),
         lotOptions: ko.observableArray(),
