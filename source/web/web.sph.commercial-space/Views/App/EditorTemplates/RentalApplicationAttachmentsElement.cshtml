@@ -1,0 +1,32 @@
+﻿@model Bespoke.SphCommercialSpaces.Domain.RentalApplicationAttachmentsElement
+
+<div>
+    <div class="span6">
+        <a data-bind="click: $parent.addAttachmentCommand" class="btn btn-link pull-right">
+            <i class="icon-file-alt"></i>+ Dokumen</a>
+    </div>
+    <table id="document-sokongan-table" class="table table-bordered span6">
+        <thead>
+            <tr>
+                <th>Jenis</th>
+                <th>Nama</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: { data: AttachmentCollection, afterAdd: $parent.configureUpload }">
+            <tr>
+                <td>
+                    <input type="text" data-bind="value: Type, uniqueName: true" /></td>
+                <td>
+                    <input type="text" data-bind="value: Name, uniqueName: true" /></td>
+                <td>
+                    <input class="input-medium " type="file" value="upload" name="files" />
+                </td>
+                <td>
+                    <img data-bind="click: $root.removeAttachmentCommand, attr: { src: '/Images/remove_icon.png' }" src="/Images/remove_icon.png" alt="buang" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
