@@ -56,6 +56,11 @@ define(['services/datacontext', 'durandal/system'],
                 email.CssClass("icon-envelope pull-left");
                 email.Name("Emel");
                 email.IsRequired(true);
+                
+                var web = new bespoke.sphcommercialspace.domain.WebsiteFormElement(system.guid());
+                web.CssClass("icon-web pull-left");
+                web.Name("Website");
+                web.IsRequired(true);
 
                 var section = new bespoke.sphcommercialspace.domain.SectionFormElement(system.guid());
                 section.CssClass("icon-group pull-left");
@@ -68,6 +73,7 @@ define(['services/datacontext', 'durandal/system'],
                 elements.push(datepicker);
                 elements.push(number);
                 elements.push(email);
+                elements.push(web);
                 elements.push(section);
 
                 vm.formElements(elements);

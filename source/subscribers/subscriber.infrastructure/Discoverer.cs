@@ -23,24 +23,36 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         private static IEnumerable<SubscriberMetadata> FindSubscriber(string dll)
         {
-            var assembly = Assembly.LoadFile(dll);
+            try
+            {
+                var assembly = Assembly.LoadFile(dll);
 
 
-            var metadata = assembly.GetTypes()
-                            .Where(t => t.IsMarshalByRef)
-                            .Where(t => !t.IsAbstract)
-                            .Where(t => t.FullName.EndsWith("Subscriber"))
-                            .Select(t => new SubscriberMetadata
-                            {
-                                Assembly = t.Assembly.FullName,
-                                FullName = t.FullName,
-                                Type = t
-                            })
-                            .ToList();
+                var metadata = assembly.GetTypes()
+                                       .Where(t => t.IsMarshalByRef)
+                                       .Where(t => !t.IsAbstract)
+                                       .Where(t => t.FullName.EndsWith("Subscriber"))
+                                       .Select(t => new SubscriberMetadata
+                                           {
+                                               Assembly = t.Assembly.FullName,
+                                               FullName = t.FullName,
+                                               Type = t
+                                           })
+                                       .ToList();
 
 
 
-            return metadata.ToArray();
+                return metadata.ToArray();
+            }
+            catch (ReflectionTypeLoadException e)
+            {
+                Console.WriteLine(e);
+                foreach (var loaderException in e.LoaderExceptions)
+                {
+                    Console.WriteLine(loaderException);
+                }
+                throw;
+            }
 
         }
 
