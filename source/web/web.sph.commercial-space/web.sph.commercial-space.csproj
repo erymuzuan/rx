@@ -305,6 +305,7 @@
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
+    <Compile Include="Controllers\LandController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
@@ -392,6 +393,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
+    <Content Include="App\viewmodels\land.detail.js" />
+    <Content Include="App\viewmodels\land.list.js" />
     <Content Include="App\viewmodels\message.inbox.js" />
     <Content Include="App\viewmodels\template.commercialspace.js" />
     <Content Include="App\viewmodels\template.application.js" />
@@ -428,6 +431,8 @@
     <Content Include="App\views\complaintform.tenant.html" />
     <Content Include="App\views\inventory.detail.html" />
     <Content Include="App\views\inventory.list.html" />
+    <Content Include="App\views\land.detail.html" />
+    <Content Include="App\views\land.list.html" />
     <Content Include="App\views\logviewer.html" />
     <Content Include="App\views\maintenance.template.form.html" />
     <Content Include="App\views\message.detail.html" />
@@ -450,8 +455,6 @@
     <Content Include="App\views\_workorder.warranty.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Images\1200x480.gif" />
-    <Content Include="Images\1200x480.png" />
     <Content Include="Images\background.png" />
     <Content Include="Images\blank.png" />
     <Content Include="Images\constantfield.png" />

@@ -23,7 +23,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id())
                 .then(function (r) {
                     vm.rentalapplication(r);
-                    
+
                     lulusPermohonanCommandStatus(r.Status() == "Menunggu" || r.Status() == "Dikembalikan");
                     baruCommandStatus(r.Status() == "Baru");
                     dibatalkanCommandStatus(r.Status() == "Baru" || r.Status() == "Dikembalikan");
@@ -31,7 +31,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                     ditolakCommandStatus(r.Status() == "Ditolak");
                     selesaiCommandStatus(r.Status() == "Selesai");
                     menungguCommandStatus(r.Status() == "Menunggu");
-                    
+
                     context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + vm.rentalapplication().CommercialSpaceId())
                         .then(function (b) {
                             vm.commercialSpace(b);
@@ -116,8 +116,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                     vm.rentalapplication().Status('Diluluskan');
                 }
                 tcs.resolve(true);
-                var url = '/#/admindashboard';
-                router.navigateTo(url);
+                if (result) {
+                    var url = '/#/admindashboard';
+                    router.navigateTo(url);
+                }
+
             });
             return tcs.promise();
         },
@@ -169,7 +172,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         printList = function () { },
 
         exportList = function () { },
-        
+
         lulusPermohonanCommandStatus = ko.observable(),
         baruCommandStatus = ko.observable(),
         dibatalkanCommandStatus = ko.observable(),
@@ -230,16 +233,16 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                     visible: lulusPermohonanCommandStatus
                 },
                 {
-                    
+
                     caption: '1. Sediakan Tawaran',
                     icon: 'icon-file-text',
-                    command: function() {
+                    command: function () {
                         router.navigateTo('/#/offerdetails/' + vm.rentalapplication().RentalApplicationId() + '/' + vm.rentalapplication().CommercialSpaceId());
                         return {
                             then: function () { }
                         };
                     },
-                    visible:diluluskanCommandStatus
+                    visible: diluluskanCommandStatus
                 },
                 {
                     caption: '2. Sediakan Kontrak',

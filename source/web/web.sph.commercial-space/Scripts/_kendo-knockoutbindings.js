@@ -141,7 +141,7 @@ ko.bindingHandlers.kendoDate = {
             }
             // DO NOT fire update
             $(element).data("stop", "true");
-            valueAccessor()(date.format("DD/MM/YYYY"));
+            valueAccessor()(date.format("YYYY-MM-DD"));
             $(element).data("stop", "false");
         });
     },

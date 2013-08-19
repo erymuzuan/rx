@@ -10,7 +10,7 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 
-define(['services/datacontext', 'services/logger', './_commercialspace.contract'], function (context, logger, contractlistvm) {
+define(['services/datacontext', 'services/logger', './_commercialspace.contract', 'durandal/system'], function (context, logger, contractlistvm,system) {
 
     var title = ko.observable(),
         template = ko.observable(),
@@ -30,6 +30,15 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
             $.when(templateTask, buildingTask, csTask)
                 .done(function (tpl) {
                     template(tpl);
+                    var cfs = _(tpl.CustomFieldCollection()).map(function (f) {
+                        var webid = system.guid();
+                        var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
+                        v.Name(f.Name());
+                        v.Type(f.Type());
+                        return v;
+                    });
+
+                    vm.commercialSpace().CustomFieldValueCollection(cfs);
                 })
                 .done(function (a, list) {
                     vm.buildingOptions(_(list).sortBy(function (bd) {
