@@ -18,11 +18,16 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
 
 
                 var customElements = [];
-
+                
                 var address = new bespoke.sphcommercialspace.domain.AddressElement(system.guid());
                 address.CssClass("icon-envelope pull-left");
                 address.Name("Address");
                 customElements.push(address);
+                
+                var building = new bespoke.sphcommercialspace.domain.BuildingElement(system.guid());
+                building.CssClass("icon-envelope pull-left");
+                building.Name("Building");
+                customElements.push(building);
 
                 var lot = new bespoke.sphcommercialspace.domain.CommercialSpaceLotsElement(system.guid());
                 lot.CssClass("icon-envelope pull-left");

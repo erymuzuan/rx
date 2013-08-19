@@ -13,39 +13,30 @@
 define(['services/datacontext', 'services/logger', './_commercialspace.contract'], function (context, logger, contractlistvm) {
 
     var title = ko.observable(),
-        buildingId = ko.observable(),
         template = ko.observable(),
         selectedBuilding = {},
         isBusy = ko.observable(false),
         activate = function (routeData) {
-            buildingId(parseInt(routeData.buildingId));
+            vm.commercialSpace().BuildingId(parseInt(routeData.buildingId));
             var templateId = parseInt(routeData.templateId);
             title('Tambah ruang komersil');
 
             var tcs = new $.Deferred(),
-                settingTask = context.loadOneAsync("Setting", "Key eq 'Categories'"),
                 templateTask = context.loadOneAsync("CommercialSpaceTemplate", "CommercialSpaceTemplateId eq " + templateId),
                 buildingTask = context.getTuplesAsync("Building", "BuildingId gt 0", "BuildingId", "Name"),
                 csTask = context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + routeData.csId);
 
 
-            $.when(settingTask, templateTask, buildingTask, csTask)
-                .done(function (s) {
-                    s = s || {};
-                    var value = s.Value || "[]";
-                    var categories = JSON.parse(ko.mapping.toJS(value));
-                    vm.categoryOptions(categories);
-                    tcs.resolve(true);
-                })
-                .done(function (a, tpl) {
+            $.when(templateTask, buildingTask, csTask)
+                .done(function (tpl) {
                     template(tpl);
                 })
-                .done(function (a, b, list) {
+                .done(function (a, list) {
                     vm.buildingOptions(_(list).sortBy(function (bd) {
                         return bd.Item2;
                     }));
                 })
-                .done(function(a, b, c, cs) {
+                .done(function(a, b, cs) {
                     if (!cs) {
                         cs = new bespoke.sphcommercialspace.domain.CommercialSpace();
                         cs.TemplateId(templateId);
@@ -104,11 +95,10 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
         activate: activate,
         title: title,
         viewAttached: viewAttached,
-        commercialSpace: ko.observable(),
+        commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         buildingOptions: ko.observableArray(),
         floorOptions: ko.observableArray(),
         lotOptions: ko.observableArray(),
-        categoryOptions: ko.observableArray([]),
         selectedBuilding: ko.observable(),
         selectedFloor: ko.observable(),
         selectedLots: ko.observableArray(),
@@ -132,8 +122,6 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
                 vm.isBusy(false);
                 selectedBuilding = b;
             });
-
-
     });
     vm.selectedFloor.subscribe(function (floor) {
         var building = ko.mapping.toJS(selectedBuilding);

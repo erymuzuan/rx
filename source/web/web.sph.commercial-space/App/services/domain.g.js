@@ -1811,6 +1811,20 @@ bespoke.sphcommercialspace.domain.Message = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.BuildingElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.BuildingElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.BuildingElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.BuildingElementPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sphcommercialspace.domain.Invoice = function (webId) {
 
     return {

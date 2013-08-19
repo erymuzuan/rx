@@ -1078,6 +1078,9 @@
     <Content Include="Views\Print\DisplayTemplates\TextAreaElement.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\TextBox.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\BuildingElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\BuildingElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\BuildingElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

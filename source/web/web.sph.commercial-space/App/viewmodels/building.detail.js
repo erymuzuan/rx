@@ -60,7 +60,7 @@ define(['services/datacontext',
                         });
 
                     vm.building().TemplateId(templateId);
-                    vm.toolbar.watching(false);
+                    vm.toolbar().watching(false);
                     return true;
                 }
                 vm.toolbar().auditTrail.id(id);

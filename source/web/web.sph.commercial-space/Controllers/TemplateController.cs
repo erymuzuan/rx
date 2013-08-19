@@ -148,6 +148,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var vm = new TemplateFormViewModel { Entity = typeof(CommercialSpace).Name };
             vm.FormElements.Add(new AddressElement());
+            vm.FormElements.Add(new BuildingElement());
             vm.FormElements.Add(new CommercialSpaceLotsElement());
 
             return View(vm);
