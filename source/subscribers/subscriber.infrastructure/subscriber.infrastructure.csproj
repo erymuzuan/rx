@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveDirectory.cs" />
     <Compile Include="ConsoleNotification.cs" />
     <Compile Include="CrudOperation.cs" />
     <Compile Include="Discoverer.cs" />

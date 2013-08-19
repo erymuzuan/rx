@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
+/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -14,11 +14,13 @@ define(['services/datacontext', 'config'],
 
         var isBusy = ko.observable(false),
             activate = function () {
-                var query = String.format("UserName eq '{0}' and IsRead eq 0", config.userName);
+                var query = String.format("UserName eq '{0}'", config.userName);
                 var tcs = new $.Deferred();
 
                 context.loadAsync("Message", query)
                     .then(function(lo) {
+                        isBusy(false);
+
                         vm.messages(lo.itemCollection);
                         tcs.resolve(true);
                     });
@@ -27,14 +29,14 @@ define(['services/datacontext', 'config'],
 
             },
             viewAttached = function (view) {
-                return activate();
+
             };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
             viewAttached: viewAttached,
-            messages : ko.observableArray()
+            messages: ko.observableArray()
         };
 
         return vm;

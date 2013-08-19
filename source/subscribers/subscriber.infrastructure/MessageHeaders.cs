@@ -41,6 +41,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 return null;
             }
         }
+
         public string Operation
         {
             get

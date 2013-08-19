@@ -23,7 +23,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
         public EntityChangedListener(IBrokerConnection connection)
         {
             m_brokerConnection = connection;
-            var guid = Process.GetCurrentProcess().Id.ToString(CultureInfo.InvariantCulture).PadLeft(4,'0');
+            var guid = Process.GetCurrentProcess().Id.ToString(CultureInfo.InvariantCulture).PadLeft(4, '0');
             this.QueueName = string.Format("_{0}_{1}_{2}", Environment.MachineName, guid, typeof(T).Name);
             this.RoutingKeys = new[] { typeof(T).Name + ".*" };
             m_currentContext = SynchronizationContext.Current;
@@ -77,8 +77,11 @@ namespace Bespoke.Sph.RabbitMqPublisher
             var body = e.Body;
             var xml = await this.DecompressAsync(body);
             var t = XmlSerializerService.DeserializeFromXml<T>(xml.Replace("utf-16", "utf-8"));
-            var arg = new EntityChangedEventArgs<T> {Item = t};
-            //arg.ChangeCollection.AddRange(e.);
+            var arg = new EntityChangedEventArgs<T>
+            {
+                Item = t,
+                AuditTrail = this.GetLog(e)
+            };
 
             if (null != this.Changed && null != t)
             {
@@ -90,6 +93,34 @@ namespace Bespoke.Sph.RabbitMqPublisher
             }
         }
 
+
+        private string ByteToString(byte[] content)
+        {
+            using (var orginalStream = new MemoryStream(content))
+            {
+                using (var sr = new StreamReader(orginalStream))
+                {
+                    var xml = sr.ReadToEnd();
+                    return xml;
+                }
+            }
+        }
+
+        private AuditTrail GetLog(ReceivedMessageArgs args)
+        {
+
+            var operationBytes = args.Properties.Headers["log"] as byte[];
+            if (null != operationBytes)
+            {
+                var xml = ByteToString(operationBytes).Replace("encoding=\"utf-16\"", "encoding=\"utf-8\"");
+                // Console.WriteLine(xml);
+                if (string.IsNullOrWhiteSpace(xml)) return null;
+                return XmlSerializerService.DeserializeFromXml<AuditTrail>(xml);
+            }
+
+            return null;
+
+        }
         private async Task<string> DecompressAsync(byte[] content)
         {
             using (var orginalStream = new MemoryStream(content))

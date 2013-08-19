@@ -78,17 +78,17 @@ namespace Bespoke.Sph.WathersSubscribers
             m_spaceListener.Run();
 
             m_contractListener = ObjectBuilder.GetObject<IEntityChangedListener<Contract>>();
-            m_contractListener.Changed +=EntityChanged;
+            m_contractListener.Changed += EntityChanged;
             m_contractListener.Run();
 
         }
 
-        void EntityChanged<T>(object sender, EntityChangedEventArgs<T> e) where T: Entity
+        async void EntityChanged<T>(object sender, EntityChangedEventArgs<T> e) where T : Entity
         {
             this.WriteMessage("Changed to " + e);
             var entityName = typeof(T).Name;
             var id = (int)typeof(T).GetProperty(entityName + "Id")
-                .GetValue(e);
+                .GetValue(e.Item);
             var watchers = m_watchers
                 .Where(w => w.EntityId == id
                 && w.EntityName == entityName)
@@ -96,14 +96,26 @@ namespace Bespoke.Sph.WathersSubscribers
             Console.WriteLine("There {0} watchers", watchers.Count);
             foreach (var w in watchers)
             {
-                this.SendMessage(w, e);
+                await this.SendMessage(w, e);
             }
         }
 
-        private void SendMessage<T>(Watcher watcher, T o)
+        private async Task SendMessage<T>(Watcher watcher, EntityChangedEventArgs<T> arg) where T:Entity
         {
-            Console.WriteLine(watcher);
-            Console.WriteLine(o);
+            var context = new SphDataContext();
+            var message = new Message
+            {
+                Subject = "Pertukaran di item yang anda pantau : " + arg.Item,
+                UserName = watcher.User,
+                Body = arg.AuditTrail.ToString()
+            };
+
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(message);
+                await session.SubmitChanges("Add new message");
+            }
         }
     }
 }

@@ -18,12 +18,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
     public class EntityChangedEventArgs<T> : EventArgs where T : Entity
     {
         public T Item { get; set; }
-        private readonly ObjectCollection<Change> m_changeCollection = new ObjectCollection<Change>();
-        
-        public ObjectCollection<Change> ChangeCollection
-        {
-            get { return m_changeCollection; }
-        }
-
+        public AuditTrail AuditTrail { get; set; }
     }
 }

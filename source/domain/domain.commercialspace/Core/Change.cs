@@ -1,7 +1,7 @@
 ﻿
 namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public partial class Change 
+    public partial class Change : DomainObject
     {
 
         public Change()
