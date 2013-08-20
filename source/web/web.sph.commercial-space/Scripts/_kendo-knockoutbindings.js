@@ -462,7 +462,7 @@ ko.bindingHandlers.filter = {
 };
 
 ko.bindingHandlers.serverPaging = {
-    init: function (element, valueAccessor) {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         var value = valueAccessor(),
             entity = value.entity,
             query = value.query,
@@ -473,11 +473,19 @@ ko.bindingHandlers.serverPaging = {
             $spinner = $('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />'),
             startLoad = function () {
                 $spinner.show();
-                $element.fadeTo("fast",0.33);
+                $element.fadeTo("fast", 0.33);
             },
             endLoad = function () {
                 $spinner.hide();
-                $element.fadeTo("fast",1);
+                $element.fadeTo("fast", 1);
+            },
+            setItemsSource = function(items) {
+                if (typeof list === "string") {
+                    viewModel[list](items);
+                }
+                if (typeof list === "function") {
+                    list(items);
+                }
             },
             changed = function (page, size) {
                 startLoad();
@@ -488,13 +496,13 @@ ko.bindingHandlers.serverPaging = {
                     includeTotal: true
                 }, query)
                      .then(function (lo) {
-                         list(lo.itemCollection);
+                         setItemsSource(lo.itemCollection);
                          endLoad();
                      });
             };
 
         $element.after($pagerPanel).after($spinner)
-            .fadeTo("slow",0.33);
+            .fadeTo("slow", 0.33);
 
         var tcs = new $.Deferred();
         context.loadAsync({
@@ -512,9 +520,12 @@ ko.bindingHandlers.serverPaging = {
                 },
                     pager = new bespoke.utils.ServerPager(options);
                 console.log(pager);
-                list(lo.itemCollection);
-                tcs.resolve(true);
-                endLoad();
+                setTimeout(function () {
+                    setItemsSource(lo.itemCollection);
+                    tcs.resolve(true);
+                    endLoad();
+                }, 500);
+
             });
         return tcs.promise();
 
