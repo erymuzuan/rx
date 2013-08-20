@@ -32,6 +32,14 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
                 vm.categoryOptions(categories);
                 tcs.resolve(true);
             });
+
+            context.loadOneAsync("CommercialSpaceTemplate", "CommercialSpaceTemplateId eq {0}", routeData.templateId)
+                .done(function (t) {
+                    vm.commercialSpaceTemplate(t);
+                    var cat = vm.commercialSpaceTemplate().Name();
+                    vm.commercialSpace().Category(cat);
+                    tcs.resolve(true);
+                });
             
             if (buildingId()) {
                 var query = String.format("CommercialSpaceId eq {0} ", routeData.commercialspaceid);
@@ -97,10 +105,12 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
     var vm = {
         activate: activate,
         title: title,
-        commercialSpace: ko.observable(),
+        commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
+        commercialSpaceTemplate : ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpaceTemplate()),
         buildingOptions: ko.observableArray(),
         floorOptions: ko.observableArray(),
         lotOptions: ko.observableArray(),
+        category : ko.observable(),
         categoryOptions: ko.observableArray([]),
         selectedBuilding: ko.observable(),
         selectedFloor: ko.observable(),
