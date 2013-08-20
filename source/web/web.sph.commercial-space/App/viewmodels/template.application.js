@@ -36,8 +36,8 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 customElements.push(docs);
 
                 var contact = new bespoke.sphcommercialspace.domain.RentalApplicationContactElement(system.guid());
-                docs.CssClass("icon-calendar pull-left");
-                docs.Name("Documents");
+                contact.CssClass("icon-user pull-left");
+                contact.Name("Contact");
                 customElements.push(contact);
 
                 templateBase.activate(customElements);
