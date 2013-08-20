@@ -954,6 +954,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
+    <Content Include="Scripts\_pager.js" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\Flyout.cshtml" />
@@ -1081,6 +1082,9 @@
     <Content Include="Views\Print\DisplayTemplates\TextAreaElement.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\TextBox.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\BuildingElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\BuildingElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\BuildingElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

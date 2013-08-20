@@ -1,6 +1,6 @@
 ﻿namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public partial class BuildingFloorsElement : FormElement
+    public partial class BuildingElement : FormElement
     {
         public override CustomField GenerateCustomField()
         {

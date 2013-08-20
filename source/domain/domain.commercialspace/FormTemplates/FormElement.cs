@@ -14,6 +14,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [XmlInclude(typeof(ComboBox))]
     [XmlInclude(typeof(BuildingFloorsElement))]
     [XmlInclude(typeof(BuildingMapElement))]
+    [XmlInclude(typeof(BuildingElement))]
     [XmlInclude(typeof(EmailFormElement))]
     [XmlInclude(typeof(WebsiteFormElement))]
     [XmlInclude(typeof(SectionFormElement))]

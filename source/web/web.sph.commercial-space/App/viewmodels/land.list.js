@@ -14,19 +14,7 @@ define(['services/datacontext', 'config'],
 
         var isBusy = ko.observable(false),
             activate = function () {
-                var query = "LandId gt 0";
-                var tcs = new $.Deferred();
-
-                context.loadAsync("Land", query)
-                    .then(function (lo) {
-                        isBusy(false);
-
-                        vm.lands(lo.itemCollection);
-                        tcs.resolve(true);
-                    });
-                return tcs.promise();
-
-
+                return true;
             },
             viewAttached = function (view) {
 

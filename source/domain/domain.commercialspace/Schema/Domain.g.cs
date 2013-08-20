@@ -15739,6 +15739,18 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("BuildingElement", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class BuildingElement
+    {
+
+
+    }
+
     [XmlType("Invoice", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Invoice
     {

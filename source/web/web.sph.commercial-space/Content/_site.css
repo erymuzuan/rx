@@ -1,48 +1,70 @@
-﻿body {
+﻿body
+{
     background-color: #ffffff;
 }
 
-#body {
+#body
+{
     margin-bottom: 70px;
 }
 
-.google-maps {
+.google-maps
+{
     min-height: 700px;
 }
 
-    .google-maps img {
+    .google-maps img
+    {
         max-width: none;
     }
 
 
-.modal {
+.modal
+{
     margin-left: -400px;
 }
 
-.loader .page-progress-bar {
+.absolute-center
+{
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 999;
+}
+
+.loader .page-progress-bar
+{
     margin: 14px 0 0 0;
 }
 
-.loader {
+.loader
+{
     visibility: hidden;
 }
 
-    .loader.active {
+    .loader.active
+    {
         visibility: visible;
     }
 
-.selected {
+.selected
+{
     background-color: #e0e0e0;
     color: #ffffff;
 }
 
-#template-form-designer {
+#template-form-designer
+{
     border: 5px dashed #C0C0C0;
     min-height: 800px;
     padding: 15px;
 }
 
-    #template-form-designer > form > div {
+    #template-form-designer > form > div
+    {
         -ms-opacity: 0.6;
         opacity: 0.6;
         margin: 5px;
@@ -50,25 +72,30 @@
         border: 1px solid #FFF;
     }
 
-        #template-form-designer > form > div:hover {
+        #template-form-designer > form > div:hover
+        {
             border: 1px dashed#000000;
         }
 
-#add-field a {
+#add-field a
+{
     margin: 5px;
 }
 
-.ph {
+.ph
+{
     background-color: #FFFF99;
     border: 1px dashed#000000;
 }
 
-.form-element {
+.form-element
+{
     margin: 5px;
     padding: 5px;
 }
 
-.selected-form-element {
+.selected-form-element
+{
     margin: 5px;
     padding: 5px;
     -ms-opacity: 1.0 !important;
@@ -77,18 +104,21 @@
     position: relative;
 }
 
-    .selected-form-element label {
+    .selected-form-element label
+    {
         font-weight: bold;
         color: #000;
     }
 
-    .selected-form-element > section.btn-group {
+    .selected-form-element > section.btn-group
+    {
         position: absolute;
         top: 0%;
         left: 96%;
     }
 
-.container > .content {
+.container > .content
+{
     background-color: #fff;
     padding: 20px;
     margin: 0 -20px;
@@ -100,11 +130,13 @@
     box-shadow: 0 1px 2px rgba(0,0,0,.15);
 }
 
-.box {
+.box
+{
     margin-top: 200px;
 }
 
-.login {
+.login
+{
     background-image: url('/Images/background.png');
     width: 100%;
     height: 100%;
@@ -114,38 +146,46 @@
     z-index: -1;
 }
 
-.login-form {
+.login-form
+{
     margin-left: 65px;
 }
 
-legend {
+legend
+{
     margin-right: -50px;
     font-weight: bold;
     color: #404040;
 }
 
-#shell-logviewer-modal {
+#shell-logviewer-modal
+{
     width: 900px; /* SET THE WIDTH OF THE MODAL */
     margin: 20px 0 0 -450px; /* CHANGE MARGINS TO ACCOMODATE THE NEW WIDTH (original = margin: -250px 0 0 -280px;) */
 }
 
-    #shell-logviewer-modal .modal {
+    #shell-logviewer-modal .modal
+    {
         max-height: 800px;
     }
 
 
-header div.navbar-inner {
+header div.navbar-inner
+{
     padding-left: 0px;
 }
 
-header div.container {
+header div.container
+{
     padding-left: 0px;
     margin-left: 0px;
 }
 
-@media (max-height: 800px) {
+@media (max-height: 800px)
+{
 
-    .google-maps {
+    .google-maps
+    {
         min-height: 400px;
     }
 }

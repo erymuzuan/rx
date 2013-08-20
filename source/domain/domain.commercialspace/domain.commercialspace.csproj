@@ -134,6 +134,7 @@
     <Compile Include="Extension.cs" />
     <Compile Include="Floor.cs" />
     <Compile Include="FormTemplates\AddressElement.cs" />
+    <Compile Include="FormTemplates\BuildingElement.cs" />
     <Compile Include="FormTemplates\BuildingFloorsElement.cs" />
     <Compile Include="FormTemplates\BuildingMapElement.cs" />
     <Compile Include="FormTemplates\CheckBox.cs" />
