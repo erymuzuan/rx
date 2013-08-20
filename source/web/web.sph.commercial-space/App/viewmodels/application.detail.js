@@ -28,6 +28,25 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 tcs.resolve(true);
             });
             vm.rentalapplication().CommercialSpaceId(routeData.id);
+            if (!id) {
+
+                // build custom fields value
+                context.loadOneAsync("ApplicationTemplate", "ApplicationTemplateId eq 1" )
+                    .done(function(template) {
+                        var cfs = _(template.CustomFieldCollection()).map(function(f) {
+                            var webid = system.guid();
+                            var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
+                            v.Name(f.Name());
+                            v.Type(f.Type());
+                            return v;
+                        });
+
+                        vm.rentalapplication().CustomFieldValueCollection(cfs);
+
+                    });
+
+                vm.rentalapplication().TemplateId(1);
+            }
             var bank = new bespoke.sphcommercialspace.domain.Bank(system.guid());
             vm.rentalapplication().BankCollection.push(bank);
             return tcs.promise();
@@ -60,7 +79,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON(vm.rentalapplication());
             isBusy(true);
-            context.post(data, "/RentalApplication/Submit").done(function (e) {
+            context.post(data, "/RentalApplication/Submit")
+                .done(function (e) {
                 logger.log("Data has been successfully saved ", e, "rentalapplication", true);
                 isBusy(false);
                 registrationNo(e.registrationNo);
@@ -92,7 +112,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         viewAttached: viewAttached,
         configureUpload: configureUpload,
         stateOptions: ko.observableArray(),
-        rentalapplication: rentalApplication,
+        rentalapplication: ko.observable(new bespoke.sphcommercialspace.domain.RentalApplication()),
         commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         toolbar: ko.observable({
             reloadCommand: function () {

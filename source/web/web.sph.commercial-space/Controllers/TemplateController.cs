@@ -118,6 +118,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             vm.FormElements.Add(new AddressElement());
             vm.FormElements.Add(new RentalApplicationAttachmentsElement());
             vm.FormElements.Add(new RentalApplicationBanksElement());
+            vm.FormElements.Add(new RentalApplicationContactElement());
             return View(vm);
 
         }
