@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security;
 using System.Xml.Serialization;
 
 
@@ -21,6 +20,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [XmlInclude(typeof(ComplaintCategoryElement))]
     [XmlInclude(typeof(RentalApplicationBanksElement))]
     [XmlInclude(typeof(RentalApplicationAttachmentsElement))]
+    [XmlInclude(typeof(RentalApplicationContactElement))]
     [XmlInclude(typeof(CommercialSpaceLotsElement))]
     public partial class FormElement : DomainObject
     {

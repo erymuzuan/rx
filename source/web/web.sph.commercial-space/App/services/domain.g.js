@@ -271,6 +271,7 @@ bespoke.sphcommercialspace.domain.RentalApplication = function (webId) {
         AttachmentCollection: ko.observableArray([]),
         Offer: ko.observable(new bespoke.sphcommercialspace.domain.Offer()),
         CommercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
+        CustomFieldValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -331,11 +332,10 @@ bespoke.sphcommercialspace.domain.Contact = function (webId) {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Contact, domain.commercialspace",
         ContractId: ko.observable(0),
         Name: ko.observable(''),
-        IcNo: ko.observable(''),
-        Role: ko.observable(''),
         MobileNo: ko.observable(''),
         OfficeNo: ko.observable(''),
         Email: ko.observable(''),
+        IcNo: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1738,6 +1738,20 @@ bespoke.sphcommercialspace.domain.RentalApplicationAttachmentsElement = function
 
     if (bespoke.sphcommercialspace.domain.RentalApplicationAttachmentsElementPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.RentalApplicationAttachmentsElementPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.RentalApplicationContactElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.RentalApplicationContactElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.RentalApplicationContactElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.RentalApplicationContactElementPartial(v));
     }
     return v;
 };

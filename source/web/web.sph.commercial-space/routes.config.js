@@ -1,19 +1,5 @@
 [
   {
-    "role": "can_edit_payment",
-    "url": "rebate",
-    "moduleId": "viewmodels/rebate",
-    "name": "Senarai Rebat",
-    "visible": true,
-    "icon": "icon-usd",
-    "caption": "Rebat",
-    "settings": {
-      "caption": "Rebat"
-    },
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
     "role": null,
     "url": "public.index",
     "moduleId": "viewmodels/public.index",
@@ -50,7 +36,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "admin_dashboard",
     "url": "offerdetails/:rentalId/:csId",
     "moduleId": "viewmodels/offerdetails",
     "name": "Tawaran",
@@ -277,6 +263,20 @@
     "caption": "deposit",
     "settings": {
       "caption": "Senarai deposit"
+    },
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_payment",
+    "url": "rebate",
+    "moduleId": "viewmodels/rebate",
+    "name": "Senarai Rebat",
+    "visible": true,
+    "icon": "icon-usd",
+    "caption": "Rebat",
+    "settings": {
+      "caption": "Rebat"
     },
     "showWhenLoggedIn": false,
     "error": ""

@@ -1085,6 +1085,11 @@
     <Content Include="Views\App\EditorTemplates\BuildingElement.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\BuildingElement.cshtml" />
     <Content Include="Views\Template\EditorTemplates\BuildingElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\RentalApplicationContactElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\RentalApplicationContactElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\RentalApplicationAttachmentsElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\RentalApplicationBanksElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\RentalApplicationContactElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
