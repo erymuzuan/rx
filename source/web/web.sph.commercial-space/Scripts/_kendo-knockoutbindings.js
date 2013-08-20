@@ -469,8 +469,18 @@ ko.bindingHandlers.serverPaging = {
             list = value.list,
             $element = $(element),
             context = require('services/datacontext'),
-            pagerPanel = $('<div></div>'),
+            $pagerPanel = $('<div></div>'),
+            $spinner = $('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />'),
+            startLoad = function () {
+                $spinner.show();
+                $element.fadeTo("fast",0.33);
+            },
+            endLoad = function () {
+                $spinner.hide();
+                $element.fadeTo("fast",1);
+            },
             changed = function (page, size) {
+                startLoad();
                 context.loadAsync({
                     entity: entity,
                     page: page,
@@ -479,12 +489,12 @@ ko.bindingHandlers.serverPaging = {
                 }, query)
                      .then(function (lo) {
                          list(lo.itemCollection);
+                         endLoad();
                      });
             };
 
-        $element.after(pagerPanel);
-
-
+        $element.after($pagerPanel).after($spinner)
+            .fadeTo("slow",0.33);
 
         var tcs = new $.Deferred();
         context.loadAsync({
@@ -496,7 +506,7 @@ ko.bindingHandlers.serverPaging = {
             .then(function (lo) {
 
                 var options = {
-                    element: pagerPanel,
+                    element: $pagerPanel,
                     count: lo.rows,
                     changed: changed
                 },
@@ -504,6 +514,7 @@ ko.bindingHandlers.serverPaging = {
                 console.log(pager);
                 list(lo.itemCollection);
                 tcs.resolve(true);
+                endLoad();
             });
         return tcs.promise();
 
