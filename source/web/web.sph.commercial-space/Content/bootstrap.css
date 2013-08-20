@@ -223,7 +223,7 @@ textarea {
 
 body {
   margin: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Segoe UI", "Segoe UI Web Regular", "Segoe UI Symbol", "Helvetica Neue", "BBAlpha Sans", "S60 Sans", Arial, "sans-serif";
   font-size: 14px;
   line-height: 20px;
   color: #333333;
@@ -1065,7 +1065,6 @@ input,
 button,
 select,
 textarea {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 label {
@@ -4519,7 +4518,6 @@ input[type="submit"].btn.btn-mini {
 .navbar-search .search-query {
   padding: 4px 14px;
   margin-bottom: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
   font-weight: normal;
   line-height: 1;
@@ -6100,8 +6098,7 @@ a.badge:focus {
   bottom: 0;
   left: 0;
   padding: 15px;
-  background: #333333;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgb(0, 114, 197);
 }
 
 .carousel-caption h4,

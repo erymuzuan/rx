@@ -13,8 +13,6 @@ namespace web.test
         const string SphDatabase = "sph";
         const string BuildingName = "Damansara Utama Uptown Block A";
 
-
-
         [Test]
         public void AddBuildingAndNavigateToLots()
         {

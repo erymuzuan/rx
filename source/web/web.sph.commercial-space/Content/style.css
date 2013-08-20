@@ -4,7 +4,7 @@
 	box-shadow: none !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false) !important;
 	text-shadow: none !important;
-	font-family: "Open Sans", Arial, Helvetica, sans-serif;
+	font-family: "Segoe UI", "Segoe UI Web Regular", "Segoe UI Symbol", "Helvetica Neue", "BBAlpha Sans", "S60 Sans", Arial, "sans-serif";
 	font-weight: 400;
 }
 
@@ -13,13 +13,12 @@
 }
 
 form *{
-	font-family: "Open Sans", Arial, Helvetica, sans-serif;
+	font-family: "Segoe UI", "Segoe UI Web Regular", "Segoe UI Symbol", "Helvetica Neue", "BBAlpha Sans", "S60 Sans", Arial, "sans-serif";
 }
 
 input, textarea{
 	background-image: none !important;
 	border: 1px solid #ccc !important;
-	font-family: "Open Sans", Arial, Helvetica, sans-serif !important;
 }
 
 select{
@@ -35,7 +34,6 @@ input[type="radio"], input[type="checkbox"] {
 
 .btn{
 	background-image: none !important;
-	font-family: "Open Sans", Arial, Helvetica, sans-serif;
 }
 
 .btn.btn-mini{
@@ -186,7 +184,7 @@ a.btn{
 }
 
 .btn.btn-info{
-	background: #52b9e9 !important;
+	background: #0072c5 !important;
 }
 
 .btn.btn-info:hover{
@@ -1579,7 +1577,6 @@ border:1px solid #eee;
     box-shadow: 0 1px 10px #222222;
     color: #F7F7F7;
     display: block;
-    font-family: "museo-sans","Museo Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 700;
     padding: 0.25em 1em;
     position: fixed;
@@ -1615,7 +1612,6 @@ footer.main {
 }
 .jPanelMenu header.main .logo {
     float: none;
-    font-family: "museo-sans","Museo Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 700;
     margin: 0 auto;
     width: 60%;
@@ -1674,7 +1670,6 @@ footer.main {
     border-top: 1px solid #484848;
     color: #F7F7F7;
     display: block;
-    font-family: "museo-sans","Museo Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 700;
     padding: 0.5em 5%;
     text-decoration: none;
