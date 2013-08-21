@@ -43,7 +43,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var org = JsonConvert.DeserializeObject<Organization>(setting.Value);
             var contract = new Contract
                 {
-                    Title = string.Format("Kontrak sewaan dengan {0} dan {1}", app.CompanyName, org.Name),
+                    Title = string.Format("Kontrak sewaan {0} dan {1}", app.CompanyName ?? app.Contact.Name, org.Name),
                     ReferenceNo = string.Format("BSPB/2013/{0}", app.RegistrationNo),
                     Date = DateTime.Now,
                     InterestRate = template.InterestRate,
