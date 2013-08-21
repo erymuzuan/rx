@@ -460,6 +460,8 @@
     <Content Include="Images\Adobe-Acrobat.png" />
     <Content Include="Images\background.png" />
     <Content Include="Images\blank.png" />
+    <Content Include="Images\box-1-white.png" />
+    <Content Include="Images\box-3-white.png" />
     <Content Include="Images\constantfield.png" />
     <Content Include="Images\courts.png" />
     <Content Include="Images\documentfield.png" />
