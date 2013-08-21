@@ -562,7 +562,6 @@
     <Content Include="App\viewmodels\building.bound.js" />
     <Content Include="App\viewmodels\building.detail.js" />
     <Content Include="App\viewmodels\commercialspace.js" />
-    <Content Include="App\viewmodels\commercialspacedetail.js" />
     <Content Include="App\viewmodels\complaint.form.js" />
     <Content Include="App\viewmodels\complaint.js" />
     <Content Include="App\viewmodels\contract.create.js" />
