@@ -396,6 +396,7 @@
     <Content Include="App\viewmodels\land.detail.js" />
     <Content Include="App\viewmodels\land.list.js" />
     <Content Include="App\viewmodels\message.inbox.js" />
+    <Content Include="App\viewmodels\reportbuilder.js" />
     <Content Include="App\viewmodels\template.commercialspace.js" />
     <Content Include="App\viewmodels\template.application.js" />
     <Content Include="App\viewmodels\maintenance.form.js" />
@@ -439,6 +440,7 @@
     <Content Include="App\views\message.inbox.html" />
     <Content Include="App\views\messages.html" />
     <Content Include="App\views\public.index.html" />
+    <Content Include="App\views\reportbuilder.html" />
     <Content Include="App\views\search.html" />
     <Content Include="App\views\trigger.list.html" />
     <Content Include="App\views\_complaint.details.html" />

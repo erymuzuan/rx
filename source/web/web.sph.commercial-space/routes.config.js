@@ -746,5 +746,17 @@
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": "admin_dashboard",
+    "url": "reportbuilder",
+    "moduleId": "viewmodels/reportbuilder",
+    "name": "Report Builder",
+    "visible": true,
+    "icon": "icon-laptop",
+    "caption": "Janaan Laporan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
   }
 ]
