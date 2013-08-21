@@ -467,6 +467,8 @@
     <Content Include="Images\hotel.png" />
     <Content Include="Images\kuarters.png" />
     <Content Include="Images\logo.png" />
+    <Content Include="Images\logoSPH.png" />
+    <Content Include="Images\logo_sph.png" />
     <Content Include="Images\office.png" />
     <Content Include="Images\offices.png" />
     <Content Include="Images\pic1.png" />

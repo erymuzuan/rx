@@ -130,11 +130,6 @@
     box-shadow: 0 1px 2px rgba(0,0,0,.15);
 }
 
-.box
-{
-    margin-top: 200px;
-}
-
 .login-slider
 {
    
@@ -183,7 +178,44 @@ header div.container
     margin-left: 0px;
 }
 
+.heading-success {
+    border-bottom: 1px solid #7cbb00;
+    font-weight: 400;
+}
 
+
+
+.box {
+text-align: center;
+}
+
+.well-primary, .carousel-caption.primary {
+     background: #0096e1;
+    color: #fff;
+}
+
+.well {
+    border: none;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.well-primary:hover {
+    background: #0096e1;
+}
+
+.well-success:hover {
+    background: #78b500;
+}
+
+.well-success, .carousel-caption.success {
+background: #7cbb00;
+color: #fff;
+}
 .carousel h2 {
     color: #fff;
 }
