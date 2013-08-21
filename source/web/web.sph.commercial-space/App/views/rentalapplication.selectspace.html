@@ -3,44 +3,26 @@
         <h1>Bangunan Untuk Disewa</h1>
     </div>
 </section>
-<section class="span5">
 
-    <div class="labelLeft">
-        <label>Negeri:</label>
-        <select data-bind="options: stateOptions, value: selectedState, optionsCaption: '[Sila Pilih]', optionsText: 'Name', optionsValue: 'Name'">
-        </select>
-    </div>
-    <div class="labelLeft" data-bind="with: buildingOptions">
-        <label>Building:</label>
-        <select name="building" data-bind="options: $data, optionsText: 'Item2', optionsValue: 'Item1', value: $parent.selectedBuildingId, optionsCaption: '[Sila Pilih]'"></select>
-    </div>
-    <div class="labelLeft" data-bind="with: categoryOptions">
-        <label>Jenis Perniagaan:</label>
-        <select name="category" data-bind="options: $data, optionsText: 'Name', optionsValue: 'Name', value: $parent.selectedCategory, optionsCaption: '[Sila Pilih]'"></select>
-    </div>
-    <div>
-        <button class="btn btn-primary" id="apply-rent-button" value="Carian" data-bind="click: searchCommand">Carian</button>
-    </div>
+<section id="building-list" class="span7" data-bind="foreach: items">
 
-</section>
-<section id="building-list" class="span7" data-bind="foreach: commercialspaces">
+    <h2 data-bind="text: name"></h2>
+    <h2 data-bind="text: id"></h2>
 
+    <!-- ko foreach : spaces -->
     <div class="metro tile">
         <article class="tile">
             <div>
-                <span data-bind="text: BuildingName"></span>,
-                <span data-bind="text: FloorName"></span>,
-                <span data-bind="text: Category"></span>
-                RM<span data-bind="money: RentalRate"></span>
+                <h3 data-bind="text: RegistrationNo"></h3>
 
-                <div id="div-building" class="span12">
-                    <span class="span12">
-                        <img src="../Content/images/icon.png" width="60" height="60" alt="">
+                <div id="div-building">
+                    <span>
+                        <img src="/Content/images/icon.png" width="60" height="60" alt="">
                         <span>
                             <span>Size: <span data-bind="text: Size"></span></span>
                         </span>
                         <span>
-                            <input type="button" class="btn btn-mini" data-bind="click: $parent.applyCommercialSpaceCommand" value="Mohon Sewa" />
+                            <a data-bind="attr: { href: '/#/application.detail-templateid.' + $parents[0].id + '/' + CommercialSpaceId() }">Mohon Sewa</a>
                         </span>
                     </span>
 
@@ -49,5 +31,6 @@
             </div>
         </article>
     </div>
+    <!-- /ko -->
 
 </section>

@@ -20,7 +20,7 @@
             toolbar : {
                 addNew : {
                     location: '/#/template.building-id.0/0',
-                    caption : 'Tambah Template bangunan'
+                    caption : 'Tambah Template Bangunan'
                 }
             }
         };

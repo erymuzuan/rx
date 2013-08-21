@@ -10,55 +10,65 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 
-define(['services/datacontext', 'services/logger', './_commercialspace.contract'], function (context, logger, contractlistvm) {
+define(['services/datacontext', 'services/logger', './_commercialspace.contract', 'durandal/system'], function (context, logger, contractlistvm,system) {
 
     var title = ko.observable(),
-        buildingId = ko.observable(),
+        template = ko.observable(),
         selectedBuilding = {},
         isBusy = ko.observable(false),
         activate = function (routeData) {
-            buildingId(parseInt(routeData.buildingId));
+            vm.commercialSpace().BuildingId(parseInt(routeData.buildingId));
+            var templateId = parseInt(routeData.templateId);
             title('Tambah ruang komersil');
-            
-            var tcs = new $.Deferred();
-            context.loadOneAsync("Setting", "Key eq 'Categories'").done(function (s) {
-                s = s || {};
-                var value = s.Value || "[]";
-                var categories = JSON.parse(ko.mapping.toJS(value));
-                vm.categoryOptions(categories);
-                tcs.resolve(true);
-            });
-            
-            if (buildingId()) {
-                var query = String.format("CommercialSpaceId eq {0} ", routeData.csId);
-                context.loadOneAsync("CommercialSpace", query)
-                    .done(function (cs) {
-                        if (!cs) {
-                            tcs.resolve(true);
-                            return;
-                        }
+
+            var tcs = new $.Deferred(),
+                templateTask = context.loadOneAsync("CommercialSpaceTemplate", "CommercialSpaceTemplateId eq " + templateId),
+                buildingTask = context.getTuplesAsync("Building", "BuildingId gt 0", "BuildingId", "Name"),
+                csTask = context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + routeData.csId);
+
+
+            $.when(templateTask, buildingTask, csTask)
+                .done(function (tpl) {
+                    template(tpl);
+                    var cfs = _(tpl.CustomFieldCollection()).map(function (f) {
+                        var webid = system.guid();
+                        var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
+                        v.Name(f.Name());
+                        v.Type(f.Type());
+                        return v;
+                    });
+
+                    vm.commercialSpace().CustomFieldValueCollection(cfs);
+                })
+                .done(function (a, list) {
+                    vm.buildingOptions(_(list).sortBy(function (bd) {
+                        return bd.Item2;
+                    }));
+                })
+                .done(function(a, b, cs) {
+                    if (!cs) {
+                        cs = new bespoke.sphcommercialspace.domain.CommercialSpace();
+                        cs.TemplateId(templateId);
+                        
                         vm.commercialSpace(cs);
-                        title('Maklumat ruang komersil ' + cs.RegistrationNo());
-                        contractlistvm.activate(routeData)
-                            .then(function () {
-                                tcs.resolve(true);
-                            });
-
-                    });
-
-            } else {
-                vm.commercialSpace(new bespoke.sphcommercialspace.domain.CommercialSpace());
-                context.getTuplesAsync("Building", "BuildingId gt 0", "BuildingId", "Name")
-                    .then(function (list) {
-                        vm.buildingOptions(_(list).sortBy(function (b) {
-                            return b.Item2;
-                        }));
-                        tcs.resolve(true);
-                    });
-            }
-
-
+                        
+                        return;
+                    }
+                    vm.commercialSpace(cs);
+                    title('Maklumat ruang komersil ' + cs.RegistrationNo());
+                    contractlistvm.activate(routeData)
+                        .then(function () {
+                            tcs.resolve(true);
+                        });
+                })
+                .done(function() {
+                    tcs.resolve();
+                });
+            
             return tcs.promise();
+        },
+        viewAttached = function (view) {
+            $(view).tooltip({ 'placement': 'right' });
         },
         saveCs = function () {
             var tcs = new $.Deferred();
@@ -93,15 +103,15 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
     var vm = {
         activate: activate,
         title: title,
-        commercialSpace: ko.observable(),
+        viewAttached: viewAttached,
+        commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         buildingOptions: ko.observableArray(),
         floorOptions: ko.observableArray(),
         lotOptions: ko.observableArray(),
-        categoryOptions: ko.observableArray([]),
         selectedBuilding: ko.observable(),
         selectedFloor: ko.observable(),
         selectedLots: ko.observableArray(),
-        toolbar : {
+        toolbar: {
             saveCommand: saveCs
         },
         selectLotCommand: selectLot,
@@ -121,8 +131,6 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
                 vm.isBusy(false);
                 selectedBuilding = b;
             });
-
-
     });
     vm.selectedFloor.subscribe(function (floor) {
         var building = ko.mapping.toJS(selectedBuilding);

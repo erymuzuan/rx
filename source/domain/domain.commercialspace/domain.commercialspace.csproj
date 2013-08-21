@@ -38,9 +38,28 @@
     <AssemblyOriginatorKeyFile>test.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.Core.1.1.3\lib\net40\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Owin">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.Owin.1.1.3\lib\net45\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.SystemWeb.1.1.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\..\..\packages\Microsoft.Owin.Host.SystemWeb.1.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="Spring.Core">
       <HintPath>..\..\..\packages\Spring.Core.2.0.0-M2\lib\net40\Spring.Core.dll</HintPath>
@@ -50,7 +69,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Spatial, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Spatial, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\System.Spatial.5.5.0\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
@@ -73,7 +92,6 @@
     <Compile Include="BoundedContextAttribute.cs" />
     <Compile Include="Building.cs" />
     <Compile Include="BuildingTemplate.cs" />
-    <Compile Include="Change.cs" />
     <Compile Include="ChangeSubmission.cs" />
     <Compile Include="Clause.cs" />
     <Compile Include="Comment.cs" />
@@ -113,18 +131,25 @@
     <Compile Include="DocumentVersion.cs" />
     <Compile Include="EmailMessage.cs" />
     <Compile Include="EntityTypeAttribute.cs" />
+    <Compile Include="Extension.cs" />
     <Compile Include="Floor.cs" />
     <Compile Include="FormTemplates\AddressElement.cs" />
+    <Compile Include="FormTemplates\BuildingElement.cs" />
     <Compile Include="FormTemplates\BuildingFloorsElement.cs" />
     <Compile Include="FormTemplates\BuildingMapElement.cs" />
     <Compile Include="FormTemplates\CheckBox.cs" />
     <Compile Include="FormTemplates\ComboBox.cs" />
     <Compile Include="FormTemplates\ComboBoxItem.cs" />
+    <Compile Include="FormTemplates\CommercialSpaceLotsElement.cs" />
+    <Compile Include="FormTemplates\ComplaintCategoryElement.cs" />
     <Compile Include="FormTemplates\DatePicker.cs" />
     <Compile Include="FormTemplates\EmailFormElement.cs" />
     <Compile Include="FormTemplates\FormDesign.cs" />
     <Compile Include="FormTemplates\FormElement.cs" />
     <Compile Include="FormTemplates\NumberTextBox.cs" />
+    <Compile Include="FormTemplates\RentalApplicationAttachmentsElement.cs" />
+    <Compile Include="FormTemplates\RentalApplicationBanksElement.cs" />
+    <Compile Include="FormTemplates\RentalApplicationContactElement.cs" />
     <Compile Include="FormTemplates\SectionFormElement.cs" />
     <Compile Include="FormTemplates\TextAreaElement.cs" />
     <Compile Include="FormTemplates\TextBox.cs" />
@@ -156,6 +181,7 @@
     <Compile Include="Land.cs" />
     <Compile Include="Maintenance.cs" />
     <Compile Include="MaintenanceTemplate.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="NonCompliance.cs" />
     <Compile Include="Offer.cs" />
     <Compile Include="OfferCondition.cs" />
@@ -167,6 +193,7 @@
     <Compile Include="Permission.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="QueryHelper.cs" />
+    <Compile Include="Termination.cs" />
     <Compile Include="Triggers\Action.cs" />
     <Compile Include="Triggers\ConstantField.cs" />
     <Compile Include="Triggers\DocumentField.cs" />
@@ -223,6 +250,11 @@
     <Content Include="Schema\ReferenceObject.xslt">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.4.js" />
+    <Content Include="Scripts\jquery-1.6.4.min.js" />
+    <Content Include="Scripts\jquery.signalR-1.1.3.js" />
+    <Content Include="Scripts\jquery.signalR-1.1.3.min.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

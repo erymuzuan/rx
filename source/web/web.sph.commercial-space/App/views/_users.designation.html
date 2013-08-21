@@ -1,23 +1,25 @@
-﻿<section>
-    <a href="/#/role.settings/0" class="btn btn-primary">+ Jawatan</a>
-<div>
-    <table class="table table-striped">
+﻿<div class="row-fluid">
+    <div>
+        <a href="/#/role.settings/0" class="pull-right">
+            <br/><br/><img data-bind="attr: { src: '/Images/add_icon.png' }" src="/Images/add_icon.png" alt="Tambah Jawatan" title="Tambah Jawatan"/>
+        </a>
+    </div>
+    
+    <table class="table table-striped row-fluid" data-bind="filter: { path: 'table>tbody>tr' }">
         <thead>
             <tr>
                 <th>Jawatan</th>
                 <th>Peranan</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach :designationCollection">
+        <tbody data-bind="foreach: designationCollection">
             <tr>
                 <td>
-                    <a data-bind="attr : {href:'/#/role.settings/' + DesignationId()},text: Name"></a>
+                    <a data-bind="attr: { href: '/#/role.settings/' + DesignationId() }, text: Name"></a>
                 </td>
-                <td data-bind="text:Description">
-                     
-                </td>
+                <td data-bind="text: Description"></td>
             </tr>
         </tbody>
-    </table></div>
-    <input type="button" class="btn btn-primary" data-bind="command : saveCommand" value="Simpan" />
-</section>
+    </table>
+    
+</div>

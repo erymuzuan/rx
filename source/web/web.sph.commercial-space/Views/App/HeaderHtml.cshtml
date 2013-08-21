@@ -20,7 +20,7 @@
                 <span class="icon-bar"></span>
             </a>
             <!-- Site name for smallar screens -->
-            <a href="#" class="brand">Sistem Pengurusan <span class="bold">Ruang Komersil</span></a>
+            <a href="#" class="brand">Sistem Pengurusan <span class="bold">Harta</span></a>
 
             <!-- Navigation starts -->
             <div class="nav-collapse collapse">
@@ -29,62 +29,21 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <!-- Links -->
-                <ul class="nav pull-right">
-                    <li class="dropdown pull-right">
-                        <a id="user-profile" data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img src="/Images/user_24_white.png" alt="" class="nav-user-pic">
-                            @User.Identity.Name <b class="caret"></b>
-                        </a>
-                        <!-- Dropdown menu -->
-                        <ul class="dropdown-menu">
-                            <li><a href="#/user.profile"><i class="icon-user"></i>Profile</a></li>
-                            <li><a href="#/user.setting"><i class="icon-cogs"></i>Settings</a></li>
-                            <li><a href="@Url.Action("Logoff", "Account")"><i class="icon-off"></i>Logout</a></li>
-                        </ul>
-                    </li>
-
-                </ul>
-
+                    <div class="btn-group pull-right">
+                      <button id="" type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+                          <img src="/Images/user_24_white.png" alt="" class="nav-user-pic"> @User.Identity.Name 
+                          <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                         <li><a href="#/user.profile"><i class="icon-user"></i>Profile</a></li>
+                         <li><a href="#/user.setting"><i class="icon-cogs"></i>Settings</a></li>
+                         <li><a href="@Url.Action("Logoff", "Account")"><i class="icon-off"></i>Logout</a></li>
+                      </ul>
+                    </div>
                 <!-- Notifications -->
                 <ul class="nav pull-right">
 
-                    <!-- Comment button with number of latest comments count -->
-                    <li class="dropdown dropdown-big">
-                        <a id="application-menu" class="dropdown-toggle" href="#" data-toggle="dropdown">
-                            <i class="icon-comments"></i>Permohonan <span class="badge badge-info">6</span>
-                        </a>
-
-                        <ul class="dropdown-menu">
-                            <li>
-                                <!-- Heading - h5 -->
-                                <h5><i class="icon-comments"></i>Chats</h5>
-                                <!-- Use hr tag to add border -->
-                                <hr>
-                            </li>
-                            <li>
-                                <!-- List item heading h6 -->
-                                <a href="#">Hi :)</a> <span class="label label-warning pull-right">10:42</span>
-                                <div class="clearfix"></div>
-                                <hr>
-                            </li>
-                            <li>
-                                <a href="#">How are you?</a> <span class="label label-warning pull-right">20:42</span>
-                                <div class="clearfix"></div>
-                                <hr>
-                            </li>
-                            <li>
-                                <a href="#">What are you doing?</a> <span class="label label-warning pull-right">14:42</span>
-                                <div class="clearfix"></div>
-                                <hr>
-                            </li>
-                            <li>
-                                <div class="drop-foot">
-                                    <a href="#">View All</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-
+                 
                     
                     <!-- ko compose : 'viewmodels/messages' -->
                     <!-- /ko -->

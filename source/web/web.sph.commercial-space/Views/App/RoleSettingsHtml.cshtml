@@ -4,19 +4,21 @@
     Layout = null;
 }
 
-<h1>Maklumat Jawatan</h1>
+<h1 class="row-fluid">Maklumat Jawatan</h1>
 <form class="form-horizontal" data-bind="with: designation">
+    
+  
     <div class="control-group">
         <label for="Name" class="control-label">Nama jawatan</label>
         <div class="controls">
-            <input data-bind="value: Name" id="Name" type="text" name="Name" />
+            <input class="input-xxlarge" data-bind="value: Name" id="Name" type="text" name="Name" />
         </div>
     </div>
 
     <div class="control-group">
         <label for="description" class="control-label">Keterangan</label>
         <div class="controls">
-            <textarea data-bind="value: Description" id="description" name="description"></textarea>
+            <textarea class="input-xxlarge" rows="8" data-bind="value: Description" id="description" name="description"></textarea>
         </div>
     </div>
 
@@ -32,22 +34,29 @@
             </select>
         </div>
     </div>
-    @foreach (var r in Model.Roles)
-    {
-        <div class="control-group span6">
-            <div class="controls">
-                <label class="checkbox">
-                    <input data-bind="checked: RoleCollection" value="@r.Role" 
-                           type="checkbox" 
-                           name="role" />
-                    @r.Name
-                </label>
-                <span class="help-block">@r.Description</span>
+
+    <div class="control-group">
+        <span>Sila <i class="icon-ok"></i>bagi menetapkan kebenaran akses bagi jawatan yang ingin didaftarkan</span>
+    </div>
+
+    <div data-bind="filter: { path: 'div' }">
+        @foreach (var r in Model.Roles)
+        {
+        
+            <div class="control-group">
+                <div class="controls">
+                    <label class="checkbox">
+                        <input data-bind="checked: RoleCollection" value="@r.Role" 
+                               type="checkbox" 
+                               name="role" />
+                        @r.Name
+
+                    </label>
+                    @*  *@ <span class="help-block"><strong>Keterangan: </strong>@r.Description</span>
+                </div>
             </div>
-        </div>
-    }
+        }
+
+    </div>
 </form>
-<div class="span4 pull-right">
-    <input id="save-button" type="button" class="btn btn-primary" value="SIMPAN" data-bind="command: saveCommand" data-loading-text="Sila tunggu..." data-complete-text="Siap" />
-</div>
 

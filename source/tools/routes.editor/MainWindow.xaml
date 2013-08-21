@@ -19,7 +19,7 @@
             </Style>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid d:DataContext="{d:DesignInstance vm:MainViewModel}" >
+    <Grid d:DataContext="{d:DesignInstance vm:MainViewModel}" Background="#FF1C1C1C" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

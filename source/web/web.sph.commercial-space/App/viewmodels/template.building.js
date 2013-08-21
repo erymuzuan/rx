@@ -10,8 +10,8 @@
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
 
-define(['services/datacontext', 'durandal/system', './template.base'],
-    function (context, system, templateBase) {
+define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger'],
+    function (context, system, templateBase, eximp, logger) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -51,19 +51,19 @@ define(['services/datacontext', 'durandal/system', './template.base'],
                                 // add isSelected for the designer
                                 fe.isSelected = ko.observable(false);
                             });
-                            vm.buildingTemplate(b);
-                            templateBase.designer(vm.buildingTemplate().FormDesign());
+                            vm.template(b);
+                            templateBase.designer(vm.template().FormDesign());
                             tcs.resolve(true);
                         });
 
                     return tcs.promise();
                 } else {
-                    vm.buildingTemplate(new bespoke.sphcommercialspace.domain.BuildingTemplate());
+                    vm.template(new bespoke.sphcommercialspace.domain.BuildingTemplate());
 
-                    vm.buildingTemplate().FormDesign().Name("My form 1");
-                    vm.buildingTemplate().FormDesign().Description("Do whatever it takes");
+                    vm.template().FormDesign().Name("My form 1");
+                    vm.template().FormDesign().Description("Do whatever it takes");
 
-                    templateBase.designer(vm.buildingTemplate().FormDesign());
+                    templateBase.designer(vm.template().FormDesign());
                     return true;
                 }
 
@@ -77,8 +77,8 @@ define(['services/datacontext', 'durandal/system', './template.base'],
                 var elements = _($('#template-form-designer>form>div')).map(function (div) {
                     return ko.dataFor(div);
                 });
-                vm.buildingTemplate().FormDesign().FormElementCollection(elements);
-                var data = ko.mapping.toJSON(vm.buildingTemplate);
+                vm.template().FormDesign().FormElementCollection(elements);
+                var data = ko.mapping.toJSON(vm.template);
 
                 context.post(data, "/Template/SaveBuildingTemplate")
                     .then(function (result) {
@@ -86,15 +86,32 @@ define(['services/datacontext', 'durandal/system', './template.base'],
                         tcs.resolve(result);
                     });
                 return tcs.promise();
-            };
+            },
+            
+            exportTemplate = function () {
+                return eximp.exportJson("template.building." + vm.template().BuildingTemplateId() + ".json", ko.mapping.toJSON(vm.template));
+            },
+
+            importTemplateJson = function () {
+                 return eximp.importJson()
+                     .done(function (json) {
+                         try {
+                             vm.template(ko.mapping.fromJSON(json));
+                             vm.template().BuildingTemplateId(0);
+                         } catch(error) {
+                             logger.logError('Fail template import tidak sah', error, this, true);
+                         }
+                     });
+             };
 
         var vm = {
             activate: activate,
             viewAttached: templateBase.viewAttached,
-            buildingTemplate: ko.observable(new bespoke.sphcommercialspace.domain.BuildingTemplate()),
-
+            template: ko.observable(new bespoke.sphcommercialspace.domain.BuildingTemplate()),
             toolbar: {
-                saveCommand: save
+                saveCommand: save,
+                exportCommand: exportTemplate,
+                importCommand: importTemplateJson
             },
             customFormElements: templateBase.customFormElements,
             formElements: templateBase.formElements,
@@ -102,6 +119,8 @@ define(['services/datacontext', 'durandal/system', './template.base'],
             selectedFormElement: templateBase.selectedFormElement,
             removeFormElement: templateBase.removeFormElement,
             removeComboBoxOption: templateBase.removeComboBoxOption,
+            selectPathFromPicker: templateBase.selectPathFromPicker,
+            showPathPicker: templateBase.showPathPicker,
             addComboBoxOption: templateBase.addComboBoxOption
         };
 

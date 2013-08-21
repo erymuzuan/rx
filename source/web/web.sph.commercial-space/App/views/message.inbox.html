@@ -1,0 +1,19 @@
+﻿<div>
+    <h1>Messages</h1>
+    <table data-bind="filter: { path: 'tbody>tr' }">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Tarik</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: messages">
+            <tr>
+                <td>
+                    <a data-bind="attr: { href: '/#/message.detail/' + MessageId() }, text: Subject"></a>
+                </td>
+                <td data-bind2="date: CreatedDate"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

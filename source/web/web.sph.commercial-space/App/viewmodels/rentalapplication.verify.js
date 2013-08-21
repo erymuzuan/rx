@@ -23,6 +23,15 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id())
                 .then(function (r) {
                     vm.rentalapplication(r);
+
+                    lulusPermohonanCommandStatus(r.Status() == "Menunggu" || r.Status() == "Dikembalikan");
+                    baruCommandStatus(r.Status() == "Baru");
+                    dibatalkanCommandStatus(r.Status() == "Baru" || r.Status() == "Dikembalikan");
+                    diluluskanCommandStatus(r.Status() == "Diluluskan");
+                    ditolakCommandStatus(r.Status() == "Ditolak");
+                    selesaiCommandStatus(r.Status() == "Selesai");
+                    menungguCommandStatus(r.Status() == "Menunggu");
+
                     context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + vm.rentalapplication().CommercialSpaceId())
                         .then(function (b) {
                             vm.commercialSpace(b);
@@ -81,8 +90,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             var note = ko.mapping.toJS(vm.rentalapplication().Remarks());
             var data = JSON.stringify({ id: id(), attachments: attachments, note: note });
             context.post(data, "/RentalApplication/Update").done(function () {
-                var url = '/#/rentalapplication.verify/' + id();
-                router.navigateTo(url);
                 tcs.resolve(true);
             });
             return tcs.promise();
@@ -94,6 +101,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             context.post(data, "/RentalApplication/Declined").done(function (e) {
                 logger.log("Application has been declined ", e, "rentalapplication.verify", true);
                 tcs.resolve(true);
+                var url = '/#/admindashboard';
+                router.navigateTo(url);
             });
             return tcs.promise();
         },
@@ -104,17 +113,16 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             context.post(data, "/RentalApplication/Approved").done(function (r) {
                 logger.log(r.message, r.message, "rentalapplication.verify", true);
                 if (r.result) {
-                    vm.rentalapplication().Status('Approved');
+                    vm.rentalapplication().Status('Diluluskan');
+                }
+                tcs.resolve(true);
+                if (result) {
+                    var url = '/#/admindashboard';
+                    router.navigateTo(url);
                 }
 
-                tcs.resolve(true);
             });
             return tcs.promise();
-        },
-
-        generateOfferLetter = function () {
-            var url = '/#/offerdetails/' + vm.rentalapplication().RentalApplicationId() + '/' + vm.rentalapplication().CommercialSpaceId();
-            router.navigateTo(url);
         },
 
         generateDeclinedOfferLetter = function () {
@@ -163,7 +171,15 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
 
         printList = function () { },
 
-        exportList = function () { }
+        exportList = function () { },
+
+        lulusPermohonanCommandStatus = ko.observable(),
+        baruCommandStatus = ko.observable(),
+        dibatalkanCommandStatus = ko.observable(),
+        diluluskanCommandStatus = ko.observable(),
+        ditolakCommandStatus = ko.observable(),
+        selesaiCommandStatus = ko.observable(),
+        menungguCommandStatus = ko.observable()
 
     ;
 
@@ -189,71 +205,79 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             commands: ko.observableArray([
                 {
                     caption: 'Kemaskini',
-                    icon: "icon-eraser ",
+                    icon: 'icon-eraser',
                     command: update,
-                    status: 'none'
                 },
                 {
                     caption: 'Masuk Senarai Menunggu',
-                    icon: "icon-reorder ",
+                    icon: 'icon-reorder',
                     command: waitingList,
-                    status: 'rentalapplication().Status() == "Baru"'
+                    visible: baruCommandStatus
                 },
                 {
                     caption: 'Kembalikan',
-                    icon: "icon-reply ",
+                    icon: 'icon-reply',
                     command: returned,
-                    status: 'rentalapplication().Status() == "Baru"'
+                    visible: baruCommandStatus
                 },
                 {
                     caption: 'Batalkan',
-                    icon: "icon-remove-sign ",
+                    icon: 'icon-remove-sign',
                     command: decline,
-                    status: 'rentalapplication().Status() == "Baru" || rentalapplication().Status() == "Dikembalikan"'
+                    visible: dibatalkanCommandStatus
                 },
                 {
                     caption: 'Luluskan',
-                    icon: "icon-ok ",
+                    icon: 'icon-ok',
                     command: approve,
-                    status: 'rentalapplication().Status() == "Menunggu" || rentalapplication().Status() == "Dikembalikan"'
+                    visible: lulusPermohonanCommandStatus
                 },
                 {
+
                     caption: '1. Sediakan Tawaran',
-                    icon: "icon-file-text ",
-                    command: generateOfferLetter,
-                    status: 'rentalapplication().Status() == "Diluluskan"'
+                    icon: 'icon-file-text',
+                    command: function () {
+                        router.navigateTo('/#/offerdetails/' + vm.rentalapplication().RentalApplicationId() + '/' + vm.rentalapplication().CommercialSpaceId());
+                        return {
+                            then: function () { }
+                        };
+                    },
+                    visible: diluluskanCommandStatus
                 },
                 {
                     caption: '2. Sediakan Kontrak',
-                    icon: "icon-file-text ",
+                    icon: 'icon-file-text',
                     command: function () {
                         router.navigateTo("/#/contract.create/" + vm.rentalapplication().RentalApplicationId());
+                        return {
+                            then: function () { }
+                        };
                     },
-                    status: 'rentalapplication().Status() == "Diluluskan"'
+                    visible: diluluskanCommandStatus
                 },
                 {
                     caption: '3. Selesai',
-                    icon: "icon-file-text ",
+                    icon: 'icon-file-text',
                     command: complete,
-                    status: 'rentalapplication().Status() == "Diluluskan"'
+                    visible: diluluskanCommandStatus
                 },
                 {
                     caption: 'Cetak Surat Pembatalan',
-                    icon: "icon-file-text ",
+                    icon: 'icon-file-text',
                     command: generateDeclinedOfferLetter,
-                    status: 'rentalapplication().Status() == "Ditolak"'
+                    visible: ditolakCommandStatus
                 },
                 {
                     caption: 'Sediakan Maklumat Penyewa',
-                    icon: "icon-file-text ",
+                    icon: 'icon-file-text',
                     command: createTenant,
-                    status: 'rentalapplication().Status() == "Selesai"'
+                    visible: selesaiCommandStatus
                 },
                 {
                     caption: 'Tidak Berjaya',
-                    icon: "icon-file-text ",
+                    icon: 'icon-file-text',
                     command: unsucces,
-                    status: 'rentalapplication().Status() == "Menunggu"'
+                    visible: menungguCommandStatus
                 }
 
             ])

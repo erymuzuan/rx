@@ -44,6 +44,7 @@
 				<xs:element name="ApprovedDateTime" type="xs:dateTime" nillable="true"/>
 				<xs:element name="ApprovedBy" type="xs:string"/>
 			</xs:all>
+			<xs:attribute name="LandId" type="xs:int" use="required"/>
 			<xs:attribute name="Lot" type="xs:string" use="required"/>
 			<xs:attribute name="Title" type="xs:string" use="required"/>
 			<xs:attribute name="Location" type="xs:string" use="required"/>
@@ -137,6 +138,10 @@
 			<xs:attribute name="Size" type="xs:double" use="required"/>
 			<xs:attribute name="FloorNo" type="xs:string" use="required"/>
 			<xs:attribute name="IsCommercialSpace" type="xs:boolean" use="required"/>
+			<xs:attribute name="Usage" type="xs:string" use="required"/>
+			<xs:attribute name="FillOpacity" type="xs:double" use="required"/>
+			<xs:attribute name="FillColor" type="xs:string" use="required"/>
+			<xs:attribute name="PlanStoreId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CommercialSpace">
@@ -156,6 +161,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="Address"/>
 			</xs:all>
 			<xs:attribute name="CommercialSpaceId" type="xs:int" use="required"/>
 			<xs:attribute name="BuildingId" type="xs:int" use="required"/>
@@ -201,6 +207,13 @@
 				</xs:element>
 				<xs:element ref="Offer"/>
 				<xs:element ref="CommercialSpace" minOccurs="0"/>
+				<xs:element name="CustomFieldValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomFieldValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="RentalApplicationId" type="xs:int" use="required"/>
 			<xs:attribute name="CompanyName" type="xs:string" use="required"/>
@@ -248,11 +261,10 @@
 		<xs:complexType>
 			<xs:attribute name="ContractId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="IcNo" type="xs:string"/>
-			<xs:attribute name="Role" type="xs:string" use="required"/>
-			<xs:attribute name="MobileNo" type="xs:string" use="required"/>
-			<xs:attribute name="OfficeNo" type="xs:string" use="required"/>
+			<xs:attribute name="MobileNo" type="xs:string" use="optional"/>
+			<xs:attribute name="OfficeNo" type="xs:string" use="optional"/>
 			<xs:attribute name="Email" type="xs:string" use="required"/>
+			<xs:attribute name="IcNo" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ContractTemplate">
@@ -309,6 +321,8 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="Termination"/>
+				<xs:element ref="Extension"/>
 			</xs:all>
 			<xs:attribute name="ContractId" type="xs:int" use="required"/>
 			<xs:attribute name="ReferenceNo" type="xs:string" use="required"/>
@@ -325,6 +339,7 @@
 			<xs:attribute name="Status" type="xs:string" use="required"/>
 			<xs:attribute name="RentType" type="xs:string" use="required"/>
 			<xs:attribute name="InterestRate" type="xs:double" use="required"/>
+			<xs:attribute name="IsEnd" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Document">
@@ -1090,6 +1105,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="FormDesign"/>
 			</xs:all>
 			<xs:attribute name="ApplicationTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -1107,6 +1123,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="FormDesign"/>
 			</xs:all>
 			<xs:attribute name="MaintenanceTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -1124,6 +1141,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element ref="FormDesign"/>
 			</xs:all>
 			<xs:attribute name="CommercialSpaceTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -1159,6 +1177,7 @@
 		<xs:attribute name="Visible" type="xs:string" use="optional" default="true"/>
 		<xs:attribute name="Enable" type="xs:string" use="optional" default="true"/>
 		<xs:attribute name="ElementId" type="xs:string" use="required"/>
+		<xs:attribute name="HelpText" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:element name="TextBox">
 		<xs:complexType>
@@ -1285,6 +1304,72 @@
 			<xs:attribute name="Mobile" type="xs:string" use="optional"/>
 			<xs:attribute name="IsNew" type="xs:boolean" use="required"/>
 			<xs:attribute name="Department" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ComplaintCategoryElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:attribute name="SubCategoryLabel" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RentalApplicationBanksElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RentalApplicationAttachmentsElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RentalApplicationContactElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CommercialSpaceLotsElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Termination">
+		<xs:complexType>
+			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Remarks" type="xs:string" use="required"/>
+			<xs:attribute name="ApprovalOfficer" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Extension">
+		<xs:complexType>
+			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Remarks" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Message">
+		<xs:complexType>
+			<xs:attribute name="MessageId" type="xs:int" use="required"/>
+			<xs:attribute name="Subject" type="xs:string" use="required"/>
+			<xs:attribute name="IsRead" type="xs:boolean" use="required"/>
+			<xs:attribute name="Body" type="xs:string" use="required"/>
+			<xs:attribute name="UserName" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BuildingElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

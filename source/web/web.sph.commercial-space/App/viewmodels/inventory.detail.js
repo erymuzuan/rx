@@ -13,7 +13,7 @@ define(['services/datacontext', 'durandal/plugins/router'],
 	function (context,router) {
 	    var
         isBusy = ko.observable(false),
-        activate = function () {
+	    activate = function () {
             return true;
         },
 	     saveInventory = function() {
@@ -34,8 +34,15 @@ define(['services/datacontext', 'durandal/plugins/router'],
 	    var vm = {
 	        isBusy: isBusy,
 	        activate: activate,
-	        inventory : ko.observable(new bespoke.sphcommercialspace.domain.Inventory()),
-	        saveCommand: saveInventory
+	        toolbar: ko.observable({
+	            commands: ko.observableArray([
+	                {
+	                    caption: "Simpan",
+	                    icon: "icon-save",
+	                    command: saveInventory
+	                }
+	            ])
+	        })
 	    };
 
 	    return vm;

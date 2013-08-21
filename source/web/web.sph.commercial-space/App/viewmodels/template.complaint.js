@@ -10,8 +10,8 @@
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
 
-define(['services/datacontext', 'durandal/system', './template.base', 'services/logger'],
-    function (context, system, templateBase,logger) {
+define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger'],
+    function (context, system, templateBase, eximp, logger) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -19,10 +19,16 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
 
 
                 var customElements = [];
+                
                 var address = new bespoke.sphcommercialspace.domain.AddressElement(system.guid());
                 address.CssClass("icon-envelope pull-left");
                 address.Name("Address");
                 customElements.push(address);
+
+                var cat = new bespoke.sphcommercialspace.domain.ComplaintCategoryElement(system.guid());
+                cat.CssClass("icon-globe pull-left");
+                cat.Name("Category");
+                customElements.push(cat);
 
                 templateBase.activate(customElements);
 
@@ -40,27 +46,55 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                                 // add isSelected for the designer
                                 fe.isSelected = ko.observable(false);
                             });
-                            vm.complaintTemplate(b);
-                            templateBase.designer(vm.complaintTemplate().FormDesign());
+                            vm.template(b);
+                            templateBase.designer(vm.template().FormDesign());
                             tcs.resolve(true);
                         });
 
                     return tcs.promise();
                 } else {
-                    vm.complaintTemplate(new bespoke.sphcommercialspace.domain.ComplaintTemplate());
+                    vm.template(new bespoke.sphcommercialspace.domain.ComplaintTemplate());
 
-                    vm.complaintTemplate().FormDesign().Name("My form 1");
-                    vm.complaintTemplate().FormDesign().Description("Do whatever it takes");
+                    vm.template().FormDesign().Name("My form 1");
+                    vm.template().FormDesign().Description("Do whatever it takes");
 
-                    templateBase.designer(vm.complaintTemplate().FormDesign());
+                    templateBase.designer(vm.template().FormDesign());
                     return true;
                 }
 
 
             },
+            viewAttached = function(view) {
+                $("#imageStoreId").kendoUpload({
+                    async: {
+                        saveUrl: "/BinaryStore/Upload",
+                        removeUrl: "/BinaryStore/Remove",
+                        autoUpload: true
+                    },
+                    multiple: false,
+                    error: function (e) {
+                    },
+                    success: function (e) {
+                        var storeId = e.response.storeId;
+                        var uploaded = e.operation === "upload";
+                        var removed = e.operation != "upload";
+                        // NOTE : the input file name is "files" and the id should equal to the vm.propertyName
+                        if (uploaded) {
+                            vm.template().FormDesign().ImageStoreId(storeId);
+                        }
+
+                        if (removed) {
+                            vm.template().FormDesign().ImageStoreId("");
+                        }
+
+
+                    }
+                });
+                templateBase.viewAttached(view);
+            },
             addComplaintCategory = function () {
                 var category = new bespoke.sphcommercialspace.domain.ComplaintCategory();
-                vm.complaintTemplate().ComplaintCategoryCollection.push(category);
+                vm.template().ComplaintCategoryCollection.push(category);
             },
             addSubCategory = function () {
                 vm.subCategoryOptions.push({ text: ko.observable() });
@@ -71,10 +105,10 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             },
 
             updateCategory = function () {
-                vm.complaintTemplate().ComplaintCategoryCollection.push(vm.selectedComplaintCategory());
+                vm.template().ComplaintCategoryCollection.push(vm.selectedComplaintCategory());
             },
             removeCategory = function (category) {
-                vm.complaintTemplate().ComplaintCategoryCollection.remove(category);
+                vm.template().ComplaintCategoryCollection.remove(category);
             },
              editCategory = function (category) {
                  vm.selectedComplaintCategory(category);
@@ -98,22 +132,39 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 var elements = _($('#template-form-designer>form>div')).map(function (div) {
                     return ko.dataFor(div);
                 });
-                vm.complaintTemplate().FormDesign().FormElementCollection(elements);
-                var data = ko.mapping.toJSON(vm.complaintTemplate);
+                vm.template().FormDesign().FormElementCollection(elements);
+                var data = ko.mapping.toJSON(vm.template);
 
                 context.post(data, "/Template/SaveComplaintTemplate")
                     .then(function (result) {
                         isBusy(false);
                         tcs.resolve(result);
+                        vm.template().ComplaintTemplateId(result);
                     });
                 return tcs.promise();
-            };
+            },
+            
+        exportTemplate = function () {
+            return eximp.exportJson("template.complaint." + vm.template().ComplaintTemplateId() + ".json", ko.mapping.toJSON(vm.template));
+        },
+
+        importTemplateJson = function () {
+            return eximp.importJson()
+                .done(function (json) {
+                    try {
+                        vm.template(ko.mapping.fromJSON(json));
+                        vm.template().ComplaintTemplateId(0);
+                    } catch (error) {
+                        logger.logError('Fail template import tidak sah', error, this, true);
+                    }
+                });
+        };
         
         var vm = {
             activate: activate,
-            viewAttached: templateBase.viewAttached,
+            viewAttached: viewAttached,
             subCategoryOptions: ko.observableArray(),
-            complaintTemplate: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
+            template: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
             selectedComplaintCategory: ko.observable(new bespoke.sphcommercialspace.domain.ComplaintCategory()),
             addComplaintCategory: addComplaintCategory,
             removeCategory: removeCategory,
@@ -123,7 +174,9 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             editCategory: editCategory,
             saveSubCategoryCommand: saveSubCategory,
             toolbar: {
-                saveCommand: save
+                saveCommand: save,
+                exportCommand: exportTemplate,
+                importCommand: importTemplateJson
             },
             customFormElements: templateBase.customFormElements,
             formElements: templateBase.formElements,
@@ -131,7 +184,10 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             selectedFormElement: templateBase.selectedFormElement,
             removeFormElement: templateBase.removeFormElement,
             removeComboBoxOption: templateBase.removeComboBoxOption,
-            addComboBoxOption: templateBase.addComboBoxOption
+            addComboBoxOption: templateBase.addComboBoxOption,
+            selectPathFromPicker: templateBase.selectPathFromPicker,
+            showPathPicker: templateBase.showPathPicker,
+            imageStoreId : ko.observable()
         };
 
         return vm;

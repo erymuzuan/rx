@@ -6,6 +6,17 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public partial class AppController
     {
+        public ActionResult TemplateCommercialSpaceHtml()
+        {
+            return RedirectToAction("CommercialSpace", "Template");
+     
+        }
+        public ActionResult TemplateApplicationHtml()
+        {
+            return RedirectToAction("Application", "Template");
+     
+        }
+
         public ActionResult TemplateBuildingHtml()
         {
             return RedirectToAction("Building", "Template");

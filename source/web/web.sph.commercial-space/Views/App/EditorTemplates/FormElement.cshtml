@@ -1,7 +1,5 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.FormElement
 
-<!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.FormElement, domain.commercialspace" -->
-<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
-    <label data-bind="text: Label"></label>
+<div class="alert alert-error">
+    <strong>There's no EditorTemplate for @Model.GetType().Name</strong>
 </div>
-<!--/ko-->

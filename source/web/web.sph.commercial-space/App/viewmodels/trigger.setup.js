@@ -8,8 +8,8 @@
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
-define(['services/datacontext'],
-    function (context) {
+define(['services/datacontext', 'services/jsonimportexport'],
+    function (context, eximp) {
 
         var isBusy = ko.observable(false),
             id = ko.observable(),
@@ -30,17 +30,17 @@ define(['services/datacontext'],
                                 var right = r.Right;
                                 r.Right = ko.observable(right);
                             });
-                            
+
                             // action
-                            _(t.ActionCollection()).each(function(a) {
+                            _(t.ActionCollection()).each(function (a) {
                                 if (a["$type"]().indexOf("SetterAction") > -1) {
-                                    _(a.SetterActionChildCollection()).each(function(child) {
+                                    _(a.SetterActionChildCollection()).each(function (child) {
                                         var field = child.Field;
                                         child.Field = ko.observable(field);
                                     });
                                 }
                             });
-                           
+
                             vm.trigger(t);
                         } else {
                             vm.trigger(new bespoke.sphcommercialspace.domain.Trigger());
@@ -51,7 +51,7 @@ define(['services/datacontext'],
                 return tcs.promise();
             },
             viewAttached = function () {
-              
+
 
                 $('#setter-action-modal').on('click', 'a.btn,button.close', function (e) {
                     e.preventDefault(true);
@@ -167,7 +167,7 @@ define(['services/datacontext'],
                  var child = new bespoke.sphcommercialspace.domain.SetterActionChild();
                  child.Field({ Name: ko.observable("+ Field") });
                  vm.setterAction().SetterActionChildCollection.push(child);
-                 
+
              },
 
             startEditSetterAction = function (setter) {
@@ -201,7 +201,21 @@ define(['services/datacontext'],
                         tcs.resolve(result);
                     });
                 return tcs.promise();
-            };
+            },
+
+            exportJson = function () {
+                return eximp.exportJson("trigger." + vm.trigger().TriggerId() + ".json", ko.mapping.toJSON(vm.trigger));
+
+            },
+
+         importJson = function () {
+             return eximp.importJson()
+                 .done(function (json) {
+                     vm.trigger(ko.mapping.fromJSON(json));
+                     vm.trigger().TriggerId(0);
+
+                 });
+         };
 
         var vm = {
             isBusy: isBusy,
@@ -241,9 +255,18 @@ define(['services/datacontext'],
             removeAction: removeAction,
 
 
+
             toolbar: {
                 saveCommand: save,
-                reloadCommand: function () { return activate({ id: id() }); }
+                reloadCommand: function () { return activate({ id: id() }); },
+                exportCommand: exportJson,
+                commands: ko.observableArray([
+                    {
+                        icon: 'icon-upload',
+                        caption: 'import',
+                        command: importJson
+                    }
+                ])
             }
 
         };

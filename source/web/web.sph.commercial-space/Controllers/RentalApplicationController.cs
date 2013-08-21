@@ -40,13 +40,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         }
 
-        public async Task<ActionResult> Submit(RentalApplication rentalApplication)
+        public async Task<ActionResult> Submit(RentalApplication rentalapplication)
         {
             var context = new SphDataContext();
-            var c = await context.LoadOneAsync<CommercialSpace>(cs => cs.CommercialSpaceId == rentalApplication.CommercialSpaceId);
-            rentalApplication.Status = "Baru";
-            rentalApplication.ApplicationDate = DateTime.Now;
-            rentalApplication.CommercialSpace = c;
+            var c = await context.LoadOneAsync<CommercialSpace>(cs => cs.CommercialSpaceId == rentalapplication.CommercialSpaceId);
+            rentalapplication.Status = "Baru";
+            rentalapplication.ApplicationDate = DateTime.Now;
+            rentalapplication.CommercialSpace = c;
 
             var audit = new AuditTrail
                 {
@@ -54,26 +54,26 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                     DateTime = DateTime.Now,
                     User = User.Identity.Name,
                     Type = typeof(RentalApplication).Name,
-                    EntityId = rentalApplication.RentalApplicationId,
+                    EntityId = rentalapplication.RentalApplicationId,
                     Note = "Permohonan melalui web"
                 };
 
             using (var session = context.OpenSession())
             {
-                session.Attach(rentalApplication);
+                session.Attach(rentalapplication);
                 await session.SubmitChanges();
             }
 
             using (var session = context.OpenSession())
             {
-                audit.EntityId = rentalApplication.RentalApplicationId;
-                rentalApplication.RegistrationNo = string.Format("{0:yyyy}{1}", DateTime.Today,
-                                                                 rentalApplication.RentalApplicationId.PadLeft());
-                session.Attach(audit, rentalApplication);
+                audit.EntityId = rentalapplication.RentalApplicationId;
+                rentalapplication.RegistrationNo = string.Format("{0:yyyy}{1}", DateTime.Today,
+                                                                 rentalapplication.RentalApplicationId.PadLeft());
+                session.Attach(audit, rentalapplication);
                 await session.SubmitChanges();
             }
 
-            return Json(new { status = "success", registrationNo = rentalApplication.RegistrationNo });
+            return Json(new { status = "success", registrationNo = rentalapplication.RegistrationNo });
         }
         public async Task<ActionResult> WaitingList(int id)
         {
@@ -119,7 +119,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             using (var session = context.OpenSession())
             {
                 session.Attach(dbItem, audit);
-                await session.SubmitChanges();
+                await session.SubmitChanges("Approve");
             }
 
             return Json(new { message, result });
@@ -151,7 +151,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         }
         public async Task<ActionResult> Returned(int id, ObjectCollection<Attachment> attachments)
         {
-            await Task.Delay(5000);
+            await Task.Delay(2000);
             var context = new SphDataContext();
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
             if (null != attachments) dbItem.AttachmentCollection.ClearAndAddRange(attachments);
@@ -376,7 +376,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             using (var session = context.OpenSession())
             {
                 session.Attach(dbItem, audit);
-                await session.SubmitChanges();
+                await session.SubmitChanges("Deny");
             }
 
             return Json(true);

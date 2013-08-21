@@ -12,6 +12,7 @@
     define(['services/datacontext','viewmodels/_users.designation','viewmodels/_users.department'], function (context,designationvm,departmentvm) {
         var isBusy = ko.observable(false),
             roles = @Html.Raw(JsonConvert.SerializeObject(roles)),
+            printprofile = ko.observable(new bespoke.sphcommercialspace.domain.Profile()),
             profiles = ko.observableArray(),
             activate = function() {
                 var query = String.format("UserProfileId gt 0");
@@ -30,7 +31,7 @@
                          var departments = JSON.parse(ko.mapping.toJS(d.Value));;
                          vm.departmentOptions(departments);
                      }
-                     _(p.itemCollection).each(function(item) {
+                     var list = _(p.itemCollection).map(function(item) {
                          var profile = new bespoke.sphcommercialspace.domain.Profile();
                          profile.IsNew(false);
                          profile.FullName(item.FullName());
@@ -39,8 +40,9 @@
                          profile.Designation(item.Designation());
                          profile.Department(item.Department());
                          profile.Telephone(item.Telephone());
-                         vm.profiles.push(profile);
+                         return profile;
                      });
+                     vm.profiles(list);
                     
                      tcs.resolve(true);
                  });
@@ -73,7 +75,8 @@
                         tcs.resolve(true);
                     });
                 return tcs.promise();
-            };
+            },
+            exportList = function (){};
             
 
         var vm = {
@@ -81,12 +84,24 @@
             isBusyValidatingUserName : ko.observable(false),
             profiles: profiles,
             profile: ko.observable(new bespoke.sphcommercialspace.domain.Profile()),
+            printprofile : printprofile,
             designationOptions : ko.observableArray(),
             departmentOptions : ko.observableArray(),
             userNameValidationStatus : ko.observable(),
             addCommand: add,
             editCommand: edit,
-            saveCommand: save
+            saveCommand: save,
+            toolbar : ko.observable({
+                reloadCommand: function () {
+                    return activate();
+                },
+                printCommand: ko.observable({
+                    entity: ko.observable("UserProfile"),
+                    id: ko.observable(0),
+                    item: printprofile,
+                }),
+                exportCommand: exportList,
+            })
         };
 
 

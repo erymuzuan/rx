@@ -1,9 +1,9 @@
-﻿@using Bespoke.Sph.Commerspace.Web.ViewModels
-@model IEnumerable<Bespoke.SphCommercialSpaces.Domain.CustomField>
+﻿@model Bespoke.Sph.Commerspace.Web.Controllers.CommercialSpaceDetailViewModel
 
 @{
     ViewBag.Title = "title";
     Layout = null;
+    var i = 0;
 }
 
 <section class="container-fluid">
@@ -13,7 +13,7 @@
 
     <div class="tabbable">
         <ul class="nav nav-tabs">
-            <li>
+            <li class="active">
                 <a href="#form-tab" data-toggle="tab">Am</a>
             </li>
             <li>
@@ -29,77 +29,30 @@
         <div class="tab-content">
             <div id="form-tab" class="tab-pane active">
                 <form id="cs" class="form-horizontal" data-bind="with: commercialSpace">
-                    <div class="control-group">
-                        <label for="commercialSpace_RegistrationNo" class="control-label">No Daftar</label>
+
+                    @foreach (var fe in Model.Template.FormDesign.FormElementCollection)
+                    {
+                        if (null != fe.CustomField)
+                        {
+                            fe.Path = "CustomFieldValueCollection()[" + i++ + "]";
+                        }
+       
+                        @Html.EditorFor(m => fe)
+        
+                    }
+                    <div class="control-group" data-bind="visible: IsOnline">
+                        <label  class="control-label">Template Permohonan</label>
                         <div class="controls">
-                            <input data-bind="value: RegistrationNo" id="commercialSpace_RegistrationNo" type="text" name="commercialSpace.RegistrationNo" />
+                                @foreach (var t in Model.ApplicationTemplates)
+                                {
+                                    <label>
+                                        <input type="checkbox" value="@t.ApplicationTemplateId" data-bind="checked: ApplicationTemplateOptions"/>
+                                        @t.Name
+                                    </label>
+                                }
                         </div>
                     </div>
 
-                    <div class="control-group">
-                        <label for="commercialSpace_LotName" class="control-label">Lot</label>
-                        <div class="controls">
-                            <input data-bind="value: LotName" id="commercialSpace_LotName" type="text" name="commercialSpace.LotName" readonly="readonly" />
-                            <a type="button" class="btn help-inline"
-                                data-toggle="modal" id="select-lot-button"
-                                href="#lot-selection-panel">Pilih lot</a>
-                        </div>
-
-                    </div>
-
-
-                    <div class="control-group">
-                        <label for="commercialSpace_Size" class="control-label">Saiz</label>
-                        <div class="controls">
-                            <input data-bind="value: Size" id="commercialSpace_Size" type="text" name="commercialSpace.Size" />
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label for="commercialSpace.RentalRate" class="control-label">Sewa</label>
-                        <div class="controls">
-                            <input data-bind="value: RentalRate" id="commercialSpace.RentalRate" type="text" name="commercialSpace.RentalRate" />
-                        </div>
-                    </div>
-
-
-                    <div class="control-group">
-                        <label for="commercialSpace.RentalType" class="control-label">Jenis Sewaan</label>
-                        <div class="controls">
-                            <select id="commercialSpace.RentalType" data-bind="value: RentalType">
-                                <option value="Monthly">Monthly</option>
-                                <option value="Quarterly">Quarterly</option>
-                                <option value="Half Year">Half Year</option>
-                                <option value="Yearly">Yearly</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control-group" data-bind="with: $parent.categoryOptions">
-                        <label for="commercialSpace.Category" class="control-label">Kategori</label>
-                        <div class="controls">
-                            <select id="commercialSpace.Category" name="commercialSpace.Category" data-bind="options: $data, optionsText: 'Name', optionsValue: 'Name', value: $parent.Category, optionsCaption: '[Sila Pilih]'"></select>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input data-bind="checked: IsOnline" id="commercialSpace.IsOnline" type="checkbox" name="commercialSpace.IsOnline" />
-                                Permohonan online
-                            </label>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input data-bind="checked: IsAvailable" id="commercialSpace.IsAvailable" type="checkbox" name="commercialSpace.IsAvailable" />
-                                Dibuka untuk tempahan
-                            </label>
-                        </div>
-                    </div>
-                    <h2>Additional fields</h2>
-                    @Html.Partial("CustomFieldHtml", new CustomFieldViewModel(Model){RootObject = ""})
-                    
                 </form>
 
             </div>
@@ -109,7 +62,6 @@
             </div>
             <div id="plan-tab" class="tab-pane">
             </div>
-
         </div>
     </div>
 </section>
@@ -118,14 +70,14 @@
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3>Pilih lot</h3>
+        <h3>Pilih</h3>
     </div>
     <div class="modal-body">
         <form class="form-horizontal">
             <div class="control-group">
                 <label for="selectedBuilding" class="control-label">Bangunan</label>
-                <div class="controls" data-bind="with : buildingOptions">
-                    <select data-bind="value: $root.selectedBuilding, options:$data , optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Sila pilih]'" id="selectedBuilding" name="selectedBuilding">
+                <div class="controls" data-bind="with: buildingOptions">
+                    <select data-bind="value: $root.selectedBuilding, options: $data, optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Sila pilih]'" id="selectedBuilding" name="selectedBuilding">
                     </select>
                 </div>
             </div>

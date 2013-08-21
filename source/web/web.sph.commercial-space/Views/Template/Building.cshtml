@@ -7,12 +7,12 @@
 <h1>Maklumat Templat Bangunan </h1>
 <div class="container">
     <div class="row">
-        <!-- left toobox-->
+        <!-- left toolbox-->
         <div class="span4">
             @Html.Partial("_Toolbox")
         </div>
 
-        <div class="span8" data-bind="with: buildingTemplate">
+        <div class="span8" data-bind="with: template">
 
             <div data-bind="with: FormDesign" id="template-form-designer">
                 <h1 data-bind="text: Name"></h1>
@@ -35,3 +35,4 @@
 </div>
 
 
+@Html.Partial("_PathPicker")

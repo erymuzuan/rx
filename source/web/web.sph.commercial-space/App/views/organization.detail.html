@@ -1,9 +1,9 @@
-﻿<h3>Maklumat Organisasi</h3>
-<section id="organization-detail" data-bind="with: organization">
+﻿<h1>Maklumat Organisasi</h1>
+<form class="form-horizontal" id="organization-detail" data-bind="with: organization">
     <div class="control-group">
         <label for="organization.Name" class="control-label">Nama Syarikat</label>
         <div class="controls">
-            <input data-bind="value: Name" id="organization.Name" type="text" name="Name" />
+            <input class="input-xxlarge" data-bind="value: Name" id="organization.Name" type="text" name="Name" />
         </div>
     </div>
     <div class="control-group">
@@ -15,7 +15,7 @@
     <div class="control-group">
         <label for="organization.Email" class="control-label">Emel : </label>
         <div class="controls">
-            <input data-bind="value: Email" id="organization.Email" type="text" name="Email" />
+            <input data-bind="value: Email" id="organization.Email" type="email" name="Email" />
         </div>
     </div>
     <div class="control-group">
@@ -35,28 +35,25 @@
     <div class="control-group">
         <label for="organization.Address.Street" class="control-label">Jalan</label>
         <div class="controls">
-            <input data-bind="value: Address.Street" id="organization.Address.Street" type="text" name="organization.Address.StreetAddress.StreetAddress.Street" />
+            <input class="input-xlarge" data-bind="value: Address.Street" id="organization.Address.Street" type="text" name="organization.Address.StreetAddress.StreetAddress.Street" />
         </div>
     </div>
     <div class="control-group">
         <label for="organization.Address.City" class="control-label">Bandar</label>
         <div class="controls">
-            <input data-bind="value: Address.City" id="organization.Address.City" type="text" name="organization.Address.City" />
+            <input class="input-xlarge" data-bind="value: Address.City" id="organization.Address.City" type="text" name="organization.Address.City" />
         </div>
     </div>
     <div class="control-group">
         <label for="organization.Address.Postcode" class="control-label">Poskod</label>
         <div class="controls">
-            <input data-bind="value: Address.Postcode" id="organization.Address.Postcode" type="text" name="organization.Address.Postcode" />
+            <input placeholder="Poskod" data-bind="value: Address.Postcode" maxlength="5" id="organization.Address.Postcode" type="text" name="organization.Address.Postcode" />
         </div>
     </div>
     <div class="control-group">
-        <label for="organization.Address.State" class="control-label">Negeri</label>
+        <label for="address.State" class="control-label">Negeri</label>
         <div class="controls">
-            <input data-bind="value: Address.State" id="organization.Address.State" type="text" name="organization.Address.State" />
+            <select name="address.State" id="address.State" data-bind="value: Address.State, options: $root.stateOptions, optionsText: 'Name', optionsValue: 'Name', optionsCaption: '[Sila Pilih]'"></select>
         </div>
     </div>
-</section>
-<section>
-    <input type="button" value="Simpan" data-bind="command:saveCommand" class="btn btn-primary"/>
-</section>
+</form>

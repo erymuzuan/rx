@@ -1,6 +1,6 @@
 ﻿@model Bespoke.Sph.Commerspace.Web.ViewModels.TemplateFormViewModel
 
-<div class="tabbable">
+<div class="tabbable" id="form-designer-toolbox">
     <ul class="nav nav-tabs">
         <li class="active">
             <a href="#form-settings" data-toggle="tab">Template Settings</a>
@@ -14,21 +14,21 @@
     </ul>
     <div class="tab-content">
 
-        <div id="form-settings" class="tab-pane active" data-bind="with: @(Model.Entity)Template">
+        <div id="form-settings" class="tab-pane active" data-bind="with: template">
             <form>
                 <h3>Template</h3>
                 <div class="control-group">
-                    <label for="@(Model.Entity)-template-name" class="control-label">Nama</label>
+                    <label for="template-name" class="control-label">Nama</label>
                     <div class="controls">
-                        <input class="input-xlarge" data-bind="value: $root.@(Model.Entity)Template().Name" id="@(Model.Entity)-template-name" type="text" name="@(Model.Entity)-template-name" />
+                        <input class="input-xlarge" data-bind="value: $root.template().Name" id="template-name" type="text" name="@(Model.Entity)-template-name" />
                     </div>
                 </div>
 
                 <div class="control-group">
                     <div class="controls">
                         <label class="checkbox">
-                            <input data-bind="checked: $root.@(Model.Entity)Template().IsActive" id="@(Model.Entity)-template-isactive" type="checkbox" name="$root.@(Model.Entity)Template().IsActive" />
-                            Aktiv
+                            <input data-bind="checked: $root.template().IsActive" id="template-isactive" type="checkbox" name="$root.@(Model.Entity)Template().IsActive" />
+                            Aktif
                         </label>
                     </div>
                 </div>
@@ -40,14 +40,14 @@
                     <div class="control-group">
                         <label for="form-design-name" class="control-label">Header</label>
                         <div class="controls">
-                            <input class="input-xlarge"  data-bind="value: Name, valueUpdate: 'keyup'" id="form-design-name" type="text" name="Name" />
+                            <input class="input-xlarge" data-bind="value: Name, valueUpdate: 'keyup'" id="form-design-name" type="text" name="Name" />
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label for="form-design-description" class="control-label">Keterangan</label>
                         <div class="controls">
-                            <textarea class="input-xlarge"  data-bind="value: Description, valueUpdate: 'keyup'" id="form-design-description" name="Description">
+                            <textarea class="input-xlarge" data-bind="value: Description, valueUpdate: 'keyup'" id="form-design-description" name="Description">
 
 </textarea>
                         </div>
@@ -91,7 +91,12 @@
                 <div class="control-group">
                     <label for="form-element-path" class="control-label">Path</label>
                     <div class="controls">
-                        <input data-bind="value: Path" id="form-element-path" type="text" name="Path" />
+                        <div class="input-append">
+                            <input data-bind="value: Path" id="form-element-path" type="text" name="Path" />
+                            <a href="#" class="add-on" data-bind="click: $root.showPathPicker.bind($data,'@Model.Entity    ')">
+                                <i class="icon-search"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -99,6 +104,13 @@
                     <label for="form-element-tooltip" class="control-label">Tooltip</label>
                     <div class="controls">
                         <input data-bind="value: Tooltip" id="form-element-tooltip" type="text" name="Tooltip" />
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="form-element-help-text" class="control-label">Help</label>
+                    <div class="controls">
+                        <input data-bind="value: HelpText, valueUpdate: 'keyup'" id="form-element-help-text" type="text" name="HelpText" />
                     </div>
                 </div>
 

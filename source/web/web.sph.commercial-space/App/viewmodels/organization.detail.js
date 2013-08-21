@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -15,12 +15,17 @@ define(['services/datacontext'],
             activate = function () {
                 var query = String.format("Key eq 'Organization'");
                 var tcs = new $.Deferred();
-                context.loadOneAsync("Setting", query)
-                    .done(function (s) {
-                        if (s) {
-                            var organization = JSON.parse(ko.mapping.toJS(s.Value));
+                var orgTask = context.loadOneAsync("Setting", query);
+                var stateTask = context.loadOneAsync("Setting","Key eq 'State'")
+                $.when(orgTask,stateTask).done(function (o,s) {
+                        if (o) {
+                            var organization = JSON.parse(ko.mapping.toJS(o.Value));
                             vm.organization(organization);
                         }
+                        if (s) {
+                            var states = JSON.parse(s.Value());
+                            vm.stateOptions(states);
+                    }
                         tcs.resolve(true);
                     });
 
@@ -48,7 +53,8 @@ define(['services/datacontext'],
             isBusy: isBusy,
             activate: activate,
             organization: ko.observable(new bespoke.sphcommercialspace.domain.Organization()),
-            saveCommand : save
+            stateOptions: ko.observableArray(),
+            toolbar: { saveCommand: save }
         };
 
         return vm;

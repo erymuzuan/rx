@@ -1,19 +1,5 @@
 [
   {
-    "role": "can_edit_payment",
-    "url": "rebate",
-    "moduleId": "viewmodels/rebate",
-    "name": "Senarai Rebat",
-    "visible": true,
-    "icon": "icon-usd",
-    "caption": "Rebat",
-    "settings": {
-      "caption": "Rebat"
-    },
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
     "role": null,
     "url": "public.index",
     "moduleId": "viewmodels/public.index",
@@ -50,7 +36,7 @@
     "error": ""
   },
   {
-    "role": "admin",
+    "role": "admin_dashboard",
     "url": "offerdetails/:rentalId/:csId",
     "moduleId": "viewmodels/offerdetails",
     "name": "Tawaran",
@@ -277,6 +263,20 @@
     "caption": "deposit",
     "settings": {
       "caption": "Senarai deposit"
+    },
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_payment",
+    "url": "rebate",
+    "moduleId": "viewmodels/rebate",
+    "name": "Senarai Rebat",
+    "visible": true,
+    "icon": "icon-usd",
+    "caption": "Rebat",
+    "settings": {
+      "caption": "Rebat"
     },
     "showWhenLoggedIn": false,
     "error": ""
@@ -629,8 +629,8 @@
   },
   {
     "role": "can_edit_commercialspace_template",
-    "url": "commercialspace.template.form/:id",
-    "moduleId": "viewmodels/commercialspace.template.form",
+    "url": "template.commercialspace-id.0/:id",
+    "moduleId": "viewmodels/template.commercialspace-id.0",
     "name": "Form templat ruang komersil",
     "visible": false,
     "icon": "icon-flag",
@@ -653,8 +653,8 @@
   },
   {
     "role": "can_edit_application_template",
-    "url": "application.template.form/:id",
-    "moduleId": "viewmodels/application.template.form",
+    "url": "template.application-id.0/:id",
+    "moduleId": "viewmodels/template.application-id.0",
     "name": "Form Templat Permohonan",
     "visible": false,
     "icon": null,
@@ -683,6 +683,66 @@
     "visible": false,
     "icon": null,
     "caption": null,
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_maintenance_template",
+    "url": "template.maintenance-id.0/:id",
+    "moduleId": "viewmodels/template.maintenance-id.0",
+    "name": "Tetapan Penyenggaraan",
+    "visible": false,
+    "icon": null,
+    "caption": null,
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "everybody",
+    "url": "message.detail/:id",
+    "moduleId": "viewmodels/message.detail",
+    "name": "Mesej",
+    "visible": false,
+    "icon": "icon-check",
+    "caption": "Mesej",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "everybody",
+    "url": "message.inbox",
+    "moduleId": "viewmodels/message.inbox",
+    "name": "Mesej",
+    "visible": false,
+    "icon": "icon-envelope",
+    "caption": "Mesej",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_land",
+    "url": "land.list",
+    "moduleId": "viewmodels/land.list",
+    "name": "Senarai Tanah",
+    "visible": true,
+    "icon": "icon-flag",
+    "caption": "Senarai Tanah",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_land",
+    "url": "land.detail/:id",
+    "moduleId": "viewmodels/land.detail",
+    "name": "Butiran Tanah",
+    "visible": false,
+    "icon": "icon-flag",
+    "caption": "Butiran Tanah",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""

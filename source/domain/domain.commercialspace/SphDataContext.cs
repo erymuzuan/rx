@@ -31,6 +31,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public IQueryable<Setting> Settings { get; set; }
         public IQueryable<UserProfile> UserProfiles { get; set; }
         public IQueryable<Trigger> Triggers { get; set; }
+        public IQueryable<Watcher> Watchers { get; set; }
 
         public SphDataContext()
         {
@@ -54,6 +55,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             this.Settings = new Query<Setting>(provider);
             this.UserProfiles = new Query<UserProfile>(provider);
             this.Triggers = new Query<Trigger>(provider);
+            this.Watchers = new Query<Watcher>(provider);
         }
 
 

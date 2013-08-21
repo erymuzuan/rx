@@ -6,6 +6,8 @@
         {
             return string.Format("{0} {1}", this.RegistrationNo, this.LotName);
         }
+
+        public int[] ApplicationTemplateOptions { get; set; }
     }
    
 }

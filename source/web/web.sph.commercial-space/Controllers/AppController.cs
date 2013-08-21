@@ -57,7 +57,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
                 return string.Format("/App/{0}{1}?{2}", module.Replace(".", string.Empty), extension, string.Join("&", parameters));
             }
-
             return null;
         }
 

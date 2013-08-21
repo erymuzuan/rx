@@ -47,7 +47,7 @@
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+      <HintPath>..\..\..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Breeze.WebApi, Version=1.2.8.0, Culture=neutral, PublicKeyToken=f6085f1a45e2ac59, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -81,16 +81,6 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\..\..\packages\EntityFramework.6.0.0-beta1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Glimpse.AspNet">
-      <HintPath>..\..\..\packages\Glimpse.AspNet.1.3.1\lib\net45\Glimpse.AspNet.dll</HintPath>
-    </Reference>
-    <Reference Include="Glimpse.Core, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Glimpse.1.5.0\lib\net45\Glimpse.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Glimpse.Mvc4">
-      <HintPath>..\..\..\packages\Glimpse.Mvc4.1.3.2\lib\net40\Glimpse.Mvc4.dll</HintPath>
-    </Reference>
     <Reference Include="Invoke.Docx, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\dependencies\word.document.generator\bin\Debug\Invoke.Docx.dll</HintPath>
@@ -99,14 +89,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Breeze.WebApi.1.3.6\lib\Irony.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Core">
-      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.Core.1.1.2\lib\net40\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.Core.1.1.3\lib\net40\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Owin">
-      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.Owin.1.1.2\lib\net45\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
+    <Reference Include="Microsoft.AspNet.SignalR.Owin, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.Owin.1.1.3\lib\net45\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
-      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.SystemWeb.1.1.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.SystemWeb.1.1.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -117,9 +110,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.Data.OData.5.5.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Owin.Host.SystemWeb.1.1.0-beta2\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\..\..\packages\Microsoft.Owin.Host.SystemWeb.1.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -132,9 +124,6 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json.Glimpse">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.Glimpse.1.0.1\lib\net35\Newtonsoft.Json.Glimpse.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="Spring.Core, Version=2.0.0.40000, Culture=neutral, processorArchitecture=MSIL">
@@ -221,7 +210,7 @@
     <Reference Include="WebActivator">
       <HintPath>..\..\..\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
     </Reference>
-    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="WebGrease, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
@@ -259,17 +248,23 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\AppController.building.cs" />
-    <Compile Include="Controllers\AppController.complaintlist.cs" />
-    <Compile Include="Controllers\AppController.complainttemplate.cs" />
-    <Compile Include="Controllers\AppController.config.cs" />
+    <Compile Include="Controllers\AppController.building.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AppController.complainttemplate.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AppController.config.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AppController.header.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.maintenancelist.cs.cs">
+    <Compile Include="Controllers\AppController.maintenance.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AppController.maintenancetemplate.cs.cs" />
     <Compile Include="Controllers\AppController.nav.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
@@ -285,7 +280,9 @@
     <Compile Include="Controllers\AppController.userprofile.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.users.cs" />
+    <Compile Include="Controllers\AppController.users.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\CommercialSpaceController.cs" />
@@ -295,19 +292,26 @@
     <Compile Include="Controllers\AppController.trigger.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.commercialspace.cs" />
+    <Compile Include="Controllers\AppController.commercialspace.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\CustomFieldController.cs" />
-    <Compile Include="Controllers\AppController.complaint.cs" />
+    <Compile Include="Controllers\AppController.complaint.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\InvoiceController.cs" />
+    <Compile Include="Controllers\LandController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\PrintController.cs" />
     <Compile Include="Controllers\RebateController.cs" />
     <Compile Include="Controllers\RentalApplicationController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
@@ -328,7 +332,6 @@
     <Compile Include="Dependencies\DummyChangeTracker.cs" />
     <Compile Include="Dependencies\DummySearchProvider.cs" />
     <Compile Include="Dependencies\EmailService.cs" />
-    <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -338,6 +341,7 @@
     <Compile Include="Models\RoleType.cs" />
     <Compile Include="Models\TypeModel.cs" />
     <Compile Include="ViewModels\CustomFieldViewModel.cs" />
+    <Compile Include="ViewModels\PrintViewModel.cs" />
     <Compile Include="ViewModels\RoleSettingViewModel.cs" />
     <Compile Include="ViewModels\TemplateFormViewModel.cs" />
     <Compile Include="ViewModels\TriggerPathPickerHtmlViewModel.cs" />
@@ -374,6 +378,7 @@
     <Content Include="App\services\datacontext.js" />
     <Content Include="App\services\Deposit.js" />
     <Content Include="App\services\domain.g.js" />
+    <Content Include="App\services\jsonimportexport.js" />
     <Content Include="App\services\logger.js" />
     <Compile Include="Helpers\AssemblyInfo.cs" />
     <Compile Include="Helpers\DateTimeModelBinder.cs" />
@@ -386,10 +391,15 @@
     <Compile Include="Models\JsRoute.cs" />
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="App\viewmodels\application.template.form.js" />
+    <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
-    <Content Include="App\viewmodels\building.details.js" />
-    <Content Include="App\viewmodels\building.details.ts" />
+    <Content Include="App\viewmodels\land.detail.js" />
+    <Content Include="App\viewmodels\land.list.js" />
+    <Content Include="App\viewmodels\message.inbox.js" />
+    <Content Include="App\viewmodels\template.commercialspace.js" />
+    <Content Include="App\viewmodels\template.application.js" />
+    <Content Include="App\viewmodels\maintenance.form.js" />
+    <Content Include="App\viewmodels\template.maintenance.js" />
     <Content Include="App\viewmodels\template.complaint.js" />
     <Content Include="App\viewmodels\template.base.js" />
     <Content Include="App\viewmodels\template.building.js" />
@@ -402,7 +412,6 @@
     <Content Include="App\viewmodels\inventory.detail.js" />
     <Content Include="App\viewmodels\inventory.list.js" />
     <Content Include="App\viewmodels\maintenance.template.form.js" />
-    <Content Include="App\viewmodels\maintenance.template.list.js" />
     <Content Include="App\viewmodels\messages.js" />
     <Content Include="App\viewmodels\public.index.js" />
     <Content Include="App\viewmodels\maintenance.assignment.js" />
@@ -413,19 +422,21 @@
     <Content Include="App\viewmodels\trigger.setup.js" />
     <Content Include="App\viewmodels\_tenant.complaint.js" />
     <Content Include="App\viewmodels\_users.department.js" />
-    <Content Include="App\views\application.template.form.html" />
     <Content Include="App\views\application.template.list.html" />
     <Content Include="App\views\building.template.list.html" />
-    <Content Include="App\views\commercialspace.detail.html" />
+    <Content Include="App\views\chats.html" />
     <Content Include="App\views\commercialspace.template.form.html" />
     <Content Include="App\views\commercialspace.template.list.html" />
     <Content Include="App\views\complaint.assign.html" />
     <Content Include="App\views\complaintform.tenant.html" />
     <Content Include="App\views\inventory.detail.html" />
     <Content Include="App\views\inventory.list.html" />
+    <Content Include="App\views\land.detail.html" />
+    <Content Include="App\views\land.list.html" />
     <Content Include="App\views\logviewer.html" />
     <Content Include="App\views\maintenance.template.form.html" />
-    <Content Include="App\views\maintenance.template.list.html" />
+    <Content Include="App\views\message.detail.html" />
+    <Content Include="App\views\message.inbox.html" />
     <Content Include="App\views\messages.html" />
     <Content Include="App\views\public.index.html" />
     <Content Include="App\views\search.html" />
@@ -444,23 +455,29 @@
     <Content Include="App\views\_workorder.warranty.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Images\1200x480.gif" />
-    <Content Include="Images\1200x480.png" />
+    <Content Include="Images\Adobe-Acrobat.png" />
     <Content Include="Images\background.png" />
     <Content Include="Images\blank.png" />
     <Content Include="Images\constantfield.png" />
+    <Content Include="Images\courts.png" />
     <Content Include="Images\documentfield.png" />
     <Content Include="Images\EmailAction.png" />
     <Content Include="Images\functionfield.png" />
     <Content Include="Images\gelanggang.png" />
+    <Content Include="Images\hotel.png" />
     <Content Include="Images\kuarters.png" />
+    <Content Include="Images\logo.png" />
     <Content Include="Images\office.png" />
+    <Content Include="Images\offices.png" />
     <Content Include="Images\pic1.png" />
     <Content Include="Images\pic2.png" />
     <Content Include="Images\pic3.png" />
     <Content Include="Images\pic4.png" />
+    <Content Include="Images\quarters.png" />
     <Content Include="Images\rumah_peranginan.png" />
     <Content Include="Images\SetterAction.png" />
+    <Content Include="roles.config.js" />
+    <Content Include="routes.config.js" />
     <Content Include="Scripts\bootmetro-charms.js" />
     <Content Include="Scripts\bootmetro.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
@@ -477,6 +494,7 @@
     <Content Include="Content\font\fontawesome-webfont.ttf" />
     <Content Include="Content\font\fontawesome-webfont.eot" />
     <Content Include="Content\font\FontAwesome.otf" />
+    <Content Include="App\viewmodels\message.detail.js" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\demo.js" />
@@ -493,8 +511,8 @@
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.mousewheel.js" />
     <Content Include="Scripts\jquery.scrollTo.js" />
-    <Content Include="Scripts\jquery.signalR-1.1.2.js" />
-    <Content Include="Scripts\jquery.signalR-1.1.2.min.js" />
+    <Content Include="Scripts\jquery.signalR-1.1.3.js" />
+    <Content Include="Scripts\jquery.signalR-1.1.3.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
@@ -559,7 +577,7 @@
     <Content Include="App\viewmodels\organization.detail.js" />
     <Content Include="App\viewmodels\payment.js" />
     <Content Include="App\viewmodels\rebate.js" />
-    <Content Include="App\viewmodels\rentalapplication.js" />
+    <Content Include="App\viewmodels\application.detail.js" />
     <Content Include="App\viewmodels\rentalapplication.selectspace.js" />
     <Content Include="App\viewmodels\rentalapplication.verify.js" />
     <Content Include="App\viewmodels\returnedapplication.js" />
@@ -942,6 +960,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
+    <Content Include="Scripts\_pager.js" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\Flyout.cshtml" />
@@ -961,7 +980,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\App\HeaderHtml.cshtml" />
     <Content Include="Views\App\RoleSettingsJs.cshtml" />
     <Content Include="Views\App\UserProfileHtml.cshtml" />
@@ -969,7 +990,6 @@
     <Content Include="Views\App\MaintenanceListHtml.cshtml" />
     <Content Include="Views\App\MaintenanceListJs.cshtml" />
     <Content Include="Views\App\RoleSettingsHtml.cshtml" />
-    <Content Include="Views\App\CustomFieldHtml.cshtml" />
     <Content Include="Views\App\OfficerListHtml.cshtml" />
     <Content Include="Views\App\OfficerListJs.cshtml" />
     <Content Include="Views\App\TenantPortalHtml.cshtml" />
@@ -997,7 +1017,6 @@
     <Content Include="Views\Template\DisplayTemplates\TextAreaElement.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\TextBox.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\WebsiteFormElement.cshtml" />
-    <Content Include="Views\Template\_BuildingTemplateToolbox.cshtml" />
     <Content Include="Views\Template\EditorTemplates\CheckBox.cshtml" />
     <Content Include="Views\Template\EditorTemplates\ComboBox.cshtml" />
     <Content Include="Views\Template\EditorTemplates\DatePicker.cshtml" />
@@ -1032,6 +1051,53 @@
     <Content Include="Views\Template\_Toolbox.cshtml" />
     <Content Include="Views\Template\Complaint.cshtml" />
     <Content Include="Views\App\ComplaintDetailHtml.cshtml" />
+    <Content Include="Views\App\MaintenanceFormHtml.cshtml" />
+    <Content Include="Views\App\MaintenanceTemplateListHtml.cshtml" />
+    <Content Include="Views\App\MaintenanceTemplateListJs.cshtml" />
+    <Content Include="Views\App\EditorTemplates\ComplaintCategoryElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\ComplaintCategoryElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\ComplaintCategoryElement.cshtml" />
+    <Content Include="Views\Template\Maintenance.cshtml" />
+    <Content Include="Views\Template\Application.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\RentalApplicationBanksElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\RentalApplicationAttachmentsElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\RentalApplicationAttachmentsElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\RentalApplicationBanksElement.cshtml" />
+    <Content Include="Views\Template\_PathPicker.cshtml" />
+    <Content Include="Views\Template\CommercialSpace.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\CommercialSpaceLotsElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\CommercialSpaceLotsElement.cshtml" />
+    <Content Include="Views\Template\_DesignerContextAction.cshtml" />
+    <Content Include="Views\App\EditorTemplates\CommercialSpaceLotsElement.cshtml" />
+    <Content Include="Views\App\ApplicationDetailHtml.cshtml" />
+    <Content Include="Views\Print\Index.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\AddressElement.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\BuildingFloorsElement.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\BuildingMapElement.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\CheckBox.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\ComboBox.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\CommercialSpaceLotsElement.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\ComplaintCategoryElement.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\DatePicker.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\EmailFormElement.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\FormElement.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\NumberTextBox.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\RentalApplicationAttachmentsElement.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\RentalApplicationBanksElement.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\SectionFormElement.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\TextAreaElement.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\TextBox.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\BuildingElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\BuildingElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\BuildingElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\RentalApplicationContactElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\RentalApplicationContactElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\RentalApplicationAttachmentsElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\RentalApplicationBanksElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\RentalApplicationContactElement.cshtml" />
+    <Content Include="Views\Account\_Slider.cshtml" />
+    <Content Include="Views\Account\_Footer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

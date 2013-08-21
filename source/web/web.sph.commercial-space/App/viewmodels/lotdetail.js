@@ -7,7 +7,8 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/app'], function (context, logger, router, app) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/app', 'durandal/system'], 
+    function (context, logger, router, app, system) {
 
     var title = ko.observable(''),
         buildingId = ko.observable(),
@@ -44,12 +45,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             vm.floor.LotCollection.remove(floor);
         },
         addNew = function () {
-            var lot = {
-                Name: ko.observable(''),
-                Size: ko.observable(''),
-                Usage: ko.observable(''),
-                IsCommercialSpace: ko.observable(true)
-            };
+            var lot = new bespoke.sphcommercialspace.domain.Lot(system.guid());
             vm.floor.LotCollection.push(lot);
         },
         save = function () {
@@ -96,9 +92,12 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         addCsCommand: addCs,
         addNewLotCommand: addNew,
         goBackCommand: goBack,
-        saveCommand: save,
+        
         removeLotCommand: removeLot,
-        isBusy: isBusy
+        isBusy: isBusy,
+        toolbar : {
+            saveCommand: save
+        }
     };
 
     return vm;

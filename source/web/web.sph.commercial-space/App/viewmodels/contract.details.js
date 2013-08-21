@@ -12,17 +12,18 @@
 /// <reference path="./_contract.clauses.js" />
 
 
-define(['services/datacontext', './_contract.clauses', './_contract.documents', './_audittrail.list'],
-    function (context, clausesvm, documentsvm, audittrailvm) {
+define(['services/datacontext', './_contract.clauses', './_contract.documents', './_audittrail.list', 'services/watcher'],
+    function (context, clausesvm, documentsvm, audittrailvm, watcher) {
 
         var isBusy = ko.observable(false),
-
+            isEnd = ko.observable(false),
             activate = function (routeData) {
                 isBusy(true);
                 var tcs = new $.Deferred();
 
                 var contractLoaded = function (ctr) {
                     vm.contract(ctr);
+                    isEnd(ctr.IsEnd);
                     vm.title("Butiran kontrak " + ctr.ReferenceNo());
                     clausesvm.init(ctr);
                     documentsvm.init(ctr);
@@ -54,7 +55,7 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
                     .done(function(w) {
                         vm.toolbar.watching(w);
                     });
-
+                
                 return tcs.promise();
 
             },
@@ -75,14 +76,33 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
                     });
                 return tcs.promise();
             },
-            watch = function () {
+            openExtensionDialog = function () {
+                $('#extend-contract-panel').modal();
+            },
+            extension = function () {
                 var tcs = new $.Deferred();
-                var data = JSON.stringify({ id: vm.contract().ContractId(), entity: "Contract" });
+                var data = ko.toJSON({ id: vm.contract().ContractId(), extension: vm.contract().Extension });
                 isBusy(true);
 
-                context.post(data, "/Watch/Register")
+                context.post(data, "/Contract/Extend")
                     .then(function (result) {
                         isBusy(false);
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            },
+            openTerminationDialog = function () {
+                $('#terminate-contract-panel').modal();
+            },
+            termination = function () {
+                var tcs = new $.Deferred();
+                var data = ko.toJSON({ id: vm.contract().ContractId(), termination: vm.contract().Termination });
+                isBusy(true);
+
+                context.post(data, "/Contract/Terminate")
+                    .then(function (result) {
+                        isBusy(false);
+                        isEnd(true);
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -96,10 +116,23 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
             contract: ko.observable(new bespoke.sphcommercialspace.domain.Contract()),
             toolbar: {
                 saveCommand: save,
-                watchCommand: watch,
-                unwatchCommand: watch,
-                watching: ko.observable(false)
-            }
+                watchCommand: function () { return watcher.watch("Contract", vm.contract().ContractId()); },
+                unwatchCommand: function () { return watcher.unwatch("Contract", vm.contract().ContractId()); },
+                watching: ko.observable(false),
+                clicks: ko.observableArray([
+                {
+                    caption: 'Sambung Kontrak',
+                    icon: 'icon-edit-sign',
+                    command: openExtensionDialog
+                },
+                {
+                    caption: 'Tamatkan Kontrak',
+                    icon: 'icon-stop',
+                    command: openTerminationDialog
+                }])
+            },
+            terminateCommand: termination,
+            extendCommand : extension
         };
 
         return vm;

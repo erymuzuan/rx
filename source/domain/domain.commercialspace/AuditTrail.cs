@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using System.Xml.Serialization;
 
 namespace Bespoke.SphCommercialSpaces.Domain
@@ -40,6 +41,23 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 RaisePropertyChanged();
             }
         }
-         
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat("Changed by : {0}", this.ChangedBy);
+            sb.AppendLine("<br/>");
+            sb.AppendFormat("Changed datetime : {0}", this.DateTime);
+            sb.AppendLine("<br/>");
+
+            sb.AppendLine("<ul>");
+            foreach (var change in this.ChangeCollection)
+            {
+                sb.AppendFormat("<li>{0}</li>", change);
+            }
+            sb.AppendLine("</ul>");
+
+            return sb.ToString();
+        }
     }
 }

@@ -4,6 +4,7 @@
 /// <reference path="moment.js" />
 /// <reference path="~/Scripts/jquery-2.0.3.intellisense.js" />
 /// <reference path="~/kendo/js/kendo.all.js" />
+/// <reference path="_pager.js" />
 
 ko.bindingHandlers.kendoDropDownListValue = {
     init: function (element, valueAccessor) {
@@ -125,7 +126,7 @@ ko.bindingHandlers.kendoDate = {
         var picker = $(element).data("kendoDatePicker") ||
             $(element).kendoDatePicker({ format: "dd/MM/yyyy" }).data("kendoDatePicker");
 
-        if (date.year() == 1) { // DateTime.Min
+        if (null === date || date.year() === 1) { // DateTime.Min
             picker.value(null);
         } else {
             picker.value(date.toDate());
@@ -141,7 +142,7 @@ ko.bindingHandlers.kendoDate = {
             }
             // DO NOT fire update
             $(element).data("stop", "true");
-            valueAccessor()(date.format("DD/MM/YYYY"));
+            valueAccessor()(date.format("YYYY-MM-DD"));
             $(element).data("stop", "false");
         });
     },
@@ -152,7 +153,7 @@ ko.bindingHandlers.kendoDate = {
 
         var date = moment(modelValue);
         var picker = $(element).data("kendoDatePicker");
-        if (date.year() == 1) { // DateTime.Min
+        if (null === date ||date.year() == 1) { // DateTime.Min
             picker.value(null);
         } else {
             picker.value(date.toDate());
@@ -196,26 +197,50 @@ ko.bindingHandlers.kendoEnable = {
 };
 
 ko.bindingHandlers.command = {
-    init: function (element, valueAccessor) {
+    init: function (element, valueAccessor, allBindingsAccessor) {
         var action = valueAccessor(),
-            button = $(element);
+            $button = $(element),
+            allBindings = allBindingsAccessor();
 
-        var completeText = button.data("complete-text") || button.html();
+        if (allBindings.isvisible) {
+            var visible = typeof allBindings.isvisible === "function" ? allBindings.isvisible() : allBindings.isvisible;
+            if (!visible) {
+                $button.hide();
+            } else {
+                $button.show();
+            }
 
-        button.click(function (e) {
+            if (typeof allBindings.isvisible === "function") {
+                allBindings.isvisible.subscribe(function (v) {
+                    if (v)
+                        $button.show();
+                    else
+                        $button.hide();
+                });
+            }
+        }
+
+
+        $button.click(function (e) {
             e.preventDefault();
+
+            var $spinner = $("<i class='icon-spin icon-spinner icon-large'></i>");
+            $spinner.css({ "margin-left": -($button.width() / 2) - 16, "position": "fixed", "margin-top": "10px" });
+            $button.after($spinner).show();
             action()
                 .then(function () {
-                    button.button("complete");
-                    if (button.get(0).tagName == 'BUTTON' || button.get(0).tagName == 'A') {
-                        button.html(completeText);
-                    } else {
-                        button.val(completeText);
-                    }
+                    $button
+                        .button("complete")
+                        .prop('disabled', true)
+                        .removeClass('btn-disabled');
+                    $spinner.hide();
+
                 });
-            if (button.data("loading-text")) {
-                button.button("loading");
+            if ($button.data("loading-text")) {
+                $button.button("loading");
             }
+            $button.addClass('btn-disabled').prop('disabled', true);
+
         });
     }
 };
@@ -298,6 +323,8 @@ ko.bindingHandlers.pathAutoComplete = {
         var command = valueAccessor();
         var value = command.value;
         var type = command.type;
+
+        if (!type()) return;
 
         $.get("/App/TriggerPathPickerJson/" + type())
             .done(function (json) {
@@ -413,9 +440,9 @@ ko.bindingHandlers.filter = {
             $rows.each(function () {
                 var $tr = $(this);
                 if ($tr.text().toLowerCase().indexOf(filter) > -1) {
-                    $tr.show();
+                    $tr.slideDown();
                 } else {
-                    $tr.hide();
+                    $tr.slideUp();
                 }
             });
         };
@@ -430,6 +457,79 @@ ko.bindingHandlers.filter = {
         if ($filterInput.val()) {
             dofilter();
         }
+
+    }
+};
+
+ko.bindingHandlers.serverPaging = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+        var value = valueAccessor(),
+            entity = value.entity,
+            query = value.query,
+            list = value.list,
+            $element = $(element),
+            context = require('services/datacontext'),
+            $pagerPanel = $('<div></div>'),
+            $spinner = $('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />'),
+            startLoad = function () {
+                $spinner.show();
+                $element.fadeTo("fast", 0.33);
+            },
+            endLoad = function () {
+                $spinner.hide();
+                $element.fadeTo("fast", 1);
+            },
+            setItemsSource = function(items) {
+                if (typeof list === "string") {
+                    viewModel[list](items);
+                }
+                if (typeof list === "function") {
+                    list(items);
+                }
+            },
+            changed = function (page, size) {
+                startLoad();
+                context.loadAsync({
+                    entity: entity,
+                    page: page,
+                    size: size,
+                    includeTotal: true
+                }, query)
+                     .then(function (lo) {
+                         setItemsSource(lo.itemCollection);
+                         endLoad();
+                     });
+            };
+
+        $element.after($pagerPanel).after($spinner)
+            .fadeTo("slow", 0.33);
+
+        var tcs = new $.Deferred();
+        context.loadAsync({
+            entity: entity,
+            page: 1,
+            size: 20,
+            includeTotal: true
+        }, query)
+            .then(function (lo) {
+
+                var options = {
+                    element: $pagerPanel,
+                    count: lo.rows,
+                    changed: changed
+                },
+                    pager = new bespoke.utils.ServerPager(options);
+                console.log(pager);
+                setTimeout(function () {
+                    setItemsSource(lo.itemCollection);
+                    tcs.resolve(true);
+                    endLoad();
+                }, 500);
+
+            });
+        return tcs.promise();
+
+
 
     }
 };

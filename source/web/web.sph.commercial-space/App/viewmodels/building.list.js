@@ -8,7 +8,8 @@
 
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
 
-    var activate = function () {
+    var building = ko.observable(new bespoke.sphcommercialspace.domain.Building()),
+        activate = function () {
         var tcs = new $.Deferred();
         var templateTask = context.loadAsync("BuildingTemplate", "IsActive eq 1");
         var listTask = context.loadAsync("Building", "BuildingId gt 0");
@@ -19,7 +20,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             var commands = _(tlo.itemCollection).map(function (t) {
                 return {
                     caption: ko.observable(t.Name()),
-                    icon: "icon-plus",
+                    icon: "icon-building",
                     command: function () {
                         var url = '/#/building.detail-templateid.' + t.BuildingTemplateId() + "/" + t.BuildingTemplateId() + "/0";
                         router.navigateTo(url);
@@ -32,7 +33,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
 
             vm.toolbar.groupCommands([ko.observable(
                 {
-                    caption: ko.observable("Bangunan Baru"),
+                    caption: ko.observable("+ Bangunan Baru"),
                     commands: ko.observableArray(commands)
                 })
             ]);
@@ -41,23 +42,26 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             tcs.resolve(true);
         });
 
-
-
         return tcs.promise();
     },
-
-
-            exportList = function () {
-
-            };
+        exportList = function () {};
 
     var vm = {
         activate: activate,
         title: 'Building',
+        building:building,
         buildings: ko.observableArray([]),
         templates: ko.observableArray([]),
         toolbar: {
             groupCommands: ko.observableArray(),
+            reloadCommand: function () {
+                return activate();
+            },
+            printCommand: ko.observable({
+                entity: ko.observable("Building"),
+                id: ko.observable(0),
+                item: building,
+            }),
             exportCommand: exportList
         }
     };
