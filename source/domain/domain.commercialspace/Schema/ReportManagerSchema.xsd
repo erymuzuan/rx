@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<xs:schema xmlns="http://tempuri.org/ReportManagerSchema.xsd" xmlns:mstns="http://tempuri.org/ReportManagerSchema.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://tempuri.org/ReportManagerSchema.xsd" elementFormDefault="qualified" id="ReportManagerSchema">
+	<xs:element name="ReportLayout">
+		<xs:complexType>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ReportItem"/>
+	<xs:element name="Report">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="ReportItemCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ReportItem" type="ReportItem" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ReportLayoutCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ReportLayout" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsPrivate" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsExportAllowed" type="xs:boolean" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="CreatedDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="CreatedBy" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
