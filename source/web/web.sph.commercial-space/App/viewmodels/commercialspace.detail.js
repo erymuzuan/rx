@@ -13,7 +13,6 @@
 define(['services/datacontext', 'services/logger', './_commercialspace.contract', 'durandal/system'], function (context, logger, contractlistvm,system) {
 
     var title = ko.observable(),
-        template = ko.observable(),
         selectedBuilding = {},
         isBusy = ko.observable(false),
         activate = function (routeData) {
@@ -29,7 +28,6 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
 
             $.when(templateTask, buildingTask, csTask)
                 .done(function (tpl) {
-                    template(tpl);
                     var cfs = _(tpl.CustomFieldCollection()).map(function (f) {
                         var webid = system.guid();
                         var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
@@ -38,7 +36,8 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
                         return v;
                     });
 
-                    vm.commercialSpace().CustomFieldValueCollection(cfs);
+                     vm.commercialSpace().CustomFieldValueCollection(cfs);
+                     vm.commercialSpace().Category(tpl.Name());
                 })
                 .done(function (a, list) {
                     vm.buildingOptions(_(list).sortBy(function (bd) {
@@ -49,19 +48,19 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
                     if (!cs) {
                         cs = new bespoke.sphcommercialspace.domain.CommercialSpace();
                         cs.TemplateId(templateId);
-                        
+                        cs.Category(a.Name);
                         vm.commercialSpace(cs);
                         
                         return;
                     }
                     vm.commercialSpace(cs);
-                    title('Maklumat ruang komersil ' + cs.RegistrationNo());
+                    title('Maklumat ruang komersil');
                     contractlistvm.activate(routeData)
                         .then(function () {
                             tcs.resolve(true);
                         });
                 })
-                .done(function() {
+                .done(function () {
                     tcs.resolve();
                 });
             
@@ -72,7 +71,7 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
         },
         saveCs = function () {
             var tcs = new $.Deferred();
-            var data = ko.mapping.toJSON(vm.commercialSpace);
+            var data = ko.mapping.toJSON(vm.commercialSpace());
             isBusy(true);
             context.post(data, "/CommercialSpace/SaveCommercialSpace")
                 .done(function (e) {
