@@ -455,13 +455,17 @@
     <Content Include="App\views\_workorder.warranty.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\add_icon.png" />
+    <Content Include="Images\add_user.png" />
     <Content Include="Images\Adobe-Acrobat.png" />
     <Content Include="Images\background.png" />
     <Content Include="Images\blank.png" />
     <Content Include="Images\constantfield.png" />
     <Content Include="Images\courts.png" />
     <Content Include="Images\documentfield.png" />
+    <Content Include="Images\edit_icon.png" />
     <Content Include="Images\EmailAction.png" />
+    <Content Include="Images\FieldChangeField.png" />
     <Content Include="Images\functionfield.png" />
     <Content Include="Images\gelanggang.png" />
     <Content Include="Images\hotel.png" />
