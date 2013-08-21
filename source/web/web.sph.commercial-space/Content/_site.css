@@ -203,6 +203,10 @@ text-align: center;
     -moz-box-shadow: none;
     box-shadow: none;
 }
+.well a:hover{
+	color: #fff;
+	text-decoration: none;
+}
 
 .well-primary:hover {
     background: #0096e1;
