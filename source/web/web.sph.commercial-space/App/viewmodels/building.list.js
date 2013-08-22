@@ -12,9 +12,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         activate = function () {
         var tcs = new $.Deferred();
         var templateTask = context.loadAsync("BuildingTemplate", "IsActive eq 1");
-        var listTask = context.loadAsync("Building", "BuildingId gt 0");
+      
 
-        $.when(templateTask, listTask).done(function (tlo, lo) {
+        $.when(templateTask).done(function (tlo) {
             vm.templates(tlo.itemCollection);
 
             var commands = _(tlo.itemCollection).map(function (t) {
@@ -38,7 +38,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 })
             ]);
 
-            vm.buildings(lo.itemCollection);
             tcs.resolve(true);
         });
 

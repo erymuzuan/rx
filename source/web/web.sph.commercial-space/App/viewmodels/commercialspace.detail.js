@@ -23,37 +23,45 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
             var tcs = new $.Deferred(),
                 templateTask = context.loadOneAsync("CommercialSpaceTemplate", "CommercialSpaceTemplateId eq " + templateId),
                 buildingTask = context.getTuplesAsync("Building", "BuildingId gt 0", "BuildingId", "Name"),
-                csTask = context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + routeData.csId);
-
-
-            $.when(templateTask, buildingTask, csTask)
-                .done(function (tpl) {
+                csTask = context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + routeData.csId),
+                buildCustomFieldValue = function (tpl) {
                     var cfs = _(tpl.CustomFieldCollection()).map(function (f) {
                         var webid = system.guid();
                         var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
                         v.Name(f.Name());
                         v.Type(f.Type());
+                        v.Value('');
                         return v;
                     });
 
-                     vm.commercialSpace().CustomFieldValueCollection(cfs);
-                     vm.commercialSpace().Category(tpl.Name());
-                })
+                    vm.commercialSpace().CustomFieldValueCollection(cfs);
+                    vm.commercialSpace().Category(tpl.Name());
+                };
+
+
+            $.when(templateTask, buildingTask, csTask)
                 .done(function (a, list) {
                     vm.buildingOptions(_(list).sortBy(function (bd) {
                         return bd.Item2;
                     }));
                 })
-                .done(function(a, b, cs) {
+                .done(function(tpl, b, cs) {
                     if (!cs) {
                         cs = new bespoke.sphcommercialspace.domain.CommercialSpace();
                         cs.TemplateId(templateId);
-                        cs.Category(a.Name);
+                        cs.Category(tpl.Name);
                         vm.commercialSpace(cs);
+
+                        buildCustomFieldValue(tpl);
                         
                         return;
                     }
+                    var templates = _(cs.ApplicationTemplateOptions()).map(function (v) {
+                        return v.toString();
+                    });
                     vm.commercialSpace(cs);
+                    vm.commercialSpace().ApplicationTemplateOptions(templates);
+                    
                     title('Maklumat ruang komersil');
                     contractlistvm.activate(routeData)
                         .then(function () {
