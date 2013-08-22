@@ -13,107 +13,104 @@ define(['services/datacontext', 'services/logger'],
     function (context, logger) {
 
         var isBusy = ko.observable(false),
-        activate = function (routeData) {
-            isBusy(true);
+            activate = function (routeData) {
+                isBusy(true);
+                var id = parseInt(routeData.id);
+                template().ContractTemplateId(id);
 
-            template.ContractTemplateId(routeData.id);
+                // reset
+                if (id === 0) {
 
-            // reset
-            template.Type('');
-            template.Description(''),
-            template.DocumentTemplateCollection([]);
-            template.TopicCollection([]);
-            topic.Text('');
-            topic.Title('');
-            topic.Description('');
-            topic.ClauseCollection([]);
-            clause.No('');
-            clause.Text('');
-            clause.Title('');
-            clause.Description('');
+                    template(new bespoke.sphcommercialspace.domain.ContractTemplate());
+                    editedTopic(new bespoke.sphcommercialspace.domain.Topic());
+                    editedClaus(new bespoke.sphcommercialspace.domain.Clause());
 
-            return context.loadOneAsync("ContractTemplate", "ContractTemplateId eq " + routeData.id)
-                .then(function (e) {
-                    if (e) {
-                        ko.mapping.fromJS(ko.mapping.toJS(e), {}, vm.template);
-                    }
-                    isBusy(false);
-                });
-        },
-        template = {
-            ContractTemplateId: ko.observable(0),
-            Type: ko.observable(),
-            Description: ko.observable(),
-            DocumentTemplateCollection: ko.observableArray([]),
-            TopicCollection: ko.observableArray([])
-        },
-        configureUpload = function (element, index, attachment) {
-
-            $(element).find("input[type=file]").kendoUpload({
-                async: {
-                    saveUrl: "/BinaryStore/Upload",
-                    removeUrl: "/BinaryStore/Remove",
-                    autoUpload: true
-                },
-                multiple: false,
-                error: function (e) {
-                    logger.logError(e, e, this, true);
-                },
-                success: function (e) {
-                    logger.log('Your file has been uploaded', e, "route/create", true);
-                    attachment.StoreId(e.response.storeId);
                 }
-            });
-        },
-        viewAttached = function (view) {
-            _uiready.init(view);
-        },
+
+                return context.loadOneAsync("ContractTemplate", "ContractTemplateId eq " + routeData.id)
+                    .then(function (e) {
+                        if (e) {
+                            ko.mapping.fromJS(ko.mapping.toJS(e), {}, vm.template);
+                        }
+                        isBusy(false);
+                    });
+            },
+            template = ko.observable(new bespoke.sphcommercialspace.domain.ContractTemplate()),
+            configureUpload = function (element, index, attachment) {
+
+                $(element).find("input[type=file]").kendoUpload({
+                    async: {
+                        saveUrl: "/BinaryStore/Upload",
+                        removeUrl: "/BinaryStore/Remove",
+                        autoUpload: true
+                    },
+                    multiple: false,
+                    error: function (e) {
+                        logger.logError(e, e, this, true);
+                    },
+                    success: function (e) {
+                        logger.log('Your file has been uploaded', e, "route/create", true);
+                        attachment.StoreId(e.response.storeId);
+                    }
+                });
+            },
+            viewAttached = function (view) {
+                _uiready.init(view);
+            },
             addAttachment = function () {
                 template.DocumentTemplateCollection.push({
                     Name: ko.observable(''),
                     StoreId: ko.observable('')
                 });
             },
-            addTopic = function () {
-                var clone = ko.mapping.fromJSON(ko.mapping.toJSON(topic));
-                template.TopicCollection.push(clone);
-                topic.Title('');
-                topic.Text('');
-                topic.Description('');
-                topic.ClauseCollection([]);
+            
+            // ============= TOPICS ============================= //
+            existingTopic = false,
+            editedTopic = ko.observable(new bespoke.sphcommercialspace.domain.Topic()),
+            startAddTopic = function () {
+                editedTopic(new bespoke.sphcommercialspace.domain.Topic());
+                existingTopic = null;
             },
-        topic = {
-            Title: ko.observable(''),
-            Text: ko.observable(''),
-            Description: ko.observable(''),
-            ClauseCollection: ko.observableArray()
-        },
-        clause = {
-            Title: ko.observable(''),
-            No: ko.observable(''),
-            Text: ko.observable(''),
-            Description: ko.observable('')
-        },
-        addClause = function () {
-            var clone = ko.mapping.fromJSON(ko.mapping.toJSON(clause));
-            topic.ClauseCollection.push(clone);
-            clause.No('');
-            clause.Title('');
-            clause.Text('');
-            clause.Description('');
-        },
-            cachedTopic,
-            cachedClause,
-            selectTopic = function (tp, ev) {
-                if (cachedTopic) { // copy it back
-                    ko.mapping.fromJS(ko.mapping.toJS(vm.topic), {}, cachedTopic);
+            topicDialogOk = function () {
+                if (existingTopic) {
+                    template().TopicCollection.replace(existingTopic,editedTopic());
+                } else {
+                    template().TopicCollection.push(editedTopic());
                 }
-                ko.mapping.fromJS(ko.mapping.toJS(tp), {}, vm.topic);
-                cachedTopic = tp;
+
+                editedTopic(new bespoke.sphcommercialspace.domain.Topic());
+            },
+            editTopic = function (tp) {
+                var clone = ko.mapping.fromJS(ko.mapping.toJS(tp));
+                editedTopic(clone);
+                existingTopic = tp;
+            },
+            
+
+            // *-*-*-* CLAUSES *^*^*^
+
+        editedClaus = ko.observable(),
+            startAddClause = function () {
+                if (selectedTopic() === null) {
+                    console.log("no selected topic");
+                    return;
+                }
+                editedClaus(new bespoke.sphcommercialspace.domain.Clause());
+            },
+        addClause = function () {
+            var clone = ko.mapping.fromJSON(ko.mapping.toJSON(editedClaus));
+            selectedTopic().ClauseCollection.push(clone);
+            editedClaus(new bespoke.sphcommercialspace.domain.Clause());
+        },
+            cachedClause,
+            selectedTopic = ko.observable(),
+            selectTopic = function (tp, ev) {
+                selectedTopic(tp);
                 var element = $(ev.target);
                 element.parents("ul").children()
                     .removeClass("selected");
                 element.parents("li").addClass("selected");
+
             },
             selectClause = function (cl, ev) {
                 if (cachedClause) { // copy it back
@@ -130,12 +127,7 @@ define(['services/datacontext', 'services/logger'],
             },
             save = function () {
 
-                if (cachedTopic) { // copy it back
-                    ko.mapping.fromJS(ko.mapping.toJS(vm.topic), {}, cachedTopic);
-                }
-                if (cachedClause) { // copy it back
-                    ko.mapping.fromJS(ko.mapping.toJS(vm.clause), {}, cachedClause);
-                }
+
 
                 var data = ko.mapping.toJSON({ template: template });
                 return context.post(data, "/ContractSetting/Save")
@@ -143,23 +135,6 @@ define(['services/datacontext', 'services/logger'],
                         ko.mapping.fromJS(e, {}, vm.template);
                         isBusy(false);
                     });
-            },
-            startAddTopic = function () {
-                cachedTopic = null;
-
-                topic.Text('');
-                topic.Title('');
-                topic.Description('');
-                topic.ClauseCollection([]);
-
-            },
-            startAddClause = function () {
-
-                cachedClause = null;
-                clause.No('');
-                clause.Text('');
-                clause.Title('');
-                clause.Description('');
             },
             removeDocument = function (doc) {
                 template.DocumentTemplateCollection.remove(doc);
@@ -171,7 +146,10 @@ define(['services/datacontext', 'services/logger'],
             addAttachmentCommand: addAttachment,
             selectTopicCommand: selectTopic,
             selectClauseCommand: selectClause,
-            addTopicCommand: addTopic,
+            topicDialogOk: topicDialogOk,
+            editTopic: editTopic,
+            editedTopic: editedTopic,
+            selectedTopic: selectedTopic,
             addClauseCommand: addClause,
             startAddTopicCommand: startAddTopic,
             startAddClauseCommand: startAddClause,
@@ -186,22 +164,22 @@ define(['services/datacontext', 'services/logger'],
                 commands: ko.observableArray([{
                     command: save,
                     icon: "icon-check",
-                    caption : "Approve"
-                },{
+                    caption: "Approve"
+                }, {
                     command: save,
                     icon: "icon-bolt",
-                    caption : "Reject"
+                    caption: "Reject"
                 }
                 ])
             },
-            statusbar : {
+            statusbar: {
                 text: ko.observable(),
-                progress : ko.observable()
+                progress: ko.observable()
             },
             configureUpload: configureUpload,
             template: template,
-            topic: topic,
-            clause: clause,
+            topic: editedTopic,
+            clause: editedClaus,
             contractTypeTemplate: ko.observable(),
             removeDocumentCommand: removeDocument,
             viewAttached: viewAttached

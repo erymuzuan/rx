@@ -71,22 +71,19 @@
             <div class="row-fluid">
                 <div class="span4">
                     <label>Topics</label>
-                    <ul class="nav nav-stacked" data-bind="foreach: template.TopicCollection">
+                    <ul class="nav nav-stacked" data-bind="foreach: template().TopicCollection">
                         <li>
-                            <a href="#" data-bind="text: Title, click: $parent.selectTopicCommand"></a>
+                            <div>
+                                <a href="#" data-bind="text: Title, click: $parent.selectTopicCommand"></a>
+                                <a data-toggle="modal" href="#add-topic" data-bind="click : $root.editTopic" class="pull-right">Edit</a></div>
                         </li>
                     </ul>
                     <a type="button" class="btn btn-link"
                         data-toggle="modal"
                         href="#add-topic" data-bind="click: startAddTopicCommand">+Topic</a>
-                    <label>Title</label>
-                    <input type="text" data-bind="value: topic.Title" class="input-medium" />
-                    <label>Text</label>
-                    <textarea rows="6" data-bind="value: topic.Text"></textarea>
-                    <label>Nota :</label>
-                    <textarea rows="2" data-bind="value: topic.Description"></textarea>
+               
                 </div>
-                <div class="span8" data-bind="visible: topic.Title">
+                <div class="span8" data-bind="visible: $root.selectedTopic()">
                     <a type="button" class="btn btn-link"
                         data-toggle="modal"
                         href="#add-clause"
@@ -100,38 +97,6 @@
                         </li>
                     </ul>
 
-                    <div>
-                        <form class="form-horizontal">
-                            <div class="control-group">
-                                <label for="clause.No2" class="control-label">No</label>
-                                <div class="controls">
-                                    <input data-bind="value: clause.No" id="clause.No2" type="text" name="clause.No" />
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label for="clause.Title2" class="control-label">Tajuk</label>
-                                <div class="controls">
-                                    <input class="input-xxlarge" data-bind="value: clause.Title" id="clause.Title2" type="text" name="clause.Title" />
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <label for="clause.Text2" class="control-label">Text</label>
-                                <div class="controls">
-                                    <textarea class="input-xxlarge" rows="6" data-bind="value: clause.Text" id="clause.Text2"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <label for="clause.Description2" class="control-label">Nota</label>
-                                <div class="controls">
-                                    <textarea class="input-xxlarge" rows="2" id="clause.Description2" data-bind="value: clause.Description"></textarea>
-                                </div>
-                            </div>
-                        </form>
-
-
-                    </div>
                 </div>
             </div>
         </div>
@@ -147,31 +112,31 @@
         <h3>Topic</h3>
     </div>
     <div class="modal-body">
-        <form>
+        <form data-bind="with : editedTopic">
             <div class="control-group">
-                <label for="topic.Title" class="control-label">Tajuk</label>
+                <label for="topic-Title" class="control-label">Tajuk</label>
                 <div class="controls">
-                    <input data-bind="value: topic.Title" id="topic.Title" type="text" name="topic.Title" />
+                    <input data-bind="value: Title" id="topic-Title" type="text" name="topic.Title" />
                 </div>
             </div>
             <div class="control-group">
-                <label for="topic.Text" class="control-label">Text</label>
+                <label for="topic-Text" class="control-label">Text</label>
                 <div class="controls">
-                    <textarea class="input-large input-block-level" rows="5" data-bind="value: topic.Text" id="topic.Text" name="topic.Text"></textarea>
+                    <textarea class="input-large input-block-level" rows="5" data-bind="value: Text" id="topic-Text" name="topic.Text"></textarea>
                 </div>
             </div>
             <div class="control-group">
-                <label for="topic.Description" class="control-label">Nota</label>
+                <label for="topic-Description" class="control-label">Nota</label>
                 <div class="controls">
-                    <textarea class="input-block-level" data-bind="value: topic.Description" id="topic.Description" rows="3" name="topic.Description" />
+                    <textarea class="input-block-level" data-bind="value: Description" id="topic-Description" rows="3" name="topic.Description" />
                 </div>
             </div>
 
         </form>
     </div>
     <div class="modal-footer">
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: topicDialogOk" />
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: addTopicCommand" />
     </div>
 </section>
 
