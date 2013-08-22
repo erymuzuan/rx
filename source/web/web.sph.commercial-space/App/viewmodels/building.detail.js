@@ -12,35 +12,20 @@ define(['services/datacontext',
         'durandal/app',
         'viewmodels/map',
         'services/logger',
-        'services/watcher'
+        'services/watcher',
+        'config'
 ],
-    function (context, router, system, app, mapvm, logger, watcher) {
+    function (context, router, system, app, mapvm, logger, watcher, config) {
 
 
         var isBusy = ko.observable(false),
             activate = function (routeData) {
-                var id = parseInt(routeData.id);
+                var id = parseInt(routeData.id),
+                    templateId = parseInt(routeData.templateId),
+                    tcs = new $.Deferred();
 
-                var templateId = parseInt(routeData.templateId);
-
-                var tcs = new $.Deferred();
-                context.loadOneAsync("Setting", "Key eq 'State'")
-                    .done(function (s) {
-                        s = s || {
-                            Value: function () {
-                                return '[{ "State": "Kelantan", "Name": "Kelantan" }, { "State": "Selangor", "Name": "Selangor" }, {"State": "Kuala Lumpur" ,"Name": "Kuala Lumpur" }]';
-                            }
-                        };
-                        var states = JSON.parse(s.Value());
-                        vm.stateOptions(states);
-                        tcs.resolve(true);
-                    })
-                    .fail(function () {
-                        var states = [{ State: 'Kelantan', Name: 'Kelantan' }, { State: 'Selangor', Name: 'Selangor' }, { State: 'Kuala Lumpur', Name: 'Kuala Lumpur' }];
-                        vm.stateOptions(states);
-                        tcs.resolve(true);
-                    });
-
+                vm.stateOptions(config.stateOptions);
+                mapInitialized(false);
 
                 if (!id) {
 
@@ -56,30 +41,38 @@ define(['services/datacontext',
                             });
 
                             vm.building().CustomFieldValueCollection(cfs);
+                            tcs.resolve();
 
                         });
 
                     vm.building().TemplateId(templateId);
                     vm.toolbar().watching(false);
-                    return true;
+                    return tcs.promise();
                 }
+
+
+
                 vm.toolbar().auditTrail.id(id);
                 vm.toolbar().printCommand.id(id);
-                var query = "BuildingId eq " + id;
-                context.loadOneAsync("Building", query).done(function (b) {
+
+
+                var query = "BuildingId eq " + id,
+                    loadTask = context.loadOneAsync("Building", query),
+                    watcherTask = watcher.getIsWatchingAsync("Building", id);
+
+                $.when(loadTask, watcherTask).done(function (b, w) {
                     if (typeof b.Address !== "function") {
                         var address = b.Address;
                         b.Address = ko.observable(address);
                     }
+
                     vm.building(b);
+                    vm.toolbar().watching(w);
+
                     tcs.resolve(true);
                 });
 
-                // watcher
-                context.loadOneAsync("Watcher", "EntityName eq 'Building' and EntityId eq " + id)
-                    .done(function(w) {
-                        vm.toolbar().watching(null !== w);
-                    });
+
 
 
                 return tcs.promise();
@@ -103,83 +96,87 @@ define(['services/datacontext',
             addFloor = function () {
                 var floor = new bespoke.sphcommercialspace.domain.Floor();
                 vm.building().FloorCollection.push(floor);
-            };
+            },
 
-        var saveAsync = function () {
-            var tcs = new $.Deferred();
-            var data = ko.mapping.toJSON(vm.building());
-            context.post(data, "/Building/SaveBuilding")
-                .done(function (e) {
-                    if (e.status) {
-                        vm.building().BuildingId(e.buildingId);
-                        logger.log(e.message, e, "buildingdetail", true);
-                    } else {
-                        logger.logError(e.message, e, this, true);
-                    }
-                    tcs.resolve(e);
-                });
-            return tcs.promise();
-        };
-
-        var showMap = function () {
-            isBusy(true);
-            var point = new google.maps.LatLng(3.1282, 101.6441);
-            var buildingId = vm.building().BuildingId();
-            if (!buildingId) {
-                mapvm.geocode(
-                    vm.building().Address().Street() + ","
-                   + vm.building().Address().City() + ","
-                   + vm.building().Address().Postcode() + ","
-                   + vm.building().Address().State() + ","
-                   + "Malaysia.")
-                .then(function (result) {
-                    if (result.status) {
-                        mapvm.init({
-                            panel: 'map',
-                            draw: true,
-                            polygoncomplete: polygoncomplete,
-                            zoom: 18,
-                            center: result.point
-                        });
-                    } else {
-                        mapvm.init({
-                            panel: 'map',
-                            draw: true,
-                            polygoncomplete: polygoncomplete,
-                            zoom: center[0] ? 18 : 12,
-                            center: point
-                        });
-                    }
-                });
-                return;
-            }
-
-            var pathTask = $.get("/Building/GetEncodedPath/" + buildingId);
-            var centerTask = $.get("/Building/GetCenter/" + buildingId);
-            $.when(pathTask, centerTask)
-            .then(function (path, center) {
-                isBusy(false);
-                if (center[0]) {
-                    point = new google.maps.LatLng(center[0].Lat, center[0].Lng);
-                }
-                mapvm.init({
-                    panel: 'map',
-                    draw: true,
-                    polygoncomplete: polygoncomplete,
-                    zoom: center[0] ? 18 : 12,
-                    center: point
-                });
-                if (path[0]) {
-                    buildingPolygon = mapvm.add({
-                        encoded: path[0],
-                        draggable: true,
-                        editable: true,
-                        zoom: 18
+            saveAsync = function () {
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(vm.building());
+                context.post(data, "/Building/SaveBuilding")
+                    .done(function (e) {
+                        if (e.status) {
+                            vm.building().BuildingId(e.buildingId);
+                            logger.log(e.message, e, "buildingdetail", true);
+                        } else {
+                            logger.logError(e.message, e, this, true);
+                        }
+                        tcs.resolve(e);
                     });
+                return tcs.promise();
+            },
+            mapInitialized = ko.observable(false),
+            showMap = function () {
+                if (mapInitialized()) {
+                    return;
+                }
+                mapInitialized(true);
+                isBusy(true);
+                var point = new google.maps.LatLng(3.1282, 101.6441);
+                var buildingId = vm.building().BuildingId();
+                if (!buildingId) {
+                    mapvm.geocode(
+                        vm.building().Address().Street() + ","
+                       + vm.building().Address().City() + ","
+                       + vm.building().Address().Postcode() + ","
+                       + vm.building().Address().State() + ","
+                       + "Malaysia.")
+                    .then(function (result) {
+                        if (result.status) {
+                            mapvm.init({
+                                panel: 'map',
+                                draw: true,
+                                polygoncomplete: polygoncomplete,
+                                zoom: 18,
+                                center: result.point
+                            });
+                        } else {
+                            mapvm.init({
+                                panel: 'map',
+                                draw: true,
+                                polygoncomplete: polygoncomplete,
+                                zoom: center[0] ? 18 : 12,
+                                center: point
+                            });
+                        }
+                    });
+                    return;
                 }
 
-            });
-        },
+                var pathTask = $.get("/Building/GetEncodedPath/" + buildingId);
+                var centerTask = $.get("/Building/GetCenter/" + buildingId);
+                $.when(pathTask, centerTask)
+                .then(function (path, center) {
+                    isBusy(false);
+                    if (center[0]) {
+                        point = new google.maps.LatLng(center[0].Lat, center[0].Lng);
+                    }
+                    mapvm.init({
+                        panel: 'map',
+                        draw: true,
+                        polygoncomplete: polygoncomplete,
+                        zoom: center[0] ? 18 : 12,
+                        center: point
+                    });
+                    if (path[0]) {
+                        buildingPolygon = mapvm.add({
+                            encoded: path[0],
+                            draggable: true,
+                            editable: true,
+                            zoom: 18
+                        });
+                    }
+
+                });
+            },
             buildingPolygon = null,
             polygoncomplete = function (shape) {
                 buildingPolygon = shape;
@@ -222,7 +219,7 @@ define(['services/datacontext',
             toolbar: ko.observable({
                 watchCommand: function () { return watcher.watch("Building", vm.building().BuildingId()); },
                 unwatchCommand: function () { return watcher.unwatch("Building", vm.building().BuildingId()); },
-                watching : ko.observable(false),
+                watching: ko.observable(false),
                 saveCommand: saveAsync,
                 auditTrail: {
                     entity: "Building",

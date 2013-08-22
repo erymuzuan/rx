@@ -17,10 +17,21 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var username = User.Identity.Name;
             var context = new SphDataContext();
-            var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == username);
-            var vm = new ApplicationConfigurationViewModel { StartModule = "public.index" };
-            var states = await context.GetScalarAsync<Setting, string>(x => x.Key == "State", x => x.Value);
-            vm.StateOptions = states;
+            var profileTask =  context.LoadOneAsync<UserProfile>(u => u.Username == username);
+            var statesOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "State", x => x.Value);
+            var departmentOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "Departments", x => x.Value);
+            var spaceUsageOptionTask = context.GetScalarAsync<Setting, string>(x => x.Key == "Categories", x => x.Value);
+
+            await Task.WhenAll(profileTask, statesOptionTask, departmentOptionTask, spaceUsageOptionTask);
+            var profile = await profileTask;
+
+            var vm = new ApplicationConfigurationViewModel
+            {
+                StartModule = "public.index",
+                StateOptions = await statesOptionTask,
+                SpaceUsageOptions = await spaceUsageOptionTask,
+                DepartmentOptions = await departmentOptionTask
+            };
             if (null != profile)
             {
                  vm.StartModule = profile.StartModule;

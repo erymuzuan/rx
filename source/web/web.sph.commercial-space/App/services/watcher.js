@@ -9,12 +9,12 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger'],
-    function (context, logger) {
+define(['services/datacontext', 'services/logger', 'config'],
+    function (context, logger, config) {
 
         var watch = function (entity, id) {
-            var tcs = new $.Deferred();
-            var data = JSON.stringify({ id: id, entity: entity });
+            var tcs = new $.Deferred(),
+                data = JSON.stringify({ id: id, entity: entity });
 
             context.post(data, "/Watch/Register")
                 .then(function (result) {
@@ -24,20 +24,31 @@ define(['services/datacontext', 'services/logger'],
             return tcs.promise();
         },
             unwatch = function (entity, id) {
-                var tcs = new $.Deferred();
-                var data = JSON.stringify({ id: id, entity: entity });
+                var tcs = new $.Deferred(),
+                    data = JSON.stringify({ id: id, entity: entity });
 
                 context.post(data, "/Watch/Deregister")
                     .then(function (result) {
                         tcs.resolve(result);
-                        logger.log("Anda sudah dibuang dari senarai",data, "watcher",true);
+                        logger.log("Anda sudah dibuang dari senarai", data, "watcher", true);
                     });
+                return tcs.promise();
+            },
+            getIsWatchingAsync = function (entity, id) {
+                var tcs = new $.Deferred(),
+                    query = String.format("EntityName eq '{0}' and EntityId eq {1} and User eq '{2}'", entity, id, config.userName);
+
+                context.loadOneAsync("Watcher", query)
+                   .done(function (w) {
+                       tcs.resolve(null !== w);
+                   });
                 return tcs.promise();
             };
 
         var vm = {
             watch: watch,
-            unwatch: unwatch
+            unwatch: unwatch,
+            getIsWatchingAsync: getIsWatchingAsync
         };
 
         return vm;
