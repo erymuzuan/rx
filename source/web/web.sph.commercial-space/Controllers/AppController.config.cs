@@ -19,6 +19,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var context = new SphDataContext();
             var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == username);
             var vm = new ApplicationConfigurationViewModel { StartModule = "public.index" };
+            var states = await context.GetScalarAsync<Setting, string>(x => x.Key == "State", x => x.Value);
+            vm.StateOptions = states;
             if (null != profile)
             {
                  vm.StartModule = profile.StartModule;

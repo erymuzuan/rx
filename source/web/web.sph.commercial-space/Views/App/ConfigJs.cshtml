@@ -26,7 +26,8 @@
             userName: '@User.Identity.Name',
             isAuthenticated : @(User.Identity.IsAuthenticated.ToString().ToLower()),
             routes: routes,
-            startModule: startModule
+            startModule: startModule,
+            stateOptions : @Html.Raw(Model.StateOptions)
         };
     });
 </script>
