@@ -24,13 +24,16 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             await Task.WhenAll(profileTask, statesOptionTask, departmentOptionTask, spaceUsageOptionTask);
             var profile = await profileTask;
+            var spaceUsageoption = await spaceUsageOptionTask;
+            var departmentOptions = await departmentOptionTask;
+            var stateOptions = await statesOptionTask;
 
             var vm = new ApplicationConfigurationViewModel
             {
                 StartModule = "public.index",
-                StateOptions = await statesOptionTask,
-                SpaceUsageOptions = await spaceUsageOptionTask,
-                DepartmentOptions = await departmentOptionTask
+                StateOptions = string.IsNullOrWhiteSpace(stateOptions) ? "[]" : stateOptions,
+                SpaceUsageOptions = string.IsNullOrWhiteSpace(spaceUsageoption) ? "[]" : spaceUsageoption,
+                DepartmentOptions =string.IsNullOrWhiteSpace(departmentOptions) ? "[]": departmentOptions
             };
             if (null != profile)
             {
