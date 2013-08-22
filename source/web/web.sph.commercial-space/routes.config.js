@@ -749,12 +749,24 @@
   },
   {
     "role": "admin_dashboard",
-    "url": "reportbuilder",
-    "moduleId": "viewmodels/reportbuilder",
+    "url": "reportdefinition.edit/:id",
+    "moduleId": "viewmodels/reportdefinition.edit",
     "name": "Report Builder",
-    "visible": true,
+    "visible": false,
     "icon": "icon-laptop",
     "caption": "Janaan Laporan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "admin_dashboard",
+    "url": "reportdefinition.list",
+    "moduleId": "viewmodels/reportdefinition.list",
+    "name": "Report Manager",
+    "visible": true,
+    "icon": "icon-dribbble",
+    "caption": "Report Manager",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
