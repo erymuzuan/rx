@@ -12,8 +12,8 @@
 /// <reference path="../services/mockComplainTemplateContext.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/system'],
-	function (context, logger, system) {
+define(['services/datacontext', 'services/logger', 'durandal/system', 'config'],
+	function (context, logger, system, config) {
 
 	    var template = ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
 	        id = ko.observable(),
@@ -21,6 +21,9 @@ define(['services/datacontext', 'services/logger', 'durandal/system'],
 
 
 	        activate = function (routedata) {
+
+	            vm.stateOptions(config.stateOptions);
+
 	            isBusy(true);
 	            id(parseInt(routedata.templateId));
 	            var tcs = new $.Deferred();
@@ -108,6 +111,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system'],
 	        subCategoryOptions: ko.observableArray([]),
 	        locationOptions: ko.observableArray(),
 	        customFields: ko.observable(),
+	        stateOptions : ko.observableArray(),
 
 	        template: template,
 	        complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),

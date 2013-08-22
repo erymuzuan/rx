@@ -13,10 +13,10 @@ define(['services/datacontext'],
         var buildingOptions = ko.observableArray(),
             isBusy = ko.observable(false),
             activate = function () {
-                var query = String.format("RebateId gt 0");
-                var tcs = new $.Deferred();
-                var rebateTask = context.loadAsync("Rebate", query);
-                var buildingTask = context.getTuplesAsync("Building", "BuildingId gt 0", "BuildingId", "Name");
+                var query = String.format("RebateId gt 0"),
+                    tcs = new $.Deferred(),
+                    rebateTask = context.loadAsync("Rebate", query),
+                    buildingTask = context.getTuplesAsync("Building", "BuildingId gt 0", "BuildingId", "Name");
                 
                 $.when(rebateTask,buildingTask).done(function (lo,list) {
                     vm.rebateCollection(lo.itemCollection);

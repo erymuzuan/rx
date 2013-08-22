@@ -1,6 +1,6 @@
 ﻿<h1 class="row-fluid">Senarai Bangunan</h1>
 
-<table class="table" data-bind="filter: { path: 'tbody>tr' }">
+<table class="table" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Building', query: 'BuildingId gt 0', list: buildings }">
     <thead>
         <tr>
             <th>Nama</th>

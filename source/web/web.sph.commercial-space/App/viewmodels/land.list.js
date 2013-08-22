@@ -25,6 +25,7 @@ define(['services/datacontext', 'config'],
             activate: activate,
             viewAttached: viewAttached,
             lands: ko.observableArray(),
+            query: ko.observable('LandId gt 0'),
             toolbar: {
                 addNew: {
                     location: '/#/land.detail/0',

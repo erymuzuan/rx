@@ -34,7 +34,7 @@
                     {
                         if (null != fe.CustomField)
                         {
-                            fe.Path = "CustomFieldValueCollection()[" + i++ + "]";
+                            fe.Path = "CustomFieldValueCollection()[" + i++ + "].Value";
                         }
        
                         @Html.EditorFor(m => fe)

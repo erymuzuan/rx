@@ -16,11 +16,15 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public ActionResult ViewModels(string id)
         {
+            this.Response.ContentType = APPLICATION_JAVASCRIPT;
+
             var customJsRoute = this.GetCustomJsRouting(id, true);
             if (!string.IsNullOrWhiteSpace(customJsRoute))
-                return Redirect(customJsRoute);
+            {
+                this.Server.TransferRequest(customJsRoute);
+                return Content("");
+            }
 
-            this.Response.ContentType = APPLICATION_JAVASCRIPT;
             var script = this.RenderScript(id.Replace(".", string.Empty));
             return Content(script);
         }
