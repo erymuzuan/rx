@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
 	<xs:element name="ContractHistory">
 		<xs:complexType>
@@ -128,7 +128,7 @@
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Size" type="xs:double" use="required"/>
-			<xs:attribute name="Number" type="xs:int" use="required"/>
+			<xs:attribute name="Number" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
@@ -496,7 +496,7 @@
 		<xs:complexType>
 			<xs:attribute name="PaymentId" type="xs:int" use="required"/>
 			<xs:attribute name="Amount" type="xs:decimal" use="required"/>
-			<xs:attribute name="Date" type="xs:string" use="required"/>
+			<xs:attribute name="Date" type="xs:date" use="required"/>
 			<xs:attribute name="ContractNo" type="xs:string" use="required"/>
 			<xs:attribute name="TenantIdSsmNo" type="xs:string" use="required"/>
 			<xs:attribute name="ReceiptNo" type="xs:string" use="required"/>

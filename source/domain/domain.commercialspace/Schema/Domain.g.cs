@@ -1971,7 +1971,7 @@
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  int  m_number;
+                    private  string  m_number;
                     public const string PropertyNameNumber = "Number";
 
                   
@@ -2056,11 +2056,11 @@
                 
                 [DebuggerHidden]
                 
-                    public int Number
+                    public string Number
                     {
                     set
                     {
-                    if( m_number == value) return;
+                    if( String.Equals( m_number, value, StringComparison.Ordinal)) return;
                     var arg = new PropertyChangingEventArgs(PropertyNameNumber, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)
@@ -7507,7 +7507,7 @@
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_date;
+                    private  DateTime  m_date;
                     public const string PropertyNameDate = "Date";
 
                   
@@ -7591,11 +7591,11 @@
                 
                 [DebuggerHidden]
                 
-                    public string Date
+                    public DateTime Date
                     {
                     set
                     {
-                    if( String.Equals( m_date, value, StringComparison.Ordinal)) return;
+                    if( m_date == value) return;
                     var arg = new PropertyChangingEventArgs(PropertyNameDate, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)
