@@ -41,7 +41,7 @@ namespace Bespoke.SphCommercialSpace.LedgerMsxl
             var paymentEntries = from v in payments
                                  select new JournalEntry
                                      {
-                                         Date =DateTime.Parse(v.Date),
+                                         Date =v.Date,
                                          DebitAmount = v.Amount,
                                          Description = string.Format("Bayaran : {0}", v.ContractNo)
                                      };

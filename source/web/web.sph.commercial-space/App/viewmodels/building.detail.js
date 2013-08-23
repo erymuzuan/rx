@@ -41,6 +41,7 @@ define(['services/datacontext',
                             });
 
                             vm.building().CustomFieldValueCollection(cfs);
+                            vm.building().Type(template.Name());
                             tcs.resolve();
 
                         });
