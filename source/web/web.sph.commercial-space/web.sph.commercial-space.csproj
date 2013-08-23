@@ -401,6 +401,7 @@
     <Content Include="App\viewmodels\land.detail.js" />
     <Content Include="App\viewmodels\land.list.js" />
     <Content Include="App\viewmodels\message.inbox.js" />
+    <Content Include="App\viewmodels\reportdefinition.base.js" />
     <Content Include="App\viewmodels\reportdefinition.edit.js" />
     <Content Include="App\viewmodels\reportdefinition.list.js" />
     <Content Include="App\viewmodels\template.commercialspace.js" />
@@ -1108,6 +1109,7 @@
     <Content Include="Views\Account\_Slider.cshtml" />
     <Content Include="Views\Account\_Footer.cshtml" />
     <Content Include="Views\App\ReportDefinitionEditHtml.cshtml" />
+    <Content Include="Views\App\EditorTemplates\LabelItem.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

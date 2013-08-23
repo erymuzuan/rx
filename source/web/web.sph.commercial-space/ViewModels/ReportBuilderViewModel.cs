@@ -14,13 +14,18 @@ namespace Bespoke.Sph.Commerspace.Web.ViewModels
             this.ToolboxItems.Add(new PieChartItem { Name = "Pie Chart", CssClass = "icon-report-piechart" });
         }
 
-        public string Entity { get; set; }
-
         public ReportDefinition ReportDefinition { set; get; }
         private readonly ObjectCollection<ReportItem> m_toolboxItemCollection = new ObjectCollection<ReportItem>();
         public ObjectCollection<ReportItem> ToolboxItems
         {
             get { return m_toolboxItemCollection; }
         }
+
+        private readonly ObjectCollection<ReportItem> m_reportItemCollection = new ObjectCollection<ReportItem>();
+        public ObjectCollection<ReportItem> ReportItems
+        {
+            get { return m_reportItemCollection; }
+        }
+
     }
 }
