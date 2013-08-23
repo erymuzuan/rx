@@ -206,7 +206,6 @@
     <Compile Include="Reports\ReportFilter.cs" />
     <Compile Include="Reports\ReportItem.cs" />
     <Compile Include="Reports\ReportLayout.cs" />
-    <Compile Include="Schema\Report.g.cs" />
     <Compile Include="Termination.cs" />
     <Compile Include="Triggers\Action.cs" />
     <Compile Include="Triggers\ConstantField.cs" />
