@@ -15,16 +15,7 @@ define(['services/datacontext'],
         var isBusy = ko.observable(false),
             contract = ko.observable(new bespoke.sphcommercialspace.domain.Contract()),
             activate = function() {
-                var tcs = new $.Deferred();
-                isBusy(true);
-                context.loadAsync("Contract", "ContractId gt 0")
-                    .then(function(result) {
-                        isBusy(false);
-                        vm.contracts(result.itemCollection);
-                        tcs.resolve(true);
-                    });
-                return tcs.promise();
-
+                return true;
             },
             viewAttached = function(view) {
                 _uiready.init(view);

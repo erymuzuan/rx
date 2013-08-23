@@ -1,7 +1,7 @@
 ﻿<h1 class="row-fluid">Senarai kontrak</h1>
 <div class="row-fluid">
    
-    <div class="container-fluid" data-bind="filter: { path: 'tbody>tr' }">
+    <div class="container-fluid" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Contract', query: 'ContractId gt 0', list: contracts}">
         <table class="table table-striped">
             <thead>
                 <tr>

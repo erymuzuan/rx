@@ -557,7 +557,7 @@
   },
   {
     "role": "can_edit_inventory",
-    "url": "inventory.detail",
+    "url": "inventory.detail/:id",
     "moduleId": "viewmodels/inventory.detail",
     "name": "Maklumat Inventori",
     "visible": false,

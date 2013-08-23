@@ -7,10 +7,56 @@ using OfficeOpenXml;
 
 namespace Bespoke.SphCommercialSpace.LedgerMsxl
 {
+    public class JournalEntry
+    {
+        public DateTime Date { get; set; }
+        public string Description { get; set; }
+        public decimal DebitAmount { get; set; }
+        public decimal CreditAmount { get; set; }
+        public decimal Balance { get; set; }
+        public Entity   Transaction { get; set; }
+    }
     public class ExcelEppExport : ILedgerExport
     {
-        public string GenerateLedger(Contract contract, IEnumerable<Invoice> invoices, string filename)
+        public string GenerateLedger(Contract contract, IEnumerable<Invoice> invoices, IEnumerable<Rebate> rebates, IEnumerable<Payment> payments,
+                                    string filename)
         {
+
+
+            var entries = new ObjectCollection<JournalEntry>();
+            var invoiceEntries = from v in invoices
+                                 select new JournalEntry
+                                     {
+                                         Date = v.Date,
+                                         DebitAmount = v.Amount,
+                                         Description = string.Format("Invoice : {0}", v.No)
+                                     };
+            var rebateEntries = from v in rebates
+                                 select new JournalEntry
+                                     {
+                                         Date = v.StartDate,
+                                         DebitAmount = v.Amount,
+                                         Description = string.Format("Rebate : {0}", v.ContractNo)
+                                     };
+            var paymentEntries = from v in payments
+                                 select new JournalEntry
+                                     {
+                                         Date =DateTime.Parse(v.Date),
+                                         DebitAmount = v.Amount,
+                                         Description = string.Format("Bayaran : {0}", v.ContractNo)
+                                     };
+
+            entries.AddRange(invoiceEntries);
+            entries.AddRange(rebateEntries);
+            entries.AddRange(paymentEntries);
+
+            var sortedEntries = entries.OrderBy(e => e.Date);
+            var balance = 0m;
+            foreach (var e in sortedEntries)
+            {
+                e.Balance = balance + e.DebitAmount - e.CreditAmount;
+                balance = e.Balance;
+            }
 
             var input = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ruang.komersil.utility.ledger.xlsx");
             if (!File.Exists(input))
@@ -46,33 +92,15 @@ namespace Bespoke.SphCommercialSpace.LedgerMsxl
             ws.Cells["A24"].Value = contract.StartDate;
             ws.Cells["B24"].Value = contract.CommercialSpace.RentalRate;
             ws.Cells["C24"].Value = contract.CommercialSpace.RentalRate;
-            // ws.Cells["F24"].Value = contract.Deposit.ReceiptNo;
 
             var i = 0;
-
-            var rents = from inv in invoices
-                        where inv.Type == InvoiceType.Rental
-                        select new Rent
-                            {
-                                No = inv.No,
-                                Date = inv.Date,
-                                Amount = inv.Amount,
-                                ContractNo = inv.ContractNo,
-                                Month = inv.Date.Month,
-                                Year = inv.Date.Year
-                            };
-            foreach (var rt in rents
-                .Where(v => v.Type == InvoiceType.Rental)
-                .OrderBy(v => v.ContractNo)
-                .ThenBy(v => v.Type)
-                )
+            foreach (var e in sortedEntries)
             {
-                
-                ws.Cells[31 + i, 1].Value = string.Format("{0}{1}{2}-{3}", rt.Month, rt.Quarter, rt.Half, rt.Year);
-                //ws.Cells[31 + i, 2].Value = rt.PaymentDistributionCollection.Sum(p => p.Amount);
-                ws.Cells[31 + i, 3].Value = rt.Amount;
-                //ws.Cells[31 + i, 4].Value = rt.Amount - rt.PaymentDistributionCollection.Sum(p => p.Amount);
-                //ws.Cells[31 + i, 6].Value = string.Join(",", rt.PaymentDistributionCollection.Select(p => p.ReceiptNo).ToArray());
+                ws.Cells[31 + i, 1].Value = e.Date.ToString("d");
+                ws.Cells[31 + i, 2].Value = e.Description;
+                ws.Cells[31 + i, 3].Value = e.DebitAmount;
+                ws.Cells[31 + i, 4].Value = e.CreditAmount;
+                ws.Cells[31 + i, 5].Value = e.Balance;
                 i++;
             }
             var desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -83,5 +111,7 @@ namespace Bespoke.SphCommercialSpace.LedgerMsxl
             }
             return outputpath;
         }
+
+       
     }
 }

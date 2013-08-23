@@ -49,13 +49,13 @@
         <!-- /ko -->
 
         <!-- ko if: typeof saveCommand === "function"-->
-        <button class="btn" data-bind="command: saveCommand" data-loading-text="Simpan....">
+        <button class="btn" data-bind="command: saveCommand">
             <i class="icon-save"></i>
             Simpan
         </button>
         <!-- /ko -->
         <!-- ko if: typeof removeCommand === "function"-->
-        <button class="btn" data-bind="command: removeCommand" data-loading-text="Hapus....">
+        <button class="btn" data-bind="command: removeCommand">
             <i class="icon-remove"></i>
             Hapuskan
         </button>
