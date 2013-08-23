@@ -749,8 +749,8 @@
   },
   {
     "role": "admin_dashboard",
-    "url": "reportdefinition.edit/:id",
-    "moduleId": "viewmodels/reportdefinition.edit",
+    "url": "reportdefinition.edit-id.0/:id",
+    "moduleId": "viewmodels/reportdefinition.edit-id.0",
     "name": "Report Builder",
     "visible": false,
     "icon": "icon-laptop",

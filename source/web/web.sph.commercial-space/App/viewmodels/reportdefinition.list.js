@@ -10,7 +10,7 @@
             return tcs.promise();
         },
         addNew = function () {
-            var url = '/#/reportdefinition.edit/0';
+            var url = '/#/reportdefinition.edit-id.0/0';
             router.navigateTo(url);
             return {
                 then: function () { }

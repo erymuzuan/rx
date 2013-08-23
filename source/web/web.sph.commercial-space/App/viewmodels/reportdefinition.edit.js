@@ -9,11 +9,12 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
-define(['services/report.g', 'services/datacontext', 'durandal/system'],
-    function (reportg, context, system) {
+define(['services/report.g', 'services/datacontext', 'durandal/system', 'services/logger'],
+    function (reportg, context, system, logger) {
         var isBusy = ko.observable(false),
+            reportDefinitionId = ko.observable(),
             rdl = ko.observable(new bespoke.sphcommercialspace.domain.ReportDefinition()),
-            activate = function () {
+            activate = function (routeData) {
 
                 var toolboxElements = [];
 
@@ -35,6 +36,11 @@ define(['services/report.g', 'services/datacontext', 'durandal/system'],
 
                 vm.toolboxitems(toolboxElements);
 
+                var id = parseInt(routeData.id);
+                reportDefinitionId(id);
+                if (id) {
+                    vm.reportDefinition(new bespoke.sphcommercialspace.domain.ReportDefinition());
+                }
                 return true;
 
             },
@@ -93,7 +99,11 @@ define(['services/report.g', 'services/datacontext', 'durandal/system'],
 
                 $('#reportitems-toolbox').on('click', 'a', function (e) {
                     e.preventDefault();
-                    if (!activeLayout()) return;
+                    if (!activeLayout()) {
+                        logger.logError("No active view selected", this, this, true);
+                        return;
+                    }
+                    
 
                     var reportitem = ko.dataFor(this);
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(reportitem));
