@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://tempuri.org/ReportManagerSchema.xsd" xmlns:mstns="http://tempuri.org/ReportManagerSchema.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://tempuri.org/ReportManagerSchema.xsd" elementFormDefault="qualified" id="ReportManagerSchema">
-	<xs:element name="ReportLayout">
+	<xs:element name="ReportDefinition">
 		<xs:complexType>
-			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:all>
+				<xs:element name="ReportLayoutCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ReportLayout" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="DataSource"/>
+			</xs:all>
+			<xs:attribute name="ReportDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsPrivate" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsExportAllowed" type="xs:boolean" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="ReportItem"/>
-	<xs:element name="Report">
+	<xs:element name="ReportLayout">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="ReportItemCollection">
@@ -18,21 +31,112 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="ReportLayoutCollection">
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Row" type="xs:int" use="required"/>
+			<xs:attribute name="Column" type="xs:int" use="required"/>
+			<xs:attribute name="ColumnSpan" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ReportItem">
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="CssClass" type="xs:string" use="required"/>
+		<xs:attribute name="Visible" type="xs:string"/>
+		<xs:attribute name="Tooltip" type="xs:string"/>
+	</xs:complexType>
+	<xs:element name="BarChartItem">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ReportItem"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LineChartItem">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ReportItem"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DataGridItem">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ReportItem"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LabelItem">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ReportItem"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LineItem">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ReportItem"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PieChartItem">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ReportItem"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DataSource">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="ParameterCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="ReportLayout" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="Parameter" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ReportFilterCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ReportFilter" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EntityFieldCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="EntityField" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
-			<xs:attribute name="Title" type="xs:string" use="required"/>
-			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsPrivate" type="xs:boolean" use="required"/>
-			<xs:attribute name="IsExportAllowed" type="xs:boolean" use="required"/>
-			<xs:attribute name="Description" type="xs:string" use="required"/>
-			<xs:attribute name="CreatedDate" type="xs:dateTime" use="required"/>
-			<xs:attribute name="CreatedBy" type="xs:string" use="required"/>
+			<xs:attribute name="EntityName" type="xs:string" use="required"/>
+			<xs:attribute name="Query" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Parameter">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="Value" type="xs:anySimpleType" use="required"/>
+			<xs:attribute name="DefaultValue" type="xs:anySimpleType" use="required"/>
+			<xs:attribute name="AvailableValues" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReportFilter">
+		<xs:complexType>
+			<xs:attribute name="FieldName" type="xs:string" use="required"/>
+			<xs:attribute name="Operator" type="xs:string" use="required"/>
+			<xs:attribute name="Value" type="xs:string" use="required"/>
+			<xs:attribute name="ParameterName" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EntityField">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

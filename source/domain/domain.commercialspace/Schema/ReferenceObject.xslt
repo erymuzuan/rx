@@ -191,6 +191,9 @@
 				case "State":
 					type = "State";
 					break;
+        case "xs:anySimpleType":
+          type = "object";
+          break;
 				default:
 					type = xsType;
 					break;
