@@ -19,7 +19,7 @@ define(['services/datacontext'],
             activate = function (type, id) {
                 var query = String.format("Type eq '{0}' and EntityId eq {1}", type, id),
                  tcs = new $.Deferred();
-
+                
                 context.loadAsync("AuditTrail", query)
                     .then(function (lo) {
                         isBusy(false);
