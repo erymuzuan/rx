@@ -394,10 +394,11 @@
     <Content Include="App\services\report.g.js" />
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
+    <Content Include="App\viewmodels\reportdefinition.edit.js" />
     <Content Include="App\viewmodels\land.detail.js" />
     <Content Include="App\viewmodels\land.list.js" />
     <Content Include="App\viewmodels\message.inbox.js" />
-    <Content Include="App\viewmodels\reportbuilder.js" />
+    <Content Include="App\viewmodels\reportdefinition.list.js" />
     <Content Include="App\viewmodels\template.commercialspace.js" />
     <Content Include="App\viewmodels\template.application.js" />
     <Content Include="App\viewmodels\maintenance.form.js" />
@@ -431,6 +432,7 @@
     <Content Include="App\views\commercialspace.template.list.html" />
     <Content Include="App\views\complaint.assign.html" />
     <Content Include="App\views\complaintform.tenant.html" />
+    <Content Include="App\views\reportdefinition.edit.html" />
     <Content Include="App\views\inventory.detail.html" />
     <Content Include="App\views\inventory.list.html" />
     <Content Include="App\views\land.detail.html" />
@@ -441,7 +443,7 @@
     <Content Include="App\views\message.inbox.html" />
     <Content Include="App\views\messages.html" />
     <Content Include="App\views\public.index.html" />
-    <Content Include="App\views\reportbuilder.html" />
+    <Content Include="App\views\reportdefinition.list.html" />
     <Content Include="App\views\search.html" />
     <Content Include="App\views\trigger.list.html" />
     <Content Include="App\views\_complaint.details.html" />

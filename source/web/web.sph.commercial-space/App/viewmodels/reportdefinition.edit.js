@@ -20,7 +20,17 @@ define(['services/report.g','services/datacontext', 'durandal/system'],
             labelToolbox.CssClass = "icon-report-label";
             labelToolbox.Name = "Label";
 
+            var barChartToolbox = new bespoke.sphcommercialspace.domain.BarChartItem(system.guid());
+            barChartToolbox.CssClass = "icon-report-barchart";
+            barChartToolbox.Name = "Bar Chart";
+            
+            var lineChartToolbox = new bespoke.sphcommercialspace.domain.LineChartItem(system.guid());
+            lineChartToolbox.CssClass = "icon-report-linechart";
+            lineChartToolbox.Name = "Line Chart";
+            
             toolboxElements.push(labelToolbox);
+            toolboxElements.push(barChartToolbox);
+            toolboxElements.push(lineChartToolbox);
 
             vm.toolboxitems(toolboxElements);
            
