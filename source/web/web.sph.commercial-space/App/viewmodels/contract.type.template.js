@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/_uiready.js" />
 
 
-define(['services/datacontext', 'services/logger'],
-    function (context, logger) {
+define(['services/datacontext', 'services/logger', 'services/jsonimportexport'],
+    function (context, logger, exim) {
 
         var isBusy = ko.observable(false),
             activate = function (routeData) {
@@ -18,19 +18,18 @@ define(['services/datacontext', 'services/logger'],
                 var id = parseInt(routeData.id);
                 template().ContractTemplateId(id);
 
-                // reset
                 if (id === 0) {
 
                     template(new bespoke.sphcommercialspace.domain.ContractTemplate());
                     editedTopic(new bespoke.sphcommercialspace.domain.Topic());
-                    editedClaus(new bespoke.sphcommercialspace.domain.Clause());
+                    editedClause(new bespoke.sphcommercialspace.domain.Clause());
 
                 }
 
                 return context.loadOneAsync("ContractTemplate", "ContractTemplateId eq " + routeData.id)
                     .then(function (e) {
                         if (e) {
-                            ko.mapping.fromJS(ko.mapping.toJS(e), {}, vm.template);
+                            template(e);
                         }
                         isBusy(false);
                     });
@@ -63,9 +62,9 @@ define(['services/datacontext', 'services/logger'],
                     StoreId: ko.observable('')
                 });
             },
-            
-            // ============= TOPICS ============================= //
-            existingTopic = false,
+
+            // ======================== TOPICS ============================= //
+            existingTopic = null,
             editedTopic = ko.observable(new bespoke.sphcommercialspace.domain.Topic()),
             startAddTopic = function () {
                 editedTopic(new bespoke.sphcommercialspace.domain.Topic());
@@ -73,11 +72,10 @@ define(['services/datacontext', 'services/logger'],
             },
             topicDialogOk = function () {
                 if (existingTopic) {
-                    template().TopicCollection.replace(existingTopic,editedTopic());
+                    template().TopicCollection.replace(existingTopic, editedTopic());
                 } else {
                     template().TopicCollection.push(editedTopic());
                 }
-
                 editedTopic(new bespoke.sphcommercialspace.domain.Topic());
             },
             editTopic = function (tp) {
@@ -85,25 +83,7 @@ define(['services/datacontext', 'services/logger'],
                 editedTopic(clone);
                 existingTopic = tp;
             },
-            
-
-            // *-*-*-* CLAUSES *^*^*^
-
-        editedClaus = ko.observable(),
-            startAddClause = function () {
-                if (selectedTopic() === null) {
-                    console.log("no selected topic");
-                    return;
-                }
-                editedClaus(new bespoke.sphcommercialspace.domain.Clause());
-            },
-        addClause = function () {
-            var clone = ko.mapping.fromJSON(ko.mapping.toJSON(editedClaus));
-            selectedTopic().ClauseCollection.push(clone);
-            editedClaus(new bespoke.sphcommercialspace.domain.Clause());
-        },
-            cachedClause,
-            selectedTopic = ko.observable(),
+            selectedTopic = ko.observable(new bespoke.sphcommercialspace.domain.Topic()),
             selectTopic = function (tp, ev) {
                 selectedTopic(tp);
                 var element = $(ev.target);
@@ -112,63 +92,101 @@ define(['services/datacontext', 'services/logger'],
                 element.parents("li").addClass("selected");
 
             },
-            selectClause = function (cl, ev) {
-                if (cachedClause) { // copy it back
-                    ko.mapping.fromJS(ko.mapping.toJS(vm.clause), {}, cachedClause);
+
+
+            // =========================  CLAUSES ======================== //
+
+            existingClause = null,
+            editedClause = ko.observable(),
+            startAddClause = function () {
+                if (selectedTopic() === null) {
+                    console.log("no selected topic");
+                    return;
                 }
-                ko.mapping.fromJS(ko.mapping.toJS(cl), {}, vm.clause);
-                cachedClause = cl;
+                editedClause(new bespoke.sphcommercialspace.domain.Clause());
+                existingClause = null;
+            },
+            clauseDialogButtonOk = function () {
 
-
+                if (existingClause) {
+                    selectedTopic().ClauseCollection.replace(existingClause, editedClause());
+                } else {
+                    selectedTopic().ClauseCollection.push(editedClause());
+                }
+                editedClause(new bespoke.sphcommercialspace.domain.Clause());
+            },
+            editClause = function (cl) {
+                var json = ko.mapping.toJSON(cl),
+                    clone = ko.mapping.fromJSON(json);
+                
+                editedClause(clone);
+                existingClause = cl;
+            },
+            selectClause = function (cl, ev) {
                 var element = $(ev.target);
                 element.parents("ul").children()
                     .removeClass("selected");
                 element.parents("li").addClass("selected");
             },
+
+
+
             save = function () {
-
-
-
                 var data = ko.mapping.toJSON({ template: template });
                 return context.post(data, "/ContractSetting/Save")
                     .then(function (e) {
-                        ko.mapping.fromJS(e, {}, vm.template);
+                        template().ContractTemplateId(e.ContractTemplateId);
                         isBusy(false);
+                        logger.log("Template kontrak sudah di simpan", template(), vm, true);
                     });
             },
             removeDocument = function (doc) {
                 template.DocumentTemplateCollection.remove(doc);
-            };
+            },
+            
+                
+            exportJson = function () {
+                return exim.exportJson("contract.template." + template().ContractTemplateId() + ".json", ko.mapping.toJSON(template));
+
+            },
+
+         importJson = function () {
+             return exim.importJson()
+                 .done(function (json) {
+                     template(ko.mapping.fromJSON(json));
+                     template().ContractTemplateId(0);
+
+                 });
+         };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
             addAttachmentCommand: addAttachment,
+
             selectTopicCommand: selectTopic,
             selectClauseCommand: selectClause,
             topicDialogOk: topicDialogOk,
             editTopic: editTopic,
             editedTopic: editedTopic,
             selectedTopic: selectedTopic,
-            addClauseCommand: addClause,
+
+            editClause: editClause,
+            editedClause: editedClause,
+            clauseDialogButtonOk: clauseDialogButtonOk,
             startAddTopicCommand: startAddTopic,
             startAddClauseCommand: startAddClause,
+
             toolbar: {
                 saveCommand: save,
-                printCommand: save,
-                emailCommand: save,
-                removeCommand: save,
+                exportCommand: exportJson,
                 reloadCommand: function () {
-                    return activate({ id: vm.template.ContractTemplateId() });
+                    return activate({ id: vm.template().ContractTemplateId() });
                 },
                 commands: ko.observableArray([{
-                    command: save,
-                    icon: "icon-check",
-                    caption: "Approve"
-                }, {
-                    command: save,
-                    icon: "icon-bolt",
-                    caption: "Reject"
+                    icon: 'icon-upload',
+                    caption: 'import',
+                    command: importJson
                 }
                 ])
             },
@@ -179,7 +197,7 @@ define(['services/datacontext', 'services/logger'],
             configureUpload: configureUpload,
             template: template,
             topic: editedTopic,
-            clause: editedClaus,
+            clause: editedClause,
             contractTypeTemplate: ko.observable(),
             removeDocumentCommand: removeDocument,
             viewAttached: viewAttached

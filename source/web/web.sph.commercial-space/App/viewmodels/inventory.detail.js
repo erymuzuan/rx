@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -10,19 +10,33 @@
 
 
 define(['services/datacontext', 'durandal/plugins/router'],
-	function (context,router) {
+	function (context, router) {
 	    var
         isBusy = ko.observable(false),
-	    activate = function () {
-            return true;
-        },
-	     saveInventory = function() {
+	    activate = function (routeData) {
+	        var id = parseInt(routeData.id);
+	        if (id === 0) {
+	            vm.inventory(new bespoke.sphcommercialspace.domain.Inventory());
+	            return true;
+	        }
+
+	        var query = String.format("InventoryId eq {0}", id);
+	        var tcs = new $.Deferred();
+	        context.loadOneAsync("Inventory", query)
+	            .done(function (b) {
+	                vm.inventory(b);
+	                tcs.resolve(true);
+	            });
+
+	        return tcs.promise();
+	    },
+	     saveInventory = function () {
 	         var tcs = new $.Deferred();
-	         var data = ko.toJSON({inventory : vm.inventory()});
+	         var data = ko.toJSON({ inventory: vm.inventory() });
 	         isBusy(true);
 
 	         context.post(data, "/Inventory/Save")
-	             .then(function(result) {
+	             .then(function (result) {
 	                 isBusy(false);
 	                 vm.inventory(new bespoke.sphcommercialspace.domain.Inventory());
 	                 router.navigateTo("/#/inventory.list");
@@ -34,15 +48,10 @@ define(['services/datacontext', 'durandal/plugins/router'],
 	    var vm = {
 	        isBusy: isBusy,
 	        activate: activate,
-	        toolbar: ko.observable({
-	            commands: ko.observableArray([
-	                {
-	                    caption: "Simpan",
-	                    icon: "icon-save",
-	                    command: saveInventory
-	                }
-	            ])
-	        })
+	        inventory: ko.observable(new bespoke.sphcommercialspace.domain.Inventory()),
+	        toolbar: {
+	            saveCommand: saveInventory
+	        }
 	    };
 
 	    return vm;

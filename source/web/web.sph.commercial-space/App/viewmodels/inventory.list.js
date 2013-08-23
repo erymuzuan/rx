@@ -13,16 +13,7 @@ define(['services/datacontext'],
         isBusy = ko.observable(false),
 	    inventory = ko.observable(new bespoke.sphcommercialspace.domain.Inventory()),
         activate = function () {
-            var query = String.format("InventoryId gt 0");
-            var tcs = new $.Deferred();
-            context.loadAsync("Inventory", query)
-                .then(function(lo) {
-                    isBusy(false);
-                    vm.inventoryCollection(lo.itemCollection);
-                    tcs.resolve(true);
-                });
-            return tcs.promise();
-
+            return true;
         },
 	    exportList = function (){};
 

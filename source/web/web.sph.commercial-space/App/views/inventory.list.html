@@ -1,6 +1,6 @@
 ﻿<h1 class="row-fluid">Senarai Inventori</h1>
 <div>
-    <table class=" table table-striped" data-bind="filter :{path : 'tbody>tr'}">
+    <table class=" table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Inventory', query: 'InventoryId gt 0', list: inventoryCollection}">
         <thead>
             <tr>
                 <th>Nama</th>

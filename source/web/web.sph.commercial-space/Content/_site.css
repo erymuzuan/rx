@@ -50,6 +50,17 @@
         visibility: visible;
     }
 
+ul.listview
+{
+    border: 1px solid #b6b6b6;
+    padding: 5px;
+}
+
+ul.listview li div {
+    padding: 5px;
+}
+
+
 .selected
 {
     background-color: #e0e0e0;
@@ -132,21 +143,22 @@
 
 .login-slider
 {
-   
 }
-.login-slider .item {
-    height: 480px;
-}
+
+    .login-slider .item
+    {
+        height: 480px;
+    }
 
 .login-form
 {
     margin-left: 80px;
 }
 
-.login-form .logo
-{
-    margin-top: 65px;
-}
+    .login-form .logo
+    {
+        margin-top: 65px;
+    }
 
 legend
 {
@@ -178,23 +190,27 @@ header div.container
     margin-left: 0px;
 }
 
-.heading-success {
+.heading-success
+{
     border-bottom: 1px solid #7cbb00;
     font-weight: 400;
 }
 
 
 
-.box {
-text-align: center;
+.box
+{
+    text-align: center;
 }
 
-.well-primary, .carousel-caption.primary {
-     background: #0096e1;
+.well-primary, .carousel-caption.primary
+{
+    background: #0096e1;
     color: #fff;
 }
 
-.well {
+.well
+{
     border: none;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
@@ -203,26 +219,34 @@ text-align: center;
     -moz-box-shadow: none;
     box-shadow: none;
 }
-.well a:hover{
-	color: #fff;
-	text-decoration: none;
-}
 
-.well-primary:hover {
+    .well a:hover
+    {
+        color: #fff;
+        text-decoration: none;
+    }
+
+.well-primary:hover
+{
     background: #0096e1;
 }
 
-.well-success:hover {
+.well-success:hover
+{
     background: #78b500;
 }
 
-.well-success, .carousel-caption.success {
-background: #7cbb00;
-color: #fff;
-}
-.carousel h2 {
+.well-success, .carousel-caption.success
+{
+    background: #7cbb00;
     color: #fff;
 }
+
+.carousel h2
+{
+    color: #fff;
+}
+
 @media (max-height: 800px)
 {
 

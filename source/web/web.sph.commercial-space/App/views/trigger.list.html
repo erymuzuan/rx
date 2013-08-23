@@ -1,6 +1,6 @@
 ﻿
 <h1>Senarai Trigger</h1>
-<table class="table" data-bind="filter: { path: 'tbody>tr' }">
+<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Trigger', query: 'TriggerId gt 0', list: triggerCollection}">
     <thead>
         <tr>
             <th>Nama</th>
