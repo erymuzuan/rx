@@ -57,10 +57,7 @@ define(['services/datacontext', 'services/logger', 'services/jsonimportexport'],
                 _uiready.init(view);
             },
             addAttachment = function () {
-                template.DocumentTemplateCollection.push({
-                    Name: ko.observable(''),
-                    StoreId: ko.observable('')
-                });
+                template().DocumentTemplateCollection.push(new bespoke.sphcommercialspace.domain.DocumentTemplate());
             },
 
             // ======================== TOPICS ============================= //

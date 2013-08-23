@@ -27,7 +27,7 @@ define(['services/datacontext'],
 	                return activate();
 	            },
 	            addNew : {
-	                location: '/#/inventory.detail',
+	                location: '/#/inventory.detail/0',
 	                caption : 'Tambah baru'
 	            },
 	            printCommand: ko.observable({
