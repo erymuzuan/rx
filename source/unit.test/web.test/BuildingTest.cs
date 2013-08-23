@@ -28,40 +28,55 @@ namespace web.test
             sphDatabase.ExecuteNonQuery("DELETE FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
             var max = sphDatabase.GetDatabaseScalarValue<int>("SELECT MAX([BuildingId]) FROM [Sph].[Building]");
 
+            
             IWebDriver driver = new FirefoxDriver();
-            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/buildingdetail/0");
-            driver.Sleep(500);
-
+            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL);
+            driver.Sleep(300);
+            driver.Click("#log-in")
+                .Sleep(TimeSpan.FromSeconds(2))
+                  .Value("[name='UserName']", "administrator")
+                  .Value("[name='Password']", "123456")
+                  .Click("[name='submit']");
             driver
-                .Value("[name='building.Name']", BuildingName)
-                .Value("[name='building.LotNo']", "12A")
-                .Value("[name='building.Address.Street']", "No 2 Jalan SS 21/26")
-                .Value("[name='building.Address.City']", "Petaling Jaya")
-                .Value("[name='building.Address.Postcode']", "47400")
-                .SelectOption("[name='building.Address.State']", "Selangor")
-                .Value("[name='building.Size']", "48500")
-                .Value("[name='building.Floors']", "3")
-                .SelectOption("[name='building.Status']", "Good")
-                .Value("[name='ko_unique_1']", "G")
-                .Value("[name='ko_unique_2']", "Ground Floor")
-                .Value("[name='ko_unique_3']", "48500")
-                .Click("[name='add-floor-button']")
-                .Sleep(TimeSpan.FromSeconds(2), "Add floor")
-                .Value("[name='ko_unique_7']", "G1")
-                .Value("[name='ko_unique_8']", "1st Floor")
-                .Value("[name='ko_unique_9']", "48500")
-                .Click("[name='add-floor-button']")
-                .Sleep(TimeSpan.FromSeconds(2), "Add floor")
-                .Value("[name='ko_unique_13']", "G2")
-                .Value("[name='ko_unique_14']", "2nd Floor")
-                .Value("[name='ko_unique_15']", "48500")
-                .Click("#save-button")
                 .Sleep(TimeSpan.FromSeconds(5))
                 ;
 
+            //driver
+            //    .Value("[name='building.Name']", BuildingName)
+            //    .Value("[name='building.LotNo']", "12A")
+            //    .Value("[name='building.Address.Street']", "No 2 Jalan SS 21/26")
+            //    .Value("[name='building.Address.City']", "Petaling Jaya")
+            //    .Value("[name='building.Address.Postcode']", "47400")
+            //    .SelectOption("[name='building.Address.State']", "Selangor")
+            //    .Value("[name='building.Size']", "48500")
+            //    .Value("[name='building.Floors']", "3")
+            //    .SelectOption("[name='building.Status']", "Good")
+            //    .Value("[name='ko_unique_1']", "G")
+            //    .Value("[name='ko_unique_2']", "Ground Floor")
+            //    .Value("[name='ko_unique_3']", "48500")
+            //    .Click("[name='add-floor-button']")
+            //    .Sleep(TimeSpan.FromSeconds(2), "Add floor")
+            //    .Value("[name='ko_unique_7']", "G1")
+            //    .Value("[name='ko_unique_8']", "1st Floor")
+            //    .Value("[name='ko_unique_9']", "48500")
+            //    .Click("[name='add-floor-button']")
+            //    .Sleep(TimeSpan.FromSeconds(2), "Add floor")
+            //    .Value("[name='ko_unique_13']", "G2")
+            //    .Value("[name='ko_unique_14']", "2nd Floor")
+            //    .Value("[name='ko_unique_15']", "48500")
+            //    .Click("#save-button")
+            //    .Sleep(TimeSpan.FromSeconds(5))
+            //    ;
 
-            var id = sphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
-            Assert.IsTrue(max < id);
+
+            //var id = sphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
+            //Assert.IsTrue(max < id);
+
+            //var templateId = sphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", ));
+
+            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/commercialspace");
+            //driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + String.Format("/#/commercialspace.detail-templateid.{0}/1/0/-/0", templateId));
+
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();
         }
