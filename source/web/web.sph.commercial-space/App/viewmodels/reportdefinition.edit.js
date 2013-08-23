@@ -33,7 +33,7 @@ define(['services/report.g','services/datacontext', 'durandal/system'],
             toolboxElements.push(lineChartToolbox);
 
             vm.toolboxitems(toolboxElements);
-           
+
             return true;
 
         },
@@ -46,7 +46,7 @@ define(['services/report.g','services/datacontext', 'durandal/system'],
         save = function() {
             
         };
-
+        
     var vm = {
         reportDefinition: ko.observable(new bespoke.sphcommercialspace.domain.ReportDefinition()),
         title: ko.observable('Report Builder'),
@@ -56,6 +56,7 @@ define(['services/report.g','services/datacontext', 'durandal/system'],
         selectReportItem: selectReportItem,
         selectedReportItem: ko.observable(),
         toolboxitems: ko.observableArray(),
+        columns: ko.observableArray(),
         toolbar: {
             saveCommand: save,
             groupCommands: ko.observableArray(),
