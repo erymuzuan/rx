@@ -1,23 +1,40 @@
 ﻿<h1>Report Builder</h1>
 <div id="report-container">
-    <div id="report-tool">
-        <button class="btn"><i class="icon-report-label"></i>Label</button>
-        <button class="btn"><i class="icon-report-line"></i>Line</button>
-        <button class="btn"><i class="icon-report-table"></i>Table</button>
-        <button class="btn"><i class="icon-report-bar-chart"></i>Bar Chart</button>
-        <button class="btn"><i class="icon-report-line-chart"></i>Line Chart</button>
-        <button class="btn"><i class="icon-report-pie-chart"></i>Pie Chart</button>
-    </div>
-    <div id="report-menu">
-        <ul>
-            <li>Settings</li>
-            <li>Data</li>
-            <li>Layout</li>
-            <li>Security</li>
-        </ul>
-    </div>
-    <div id="side-panel"></div>
-    <div id="report-main"></div>
+    <div class="row">
+        <div class="span4" id="layout-toolbox">
+            <ul class="nav nav-tabs">
+                <li>
+                    <label>
+                        <input type="radio" value="SingleColumns" name="layout">Single Column
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio" value="TwoColumns" name="layout">2 Columns
+                    </label>
+                </li>
+            </ul>
+        </div>
 
+        <div class="span8" id="reportitems-toolbox">
+            <ul data-bind="foreach: toolboxitems" class="nav nav-tabs">
+                <li>
+                    <a href="#" data-bind="text: Name"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row" data-bind="with : reportDefinition">
+        <div id="report-designer" data-bind="foreach :ReportLayoutCollection">
+            <div class="report-layout" >
+                <span data-bind="text:Name"></span>
+                <div data-bind="foreach :ReportItemCollection">
+                    <h3 data-bind="text:Name"></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <button class="pull-right">Configure</button>
+    </div>
 </div>
-
