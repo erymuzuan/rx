@@ -9,12 +9,7 @@
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
 
     var activate = function () {
-        var tcs = new $.Deferred();
-        context.loadAsync("Trigger", "TriggerId gt 0").done(function (lo) {
-            vm.triggerCollection(lo.itemCollection);
-            tcs.resolve(true);
-        });
-        return tcs.promise();
+        return true;
     },
     addNew = function () {
         var url = '/#/trigger.setup/0';

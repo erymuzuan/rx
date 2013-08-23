@@ -220,14 +220,50 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var contractId = id != 0 ? id : 1;
             var context = new SphDataContext();
-            var contract = await context.LoadOneAsync<Contract>(c => c.ContractId == contractId);
-            var invoiceLo = await context.LoadAsync(context.Invoices.Where(r => r.ContractNo == contract.ReferenceNo));
+            var contract =await context.LoadOneAsync<Contract>(c => c.ContractId == contractId);
+
+
+            var invoiceQuery = context.Invoices.Where(r => r.ContractNo == contract.ReferenceNo);
+            var rebateQuery = context.Rebates.Where(r => r.ContractNo == contract.ReferenceNo);
+            var paymentQuery = context.Payments.Where(p => p.ContractNo == contract.ReferenceNo);
+
+            var invoiceLoTask = context.LoadAsync(invoiceQuery,includeTotalRows:true);
+            var rebateLoTask = context.LoadAsync(rebateQuery, includeTotalRows:true);
+            var paymentLoTask = context.LoadAsync(paymentQuery, includeTotalRows:true);
+
+            await Task.WhenAll(invoiceLoTask, rebateLoTask, paymentLoTask);
+            var invoiceLo = await invoiceLoTask;
+            var rebateLo = await rebateLoTask;
+            var paymentLo = await paymentLoTask;
+
+            var invoices = new ObjectCollection<Invoice>(invoiceLo.ItemCollection);
+            while (invoiceLo.HasNextPage)
+            {
+                invoiceLo = await context.LoadAsync(invoiceQuery, invoiceLo.CurrentPage + 1, includeTotalRows: true);
+                invoices.AddRange(invoiceLo.ItemCollection);
+            }
+
+            var rebates = new ObjectCollection<Rebate>(rebateLo.ItemCollection);
+            while (rebateLo.HasNextPage)
+            {
+                rebateLo = await context.LoadAsync(rebateQuery, rebateLo.CurrentPage + 1, includeTotalRows: true);
+                rebates.AddRange(rebateLo.ItemCollection);
+
+            }
+
+            var payments = new ObjectCollection<Payment>(paymentLo.ItemCollection);
+            while (paymentLo.HasNextPage)
+            {
+                paymentLo = await context.LoadAsync(paymentQuery, paymentLo.CurrentPage + 1, includeTotalRows: true);
+                payments.AddRange(paymentLo.ItemCollection);
+
+            }
 
             var export = ObjectBuilder.GetObject<ILedgerExport>();
             var filename = string.Format("{0}-{1:MMyyyy}.lejer.xlsx", contract.Tenant.RegistrationNo, DateTime.Today);
             var temp = System.IO.Path.GetTempFileName() + ".xlsx";
 
-            export.GenerateLedger(contract, invoiceLo.ItemCollection, temp);
+            export.GenerateLedger(contract,invoices,rebates,payments, temp);
             
             this.Response.ContentType = "application/json";
             return File(System.IO.File.ReadAllBytes(temp), MimeMapping.GetMimeMapping(".xlsx"), filename);

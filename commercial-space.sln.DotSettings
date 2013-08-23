@@ -1,6 +1,7 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:Boolean x:Key="/Default/CodeInspection/CodeAnnotations/NamespacesWithAnnotations/=permissions_002Eeditor_002EAnnotations/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/CodeAnnotations/NamespacesWithAnnotations/=routes_002Eeditor_002EAnnotations/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=RedundantThisQualifier/@EntryIndexedValue">DO_NOT_SHOW</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=Constants/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AA_BB" /&gt;</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=PrivateInstanceFields/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="m_" Suffix="" Style="aaBb" /&gt;</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=0BBBAE946294E547A847C8FE2C620D3F/@KeyIndexDefined">True</s:Boolean>
@@ -262,6 +263,25 @@ return tcs.promise();&#xD;
     &lt;/div&gt;&#xD;
 &lt;/div&gt;&#xD;
 $END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Description/@EntryValue">data-bind for filter and server paging</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Field/=COLLECTION/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Field/=COLLECTION/Order/@EntryValue">3</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Field/=ENTITY/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Field/=ENTITY/Expression/@EntryValue">list("Land,Building,Contract,CommercialSpace,Rent,Invoice,Complaint,Maintenance,Rebate,Designation,Message,RentalApplication,UserProfile,ContractTemplate,BuildingTemplate")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Field/=ENTITY/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Field/=FILTERPATH/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Field/=FILTERPATH/Expression/@EntryValue">list("tbody&gt;tr, ul&gt;li")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Field/=FILTERPATH/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Field/=QUERY/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Field/=QUERY/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Scope/=A14108D8199BD94191FC02A2809F1F3D/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Scope/=A14108D8199BD94191FC02A2809F1F3D/Type/@EntryValue">InHtmlLikeFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Shortcut/@EntryValue">dbfp</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7D7DA7A5E867A94C9DE0C78171B8FB46/Text/@EntryValue">data-bind="filter: { path: '$FILTERPATH$' }, serverPaging: { entity: '$ENTITY$', query: '$QUERY$', list: $COLLECTION$}"</s:String>
 	
 	
 	

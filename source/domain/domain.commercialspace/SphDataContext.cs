@@ -25,8 +25,10 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public IQueryable<Invoice> Invoices { get; set; }
         public IQueryable<Organization> Organizations { get; set; }
         public IQueryable<MaintenanceTemplate> MaintenanceTemplates { get; set; }
+        public IQueryable<Payment> Payments { get; set; }
         public IQueryable<RentalApplication> RentalApplications { get; set; }
         public IQueryable<Rent> Rents { get; set; }
+        public IQueryable<Rebate> Rebates { get; set; }
         public IQueryable<Role> Roles { get; set; }
         public IQueryable<Setting> Settings { get; set; }
         public IQueryable<UserProfile> UserProfiles { get; set; }
@@ -49,7 +51,9 @@ namespace Bespoke.SphCommercialSpaces.Domain
             this.Deposits = new Query<Deposit>(provider);
             this.Invoices = new Query<Invoice>(provider);
             this.Organizations = new Query<Organization>(provider);
+            this.Payments = new Query<Payment>(provider);
             this.RentalApplications = new Query<RentalApplication>(provider);
+            this.Rebates = new Query<Rebate>(provider);
             this.Rents = new Query<Rent>(provider);
             this.Roles = new Query<Role>(provider);
             this.Settings = new Query<Setting>(provider);
