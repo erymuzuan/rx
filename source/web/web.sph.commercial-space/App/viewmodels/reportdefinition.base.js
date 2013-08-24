@@ -125,10 +125,17 @@ define(['services/report.g', 'services/datacontext', 'durandal/system', 'service
                         logger.logError("No active view selected", this, this, true);
                         return;
                     }
-
+                    $('.selected-form-element').each(function () {
+                        var item = ko.dataFor(this);
+                        item.isSelected(false);
+                    });
+                    
                     var reportitem = ko.dataFor(this);
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(reportitem));
                     clone.isSelected = ko.observable(true);
+                    clone.WebId(system.guid());
+                    clone.CssClass("");
+                    
                     activeLayout().ReportItemCollection.push(clone);
 
                 });

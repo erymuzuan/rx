@@ -1121,6 +1121,10 @@
     <Content Include="Views\ReportDefinition\DisplayTemplates\LineItem.cshtml" />
     <Content Include="Views\ReportDefinition\DisplayTemplates\BarChartItem.cshtml" />
     <Content Include="Views\ReportDefinition\_LabelDesignerContextAction.cshtml" />
+    <Content Include="Views\ReportDefinition\_ConfigurationPanel.cshtml" />
+    <Content Include="Views\ReportDefinition\_ConfigurationGeneral.cshtml" />
+    <Content Include="Views\ReportDefinition\_ConfigurationParameters.cshtml" />
+    <Content Include="Views\ReportDefinition\_ConfigurationDatasource.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

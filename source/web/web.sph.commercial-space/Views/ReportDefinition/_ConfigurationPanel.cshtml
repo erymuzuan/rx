@@ -1,0 +1,43 @@
+﻿<section class="modal hide absolute-center" style="height: 600px; width: 800px;" id="configuration-panel">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Configuration</h3>
+    </div>
+    <div class="modal-body">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#general-tab-item" data-toggle="tab">General</a>
+                </li>
+                <li>
+                    <a href="#parameters-tab-item" data-toggle="tab">Parameters</a>
+                </li>
+                <li>
+                    <a href="#datasource-tab-item" data-toggle="tab">Datasource</a>
+                </li>
+                <li>
+                    <a href="#columns-tab-inte" data-toggle="tab">Columns</a>
+                </li>
+            </ul>
+            <div class="tab-content" data-bind="with : reportDefinition">
+                <div id="general-tab-item" class="tab-pane active">
+                    @Html.Partial("_ConfigurationGeneral")
+                </div>
+                <div id="parameters-tab-item" class="tab-pane">
+                    @Html.Partial("_ConfigurationParameters")
+                </div>
+                <div id="datasource-tab-item" class="tab-pane">
+                    @Html.Partial("_ConfigurationDatasource")
+                </div>
+                <div id="columns-tab-inte" class="tab-pane">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+    </div>
+</section>

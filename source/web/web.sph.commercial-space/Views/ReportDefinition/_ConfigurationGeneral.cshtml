@@ -1,0 +1,35 @@
+﻿<form class="form-horizontal">
+    <div class="control-group">
+        <label for="rdl-title" class="control-label">Title</label>
+        <div class="controls">
+            <input class="input-xxlarge" data-bind="value: Title" id="rdl-title" type="text" name="Title" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="rdl-description" class="control-label">Description</label>
+        <div class="controls">
+            <textarea class="input-xxlarge" data-bind="value: Description" id="rdl-description" name="Description"></textarea>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <div class="controls">
+            <label class="checkbox">
+                <input data-bind="checked: IsActive" id="rdl-isactive" type="checkbox" name="IsActive" />
+                Is Active
+            </label>
+        </div>
+    </div>
+    
+    
+    <div class="control-group">
+        <div class="controls">
+            <label class="checkbox">
+                <input data-bind="checked: IsPrivate" id="rdl-isprivate" type="checkbox" name="IsPrivate" />
+                Private
+            </label>
+        </div>
+    </div>
+    
+
+</form>

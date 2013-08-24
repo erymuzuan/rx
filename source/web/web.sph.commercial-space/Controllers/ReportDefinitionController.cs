@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bespoke.Sph.Commerspace.Web.Helpers;
 using Bespoke.Sph.Commerspace.Web.ViewModels;
 using Bespoke.SphCommercialSpaces.Domain;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
@@ -51,6 +53,24 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             vm.ToolboxItems.AddRange(items);
 
             return View(vm);
+        }
+
+        public async Task<ActionResult> Save()
+        {
+            var rdl = this.GetRequestJson<ReportDefinition>();
+            var context = new SphDataContext();
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(rdl);
+                await session.SubmitChanges("Save RDL");
+            }
+
+
+            this.Response.ContentType = "application/json; charset=utf-8";
+            return Content(await JsonConvert.SerializeObjectAsync(rdl.ReportDefinitionId));
+
+
         }
 
     }

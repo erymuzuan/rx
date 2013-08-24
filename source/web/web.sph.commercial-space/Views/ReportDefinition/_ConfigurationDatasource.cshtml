@@ -1,0 +1,27 @@
+﻿<form class="form-horizontal" data-bind="with: DataSource">
+    <div class="control-group">
+        <label for="data-source-entitty" class="control-label">Entity</label>
+        <div class="controls">
+            <select data-bind="value: EntityName" id="data-source-entitty" name="Entity">
+                <option value="">[--Sila Pilih--]</option>
+                <option value="Building">Bangunan</option>
+                <option value="RentalApplication">Permohonan Sewa</option>
+                <option value="Deposit">Deposit</option>
+                <option value="Contract">Kontrak</option>
+                <option value="CommercialSpace">Ruang Komersil</option>
+                <option value="Tenant">Penyewa</option>
+                <option value="Invoice">Invois</option>
+                <option value="Complaint">Aduan</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label for="data-source-query" class="control-label">Query</label>
+        <div class="controls">
+            <textarea class="input-xxlarge" rows="8" data-bind="value: Query" id="data-source-query" name="Query">
+
+</textarea>
+        </div>
+    </div>
+</form>

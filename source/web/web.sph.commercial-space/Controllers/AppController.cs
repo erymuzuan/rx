@@ -33,7 +33,11 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var customJsRoute = this.GetCustomJsRouting(id, false);
             if (!string.IsNullOrWhiteSpace(customJsRoute))
-                return Redirect(customJsRoute);
+            {
+                this.Server.TransferRequest(customJsRoute);
+                return Content("");
+                
+            }
 
             this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
             this.Response.ContentType = TEXT_HTML;

@@ -1,0 +1,37 @@
+﻿<table class="table table-striped" data-bind="with : DataSource">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Default Value</th>
+            <th>Available values</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach :ParameterCollection">
+        <tr>
+            <td>
+                <input type="text" data-bind="value:Name" />
+            </td>
+            <td>
+                <select data-bind="value:Type">
+                    <option value="System.String">String</option>
+                    <option value="System.Int32">Number</option>
+                    <option value="System.Decima">Decimal</option>
+                    <option value="System.DateTime">DateTime</option>
+                    <option value="System.Boolean">Boolean</option>
+                </select>
+            </td>
+            <td>
+                
+                <input type="text" data-bind="value:DefaultValue" />
+            </td>
+            <td>
+                <input type="text" data-bind="value:AvailableValues" /></td>
+            <td>
+                <button class="btn btn-link" data-bind="click : $root.removeParameter">Buang</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+    <button class="btn btn-link pull-right" data-bind="click : $root.addParameter">Add paramter</button>

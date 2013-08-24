@@ -129,6 +129,7 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="AvailableValues" type="xs:string" use="required"/>
+			<xs:attribute name="Label" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ReportFilter">

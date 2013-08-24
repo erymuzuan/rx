@@ -9,19 +9,43 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
-define(['services/datacontext', 'durandal/system', './reportdefinition.base'],
-    function (context, system, reportDefinitionBase) {
+define(['services/datacontext', 'services/logger', 'durandal/system', './reportdefinition.base'],
+    function (context, logger, system, reportDefinitionBase) {
         var isBusy = ko.observable(false),
             reportDefinitionId = ko.observable(),
             activate = function (routeData) {
                 reportDefinitionBase.activate();
-                var id = parseInt(routeData.id);
+                var id = parseInt(routeData.id),
+                    setRdl = function (d) {
+
+                        _(d.ReportLayoutCollection()).each(function(layout) {
+                            _(layout.ReportItemCollection()).each(function(t) {
+                                t.isSelected = ko.observable(false);
+                            });
+                        });
+                        
+                        if (typeof d.DataSource === "object") {
+                            d.DataSource = ko.observable(d.DataSource);
+                        }
+
+                        vm.reportDefinition(d);
+                        reportDefinitionBase.reportDefinition(d);
+                    };
                 reportDefinitionId(id);
+
+
+
                 if (!id) {
-                    vm.reportDefinition(new bespoke.sphcommercialspace.domain.ReportDefinition());
-                    //reportDefinitionBase.reportDefinition(vm.reportDefinition());
-                    
-                    reportDefinitionBase.reportDefinition(vm.reportDefinition());
+                    var rdl = new bespoke.sphcommercialspace.domain.ReportDefinition();
+                    setRdl(rdl);
+                } else {
+                    var query = String.format("ReportDefinitionId eq {0}", id);
+                    var tcs = new $.Deferred();
+                    context.loadOneAsync("ReportDefinition", query)
+                        .done(setRdl)
+                        .done(tcs.resolve);
+
+                    return tcs.promise();
                 }
                 return true;
             },
@@ -29,10 +53,35 @@ define(['services/datacontext', 'durandal/system', './reportdefinition.base'],
                 reportDefinitionBase.viewAttached(view);
             },
             save = function () {
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(vm.reportDefinition);
+
+                context.post(data, "/ReportDefinition/Save")
+                    .then(function (result) {
+                        logger.log("RDL has been saved", data, this, true);
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
 
             },
             removeReportItem = function (ri) {
                 console.log("remove " + ri.Name());
+            },
+             configure = function () {
+                 var tcs = new $.Deferred();
+                 setTimeout(function () {
+                     tcs.resolve(true);
+                 }, 500);
+
+                 $('#configuration-panel').modal();
+                 return tcs.promise();
+             },
+            removeParameter = function (p) {
+                vm.reportDefinition().DataSource().ParameterCollection.remove(p);
+
+            },
+            addParameter = function () {
+                vm.reportDefinition().DataSource().ParameterCollection.push(new bespoke.sphcommercialspace.domain.Parameter());
             };
 
         var vm = {
@@ -45,8 +94,17 @@ define(['services/datacontext', 'durandal/system', './reportdefinition.base'],
             selectReportItem: reportDefinitionBase.selectReportItem,
             selectedReportItem: reportDefinitionBase.selectedReportItem,
             toolboxitems: reportDefinitionBase.toolboxItems,
+
+            removeParameter: removeParameter,
+            addParameter: addParameter,
+
             toolbar: {
-                saveCommand: save
+                saveCommand: save,
+                commands: ko.observableArray([{
+                    command: configure,
+                    caption: "Configuration",
+                    icon: "icon-gear"
+                }])
             }
         };
 

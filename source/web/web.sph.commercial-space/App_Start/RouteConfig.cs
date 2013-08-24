@@ -24,21 +24,26 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
 
         public static async Task<IEnumerable<JsRoute>> GetJsRoutes()
         {
+            var ad = ObjectBuilder.GetObject<IDirectoryService>();
+            var user = ad.CurrentUserName;
+
             var context = new SphDataContext();
 // ReSharper disable RedundantBoolCompare
             var buildingTemplatesTask =  context.LoadAsync(context.BuildingTemplates.Where(t => t.IsActive == true));
             var complaintTemplatesTask =  context.LoadAsync(context.ComplaintTemplates.Where(t => t.IsActive == true));
             var ruangTemplatesTask =  context.LoadAsync(context.CommercialSpaceTemplates.Where(t => t.IsActive == true));
             var applicationTemplateTask =  context.LoadAsync(context.ApplicationTemplates.Where(t => t.IsActive == true));
+            var rdlTask =  context.LoadAsync(context.ReportDefinitions.Where(t => t.IsActive == true || (t.IsPrivate && t.CreatedBy == user)));
 // ReSharper restore RedundantBoolCompare
             await
                 Task.WhenAll(buildingTemplatesTask, complaintTemplatesTask, complaintTemplatesTask, ruangTemplatesTask,
-                             applicationTemplateTask);
+                             applicationTemplateTask, rdlTask);
 
             var buildingTemplates = await buildingTemplatesTask;
             var complaintTemplates = await complaintTemplatesTask;
             var ruangTemplates = await ruangTemplatesTask;
             var applicationTemplates = await applicationTemplateTask;
+            var rdls = await rdlTask;
 
             var routes = new List<JsRoute>();
             var buildingRoute = from t in buildingTemplates.ItemCollection
@@ -81,11 +86,21 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                                     Icon = "icon-building",
                                     ModuleId = string.Format("viewmodels/application.detail-templateid.{0}", t.ApplicationTemplateId),
                                 };
+            var rdlRoutes = from t in rdls.ItemCollection
+                                select new JsRoute
+                                {
+                                    Name = t.Title,
+                                    Url = string.Format("reportdefinition.execute-id.{0}/:id", t.ReportDefinitionId),
+                                    Caption = t.Title,
+                                    Icon = "icon-bar-chart",
+                                    ModuleId = string.Format("viewmodels/reportdefinition.execute-id.{0}", t.ReportDefinitionId),
+                                };
          
             routes.AddRange(buildingRoute);
             routes.AddRange(csRoute);
             routes.AddRange(complaintRoute);
             routes.AddRange(applicationRoutes);
+            routes.AddRange(rdlRoutes);
             return routes;
         } 
     }
