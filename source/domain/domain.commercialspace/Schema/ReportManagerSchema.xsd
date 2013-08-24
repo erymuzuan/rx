@@ -41,8 +41,9 @@
 	<xs:complexType name="ReportItem">
 		<xs:attribute name="Name" type="xs:string" use="required"/>
 		<xs:attribute name="CssClass" type="xs:string" use="required"/>
-		<xs:attribute name="Visible" type="xs:string"/>
-		<xs:attribute name="Tooltip" type="xs:string"/>
+		<xs:attribute name="Visible" type="xs:string" use="required"/>
+		<xs:attribute name="Tooltip" type="xs:string" use="optional"/>
+		<xs:attribute name="Icon" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:element name="BarChartItem">
 		<xs:complexType>
@@ -68,7 +69,11 @@
 	<xs:element name="LabelItem">
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="ReportItem"/>
+				<xs:extension base="ReportItem">
+					<xs:all>
+						<xs:element name="Html" type="xs:string"/>
+					</xs:all>
+				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
@@ -117,10 +122,12 @@
 	</xs:element>
 	<xs:element name="Parameter">
 		<xs:complexType>
+			<xs:all>
+				<xs:element name="Value" type="xs:anySimpleType"/>
+				<xs:element name="DefaultValue" type="xs:anySimpleType"/>
+			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
-			<xs:attribute name="Value" type="xs:anySimpleType" use="required"/>
-			<xs:attribute name="DefaultValue" type="xs:anySimpleType" use="required"/>
 			<xs:attribute name="AvailableValues" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>

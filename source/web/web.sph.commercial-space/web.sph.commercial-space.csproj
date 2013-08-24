@@ -245,7 +245,6 @@
     <Compile Include="App_Start\HotTowelConfig.cs" />
     <Compile Include="App_Start\HotTowelRouteConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AppController.building.cs">
@@ -317,6 +316,7 @@
     <Compile Include="Controllers\PrintController.cs" />
     <Compile Include="Controllers\RebateController.cs" />
     <Compile Include="Controllers\RentalApplicationController.cs" />
+    <Compile Include="Controllers\ReportDefinitionController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
@@ -485,6 +485,8 @@
     <Content Include="Images\pic3.png" />
     <Content Include="Images\pic4.png" />
     <Content Include="Images\quarters.png" />
+    <Content Include="Images\report-layout.1.png" />
+    <Content Include="Images\report-layout.2.png" />
     <Content Include="Images\rumah_peranginan.png" />
     <Content Include="Images\SetterAction.png" />
     <Content Include="roles.config.js" />
@@ -1108,8 +1110,17 @@
     <Content Include="Views\App\EditorTemplates\RentalApplicationContactElement.cshtml" />
     <Content Include="Views\Account\_Slider.cshtml" />
     <Content Include="Views\Account\_Footer.cshtml" />
-    <Content Include="Views\App\ReportDefinitionEditHtml.cshtml" />
     <Content Include="Views\App\EditorTemplates\LabelItem.cshtml" />
+    <Content Include="Views\ReportDefinition\Index.cshtml" />
+    <Content Include="Views\ReportDefinition\DisplayTemplates\LabelItem.cshtml" />
+    <Content Include="Views\ReportDefinition\TextBox.cshtml" />
+    <Content Include="Views\ReportDefinition\_DesignerContextAction.cshtml" />
+    <Content Include="Views\ReportDefinition\DisplayTemplates\PieChartItem.cshtml" />
+    <Content Include="Views\ReportDefinition\DisplayTemplates\LineChartItem.cshtml" />
+    <Content Include="Views\ReportDefinition\DisplayTemplates\DataGridItem.cshtml" />
+    <Content Include="Views\ReportDefinition\DisplayTemplates\LineItem.cshtml" />
+    <Content Include="Views\ReportDefinition\DisplayTemplates\BarChartItem.cshtml" />
+    <Content Include="Views\ReportDefinition\_LabelDesignerContextAction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

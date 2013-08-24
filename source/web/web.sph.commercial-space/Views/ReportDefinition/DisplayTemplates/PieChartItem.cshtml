@@ -1,0 +1,8 @@
+﻿@model Bespoke.SphCommercialSpaces.Domain.PieChartItem
+
+<!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.PieChartItem, domain.commercialspace" -->
+<div class="report-item" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectedReportItem" class="control-group">
+    @Html.Partial("_DesignerContextAction")
+    PieChartItem
+</div>
+<!--/ko-->

@@ -101,6 +101,7 @@ bespoke.sphcommercialspace.domain.LabelItem = function (webId) {
 
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.LabelItem, domain.commercialspace";
 
+    v.Html = ko.observable();//type but not nillable
     if (bespoke.sphcommercialspace.domain.LabelItemPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.LabelItemPartial(v));
     }
@@ -163,9 +164,9 @@ bespoke.sphcommercialspace.domain.Parameter = function (webId) {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Parameter, domain.commercialspace",
         Name: ko.observable(''),
         Type: ko.observable(''),
-        Value: ko.observable('xs:anySimpleType'),
-        DefaultValue: ko.observable('xs:anySimpleType'),
         AvailableValues: ko.observable(''),
+        Value: ko.observable(),
+        DefaultValue: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -221,6 +222,7 @@ bespoke.sphcommercialspace.domain.ReportItem = function (webId) {
         CssClass: ko.observable(''),
         Visible: ko.observable(''),
         Tooltip: ko.observable(''),
+        Icon: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

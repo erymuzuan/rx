@@ -1,0 +1,20 @@
+﻿<section class="btn-group pull-right" data-bind="visible: isSelected">
+    <button class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+        <i class="icon-chevron-sign-right"></i>
+    </button>
+
+    <div class="dropdown-menu alert alert-info" style="padding: 10px" >
+      <div class="control-group">
+            <div class="controls">
+                <textarea class="input-xlarge" data-bind="value: Html, valueUpdate: 'keyup'" id="context-action-label" rows="5"></textarea>
+            </div>
+        </div>
+
+
+        <a class="btn btn-link pull-right" data-bind="click: $root.removeReportItem">
+            <i class="icon-remove"></i>
+            Buang
+        </a>
+        
+    </div>
+</section>

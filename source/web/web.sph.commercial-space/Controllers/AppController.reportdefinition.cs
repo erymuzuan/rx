@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using Bespoke.Sph.Commerspace.Web.ViewModels;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
@@ -7,8 +6,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
     {
         public ActionResult ReportDefinitionEditHtml()
         {
-            var vm = new ReportBuilderViewModel();
-            return View(vm);
+            return RedirectToAction("Index", "ReportDefinition");
         }
     }
 }

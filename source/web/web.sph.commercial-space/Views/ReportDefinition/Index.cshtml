@@ -12,12 +12,13 @@
                 <li>
                     <label>
                         <input type="radio" value="SingleColumns" name="layout">Single Column
+                   <img src="~/Images/report-layout.1.png" />
                     </label>
                 </li>
                 <li>
                     <label>
                         <input type="radio" value="TwoColumns" name="layout">2 Columns
-                    </label>
+                    <img src="~/Images/report-layout.2.png" /></label>
                 </li>
             </ul>
         </div>
@@ -25,18 +26,24 @@
         <div class="span8" id="reportitems-toolbox">
             <ul data-bind="foreach: toolboxitems" class="nav nav-tabs">
                 <li>
-                    <a href="#" data-bind="text: Name"></a>
+                    <a href="#">
+                        <i data-bind="attr: { class: Icon }"></i>
+                        <span data-bind="text: Name"></span>
+                    </a>
                 </li>
             </ul>
 
         </div>
     </div>
-    <div class="row" data-bind="with : reportDefinition">
-        <div id="report-designer" data-bind="foreach :ReportLayoutCollection">
-            <div class="report-layout" >
-                <span data-bind="text:Name"></span>
-                <div data-bind="foreach :ReportItemCollection">
-                    <h3 data-bind="text:Name"></h3>
+    <div class="row" data-bind="with: reportDefinition">
+        <div id="report-designer" data-bind="foreach: ReportLayoutCollection">
+            <div class="report-layout">
+                <span data-bind="text: Name"></span>
+                <div data-bind="foreach: ReportItemCollection">
+                    @foreach (var t in Model.ReportItems)
+                    {
+                        @Html.DisplayFor(m => t)
+                    }
                 </div>
             </div>
         </div>
@@ -45,3 +52,4 @@
         <button class="pull-right">Configure</button>
     </div>
 </div>
+

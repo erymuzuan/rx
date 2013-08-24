@@ -21,6 +21,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [XmlInclude(typeof(Designation))]
     [XmlInclude(typeof(Inventory))]
     [XmlInclude(typeof(Message))]
+    [XmlInclude(typeof(ReportDefinition))]
     public abstract class Entity : DomainObject
     {
         [XmlAttribute]

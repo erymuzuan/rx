@@ -30,6 +30,9 @@ define(['services/datacontext', 'durandal/system', './reportdefinition.base'],
             },
             save = function () {
 
+            },
+            removeReportItem = function (ri) {
+                console.log("remove " + ri.Name());
             };
 
         var vm = {
@@ -38,6 +41,7 @@ define(['services/datacontext', 'durandal/system', './reportdefinition.base'],
             isBusy: isBusy,
             activate: activate,
             viewAttached: viewAttached,
+            removeReportItem: removeReportItem,
             selectReportItem: reportDefinitionBase.selectReportItem,
             selectedReportItem: reportDefinitionBase.selectedReportItem,
             toolboxitems: reportDefinitionBase.toolboxItems,
