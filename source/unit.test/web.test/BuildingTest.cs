@@ -11,7 +11,9 @@ namespace web.test
     public class BuildingTest : BrowserTest
     {
         const string SphDatabase = "sph";
-        const string BuildingName = "Damansara Utama Uptown Block A";
+        const string BuildingName = "Wisma Persekutuan Melaka (MITC)";
+        public const string BUILDING_TEMPLATE_NAME = "Bangunan Gunasama";
+
 
         [Test]
         public void AddBuildingAndNavigateToLots()
@@ -27,11 +29,12 @@ namespace web.test
             const string sphDatabase = "sph";
             sphDatabase.ExecuteNonQuery("DELETE FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
             var max = sphDatabase.GetDatabaseScalarValue<int>("SELECT MAX([BuildingId]) FROM [Sph].[Building]");
-
+            var templateId = sphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
+            
             
             IWebDriver driver = new FirefoxDriver();
             driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL);
-            driver.Sleep(300);
+            driver.Sleep(150);
             driver.Click("#log-in")
                 .Sleep(TimeSpan.FromSeconds(2))
                   .Value("[name='UserName']", "administrator")
@@ -41,42 +44,38 @@ namespace web.test
                 .Sleep(TimeSpan.FromSeconds(5))
                 ;
 
-            //driver
-            //    .Value("[name='building.Name']", BuildingName)
-            //    .Value("[name='building.LotNo']", "12A")
-            //    .Value("[name='building.Address.Street']", "No 2 Jalan SS 21/26")
-            //    .Value("[name='building.Address.City']", "Petaling Jaya")
-            //    .Value("[name='building.Address.Postcode']", "47400")
-            //    .SelectOption("[name='building.Address.State']", "Selangor")
-            //    .Value("[name='building.Size']", "48500")
-            //    .Value("[name='building.Floors']", "3")
-            //    .SelectOption("[name='building.Status']", "Good")
-            //    .Value("[name='ko_unique_1']", "G")
-            //    .Value("[name='ko_unique_2']", "Ground Floor")
-            //    .Value("[name='ko_unique_3']", "48500")
-            //    .Click("[name='add-floor-button']")
-            //    .Sleep(TimeSpan.FromSeconds(2), "Add floor")
-            //    .Value("[name='ko_unique_7']", "G1")
-            //    .Value("[name='ko_unique_8']", "1st Floor")
-            //    .Value("[name='ko_unique_9']", "48500")
-            //    .Click("[name='add-floor-button']")
-            //    .Sleep(TimeSpan.FromSeconds(2), "Add floor")
-            //    .Value("[name='ko_unique_13']", "G2")
-            //    .Value("[name='ko_unique_14']", "2nd Floor")
-            //    .Value("[name='ko_unique_15']", "48500")
-            //    .Click("#save-button")
-            //    .Sleep(TimeSpan.FromSeconds(5))
-            //    ;
-
-
-            //var id = sphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
-            //Assert.IsTrue(max < id);
-
-            //var templateId = sphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", ));
-
-            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/commercialspace");
-            //driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + String.Format("/#/commercialspace.detail-templateid.{0}/1/0/-/0", templateId));
-
+           driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/building.list");
+           driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + String.Format("/#/building.detail-templateid.{0}/3/0", templateId));
+           driver
+                .Sleep(TimeSpan.FromSeconds(5))
+                ;
+            driver
+                .Value("[name='Name']", BuildingName)
+                .Value("[name='LotNo']", "12-001")
+                .Value("[name='address.Street']", "Jalan Hang Tuah")
+                .Value("[name='address.City']", "Melaka")
+                .Value("[name='address.Postcode']", "75300")
+                .SelectOption("[name='address.State']", "Melaka")
+                .Value("[name='CustomFieldValueCollection()[0].Value']", "01-08-1974")
+                .Value("[name='CustomFieldValueCollection()[1].Value']", "01-11-1978")
+                .Value("[name='CustomFieldValueCollection()[2].Value']", "01-02-1979")
+                .Value("[name='CustomFieldValueCollection()[3].Value']", "01-12-1978")
+                .Value("[name='Size']", "112991.02")
+                .SelectOption("[name=' input-large']", "Baik")
+                .Click("[name='add-floor-button']")
+                .Sleep(TimeSpan.FromSeconds(2), "Add floor")
+                .Value("[name='ko_unique_1']", "G1")
+                .Value("[name='ko_unique_2']", "1st Floor")
+                .Value("[name='ko_unique_3']", "48500")
+                .Click("[name='add-floor-button']")
+                .Sleep(TimeSpan.FromSeconds(2), "Add floor")
+                .Value("[name='ko_unique_7']", "G2")
+                .Value("[name='ko_unique_8']", "2nd Floor")
+                .Value("[name='ko_unique_9']", "48500")
+                .Click("#save-button")
+                .Sleep(TimeSpan.FromSeconds(5))
+                ;
+            
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();
         }
@@ -85,25 +84,38 @@ namespace web.test
         public void _002_AddLots()
         {
             var id = SphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
+            const string templateId = "3";
 
             IWebDriver driver = new FirefoxDriver();
-            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/lotdetail/" + id + "/Ground Floor");
-            driver.Sleep(500);
-            var usage = new[] {"Cafe", "Restaurant", "Books and Magazine", "Laundry", "Computers", "Clothing","Electronics"};
-            for (int i = 0; i < 10; i++)
-            {
-                var lot = string.Format("[name='ko_unique_{0}']", (i * 4) + 1);
-                var size = string.Format("[name='ko_unique_{0}']", (i * 4) + 2);
-                var use = string.Format("[name='ko_unique_{0}']", (i * 4) + 3);
-                driver
-                      .Click("#add-new-lot")
-                      .Sleep(250)
-                      .Value(lot, "G-00" + i)
-                      .Value(size, "1250")
-                      .Value(use, usage.OrderBy(s => Guid.NewGuid()).First())
-                    ;
+            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL);
+            driver.Sleep(150);
+            driver.Click("#log-in")
+                .Sleep(TimeSpan.FromSeconds(2))
+                  .Value("[name='UserName']", "administrator")
+                  .Value("[name='Password']", "123456")
+                  .Click("[name='submit']");
+            driver
+                .Sleep(TimeSpan.FromSeconds(5))
+                ;
+            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + String.Format("/#/building.detail-templateid.{0}/3/{1}", templateId, id));
+            
+            driver.Sleep(5);
+            driver
+                .Click("[name='ko_unique_5']")
+                .Sleep(TimeSpan.FromSeconds(5))
+                ;
 
-            }
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    var lot = string.Format("[name='ko_unique_{0}']", (i * 4) + 1);
+            //    var size = string.Format("[name='ko_unique_{0}']", (i * 4) + 2);
+            //    driver
+            //          .Click("#add-new-lot")
+            //          .Sleep(250)
+            //          .Value(lot, "G-00" + i)
+            //          .Value(size, "1250")
+            //        ;
+            //}
 
             driver.Sleep(TimeSpan.FromSeconds(8), "See the result");
             driver.Quit();
