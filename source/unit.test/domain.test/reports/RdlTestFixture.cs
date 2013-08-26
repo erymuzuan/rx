@@ -18,6 +18,54 @@ namespace domain.test.reports
         }
 
         [Test]
+        public void GetColumns()
+        {
+            var ds = new DataSource { EntityName = "Building", Query = "SELECT * FROM [Sph].[Building]" };
+            var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
+
+            rdl.GetAvailableColumnsAsync()
+                .ContinueWith(_ =>
+                {
+                    var result = _.Result;
+                    foreach (var reportColumn in result)
+                    {
+                        Console.WriteLine(reportColumn.Name);
+                    }
+                })
+            .Wait(5000)
+            ;
+
+        }
+
+        [Test]
+        public void GetColumnsValue()
+        {
+            var ds = new DataSource { EntityName = "Building", Query = "SELECT * FROM [Sph].[Building]" };
+            var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
+            var xml = (new Building
+            {
+                Name = "Test 1",
+                Floors = 15,
+                Address = new Address { State = "Kelantan" }
+            }).ToXElement();
+
+            var row = new ReportRow();
+            rdl.GetAvailableColumnsAsync()
+                .ContinueWith(_ =>
+                {
+                    var colums = _.Result;
+                    row.ReportColumnCollection.AddRange(colums);
+                    m_sql.FillColumnValue(xml, row);
+                    foreach (var c in colums)
+                    {
+                        Console.WriteLine("{0}\t= {1}", c.Name, c.Value);
+                    }
+                    Assert.AreEqual("Kelantan",row["Address.State"].Value);
+                }).Wait(1000);
+
+        }
+
+        [Test]
         public void ExecuteGetRowsCount()
         {
             var ds = new DataSource { EntityName = "Building", Query = "SELECT * FROM [Sph].[Building]" };
