@@ -15,5 +15,7 @@ namespace Bespoke.Sph.Commerspace.Web.Models
         }
 
         public string StartModule { get; set; }
+
+        public UserProfile UserProfile { get; set; }
     }
 }

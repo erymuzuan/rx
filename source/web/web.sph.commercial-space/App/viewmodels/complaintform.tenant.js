@@ -18,7 +18,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 	        isBusy = ko.observable(false),
 	        tenantId = ko.observable(),
 	        complaintNo = ko.observable(),
-	        tenantInfo = ko.observable(),
 	        
             activate = function (tenant) {
                 tenantId(parseInt(tenant.TenantId()));
