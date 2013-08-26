@@ -14,13 +14,19 @@
             @foreach (var r in Model.ReportRowCollection)
             {
                 <tr>
-               
-                    @foreach (var c in r.ReportColumnCollection)
+
+                    @foreach (var c in Model.ReportColumnCollection)
                     {
-                        <td>@c.Value</td>
+                        var c1 = c;
+                        var cl = r.ReportColumnCollection.SingleOrDefault(l => l.Name == c1.Name);
+                        if (null != cl)
+                        {
+                            <td>@cl.Value</td>
+
+                        }
                     }
                 </tr>
-                
+
             }
         </tbody>
     </table>
