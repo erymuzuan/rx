@@ -28,7 +28,7 @@ namespace Bespoke.SphCommercialSpace.LedgerMsxl
                                  select new JournalEntry
                                      {
                                          Date = v.Date,
-                                         DebitAmount = v.Amount,
+                                         CreditAmount = v.Amount,
                                          Description = string.Format("Invoice : {0}", v.No)
                                      };
             var rebateEntries = from v in rebates
