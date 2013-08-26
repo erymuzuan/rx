@@ -12,6 +12,7 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element ref="DataSource"/>
+				<xs:element name="Schedule" type="IntervalSchedule"/>
 			</xs:all>
 			<xs:attribute name="ReportDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Title" type="xs:string" use="required"/>
@@ -183,6 +184,58 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="IntervalSchedule"/>
+	<xs:element name="DailySchedule">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="IntervalSchedule">
+					<xs:attribute name="Hour" type="xs:int" use="required"/>
+					<xs:attribute name="Minute" type="xs:int" use="required"/>
+					<xs:attribute name="IsSunday" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsMonday" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsTuesday" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsWednesday" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsThursday" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsFriday" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsSaturday" type="xs:boolean" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="HourlySchedule">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="IntervalSchedule">
+					<xs:attribute name="StartHour" type="xs:int" use="required"/>
+					<xs:attribute name="Interval" type="xs:int" use="required"/>
+					<xs:attribute name="Minute" type="xs:int" use="required"/>
+					<xs:attribute name="EndHour" type="xs:int" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WeeklySchedule">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="IntervalSchedule">
+					<xs:attribute name="Day" type="xs:string" use="required"/>
+					<xs:attribute name="Hour" type="xs:int" use="required"/>
+					<xs:attribute name="Minute" type="xs:int" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MonthlySchedule">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="IntervalSchedule">
+					<xs:attribute name="Day" type="xs:int" use="required"/>
+					<xs:attribute name="Hour" type="xs:int" use="required"/>
+					<xs:attribute name="Minute" type="xs:int" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

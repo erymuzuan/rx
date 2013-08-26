@@ -1,5 +1,5 @@
-﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
@@ -9,11 +9,12 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-    function(context, logger, router) {
+define(['services/report.g', 'services/datacontext', 'services/logger', 'durandal/plugins/router'],
+    function(reportg,context, logger, router) {
 
         var isBusy = ko.observable(false),
             rdl = ko.observable(),
+            mode = ko.observable(),
             activate = function(routeData) {
                 var id = parseInt(routeData.id),
                     query = String.format("ReportDefinitionId eq {0}", id),
@@ -28,11 +29,30 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 
             };
 
+        mode.subscribe(function (m) {
+            if (typeof rdl().Schedule !== "function") {
+                rdl().Schedule = ko.observable();
+            }
+            if (m === "h") {
+                rdl().Schedule(new bespoke.sphcommercialspace.domain.HourlySchedule());
+            }
+            if (m === "d") {
+                rdl().Schedule(new bespoke.sphcommercialspace.domain.DailySchedule());
+            }
+            if (m === "w") {
+                rdl().Schedule(new bespoke.sphcommercialspace.domain.WeeklySchedule());
+            }
+            if (m === "m") {
+                rdl().Schedule(new bespoke.sphcommercialspace.domain.MonthlySchedule());
+            }
+        });
+
         var vm = {
             isBusy: isBusy,
             rdl: rdl,
             activate: activate,
-            viewAttached: viewAttached
+            viewAttached: viewAttached,
+            mode : mode
         };
 
         return vm;

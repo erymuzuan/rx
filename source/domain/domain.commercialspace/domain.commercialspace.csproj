@@ -197,6 +197,7 @@
     <Compile Include="Reports\DataGridItem.cs" />
     <Compile Include="Reports\DataSource.cs" />
     <Compile Include="Reports\EntityField.cs" />
+    <Compile Include="Reports\IntervalSchedule.cs" />
     <Compile Include="Reports\LabelItem.cs" />
     <Compile Include="Reports\LineChartItem.cs" />
     <Compile Include="Reports\LineItem.cs" />

@@ -22,6 +22,7 @@ bespoke.sphcommercialspace.domain.ReportDefinition = function (webId) {
         Description: ko.observable(''),
         ReportLayoutCollection: ko.observableArray([]),
         DataSource: ko.observable(new bespoke.sphcommercialspace.domain.DataSource()),
+        Schedule: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -252,6 +253,81 @@ bespoke.sphcommercialspace.domain.ReportRow = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.DailySchedule = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.IntervalSchedule(webId);
+
+    v.Hour = ko.observable(0);
+    v.Minute = ko.observable(0);
+    v.IsSunday = ko.observable(false);
+    v.IsMonday = ko.observable(false);
+    v.IsTuesday = ko.observable(false);
+    v.IsWednesday = ko.observable(false);
+    v.IsThursday = ko.observable(false);
+    v.IsFriday = ko.observable(false);
+    v.IsSaturday = ko.observable(false);
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.DailySchedule, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.DailySchedulePartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.DailySchedulePartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.HourlySchedule = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.IntervalSchedule(webId);
+
+    v.StartHour = ko.observable(0);
+    v.Interval = ko.observable(0);
+    v.Minute = ko.observable(0);
+    v.EndHour = ko.observable(0);
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.HourlySchedule, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.HourlySchedulePartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.HourlySchedulePartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.WeeklySchedule = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.IntervalSchedule(webId);
+
+    v.Day = ko.observable('');
+    v.Hour = ko.observable(0);
+    v.Minute = ko.observable(0);
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.WeeklySchedule, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.WeeklySchedulePartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.WeeklySchedulePartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.MonthlySchedule = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.IntervalSchedule(webId);
+
+    v.Day = ko.observable(0);
+    v.Hour = ko.observable(0);
+    v.Minute = ko.observable(0);
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.MonthlySchedule, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.MonthlySchedulePartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.MonthlySchedulePartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sphcommercialspace.domain.ReportItem = function (webId) {
 
     return {
@@ -261,6 +337,16 @@ bespoke.sphcommercialspace.domain.ReportItem = function (webId) {
         Visible: ko.observable(''),
         Tooltip: ko.observable(''),
         Icon: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+};
+
+
+bespoke.sphcommercialspace.domain.IntervalSchedule = function (webId) {
+
+    return {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.IntervalSchedule, domain.commercialspace",
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
