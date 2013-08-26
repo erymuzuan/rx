@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.SphCommercialSpaces.Domain;
 
@@ -24,6 +26,12 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             var rdl = await context.LoadOneAsync<ReportDefinition>(r => r.ReportDefinitionId == id);
+
+            var rows = await rdl.ExecuteResultAsync();
+            Console.WriteLine("ROWS " + rows.Count);
+            rdl.ReportLayoutCollection.SelectMany(l => l.ReportItemCollection)
+               .ToList()
+               .ForEach(t => t.SetRows(rows));
 
 
             var vm = new RdlExecutionViewModel

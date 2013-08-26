@@ -5,10 +5,17 @@ namespace Bespoke.SphCommercialSpaces.Domain
 {
     public partial class ReportDefinition : Entity
     {
-        public async Task<ObjectCollection<ReportRow>> ExecuteResultAsync()
+        public async Task<ObjectCollection<ReportColumn>> GetAvailableColumnsAsync()
         {
             var repository = ObjectBuilder.GetObject<IReportDataSource>();
             var columns = await repository.GetColumnsAsync(this.DataSource);
+
+            return columns;
+        }
+
+        public async Task<ObjectCollection<ReportRow>> ExecuteResultAsync()
+        {
+            var repository = ObjectBuilder.GetObject<IReportDataSource>();
 
             var rows = await repository.GetRowsAsync(this.DataSource);
             return rows;
@@ -21,28 +28,22 @@ namespace Bespoke.SphCommercialSpaces.Domain
         Task<ObjectCollection<ReportRow>> GetRowsAsync(DataSource dataSource);
     }
 
-    public class ReportColumn
+    public partial class ReportColumn : DomainObject
     {
-        public string Name { get; set; }
-        public object Value { get; set; }
         public override string ToString()
         {
             return string.Format("{0}", this.Value);
         }
     }
 
-    public class ReportRow
+    public partial class ReportRow : DomainObject
     {
-        private readonly ObjectCollection<ReportColumn> m_columnCollection = new ObjectCollection<ReportColumn>();
-        public ObjectCollection<ReportColumn> ColumnCollection
-        {
-            get { return m_columnCollection; }
-        }
+       
         public ReportColumn this[string name]
         {
             get
             {
-                var col = this.ColumnCollection.SingleOrDefault(c => c.Name == name);
+                var col = this.ReportColumnCollection.SingleOrDefault(c => c.Name == name);
                 return col;
             }
         }

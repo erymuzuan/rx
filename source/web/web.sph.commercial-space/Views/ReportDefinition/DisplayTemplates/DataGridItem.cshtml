@@ -2,37 +2,18 @@
 
 <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.DataGridItem, domain.commercialspace" -->
 <div class="report-item" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectedReportItem" class="control-group">
-    @Html.Partial("_DesignerContextAction")
+    @Html.Partial("_DataGridDesignerContextAction")
     <table class="table table-striped">
         <thead>
-            <tr>
-                <th>Column 1</th>
-                <th>Column 2</th>
-                <th>Column 3</th>
-                <th>Column 4</th>
-                <th>Column 5</th>
+            <tr data-bind="foreach: ReportColumnCollection">
+                <th data-bind="text: Header"></th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+            <tr data-bind="foreach: ReportColumnCollection">
                 <td></td>
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+            <tr data-bind="foreach: ReportColumnCollection">
                 <td></td>
             </tr>
         </tbody>

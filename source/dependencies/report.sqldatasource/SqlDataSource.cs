@@ -45,7 +45,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                 while (await reader.ReadAsync())
                 {
                     var r = new ReportRow();
-                    r.ColumnCollection.AddRange(columns);
+                    r.ReportColumnCollection.AddRange(columns);
                     var sqlcolumns = new List<string>();
 
                     for (int i = 0; i < reader.FieldCount; i++)
@@ -56,7 +56,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                     foreach (var c in sqlcolumns)
                     {
                         if (null == r[c]) continue;
-                        r[c].Value = reader[c];
+                        r[c].Value = string.Format("{0}",reader[c]);
 
                     }
 

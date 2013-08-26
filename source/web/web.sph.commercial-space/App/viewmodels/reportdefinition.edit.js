@@ -18,12 +18,12 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
                 var id = parseInt(routeData.id),
                     setRdl = function (d) {
 
-                        _(d.ReportLayoutCollection()).each(function(layout) {
-                            _(layout.ReportItemCollection()).each(function(t) {
+                        _(d.ReportLayoutCollection()).each(function (layout) {
+                            _(layout.ReportItemCollection()).each(function (t) {
                                 t.isSelected = ko.observable(false);
                             });
                         });
-                        
+
                         if (typeof d.DataSource === "object") {
                             d.DataSource = ko.observable(d.DataSource);
                         }
@@ -79,10 +79,12 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
              },
             removeParameter = function (p) {
                 vm.reportDefinition().DataSource().ParameterCollection.remove(p);
-
             },
             addParameter = function () {
                 vm.reportDefinition().DataSource().ParameterCollection.push(new bespoke.sphcommercialspace.domain.Parameter());
+            },
+            addDataGridColumn = function (datagridItem) {
+                datagridItem.ReportColumnCollection.push(new bespoke.sphcommercialspace.domain.ReportColumn());
             };
 
         var vm = {
@@ -98,6 +100,8 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
 
             removeParameter: removeParameter,
             addParameter: addParameter,
+
+            addDataGridColumn: addDataGridColumn,
 
             toolbar: {
                 saveCommand: save,

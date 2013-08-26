@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.Xml.Serialization;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
@@ -9,7 +10,12 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [XmlInclude(typeof(BarChartItem))]
     [XmlInclude(typeof(BarChartItem))]
     [XmlInclude(typeof(LineItem))]
-    public partial class ReportItem : DomainObject 
+    public partial class ReportItem : DomainObject
     {
+        
+        public virtual void SetRows(ObjectCollection<ReportRow> rows)
+        {
+            Console.WriteLine(rows.Count);
+        }
     }
 }

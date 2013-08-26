@@ -1,0 +1,32 @@
+﻿<section class="btn-group pull-right" data-bind="visible: isSelected">
+    <button class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+        <i class="icon-chevron-sign-right"></i>
+    </button>
+
+    <div class="dropdown-menu alert alert-info" style="padding: 10px">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Header</th>
+                    <th>Width</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: ReportColumnCollection">
+                <tr>
+                    <td><input type="text" data-bind="value: Name" /></td>
+                    <td><input type="text" data-bind="value: Header" /></td>
+                    <td><input type="text" data-bind="value: Width" /></td>
+                </tr>
+            </tbody>
+        </table>
+        <button data-bind="click : $root.addDataGridColumn">+ Column</button>
+        <a class="btn btn-link pull-right" data-bind="click: $root.removeReportItem">
+            <i class="icon-remove"></i>
+            Buang
+        </a>
+
+
+    </div>
+</section>

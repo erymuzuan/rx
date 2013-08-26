@@ -1,39 +1,27 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.DataGridItem
 
 <div>
-    
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Column 1</th>
-                <th>Column 2</th>
-                <th>Column 3</th>
-                <th>Column 4</th>
-                <th>Column 5</th>
+                @foreach (var c in Model.ReportColumnCollection)
+                {
+                    <th>@c.Header</th>
+                }
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            @foreach (var r in Model.ReportRowCollection)
+            {
+                <tr>
+               
+                    @foreach (var c in r.ReportColumnCollection)
+                    {
+                        <td>@c.Value</td>
+                    }
+                </tr>
+                
+            }
         </tbody>
     </table>
 </div>

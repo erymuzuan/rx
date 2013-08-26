@@ -87,6 +87,8 @@ bespoke.sphcommercialspace.domain.DataGridItem = function (webId) {
 
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.DataGridItem, domain.commercialspace";
 
+    v.ReportRowCollection = ko.observableArray([]);
+    v.ReportColumnCollection = ko.observableArray([]);
     if (bespoke.sphcommercialspace.domain.DataGridItemPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.DataGridItemPartial(v));
     }
@@ -165,6 +167,7 @@ bespoke.sphcommercialspace.domain.Parameter = function (webId) {
         Name: ko.observable(''),
         Type: ko.observable(''),
         AvailableValues: ko.observable(''),
+        Label: ko.observable(''),
         Value: ko.observable(),
         DefaultValue: ko.observable(),
         isBusy: ko.observable(false),
@@ -209,6 +212,41 @@ bespoke.sphcommercialspace.domain.EntityField = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.EntityFieldPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.EntityFieldPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ReportColumn = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.ReportColumn, domain.commercialspace",
+        Name: ko.observable(''),
+        Header: ko.observable(''),
+        Value: ko.observable(''),
+        Width: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ReportColumnPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ReportColumnPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ReportRow = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.ReportRow, domain.commercialspace",
+        ReportColumnCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ReportRowPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ReportRowPartial(model));
     }
     return model;
 };

@@ -62,7 +62,24 @@
 	<xs:element name="DataGridItem">
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="ReportItem"/>
+				<xs:extension base="ReportItem">
+					<xs:all>
+						<xs:element name="ReportRowCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ReportRow" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ReportColumnCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ReportColumn" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
@@ -145,6 +162,27 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReportColumn">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Header" type="xs:string" use="required"/>
+			<xs:attribute name="Value" type="xs:string" use="required"/>
+			<xs:attribute name="Width" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReportRow">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="ReportColumnCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ReportColumn" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
