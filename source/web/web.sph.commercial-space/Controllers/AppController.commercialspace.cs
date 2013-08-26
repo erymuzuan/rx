@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bespoke.Sph.Commerspace.Web.ViewModels;
 using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
@@ -32,12 +33,5 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return View(vm);
         }
 
-    }
-
-    public class CommercialSpaceDetailViewModel
-    {
-        public CommercialSpaceTemplate Template { get; set; }
-
-        public ApplicationTemplate[] ApplicationTemplates { get; set; }
     }
 }

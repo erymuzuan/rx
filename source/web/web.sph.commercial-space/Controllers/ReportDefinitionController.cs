@@ -16,32 +16,12 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             var items = new ObjectCollection<ReportItem>
             {
-                new LabelItem
-                {
-                    Name = "Label",
-                    CssClass = "",
-                   Icon = "icon-font"
-                },
-                new DataGridItem
-                {
-                    Name = "Table",
-                    Icon = "icon-table"
-                },
-                new LineChartItem
-                {
-                    Name = "Line chart",
-                    Icon = "icon-bar-chart"
-                },
-                new LineItem
-                {
-                    Name = "Horizontal line",
-                    Icon = "icon-ellipsis-horizontal"
-                },
-                new PieChartItem
-                {
-                    Name = "Pie chart",
-                    Icon = "icon-circle"
-                }
+                new LabelItem{Name = "Label",CssClass = "",Icon = "icon-font"},
+                new DataGridItem{Name = "Table",Icon = "icon-table"},
+                new LineChartItem{Name = "Line chart",Icon = "icon-bar-chart"},
+                new LineItem{Name = "Horizontal line",Icon = "icon-ellipsis-horizontal"},
+                new PieChartItem{Name = "Pie chart",Icon = "icon-circle"},
+                new BarChartItem{Name = "Bar chart",Icon = "icon-bar-chart"}
             };
 
             var vm = new ReportBuilderViewModel

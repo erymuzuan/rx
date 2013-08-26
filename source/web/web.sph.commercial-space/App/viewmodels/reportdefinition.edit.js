@@ -53,6 +53,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
                 reportDefinitionBase.viewAttached(view);
             },
             save = function () {
+                // get the reordered report items
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.reportDefinition);
 

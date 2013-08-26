@@ -263,7 +263,9 @@
     <Compile Include="Controllers\AppController.maintenance.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.maintenancetemplate.cs.cs" />
+    <Compile Include="Controllers\AppController.maintenancetemplate.cs.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AppController.nav.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
@@ -343,9 +345,11 @@
     <Compile Include="Models\ApplicationConfigurationViewModel.cs" />
     <Compile Include="Models\RoleType.cs" />
     <Compile Include="Models\TypeModel.cs" />
+    <Compile Include="ViewModels\CommercialSpaceDetailViewModel.cs" />
     <Compile Include="ViewModels\CustomFieldViewModel.cs" />
     <Compile Include="ViewModels\PrintViewModel.cs" />
     <Compile Include="ViewModels\ReportBuilderViewModel.cs" />
+    <Compile Include="ViewModels\RoleModel.cs" />
     <Compile Include="ViewModels\RoleSettingViewModel.cs" />
     <Compile Include="ViewModels\TemplateFormViewModel.cs" />
     <Compile Include="ViewModels\TriggerPathPickerHtmlViewModel.cs" />
@@ -1125,6 +1129,14 @@
     <Content Include="Views\ReportDefinition\_ConfigurationGeneral.cshtml" />
     <Content Include="Views\ReportDefinition\_ConfigurationParameters.cshtml" />
     <Content Include="Views\ReportDefinition\_ConfigurationDatasource.cshtml" />
+    <Content Include="Views\App\ReportDefinitionExecuteJs.cshtml" />
+    <Content Include="Views\App\ReportDefinitionExecuteHtml.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\BarChartItem.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\DataGridItem.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\LabelItem.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\LineChartItem.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\LineItem.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\PieChartItem.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

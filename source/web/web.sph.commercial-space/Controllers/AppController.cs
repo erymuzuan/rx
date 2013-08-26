@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             {
                 this.Server.TransferRequest(customJsRoute);
                 return Content("");
-                
+
             }
 
             this.Response.Cache.SetCacheability(HttpCacheability.NoCache);
@@ -68,7 +68,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return null;
         }
 
-        private string RenderHtml(string view)
+        private string RenderHtml(string view, object model = null)
         {
             var html = new StringBuilder();
             using (var sw = new StringWriter(html))
@@ -85,13 +85,38 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return html.ToString();
         }
 
+        public string RenderRazorViewToHtml(string viewName, object model)
+        {
+            ViewData.Model = model;
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
+        public string RenderRazorViewToJs(string viewName, object model)
+        {
+            var html = this.RenderRazorViewToHtml(viewName, model);
+            return ExtractScriptFromHtml(html);
+        }
+
         private string RenderScript(string view)
         {
             var html = this.RenderHtml(view);
 
+            return ExtractScriptFromHtml(html);
+        }
+
+        private static string ExtractScriptFromHtml(string html)
+        {
             const RegexOptions option = RegexOptions.IgnoreCase | RegexOptions.Singleline;
 
-            var matches = Regex.Matches(html, @"<script type=\""text/javascript\"" data-script=\""true\"">(?<script>.*?)</script>", option);
+            var matches = Regex.Matches(html,
+                @"<script type=\""text/javascript\"" data-script=\""true\"">(?<script>.*?)</script>", option);
             if (matches.Count == 1)
                 return matches[0].Groups["script"].Value;
             if (matches.Count == 0)
@@ -106,6 +131,5 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             return scripts.ToString();
         }
-
     }
 }

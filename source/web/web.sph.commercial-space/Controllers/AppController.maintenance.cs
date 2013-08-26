@@ -6,10 +6,10 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public partial class AppController
     {
-        public async Task<ActionResult> MaintenanceFormHtml(int templateId)
+        public async Task<ActionResult> MaintenanceFormHtml(int id)
         {
             var context = new SphDataContext();
-            var template = await context.LoadOneAsync<ComplaintTemplate>(t => t.ComplaintTemplateId == templateId);
+            var template = await context.LoadOneAsync<MaintenanceTemplate>(t => t.MaintenanceTemplateId == id);
 
             return View(template);
         }
@@ -20,10 +20,10 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         }
 
-        public async Task<ActionResult> MaintenanceDetailHtml(int templateId)
+        public async Task<ActionResult> MaintenanceDetailHtml(int id)
         {
             var context = new SphDataContext();
-            var template = await context.LoadOneAsync<ComplaintTemplate>(t => t.ComplaintTemplateId == templateId);
+            var template = await context.LoadOneAsync<MaintenanceTemplate>(t => t.MaintenanceTemplateId == id);
 
             return View(template);
         }
