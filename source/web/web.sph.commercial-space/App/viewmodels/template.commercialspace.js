@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger'],
-    function (context, system, designerHost, eximp, logger) {
+define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger', 'config'],
+    function (context, system, designerHost, eximp, logger, config) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -127,7 +127,8 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             removeComboBoxOption: designerHost.removeComboBoxOption,
             selectPathFromPicker: designerHost.selectPathFromPicker,
             showPathPicker: designerHost.showPathPicker,
-            addComboBoxOption: designerHost.addComboBoxOption
+            addComboBoxOption: designerHost.addComboBoxOption,
+            config : config
         };
 
         return vm;

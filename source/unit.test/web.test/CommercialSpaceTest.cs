@@ -64,9 +64,6 @@ namespace web.test
             driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL +String.Format("/#/commercialspace.detail-templateid.{0}/1/0/-/0",templateId));
 
        
-
-            //var id = sphDatabase.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
-            //Assert.IsTrue(max < id);
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();
         }

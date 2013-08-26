@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -64,12 +65,13 @@ namespace Bespoke.Scheduler.Sph.Rental
             var broker = new DefaultBrokerConnection
             {
                 Host = "localhost",
-                VirtualHost = "i90009000",
-                Password = "guest",
+                VirtualHost = "sph.0009",
                 Username = "guest",
+                Password = "guest",
                 Port = 5672
             };
-            const string conn = "Data Source=.\\katmai;Initial Catalog=Sph;Integrated Security=True;MultipleActiveResultSets=True";
+            var db = ConfigurationManager.AppSettings["dbName"];
+            string conn = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
             var cul = CultureInfo.CreateSpecificCulture("ms-MY");
             cul.DateTimeFormat.ShortDatePattern = "d/M/yyyy";
             cul.DateTimeFormat.ShortestDayNames = new[] { "Ahd", "Isn", "Sel", "Rab", "Kha", "Jum", "Sab" };
@@ -93,7 +95,7 @@ namespace Bespoke.Scheduler.Sph.Rental
             ObjectBuilder.AddCacheList<IDirectoryService>(new AspNetDirectoryService());
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new ChangePublisherClient(broker));
             ObjectBuilder.AddCacheList<IPagingTranslator>(new Sql2008PagingTranslator());
-            ObjectBuilder.AddCacheList<ISqlServerMetadata>(new SqlServer2012Metadata(conn,"Sph"));
+            ObjectBuilder.AddCacheList<ISqlServerMetadata>(new SqlServer2012Metadata(conn,db));
             ObjectBuilder.AddCacheList<IRepository<Contract>>(new SqlRepository<Contract>(conn));
             ObjectBuilder.AddCacheList<IRepository<Invoice>>(new SqlRepository<Invoice>(conn));
             ObjectBuilder.AddCacheList<IRepository<Tenant>>(new SqlRepository<Tenant>(conn));

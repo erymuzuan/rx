@@ -6,7 +6,7 @@
 }
 
 <script type="text/javascript" data-script="true">
-    define(['services/datacontext'], function (context) {
+    define(['services/datacontext','config'], function (context,config) {
         var isBusy = ko.observable(false),
             activate = function() {
                 var maintenanceQuery = String.format("MaintenanceId gt 0");
@@ -37,7 +37,7 @@
         activate: activate,
         viewAttached: viewAttached,
         maintenances: ko.observableArray(),
-            
+        profile : config.profile,   
         selectedStatus: ko.observable(),
             
         officerOptions : ko.observableArray(),

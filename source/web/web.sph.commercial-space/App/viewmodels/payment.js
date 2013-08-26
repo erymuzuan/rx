@@ -43,11 +43,10 @@ define(['services/datacontext', 'services/logger'],
 	        },
 	        
 	        exportList = function (){},
-
+            
             save = function () {
                 var tcs = new $.Deferred();
-                payment(ko.mapping.toJS(vm.payment()));
-                var json = JSON.stringify({payment: payment });
+                var json = JSON.stringify({ payment: ko.toJS(vm.payment()) });
                 context.post(json, "/Payment/Save")
 					.done(function (e) {
 					    var query = String.format("ContractId gt 0");
