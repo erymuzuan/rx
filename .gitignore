@@ -1,7 +1,4 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
+﻿packages/*
 /packages/
 *.nuspec
 bin/
@@ -31,5 +28,6 @@ debug/
 *.g.i.cs
 *.g.cs
 !domain.g.cs
+!report.g.cs
 SQLQuery[0-9].sql
 _ReSharper.commercial-space

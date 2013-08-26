@@ -102,6 +102,7 @@ ul.listview
     margin: 5px;
     min-height: 150px;
     position: relative;
+    background-color: #f7f7f7;
 }
 
     .report-layout.active
@@ -109,7 +110,7 @@ ul.listview
         border: 3px dashed #e1e6fb;
         padding: 8px;
         margin: 5px;
-        background-color: #f7f7f7;
+        background-color: #ffffff;
     }
 
     .report-layout > span
@@ -136,24 +137,28 @@ ul.listview
     position: relative;
 }
 
-#report-info {
+#report-info
+{
     padding: 0.5em 0 0.5em 0;
     border-bottom: 1px dotted #cccccc;
 }
 
-#report-info h2 {
-    margin: 0;
-    padding-bottom: 0;
-    font-size: 160%;
-    font-weight: bold;
-}
+    #report-info h2
+    {
+        margin: 0;
+        padding-bottom: 0;
+        font-size: 160%;
+        font-weight: bold;
+    }
 
-#report-info span {
-    margin-top: 0;
-    font-size:90%
-}
+    #report-info span
+    {
+        margin-top: 0;
+        font-size: 90%;
+    }
 
-#entity-columns {
+#entity-columns
+{
     list-style: none;
 }
 

@@ -4,16 +4,32 @@
     Layout = null;
 }
 
-<h1>@Model.Rdl.Title</h1>
-<div class="alert">
-    <p>@Model.Rdl.Description</p>
+<div id="report-layout-panel">
+
+    @foreach (var layout in Model.Rdl.ReportLayoutCollection)
+    {
+        <div class="row">
+            @foreach (var item in layout.ReportItemCollection)
+            {
+                @Html.DisplayFor(m => item)
+            }
+        </div>
+    }
 </div>
-@foreach (var layout in Model.Rdl.ReportLayoutCollection)
+@if (!Model.IsPostback)
 {
-    <div class="row">
-        @foreach (var item in layout.ReportItemCollection)
-        {
-            @Html.DisplayFor(m => item)
-        }
-    </div>
+    <section class="modal hide" id="parameters-dialog">
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3>Parameters</h3>
+        </div>
+        <div class="modal-body">
+        </div>
+
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">OK</a>
+        </div>
+    </section>
+ 
 }

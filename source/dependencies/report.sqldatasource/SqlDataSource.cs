@@ -53,16 +53,18 @@ namespace Bespoke.Sph.SqlReportDataSource
 
         public async Task<ObjectCollection<ReportRow>> GetRowsAsync(DataSource dataSource)
         {
-            // ReSharper disable PossibleNullReferenceException
-            var type = Type.GetType(typeof(Entity).AssemblyQualifiedName.Replace("Entity", dataSource.EntityName));
             var columns = await this.GetColumnsAsync(dataSource);
-            // ReSharper restore PossibleNullReferenceException
             var rows = new ObjectCollection<ReportRow>();
 
             var cs = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
             using (var conn = new SqlConnection(cs))
             using (var cmd = new SqlCommand(dataSource.Query, conn))
             {
+                foreach (var p in dataSource.ParameterCollection)
+                {
+                    var parameter = new SqlParameter("@" + p.Name, p.Value ?? p.DefaultValue);
+                    cmd.Parameters.Add(parameter);
+                }
                 await conn.OpenAsync();
                 var reader = await cmd.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
