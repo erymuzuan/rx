@@ -16,8 +16,6 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             }
 
             return payment;
-
-
         }
 
     }
