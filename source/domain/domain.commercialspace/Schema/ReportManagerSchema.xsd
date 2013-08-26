@@ -171,6 +171,7 @@
 			<xs:attribute name="Header" type="xs:string" use="required"/>
 			<xs:attribute name="Value" type="xs:string" use="required"/>
 			<xs:attribute name="Width" type="xs:string" use="required"/>
+			<xs:attribute name="IsSelected" type="xs:boolean"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ReportRow">

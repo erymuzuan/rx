@@ -37,6 +37,8 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
 
                 if (!id) {
                     var rdl = new bespoke.sphcommercialspace.domain.ReportDefinition();
+                    rdl.Title('Untitled Report');
+                    rdl.Description('Description of the report');
                     setRdl(rdl);
                 } else {
                     var query = String.format("ReportDefinitionId eq {0}", id);
@@ -47,10 +49,26 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
 
                     return tcs.promise();
                 }
+                
                 return true;
             },
             viewAttached = function (view) {
                 reportDefinitionBase.viewAttached(view);
+                
+                $('#data-source-entity').on('change', function() {
+                    var entity = $(this).val();
+                    console.log(entity);
+                    vm.entityColumns.removeAll();
+                    $.get('ReportDefinition/GetEntityColumns?entityName=' + entity)
+                        .done(function (columns) {
+                            $.each(columns, function (i, c) {
+                                vm.entityColumns.push(c);
+                            });
+                            
+                        });
+                    
+                });
+
             },
             save = function () {
                 // get the reordered report items
@@ -66,7 +84,9 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
 
             },
             removeReportItem = function (ri) {
+                reportDefinitionBase.removeReportItem(ri);
                 console.log("remove " + ri.Name());
+                
             },
              configure = function () {
                  var tcs = new $.Deferred();
@@ -97,7 +117,9 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             selectReportItem: reportDefinitionBase.selectReportItem,
             selectedReportItem: reportDefinitionBase.selectedReportItem,
             toolboxitems: reportDefinitionBase.toolboxItems,
-
+            selectedEntityName: ko.observable(''),
+            entityColumns: ko.observableArray(),
+            
             removeParameter: removeParameter,
             addParameter: addParameter,
 
@@ -113,6 +135,10 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             }
         };
 
+        vm.selectedEntityName.subscribe(function(name) {
+            alert(name);
+        });
+        
         return vm;
 
     });

@@ -157,6 +157,9 @@ define(['services/report.g', 'services/datacontext', 'durandal/system', 'service
                 });
                 vm.selectedReportItem(ri);
                 ri.isSelected(true);
+            },
+            removeReportItem = function(item) {
+                activeLayout().ReportItemCollection.remove(item);
             };
 
         var vm = {
@@ -166,7 +169,8 @@ define(['services/report.g', 'services/datacontext', 'durandal/system', 'service
             viewAttached: viewAttached,
             selectReportItem: selectReportItem,
             selectedReportItem: ko.observable(),
-            toolboxItems: ko.observableArray()
+            toolboxItems: ko.observableArray(),
+            removeReportItem: removeReportItem
         };
 
         return vm;

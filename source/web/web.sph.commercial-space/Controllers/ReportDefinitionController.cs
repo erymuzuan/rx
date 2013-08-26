@@ -53,5 +53,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         }
 
+        public async Task<ActionResult> GetEntityColumns(string entityName)
+        {
+            var dataSource = ObjectBuilder.GetObject<IReportDataSource>();
+            var query = string.Format("SELECT * FROM [Sph].[{0}]", entityName);
+            var source = new DataSource {EntityName = entityName, Query = query};
+            var cols = await dataSource.GetColumnsAsync(source);
+            return Json(cols, JsonRequestBehavior.AllowGet);
+        }
     }
 }

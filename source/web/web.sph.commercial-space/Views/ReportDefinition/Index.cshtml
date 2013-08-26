@@ -5,6 +5,11 @@
 }
 
 <h1>Report Builder</h1>
+<div id="report-info" data-bind="with: reportDefinition">
+    <h2 data-bind="text: Title"></h2>
+    <span data-bind="text: Description"></span>
+</div>
+
 <div id="report-container">
     <div class="row">
         <div class="span4" id="layout-toolbox">
