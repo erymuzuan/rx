@@ -770,5 +770,17 @@
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": "admin_dashboard",
+    "url": "reportdefinition.schedule/:id",
+    "moduleId": "viewmodels/reportdefinition.schedule",
+    "name": "Report Schedules",
+    "visible": false,
+    "icon": "icon-calendar",
+    "caption": "Report Schedules",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
   }
 ]

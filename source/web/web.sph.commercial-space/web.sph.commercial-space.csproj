@@ -408,6 +408,7 @@
     <Content Include="App\viewmodels\reportdefinition.base.js" />
     <Content Include="App\viewmodels\reportdefinition.edit.js" />
     <Content Include="App\viewmodels\reportdefinition.list.js" />
+    <Content Include="App\viewmodels\reportdefinition.schedule.js" />
     <Content Include="App\viewmodels\template.commercialspace.js" />
     <Content Include="App\viewmodels\template.application.js" />
     <Content Include="App\viewmodels\maintenance.form.js" />
@@ -452,6 +453,7 @@
     <Content Include="App\views\messages.html" />
     <Content Include="App\views\public.index.html" />
     <Content Include="App\views\reportdefinition.list.html" />
+    <Content Include="App\views\reportdefinition.schedule.html" />
     <Content Include="App\views\search.html" />
     <Content Include="App\views\trigger.list.html" />
     <Content Include="App\views\_complaint.details.html" />
