@@ -4,6 +4,7 @@
         <div class="controls">
             <select data-bind="value: EntityName" id="data-source-entity" name="Entity">
                 <option value="">[--Sila Pilih--]</option>
+                <option value="Land">Tanah</option>
                 <option value="Building">Bangunan</option>
                 <option value="RentalApplication">Permohonan Sewa</option>
                 <option value="Deposit">Deposit</option>
@@ -16,23 +17,13 @@
         </div>
     </div>
     <div class="control-group">
-        
+
     </div>
     <div class="control-group">
         <label for="data-source-query" class="control-label">Query</label>
         <div class="controls">
-            <textarea class="input-xxlarge" rows="8" data-bind="value: Query" id="data-source-query" name="Query">
-
-</textarea>
+            <textarea class="input-xxlarge" rows="8" data-bind="value: Query" id="data-source-query" name="Query"></textarea>
         </div>
     </div>
 </form>
 
-<div data-bind="with: $parent">
-    <ul id="entity-columns" data-bind="foreach: entityColumns">
-        <li>
-            <input type="checkbox" data-bind="checked: IsSelected" />
-            <span data-bind="text: Name"></span>  
-        </li>
-    </ul>
-</div>

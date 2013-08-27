@@ -4,9 +4,10 @@
     Layout = null;
 }
 
-<div id="report-layout-panel">
 
-    @foreach (var layout in Model.Rdl.ReportLayoutCollection)
+@if (null != Model.Rdl && Model.IsPostback)
+{
+    foreach (var layout in Model.Rdl.ReportLayoutCollection)
     {
         <div class="row">
             @foreach (var item in layout.ReportItemCollection)
@@ -15,21 +16,78 @@
             }
         </div>
     }
-</div>
-@if (!Model.IsPostback)
+}
+
+
+@if (!Model.IsPostback && null != Model.Rdl)
 {
+    var count = -1;
+
+    <div id="report-layout-panel">
+        
+    </div>
     <section class="modal hide" id="parameters-dialog">
 
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h3>Parameters</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" data-bind="with : datasource">
+            @foreach (var parm in Model.Rdl.DataSource.ParameterCollection)
+            {
+                count++;
+                if (parm.Type == "System.String" && !string.IsNullOrWhiteSpace(parm.AvailableValues))
+                {
+
+                    <div class="control-group">
+                        <label for="parameter@(count)" class="control-label">@parm.Label</label>
+                        <div class="controls">
+                            <select data-bind="value: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)">
+                                <option>[Please Select]</option>
+                                @foreach (var opt in parm.AvailableValues.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                                {
+                                    <option value="@opt">@opt</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                }
+
+                if (parm.Type == "System.String" && string.IsNullOrWhiteSpace(parm.AvailableValues))
+                {
+                    <div class="control-group">
+                        <label for="parameter@(count)" class="control-label">@parm.Label</label>
+                        <div class="controls">
+                            <input data-bind="value: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)" type="text" />
+                        </div>
+                    </div>
+                }
+                if (parm.Type == "System.DateTime")
+                {
+                    <div class="control-group">
+                        <label for="parameter@(count)" class="control-label">@parm.Label</label>
+                        <div class="controls">
+                            <input data-bind="kendoDate: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)" type="text" />
+                        </div>
+                    </div>
+                }
+
+            }
         </div>
 
         <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">OK</a>
+            <button data-dismiss="modal" type="button" class="btn btn-primary" data-bind="click: executeCommand">
+                <i class="icon-play"></i>
+                Run
+            </button>
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
         </div>
     </section>
- 
+
+
+
+
+
+
 }

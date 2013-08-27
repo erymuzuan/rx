@@ -1,7 +1,16 @@
 ﻿<table class="table table-striped" data-bind="with : DataSource">
+    <colgroup>
+        <col style="width: 20%"/>
+        <col style="width: 20%"/>
+        <col style="width: 10%"/>
+        <col style="width: 10%"/>
+        <col style="width: 20%"/>
+        <col style="width: 10%"/>
+    </colgroup>
     <thead>
         <tr>
             <th>Name</th>
+            <th>Label</th>
             <th>Type</th>
             <th>Default Value</th>
             <th>Available values</th>
@@ -12,6 +21,9 @@
         <tr>
             <td>
                 <input type="text" data-bind="value:Name" />
+            </td>
+            <td>
+                <input type="text" data-bind="value:Label" />
             </td>
             <td>
                 <select data-bind="value:Type">
