@@ -402,6 +402,7 @@
     <Content Include="App\services\report.g.js" />
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
+    <Content Include="App\viewmodels\_tenant.payment.js" />
     <Content Include="App\viewmodels\land.detail.js" />
     <Content Include="App\viewmodels\land.list.js" />
     <Content Include="App\viewmodels\message.inbox.js" />
@@ -442,6 +443,7 @@
     <Content Include="App\views\commercialspace.template.list.html" />
     <Content Include="App\views\complaint.assign.html" />
     <Content Include="App\views\complaintform.tenant.html" />
+    <Content Include="App\views\_tenant.payment.html" />
     <Content Include="App\views\inventory.detail.html" />
     <Content Include="App\views\inventory.list.html" />
     <Content Include="App\views\land.detail.html" />
