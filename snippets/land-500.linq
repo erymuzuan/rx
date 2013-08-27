@@ -17,10 +17,10 @@ for (int i = 0; i < 500; i++)
 {
 		var loc = locations.OrderBy(f => Guid.NewGuid()).First();
 		var land = l.Clone();
-		l.Title = "Tanah " + i;
-		l.Location = loc;
-		l.Size = 4000 + (i % 10);
-		l.Address.City = loc;
+		land.Title = "Tanah " + i;
+		land.Location = loc;
+		land.Size = 4000 + (i % 10);
+		land.Address.City = loc;
 		
 		var item = new LINQPad.User.Land{
 		Data = land.ToXElement(),
@@ -30,13 +30,13 @@ for (int i = 0; i < 500; i++)
 		CreatedBy = "LinqPad",
 		CreatedDate = DateTime.Now,
 		EncodedWkt = l.EncodedWkt,
-		Location = l.Location,
-		Lot = l.Lot,
+		Location = land.Location,
+		Lot = land.Lot,
 		//Path = l.Path,
-		SheetNo = l.SheetNo,
-		Size = l.Size,
+		SheetNo = land.SheetNo,
+		Size = land.Size,
 		Title = land.Title,
-		Wkt = l.Wkt
+		Wkt = land.Wkt
 	};
 	
 	Lands.InsertOnSubmit(item);

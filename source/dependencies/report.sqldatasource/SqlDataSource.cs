@@ -3,6 +3,8 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Bespoke.SphCommercialSpaces.Domain;
@@ -57,14 +59,24 @@ namespace Bespoke.Sph.SqlReportDataSource
             var columns = await this.GetColumnsAsync(dataSource);
             var rows = new ObjectCollection<ReportRow>();
 
+
+            var query = dataSource.Query;
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                query = this.Compile(dataSource);
+            }
+            Console.WriteLine("======== SQL ==========");
+            Console.WriteLine(query);
+            Console.WriteLine("======== SQL ==========");
             var cs = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
             using (var conn = new SqlConnection(cs))
-            using (var cmd = new SqlCommand(dataSource.Query, conn))
+            using (var cmd = new SqlCommand(query, conn))
             {
                 foreach (var p in dataSource.ParameterCollection)
                 {
                     var parameter = new SqlParameter("@" + p.Name, p.Value ?? p.DefaultValue);
                     cmd.Parameters.Add(parameter);
+                    Console.WriteLine("PaRAM {0} = {1}", parameter.ParameterName, parameter.Value);
                 }
                 await conn.OpenAsync();
                 var reader = await cmd.ExecuteReaderAsync();
@@ -84,6 +96,82 @@ namespace Bespoke.Sph.SqlReportDataSource
 
 
             return rows;
+        }
+
+        private string Compile(DataSource dataSource)
+        {
+            var sql = new StringBuilder("SELECT ");
+
+            // for normal aggregate
+            foreach (var c in dataSource.EntityFieldCollection)
+            {
+                if (!string.IsNullOrWhiteSpace(c.Aggregate) && c.Aggregate != "GROUP")
+                {
+                    sql.AppendFormat("{0}([{1}])", c.Aggregate, c.Name);
+                }
+            }
+            sql.AppendFormat("[{0}Id], [Data] FROM [Sph].[{0}] ", dataSource.EntityName);
+            if (dataSource.ReportFilterCollection.Any())
+                sql.AppendLine("WHERE");
+
+            var first = true;
+            foreach (var filter in dataSource.ReportFilterCollection)
+            {
+                var value = this.GetFilterValue(filter);
+                var op = this.GetFilteroperator(filter);
+                if (!first)
+                    sql.AppendLine(" AND");
+                sql.AppendFormat("[{0}] {1} {2}",filter.FieldName, op,value);
+                // State Eq @State
+
+                first = false;
+            }
+
+            // for GROUP
+            foreach (var c in dataSource.EntityFieldCollection)
+            {
+                if (c.Aggregate == "GROUP")
+                {
+                    sql.AppendFormat("GROUP BY [{0}]", c.Name);
+                }
+            }
+
+            // for ORDER
+            foreach (var c in dataSource.EntityFieldCollection.OrderBy(t => t.OrderPosition))
+            {
+                if (!string.IsNullOrWhiteSpace(c.Order))
+                {
+                    sql.AppendFormat("ORDER BY [{0}] {1})", c.Name, c.Order);
+                }
+            }
+
+
+
+            return sql.ToString();
+        }
+
+        public string GetFilteroperator(ReportFilter filter)
+        {
+            if(null == filter)throw new ArgumentNullException("filter");
+            switch (filter.Operator)
+            {
+                case "Eq":
+                    return "=";
+            }
+            throw new Exception("Whoaaaa");
+        }
+
+        public string GetFilterValue(ReportFilter filter)
+        {
+            if(null == filter)throw new ArgumentNullException("filter");
+            if (filter.Value.StartsWith("@"))
+                return filter.Value;
+            if (filter.Value.StartsWith("="))
+            {
+                
+            }
+            // for string
+            return string.Format("'{0}'", filter.Value);
         }
 
 

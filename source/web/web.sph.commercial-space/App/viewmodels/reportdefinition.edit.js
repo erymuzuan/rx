@@ -39,35 +39,35 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
                     var rdl = new bespoke.sphcommercialspace.domain.ReportDefinition();
                     rdl.Title('Untitled Report');
                     rdl.Description('Description of the report');
-                    setRdl(rdl);
+
+
                 } else {
                     var query = String.format("ReportDefinitionId eq {0}", id);
                     var tcs = new $.Deferred();
                     context.loadOneAsync("ReportDefinition", query)
-                        .done(setRdl)
-                        .done(tcs.resolve);
+                        .done(function (r) {
+                            loadEntityColumns(r.DataSource.EntityName())
+                                .done(function () {
+                                    setRdl(r);
+                                    tcs.resolve(true);
+                                });
+                        });
 
                     return tcs.promise();
                 }
-                
+
                 return true;
             },
             viewAttached = function (view) {
                 reportDefinitionBase.viewAttached(view);
-                
-                $('#data-source-entity').on('change', function() {
-                    var entity = $(this).val();
-                    console.log(entity);
-                    vm.entityColumns.removeAll();
-                    $.get('ReportDefinition/GetEntityColumns?entityName=' + entity)
-                        .done(function (columns) {
-                            $.each(columns, function (i, c) {
-                                vm.entityColumns.push(c);
-                            });
-                            
-                        });
-                    
-                });
+            },
+            loadEntityColumns = function (entity) {
+                var tcs = new $.Deferred();
+                $.get('ReportDefinition/GetEntityColumns?entityName=' + entity)
+                        .done(vm.entityColumns)
+                        .done(tcs.resolve);
+
+                return tcs.promise();
 
             },
             save = function () {
@@ -86,7 +86,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             removeReportItem = function (ri) {
                 reportDefinitionBase.removeReportItem(ri);
                 console.log("remove " + ri.Name());
-                
+
             },
              configure = function () {
                  var tcs = new $.Deferred();
@@ -105,6 +105,13 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             },
             addDataGridColumn = function (datagridItem) {
                 datagridItem.ReportColumnCollection.push(new bespoke.sphcommercialspace.domain.ReportColumn());
+            },
+            addFilter = function () {
+                vm.reportDefinition().DataSource().ReportFilterCollection.push(new bespoke.sphcommercialspace.domain.ReportFilter());
+
+            },
+            removeFilter = function (filter) {
+                vm.reportDefinition().DataSource().ReportFilterCollection.remove(filter);
             };
 
         var vm = {
@@ -119,9 +126,12 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             toolboxitems: reportDefinitionBase.toolboxItems,
             selectedEntityName: ko.observable(''),
             entityColumns: ko.observableArray(),
-            
+
             removeParameter: removeParameter,
             addParameter: addParameter,
+
+            addFilter: addFilter,
+            removeFilter: removeFilter,
 
             addDataGridColumn: addDataGridColumn,
 
@@ -135,10 +145,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             }
         };
 
-        vm.selectedEntityName.subscribe(function(name) {
-            alert(name);
-        });
-        
+        vm.reportDefinition().DataSource().EntityName.subscribe(loadEntityColumns);
         return vm;
 
     });

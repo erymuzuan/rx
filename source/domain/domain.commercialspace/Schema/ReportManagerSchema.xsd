@@ -155,7 +155,6 @@
 			<xs:attribute name="FieldName" type="xs:string" use="required"/>
 			<xs:attribute name="Operator" type="xs:string" use="required"/>
 			<xs:attribute name="Value" type="xs:string" use="required"/>
-			<xs:attribute name="ParameterName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EntityField">
@@ -163,6 +162,9 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
+			<xs:attribute name="Aggregate" type="xs:string" use="required"/>
+			<xs:attribute name="Order" type="xs:string" use="required"/>
+			<xs:attribute name="OrderPosition" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ReportColumn">

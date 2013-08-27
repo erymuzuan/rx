@@ -38,7 +38,8 @@
                 return tcs.promise();
             },
             execute = function () {
-                $('#report-layout-panel').html('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />');
+                var $layout = $('#report-layout-panel');
+                $layout.html('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />');
 
                 NProgress.start();
                 var tcs = new $.Deferred();
@@ -46,9 +47,8 @@
                 $.post("/App/ReportDefinitionExecuteHtml/" + id, data, "html")
                     .done(function (html) {
                         NProgress.done();
-                        $('#report-layout-panel').html(html);
+                        $layout.html(html);
                         tcs.resolve(true);
-                        console.log(html);
                     });
 
                 return tcs.promise();

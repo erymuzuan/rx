@@ -17,9 +17,44 @@
         </div>
     </div>
     <div class="control-group">
-
     </div>
-    <div class="control-group">
+    <a href="#" data-bind="click: $root.addFilter">+ Filter</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Operator</th>
+                <th>Value</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: ReportFilterCollection">
+            <tr>
+                <td>
+                    <select data-bind="value: FieldName, options: $root.entityColumns, optionsText: 'Name', optionsValue: 'Name'"></select>
+                </td>
+                <td>
+                    <select data-bind="value: Operator">
+                        <option value="Eq">=</option>
+                        <option value="Le">&lt;=</option>
+                        <option value="Lt">&lt;</option>
+                        <option value="Ge">&gt;=</option>
+                        <option value="Gt">&gt;</option>
+                        <option value="Substringof">Mengandungi</option>
+                        <option value="StartsWith">Mula dengan</option>
+                        <option value="EndsWith">Akhir</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" data-bind="value: Value" />
+                </td>
+                <td>
+                    <a href="#" data-bind="click: $root.removeFilter">Buang</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+      <div class="control-group">
         <label for="data-source-query" class="control-label">Query</label>
         <div class="controls">
             <textarea class="input-xxlarge" rows="8" data-bind="value: Query" id="data-source-query" name="Query"></textarea>
