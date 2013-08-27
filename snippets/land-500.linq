@@ -1,7 +1,6 @@
 <Query Kind="Statements">
   <Connection>
     <ID>84e06ebb-98ea-4fa0-a47c-8535465a77e6</ID>
-    <Persist>true</Persist>
     <Server>.\KATMAI</Server>
     <Database>Sph</Database>
   </Connection>
@@ -12,11 +11,16 @@
 </Query>
 
 var l = XmlSerializerService.DeserializeFromXml<Bespoke.SphCommercialSpaces.Domain.Land>(Lands.First().Data.ToString());
+var locations = new []{"Jeli", "Tanah Merah", "Pasir mas", "Kota Bharu", "Gua Musang", "Bukit Bunga"};
 
 for (int i = 0; i < 500; i++)
 {
+		var loc = locations.OrderBy(f => Guid.NewGuid()).First();
 		var land = l.Clone();
 		l.Title = "Tanah " + i;
+		l.Location = loc;
+		l.Size = 4000 + (i % 10);
+		l.Address.City = loc;
 		
 		var item = new LINQPad.User.Land{
 		Data = land.ToXElement(),
