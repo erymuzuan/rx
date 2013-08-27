@@ -41,23 +41,23 @@ namespace Bespoke.Sph.SqlReportDataSource
             columns.AddRange(props);
         }
 
-        public Task<ObjectCollection<ReportColumn>> GetColumnsAsync(ReportDefinition rdl)
+        public Task<ObjectCollection<ReportColumn>> GetColumnsAsync(Type type)
         {
-            var dataSource = rdl.DataSource;
-
-            // ReSharper disable PossibleNullReferenceException
-            var type = Type.GetType(typeof(Entity).AssemblyQualifiedName.Replace("Entity", dataSource.EntityName));
-            var columns = new ObjectCollection<ReportColumn>();
+             var columns = new ObjectCollection<ReportColumn>();
             this.GetColumns(columns, type);
-            // ReSharper restore PossibleNullReferenceException
 
             return Task.FromResult(columns);
         }
 
         public async Task<ObjectCollection<ReportRow>> GetRowsAsync(ReportDefinition rdl)
         {
+
+            // ReSharper disable PossibleNullReferenceException
+            var type = Type.GetType(typeof(Entity).AssemblyQualifiedName.Replace("Entity", rdl.DataSource.EntityName));
+            // ReSharper restore PossibleNullReferenceException
+
             var dataSource = rdl.DataSource;
-            var columns = await this.GetColumnsAsync(rdl);
+            var columns = await this.GetColumnsAsync(type);
             var rows = new ObjectCollection<ReportRow>();
 
 

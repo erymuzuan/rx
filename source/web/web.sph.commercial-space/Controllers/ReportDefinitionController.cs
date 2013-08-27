@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Commerspace.Web.Helpers;
 using Bespoke.Sph.Commerspace.Web.ViewModels;
@@ -56,9 +57,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> GetEntityColumns(string entityName)
         {
             var dataSource = ObjectBuilder.GetObject<IReportDataSource>();
-            var query = string.Format("SELECT * FROM [Sph].[{0}]", entityName);
-            var source = new DataSource {EntityName = entityName, Query = query};
-            var cols = await dataSource.GetColumnsAsync(source);
+            var typeName = (typeof (Entity).AssemblyQualifiedName ?? "").Replace("Entity", entityName);
+            var cols = await dataSource.GetColumnsAsync(Type.GetType(typeName));
             return Json(cols, JsonRequestBehavior.AllowGet);
         }
     }
