@@ -14,7 +14,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
     var rentalId = ko.observable(),
         isBusy = ko.observable(false),
         activate = function (routeData) {
-            rentalId(routeData.rentalId);
+            rentalId(parseInt(routeData.rentalId));
             vm.offer().CommercialSpaceId(routeData.csId);
             var tcs = new $.Deferred();
             var raTask = context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + rentalId());
@@ -58,7 +58,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         },
         generateOfferLetter = function () {
             var tcs = new $.Deferred();
-            var data = JSON.stringify({ id: rentalId() });
+            var data = JSON.stringify({ id: ko.toJS(rentalId()) });
             context.post(data, "/RentalApplication/GenerateOfferLetter").done(function (e) {
                 logger.log("Offer letter generated ", e, "offerdetails", true);
                 window.open("/RentalApplication/Download");
