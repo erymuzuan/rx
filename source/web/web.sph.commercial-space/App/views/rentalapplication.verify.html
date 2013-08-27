@@ -1,5 +1,5 @@
 ﻿<h1 class="row-fluid"><span data-bind="text: title"></span></h1>
-<div class="span8">
+<div class="span9">
     <form class="form-horizontal" data-bind="with: rentalapplication">
         <div id="div-application">
             <h2 class=" span7">Maklumat Pemohon</h2>
@@ -12,14 +12,6 @@
                 <label class="span3" data-bind="text: RegistrationNo" />
             </div>
             <div class="control-group">
-                <label class="span2">Nama Syarikat</label><label class="span1">:</label>
-                <label class="span3" data-bind="text: CompanyName, visible: IsCompany" />
-            </div>
-            <div class="control-group">
-                <label class="span2">ID / SSM</label><label class="span1">:</label>
-                <label class="span3" data-bind="text: CompanyRegistrationNo" />
-            </div>
-            <div class="control-group">
                 <label class="span2">Nama Pegawai</label><label class="span1">:</label>
                 <label class="span3" data-bind="text: Contact.Name" />
             </div>
@@ -30,6 +22,14 @@
             <div class="control-group">
                 <label class="span2">No. Telefon Bimbit</label><label class="span1">:</label>
                 <label class="span3" data-bind="text: Contact.MobileNo" />
+            </div>
+            <div class="control-group">
+                <label class="span2">Nama Syarikat</label><label class="span1">:</label>
+                <label class="span3" data-bind="text: CompanyName, visible: IsCompany" />
+            </div>
+            <div class="control-group">
+                <label class="span2">No. SSM</label><label class="span1">:</label>
+                <label class="span3" data-bind="text: CompanyRegistrationNo" />
             </div>
             <div class="control-group span7 ">
                 <label>Alamat :</label>
@@ -85,7 +85,7 @@
                         <td>
                             <input type="checkbox" class="checkbox" data-bind="checked: IsCompleted" /></td>
                         <td>
-                            <img data-bind="click: $root.removeAttachmentCommand, attr: { src: '/Images/remove_icon.png'}" src="/Images/remove_icon.png" alt="buang" />
+                            <a class="btn btn-link" data-bind="click: $root.removeAttachmentCommand"> Buang </a>
                         </td>
                     </tr>
                 </tbody>
@@ -136,9 +136,9 @@
         <div class="control-group" data-bind="with: Address">
             <span class="control-label"><strong>Alamat : </strong></span>
             <span data-bind="text: Street" />,
-                <span data-bind="text: Postcode" />
+            <span data-bind="text: Postcode" />
             <span data-bind="text: City" />,
-                <span data-bind="text: State" />
+            <span data-bind="text: State" />
         </div>
         <div class="control-group">
             <span class="control-label"><strong>Tujuan Permohonan : </strong></span>
@@ -165,6 +165,7 @@
         <input type="button" class="btn-small btn-primary" value="OK" data-dismiss="modal" />
     </div>
 </div>
+
 <div class="span5 widget wlightblue" id="commercialSpace">
     <div class="widget-head">
         <div class="pull-left">Ruang Komersil</div>
@@ -172,50 +173,51 @@
         <div class="clearfix"></div>
     </div>
     <div class="span5">
-        <div>
+        <form class="form-inline">
             <div id="commercialSpace-Detail" data-bind="with: commercialSpace">
                 <div class="control-group">
-                    <label class="span2">Negeri :</label>
-                    <label class="span2" data-bind="text: State" />
+                    <span>
+                    <label class="controls-row">Negeri :</label>
+                    <label class="controls-row" data-bind="text: State" /></span>
                 </div>
                 <div class="control-group">
-                    <label class="span2">Bandar :</label>
-                    <label class="span2" data-bind="text: City" />
+                    <label class="controls-row">Bandar :</label>
+                    <label class="controls-row" data-bind="text: City" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Nama Bangunan :</label>
-                    <label class="span2" data-bind="text: BuildingName" />
+                    <label class="controls-row">Nama Bangunan :</label>
+                    <label class="controls-row" data-bind="text: BuildingName" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Lot Bangunan :</label>
-                    <label class="span2" data-bind="text: BuildingLot" />
+                    <label class="controls-row">Lot Bangunan :</label>
+                    <label class="controls-row" data-bind="text: BuildingLot" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Tingkat :</label>
-                    <label class="span2" data-bind="text: FloorName" />
+                    <label class="controls-row">Tingkat :</label>
+                    <label class="controls-row" data-bind="text: FloorName" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Lot :</label>
-                    <label class="span2" data-bind="text: LotName" />
+                    <label class="controls-row">Lot :</label>
+                    <label class="controls-row" data-bind="text: LotName" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Jenis Ruang :</label>
-                    <label class="span2" data-bind="text: Category" />
+                    <label class="controls-row">Jenis Ruang :</label>
+                    <label class="controls-row" data-bind="text: Category" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Saiz :</label>
-                    <label class="span2" data-bind="text: Size" />
+                    <label class="controls-row">Saiz :</label>
+                    <label class="controls-row" data-bind="text: Size" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Kadar Sewa :</label>
-                    <label class="span2" data-bind="text: RentalRate" />
+                    <label class="controls-row">Kadar Sewa :</label>
+                    <label class="controls-row" data-bind="text: RentalRate" />
                 </div>
                 <div class="control-group">
-                    <label class="span1">Lokasi :</label>
-                    <img alt="map" data-bind="attr: { src: $root.commercialSpace().StaticMap }" class="img-polaroid centered span3" src="/Images/accent.png" />
+                    <label class="controls-row">Lokasi :</label>
+                    <img alt="map" data-bind="attr: { src: $root.commercialSpace().StaticMap }" class="img-polaroid centered controls-row" src="/Images/accent.png" />
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 

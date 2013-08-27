@@ -45,9 +45,11 @@ namespace Bespoke.Scheduler.Sph.Rental
             var contractLoadOperation = await context.LoadAsync(contractQuery);
             var contracts = contractLoadOperation.ItemCollection;
             var invoiceCollection = new List<Invoice>();
-            foreach (var c in contracts)
+           foreach (var c in contracts)
             {
                 var c1 = c;
+                var existing = await context.LoadOneAsync<Invoice>(i => i.ContractNo == c1.ReferenceNo && i.Type == InvoiceType.Rental);
+                if (null != existing) continue;
                 var factory = new InvoiceFactory();
                 var rent = await factory.CreateRentalInvoice(c1);
                 invoiceCollection.Add(rent);

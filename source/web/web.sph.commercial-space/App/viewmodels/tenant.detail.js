@@ -12,8 +12,8 @@
 /// <reference path="../viewmodels/_tenant.adhoc.js" />
 
 
-define(['services/datacontext', './_tenant.rent', './_tenant.contract', './_tenant.adhoc', './_tenant.payment'],
-	function (context, rentvm, contractvm, invoicevm, paymentvm) {
+define(['services/datacontext', './_tenant.rent', './_tenant.contract', './_tenant.adhoc', './_tenant.payment', './_tenant.rebate'],
+	function (context, rentvm, contractvm, invoicevm, paymentvm,rebatevm) {
 
 	    var isBusy = ko.observable(false),
         id = ko.observable(),
@@ -25,10 +25,11 @@ define(['services/datacontext', './_tenant.rent', './_tenant.contract', './_tena
             var detailLoaded = function (tnt) {
                 vm.tenant(tnt);
                 var paymentTask = paymentvm.activate(tnt);
-               var rentTask = rentvm.activate(tnt);
+                var rentTask = rentvm.activate(tnt);
                 var invoiceTask = invoicevm.activate(tnt);
+                var rebateTask = rebatevm.activate();
                 var contractTask = contractvm.init(tnt);
-                    $.when(rentTask,invoiceTask,contractTask,paymentTask).done(function () {
+                    $.when(rentTask,invoiceTask,contractTask,paymentTask,rebateTask).done(function () {
                         tcs.resolve(true);
                     });
             };

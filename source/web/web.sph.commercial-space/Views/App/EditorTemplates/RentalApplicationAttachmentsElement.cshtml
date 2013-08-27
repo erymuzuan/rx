@@ -1,11 +1,11 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.RentalApplicationAttachmentsElement
 
 <div>
-    <div class="span6">
+    <div>
         <a data-bind="click: $parent.addAttachmentCommand" class="btn btn-link pull-right">
-            <i class="icon-file-alt"></i>+ Dokumen</a>
+            <i class="icon-file-alt"></i> + Dokumen</a>
     </div>
-    <table id="document-sokongan-table" class="table table-bordered span6">
+    <table id="document-sokongan-table" class="table table-bordered">
         <thead>
             <tr>
                 <th>Jenis</th>
@@ -24,7 +24,7 @@
                     <input class="input-medium " type="file" value="upload" name="files" />
                 </td>
                 <td>
-                    <img data-bind="click: $root.removeAttachmentCommand, attr: { src: '/Images/remove_icon.png' }" src="/Images/remove_icon.png" alt="buang" />
+                    <a class="btn btn-link" data-bind="click: $root.removeAttachmentCommand">Buang</a>
                 </td>
             </tr>
         </tbody>
