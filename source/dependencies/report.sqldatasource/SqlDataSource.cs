@@ -98,21 +98,34 @@ namespace Bespoke.Sph.SqlReportDataSource
             return rows;
         }
 
-        private string Compile(DataSource dataSource)
+        public string Compile(DataSource dataSource)
         {
             var sql = new StringBuilder("SELECT ");
-
+            var useDefaultColumn = true;
             // for normal aggregate
-            foreach (var c in dataSource.EntityFieldCollection)
+            foreach (var c in dataSource.EntityFieldCollection.Where(t => !string.IsNullOrWhiteSpace(t.Aggregate)))
             {
-                if (!string.IsNullOrWhiteSpace(c.Aggregate) && c.Aggregate != "GROUP")
+                if (c.Aggregate == "GROUP") continue;
+                sql.AppendFormat("{0}([{1}])", c.Aggregate, c.Name);
+
+                useDefaultColumn = false;
+            }
+            if (useDefaultColumn)
+            {
+                sql.AppendFormat("[{0}Id], [Data] ", dataSource.EntityName);
+            }
+            else
+            {
+                foreach (var c in dataSource.EntityFieldCollection.Where(t => t.Aggregate == "GROUP"))
                 {
-                    sql.AppendFormat("{0}([{1}])", c.Aggregate, c.Name);
+                    sql.AppendFormat(", [{0}]", c.Name);
                 }
             }
-            sql.AppendFormat("[{0}Id], [Data] FROM [Sph].[{0}] ", dataSource.EntityName);
+
+            sql.AppendFormat(" FROM [Sph].[{0}] ", dataSource.EntityName);
+
             if (dataSource.ReportFilterCollection.Any())
-                sql.AppendLine("WHERE");
+                sql.Append("WHERE ");
 
             var first = true;
             foreach (var filter in dataSource.ReportFilterCollection)
@@ -121,28 +134,30 @@ namespace Bespoke.Sph.SqlReportDataSource
                 var op = this.GetFilteroperator(filter);
                 if (!first)
                     sql.AppendLine(" AND");
-                sql.AppendFormat("[{0}] {1} {2}",filter.FieldName, op,value);
+                sql.AppendFormat("[{0}] {1} {2}", filter.FieldName, op, value);
                 // State Eq @State
 
                 first = false;
             }
 
             // for GROUP
-            foreach (var c in dataSource.EntityFieldCollection)
+            var groupColumns = dataSource.EntityFieldCollection.Where(t => t.Aggregate == "GROUP").Select(t => "[" + t.Name + "]").ToArray();
+            if (groupColumns.Any())
             {
-                if (c.Aggregate == "GROUP")
-                {
-                    sql.AppendFormat("GROUP BY [{0}]", c.Name);
-                }
+                sql.Append(" GROUP BY ");
+                sql.Append(string.Join(", ", groupColumns));
             }
 
             // for ORDER
-            foreach (var c in dataSource.EntityFieldCollection.OrderBy(t => t.OrderPosition))
+            var orderColumns =
+                dataSource.EntityFieldCollection.Where(t => !string.IsNullOrWhiteSpace(t.Order))
+                    .OrderBy(t => t.OrderPosition);
+            if (orderColumns.Any())
             {
-                if (!string.IsNullOrWhiteSpace(c.Order))
-                {
-                    sql.AppendFormat("ORDER BY [{0}] {1})", c.Name, c.Order);
-                }
+                sql.Append(" ORDER BY ");
+                var cols = orderColumns.Select(t => "[" + t.Name + "] " + t.Order).ToArray();
+                sql.Append(string.Join(", ", cols));
+
             }
 
 
@@ -152,7 +167,7 @@ namespace Bespoke.Sph.SqlReportDataSource
 
         public string GetFilteroperator(ReportFilter filter)
         {
-            if(null == filter)throw new ArgumentNullException("filter");
+            if (null == filter) throw new ArgumentNullException("filter");
             switch (filter.Operator)
             {
                 case "Eq":
@@ -163,12 +178,12 @@ namespace Bespoke.Sph.SqlReportDataSource
 
         public string GetFilterValue(ReportFilter filter)
         {
-            if(null == filter)throw new ArgumentNullException("filter");
+            if (null == filter) throw new ArgumentNullException("filter");
             if (filter.Value.StartsWith("@"))
                 return filter.Value;
             if (filter.Value.StartsWith("="))
             {
-                
+
             }
             // for string
             return string.Format("'{0}'", filter.Value);
