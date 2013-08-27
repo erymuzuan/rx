@@ -72,6 +72,16 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             },
             save = function () {
                 // get the reordered report items
+                $('.report-layout').each(function (i, v) {
+                    var items = _($(v).find('.report-item')).map(function (div) {
+                        return ko.dataFor(div);
+                    });
+                    var layout = ko.dataFor(v);
+                    layout.ReportItemCollection(items);
+                });
+
+
+
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.reportDefinition);
 

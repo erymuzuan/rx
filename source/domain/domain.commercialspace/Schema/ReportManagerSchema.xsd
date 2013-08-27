@@ -56,7 +56,11 @@
 	<xs:element name="LineChartItem">
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="ReportItem"/>
+				<xs:extension base="ReportItem">
+					<xs:attribute name="ValueLabelFormat" type="xs:string" use="optional"/>
+					<xs:attribute name="HorizontalAxisField" type="xs:string" use="required"/>
+					<xs:attribute name="Title" type="xs:string" use="required"/>
+				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>

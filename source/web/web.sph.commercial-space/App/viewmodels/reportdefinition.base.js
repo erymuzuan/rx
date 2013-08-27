@@ -60,6 +60,22 @@ define(['services/report.g', 'services/datacontext', 'durandal/system', 'service
                 return true;
 
             },
+            sortableLayout = function () {
+                $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js')// only contains UI core and interactions API 
+                        .done(function () {
+                            var initDesigner = function () {
+                                $('#report-designer>div.report-layout').sortable({
+                                    items: '>div>div',
+                                    placeholder: 'ph',
+                                    helper: 'original',
+                                    dropOnEmpty: true,
+                                    forcePlaceholderSize: true,
+                                    forceHelperSize: false
+                                });
+                            };
+                            initDesigner();
+                        });
+            },
             viewAttached = function (view) {
 
                 $('#layout-toolbox').on('click', 'input[type=radio]', function () {
@@ -80,7 +96,7 @@ define(['services/report.g', 'services/datacontext', 'durandal/system', 'service
                         body1.Column(0);
                         body1.ColumnSpan(6);
                         rdl().ReportLayoutCollection.push(body1);
-                        
+
                         var body2 = new bespoke.sphcommercialspace.domain.ReportLayout();
                         body2.Name("Content 2");
                         body2.Column(6);
@@ -93,21 +109,7 @@ define(['services/report.g', 'services/datacontext', 'durandal/system', 'service
                         rdl().ReportLayoutCollection.push(body);
                     }
                     rdl().ReportLayoutCollection.push(footer);
-
-                    $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js')// only contains UI core and interactions API 
-                          .done(function () {
-                              var initDesigner = function () {
-                                  $('#report-designer>div.report-layout').sortable({
-                                      items: '>div>div',
-                                      placeholder: 'ph',
-                                      helper: 'original',
-                                      dropOnEmpty: true,
-                                      forcePlaceholderSize: true,
-                                      forceHelperSize: false
-                                  });
-                              };
-                              initDesigner();
-                          });
+                    sortableLayout();
                 });
 
                 // select layout
@@ -129,13 +131,13 @@ define(['services/report.g', 'services/datacontext', 'durandal/system', 'service
                         var item = ko.dataFor(this);
                         item.isSelected(false);
                     });
-                    
+
                     var reportitem = ko.dataFor(this);
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(reportitem));
                     clone.isSelected = ko.observable(true);
                     clone.WebId(system.guid());
                     clone.CssClass("");
-                    
+
                     activeLayout().ReportItemCollection.push(clone);
 
                 });
@@ -148,6 +150,8 @@ define(['services/report.g', 'services/datacontext', 'durandal/system', 'service
                     selectReportItem(item);
                 });
 
+                sortableLayout();
+
             },
             activeLayout = ko.observable(),
             selectReportItem = function (ri) {
@@ -158,7 +162,7 @@ define(['services/report.g', 'services/datacontext', 'durandal/system', 'service
                 vm.selectedReportItem(ri);
                 ri.isSelected(true);
             },
-            removeReportItem = function(item) {
+            removeReportItem = function (item) {
                 activeLayout().ReportItemCollection.remove(item);
             };
 

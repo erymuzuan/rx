@@ -464,6 +464,54 @@ namespace Bespoke.SphCommercialSpaces.Domain
     public partial class LineChartItem
     {
 
+        private string m_ValueLabelFormat;
+        [XmlAttribute]
+        public string ValueLabelFormat
+        {
+            get
+            {
+                return m_ValueLabelFormat;
+            }
+            set
+            {
+                m_ValueLabelFormat = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_HorizontalAxisField;
+        [XmlAttribute]
+        public string HorizontalAxisField
+        {
+            get
+            {
+                return m_HorizontalAxisField;
+            }
+            set
+            {
+                m_HorizontalAxisField = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Title;
+        [XmlAttribute]
+        public string Title
+        {
+            get
+            {
+                return m_Title;
+            }
+            set
+            {
+                m_Title = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 
