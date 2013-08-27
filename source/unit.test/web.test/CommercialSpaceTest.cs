@@ -48,7 +48,7 @@ namespace web.test
 
             IWebDriver driver = new FirefoxDriver();
             driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL);
-            driver.Sleep(500);
+            driver.Sleep(TimeSpan.FromSeconds(3));
             driver.Click("#login-menu").Sleep(TimeSpan.FromSeconds(2));
             driver.Click("#log-in")
                 .Sleep(TimeSpan.FromSeconds(2))
@@ -62,7 +62,32 @@ namespace web.test
 
             driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/commercialspace");
             driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL +String.Format("/#/commercialspace.detail-templateid.{0}/1/0/-/0",templateId));
+            driver
+                .Sleep(TimeSpan.FromSeconds(5))
+                .Value("[name='RegistrationNo']", CS_REGISTRATION_NO)
+                .Click("#select-lot-button")
+                .Sleep(TimeSpan.FromSeconds(3))
+                .SelectOption("[name='selectedBuilding']", "Block CA, Apartment Fasa 4C")
+                .Sleep(TimeSpan.FromSeconds(3))
+                .SelectOption("[name='selectedFloor']", "Ground Floor")
+                .Sleep(TimeSpan.FromSeconds(3))
+                .SelectOption("[name='selectedLots']", "Lot 1")
+                .Click("#add-lot-button")
+                .Value("[name='CustomFieldValueCollection()[0].Value']", "Cafe ABC")
+                .Value("[name='address.Street']", "Jalan Permata")
+                .Value("[name='address.City']", "Putrajaya")
+                .Value("[name='address.Postcode']", "62502")
+                .Value("[name='RentalRate']", "2500")
+                .Value("[name='ContactPerson']", "Mohd Razali")
+                .Click("[name='IsOnline']")
+                .Click("[name='IsAvailable']")
+                .Click("[value='1']")
+                .Click("#save-button")
+                .Sleep(TimeSpan.FromSeconds(5));
 
+
+            var id = sphDatabase.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
+            Assert.IsTrue(max < id);
        
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();
