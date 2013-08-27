@@ -926,6 +926,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public const string PropertyNameValue = "Value";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -1009,6 +1014,35 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_value;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string TypeName
+        {
+            set
+            {
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
             }
         }
 

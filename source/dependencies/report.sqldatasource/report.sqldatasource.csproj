@@ -45,6 +45,7 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SqlCompiler.cs" />
     <Compile Include="SqlDataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

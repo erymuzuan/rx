@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="reports\FiterValueTestFixture.cs" />
     <Compile Include="reports\SqlCompileTestFixture.cs" />
     <Compile Include="reports\RdlTestFixture.cs" />
     <Compile Include="SqlPersistenceHelper.cs" />

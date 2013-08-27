@@ -3,8 +3,6 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Bespoke.SphCommercialSpaces.Domain;
@@ -14,6 +12,7 @@ namespace Bespoke.Sph.SqlReportDataSource
 
     public class SqlDataSource : IReportDataSource
     {
+
         private void GetColumns(ObjectCollection<ReportColumn> columns, Type type, string root = "")
         {
             var nativeTypes = new[] { typeof(string), typeof(int),typeof(DateTime), typeof(decimal), typeof(double), typeof(float), typeof(bool) ,
@@ -42,8 +41,9 @@ namespace Bespoke.Sph.SqlReportDataSource
             columns.AddRange(props);
         }
 
-        public Task<ObjectCollection<ReportColumn>> GetColumnsAsync(DataSource dataSource)
+        public Task<ObjectCollection<ReportColumn>> GetColumnsAsync(ReportDefinition rdl)
         {
+            var dataSource = rdl.DataSource;
 
             // ReSharper disable PossibleNullReferenceException
             var type = Type.GetType(typeof(Entity).AssemblyQualifiedName.Replace("Entity", dataSource.EntityName));
@@ -54,20 +54,19 @@ namespace Bespoke.Sph.SqlReportDataSource
             return Task.FromResult(columns);
         }
 
-        public async Task<ObjectCollection<ReportRow>> GetRowsAsync(DataSource dataSource)
+        public async Task<ObjectCollection<ReportRow>> GetRowsAsync(ReportDefinition rdl)
         {
-            var columns = await this.GetColumnsAsync(dataSource);
+            var dataSource = rdl.DataSource;
+            var columns = await this.GetColumnsAsync(rdl);
             var rows = new ObjectCollection<ReportRow>();
 
 
             var query = dataSource.Query;
             if (string.IsNullOrWhiteSpace(query))
             {
-                query = this.Compile(dataSource);
+                var compiler = new SqlCompiler(rdl);
+                query = compiler.Compile(dataSource);
             }
-            Console.WriteLine("======== SQL ==========");
-            Console.WriteLine(query);
-            Console.WriteLine("======== SQL ==========");
             var cs = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
             using (var conn = new SqlConnection(cs))
             using (var cmd = new SqlCommand(query, conn))
@@ -115,97 +114,6 @@ namespace Bespoke.Sph.SqlReportDataSource
 
 
             return rows;
-        }
-
-        public string Compile(DataSource dataSource)
-        {
-            var sql = new StringBuilder("SELECT ");
-            var useDefaultColumn = true;
-            // for normal aggregate
-            foreach (var c in dataSource.EntityFieldCollection.Where(t => !string.IsNullOrWhiteSpace(t.Aggregate)))
-            {
-                if (c.Aggregate == "GROUP") continue;
-                sql.AppendFormat("{0}([{1}]) AS {1}_{0}", c.Aggregate, c.Name);
-
-                useDefaultColumn = false;
-            }
-            if (useDefaultColumn)
-            {
-                sql.AppendFormat("[{0}Id], [Data] ", dataSource.EntityName);
-            }
-            else
-            {
-                foreach (var c in dataSource.EntityFieldCollection.Where(t => t.Aggregate == "GROUP"))
-                {
-                    sql.AppendFormat(", [{0}]", c.Name);
-                }
-            }
-
-            sql.AppendFormat(" FROM [Sph].[{0}] ", dataSource.EntityName);
-
-            if (dataSource.ReportFilterCollection.Any())
-                sql.Append("WHERE ");
-
-            var first = true;
-            foreach (var filter in dataSource.ReportFilterCollection)
-            {
-                var value = this.GetFilterValue(filter);
-                var op = this.GetFilteroperator(filter);
-                if (!first)
-                    sql.AppendLine(" AND");
-                sql.AppendFormat("[{0}] {1} {2}", filter.FieldName, op, value);
-                // State Eq @State
-
-                first = false;
-            }
-
-            // for GROUP
-            var groupColumns = dataSource.EntityFieldCollection.Where(t => t.Aggregate == "GROUP").Select(t => "[" + t.Name + "]").ToArray();
-            if (groupColumns.Any())
-            {
-                sql.Append(" GROUP BY ");
-                sql.Append(string.Join(", ", groupColumns));
-            }
-
-            // for ORDER
-            var orderColumns =
-                dataSource.EntityFieldCollection.Where(t => !string.IsNullOrWhiteSpace(t.Order))
-                    .OrderBy(t => t.OrderPosition);
-            if (orderColumns.Any())
-            {
-                sql.Append(" ORDER BY ");
-                var cols = orderColumns.Select(t => "[" + t.Name + "] " + t.Order).ToArray();
-                sql.Append(string.Join(", ", cols));
-
-            }
-
-
-
-            return sql.ToString();
-        }
-
-        public string GetFilteroperator(ReportFilter filter)
-        {
-            if (null == filter) throw new ArgumentNullException("filter");
-            switch (filter.Operator)
-            {
-                case "Eq":
-                    return "=";
-            }
-            throw new Exception("Whoaaaa");
-        }
-
-        public string GetFilterValue(ReportFilter filter)
-        {
-            if (null == filter) throw new ArgumentNullException("filter");
-            if (filter.Value.StartsWith("@"))
-                return filter.Value;
-            if (filter.Value.StartsWith("="))
-            {
-
-            }
-            // for string
-            return string.Format("'{0}'", filter.Value);
         }
 
 

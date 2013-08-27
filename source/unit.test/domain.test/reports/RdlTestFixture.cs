@@ -2,6 +2,7 @@
 using Bespoke.Sph.SqlReportDataSource;
 using Bespoke.SphCommercialSpaces.Domain;
 using NUnit.Framework;
+using roslyn.scriptengine;
 
 namespace domain.test.reports
 {
@@ -9,12 +10,15 @@ namespace domain.test.reports
     public class RdlTestFixture
     {
         private SqlDataSource m_sql;
+
         [SetUp]
         public void Init()
         {
             m_sql = new SqlDataSource();
             ObjectBuilder.AddCacheList<IReportDataSource>(m_sql);
 
+            var roslyn = new RoslynScriptEngine();
+            ObjectBuilder.AddCacheList<IScriptEngine>(roslyn);
         }
 
         [Test]
@@ -85,42 +89,11 @@ namespace domain.test.reports
         [Test]
         public void GetEqFilterOperator()
         {
+            var compiler = new SqlCompiler(new ReportDefinition());
             var filter = new ReportFilter { FieldName = "Location", Operator = "Eq", Value = "@Location" };
-            var op = m_sql.GetFilteroperator(filter);
+            var op = compiler.GetFilteroperator(filter);
             Assert.AreEqual("=", op);
 
-
-        }
-        [Test]
-        public void GetFilterValueFromParameter()
-        {
-            var filter = new ReportFilter { FieldName = "Location", Operator = "Eq", Value = "@Location" };
-            var op = m_sql.GetFilterValue(filter);
-            Assert.AreEqual("@Location", op);
-
-        }
-        [Test]
-        public void GetFilterValueFromConstantString()
-        {
-            var filter = new ReportFilter { FieldName = "Location", Operator = "Eq", Value = "Kelantan" };
-            var op = m_sql.GetFilterValue(filter);
-            Assert.AreEqual("'Kelantan'", op);
-
-        }
-        [Test]
-        public void GetFilterValueFromConstantBoolean()
-        {
-            var filter = new ReportFilter { FieldName = "Location", Operator = "Eq", Value = "false" };
-            var op = m_sql.GetFilterValue(filter);
-            Assert.AreEqual("0", op);
-
-        }
-        [Test]
-        public void GetFilterValueFromConstantDateTime()
-        {
-            var filter = new ReportFilter { FieldName = "Location", Operator = "Eq", Value = "2012-01-01" };
-            var op = m_sql.GetFilterValue(filter);
-            Assert.AreEqual("'2012-01-01'", op);
 
         }
 
@@ -130,8 +103,8 @@ namespace domain.test.reports
         {
             var count = "Sph".GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Land] WHERE [Location] = 'Bukit Bunga'");
             var ds = new DataSource { EntityName = "Land" };
-            ds.ParameterCollection.Add(new Parameter { Name = "Location", Label = "Lokasi", Type = "System.String",Value = "Bukit Bunga"});
-            ds.ReportFilterCollection.Add(new ReportFilter { FieldName = "Location", Operator = "Eq", Value = "@Location" });
+            ds.ParameterCollection.Add(new Parameter { Name = "Location", Label = "Lokasi", Type = "System.String", Value = "Bukit Bunga" });
+            ds.ReportFilterCollection.Add(new ReportFilter { FieldName = "Location", Type = typeof(string), Operator = "Eq", Value = "@Location" });
 
             var rdl = new ReportDefinition { Title = "Test tanah", Description = "test", DataSource = ds };
 
@@ -150,6 +123,8 @@ namespace domain.test.reports
         [Test]
         public void ExecuteGetRowsList()
         {
+            var name = "Sph".GetDatabaseScalarValue<string>("SELECT TOP 1 [Name] FROM [Sph].[Building]");
+            var count = "Sph".GetDatabaseScalarValue<int>("SELECT COUNT([BuildingId]) FROM [Sph].[Building]");
             var ds = new DataSource { EntityName = "Building", Query = "SELECT * FROM [Sph].[Building]" };
             var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
 
@@ -157,8 +132,8 @@ namespace domain.test.reports
                 .ContinueWith(_ =>
                 {
                     var result = _.Result;
-                    Assert.AreEqual(1, result.Count);
-                    Assert.AreEqual("Damansara Intan", result[0]["Name"]);
+                    Assert.AreEqual(count, result.Count);
+                    Assert.AreEqual(name, result[0]["Name"].Value);
                     Console.WriteLine(result[0]);
                 })
             .Wait(5000)

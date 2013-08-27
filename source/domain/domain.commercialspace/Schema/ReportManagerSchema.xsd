@@ -159,6 +159,7 @@
 			<xs:attribute name="FieldName" type="xs:string" use="required"/>
 			<xs:attribute name="Operator" type="xs:string" use="required"/>
 			<xs:attribute name="Value" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EntityField">

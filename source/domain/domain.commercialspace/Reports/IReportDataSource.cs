@@ -4,7 +4,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
 {
     public interface IReportDataSource
     {
-        Task<ObjectCollection<ReportColumn>> GetColumnsAsync(DataSource dataSource);
-        Task<ObjectCollection<ReportRow>> GetRowsAsync(DataSource dataSource);
+        Task<ObjectCollection<ReportColumn>> GetColumnsAsync(ReportDefinition rdl);
+        Task<ObjectCollection<ReportRow>> GetRowsAsync(ReportDefinition rdl);
     }
 }

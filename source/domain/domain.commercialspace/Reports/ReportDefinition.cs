@@ -7,7 +7,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public async Task<ObjectCollection<ReportColumn>> GetAvailableColumnsAsync()
         {
             var repository = ObjectBuilder.GetObject<IReportDataSource>();
-            var columns = await repository.GetColumnsAsync(this.DataSource);
+            var columns = await repository.GetColumnsAsync(this);
 
             return columns;
         }
@@ -16,7 +16,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
         {
             var repository = ObjectBuilder.GetObject<IReportDataSource>();
 
-            var rows = await repository.GetRowsAsync(this.DataSource);
+            var rows = await repository.GetRowsAsync(this);
             return rows;
         }
     }
