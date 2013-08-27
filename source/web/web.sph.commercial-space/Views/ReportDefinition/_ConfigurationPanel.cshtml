@@ -31,6 +31,18 @@
                     @Html.Partial("_ConfigurationDatasource")
                 </div>
                 <div id="columns-tab-inte" class="tab-pane">
+                    <div data-bind="with: $root">
+                        <ul id="entity-columns" data-bind="foreach: entityColumns,filter: { path: 'li>label' }">
+                            <li>
+                                <label class="checkbox">
+                                    <input type="checkbox" data-bind="checked: IsSelected" />
+                                    <!-- ko text:Name-->
+                                    <!--/ko-->
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
 
             </div>

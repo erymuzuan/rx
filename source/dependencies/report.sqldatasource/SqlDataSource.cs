@@ -14,7 +14,8 @@ namespace Bespoke.Sph.SqlReportDataSource
     {
         private void GetColumns(ObjectCollection<ReportColumn> columns, Type type, string root = "")
         {
-            var nativeTypes = new[] { typeof(string), typeof(int), typeof(decimal), typeof(bool) };
+            var nativeTypes = new[] { typeof(string), typeof(int),typeof(DateTime), typeof(decimal), typeof(double), typeof(float), typeof(bool) ,
+                typeof(int?),typeof(DateTime?), typeof(decimal?), typeof(double?), typeof(float?), typeof(bool?) };
             var props = type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
                .Where(p => nativeTypes.Contains(p.PropertyType))
                .Where(p => p.Name != "Item")
@@ -100,7 +101,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                         continue;
                     }
 
-                    var element = xml.Attribute(c.Name);
+                    var element = xml.Element(x + c.Name);
                     if (null != element) c.Value = element.Value;
                     continue;
                 }
@@ -115,7 +116,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                     var xe = node.Element(x + currentPath);
                     if (null == xe) break;
                     node = xe;
-                } 
+                }
                 var attr = node.Attribute(prop);
                 if (null != attr)
                 {
