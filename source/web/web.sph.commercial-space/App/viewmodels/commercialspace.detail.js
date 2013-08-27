@@ -23,6 +23,7 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
             var tcs = new $.Deferred(),
                 templateTask = context.loadOneAsync("CommercialSpaceTemplate", "CommercialSpaceTemplateId eq " + templateId),
                 buildingTask = context.getTuplesAsync("Building", "BuildingId gt 0", "BuildingId", "Name"),
+                stateTask = context.loadOneAsync("Setting", "Key eq 'State'"),
                 csTask = context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + routeData.csId),
                 buildCustomFieldValue = function (tpl) {
                     var cfs = _(tpl.CustomFieldCollection()).map(function (f) {
@@ -39,13 +40,16 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
                 };
 
 
-            $.when(templateTask, buildingTask, csTask)
+            $.when(templateTask, buildingTask, csTask, stateTask)
                 .done(function (a, list) {
                     vm.buildingOptions(_(list).sortBy(function (bd) {
                         return bd.Item2;
                     }));
                 })
-                .done(function(tpl, b, cs) {
+                .done(function (tpl, b, cs, s) {
+                    
+                    var states = JSON.parse(ko.mapping.toJS(s.Value));
+                    vm.stateOptions(states);
                     if (!cs) {
                         cs = new bespoke.sphcommercialspace.domain.CommercialSpace();
                         cs.TemplateId(templateId);
@@ -115,6 +119,7 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
         buildingOptions: ko.observableArray(),
         floorOptions: ko.observableArray(),
         lotOptions: ko.observableArray(),
+        stateOptions: ko.observableArray(),
         selectedBuilding: ko.observable(),
         selectedFloor: ko.observable(),
         selectedLots: ko.observableArray(),

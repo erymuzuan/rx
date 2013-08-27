@@ -77,6 +77,7 @@ namespace web.test
                 .Value("[name='address.Street']", "Jalan Permata")
                 .Value("[name='address.City']", "Putrajaya")
                 .Value("[name='address.Postcode']", "62502")
+                .Value("[name='address.State']", "Selangor")
                 .Value("[name='RentalRate']", "2500")
                 .Value("[name='ContactPerson']", "Mohd Razali")
                 .Click("[name='IsOnline']")
