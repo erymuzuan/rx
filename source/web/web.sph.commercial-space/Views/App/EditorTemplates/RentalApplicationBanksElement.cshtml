@@ -1,8 +1,9 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.RentalApplicationBanksElement
-
+<div class="span9">
+    <label> Jenis Bank yang menguruskan kewangan syarikat</label>
+    <a class="btn btn-link pull-right" data-bind="click: $parent.addBankCommand">+ Bank </a>
+</div>
 <div>
-    <label>Jenis Bank yang menguruskan kewangan syarikat</label>
-    <input type="button" class="btn btn-primary" value="Tambah Bank" data-bind="click: addBankCommand" />
     <table>
         <thead>
             <tr>
@@ -12,7 +13,7 @@
                 <th>Jenis Akaun </th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: rentalapplication.BankCollection">
+        <tbody data-bind="foreach: BankCollection">
             <tr>
                 <td>
                     <input type="text" data-bind="value: Name, uniqueName: true" /></td>
