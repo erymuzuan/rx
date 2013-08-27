@@ -46,7 +46,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var userProfile = new UserProfile
                 {
                     FullName = tenant.Name,
-                    Designation = "Penyewa",
+                    StartModule  = designation.StartModule,
+                    Designation = designation.Name,
                     Email = tenant.Email,
                     Telephone = string.Join(",", new[]{tenant.Phone,tenant.MobilePhone}),
                     Username = tenant.IdSsmNo,
