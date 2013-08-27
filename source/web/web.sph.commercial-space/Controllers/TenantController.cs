@@ -14,8 +14,11 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> Create(int id)
         {
             var context = new SphDataContext();
+           
             var application = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
             var tenant = await context.LoadOneAsync<Tenant>(t => t.IdSsmNo == application.CompanyRegistrationNo || t.IdSsmNo == application.Contact.IcNo) ?? new Tenant{};
+
+            if (tenant.TenantId > 0) return Json(false);
 
             tenant.Name = application.CompanyName ?? application.Contact.Name;
             tenant.IdSsmNo = application.CompanyRegistrationNo ?? application.Contact.IcNo;

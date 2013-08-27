@@ -10,31 +10,16 @@
 define(['services/datacontext'],
     function (context) {
 
-        var buildingOptions = ko.observableArray(),
-            isBusy = ko.observable(false),
+        var isBusy = ko.observable(false),
             activate = function () {
                 var query = String.format("RebateId gt 0"),
-                    tcs = new $.Deferred(),
-                    rebateTask = context.loadAsync("Rebate", query),
-                    buildingTask = context.getTuplesAsync("Building", "BuildingId gt 0", "BuildingId", "Name");
+                    tcs = new $.Deferred();
                 
-                $.when(rebateTask,buildingTask).done(function (lo,list) {
+                    context.loadAsync("Rebate", query).done(function (lo) {
                     vm.rebateCollection(lo.itemCollection);
-                    vm.buildingOptions(list);
                     tcs.resolve(true);
                 });
-                return tcs.promise();
-            },
-
-          save = function () {
-                var tcs = new $.Deferred();
-                var data = JSON.stringify({ rebates: ko.mapping.toJS(vm.rebateCollection()) });
-                isBusy(true);
-                context.post(data, "/Rebate/Save")
-                    .then(function (result) {
-                        isBusy(false);
-                        tcs.resolve(result);
-                    });
+                   
                 return tcs.promise();
             };
 
@@ -42,10 +27,8 @@ define(['services/datacontext'],
             isBusy: isBusy,
             activate: activate,
             rebate: ko.observable(new bespoke.sphcommercialspace.domain.Rebate()),
-            rebateCollection: ko.observableArray(),
-            buildingOptions: buildingOptions,
-            cspaceOptions: ko.observableArray(),
-            floorOptions: ko.observableArray(),
-            saveCommand: save
+            rebateCollection: ko.observableArray()
         };
+
+        return vm;
     });

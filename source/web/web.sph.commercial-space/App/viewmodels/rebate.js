@@ -66,8 +66,11 @@ define(['services/datacontext'],
             var query = String.format("ReferenceNo eq '{0}'", contractNo);
             var tcs = new $.Deferred();
             context.loadOneAsync("Contract", query)
-                .done(function(b) {
-                    vm.contractTitle(b.Title());
+                .done(function (b) {
+                    if (b) {
+                       vm.contractTitle(b.Title()); 
+                    }
+                    
                     tcs.resolve(true);
                 });
 
