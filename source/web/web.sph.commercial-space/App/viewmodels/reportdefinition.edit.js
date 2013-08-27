@@ -115,7 +115,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             };
 
         var vm = {
-            reportDefinition: ko.observable(new bespoke.sphcommercialspace.domain.ReportDefinition()),
+            reportDefinition: reportDefinitionBase.reportDefinition,
             title: ko.observable('Report Builder'),
             isBusy: isBusy,
             activate: activate,

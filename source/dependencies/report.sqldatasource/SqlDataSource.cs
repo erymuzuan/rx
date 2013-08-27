@@ -80,13 +80,32 @@ namespace Bespoke.Sph.SqlReportDataSource
                 }
                 await conn.OpenAsync();
                 var reader = await cmd.ExecuteReaderAsync();
+
+                var sqlcolumns = new ObjectCollection<string>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    var name = reader.GetName(i);
+                    sqlcolumns.Add(name);
+                    Console.WriteLine("Column name  = " + name);
+                }
                 while (await reader.ReadAsync())
                 {
                     var r = new ReportRow();
-                    r.ReportColumnCollection.AddRange(columns.Clone());
-                    var xml = XElement.Parse(reader["Data"].ToString());
 
-                    FillColumnValue(xml, r);
+                    if (sqlcolumns.Contains("Data"))
+                    {
+                        r.ReportColumnCollection.AddRange(columns.Clone());
+                        var xml = XElement.Parse(reader["Data"].ToString());
+                        FillColumnValue(xml, r);
+                    }
+                    else
+                    {
+                        foreach (var c in sqlcolumns)
+                        {
+                            var column = new ReportColumn { Name = c, Value = string.Format("{0}", reader[c]) };
+                            r.ReportColumnCollection.Add(column);
+                        }
+                    }
 
 
                     rows.Add(r);
@@ -106,7 +125,7 @@ namespace Bespoke.Sph.SqlReportDataSource
             foreach (var c in dataSource.EntityFieldCollection.Where(t => !string.IsNullOrWhiteSpace(t.Aggregate)))
             {
                 if (c.Aggregate == "GROUP") continue;
-                sql.AppendFormat("{0}([{1}])", c.Aggregate, c.Name);
+                sql.AppendFormat("{0}([{1}]) AS {1}_{0}", c.Aggregate, c.Name);
 
                 useDefaultColumn = false;
             }
