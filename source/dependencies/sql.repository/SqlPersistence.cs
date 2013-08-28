@@ -27,6 +27,7 @@ namespace Bespoke.Sph.SqlRepository
 
         public async Task<SubmitOperation> SubmitChanges(IEnumerable<Entity> addedOrUpdatedItems, IEnumerable<Entity> deletedItems, PersistenceSession session)
         {
+            var ad = ObjectBuilder.GetObject<IDirectoryService>();
             var metadataProvider = ObjectBuilder.GetObject<ISqlServerMetadata>();
 
             var addedList = addedOrUpdatedItems.ToList();
@@ -46,28 +47,34 @@ namespace Bespoke.Sph.SqlRepository
                 sql.AppendLine();
                 foreach (var item in addedList)
                 {
-                    if (string.IsNullOrWhiteSpace(item.WebId))item.WebId = Guid.NewGuid().ToString();
-                    
+                    if (string.IsNullOrWhiteSpace(item.WebId)) item.WebId = Guid.NewGuid().ToString();
+
                     count++;
                     int count1 = count;
                     var entityType = this.GetEntityType(item);
 
                     var id = (int)item.GetType().GetProperty(entityType.Name + "Id").GetValue(item);
 
-                    
-                    var edmxType =metadataProvider.GetTable(entityType.Name);
-                    if (null == edmxType)throw new InvalidOperationException("Cannot find the EF type in edmx :" + entityType.Name);
+
+                    var edmxType = metadataProvider.GetTable(entityType.Name);
+                    if (null == edmxType) throw new InvalidOperationException("Cannot find the EF type in edmx :" + entityType.Name);
 
                     var columns = edmxType.Columns
                         .Where(p => p.Name != entityType.Name + "Id")
                         .Where(p => p.CanRead && p.CanWrite)
                         .ToArray();
 
+                    item.ChangedBy = ad.CurrentUserName;
+                    item.ChangedDate = DateTime.Now;
                     if (id == 0)
+                    {
+                        item.CreatedBy = ad.CurrentUserName;
+                        item.CreatedDate = DateTime.Now;
                         this.AppendInsertStatement(sql, entityType, columns, count1, cmd, addedItemsIdentityParameters, item);
+                    }
                     else
                         this.AppendUpdateStatement(sql, entityType, columns, count1, cmd, id);
-                    
+
 
                     foreach (var c in columns)
                     {
@@ -114,7 +121,7 @@ namespace Bespoke.Sph.SqlRepository
 
         }
 
-        private  void AppendUpdateStatement(StringBuilder sql, Type entityType, Column[] columns, int count1,
+        private void AppendUpdateStatement(StringBuilder sql, Type entityType, Column[] columns, int count1,
                                                     SqlCommand cmd, int id)
         {
             sql.AppendFormat("UPDATE [Sph].[{0}]", entityType.Name);
@@ -145,7 +152,7 @@ namespace Bespoke.Sph.SqlRepository
             sql.AppendFormat("SELECT @id{0} = @@IDENTITY", count1);
             sql.AppendLine();
 
-            var idParam = new SqlParameter("@id" + count1, SqlDbType.Int) {Direction = ParameterDirection.Output};
+            var idParam = new SqlParameter("@id" + count1, SqlDbType.Int) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(idParam);
             parameters.Add(new Tuple<Entity, SqlParameter>(item, idParam));
         }
@@ -161,6 +168,8 @@ namespace Bespoke.Sph.SqlRepository
 
         private object GetParameterValue(Column prop, Type entityType, Entity item)
         {
+            var ad = ObjectBuilder.GetObject<IDirectoryService>();
+
             var id = (int)item.GetType().GetProperty(entityType.Name + "Id")
                 .GetValue(item, null);
             if (prop.Name == "Data")
@@ -170,11 +179,11 @@ namespace Bespoke.Sph.SqlRepository
             if (prop.Name == "CreatedDate")
                 return id == 0 || item.CreatedDate == DateTime.MinValue ? DateTime.Now : item.CreatedDate;
             if (prop.Name == "CreatedBy")
-                return "-";
+                return ad.CurrentUserName;
             if (prop.Name == "ChangedDate")
                 return DateTime.Now;
             if (prop.Name == "ChangedBy")
-                return "-";
+                return ad.CurrentUserName;
 
             var itemProp = item.GetType().GetProperty(prop.Name);
             if (null == itemProp) return item.MapColumnValue(prop.Name);

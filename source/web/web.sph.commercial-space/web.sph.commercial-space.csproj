@@ -484,6 +484,7 @@
     <Content Include="Images\gelanggang.png" />
     <Content Include="Images\hotel.png" />
     <Content Include="Images\kuarters.png" />
+    <Content Include="Images\line-chart256.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\logoSPH.png" />
     <Content Include="Images\logo_sph.png" />
@@ -1144,6 +1145,9 @@
     <Content Include="Views\App\DisplayTemplates\LineItem.cshtml" />
     <Content Include="Views\App\DisplayTemplates\PieChartItem.cshtml" />
     <Content Include="Views\ReportDefinition\_DataGridDesignerContextAction.cshtml" />
+    <Content Include="Views\ReportDefinition\_LineChartDesignerContextAction.cshtml" />
+    <Content Include="Views\ReportDefinition\_ConfigurationColumnOptions.cshtml" />
+    <Content Include="Views\ReportDefinition\_ConfigurationColumnProperties.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

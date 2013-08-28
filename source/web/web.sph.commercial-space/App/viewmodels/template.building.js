@@ -96,8 +96,13 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                  return eximp.importJson()
                      .done(function (json) {
                          try {
-                             vm.template(ko.mapping.fromJSON(json));
-                             vm.template().BuildingTemplateId(0);
+                             var clone = ko.mapping.fromJSON(json);
+                             clone.BuildingTemplateId(0);
+                             if (typeof clone.FormDesign !== "function") {
+                                 clone.FormDesign = ko.observable(clone.FormDesign);
+                             }
+                             
+                             vm.template(clone);
                          } catch(error) {
                              logger.logError('Fail template import tidak sah', error, this, true);
                          }

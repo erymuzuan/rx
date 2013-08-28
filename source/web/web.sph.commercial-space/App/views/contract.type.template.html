@@ -30,9 +30,11 @@
                 </div>
                 <div class="control-group">
                     <label for="template-InterestRate" class="control-label">Kadar Faedah </label>
-                    <div class="controls input-append">
-                        <input data-bind="value: InterestRate" class="input-small" id="template-InterestRate" type="text" name="InterestRate" />
-                        <span class="add-on">%</span>
+                    <div class="controls ">
+                        <div class="input-append">
+                            <input data-bind="value: InterestRate" class="input-small" id="template-InterestRate" type="text" name="InterestRate" />
+                            <span class="add-on">%</span>
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -49,7 +51,8 @@
                             <tr>
 
                                 <td>
-                                    <input type="text" data-bind="value: Name, uniqueName: true" /></td>
+                                    <input type="text" data-bind="value: Name, uniqueName: true" />
+                                </td>
                                 <td>
                                     <div data-bind="visible: !StoreId()">
                                         <input class="input-medium " type="file" value="upload" name="files" />
@@ -75,16 +78,17 @@
                         <li>
                             <div>
                                 <a href="#" data-bind="text: Title, click: $parent.selectTopicCommand"></a>
-                                <a data-toggle="modal" href="#topic-dialog" data-bind="click : $root.editTopic" class="pull-right">Edit</a></div>
+                                <a data-toggle="modal" href="#topic-dialog" data-bind="click : $root.editTopic" class="pull-right">Edit</a>
+                            </div>
                         </li>
                     </ul>
                     <a type="button" class="btn btn-link"
                        data-toggle="modal"
                        href="#topic-dialog" data-bind="click: startAddTopicCommand">+ Topic</a>
-               
+
                 </div>
                 <!-- if ko : $root.selectedTopic() -->
-                <div class="span8" >
+                <div class="span8">
                     <a type="button" class="btn btn-link"
                        data-toggle="modal"
                        href="#clause-dialog"
@@ -92,7 +96,7 @@
                     <ul class="nav nav-stacked listview" data-bind="foreach: $root.selectedTopic().ClauseCollection">
                         <li>
                             <div>
-                                <i data-bind="text: ($index() + 1)" class="add-on"></i>. 
+                                <i data-bind="text: ($index() + 1)" class="add-on"></i>.
                                 <a href="#" data-bind="text: Title, click: $root.selectClauseCommand"></a>
                                 <a data-toggle="modal" href="#clause-dialog" data-bind="click: $root.editClause" class="pull-right">View</a>
                             </div>
@@ -100,7 +104,7 @@
                     </ul>
 
                 </div>
-                
+
                 <!-- /ko -->
             </div>
         </div>
@@ -162,15 +166,15 @@
             <div class="control-group">
                 <label for="clause-Text" class="control-label">Text</label>
                 <div class="controls">
-                    <textarea class="input-large input-block-level" rows="5" data-bind="value: Text" id="clause-Text" 
-                        name="topic.Text"></textarea>
+                    <textarea class="input-large input-block-level" rows="5" data-bind="value: Text" id="clause-Text"
+                              name="topic.Text"></textarea>
                 </div>
             </div>
             <div class="control-group">
                 <label for="clause-Description" class="control-label">Nota</label>
                 <div class="controls">
-                    <textarea class="input-block-level" data-bind="value: Description" id="clause-Description" rows="3" 
-                        name="clause.Description" />
+                    <textarea class="input-block-level" data-bind="value: Description" id="clause-Description" rows="3"
+                              name="clause.Description" />
                 </div>
             </div>
 

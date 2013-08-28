@@ -43,6 +43,7 @@
         </div>
     </section>
 </div>
+
 <div class="span5 widget wlightblue" id="commercialSpace">
     <div class="widget-head">
         <div class="pull-left">Ruang Komersil</div>
@@ -50,49 +51,50 @@
         <div class="clearfix"></div>
     </div>
     <div class="span5">
-        <div>
+        <form class="form-inline">
             <div id="commercialSpace-Detail" data-bind="with: commercialSpace">
                 <div class="control-group">
-                    <label class="span2">Negeri :</label>
-                    <label class="span2" data-bind="text: State" />
+                    <label class="controls-row">Negeri :</label>
+                    <label class="controls-row" data-bind="text: State" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Bandar :</label>
-                    <label class="span2" data-bind="text: City" />
+                    <label class="controls-row">Bandar :</label>
+                    <label class="controls-row" data-bind="text: City" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Nama Bangunan :</label>
-                    <label class="span2" data-bind="text: BuildingName" />
+                    <label class="controls-row">Nama Bangunan :</label>
+                    <label class="controls-row" data-bind="text: BuildingName" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Lot Bangunan :</label>
-                    <label class="span2" data-bind="text: BuildingLot" />
+                    <label class="controls-row">Lot Bangunan :</label>
+                    <label class="controls-row" data-bind="text: BuildingLot" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Tingkat :</label>
-                    <label class="span2" data-bind="text: FloorName" />
+                    <label class="controls-row">Tingkat :</label>
+                    <label class="controls-row" data-bind="text: FloorName" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Lot :</label>
-                    <label class="span2" data-bind="text: LotName" />
+                    <label class="controls-row">Lot :</label>
+                    <label class="controls-row" data-bind="text: LotName" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Jenis Ruang :</label>
-                    <label class="span2" data-bind="text: Category" />
+                    <label class="controls-row">Jenis Ruang :</label>
+                    <label class="controls-row" data-bind="text: Category" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Saiz :</label>
-                    <label class="span2" data-bind="text: Size" />
+                    <label class="controls-row">Saiz :</label>
+                    <label class="controls-row" data-bind="text: Size" />
                 </div>
                 <div class="control-group">
-                    <label class="span2">Kadar Sewa :</label>
-                    <label class="span2" data-bind="text: RentalRate" />
+                    <label class="controls-row">Kadar Sewa :</label>
+                    <label class="controls-row" data-bind="text: RentalRate" />
                 </div>
                 <div class="control-group">
-                    <img alt="map" data-bind="attr: { src: $root.commercialSpace().StaticMap }" class="img-polaroid centered" src="/Images/accent.png" />
+                    <label class="controls-row">Lokasi :</label>
+                    <img alt="map" data-bind="attr: { src: $root.commercialSpace().StaticMap }" class="img-polaroid centered controls-row" src="/Images/accent.png" />
                 </div>
             </div>
-        </div>
+        </form>
 
     </div>
 </div>

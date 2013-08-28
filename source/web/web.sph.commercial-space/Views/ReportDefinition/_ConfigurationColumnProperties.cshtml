@@ -1,0 +1,44 @@
+﻿<div>
+    <table class="table table-striped" data-bind="with: DataSource">
+        <thead>
+            <tr>
+                <th>Field Name</th>
+                <th>Aggregate</th>
+                <th>Order</th>
+                <th>Order Rank</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: EntityFieldCollection">
+            <tr>
+                <td>
+                    <span data-bind="text: Name"></span>
+                </td>
+                <td>
+                    <select data-bind="value: Aggregate" class="input-medium">
+                        <option value="">None</option>
+                        <option value="GROUP">Group</option>
+                        <option value="SUM">Sum</option>
+                        <option value="COUNT">Count</option>
+                        <option value="AVG">Avg</option>
+                        <option value="MIN">Min</option>
+                        <option value="MAX">Max</option>
+                    </select>
+                </td>
+                <td>
+                    <select data-bind="value: Order" class="input-medium">
+                        <option value="">None</option>
+                        <option value="ASC">Ascending</option>
+                        <option value="DESC">Descending</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="number" data-bind="value:OrderPosition" class="input-mini"/>
+                </td>
+                <td>
+                    <a href="#" data-bind="click : $root.removeField">Buang</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

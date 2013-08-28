@@ -56,7 +56,11 @@
 	<xs:element name="LineChartItem">
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="ReportItem"/>
+				<xs:extension base="ReportItem">
+					<xs:attribute name="ValueLabelFormat" type="xs:string" use="optional"/>
+					<xs:attribute name="HorizontalAxisField" type="xs:string" use="required"/>
+					<xs:attribute name="Title" type="xs:string" use="required"/>
+				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
@@ -145,9 +149,10 @@
 				<xs:element name="DefaultValue" type="xs:anySimpleType"/>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 			<xs:attribute name="AvailableValues" type="xs:string" use="required"/>
 			<xs:attribute name="Label" type="xs:string" use="optional"/>
+			<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ReportFilter">
@@ -155,12 +160,13 @@
 			<xs:attribute name="FieldName" type="xs:string" use="required"/>
 			<xs:attribute name="Operator" type="xs:string" use="required"/>
 			<xs:attribute name="Value" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EntityField">
 		<xs:complexType>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 			<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
 			<xs:attribute name="Aggregate" type="xs:string" use="required"/>
 			<xs:attribute name="Order" type="xs:string" use="required"/>
@@ -173,7 +179,8 @@
 			<xs:attribute name="Header" type="xs:string" use="required"/>
 			<xs:attribute name="Value" type="xs:string" use="required"/>
 			<xs:attribute name="Width" type="xs:string" use="required"/>
-			<xs:attribute name="IsSelected" type="xs:boolean"/>
+			<xs:attribute name="IsSelected" type="xs:boolean" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ReportRow">

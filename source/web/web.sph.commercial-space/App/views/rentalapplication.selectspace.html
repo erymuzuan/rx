@@ -1,36 +1,47 @@
 ﻿<section>
     <div class="page-header">
-        <h1>Bangunan Untuk Disewa</h1>
+        <h1>Ruang Untuk Disewa</h1>
     </div>
 </section>
 
 <section id="building-list" class="span7" data-bind="foreach: items">
 
-    <h2 data-bind="text: name"></h2>
-    <h2 data-bind="text: id"></h2>
 
     <!-- ko foreach : spaces -->
     <div class="metro tile">
         <article class="tile">
-            <div>
-                <h3 data-bind="text: RegistrationNo"></h3>
-
-                <div id="div-building">
-                    <span>
+            <div class="row-fluid">
+                <h3 data-bind="text: Category"></h3>
+                    <a class="span2 btn btn-primary pull-right" data-bind="attr: { href: '/#/application.detail-templateid.' + $parents[0].id + '/' + CommercialSpaceId() }">Mohon</a>
+                <form class="form-inline span11" id="div-building">
+                   
+                    <div class="span2">
                         <img src="/Content/images/icon.png" width="60" height="60" alt="">
-                        <span>
-                            <span>Size: <span data-bind="text: Size"></span></span>
-                        </span>
-                        <span>
-                            <a data-bind="attr: { href: '/#/application.detail-templateid.' + $parents[0].id + '/' + CommercialSpaceId() }">Mohon Sewa</a>
-                        </span>
-                    </span>
+                    </div>
+                    <div>
+                        <label class="controls-row">Lokasi :</label>
+                        <label class="controls-row" data-bind="text: LotName" />
+                        <label class="controls-row" data-bind="text: FloorName" />,
+                        <label class="controls-row" data-bind="text: BuildingName" />,
+                        <label class="controls-row" data-bind="text: City" />,
+                        <label class="controls-row" data-bind="text: State" />.
+                    </div>
 
-
-                </div>
+                    <div>
+                        <label class="controls-row">Saiz :</label>
+                        <label class="controls-row" data-bind="text: Size" />
+                        <label class="controls-row">  </label>
+                        <label class="controls-row">  </label>
+                        <label class="controls-row">  </label>
+                        <label class="controls-row">  </label>
+                        <label class="controls-row">Kadar Sewa :</label>
+                        <label class="controls-row" data-bind="text: RentalRate" />
+                    </div>
+                </form>
             </div>
         </article>
     </div>
+
     <!-- /ko -->
 
 </section>

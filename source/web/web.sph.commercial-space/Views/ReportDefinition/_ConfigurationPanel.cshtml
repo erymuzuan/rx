@@ -17,7 +17,10 @@
                     <a href="#datasource-tab-item" data-toggle="tab">Datasource</a>
                 </li>
                 <li>
-                    <a href="#columns-tab-inte" data-toggle="tab">Columns</a>
+                    <a href="#column-options-tab-item" data-toggle="tab">Available Columns</a>
+                </li>
+                <li>
+                    <a href="#column-props-tab-item" data-toggle="tab">Columns Properties</a>
                 </li>
             </ul>
             <div class="tab-content" data-bind="with : reportDefinition">
@@ -30,19 +33,12 @@
                 <div id="datasource-tab-item" class="tab-pane">
                     @Html.Partial("_ConfigurationDatasource")
                 </div>
-                <div id="columns-tab-inte" class="tab-pane">
-                    <div data-bind="with: $root">
-                        <ul id="entity-columns" data-bind="foreach: entityColumns,filter: { path: 'li>label' }">
-                            <li>
-                                <label class="checkbox">
-                                    <input type="checkbox" data-bind="checked: IsSelected" />
-                                    <!-- ko text:Name-->
-                                    <!--/ko-->
-                                </label>
-                            </li>
-                        </ul>
-                    </div>
-
+                <div id="column-options-tab-item" class="tab-pane">
+                  @Html.Partial("_ConfigurationColumnOptions")
+                  
+                </div>
+                <div id="column-props-tab-item" class="tab-pane">
+                  @Html.Partial("_ConfigurationColumnProperties")
                 </div>
 
             </div>
