@@ -24,7 +24,7 @@
     var count = -1;
 
     <div id="report-layout-panel">
-        
+
     </div>
     <section class="modal hide" id="parameters-dialog">
 
@@ -33,65 +33,67 @@
             <h3>Parameters</h3>
         </div>
         <div class="modal-body" data-bind="with : datasource">
-            @foreach (var parm in Model.Rdl.DataSource.ParameterCollection)
-            {
-                count++;
-                if (parm.Type == typeof(string) && !string.IsNullOrWhiteSpace(parm.AvailableValues))
+            <form class="form-horizontal">
+                @foreach (var parm in Model.Rdl.DataSource.ParameterCollection)
                 {
+                    count++;
+                    if (parm.Type == typeof(string) && !string.IsNullOrWhiteSpace(parm.AvailableValues))
+                    {
 
-                    <div class="control-group">
-                        <label for="parameter@(count)" class="control-label">@parm.Label</label>
-                        <div class="controls">
-                            <select data-bind="value: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)">
-                                <option>[Please Select]</option>
-                                @foreach (var opt in parm.AvailableValues.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                                {
-                                    <option value="@opt">@opt</option>
-                                }
-                            </select>
+                        <div class="control-group">
+                            <label for="parameter@(count)" class="control-label">@parm.Label</label>
+                            <div class="controls">
+                                <select data-bind="value: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)">
+                                    <option>[Please Select]</option>
+                                    @foreach (var opt in parm.AvailableValues.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                                    {
+                                        <option value="@opt">@opt</option>
+                                    }
+                                </select>
+                            </div>
                         </div>
-                    </div>
+
+                    }
+
+                    if (parm.Type == typeof(string) && string.IsNullOrWhiteSpace(parm.AvailableValues))
+                    {
+                        <div class="control-group">
+                            <label for="parameter@(count)" class="control-label">@parm.Label</label>
+                            <div class="controls">
+                                <input data-bind="value: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)" type="text" />
+                            </div>
+                        </div>
+                    }
+                    if (parm.Type == typeof(DateTime))
+                    {
+                        <div class="control-group">
+                            <label for="parameter@(count)" class="control-label">@parm.Label</label>
+                            <div class="controls">
+                                <input data-bind="kendoDate: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)" type="text" />
+                            </div>
+                        </div>
+                    }
+                    if (parm.Type == typeof(decimal))
+                    {
+                        <div class="control-group">
+                            <label for="parameter@(count)" class="control-label">@parm.Label</label>
+                            <div class="controls">
+                                <input data-bind="value: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)" type="text" />
+                            </div>
+                        </div>
+                    }
+                    if (parm.Type == typeof(int))
+                    {
+                        <div class="control-group">
+                            <label for="parameter@(count)" class="control-label">@parm.Label</label>
+                            <div class="controls">
+                                <input data-bind="value: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)" type="number" />
+                            </div>
+                        </div>
+                    }
 
                 }
-
-                if (parm.Type == typeof(string) && string.IsNullOrWhiteSpace(parm.AvailableValues))
-                {
-                    <div class="control-group">
-                        <label for="parameter@(count)" class="control-label">@parm.Label</label>
-                        <div class="controls">
-                            <input data-bind="value: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)" type="text" />
-                        </div>
-                    </div>
-                }
-                if (parm.Type == typeof(DateTime))
-                {
-                    <div class="control-group">
-                        <label for="parameter@(count)" class="control-label">@parm.Label</label>
-                        <div class="controls">
-                            <input data-bind="kendoDate: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)" type="text" />
-                        </div>
-                    </div>
-                }
-                if (parm.Type == typeof(decimal))
-                {
-                    <div class="control-group">
-                        <label for="parameter@(count)" class="control-label">@parm.Label</label>
-                        <div class="controls">
-                            <input data-bind="value: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)" type="text" />
-                        </div>
-                    </div>
-                }
-                if (parm.Type == typeof(int))
-                {
-                    <div class="control-group">
-                        <label for="parameter@(count)" class="control-label">@parm.Label</label>
-                        <div class="controls">
-                            <input data-bind="value: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)" type="number" />
-                        </div>
-                    </div>
-                }
-
-            }
+            </form>
         </div>
 
         <div class="modal-footer">

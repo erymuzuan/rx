@@ -1,8 +1,11 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.LabelItem
 
 <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.LabelItem, domain.commercialspace" -->
-<div class="report-item" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectedReportItem" class="control-group">
+<div data-bind="css: { 
+     'selected-form-element': isSelected,
+     'report-item' : true },
+     click: $root.selectedReportItem" class="report-item">
     @Html.Partial("_LabelDesignerContextAction")
-    <div data-bind="html: Html"></div>
+    <div data-bind="html: Html,attr :{class : CssClass}" ></div>
 </div>
 <!--/ko-->

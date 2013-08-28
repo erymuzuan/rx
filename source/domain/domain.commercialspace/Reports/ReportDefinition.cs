@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public interface ICustomScript
-    {
-        string Script { get; }
-    }
     public partial class ReportDefinition : Entity, ICustomScript
     {
         public async Task<ObjectCollection<ReportColumn>> GetAvailableColumnsAsync()

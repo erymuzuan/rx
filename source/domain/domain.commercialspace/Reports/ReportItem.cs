@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
@@ -15,7 +14,9 @@ namespace Bespoke.SphCommercialSpaces.Domain
         
         public virtual void SetRows(ObjectCollection<ReportRow> rows)
         {
-            Console.WriteLine(rows.Count);
+        }
+        public virtual void SetRdl(ReportDefinition rdl)
+        {
         }
     }
 }

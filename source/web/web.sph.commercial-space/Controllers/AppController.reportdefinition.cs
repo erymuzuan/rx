@@ -37,7 +37,11 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 Console.WriteLine("ROWS ------------- " + rows.Count);
                 rdl.ReportLayoutCollection.SelectMany(l => l.ReportItemCollection)
                    .ToList()
-                   .ForEach(t => t.SetRows(rows));
+                   .ForEach(t =>
+                   {
+                       t.SetRows(rows);
+                       t.SetRdl(rdl);
+                   });
             }
 
 

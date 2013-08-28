@@ -1,5 +1,5 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.LabelItem
 
-<div>
-    @Html.Raw(Model.Html)
+<div class="@Model.CssClass" title="@Model.Tooltip" >
+    @Html.Raw(Model.EvaluateHtml())
 </div>
