@@ -25,9 +25,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                     _.each(lo.itemCollection, function (t) {
                         categoryOptions.push(t.Category());
                     });
-                    var uniques = _.uniq(categoryOptions());
                     var distinctCategories = ko.observableArray();
-                    distinctCategories(uniques);
+                    distinctCategories(_.uniq(categoryOptions()));
                     var items = _(distinctCategories()).map(function (t) {
                         var filtered = _(lo.itemCollection).filter(function (c) {
                             return c.Category() === t;
