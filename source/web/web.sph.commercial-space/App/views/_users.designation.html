@@ -1,10 +1,11 @@
 ﻿<div class="row-fluid">
     <div>
-        <a href="/#/role.settings/0" class="pull-right">
-            <br/><br/><img data-bind="attr: { src: '/Images/add_icon.png' }" src="/Images/add_icon.png" alt="Tambah Jawatan" title="Tambah Jawatan"/>
-        </a>
+
+        <div>
+            <a href="/#/role.settings/0" id="add-designation" data-toggle="modal" class="btn btn-link pull-left"><i class="icon-plus">Jawatan </i></a>
+        </div>
     </div>
-    
+
     <table class="table table-striped row-fluid" data-bind="filter: { path: 'table>tbody>tr' }">
         <thead>
             <tr>
@@ -21,5 +22,5 @@
             </tr>
         </tbody>
     </table>
-    
+
 </div>

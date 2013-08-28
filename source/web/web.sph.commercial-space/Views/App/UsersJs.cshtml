@@ -75,8 +75,7 @@
                         tcs.resolve(true);
                     });
                 return tcs.promise();
-            },
-            exportList = function (){};
+            };
             
 
         var vm = {
@@ -99,8 +98,7 @@
                     entity: ko.observable("UserProfile"),
                     id: ko.observable(0),
                     item: printprofile,
-                }),
-                exportCommand: exportList,
+                })
             })
         };
 

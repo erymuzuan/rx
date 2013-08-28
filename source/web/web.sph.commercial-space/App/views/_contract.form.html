@@ -1,4 +1,4 @@
-﻿<form class="form-horizontal" data-bind="with: contract">
+﻿<form class="form-horizontal row-fluid" data-bind="with: contract">
     <h3>Maklumat Kontrak</h3>
     <div class="control-group">
         <label for="contract.Title" class="control-label">Tajuk Perjanjian</label>
@@ -86,12 +86,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="span5">
+                <div class="span8">
                     <h5>Alamat</h5>
                     <div class="control-group">
                         <label for="contractOwnerStreet" class="control-label">Jalan</label>
                         <div class="controls">
-                            <input data-bind="value: Address.Street" id="contractOwnerStreet" type="text" name="Address.Street" />
+                            <textarea data-bind="value: Address.Street" id="contractOwnerStreet"rows="2" cols="5" name="Address.Street" class="span8"/>
                         </div>
                     </div>
                     <div class="control-group">
@@ -171,7 +171,7 @@
                 <div class="control-group">
                     <label for="ContractingParty.Address.Street" class="control-label">Jalan</label>
                     <div class="controls">
-                        <input data-bind="value: Address.Street" id="ContractingParty.Address.Street" type="text" name="ContractingParty.Address.Street" />
+                        <textarea class="span8" rows="2" cols="5" data-bind="value: Address.Street" id="ContractingParty.Address.Street" name="ContractingParty.Address.Street" />
                     </div>
                 </div>
                 <div class="control-group">
