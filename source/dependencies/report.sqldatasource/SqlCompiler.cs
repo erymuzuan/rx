@@ -50,7 +50,13 @@ namespace Bespoke.Sph.SqlReportDataSource
                 var op = this.GetFilterOperator(filter);
                 if (!first)
                     sql.AppendLine(" AND");
-                sql.AppendFormat("[{0}] {1} {2}", filter.FieldName, op, value);
+                if (op.Contains("{0}"))
+                {
+                    sql.AppendFormat("[{0}] ", filter.FieldName);
+                    sql.AppendFormat(op, value);
+                }
+                else
+                    sql.AppendFormat("[{0}] {1} {2}", filter.FieldName, op, value);
                 // State Eq @State
 
                 first = false;
@@ -86,14 +92,14 @@ namespace Bespoke.Sph.SqlReportDataSource
             if (null == filter) throw new ArgumentNullException("filter");
             switch (filter.Operator)
             {
-                case "Eq":return "=";
-                case "Ge":return ">=";
-                case "Gt":return ">";
-                case "Le":return "<=";
-                case "Lt":return "<";
-                case "Substringof": return "LIKE '%{0}%'";
-                case "StartsWith": return "LIKE '{0}%'";
-                case "EndsWith": return "LIKE '{0}%'";
+                case "Eq": return "=";
+                case "Ge": return ">=";
+                case "Gt": return ">";
+                case "Le": return "<=";
+                case "Lt": return "<";
+                case "Substringof": return "LIKE '%' + {0} + '%'";
+                case "StartsWith": return "LIKE {0} + '%''";
+                case "EndsWith": return "LIKE '%' + {0}";
                 case "Contains": return "Contains({0})";
             }
             throw new Exception("Whoaaaa");

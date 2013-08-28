@@ -32,6 +32,14 @@ namespace domain.test.reports
 
 
         }
+        [Test]
+        public void GetSubstringOfFilterOperator()
+        {
+            var compiler = new SqlCompiler(new ReportDefinition());
+            var filter = new ReportFilter { FieldName = "Location", Operator = "Substringof", Value = "@Location" };
+            var op = compiler.GetFilterOperator(filter);
+            Assert.AreEqual("LIKE '%{0}%'", op);
+        }
 
         [Test]
         public void GetGeFilterOperator()
