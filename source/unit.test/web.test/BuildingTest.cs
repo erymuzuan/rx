@@ -3,7 +3,6 @@ using System.Data.SqlClient;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
-using System.Linq;
 
 namespace web.test
 {
