@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
 using Bespoke.SphCommercialSpaces.Domain;
 using Roslyn.Scripting.CSharp;
 
@@ -8,7 +11,28 @@ namespace roslyn.scriptengine
     public class HostObject
     {
         public Entity Item { get; set; }
+
+        public string @UserName
+        {
+            get
+            {
+                var ad = ObjectBuilder.GetObject<IDirectoryService>();
+                return ad.CurrentUserName;
+            }
+        }
+        public DateTime @Today { get { return DateTime.Today; } }
+        public DateTime @Now { get { return DateTime.Now; } }
+
+        public Func<IEnumerable<int>, int> SUM
+        {
+            get
+            {
+                Func<IEnumerable<int>, int> sum = (list) => list.Sum();
+                return sum;
+            }
+        }
     }
+
     public class RoslynScriptEngine : IScriptEngine
     {
 
@@ -18,18 +42,29 @@ namespace roslyn.scriptengine
             {
                 Item = item
             };
-            Console.WriteLine("Base direcotry ---------");
-
             var scriptEngine = new ScriptEngine();
             var session = scriptEngine.CreateSession(host);
 
-            Console.WriteLine(scriptEngine.BaseDirectory);
-           
             session.AddReference("System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
             session.AddReference("System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
             session.AddReference("mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
-            session.Execute("#r \".\\domain.commercialspace.dll\"");
-            session.Execute("#r \".\\roslyn.scriptengine.dll\"");
+            try
+            {
+                session.Execute("#r \".\\domain.commercialspace.dll\"");
+                session.Execute("#r \".\\roslyn.scriptengine.dll\"");
+            }
+            catch (Exception e)
+            {
+                var message = new StringBuilder("Error adding reference to domain.commercialspace.dll");
+                message.AppendLine("Script Engine base directory = " + scriptEngine.BaseDirectory);
+                message.AppendLine("AppDoomain base directory = " + AppDomain.CurrentDomain.BaseDirectory);
+                throw new Exception(message.ToString(), e);
+            }
+
+            var customScript = string.Empty;
+            var itemCustomScript = item as ICustomScript;
+            if (null != itemCustomScript)
+                customScript = itemCustomScript.Script;
 
             var block = script;
             if (!block.EndsWith(";"))
@@ -40,8 +75,8 @@ namespace roslyn.scriptengine
                                      "" +
                                      "public object Evaluate()\r\n" +
                                      "{{\r\n" +
-                                        "var item = Item as {1};\r\n" +
-
+                                     "var item = Item as {1};\r\n" +
+                                     customScript + "\r\n" +
                                         "{0}\r\n" +
                                      "}}", block, item.GetType().Name);
             Debug.WriteLine(code, "Rosylyn code");

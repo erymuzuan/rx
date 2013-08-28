@@ -1,6 +1,7 @@
 ﻿using System;
 using Bespoke.Sph.SqlReportDataSource;
 using Bespoke.SphCommercialSpaces.Domain;
+using domain.test.triggers;
 using NUnit.Framework;
 using roslyn.scriptengine;
 
@@ -19,6 +20,32 @@ namespace domain.test.reports
 
             var roslyn = new RoslynScriptEngine();
             ObjectBuilder.AddCacheList<IScriptEngine>(roslyn);
+            ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
+        }
+
+        [Test]
+        public void GetParamInExpressionConflict()
+        {
+            var ds = new DataSource { EntityName = "Building", Query = "SELECT * FROM [Sph].[Building]" };
+            ds.ParameterCollection.Add(new Parameter { Name = "Today", Value = 30.00m });
+            var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
+
+            var script = ObjectBuilder.GetObject<IScriptEngine>();
+            var result = script.Evaluate("@Today", rdl);
+            Assert.AreEqual(30.00m, result);
+
+        }
+        [Test]
+        public void GetParamInExpression()
+        {
+            var ds = new DataSource { EntityName = "Building", Query = "SELECT * FROM [Sph].[Building]" };
+            ds.ParameterCollection.Add(new Parameter { Name = "Price", Value = 30.00m });
+            var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
+
+            var script = ObjectBuilder.GetObject<IScriptEngine>();
+            var result = script.Evaluate("@Price", rdl);
+            Assert.AreEqual(30.00m, result);
+
         }
 
         [Test]

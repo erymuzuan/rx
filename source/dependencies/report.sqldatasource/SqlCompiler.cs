@@ -131,6 +131,10 @@ namespace Bespoke.Sph.SqlReportDataSource
                     return bool.Parse(val as string) ? "1" : "0";
                 return (bool)val ? "1" : "0";
             }
+            if (filter.Type == typeof(int))
+            {
+                return string.Format("{0}",val);
+            }
             if (filter.Type == typeof(string))
                 return string.Format("'{0}'", val);
             // for string

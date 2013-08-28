@@ -1,6 +1,7 @@
 ﻿using System;
 using Bespoke.Sph.SqlReportDataSource;
 using Bespoke.SphCommercialSpaces.Domain;
+using domain.test.triggers;
 using NUnit.Framework;
 using roslyn.scriptengine;
 
@@ -19,6 +20,7 @@ namespace domain.test.reports
 
             var roslyn = new RoslynScriptEngine();
             ObjectBuilder.AddCacheList<IScriptEngine>(roslyn);
+            ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
         }
 
 
@@ -158,10 +160,26 @@ namespace domain.test.reports
                 FieldName = "Location",
                 Type = typeof(string),
                 Operator = "Eq",
-                Value = "=DateTime.Today.DayOfWeek +  \"-\""
+                Value = "=@Today.DayOfWeek +  \"-\" + @UserName"
             };
             var op = compiler.GetFilterValue(filter);
-            Assert.AreEqual(string.Format("'{0}'", DateTime.Today.DayOfWeek + "-"), op);
+            Assert.AreEqual(string.Format("'{0}'", DateTime.Today.DayOfWeek + "-" + new MockLdap().CurrentUserName), op);
+
+        }
+        [Test]
+        public void GetFilterValueFromExpressionSum()
+        {
+
+            var compiler = new SqlCompiler(new ReportDefinition());
+            var filter = new ReportFilter
+            {
+                FieldName = "Location",
+                Type = typeof(int),
+                Operator = "Eq",
+                Value = "=SUM(new []{1,2,5})"
+            };
+            var op = compiler.GetFilterValue(filter);
+            Assert.AreEqual("8", op);
 
         }
     }
