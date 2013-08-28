@@ -1,5 +1,5 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.TextBox
-<div class="control-group">
+<div class="control-group" data-bind="visible:@Model.Visible">
     <label for="@Model.ElementId" class="control-label">@Model.Label</label>
     <div class="controls">
         <input class="@(Model.CssClass + " "+ Model.Size)" title="@Model.Tooltip" 

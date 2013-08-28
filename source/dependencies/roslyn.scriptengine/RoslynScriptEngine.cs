@@ -18,8 +18,13 @@ namespace roslyn.scriptengine
             {
                 Item = item
             };
+            Console.WriteLine("Base direcotry ---------");
+
             var scriptEngine = new ScriptEngine();
             var session = scriptEngine.CreateSession(host);
+
+            Console.WriteLine(scriptEngine.BaseDirectory);
+           
             session.AddReference("System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
             session.AddReference("System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
             session.AddReference("mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
@@ -35,7 +40,7 @@ namespace roslyn.scriptengine
                                      "" +
                                      "public object Evaluate()\r\n" +
                                      "{{\r\n" +
-                                        "var item = Item as {1};\r\n"+
+                                        "var item = Item as {1};\r\n" +
 
                                         "{0}\r\n" +
                                      "}}", block, item.GetType().Name);

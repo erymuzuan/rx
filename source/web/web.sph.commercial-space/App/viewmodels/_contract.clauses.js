@@ -50,7 +50,7 @@ define([],
 
         var vm = {
             init: function (ctr) {
-                var topics = _(ctr.TopicCollection).map(function (t) {
+                var topics = _(ctr.TopicCollection()).map(function (t) {
                     return t;
                 });
                 vm.topicCollection(topics);

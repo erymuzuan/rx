@@ -33,11 +33,10 @@ namespace web.test
             
             
             IWebDriver driver = new FirefoxDriver();
-            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL);
-            driver.Sleep(150);
-            driver.Click("#log-in")
+            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
+            driver.Sleep(150)
                 .Sleep(TimeSpan.FromSeconds(2))
-                  .Value("[name='UserName']", "administrator")
+                  .Value("[name='UserName']", "admin")
                   .Value("[name='Password']", "123456")
                   .Click("[name='submit']");
             driver
@@ -55,7 +54,7 @@ namespace web.test
                 .Value("[name='address.Street']", "Jalan Hang Tuah")
                 .Value("[name='address.City']", "Melaka")
                 .Value("[name='address.Postcode']", "75300")
-                .SelectOption("[name='address.State']", "Melaka")
+                .SelectOption("[name='address.State']", "Kelantan")
                 .Value("[name='CustomFieldValueCollection()[0].Value']", "01-08-1974")
                 .Value("[name='CustomFieldValueCollection()[1].Value']", "01-11-1978")
                 .Value("[name='CustomFieldValueCollection()[2].Value']", "01-02-1979")
