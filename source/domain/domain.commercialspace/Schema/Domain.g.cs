@@ -10278,6 +10278,11 @@
                     public const string PropertyNameIsActive = "IsActive";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_category;
+                    public const string PropertyNameCategory = "Category";
+
+                  
 			private readonly ObjectCollection<ComplaintCategory>  m_ComplaintCategoryCollection = new ObjectCollection<ComplaintCategory> ();
 
 			///<summary>
@@ -10426,6 +10431,34 @@
                     get
                     {
                     return m_isActive;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Category
+                    {
+                    set
+                    {
+                    if( String.Equals( m_category, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameCategory, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_category= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_category;}
                     }
 
                   

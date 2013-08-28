@@ -1,14 +1,14 @@
 ﻿<h4>KLIK UNTUK PILIH JENIS ADUAN</h4>
-<section id="rental-list">
-    <ul class="today-datas" data-bind="foreach: complaintTemplates">
-
+<section id="rental-list" data-bind="foreach :complaintTemplates">
+    <h2 data-bind="text: name"></h2>
+    <ul class="today-datas" data-bind="foreach: templates">
+       
         <li>
             <div class="pull-left" data-bind="with : FormDesign">
                 <img data-bind="attr: { src: '/Image/store/' + ImageStoreId()}"  alt="baru" />
             </div>
             <div class="pull-right">
-                <a data-bind="attr: { href: '/#/complaint.form-templateid.'+ ComplaintTemplateId() +'/' + ComplaintTemplateId() }, text: Name"></a>
-                
+                <a data-bind="attr: { href: '/#/complaint.form-templateid.'+ ComplaintTemplateId() +'/' + ComplaintTemplateId() }, text: Name"></a>         
             </div>
         </li>
     </ul>

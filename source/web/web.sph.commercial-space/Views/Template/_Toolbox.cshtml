@@ -18,22 +18,27 @@
             <form>
                 <h3>Template</h3>
                 <div class="control-group">
+                    <label for="template-category" class="control-label">Kumpulan</label>
+                    <div class="controls">
+                        <input class="input-xlarge" data-bind="value: Category" id="template-category" type="text" name="@(Model.Entity)-template-category" />
+                    </div>
+                </div>
+
+                <div class="control-group">
                     <label for="template-name" class="control-label">Nama</label>
                     <div class="controls">
-                        <input class="input-xlarge" data-bind="value: $root.template().Name" id="template-name" type="text" name="@(Model.Entity)-template-name" />
+                        <input class="input-xlarge" data-bind="value: Name" id="template-name" type="text" name="@(Model.Entity)-template-name" />
                     </div>
                 </div>
 
                 <div class="control-group">
                     <div class="controls">
                         <label class="checkbox">
-                            <input data-bind="checked: $root.template().IsActive" id="template-isactive" type="checkbox" name="$root.@(Model.Entity)Template().IsActive" />
+                            <input data-bind="checked: IsActive" id="template-isactive" type="checkbox" name="$root.@(Model.Entity)Template().IsActive" />
                             Aktif
                         </label>
                     </div>
                 </div>
-
-
 
                 <h3>Design</h3>
                 <div data-bind="with: FormDesign">

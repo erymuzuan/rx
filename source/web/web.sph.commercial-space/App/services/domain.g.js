@@ -973,6 +973,7 @@ bespoke.sphcommercialspace.domain.ComplaintTemplate = function (webId) {
         Name: ko.observable(''),
         Description: ko.observable(''),
         IsActive: ko.observable(false),
+        Category: ko.observable(''),
         ComplaintCategoryCollection: ko.observableArray([]),
         CustomFieldCollection: ko.observableArray([]),
         FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),

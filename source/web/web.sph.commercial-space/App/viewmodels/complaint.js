@@ -19,9 +19,26 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             var query = String.format("ComplaintTemplateId gt 0");
             var tcs = new $.Deferred();
             context.loadAsync("ComplaintTemplate", query)
-                .done(function(lo) {
+                .done(function (lo) {
                     isBusy(false);
-                    vm.complaintTemplates(lo.itemCollection);
+                    var categoryOptions = ko.observableArray();
+                    _.each(lo.itemCollection, function (t) {
+                        categoryOptions.push(t.Category());
+                    });
+                    var uniques = _.uniq(categoryOptions());
+                    var distinctCategories = ko.observableArray();
+                    distinctCategories(uniques);
+                    var items = _(distinctCategories()).map(function (t) {
+                        var filtered = _(lo.itemCollection).filter(function (c) {
+                            return c.Category() === t;
+                        });
+                        return {
+                            name: t,
+                            templates: filtered
+                        };
+                    });
+                    vm.complaintTemplates(items);
+
                     tcs.resolve(true);
                 });
             return tcs.promise();

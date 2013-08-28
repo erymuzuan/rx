@@ -15,3 +15,6 @@ CREATE TABLE Sph.ComplaintTemplate
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
+
+ ALTER TABLE [Sph].[Sph].[ComplaintTemplate]
+ ADD [Category] varchar(255) NULL
