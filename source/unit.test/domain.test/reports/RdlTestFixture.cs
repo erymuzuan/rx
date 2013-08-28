@@ -72,6 +72,7 @@ namespace domain.test.reports
         [Test]
         public void ExecuteGetRowsCountWithQuery()
         {
+            var count = "Sph".GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Building]");
             var ds = new DataSource { EntityName = "Building", Query = "SELECT * FROM [Sph].[Building]" };
             var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
 
@@ -79,7 +80,7 @@ namespace domain.test.reports
                 .ContinueWith(_ =>
                 {
                     var result = _.Result;
-                    Assert.AreEqual(1, result.Count);
+                    Assert.AreEqual(count, result.Count);
                     Console.WriteLine(result);
                 })
             .Wait(5000)
