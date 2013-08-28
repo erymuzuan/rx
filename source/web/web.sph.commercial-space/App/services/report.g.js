@@ -169,9 +169,10 @@ bespoke.sphcommercialspace.domain.Parameter = function (webId) {
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.Parameter, domain.commercialspace",
         Name: ko.observable(''),
-        Type: ko.observable(''),
+        TypeName: ko.observable(''),
         AvailableValues: ko.observable(''),
         Label: ko.observable(''),
+        IsNullable: ko.observable(false),
         Value: ko.observable(),
         DefaultValue: ko.observable(),
         isBusy: ko.observable(false),
@@ -192,6 +193,7 @@ bespoke.sphcommercialspace.domain.ReportFilter = function (webId) {
         FieldName: ko.observable(''),
         Operator: ko.observable(''),
         Value: ko.observable(''),
+        TypeName: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -208,7 +210,7 @@ bespoke.sphcommercialspace.domain.EntityField = function (webId) {
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.EntityField, domain.commercialspace",
         Name: ko.observable(''),
-        Type: ko.observable(''),
+        TypeName: ko.observable(''),
         IsNullable: ko.observable(false),
         Aggregate: ko.observable(''),
         Order: ko.observable(''),
@@ -233,6 +235,7 @@ bespoke.sphcommercialspace.domain.ReportColumn = function (webId) {
         Value: ko.observable(''),
         Width: ko.observable(''),
         IsSelected: ko.observable(false),
+        TypeName: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

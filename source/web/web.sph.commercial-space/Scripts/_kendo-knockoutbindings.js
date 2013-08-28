@@ -440,9 +440,9 @@ ko.bindingHandlers.filter = {
             $rows.each(function () {
                 var $tr = $(this);
                 if ($tr.text().toLowerCase().indexOf(filter) > -1) {
-                    $tr.slideDown();
+                    $tr.show();
                 } else {
-                    $tr.slideUp();
+                    $tr.hide();
                 }
             });
         };

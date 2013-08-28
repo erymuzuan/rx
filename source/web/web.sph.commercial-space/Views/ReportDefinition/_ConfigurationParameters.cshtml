@@ -20,26 +20,26 @@
     <tbody data-bind="foreach :ParameterCollection">
         <tr>
             <td>
-                <input type="text" data-bind="value:Name" />
+                <input type="text" data-bind="value:Name" class="input-medium" />
             </td>
             <td>
                 <input type="text" data-bind="value:Label" />
             </td>
             <td>
-                <select data-bind="value:Type">
-                    <option value="System.String">String</option>
-                    <option value="System.Int32">Number</option>
-                    <option value="System.Decima">Decimal</option>
-                    <option value="System.DateTime">DateTime</option>
-                    <option value="System.Boolean">Boolean</option>
+                <select data-bind="value:TypeName" class="input-medium">
+                    <option value="@typeof(string).AssemblyQualifiedName">String</option>
+                    <option value="@typeof(int).AssemblyQualifiedName">Number</option>
+                    <option value="@typeof(decimal).AssemblyQualifiedName">Decimal</option>
+                    <option value="@typeof(DateTime).AssemblyQualifiedName">DateTime</option>
+                    <option value="@typeof(bool).AssemblyQualifiedName">Boolean</option>
                 </select>
             </td>
             <td>
                 
-                <input type="text" data-bind="value:DefaultValue" />
+                <input type="text" data-bind="value:DefaultValue" class="input-medium" />
             </td>
             <td>
-                <input type="text" data-bind="value:AvailableValues" /></td>
+                <input type="text" data-bind="value:AvailableValues" class="input-medium" /></td>
             <td>
                 <button class="btn btn-link" data-bind="click : $root.removeParameter">Buang</button>
             </td>

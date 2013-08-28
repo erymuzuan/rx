@@ -86,24 +86,13 @@ namespace domain.test.reports
             ;
 
         }
-        [Test]
-        public void GetEqFilterOperator()
-        {
-            var compiler = new SqlCompiler(new ReportDefinition());
-            var filter = new ReportFilter { FieldName = "Location", Operator = "Eq", Value = "@Location" };
-            var op = compiler.GetFilteroperator(filter);
-            Assert.AreEqual("=", op);
-
-
-        }
-
 
         [Test]
         public void ExecuteWithFilterParameterValue()
         {
             var count = "Sph".GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Land] WHERE [Location] = 'Bukit Bunga'");
             var ds = new DataSource { EntityName = "Land" };
-            ds.ParameterCollection.Add(new Parameter { Name = "Location", Label = "Lokasi", Type = "System.String", Value = "Bukit Bunga" });
+            ds.ParameterCollection.Add(new Parameter { Name = "Location", Label = "Lokasi", Type = typeof(string), Value = "Bukit Bunga" });
             ds.ReportFilterCollection.Add(new ReportFilter { FieldName = "Location", Type = typeof(string), Operator = "Eq", Value = "@Location" });
 
             var rdl = new ReportDefinition { Title = "Test tanah", Description = "test", DataSource = ds };
@@ -112,6 +101,7 @@ namespace domain.test.reports
                 .ContinueWith(_ =>
                 {
                     var result = _.Result;
+
                     Assert.AreEqual(count, result.Count);
                     Console.WriteLine(result);
                 })

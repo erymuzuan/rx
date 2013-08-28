@@ -151,17 +151,13 @@ define(['services/report.g', 'services/datacontext', 'durandal/system', 'service
                 });
 
                 $('#entity-columns').on('click', 'input[type=checkbox]', function () {
-                    //alert(rdl().Title());
                     var entity = ko.dataFor(this);
                     if (entity.IsSelected) {
                         var efc = new bespoke.sphcommercialspace.domain.EntityField(system.guid());
                         efc.Name(entity.Name);
-                        rdl().DataSource().EntityFieldCollection().push(efc);
-                        console.log(rdl().DataSource().EntityFieldCollection().length);
-                        console.log(efc);
-                    } else {
-                        alert('remove');
-                    }
+                        efc.TypeName(entity.TypeName);
+                        rdl().DataSource().EntityFieldCollection.push(efc);
+                    } 
                 });
                 
                 sortableLayout();

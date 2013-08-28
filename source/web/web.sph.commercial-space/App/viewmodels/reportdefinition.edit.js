@@ -63,7 +63,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             },
             loadEntityColumns = function (entity) {
                 var tcs = new $.Deferred();
-                $.get('ReportDefinition/GetEntityColumns?entityName=' + entity)
+                $.get('ReportDefinition/GetEntityColumns/' + entity)
                         .done(vm.entityColumns)
                         .done(tcs.resolve);
 
@@ -122,6 +122,9 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             },
             removeFilter = function (filter) {
                 vm.reportDefinition().DataSource().ReportFilterCollection.remove(filter);
+            },
+            removeField = function (field) {
+                vm.reportDefinition().DataSource().EntityFieldCollection.remove(field);
             };
 
         var vm = {
@@ -142,6 +145,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
 
             addFilter: addFilter,
             removeFilter: removeFilter,
+            removeField:removeField,
 
             addDataGridColumn: addDataGridColumn,
 

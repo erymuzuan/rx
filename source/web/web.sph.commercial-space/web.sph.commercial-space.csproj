@@ -1146,6 +1146,8 @@
     <Content Include="Views\App\DisplayTemplates\PieChartItem.cshtml" />
     <Content Include="Views\ReportDefinition\_DataGridDesignerContextAction.cshtml" />
     <Content Include="Views\ReportDefinition\_LineChartDesignerContextAction.cshtml" />
+    <Content Include="Views\ReportDefinition\_ConfigurationColumnOptions.cshtml" />
+    <Content Include="Views\ReportDefinition\_ConfigurationColumnProperties.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

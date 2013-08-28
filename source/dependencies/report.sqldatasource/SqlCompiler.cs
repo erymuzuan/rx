@@ -47,7 +47,7 @@ namespace Bespoke.Sph.SqlReportDataSource
             foreach (var filter in dataSource.ReportFilterCollection)
             {
                 var value = this.GetFilterValue(filter);
-                var op = this.GetFilteroperator(filter);
+                var op = this.GetFilterOperator(filter);
                 if (!first)
                     sql.AppendLine(" AND");
                 sql.AppendFormat("[{0}] {1} {2}", filter.FieldName, op, value);
@@ -81,13 +81,20 @@ namespace Bespoke.Sph.SqlReportDataSource
             return sql.ToString();
         }
 
-        public string GetFilteroperator(ReportFilter filter)
+        public string GetFilterOperator(ReportFilter filter)
         {
             if (null == filter) throw new ArgumentNullException("filter");
             switch (filter.Operator)
             {
-                case "Eq":
-                    return "=";
+                case "Eq":return "=";
+                case "Ge":return ">=";
+                case "Gt":return ">";
+                case "Le":return "<=";
+                case "Lt":return "<";
+                case "Substringof": return "LIKE '%{0}%'";
+                case "StartsWith": return "LIKE '{0}%'";
+                case "EndsWith": return "LIKE '{0}%'";
+                case "Contains": return "Contains({0})";
             }
             throw new Exception("Whoaaaa");
         }

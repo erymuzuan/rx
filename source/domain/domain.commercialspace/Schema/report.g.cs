@@ -715,8 +715,8 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_type;
-        public const string PropertyNameType = "Type";
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -779,22 +779,22 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
         [DebuggerHidden]
 
-        public string Type
+        public string TypeName
         {
             set
             {
-                if (String.Equals(m_type, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameType, value);
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_type = value;
+                    m_typeName = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_type;
+                return m_typeName;
             }
         }
 
@@ -1065,8 +1065,8 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_type;
-        public const string PropertyNameType = "Type";
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1127,22 +1127,22 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
         [DebuggerHidden]
 
-        public string Type
+        public string TypeName
         {
             set
             {
-                if (String.Equals(m_type, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameType, value);
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_type = value;
+                    m_typeName = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_type;
+                return m_typeName;
             }
         }
 
@@ -1300,6 +1300,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public const string PropertyNameIsSelected = "IsSelected";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -1421,6 +1426,8 @@ namespace Bespoke.SphCommercialSpaces.Domain
         ///</summary>
         [XmlAttribute]
 
+        [Required]
+
         [DebuggerHidden]
 
         public bool IsSelected
@@ -1439,6 +1446,35 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_isSelected;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string TypeName
+        {
+            set
+            {
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
             }
         }
 

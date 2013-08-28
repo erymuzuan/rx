@@ -149,9 +149,10 @@
 				<xs:element name="DefaultValue" type="xs:anySimpleType"/>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 			<xs:attribute name="AvailableValues" type="xs:string" use="required"/>
 			<xs:attribute name="Label" type="xs:string" use="optional"/>
+			<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ReportFilter">
@@ -165,7 +166,7 @@
 	<xs:element name="EntityField">
 		<xs:complexType>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 			<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
 			<xs:attribute name="Aggregate" type="xs:string" use="required"/>
 			<xs:attribute name="Order" type="xs:string" use="required"/>
@@ -178,7 +179,8 @@
 			<xs:attribute name="Header" type="xs:string" use="required"/>
 			<xs:attribute name="Value" type="xs:string" use="required"/>
 			<xs:attribute name="Width" type="xs:string" use="required"/>
-			<xs:attribute name="IsSelected" type="xs:boolean"/>
+			<xs:attribute name="IsSelected" type="xs:boolean" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ReportRow">

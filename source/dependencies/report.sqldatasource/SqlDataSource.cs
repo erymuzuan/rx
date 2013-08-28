@@ -26,7 +26,8 @@ namespace Bespoke.Sph.SqlReportDataSource
                .Where(p => p.Name != "Error")
                .Select(p => new ReportColumn
                {
-                   Name = root + p.Name
+                   Name = root + p.Name,
+                   Type = p.PropertyType
                });
 
             var aggregates = type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
@@ -43,7 +44,7 @@ namespace Bespoke.Sph.SqlReportDataSource
 
         public Task<ObjectCollection<ReportColumn>> GetColumnsAsync(Type type)
         {
-             var columns = new ObjectCollection<ReportColumn>();
+            var columns = new ObjectCollection<ReportColumn>();
             this.GetColumns(columns, type);
 
             return Task.FromResult(columns);
