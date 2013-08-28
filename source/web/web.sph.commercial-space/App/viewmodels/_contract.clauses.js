@@ -18,7 +18,7 @@ define([],
         },
         startAddTopic = function () {
             topic(new bespoke.sphcommercialspace.domain.Topic());
-            
+
         },
         addTopic = function () {
             vm.topicCollection.push(topic);
@@ -31,7 +31,7 @@ define([],
         addClause = function () {
             editedTopic.ClauseCollection.push(clause);
         },
-            
+
         topic = ko.observable(new bespoke.sphcommercialspace.domain.Topic()),
         clause = ko.observable(new bespoke.sphcommercialspace.domain.Clause()),
         removeClause = function (tpc, cls) {
