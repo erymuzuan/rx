@@ -1,10 +1,11 @@
-﻿<section>
-    <h1 data-bind="text: title"></h1>
- 
-    <button id="add-new-lot" type="button" data-bind="click: addNewLotCommand" class="btn pull-left">
+﻿<section >
+    <h1 class="row-fluid" data-bind="text: title"></h1>
+    
+   
+    <button id="add-new-lot" type="button" data-bind="click: addNewLotCommand" class="btn pull-right">
         + Lot 
     </button>
-   
+
     <table class="table table-striped table-condensed" data-bind="filter: { path: 'tbody>tr' }">
         <thead>
             <tr>
@@ -31,11 +32,14 @@
                     <input class="input-medium k-multiselect" list="usage" data-bind="value: Usage, uniqueName: true" type="text" />
                 </td>
                 <td>
-                    <button type="button" data-bind="click: $parent.removeLotCommand" class="btn btn-link">Buang</button></td>
+                <button data-bind="click: $parent.removeLotCommand.bind($data), attr: { title: 'Buang Lot' }" class="close">
+                    &times;
+                </button>
             </tr>
         </tbody>
 
     </table>
+
     <datalist id="usage">
         <option value="Kediaman">
         <option value="Parking">
