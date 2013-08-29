@@ -76,7 +76,7 @@ namespace Bespoke.Sph.WordGenerator
 
         public void ProcessTemplate2(DocumentDataSource dataSource, DomainObject data, DomainObject element, string prepend)
         {
-
+            if (null != data){
             string name = data.GetType().Name;
             var elementType = element.GetType();
 
@@ -115,6 +115,7 @@ namespace Bespoke.Sph.WordGenerator
                 ProcessTemplate2(dataSource, data, child,
                     string.IsNullOrEmpty(prepend) ? e.Name :
                     prepend + AccessorOperator + e.Name);
+            }
             }
         }
 

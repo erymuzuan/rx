@@ -13340,6 +13340,16 @@
                     public const string PropertyNameIsActive = "IsActive";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_icon;
+                    public const string PropertyNameIcon = "Icon";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_category;
+                    public const string PropertyNameCategory = "Category";
+
+                  
 			private readonly ObjectCollection<CustomField>  m_CustomFieldCollection = new ObjectCollection<CustomField> ();
 
 			///<summary>
@@ -13480,6 +13490,62 @@
                     }
 
                   
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Icon
+                    {
+                    set
+                    {
+                    if( String.Equals( m_icon, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameIcon, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_icon= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_icon;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Category
+                    {
+                    set
+                    {
+                    if( String.Equals( m_category, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameCategory, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_category= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_category;}
+                    }
+
+                  
 
           }
         
@@ -13510,6 +13576,11 @@
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private  bool  m_isActive;
                     public const string PropertyNameIsActive = "IsActive";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_category;
+                    public const string PropertyNameCategory = "Category";
 
                   
 			private readonly ObjectCollection<CustomField>  m_CustomFieldCollection = new ObjectCollection<CustomField> ();
@@ -13652,6 +13723,34 @@
                     }
 
                   
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Category
+                    {
+                    set
+                    {
+                    if( String.Equals( m_category, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameCategory, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_category= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_category;}
+                    }
+
+                  
 
           }
         
@@ -13682,6 +13781,11 @@
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private  bool  m_isActive;
                     public const string PropertyNameIsActive = "IsActive";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_category;
+                    public const string PropertyNameCategory = "Category";
 
                   
 			private readonly ObjectCollection<CustomField>  m_CustomFieldCollection = new ObjectCollection<CustomField> ();
@@ -13824,6 +13928,34 @@
                     }
 
                   
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Category
+                    {
+                    set
+                    {
+                    if( String.Equals( m_category, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameCategory, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_category= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_category;}
+                    }
+
+                  
 
           }
         
@@ -13854,6 +13986,11 @@
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private  bool  m_isActive;
                     public const string PropertyNameIsActive = "IsActive";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_category;
+                    public const string PropertyNameCategory = "Category";
 
                   
 			private readonly ObjectCollection<CustomField>  m_CustomFieldCollection = new ObjectCollection<CustomField> ();
@@ -13993,6 +14130,34 @@
                     get
                     {
                     return m_isActive;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Category
+                    {
+                    set
+                    {
+                    if( String.Equals( m_category, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameCategory, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_category= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_category;}
                     }
 
                   

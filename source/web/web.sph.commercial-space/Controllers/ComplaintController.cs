@@ -11,7 +11,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> Submit(Complaint complaint)
         {
             var context = new SphDataContext();
-            complaint.Status = "New";
+            complaint.Status = "Baru";
  
             using (var session = context.OpenSession())
             {
@@ -34,13 +34,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             var complaint = await context.LoadOneAsync<Complaint>(c => c.ComplaintId == comp.ComplaintId);
-            complaint.Status = "InProgress";
+            complaint.Status = "Dalam Proses";
             complaint.Department = comp.Department;
 
             var maintenance = new Maintenance
                 {
-                    Status = "New",
-                    Resolution = "Not Started",
+                    Status = "Baru",
+                    Resolution = "Belum Dilaksanakan",
                     Department = comp.Department,
                     ComplaintId = comp.ComplaintId,
                     StartDate = null,

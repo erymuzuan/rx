@@ -406,11 +406,11 @@
     "error": ""
   },
   {
-    "role": "can_assign_maintenance_officer",
-    "url": "maintenance.list",
+    "role": "maintenance_dashboard",
+    "url": "maintenance.list/:status",
     "moduleId": "viewmodels/maintenance.list",
     "name": "Senarai Penyenggaraan",
-    "visible": true,
+    "visible": false,
     "icon": "icon-list-alt",
     "caption": "Senarai Penyenggaraan",
     "settings": null,
@@ -779,6 +779,18 @@
     "visible": false,
     "icon": "icon-calendar",
     "caption": "Report Schedules",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "maintenance_dashboard",
+    "url": "maintenance.dashboard",
+    "moduleId": "viewmodels/maintenance.dashboard",
+    "name": "Papan Senggara",
+    "visible": true,
+    "icon": "icon-gear",
+    "caption": "Papan Senggara",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
