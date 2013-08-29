@@ -30,7 +30,7 @@ namespace roslyn.scriptengine
             {
                 var message = new StringBuilder("Error adding reference to domain.commercialspace.dll");
                 message.AppendLine("Script Engine base directory = " + scriptEngine.BaseDirectory);
-                message.AppendLine("AppDoomain base directory = " + AppDomain.CurrentDomain.BaseDirectory);
+                message.AppendLine("AppDomain base directory = " + AppDomain.CurrentDomain.BaseDirectory);
                 throw new Exception(message.ToString(), e);
             }
 
@@ -52,12 +52,8 @@ namespace roslyn.scriptengine
                                      customScript + "\r\n" +
                                         "{0}\r\n" +
                                      "}}", block, item.GetType().Name);
-            Debug.WriteLine(code, "Rosylyn code");
             session.Execute(code);
-
             var result = session.Execute("Evaluate();");
-            Console.WriteLine("result :" + result);
-
 
             return result;
 

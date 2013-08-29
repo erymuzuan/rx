@@ -1,0 +1,31 @@
+﻿<section class="btn-group pull-right" data-bind="visible: isSelected">
+    <button class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+        <i class="icon-chevron-sign-right"></i>
+    </button>
+    <div class="dropdown-menu alert alert-info" style="padding: 10px">
+        <div class="control-group">
+            <label class="control-label">Title</label>
+            <div class="controls">
+                <input data-bind="value: Title" name="Title-linechart" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Category Field</label>
+            <div class="controls">
+                <input data-bind="value: CategoryField"  name="ValueLabelFormat" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Value Field</label>
+            <div class="controls">
+                <input data-bind="value: ValueField" type="text" name="HorizontalAxisField" />
+            </div>
+        </div>
+        <a class="btn btn-link pull-right" data-bind="click: $root.removeReportItem">
+            <i class="icon-remove"></i>
+            Buang
+        </a>
+        @*   </form>*@
+    </div>
+</section>

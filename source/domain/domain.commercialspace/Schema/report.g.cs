@@ -452,6 +452,54 @@ namespace Bespoke.SphCommercialSpaces.Domain
     public partial class BarChartItem
     {
 
+        private string m_ValueLabelFormat;
+        [XmlAttribute]
+        public string ValueLabelFormat
+        {
+            get
+            {
+                return m_ValueLabelFormat;
+            }
+            set
+            {
+                m_ValueLabelFormat = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_HorizontalAxisField;
+        [XmlAttribute]
+        public string HorizontalAxisField
+        {
+            get
+            {
+                return m_HorizontalAxisField;
+            }
+            set
+            {
+                m_HorizontalAxisField = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Title;
+        [XmlAttribute]
+        public string Title
+        {
+            get
+            {
+                return m_Title;
+            }
+            set
+            {
+                m_Title = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 
@@ -520,6 +568,82 @@ namespace Bespoke.SphCommercialSpaces.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    [XmlType("PieChartItem", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class PieChartItem
+    {
+
+        private string m_CategoryField;
+        [XmlAttribute]
+        public string CategoryField
+        {
+            get
+            {
+                return m_CategoryField;
+            }
+            set
+            {
+                m_CategoryField = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_ValueField;
+        [XmlAttribute]
+        public string ValueField
+        {
+            get
+            {
+                return m_ValueField;
+            }
+            set
+            {
+                m_ValueField = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Title;
+        [XmlAttribute]
+        public string Title
+        {
+            get
+            {
+                return m_Title;
+            }
+            set
+            {
+                m_Title = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_TitlePlacement;
+        [XmlAttribute]
+        public string TitlePlacement
+        {
+            get
+            {
+                return m_TitlePlacement;
+            }
+            set
+            {
+                m_TitlePlacement = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     [XmlType("DataGridItem", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DataGridItem
     {
@@ -570,18 +694,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [Serializable]
     [XmlType("LineItem", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class LineItem
-    {
-
-
-    }
-
-    ///<summary>
-    /// 
-    ///</summary>
-    [DataObject(true)]
-    [Serializable]
-    [XmlType("PieChartItem", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class PieChartItem
     {
 
 
@@ -730,6 +842,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isNullable;
+        public const string PropertyNameIsNullable = "IsNullable";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private object m_value;
         public const string PropertyNameValue = "Value";
 
@@ -851,6 +968,35 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_label;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsNullable
+        {
+            set
+            {
+                if (m_isNullable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsNullable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isNullable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isNullable;
             }
         }
 

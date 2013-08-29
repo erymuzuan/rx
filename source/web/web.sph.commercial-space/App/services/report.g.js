@@ -58,6 +58,9 @@ bespoke.sphcommercialspace.domain.BarChartItem = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.ReportItem(webId);
 
+    v.ValueLabelFormat = ko.observable('');
+    v.HorizontalAxisField = ko.observable('');
+    v.Title = ko.observable('');
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.BarChartItem, domain.commercialspace";
 
     if (bespoke.sphcommercialspace.domain.BarChartItemPartial) {
@@ -79,6 +82,24 @@ bespoke.sphcommercialspace.domain.LineChartItem = function (webId) {
 
     if (bespoke.sphcommercialspace.domain.LineChartItemPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.LineChartItemPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sphcommercialspace.domain.PieChartItem = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.ReportItem(webId);
+
+    v.CategoryField = ko.observable('');
+    v.ValueField = ko.observable('');
+    v.Title = ko.observable('');
+    v.TitlePlacement = ko.observable('');
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.PieChartItem, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.PieChartItemPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.PieChartItemPartial(v));
     }
     return v;
 };
@@ -124,20 +145,6 @@ bespoke.sphcommercialspace.domain.LineItem = function (webId) {
 
     if (bespoke.sphcommercialspace.domain.LineItemPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.LineItemPartial(v));
-    }
-    return v;
-};
-
-
-
-bespoke.sphcommercialspace.domain.PieChartItem = function (webId) {
-
-    var v = new bespoke.sphcommercialspace.domain.ReportItem(webId);
-
-    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.PieChartItem, domain.commercialspace";
-
-    if (bespoke.sphcommercialspace.domain.PieChartItemPartial) {
-        return _(v).extend(new bespoke.sphcommercialspace.domain.PieChartItemPartial(v));
     }
     return v;
 };

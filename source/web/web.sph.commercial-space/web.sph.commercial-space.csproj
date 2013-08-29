@@ -494,6 +494,7 @@
     <Content Include="Images\pic2.png" />
     <Content Include="Images\pic3.png" />
     <Content Include="Images\pic4.png" />
+    <Content Include="Images\pie-chart.png" />
     <Content Include="Images\quarters.png" />
     <Content Include="Images\report-layout.1.png" />
     <Content Include="Images\report-layout.2.png" />
@@ -1148,6 +1149,7 @@
     <Content Include="Views\ReportDefinition\_LineChartDesignerContextAction.cshtml" />
     <Content Include="Views\ReportDefinition\_ConfigurationColumnOptions.cshtml" />
     <Content Include="Views\ReportDefinition\_ConfigurationColumnProperties.cshtml" />
+    <Content Include="Views\ReportDefinition\_PieChartDesignerContextAction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
