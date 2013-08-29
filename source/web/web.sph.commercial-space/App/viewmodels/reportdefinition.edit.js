@@ -125,6 +125,11 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             },
             removeField = function (field) {
                 vm.reportDefinition().DataSource().EntityFieldCollection.remove(field);
+            },
+            removeDataGridColumn = function (col, e) {
+                var grid = ko.dataFor($(e.target).parents("table")[0]);
+                grid.ReportColumnCollection.remove(col);
+
             };
 
         var vm = {
@@ -145,7 +150,9 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
 
             addFilter: addFilter,
             removeFilter: removeFilter,
-            removeField:removeField,
+            removeField: removeField,
+            
+            removeDataGridColumn : removeDataGridColumn,
 
             addDataGridColumn: addDataGridColumn,
 

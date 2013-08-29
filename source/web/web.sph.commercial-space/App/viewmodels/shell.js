@@ -16,6 +16,25 @@
                 });
             };
 
+            $(document).on('click', 'button.btn-context-action,a.btn-context-action', function (e) {
+                e.preventDefault();
+                var $a = $(this);
+                var $panel = $(this).parent().find('.context-action');
+
+                var closeButton = function (e) {
+                    e.preventDefault();
+                    $panel.hide();
+
+                };
+
+                $panel.css({
+                    "right": e.offsetX
+                })
+                    .show()
+                    .find("button.close")
+                    .one("click", closeButton);
+
+            });
             $(document).on('click', 'a.dropdown-toggle', dropDown);
 
             var $menu = $('.jPanelMenu-panel');

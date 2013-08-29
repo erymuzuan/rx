@@ -1,17 +1,19 @@
 ﻿<section class="btn-group pull-right" data-bind="visible: isSelected">
-    <button class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+    <button class="btn btn-link btn-context-action">
         <i class="icon-chevron-sign-right"></i>
     </button>
 
-    <div class="dropdown-menu alert alert-info" style="padding: 10px">
-       @*  <form class="form-horizontal">*@
+    <div class="context-action alert alert-info" >
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <span> Properties</span>
+        </div>
       
             <a class="btn btn-link pull-right" data-bind="click: $root.removeReportItem">
                 <i class="icon-remove"></i>
                 Buang
             </a>
 
-     @*   </form>*@
 
     </div>
 </section>
