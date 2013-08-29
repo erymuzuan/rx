@@ -1,6 +1,7 @@
-﻿<h3>AGIHAN TUGASAN</h3>
+﻿<h1>Pengeluaran Arahan Kerja</h1>
+<h2><strong>Perincian Aduan</strong></h2>
 <form class="well form-horizontal span6">
-    <h6><strong>Perincian Aduan</strong></h6>
+    
     <div data-bind="with: maintenance().Complaint">
         <div class="control-group">
             <label class="span1">Pengadu:</label>
@@ -45,29 +46,6 @@
             </div>
         </div>
     </div>
-    <div class="control-group" data-bind="with: maintenance">
-        <label class="control-label">Petugas :</label>
-        <select multiple="multiple" name="maintenance.Officer" data-bind="options: $parent.officerOptions, optionsText: 'Item2', optionsValue: 'Item1', selectedOptions: Officer"></select>
-    </div>
-    <div>
-        <input type="button" class="btn btn-primary" value="Agih Tugas" data-bind="click: saveAssignmentCommand" />
-    </div>
-
-    <section class="modal hide" id="success-panel">
-
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h3>Aduan</h3>
-        </div>
-        <div class="modal-body">
-            <span>Arahan Kerja telah ditugaskan kepada <strong data-bind="text: maintenance().Officer"></strong></span>
-        </div>
-
-        <div class="modal-footer">
-            <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" />
-        </div>
-    </section>
-
 </form>
 
 

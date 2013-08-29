@@ -5,7 +5,7 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext'], function () {
+define(['services/datacontext'], function (context) {
     var isBusy = ko.observable(false),
         status = ko.observable(),
         activate = function (routedata) {
@@ -15,8 +15,13 @@ define(['services/datacontext'], function () {
             vm.title(header);
                 
             var tcs = new $.Deferred();
-                isBusy(false);
-                tcs.resolve(true);
+            var query = String.format("Status eq '{0}'", status());
+            context.loadAsync("Maintenance", query).done(function(lo) {
+                vm.maintenances(lo.itemCollection);
+            tcs.resolve(true);
+            isBusy(false);
+            });
+            
             return tcs.promise();
         },
         
@@ -31,7 +36,7 @@ define(['services/datacontext'], function () {
         activate: activate,
         viewAttached: viewAttached,
         title: ko.observable(),
-        maintenances: ko.observableArray([]),
+        maintenances: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
         toolbar: ko.observable({
             reloadCommand: function () {
                 return activate({ status: status() });
