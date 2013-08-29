@@ -12,21 +12,43 @@
 define(['services/datacontext', 'durandal/plugins/router'],
     function (context,router) {
 
-        var isBusy = ko.observable(false),
+        var maintenance = ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
+            isBusy = ko.observable(false),
             id = ko.observable(),
             activate = function (routeData) {
                 id(routeData.id);
                 var maintenanceQuery = String.format("MaintenanceId eq {0}", id());
-                var officerQuery = String.format("Designation eq 'Petugas'");
                 var tcs = new $.Deferred();
 
                 var maintenanceTask = context.loadOneAsync("Maintenance", maintenanceQuery);
-                var officerTask = context.getTuplesAsync("UserProfile", officerQuery, 'Username', 'FullName');
+                var templateTask = context.loadAsync("MaintenanceTemplate", "IsActive eq 1");
 
-                $.when(maintenanceTask, officerTask).then(function (m, o) {
+                $.when(maintenanceTask, templateTask).then(function (m, tlo) {
                     isBusy(false);
                     vm.maintenance(m);
-                    vm.officerOptions(o);
+                    vm.templates(tlo.itemCollection);
+                    
+                    var commands = _(tlo.itemCollection).map(function (t) {
+                        return {
+                            caption: ko.observable(t.Name()),
+                            icon: "icon-gear",
+                            command: function () {
+                                var url = '/#/maintenance.detail-templateid.' + t.MaintenanceTemplateId() + "/" + t.MaintenanceTemplateId() + "/0";
+                                router.navigateTo(url);
+                                return {
+                                    then: function () { }
+                                };
+                            }
+                        };
+                    });
+
+                    vm.toolbar.groupCommands([ko.observable(
+                        {
+                            caption: ko.observable("Keluarkan Arahan Kerja"),
+                            commands: ko.observableArray(commands)
+                        })
+                    ]);
+
                     tcs.resolve(true);
                 });
 
@@ -55,8 +77,19 @@ define(['services/datacontext', 'durandal/plugins/router'],
             isBusy: isBusy,
             activate: activate,
             maintenance: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
-            officerOptions: ko.observableArray(),
-            saveAssignmentCommand: saveAssignment
+            templates: ko.observableArray([]),
+            saveAssignmentCommand: saveAssignment,
+            toolbar: {
+                groupCommands: ko.observableArray(),
+                reloadCommand: function () {
+                    return activate();
+                },
+                printCommand: ko.observable({
+                    entity: ko.observable("Maintenance"),
+                    id: ko.observable(0),
+                    item: maintenance,
+                })
+            }
         };
 
         return vm;
