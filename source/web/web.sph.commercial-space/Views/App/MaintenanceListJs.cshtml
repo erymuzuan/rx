@@ -8,8 +8,10 @@
 <script type="text/javascript" data-script="true">
     define(['services/datacontext','config'], function (context,config) {
         var isBusy = ko.observable(false),
-            activate = function() {
-                var maintenanceQuery = String.format("MaintenanceId gt 0");
+            department = ko.observable(),
+            activate = function () {
+                department(config.profile.Department);
+                var maintenanceQuery = String.format("Department eq '{0}'", department());
                 var officerQuery = String.format("Designation eq 'Petugas'");
                 var tcs = new $.Deferred();
                 var maintenanceTask = context.loadAsync("Maintenance", maintenanceQuery);
