@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var context = new SphDataContext();
             var maint = await context.LoadOneAsync<Maintenance>(m => m.MaintenanceId == id);
-            maint.Status = "Inspection";
+            maint.Status = "Pemeriksaan";
             maint.Officer = string.Join(",", officer);
             var workOrderNo = string.Format("WO{0:yyyy}{1}", DateTime.Today, id);
             maint.WorkOrderNo = workOrderNo;
