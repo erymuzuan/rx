@@ -1,15 +1,11 @@
-﻿<section>
-    <div class="page-header">
-        <h1>Ruang Untuk Disewa</h1>
-    </div>
-</section>
-
+﻿<h1 class="header">Ruang Untuk Disewa</h1>
 <section id="building-list" class="span12" data-bind="foreach: items">
     <!-- ko foreach : spaces -->
     <div class="metro tile">
         <article class="tile">
             <div class="row-fluid bordered-box">
-                <label class="title pull-left" data-bind="text: Category"></label>
+                <span class="title" data-bind="text: Category"/>
+                <span class="title" data-bind="text: BuildingName"/>
                 <form class="form-inline span11" id="div-building">
 
                     <div class="span2">
