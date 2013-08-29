@@ -133,10 +133,17 @@
     "IsActive": true
   },
   {
-      "Group": "Admin",
+    "Group": "Admin",
     "Name": "Admin Tanah",
     "Role": "can_edit_land",
     "Description": "Pentadbiran Tanah",
+    "IsActive": true
+  },
+  {
+    "Group": "admin",
+    "Name": "PRO Senggara",
+    "Role": "maintenance_dashboard",
+    "Description": "Memantau status senggara",
     "IsActive": true
   }
 ]
