@@ -10,6 +10,7 @@ namespace web.test
     public class RentalApplicationTest : BrowserTest
     {
         public const string RA_COMPANYREGISTRATION_NO = "B29999";
+        public const string APP_TEMPLATE_NAME = "B29999";
 
         [Test]
         public void _001_New()
@@ -18,12 +19,21 @@ namespace web.test
             sphDatabase.ExecuteNonQuery("DELETE FROM [Sph].[RentalApplication] WHERE [CompanyRegistrationNo] =@No", new SqlParameter("@No", RA_COMPANYREGISTRATION_NO));
             var max = sphDatabase.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
 
+            var templateId = sphDatabase.GetDatabaseScalarValue<int>("SELECT [ApplicationTemplateId] FROM [Sph].[ApplicationTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", APP_TEMPLATE_NAME));
             IWebDriver driver = new FirefoxDriver();
+            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
+            driver
+                .Sleep(TimeSpan.FromSeconds(2))
+                  .Value("[name='UserName']", "ruzzaima")
+                  .Value("[name='Password']", "123456")
+                  .Click("[name='submit']");
+            driver
+                .Sleep(TimeSpan.FromSeconds(5))
+                ;
             driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/rentalapplication.selectspace");
             driver.Sleep(TimeSpan.FromSeconds(3));
-
             driver
-                .Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/rentalapplication/13");
+                .Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/application.detail-templateid.1/19");
             driver.Sleep(TimeSpan.FromSeconds(3));
             driver
                 .Value("[name='rentalapplication.Contact.Name']","Zaima")

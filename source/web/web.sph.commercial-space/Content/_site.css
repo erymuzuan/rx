@@ -23,7 +23,18 @@
 {
     margin-left: -400px;
 }
+.title {
+   font-size: 20px;
+   font-weight: bold; 
+   color: #003575;
+   width: inherit;
+   margin: 10px;
+}
 
+.bordered-box {
+    border: 1px solid #000;
+    margin: 10px;
+}
 .absolute-center
 {
     position: absolute;
