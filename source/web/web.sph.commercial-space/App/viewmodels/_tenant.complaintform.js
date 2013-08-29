@@ -12,25 +12,25 @@
 
 
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-	function (context, logger,router) {
+	function (context, logger, router) {
 
 	    var template = ko.observable(new bespoke.sphcommercialspace.domain.ComplaintTemplate()),
 	        isBusy = ko.observable(false),
 	        tenantId = ko.observable(),
 	        complaintNo = ko.observable(),
-	        
+
             activate = function (tenant) {
                 tenantId(parseInt(tenant.TenantId()));
                 vm.complaint().TenantId(tenantId);
                 var query = "TenantIdSsmNo eq '" + tenant.IdSsmNo() + "'";
                 var query2 = "TenantId eq " + tenant.TenantId();
-	            isBusy(true);
-	            var tcs = new $.Deferred();
+                isBusy(true);
+                var tcs = new $.Deferred();
 
-	            var getContractTask = context.loadAsync("Contract", query);
+                var getContractTask = context.loadAsync("Contract", query);
                 var getTenantInfoTask = context.loadOneAsync("Tenant", query2);
-	            var getComplaintTemplateTask = context.getTuplesAsync("ComplaintTemplate", "ComplaintTemplateId gt 0", "ComplaintTemplateId", "Name");
-                
+                var getComplaintTemplateTask = context.getTuplesAsync("ComplaintTemplate", "ComplaintTemplateId gt 0", "ComplaintTemplateId", "Name");
+
                 $.when(getTenantInfoTask, getContractTask, getComplaintTemplateTask)
                     .then(function (t, lo, list) {
                         vm.complaint().Tenant(t);
@@ -49,8 +49,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                         tcs.resolve(true);
 
                     });
-               return  tcs.promise();
-	        },
+                return tcs.promise();
+            },
 
             viewAttached = function (view) {
 
@@ -109,42 +109,47 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 	        isBusy: isBusy,
 	        activate: activate,
 	        viewAttached: viewAttached,
-	        complaintNo : complaintNo,
+	        complaintNo: complaintNo,
 	        locationOptions: ko.observableArray(),
-            typeOptions: ko.observableArray(),
+	        typeOptions: ko.observableArray(),
 	        categoryOptions: ko.observableArray([]),
 	        subCategoryOptions: ko.observableArray([]),
 	        selectedType: ko.observable(),
 	        selectedCategory: ko.observable(),
-	        template : template,
+	        template: template,
 	        complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
 	        submitCommand: submit
 	    };
 
 	    vm.complaint().Type.subscribe(function (type) {
-	         vm.isBusy(true);
-	        
-	        context.loadOneAsync("ComplaintTemplate", "ComplaintTemplateId eq '" + type + "'")
+	        vm.isBusy(true);
+	        if (type) {
+	            context.loadOneAsync("ComplaintTemplate", "ComplaintTemplateId eq '" + type + "'")
 	            .then(function (t) {
 	                vm.template(t);
-	                var categories = _(t.ComplaintCategoryCollection()).map(function(c) {
+	                var categories = _(t.ComplaintCategoryCollection()).map(function (c) {
 	                    return c.Name();
 	                });
-	                
+
 	                vm.categoryOptions(categories);
 	                vm.isBusy(false);
 	                selectedType = t;
 	            });
+	        }
+
 	    });
-	     
+
 	    vm.complaint().Category.subscribe(function (category) {
-	       var cat = _(template().ComplaintCategoryCollection()).find(function (c) {
-	           return c.Name() === category;
-	       });
-	        
-	        vm.subCategoryOptions(cat.SubCategoryCollection());
-	   });
-	    
+	        if (category) {
+	            var cat = _(template().ComplaintCategoryCollection()).find(function (c) {
+	                return c.Name() === category;
+	            });
+
+	            vm.subCategoryOptions(cat.SubCategoryCollection());
+	        }
+
+	    });
+
 	    return vm;
 
 	});
