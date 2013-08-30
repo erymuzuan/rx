@@ -2,7 +2,8 @@
 
 <!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.PieChartItem, domain.commercialspace" -->
 <div class="report-item" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectedReportItem" class="control-group">
-    @Html.Partial("_DesignerContextAction")
-    PieChartItem
+    @Html.Partial("_PieChartDesignerContextAction")
+    <span data-bind="text:Title"></span>
+    <img src="/Images/pie-chart.png" alt="pie chart"/>
 </div>
 <!--/ko-->

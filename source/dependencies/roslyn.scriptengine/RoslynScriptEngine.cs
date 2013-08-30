@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Text;
 using Bespoke.SphCommercialSpaces.Domain;
+using Roslyn.Compilers;
 using Roslyn.Scripting.CSharp;
 
 namespace roslyn.scriptengine
@@ -30,8 +31,10 @@ namespace roslyn.scriptengine
             {
                 var message = new StringBuilder("Error adding reference to domain.commercialspace.dll");
                 message.AppendLine("Script Engine base directory = " + scriptEngine.BaseDirectory);
-                message.AppendLine("AppDoomain base directory = " + AppDomain.CurrentDomain.BaseDirectory);
-                throw new Exception(message.ToString(), e);
+                message.AppendLine("AppDomain base directory = " + AppDomain.CurrentDomain.BaseDirectory);
+                message.AppendLine("Actual exception :");
+                message.AppendLine(e.Message);
+                throw new Exception(message.ToString());
             }
 
             var customScript = string.Empty;
@@ -52,12 +55,15 @@ namespace roslyn.scriptengine
                                      customScript + "\r\n" +
                                         "{0}\r\n" +
                                      "}}", block, item.GetType().Name);
-            Debug.WriteLine(code, "Rosylyn code");
-            session.Execute(code);
-
+            try
+            {
+                session.Execute(code);
+            }
+            catch (CompilationErrorException)
+            {
+                throw new Exception("Error compiling this code : \r\n" + block + "\r\n The full code is \r\n" + code);
+            }
             var result = session.Execute("Evaluate();");
-            Console.WriteLine("result :" + result);
-
 
             return result;
 

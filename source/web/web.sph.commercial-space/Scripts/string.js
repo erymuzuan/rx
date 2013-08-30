@@ -38,26 +38,26 @@
         /// <param name="suffix" type="String">A string to compare to.</param>
         /// <returns type="Boolean">true if suffix matches the end of this instance; otherwise, false.</returns>
         return (this.substr(this.length - suffix.length) === suffix);
-    }
+    };
 
     $prototype.startsWith = function String$startsWith(prefix) {
         /// <summary >Determines whether the beginning of this instance matches the specified string.</summary>
         /// <param name="prefix" type="String">The String to compare.</param>
         /// <returns type="Boolean">true if prefix matches the beginning of this string; otherwise, false.</returns>
         return (this.substr(0, prefix.length) === prefix);
-    }
+    };
 
     $prototype.trim = function String$trim() {
         /// <summary >Removes all leading and trailing white-space characters from the current String object.</summary>
         /// <returns type="String">The string that remains after all white-space characters are removed from the start and end of the current String object.</returns>
         return this.replace(/^\s+|\s+$/g, '');
-    }
+    };
 
     $prototype.trimEnd = function String$trimEnd() {
         /// <summary >Removes all trailing white spaces from the current String object.</summary>
         /// <returns type="String">The string that remains after all white-space characters are removed from the end of the current String object.</returns>
         return this.replace(/\s+$/, '');
-    }
+    };
 
     $prototype.trimStart = function String$trimStart() {
         /// <summary >Removes all leading white spaces from the current String object.</summary>
@@ -71,13 +71,13 @@
         /// <param name="args" parameterArray="true" mayBeNull="true">The objects to format.</param>
         /// <returns type="String">A copy of format in which the format items have been replaced by the   string equivalent of the corresponding instances of object arguments.</returns>
         return String._toFormattedString(false, arguments);
-    }
+    };
 
     $type._toFormattedString = function String$_toFormattedString(useLocale, args) {
         var result = '';
         var format = args[0];
 
-        for (var i = 0; ;) {
+        for (var i = 0;;) {
             // Find the next opening or closing brace
             var open = format.indexOf('{', i);
             var close = format.indexOf('}', i);
@@ -123,27 +123,24 @@
             var argFormat = (colonIndex < 0) ? '' : brace.substring(colonIndex + 1);
 
             var arg = args[argNumber];
-            if (typeof (arg) === "undefined" || arg === null) {
+            if (typeof(arg) === "undefined" || arg === null) {
                 arg = '';
             }
 
             // If it has a toFormattedString method, call it.  Otherwise, call toString()
             if (arg.toFormattedString) {
                 result += arg.toFormattedString(argFormat);
-            }
-            else if (useLocale && arg.localeFormat) {
+            } else if (useLocale && arg.localeFormat) {
                 result += arg.localeFormat(argFormat);
-            }
-            else if (arg.format) {
+            } else if (arg.format) {
                 result += arg.format(argFormat);
-            }
-            else
+            } else
                 result += arg.toString();
 
             i = close + 1;
         }
 
         return result;
-    }
+    };
 
 })(window);

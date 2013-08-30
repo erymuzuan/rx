@@ -9,12 +9,12 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/system', './reportdefinition.base'],
-    function (context, logger, system, reportDefinitionBase) {
+define(['services/datacontext', 'services/logger', 'durandal/system', './reportdefinition.base', './_reportdefinition.preview'],
+    function (context, logger, system, designer, preview) {
         var isBusy = ko.observable(false),
             reportDefinitionId = ko.observable(),
             activate = function (routeData) {
-                reportDefinitionBase.activate();
+                designer.activate();
                 var id = parseInt(routeData.id),
                     setRdl = function (d) {
 
@@ -29,7 +29,8 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
                         }
 
                         vm.reportDefinition(d);
-                        reportDefinitionBase.reportDefinition(d);
+                        designer.reportDefinition(d);
+                        preview.activate(d);
                     };
                 reportDefinitionId(id);
 
@@ -59,7 +60,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
                 return true;
             },
             viewAttached = function (view) {
-                reportDefinitionBase.viewAttached(view);
+                designer.viewAttached(view);
             },
             loadEntityColumns = function (entity) {
                 var tcs = new $.Deferred();
@@ -94,7 +95,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
 
             },
             removeReportItem = function (ri) {
-                reportDefinitionBase.removeReportItem(ri);
+                designer.removeReportItem(ri);
                 console.log("remove " + ri.Name());
 
             },
@@ -125,18 +126,23 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             },
             removeField = function (field) {
                 vm.reportDefinition().DataSource().EntityFieldCollection.remove(field);
+            },
+            removeDataGridColumn = function (col, e) {
+                var grid = ko.dataFor($(e.target).parents("table")[0]);
+                grid.ReportColumnCollection.remove(col);
+
             };
 
         var vm = {
-            reportDefinition: reportDefinitionBase.reportDefinition,
+            reportDefinition: designer.reportDefinition,
             title: ko.observable('Report Builder'),
             isBusy: isBusy,
             activate: activate,
             viewAttached: viewAttached,
             removeReportItem: removeReportItem,
-            selectReportItem: reportDefinitionBase.selectReportItem,
-            selectedReportItem: reportDefinitionBase.selectedReportItem,
-            toolboxitems: reportDefinitionBase.toolboxItems,
+            selectReportItem: designer.selectReportItem,
+            selectedReportItem: designer.selectedReportItem,
+            toolboxitems: designer.toolboxItems,
             selectedEntityName: ko.observable(''),
             entityColumns: ko.observableArray(),
 
@@ -145,7 +151,9 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
 
             addFilter: addFilter,
             removeFilter: removeFilter,
-            removeField:removeField,
+            removeField: removeField,
+
+            removeDataGridColumn: removeDataGridColumn,
 
             addDataGridColumn: addDataGridColumn,
 
@@ -155,7 +163,13 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
                     command: configure,
                     caption: "Configuration",
                     icon: "icon-gear"
-                }])
+                },
+                    {
+
+                        command: preview.showPreview,
+                        caption: "Preview",
+                        icon: " icon-file-text-alt"
+                    }])
             }
         };
 

@@ -49,7 +49,11 @@
 	<xs:element name="BarChartItem">
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="ReportItem"/>
+				<xs:extension base="ReportItem">
+					<xs:attribute name="ValueLabelFormat" type="xs:string" use="optional"/>
+					<xs:attribute name="HorizontalAxisField" type="xs:string" use="required"/>
+					<xs:attribute name="Title" type="xs:string" use="required"/>
+				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
@@ -60,6 +64,18 @@
 					<xs:attribute name="ValueLabelFormat" type="xs:string" use="optional"/>
 					<xs:attribute name="HorizontalAxisField" type="xs:string" use="required"/>
 					<xs:attribute name="Title" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PieChartItem">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ReportItem">
+					<xs:attribute name="CategoryField" type="xs:string" use="required"/>
+					<xs:attribute name="ValueField" type="xs:string" use="required"/>
+					<xs:attribute name="Title" type="xs:string" use="required"/>
+					<xs:attribute name="TitlePlacement" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -100,13 +116,6 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="LineItem">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="ReportItem"/>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="PieChartItem">
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="ReportItem"/>

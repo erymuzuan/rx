@@ -5,25 +5,25 @@
     <div class="context-action alert alert-info">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <span>Line Chart Properties</span>
+            <span>Pie Chart Properties</span>
         </div>
         <div class="control-group">
             <label class="control-label">Title</label>
             <div class="controls">
-                <input class="input-xlarge" data-bind="value: Title" id="line-chart" name="Title-linechart" />
+                <input class="input-xlarge" data-bind="value: Title" name="Title-linechart" />
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label">Label format</label>
+            <label class="control-label">Category Field</label>
             <div class="controls">
-                <input data-bind="value: ValueLabelFormat" id="line-chart" name="ValueLabelFormat" />
+                <input data-bind="value: CategoryField"  name="ValueLabelFormat" />
             </div>
         </div>
 
         <div class="control-group">
-            <label class="control-label">Field</label>
+            <label class="control-label">Value Field</label>
             <div class="controls">
-                <input data-bind="value: HorizontalAxisField" type="text" name="HorizontalAxisField" />
+                <input data-bind="value: ValueField" type="text" name="HorizontalAxisField" />
             </div>
         </div>
         <a class="btn btn-link pull-right" data-bind="click: $root.removeReportItem">
