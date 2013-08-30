@@ -28,6 +28,8 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/scripts/_pager.js")
                 .Include("~/scripts/_kendo-knockoutbindings.js")
                 .Include("~/scripts/_uiready.js")
+                .Include("~/scripts/_function.prototypes.js")
+                .Include("~/scripts/_task.js")
                 .Include("~/App/services/domain.g.js")
                 .Include("~/App/services/Deposit.js")
                 .Include("~/App/services/Rent.js")

@@ -402,6 +402,7 @@
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.list.js" />
+    <Content Include="App\viewmodels\_reportdefinition.preview.js" />
     <Content Include="App\viewmodels\_tenant.payment.js" />
     <Content Include="App\viewmodels\land.detail.js" />
     <Content Include="App\viewmodels\land.list.js" />
@@ -445,6 +446,7 @@
     <Content Include="App\views\complaintform.tenant.html" />
     <Content Include="App\views\maintenance.dashboard.html" />
     <Content Include="App\views\maintenance.list.html" />
+    <Content Include="App\views\_reportdefinition.preview.html" />
     <Content Include="App\views\_tenant.payment.html" />
     <Content Include="App\views\inventory.detail.html" />
     <Content Include="App\views\inventory.list.html" />
@@ -567,8 +569,10 @@
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Scripts\_function.prototypes.js" />
     <Content Include="Scripts\_kendo-knockoutbindings.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Scripts\_task.js" />
     <Content Include="Scripts\_uiready.js" />
   </ItemGroup>
   <ItemGroup>
@@ -1150,6 +1154,8 @@
     <Content Include="Views\ReportDefinition\_ConfigurationColumnOptions.cshtml" />
     <Content Include="Views\ReportDefinition\_ConfigurationColumnProperties.cshtml" />
     <Content Include="Views\ReportDefinition\_PieChartDesignerContextAction.cshtml" />
+    <Content Include="Views\App\ReportDefinitionPreview.cshtml" />
+    <Content Include="Views\ReportDefinition\_Preview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
