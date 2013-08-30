@@ -430,7 +430,7 @@
     <Content Include="App\viewmodels\public.index.js" />
     <Content Include="App\viewmodels\maintenance.assignment.js" />
     <Content Include="App\viewmodels\search.js" />
-    <Content Include="App\viewmodels\maintenance.workorder.js" />
+    <Content Include="App\viewmodels\maintenance.detail.js" />
     <Content Include="App\viewmodels\complaintform.tenant.js" />
     <Content Include="App\viewmodels\trigger.list.js" />
     <Content Include="App\viewmodels\trigger.setup.js" />
@@ -496,7 +496,6 @@
     <Content Include="Images\pic2.png" />
     <Content Include="Images\pic3.png" />
     <Content Include="Images\pic4.png" />
-    <Content Include="Images\pie-chart.png" />
     <Content Include="Images\quarters.png" />
     <Content Include="Images\report-layout.1.png" />
     <Content Include="Images\report-layout.2.png" />
@@ -1149,7 +1148,7 @@
     <Content Include="Views\ReportDefinition\_LineChartDesignerContextAction.cshtml" />
     <Content Include="Views\ReportDefinition\_ConfigurationColumnOptions.cshtml" />
     <Content Include="Views\ReportDefinition\_ConfigurationColumnProperties.cshtml" />
-    <Content Include="Views\ReportDefinition\_PieChartDesignerContextAction.cshtml" />
+    <Content Include="Views\App\MaintenanceDetailHtml.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
