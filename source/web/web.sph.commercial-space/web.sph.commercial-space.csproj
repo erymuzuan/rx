@@ -400,6 +400,7 @@
     <Content Include="App\services\report.g.js" />
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
+    <Content Include="App\viewmodels\complaint.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.list.js" />
     <Content Include="App\viewmodels\_tenant.payment.js" />
@@ -431,7 +432,6 @@
     <Content Include="App\viewmodels\maintenance.assignment.js" />
     <Content Include="App\viewmodels\search.js" />
     <Content Include="App\viewmodels\maintenance.workorder.js" />
-    <Content Include="App\viewmodels\complaintform.tenant.js" />
     <Content Include="App\viewmodels\trigger.list.js" />
     <Content Include="App\viewmodels\trigger.setup.js" />
     <Content Include="App\viewmodels\_tenant.complaint.js" />
@@ -442,7 +442,7 @@
     <Content Include="App\views\commercialspace.template.form.html" />
     <Content Include="App\views\commercialspace.template.list.html" />
     <Content Include="App\views\complaint.assign.html" />
-    <Content Include="App\views\complaintform.tenant.html" />
+    <Content Include="App\views\complaint.dashboard.html" />
     <Content Include="App\views\maintenance.dashboard.html" />
     <Content Include="App\views\maintenance.list.html" />
     <Content Include="App\views\_tenant.payment.html" />

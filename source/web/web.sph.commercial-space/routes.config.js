@@ -347,7 +347,7 @@
   },
   {
     "role": "can_edit_complaint_template",
-    "url": "complaint.list",
+    "url": "complaint.list/:status",
     "moduleId": "viewmodels/complaint.list",
     "name": "Senarai Aduan",
     "visible": true,
@@ -791,6 +791,18 @@
     "visible": true,
     "icon": "icon-gear",
     "caption": "Papan Senggara",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_assign_complaint",
+    "url": "complaint.dashboard",
+    "moduleId": "viewmodels/complaint.dashboard",
+    "name": "Papan Aduan",
+    "visible": true,
+    "icon": "icon-flag",
+    "caption": "Papan Aduan",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""

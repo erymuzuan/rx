@@ -8,8 +8,12 @@
 <script type="text/javascript" data-script="true">
     define(['services/datacontext'], function () {
         var complaint = ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
-            activate = function () {
-
+            query = ko.observable(''),
+            status = ko.observable(''),
+            activate = function (routeData) {
+                status(routeData.status);
+                query(String.format("Status eq '{0}'", status()));
+                
                 return true;
             },
             exportList = function (){};
@@ -17,6 +21,7 @@
 
         var vm = {
             activate: activate,
+            query: query,
             complaintCollection: ko.observableArray(),
             toolbar: ko.observable({
                 reloadCommand: function () {
