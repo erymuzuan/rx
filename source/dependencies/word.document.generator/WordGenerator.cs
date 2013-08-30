@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Xml.Linq;
@@ -162,7 +163,7 @@ namespace Bespoke.Sph.WordGenerator
                     var value = e.Value.GetFormattedValue();
                     if (!string.IsNullOrEmpty(value))
                     {
-                        Console.WriteLine("{0} : {1}", placeHolder, value);
+                        Debug.WriteLine("{0} : {1}", placeHolder, value);
                         dataSource[placeHolder] = value;
                     }
                     if (!e.HasAttributes)

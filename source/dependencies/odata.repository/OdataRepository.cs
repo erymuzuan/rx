@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -149,7 +150,7 @@ namespace Bespoke.Sph.OdataRepository
 
         public async Task<LoadOperation<T>> LoadAsync(IQueryable<T> query, int page = 1, int size = 40, bool includeTotalRows = true)
         {
-            Console.WriteLine(query);
+            Debug.WriteLine(query);
             var type = typeof(T).Name + "s";
 
             var skiptoken = string.Empty;

@@ -36,10 +36,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
         public CustomField CustomField { get; set; }
 
-        protected override void OnPropertyChanged(string propertyName = null)
-        {
-            Console.WriteLine(propertyName);
-            base.OnPropertyChanged(propertyName);
-        }
+        
     }
 }

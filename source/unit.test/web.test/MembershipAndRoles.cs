@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Web.Security;
 using Bespoke.SphCommercialSpaces.Domain;
 using Newtonsoft.Json;
@@ -17,7 +18,7 @@ namespace web.test
             foreach (var r in jsonArrays)
             {
                 var role = r.Value<string>("Role");
-                Console.WriteLine(role);
+                Debug.WriteLine(role);
                 if (!Roles.IsUserInRole("admin", role))
                     Roles.AddUserToRole("admin", role);
             }
@@ -30,7 +31,7 @@ namespace web.test
             if(Membership.GetUser("admin") != null)return;
 
             var u = Membership.CreateUser("admin", "123456", "admin@bespoke.com.my");
-            Console.WriteLine(u);
+            Debug.WriteLine(u);
 
             var profile = new UserProfile
             {

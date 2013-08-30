@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Commerspace.Web.Api
 {
     public class JsonDataServiceController : Controller
     {
-        private static readonly string m_connectionString =
+        public static readonly string ConnectionString =
             ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
 
         public async Task<ActionResult> ContractTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
@@ -189,7 +189,7 @@ namespace Bespoke.Sph.Commerspace.Web.Api
 
         private async Task<int> ExecuteScalarAsync(string sql)
         {
-            using (var conn = new SqlConnection(m_connectionString))
+            using (var conn = new SqlConnection(ConnectionString))
             using (var command = new SqlCommand(sql, conn))
             {
                 await conn.OpenAsync();
@@ -210,12 +210,7 @@ namespace Bespoke.Sph.Commerspace.Web.Api
 
             var paging = ObjectBuilder.GetObject<IPagingTranslator2>();
             sql2 = paging.Tranlate(sql2, page, size);
-            Console.WriteLine("*************************");
-            Console.WriteLine(sql);
-            Console.WriteLine("*************************");
-            Console.WriteLine(sql2);
-            Console.WriteLine("*************************");
-            using (var conn = new SqlConnection(m_connectionString))
+            using (var conn = new SqlConnection(ConnectionString))
             using (var command = new SqlCommand(sql2, conn))
             {
                 await conn.OpenAsync();

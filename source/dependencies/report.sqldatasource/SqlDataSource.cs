@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -76,7 +77,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                 {
                     var parameter = new SqlParameter("@" + p.Name, p.Value ?? p.DefaultValue);
                     cmd.Parameters.Add(parameter);
-                    Console.WriteLine("PaRAM {0} = {1}", parameter.ParameterName, parameter.Value);
+                    Debug.WriteLine("PaRAM {0} = {1}", parameter.ParameterName, parameter.Value);
                 }
                 await conn.OpenAsync();
                 var reader = await cmd.ExecuteReaderAsync();
@@ -86,7 +87,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                 {
                     var name = reader.GetName(i);
                     sqlcolumns.Add(name);
-                    Console.WriteLine("Column name  = " + name);
+                    Debug.WriteLine("Column name  = " + name);
                 }
                 while (await reader.ReadAsync())
                 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,8 +38,8 @@ namespace Bespoke.Sph.Searching
 
         public Task<IEnumerable<SearchResult>> SearchAsync(string text)
         {
-            Console.WriteLine("Searching....");
-            Console.WriteLine(text);
+            Debug.WriteLine("Searching....");
+            Debug.WriteLine(text);
             this.Initialized();
             var parser = new QueryParser(Version.LUCENE_29, "text", m_analyzer);
             Query query = parser.Parse(text);
@@ -46,7 +47,7 @@ namespace Bespoke.Sph.Searching
             var hits = docs.ScoreDocs;
 
             int results = docs.TotalHits;
-            Console.WriteLine("Found {0} results for {1}", results, query);
+            Debug.WriteLine("Found {0} results for {1}", results, query);
             var list = new ObjectCollection<SearchResult>();
             for (int i = 0; i < results; i++)
             {
