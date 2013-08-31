@@ -1,5 +1,11 @@
-﻿namespace Bespoke.SphCommercialSpaces.Domain
+﻿using System.Xml.Serialization;
+
+namespace Bespoke.SphCommercialSpaces.Domain
 {
+    [XmlInclude(typeof(HourlySchedule))]
+    [XmlInclude(typeof(WeeklySchedule))]
+    [XmlInclude(typeof(DailySchedule))]
+    [XmlInclude(typeof(MonthlySchedule))]
     public partial class IntervalSchedule : DomainObject
     {
 

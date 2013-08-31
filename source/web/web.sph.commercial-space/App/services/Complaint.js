@@ -1,6 +1,11 @@
 ﻿/// <reference path="domain.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
 
+var bespoke = bespoke || {};
+bespoke.sphcommercialspace = bespoke.sphcommercialspace || {};
+bespoke.sphcommercialspace.domain = bespoke.sphcommercialspace.domain || {};
+
+
 bespoke.sphcommercialspace.domain.ComplaintPartial = function (model) {
     var getStatus = function (context) {
         var r = this;

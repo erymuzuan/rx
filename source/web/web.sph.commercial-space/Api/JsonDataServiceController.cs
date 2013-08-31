@@ -46,6 +46,10 @@ namespace Bespoke.Sph.Commerspace.Web.Api
             return await ExecuteAsync<RentalApplication>(filter, page, size, includeTotal);
         }
 
+        public async Task<ActionResult> ReportDelivery(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<ReportDelivery>(filter, page, size, includeTotal);
+        }
         public async Task<ActionResult> ReportDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<ReportDefinition>(filter, page, size, includeTotal);

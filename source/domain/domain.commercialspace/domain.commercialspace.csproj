@@ -206,7 +206,9 @@
     <Compile Include="Reports\Parameter.cs" />
     <Compile Include="Reports\PieChartItem.cs" />
     <Compile Include="Reports\ReportColumn.cs" />
+    <Compile Include="Reports\ReportContent.cs" />
     <Compile Include="Reports\ReportDefinition.cs" />
+    <Compile Include="Reports\ReportDelivery.cs" />
     <Compile Include="Reports\ReportFilter.cs" />
     <Compile Include="Reports\ReportItem.cs" />
     <Compile Include="Reports\ReportLayout.cs" />

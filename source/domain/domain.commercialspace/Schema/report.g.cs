@@ -51,12 +51,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public const string PropertyNameDescription = "Description";
 
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private IntervalSchedule m_schedule;
-        public const string PropertyNameSchedule = "Schedule";
-
-
-
         private readonly ObjectCollection<ReportLayout> m_ReportLayoutCollection = new ObjectCollection<ReportLayout>();
 
         ///<summary>
@@ -258,28 +252,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
             }
         }
 
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        public IntervalSchedule Schedule
-        {
-            set
-            {
-                if (m_schedule == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameSchedule, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_schedule = value;
-                    OnPropertyChanged();
-                }
-            }
-            get { return m_schedule; }
-        }
 
 
     }
@@ -2003,6 +1975,341 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ReportDelivery", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ReportDelivery
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_reportDeliveryId;
+        public const string PropertyNameReportDeliveryId = "ReportDeliveryId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isActive;
+        public const string PropertyNameIsActive = "IsActive";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_title;
+        public const string PropertyNameTitle = "Title";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_description;
+        public const string PropertyNameDescription = "Description";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_reportDefinitionId;
+        public const string PropertyNameReportDefinitionId = "ReportDefinitionId";
+
+
+        private readonly ObjectCollection<IntervalSchedule> m_IntervalScheduleCollection = new ObjectCollection<IntervalSchedule>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<IntervalSchedule> IntervalScheduleCollection
+        {
+            get { return m_IntervalScheduleCollection; }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int ReportDeliveryId
+        {
+            set
+            {
+                if (m_reportDeliveryId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameReportDeliveryId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_reportDeliveryId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_reportDeliveryId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsActive
+        {
+            set
+            {
+                if (m_isActive == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsActive, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isActive = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isActive;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Title
+        {
+            set
+            {
+                if (String.Equals(m_title, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTitle, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_title = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_title;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Description
+        {
+            set
+            {
+                if (String.Equals(m_description, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDescription, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_description = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_description;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int ReportDefinitionId
+        {
+            set
+            {
+                if (m_reportDefinitionId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameReportDefinitionId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_reportDefinitionId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_reportDefinitionId;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ReportContent", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ReportContent
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_reportContentId;
+        public const string PropertyNameReportContentId = "ReportContentId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_reportDefinitionId;
+        public const string PropertyNameReportDefinitionId = "ReportDefinitionId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_reportDeliveryId;
+        public const string PropertyNameReportDeliveryId = "ReportDeliveryId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_htmlOutput;
+        public const string PropertyNameHtmlOutput = "HtmlOutput";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int ReportContentId
+        {
+            set
+            {
+                if (m_reportContentId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameReportContentId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_reportContentId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_reportContentId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int ReportDefinitionId
+        {
+            set
+            {
+                if (m_reportDefinitionId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameReportDefinitionId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_reportDefinitionId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_reportDefinitionId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int ReportDeliveryId
+        {
+            set
+            {
+                if (m_reportDeliveryId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameReportDeliveryId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_reportDeliveryId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_reportDeliveryId;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public string HtmlOutput
+        {
+            set
+            {
+                if (String.Equals(m_htmlOutput, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameHtmlOutput, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_htmlOutput = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_htmlOutput; }
+        }
+
+
+    }
+
     [XmlType("ReportItem", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ReportItem
     {
@@ -2156,8 +2463,35 @@ namespace Bespoke.SphCommercialSpaces.Domain
     {
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private bool m_isActive;
+        public const string PropertyNameIsActive = "IsActive";
+
 
         // public properties members
+
+
+
+        [XmlAttribute]
+        public bool IsActive
+        {
+            set
+            {
+                if (m_isActive == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsActive, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isActive = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isActive;
+            }
+        }
 
 
 
