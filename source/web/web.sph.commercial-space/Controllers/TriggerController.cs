@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Commerspace.Web.Helpers;
 using Bespoke.SphCommercialSpaces.Domain;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
@@ -12,8 +11,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public async Task<ActionResult> Save()
         {
-            var json = this.GetRequestBody();
-            var trigger = JsonConvert.DeserializeObject<Trigger>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
+            var trigger = this.GetRequestJson<Trigger>();
 
             var newItem = trigger.TriggerId == 0;
             var context = new SphDataContext();

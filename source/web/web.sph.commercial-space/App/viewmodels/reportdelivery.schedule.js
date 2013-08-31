@@ -26,17 +26,7 @@ define(['services/report.g', 'services/datacontext', 'services/logger', 'duranda
                         if (!d) {
                             d = new bespoke.sphcommercialspace.domain.ReportDelivery(system.guid());
                             d.ReportDefinitionId(rdlid);
-                        } else {
-                            var schedules = _(d.IntervalScheduleCollection()).map(function (s) {
-                                var pattern = /Bespoke\.SphCommercialSpaces\.Domain\.(.*?),/;
-                                var type = pattern.exec(s['$type']())[1];
-                                if (bespoke.sphcommercialspace.domain[type + "Partial"]) {
-                                    return _(s).extend(new bespoke.sphcommercialspace.domain[type + "Partial"](s));
-                                }
-
-                                return s;
-                            });
-                            d.IntervalScheduleCollection(schedules);
+                            d.ReportDeliveryId(0);
                         }
                         delivery(d);
                     });
