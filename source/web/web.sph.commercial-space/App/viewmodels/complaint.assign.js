@@ -57,7 +57,15 @@ define(['services/datacontext', 'durandal/plugins/router'],
             departmentOptions: ko.observableArray(),
             complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
             tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
-            saveCommand: save
+            toolbar : {
+                commands : ko.observableArray([
+                {
+                    caption: 'Simpan',
+                    icon: 'icon-file-text',
+                    command: save,
+                }
+                ])
+            }
         };
 
         return vm;

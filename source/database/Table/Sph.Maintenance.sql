@@ -8,6 +8,7 @@ CREATE TABLE [Sph].[Maintenance]
 	 [MaintenanceId] INT PRIMARY KEY IDENTITY(1,1)		 
 	,[ComplaintId] VARCHAR (255) NULL
 	,[WorkOrderNo] VARCHAR(255) NULL
+	,[WorkOrderType] VARCHAR(255) NULL
 	,[Status] VARCHAR (255) NOT NULL
 	,[Resolution] VARCHAR(255) NOT NULL
 	,[Officer] VARCHAR (255) NULL

@@ -1,5 +1,41 @@
 [
   {
+    "role": "can_edit_maintenance_template",
+    "url": "template.maintenance-id.0/:id",
+    "moduleId": "viewmodels/template.maintenance-id.0",
+    "name": "Tetapan Penyenggaraan",
+    "visible": false,
+    "icon": null,
+    "caption": null,
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_maintenance_template",
+    "url": "maintenance.template.list",
+    "moduleId": "viewmodels/maintenance.template.list",
+    "name": "Templat Penyelenggaraan",
+    "visible": true,
+    "icon": "icon-flag",
+    "caption": "Senarai Templat Penyelenggaraan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "maintenance_dashboard",
+    "url": "maintenance.dashboard",
+    "moduleId": "viewmodels/maintenance.dashboard",
+    "name": "Papan Senggara",
+    "visible": true,
+    "icon": "icon-gear",
+    "caption": "Papan Senggara",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
     "role": null,
     "url": "public.index",
     "moduleId": "viewmodels/public.index",
@@ -24,25 +60,13 @@
     "error": ""
   },
   {
-    "role": "can_assign_complaint",
-    "url": "complaint.dashboard",
-    "moduleId": "viewmodels/complaint.dashboard",
-    "name": "Papan Aduan",
-    "visible": true,
-    "icon": "icon-home",
-    "caption": "Papan Aduan",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
     "role": "maintenance_dashboard",
-    "url": "maintenance.dashboard",
-    "moduleId": "viewmodels/maintenance.dashboard",
-    "name": "Papan Senggara",
-    "visible": true,
-    "icon": "icon-gear",
-    "caption": "Papan Senggara",
+    "url": "maintenance.detail/:templateId/:id",
+    "moduleId": "viewmodels/maintenance.detail",
+    "name": "Perincian Senggara",
+    "visible": false,
+    "icon": null,
+    "caption": null,
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -169,6 +193,18 @@
     "visible": false,
     "icon": "icon-edit-sign",
     "caption": "Buat kontrak",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_contract_template",
+    "url": "contract.type",
+    "moduleId": "viewmodels/contract.type",
+    "name": "Tetapan Kontrak",
+    "visible": true,
+    "icon": "icon-edit",
+    "caption": "Buat jenis kontrak",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -346,18 +382,6 @@
     "error": ""
   },
   {
-    "role": "can_edit_contract_template",
-    "url": "contract.type",
-    "moduleId": "viewmodels/contract.type",
-    "name": "Tetapan Kontrak",
-    "visible": true,
-    "icon": "icon-edit",
-    "caption": "Buat jenis kontrak",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
     "role": "can_edit_complaint_template",
     "url": "template.complaint-id.0/:id",
     "moduleId": "viewmodels/template.complaint-id.0",
@@ -371,7 +395,7 @@
   },
   {
     "role": "can_edit_complaint_template",
-    "url": "complaint.list/:status",
+    "url": "complaint.list",
     "moduleId": "viewmodels/complaint.list",
     "name": "Senarai Aduan",
     "visible": true,
@@ -461,18 +485,6 @@
     "visible": true,
     "icon": "icon-list-ul",
     "caption": "Senarai Inventori",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "maintenance_officer",
-    "url": "maintenance.workorder/:id",
-    "moduleId": "viewmodels/maintenance.workorder",
-    "name": "Work Order",
-    "visible": false,
-    "icon": "icon-tasks",
-    "caption": null,
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -688,42 +700,6 @@
     "error": ""
   },
   {
-    "role": "can_edit_maintenance_template",
-    "url": "maintenance.template.list",
-    "moduleId": "viewmodels/maintenance.template.list",
-    "name": "Templat Penyelenggaraan",
-    "visible": true,
-    "icon": "icon-flag",
-    "caption": "Senarai Templat Penyelenggaraan",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_edit_maintenance_template",
-    "url": "maintenance.template.form/:id",
-    "moduleId": "viewmodels/maintenance.template.form",
-    "name": "Form Templat Penyelenggaraan",
-    "visible": false,
-    "icon": null,
-    "caption": null,
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_edit_maintenance_template",
-    "url": "template.maintenance-id.0/:id",
-    "moduleId": "viewmodels/template.maintenance-id.0",
-    "name": "Tetapan Penyenggaraan",
-    "visible": false,
-    "icon": null,
-    "caption": null,
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
     "role": "everybody",
     "url": "message.detail/:id",
     "moduleId": "viewmodels/message.detail",
@@ -797,8 +773,8 @@
   },
   {
     "role": "admin_dashboard",
-    "url": "reportdelivery.schedule/:rdlid",
-    "moduleId": "viewmodels/reportdelivery.schedule",
+    "url": "reportdefinition.schedule/:id",
+    "moduleId": "viewmodels/reportdefinition.schedule",
     "name": "Report Schedules",
     "visible": false,
     "icon": "icon-calendar",

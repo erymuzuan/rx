@@ -15,7 +15,6 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
             activate = function (routeData) {
-                debugger;
 
                 var customElements = [];
                 var address = new bespoke.sphcommercialspace.domain.AddressElement(system.guid());

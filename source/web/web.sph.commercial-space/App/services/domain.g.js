@@ -1041,10 +1041,13 @@ bespoke.sphcommercialspace.domain.Maintenance = function (webId) {
         Officer: ko.observable(''),
         AttachmentStoreId: ko.observable(''),
         AttachmentName: ko.observable(''),
+        WorkOrderType: ko.observable(''),
+        TemplateId: ko.observable(''),
         Complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
         StartDate: ko.observable(),
         EndDate: ko.observable(),
         WorkOrder: ko.observable(new bespoke.sphcommercialspace.domain.WorkOrder()),
+        CustomFieldValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

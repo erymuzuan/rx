@@ -10917,6 +10917,16 @@
                     public const string PropertyNameAttachmentName = "AttachmentName";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_workOrderType;
+                    public const string PropertyNameWorkOrderType = "WorkOrderType";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_templateId;
+                    public const string PropertyNameTemplateId = "TemplateId";
+
+                  
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private DateTime?  m_startDate;
                 public const string PropertyNameStartDate = "StartDate";
@@ -10961,6 +10971,17 @@
 			m_workOrder = value;
 			OnPropertyChanged();
 			}
+			}
+		
+			private readonly ObjectCollection<CustomFieldValue>  m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomFieldValue", IsNullable = false)]
+			public ObjectCollection<CustomFieldValue> CustomFieldValueCollection
+			{
+			get{ return m_CustomFieldValueCollection;}
 			}
 		
                 ///<summary>
@@ -11212,6 +11233,62 @@
                     get
                     {
                     return m_attachmentName;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string WorkOrderType
+                    {
+                    set
+                    {
+                    if( String.Equals( m_workOrderType, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameWorkOrderType, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_workOrderType= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_workOrderType;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string TemplateId
+                    {
+                    set
+                    {
+                    if( String.Equals( m_templateId, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameTemplateId, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_templateId= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_templateId;}
                     }
 
                   

@@ -33,16 +33,18 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
             var complaintTemplatesTask =  context.LoadAsync(context.ComplaintTemplates.Where(t => t.IsActive == true));
             var ruangTemplatesTask =  context.LoadAsync(context.CommercialSpaceTemplates.Where(t => t.IsActive == true));
             var applicationTemplateTask =  context.LoadAsync(context.ApplicationTemplates.Where(t => t.IsActive == true));
+            var maintenanceTemplateTask =  context.LoadAsync(context.MaintenanceTemplates.Where(t => t.IsActive == true));
             var rdlTask =  context.LoadAsync(context.ReportDefinitions.Where(t => t.IsActive == true || (t.IsPrivate && t.CreatedBy == user)));
 // ReSharper restore RedundantBoolCompare
             await
                 Task.WhenAll(buildingTemplatesTask, complaintTemplatesTask, complaintTemplatesTask, ruangTemplatesTask,
-                             applicationTemplateTask, rdlTask);
+                             applicationTemplateTask, maintenanceTemplateTask, rdlTask);
 
             var buildingTemplates = await buildingTemplatesTask;
             var complaintTemplates = await complaintTemplatesTask;
             var ruangTemplates = await ruangTemplatesTask;
             var applicationTemplates = await applicationTemplateTask;
+            var maintenanceTemplates = await maintenanceTemplateTask;
             var rdls = await rdlTask;
 
             var routes = new List<JsRoute>();
@@ -54,7 +56,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                     Role = "can_add_commercial_space",
                     Caption = t.Name,
                     Icon = "icon-building",
-                    ModuleId = string.Format("viewmodels/building.detail-templateid.{0}", t.BuildingTemplateId),
+                    ModuleId = string.Format("viewmodels/building.detail-templateid.{0}", t.BuildingTemplateId)
                 };
 
             var csRoute = from t in ruangTemplates.ItemCollection
@@ -65,7 +67,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                                     Role = "can_edit_commercialspace_template",
                                     Caption = t.Name,
                                     Icon = "icon-building",
-                                    ModuleId = string.Format("viewmodels/commercialspace.detail-templateid.{0}", t.CommercialSpaceTemplateId),
+                                    ModuleId = string.Format("viewmodels/commercialspace.detail-templateid.{0}", t.CommercialSpaceTemplateId)
                                 };
             var complaintRoute = from t in complaintTemplates.ItemCollection
                                 select new JsRoute
@@ -75,7 +77,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                                     Role = "can_edit_commercialspace_template",
                                     Caption = t.Name,
                                     Icon = "icon-building",
-                                    ModuleId = string.Format("viewmodels/complaint.form-templateid.{0}", t.ComplaintTemplateId),
+                                    ModuleId = string.Format("viewmodels/complaint.form-templateid.{0}", t.ComplaintTemplateId)
                                 };
             var applicationRoutes = from t in applicationTemplates.ItemCollection
                                 select new JsRoute
@@ -84,8 +86,19 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                                     Url = string.Format("application.detail-templateid.{0}/:id", t.ApplicationTemplateId),
                                     Caption = t.Name,
                                     Icon = "icon-building",
-                                    ModuleId = string.Format("viewmodels/application.detail-templateid.{0}", t.ApplicationTemplateId),
+                                    ModuleId = string.Format("viewmodels/application.detail-templateid.{0}", t.ApplicationTemplateId)
                                 };
+
+            var maintenanceRoute = from t in maintenanceTemplates.ItemCollection
+                                select new JsRoute
+                                {
+                                    Name = t.Name,
+                                    Url = string.Format("maintenance.detail-templateid.{0}/:templateId/:id", t.MaintenanceTemplateId),
+                                    Caption = t.Name,
+                                    Icon = "icon-building",
+                                    ModuleId = string.Format("viewmodels/maintenance.detail-templateid.{0}", t.MaintenanceTemplateId)
+                                };
+
             var rdlRoutes = from t in rdls.ItemCollection
                                 select new JsRoute
                                 {
@@ -93,13 +106,14 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                                     Url = string.Format("reportdefinition.execute-id.{0}/:id", t.ReportDefinitionId),
                                     Caption = t.Title,
                                     Icon = "icon-bar-chart",
-                                    ModuleId = string.Format("viewmodels/reportdefinition.execute-id.{0}", t.ReportDefinitionId),
+                                    ModuleId = string.Format("viewmodels/reportdefinition.execute-id.{0}", t.ReportDefinitionId)
                                 };
          
             routes.AddRange(buildingRoute);
             routes.AddRange(csRoute);
             routes.AddRange(complaintRoute);
             routes.AddRange(applicationRoutes);
+            routes.AddRange(maintenanceRoute);
             routes.AddRange(rdlRoutes);
             return routes;
         } 
