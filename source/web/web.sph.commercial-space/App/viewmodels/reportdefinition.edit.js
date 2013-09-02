@@ -47,7 +47,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
                     var tcs = new $.Deferred();
                     context.loadOneAsync("ReportDefinition", query)
                         .done(function (r) {
-                            loadEntityColumns(r.DataSource.EntityName())
+                            loadEntityColumns(r.DataSource().EntityName())
                                 .done(function () {
                                     setRdl(r);
                                     tcs.resolve(true);
