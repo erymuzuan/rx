@@ -31,12 +31,12 @@ define(['services/datacontext'],
 
                 return tcs.promise();
             },
-            save = function () {
+            closeComplaint = function () {
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON({ comp: vm.complaint() });
                 isBusy(true);
 
-                context.post(data, "/Complaint/Assign")
+                context.post(data, "/Complaint/Close")
                     .then(function (result) {
                         isBusy(false);
 
@@ -52,7 +52,14 @@ define(['services/datacontext'],
             complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
             tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
             commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
-            saveCommand: save
+            toolbar: ko.observable({
+                commands: ko.observableArray([
+                    {
+                        caption: 'Tutup Aduan',
+                        icon: 'icon-file-text',
+                        command: closeComplaint,
+                    }])
+            })
         };
 
         return vm;

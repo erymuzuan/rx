@@ -33,7 +33,7 @@ define(['services/datacontext', 'durandal/plugins/router'],
                             caption: ko.observable(t.Name()),
                             icon: "icon-gear",
                             command: function () {
-                                var url = '/#/maintenance.detail-templateid.' + t.MaintenanceTemplateId() + "/" + t.MaintenanceTemplateId() + "/0";
+                                var url = '/#/maintenance.detail-templateid.' + t.MaintenanceTemplateId() + "/" + t.MaintenanceTemplateId() + "/0" ;
                                 router.navigateTo(url);
                                 return {
                                     then: function () { }
@@ -76,7 +76,7 @@ define(['services/datacontext', 'durandal/plugins/router'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            maintenance: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
+            maintenance: maintenance,
             templates: ko.observableArray([]),
             saveAssignmentCommand: saveAssignment,
             toolbar: {

@@ -1,5 +1,41 @@
 [
   {
+    "role": "can_edit_maintenance_template",
+    "url": "template.maintenance-id.0/:id",
+    "moduleId": "viewmodels/template.maintenance-id.0",
+    "name": "Tetapan Penyenggaraan",
+    "visible": false,
+    "icon": null,
+    "caption": null,
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_maintenance_template",
+    "url": "maintenance.template.list",
+    "moduleId": "viewmodels/maintenance.template.list",
+    "name": "Templat Penyelenggaraan",
+    "visible": true,
+    "icon": "icon-flag",
+    "caption": "Senarai Templat Penyelenggaraan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "maintenance_dashboard",
+    "url": "maintenance.dashboard",
+    "moduleId": "viewmodels/maintenance.dashboard",
+    "name": "Papan Senggara",
+    "visible": true,
+    "icon": "icon-gear",
+    "caption": "Papan Senggara",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
     "role": null,
     "url": "public.index",
     "moduleId": "viewmodels/public.index",
@@ -19,6 +55,18 @@
     "visible": true,
     "icon": "icon-home",
     "caption": "Papan Tugas",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "maintenance_dashboard",
+    "url": "maintenance.detail/:templateId/:id",
+    "moduleId": "viewmodels/maintenance.detail",
+    "name": "Perincian Senggara",
+    "visible": false,
+    "icon": null,
+    "caption": null,
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -347,7 +395,7 @@
   },
   {
     "role": "can_edit_complaint_template",
-    "url": "complaint.list/:status",
+    "url": "complaint.list",
     "moduleId": "viewmodels/complaint.list",
     "name": "Senarai Aduan",
     "visible": true,
@@ -437,18 +485,6 @@
     "visible": true,
     "icon": "icon-list-ul",
     "caption": "Senarai Inventori",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "maintenance_officer",
-    "url": "maintenance.workorder/:id",
-    "moduleId": "viewmodels/maintenance.workorder",
-    "name": "Work Order",
-    "visible": false,
-    "icon": "icon-tasks",
-    "caption": null,
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -664,42 +700,6 @@
     "error": ""
   },
   {
-    "role": "can_edit_maintenance_template",
-    "url": "maintenance.template.list",
-    "moduleId": "viewmodels/maintenance.template.list",
-    "name": "Templat Penyelenggaraan",
-    "visible": true,
-    "icon": "icon-flag",
-    "caption": "Senarai Templat Penyelenggaraan",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_edit_maintenance_template",
-    "url": "maintenance.template.form/:id",
-    "moduleId": "viewmodels/maintenance.template.form",
-    "name": "Form Templat Penyelenggaraan",
-    "visible": false,
-    "icon": null,
-    "caption": null,
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_edit_maintenance_template",
-    "url": "template.maintenance-id.0/:id",
-    "moduleId": "viewmodels/template.maintenance-id.0",
-    "name": "Tetapan Penyenggaraan",
-    "visible": false,
-    "icon": null,
-    "caption": null,
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
     "role": "everybody",
     "url": "message.detail/:id",
     "moduleId": "viewmodels/message.detail",
@@ -779,30 +779,6 @@
     "visible": false,
     "icon": "icon-calendar",
     "caption": "Report Schedules",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "maintenance_dashboard",
-    "url": "maintenance.dashboard",
-    "moduleId": "viewmodels/maintenance.dashboard",
-    "name": "Papan Senggara",
-    "visible": true,
-    "icon": "icon-gear",
-    "caption": "Papan Senggara",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_assign_complaint",
-    "url": "complaint.dashboard",
-    "moduleId": "viewmodels/complaint.dashboard",
-    "name": "Papan Aduan",
-    "visible": true,
-    "icon": "icon-flag",
-    "caption": "Papan Aduan",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""

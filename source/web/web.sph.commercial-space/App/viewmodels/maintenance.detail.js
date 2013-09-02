@@ -8,7 +8,7 @@
 /// <reference path="../../Scripts/bootstrap.js" /> 
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/system', 'services/watcher'], function (context, logger, router, system, watcher) {
     var isBusy = ko.observable(false),
         activate = function (routedata) {
             var id = parseInt(routedata.id),
@@ -28,7 +28,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                         });
 
                         vm.maintenance().CustomFieldValueCollection(cfs);
-                        vm.maintenance().Type(template.Name());
+                        vm.maintenance().WorkOrderType(template.Name());
                         tcs.resolve();
 
                     });
@@ -125,7 +125,12 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         addNewWarrantyCommand: addNewWarranty,
         addNewPartAndLaborCommand: addNewPartAndLabor,
         addNonComplianceCommand: addNonCompliance,
-        saveCommand: save
+        toolbar: ko.observable({
+            watchCommand: function() { return watcher.watch("Maintenance", vm.maintenance().MaintenanceId()); },
+            unwatchCommand: function () { return watcher.unwatch("Maintenance", vm.maintenance().MaintenanceId()); },
+            watching: ko.observable(false),
+            saveCommand: save
+        })
 
     };
 
