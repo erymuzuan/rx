@@ -1074,7 +1074,6 @@
     <Content Include="Views\Template\_Toolbox.cshtml" />
     <Content Include="Views\Template\Complaint.cshtml" />
     <Content Include="Views\App\ComplaintDetailHtml.cshtml" />
-    <Content Include="Views\App\MaintenanceFormHtml.cshtml" />
     <Content Include="Views\App\MaintenanceTemplateListHtml.cshtml" />
     <Content Include="Views\App\MaintenanceTemplateListJs.cshtml" />
     <Content Include="Views\App\EditorTemplates\ComplaintCategoryElement.cshtml" />

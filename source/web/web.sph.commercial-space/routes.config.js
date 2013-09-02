@@ -1,5 +1,41 @@
 [
   {
+    "role": "can_edit_maintenance_template",
+    "url": "template.maintenance-id.0/:id",
+    "moduleId": "viewmodels/template.maintenance-id.0",
+    "name": "Tetapan Penyenggaraan",
+    "visible": false,
+    "icon": null,
+    "caption": null,
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_maintenance_template",
+    "url": "maintenance.template.list",
+    "moduleId": "viewmodels/maintenance.template.list",
+    "name": "Templat Penyelenggaraan",
+    "visible": true,
+    "icon": "icon-flag",
+    "caption": "Senarai Templat Penyelenggaraan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "maintenance_dashboard",
+    "url": "maintenance.dashboard",
+    "moduleId": "viewmodels/maintenance.dashboard",
+    "name": "Papan Senggara",
+    "visible": true,
+    "icon": "icon-gear",
+    "caption": "Papan Senggara",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
     "role": null,
     "url": "public.index",
     "moduleId": "viewmodels/public.index",
@@ -19,6 +55,18 @@
     "visible": true,
     "icon": "icon-home",
     "caption": "Papan Tugas",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "",
+    "url": "maintenance.detail/:templateId/:id",
+    "moduleId": "viewmodels/maintenance.detail",
+    "name": "Perincian Senggara",
+    "visible": false,
+    "icon": null,
+    "caption": null,
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -442,18 +490,6 @@
     "error": ""
   },
   {
-    "role": "maintenance_officer",
-    "url": "maintenance.workorder/:id",
-    "moduleId": "viewmodels/maintenance.workorder",
-    "name": "Work Order",
-    "visible": false,
-    "icon": "icon-tasks",
-    "caption": null,
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
     "role": "admin_user",
     "url": "role.settings/:id",
     "moduleId": "viewmodels/role.settings",
@@ -640,18 +676,6 @@
     "error": ""
   },
   {
-    "role": "can_edit_maintenance_template",
-    "url": "maintenance.template.list",
-    "moduleId": "viewmodels/maintenance.template.list",
-    "name": "Templat Penyelenggaraan",
-    "visible": true,
-    "icon": "icon-flag",
-    "caption": "Senarai Templat Penyelenggaraan",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
     "role": "can_edit_application_template",
     "url": "application.template.list",
     "moduleId": "viewmodels/application.template.list",
@@ -671,30 +695,6 @@
     "visible": false,
     "icon": null,
     "caption": "Form Templat Permohonan",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_edit_maintenance_template",
-    "url": "maintenance.template.form/:id",
-    "moduleId": "viewmodels/maintenance.template.form",
-    "name": "Form Templat Penyelenggaraan",
-    "visible": false,
-    "icon": null,
-    "caption": null,
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_edit_maintenance_template",
-    "url": "template.maintenance-id.0/:id",
-    "moduleId": "viewmodels/template.maintenance-id.0",
-    "name": "Tetapan Penyenggaraan",
-    "visible": false,
-    "icon": null,
-    "caption": null,
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -779,42 +779,6 @@
     "visible": false,
     "icon": "icon-calendar",
     "caption": "Report Schedules",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "maintenance_dashboard",
-    "url": "maintenance.dashboard",
-    "moduleId": "viewmodels/maintenance.dashboard",
-    "name": "Papan Senggara",
-    "visible": true,
-    "icon": "icon-gear",
-    "caption": "Papan Senggara",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": null,
-    "url": "maintenance.form/:id",
-    "moduleId": "viewmodels/maintenance.form",
-    "name": "Perincian Senggara",
-    "visible": false,
-    "icon": "icon-edit",
-    "caption": "Perincian Aduan",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "maintenance_dashboard",
-    "url": "maintenance.detail/:templateId/:id",
-    "moduleId": "viewmodels/maintenance.detail",
-    "name": "Perincian Senggara",
-    "visible": false,
-    "icon": null,
-    "caption": null,
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""

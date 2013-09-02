@@ -8,13 +8,13 @@
 /// <reference path="../../Scripts/bootstrap.js" /> 
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger,router) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/system', 'services/watcher'], function (context, logger, router, system, watcher) {
     var isBusy = ko.observable(false),
         activate = function (routedata) {
             var id = parseInt(routedata.id),
                 templateId = parseInt(routedata.templateId),
                 tcs = new $.Deferred();
-                
+
             if (!id) {
                 // build custom fields value
                 context.loadOneAsync("MaintenanceTemplate", "MaintenanceTemplateId eq " + templateId)
@@ -37,8 +37,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 vm.toolbar().watching(false);
                 return tcs.promise();
             }
-           
-            
+
+
             var query = "MaintenanceId eq " + id,
                     loadTask = context.loadOneAsync("Maintenance", query),
                     watcherTask = watcher.getIsWatchingAsync("Maintenance", id);
@@ -47,8 +47,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 vm.maintenance(b);
                 vm.toolbar().watching(w);
                 tcs.resolve(true);
-                });
-            
+            });
+
             return tcs.promise();
         },
         viewAttached = function (view) {
@@ -79,54 +79,59 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 }
             });
         },
-        
-        addNewComment = function() {
-            var comment  = new bespoke.sphcommercialspace.domain.Comment();
+
+        addNewComment = function () {
+            var comment = new bespoke.sphcommercialspace.domain.Comment();
             vm.maintenance().WorkOrder.CommentCollection.push(comment);
         },
-        
-        addNewWarranty = function() {
+
+        addNewWarranty = function () {
             var warranty = new bespoke.sphcommercialspace.domain.Warranty();
             vm.maintenance().WorkOrder.WarrantyCollection.push(warranty);
         },
-        
-        addNewPartAndLabor = function() {
+
+        addNewPartAndLabor = function () {
             var partAndLabor = new bespoke.sphcommercialspace.domain.PartsAndLabor();
             vm.maintenance().WorkOrder.PartsAndLaborCollection.push(partAndLabor);
         },
-        
-        addNonCompliance = function() {
+
+        addNonCompliance = function () {
             var noncompliance = new bespoke.sphcommercialspace.domain.NonCompliance();
             vm.maintenance().WorkOrder.NonComplianceCollection.push(noncompliance);
         },
-        
+
         save = function () {
-           var tcs = new $.Deferred();
-           var data = ko.toJSON(vm.maintenance);
-           isBusy(true);
-           context.post(data, "/Maintenance/Save")
-               .then(function (result) {
-                   isBusy(false);
-                   tcs.resolve(result);
-               });
-           var url = '/#/officer.list';
-           router.navigateTo(url);
-           return tcs.promise();
-           
+            var tcs = new $.Deferred();
+            var data = ko.toJSON(vm.maintenance);
+            isBusy(true);
+            context.post(data, "/Maintenance/Save")
+                .then(function (result) {
+                    isBusy(false);
+                    tcs.resolve(result);
+                });
+            var url = '/#/officer.list';
+            router.navigateTo(url);
+            return tcs.promise();
+
         };
 
 
     var vm = {
         activate: activate,
-        viewAttached : viewAttached,
+        viewAttached: viewAttached,
         maintenance: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
         template: ko.observable(new bespoke.sphcommercialspace.domain.MaintenanceTemplate()),
         addNewCommentCommand: addNewComment,
         addNewWarrantyCommand: addNewWarranty,
         addNewPartAndLaborCommand: addNewPartAndLabor,
-        addNonComplianceCommand : addNonCompliance,
-        saveCommand: save
-        
+        addNonComplianceCommand: addNonCompliance,
+        toolbar: ko.observable({
+            watchCommand: function() { return watcher.watch("Maintenance", vm.maintenance().MaintenanceId()); },
+            unwatchCommand: function () { return watcher.unwatch("Maintenance", vm.maintenance().MaintenanceId()); },
+            watching: ko.observable(false),
+            saveCommand: save
+        })
+
     };
 
     return vm;
