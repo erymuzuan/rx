@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq.Expressions;
 using Bespoke.SphCommercialSpaces.Domain.QueryProviders;
@@ -44,7 +45,7 @@ namespace Bespoke.Sph.SqlRepository
             }
 
             var text = query.CommandText;
-            Console.WriteLine(text);
+            Debug.WriteLine(text);
             var list = new List<object>();
            
             return list;

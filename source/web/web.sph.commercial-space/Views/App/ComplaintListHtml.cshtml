@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h1 class="row-fluid">Senarai Aduan</h1>
-<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Complaint', query: 'ComplaintId gt 0', list: complaintCollection}">
+<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Complaint', query: query(), list: complaintCollection}">
     <thead>
         <tr>
             <th>No. Aduan</th>
@@ -16,7 +16,7 @@
         <tr>
             <td>
                  <a data-bind="attr: { href: '/#/complaint.assign/' + ComplaintId() }, text: ReferenceNo, visible: Status() == 'Baru'"></a>
-                 <a data-bind="attr: { href: '/#/complaint.detail/' + ComplaintId() }, text: ReferenceNo, visible:Status() !='Baru'"></a>
+                 <a data-bind="attr: { href: '/#/complaint.close/' + ComplaintId() }, text: ReferenceNo, visible:Status() !='Baru'"></a>
             </td>
             <td data-bind="text:Category"></td>
             <td data-bind="text: SubCategory"></td>

@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Commerspace.Web.Api
    
     public class AggregateController : Controller
     {
-        private static readonly string m_connectionString =
+        public static readonly string ConnectionString =
             ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
 
         public async Task<ActionResult> Scalar(string column, string table, string filter)
@@ -55,10 +55,9 @@ namespace Bespoke.Sph.Commerspace.Web.Api
 
         private async Task<ActionResult> ExecuteScalarAsync(string sql)
         {
-            using (var conn = new SqlConnection(m_connectionString))
+            using (var conn = new SqlConnection(ConnectionString))
             using (var command = new SqlCommand(sql, conn))
             {
-                Console.WriteLine(command.CommandText);
                 await conn.OpenAsync();
                 var result = await command.ExecuteScalarAsync();
                 if (result == DBNull.Value)

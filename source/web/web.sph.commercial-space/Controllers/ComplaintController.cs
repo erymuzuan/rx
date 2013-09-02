@@ -55,5 +55,19 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             }
             return Json(true);
         }
+
+        public async Task<ActionResult> Close(Complaint comp)
+        {
+            var context = new SphDataContext();
+            var complaint = await context.LoadOneAsync<Complaint>(c => c.ComplaintId == comp.ComplaintId);
+            complaint.Status = "Ditutup";
+           
+            using (var session = context.OpenSession())
+            {
+                session.Attach(complaint);
+                await session.SubmitChanges();
+            }
+            return Json(true);
+        }
     }
 }

@@ -1,0 +1,15 @@
+﻿@model Bespoke.Sph.Commerspace.Web.Controllers.RdlExecutionViewModel
+
+@{
+    Layout = null;
+}
+
+@foreach (var layout in Model.Rdl.ReportLayoutCollection)
+{
+    <div class="row">
+        @foreach (var item in layout.ReportItemCollection)
+        {
+            @Html.DisplayFor(m => item)
+        }
+    </div>
+}

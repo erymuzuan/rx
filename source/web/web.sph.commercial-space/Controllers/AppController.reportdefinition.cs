@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 await Task.Delay(500);
                 rdl.DataSource = datasource;
                 var rows = await rdl.ExecuteResultAsync();
-                Console.WriteLine("ROWS ------------- " + rows.Count);
+
                 rdl.ReportLayoutCollection.SelectMany(l => l.ReportItemCollection)
                    .ToList()
                    .ForEach(t =>
@@ -53,6 +53,38 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             };
 
             return View(vm);
+        }
+
+
+        public async Task<ActionResult> ReportDefinitionPreview()
+        {
+            var rdl = this.GetRequestJson<ReportDefinition>();
+            var datasource = rdl.DataSource;
+            if (null != datasource)
+            {
+                await Task.Delay(500);
+                rdl.DataSource = datasource;
+                var rows = await rdl.ExecuteResultAsync();
+
+                rdl.ReportLayoutCollection.SelectMany(l => l.ReportItemCollection)
+                   .ToList()
+                   .ForEach(t =>
+                   {
+                       t.SetRows(rows);
+                       t.SetRdl(rdl);
+                   });
+            }
+
+
+
+            var vm = new RdlExecutionViewModel
+            {
+                Rdl = rdl,
+                IsPostback = null != datasource
+            };
+
+            return View(vm);
+
         }
     }
 

@@ -11,11 +11,9 @@
     /// &lt;reference path="~/Scripts/underscore.js" /&gt;
     /// &lt;reference path="~/Scripts/moment.js" /&gt;
 
-
     var bespoke = bespoke || {};
-    bespoke.sphcommercialspace =  {};
-    bespoke.sphcommercialspace.domain = {};
-
+    bespoke.sphcommercialspace = bespoke.sphcommercialspace  || {};
+    bespoke.sphcommercialspace.domain = bespoke.sphcommercialspace.domain || {};
     <!-- ELEMENT -->
     <xsl:for-each select="xs:element">
       <xsl:choose>

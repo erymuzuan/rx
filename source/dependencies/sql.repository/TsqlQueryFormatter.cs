@@ -103,8 +103,6 @@ namespace Bespoke.Sph.SqlRepository
                     m_sb.Append(cccs);
                 }
                 m_sb.Append(")");
-                Console.WriteLine(m);
-                Console.WriteLine(m.Method);
                 return m;
             }
 

@@ -3,10 +3,11 @@
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
-
 var bespoke = bespoke || {};
-bespoke.sphcommercialspace = {};
-bespoke.sphcommercialspace.domain = {};
+bespoke.sphcommercialspace = bespoke.sphcommercialspace || {};
+bespoke.sphcommercialspace.domain = bespoke.sphcommercialspace.domain || {};
+
+
 
 
 
@@ -22,7 +23,6 @@ bespoke.sphcommercialspace.domain.ReportDefinition = function (webId) {
         Description: ko.observable(''),
         ReportLayoutCollection: ko.observableArray([]),
         DataSource: ko.observable(new bespoke.sphcommercialspace.domain.DataSource()),
-        Schedule: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -344,6 +344,46 @@ bespoke.sphcommercialspace.domain.MonthlySchedule = function (webId) {
 };
 
 
+
+bespoke.sphcommercialspace.domain.ReportDelivery = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.ReportDelivery, domain.commercialspace",
+        ReportDeliveryId: ko.observable(0),
+        IsActive: ko.observable(false),
+        Title: ko.observable(''),
+        Description: ko.observable(''),
+        ReportDefinitionId: ko.observable(0),
+        IntervalScheduleCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ReportDeliveryPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ReportDeliveryPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ReportContent = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.ReportContent, domain.commercialspace",
+        ReportContentId: ko.observable(0),
+        ReportDefinitionId: ko.observable(0),
+        ReportDeliveryId: ko.observable(0),
+        HtmlOutput: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ReportContentPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ReportContentPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sphcommercialspace.domain.ReportItem = function (webId) {
 
     return {
@@ -363,6 +403,7 @@ bespoke.sphcommercialspace.domain.IntervalSchedule = function (webId) {
 
     return {
         "$type": "Bespoke.SphCommercialSpaces.Domain.IntervalSchedule, domain.commercialspace",
+        IsActive: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

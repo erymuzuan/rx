@@ -10,7 +10,6 @@ namespace Bespoke.Sph.Commerspace.Web.Dependencies
     {
         public void Send(string[] to, string[] cc, string subject, string body)
         {
-            Console.WriteLine("hantar email");
             var message = new MailMessage
             {
                 Body = body,

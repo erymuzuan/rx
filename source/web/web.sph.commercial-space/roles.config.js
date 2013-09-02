@@ -142,7 +142,7 @@
   {
     "Group": "admin",
     "Name": "PRO Senggara",
-    "Role": "maintenance_dashboard",
+    "Role": "can_assign_maintenance_officer",
     "Description": "Memantau status senggara",
     "IsActive": true
   }

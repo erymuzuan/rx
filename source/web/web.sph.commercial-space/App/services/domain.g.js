@@ -3,11 +3,9 @@
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
-
 var bespoke = bespoke || {};
-bespoke.sphcommercialspace = {};
-bespoke.sphcommercialspace.domain = {};
-
+bespoke.sphcommercialspace = bespoke.sphcommercialspace || {};
+bespoke.sphcommercialspace.domain = bespoke.sphcommercialspace.domain || {};
 
 
 bespoke.sphcommercialspace.domain.ContractHistory = function (webId) {

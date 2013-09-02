@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Bespoke.SphCommercialSpaces.Domain;
@@ -93,7 +92,7 @@ namespace Bespoke.Sph.WathersSubscribers
                 .Where(w => w.EntityId == id
                 && w.EntityName == entityName)
                 .ToList();
-            Console.WriteLine("There {0} watchers", watchers.Count);
+            this.WriteMessage("There {0} watchers", watchers.Count);
             foreach (var w in watchers)
             {
                 await this.SendMessage(w, e);
