@@ -28,7 +28,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                         });
 
                         vm.maintenance().CustomFieldValueCollection(cfs);
-                        vm.maintenance().Type(template.Name());
+                        vm.maintenance().WorkOrderType(template.Name());
                         tcs.resolve();
 
                     });

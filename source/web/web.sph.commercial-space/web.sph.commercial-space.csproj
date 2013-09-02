@@ -442,7 +442,6 @@
     <Content Include="App\views\commercialspace.template.form.html" />
     <Content Include="App\views\commercialspace.template.list.html" />
     <Content Include="App\views\complaint.assign.html" />
-    <Content Include="App\views\complaintform.tenant.html" />
     <Content Include="App\views\maintenance.dashboard.html" />
     <Content Include="App\views\maintenance.list.html" />
     <Content Include="App\views\_tenant.payment.html" />

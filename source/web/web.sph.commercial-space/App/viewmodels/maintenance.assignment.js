@@ -33,7 +33,7 @@ define(['services/datacontext', 'durandal/plugins/router'],
                             caption: ko.observable(t.Name()),
                             icon: "icon-gear",
                             command: function () {
-                                var url = '/#/maintenance.detail-templateId.' + t.MaintenanceTemplateId() + "/" + t.MaintenanceTemplateId() + "/" + id();
+                                var url = '/#/maintenance.detail-templateid.' + t.MaintenanceTemplateId() + "/" + t.MaintenanceTemplateId() + "/0" ;
                                 router.navigateTo(url);
                                 return {
                                     then: function () { }

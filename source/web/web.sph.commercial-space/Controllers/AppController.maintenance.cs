@@ -12,10 +12,10 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         }
 
-        public async Task<ActionResult> MaintenanceDetailHtml(int id)
+       public async Task<ActionResult> MaintenanceDetailHtml(int templateId)
         {
             var context = new SphDataContext();
-            var template = await context.LoadOneAsync<MaintenanceTemplate>(t => t.MaintenanceTemplateId == id);
+            var template = await context.LoadOneAsync<MaintenanceTemplate>(t => t.MaintenanceTemplateId == templateId);
 
             return View(template);
         }

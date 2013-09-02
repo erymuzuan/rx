@@ -60,7 +60,7 @@
     "error": ""
   },
   {
-    "role": "",
+    "role": "maintenance_dashboard",
     "url": "maintenance.detail/:templateId/:id",
     "moduleId": "viewmodels/maintenance.detail",
     "name": "Perincian Senggara",
