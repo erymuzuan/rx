@@ -403,6 +403,7 @@
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.list.js" />
+    <Content Include="App\viewmodels\reportdelivery.schedule.js" />
     <Content Include="App\viewmodels\_tenant.payment.js" />
     <Content Include="App\viewmodels\land.detail.js" />
     <Content Include="App\viewmodels\land.list.js" />
@@ -410,7 +411,6 @@
     <Content Include="App\viewmodels\reportdefinition.base.js" />
     <Content Include="App\viewmodels\reportdefinition.edit.js" />
     <Content Include="App\viewmodels\reportdefinition.list.js" />
-    <Content Include="App\viewmodels\reportdefinition.schedule.js" />
     <Content Include="App\viewmodels\template.commercialspace.js" />
     <Content Include="App\viewmodels\template.application.js" />
     <Content Include="App\viewmodels\maintenance.form.js" />
