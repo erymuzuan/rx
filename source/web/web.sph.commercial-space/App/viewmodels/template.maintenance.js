@@ -33,8 +33,6 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                     var tcs = new $.Deferred();
                     context.loadOneAsync("MaintenanceTemplate", query)
                         .done(function (b) {
-                            var fd = b.FormDesign;
-                            b.FormDesign = ko.observable(fd);
                             _(b.FormDesign().FormElementCollection()).each(function (fe) {
                                 // add isSelected for the designer
                                 fe.isSelected = ko.observable(false);

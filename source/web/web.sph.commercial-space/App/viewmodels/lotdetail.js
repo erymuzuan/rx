@@ -25,28 +25,24 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             context.loadOneAsync('Building', 'BuildingId eq ' + buildingId())
                 .done(function (b) {
                     if (!b) {
-                        var lot = {
-                            Name: ko.observable(''),
-                            Size: ko.observable(''),
-                            IsCommercialSpace: ko.observable(true)
-                        };
-                        vm.floor.LotCollection.push(lot);
+                        var lot = new bespoke.sphcommercialspace.domain.Lot();
+                        lot.IsCommercialSpace(true);
+                        vm.floor().LotCollection.push(lot);
                     }
                     var flo = $.grep(b.FloorCollection(), function (x) { return x.Name() === floorname(); })[0];
-                    vm.floor.LotCollection(flo.LotCollection());
-                    vm.floor.Name(flo.Name());
-                    vm.floor.Size(flo.Size());
+                    vm.floor(flo);
+                    
                     tcs.resolve(true);
                 });
 
             return tcs.promise();
         },
         removeLot = function (floor) {
-            vm.floor.LotCollection.remove(floor);
+            vm.floor().LotCollection.remove(floor);
         },
         addNew = function () {
             var lot = new bespoke.sphcommercialspace.domain.Lot(system.guid());
-            vm.floor.LotCollection.push(lot);
+            vm.floor().LotCollection.push(lot);
         },
         save = function () {
             var tcs = new $.Deferred();
@@ -84,11 +80,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
     var vm = {
         activate: activate,
         title: title,
-        floor: {
-            Name: ko.observable(''),
-            Size: ko.observable(''),
-            LotCollection: ko.observableArray([])
-        },
+        floor: ko.observable(new bespoke.sphcommercialspace.domain.Floor()),
         addCsCommand: addCs,
         addNewLotCommand: addNew,
         goBackCommand: goBack,

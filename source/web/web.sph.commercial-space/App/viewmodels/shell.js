@@ -28,11 +28,11 @@
                 };
 
                 $panel.css({
-                    "right": e.offsetX
+                    "right": e.offsetX || "0px"
                 })
-                    .show()
-                    .find("button.close")
-                    .one("click", closeButton);
+                    .show();
+
+                $("button.close").one("click", closeButton);
 
             });
             $(document).on('click', 'a.dropdown-toggle', dropDown);
