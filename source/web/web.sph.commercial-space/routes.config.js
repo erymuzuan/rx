@@ -24,6 +24,30 @@
     "error": ""
   },
   {
+    "role": "can_assign_complaint",
+    "url": "complaint.dashboard",
+    "moduleId": "viewmodels/complaint.dashboard",
+    "name": "Papan Aduan",
+    "visible": true,
+    "icon": "icon-home",
+    "caption": "Papan Aduan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "maintenance_dashboard",
+    "url": "maintenance.dashboard",
+    "moduleId": "viewmodels/maintenance.dashboard",
+    "name": "Papan Senggara",
+    "visible": true,
+    "icon": "icon-gear",
+    "caption": "Papan Senggara",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
     "role": "can_edit_contract_template",
     "url": "contract.type.template/:id",
     "moduleId": "viewmodels/contract.type.template",
@@ -145,18 +169,6 @@
     "visible": false,
     "icon": "icon-edit-sign",
     "caption": "Buat kontrak",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_edit_contract_template",
-    "url": "contract.type",
-    "moduleId": "viewmodels/contract.type",
-    "name": "Tetapan Kontrak",
-    "visible": true,
-    "icon": "icon-edit",
-    "caption": "Buat jenis kontrak",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -329,6 +341,18 @@
     "visible": true,
     "icon": "icon-comments-alt",
     "caption": "aduan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_contract_template",
+    "url": "contract.type",
+    "moduleId": "viewmodels/contract.type",
+    "name": "Tetapan Kontrak",
+    "visible": true,
+    "icon": "icon-edit",
+    "caption": "Buat jenis kontrak",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -779,30 +803,6 @@
     "visible": false,
     "icon": "icon-calendar",
     "caption": "Report Schedules",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "maintenance_dashboard",
-    "url": "maintenance.dashboard",
-    "moduleId": "viewmodels/maintenance.dashboard",
-    "name": "Papan Senggara",
-    "visible": true,
-    "icon": "icon-gear",
-    "caption": "Papan Senggara",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_assign_complaint",
-    "url": "complaint.dashboard",
-    "moduleId": "viewmodels/complaint.dashboard",
-    "name": "Papan Aduan",
-    "visible": true,
-    "icon": "icon-flag",
-    "caption": "Papan Aduan",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""

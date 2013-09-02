@@ -404,6 +404,7 @@
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.list.js" />
     <Content Include="App\viewmodels\_reportdefinition.preview.js" />
+    <Content Include="App\viewmodels\_tenant.complaintform.js" />
     <Content Include="App\viewmodels\_tenant.payment.js" />
     <Content Include="App\viewmodels\land.detail.js" />
     <Content Include="App\viewmodels\land.list.js" />
@@ -447,6 +448,7 @@
     <Content Include="App\views\maintenance.dashboard.html" />
     <Content Include="App\views\maintenance.list.html" />
     <Content Include="App\views\_reportdefinition.preview.html" />
+    <Content Include="App\views\_tenant.complaintform.html" />
     <Content Include="App\views\_tenant.payment.html" />
     <Content Include="App\views\inventory.detail.html" />
     <Content Include="App\views\inventory.list.html" />
