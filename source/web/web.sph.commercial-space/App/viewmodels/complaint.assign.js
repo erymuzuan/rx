@@ -44,7 +44,7 @@ define(['services/datacontext', 'durandal/plugins/router'],
                 context.post(data, "/Complaint/Assign")
                     .then(function (result) {
                         isBusy(false);
-                        var url = '/#/complaint.list';
+                        var url = '/#/complaint.dashboard';
                         router.navigateTo(url);
                         tcs.resolve(result);
                     });

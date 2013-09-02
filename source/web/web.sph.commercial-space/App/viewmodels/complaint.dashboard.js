@@ -10,7 +10,7 @@ define(['services/datacontext'], function (context) {
         activate = function () {
             isBusy(true);
             var compl = [{ status: 'Baru', count: -1, text: "BARU", color: "bblue" },
-                { status: 'Dalam Proses', count: -1, text: "MENUNGGU", color: "bgreen" },
+                { status: 'Dalam Proses', count: -1, text: "DALAM PROSES", color: "bgreen" },
             ];
             var tcs = new $.Deferred();
             _(compl).each(function (s) {

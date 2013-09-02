@@ -1,41 +1,8 @@
 ﻿<h3>Maklumat Pemeriksaan</h3>
 <div class="span8">
     <form class="form-horizontal" data-bind="with: complaint">
-        <!--ko compose:'_complaint.details.html' -->
-        <!--/ko-->
-        <div data-bind="with: Inspection">
-            <div class="control-group">
-                <label class="control-label ">Tarikh Ditugaskan : </label>
-                <div class="controls">
-                    <span data-bind="date: { value: AssignedDate, format: 'DD/MM/YYYY' }" id="AssignedDate" />
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label ">Tarikh Pemeriksaan :</label>
-                <div class="controls">
-                    <span data-bind="date: { value: InspectionDate, format: 'DD/MM/YYYY' }" id="InspectionDate" />
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label ">Resolusi :  </label>
-                <div class="controls ">
-                    <span data-bind="text: Resolution" id="Inspection.Resolution" />
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label ">Catatan Pemeriksaan :</label>
-                <div class="controls ">
-                    <span data-bind="text: Observation" id="Observation"/>
-                </div>
-            </div>
-        </div>
+           <!--ko compose:'_complaint.details.html' -->
+            <!--/ko-->
+           
     </form>
-    <section id="submit-panel" class="span6" data-bind="with: complaint">
-        <div >
-            <input id="done-button" type="button" class="btn btn-success pull-right" value="PEMERIKSAAN SELESAI" data-bind="command: saveCommand, visible: Inspection.Resolution() == 'Selesai'" data-loading-text="Sila tunggu..." data-complete-text=" OK" />
-        </div>
-        <div>
-            <a id="work-order-button"data-bind="attr: { href: '/#/work.order/' + ComplaintId() }, visible: Inspection.Resolution() != 'Selesai'" class="btn btn-primary pull-right">MOHON KONTRAKTOR</a>
-        </div> 
-    </section>
 </div>
