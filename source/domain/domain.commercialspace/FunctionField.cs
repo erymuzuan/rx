@@ -1,20 +1,19 @@
 ﻿using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
     public partial class FunctionField : Field
     {
+        [XmlIgnore]
+        [JsonIgnore]
         private IScriptEngine m_scriptEngine;
 
         [XmlIgnore]
+        [JsonIgnore]
         public IScriptEngine ScriptEngine
         {
-            get
-            {
-                if (null == m_scriptEngine)
-                    m_scriptEngine = ObjectBuilder.GetObject<IScriptEngine>();
-                return m_scriptEngine;
-            }
+            get { return m_scriptEngine ?? (m_scriptEngine = ObjectBuilder.GetObject<IScriptEngine>()); }
             set { m_scriptEngine = value; }
         }
 

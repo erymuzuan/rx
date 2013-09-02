@@ -80,16 +80,66 @@ function (logger) {
             dataType: "json",
             error: tcs.reject,
             success: function (msg) {
-                var temp = _(msg.results).map(function (v) {
-                    var item = ko.mapping.fromJS(v);
-                    if (bespoke.sphcommercialspace.domain[entity + "Partial"]) {
-                        var extended = _(new bespoke.sphcommercialspace.domain[entity + "Partial"](item)).extend(item);
-                        return extended;
-                    }
-                    return item;
+                var pattern = /Bespoke\.SphCommercialSpaces\.Domain\.(.*?),/;
+                var rows = _(msg.results).map(function (v) {
+                    var type = pattern.exec(v['$type'])[1];
+
+                    var observable = (function toObservable(item) {
+                        if (typeof item === "function") return item;
+                        if (typeof item === "number") return item;
+                        if (typeof item === "string") return item;
+                        if (typeof item['$type'] !== "string") return item;
+                        
+                        type = pattern.exec(item['$type'])[1];
+                        for (var name in item) {
+                            (function (prop) {
+
+                                var propval = _(item[prop]);
+
+                                if (propval.isArray()) {
+
+                                    var children = propval.map(function (x) {
+                                        return toObservable(x);
+                                    });
+
+                                    item[prop] = ko.observableArray(children);
+                                    return;
+                                }
+
+                                if (propval.isNumber()
+                                    || propval.isBoolean()
+                                    || propval.isString()) {
+                                    item[prop] = ko.observable(item[prop]);
+                                    return;
+                                }
+
+                                if (propval.isObject()) {
+                                    var child = toObservable(item[prop]);
+                                    item[prop] = ko.observable(child);
+                                    return;
+                                }
+
+                            })(name);
+
+                        }
+                        
+                        if (bespoke.sphcommercialspace.domain[type + "Partial"]) {
+                            // NOTE :copy all the partial, DO NO use _extend as it will override the original value 
+                            // if there is item with the same key
+                            var partial = new bespoke.sphcommercialspace.domain[type + "Partial"](item);
+                            for (var prop1 in partial) {
+                                if (!item[prop1]) {
+                                    item[prop1] = partial[prop1];
+                                }
+                            }
+                        }
+                        return item;
+
+                    })(v);
+                    return observable;
                 });
                 var lo = new LoadOperation();
-                lo.itemCollection = temp;
+                lo.itemCollection = rows;
                 lo.page = msg.page;
                 lo.nextPageToken = msg.nextPageToken;
                 lo.previousPageToken = msg.previousPageToken;
@@ -188,7 +238,9 @@ function (logger) {
         return tcs.promise();
     }
 
+// ReSharper disable InconsistentNaming
     function LoadOperation() {
+// ReSharper restore InconsistentNaming
         var self = this;
         self.hasNextPage = false;
         self.itemCollection = [];

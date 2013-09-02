@@ -31,7 +31,6 @@ namespace Bespoke.Sph.Commerspace.Web.Api
             var assembly = Assembly.GetAssembly(typeof(DomainObject));
             var domainType = assembly.GetType(type);
             var sql = string.Format("DELETE FROM [Sph].[{0}] WHERE [{0}Id] = {1}", domainType.Name, id);
-            Console.WriteLine(sql);
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {

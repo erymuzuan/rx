@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Bespoke.Sph.Commerspace.Web.Helpers
 {
@@ -36,7 +35,6 @@ namespace Bespoke.Sph.Commerspace.Web.Helpers
             output = Regex.Replace(output, @" and ([\w\-]+)", m => " AND [" + m.ToString().Replace(" and ", string.Empty) + "]");
             output = Regex.Replace(output, @" or ([\w\-]+)", m => " OR [" + m.ToString().Replace(" or ", string.Empty) + "]");
             output = output.Replace(" = DateTime ", " [DateTime] ");
-            Console.WriteLine(output);
             return " WHERE " + output;
         }
 

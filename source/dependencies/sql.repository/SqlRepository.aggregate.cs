@@ -34,7 +34,6 @@ namespace Bespoke.Sph.SqlRepository
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the aggregate column name");
             var sql = query.ToString().Replace("[Data]", string.Format("MAX([{0}])", column));
-            Console.WriteLine(sql);
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -52,7 +51,6 @@ namespace Bespoke.Sph.SqlRepository
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the aggregate column name");
             var sql = query.ToString().Replace("[Data]", string.Format("MIN([{0}])", column));
-            Console.WriteLine(sql);
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -70,7 +68,6 @@ namespace Bespoke.Sph.SqlRepository
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the aggregate column name");
             var sql = query.ToString().Replace("[Data]", string.Format("SUM([{0}])", column));
-            Console.WriteLine(sql);
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -87,7 +84,6 @@ namespace Bespoke.Sph.SqlRepository
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the aggregate column name");
             var sql = query.ToString().Replace("[Data]", string.Format("SUM([{0}])", column));
-            Console.WriteLine(sql);
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -105,7 +101,6 @@ namespace Bespoke.Sph.SqlRepository
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the aggregate column name");
             var sql = query.ToString().Replace("[Data]", string.Format("AVG([{0}])", column));
-            Console.WriteLine(sql);
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -122,7 +117,6 @@ namespace Bespoke.Sph.SqlRepository
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the aggregate column name");
             var sql = query.ToString().Replace("[Data]", string.Format("AVG([{0}])", column));
-            Console.WriteLine(sql);
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
@@ -163,7 +157,6 @@ namespace Bespoke.Sph.SqlRepository
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the scalar column name");
             var sql = query.ToString().Replace("[Data]", string.Format("[{0}]", column));
-            Console.WriteLine(sql);
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {

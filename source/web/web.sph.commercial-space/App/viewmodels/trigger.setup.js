@@ -23,24 +23,6 @@ define(['services/datacontext', 'services/jsonimportexport'],
                 context.loadOneAsync("Trigger", query)
                     .done(function (t) {
                         if (t) {
-                            // convert the property Left , Right and Field to ko.observable
-                            _(t.RuleCollection()).each(function (r) {
-                                var left = r.Left;
-                                r.Left = ko.observable(left);
-                                var right = r.Right;
-                                r.Right = ko.observable(right);
-                            });
-
-                            // action
-                            _(t.ActionCollection()).each(function (a) {
-                                if (a["$type"]().indexOf("SetterAction") > -1) {
-                                    _(a.SetterActionChildCollection()).each(function (child) {
-                                        var field = child.Field;
-                                        child.Field = ko.observable(field);
-                                    });
-                                }
-                            });
-
                             vm.trigger(t);
                         } else {
                             vm.trigger(new bespoke.sphcommercialspace.domain.Trigger());

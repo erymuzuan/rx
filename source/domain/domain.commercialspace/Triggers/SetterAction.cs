@@ -31,7 +31,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 code.AppendLine("item." + action.Path + " = " + val + ";");
             }
             code.Append("return item;");
-            Console.WriteLine(code);
 
             var modifiedItem = script.Evaluate(code.ToString(), item) as Entity;
             var dcontext = new SphDataContext();

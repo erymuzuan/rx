@@ -113,7 +113,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
             if (null != operationBytes)
             {
                 var xml = ByteToString(operationBytes).Replace("encoding=\"utf-16\"", "encoding=\"utf-8\"");
-                // Console.WriteLine(xml);
+                //Debug.WriteLine(xml);
                 if (string.IsNullOrWhiteSpace(xml)) return null;
                 return XmlSerializerService.DeserializeFromXml<AuditTrail>(xml);
             }

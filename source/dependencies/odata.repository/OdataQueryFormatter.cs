@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -114,7 +115,7 @@ namespace Bespoke.Sph.OdataRepository
                 var col = m.Arguments[0] as ColumnExpression;
                 if (null == col)
                 {
-                    Console.WriteLine(m.Arguments[0]);
+                    Debug.WriteLine(m.Arguments[0]);
                 }
                 if (null != col)
                     propertyName = col.Name;

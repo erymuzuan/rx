@@ -106,7 +106,7 @@ define(['services/datacontext',
                     .done(function (e) {
                         if (e.status) {
                             vm.building().BuildingId(e.buildingId);
-                            logger.log(e.message, e, "buildingdetail", true);
+                            logger.info("Bangunan sudah di simpan");
                         } else {
                             logger.logError(e.message, e, this, true);
                         }

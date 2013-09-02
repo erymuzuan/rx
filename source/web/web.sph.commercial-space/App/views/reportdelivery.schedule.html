@@ -1,0 +1,189 @@
+﻿<h1>Report Delivery Schedules</h1>
+
+<div>
+    <form class="form-horizontal" data-bind="with: delivery">
+
+        <div class="control-group">
+            <label for="Title" class="control-label">Title</label>
+            <div class="controls">
+                <input class="input-xxlarge" data-bind="value: Title" id="Title" type="text" name="Title" required />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="Description" class="control-label">Description</label>
+            <div class="controls">
+                <textarea class="input-xxlarge" data-bind="value: Description" id="Description" name="Description"></textarea>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Add New Schedules</label>
+            <div class="controls">
+
+                <div class="btn-group">
+                    <a class="btn btn-link dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">Add new Schedule
+                        <span class="caret pull-right"></span>
+                    </a>
+                    <ul class="dropdown-menu" data-bind="foreach: $root.scheduleOptions">
+                        <li>
+                            <a class="btn btn-link pull-left" data-bind="click: $root.startAddSchedule">
+                                <i data-bind="attr: { class: icon }"></i>
+                                <span data-bind="text: name"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Title</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: IntervalScheduleCollection">
+                <tr>
+                    <td>
+                        <i data-bind="attr : {class:icon}" ></i>
+                    </td>
+                    <td>
+                        <a href="#" data-bind="click: $root.editSchedule, text: name"></a>
+                    </td>
+                    <td>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+
+<section class="modal hide" id="schedule-dialog" data-bind="with: editedSchedule">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 data-bind="text: name"></h3>
+    </div>
+    <div class="modal-body">
+        <!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.HourlySchedule, domain.commercialspace" -->
+        <div class="control-group">
+            <label for="sche-start-hour" class="control-label">Start Hour</label>
+            <div class="controls">
+                <input class="input-mini" data-bind="value: StartHour" min="0" id="sche-start-hour" type="number" name="sche-start-hour" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="h-end" class="control-label">End hour</label>
+            <div class="controls">
+                <input class="input-mini" data-bind="value: EndHour, attr: {min : StartHour}" id="h-end" type="number" name="EndHour" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="h-minute" class="control-label">On the minute</label>
+            <div class="controls">
+                <input class="input-mini" min="0" max="59" data-bind="value: Minute" id="h-minute" type="number" name="Minute" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="h-interval" class="control-label">Interval</label>
+            <div class="controls">
+                <input class="input-mini" data-bind="value: Interval" id="h-interval" type="number" max="23" name="Interval" />
+                <span class="help-inline">every hour</span>
+            </div>
+        </div>
+
+        <!-- /ko-->
+        <!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.DailySchedule, domain.commercialspace" -->
+        <div class="control-group">
+            <label for="daily-hour" class="control-label">Hour</label>
+            <div class="controls">
+                <input class="input-mini" data-bind="value: Hour" id="daily-hour" type="number" max="23" name="sche-start-hour" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="daily-minute" class="control-label">Minute</label>
+            <div class="controls">
+                <input class="input-mini" data-bind="value: Minute" id="daily-minute" type="number" max="59" name="daily-minute" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input data-bind="checked: IsMonday" id="daily-monday" type="checkbox" name="IsMonday" />
+                    Monday
+                </label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input data-bind="checked: IsTuesday" id="daily-tuesday" type="checkbox" name="IsTuesday" />
+                    Tuesday
+                </label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input data-bind="checked: IsWednesday" id="daily-wednesday" type="checkbox" name="IsWednesday" />
+                    Wednesday
+                </label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input data-bind="checked: IsThursday" id="daily-thursday" type="checkbox" name="IsThursday" />
+                    Thursday
+                </label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input data-bind="checked: IsFriday" id="daily-friday" type="checkbox" name="IsFriday" />
+                    Friday
+                </label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input data-bind="checked: IsSaturday" id="daily-saturday" type="checkbox" name="IsSaturday" />
+                    Saturday
+                </label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <label class="checkbox">
+                    <input data-bind="checked: IsSunday" id="d-sunday" type="checkbox" name="IsSunday" />
+                    Sunday
+                </label>
+            </div>
+        </div>
+        <!-- /ko-->
+    </div>
+
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: $root.okDialog" />
+    </div>
+</section>

@@ -93,7 +93,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
                     ;
                 
             }
-            Console.WriteLine("NAME: " + name);
             var springObject = ContextRegistry.GetContext().GetObject(name);
             if (null != springObject)
             {

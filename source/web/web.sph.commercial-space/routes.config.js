@@ -797,8 +797,8 @@
   },
   {
     "role": "admin_dashboard",
-    "url": "reportdefinition.schedule/:id",
-    "moduleId": "viewmodels/reportdefinition.schedule",
+    "url": "reportdelivery.schedule/:rdlid",
+    "moduleId": "viewmodels/reportdelivery.schedule",
     "name": "Report Schedules",
     "visible": false,
     "icon": "icon-calendar",

@@ -12,7 +12,6 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element ref="DataSource"/>
-				<xs:element name="Schedule" type="IntervalSchedule"/>
 			</xs:all>
 			<xs:attribute name="ReportDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Title" type="xs:string" use="required"/>
@@ -205,7 +204,9 @@
 			</xs:all>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="IntervalSchedule"/>
+	<xs:complexType name="IntervalSchedule">
+		<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+	</xs:complexType>
 	<xs:element name="DailySchedule">
 		<xs:complexType>
 			<xs:complexContent>
@@ -255,6 +256,34 @@
 					<xs:attribute name="Minute" type="xs:int" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReportDelivery">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="IntervalScheduleCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="IntervalSchedule" type="IntervalSchedule" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="ReportDeliveryId" type="xs:int" use="required"/>
+			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="ReportDefinitionId" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReportContent">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="HtmlOutput" type="xs:string"/>
+			</xs:all>
+			<xs:attribute name="ReportContentId" type="xs:int" use="required"/>
+			<xs:attribute name="ReportDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="ReportDeliveryId" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

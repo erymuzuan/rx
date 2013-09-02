@@ -317,6 +317,7 @@
     <Compile Include="Controllers\RebateController.cs" />
     <Compile Include="Controllers\RentalApplicationController.cs" />
     <Compile Include="Controllers\ReportDefinitionController.cs" />
+    <Compile Include="Controllers\ReportDeliveryController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
@@ -398,6 +399,7 @@
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App\services\report.g.js" />
+    <Content Include="App\services\report.js" />
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
@@ -412,7 +414,7 @@
     <Content Include="App\viewmodels\reportdefinition.base.js" />
     <Content Include="App\viewmodels\reportdefinition.edit.js" />
     <Content Include="App\viewmodels\reportdefinition.list.js" />
-    <Content Include="App\viewmodels\reportdefinition.schedule.js" />
+    <Content Include="App\viewmodels\reportdelivery.schedule.js" />
     <Content Include="App\viewmodels\template.commercialspace.js" />
     <Content Include="App\viewmodels\template.application.js" />
     <Content Include="App\viewmodels\maintenance.form.js" />
@@ -461,7 +463,7 @@
     <Content Include="App\views\messages.html" />
     <Content Include="App\views\public.index.html" />
     <Content Include="App\views\reportdefinition.list.html" />
-    <Content Include="App\views\reportdefinition.schedule.html" />
+    <Content Include="App\views\reportdelivery.schedule.html" />
     <Content Include="App\views\search.html" />
     <Content Include="App\views\trigger.list.html" />
     <Content Include="App\views\_complaint.details.html" />
@@ -993,6 +995,7 @@
   <ItemGroup>
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
     <Content Include="Scripts\_pager.js" />
+    <Content Include="Scripts\_utils.js" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\Flyout.cshtml" />

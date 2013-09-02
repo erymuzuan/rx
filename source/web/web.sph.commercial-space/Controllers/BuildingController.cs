@@ -148,7 +148,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 session.Attach(item);
                 await session.SubmitChanges("Editing building details");
             }
-            return Json(new { status = "success", buildingId = building.BuildingId });
+            return Json(new { status = "success", buildingId = building.BuildingId, message =item.Name });
         }
 
         public async Task<ActionResult> AddLot(Floor floor, int buildingId, string floorname)

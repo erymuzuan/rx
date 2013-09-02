@@ -26,7 +26,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             if (null == left) return false;
             if (null == right) return false;
 
-            Console.WriteLine("Evaluate : ({3}){0} {1} ({4}){2}", left, Operator, right, left.GetType().Name, right.GetType().Name);
+           // Console.WriteLine("Evaluate : ({3}){0} {1} ({4}){2}", left, Operator, right, left.GetType().Name, right.GetType().Name);
 
             var lc = left as IComparable;
             var rc = right as IComparable;

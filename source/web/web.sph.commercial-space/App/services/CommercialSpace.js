@@ -1,4 +1,9 @@
-﻿bespoke.sphcommercialspace.domain.CommercialSpacePartial = function() {
+﻿
+var bespoke = bespoke || {};
+bespoke.sphcommercialspace = bespoke.sphcommercialspace || {};
+bespoke.sphcommercialspace.domain = bespoke.sphcommercialspace.domain || {};
+
+bespoke.sphcommercialspace.domain.CommercialSpacePartial = function () {
 
     return {
         StaticMap: ko.observable("/images/no-image.png"),

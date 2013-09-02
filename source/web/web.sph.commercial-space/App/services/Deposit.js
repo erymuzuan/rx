@@ -2,6 +2,11 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
 
+var bespoke = bespoke || {};
+bespoke.sphcommercialspace = bespoke.sphcommercialspace || {};
+bespoke.sphcommercialspace.domain = bespoke.sphcommercialspace.domain || {};
+
+
 bespoke.sphcommercialspace.domain.DepositPartial = function (model) {
     var calcPayment = function () {
         var sum = _(model.DepositPaymentCollection()).reduce(function (memo, val) {
