@@ -50,13 +50,16 @@
 
                         <div>
                             <p>
-                                <a href="#forget-password-dialog" data-toggle="modal">Lupa kata laluan atau nama pengguna</a>
+                                <a href="@Url.Action("ChangePassword")">Lupa kata laluan atau nama pengguna</a>
                             </p>
                         </div>
                     </div>
 
                 </div>
 
+                <div class="row">
+                    <hr class="span12" />
+                </div>
                 @Html.Partial("_Footer")
 
 
@@ -75,22 +78,5 @@
             });
         });
     </script>
-    
-    
-    <section class="modal hide" id="forget-password-dialog" >
-
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h3>Luapa kata laluan</h3>
-        </div>
-        <div class="modal-body">
-            <p>Sila hubungi sistem administrator anda untuk pengesahan dan recovery</p>
-        </div>
-
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
-        </div>
-    </section>
-
 </body>
 </html>

@@ -782,17 +782,5 @@
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
-  },
-  {
-    "role": null,
-    "url": "complaint.checkstatus",
-    "moduleId": "viewmodels/complaint.checkstatus",
-    "name": "Semak Aduan",
-    "visible": true,
-    "icon": "icon-check",
-    "caption": "Semak Aduan",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
   }
 ]
