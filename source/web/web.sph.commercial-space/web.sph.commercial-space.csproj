@@ -303,6 +303,7 @@
     </Compile>
     <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportDeliveryController.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
@@ -1166,6 +1167,10 @@
     <Content Include="Views\ReportDefinition\_ConfigurationColumnOptions.cshtml" />
     <Content Include="Views\ReportDefinition\_ConfigurationColumnProperties.cshtml" />
     <Content Include="Views\App\MaintenanceDetailHtml.cshtml" />
+    <Content Include="Views\Home\ContactUs.cshtml" />
+    <Content Include="Views\Home\Features.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\MaintenanceDetailHtml.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
