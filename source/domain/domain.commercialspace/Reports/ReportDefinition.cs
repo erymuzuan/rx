@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
@@ -40,6 +42,8 @@ namespace Bespoke.SphCommercialSpaces.Domain
             return parm.Value;
         }
 
+        [JsonIgnore]
+        [XmlIgnore]
         public string Script
         {
             get

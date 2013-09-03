@@ -5,8 +5,8 @@
 /// <reference path="logger.js" />
 /// <reference path="domain.g.js" />
 
-define(['services/logger'],
-function (logger) {
+define(['services/logger', 'durandal/system'],
+function (logger,system) {
 
     return {
         loadAsync: loadAsync,
@@ -130,6 +130,16 @@ function (logger) {
                             for (var prop1 in partial) {
                                 if (!item[prop1]) {
                                     item[prop1] = partial[prop1];
+                                }
+                            }
+                        }
+                        // if there are new fields added, chances are it will not be present in the json,
+                        // even it is, it would be nice to add Webid for those whos still missing one
+                        if (bespoke.sphcommercialspace.domain[type]) {
+                            var ent = new bespoke.sphcommercialspace.domain[type](system.guid());
+                            for (var prop2 in ent) {
+                                if (!item[prop2]) {
+                                    item[prop2] = ent[prop2];
                                 }
                             }
                         }

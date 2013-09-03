@@ -4,8 +4,6 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming
@@ -29,6 +27,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_title;
         public const string PropertyNameTitle = "Title";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_category;
+        public const string PropertyNameCategory = "Category";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -133,6 +136,35 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_title;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Category
+        {
+            set
+            {
+                if (String.Equals(m_category, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCategory, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_category = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_category;
             }
         }
 
@@ -2018,6 +2050,28 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public ObjectCollection<IntervalSchedule> IntervalScheduleCollection
         {
             get { return m_IntervalScheduleCollection; }
+        }
+
+        private readonly ObjectCollection<string> m_Users = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> Users
+        {
+            get { return m_Users; }
+        }
+
+        private readonly ObjectCollection<string> m_Departments = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> Departments
+        {
+            get { return m_Departments; }
         }
 
         ///<summary>

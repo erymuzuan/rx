@@ -290,6 +290,35 @@ ko.bindingHandlers.fieldImage = {
 };
 
 
+ko.bindingHandlers.stringArrayAutoComplete = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var value = valueAccessor(),
+            allBindings = allBindingsAccessor(),
+            options = allBindings.data();
+     
+        $(element).data("kendoAutoComplete") ||
+           $(element).kendoAutoComplete({
+               dataSource: options,
+               change: function () {
+                   var data = _(this.value().split(",")).filter(function(s) {
+                       return s;
+                   });
+                   value(data);
+               },
+               filter: "startswith",
+               placeholder: "....",
+               separator: ","
+           }).val(value());
+    },
+    update: function (element, valueAccessor) {
+        var value = valueAccessor();
+        $(element).data("kendoAutoComplete").value(value());
+    }
+
+};
+
+
+
 ko.bindingHandlers.cssAutoComplete = {
     init: function (element, valueAccessor) {
         var value = valueAccessor();

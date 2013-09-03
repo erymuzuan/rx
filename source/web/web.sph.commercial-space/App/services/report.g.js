@@ -8,15 +8,13 @@ bespoke.sphcommercialspace = bespoke.sphcommercialspace || {};
 bespoke.sphcommercialspace.domain = bespoke.sphcommercialspace.domain || {};
 
 
-
-
-
 bespoke.sphcommercialspace.domain.ReportDefinition = function (webId) {
 
     var model = {
         "$type": "Bespoke.SphCommercialSpaces.Domain.ReportDefinition, domain.commercialspace",
         ReportDefinitionId: ko.observable(0),
         Title: ko.observable(''),
+        Category: ko.observable(''),
         IsActive: ko.observable(false),
         IsPrivate: ko.observable(false),
         IsExportAllowed: ko.observable(false),
@@ -355,6 +353,8 @@ bespoke.sphcommercialspace.domain.ReportDelivery = function (webId) {
         Description: ko.observable(''),
         ReportDefinitionId: ko.observable(0),
         IntervalScheduleCollection: ko.observableArray([]),
+        Users: ko.observableArray([]),
+        Departments: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

@@ -20,6 +20,8 @@ define(['services/report.g', 'services/datacontext', 'services/logger', 'duranda
                 var rdlid = parseInt(routeData.rdlid),
                     query = String.format("ReportDefinitionId eq {0}", rdlid),
                     tcs = new $.Deferred();
+                
+
                 context.loadOneAsync("ReportDelivery", query)
                     .done(tcs.resolve)
                     .done(function (d) {
@@ -30,6 +32,9 @@ define(['services/report.g', 'services/datacontext', 'services/logger', 'duranda
                         }
                         delivery(d);
                     });
+
+                context.getListAsync("UserProfile", "UserProfileId gt 0", "Username")
+                    .done(vm.userOptions);
 
 
                 var options = [
@@ -99,6 +104,7 @@ define(['services/report.g', 'services/datacontext', 'services/logger', 'duranda
             scheduleOptions: ko.observableArray(),
             startAddSchedule: startAddSchedule,
             editSchedule: editSchedule,
+            userOptions : ko.observableArray(),
             toolbar: {
                 saveCommand: save
             }

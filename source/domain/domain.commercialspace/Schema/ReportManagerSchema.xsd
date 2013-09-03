@@ -15,6 +15,7 @@
 			</xs:all>
 			<xs:attribute name="ReportDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="Category" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsPrivate" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsExportAllowed" type="xs:boolean" use="required"/>
@@ -265,6 +266,20 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="IntervalSchedule" type="IntervalSchedule" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Users">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="User" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Departments">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Department" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>

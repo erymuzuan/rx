@@ -9,7 +9,12 @@
                 <input class="input-xxlarge" data-bind="value: Title" id="Title" type="text" name="Title" required />
             </div>
         </div>
-
+        <div class="control-group">
+            <label for="users" class="control-label">Users</label>
+            <div class="controls">
+                <input class="input-xlarge" data-bind="stringArrayAutoComplete: Users, data:$root.userOptions" id="users" type="text" name="Category" />
+            </div>
+        </div>
         <div class="control-group">
             <label for="Description" class="control-label">Description</label>
             <div class="controls">
