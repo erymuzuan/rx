@@ -18,13 +18,28 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             },
             viewAttached = function(view) {
 
+            },
+            search = function() {
+                var query = String.format("ReferenceNo eq '{0}'", vm.ticketNo());
+                var tcs = new $.Deferred();
+
+                context.loadAsync("Complaint", query)
+                    .then(function(lo) {
+                        vm.results(lo.itemCollection);
+                        tcs.resolve(true);
+                    });
+                return tcs.promise();
+
             };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
             viewAttached: viewAttached,
-            ticketNo : ko.observable()
+            ticketNo: ko.observable(),
+            search: search,
+            results: ko.observableArray(),
+            selectedItem : ko.observable(new bespoke.sphcommercialspace.domain.Complaint())
         };
 
         return vm;
