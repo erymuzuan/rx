@@ -523,6 +523,15 @@ textarea.input-lg {
     text-align: right;
   }
 }
+.input-floor-no {
+  width: 80px;
+}
+.input-floor-name {
+  width: 120px;
+}
+.input-floor-size {
+  width: 80px;
+}
 #building-detail-page table {
   width: 100%;
   margin-bottom: 20px;
@@ -585,7 +594,4 @@ textarea.input-lg {
   #building-detail-page #building-form .control-label {
     text-align: right;
   }
-}
-#building-detail-page .input-floor-no {
-  width: 80px;
 }

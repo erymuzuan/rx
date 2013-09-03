@@ -3,28 +3,30 @@
 @import '..\less\tables.less';
 @import '..\less\forms.less';
 
-@input-small-width : 80px;
+@input-small-width: 80px;
+@input-large-width: 120px;
+
 #building-list-page {
-   
+}
+
+.input-floor-no {
+    width: @input-small-width;
+}
+
+.input-floor-name {
+     width: @input-large-width;
+}
+
+.input-floor-size {
+    width: @input-small-width;
 }
 
 #building-detail-page {
-      table {
+    table {
         .table;
     }
 
-    #building-form{
+    #building-form {
         .form-horizontal;
-    }
-    .input-floor-no{
-        width: @input-small-width;
-    }
-
-    .input-floor-name{
-
-    }
-
-    .input-floor-size{
-
     }
 }

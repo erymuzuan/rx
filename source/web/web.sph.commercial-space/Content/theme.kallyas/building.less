@@ -1,6 +1,7 @@
 ﻿@import '..\less\variables.less';
 @import '..\less\mixins.less';
 @import '..\less\tables.less';
+@import '..\less\forms.less';
 
 @input-small-width : 80px;
 #building-list-page {
@@ -20,8 +21,7 @@
     }
 
     input {
-        color: black;
-        margin: 5px;
+        .form-control;
     }
 
     span {
@@ -39,5 +39,17 @@
 
     .input-floor-size{
 
+    }
+
+    #building-form{
+        .form-horizontal;
+
+        div.control-group{
+            margin-bottom:20px;
+        }
+
+        div.controls{
+            margin-left:110px;
+        }
     }
 }
