@@ -63,6 +63,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/Content/toastr.css")
                 .Include("~/Content/sprite.css")
                 .Include("~/Content/_site.css")
+                .Include("~/Content/css/commercialspace.css")
               );
         }
 
