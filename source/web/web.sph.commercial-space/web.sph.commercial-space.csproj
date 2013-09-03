@@ -479,7 +479,14 @@
     <Content Include="App\views\_workorder.ncr.html" />
     <Content Include="App\views\_workorder.partsandlabor.html" />
     <Content Include="App\views\_workorder.warranty.html" />
+    <Content Include="Content\images\carousel-next.png" />
+    <Content Include="Content\images\carousel-prev.png" />
+    <Content Include="Content\images\img-border.png" />
+    <Content Include="Content\images\menu-row.gif" />
+    <Content Include="Content\images\screen1.JPG" />
+    <Content Include="Content\images\screen2.JPG" />
     <Content Include="Content\nprogress.css" />
+    <Content Include="Content\_public.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\Adobe-Acrobat.png" />
@@ -534,6 +541,7 @@
     <Content Include="Scripts\guide.js" />
     <Content Include="Scripts\holder.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Scripts\jcarousellite_1.0.1.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.custom.min.js" />

@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+@using System.Web.Optimization
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Content/_public.css" type="text/css" media="screen">
+    @Scripts.Render("~/scripts/public")
+    @RenderSection("head_script", false)
+</head>
+
+<body>
+    <header>
+        <div class="menu-row">
+            <nav class="wrapper">
+                    <ul class="menu">
+                        <li>@Html.ActionLink("Home","Index","Home")</li>
+                        <li>@Html.ActionLink("Features","Features","Home")</li>
+                        <li><a href="http://demo.sph.my">Demo</a></li>
+                        <li>@Html.ActionLink("Contact Us","ContactUs","Home")</li>
+                    </ul>
+                </nav>
+        </div>
+        <div>
+            <span>Sistem Pengurusan Harta</span>
+        </div>
+    </header>
+    <section id="content">
+        @RenderBody()
+    </section>
+    <footer>
+		<p>Copyright 2013 BeSpoke Technology Sdn Bhd</p>
+	</footer>
+</body>
+</html>
