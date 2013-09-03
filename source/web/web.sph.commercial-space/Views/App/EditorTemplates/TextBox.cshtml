@@ -1,7 +1,7 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.TextBox
-<div class="control-group" data-bind="visible:@Model.Visible">
-    <label for="@Model.ElementId" class="control-label">@Model.Label</label>
-    <div class="controls">
+<div data-bind="visible:@Model.Visible">
+    <label for="@Model.ElementId">@Model.Label</label>
+    <div>
         <input class="@(Model.CssClass + " "+ Model.Size)" title="@Model.Tooltip" 
             data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" 
             id="@Model.ElementId" type="text" name="@Model.Path" />

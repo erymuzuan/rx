@@ -37,7 +37,7 @@
             });
             $(document).on('click', 'a.dropdown-toggle', dropDown);
 
-            var $menu = $('.jPanelMenu-panel');
+            var $menu = $('#slider-menu').hide();
             $('#drawer-menu').on('click', function (e) {
                 e.preventDefault();
                 $menu.toggle();

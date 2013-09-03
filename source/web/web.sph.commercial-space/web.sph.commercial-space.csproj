@@ -480,19 +480,75 @@
     <Content Include="App\views\_workorder.ncr.html" />
     <Content Include="App\views\_workorder.partsandlabor.html" />
     <Content Include="App\views\_workorder.warranty.html" />
+    <Content Include="Content\bootstrap.kallyas.css" />
+    <Content Include="Content\bootstrap.slate.css" />
+    <Content Include="Content\theme.slate\building.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\building.min.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\commercialspace.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\commercialspace.min.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\building.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\building.min.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
     <Content Include="Content\images\carousel-next.png" />
     <Content Include="Content\images\carousel-prev.png" />
     <Content Include="Content\images\img-border.png" />
     <Content Include="Content\images\menu-row.gif" />
     <Content Include="Content\images\screen1.JPG" />
     <Content Include="Content\images\screen2.JPG" />
-    <Content Include="Content\css\commercialspace.css">
+    <Content Include="Content\theme.default\commercialspace.css">
       <DependentUpon>commercialspace.less</DependentUpon>
     </Content>
-    <Content Include="Content\css\commercialspace.min.css">
+    <Content Include="Content\theme.default\commercialspace.min.css">
       <DependentUpon>commercialspace.less</DependentUpon>
     </Content>
     <Content Include="Content\nprogress.css" />
+    <Content Include="Content\theme.kallyas\building.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.kallyas\building.min.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.kallyas\commercialspace.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.kallyas\commercialspace.min.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\header.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\header.min.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\nav.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\nav.min.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\site.min.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\variables.min.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
     <Content Include="Content\_public.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -541,7 +597,7 @@
     <Content Include="Content\font\fontawesome-webfont.eot" />
     <Content Include="Content\font\FontAwesome.otf" />
     <Content Include="App\viewmodels\message.detail.js" />
-    <Content Include="Content\css\commercialspace.less" />
+    <Content Include="Content\theme.default\commercialspace.less" />
     <Content Include="Content\less\alerts.less" />
     <Content Include="Content\less\badges.less" />
     <Content Include="Content\less\bootstrap.less" />
@@ -582,6 +638,15 @@
     <Content Include="Content\less\utilities.less" />
     <Content Include="Content\less\variables.less" />
     <Content Include="Content\less\wells.less" />
+    <Content Include="Content\theme.default\building.less" />
+    <Content Include="Content\theme.kallyas\building.less" />
+    <Content Include="Content\theme.kallyas\commercialspace.less" />
+    <Content Include="Content\theme.slate\building.less" />
+    <Content Include="Content\theme.slate\commercialspace.less" />
+    <Content Include="Content\theme.slate\variables.less" />
+    <Content Include="Content\theme.slate\site.less" />
+    <Content Include="Content\theme.slate\header.less" />
+    <Content Include="Content\theme.slate\nav.less" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\demo.js" />
@@ -748,7 +813,7 @@
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap-toggle-buttons.css" />
-    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.default.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\datepicker.css" />
     <Content Include="Content\demo-old.css" />
@@ -792,9 +857,7 @@
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\metro-ui-dark.css" />
     <Content Include="Content\metro-ui-light.css" />
-    <Content Include="Content\_site.css" />
     <Content Include="Content\sprite.css" />
-    <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -1218,6 +1281,8 @@
     <Content Include="Views\Home\Features.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\MaintenanceDetailHtml.cshtml" />
+    <Content Include="Views\ReportDefinition\_PieChartDesignerContextAction.cshtml" />
+    <Content Include="Views\ReportDefinition\_Preview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

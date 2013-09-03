@@ -1,8 +1,8 @@
 ﻿
-<div class="jPanelMenu-panel">
-    <nav id="jPanelMenu-menu">
-        <ul class="navi nav" data-binddd="foreach: router.visibleRoutes">
-            <li class="nred">
+<div id="slider-menu">
+    <nav >
+        <ul class="nav" data-binddd="foreach: router.visibleRoutes">
+            <li>
                 <form class="form-search">
                     <div class="input-append">
                         <input id="filter-text" type="search" class="search-query input-medium" placeholder="Search items" />
@@ -12,7 +12,7 @@
                 </form>
             </li>
             <!-- ko foreach :router.visibleRoutes -->
-            <li class="nred" data-bind="css: { current: isActive }, attr :{'data-string':name}">
+            <li data-bind="css: { current: isActive }, attr :{'data-string':name}">
                 <a href="#" data-bind=" attr: { href: hash }">
                     <i data-bind="attr : {class : icon}"></i><span data-bind="text: name"></span>
                 </a>

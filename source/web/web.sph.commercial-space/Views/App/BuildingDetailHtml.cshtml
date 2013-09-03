@@ -3,35 +3,35 @@
     Layout = null;
     var i = 0;
 }
-
-<h1>@Model.FormDesign.Name</h1>
-<span>@Model.FormDesign.Description</span>
-<form id="building-details" class="form-horizontal" data-bind="with: building">
-    @foreach (var fe in Model.FormDesign.FormElementCollection)
-    {
-        if (null != fe.CustomField)
+<div id="building-detail-page">
+    <h1>@Model.FormDesign.Name</h1>
+    <span>@Model.FormDesign.Description</span>
+    <form id="building-form" data-bind="with: building">
+        @foreach (var fe in Model.FormDesign.FormElementCollection)
         {
-            fe.Path = "CustomFieldValueCollection()[" + i++ + "].Value";
-        }
+            if (null != fe.CustomField)
+            {
+                fe.Path = "CustomFieldValueCollection()[" + i++ + "].Value";
+            }
        
-        @Html.EditorFor(m => fe)
+            @Html.EditorFor(m => fe)
         
-    }
-</form>
+        }
+    </form>
 
-<section class="modal hide google-maps" id="map-panel" style="margin-left: -500px; width: 940px">
+    <section class="modal google-maps absolute-center" id="map-panel">
 
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h2>Peta bangunan</h2>
-    </div>
-    <div class="modal-body" style="width: 900px; height: 500px; max-height: 500px">
-        <div id="map" style="width: 900px; height: 500px"></div>
-    </div>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h2>Peta bangunan</h2>
+        </div>
+        <div class="modal-body" style="width: 900px; height: 500px; max-height: 500px">
+            <div id="map" style="width: 900px; height: 500px"></div>
+        </div>
 
-    <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="save map" data-bind="click: saveMapCommand" />
-    </div>
-</section>
-
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <input data-dismiss="modal" type="button" class="btn btn-primary" value="save map" data-bind="click: saveMapCommand" />
+        </div>
+    </section>
+</div>

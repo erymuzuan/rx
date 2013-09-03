@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.Web.Optimization;
 
 namespace Bespoke.Sph.Commerspace.Web.App_Start
@@ -9,6 +10,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
         {
             bundles.IgnoreList.Clear();
             AddDefaultIgnorePatterns(bundles.IgnoreList);
+            var theme = ConfigurationManager.AppSettings["theme"];
 
             bundles.Add(
               new ScriptBundle("~/scripts/vendor")
@@ -52,7 +54,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/kendo/styles/kendo.dataviz.css")
                 .Include("~/kendo/styles/kendo.dataviz.metrol.css")
                 .Include("~/Content/ie10mobile.css")
-                .Include("~/Content/bootstrap.css")
+                .Include("~/Content/bootstrap." + theme + ".css")
                 .Include("~/Content/bootstrap-responsive.css")
                 .Include("~/Content/durandal.css")
                 .Include("~/Content/nprogress.css")
@@ -62,8 +64,11 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/Content/font-awesome.css")
                 .Include("~/Content/toastr.css")
                 .Include("~/Content/sprite.css")
-                .Include("~/Content/_site.css")
                 .Include("~/Content/css/commercialspace.css")
+                .Include("~/Content/theme." + theme + "/site.css")
+                .Include("~/Content/theme." + theme + "/header.css")
+                .Include("~/Content/theme." + theme + "/nav.css")
+                .Include("~/Content/theme." + theme + "/building.css")
               );
         }
 
