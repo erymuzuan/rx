@@ -289,3 +289,7 @@ table th[class*="col-"] {
 #building-detail-page .input-floor-no {
   width: 90px;
 }
+#building-detail-page section#map-panel.modal {
+  width: 950px;
+  margin-left: -500px;
+}

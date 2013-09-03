@@ -6,7 +6,7 @@
 <div id="building-detail-page">
     <h1>@Model.FormDesign.Name</h1>
     <span>@Model.FormDesign.Description</span>
-    <form id="building-form" data-bind="with: building">
+    <form class="form-horizontal" id="building-form" data-bind="with: building">
         @foreach (var fe in Model.FormDesign.FormElementCollection)
         {
             if (null != fe.CustomField)
@@ -19,7 +19,7 @@
         }
     </form>
 
-    <section class="modal google-maps absolute-center" id="map-panel">
+    <section class="modal hide google-maps absolute-center" id="map-panel">
 
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -30,8 +30,8 @@
         </div>
 
         <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
             <input data-dismiss="modal" type="button" class="btn btn-primary" value="save map" data-bind="click: saveMapCommand" />
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
         </div>
     </section>
 </div>

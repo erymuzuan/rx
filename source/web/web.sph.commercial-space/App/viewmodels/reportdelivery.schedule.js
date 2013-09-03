@@ -88,6 +88,7 @@ define(['services/report.g', 'services/datacontext', 'services/logger', 'duranda
                     .then(function (result) {
                         delivery().ReportDeliveryId(result);
                         tcs.resolve(result);
+                        logger.info("Schedule is saved");
                     });
                 return tcs.promise();
             };

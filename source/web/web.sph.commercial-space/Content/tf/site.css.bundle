@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle minify="true" runOnBuild="true" output="site">
+  <!--The order of the <file> elements determines the order of them when bundled.-->
+  <file>~/Content/tf/custom-slider.css</file>
+  <file>~/Content/tf/custom.css</file>
+  <file>~/Content/tf/m-buttons.css</file>
+  <file>~/Content/tf/m-forms.css</file>
+  <file>~/Content/tf/m-icons.css</file>
+  <file>~/Content/tf/metro-tile.css</file>
+  <file>~/Content/tf/slider.css</file>
+  <file>~/Content/tf/style-slider.css</file>
+</bundle>
