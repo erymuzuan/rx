@@ -17,6 +17,14 @@ namespace web.test
         public const string CS_REGISTRATION_NO = "BSPK/999999";
 
         [Test]
+        public void ApplicationFLowTest()
+        {
+            _001_AddApplicationTemplate();
+            _002_SubmitNewIndividualRentalApplication();
+            _003_SubmitNewCompanyRentalApplication();
+        }
+
+        [Test]
         public void _001_AddApplicationTemplate()
         {
             SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[ApplicationTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", APP_TEMPLATE_NAME));
@@ -95,7 +103,7 @@ namespace web.test
 
 
         [Test]
-        public void _001_SubmitNewIndividualRentalApplication()
+        public void _002_SubmitNewIndividualRentalApplication()
         {
             SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[RentalApplication] WHERE [ContactIcNo] =@No", new SqlParameter("@No", RA_IC_NO));
             var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
@@ -129,7 +137,7 @@ namespace web.test
         }
 
         [Test]
-        public void _001_SubmitNewCompanyRentalApplication()
+        public void _003_SubmitNewCompanyRentalApplication()
         {
             SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[RentalApplication] WHERE [CompanyRegistrationNo] =@No", new SqlParameter("@No", RA_COMPANYREGISTRATION_NO));
             var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
