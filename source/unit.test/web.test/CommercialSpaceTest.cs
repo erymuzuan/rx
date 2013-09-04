@@ -16,14 +16,12 @@ namespace web.test
         public void _001_AddCsTemplate()
         {
             const string sphDatabase = "sph";
-            sphDatabase.ExecuteNonQuery("DELETE FROM [Sph].[CommercialSpaceTemplate] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
-            var max = sphDatabase.GetDatabaseScalarValue<int>("SELECT MAX([CommercialSpaceId]) FROM [Sph].[CommercialSpace]");
+            sphDatabase.ExecuteNonQuery("DELETE FROM [Sph].[CommercialSpaceTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", CS_TEMPLATE_NAME));
+            var max = sphDatabase.GetDatabaseScalarValue<int>("SELECT MAX([CommercialSpaceTemplateId]) FROM [Sph].[CommercialSpaceTemplate]");
                 
             IWebDriver driver = new FirefoxDriver();
-            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL);
-            driver.Sleep(500);
-            driver.Click("#login-menu").Sleep(TimeSpan.FromSeconds(2));
-            driver.Click("#log-in")
+            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
+               driver
                 .Sleep(TimeSpan.FromSeconds(2))
                   .Value("[name='UserName']", "ruzzaima")
                   .Value("[name='Password']", "123456")
@@ -31,9 +29,9 @@ namespace web.test
             driver
                 .Sleep(TimeSpan.FromSeconds(5))
                 ;
-        
 
-            var id = sphDatabase.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
+
+            var id = sphDatabase.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceTemplateId] FROM [Sph].[CommercialSpaceTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", CS_TEMPLATE_NAME));
             Assert.IsTrue(max < id);
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();

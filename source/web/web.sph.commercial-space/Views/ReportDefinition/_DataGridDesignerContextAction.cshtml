@@ -1,9 +1,9 @@
-﻿<section class="btn-group pull-right" data-bind="visible: isSelected">
+﻿<section class="context-action-panel" data-bind="visible: isSelected">
     <button class="btn btn-link btn-context-action">
         <i class="icon-chevron-sign-right"></i>
     </button>
 
-    <div class="alert alert-info context-action">
+    <div class="context-action">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <span>DataGrid Properties</span>
@@ -32,7 +32,7 @@
                 </tr>
             </tbody>
         </table>
-        <button data-bind="click : $root.addDataGridColumn">+ Column</button>
+        <button class="btn btn-link" data-bind="click : $root.addDataGridColumn">+ Column</button>
         <a class="btn btn-link pull-right" data-bind="click: $root.removeReportItem">
             <i class="icon-remove"></i>
             Buang

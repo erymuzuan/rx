@@ -1,0 +1,27 @@
+﻿@import 'variables.less';
+@import '..\less\mixins.less';
+
+@header-height: 60px;
+
+header {
+    height: @header-height;
+
+    #drawer-menu, a.logo {
+        float: left;
+        display: block;
+    }
+
+
+    a.logo {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    div.nav-header, div.nav-header > div, div.nav-header > ul {
+        float: right;
+    }
+}
+
+div.navbar-inner, div.navbar-inverse {
+    background-color: red !important;
+}

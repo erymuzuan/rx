@@ -1,0 +1,21 @@
+﻿header {
+  height: 60px;
+}
+header #drawer-menu,
+header a.logo {
+  float: left;
+  display: block;
+}
+header a.logo {
+  font-size: 18px;
+  font-weight: bold;
+}
+header div.nav-header,
+header div.nav-header > div,
+header div.nav-header > ul {
+  float: right;
+}
+div.navbar-inner,
+div.navbar-inverse {
+  background-color: red !important;
+}

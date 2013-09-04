@@ -482,13 +482,191 @@
     <Content Include="App\views\_workorder.ncr.html" />
     <Content Include="App\views\_workorder.partsandlabor.html" />
     <Content Include="App\views\_workorder.warranty.html" />
+    <Content Include="Content\bootstrap.metro-admin.css" />
+    <Content Include="Content\bootstrap.metro-flat.css" />
+    <Content Include="Content\bootstrap.kallyas.css" />
+    <Content Include="Content\bootstrap.slate.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\img\1.png" />
+    <Content Include="Content\img\2.png" />
+    <Content Include="Content\img\3.png" />
+    <Content Include="Content\img\4.png" />
+    <Content Include="Content\img\5.png" />
+    <Content Include="Content\img\blog-sidebar1.jpg" />
+    <Content Include="Content\img\blog-sidebar2.jpg" />
+    <Content Include="Content\img\blog-sidebar3.jpg" />
+    <Content Include="Content\img\blog1.jpg" />
+    <Content Include="Content\img\blog1.png" />
+    <Content Include="Content\img\blog2.jpg" />
+    <Content Include="Content\img\blog2.png" />
+    <Content Include="Content\img\blog3.png" />
+    <Content Include="Content\img\blog4.png" />
+    <Content Include="Content\img\favicon.ico" />
+    <Content Include="Content\img\feature1.png" />
+    <Content Include="Content\img\feature2.png" />
+    <Content Include="Content\img\feature3.png" />
+    <Content Include="Content\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\img\glyphicons-halflings.png" />
+    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\logo_mobile.png" />
+    <Content Include="Content\img\portfolio-image.jpg" />
+    <Content Include="Content\img\portfolio-image2.jpg" />
+    <Content Include="Content\img\social\digg.png" />
+    <Content Include="Content\img\social\Dribbble.png" />
+    <Content Include="Content\img\social\Facebook.png" />
+    <Content Include="Content\img\social\Flickr.png" />
+    <Content Include="Content\img\social\Github.png" />
+    <Content Include="Content\img\social\Linkedin.png" />
+    <Content Include="Content\img\social\Pinterest.png" />
+    <Content Include="Content\img\social\Reddit.png" />
+    <Content Include="Content\img\social\Twitter.png" />
+    <Content Include="Content\img\syncfusion-icons-white.png" />
+    <Content Include="Content\img\syncfusion-icons.png" />
+    <Content Include="Content\img\team1.jpg" />
+    <Content Include="Content\img\team2.jpg" />
+    <Content Include="Content\img\team3.jpg" />
+    <Content Include="Content\img\team4.jpg" />
+    <Content Include="Content\theme.default\dashboard.css">
+      <DependentUpon>dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\dashboard.min.css">
+      <DependentUpon>dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\site.min.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\dashboard.css">
+      <DependentUpon>dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\dashboard.min.css">
+      <DependentUpon>dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\header.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\header.min.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\nav.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\nav.min.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\site.min.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\variables.min.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-flat\site.css">
+      <DependentUpon>site.css.bundle</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-flat\site.min.css">
+      <DependentUpon>site.css.bundle</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\header.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\header.min.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\nav.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\nav.min.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\variables.min.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-flat\custom-slider.css" />
+    <Content Include="Content\theme.metro-flat\custom.css" />
+    <Content Include="Content\theme.metro-flat\m-buttons.css" />
+    <Content Include="Content\theme.metro-flat\m-forms.css" />
+    <Content Include="Content\theme.metro-flat\m-icons.css" />
+    <Content Include="Content\theme.metro-flat\metro-tile.css" />
+    <Content Include="Content\theme.metro-flat\slider.css" />
+    <Content Include="Content\theme.metro-flat\style-slider.css" />
+    <Content Include="Content\theme.slate\building.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\building.min.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\commercialspace.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\commercialspace.min.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\building.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\building.min.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
     <Content Include="Content\images\carousel-next.png" />
     <Content Include="Content\images\carousel-prev.png" />
     <Content Include="Content\images\img-border.png" />
     <Content Include="Content\images\menu-row.gif" />
     <Content Include="Content\images\screen1.JPG" />
     <Content Include="Content\images\screen2.JPG" />
+    <Content Include="Content\theme.default\commercialspace.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\commercialspace.min.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
     <Content Include="Content\nprogress.css" />
+    <Content Include="Content\theme.kallyas\building.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.kallyas\building.min.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.kallyas\commercialspace.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.kallyas\commercialspace.min.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\header.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\header.min.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\nav.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\nav.min.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\site.min.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.slate\variables.min.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
     <Content Include="Content\_public.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -537,6 +715,69 @@
     <Content Include="Content\font\fontawesome-webfont.eot" />
     <Content Include="Content\font\FontAwesome.otf" />
     <Content Include="App\viewmodels\message.detail.js" />
+    <Content Include="Content\theme.default\commercialspace.less" />
+    <Content Include="Content\less\alerts.less" />
+    <Content Include="Content\less\badges.less" />
+    <Content Include="Content\less\bootstrap.less" />
+    <Content Include="Content\less\breadcrumbs.less" />
+    <Content Include="Content\less\button-groups.less" />
+    <Content Include="Content\less\buttons.less" />
+    <Content Include="Content\less\carousel.less" />
+    <Content Include="Content\less\close.less" />
+    <Content Include="Content\less\code.less" />
+    <Content Include="Content\less\component-animations.less" />
+    <Content Include="Content\less\dropdowns.less" />
+    <Content Include="Content\less\forms.less" />
+    <Content Include="Content\less\glyphicons.less" />
+    <Content Include="Content\less\grid.less" />
+    <Content Include="Content\less\input-groups.less" />
+    <Content Include="Content\less\jumbotron.less" />
+    <Content Include="Content\less\labels.less" />
+    <Content Include="Content\less\list-group.less" />
+    <Content Include="Content\less\media.less" />
+    <Content Include="Content\less\mixins.less" />
+    <Content Include="Content\less\modals.less" />
+    <Content Include="Content\less\navbar.less" />
+    <Content Include="Content\less\navs.less" />
+    <Content Include="Content\less\normalize.less" />
+    <Content Include="Content\less\pager.less" />
+    <Content Include="Content\less\pagination.less" />
+    <Content Include="Content\less\panels.less" />
+    <Content Include="Content\less\popovers.less" />
+    <Content Include="Content\less\print.less" />
+    <Content Include="Content\less\progress-bars.less" />
+    <Content Include="Content\less\responsive-utilities.less" />
+    <Content Include="Content\less\scaffolding.less" />
+    <Content Include="Content\less\tables.less" />
+    <Content Include="Content\less\theme.less" />
+    <Content Include="Content\less\thumbnails.less" />
+    <Content Include="Content\less\tooltip.less" />
+    <Content Include="Content\less\type.less" />
+    <Content Include="Content\less\utilities.less" />
+    <Content Include="Content\less\variables.less" />
+    <Content Include="Content\less\wells.less" />
+    <Content Include="Content\theme.default\building.less" />
+    <Content Include="Content\theme.kallyas\building.less" />
+    <Content Include="Content\theme.kallyas\commercialspace.less" />
+    <Content Include="Content\theme.slate\building.less" />
+    <Content Include="Content\theme.slate\commercialspace.less" />
+    <Content Include="Content\theme.slate\variables.less" />
+    <Content Include="Content\theme.slate\site.less" />
+    <Content Include="Content\theme.slate\header.less" />
+    <Content Include="Content\theme.slate\nav.less" />
+    <Content Include="Content\theme.default\header.less" />
+    <Content Include="Content\theme.default\nav.less" />
+    <Content Include="Content\theme.default\variables.less" />
+    <Content Include="Content\img\social\Thumbs.db" />
+    <Content Include="Content\img\Thumbs.db" />
+    <Content Include="Content\theme.default\site.less" />
+    <Content Include="Content\theme.default\dashboard.less" />
+    <Content Include="Content\theme.metro-admin\dashboard.less" />
+    <Content Include="Content\theme.metro-admin\site.less" />
+    <Content Include="Content\theme.metro-admin\header.less" />
+    <Content Include="Content\theme.metro-admin\nav.less" />
+    <Content Include="Content\theme.metro-admin\variables.less" />
+    <None Include="Content\theme.metro-flat\site.css.bundle" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\demo.js" />
@@ -703,16 +944,12 @@
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap-toggle-buttons.css" />
-    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.default.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\datepicker.css" />
     <Content Include="Content\demo-old.css" />
     <Content Include="Content\demo.css" />
     <Content Include="Content\durandal.css" />
-    <Content Include="Content\font-awesome-ie7.css" />
-    <Content Include="Content\font-awesome-ie7.min.css" />
-    <Content Include="Content\font-awesome.css" />
-    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\font\IcoMoon.svg" />
     <Content Include="Content\font\icomoon97172\IcoMoon.svg" />
@@ -747,9 +984,7 @@
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\metro-ui-dark.css" />
     <Content Include="Content\metro-ui-light.css" />
-    <Content Include="Content\_site.css" />
     <Content Include="Content\sprite.css" />
-    <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -1173,6 +1408,8 @@
     <Content Include="Views\Home\Features.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\MaintenanceDetailHtml.cshtml" />
+    <Content Include="Views\ReportDefinition\_PieChartDesignerContextAction.cshtml" />
+    <Content Include="Views\ReportDefinition\_Preview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

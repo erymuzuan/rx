@@ -36,14 +36,16 @@
                 </thead>
                 <tbody data-bind="foreach: profiles">
                     <tr>
-                        <td data-bind="text: UserName, click: $root.editCommand"></td>
+                        <td >
+                               <a data-toggle="modal" href="#user-details-modal" data-bind="click: $root.editCommand,text: UserName"></a>
+                    
+                        </td>
                         <td data-bind="text: FullName"></td>
                         <td data-bind="text: Department"></td>
                         <td data-bind="text: Designation"></td>
                         <td data-bind="text: Email"></td>
                         <td>
-                        <a data-toggle="modal" href="#user-details-modal" data-bind="click: $root.editCommand" class="btn btn-link">Kemaskini</a>
-                        </td>
+                         </td>
                     </tr>
                 </tbody>
             </table>

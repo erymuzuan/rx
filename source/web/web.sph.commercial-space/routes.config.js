@@ -36,6 +36,18 @@
     "error": ""
   },
   {
+    "role": "can_assign_complaint",
+    "url": "complaint.dashboard",
+    "moduleId": "viewmodels/complaint.dashboard",
+    "name": "Papan Aduan",
+    "visible": true,
+    "icon": "icon-flag",
+    "caption": "Papan Aduan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
     "role": null,
     "url": "public.index",
     "moduleId": "viewmodels/public.index",
