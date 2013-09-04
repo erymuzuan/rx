@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Castle.Core.Internal;
+using FluentDateTime;
 using OpenQA.Selenium;
 using System.Linq;
 using OpenQA.Selenium.Support.UI;
@@ -9,6 +10,26 @@ namespace web.test
 {
     public static class BrowserHelper
     {
+
+        public static IWebDriver NavigateToUrl(this IWebDriver driver, string url)
+        {
+            driver.Navigate().GoToUrl(BrowserTest.WEB_RUANG_KOMERCIAL_URL + url);
+            return driver;
+        }
+
+        public static IWebDriver Login(this IWebDriver driver, string username = "admin", string password = "123456")
+        {
+            driver.Navigate().GoToUrl(BrowserTest.WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
+            driver.Sleep(150)
+                .Sleep(TimeSpan.FromSeconds(2))
+                .Value("[name='UserName']", username)
+                .Value("[name='Password']", password)
+                .Click("[name='submit']")
+                .Sleep(5.Seconds());
+
+            return driver;
+        }
+
         public static IWebDriver Value(this IWebDriver driver, string selector, string text)
         {
             var element = driver.FindElement(By.CssSelector(selector));
@@ -89,6 +110,17 @@ namespace web.test
         {
             var elements = driver.FindElements(By.CssSelector(selector)).AsQueryable();
             var ele = elements.FirstOrDefault(filter);
+            if (null != ele)
+                ele.Click();
+            else
+                Console.WriteLine("Cannot find element {0} : {1}", selector, filter);
+            return driver;
+        }
+
+        public static IWebDriver Click(this IWebDriver driver, string selector, Expression<Func<IWebElement, bool>> filter, int index)
+        {
+            var elements = driver.FindElements(By.CssSelector(selector)).AsQueryable();
+            var ele = elements.Where(filter).ToList()[index];
             if (null != ele)
                 ele.Click();
             else

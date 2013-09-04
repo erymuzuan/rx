@@ -1,14 +1,18 @@
-﻿using NUnit.Framework;
+﻿using System;
+using FluentDateTime;
+using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace web.test
 {
+  
     public class BrowserTest
     {
 
         public const string WEB_RUANG_KOMERCIAL_URL = "http://localhost:4436";
         public const string WEB_DRIVER_PATH = @"D:\project\work\quarters\webdrivers";
         public const string DUMMY_USER_NAME = "[Test] Dummy User";
+
 
         protected void PayWithMigs(IWebDriver driver)
         {

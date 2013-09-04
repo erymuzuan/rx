@@ -20,3 +20,12 @@
 #rental-list ul li.Diluluskan {
   background-color: #62c462;
 }
+#rental-list ul li.Ditolak {
+  background-color: #f89406;
+}
+#rental-list ul li.Dikembalikan {
+  background-color: #e27c19;
+}
+#rental-list ul li.Selesai {
+  background-color: #088018;
+}
