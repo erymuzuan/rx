@@ -25,8 +25,12 @@
             </thead>
             <tbody data-bind="foreach: ReportColumnCollection">
                 <tr>
-                    <td><input type="text" data-bind="value: Name" /></td>
-                    <td><input type="text" data-bind="value: Header" /></td>
+                    <td>
+                        <select class="input-datagrid-columnname" data-bind="value: Name, options: $root.dataGridColumnOptions, optionsText: 'Name', optionsValue: 'Name'">
+                            
+                        </select>
+                    </td>
+                    <td><input type="text" class="input-datagrid-header" data-bind="value: Header" /></td>
                     <td><input type="text" data-bind="value: Width" /></td>
                     <td><a href="#" data-bind="click : $root.removeDataGridColumn"><i class="icon-remove"></i></a></td>
                 </tr>

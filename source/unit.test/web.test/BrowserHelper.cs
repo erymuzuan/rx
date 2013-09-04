@@ -36,7 +36,7 @@ namespace web.test
             var element = list[index];
 
             var ag = string.Format("{0}", element.TagName).ToLower();
-            if (ag == "select") return driver.SelectOption(selector, text);
+            if (ag == "select") return driver.SelectOption(element, text);
             if (ag == "input") return driver.SetText(element, text);
             if (ag == "textarea") return driver.SetText(element, text);
             return driver;

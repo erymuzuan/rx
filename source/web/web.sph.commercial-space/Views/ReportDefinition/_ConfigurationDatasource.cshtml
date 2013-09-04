@@ -31,10 +31,10 @@
         <tbody data-bind="foreach: ReportFilterCollection">
             <tr>
                 <td>
-                    <select data-bind="value: FieldName, options: $root.entityColumns, optionsText: 'Name', optionsValue: 'Name'"></select>
+                    <select class="input-datasource-fieldname" data-bind="value: FieldName, options: $root.entityColumns, optionsText: 'Name', optionsValue: 'Name'"></select>
                 </td>
                 <td>
-                    <select data-bind="value: Operator">
+                    <select data-bind="value: Operator" class="input-datasource-operator">
                         <option value="Eq">=</option>
                         <option value="Le">&lt;=</option>
                         <option value="Lt">&lt;</option>
@@ -46,7 +46,7 @@
                     </select>
                 </td>
                 <td>
-                    <input type="text" data-bind="value: Value" />
+                    <input class="input-datasource-value" type="text" data-bind="value: Value" />
                 </td>
                 <td>
                     <a href="#" data-bind="click: $root.removeFilter">Buang</a>

@@ -61,6 +61,20 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             },
             viewAttached = function (view) {
                 designer.viewAttached(view);
+                $('a.btn-close-configuration-dialog').click(function () {
+                    var columns = _(vm.reportDefinition().DataSource().EntityFieldCollection()).map(function(v) {
+                        var name = v.Name(),
+                            aggregate = v.Aggregate();
+                        if (aggregate) {
+                            if (aggregate !== "GROUP") {
+                                name = v.Name() + "_" + aggregate;
+                            }
+                        }
+                        return { Name: ko.observable(name) };
+                    });
+                    vm.dataGridColumnOptions(columns);
+                });
+
             },
             loadEntityColumns = function (entity) {
                 var tcs = new $.Deferred();
@@ -154,9 +168,9 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             removeField: removeField,
 
             removeDataGridColumn: removeDataGridColumn,
-
             addDataGridColumn: addDataGridColumn,
-
+            dataGridColumnOptions: ko.observableArray(),
+            
             toolbar: {
                 saveCommand: save,
                 commands: ko.observableArray([{
