@@ -15,3 +15,7 @@ header div.nav-header > div,
 header div.nav-header > ul {
   float: right;
 }
+div.navbar-inner,
+div.navbar-inverse {
+  background-color: red !important;
+}

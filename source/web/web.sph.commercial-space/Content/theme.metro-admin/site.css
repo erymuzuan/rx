@@ -21,6 +21,19 @@
   bottom: 0;
   right: 0;
 }
+.context-action-panel {
+  float: right;
+}
+.context-action {
+  display: none;
+  position: absolute;
+  z-index: 9999;
+  background-color: #ffffff;
+  min-width: 300px;
+}
+.context-action .modal-header {
+  color: #272b30;
+}
 .loader .page-progress-bar {
   margin: 14px 0 0 0;
 }

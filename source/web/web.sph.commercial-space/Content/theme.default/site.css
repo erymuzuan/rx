@@ -607,10 +607,6 @@ div.modal-header > button.close:hover {
   width: inherit;
   margin: 10px;
 }
-.bordered-box {
-  border: 1px solid #000;
-  margin: 10px;
-}
 .absolute-center {
   position: absolute;
   margin: auto;
