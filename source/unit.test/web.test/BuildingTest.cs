@@ -10,7 +10,7 @@ namespace web.test
     [TestFixture]
     public class BuildingTest : BrowserTest
     {
-        const string SphDatabase = "sph";
+        const string SPH_DATABASE = "sph";
         const string BuildingName = "Bangunan Komersil Di KB";
         public const string BUILDING_TEMPLATE_NAME = "Bangunan Komersil";
 
@@ -26,8 +26,8 @@ namespace web.test
         [Test]
         public void _001_AddBuildingTemplate()
         {
-            SphDatabase.ExecuteNonQuery("DELETE FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
-            var max = SphDatabase.GetDatabaseScalarValue<int>("SELECT MAX([BuildingTemplateId]) FROM [Sph].[BuildingTemplate]");
+            SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
+            var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([BuildingTemplateId]) FROM [Sph].[BuildingTemplate]");
 
 
             IWebDriver driver = new FirefoxDriver();
@@ -101,7 +101,7 @@ namespace web.test
             driver.Sleep(TimeSpan.FromSeconds(3));
 
 
-            var latest = SphDatabase.GetDatabaseScalarValue<int>("SELECT MAX([BuildingTemplateId]) FROM [Sph].[BuildingTemplate]");
+            var latest = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([BuildingTemplateId]) FROM [Sph].[BuildingTemplate]");
             Assert.IsTrue(max < latest);
 
             driver.Sleep(TimeSpan.FromSeconds(2));
@@ -113,9 +113,9 @@ namespace web.test
         public void _002_AddBuilding()
         {
 
-            SphDatabase.ExecuteNonQuery("DELETE FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
-            var max = SphDatabase.GetDatabaseScalarValue<int>("SELECT MAX([BuildingId]) FROM [Sph].[Building]");
-            var templateId = SphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
+            SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
+            var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([BuildingId]) FROM [Sph].[Building]");
+            var templateId = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
 
 
             IWebDriver driver = new FirefoxDriver();
@@ -154,7 +154,7 @@ namespace web.test
             driver.Click("#save-button")
             .Sleep(TimeSpan.FromSeconds(2))
             ;
-            var latest = SphDatabase.GetDatabaseScalarValue<int>("SELECT MAX([BuildingId]) FROM [Sph].[Building]");
+            var latest = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([BuildingId]) FROM [Sph].[Building]");
             Assert.IsTrue(max < latest);
 
             driver.NavigateToUrl("/#/building.list");
@@ -166,10 +166,9 @@ namespace web.test
         [Test]
         public void _003_AddLots()
         {
-            var id = SphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
-            var templateId = SphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
-
-
+            var id = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
+            var templateId = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
+            
             IWebDriver driver = new FirefoxDriver();
             driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
             driver.Login("ruzzaima");
