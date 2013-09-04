@@ -19,10 +19,10 @@
             $(document).on('click', 'button.btn-context-action,a.btn-context-action', function (e) {
                 e.preventDefault();
                 var $a = $(this);
-                var $panel = $(this).parent().find('.context-action');
+                var $panel = $a.parent().find('.context-action');
 
-                var closeButton = function (e) {
-                    e.preventDefault();
+                var closeButton = function (evt1) {
+                    evt1.preventDefault();
                     $panel.hide();
 
                 };

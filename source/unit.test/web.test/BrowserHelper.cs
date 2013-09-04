@@ -30,21 +30,28 @@ namespace web.test
             return driver;
         }
 
-        public static IWebDriver Value(this IWebDriver driver, string selector, string text)
+        public static IWebDriver Value(this IWebDriver driver, string selector, string text, int index = 0)
         {
-            var element = driver.FindElement(By.CssSelector(selector));
+            var list = driver.FindElements(By.CssSelector(selector));
+            var element = list[index];
+
             var ag = string.Format("{0}", element.TagName).ToLower();
             if (ag == "select") return driver.SelectOption(selector, text);
-            if (ag == "input") return driver.SetText(selector, text);
-            if (ag == "textarea") return driver.SetText(selector, text);
+            if (ag == "input") return driver.SetText(element, text);
+            if (ag == "textarea") return driver.SetText(element, text);
             return driver;
         }
-
 
         public static IWebDriver StringAssert(this IWebDriver driver, string expected, string actual)
         {
             if (actual.Contains(expected)) return driver;
             throw new Exception(string.Format("Cannot find {0} in \r\n{1}", expected, actual));
+        }
+
+        public static IWebDriver SelectOption(this IWebDriver driver, IWebElement element, string text)
+        {
+            new SelectElement(element).SelectByText(text);
+            return driver;
         }
 
         public static IWebDriver SelectOption(this IWebDriver driver, string selector, string text)
@@ -129,13 +136,21 @@ namespace web.test
         }
 
 
-        public static IWebDriver SetText(this IWebDriver driver, string selector, string text)
+        public static IWebDriver SetText(this IWebDriver driver, IWebElement element, string text)
         {
-            driver.FindElement(By.CssSelector(selector)).Clear();
-            driver.FindElement(By.CssSelector(selector)).SendKeys(text);
+            element.Clear();
+            element.SendKeys(text);
 
             return driver;
         }
+
+        public static IWebDriver SetText(this IWebDriver driver, string selector, string text)
+        {
+            var element = driver.FindElement(By.CssSelector(selector));
+            return driver.SetText(element,text);
+        }
+
+
         public static IWebDriver Wait(this IWebDriver driver, int miliseconds, string message = "")
         {
             Console.WriteLine("Wait {0} : {1}", miliseconds, message);

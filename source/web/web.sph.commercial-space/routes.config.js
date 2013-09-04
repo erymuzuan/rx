@@ -502,7 +502,7 @@
     "error": ""
   },
   {
-    "role": "admin_user",
+    "role": "everybody",
     "url": "role.settings/:id",
     "moduleId": "viewmodels/role.settings",
     "name": null,

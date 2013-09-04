@@ -8,31 +8,32 @@ table {
     .table;
 }
 
-input[type=search]
-{
-    height:30px;
+input[type=search] {
+    height: 30px;
 }
 
 div.control-group {
     margin-bottom: 20px;
 }
-div.control-group > label.control-label {
-    width: 90px;
-    float:left;
-}
+
+    div.control-group > label.control-label {
+        width: 90px;
+        float: left;
+    }
 
 
 
 div.controls {
     margin-left: 140px;
 }
-div.controls > input.input-large{
-    width :210px;
-}
 
-div.controls > input.input-xxlarge{
-    width :530px;
-}
+    div.controls > input.input-large {
+        width: 210px;
+    }
+
+    div.controls > input.input-xxlarge {
+        width: 530px;
+    }
 
 #body {
     margin-bottom: 70px;
@@ -51,12 +52,13 @@ div.controls > input.input-xxlarge{
     background-color: @modal-content-bg;
 }
 
-div.modal-header>button.close{
+div.modal-header > button.close {
     color: @button-close-color;
 }
-div.modal-header>button.close:hover{
-    color: @button-close-color-hover;
-}
+
+    div.modal-header > button.close:hover {
+        color: @button-close-color-hover;
+    }
 
 .title {
     font-size: 20px;
@@ -90,21 +92,24 @@ div.modal-header>button.close:hover{
 
 .btn-context-action {
 }
-.context-action-panel
-{
-    float:right;
+
+.context-action-panel {
+    float: right;
 }
-.context-action
-{
+
+
+.context-action {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid gray;
     display: none;
     position: absolute;
     z-index: 9999;
     background-color: @modal-content-bg;
     min-width: 300px;
 
-    .modal-header
-    {
-        color:@heading-text-color;
+    .modal-header {
+        color: @heading-text-color;
     }
 }
 
