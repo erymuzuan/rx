@@ -38,6 +38,36 @@ namespace web.test
                   .Value("[id=form-design-description]", APP_TEMPLATE_NAME)
                   ;
 
+            //IsCompany
+           driver.ClickFirst("a", e => e.Text == "Add a field")
+                  .ClickFirst("a", e => e.Text == "Checkboxes")
+                  .ClickFirst("a", e => e.Text == "Fields settings")
+                  .Value("[name=Label]", "Permohonan Syarikat")
+                  .Value("[name=Path]", "IsCompany"); ;
+
+            //Company Name
+           driver.ClickFirst("a", e => e.Text == "Add a field")
+                  .ClickFirst("a", e => e.Text == "Single line text")
+                  .ClickFirst("a", e => e.Text == "Fields settings")
+                  .Value("[name=Label]", "Nama Syarikat")
+                  .Value("[name=Path]", "CompanyName")
+                  .Value("[name=Visible]", "IsCompany");
+
+            //Company SSM No
+           driver.ClickFirst("a", e => e.Text == "Add a field")
+                  .ClickFirst("a", e => e.Text == "Single line text")
+                  .ClickFirst("a", e => e.Text == "Fields settings")
+                  .Value("[name=Label]", "SSM No")
+                  .Value("[name=Path]", "CompanyRegistrationNo")
+                  .Value("[name=Visible]", "IsCompany");
+            
+            //Header
+           driver.ClickFirst("a", e => e.Text == "Add a field")
+                  .ClickFirst("a", e => e.Text == "Section")
+                  .ClickFirst("a", e => e.Text == "Fields settings")
+                  .Value("[name=Label]", "Section")
+                  .Value("[name=Visible]", "IsCompany");
+            
             //contact
            driver.ClickFirst("a", e => e.Text == "Add a field")
                   .ClickFirst("a", e => e.Text == "Contact");
