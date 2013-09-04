@@ -13,13 +13,13 @@
             <tbody data-bind="foreach: applications">
                 <tr>
                     <td><a data-bind="attr: { href: '/#/rentalapplication.verify/' + RentalApplicationId() }, text: RegistrationNo"></a></td>
-                    <td data-bind="text: Contact.Name"></td>
+                    <td data-bind="text: Contact().Name"></td>
                     <td data-bind="text: CompanyName"></td>
                     <td>
-                        <span data-bind="text: CommercialSpace.Category"></span>,
-                    <span data-bind="text: CommercialSpace.BuildingName"></span>,
-                    <span data-bind="text: CommercialSpace.FloorName"></span>,
-                    <span data-bind="text: CommercialSpace.LotName"></span>
+                        <span data-bind="text: CommercialSpace().Category"></span>,
+                    <span data-bind="text: CommercialSpace().BuildingName"></span>,
+                    <span data-bind="text: CommercialSpace().FloorName"></span>,
+                    <span data-bind="text: CommercialSpace().LotName"></span>
                     </td>
                 </tr>
             </tbody>
