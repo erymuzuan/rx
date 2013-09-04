@@ -109,6 +109,7 @@ namespace web.test
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();
         }
+
         [Test]
         public void _002_AddBuilding()
         {

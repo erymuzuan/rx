@@ -1230,7 +1230,6 @@
     <Content Include="Content\font\opensans-semibold-webfont.eot" />
     <Content Include="Content\font\opensans-semibold-webfont.ttf" />
     <Content Include="Content\font\opensans-semibold-webfont.woff" />
-    <Content Include="Content\toastr.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="kendo\styles\images\KendoUI.ttf" />
