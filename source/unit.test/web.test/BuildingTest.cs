@@ -11,42 +11,49 @@ namespace web.test
     {
         const string SphDatabase = "sph";
         const string BuildingName = "Wisma Persekutuan Melaka (MITC)";
-        public const string BUILDING_TEMPLATE_NAME = "Bangunan Gunasama";
+        public const string BUILDING_TEMPLATE_NAME = "Bangunan Komersil";
 
 
         [Test]
         public void AddBuildingAndNavigateToLots()
         {
-            _001_AddBuilding();
-            _002_AddLots();
+            _002_AddBuilding();
+            _003_AddLots();
         }
 
-
         [Test]
-        public void _001_AddBuilding()
+        public void _003_AddBuildingTemplate()
         {
-            const string sphDatabase = "sph";
-            sphDatabase.ExecuteNonQuery("DELETE FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
-            var max = sphDatabase.GetDatabaseScalarValue<int>("SELECT MAX([BuildingId]) FROM [Sph].[Building]");
-            var templateId = sphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
-            
-            
+            SphDatabase.ExecuteNonQuery("DELETE FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
+            var max = SphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
+
+
             IWebDriver driver = new FirefoxDriver();
             driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
-            driver.Sleep(150)
-                .Sleep(TimeSpan.FromSeconds(2))
-                  .Value("[name='UserName']", "admin")
-                  .Value("[name='Password']", "123456")
-                  .Click("[name='submit']");
-            driver
-                .Sleep(TimeSpan.FromSeconds(5))
-                ;
+            driver.Login("ruzzaima");
+            driver.NavigateToUrl("/#building.template.list");
+            driver.NavigateToUrl("/#/template.building-id.0/0");
+            driver.Sleep(TimeSpan.FromSeconds(5));
 
-           driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/building.list");
-           driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + String.Format("/#/building.detail-templateid.{0}/3/0", templateId));
-           driver
-                .Sleep(TimeSpan.FromSeconds(5))
-                ;
+
+        }
+        [Test]
+        public void _002_AddBuilding()
+        {
+
+            SphDatabase.ExecuteNonQuery("DELETE FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
+            var max = SphDatabase.GetDatabaseScalarValue<int>("SELECT MAX([BuildingId]) FROM [Sph].[Building]");
+            var templateId = SphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
+
+
+            IWebDriver driver = new FirefoxDriver();
+            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
+            driver.Login("ruzzaima");
+            driver.NavigateToUrl("/#/building.list");
+            driver.NavigateToUrl(String.Format("/#/building.detail-templateid.{0}/3/0", templateId));
+            driver
+                 .Sleep(TimeSpan.FromSeconds(5))
+                 ;
             driver
                 .Value("[name='Name']", BuildingName)
                 .Value("[name='LotNo']", "12-001")
@@ -73,13 +80,13 @@ namespace web.test
                 .Click("#save-button")
                 .Sleep(TimeSpan.FromSeconds(5))
                 ;
-            
+
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();
         }
 
         [Test]
-        public void _002_AddLots()
+        public void _003_AddLots()
         {
             var id = SphDatabase.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
             const string templateId = "3";
@@ -96,24 +103,12 @@ namespace web.test
                 .Sleep(TimeSpan.FromSeconds(5))
                 ;
             driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + String.Format("/#/building.detail-templateid.{0}/3/{1}", templateId, id));
-            
+
             driver.Sleep(5);
             driver
                 .Click("[name='ko_unique_5']")
                 .Sleep(TimeSpan.FromSeconds(5))
                 ;
-
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    var lot = string.Format("[name='ko_unique_{0}']", (i * 4) + 1);
-            //    var size = string.Format("[name='ko_unique_{0}']", (i * 4) + 2);
-            //    driver
-            //          .Click("#add-new-lot")
-            //          .Sleep(250)
-            //          .Value(lot, "G-00" + i)
-            //          .Value(size, "1250")
-            //        ;
-            //}
 
             driver.Sleep(TimeSpan.FromSeconds(8), "See the result");
             driver.Quit();
