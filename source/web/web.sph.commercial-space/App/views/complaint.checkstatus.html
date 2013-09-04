@@ -8,13 +8,13 @@
             </div>
         </div>
         <div class="control-group">
-            <label  class="control-label">-</label>
+            <label class="control-label">-</label>
             <div class="controls">
-                <input type="submit" class="btn btn-success" value="Submit" data-bind="command : search"/>
+                <input type="submit" class="btn btn-success" value="Submit" data-bind="command : search" />
             </div>
         </div>
     </form>
-    
+
     <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
         <thead>
             <tr>
@@ -25,10 +25,28 @@
         </thead>
         <tbody data-bind="foreach :results">
             <tr>
-                <td data-bind="date:CreatedDate"></td>
-                <td data-bind="text:TicketNo"></td>
+                <td data-bind="date:{value :CreatedDate, format :'DD/MM/YYYY'}"></td>
+                <td>
+                    <a href="" data-bind="click : $root.selectItem,text: ReferenceNo"></a>
+                </td>
                 <td data-bind="text:Status"></td>
             </tr>
         </tbody>
     </table>
+    
+    <section class="modal hide" id="complaint-details-dialog" >
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3>Maklumat Aduan</h3>
+        </div>
+        <div class="modal-body" data-bind="with : selectedItem">
+            
+        </div>
+
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Tutup</a>
+        </div>
+    </section>
+
 </div>

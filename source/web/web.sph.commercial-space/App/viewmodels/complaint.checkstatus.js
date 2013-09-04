@@ -30,6 +30,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                     });
                 return tcs.promise();
 
+            },
+            selectItem = function(complaint) {
+                vm.selectedItem(complaint);
+                $('#complaint-details-dialog').modal();
             };
 
         var vm = {
@@ -39,6 +43,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             ticketNo: ko.observable(),
             search: search,
             results: ko.observableArray(),
+            selectItem : selectItem,
             selectedItem : ko.observable(new bespoke.sphcommercialspace.domain.Complaint())
         };
 

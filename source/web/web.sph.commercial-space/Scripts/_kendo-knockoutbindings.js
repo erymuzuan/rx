@@ -80,6 +80,7 @@ ko.bindingHandlers.money = {
 ko.bindingHandlers.date = {
     init: function (element, valueAccessor) {
         var value = ko.utils.unwrapObservable(valueAccessor());
+
         var date = moment(value.value());
         if (date.year() == 1) { // DateTime.Min
             $(element).text("");
@@ -200,7 +201,8 @@ ko.bindingHandlers.command = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var action = valueAccessor(),
             $button = $(element),
-            allBindings = allBindingsAccessor();
+            allBindings = allBindingsAccessor(),
+            inputValue = $button.val();
 
         if (allBindings.isvisible) {
             var visible = typeof allBindings.isvisible === "function" ? allBindings.isvisible() : allBindings.isvisible;
@@ -232,6 +234,7 @@ ko.bindingHandlers.command = {
                     $button
                         .button("complete")
                         .prop('disabled', true)
+                        .val(inputValue)
                         .removeClass('btn-disabled');
                     $spinner.hide();
 
