@@ -480,6 +480,7 @@
     <Content Include="App\views\_workorder.ncr.html" />
     <Content Include="App\views\_workorder.partsandlabor.html" />
     <Content Include="App\views\_workorder.warranty.html" />
+    <Content Include="Content\bootstrap.metro-admin.css" />
     <Content Include="Content\bootstrap.metro-flat.css" />
     <Content Include="Content\bootstrap.kallyas.css" />
     <Content Include="Content\bootstrap.slate.css" />
@@ -534,6 +535,36 @@
     </Content>
     <Content Include="Content\theme.default\site.min.css">
       <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\dashboard.css">
+      <DependentUpon>dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\dashboard.min.css">
+      <DependentUpon>dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\header.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\header.min.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\nav.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\nav.min.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\site.min.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\variables.min.css">
+      <DependentUpon>variables.less</DependentUpon>
     </Content>
     <Content Include="Content\theme.metro-flat\site.css">
       <DependentUpon>site.css.bundle</DependentUpon>
@@ -739,6 +770,11 @@
     <Content Include="Content\img\Thumbs.db" />
     <Content Include="Content\theme.default\site.less" />
     <Content Include="Content\theme.default\dashboard.less" />
+    <Content Include="Content\theme.metro-admin\dashboard.less" />
+    <Content Include="Content\theme.metro-admin\site.less" />
+    <Content Include="Content\theme.metro-admin\header.less" />
+    <Content Include="Content\theme.metro-admin\nav.less" />
+    <Content Include="Content\theme.metro-admin\variables.less" />
     <None Include="Content\theme.metro-flat\site.css.bundle" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />

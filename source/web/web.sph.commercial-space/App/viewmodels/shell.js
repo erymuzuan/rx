@@ -44,10 +44,10 @@
                 },
                 showSlider = function () {
                         $('section#content').animate({ "margin-left": 280 });
-                        $menu.show().animate({ "width": 280 })
+                        $menu.css("height", $(document).height()).show().animate({ "width": 280 })
                             
                 },
-                sliderVisible = true;
+                sliderVisible = false;
             
 
             $('#drawer-menu').on('click', function (e) {
