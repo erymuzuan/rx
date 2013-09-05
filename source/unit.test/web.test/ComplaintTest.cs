@@ -34,7 +34,7 @@ namespace web.test
         [Test]
         public void _001_AddComplaintTemplate()
         {
-            this.ExecuteNonQuery("DELETE FROM [Sph].[ComplaintTemplate] WHERE Name = @Name",new SqlParameter("@Name",COMPLAINT_TEMPLATE_NAME));
+            this.ExecuteNonQuery("DELETE FROM [Sph].[ComplaintTemplate] WHERE Name = @Name", new SqlParameter("@Name", COMPLAINT_TEMPLATE_NAME));
             var max =
                 this.GetDatabaseScalarValue<int>("SELECT MAX([ComplaintTemplateId]) FROM [Sph].[ComplaintTemplate]");
             var driver = this.InitiateDriver();
@@ -102,10 +102,38 @@ namespace web.test
                   .ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addComplaintCategory");
             driver.Value(".input-category-name", "Elektrik");
             driver.Value(".input-category-description", "Kerosakan elektrik");
+            driver.Click(".add-subcategory-button");
 
-            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addComplaintCategory");
-            driver.Value(".input-category-name", "Perabot",1);
-            driver.Value(".input-category-description", "Kerosakan Perabot",1);
+            // add sub category for first category
+            driver.ClickFirst("input", e => e.GetAttribute("data-bind") == "click: addSubCategory");
+            driver.Value(".input-subcategory", "Lampu");
+
+            driver.ClickFirst("input", e => e.GetAttribute("data-bind") == "click: addSubCategory")
+                .Value(".input-subcategory", "Kipas", 1);
+            driver.ClickFirst("input", e => e.GetAttribute("data-bind") == "click: addSubCategory")
+                .Value(".input-subcategory", "Penghawa dingin", 2);
+            driver.ClickFirst("input", e => e.GetAttribute("data-bind") == "click: addSubCategory")
+                .Value(".input-subcategory", "Litar pintas/trip", 3);
+
+            driver.ClickFirst("input", e => e.GetAttribute("data-bind") == "click: saveSubCategoryCommand").Sleep(1.Seconds());
+
+            //2nd category
+            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addComplaintCategory")
+                .Value(".input-category-name", "Perpaipan", 1)
+                .Value(".input-category-description", "Kerosakan Perpaipan", 1)
+                .Click(".add-subcategory-button", 1);
+
+            // add sub category for 2nd category
+            driver.ClickFirst("input", e => e.GetAttribute("data-bind") == "click: addSubCategory")
+                .Value(".input-subcategory", "Saluran tersumbat");
+            driver.ClickFirst("input", e => e.GetAttribute("data-bind") == "click: addSubCategory")
+                .Value(".input-subcategory", "Paip bocor", 1);
+            driver.ClickFirst("input", e => e.GetAttribute("data-bind") == "click: addSubCategory")
+                .Value(".input-subcategory", "Pili/pam rosak", 2);
+            driver.ClickFirst("input", e => e.GetAttribute("data-bind") == "click: addSubCategory")
+                .Value(".input-subcategory", "Air kotor", 3);
+
+            driver.ClickFirst("input", e => e.GetAttribute("data-bind") == "click: saveSubCategoryCommand").Sleep(1.Seconds());
 
             driver.Click("#save-button");
 
@@ -125,19 +153,30 @@ namespace web.test
         public void _003_PublicComplaint()
         {
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [ComplaintTemplateId] FROM [Sph].[ComplaintTemplate] WHERE [Name] = @Name", new SqlParameter("@Name", COMPLAINT_TEMPLATE_NAME));
+            var max = this.GetDatabaseScalarValue<int>("SELECT MAX([ComplaintId]) FROM [Sph].[Complaint]");
             var driver = this.InitiateDriver();
             driver.NavigateToUrl("/Account/Logoff")
                   .NavigateToUrl("/#/complaint");
-            driver.NavigateToUrl(string.Format("/#/complaint.form-templateid.{0}/{0}",templateId),200.Milliseconds());
+            driver.NavigateToUrl(string.Format("/#/complaint.form-templateid.{0}/{0}", templateId), 2.Seconds());
 
-            driver.Value("[name=CustomFieldValueCollection()[0].Value]", "Kerosakan Lampu di Precint 8")
-                  .Value("[name=Remarks]", "Lampu tidak menyala di jalan Precint 8")
-                  .Value("[name=CommercialSpace]", "Lampu tidak menyala di jalan Precint 8")
-                  .Value("[name=CustomFieldValueCollection()[1].Value]", "Ahmad Said")
-                  .Value("[name=CustomFieldValueCollection()[2].Value]", "ahmadsaid@hotmail.com")
-                  .SelectOption("[name=Category]", "Elektrik")
-                  .SelectOption("[name=SubCategory]", "Lampu")
-                ;
+            //  driver.Value("[name=CustomFieldValueCollection()[0].Value]", "Kerosakan Lampu di Precint 8");
+            driver.Value("[name=Remarks]", "Lampu tidak menyala di jalan Precint 8");
+            driver.Value("[name=CommercialSpace]", "Lampu tidak menyala di jalan Precint 8");
+            //    driver.Value("[name=CustomFieldValueCollection()[1].Value]", "Ahmad Said");
+            //   driver.Value("[name=CustomFieldValueCollection()[2].Value]", "ahmadsaid@hotmail.com");
+            driver.SelectOption("[name=Category]", "Elektrik");
+            driver.SelectOption("[name=SubCategory]", "Lampu");
+
+            driver.Click("#save-button");
+
+            driver.Sleep(TimeSpan.FromSeconds(3));
+
+
+            var latest = this.GetDatabaseScalarValue<int>("SELECT MAX([ComplaintId]) FROM [Sph].[Complaint]");
+            Assert.IsTrue(max < latest);
+
+            driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
+            driver.Quit();
         }
     }
 }

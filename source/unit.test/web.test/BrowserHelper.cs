@@ -51,6 +51,20 @@ namespace web.test
             return driver;
         }
 
+        public static IWebDriver Value(this IWebDriver driver, string selector, string text, Expression<Func<IWebElement, bool>> filter, int wait = 0)
+        {
+            var elements = driver.FindElements(By.CssSelector(selector)).AsQueryable();
+            var element = elements.SingleOrDefault(filter);
+            var ag = string.Format("{0}", element.TagName).ToLower();
+            if (ag == "select") return driver.SelectOption(element, text);
+            if (ag == "input") return driver.SetText(element, text);
+            if (ag == "textarea") return driver.SetText(element, text);
+
+            if (wait > 0)
+                driver.Sleep(wait);
+
+            return driver;
+        }
         public static IWebDriver StringAssert(this IWebDriver driver, string expected, string actual)
         {
             if (actual.Contains(expected)) return driver;
@@ -70,11 +84,15 @@ namespace web.test
         }
 
 
-        public static IWebDriver Click(this IWebDriver driver, string selector, int wait = 0)
+       
+        public static IWebDriver Click(this IWebDriver driver, string selector,int index =0, int wait = 0)
         {
             try
             {
-                driver.FindElement(By.CssSelector(selector)).Click();
+                var elements = driver.FindElements(By.CssSelector(selector));
+                var element = elements[index];
+
+                element.Click();
                 if (wait > 0)
                     driver.Sleep(wait);
                 return driver;
@@ -86,6 +104,7 @@ namespace web.test
             }
         }
       
+
         public static IWebDriver AssertElementExist(this IWebDriver driver, string selector, Expression<Func<IWebElement, bool>> assert, string message = "")
         {
             var elements = driver.FindElements(By.CssSelector(selector)).AsQueryable();
