@@ -454,7 +454,7 @@
     "error": ""
   },
   {
-    "role": "admin_user",
+    "role": "everybody",
     "url": "user.profile",
     "moduleId": "viewmodels/user.profile",
     "name": "Profile",
@@ -502,7 +502,7 @@
     "error": ""
   },
   {
-    "role": "everybody",
+    "role": "admin_user",
     "url": "role.settings/:id",
     "moduleId": "viewmodels/role.settings",
     "name": null,

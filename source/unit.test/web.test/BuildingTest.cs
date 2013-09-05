@@ -15,6 +15,24 @@ namespace web.test
         public const string BUILDING_TEMPLATE_NAME = "Bangunan Komersil";
 
 
+        private TestUser m_buildingAdmin;
+
+        [SetUp]
+        public void Init()
+        {
+            m_buildingAdmin = new TestUser
+            {
+                UserName = "buildingadmin",
+                FullName = "Building Admin",
+                Email = "buildingadmin@bespoke.com.my",
+                Department = "Test",
+                Designation = "Boss",
+                Password = "abcad12334535",
+                Roles = new[] { "admin_dashboard" }
+            };
+            this.AddUser(m_buildingAdmin);
+        }
+
         [Test]
         public void AddBuildingAndNavigateToLots()
         {
