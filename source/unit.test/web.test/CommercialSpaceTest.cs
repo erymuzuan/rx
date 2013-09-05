@@ -12,7 +12,6 @@ namespace web.test
     {
         public const string CS_REGISTRATION_NO = "BSPK/999999";
         public const string CS_TEMPLATE_NAME = "Cafeteria";
-        public const string SPH_DATABASE = "sph";
 
         [Test]
         public void AddCsTemplateAndNewCs()
@@ -24,8 +23,8 @@ namespace web.test
         [Test]
         public void _001_AddCsTemplate()
         {
-            SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[CommercialSpaceTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", CS_TEMPLATE_NAME));
-            var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([CommercialSpaceTemplateId]) FROM [Sph].[CommercialSpaceTemplate]");
+            this.ExecuteNonQuery("DELETE FROM [Sph].[CommercialSpaceTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", CS_TEMPLATE_NAME));
+            var max = this.GetDatabaseScalarValue<int>("SELECT MAX([CommercialSpaceTemplateId]) FROM [Sph].[CommercialSpaceTemplate]");
 
             IWebDriver driver = new FirefoxDriver();
             driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
@@ -116,7 +115,7 @@ namespace web.test
             driver.Sleep(TimeSpan.FromSeconds(3));
 
 
-            var latest = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([CommercialSpaceTemplateId]) FROM [Sph].[CommercialSpaceTemplate]");
+            var latest = this.GetDatabaseScalarValue<int>("SELECT MAX([CommercialSpaceTemplateId]) FROM [Sph].[CommercialSpaceTemplate]");
             Assert.IsTrue(max < latest);
 
             driver.Sleep(TimeSpan.FromSeconds(2));
@@ -129,12 +128,11 @@ namespace web.test
         public void _002_AddNewCs()
         {
 
-            SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
-            var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([CommercialSpaceId]) FROM [Sph].[CommercialSpace]");
-            var templateId = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceTemplateId] FROM [Sph].[CommercialSpaceTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", CS_TEMPLATE_NAME));
+            this.ExecuteNonQuery("DELETE FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
+            var max = this.GetDatabaseScalarValue<int>("SELECT MAX([CommercialSpaceId]) FROM [Sph].[CommercialSpace]");
+            var templateId = this.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceTemplateId] FROM [Sph].[CommercialSpaceTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", CS_TEMPLATE_NAME));
 
-            var building =
-                SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Building] WHERE [Name] = @Name",
+            var building =this.GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Building] WHERE [Name] = @Name",
                     new SqlParameter("@Name", BuildingTest.BUILDING_NAME));
 
             Assert.AreEqual(1, building, "You'll need to run the AddBuildingTest");
@@ -168,7 +166,7 @@ namespace web.test
                 .Sleep(TimeSpan.FromSeconds(2));
 
 
-            var id = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
+            var id = this.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
             Assert.IsTrue(max < id);
 
             driver.NavigateToUrl("/#/commercialspace");

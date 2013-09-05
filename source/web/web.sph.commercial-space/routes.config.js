@@ -406,7 +406,7 @@
     "error": ""
   },
   {
-    "role": "can_edit_complaint_template",
+    "role": "can_assign_complaint",
     "url": "complaint.list",
     "moduleId": "viewmodels/complaint.list",
     "name": "Senarai Aduan",

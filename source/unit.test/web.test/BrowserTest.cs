@@ -1,27 +1,36 @@
 ﻿using System;
+using System.Configuration;
 using System.Data.SqlClient;
-using System.Runtime.InteropServices;
+using System.Security.Principal;
+using System.Threading;
 using System.Web.Security;
-using System.Xml.Linq;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 
 namespace web.test
 {
-
-    public class BrowserTest
+    public interface ISqlConnectionConsumer
+    {
+        string ConnectionString { get; }
+    }
+    public class BrowserTest : ISqlConnectionConsumer
     {
 
         public const string WEB_RUANG_KOMERCIAL_URL = "http://localhost:4436";
         public const string WEB_DRIVER_PATH = @"D:\project\work\quarters\webdrivers";
         public const string DUMMY_USER_NAME = "[Test] Dummy User";
+        public string ConnectionString { get { return ConfigurationManager.ConnectionStrings["Sph"].ConnectionString; } }
 
+
+        internal static void SetCurrentIdentity(string userName)
+        {
+            var id = new GenericIdentity(userName);
+            Thread.CurrentPrincipal = new GenericPrincipal(id, new[] { "user" });
+        }
 
         protected IWebDriver InitiateDriver(string agent = null)
         {
-
             IWebDriver driver = new FirefoxDriver();
             return driver;
         }
@@ -61,11 +70,10 @@ namespace web.test
             if (Membership.GetUser(user.UserName) != null)
             {
                 Membership.DeleteUser(user.UserName);
-            };
-            BuildingTest.SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[UserProfile] WHERE [UserName] = @UserName", new SqlParameter("@UserName", user.UserName));
+            }
+            this.ExecuteNonQuery("DELETE FROM [Sph].[UserProfile] WHERE [UserName] = @UserName", new SqlParameter("@UserName", user.UserName));
             var u = Membership.CreateUser(user.UserName, user.Password, user.Email);
-            var id =
-                BuildingTest.SPH_DATABASE.GetDatabaseScalarValue<int>(
+            var id =this.GetDatabaseScalarValue<int>(
                     "SELECT MAX([UserProfileId]) + 1 FROM [Sph].[UserProfile]");
 
 
@@ -99,8 +107,7 @@ namespace web.test
                     id,
                     user.Department
                     );
-
-            BuildingTest.SPH_DATABASE.ExecuteNonQuery("INSERT INTO [Sph].[UserProfile]([UserName],[Data],[FullName], [Email], [Designation], [Department]," +
+            this.ExecuteNonQuery("INSERT INTO [Sph].[UserProfile]([UserName],[Data],[FullName], [Email], [Designation], [Department]," +
                                                       "[CreatedDate],[ChangedDate],[CreatedBy],[ChangedBy]) " +
                                                       "VALUES(@UserName, @Data,@FullName, @Email, @Designation, @Department, '2013-01-01','2013-01-01','test','test')",
                 new SqlParameter("@UserName", u.UserName),

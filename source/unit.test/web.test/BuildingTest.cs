@@ -10,7 +10,6 @@ namespace web.test
     [TestFixture]
     public class BuildingTest : BrowserTest
     {
-        public const string SPH_DATABASE = "sph";
         public const string BUILDING_NAME = "Bangunan Komersil Di KB";
         public const string BUILDING_TEMPLATE_NAME = "Bangunan Komersil";
 
@@ -44,16 +43,15 @@ namespace web.test
         [Test]
         public void _001_AddBuildingTemplate()
         {
-            SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
-            var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([BuildingTemplateId]) FROM [Sph].[BuildingTemplate]");
+            this.ExecuteNonQuery("DELETE FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
+            var max = this.GetDatabaseScalarValue<int>("SELECT MAX([BuildingTemplateId]) FROM [Sph].[BuildingTemplate]");
 
 
             IWebDriver driver = new FirefoxDriver();
-            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
+            driver.NavigateToUrl("/Account/Login");
             driver.Login("ruzzaima");
             driver.NavigateToUrl("/#building.template.list")
-                  .NavigateToUrl("/#/template.building-id.0/0")
-                  .Sleep(1.Seconds());
+                  .NavigateToUrl("/#/template.building-id.0/0", 1.Seconds());
 
             // add elements
             driver.Value("[name=Building-template-category]", BUILDING_TEMPLATE_NAME)
@@ -119,7 +117,7 @@ namespace web.test
             driver.Sleep(TimeSpan.FromSeconds(3));
 
 
-            var latest = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([BuildingTemplateId]) FROM [Sph].[BuildingTemplate]");
+            var latest = this.GetDatabaseScalarValue<int>("SELECT MAX([BuildingTemplateId]) FROM [Sph].[BuildingTemplate]");
             Assert.IsTrue(max < latest);
 
             driver.Sleep(TimeSpan.FromSeconds(2));
@@ -132,9 +130,9 @@ namespace web.test
         public void _002_AddBuilding()
         {
 
-            SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_NAME));
-            var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([BuildingId]) FROM [Sph].[Building]");
-            var templateId = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
+            this.ExecuteNonQuery("DELETE FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_NAME));
+            var max = this.GetDatabaseScalarValue<int>("SELECT MAX([BuildingId]) FROM [Sph].[Building]");
+            var templateId = this.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
 
 
             IWebDriver driver = new FirefoxDriver();
@@ -173,7 +171,7 @@ namespace web.test
             driver.Click("#save-button")
             .Sleep(TimeSpan.FromSeconds(2))
             ;
-            var latest = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([BuildingId]) FROM [Sph].[Building]");
+            var latest = this.GetDatabaseScalarValue<int>("SELECT MAX([BuildingId]) FROM [Sph].[Building]");
             Assert.IsTrue(max < latest);
 
             driver.NavigateToUrl("/#/building.list");
@@ -185,8 +183,8 @@ namespace web.test
         [Test]
         public void _003_AddLots()
         {
-            var id = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_NAME));
-            var templateId = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
+            var id = this.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_NAME));
+            var templateId = this.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
             
             IWebDriver driver = new FirefoxDriver();
             driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/Account/Login");

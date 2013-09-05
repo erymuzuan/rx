@@ -25,11 +25,9 @@ namespace web.test
             Thread.CurrentPrincipal = principal;
         }
 
-        public static T GetDatabaseScalarValue<T>(this string connectionStringName, string sql,  params SqlParameter[] parameters)
+        public static T GetDatabaseScalarValue<T>( this ISqlConnectionConsumer helper, string sql,  params SqlParameter[] parameters)
         {
-
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = new SqlConnection(helper.ConnectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 if (parameters.Any())
@@ -48,11 +46,10 @@ namespace web.test
 
         }
 
-        public static T? GetNullableScalarValue<T>(string sql, string connectionStringName, params SqlParameter[] parameters) where T : struct
+        public static T? GetNullableScalarValue<T>(this ISqlConnectionConsumer helper, string sql, params SqlParameter[] parameters) where T : struct
         {
 
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = new SqlConnection(helper.ConnectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 if (parameters.Any())
@@ -74,10 +71,9 @@ namespace web.test
 
 
 
-        public static List<T> GetDatabaseList<T>(string command, string connectionStringName, params SqlParameter[] parameters)
+        public static List<T> GetDatabaseList<T>(this ISqlConnectionConsumer helper, string command, params SqlParameter[] parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = new SqlConnection(helper.ConnectionString))
             using (var cmd = new SqlCommand(command, conn))
             {
                 if (parameters.Any())
@@ -101,11 +97,10 @@ namespace web.test
         }
 
 
-        public static Dictionary<TKey, TValue> GetDatabaseKeyList<TKey, TValue>(string sql, string connectionStringName, params SqlParameter[] parameters)
+        public static Dictionary<TKey, TValue> GetDatabaseKeyList<TKey, TValue>(this ISqlConnectionConsumer helper, string sql, params SqlParameter[] parameters)
         {
             
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = new SqlConnection(helper.ConnectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 if (parameters.Any())
@@ -128,10 +123,9 @@ namespace web.test
         }
 
 
-        public static void ExecuteNonQuery(this string connectionStringName, string sql, params SqlParameter[] parameters)
+        public static void ExecuteNonQuery(this ISqlConnectionConsumer helper, string sql, params SqlParameter[] parameters)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = new SqlConnection(helper.ConnectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
                 if (parameters.Any())
@@ -142,10 +136,5 @@ namespace web.test
             }
         }
 
-        internal static void SetCurrentIdentity(string userName)
-        {
-            var id = new GenericIdentity(userName);
-            Thread.CurrentPrincipal = new GenericPrincipal(id, new[] { "user" });
-        }
     }
 }

@@ -85,7 +85,7 @@ namespace web.test
                 throw;
             }
         }
-
+      
         public static IWebDriver AssertElementExist(this IWebDriver driver, string selector, Expression<Func<IWebElement, bool>> assert, string message = "")
         {
             var elements = driver.FindElements(By.CssSelector(selector)).AsQueryable();
