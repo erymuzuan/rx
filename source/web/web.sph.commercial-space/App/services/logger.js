@@ -7,6 +7,7 @@ define(['durandal/system'],
         var logger = {
             log: log,
             info: info,
+            error: error,
             logError: logError
         };
 

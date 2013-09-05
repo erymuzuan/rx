@@ -1,5 +1,9 @@
 ﻿using System;
-using System.Linq.Expressions;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Bespoke.SphCommercialSpaces.Domain
@@ -39,5 +43,16 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public DateTime ChangedDate { get; set; }
 
 
+
+        public virtual Task<IEnumerable<ValidationError>> ValidateAsync()
+        {
+            return Task.FromResult(new List<ValidationError>().AsEnumerable());
+        }
+    }
+
+    public class ValidationError
+    {
+        public string PropertyName { get; set; }
+        public string Message { get; set; }
     }
 }
