@@ -109,7 +109,9 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 context.post(data, "/Template/SaveBuildingTemplate")
                     .then(function (result) {
                         isBusy(false);
+                        vm.template().BuildingTemplateId(result);
                         tcs.resolve(result);
+                        logger.info("Your building template has been saved");
                     });
                 return tcs.promise();
             },
