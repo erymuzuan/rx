@@ -607,6 +607,10 @@ div.modal-header > button.close:hover {
   width: inherit;
   margin: 10px;
 }
+.bordered-box {
+  border: 1px solid #000;
+  margin: 10px;
+}
 .absolute-center {
   position: absolute;
   margin: auto;
@@ -619,6 +623,9 @@ div.modal-header > button.close:hover {
   float: right;
 }
 .context-action {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid gray;
   display: none;
   position: absolute;
   z-index: 9999;

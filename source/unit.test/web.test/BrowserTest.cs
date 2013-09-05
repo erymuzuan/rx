@@ -2,6 +2,7 @@
 using FluentDateTime;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
 
 namespace web.test
 {
@@ -13,6 +14,13 @@ namespace web.test
         public const string WEB_DRIVER_PATH = @"D:\project\work\quarters\webdrivers";
         public const string DUMMY_USER_NAME = "[Test] Dummy User";
 
+
+        protected IWebDriver InitiateDriver(string agent = null)
+        {
+
+            IWebDriver driver = new FirefoxDriver();
+            return driver;
+        }
 
         protected void PayWithMigs(IWebDriver driver)
         {
