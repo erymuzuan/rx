@@ -85,8 +85,8 @@
   },
   {
     "role": "can_edit_contract_template",
-    "url": "contract.type.template/:id",
-    "moduleId": "viewmodels/contract.type.template",
+    "url": "contract.template/:id",
+    "moduleId": "viewmodels/contract.template",
     "name": "contract type",
     "visible": false,
     "icon": "icon-edit",
@@ -211,9 +211,9 @@
   },
   {
     "role": "can_edit_contract_template",
-    "url": "contract.type",
-    "moduleId": "viewmodels/contract.type",
-    "name": "Tetapan Kontrak",
+    "url": "contract.template.list",
+    "moduleId": "viewmodels/contract.template.list",
+    "name": "Templat Kontrak",
     "visible": true,
     "icon": "icon-edit",
     "caption": "Buat jenis kontrak",

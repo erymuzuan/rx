@@ -74,7 +74,8 @@
     <Compile Include="BuildingTest.cs" />
     <Compile Include="CommercialSpaceTest.cs" />
     <Compile Include="ComplaintTest.cs" />
-    <Compile Include="Init.cs" />
+    <Compile Include="ComplaintTenantTest.cs" />
+    <Compile Include="ContractTest.cs" />
     <Compile Include="MembershipAndRoles.cs" />
     <Compile Include="RentalApplicationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
