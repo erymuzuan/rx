@@ -47,7 +47,7 @@
                         $menu.css("height", $(document).height()).show().animate({ "width": 280 })
                             
                 },
-                sliderVisible = false;
+                sliderVisible = $menu.is(':visible');
             
 
             $('#drawer-menu').on('click', function (e) {
@@ -60,7 +60,6 @@
                 sliderVisible = !sliderVisible;
                 
             });
-            $menu.hide().on('click', 'a', hideSlider);
 
             var $links = $('div#slider-menu li');
             var filterInput = $('#filter-text');
