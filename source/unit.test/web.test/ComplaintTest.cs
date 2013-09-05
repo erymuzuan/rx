@@ -10,13 +10,12 @@ namespace web.test
     [TestFixture]
     public class ComplaintTest : BrowserTest
     {
-        public const string sphDatabase = "sph";
-        public const string tenantId = "4";
+        public const string TENANT_ID = "4";
         [Test]
         public void _001_UserComplaint()
         {
             IWebDriver driver = new FirefoxDriver();
-            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/tenant.portal/" + tenantId);
+            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/tenant.portal/" + TENANT_ID);
             driver.Sleep(TimeSpan.FromSeconds(3));
             driver.Click("#complainttab");
             driver.Sleep(TimeSpan.FromSeconds(3));
@@ -31,7 +30,7 @@ namespace web.test
             driver.Sleep(TimeSpan.FromSeconds(3));
             driver.Click("#submit-button")
             .Sleep(TimeSpan.FromSeconds(3));
-            var id = sphDatabase.GetDatabaseScalarValue<int>("SELECT MAX([ComplaintId]) FROM [Sph].[Complaint] WHERE [TenantId] =@id", new SqlParameter("@id", tenantId));
+            var id = this.GetDatabaseScalarValue<int>("SELECT MAX([ComplaintId]) FROM [Sph].[Complaint] WHERE [TenantId] =@id", new SqlParameter("@id", TENANT_ID));
             Assert.IsTrue(id > 0);
             driver.Sleep(TimeSpan.FromSeconds(3), "See the result");
             driver.Quit();

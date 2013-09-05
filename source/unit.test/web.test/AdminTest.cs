@@ -15,7 +15,6 @@ namespace web.test
        [Test]
         public void _001_AddUser()
         {
-            const string sphDatabase = "sph";
 
             IWebDriver driver = new FirefoxDriver();
             driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/users");
@@ -33,7 +32,7 @@ namespace web.test
             driver.Click("#save-button")
             .Sleep(TimeSpan.FromSeconds(5));
 
-            var id = sphDatabase.GetDatabaseScalarValue<int>("SELECT [UserProfileId] FROM [Sph].[UserProfile] WHERE [Username] =@Username", new SqlParameter("@Username", USERNAME));
+            var id = this.GetDatabaseScalarValue<int>("SELECT [UserProfileId] FROM [Sph].[UserProfile] WHERE [Username] =@Username", new SqlParameter("@Username", USERNAME));
             Assert.IsTrue(id > 0);
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Globalization;
 using FluentDateTime;
 using NUnit.Framework;
@@ -12,7 +11,6 @@ namespace web.test
     [TestFixture]
     public class ReportBuilderTestFixture : BrowserTest
     {
-        public const string SPH_DATABASE = "sph";
         public const string REPORT_TITLE = "Senarai Laporan Tanah(UJIAN)";
 
         private TestUser m_reportAdmin;
@@ -36,8 +34,8 @@ namespace web.test
         [Test]
         public void _001_AddReportDefinition()
         {
-            SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[ReportDefinition] WHERE [Title] =@Title", new SqlParameter("@Title", REPORT_TITLE));
-            var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([ReportDefinitionId]) FROM [Sph].[ReportDefinition]");
+            this.ExecuteNonQuery("DELETE FROM [Sph].[ReportDefinition] WHERE [Title] =@Title", new SqlParameter("@Title", REPORT_TITLE));
+            var max = this.GetDatabaseScalarValue<int>("SELECT MAX([ReportDefinitionId]) FROM [Sph].[ReportDefinition]");
 
 
             IWebDriver driver = new FirefoxDriver();
@@ -143,7 +141,7 @@ namespace web.test
             driver.Click("#save-button")
                 .Sleep(10.Seconds(), "See the result")
                 .Quit();
-            var currentid = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([ReportDefinitionId]) FROM [Sph].[ReportDefinition]");
+            var currentid = this.GetDatabaseScalarValue<int>("SELECT MAX([ReportDefinitionId]) FROM [Sph].[ReportDefinition]");
 
             Assert.IsTrue(currentid > max);
         }
@@ -151,10 +149,8 @@ namespace web.test
         [Test]
         public void _002_PreviewReportDesign()
         {
-            var location =
-                SPH_DATABASE.GetDatabaseScalarValue<string>("SELECT TOP 1 [Location] FROM [Sph].[Land] ORDER BY NEWID()");
-            var count =
-                SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Land] WHERE [Location] = @Location", new SqlParameter("@Location", location));
+            var location =this.GetDatabaseScalarValue<string>("SELECT TOP 1 [Location] FROM [Sph].[Land] ORDER BY NEWID()");
+            var count = this.GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Land] WHERE [Location] = @Location", new SqlParameter("@Location", location));
 
             var driver = this.InitiateDriver();
             driver.Login(m_reportAdmin)
@@ -172,10 +168,10 @@ namespace web.test
         [Test]
         public void _003_DeliverySchedule()
         {
-            var id = SPH_DATABASE.GetDatabaseScalarValue<int>(
+            var id = this.GetDatabaseScalarValue<int>(
                     "SELECT [ReportDefinitionId] FROM [Sph].[ReportDefinition] WHERE [Title] =@Title",
                     new SqlParameter("@Title", REPORT_TITLE));
-            SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[ReportDelivery] WHERE [ReportDefinitionId] = @id", new SqlParameter("@id", id));
+            this.ExecuteNonQuery("DELETE FROM [Sph].[ReportDelivery] WHERE [ReportDefinitionId] = @id", new SqlParameter("@id", id));
 
 
 
@@ -198,7 +194,7 @@ namespace web.test
             driver.Click("#save-button")
                 .Sleep(2.Seconds());
 
-            var sid = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [ReportDeliveryId] FROM [Sph].[ReportDelivery] WHERE [ReportDefinitionId] = @id", new SqlParameter("@id", id));
+            var sid = this.GetDatabaseScalarValue<int>("SELECT [ReportDeliveryId] FROM [Sph].[ReportDelivery] WHERE [ReportDefinitionId] = @id", new SqlParameter("@id", id));
             Assert.IsTrue(sid > 0);
 
             driver.Sleep(10.Seconds(), "See the output")

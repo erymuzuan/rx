@@ -10,7 +10,6 @@ namespace web.test
     [TestFixture]
     public class RentalApplicationTest : BrowserTest
     {
-        const string SPH_DATABASE = "sph";
         public const string RA_COMPANYREGISTRATION_NO = "001390153-U";
         public const string RA_IC_NO = "800212-02-9651";
         public const string APP_TEMPLATE_NAME = "Permohonan Baru";
@@ -27,8 +26,8 @@ namespace web.test
         [Test]
         public void _001_AddApplicationTemplate()
         {
-            SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[ApplicationTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", APP_TEMPLATE_NAME));
-            var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([ApplicationTemplateId]) FROM [Sph].[ApplicationTemplate]");
+            this.ExecuteNonQuery("DELETE FROM [Sph].[ApplicationTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", APP_TEMPLATE_NAME));
+            var max = this.GetDatabaseScalarValue<int>("SELECT MAX([ApplicationTemplateId]) FROM [Sph].[ApplicationTemplate]");
 
 
             IWebDriver driver = new FirefoxDriver();
@@ -51,7 +50,7 @@ namespace web.test
                   .ClickFirst("a", e => e.Text == "Checkboxes")
                   .ClickFirst("a", e => e.Text == "Fields settings")
                   .Value("[name=Label]", "Permohonan Syarikat")
-                  .Value("[name=Path]", "IsCompany"); ;
+                  .Value("[name=Path]", "IsCompany");
 
             //Company Name
            driver.ClickFirst("a", e => e.Text == "Add a field")
@@ -92,7 +91,7 @@ namespace web.test
             driver.Sleep(TimeSpan.FromSeconds(3));
 
 
-            var latest = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([ApplicationTemplateId]) FROM [Sph].[ApplicationTemplate]");
+            var latest = this.GetDatabaseScalarValue<int>("SELECT MAX([ApplicationTemplateId]) FROM [Sph].[ApplicationTemplate]");
             Assert.IsTrue(max < latest);
 
             driver.Sleep(TimeSpan.FromSeconds(2));
@@ -105,10 +104,10 @@ namespace web.test
         [Test]
         public void _002_SubmitNewIndividualRentalApplication()
         {
-            SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[RentalApplication] WHERE [ContactIcNo] =@No", new SqlParameter("@No", RA_IC_NO));
-            var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
-            var templateId = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [ApplicationTemplateId] FROM [Sph].[ApplicationTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", APP_TEMPLATE_NAME));
-            var csId = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
+            this.ExecuteNonQuery("DELETE FROM [Sph].[RentalApplication] WHERE [ContactIcNo] =@No", new SqlParameter("@No", RA_IC_NO));
+            var max = this.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
+            var templateId = this.GetDatabaseScalarValue<int>("SELECT [ApplicationTemplateId] FROM [Sph].[ApplicationTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", APP_TEMPLATE_NAME));
+            var csId = this.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
             
             IWebDriver driver = new FirefoxDriver();
             driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/rentalapplication.selectspace");
@@ -130,7 +129,7 @@ namespace web.test
                 .Sleep(TimeSpan.FromSeconds(5));
 
 
-            var current = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
+            var current = this.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
             Assert.IsTrue(max < current);
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();
@@ -139,10 +138,10 @@ namespace web.test
         [Test]
         public void _003_SubmitNewCompanyRentalApplication()
         {
-            SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[RentalApplication] WHERE [CompanyRegistrationNo] =@No", new SqlParameter("@No", RA_COMPANYREGISTRATION_NO));
-            var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
-            var templateId = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [ApplicationTemplateId] FROM [Sph].[ApplicationTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", APP_TEMPLATE_NAME));
-            var csId = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
+            this.ExecuteNonQuery("DELETE FROM [Sph].[RentalApplication] WHERE [CompanyRegistrationNo] =@No", new SqlParameter("@No", RA_COMPANYREGISTRATION_NO));
+            var max = this.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
+            var templateId = this.GetDatabaseScalarValue<int>("SELECT [ApplicationTemplateId] FROM [Sph].[ApplicationTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", APP_TEMPLATE_NAME));
+            var csId = this.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
 
             IWebDriver driver = new FirefoxDriver();
             driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/rentalapplication.selectspace");
@@ -167,7 +166,7 @@ namespace web.test
                 .Sleep(TimeSpan.FromSeconds(5));
 
 
-            var current = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
+            var current = this.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
             Assert.IsTrue(max < current);
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();
