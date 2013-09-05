@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Globalization;
 using FluentDateTime;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -14,7 +15,9 @@ namespace web.test
         public const string REPORT_TITLE = "Senarai Laporan Tanah(UJIAN)";
 
         [Test]
+        // ReSharper disable InconsistentNaming
         public void _001_AddReportDefinition()
+        // ReSharper restore InconsistentNaming
         {
             SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[ReportDefinition] WHERE [Title] =@Title", new SqlParameter("@Title", REPORT_TITLE));
             var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([ReportDefinitionId]) FROM [Sph].[ReportDefinition]");
@@ -41,56 +44,56 @@ namespace web.test
                 .ClickFirst("a[data-toggle='tab']", e => e.Text == "Parameters")
                 .Sleep(200.Milliseconds())
                 .Click("button.btn-link", e => e.Text == "+ parameter")
-                .Value("input.input-parameter-name","Location")
-                .Value("input.input-parameter-label","Tapis ikut lokasi")
-                .Value("select.input-parameter-type","String")
+                .Value("input.input-parameter-name", "Location")
+                .Value("input.input-parameter-label", "Tapis ikut lokasi")
+                .Value("select.input-parameter-type", "String")
                 ;
 
             driver
                 .Sleep(200.Milliseconds())
                 .Click("button.btn-link", e => e.Text == "+ parameter")
-                .Value("input.input-parameter-name","Location2",1)
-                .Value("input.input-parameter-label","Tapis ikut lokasi 2",1)
-                .Value("select.input-parameter-type","String",1)
+                .Value("input.input-parameter-name", "Location2", 1)
+                .Value("input.input-parameter-label", "Tapis ikut lokasi 2", 1)
+                .Value("select.input-parameter-type", "String", 1)
                 .Sleep(1.Seconds())
                 .Click("button.btn-link", e => e.Text == "Buang", 1)
                 ;
             // data source
             driver
                 .ClickFirst("a[data-toggle='tab']", e => e.Text == "Datasource")
-                .Value("select[name='Entity']","Tanah")
+                .Value("select[name='Entity']", "Tanah")
                 .Sleep(500.Milliseconds())
                 .Click("a", e => e.Text == "+ Filter")
-                .Value("select.input-datasource-fieldname","Location")
-                .Value("select.input-datasource-operator","=")
-                .Value("input.input-datasource-value","@Location")
+                .Value("select.input-datasource-fieldname", "Location")
+                .Value("select.input-datasource-operator", "=")
+                .Value("input.input-datasource-value", "@Location")
 
                 ;
             driver
                 .Click("a", e => e.Text == "+ Filter")
-                .Value("select.input-datasource-fieldname","LandId",1)
-                .Value("select.input-datasource-operator","=",1)
-                .Value("input.input-datasource-value", "1000",1)
+                .Value("select.input-datasource-fieldname", "LandId", 1)
+                .Value("select.input-datasource-operator", "=", 1)
+                .Value("input.input-datasource-value", "1000", 1)
                 .Click("a", e => e.Displayed && e.Text == "Buang", 1)
 
                 ;
-            
+
             // column options
             driver
                 .ClickFirst("a[data-toggle='tab']", e => e.Text == "Available Columns")
                 .Click("label.checkbox", e => e.Text.Contains("Location"))
                 .Click("label.checkbox", e => e.Text.Contains("LandId"))
                 ;
-            
+
             // column properties
             driver
                 .ClickFirst("a[data-toggle='tab']", e => e.Text == "Columns Properties")
                 .Value("select.input-col-group", "Group")
-                .Value("select.input-col-group", "Count",1)
+                .Value("select.input-col-group", "Count", 1)
                 ;
 
             driver
-                .Sleep(5.Seconds(),"Check the dialog..")
+                .Sleep(5.Seconds(), "Check the dialog..")
                 .Click("a.btn-close-configuration-dialog");/**/
 
             driver
@@ -102,22 +105,22 @@ namespace web.test
             ;
 
             driver
-            .Click("div.report-layout", e => true,1) // select the content layout
+            .Click("div.report-layout", e => true, 1) // select the content layout
             .ClickFirst("span", e => e.Text == "Table") // table element in toolbox
             .ClickFirst("button.btn-context-action", e => e.Displayed)
 
-            .ClickFirst("button.btn-link",e => e.Text == "+ Column")
-            .Value("select.input-datagrid-columnname","Location")
-            .Value("input.input-datagrid-header","Location")
+            .ClickFirst("button.btn-link", e => e.Text == "+ Column")
+            .Value("select.input-datagrid-columnname", "Location")
+            .Value("input.input-datagrid-header", "Location")
 
-            .ClickFirst("button.btn-link",e => e.Text == "+ Column")
-            .Value("select.input-datagrid-columnname","LandId_COUNT",1)
-            .Value("input.input-datagrid-header","Bilangan",1)
-            .Click("button.close",e => e.Displayed)
+            .ClickFirst("button.btn-link", e => e.Text == "+ Column")
+            .Value("select.input-datagrid-columnname", "LandId_COUNT", 1)
+            .Value("input.input-datagrid-header", "Bilangan", 1)
+            .Click("button.close", e => e.Displayed)
             .Sleep(1.Seconds())
             ;
 
-            
+
 
             /**/
             driver.Click("#save-button")
@@ -125,8 +128,76 @@ namespace web.test
                 .Quit();
             var currentid = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([ReportDefinitionId]) FROM [Sph].[ReportDefinition]");
 
-            Assert.AreEqual(max + 1, currentid);
+            Assert.IsTrue(currentid > max);
         }
 
+        [Test]
+        // ReSharper disable InconsistentNaming
+        public void _002_PreviewReportDesign()
+        // ReSharper restore InconsistentNaming
+        {
+            var id =
+                SPH_DATABASE.GetDatabaseScalarValue<int>(
+                    "SELECT [ReportDefinitionId] FROM [Sph].[ReportDefinition] WHERE [Title] =@Title",
+                    new SqlParameter("@Title", REPORT_TITLE));
+
+            var location =
+                SPH_DATABASE.GetDatabaseScalarValue<string>("SELECT TOP 1 [Location] FROM [Sph].[Land] ORDER BY NEWID()");
+            var count =
+                SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Land] WHERE [Location] = @Location", new SqlParameter("@Location", location));
+
+            var driver = this.InitiateDriver();
+            driver.Login()
+                .NavigateToUrl("/#/reportdefinition.list", 1.Seconds())
+                .Sleep(1.Seconds())
+                .Click("a", e => e.GetAttribute("title") == REPORT_TITLE, 2.Seconds())
+                .Value("input#parameter0", location)
+                .Click("button", e => e.GetAttribute("data-bind") == "click: executeCommand", 2.Seconds())
+                .Assert("td", e => e.Text == count.ToString(CultureInfo.InvariantCulture));
+
+            driver.Sleep(10.Seconds(), "See the output")
+                .Quit();
+
+
+        }
+        [Test]
+        // ReSharper disable InconsistentNaming
+        public void _003_DeliverySchedule()
+        // ReSharper restore InconsistentNaming
+        {
+            var id = SPH_DATABASE.GetDatabaseScalarValue<int>(
+                    "SELECT [ReportDefinitionId] FROM [Sph].[ReportDefinition] WHERE [Title] =@Title",
+                    new SqlParameter("@Title", REPORT_TITLE));
+            SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[ReportDelivery] WHERE [ReportDefinitionId] = @id", new SqlParameter("@id", id));
+
+
+
+            var driver = this.InitiateDriver();
+            driver.Login()
+                .NavigateToUrl("/#/reportdelivery.schedule/" + id, 1.Seconds())
+                .Value("[name=Title]", "Schedule for " + REPORT_TITLE)
+                .Value("[name=Users]", "admin")
+                .Value("[name=Description]", "Description for schedule " + REPORT_TITLE)
+                .Click("a", e => e.Text == "Add new Schedule", 500.Milliseconds())
+                .ClickFirst("a", e => e.GetAttribute("data-bind") == "click: $root.startAddSchedule")
+                .Sleep(500.Milliseconds())
+                .Value("[name=StartHour]", "8")
+                .Value("[name=EndHour]", "20")
+                .Value("[name=Interval]", "4")
+                .ClickAll("input.btn", e => e.GetAttribute("data-bind") == "click: $root.okDialog")
+                .Sleep(2.Seconds())
+                ;
+
+            driver.Click("#save-button")
+                .Sleep(2.Seconds());
+
+            var sid = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [ReportDeliveryId] FROM [Sph].[ReportDelivery] WHERE [ReportDefinitionId] = @id", new SqlParameter("@id", id));
+            Assert.IsTrue(sid > 0);
+
+            driver.Sleep(10.Seconds(), "See the output")
+                .Quit();
+
+
+        }
     }
 }

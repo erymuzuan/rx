@@ -12,7 +12,7 @@
         <div class="control-group">
             <label for="users" class="control-label">Users</label>
             <div class="controls">
-                <input class="input-xlarge" data-bind="stringArrayAutoComplete: Users, data:$root.userOptions" id="users" type="text" name="Category" />
+                <input class="input-xlarge" data-bind="stringArrayAutoComplete: Users, data:$root.userOptions" id="users" type="text" name="Users" />
             </div>
         </div>
         <div class="control-group">
@@ -83,7 +83,7 @@
         <div class="control-group">
             <label for="sche-start-hour" class="control-label">Start Hour</label>
             <div class="controls">
-                <input class="input-mini" data-bind="value: StartHour" min="0" id="sche-start-hour" type="number" name="sche-start-hour" />
+                <input class="input-mini" data-bind="value: StartHour" min="0" id="sche-start-hour" type="number" name="StartHour" />
             </div>
         </div>
 
@@ -103,7 +103,7 @@
         <div class="control-group">
             <label for="h-interval" class="control-label">Interval</label>
             <div class="controls">
-                <input class="input-mini" data-bind="value: Interval" id="h-interval" type="number" max="23" name="Interval" />
+                <input class="input-mini" data-bind="value: Interval" min="1" id="h-interval" type="number" max="23" name="Interval" />
                 <span class="help-inline">every hour</span>
             </div>
         </div>

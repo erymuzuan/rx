@@ -33,7 +33,7 @@ namespace web.test
 
             driver.NavigateToUrl("/#commercialspace.template.list")
                    .NavigateToUrl("/#/template.commercialspace-id.0/0")
-                   .Sleep(1.Seconds());
+                   .Sleep(2.Seconds());
 
             // add elements
             driver.Value("[name=CommercialSpace-template-category]", CS_TEMPLATE_NAME)
