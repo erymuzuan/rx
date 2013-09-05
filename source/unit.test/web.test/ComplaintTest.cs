@@ -116,7 +116,7 @@ namespace web.test
             Assert.IsTrue(max < latest);
 
             driver.Sleep(TimeSpan.FromSeconds(2));
-            driver.NavigateToUrl("/#complaint.template.list");
+            driver.NavigateToUrl("/#/complaint.template.list");
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();
         }

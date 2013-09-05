@@ -407,7 +407,7 @@
   },
   {
     "role": "can_assign_complaint",
-    "url": "complaint.list",
+    "url": "complaint.list/:status",
     "moduleId": "viewmodels/complaint.list",
     "name": "Senarai Aduan",
     "visible": true,
