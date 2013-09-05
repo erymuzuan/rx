@@ -1,6 +1,7 @@
 ﻿#slider-menu {
-  width: 260px;
-  background-color: #1e1e1e;
+  width: 0px;
+  display: none;
+  background-color: #252526;
   margin-top: -40px;
 }
 #slider-menu .nav > li {
@@ -8,15 +9,19 @@
   margin-left: 5px;
   margin-top: 2px;
 }
+#slider-menu .nav > li:hover {
+  background-color: #ff0000;
+}
 #slider-menu .nav > li > a {
   margin-right: 5px;
   color: #fff;
 }
 #slider-menu .nav > li > a:hover {
-  margin-right: 5px;
-  color: #fff;
-  background-color: #252526;
+  background-color: #ff0000;
 }
 #slider-menu .nav > li > a > i {
   margin-right: 5px;
+}
+#toolbar-panel {
+  float: right;
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Commerspace.Web.Helpers;
 using Bespoke.SphCommercialSpaces.Domain;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
@@ -105,6 +106,22 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(true);
         }
 
+        public async Task<ActionResult> Remove()
+        {
+            var building = this.GetRequestJson<Building>();
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Delete(building);
+                await session.SubmitChanges("Remove");
+            }
+
+            this.Response.ContentType = "application/json; charset=utf-8";
+            return Content(await JsonConvert.SerializeObjectAsync(new { status = "OK" }));
+
+        }
+
+
         public async Task<ActionResult> SaveBuilding(Building building)
         {
             var context = new SphDataContext();
@@ -148,7 +165,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 session.Attach(item);
                 await session.SubmitChanges("Editing building details");
             }
-            return Json(new { status = "success", buildingId = building.BuildingId, message =item.Name });
+            return Json(new { status = "success", buildingId = building.BuildingId, message = item.Name });
         }
 
         public async Task<ActionResult> AddLot(Floor floor, int buildingId, string floorname)

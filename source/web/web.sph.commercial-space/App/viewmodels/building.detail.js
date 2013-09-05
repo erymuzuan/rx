@@ -4,6 +4,7 @@
 /// <reference path="../../Scripts/__common.js" />
 /// <reference path="../../Scripts/google-maps-3-vs-1-0-vsdoc.js" />
 /// <reference path="../../Scripts/require.js" />
+/// <reference path="../../Scripts/_task.js" />
 /// <reference path="../services/datacontext.js" />
 
 define(['services/datacontext',
@@ -199,6 +200,29 @@ define(['services/datacontext',
             },
             viewAttached = function () {
                 $('*[title]').tooltip({ placement: 'right' });
+            },
+            remove = function () {
+                return app.showMessage("Adakah anda pasti untuk buang bangunan ini dari rekod", "Buang Rekod", ["Ya", "Tidak"])
+                      .done(function (result) {
+                          if (result === "Ya") {
+                              var tcs = new $.Deferred();
+                              var data = ko.mapping.toJSON(vm.building);
+
+                              context.post(data, "/Building/Remove")
+                                  .then(function (msg) {
+                                      tcs.resolve(true);
+                                      if (msg.status === "OK") {
+                                          logger.info("Bangunan sudah berjaya di buang");
+                                          router.navigateTo("/#/building.list");
+                                      } else {
+                                          logger.error(msg.message);
+                                      }
+                                  });
+                              return tcs.promise();
+                          }
+
+                          return Task.fromResult(true);
+                      });
             };
 
         var vm = {
@@ -229,7 +253,8 @@ define(['services/datacontext',
                 printCommand: {
                     entity: "Building",
                     id: ko.observable()
-                }
+                },
+                removeCommand: remove
             })
         };
 

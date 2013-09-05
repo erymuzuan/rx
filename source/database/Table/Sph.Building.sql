@@ -29,3 +29,10 @@ ADD [Wkt] VARCHAR(MAX) NULL
 GO
 ALTER TABLE Sph.Building
 ADD [EncodedWkt] VARCHAR(MAX) NULL
+
+
+USE [Sph]
+
+GO
+ALTER TABLE Sph.Building
+ADD [TemplateId] INT NOT NULL DEFAULT 0

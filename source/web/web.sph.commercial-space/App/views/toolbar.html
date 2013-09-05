@@ -1,6 +1,6 @@
 ﻿
 
-<div class="pull-right navbar navbar-inner">
+<div id="toolbar-panel" class="navbar navbar-inner" data-bind="visible: typeof router.activeItem().toolbar === 'object'">
     <div data-bind="with: router.activeItem().toolbar">
 
 

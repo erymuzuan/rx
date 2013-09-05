@@ -825,6 +825,7 @@
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Scripts\_constants.js" />
     <Content Include="Scripts\_function.prototypes.js" />
     <Content Include="Scripts\_kendo-knockoutbindings.js" />
     <Content Include="Scripts\_references.js" />

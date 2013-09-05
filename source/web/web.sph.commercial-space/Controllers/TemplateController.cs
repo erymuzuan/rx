@@ -27,10 +27,15 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public async Task<ActionResult> SaveBuildingTemplate()
         {
-
             var models = TypeHelper.GetPropertyPath(typeof(Building));
             var template = this.GetRequestJson<BuildingTemplate>();
             this.BuildCustomFields(template.CustomFieldCollection, template.FormDesign, models);
+
+            var errors = (await template.ValidateAsync()).ToList();
+            if (errors.Any())
+            {
+                return Json(new { status = "ERROR", message = "There's are errors", errors = errors.ToArray() });
+            }
 
             var context = new SphDataContext();
             using (var session = context.OpenSession())
@@ -38,7 +43,23 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 session.Attach(template);
                 await session.SubmitChanges();
             }
-            return Json(template.BuildingTemplateId);
+            return Json(new { status = "OK", id = template.BuildingTemplateId, message = "template was succesfully saved" });
+        }
+
+        public async Task<ActionResult> RemoveBuildingTemplate()
+        {
+            var template = this.GetRequestJson<BuildingTemplate>();
+            var context = new SphDataContext();
+            var existBuilding = await context.GetAnyAsync<Building>(b => b.TemplateId == template.BuildingTemplateId);
+            if (existBuilding)
+                return Json(new { status = "ERROR", message = "There are buildings for this template" });
+
+            using (var session = context.OpenSession())
+            {
+                session.Delete(template);
+                await session.SubmitChanges();
+            }
+            return Json(new { status = "OK", message = "template was succesfully deleted" });
         }
 
         public async Task<ActionResult> SaveCommercialSpaceTemplate()
