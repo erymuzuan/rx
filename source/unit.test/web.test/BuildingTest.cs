@@ -10,8 +10,8 @@ namespace web.test
     [TestFixture]
     public class BuildingTest : BrowserTest
     {
-        const string SPH_DATABASE = "sph";
-        const string BuildingName = "Bangunan Komersil Di KB";
+        public const string SPH_DATABASE = "sph";
+        public const string BUILDING_NAME = "Bangunan Komersil Di KB";
         public const string BUILDING_TEMPLATE_NAME = "Bangunan Komersil";
 
 
@@ -114,7 +114,7 @@ namespace web.test
         public void _002_AddBuilding()
         {
 
-            SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
+            SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_NAME));
             var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([BuildingId]) FROM [Sph].[Building]");
             var templateId = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
 
@@ -126,7 +126,7 @@ namespace web.test
             driver.NavigateToUrl(String.Format("/#/building.detail-templateid.{0}/{0}/0", templateId));
             driver.Sleep(TimeSpan.FromSeconds(2));
             driver
-                .Value("[name='Name']", BuildingName)
+                .Value("[name='Name']", BUILDING_NAME)
                 .Value("[name='LotNo']", "12-001")
                 .Value("[name='Size']", "112991.02")
                 .Value("[name='address.Street']", "Jalan Cempaka")
@@ -167,7 +167,7 @@ namespace web.test
         [Test]
         public void _003_AddLots()
         {
-            var id = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BuildingName));
+            var id = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_NAME));
             var templateId = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
             
             IWebDriver driver = new FirefoxDriver();

@@ -15,7 +15,7 @@ namespace web.test
         public const string SPH_DATABASE = "sph";
 
         [Test]
-        public void AddCsTemplateAndNewCS()
+        public void AddCsTemplateAndNewCs()
         {
             _001_AddCsTemplate();
             _002_AddNewCs();
@@ -133,18 +133,22 @@ namespace web.test
             var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([CommercialSpaceId]) FROM [Sph].[CommercialSpace]");
             var templateId = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceTemplateId] FROM [Sph].[CommercialSpaceTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", CS_TEMPLATE_NAME));
 
+            var building =
+                SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Building] WHERE [Name] = @Name",
+                    new SqlParameter("@Name", BuildingTest.BUILDING_NAME));
 
-            IWebDriver driver = new FirefoxDriver();
-            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
+            Assert.AreEqual(1, building, "You'll need to run the AddBuildingTest");
+
+            var driver = this.InitiateDriver();
+            driver.NavigateToUrl("/Account/Login",2.Seconds());
             driver.Login("ruzzaima");
             driver.NavigateToUrl("/#/commercialspace");
-            driver.NavigateToUrl(String.Format("/#/commercialspace.detail-templateid.{0}/{0}/0/-/0", templateId));
+            driver.NavigateToUrl(String.Format("/#/commercialspace.detail-templateid.{0}/{0}/0/-/0", templateId), 2.Seconds());
             driver
-                .Sleep(TimeSpan.FromSeconds(1))
                 .Value("[name='RegistrationNo']", CS_REGISTRATION_NO)
                 .Click("#select-lot-button")
                 .Sleep(TimeSpan.FromSeconds(2))
-                .SelectOption("[name='selectedBuilding']", "Block CA, Apartment Fasa 4C")
+                .SelectOption("[name='selectedBuilding']", BuildingTest.BUILDING_NAME)
                 .Sleep(TimeSpan.FromSeconds(2))
                 .SelectOption("[name='selectedFloor']", "Ground Floor")
                 .Sleep(TimeSpan.FromSeconds(2))

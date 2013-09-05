@@ -6,6 +6,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 
+// ReSharper disable InconsistentNaming
 namespace web.test
 {
     [TestFixture]
@@ -14,17 +15,33 @@ namespace web.test
         public const string SPH_DATABASE = "sph";
         public const string REPORT_TITLE = "Senarai Laporan Tanah(UJIAN)";
 
+        private TestUser m_reportAdmin;
+
+        [SetUp]
+        public void Init()
+        {
+            m_reportAdmin = new TestUser
+            {
+                UserName = "reportadmin",
+                FullName = "Report Admin",
+                Email = "reportadmin@bespoke.com.my",
+                Department = "Test",
+                Designation = "Boss",
+                Password = "abcad12334535",
+                Roles = new[] { "admin_dashboard" }
+            };
+            this.AddUser(m_reportAdmin);
+        }
+
         [Test]
-        // ReSharper disable InconsistentNaming
         public void _001_AddReportDefinition()
-        // ReSharper restore InconsistentNaming
         {
             SPH_DATABASE.ExecuteNonQuery("DELETE FROM [Sph].[ReportDefinition] WHERE [Title] =@Title", new SqlParameter("@Title", REPORT_TITLE));
             var max = SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT MAX([ReportDefinitionId]) FROM [Sph].[ReportDefinition]");
 
 
             IWebDriver driver = new FirefoxDriver();
-            driver.Login()
+            driver.Login(m_reportAdmin)
                 .NavigateToUrl("/#/reportdefinition.edit-id.0/0")
                 .Sleep(2.Seconds())
                 .ClickFirst("input[type=radio]", e => e.GetAttribute("name") == "layout");
@@ -132,28 +149,20 @@ namespace web.test
         }
 
         [Test]
-        // ReSharper disable InconsistentNaming
         public void _002_PreviewReportDesign()
-        // ReSharper restore InconsistentNaming
         {
-            var id =
-                SPH_DATABASE.GetDatabaseScalarValue<int>(
-                    "SELECT [ReportDefinitionId] FROM [Sph].[ReportDefinition] WHERE [Title] =@Title",
-                    new SqlParameter("@Title", REPORT_TITLE));
-
             var location =
                 SPH_DATABASE.GetDatabaseScalarValue<string>("SELECT TOP 1 [Location] FROM [Sph].[Land] ORDER BY NEWID()");
             var count =
                 SPH_DATABASE.GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Land] WHERE [Location] = @Location", new SqlParameter("@Location", location));
 
             var driver = this.InitiateDriver();
-            driver.Login()
-                .NavigateToUrl("/#/reportdefinition.list", 1.Seconds())
-                .Sleep(1.Seconds())
-                .Click("a", e => e.GetAttribute("title") == REPORT_TITLE, 2.Seconds())
+            driver.Login(m_reportAdmin)
+                .NavigateToUrl("/#/reportdefinition.list", 2.Seconds())
+                .Click("a.execute-report", e => e.GetAttribute("title") == REPORT_TITLE, 2.Seconds())
                 .Value("input#parameter0", location)
                 .Click("button", e => e.GetAttribute("data-bind") == "click: executeCommand", 2.Seconds())
-                .Assert("td", e => e.Text == count.ToString(CultureInfo.InvariantCulture));
+                .AssertElementExist("td", e => e.Text == count.ToString(CultureInfo.InvariantCulture));
 
             driver.Sleep(10.Seconds(), "See the output")
                 .Quit();
@@ -161,9 +170,7 @@ namespace web.test
 
         }
         [Test]
-        // ReSharper disable InconsistentNaming
         public void _003_DeliverySchedule()
-        // ReSharper restore InconsistentNaming
         {
             var id = SPH_DATABASE.GetDatabaseScalarValue<int>(
                     "SELECT [ReportDefinitionId] FROM [Sph].[ReportDefinition] WHERE [Title] =@Title",
@@ -173,7 +180,7 @@ namespace web.test
 
 
             var driver = this.InitiateDriver();
-            driver.Login()
+            driver.Login(m_reportAdmin)
                 .NavigateToUrl("/#/reportdelivery.schedule/" + id, 1.Seconds())
                 .Value("[name=Title]", "Schedule for " + REPORT_TITLE)
                 .Value("[name=Users]", "admin")

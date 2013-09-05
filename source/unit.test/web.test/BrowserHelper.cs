@@ -16,6 +16,12 @@ namespace web.test
             return driver.Sleep(wait);
         }
 
+        public static IWebDriver Login(this IWebDriver driver, TestUser user,
+            int wait = 2000)
+        {
+            return driver.Login(user.UserName, user.Password, wait);
+        }
+
         public static IWebDriver Login(this IWebDriver driver, string username = "admin", string password = "123456", int wait = 2000)
         {
             driver.Navigate().GoToUrl(BrowserTest.WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
@@ -80,7 +86,7 @@ namespace web.test
             }
         }
 
-        public static IWebDriver Assert(this IWebDriver driver, string selector, Expression<Func<IWebElement, bool>> assert, string message = "")
+        public static IWebDriver AssertElementExist(this IWebDriver driver, string selector, Expression<Func<IWebElement, bool>> assert, string message = "")
         {
             var elements = driver.FindElements(By.CssSelector(selector)).AsQueryable();
             var ele = elements.SingleOrDefault(assert);

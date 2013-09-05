@@ -1,0 +1,1 @@
+mru -u x-90909 -p 123456 -e x90909@bespoke.com.my -c .\source\web\web.sph.commercial-space\Web.config  -r can_view_tenant_details
