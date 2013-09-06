@@ -198,7 +198,7 @@
     "error": ""
   },
   {
-    "role": "can_edit_contract_template",
+    "role": "admin_dashboard",
     "url": "contract.create/:rentalApplicationId",
     "moduleId": "viewmodels/contract.create",
     "name": "create contract",
