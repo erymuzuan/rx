@@ -18,7 +18,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             app(routedata);
             id(routedata.applicationId);
             vm.title('Perincian Borang Permohonan');
-            vm.toolbar().auditTrail.id(routedata.applicationId);
+            vm.toolbar.auditTrail.id(routedata.applicationId);
             var tcs = new $.Deferred();
             context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id())
                 .then(function (r) {
@@ -38,10 +38,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                             tcs.resolve(true);
                         });
 
-                    $.get("/Map/CommercialSpaceImage/" + vm.rentalapplication().CommercialSpaceId() + "?width=300&height=200")
-                        .then(function (b) {
-                            vm.commercialSpace().StaticMap(b);
-                        });
+                  
                 });
 
             return tcs.promise();
@@ -192,7 +189,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         showDetailsCommand: showDetails,
         addAttachmentCommand: addAttachment,
         removeAttachmentCommand: removeAttachment,
-        toolbar: ko.observable({
+        toolbar: {
             reloadCommand: function () {
                 return activate(app());
             },
@@ -281,7 +278,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 }
 
             ])
-        })
+        }
     };
 
     return vm;
