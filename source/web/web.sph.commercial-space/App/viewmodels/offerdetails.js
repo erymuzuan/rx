@@ -9,7 +9,7 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger,router) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
 
     var rentalId = ko.observable(),
         isBusy = ko.observable(false),
@@ -20,7 +20,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             var raTask = context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + rentalId());
             var csTask = context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + routeData.csId);
             $.when(raTask, csTask).done(function (r, cs) {
-                vm.offer(r.Offer);
+                vm.offer(r.Offer());
                 vm.commercialSpace(cs);
 
                 if (!vm.offer().CommercialSpaceId()) {
@@ -39,13 +39,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             _uiready.init(view);
         },
         addCondition = function () {
-            var condition =new bespoke.sphcommercialspace.domain.OfferCondition();
+            var condition = new bespoke.sphcommercialspace.domain.OfferCondition();
             vm.offer().OfferConditionCollection.push(condition);
         },
         saveOffer = function () {
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON({ id: rentalId, offer: vm.offer });
-            
+
             isBusy(true);
             context.post(data, "/RentalApplication/SaveOffer").done(function () {
                 logger.log("Offer has been successfully saved ", "offerdetails", true);
@@ -65,8 +65,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 tcs.resolve(true);
             });
             return tcs.promise();
-        },        
-        removeOfferCondition = function(condition) {
+        },
+        removeOfferCondition = function (condition) {
             vm.offer().OfferConditionCollection.remove(condition);
         };
 
@@ -76,7 +76,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         viewAttached: viewAttached,
         commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         offer: ko.observable(new bespoke.sphcommercialspace.domain.Offer()),
-        toolbar : ko.observable({
+        toolbar: {
             commands: ko.observableArray([
                 {
                     caption: "Simpan",
@@ -91,7 +91,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                     status: "none"
                 }
             ])
-        }),
+        },
         addConditionCommand: addCondition,
         removeOfferCondition: removeOfferCondition
     };

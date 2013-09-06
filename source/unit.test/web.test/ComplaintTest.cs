@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 using FluentDateTime;
 
 namespace web.test
@@ -10,7 +8,8 @@ namespace web.test
     [TestFixture]
     public class ComplaintTest : BrowserTest
     {
-        public const string COMPLAINT_TEMPLATE_NAME = "Aduan Kerosakan";
+        public const string COMPLAINT_TEMPLATE_NAME = "Aduan Kerosakan(UJIAN)";
+        public const string COMPLAINT_CATEGORY = "Elektrikal";
         private TestUser m_complaintAdmin;
 
         [SetUp]
@@ -40,10 +39,10 @@ namespace web.test
             var driver = this.InitiateDriver();
             driver.Login(m_complaintAdmin);
             driver.NavigateToUrl("/#/complaint.template.list", 1.Seconds());
-            driver.NavigateToUrl("#/template.complaint-id.0/0", 1.Seconds());
+            driver.NavigateToUrl("#/template.complaint-id.0/0", 3.Seconds());
 
             // add elements
-            driver.Value("[name=Complaint-template-category]", COMPLAINT_TEMPLATE_NAME)
+            driver.Value("[name=Complaint-template-category]", COMPLAINT_CATEGORY)
                   .Value("[name=Complaint-template-name]", COMPLAINT_TEMPLATE_NAME)
                   .Click("[id=template-isactive]")
                   .Value("[id=form-design-name]", COMPLAINT_TEMPLATE_NAME)

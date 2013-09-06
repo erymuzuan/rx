@@ -18,7 +18,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             app(routedata);
             id(routedata.applicationId);
             vm.title('Perincian Borang Permohonan');
-            vm.toolbar.auditTrail.id(routedata.applicationId);
+            vm.toolbar().auditTrail.id(routedata.applicationId);
             var tcs = new $.Deferred();
             context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id())
                 .then(function (r) {
@@ -38,7 +38,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                             tcs.resolve(true);
                         });
 
-                  
+                    $.get("/Map/CommercialSpaceImage/" + vm.rentalapplication().CommercialSpaceId() + "?width=300&height=200")
+                        .then(function (b) {
+                            vm.commercialSpace().StaticMap = ko.observable(b);
+                        });
                 });
 
             return tcs.promise();
@@ -151,6 +154,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             context.post(data, "/Tenant/Create").done(function (e) {
                 logger.log("Penyewa dijana ", e, "rentalapplication.verify", true);
                 tcs.resolve(true);
+                var url = '/#/admindashboard';
+                router.navigateTo(url);
             });
             return tcs.promise();
         },
@@ -187,7 +192,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         showDetailsCommand: showDetails,
         addAttachmentCommand: addAttachment,
         removeAttachmentCommand: removeAttachment,
-        toolbar: {
+        toolbar: ko.observable({
             reloadCommand: function () {
                 return activate(app());
             },
@@ -276,7 +281,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 }
 
             ])
-        }
+        })
     };
 
     return vm;
