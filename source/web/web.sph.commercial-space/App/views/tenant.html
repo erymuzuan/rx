@@ -1,6 +1,6 @@
 ﻿<section id="tenant-list">
     <h1 class="row-fluid">Senarai Penyewa</h1>
-    <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
+    <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Tenant', query: 'TenantId gt 0', list: tenantCollection }">
         <thead>
             <tr>
                 <th>No. Id/SSM </th>
