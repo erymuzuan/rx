@@ -9,16 +9,13 @@
 /// <reference path="../../Scripts/_task.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-    function(context, logger, router) {
+define([],
+    function() {
 
         var isBusy = ko.observable(false),
             rdl = ko.observable(),
             activate = function (reportDefinition) {
                 rdl(reportDefinition);
-            },
-            viewAttached = function(view) {
-
             },
             showPreview = function() {
                 $('#preview-parameters-dialog').modal();
@@ -38,7 +35,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                         tcs.resolve(true);
                     })
                     .fail(function(error) {
-
                         $layout.html(error.responseText);
                     });
 
@@ -48,7 +44,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
             rdl: rdl,
             showPreview: showPreview,
             executePreview : executePreview

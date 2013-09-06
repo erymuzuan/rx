@@ -31,6 +31,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
                         vm.reportDefinition(d);
                         designer.reportDefinition(d);
                         preview.activate(d);
+                        loadSelectedEntityColumns(d.DataSource().EntityFieldCollection());
                     };
                 reportDefinitionId(id);
 
@@ -59,19 +60,22 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             viewAttached = function (view) {
                 designer.viewAttached(view);
                 $('a.btn-close-configuration-dialog').click(function () {
-                    var columns = _(vm.reportDefinition().DataSource().EntityFieldCollection()).map(function(v) {
-                        var name = v.Name(),
-                            aggregate = v.Aggregate();
-                        if (aggregate) {
-                            if (aggregate !== "GROUP") {
-                                name = v.Name() + "_" + aggregate;
-                            }
-                        }
-                        return { Name: ko.observable(name) };
-                    });
-                    vm.dataGridColumnOptions(columns);
+                    loadSelectedEntityColumns(vm.reportDefinition().DataSource().EntityFieldCollection());
                 });
 
+            },
+            loadSelectedEntityColumns = function(fields) {
+                var columns = _(fields).map(function (v) {
+                    var name = v.Name(),
+                        aggregate = v.Aggregate();
+                    if (aggregate) {
+                        if (aggregate !== "GROUP") {
+                            name = v.Name() + "_" + aggregate;
+                        }
+                    }
+                    return { Name: ko.observable(name) };
+                });
+                vm.dataGridColumnOptions(columns);
             },
             loadEntityColumns = function (entity) {
                 var tcs = new $.Deferred();

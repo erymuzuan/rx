@@ -575,12 +575,6 @@
     <Content Include="Content\theme.metro-admin\variables.min.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
-    <Content Include="Content\theme.metro-flat\site.css">
-      <DependentUpon>site.css.bundle</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.metro-flat\site.min.css">
-      <DependentUpon>site.css.bundle</DependentUpon>
-    </Content>
     <Content Include="Content\theme.default\header.css">
       <DependentUpon>header.less</DependentUpon>
     </Content>
@@ -599,14 +593,6 @@
     <Content Include="Content\theme.default\variables.min.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
-    <Content Include="Content\theme.metro-flat\custom-slider.css" />
-    <Content Include="Content\theme.metro-flat\custom.css" />
-    <Content Include="Content\theme.metro-flat\m-buttons.css" />
-    <Content Include="Content\theme.metro-flat\m-forms.css" />
-    <Content Include="Content\theme.metro-flat\m-icons.css" />
-    <Content Include="Content\theme.metro-flat\metro-tile.css" />
-    <Content Include="Content\theme.metro-flat\slider.css" />
-    <Content Include="Content\theme.metro-flat\style-slider.css" />
     <Content Include="Content\theme.slate\building.css">
       <DependentUpon>building.less</DependentUpon>
     </Content>
@@ -821,7 +807,6 @@
     <Content Include="Content\theme.metro-admin\nav.less" />
     <Content Include="Content\theme.metro-admin\variables.less" />
     <Content Include="Content\theme.default\complaint.less" />
-    <None Include="Content\theme.metro-flat\site.css.bundle" />
     <Content Include="Content\theme.united\variables.less" />
     <Content Include="Content\theme.united\building.less" />
     <Content Include="Content\theme.united\commercialspace.less" />
@@ -1461,6 +1446,7 @@
     <Content Include="Views\MaintenanceDetailHtml.cshtml" />
     <Content Include="Views\ReportDefinition\_PieChartDesignerContextAction.cshtml" />
     <Content Include="Views\ReportDefinition\_Preview.cshtml" />
+    <Content Include="Views\ReportDefinition\_BarLineChartDesignerContextAction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
