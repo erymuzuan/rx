@@ -154,8 +154,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             context.post(data, "/Tenant/Create").done(function (e) {
                 logger.log("Penyewa dijana ", e, "rentalapplication.verify", true);
                 tcs.resolve(true);
-                var url = '/#/admindashboard';
-                router.navigateTo(url);
             });
             return tcs.promise();
         },

@@ -4,31 +4,34 @@
         <span data-bind="text: ReferenceNo" id="ReferenceNo" />
     </div>
 </div>
-<div class="control-group" data-bind="with: $parent.tenant">
-    <label class="control-label ">Pengadu : </label>
-    <div class="controls">
-        <span data-bind="text: Name" id="tenant().Name" />
+<!-- ko if:Tenant().Name -->
+<div data-bind="with: $root.tenant">
+    <div class="control-group">
+        <label class="control-label ">Pengadu : </label>
+        <div class="controls">
+            <span data-bind="text: Name" id="tenant().Name" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label ">Id / SsmNo : </label>
+        <div class="controls">
+            <span data-bind="text: IdSsmNo" id="tenant().IdSsmNo" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label ">No. Telefon : </label>
+        <div class="controls">
+            <span data-bind="text: Phone" id="Phone" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label ">Email : </label>
+        <div class="controls">
+            <span data-bind="text: Email" id="Email" />
+        </div>
     </div>
 </div>
-<div class="control-group" data-bind="with: $parent.tenant">
-    <label class="control-label ">Id / SsmNo : </label>
-    <div class="controls">
-        <span data-bind="text: IdSsmNo" id="tenant().IdSsmNo" />
-    </div>
-</div>
-<div class="control-group" data-bind="with: $parent.tenant">
-    <label class="control-label ">No. Telefon : </label>
-    <div class="controls">
-        <span data-bind="text: Phone" id="Phone" />
-    </div>
-</div>
-<div class="control-group" data-bind="with: $parent.tenant">
-    <label class="control-label ">Email : </label>
-    <div class="controls">
-        <span data-bind="text: Email" id="Email" />
-    </div>
-</div>
-
+<!--/ko-->
 <div class="control-group">
     <label class="control-label ">Jenis Aduan :  </label>
     <div class="controls">

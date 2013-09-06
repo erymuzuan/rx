@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Globalization;
 using FluentDateTime;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -50,7 +51,7 @@ namespace web.test
             driver.NavigateToUrl("/Account/Login");
             driver.Login(m_admindashboard);
             driver.NavigateToUrl(string.Format("/#/rentalapplication.verify/{0}",max))
-                  .Sleep(1.Seconds());
+                  .Sleep(2.Seconds());
             driver.ClickFirst("button", e => e.Text == "Masuk Senarai Menunggu");
             driver.Sleep(TimeSpan.FromSeconds(3));
 
@@ -74,7 +75,7 @@ namespace web.test
             driver.NavigateToUrl("/Account/Login");
             driver.Login(m_admindashboard);
             driver.NavigateToUrl(string.Format("/#/rentalapplication.verify/{0}", max))
-                  .Sleep(1.Seconds());
+                  .Sleep(2.Seconds());
             driver.ClickFirst("button", e => e.Text == "Luluskan");
             driver.Sleep(TimeSpan.FromSeconds(3));
 
@@ -99,13 +100,32 @@ namespace web.test
             driver.NavigateToUrl("/Account/Login");
             driver.Login(m_admindashboard);
             driver.NavigateToUrl(string.Format("/#/rentalapplication.verify/{0}", max))
-                  .Sleep(1.Seconds());
+                  .Sleep(2.Seconds());
             driver.ClickFirst("button", e => e.Text.Contains("Sediakan Tawaran"));
             driver.Sleep(TimeSpan.FromSeconds(3));
-         
+            driver.Value("[name=offer-Deposit]", "7000")
+                  .Value("[name=offer-Date]", DateTime.Today.ToString(CultureInfo.InvariantCulture))
+                  .Value("[name=offer-ExpiryDate]", DateTime.Today.AddDays(7).ToString(CultureInfo.InvariantCulture))
+                  .Value("[name=offer-Period]", "2")
+                  .SelectOption("[name=offer-periodunit]", "Tahun")
+                ;
 
+            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: $parent.addConditionCommand")
+                .Sleep(200.Milliseconds())
+                .Value(".input-offer-condition-title", "Pembayaran Deposit")
+                .Value(".input-offer-condition-description", "Mesti dijelaskan sebelom / semasa menandatangani kontrak")
+                .Value(".input-offer-condition-note", "Mesti dijelaskan sebelom / semasa menandatangani kontrak")
+                .Click(".input-offer-condition-isrequired")
+                ;
+
+            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: $parent.addConditionCommand")
+               .Sleep(200.Milliseconds())
+               .Value(".input-offer-condition-title", "Pembayaran Sewa",1)
+               .Click(".remove-offer-condition-button",1)
+               ;
+            driver.ClickFirst("button", e => e.Text == "Simpan");
             var current = this.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
-            Assert.IsTrue(max < current);
+            Assert.IsTrue(max == current);
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();
         }
@@ -113,6 +133,7 @@ namespace web.test
         [Test]
         public void _004_PrepareContract()
         {
+            var rentalId = this.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication] WHERE [Status]='Diluluskan'");
             var max = this.GetDatabaseScalarValue<int>("SELECT MAX([ContractId]) FROM [Sph].[Contract]");
             Assert.AreNotEqual(0, max, "run _002_ApproveWaitingListApplication first ");
 
@@ -122,9 +143,9 @@ namespace web.test
             var driver = this.InitiateDriver();
             driver.NavigateToUrl("/Account/Login");
             driver.Login(m_admindashboard);
-            driver.NavigateToUrl(string.Format("/#/rentalapplication.verify/{0}", max))
-                  .Sleep(1.Seconds()); driver.NavigateToUrl(string.Format("/#/contract.create/{0}", max))
-                  .Sleep(1.Seconds());
+            driver.NavigateToUrl(string.Format("/#/rentalapplication.verify/{0}", rentalId))
+                  .Sleep(2.Seconds()); driver.NavigateToUrl(string.Format("/#/contract.create/{0}", rentalId))
+                  .Sleep(3.Seconds());
 
             driver.SelectOption("[name=contract-Type]", ContractTest.CONTRACT_TEMPLATE_TYPE)
                 .ClickFirst("button", e => e.Text == "Generate")
@@ -147,12 +168,12 @@ namespace web.test
             driver.NavigateToUrl("/Account/Login");
             driver.Login(m_admindashboard);
             driver.NavigateToUrl(string.Format("/#/rentalapplication.verify/{0}", max))
-                  .Sleep(1.Seconds());
+                  .Sleep(2.Seconds());
             driver.ClickFirst("button", e => e.Text.Contains("Selesai"));
             driver.Sleep(TimeSpan.FromSeconds(3));
 
 
-            var current = this.GetDatabaseScalarValue<int>("SELECT [Status] FROM [Sph].[RentalApplication] WHERE [RentalApplicationId] = @Id",new SqlParameter("@Id",max));
+            var current = this.GetDatabaseScalarValue<string>("SELECT [Status] FROM [Sph].[RentalApplication] WHERE [RentalApplicationId] = @Id",new SqlParameter("@Id",max));
             Assert.AreEqual("Selesai",current);
 
             driver.NavigateToUrl("/#/applicationlist/Selesai");
