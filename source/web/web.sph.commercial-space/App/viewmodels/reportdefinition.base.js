@@ -124,6 +124,8 @@ define(['services/report.g', 'services/datacontext', 'durandal/system', 'duranda
                                     buildLayout();
                                 }
                             });
+                    } else {
+                        buildLayout();
                     }
 
                 });

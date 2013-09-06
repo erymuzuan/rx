@@ -43,12 +43,64 @@ namespace Bespoke.Sph.SqlReportDataSource
             columns.AddRange(props);
         }
 
-        public Task<ObjectCollection<ReportColumn>> GetColumnsAsync(Type type)
+
+        private async Task<string[]> GetDatabaseColumns(string table)
+        {
+            const string sql = @"SELECT 
+        '[' + s.name + '].[' + o.name + ']' as 'Table'
+        ,c.name as 'Column'
+        ,t.name as 'Type' 
+        ,c.max_length as 'length'
+        ,c.is_nullable as 'IsNullable'    
+	    ,c.is_identity as 'IsIdentity'
+        ,c.is_computed as 'IsComputed'
+    FROM 
+        sys.objects o INNER JOIN sys.all_columns c
+        ON c.object_id = o.object_id
+        INNER JOIN sys.types t 
+        ON c.system_type_id = t.system_type_id
+        INNER JOIN sys.schemas s
+        ON s.schema_id = o.schema_id
+    WHERE 
+        o.type = 'U'
+        AND s.name = @Schema
+        AND o.Name = @Table
+        AND t.name <> N'sysname'
+    ORDER 
+        BY o.type";
+            var list = new ObjectCollection<string>();
+            var cs = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
+            using (var conn = new SqlConnection(cs))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.AddWithValue("@Schema", "Sph");
+                cmd.Parameters.AddWithValue("@Table", table);
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(reader.GetString(1));
+                    }
+                }
+            }
+
+
+            return list.ToArray();
+        }
+
+        public async Task<ObjectCollection<ReportColumn>> GetColumnsAsync(Type type)
         {
             var columns = new ObjectCollection<ReportColumn>();
             this.GetColumns(columns, type);
+            var databaseColumns = await this.GetDatabaseColumns(type.Name);
+            foreach (var column in columns)
+            {
+                var column1 = column;
+                column1.IsFilterable = databaseColumns.Any(c => c == column1.Name);
+            }
 
-            return Task.FromResult(columns);
+            return columns;
         }
 
         public async Task<ObjectCollection<ReportRow>> GetRowsAsync(ReportDefinition rdl)

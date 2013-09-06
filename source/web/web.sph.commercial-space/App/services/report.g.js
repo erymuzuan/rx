@@ -241,6 +241,7 @@ bespoke.sphcommercialspace.domain.ReportColumn = function (webId) {
         Width: ko.observable(''),
         IsSelected: ko.observable(false),
         TypeName: ko.observable(''),
+        IsFilterable: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

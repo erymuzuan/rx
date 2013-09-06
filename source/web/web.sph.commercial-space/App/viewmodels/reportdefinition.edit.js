@@ -37,10 +37,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
 
 
                 if (!id) {
-                    var rdl = new bespoke.sphcommercialspace.domain.ReportDefinition();
-                    rdl.Title('Untitled Report');
-                    rdl.Description('Description of the report');
-
+                    preview.activate(designer.reportDefinition());
 
                 } else {
                     var query = String.format("ReportDefinitionId eq {0}", id);
@@ -79,7 +76,13 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             loadEntityColumns = function (entity) {
                 var tcs = new $.Deferred();
                 $.get('ReportDefinition/GetEntityColumns/' + entity)
-                        .done(vm.entityColumns)
+                        .done(function(columns) {
+                            vm.entityColumns(columns);
+                            var filterable = _(columns).filter(function(v) {
+                                return v.IsFilterable;
+                            });
+                            vm.filterableEntityColumns(filterable);
+                        })
                         .done(tcs.resolve);
 
                 return tcs.promise();
@@ -159,6 +162,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             toolboxitems: designer.toolboxItems,
             selectedEntityName: ko.observable(''),
             entityColumns: ko.observableArray(),
+            filterableEntityColumns: ko.observableArray(),
 
             removeParameter: removeParameter,
             addParameter: addParameter,
