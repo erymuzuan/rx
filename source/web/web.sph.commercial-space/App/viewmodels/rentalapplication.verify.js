@@ -40,7 +40,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
 
                     $.get("/Map/CommercialSpaceImage/" + vm.rentalapplication().CommercialSpaceId() + "?width=300&height=200")
                         .then(function (b) {
-                            vm.commercialSpace().StaticMap(b);
+                            vm.commercialSpace().StaticMap = ko.observable(b);
                         });
                 });
 
