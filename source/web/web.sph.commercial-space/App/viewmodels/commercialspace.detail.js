@@ -60,11 +60,9 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
                         
                         return;
                     }
-                    var templates = _(cs.ApplicationTemplateOptions()).map(function (v) {
-                        return v.toString();
-                    });
+                    
                     vm.commercialSpace(cs);
-                    vm.commercialSpace().ApplicationTemplateOptions(templates);
+                    
                     
                     title('Maklumat ruang komersil');
                     contractlistvm.activate(routeData)

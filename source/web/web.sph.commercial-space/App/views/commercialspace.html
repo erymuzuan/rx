@@ -1,7 +1,7 @@
 ﻿<div id="commercialspace-list">
     <section>
         <h1>Senarai Ruang Komersil</h1>
-        <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
+        <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'CommercialSpace', query: 'CommercialSpaceId gt 0', list: commercialspaces }">
             <thead>
                 <tr>
                     <th>No. Daftar</th>
