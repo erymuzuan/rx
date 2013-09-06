@@ -486,6 +486,7 @@
     <Content Include="Content\bootstrap.metro-flat.css" />
     <Content Include="Content\bootstrap.kallyas.css" />
     <Content Include="Content\bootstrap.slate.css" />
+    <Content Include="Content\bootstrap.united.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\img\1.png" />
     <Content Include="Content\img\2.png" />
@@ -526,6 +527,12 @@
     <Content Include="Content\img\team2.jpg" />
     <Content Include="Content\img\team3.jpg" />
     <Content Include="Content\img\team4.jpg" />
+    <Content Include="Content\theme.default\complaint.css">
+      <DependentUpon>complaint.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\complaint.min.css">
+      <DependentUpon>complaint.less</DependentUpon>
+    </Content>
     <Content Include="Content\theme.default\dashboard.css">
       <DependentUpon>dashboard.less</DependentUpon>
     </Content>
@@ -667,6 +674,42 @@
     <Content Include="Content\theme.slate\variables.min.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
+    <Content Include="Content\theme.united\building.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\building.min.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\commercialspace.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\commercialspace.min.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\dashboard.css">
+      <DependentUpon>dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\dashboard.min.css">
+      <DependentUpon>dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\header.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\header.min.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\nav.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\nav.min.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\site.min.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
     <Content Include="Content\_public.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -777,7 +820,15 @@
     <Content Include="Content\theme.metro-admin\header.less" />
     <Content Include="Content\theme.metro-admin\nav.less" />
     <Content Include="Content\theme.metro-admin\variables.less" />
+    <Content Include="Content\theme.default\complaint.less" />
     <None Include="Content\theme.metro-flat\site.css.bundle" />
+    <Content Include="Content\theme.united\variables.less" />
+    <Content Include="Content\theme.united\building.less" />
+    <Content Include="Content\theme.united\commercialspace.less" />
+    <Content Include="Content\theme.united\dashboard.less" />
+    <Content Include="Content\theme.united\header.less" />
+    <Content Include="Content\theme.united\nav.less" />
+    <Content Include="Content\theme.united\site.less" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\demo.js" />
