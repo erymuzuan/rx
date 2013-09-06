@@ -114,7 +114,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         stateOptions: ko.observableArray(),
         rentalapplication: ko.observable(new bespoke.sphcommercialspace.domain.RentalApplication()),
         commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
-        toolbar: ko.observable({
+        toolbar: {
             reloadCommand: function () {
                 return activate({ status: status() });
             },
@@ -129,7 +129,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 status: 'none',
                 command: saveApplication
             }])
-        }),
+        },
         addBankCommand: addBankCollection,
         isBusy: isBusy,
         addAttachmentCommand: addAttachment,

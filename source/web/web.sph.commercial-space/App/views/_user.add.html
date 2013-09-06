@@ -1,4 +1,4 @@
-﻿<div id="user-details-modal" class="modal fade span6 absolute-center" style="height: 600px;width: 800px;">
+﻿<div id="user-details-modal" class="modal hide" >
     <div class="modal-header"><h2>Pengguna baru</h2></div>
     <div class="modal-body">
         <form class="form-horizontal" data-bind="with: profile">
@@ -60,7 +60,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <input type="button" id="save-button" class="btn btn-inverse" data-bind="click: saveCommand" data-dismiss="modal" value="Simpan" />
-        <input type="button" class="btn btn-inverse" data-dismiss="modal" value="Batal" />
+        <input type="button" id="save-button" class="btn btn-primary" data-bind="click: saveCommand" data-dismiss="modal" value="Simpan" />
+        <input type="button" class="btn" data-dismiss="modal" value="Batal" />
     </div>
 </div>

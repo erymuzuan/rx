@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Globalization;
 using FluentDateTime;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -134,6 +135,10 @@ namespace web.test
 
             var building =this.GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Building] WHERE [Name] = @Name",
                     new SqlParameter("@Name", BuildingTest.BUILDING_NAME));
+            var permohonanId =
+                this.GetDatabaseScalarValue<int>(
+                    "SELECT [ApplicationTemplateId] FROM [Sph].[ApplicationTemplate] WHERE [Name] = @Name",
+                    new SqlParameter("@Name", RentalApplicationTest.APP_TEMPLATE_NAME));
 
             Assert.AreEqual(1, building, "You'll need to run the AddBuildingTest");
 
@@ -148,7 +153,7 @@ namespace web.test
                 .Sleep(TimeSpan.FromSeconds(2))
                 .SelectOption("[name='selectedBuilding']", BuildingTest.BUILDING_NAME)
                 .Sleep(TimeSpan.FromSeconds(2))
-                .SelectOption("[name='selectedFloor']", "Ground Floor")
+                .SelectOption("[name='selectedFloor']", "1st Floor")
                 .Sleep(TimeSpan.FromSeconds(2))
                 .SelectOption("[name='selectedLots']", "Lot 1")
                 .Click("#add-lot-button")
@@ -160,8 +165,10 @@ namespace web.test
                 .Value("[name='RentalRate']", "2500")
                 .Value("[name='ContactPerson']", "Mohd Razali")
                 .Click("[name='IsOnline']")
-                .Click("[name='IsAvailable']")
-                .Click("[value='1']")
+                .Click("[name='IsAvailable']");
+
+                driver
+                .ClickFirst("input[type=checkbox]", e => e.GetAttribute("value") == permohonanId.ToString(CultureInfo.InvariantCulture) && e.GetAttribute("data-bind") == "checked: ApplicationTemplateOptions")
                 .Click("#save-button")
                 .Sleep(TimeSpan.FromSeconds(2));
 

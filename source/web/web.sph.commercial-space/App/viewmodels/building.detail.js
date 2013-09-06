@@ -48,14 +48,14 @@ define(['services/datacontext',
                         });
 
                     vm.building().TemplateId(templateId);
-                    vm.toolbar().watching(false);
+                    vm.toolbar.watching(false);
                     return tcs.promise();
                 }
 
 
 
-                vm.toolbar().auditTrail.id(id);
-                vm.toolbar().printCommand.id(id);
+                vm.toolbar.auditTrail.id(id);
+                vm.toolbar.printCommand.id(id);
 
 
                 var query = "BuildingId eq " + id,
@@ -69,7 +69,7 @@ define(['services/datacontext',
                     }
 
                     vm.building(b);
-                    vm.toolbar().watching(w);
+                    vm.toolbar.watching(w);
 
                     tcs.resolve(true);
                 });
@@ -241,7 +241,7 @@ define(['services/datacontext',
             viewAttached: viewAttached,
             removeFloorCommand: removeFloor,
             title: 'Perincian Bangunan',
-            toolbar: ko.observable({
+            toolbar: {
                 watchCommand: function () { return watcher.watch("Building", vm.building().BuildingId()); },
                 unwatchCommand: function () { return watcher.unwatch("Building", vm.building().BuildingId()); },
                 watching: ko.observable(false),
@@ -255,7 +255,7 @@ define(['services/datacontext',
                     id: ko.observable()
                 },
                 removeCommand: remove
-            })
+            }
         };
 
         return vm;

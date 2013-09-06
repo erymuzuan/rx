@@ -135,12 +135,13 @@ namespace web.test
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
 
 
-            IWebDriver driver = new FirefoxDriver();
-            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
+            var driver = this.InitiateDriver();
+            driver.NavigateToUrl("/Account/Login", 2.Seconds());
             driver.Login("ruzzaima");
-            driver.NavigateToUrl("/#/building.list");
-            driver.NavigateToUrl(String.Format("/#/building.detail-templateid.{0}/{0}/0", templateId));
-            driver.Sleep(TimeSpan.FromSeconds(2));
+            driver.NavigateToUrl("/#/building.list",2.Seconds());
+
+            driver.NavigateToUrl(String.Format("/#/building.detail-templateid.{0}/{0}/0", templateId),5.Seconds());
+
             driver
                 .Value("[name='Name']", BUILDING_NAME)
                 .Value("[name='LotNo']", "12-001")
