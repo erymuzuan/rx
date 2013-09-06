@@ -87,9 +87,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         update = function () {
             var tcs = new $.Deferred();
             var attachments = ko.mapping.toJS(vm.rentalapplication().AttachmentCollection);
-            var note = ko.mapping.toJS(vm.rentalapplication().Remarks());
+            var note = ko.mapping.toJS(vm.rentalapplication().Remarks);
             var data = JSON.stringify({ id: id(), attachments: attachments, note: note });
             context.post(data, "/RentalApplication/Update").done(function () {
+                logger.info("Data dikemaskini");
                 tcs.resolve(true);
             });
             return tcs.promise();
