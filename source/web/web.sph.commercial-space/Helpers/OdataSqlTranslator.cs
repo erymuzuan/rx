@@ -26,6 +26,7 @@ namespace Bespoke.Sph.Commerspace.Web.Helpers
                          .Replace(" lt ", " < ")
                          .Replace(" lte ", " <= ")
                          .Replace(" le ", " <= ")
+                         .Replace(" in ", " IN ")
                          .Replace("(From ", "([From] ")
                          .Replace("(To ", "([To] ")
                          .Replace("DateTime'", "'");
