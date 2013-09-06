@@ -1,0 +1,31 @@
+﻿#rental-list ul {
+  list-style: none;
+}
+#rental-list ul li {
+  width: 200px;
+  height: 100px;
+  padding: 10px;
+  margin: 10px;
+  background-color: #1c1e22;
+  float: left;
+  border-radius: 5px;
+  color: #999999;
+}
+#rental-list ul li.Baru {
+  background-color: #0fa2eb;
+}
+#rental-list ul li.Menunggu {
+  background-color: #ee5f5b;
+}
+#rental-list ul li.Diluluskan {
+  background-color: #62c462;
+}
+#rental-list ul li.Ditolak {
+  background-color: #f89406;
+}
+#rental-list ul li.Dikembalikan {
+  background-color: #e27c19;
+}
+#rental-list ul li.Selesai {
+  background-color: #088018;
+}
