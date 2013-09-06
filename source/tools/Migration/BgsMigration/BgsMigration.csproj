@@ -59,7 +59,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TenantAndCreateUser.cs" />
+    <Compile Include="CreateUserFromUserProfile.cs" />
     <Compile Include="XlinqHelper.cs" />
   </ItemGroup>
   <ItemGroup>
