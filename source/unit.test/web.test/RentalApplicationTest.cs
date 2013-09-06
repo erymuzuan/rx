@@ -16,7 +16,7 @@ namespace web.test
         public const string CS_REGISTRATION_NO = "BSPK/999999";
 
         [Test]
-        public void ApplicationFLowTest()
+        public void SubmitApplicationFLowTest()
         {
             _001_AddApplicationTemplate();
             _002_SubmitNewIndividualRentalApplication();

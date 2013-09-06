@@ -15,11 +15,11 @@
             <tbody data-bind="foreach: maintenances">
                 <tr>
                     <td>
-                        <a data-bind="text: Complaint.ReferenceNo, attr: { href: '#/maintenance.assignment/' + MaintenanceId() }, visible: Resolution() == 'Belum Dilaksanakan'"></a>
+                        <a data-bind="text: Complaint().ReferenceNo, attr: { href: '#/maintenance.assignment/' + MaintenanceId() }, visible: Resolution() == 'Belum Dilaksanakan'"></a>
                      
                     </td>
-                    <td data-bind="text: Complaint.Category"></td>
-                    <td data-bind="text: Complaint.SubCategory"></td>
+                    <td data-bind="text: Complaint().Category"></td>
+                    <td data-bind="text: Complaint().SubCategory"></td>
                     <td data-bind="text: Resolution"></td>
                     <td><a data-bind="text: WorkOrderNo" title="navigate to work order"></a></td>
                 </tr>

@@ -854,7 +854,7 @@
     <Content Include="App\viewmodels\contract.details.js" />
     <Content Include="App\viewmodels\contract.list.js" />
     <Content Include="App\viewmodels\contract.template.list.js" />
-    <Content Include="App\viewmodels\contract.type.template.js" />
+    <Content Include="App\viewmodels\contract.template.js" />
     <Content Include="App\viewmodels\deposit.js" />
     <Content Include="App\viewmodels\floorplan.js" />
     <Content Include="App\viewmodels\home.js" />
@@ -895,7 +895,7 @@
     <Content Include="App\views\contract.details.html" />
     <Content Include="App\views\contract.list.html" />
     <Content Include="App\views\contract.template.list.html" />
-    <Content Include="App\views\contract.type.template.html" />
+    <Content Include="App\views\contract.template.html" />
     <Content Include="App\views\deposit.html" />
     <Content Include="App\views\floorplan.html" />
     <Content Include="App\views\footer.html" />

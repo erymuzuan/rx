@@ -23,7 +23,7 @@ function (context) {
         contractTemplateCollection: ko.observableArray([]),
         toolbar : {
             addNew : {
-                location: '/#/contract.type.template/0',
+                location: '/#/contract.template/0',
                 caption : 'Tambah jenis kontrak'
             }
         }
