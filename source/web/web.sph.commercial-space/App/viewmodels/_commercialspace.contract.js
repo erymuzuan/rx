@@ -32,9 +32,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             };
 
         var vm = {
+            id : id,
             isBusy: isBusy,
             activate: activate,
-            contractCollection: ko.observableArray()
+            contractCollection: ko.observableArray([])
         };
 
         return vm;

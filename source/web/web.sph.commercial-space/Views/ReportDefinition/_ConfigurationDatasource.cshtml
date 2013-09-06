@@ -31,7 +31,7 @@
         <tbody data-bind="foreach: ReportFilterCollection">
             <tr>
                 <td>
-                    <select class="input-datasource-fieldname" data-bind="value: FieldName, options: $root.entityColumns, optionsText: 'Name', optionsValue: 'Name'"></select>
+                    <select class="input-datasource-fieldname" data-bind="value: FieldName, options: $root.filterableEntityColumns, optionsText: 'Name', optionsValue: 'Name'"></select>
                 </td>
                 <td>
                     <select data-bind="value: Operator" class="input-datasource-operator">

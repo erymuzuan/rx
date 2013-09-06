@@ -11,10 +11,10 @@
     <tbody  data-bind="foreach :contractCollection"  >
         <tr>
             <td>
-                <a  data-bind="attr : {href:'/#/contractdetails/' + ContractId()},text:ReferenceNo"></a>
+                <a  data-bind="attr : {href:'/#/contract.details/' + ContractId()},text:ReferenceNo"></a>
             </td>
             <td  data-bind="with : Tenant"  >
-                   <a  data-bind="attr : {href:'/#/tenantdetail/' + Id()},text:Name"></a>
+                   <a  data-bind="attr : {href:'/#/tenant.detail/' + TenantId()},text:Name"></a>
             </td>
             <td data-bind="date: { value: StartDate, format: 'DD/MM/YYYY' }"></td>
             <td data-bind="date: { value: EndDate, format: 'DD/MM/YYYY' }"></td>

@@ -1,0 +1,33 @@
+﻿ul.complaint-type-list {
+  list-style: none;
+}
+ul.complaint-type-list li {
+  width: 200px;
+  height: 100px;
+  padding: 10px;
+  margin: 10px;
+  background-color: #ff6a00;
+  float: left;
+  border-radius: 5px;
+}
+ul.complaint-type-list a {
+  color: #fff;
+  font-weight: bold;
+}
+ul.complaint-type-list div:nth-child(1) {
+  float: left;
+  padding: 20px;
+  height: 90px;
+  width: 40px;
+}
+ul.complaint-type-list div:nth-child(2) {
+  margin-top: 20px;
+  height: 90px;
+  width: 210px;
+}
+ul.complaint-type-list li:nth-child(even) {
+  background-color: #4800ff;
+}
+#complaint-type-list-panel > div {
+  clear: both;
+}

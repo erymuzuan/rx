@@ -1455,6 +1455,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public const string PropertyNameTypeName = "TypeName";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isFilterable;
+        public const string PropertyNameIsFilterable = "IsFilterable";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -1625,6 +1630,35 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_typeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsFilterable
+        {
+            set
+            {
+                if (m_isFilterable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsFilterable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isFilterable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isFilterable;
             }
         }
 
