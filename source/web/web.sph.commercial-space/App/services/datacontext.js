@@ -108,6 +108,9 @@ function (logger,system) {
                                 }
 
                                 if (propval.isNumber()
+                                    || propval.isNull()
+                                    || propval.isNaN()
+                                    || propval.isDate()
                                     || propval.isBoolean()
                                     || propval.isString()) {
                                     item[prop] = ko.observable(item[prop]);
