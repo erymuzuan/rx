@@ -1460,6 +1460,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public const string PropertyNameIsFilterable = "IsFilterable";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isCustomField;
+        public const string PropertyNameIsCustomField = "IsCustomField";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -1659,6 +1664,35 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_isFilterable;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsCustomField
+        {
+            set
+            {
+                if (m_isCustomField == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsCustomField, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isCustomField = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isCustomField;
             }
         }
 

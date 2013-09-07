@@ -100,6 +100,9 @@ namespace Bespoke.Sph.SqlReportDataSource
                 column1.IsFilterable = databaseColumns.Any(c => c == column1.Name);
             }
 
+            // custom field
+
+
             return columns;
         }
 

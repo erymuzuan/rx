@@ -40,7 +40,7 @@ namespace domain.test.reports
             var compiler = new SqlCompiler(new ReportDefinition());
             var filter = new ReportFilter { FieldName = "Location", Operator = "Substringof", Value = "@Location" };
             var op = compiler.GetFilterOperator(filter);
-            Assert.AreEqual("LIKE '%{0}%'", op);
+            Assert.AreEqual("LIKE '%' + {0} + '%'", op);
         }
 
         [Test]
