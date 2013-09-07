@@ -14,6 +14,7 @@ function (logger,system) {
         getSumAsync: getSumAsync,
         getCountAsync: getCountAsync,
         getListAsync: getListAsync,
+        getDistinctAsync: getDistinctAsync,
         getTuplesAsync: getTuplesAsync,
         post: post
     };
@@ -198,8 +199,33 @@ function (logger,system) {
 
         return tcs.promise();
     }
+
     function getListAsync(entity, query, field) {
         var url = "/List/";
+        url += "?filter=";
+        url += query;
+        url += "&column=";
+        url += field;
+        url += "&table=" + entity;
+
+
+        var tcs = new $.Deferred();
+        $.ajax({
+            type: "GET",
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: tcs.reject,
+            success: function (msg) {
+                tcs.resolve(msg);
+            }
+        });
+
+
+        return tcs.promise();
+    }
+    function getDistinctAsync(entity, query, field) {
+        var url = "/List/Distinct";
         url += "?filter=";
         url += query;
         url += "&column=";

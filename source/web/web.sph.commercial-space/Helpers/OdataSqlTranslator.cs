@@ -76,6 +76,11 @@ namespace Bespoke.Sph.Commerspace.Web.Helpers
             return string.Format("SELECT [{0}] FROM [Sph].[{1}] {2} ", m_column, m_table, this.Translate(filter));
         }
 
+        public string Distinct(string filter)
+        {
+            return string.Format("SELECT DISTINCT [{0}] FROM [Sph].[{1}] {2} ", m_column, m_table, this.Translate(filter));
+        }
+
         public string Select(string filter)
         {
             if (string.IsNullOrEmpty(filter))

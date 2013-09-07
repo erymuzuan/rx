@@ -12,8 +12,8 @@ define(['services/datacontext'], function (context) {
         var tcs = new $.Deferred();
         var templateTasks = context.loadAsync("ApplicationTemplate", "IsActive eq 1");
         var csTasks = context.loadAsync("CommercialSpace", "IsAvailable eq 1 and IsOnline eq 1");
-        var statesTask = context.getListAsync("Building", "BuildingId gt 0", "State");
-        var categoriesTask = context.getListAsync("CommercialSpace", "CommercialSpaceId gt 0", "Category");
+        var statesTask = context.getDistinctAsync("Building", "", "State");
+        var categoriesTask = context.getDistinctAsync("CommercialSpace", "", "Category");
 
         $.when(templateTasks, csTasks, statesTask, categoriesTask)
             .done(function (tlo, cslo, states, categories) {

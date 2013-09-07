@@ -20,6 +20,13 @@ namespace Bespoke.Sph.Commerspace.Web.Api
             return await ExecuteListAsync(sql);
         }
 
+        public async Task<ActionResult> Distinct(string column, string table, string filter)
+        {
+            var translator = new OdataSqlTranslator(column, table);
+            var sql = translator.Distinct(filter);
+            return await ExecuteListAsync(sql);
+        }
+
         public async Task<ActionResult> Tuple(string column, string column2, string table, string filter)
         {
             var translator = new OdataSqlTranslator("", table);
