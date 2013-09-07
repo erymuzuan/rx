@@ -9,34 +9,33 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/system', './reportdefinition.base', './_reportdefinition.preview'],
-    function (context, logger, system, designer, preview) {
+define(['services/datacontext', 'services/logger', 'durandal/system',
+        './reportdefinition.base', './_reportdefinition.preview', 'services/jsonimportexport'],
+    function (context, logger, system, designer, preview,eximp) {
         var isBusy = ko.observable(false),
             reportDefinitionId = ko.observable(),
+
+            setRdl = function (d) {
+                _(d.ReportLayoutCollection()).each(function (layout) {
+                    _(layout.ReportItemCollection()).each(function (t) {
+                        t.isSelected = ko.observable(false);
+                    });
+                });
+
+                if (typeof d.DataSource === "object") {
+                    d.DataSource = ko.observable(d.DataSource);
+                }
+
+                vm.reportDefinition(d);
+                designer.reportDefinition(d);
+                preview.activate(d);
+                loadSelectedEntityColumns(d.DataSource().EntityFieldCollection());
+            },
             activate = function (routeData) {
                 designer.activate();
-                var id = parseInt(routeData.id),
-                    setRdl = function (d) {
-
-                        _(d.ReportLayoutCollection()).each(function (layout) {
-                            _(layout.ReportItemCollection()).each(function (t) {
-                                t.isSelected = ko.observable(false);
-                            });
-                        });
-
-                        if (typeof d.DataSource === "object") {
-                            d.DataSource = ko.observable(d.DataSource);
-                        }
-
-                        vm.reportDefinition(d);
-                        designer.reportDefinition(d);
-                        preview.activate(d);
-                        loadSelectedEntityColumns(d.DataSource().EntityFieldCollection());
-                    };
+                var id = parseInt(routeData.id);
                 reportDefinitionId(id);
-
-
-
+                
                 if (!id) {
                     preview.activate(designer.reportDefinition());
 
@@ -152,6 +151,36 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
                 var grid = ko.dataFor($(e.target).parents("table")[0]);
                 grid.ReportColumnCollection.remove(col);
 
+            },
+
+            exportTemplate = function () {
+                return eximp.exportJson("report.definition." + vm.reportDefinition().ReportDefinitionId() + ".json", ko.mapping.toJSON(vm.reportDefinition));
+            },
+
+            importTemplateJson = function () {
+                return eximp.importJson()
+                    .done(function (json) {
+                        try {
+                            var orig = new bespoke.sphcommercialspace.domain.ReportDefinition(),
+                                extended = _(orig).extend(JSON.parse(json));
+
+                            _(extended.DataSource.ParameterCollection).each(function(p) {
+                                if (!p.DefaultValue) {
+                                    p.DefaultValue = "";
+                                }
+                            });
+                            var clone = ko.mapping.fromJS(extended);
+                            
+                            clone.ReportDefinitionId(0);
+                            if (typeof clone.DataSource !== "function") {
+                                clone.DataSource = ko.observable(clone.DataSource);
+                            }
+                            loadEntityColumns(clone.DataSource().EntityName());
+                            setRdl(clone);
+                        } catch (error) {
+                            logger.error('Fail template import tidak sah', error);
+                        }
+                    });
             };
 
         var vm = {
@@ -181,6 +210,8 @@ define(['services/datacontext', 'services/logger', 'durandal/system', './reportd
             
             toolbar: {
                 saveCommand: save,
+                exportCommand: exportTemplate,
+                importCommand: importTemplateJson,
                 commands: ko.observableArray([{
                     command: configure,
                     caption: "Configuration",
