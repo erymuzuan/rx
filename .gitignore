@@ -27,7 +27,9 @@ debug/
 *.LOCAL.*.cs
 *.g.i.cs
 *.g.cs
-!domain.g.cs
-!report.g.cs
+!FormDesigner.g.cs
+!TriggersWorkflow.g.cs
+!SphDomain.g.cs
+!ReportBuilder.g.cs
 SQLQuery[0-9].sql
 _ReSharper.commercial-space
