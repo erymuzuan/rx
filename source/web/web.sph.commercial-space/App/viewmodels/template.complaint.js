@@ -26,7 +26,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 customElements.push(address);
 
                 var cat = new bespoke.sphcommercialspace.domain.ComplaintCategoryElement(system.guid());
-                cat.CssClass("icon-globe pull-left");
+                cat.CssClass("icon-group pull-left");
                 cat.Name("Category");
                 customElements.push(cat);
 

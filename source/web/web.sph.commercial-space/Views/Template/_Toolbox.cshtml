@@ -50,9 +50,7 @@
                     <div class="control-group">
                         <label for="form-design-description" class="control-label">Keterangan</label>
                         <div class="controls">
-                            <textarea class="input-large" data-bind="value: Description, valueUpdate: 'keyup'" id="form-design-description" name="Description">
-
-</textarea>
+                            <textarea class="input-large" data-bind="value: Description, valueUpdate: 'keyup'" id="form-design-description" name="Description"></textarea>
                         </div>
                     </div>
                 </div>
@@ -64,7 +62,7 @@
         <div id="add-field" class="tab-pane">
             <ul class="nav" data-bind="foreach: formElements">
                 <li>
-                    <a class="btn input-medium" href="#add-field">
+                    <a class="btn input-medium" href="#add-field" data-bind="attr : {title:Tooltip}">
                         <i data-bind="attr: { 'class': CssClass }"></i>
                         <!-- ko text: Name -->
                         <!-- /ko-->
@@ -109,7 +107,7 @@
                         <input data-bind="value: Tooltip" id="form-element-tooltip" type="text" name="Tooltip" />
                     </div>
                 </div>
-                
+
                 <div class="control-group">
                     <label for="form-element-help-text" class="control-label">Help</label>
                     <div class="controls">
@@ -163,7 +161,7 @@
 
                 @foreach (var fe in Model.FormElements)
                 {
-                    @Html.EditorFor(m => fe)
+                @Html.EditorFor(m => fe)
                 }
 
                 <button data-bind="click: $root.removeFormElement" class="btn btn-warning" title="remove this element">Remove</button>

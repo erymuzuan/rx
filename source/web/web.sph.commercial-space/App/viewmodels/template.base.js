@@ -47,7 +47,7 @@ define(['services/datacontext', 'durandal/system'],
                 datepicker.IsRequired(true);
 
                 var number = new bespoke.sphcommercialspace.domain.NumberTextBox(system.guid());
-                number.CssClass("icon-html5 pull-left");
+                number.CssClass("icon-xing-sign pull-left");
                 number.Name("Nombor");
                 number.Step(1);
                 number.IsRequired(true);
@@ -58,12 +58,18 @@ define(['services/datacontext', 'durandal/system'],
                 email.IsRequired(true);
                 
                 var web = new bespoke.sphcommercialspace.domain.WebsiteFormElement(system.guid());
-                web.CssClass("icon-web pull-left");
+                web.CssClass("icon-link pull-left");
                 web.Name("Website");
                 web.IsRequired(true);
+                
+                var html = new bespoke.sphcommercialspace.domain.WebsiteFormElement(system.guid());
+                html.CssClass("icon-html5 pull-left");
+                html.Name("HTML");
+                html.IsRequired(true);
+                html.Tooltip("Allows you to create custom HTML markup");
 
                 var section = new bespoke.sphcommercialspace.domain.SectionFormElement(system.guid());
-                section.CssClass("icon-group pull-left");
+                section.CssClass("icon-reorder pull-left");
                 section.Name("Section");
 
                 elements.push(textbox);
@@ -74,6 +80,7 @@ define(['services/datacontext', 'durandal/system'],
                 elements.push(number);
                 elements.push(email);
                 elements.push(web);
+                elements.push(html);
                 elements.push(section);
 
                 vm.formElements(elements);

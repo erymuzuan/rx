@@ -146,6 +146,7 @@
     <Compile Include="FormTemplates\EmailFormElement.cs" />
     <Compile Include="FormTemplates\FormDesign.cs" />
     <Compile Include="FormTemplates\FormElement.cs" />
+    <Compile Include="FormTemplates\HtmlElement.cs" />
     <Compile Include="FormTemplates\NumberTextBox.cs" />
     <Compile Include="FormTemplates\RentalApplicationAttachmentsElement.cs" />
     <Compile Include="FormTemplates\RentalApplicationBanksElement.cs" />

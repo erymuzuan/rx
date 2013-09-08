@@ -1365,6 +1365,17 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="HtmlElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:all>
+						<xs:element name="Text" type="xs:string"/>
+					</xs:all>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Termination">
 		<xs:complexType>
 			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
