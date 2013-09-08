@@ -380,13 +380,16 @@
     <Content Include="App\durandal\widget.js" />
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
-    <Content Include="App\services\CommercialSpace.js" />
-    <Content Include="App\services\Complaint.js" />
-    <Content Include="App\services\ConstantField.js" />
-    <Content Include="App\services\Contract.js" />
+    <Content Include="App\partial\CommercialSpace.js" />
+    <Content Include="App\partial\Complaint.js" />
+    <Content Include="App\partial\ConstantField.js" />
+    <Content Include="App\partial\Contract.js" />
+    <Content Include="App\schemas\report.builder.g.js" />
+    <Content Include="App\schemas\sph.domain.g.js" />
+    <Content Include="App\schemas\trigger.workflow.g.js" />
     <Content Include="App\services\datacontext.js" />
-    <Content Include="App\services\Deposit.js" />
-    <Content Include="App\services\domain.g.js" />
+    <Content Include="App\partial\Deposit.js" />
+    <Content Include="App\schemas\form.designer.g.js" />
     <Content Include="App\services\jsonimportexport.js" />
     <Content Include="App\services\logger.js" />
     <Compile Include="Helpers\AssemblyInfo.cs" />
@@ -400,8 +403,7 @@
     <Compile Include="Models\JsRoute.cs" />
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="App\services\report.g.js" />
-    <Content Include="App\services\watcher.js" />
+    <Content Include="App\partial\watcher.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
@@ -871,13 +873,14 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
+    <Folder Include="Scripts\schemas\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App\services\Object.xslt">
+    <Content Include="App\schemas\_object.xslt">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App\services\ReferenceObject.xslt" />
-    <Content Include="App\services\Rent.js" />
+    <Content Include="App\schemas\ReferenceObject.xslt" />
+    <Content Include="App\partial\Rent.js" />
     <Content Include="App\viewmodels\admindashboard.js" />
     <Content Include="App\viewmodels\applicationlist.js" />
     <Content Include="App\viewmodels\building.list.js" />
