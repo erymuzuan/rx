@@ -759,7 +759,7 @@
 			<xs:attribute name="AttachmentStoreId" type="xs:string" use="required"/>
 			<xs:attribute name="AttachmentName" type="xs:string" use="required"/>
 			<xs:attribute name="WorkOrderType" type="xs:string" use="required"/>
-			<xs:attribute name="TemplateId" type="xs:string" use="required"/>
+			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Designation">

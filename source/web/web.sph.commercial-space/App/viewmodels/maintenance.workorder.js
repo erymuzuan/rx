@@ -81,7 +81,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                    isBusy(false);
                    tcs.resolve(result);
                });
-           var url = '/#/officer.list';
+           var url = '/#/maintenance.dashboard';
            router.navigateTo(url);
            return tcs.promise();
            

@@ -5,12 +5,12 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
     public partial class AppController
     {
 
-        public ActionResult OfficerListHtml()
+        public ActionResult WorkorderListHtml()
         {
             return View();
         }
 
-        public ActionResult OfficerListJs()
+        public ActionResult WorkorderListJs()
         {
             return View();
         }

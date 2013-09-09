@@ -8,17 +8,27 @@
 /// <reference path="../../Scripts/bootstrap.js" /> 
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/system', 'services/watcher'], function (context, logger, router, system, watcher) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/system', 'services/watcher','config'], function (context, logger, router, system, watcher,config) {
     var isBusy = ko.observable(false),
+        department = ko.observable(),
+        designation = ko.observable(),
+        id = ko.observable(),
+        templateId = ko.observable(),
         activate = function (routedata) {
-            var id = parseInt(routedata.id),
-                templateId = parseInt(routedata.templateId),
-                tcs = new $.Deferred();
+            id(parseInt(routedata.id));
+            templateId(parseInt(routedata.templateId));
+             var  tcs = new $.Deferred();
 
-            if (!id) {
+            if (id) {
+                department(config.profile.Department);
+                designation(config.profile.Designation);
+                var officerQuery = String.format("Department eq '{0}'", department());
+                var officersTask = context.getTuplesAsync("UserProfile", officerQuery,"Username","FullName");
                 // build custom fields value
-                context.loadOneAsync("MaintenanceTemplate", "MaintenanceTemplateId eq " + templateId)
-                    .done(function (template) {
+                var maintenanceTemplateTask = context.loadOneAsync("MaintenanceTemplate", "MaintenanceTemplateId eq " + templateId());
+                
+                $.when(officersTask, maintenanceTemplateTask)
+                    .done(function (officers,template) {
                         var cfs = _(template.CustomFieldCollection()).map(function (f) {
                             var webid = system.guid();
                             var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
@@ -29,6 +39,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
 
                         vm.maintenance().CustomFieldValueCollection(cfs);
                         vm.maintenance().WorkOrderType(template.Name());
+                        vm.officerOptions(officers);
                         tcs.resolve();
 
                     });
@@ -102,14 +113,14 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
 
         save = function () {
             var tcs = new $.Deferred();
-            var data = ko.toJSON(vm.maintenance);
+            var data = ko.toJSON({officer : ko.mapping.toJS(vm.maintenance().Officer)  , id :id(), templateId : templateId()});
             isBusy(true);
-            context.post(data, "/Maintenance/Save")
+            context.post(data, "/Maintenance/Assign")
                 .then(function (result) {
                     isBusy(false);
                     tcs.resolve(result);
                 });
-            var url = '/#/officer.list';
+            var url = '/#/maintenance.dashboard';
             router.navigateTo(url);
             return tcs.promise();
 
@@ -121,6 +132,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         viewAttached: viewAttached,
         maintenance: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
         template: ko.observable(new bespoke.sphcommercialspace.domain.MaintenanceTemplate()),
+        officerOptions: ko.observableArray(),
         addNewCommentCommand: addNewComment,
         addNewWarrantyCommand: addNewWarranty,
         addNewPartAndLaborCommand: addNewPartAndLabor,

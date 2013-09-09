@@ -8,12 +8,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public class MaintenanceController : Controller
     {
-        public async Task<ActionResult> Assign(string[] officer,int id)
+        public async Task<ActionResult> Assign(string officer, int id, int templateId)
         {
             var context = new SphDataContext();
             var maint = await context.LoadOneAsync<Maintenance>(m => m.MaintenanceId == id);
             maint.Status = "Pemeriksaan";
-            maint.Officer = string.Join(",", officer);
+            maint.Officer = officer;
+            maint.TemplateId = templateId;
             var workOrderNo = string.Format("WO{0:yyyy}{1}", DateTime.Today, id);
             maint.WorkOrderNo = workOrderNo;
 

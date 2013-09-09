@@ -22,6 +22,11 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 address.Name("Address");
                 customElements.push(address);
 
+                var officers = new bespoke.sphcommercialspace.domain.MaintenanceOfficerElement(system.guid());
+                officers.CssClass("icon-user pull-left");
+                officers.Name("Officers");
+                customElements.push(officers);
+                
                 templateBase.activate(customElements);
 
 

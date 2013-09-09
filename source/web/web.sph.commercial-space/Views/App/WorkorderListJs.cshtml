@@ -9,11 +9,12 @@
 }
 
 <script type="text/javascript" data-script="true">
-    define(['services/datacontext'], function (context) {
+    define(['services/datacontext','config'], function (context,config) {
         var isBusy = ko.observable(false),
-            officer = @Html.Raw(JsonConvert.SerializeObject(officer)),
-            activate = function() {
-                var query = String.format("Officer eq '{0}' " , officer);
+            officer = ko.observable(),
+            activate = function () {
+                officer(config.profile.Username);
+                var query = String.format("Officer eq '{0}' " , officer());
                 var tcs = new $.Deferred();
                 context.loadAsync("Maintenance", query)
                     .then(function(lo) {
@@ -42,7 +43,7 @@
         };
 
         vm.selectedStatus.subscribe(function(status) {
-            var query = String.format("Status eq '{0}' and officer eq '{1}'", status, officer);
+            var query = String.format("Status eq '{0}' and officer eq '{1}'", status, officer());
             var tcs = new $.Deferred();
 
             context.loadAsync("Maintenance", query)

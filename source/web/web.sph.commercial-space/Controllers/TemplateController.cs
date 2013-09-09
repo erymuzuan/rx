@@ -181,6 +181,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var vm = new TemplateFormViewModel { Entity = typeof(Maintenance).Name };
             vm.FormElements.Add(new AddressElement());
+            vm.FormElements.Add(new MaintenanceOfficerElement());
 
 
             return View(vm);

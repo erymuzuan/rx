@@ -5,17 +5,19 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext'], function (context) {
+define(['services/datacontext','config'], function (context,config) {
     var isBusy = ko.observable(false),
         status = ko.observable(),
+        department = ko.observable(),
         activate = function (routedata) {
             isBusy(true);
             status(routedata.status);
+            department(config.profile.Department);
             var header = 'Senarai Rekod Senggara (Status : ' + routedata.status + ')';
             vm.title(header);
                 
             var tcs = new $.Deferred();
-            var query = String.format("Status eq '{0}'", status());
+            var query = String.format("Status eq '{0}' and Department eq '{1}'", status(),department());
             context.loadAsync("Maintenance", query).done(function(lo) {
                 vm.maintenances(lo.itemCollection);
             tcs.resolve(true);

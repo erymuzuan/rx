@@ -5,40 +5,36 @@
         <div data-bind="visible: Tenant().Name">
             <div class="control-group">
                 <label class="span2">Pengadu</label><label class="span1">:</label>
-                <label data-bind="text: Tenant().Name" />
+                <span data-bind="text: Tenant().Name" />
             </div>
             <div class="control-group ">
-                <label class="span2">Alamat :</label>
+                <label class="span2">Alamat </label><label class="span1">:</label>
                 <div class="control-group" data-bind="with: Tenant().Address">
-                    <div>
-                        <label data-bind="text: UnitNo" />
-                    </div>
-                    <div>
-                        <label data-bind="text: Street" />
-                    </div>
-                    <div>
-                        <label data-bind="text: City" />
-                    </div>
-                    <div>
-                        <label data-bind="text: Postcode" />
-                    </div>
-                    <div>
-                        <label data-bind="text: State" />
-                    </div>
+                   
+                        <span data-bind="text: UnitNo" />
+                    
+                        <span data-bind="text: Street" />
+                   
+                        <span data-bind="text: City" />
+                   
+                        <span data-bind="text: Postcode" />
+                   
+                        <span data-bind="text: State" />
+                  
                 </div>
             </div>
         </div>
         <div class="control-group">
             <label class="span2">Kategori</label><label class="span1">:</label>
-            <label class="span3" data-bind="text: Category" />
+            <span data-bind="text: Category" />
         </div>
         <div class="control-group">
             <label class="span2">SubKategori</label><label class="span1">:</label>
-            <label class="span3" data-bind="text: SubCategory" />
+            <span data-bind="text: SubCategory" />
         </div>
         <div class="control-group">
             <label class="span2">Keterangan</label><label class="span1">:</label>
-            <label class="span3" data-bind="text: Remarks" />
+            <span data-bind="text: Remarks" />
         </div>
 
     </div>

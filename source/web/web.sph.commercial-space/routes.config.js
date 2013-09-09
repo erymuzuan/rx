@@ -479,12 +479,12 @@
   },
   {
     "role": "maintenance_officer",
-    "url": "officer.list",
-    "moduleId": "viewmodels/officer.list",
-    "name": "Senarai Penyenggaraan Officer",
+    "url": "workorder.list",
+    "moduleId": "viewmodels/workorder.list",
+    "name": "Senarai Arahan Kerja",
     "visible": true,
     "icon": "icon-file-text-alt",
-    "caption": "Senarai Penyenggaraan Officer",
+    "caption": "Senarai Arahan Kerja",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -578,7 +578,7 @@
     "error": ""
   },
   {
-    "role": "can_assign_maintenance_officer",
+    "role": "maintenance_dashboard",
     "url": "maintenance.assignment/:id",
     "moduleId": "viewmodels/maintenance.assignment",
     "name": "Perincian Aduan and Assisgment",

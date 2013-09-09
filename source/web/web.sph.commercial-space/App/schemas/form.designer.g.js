@@ -474,22 +474,16 @@ bespoke.sphcommercialspace.domain.ComplaintCategory = function (webId) {
 
 
 
-bespoke.sphcommercialspace.domain.Message = function (webId) {
+bespoke.sphcommercialspace.domain.MaintenanceOfficerElement = function (webId) {
 
-    var model = {
-        "$type": "Bespoke.SphCommercialSpaces.Domain.Message, domain.commercialspace",
-        MessageId: ko.observable(0),
-        Subject: ko.observable(''),
-        IsRead: ko.observable(false),
-        Body: ko.observable(''),
-        UserName: ko.observable(''),
-        isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
-    };
-    if (bespoke.sphcommercialspace.domain.MessagePartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.MessagePartial(model));
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.MaintenanceOfficerElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.MaintenanceOfficerElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.MaintenanceOfficerElementPartial(v));
     }
-    return model;
+    return v;
 };
 
 

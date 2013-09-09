@@ -1309,8 +1309,8 @@
     <Content Include="Views\App\UserProfileHtml.cshtml" />
     <Content Include="Views\App\UserProfileJs.cshtml" />
     <Content Include="Views\App\RoleSettingsHtml.cshtml" />
-    <Content Include="Views\App\OfficerListHtml.cshtml" />
-    <Content Include="Views\App\OfficerListJs.cshtml" />
+    <Content Include="Views\App\WorkorderListHtml.cshtml" />
+    <Content Include="Views\App\WorkorderListJs.cshtml" />
     <Content Include="Views\App\TenantPortalHtml.cshtml" />
     <Content Include="Views\App\TenantPortalJs.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
@@ -1447,13 +1447,15 @@
     <Content Include="Views\Home\ContactUs.cshtml" />
     <Content Include="Views\Home\Features.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\MaintenanceDetailHtml.cshtml" />
     <Content Include="Views\ReportDefinition\_PieChartDesignerContextAction.cshtml" />
     <Content Include="Views\ReportDefinition\_Preview.cshtml" />
     <Content Include="Views\ReportDefinition\_BarLineChartDesignerContextAction.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\HtmlElement.cshtml" />
     <Content Include="Views\Template\EditorTemplates\HtmlElement.cshtml" />
     <Content Include="Views\App\EditorTemplates\HtmlElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\MaintenanceOfficerElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\MaintenanceOfficerElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\MaintenanceOfficerElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

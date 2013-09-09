@@ -15,8 +15,8 @@
             <tbody data-bind="foreach: maintenances">
                 <tr>
                     <td>
-                        <a data-bind="text: Complaint().ReferenceNo, attr: { href: '#/maintenance.assignment/' + MaintenanceId() }, visible: Resolution() == 'Belum Dilaksanakan'"></a>
-                     
+                        <a data-bind="text: Complaint().ReferenceNo, attr: { href: '#/maintenance.assignment/' + MaintenanceId() }, visible: Status() == 'Baru'"></a>
+                        <a data-bind="text: Complaint().ReferenceNo, attr: { href: '#/maintenance.detail-templateid.' + TemplateId() + '/'  +TemplateId() + '/' + MaintenanceId() }, visible: Status() == 'Pemeriksaan'"></a>
                     </td>
                     <td data-bind="text: Complaint().Category"></td>
                     <td data-bind="text: Complaint().SubCategory"></td>

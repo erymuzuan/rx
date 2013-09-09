@@ -10,25 +10,35 @@ namespace web.test
     {
         public const string COMPLAINT_TEMPLATE_NAME = "Aduan Kerosakan(UJIAN)";
         public const string COMPLAINT_CATEGORY = "Elektrikal";
-        private TestUser m_complaintAdmin;
+        private TestUser m_proaduan;
 
         [SetUp]
         public void Init()
         {
-            m_complaintAdmin = new TestUser
+            m_proaduan = new TestUser
             {
-                UserName = "complaintadmin",
+                UserName = "proaduan",
                 Password = "122ewew323",
                 FullName = "Ruzzaima",
                 Department = "",
                 Designation = "",
-                Email = "cekalra@hotmail.com",
-                Roles = new[] { "can_edit_complaint_template" },
-                StartModule = "complaint.template.list",
+                Email = "proaduan@hotmail.com",
+                Roles = new[] { "can_assign_complaint", "can_edit_complaint_template" },
+                StartModule = "complaint.dashboard",
                 Telephone = "03-7291822"
             };
-            this.AddUser(m_complaintAdmin);
+            this.AddUser(m_proaduan);
         }
+
+        [Test]
+        public void ComplaintFromPublicFlowTest()
+        {
+            _001_AddComplaintTemplate();
+            _002_PublicComplaint();
+            _003_AssignComplaintToDepartment();
+        }
+
+      
 
         [Test]
         public void _001_AddComplaintTemplate()
@@ -37,7 +47,7 @@ namespace web.test
             var max =
                 this.GetDatabaseScalarValue<int>("SELECT MAX([ComplaintTemplateId]) FROM [Sph].[ComplaintTemplate]");
             var driver = this.InitiateDriver();
-            driver.Login(m_complaintAdmin);
+            driver.Login(m_proaduan);
             driver.NavigateToUrl("/#/complaint.template.list", 1.Seconds());
             driver.NavigateToUrl("#/template.complaint-id.0/0", 3.Seconds());
 
@@ -149,7 +159,7 @@ namespace web.test
         }
 
         [Test]
-        public void _003_PublicComplaint()
+        public void _002_PublicComplaint()
         {
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [ComplaintTemplateId] FROM [Sph].[ComplaintTemplate] WHERE [Name] = @Name", new SqlParameter("@Name", COMPLAINT_TEMPLATE_NAME));
             var max = this.GetDatabaseScalarValue<int>("SELECT MAX([ComplaintId]) FROM [Sph].[Complaint]");
@@ -173,6 +183,31 @@ namespace web.test
 
             var latest = this.GetDatabaseScalarValue<int>("SELECT MAX([ComplaintId]) FROM [Sph].[Complaint]");
             Assert.IsTrue(max < latest);
+
+            driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
+            driver.Quit();
+        }
+
+       
+        [Test]
+        public void _003_AssignComplaintToDepartment()
+        {
+            var complaintId = this.GetDatabaseScalarValue<int>("SELECT MAX([ComplaintId]) FROM [Sph].[Complaint] WHERE [Status]='Baru'");
+            var firstStatus = this.GetDatabaseScalarValue<string>("SELECT [Status] FROM [Sph].[Complaint] WHERE [ComplaintId]=@Id", new SqlParameter("@Id", complaintId));
+            var driver = this.InitiateDriver();
+            driver.NavigateToUrl("/Account/Logoff")
+                .Login(m_proaduan)
+                 .NavigateToUrl("/#/complaint.dashboard",2.Seconds());
+            driver.NavigateToUrl(string.Format("/#/complaint.assign/{0}", complaintId), 2.Seconds());
+
+            driver.SelectOption("[name =department]", "Senggaraan")
+                .ClickFirst("button", e => e.Text == "Simpan");
+
+            driver.Sleep(TimeSpan.FromSeconds(3));
+
+
+            var latestStatus = this.GetDatabaseScalarValue<string>("SELECT [Status] FROM [Sph].[Complaint] WHERE [ComplaintId] = @Id",new SqlParameter("@Id",complaintId));
+            Assert.AreNotEqual(firstStatus, latestStatus);
 
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();
