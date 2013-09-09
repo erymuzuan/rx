@@ -13,14 +13,24 @@ bespoke.sphcommercialspace.domain.ComplaintPartial = function (model) {
         var query = String.format("ComplaintId eq {0}", model.ComplaintId());
         var tcs = new $.Deferred();
         context.loadOneAsync("Maintenance", query)
-            .done(function(b) {
+            .done(function (b) {
                 r.MaintenanceStatus(b.Status());
                 tcs.resolve(b.Status);
             });
         return tcs.promise();
-    };
+    },
+        getCustomField = function (name) {
+            var cs = _(this.CustomFieldValueCollection()).find(function (v) {
+                return v.Name() === name;
+            });
+            if (!cs) {
+                throw "Cannot find custom field for " + name + " in Complaint";
+            }
+            return cs.Value;
+        };
     return {
+        CustomField: getCustomField,
         MaintenanceStatus: ko.observable(),
-        getMaintenanceStatus : getStatus
+        getMaintenanceStatus: getStatus
     };
 };

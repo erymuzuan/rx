@@ -22,7 +22,7 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
 
             var tcs = new $.Deferred(),
                 templateTask = context.loadOneAsync("CommercialSpaceTemplate", "CommercialSpaceTemplateId eq " + templateId),
-                buildingTask = context.getTuplesAsync("Building", "BuildingId gt 0", "BuildingId", "Name"),
+                buildingTask = context.getTuplesAsync("Building", "", "BuildingId", "Name"),
                 stateTask = context.loadOneAsync("Setting", "Key eq 'State'"),
                 csTask = context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + routeData.csId),
                 buildCustomFieldValue = function (tpl) {

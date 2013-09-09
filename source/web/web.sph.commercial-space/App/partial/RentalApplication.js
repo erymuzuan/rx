@@ -7,13 +7,13 @@ bespoke.sphcommercialspace = bespoke.sphcommercialspace || {};
 bespoke.sphcommercialspace.domain = bespoke.sphcommercialspace.domain || {};
 
 
-bespoke.sphcommercialspace.domain.BuildingPartial = function (model) {
+bespoke.sphcommercialspace.domain.RentalApplicationPartial = function () {
     var getCustomField = function(name) {
         var cs = _(this.CustomFieldValueCollection()).find(function (v) {
             return v.Name() === name;
         });
         if (!cs) {
-            throw "Cannot find custom field for " + name + " in Building";
+            throw "Cannot find custom field for " + name + " in Rental Application";
         }
         return cs.Value;
     };

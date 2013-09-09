@@ -385,6 +385,7 @@
     <Content Include="App\partial\ConstantField.js" />
     <Content Include="App\partial\Contract.js" />
     <Content Include="App\partial\Building.js" />
+    <Content Include="App\partial\RentalApplication.js" />
     <Content Include="App\partial\CustomListDefinitionElement.js" />
     <Content Include="App\partial\report.js" />
     <Content Include="App\schemas\report.builder.g.js" />

@@ -7,7 +7,7 @@ bespoke.sphcommercialspace = bespoke.sphcommercialspace || {};
 bespoke.sphcommercialspace.domain = bespoke.sphcommercialspace.domain || {};
 
 
-bespoke.sphcommercialspace.domain.CustomListDefinitionElementPartial = function (model) {
+bespoke.sphcommercialspace.domain.CustomListDefinitionElementPartial = function () {
 
     return {
         addCustomField: function() {
