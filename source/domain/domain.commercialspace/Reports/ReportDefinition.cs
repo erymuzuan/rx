@@ -17,7 +17,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             // ReSharper restore PossibleNullReferenceException
             
             var repository = ObjectBuilder.GetObject<IReportDataSource>();
-            var columns = await repository.GetColumnsAsync(type);
+            var columns = await repository.GetColumnsAsync(type).ConfigureAwait(false);
 
             return columns;
         }
@@ -26,7 +26,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
         {
             var repository = ObjectBuilder.GetObject<IReportDataSource>();
 
-            var rows = await repository.GetRowsAsync(this);
+            var rows = await repository.GetRowsAsync(this).ConfigureAwait(false);
             return rows;
         }
         /// <summary>

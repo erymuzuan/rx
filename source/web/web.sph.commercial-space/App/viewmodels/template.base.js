@@ -65,8 +65,14 @@ define(['services/datacontext', 'durandal/system'],
                 var html = new bespoke.sphcommercialspace.domain.HtmlElement(system.guid());
                 html.CssClass("icon-html5 pull-left");
                 html.Name("HTML");
-                html.IsRequired(true);
+                html.IsRequired(false);
                 html.Tooltip("Allows you to create custom HTML markup");
+                
+                var list = new bespoke.sphcommercialspace.domain.CustomListDefinitionElement(system.guid());
+                list.CssClass("icon-th-list pull-left");
+                list.Name("List");
+                list.IsRequired(false);
+                list.Tooltip("Creates custom list");
 
                 var section = new bespoke.sphcommercialspace.domain.SectionFormElement(system.guid());
                 section.CssClass("icon-reorder pull-left");
@@ -81,6 +87,7 @@ define(['services/datacontext', 'durandal/system'],
                 elements.push(email);
                 elements.push(web);
                 elements.push(html);
+                elements.push(list);
                 elements.push(section);
 
                 vm.formElements(elements);

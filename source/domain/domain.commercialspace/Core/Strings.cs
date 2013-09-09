@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
@@ -59,7 +60,12 @@ namespace Bespoke.SphCommercialSpaces.Domain
             if (null == value) return string.Empty;
             return string.Format("{0}", value);
         }
-
+        public static string RegexSingleValue(string input, string pattern, string group)
+        {
+            const RegexOptions option = RegexOptions.IgnoreCase | RegexOptions.Singleline;
+            var matches = Regex.Matches(input, pattern, option);
+            return matches.Count == 1 ? matches[0].Groups[@group].Value.Trim() : null;
+        }
         public static string ToSDate(this string value)
         {
             if (string.IsNullOrEmpty(value)) return value;

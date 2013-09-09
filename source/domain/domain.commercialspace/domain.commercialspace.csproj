@@ -143,6 +143,8 @@
     <Compile Include="FormTemplates\ComboBoxItem.cs" />
     <Compile Include="FormTemplates\CommercialSpaceLotsElement.cs" />
     <Compile Include="FormTemplates\ComplaintCategoryElement.cs" />
+    <Compile Include="FormTemplates\CustomListDefinition.cs" />
+    <Compile Include="FormTemplates\CustomListDefinitionElement.cs" />
     <Compile Include="FormTemplates\DatePicker.cs" />
     <Compile Include="FormTemplates\EmailFormElement.cs" />
     <Compile Include="FormTemplates\FormDesign.cs" />

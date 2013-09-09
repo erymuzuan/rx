@@ -1,6 +1,6 @@
-﻿/// <reference path="domain.g.js" />
+﻿/// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../../Scripts/underscore.js" />
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
+/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
 
 var bespoke = bespoke || {};
 bespoke.sphcommercialspace = bespoke.sphcommercialspace || {};

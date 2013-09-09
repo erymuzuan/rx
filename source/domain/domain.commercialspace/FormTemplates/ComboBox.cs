@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
@@ -18,9 +17,13 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
         public override string GetKnockoutBindingExpression()
         {
+            var path = this.Path;
+            if (null != this.CustomField)
+                path = string.Format("CustomField('{0}')", this.Path);
             return string.Format("value: {0}, visible :{1}",
-                this.Path,
+                path,
                 this.Visible);
         }
+
     }
 }

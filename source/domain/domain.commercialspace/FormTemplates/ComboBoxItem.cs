@@ -1,6 +1,6 @@
 ﻿namespace Bespoke.SphCommercialSpaces.Domain
 {
-   public partial class ComboBoxItem : DomainObject
+    public partial class ComboBoxItem : DomainObject
     {
     }
 }

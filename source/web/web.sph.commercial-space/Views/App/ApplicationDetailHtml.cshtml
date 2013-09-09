@@ -2,7 +2,6 @@
 
 @{
     Layout = null;
-    var i = 0;
 }
 
 <h1 class="row-fluid"><span>Borang Permohonan</span></h1>
@@ -15,11 +14,6 @@
         <div>
             @foreach (var fe in Model.FormDesign.FormElementCollection)
             {
-                if (null != fe.CustomField)
-                {
-                    fe.Path = "CustomFieldValueCollection()[" + i++ + "].Value";
-                }
-       
                 @Html.EditorFor(m => fe)
         
             }

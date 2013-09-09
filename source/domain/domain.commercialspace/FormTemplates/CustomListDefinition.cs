@@ -1,7 +1,7 @@
 ﻿namespace Bespoke.SphCommercialSpaces.Domain
 {
-
-    public partial class ComplaintCategory : DomainObject
+    public partial class CustomListDefinition : DomainObject
     {
+
     }
 }
