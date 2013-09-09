@@ -10,7 +10,7 @@ namespace web.test
     [TestFixture]
     public class BuildingTest : BrowserTest
     {
-        public const string BUILDING_NAME = "Bangunan Komersil Di KB";
+        public const string BUILDING_NAME = "Bangunan Komersil Di Putrajaya (UJIAN)";
         public const string BUILDING_TEMPLATE_NAME = "Bangunan Komersil";
 
 
@@ -47,11 +47,10 @@ namespace web.test
             var max = this.GetDatabaseScalarValue<int>("SELECT MAX([BuildingTemplateId]) FROM [Sph].[BuildingTemplate]");
 
 
-            IWebDriver driver = new FirefoxDriver();
-            driver.NavigateToUrl("/Account/Login");
+            var driver = this.InitiateDriver();
             driver.Login("ruzzaima");
-            driver.NavigateToUrl("/#building.template.list")
-                  .NavigateToUrl("/#/template.building-id.0/0", 2.Seconds());
+            driver.NavigateToUrl("/#building.template.list", 2.Seconds())
+                  .NavigateToUrl("/#/template.building-id.0/0", 3.Seconds());
 
             // add elements
             driver.Value("[name=Building-template-category]", BUILDING_TEMPLATE_NAME)
@@ -67,6 +66,13 @@ namespace web.test
                   .ClickFirst("a", e => e.Text == "Fields settings")
                   .Value("[name=Label]", "Nama bangunan")
                   .Value("[name=Path]", "Name");
+
+            //owner - Custom Field
+            driver.ClickFirst("a", e => e.Text == "Add a field")
+                  .ClickFirst("a", e => e.Text == "Single line text")
+                  .ClickFirst("a", e => e.Text == "Fields settings")
+                  .Value("[name=Label]", "Nama Pemilik")
+                  .Value("[name=Path]", "OwnerName");
 
             // Lot NO
             driver.ClickFirst("a", e => e.Text == "Add a field")
@@ -136,11 +142,12 @@ namespace web.test
 
 
             var driver = this.InitiateDriver();
-            driver.NavigateToUrl("/Account/Login", 2.Seconds());
             driver.Login("ruzzaima");
             driver.NavigateToUrl("/#/building.list",2.Seconds());
 
             driver.NavigateToUrl(String.Format("/#/building.detail-templateid.{0}/{0}/0", templateId),5.Seconds());
+
+            driver.Value("[name='OwnerName']", "Putrajaya Holding");
 
             driver
                 .Value("[name='Name']", BUILDING_NAME)

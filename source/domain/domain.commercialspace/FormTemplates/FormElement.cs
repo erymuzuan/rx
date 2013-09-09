@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 
 namespace Bespoke.SphCommercialSpaces.Domain
@@ -33,6 +32,19 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public virtual string GetKnockoutBindingExpression()
         {
             return null;
+        }
+
+        public string GetNormalizedName()
+        {
+            if (string.IsNullOrWhiteSpace(this.Path)) return this.ElementId;
+            if (this.Path.StartsWith("CustomField"))
+            {
+                const string pattern = @"CustomField\('(?<field>.*?)'\)";
+                var customField = Strings.RegexSingleValue(this.Path, pattern, "field");
+                return customField;
+            }
+
+            return this.Path;
         }
 
         public CustomField CustomField { get; set; }

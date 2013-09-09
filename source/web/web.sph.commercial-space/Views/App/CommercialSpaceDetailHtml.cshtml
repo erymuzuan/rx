@@ -32,11 +32,6 @@
 
                     @foreach (var fe in Model.Template.FormDesign.FormElementCollection)
                     {
-                        if (null != fe.CustomField)
-                        {
-                            fe.Path = "CustomFieldValueCollection()[" + i++ + "].Value";
-                        }
-       
                         @Html.EditorFor(m => fe)
         
                     }

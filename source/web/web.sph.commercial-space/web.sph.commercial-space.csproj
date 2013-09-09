@@ -384,6 +384,7 @@
     <Content Include="App\partial\Complaint.js" />
     <Content Include="App\partial\ConstantField.js" />
     <Content Include="App\partial\Contract.js" />
+    <Content Include="App\partial\Building.js" />
     <Content Include="App\partial\report.js" />
     <Content Include="App\schemas\report.builder.g.js" />
     <Content Include="App\schemas\sph.domain.g.js" />
@@ -1454,6 +1455,10 @@
     <Content Include="Views\Template\DisplayTemplates\HtmlElement.cshtml" />
     <Content Include="Views\Template\EditorTemplates\HtmlElement.cshtml" />
     <Content Include="Views\App\EditorTemplates\HtmlElement.cshtml" />
+    <Content Include="Views\App\MaintenanceFormHtml.cshtml" />
+    <Content Include="Views\App\MaintenanceListHtml.cshtml" />
+    <Content Include="Views\App\MaintenanceListJs.cshtml" />
+    <Content Include="Views\App\ReportDefinitionPreview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

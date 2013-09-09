@@ -1,7 +1,6 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.BuildingTemplate
 @{
     Layout = null;
-    var i = 0;
 }
 <div id="building-detail-page">
     <h1>@Model.FormDesign.Name</h1>
@@ -9,11 +8,6 @@
     <form class="form-horizontal" id="building-form" data-bind="with: building">
         @foreach (var fe in Model.FormDesign.FormElementCollection)
         {
-            if (null != fe.CustomField)
-            {
-                fe.Path = "CustomFieldValueCollection()[" + i++ + "].Value";
-            }
-       
             @Html.EditorFor(m => fe)
         
         }
