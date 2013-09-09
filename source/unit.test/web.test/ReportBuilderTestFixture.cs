@@ -2,8 +2,6 @@
 using System.Globalization;
 using FluentDateTime;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 
 // ReSharper disable InconsistentNaming
 namespace web.test
@@ -38,10 +36,9 @@ namespace web.test
             var max = this.GetDatabaseScalarValue<int>("SELECT MAX([ReportDefinitionId]) FROM [Sph].[ReportDefinition]");
 
 
-            IWebDriver driver = new FirefoxDriver();
+            var driver = this.InitiateDriver();
             driver.Login(m_reportAdmin)
-                .NavigateToUrl("/#/reportdefinition.edit-id.0/0")
-                .Sleep(2.Seconds())
+                .NavigateToUrl("/#/reportdefinition.edit-id.0/0", 3.Seconds())
                 .ClickFirst("input[type=radio]", e => e.GetAttribute("name") == "layout");
 
 
@@ -149,7 +146,7 @@ namespace web.test
         [Test]
         public void _002_PreviewReportDesign()
         {
-            var location =this.GetDatabaseScalarValue<string>("SELECT TOP 1 [Location] FROM [Sph].[Land] ORDER BY NEWID()");
+            var location = this.GetDatabaseScalarValue<string>("SELECT TOP 1 [Location] FROM [Sph].[Land] ORDER BY NEWID()");
             var count = this.GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Land] WHERE [Location] = @Location", new SqlParameter("@Location", location));
 
             var driver = this.InitiateDriver();
@@ -177,19 +174,23 @@ namespace web.test
 
             var driver = this.InitiateDriver();
             driver.Login(m_reportAdmin)
-                .NavigateToUrl("/#/reportdelivery.schedule/" + id, 1.Seconds())
+                .NavigateToUrl("/#/reportdelivery.schedule/" + id, 3.Seconds());
+
+            driver
                 .Value("[name=Title]", "Schedule for " + REPORT_TITLE)
                 .Value("[name=Users]", "admin")
                 .Value("[name=Description]", "Description for schedule " + REPORT_TITLE)
                 .Click("a", e => e.Text == "Add new Schedule", 500.Milliseconds())
                 .ClickFirst("a", e => e.GetAttribute("data-bind") == "click: $root.startAddSchedule")
-                .Sleep(500.Milliseconds())
-                .Value("[name=StartHour]", "8")
-                .Value("[name=EndHour]", "20")
-                .Value("[name=Interval]", "4")
-                .ClickAll("input.btn", e => e.GetAttribute("data-bind") == "click: $root.okDialog")
-                .Sleep(2.Seconds())
-                ;
+                .Sleep(500.Milliseconds());
+
+                 driver
+                 .Value("[name=StartHour]", "8")
+                 .Value("[name=EndHour]", "20")
+                 .Value("[name=Interval]", "4")
+                 .ClickAll("input.btn", e => e.GetAttribute("data-bind") == "click: $root.okDialog")
+                 .Sleep(2.Seconds())
+                 ;
 
             driver.Click("#save-button")
                 .Sleep(2.Seconds());

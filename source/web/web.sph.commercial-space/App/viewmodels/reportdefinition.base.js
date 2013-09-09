@@ -5,12 +5,12 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/report.g.js" />
+/// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../durandal/app.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
-define(['services/report.g', 'services/datacontext', 'durandal/system', 'durandal/app', 'services/logger'],
+define(['schemas/report.builder.g', 'services/datacontext', 'durandal/system', 'durandal/app', 'services/logger'],
     function (reportg, context, system, app, logger) {
         var isBusy = ko.observable(false),
             rdl = ko.observable(new bespoke.sphcommercialspace.domain.ReportDefinition()),
