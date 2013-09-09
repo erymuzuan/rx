@@ -3,8 +3,6 @@ using System.Data.SqlClient;
 using System.Globalization;
 using FluentDateTime;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 
 namespace web.test
 {
@@ -22,18 +20,17 @@ namespace web.test
         }
 
         [Test]
+// ReSharper disable InconsistentNaming
         public void _001_AddCsTemplate()
         {
             this.ExecuteNonQuery("DELETE FROM [Sph].[CommercialSpaceTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", CS_TEMPLATE_NAME));
             var max = this.GetDatabaseScalarValue<int>("SELECT MAX([CommercialSpaceTemplateId]) FROM [Sph].[CommercialSpaceTemplate]");
 
-            IWebDriver driver = new FirefoxDriver();
-            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
+            var driver = this.InitiateDriver();
             driver.Login("ruzzaima");
 
-            driver.NavigateToUrl("/#commercialspace.template.list")
-                   .NavigateToUrl("/#/template.commercialspace-id.0/0")
-                   .Sleep(2.Seconds());
+            driver.NavigateToUrl("/#commercialspace.template.list", 2.Seconds())
+                   .NavigateToUrl("/#/template.commercialspace-id.0/0", 3.Seconds());
 
             // add elements
             driver.Value("[name=CommercialSpace-template-category]", CS_TEMPLATE_NAME)
@@ -113,7 +110,7 @@ namespace web.test
 
             driver.Click("#save-button");
 
-            driver.Sleep(TimeSpan.FromSeconds(3));
+            driver.Sleep(5.Seconds());
 
 
             var latest = this.GetDatabaseScalarValue<int>("SELECT MAX([CommercialSpaceTemplateId]) FROM [Sph].[CommercialSpaceTemplate]");

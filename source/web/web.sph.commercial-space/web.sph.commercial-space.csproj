@@ -403,7 +403,7 @@
     <Compile Include="Models\JsRoute.cs" />
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="App\partial\watcher.js" />
+    <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
