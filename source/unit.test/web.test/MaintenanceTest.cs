@@ -46,6 +46,49 @@ namespace web.test
                   .Value("[id=form-design-name]", MAINTENANCE_TEMPLATE_NAME)
                   .Value("[id=form-design-description]", MAINTENANCE_TEMPLATE_NAME)
                   ;
+
+            //Severity
+            driver.ClickFirst("a", e => e.Text == "Add a field")
+                  .ClickFirst("a", e => e.Text == "Select list")
+                  .ClickFirst("a", e => e.Text == "Fields settings")
+                  .Value("[name=Label]", "Tahap")
+                   .Value("[name=Path]", "Severity");
+
+            // insert combobox items for severity
+            driver
+                .Value(".input-combobox-value", "Major")
+                .Value(".input-combobox-caption", "Major")
+                ;
+            driver
+                .Value(".input-combobox-value", "Minor",1)
+                .Value(".input-combobox-caption", "Minor", 1)
+                ;
+            driver
+                .Value(".input-combobox-value", "Show Stopper",2)
+                .Value(".input-combobox-caption", "Show Stopper", 2)
+                ;
+
+            //Priority
+            driver.ClickFirst("a", e => e.Text == "Add a field")
+                  .ClickFirst("a", e => e.Text == "Select list")
+                  .ClickFirst("a", e => e.Text == "Fields settings")
+                  .Value("[name=Label]", "Keutamaan")
+                  .Value("[name=Path]", "Priority");
+
+            // insert combobox items for priority
+            driver
+                .Value(".input-combobox-value", "Tinggi")
+                .Value(".input-combobox-caption", "Tinggi")
+                ;
+            driver
+                .Value(".input-combobox-value", "Medium", 1)
+                .Value(".input-combobox-caption", "Medium", 1)
+                ;
+            driver
+                .Value(".input-combobox-value", "Low", 2)
+                .Value(".input-combobox-caption", "Low", 2)
+                ;
+
             //Komen
             driver.ClickFirst("a", e => e.Text == "Add a field")
                   .ClickFirst("a", e => e.Text == "Paragrapah text")
@@ -65,7 +108,14 @@ namespace web.test
                  .ClickFirst("input", e => e.GetAttribute("data-bind") == "click: selectPathFromPicker")
                  .Sleep(1.Seconds());
 
-     
+            //Komen
+            driver.ClickFirst("a", e => e.Text == "Add a field")
+                  .ClickFirst("a", e => e.Text == "Single line text")
+                  .ClickFirst("a", e => e.Text == "Fields settings")
+                  .Value("[name=Label]", "Juruteknik")
+                  .Value("[name=Path]", "Technician")
+                  .SelectOption("[name=Size]", "L");
+
            driver.Click("#save-button");
 
             driver.Sleep(TimeSpan.FromSeconds(3));
@@ -81,30 +131,25 @@ namespace web.test
         }
 
         [Test]
-        public void _003_PublicComplaint()
+        public void _002_AssignWorkorder()
         {
-            var templateId = this.GetDatabaseScalarValue<int>("SELECT [ComplaintTemplateId] FROM [Sph].[ComplaintTemplate] WHERE [Name] = @Name", new SqlParameter("@Name", MAINTENANCE_TEMPLATE_NAME));
-            var max = this.GetDatabaseScalarValue<int>("SELECT MAX([ComplaintId]) FROM [Sph].[Complaint]");
+            var templateId = this.GetDatabaseScalarValue<int>("SELECT [MaintenanceTemplateId] FROM [Sph].[MaintenanceTemplate] WHERE [Name] = @Name", new SqlParameter("@Name", MAINTENANCE_TEMPLATE_NAME));
+            var max = this.GetDatabaseScalarValue<int>("SELECT MAX([MaintenanceId]) FROM [Sph].[Maintenance] WHERE [Status] = 'Pemeriksaan'");
             var driver = this.InitiateDriver();
             driver.NavigateToUrl("/Account/Logoff")
-                  .NavigateToUrl("/#/complaint");
-            driver.NavigateToUrl(string.Format("/#/complaint.form-templateid.{0}/{0}", templateId), 2.Seconds());
+                .Login(m_prosenggara)
+                  .NavigateToUrl("/#/maintenance.list/Pemeriksaan");
+            driver.NavigateToUrl(string.Format("/#/maintenance.detail-templateid.{0}/{0}/{1}", templateId,max), 2.Seconds());
 
-            //  driver.Value("[name=CustomFieldValueCollection()[0].Value]", "Kerosakan Lampu di Precint 8");
-            driver.Value("[name=Remarks]", "Lampu tidak menyala di jalan Precint 8");
-            driver.Value("[name=CommercialSpace]", "Lampu tidak menyala di jalan Precint 8");
-            //    driver.Value("[name=CustomFieldValueCollection()[1].Value]", "Ahmad Said");
-            //   driver.Value("[name=CustomFieldValueCollection()[2].Value]", "ahmadsaid@hotmail.com");
-            driver.SelectOption("[name=Category]", "Elektrik");
-            driver.SelectOption("[name=SubCategory]", "Lampu");
+         
 
-            driver.Click("#save-button");
+          //  driver.Click("#save-button");
 
             driver.Sleep(TimeSpan.FromSeconds(3));
 
 
-            var latest = this.GetDatabaseScalarValue<int>("SELECT MAX([ComplaintId]) FROM [Sph].[Complaint]");
-            Assert.IsTrue(max < latest);
+            var latest = this.GetDatabaseScalarValue<int>("SELECT MAX([MaintenanceId]) FROM [Sph].[Maintenance]");
+            Assert.IsTrue(max == latest);
 
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
             driver.Quit();

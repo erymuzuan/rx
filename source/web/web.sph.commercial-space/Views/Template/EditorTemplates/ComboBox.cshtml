@@ -9,8 +9,8 @@
 <ul data-bind="foreach: ComboBoxItemCollection" class="nav">
     <li>
         <div class="input-append">
-            <input class="input-small" type="text" data-bind="value: Value, valueUpdate: 'keyup'" />
-            <input class="input-small" type="text" data-bind="value: Caption, valueUpdate: 'keyup'" />
+            <input class="input-combobox-value" type="text" data-bind="value: Value, valueUpdate: 'keyup'" />
+            <input class="input-combobox-caption" type="text" data-bind="value: Caption, valueUpdate: 'keyup'" />
             <a class="add-on" href="#fields-settings" data-bind="click: $root.removeComboBoxOption">
                 <i class="icon-remove"></i>
             </a>
