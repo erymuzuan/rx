@@ -67,6 +67,7 @@ bespoke.sphcommercialspace.domain.BuildingTemplate = function (webId) {
         Category: ko.observable(''),
         CustomFieldCollection: ko.observableArray([]),
         FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
+        CustomListDefinitionCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -474,22 +475,35 @@ bespoke.sphcommercialspace.domain.ComplaintCategory = function (webId) {
 
 
 
-bespoke.sphcommercialspace.domain.Message = function (webId) {
+bespoke.sphcommercialspace.domain.CustomListDefinition = function (webId) {
 
     var model = {
-        "$type": "Bespoke.SphCommercialSpaces.Domain.Message, domain.commercialspace",
-        MessageId: ko.observable(0),
-        Subject: ko.observable(''),
-        IsRead: ko.observable(false),
-        Body: ko.observable(''),
-        UserName: ko.observable(''),
+        "$type": "Bespoke.SphCommercialSpaces.Domain.CustomListDefinition, domain.commercialspace",
+        Name: ko.observable(''),
+        Label: ko.observable(''),
+        CustomFieldCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
-    if (bespoke.sphcommercialspace.domain.MessagePartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.MessagePartial(model));
+    if (bespoke.sphcommercialspace.domain.CustomListDefinitionPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.CustomListDefinitionPartial(model));
     }
     return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.CustomListDefinitionElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.CustomListDefinitionElement, domain.commercialspace";
+
+    v.CustomFieldCollection = ko.observableArray([]);
+    if (bespoke.sphcommercialspace.domain.CustomListDefinitionElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.CustomListDefinitionElementPartial(v));
+    }
+    return v;
 };
 
 

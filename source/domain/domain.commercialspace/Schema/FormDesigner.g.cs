@@ -4,6 +4,8 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming
@@ -598,6 +600,17 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 m_formDesign = value;
                 OnPropertyChanged();
             }
+        }
+
+        private readonly ObjectCollection<CustomListDefinition> m_CustomListDefinitionCollection = new ObjectCollection<CustomListDefinition>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("CustomListDefinition", IsNullable = false)]
+        public ObjectCollection<CustomListDefinition> CustomListDefinitionCollection
+        {
+            get { return m_CustomListDefinitionCollection; }
         }
 
         ///<summary>
@@ -2067,60 +2080,54 @@ namespace Bespoke.SphCommercialSpaces.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Message", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class Message
+    [XmlType("CustomListDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class CustomListDefinition
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_messageId;
-        public const string PropertyNameMessageId = "MessageId";
+        private string m_name;
+        public const string PropertyNameName = "Name";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_subject;
-        public const string PropertyNameSubject = "Subject";
+        private string m_label;
+        public const string PropertyNameLabel = "Label";
 
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isRead;
-        public const string PropertyNameIsRead = "IsRead";
+        private readonly ObjectCollection<CustomField> m_CustomFieldCollection = new ObjectCollection<CustomField>();
 
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_body;
-        public const string PropertyNameBody = "Body";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_userName;
-        public const string PropertyNameUserName = "UserName";
-
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("CustomField", IsNullable = false)]
+        public ObjectCollection<CustomField> CustomFieldCollection
+        {
+            get { return m_CustomFieldCollection; }
+        }
 
         ///<summary>
         /// 
         ///</summary>
         [XmlAttribute]
 
-        [Required]
-
         [DebuggerHidden]
 
-        public int MessageId
+        public string Name
         {
             set
             {
-                if (m_messageId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameMessageId, value);
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_messageId = value;
+                    m_name = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_messageId;
+                return m_name;
             }
         }
 
@@ -2130,116 +2137,50 @@ namespace Bespoke.SphCommercialSpaces.Domain
         ///</summary>
         [XmlAttribute]
 
-        [Required]
-
         [DebuggerHidden]
 
-        public string Subject
+        public string Label
         {
             set
             {
-                if (String.Equals(m_subject, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameSubject, value);
+                if (String.Equals(m_label, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabel, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_subject = value;
+                    m_label = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_subject;
+                return m_label;
             }
         }
 
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("CustomListDefinitionElement", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class CustomListDefinitionElement
+    {
+
+        private readonly ObjectCollection<CustomField> m_CustomFieldCollection = new ObjectCollection<CustomField>();
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public bool IsRead
+        [XmlArrayItem("CustomField", IsNullable = false)]
+        public ObjectCollection<CustomField> CustomFieldCollection
         {
-            set
-            {
-                if (m_isRead == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsRead, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_isRead = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_isRead;
-            }
+            get { return m_CustomFieldCollection; }
         }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public string Body
-        {
-            set
-            {
-                if (String.Equals(m_body, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameBody, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_body = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_body;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public string UserName
-        {
-            set
-            {
-                if (String.Equals(m_userName, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameUserName, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_userName = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_userName;
-            }
-        }
-
 
 
     }

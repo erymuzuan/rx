@@ -1,0 +1,28 @@
+﻿@model Bespoke.SphCommercialSpaces.Domain.CustomListDefinitionElement
+
+
+<!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.CustomListDefinitionElement, domain.commercialspace" -->
+<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+    @Html.Partial("_DesignerContextAction")
+    <input type="button" class="btn pull-right" data-bind="value: Label" />
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr data-bind="foreach: CustomFieldCollection">
+                <th data-bind="text: Name"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-bind="foreach: CustomFieldCollection">
+                <td>
+                    <input class="input-small" type="text" data-bind2="value: Number, uniqueName: true" value="G" /></td>
+
+            </tr>
+            <tr data-bind="foreach: CustomFieldCollection">
+                <td>
+                    <input class="input-small" type="text" data-bind2="value: Number, uniqueName: true" value="G" /></td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!--/ko-->

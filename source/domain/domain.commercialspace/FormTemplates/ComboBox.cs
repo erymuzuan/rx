@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
@@ -25,5 +24,6 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 path,
                 this.Visible);
         }
+
     }
 }

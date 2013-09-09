@@ -17,6 +17,7 @@ namespace Bespoke.Sph.Commerspace.Web.ViewModels
             this.FormElements.Add(new CheckBox());
             this.FormElements.Add(new TextAreaElement());
             this.FormElements.Add(new DatePicker());
+            this.FormElements.Add(new CustomListDefinitionElement());
 
         }
         private readonly ObjectCollection<FormElement> m_nameCollection = new ObjectCollection<FormElement>();

@@ -53,6 +53,13 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element ref="FormDesign"/>
+				<xs:element name="CustomListDefinitionCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="BuildingTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -329,6 +336,38 @@
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CustomListDefinition">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="CustomFieldCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomField" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string"/>
+			<xs:attribute name="Label" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CustomListDefinitionElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:all>
+						<xs:element name="CustomFieldCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="CustomField" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
