@@ -5,7 +5,7 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/domain.g.js" />
+/// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
@@ -56,13 +56,13 @@ define(['services/datacontext', 'durandal/system'],
                 email.CssClass("icon-envelope pull-left");
                 email.Name("Emel");
                 email.IsRequired(true);
-                
+
                 var web = new bespoke.sphcommercialspace.domain.WebsiteFormElement(system.guid());
                 web.CssClass("icon-link pull-left");
                 web.Name("Website");
                 web.IsRequired(true);
-                
-                var html = new bespoke.sphcommercialspace.domain.WebsiteFormElement(system.guid());
+
+                var html = new bespoke.sphcommercialspace.domain.HtmlElement(system.guid());
                 html.CssClass("icon-html5 pull-left");
                 html.Name("HTML");
                 html.IsRequired(true);
@@ -95,7 +95,6 @@ define(['services/datacontext', 'durandal/system'],
             designer = ko.observable(),
             viewAttached = function (view) {
 
-
                 var dropDown = function (e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -104,17 +103,17 @@ define(['services/datacontext', 'durandal/system'],
                     button.parent().addClass("open")
                         .find("input:first").focus()
                         .select();
-
-
                 };
 
                 // Fix input element click problem
                 $(view).on('click mouseup mousedown', '.dropdown-menu input, .dropdown-menu label',
                     function (e) {
-                    e.stopPropagation();
-                });
+                        e.stopPropagation();
+                    });
                 $('#template-form-designer').on('click', 'button.dropdown-toggle', dropDown);
 
+
+                //toolbox item clicked
                 $('#add-field').on("click", 'a', function (e) {
                     e.preventDefault();
                     _(designer().FormElementCollection()).each(function (f) {
@@ -133,7 +132,24 @@ define(['services/datacontext', 'durandal/system'],
                     designer().FormElementCollection.push(fe);
                     vm.selectedFormElement(fe);
 
+
                 });
+                
+                // kendoEditor
+                $('#template-form-designer').on('click', 'textarea', function () {
+                    var $editor = $(this);
+                    var kendoEditor = $editor.data("kendoEditor");
+                    if (!kendoEditor) {
+                       var htmlElement = ko.dataFor(this);
+                       $editor.kendoEditor({
+                           change:function() {
+                               htmlElement.Text(this.value());
+                           }
+                       });
+                        
+                    }
+                }
+                );
                 $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js')// only contains UI core and interactions API 
                     .done(function () {
 

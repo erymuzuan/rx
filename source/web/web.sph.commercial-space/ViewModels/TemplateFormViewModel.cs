@@ -8,6 +8,7 @@ namespace Bespoke.Sph.Commerspace.Web.ViewModels
         {
             this.FormElements.Add(new FormElement());
             this.FormElements.Add(new SectionFormElement());
+            this.FormElements.Add(new HtmlElement());
             this.FormElements.Add(new TextBox());
             this.FormElements.Add(new ComboBox());
             this.FormElements.Add(new WebsiteFormElement());

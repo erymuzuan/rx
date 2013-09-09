@@ -343,7 +343,6 @@ ko.bindingHandlers.cssAutoComplete = {
                 return s.selectorText.replace(/\./g,"");
             })
                 .value();
-            console.log(data);
         }
         $(element).data("kendoAutoComplete") ||
            $(element).kendoAutoComplete({

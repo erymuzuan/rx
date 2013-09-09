@@ -1450,6 +1450,9 @@
     <Content Include="Views\ReportDefinition\_PieChartDesignerContextAction.cshtml" />
     <Content Include="Views\ReportDefinition\_Preview.cshtml" />
     <Content Include="Views\ReportDefinition\_BarLineChartDesignerContextAction.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\HtmlElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\HtmlElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\HtmlElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -51,7 +51,7 @@ namespace web.test
             driver.NavigateToUrl("/Account/Login");
             driver.Login("ruzzaima");
             driver.NavigateToUrl("/#building.template.list")
-                  .NavigateToUrl("/#/template.building-id.0/0", 1.Seconds());
+                  .NavigateToUrl("/#/template.building-id.0/0", 2.Seconds());
 
             // add elements
             driver.Value("[name=Building-template-category]", BUILDING_TEMPLATE_NAME)

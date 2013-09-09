@@ -33,14 +33,8 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/scripts/_function.prototypes.js")
                 .Include("~/scripts/_task.js")
                 .Include("~/scripts/_constants.js")
-                .Include("~/App/services/domain.g.js")
-                .Include("~/App/services/Deposit.js")
-                .Include("~/App/services/Rent.js")
-                .Include("~/App/services/Contract.js")
-                .Include("~/App/services/Complaint.js")
-                .Include("~/App/services/CommercialSpace.js")
-                .Include("~/App/services/ConstantField.js")
-                .Include("~/App/services/report.js")
+                .Include("~/App/schemas/*.js")
+                .Include("~/App/partial/*.js")
               );
 
             bundles.Add(
