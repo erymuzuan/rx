@@ -507,6 +507,20 @@ bespoke.sphcommercialspace.domain.CustomListDefinitionElement = function (webId)
 };
 
 
+
+bespoke.sphcommercialspace.domain.MaintenanceOfficerElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.MaintenanceOfficerElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.MaintenanceOfficerElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.MaintenanceOfficerElementPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sphcommercialspace.domain.FormElement = function (webId) {
 
     return {
