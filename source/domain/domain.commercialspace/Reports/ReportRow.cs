@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Bespoke.SphCommercialSpaces.Domain
 {
@@ -10,6 +11,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 var col = this.ReportColumnCollection.SingleOrDefault(c => c.Name == name);
+                if(null == col) Console.WriteLine("Cannot find column " + name);
                 return col;
             }
         }

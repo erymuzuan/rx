@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -25,6 +26,8 @@ namespace Bespoke.Sph.SqlReportDataSource
                .Where(p => p.Name != "Dirty")
                .Where(p => p.Name != "Bil")
                .Where(p => p.Name != "Error")
+               .Where(p => p.Name != "Wkt")
+               .Where(p => p.Name != "EncodedWkt")
                .Select(p => new ReportColumn
                {
                    Name = root + p.Name,
@@ -43,6 +46,46 @@ namespace Bespoke.Sph.SqlReportDataSource
             columns.AddRange(props);
         }
 
+        private async Task<ReportColumn[]> GetCustomFieldColumns(string table)
+        {
+            var list = new ObjectCollection<ReportColumn>();
+            if (table == "Land") return list.ToArray();
+
+            XNamespace x = Strings.DEFAULT_NAMESPACE;
+            var sql = string.Format("SELECT [Data] FROM [Sph].[{0}Template]", table);
+            var cs = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
+            using (var conn = new SqlConnection(cs))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    while (reader.Read())
+                    {
+                        var xml = XElement.Parse(reader.GetString(0));
+                        var element = xml.Element(x + "CustomFieldCollection");
+                        if (null == element) continue;
+
+                        var customFieldCollection =
+                            XmlSerializerService.DeserializeFromXml<ObjectCollection<CustomField>>(element.ToString()
+                            .Replace("CustomFieldCollection", "ArrayOfCustomField"));
+                        var columns = from e in customFieldCollection
+                                      where !string.IsNullOrWhiteSpace(e.Name)
+                                      select new ReportColumn
+                                      {
+                                          IsCustomField = true,
+                                          Name = e.Name,
+                                          TypeName = e.Type
+                                      };
+                        list.AddRange(columns);
+
+                    }
+                }
+            }
+            list.ForEach(Console.WriteLine);
+
+            return list.ToArray();
+        }
 
         private async Task<string[]> GetDatabaseColumns(string table)
         {
@@ -94,11 +137,14 @@ namespace Bespoke.Sph.SqlReportDataSource
             var columns = new ObjectCollection<ReportColumn>();
             this.GetColumns(columns, type);
             var databaseColumns = await this.GetDatabaseColumns(type.Name);
+            var customColumns = await this.GetCustomFieldColumns(type.Name);
+
             foreach (var column in columns)
             {
                 var column1 = column;
                 column1.IsFilterable = databaseColumns.Any(c => c == column1.Name);
             }
+            columns.AddRange(customColumns);
 
             // custom field
 
@@ -132,7 +178,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                 {
                     var parameter = new SqlParameter("@" + p.Name, p.Value ?? p.DefaultValue);
                     cmd.Parameters.Add(parameter);
-                    Debug.WriteLine("PaRAM {0} = {1}", parameter.ParameterName, parameter.Value);
+                    Debug.WriteLine("PARAM {0} = {1}", parameter.ParameterName, parameter.Value);
                 }
                 await conn.OpenAsync();
                 var reader = await cmd.ExecuteReaderAsync();
@@ -185,6 +231,26 @@ namespace Bespoke.Sph.SqlReportDataSource
                     if (null != attribute)
                     {
                         c.Value = attribute.Value;
+                        continue;
+                    }
+
+
+                    // custom fields
+                    if (c.IsCustomField)
+                    {
+                        Console.WriteLine("Looking for " + c.Name);
+                        var ce = xml.Element(x + "CustomFieldValueCollection");
+                        if (null == ce) continue;
+                        foreach (var cv in ce.Elements(x +"CustomFieldValue"))
+                        {
+                            var cvName = cv.Attribute("Name");
+                            if (null == cvName) continue;
+                            if (cvName.Value == c.Name)
+                            {
+                                c.Value = cv.Attribute("Value").Value;
+                                continue;
+                            }
+                        }
                         continue;
                     }
 

@@ -71,8 +71,8 @@ namespace web.test
             driver.ClickFirst("a", e => e.Text == "Add a field")
                   .ClickFirst("a", e => e.Text == "Single line text")
                   .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Nama Pemilik")
-                  .Value("[name=Path]", "OwnerName");
+                  .Value("[name=Label]", "Nama Konsesi")
+                  .Value("[name=Path]", "ConsessionName");
 
             // Lot NO
             driver.ClickFirst("a", e => e.Text == "Add a field")
@@ -147,7 +147,7 @@ namespace web.test
 
             driver.NavigateToUrl(String.Format("/#/building.detail-templateid.{0}/{0}/0", templateId),5.Seconds());
 
-            driver.Value("[name='OwnerName']", "Putrajaya Holding");
+            driver.Value("[name='ConsessionName']", "Putrajaya Holding");
 
             driver
                 .Value("[name='Name']", BUILDING_NAME)
