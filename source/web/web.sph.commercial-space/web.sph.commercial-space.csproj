@@ -384,6 +384,7 @@
     <Content Include="App\partial\Complaint.js" />
     <Content Include="App\partial\ConstantField.js" />
     <Content Include="App\partial\Contract.js" />
+    <Content Include="App\partial\report.js" />
     <Content Include="App\schemas\report.builder.g.js" />
     <Content Include="App\schemas\sph.domain.g.js" />
     <Content Include="App\schemas\trigger.workflow.g.js" />
