@@ -1,4 +1,5 @@
-﻿/// <reference path="domain.g.js" />
+﻿/// <reference path="../schemas/sph.domain.g.js" />
+/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
 /// <reference path="../../Scripts/underscore.js" />
 
 var bespoke = bespoke || {};

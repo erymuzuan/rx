@@ -895,6 +895,15 @@
 			<xs:attribute name="Remarks" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Message">
+		<xs:complexType>
+			<xs:attribute name="MessageId" type="xs:int" use="required"/>
+			<xs:attribute name="Subject" type="xs:string" use="required"/>
+			<xs:attribute name="IsRead" type="xs:boolean" use="required"/>
+			<xs:attribute name="Body" type="xs:string" use="required"/>
+			<xs:attribute name="UserName" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Block">
 		<xs:complexType>
 			<xs:all>
