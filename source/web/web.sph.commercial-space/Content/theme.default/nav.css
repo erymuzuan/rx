@@ -21,6 +21,18 @@
   padding: 5px;
   margin-left: 10px;
 }
+#slider-menu .nav > li.active {
+  background-color: #808080;
+}
+#slider-menu .nav > li:hover {
+  background-color: #808080;
+}
+#slider-menu .nav > li > a:hover {
+  background-color: #808080;
+}
+#slider-menu .nav > li:nth-child(1):hover {
+  background-color: #fbfbfb;
+}
 #slider-menu .nav > li > a > i {
   margin-right: 5px;
 }
