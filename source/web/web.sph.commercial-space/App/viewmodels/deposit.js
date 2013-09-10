@@ -29,7 +29,7 @@ define(['services/datacontext', 'services/logger'],
             showDetails = function (deposit) {
                 isBusy(true);
                 var c1 = ko.mapping.fromJSON(ko.mapping.toJSON(deposit));
-                var clone = _(c1).extend(new bespoke.sphcommercialspace.domain.DepositPartial(c1));
+                var clone = c1;
                 editedDeposit(deposit);
                 vm.deposit(clone);
 
@@ -42,6 +42,9 @@ define(['services/datacontext', 'services/logger'],
                     Date: ko.observable()
                 };
                 vm.deposit().DepositPaymentCollection.push(payment);
+            },
+            removeDepositPayment = function (payment) {
+               vm.deposit().DepositPaymentCollection.remove(payment);
             },
             save = function () {
 
@@ -67,6 +70,7 @@ define(['services/datacontext', 'services/logger'],
             depositCollection: ko.observableArray(),
             deposit: ko.observable(new bespoke.sphcommercialspace.domain.Deposit()),
             addPaymentCommand: addPayment,
+            removeDepositPaymentCommand: removeDepositPayment,
             saveCommand: save,
             toolbar: ko.observable({
                 reloadCommand: function () {
