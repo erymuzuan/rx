@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
+using System.Xml.Linq;
+using Bespoke.SphCommercialSpaces.Domain;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -10,6 +13,8 @@ namespace web.test
     [TestFixture]
     public class PaymentTest : BrowserTest
     {
+        public const string REGISTRATION_NO = "2013000046";
+        public const string INVOICE_NO = "BSPB/2013/2013000037/082013";
         private TestUser m_cashier;
 
         [SetUp]
@@ -31,7 +36,63 @@ namespace web.test
         }
 
         [Test]
-        public void _001_DepositPayment()
+        public void DepositAndRentalPaymentTest()
+        {
+            _001_CreateDeposit();
+            _002_DepositPayment();
+            _003_CreateRental();
+            _004_RentalPayment();
+        }
+
+        [Test]
+        public void _001_CreateDeposit()
+        {
+            this.ExecuteNonQuery("DELETE FROM [Sph].[Deposit] WHERE [RegistrationNo] = @RegistrationNo", new SqlParameter("@RegistrationNo", REGISTRATION_NO));
+          
+            var x =
+               string.Format(
+                   "<Deposit xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
+                    "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"http://www.bespoke.com.my/\" " +
+                   "WebId=\"{0}\" CreatedBy=\"{1}\" CreatedDate=\"2013-08-29T16:02:53.8586914+08:00\" " +
+                   "ChangedBy=\"{1}\" ChangedDate=\"2013-08-29T16:02:53.8586914+08:00\" " +
+                   "DepositId=\"0\" " +
+                   "DateTime=\"2013-08-29T16:02:53.7716914+08:00\" " +
+                   "Name=\"CEKAL RESOURCES\" " +
+                   "IDNumber=\"001395454-U\" " +
+                   "RegistrationNo=\"2013000046\" " +
+                   "Amount=\"2000\" " +
+                   "IsPaid=\"false\" " +
+                   "IsRefund=\"false\" " +
+                   "IsVoid=\"false\">" +
+                   "<DepositPaymentCollection />" +
+                   "<PaymentDateTime xsi:nil=\"true\" />" +
+                   "<RefundDateTime xsi:nil=\"true\" />" +
+                   "<DueDate>2013-09-06T00:00:00</DueDate>" +
+                   "</Deposit>",
+                   Guid.NewGuid(),
+                   "test"
+               
+                   );
+              this.ExecuteNonQuery("INSERT INTO [Sph].[Deposit]([DateTime],[Data],[Name],[IDNumber],[RegistrationNo],[Amount]," +
+                                                      "[IsPaid],[IsRefund],[IsVoid]," +
+                                                      "[CreatedDate],[ChangedDate],[CreatedBy],[ChangedBy]) " +
+                                                      "VALUES(@DateTime, @Data,@Name, @IDNumber, @RegistrationNo,@Amount," +
+                                                      "'false','false','false'," +
+                                                      " '2013-01-01','2013-01-01','test','test')",
+                new SqlParameter("@DateTime", DateTime.Today),
+                new SqlParameter("@Data", x),
+                new SqlParameter("@Name", "CEKAL RESOURCES"),
+                new SqlParameter("@IDNumber", "001395454-U"),
+                new SqlParameter("@RegistrationNo", "2013000046"),
+                new SqlParameter("@Amount", "2000")
+                );
+
+            Console.WriteLine("Deposit amount 2000 is successfully created");
+        }
+
+     
+        [Test]
+        public void _002_DepositPayment()
         {
             var max = this.GetDatabaseScalarValue<string>("SELECT MAX([RegistrationNo]) FROM [Sph].[Deposit]");
             var driver = this.InitiateDriver();
@@ -66,10 +127,57 @@ namespace web.test
             var latest = this.GetDatabaseScalarValue<string>("SELECT MAX([RegistrationNo]) FROM [Sph].[Deposit]");
             Assert.AreEqual(max,latest);
 
-            driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
+            driver.Sleep(TimeSpan.FromSeconds(5), "Bayaran deposit berjaya");
             driver.Quit();
         }
 
+        [Test]
+        public void _003_CreateRental()
+        {
+            this.ExecuteNonQuery("DELETE FROM [Sph].[Invoice] WHERE [No] = @No", new SqlParameter("@No", INVOICE_NO));
+          
+            var xml = XElement.Load(@".\invoice.xml");
+            this.ExecuteNonQuery("INSERT INTO [Sph].[Invoice]([TenantIdSsmNo],[Data],[Type],[ContractNo],[No],[Amount]," +
+                                                    "[Date]," +
+                                                    "[CreatedDate],[ChangedDate],[CreatedBy],[ChangedBy]) " +
+                                                    "VALUES(@TenantIdSsmNo,@Data,@Type,@ContractNo,@No,@Amount," +
+                                                    "@Date," +
+                                                    " '2013-01-01','2013-01-01','test','test')",
+              new SqlParameter("@TenantIdSsmNo", "780213-02-6354"),
+              new SqlParameter("@Data", xml.ToString()),
+              new SqlParameter("@Type", "Rental"),
+              new SqlParameter("@ContractNo", "BSPB/2013/2013000037"),
+              new SqlParameter("@No", "BSPB/2013/2013000037/082013"),
+              new SqlParameter("@Amount", "2500"),
+              new SqlParameter("@Date", DateTime.Today)
+              );
 
+            Console.WriteLine("Rental amount 2500 is successfully created");
+        }
+
+        [Test]
+        public void _004_RentalPayment()
+        {
+            var max = this.GetDatabaseScalarValue<int>("SELECT MAX([InvoiceId]) FROM [Sph].[Invoice] WHERE [Type] = 'Rental'");
+            var driver = this.InitiateDriver();
+
+            driver.NavigateToUrl("/Account/Logoff")
+                .Login(m_cashier)
+                .NavigateToUrl("/#/payment", 3.Seconds());
+
+            driver.Click(".set-payment-button")
+                .Sleep(2.Seconds());
+           
+            driver.Value("[name=ReceiptNo]","801291")
+                   .Value("[name=Amount]", "200");
+            driver.Sleep(TimeSpan.FromSeconds(3));
+
+            driver.Click(".save-rental-payment-button");
+            var latest = this.GetDatabaseScalarValue<int>("SELECT MAX([InvoiceId]) FROM [Sph].[Invoice] WHERE [Type] = 'Rental'");
+            Assert.AreEqual(max, latest);
+
+            driver.Sleep(TimeSpan.FromSeconds(5), "Bayaran sewa berjaya");
+            driver.Quit();
+        }
     }
 }

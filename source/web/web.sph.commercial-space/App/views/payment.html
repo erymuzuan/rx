@@ -14,49 +14,55 @@
         <tbody data-bind=" foreach : contractCollection">
             <tr>
                 <td><a download data-bind="text:ReferenceNo,attr: {href: 'Contract/GenerateLedger/' + ContractId()}"></a></td>
-                <td data-bind="text:Tenant.IdSsmNo"></td>
+                <td data-bind="text:Tenant().IdSsmNo"></td>
                 <td data-bind="date: { value: Date, format: 'MM/YYYY' }"></td>
-                <td data-bind="text:Accrued"></td>
-                <td><a type="button" class="btn btn-warning pull-left" data-bind="click: $parent.showDetailsCommand, visible: CanPaid" href="#set-payment-modal">Set Bayar</a></td>
+                <td data-bind="money:Accrued"></td>
+                <td><a type="button" class="set-payment-button" data-bind="click: $parent.showDetailsCommand, visible: CanPaid" href="#set-payment-modal">Set Bayar</a></td>
             </tr>
         </tbody>
     </table>
 </section>
 
-<section id="set-payment-modal" class="modal hide fade" style="margin-left: -400px; width: 400px">
+<section id="set-payment-modal" class="modal hide fade">
     <div class="modal-header">
         <h2>Maklumat Bayaran</h2>
     </div>
-    <div class="modal-body" style="width: 400px; height: 250px; max-height: 350px" data-bind="with : payment">
-        <div class="control-group">
-            <div class="controls">
-            <span>No. Kontrak : </span><span><input data-bind="value: ContractNo" id="payment.contractNo" type="text" name="ContractNo" /></span>
+    <div class="modal-body" data-bind="with : payment">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label for="ContractNo" class="control-label">No. Kontrak</label>
+                <div class="controls">
+                    <input data-bind="value: ContractNo" id="ContractNo" type="text" name="ContractNo" />
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-            <span>Id/Ssm No : </span><span><input data-bind="value: TenantIdSsmNo" id="payment.TenantIdSsmNo" type="text" name="TenantIdSsmNo" /></span>
+            <div class="control-group">
+                <label for="TenantIdSsmNo" class="control-label">ID / SSM No</label>
+                <div class="controls">
+                    <input data-bind="value: TenantIdSsmNo" id="TenantIdSsmNo" type="text" name="TenantIdSsmNo" />
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                <span>Tarikh: </span><span><input data-bind="kendoDate: Date" id="Payment.Date" type="text" name="Payment.Date" /></span>
+            <div class="control-group">
+                <label for="Date" class="control-label">Tarikh</label>
+                <div class="controls">
+                    <input data-bind="kendoDate: Date" id="Date" type="text" name="Date" />
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                <span>No. Resit: </span><span><input data-bind="value: ReceiptNo" id="Text1" type="text" name="ReceiptNo" /></span>
+            <div class="control-group">
+                <label for="ReceiptNo" class="control-label">No. Resit</label>
+                <div class="controls">
+                    <input data-bind="value: ReceiptNo" id="ReceiptNo" type="text" name="ReceiptNo" />
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                <span>Amaun: </span><span><input data-bind="value: Amount" id="Amount" type="text" name="Amount" /></span>
+            <div class="control-group">
+                <label for="Amount" class="control-label">Amaun</label>
+                <div class="controls">
+                    <input data-bind="value: Amount" id="Amount" type="text" name="Amount" />
+                </div>
             </div>
-        </div>
-        
+           </form>
     </div>
     <div class="modal-footer">
-        <input type="button" value="Simpan" class="btn btn-small" data-bind="click: saveCommand" data-dismiss="modal" />
-        <input type="button" value="Batal" class="btn btn-small" data-dismiss="modal" />
+        <input type="button" value="Simpan" class="save-rental-payment-button" data-bind="click: saveCommand" data-dismiss="modal" />
+        <input type="button" value="Batal" class="close-rental-payment-button" data-dismiss="modal" />
     </div>
 </section>
