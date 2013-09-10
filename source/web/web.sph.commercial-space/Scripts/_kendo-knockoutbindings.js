@@ -1,8 +1,8 @@
-﻿/// <reference path="modernizr-2.6.2.js" />
-/// <reference path="knockout-2.3.0.debug.js" />
+﻿/// <reference path="knockout-2.3.0.debug.js" />
 /// <reference path="underscore.js" />
 /// <reference path="moment.js" />
 /// <reference path="~/Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="~/App/durandal/amd/require.js" />
 /// <reference path="~/kendo/js/kendo.all.js" />
 /// <reference path="_pager.js" />
 
@@ -515,6 +515,7 @@ ko.bindingHandlers.serverPaging = {
             entity = value.entity,
             query = value.query,
             list = value.list,
+            map = value.map,
             $element = $(element),
             context = require('services/datacontext'),
             $pagerPanel = $('<div></div>'),
@@ -527,7 +528,10 @@ ko.bindingHandlers.serverPaging = {
                 $spinner.hide();
                 $element.fadeTo("fast", 1);
             },
-            setItemsSource = function(items) {
+            setItemsSource = function (items) {
+                if (map) {
+                    items = _(items).map(map);
+                }
                 if (typeof list === "string") {
                     viewModel[list](items);
                 }

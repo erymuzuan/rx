@@ -50,6 +50,7 @@ namespace Bespoke.Sph.SqlReportDataSource
         {
             var list = new ObjectCollection<ReportColumn>();
             if (table == "Land") return list.ToArray();
+            if (table == "Tenant") return list.ToArray();
 
             XNamespace x = Strings.DEFAULT_NAMESPACE;
             var sql = string.Format("SELECT [Data] FROM [Sph].[{0}Template]", table);

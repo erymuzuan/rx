@@ -60,6 +60,9 @@
                 sliderVisible = !sliderVisible;
                 
             });
+            $(document).on('keyup', function (e) {
+                console.dir(e);
+            });
 
             var $links = $('div#slider-menu li');
             var filterInput = $('#filter-text');

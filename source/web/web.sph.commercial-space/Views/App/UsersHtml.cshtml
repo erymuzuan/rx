@@ -23,7 +23,7 @@
             <div>
                 <a href="#user-details-modal"  id="add-user-button" data-bind="click: addCommand" data-toggle="modal" class="btn btn-link pull-left"><i class="icon-plus"> Pengguna </i> </a>
             </div>
-            <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
+            <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'UserProfile', query: 'UserProfileId gt 0', list: profiles, map : map}">
                 <thead>
                     <tr>
                         <th>Nama Pengguna</th>
