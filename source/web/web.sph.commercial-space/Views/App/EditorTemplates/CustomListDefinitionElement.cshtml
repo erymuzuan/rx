@@ -2,7 +2,7 @@
 
 
 <div>
-    <input type="button" class="btn pull-right" value="@Model.Label" />
+    <input type="button" class="btn pull-right" value="@Model.Label" data-bind="click : addCustomListItem('@Model.Name')" />
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
@@ -10,32 +10,36 @@
                 {
                     <th>@c.Name</th>
                 }
+                <th></th>
             </tr>
         </thead>
-        <tbody>
-            <tr data-bind2="foreach :CustomListCollection()[0].CustomFieldValueCollection">
+        <tbody data-bind="foreach :CustomList('@Model.Name').CustomListRowCollection">
+            <tr>
                 @foreach (var c in Model.CustomFieldCollection)
                 {
                     <td>
                         @if (c.Type == typeof(string).AssemblyQualifiedName)
                         {
-                            <input class="input-small" type="text" data-bind="value: Value, uniqueName: true" />
+                            <input class="input-small" type="text" data-bind="value: CustomField('@c.Name'), uniqueName: true" />
                         }
                         @if (c.Type == typeof(int).AssemblyQualifiedName)
                         {
-                            <input class="input-small" type="number" data-bind="value: Value, uniqueName: true" />
+                            <input class="input-small" type="number" data-bind="value: CustomField('@c.Name'), uniqueName: true" />
                         }
                         @if (c.Type == typeof(bool).AssemblyQualifiedName)
                         {
-                            <input class="input-small" type="checkbox" data-bind="value: Value, uniqueName: true" />
+                            <input class="input-small" type="checkbox" data-bind="checked: CustomField('@c.Name'), uniqueName: true" />
                         }
                         @if (c.Type == typeof(DateTime).AssemblyQualifiedName)
                         {
-                            <input class="input-small" type="text" data-bind="value: Value, uniqueName: true" />
+                            <input class="input-small" type="text" data-bind="kendoDate: CustomField('@c.Name'), uniqueName: true" />
                         }
 
                     </td>
                 }
+                <td>
+                    <a href="#">Buang</a>
+                </td>
 
             </tr>
         </tbody>
