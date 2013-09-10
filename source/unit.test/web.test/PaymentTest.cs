@@ -135,7 +135,8 @@ namespace web.test
         public void _003_CreateRental()
         {
             this.ExecuteNonQuery("DELETE FROM [Sph].[Invoice] WHERE [No] = @No", new SqlParameter("@No", INVOICE_NO));
-          
+            var contractNo = this.GetDatabaseList<string>("SELECT MAX([ReferenceNo]) FROM [Sph].[Contract]");
+            var idSsm = this.GetDatabaseList<string>("SELECT [TenantIdSsmNo] FROM [Sph].[Contract] WHERE [ReferenceNo] = @ReferenceNo", new SqlParameter("@ReferenceNo",contractNo));
             var xml = XElement.Load(@".\invoice.xml");
             this.ExecuteNonQuery("INSERT INTO [Sph].[Invoice]([TenantIdSsmNo],[Data],[Type],[ContractNo],[No],[Amount]," +
                                                     "[Date]," +
@@ -143,10 +144,10 @@ namespace web.test
                                                     "VALUES(@TenantIdSsmNo,@Data,@Type,@ContractNo,@No,@Amount," +
                                                     "@Date," +
                                                     " '2013-01-01','2013-01-01','test','test')",
-              new SqlParameter("@TenantIdSsmNo", "001390153-U"),
+              new SqlParameter("@TenantIdSsmNo", idSsm),
               new SqlParameter("@Data", xml.ToString()),
               new SqlParameter("@Type", "Rental"),
-              new SqlParameter("@ContractNo", "BSPB/2013/2013000044"),
+              new SqlParameter("@ContractNo", contractNo),
               new SqlParameter("@No", "BSPB/2013/2013000037/082013"),
               new SqlParameter("@Amount", "2500"),
               new SqlParameter("@Date", DateTime.Today)
