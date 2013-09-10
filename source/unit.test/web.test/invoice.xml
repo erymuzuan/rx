@@ -1,7 +1,7 @@
-﻿<Invoice xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.bespoke.com.my/" xsi:type="Rent" WebId="a01cc4f8-d140-431c-b986-ce27babeeadc" CreatedDate="0001-01-01T00:00:00" ChangedDate="0001-01-01T00:00:00" InvoiceId="0" Date="2013-08-27T15:04:02.7494092+08:00" Amount="2500" No="BSPB/2013/2013000037/082013" Type="Rental" ContractNo="BSPB/2013/2013000037" TenantIdSsmNo="780213-02-6354" Year="2013">
+﻿<Invoice xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.bespoke.com.my/" xsi:type="Rent" WebId="a01cc4f8-d140-431c-b986-ce27babeeadc" CreatedDate="0001-01-01T00:00:00" ChangedDate="0001-01-01T00:00:00" InvoiceId="0" Date="2013-08-27T15:04:02.7494092+08:00" Amount="2500" No="BSPB/2013/2013000037/082013" Type="Rental" ContractNo="BSPB/2013/2013000044" TenantIdSsmNo="001390153-U" Year="2013">
   <Month>8</Month>
   <Quarter xsi:nil="true" />
-  <Tenant CreatedDate="0001-01-01T00:00:00" ChangedDate="0001-01-01T00:00:00" TenantId="0" IdSsmNo="780213-02-6354" Name="Aminah " RegistrationNo="2013000037">
+  <Tenant CreatedDate="0001-01-01T00:00:00" ChangedDate="0001-01-01T00:00:00" TenantId="0" IdSsmNo="001390153-U" Name="CEKAL WIBAWA RESOURCES " RegistrationNo="2013000037">
     <ContractHistoryCollection />
     <Address Street="Jalan SS4/3" City="Petaling Jaya" Postcode="47400" State="Selangor" />
   </Tenant>

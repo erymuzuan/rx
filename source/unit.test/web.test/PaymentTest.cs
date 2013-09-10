@@ -143,10 +143,10 @@ namespace web.test
                                                     "VALUES(@TenantIdSsmNo,@Data,@Type,@ContractNo,@No,@Amount," +
                                                     "@Date," +
                                                     " '2013-01-01','2013-01-01','test','test')",
-              new SqlParameter("@TenantIdSsmNo", "780213-02-6354"),
+              new SqlParameter("@TenantIdSsmNo", "001390153-U"),
               new SqlParameter("@Data", xml.ToString()),
               new SqlParameter("@Type", "Rental"),
-              new SqlParameter("@ContractNo", "BSPB/2013/2013000037"),
+              new SqlParameter("@ContractNo", "BSPB/2013/2013000044"),
               new SqlParameter("@No", "BSPB/2013/2013000037/082013"),
               new SqlParameter("@Amount", "2500"),
               new SqlParameter("@Date", DateTime.Today)
