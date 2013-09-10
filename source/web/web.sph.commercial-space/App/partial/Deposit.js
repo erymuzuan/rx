@@ -9,17 +9,17 @@ bespoke.sphcommercialspace.domain = bespoke.sphcommercialspace.domain || {};
 
 bespoke.sphcommercialspace.domain.DepositPartial = function (model) {
     var calcPayment = function () {
-        var sum = _(model.DepositPaymentCollection()).reduce(function (memo, val) {
-            return memo + parseFloat(val.Amount());
+        var sum = _(model.DepositPaymentCollection).reduce(function (memo, val) {
+            return memo + parseFloat(val.Amount);
         }, 0);
 
         return sum.toFixed(2);
     },
         calcBalance = function () {
-            var paid = _(model.DepositPaymentCollection()).reduce(function (memo, val) {
-                return memo + parseFloat(val.Amount());
+            var paid = _(model.DepositPaymentCollection).reduce(function (memo, val) {
+                return memo + parseFloat(val.Amount);
             }, 0);
-             var sum = model.Amount() - paid;
+             var sum = model.Amount - paid;
              return sum.toFixed(2);
         };
     
