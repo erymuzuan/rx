@@ -454,7 +454,6 @@
     <Content Include="App\views\chats.html" />
     <Content Include="App\views\commercialspace.template.form.html" />
     <Content Include="App\views\commercialspace.template.list.html" />
-    <Content Include="App\views\complaint.assign.html" />
     <Content Include="App\views\complaint.checkstatus.html" />
     <Content Include="App\views\complaint.dashboard.html" />
     <Content Include="App\views\maintenance.dashboard.html" />
@@ -1466,6 +1465,11 @@
     <Content Include="Views\Template\DisplayTemplates\CustomListDefinitionElement.cshtml" />
     <Content Include="Views\Template\EditorTemplates\CustomListDefinitionElement.cshtml" />
     <Content Include="Views\App\EditorTemplates\CustomListDefinitionElement.cshtml" />
+    <Content Include="Views\App\ComplaintAssignHtml.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\TextBox.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\ComboBox.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\ComplaintCategoryElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\TextAreaElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

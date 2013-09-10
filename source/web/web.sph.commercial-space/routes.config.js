@@ -410,7 +410,7 @@
     "url": "complaint.list/:status",
     "moduleId": "viewmodels/complaint.list",
     "name": "Senarai Aduan",
-    "visible": true,
+    "visible": false,
     "icon": "icon-tasks",
     "caption": "Senarai Aduan",
     "settings": null,
@@ -425,18 +425,6 @@
     "visible": true,
     "icon": "icon-user",
     "caption": "Portal Penyewa",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_assign_complaint",
-    "url": "complaint.assign/:id",
-    "moduleId": "viewmodels/complaint.assign",
-    "name": "Pemeriksaan",
-    "visible": false,
-    "icon": "icon-check",
-    "caption": "pemeriksaan",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""

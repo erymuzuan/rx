@@ -12,6 +12,8 @@
             };
         }
 
+       
+
         public override string GetKnockoutBindingExpression()
         {
             var path = this.Path;

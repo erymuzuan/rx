@@ -1,0 +1,34 @@
+﻿@model Bespoke.SphCommercialSpaces.Domain.ComplaintTemplate
+
+@{
+    ViewBag.Title = "title";
+    Layout =null;
+}
+<div id="complaint-assignment-page">
+    <h1>@Model.FormDesign.Name</h1>
+    <span>@Model.FormDesign.Description</span>
+    <form class="form-horizontal" id="building-form" data-bind="with: complaint">
+        @foreach (var fe in Model.FormDesign.FormElementCollection)
+        {
+            @Html.DisplayFor(m => fe)
+
+        }
+    </form>
+    
+    
+    <form class="form-horizontal" data-bind="with: complaint">
+    
+        <div class="control-group" data-bind="with: $parent.departmentOptions">
+            <label for="department" class="control-label">Jabatan :</label>
+            <div class="controls">
+                <select id="department" name="department" data-bind="options: $data, optionsText: 'Name', optionsValue: 'Name', value: $parent.Department, optionsCaption: '[Sila Pilih]'"></select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="Note" class="control-label">Nota : </label>
+            <div class="controls">
+                <textarea cols="5" rows="5" class="input-xxlarge" data-bind="value: Note" id="Note" name="Note" />
+            </div>
+        </div>
+    </form>
+</div>

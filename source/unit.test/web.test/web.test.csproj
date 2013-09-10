@@ -84,6 +84,7 @@
     <Compile Include="ReportBuilderTestFixture.cs" />
     <Compile Include="SqlPersistenceHelper.cs" />
     <Compile Include="TestUser.cs" />
+    <Compile Include="XlinqHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

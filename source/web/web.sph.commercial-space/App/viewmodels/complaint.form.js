@@ -1,15 +1,13 @@
-﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
-/// <reference path="../../Scripts/__common.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/domain.g.js" /> 
-/// <reference path="../services/mockComplainTemplateContext.js" />
+/// <reference path="../schemas/sph.domain.g.js" /> 
 
 
 define(['services/datacontext', 'services/logger', 'durandal/system', 'config'],
@@ -30,6 +28,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', 'config'],
 	            var query = "ComplaintTemplateId eq " + id();
 	            context.loadOneAsync("ComplaintTemplate", query).then(function (ct) {
 	                template(ct);
+	                vm.complaint().TemplateId(id());
 	                var categories = _(ct.ComplaintCategoryCollection()).map(function (c) {
 	                    return c.Name();
 	                });

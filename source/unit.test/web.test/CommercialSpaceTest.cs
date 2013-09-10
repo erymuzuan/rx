@@ -9,8 +9,26 @@ namespace web.test
     [TestFixture]
     public class CommercialSpaceTest : BrowserTest
     {
+        private TestUser m_spaceAdmin;
         public const string CS_REGISTRATION_NO = "BSPK/999999";
         public const string CS_TEMPLATE_NAME = "Cafeteria";
+
+        [SetUp]
+        public void Init()
+        {
+            m_spaceAdmin = new TestUser
+            {
+                UserName = "ruang-admin",
+                FullName = "Ruang Admin",
+                Email = "ruang.admin@bespoke.com.my",
+                Department = "Test",
+                Designation = "Boss",
+                Password = "abcad12334535",
+                Roles = new[] { "can_add_commercial_space", "can_edit_commercial_space", "can_edit_commercialspace_template" }
+            };
+            this.AddUser(m_spaceAdmin);
+        }
+
 
         [Test]
         public void AddCsTemplateAndNewCs()
@@ -20,14 +38,14 @@ namespace web.test
         }
 
         [Test]
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         public void _001_AddCsTemplate()
         {
             this.ExecuteNonQuery("DELETE FROM [Sph].[CommercialSpaceTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", CS_TEMPLATE_NAME));
             var max = this.GetDatabaseScalarValue<int>("SELECT MAX([CommercialSpaceTemplateId]) FROM [Sph].[CommercialSpaceTemplate]");
 
             var driver = this.InitiateDriver();
-            driver.Login("ruzzaima");
+            driver.Login(m_spaceAdmin);
 
             driver.NavigateToUrl("/#commercialspace.template.list", 2.Seconds())
                    .NavigateToUrl("/#/template.commercialspace-id.0/0", 3.Seconds());
@@ -130,7 +148,7 @@ namespace web.test
             var max = this.GetDatabaseScalarValue<int>("SELECT MAX([CommercialSpaceId]) FROM [Sph].[CommercialSpace]");
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceTemplateId] FROM [Sph].[CommercialSpaceTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", CS_TEMPLATE_NAME));
 
-            var building =this.GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Building] WHERE [Name] = @Name",
+            var building = this.GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Building] WHERE [Name] = @Name",
                     new SqlParameter("@Name", BuildingTest.BUILDING_NAME));
             var permohonanId =
                 this.GetDatabaseScalarValue<int>(
@@ -140,22 +158,23 @@ namespace web.test
             Assert.AreEqual(1, building, "You'll need to run the AddBuildingTest");
 
             var driver = this.InitiateDriver();
-            driver.NavigateToUrl("/Account/Login",2.Seconds());
-            driver.Login("ruzzaima");
-            driver.NavigateToUrl("/#/commercialspace");
-            driver.NavigateToUrl(String.Format("/#/commercialspace.detail-templateid.{0}/{0}/0/-/0", templateId), 2.Seconds());
+            driver.Login(m_spaceAdmin);
+            driver.NavigateToUrl("/#/commercialspace", 2.Seconds());
+            driver.NavigateToUrl(String.Format("/#/commercialspace.detail-templateid.{0}/{0}/0/-/0", templateId), 3.Seconds());
             driver
                 .Value("[name='RegistrationNo']", CS_REGISTRATION_NO)
                 .Click("#select-lot-button")
-                .Sleep(TimeSpan.FromSeconds(2))
-                .SelectOption("[name='selectedBuilding']", BuildingTest.BUILDING_NAME)
-                .Sleep(TimeSpan.FromSeconds(2))
+                .Sleep(500.Milliseconds());
+
+            driver.SelectOption("[name='selectedBuilding']", BuildingTest.BUILDING_NAME)
+                .Sleep(200.Milliseconds())
                 .SelectOption("[name='selectedFloor']", "1st Floor")
-                .Sleep(TimeSpan.FromSeconds(2))
+                .Sleep(200.Milliseconds())
                 .SelectOption("[name='selectedLots']", "Lot 1")
-                .Click("#add-lot-button")
-                .Value("[name='CustomFieldValueCollection()[0].Value']", "Cafe ABC")
-                .Value("[name='address.Street']", "Jalan Permata")
+                .Click("#add-lot-button");
+
+            driver.Value("[name='Cafe Name']", "Cafe ABC");
+            driver.Value("[name='address.Street']", "Jalan Permata")
                 .Value("[name='address.City']", "Putrajaya")
                 .Value("[name='address.Postcode']", "62502")
                 .Value("[name='address.State']", "Selangor")
@@ -164,17 +183,17 @@ namespace web.test
                 .Click("[name='IsOnline']")
                 .Click("[name='IsAvailable']");
 
-                driver
-                .ClickFirst("input[type=checkbox]", e => e.GetAttribute("value") == permohonanId.ToString(CultureInfo.InvariantCulture) && e.GetAttribute("data-bind") == "checked: ApplicationTemplateOptions")
-                .Click("#save-button")
-                .Sleep(TimeSpan.FromSeconds(2));
+            driver
+            .ClickFirst("input[type=checkbox]", e => e.GetAttribute("value") == permohonanId.ToString(CultureInfo.InvariantCulture) && e.GetAttribute("data-bind") == "checked: ApplicationTemplateOptions")
+            .Click("#save-button")
+            .Sleep(3.Seconds());
 
 
             var id = this.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
             Assert.IsTrue(max < id);
 
             driver.NavigateToUrl("/#/commercialspace");
-            driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
+            driver.Sleep(5.Seconds(), "See the result");
             driver.Quit();
         }
     }

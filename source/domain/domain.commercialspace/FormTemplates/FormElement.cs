@@ -35,6 +35,16 @@ namespace Bespoke.SphCommercialSpaces.Domain
         {
             return null;
         }
+        public virtual string GetKnockoutDisplayBindingExpression()
+        {
+       
+            var path = this.Path;
+            if (null != this.CustomField)
+                path = string.Format("CustomField('{0}')", this.Path);
+
+            return string.Format("text: {0}", path);
+        
+        }
 
         public string GetNormalizedName()
         {

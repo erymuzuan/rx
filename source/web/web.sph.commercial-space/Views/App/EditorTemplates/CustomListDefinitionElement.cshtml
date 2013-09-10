@@ -6,21 +6,36 @@
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
-            @foreach (var c in Model.CustomFieldCollection)
-            {
-                <th>@c.Name</th>
-            }
+                @foreach (var c in Model.CustomFieldCollection)
+                {
+                    <th>@c.Name</th>
+                }
             </tr>
         </thead>
         <tbody>
-            <tr>
-                 @foreach (var c in Model.CustomFieldCollection)
-                       {
-                           <td>
-                               <input class="input-small" type="text" data-bind2="value: Number, uniqueName: true" value="G" />
+            <tr data-bind2="foreach :CustomListCollection()[0].CustomFieldValueCollection">
+                @foreach (var c in Model.CustomFieldCollection)
+                {
+                    <td>
+                        @if (c.Type == typeof(string).AssemblyQualifiedName)
+                        {
+                            <input class="input-small" type="text" data-bind="value: Value, uniqueName: true" />
+                        }
+                        @if (c.Type == typeof(int).AssemblyQualifiedName)
+                        {
+                            <input class="input-small" type="number" data-bind="value: Value, uniqueName: true" />
+                        }
+                        @if (c.Type == typeof(bool).AssemblyQualifiedName)
+                        {
+                            <input class="input-small" type="checkbox" data-bind="value: Value, uniqueName: true" />
+                        }
+                        @if (c.Type == typeof(DateTime).AssemblyQualifiedName)
+                        {
+                            <input class="input-small" type="text" data-bind="value: Value, uniqueName: true" />
+                        }
 
-                           </td>
-                       }
+                    </td>
+                }
 
             </tr>
         </tbody>

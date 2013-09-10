@@ -76,6 +76,11 @@ namespace web.test
             var id =this.GetDatabaseScalarValue<int>(
                     "SELECT MAX([UserProfileId]) + 1 FROM [Sph].[UserProfile]");
 
+            foreach (var r in user.Roles)
+            {
+                if(!Roles.RoleExists(r))
+                    Roles.CreateRole(r);
+            }
 
             // add roles
             Roles.AddUserToRoles(user.UserName, user.Roles);
