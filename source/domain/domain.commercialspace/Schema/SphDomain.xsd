@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://www.bespoke.com.my/" xmlns:bs="http://www.bespoke.com.my/xsd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bespoke.com.my/" elementFormDefault="qualified" attributeFormDefault="unqualified" id="StationSchema">
 	<xs:element name="ContractHistory">
 		<xs:complexType>
@@ -9,6 +9,7 @@
 			<xs:attribute name="ContractNo" type="xs:string" use="required"/>
 			<xs:attribute name="DateFrom" type="xs:dateTime" use="required"/>
 			<xs:attribute name="DateStart" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Tenant" nillable="false">
@@ -22,6 +23,13 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element ref="Address" minOccurs="0"/>
+				<xs:element name="CustomFieldValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomFieldValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="TenantId" type="xs:int" use="required"/>
 			<xs:attribute name="IdSsmNo" type="xs:string" use="required"/>
@@ -330,6 +338,13 @@
 				</xs:element>
 				<xs:element ref="Termination"/>
 				<xs:element ref="Extension"/>
+				<xs:element name="CustomFieldValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomFieldValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="ContractId" type="xs:int" use="required"/>
 			<xs:attribute name="ReferenceNo" type="xs:string" use="required"/>

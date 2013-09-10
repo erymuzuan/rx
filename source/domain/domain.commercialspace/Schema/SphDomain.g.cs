@@ -36,6 +36,11 @@
                     public const string PropertyNameDateStart = "DateStart";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_name;
+                    public const string PropertyNameName = "Name";
+
+                  
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private DateTime?  m_dateEnd;
                 public const string PropertyNameDateEnd = "DateEnd";
@@ -123,6 +128,32 @@
                     get
                     {
                     return m_dateStart;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                [DebuggerHidden]
+                
+                    public string Name
+                    {
+                    set
+                    {
+                    if( String.Equals( m_name, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_name= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_name;}
                     }
 
                   
@@ -231,6 +262,17 @@
 			m_address = value;
 			OnPropertyChanged();
 			}
+			}
+		
+			private readonly ObjectCollection<CustomFieldValue>  m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomFieldValue", IsNullable = false)]
+			public ObjectCollection<CustomFieldValue> CustomFieldValueCollection
+			{
+			get{ return m_CustomFieldValueCollection;}
 			}
 		
                 ///<summary>
@@ -4928,6 +4970,17 @@
 			m_extension = value;
 			OnPropertyChanged();
 			}
+			}
+		
+			private readonly ObjectCollection<CustomFieldValue>  m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomFieldValue", IsNullable = false)]
+			public ObjectCollection<CustomFieldValue> CustomFieldValueCollection
+			{
+			get{ return m_CustomFieldValueCollection;}
 			}
 		
                 ///<summary>

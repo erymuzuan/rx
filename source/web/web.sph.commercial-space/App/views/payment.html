@@ -1,6 +1,6 @@
 ﻿<section>
     <h1 class="row-fluid">Rekod Bayaran Sewa</h1>
-    <table class="table table-condensed table-striped" data-bind="filter: { path: 'tbody>tr' }">
+    <table class="table table-condensed table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Contract', query: 'ContractId gt 0', list: contractCollection }">
         <thead>
             <tr>
                 <th>No.Kontrak</th>
@@ -14,7 +14,7 @@
         <tbody data-bind=" foreach : contractCollection">
             <tr>
                 <td><a download data-bind="text:ReferenceNo,attr: {href: 'Contract/GenerateLedger/' + ContractId()}"></a></td>
-                <td data-bind="text:Tenant.IdSsmNo"></td>
+                <td data-bind="text:Tenant().IdSsmNo"></td>
                 <td data-bind="date: { value: Date, format: 'MM/YYYY' }"></td>
                 <td data-bind="text:Accrued"></td>
                 <td><a type="button" class="btn btn-warning pull-left" data-bind="click: $parent.showDetailsCommand, visible: CanPaid" href="#set-payment-modal">Set Bayar</a></td>
