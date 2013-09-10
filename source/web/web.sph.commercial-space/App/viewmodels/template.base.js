@@ -212,7 +212,6 @@ define(['services/datacontext', 'durandal/system'],
                 designer().FormElementCollection.remove(fe);
             },
             addComboBoxOption = function () {
-
                 vm.selectedFormElement().ComboBoxItemCollection.push(new bespoke.sphcommercialspace.domain.ComboBoxItem);
             },
             removeComboBoxOption = function (option) {

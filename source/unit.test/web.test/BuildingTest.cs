@@ -27,7 +27,7 @@ namespace web.test
                 Department = "Test",
                 Designation = "Boss",
                 Password = "abcad12334535",
-                Roles = new[] { "admin_dashboard" }
+                Roles = new[] { "can_add_commercial_space", "can_edit_building_template" }
             };
             this.AddUser(m_buildingAdmin);
         }
@@ -48,7 +48,7 @@ namespace web.test
 
 
             var driver = this.InitiateDriver();
-            driver.Login("ruzzaima");
+            driver.Login(m_buildingAdmin);
             driver.NavigateToUrl("/#building.template.list", 2.Seconds())
                   .NavigateToUrl("/#/template.building-id.0/0", 3.Seconds());
 
@@ -142,7 +142,7 @@ namespace web.test
 
 
             var driver = this.InitiateDriver();
-            driver.Login("ruzzaima");
+            driver.Login(m_buildingAdmin);
             driver.NavigateToUrl("/#/building.list",2.Seconds());
 
             driver.NavigateToUrl(String.Format("/#/building.detail-templateid.{0}/{0}/0", templateId),5.Seconds());
@@ -194,9 +194,8 @@ namespace web.test
             var id = this.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_NAME));
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
             
-            IWebDriver driver = new FirefoxDriver();
-            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
-            driver.Login("ruzzaima");
+            var driver = this.InitiateDriver();
+            driver.Login(m_buildingAdmin);
             driver.Sleep(TimeSpan.FromSeconds(2))
                 ;
             driver.NavigateToUrl(String.Format("/#/building.detail-templateid.{0}/{0}/{1}", templateId, id));

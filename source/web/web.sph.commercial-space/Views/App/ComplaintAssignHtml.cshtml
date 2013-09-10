@@ -2,22 +2,52 @@
 
 @{
     ViewBag.Title = "title";
-    Layout =null;
+    Layout = null;
 }
 <div id="complaint-assignment-page">
     <h1>@Model.FormDesign.Name</h1>
     <span>@Model.FormDesign.Description</span>
-    <form class="form-horizontal" id="building-form" data-bind="with: complaint">
+    <form class="form-horizontal" data-bind="with: complaint">
+        <!-- ko if:Tenant().Name -->
+        <div data-bind="with: $root.tenant">
+            <div class="control-group">
+                <label class="control-label ">Pengadu : </label>
+                <div class="controls">
+                    <span data-bind="text: Name" id="tenant().Name" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label ">Id / SsmNo : </label>
+                <div class="controls">
+                    <span data-bind="text: IdSsmNo" id="tenant().IdSsmNo" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label ">No. Telefon : </label>
+                <div class="controls">
+                    <span data-bind="text: Phone" id="Phone" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label ">Email : </label>
+                <div class="controls">
+                    <span data-bind="text: Email" id="Email" />
+                </div>
+            </div>
+        </div>
+        <!--/ko-->
+
         @foreach (var fe in Model.FormDesign.FormElementCollection)
         {
             @Html.DisplayFor(m => fe)
 
         }
     </form>
-    
-    
+
+
+
     <form class="form-horizontal" data-bind="with: complaint">
-    
+
         <div class="control-group" data-bind="with: $parent.departmentOptions">
             <label for="department" class="control-label">Jabatan :</label>
             <div class="controls">
