@@ -76,6 +76,8 @@
     <Compile Include="ComplaintTest.cs" />
     <Compile Include="ComplaintTenantTest.cs" />
     <Compile Include="ContractTest.cs" />
+    <Compile Include="RebateTest.cs" />
+    <Compile Include="PaymentTest.cs" />
     <Compile Include="MaintenanceTest.cs" />
     <Compile Include="RentalApplicationFlowTest.cs" />
     <Compile Include="MembershipAndRoles.cs" />
@@ -101,6 +103,9 @@
       <Link>roles.config.js</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="invoice.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

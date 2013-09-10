@@ -109,6 +109,7 @@ bespoke.sphcommercialspace.domain.Building = function (webId) {
         Height: ko.observable(),
         CustomFieldValueCollection: ko.observableArray([]),
         BlockCollection: ko.observableArray([]),
+        CustomListValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1246,6 +1247,42 @@ bespoke.sphcommercialspace.domain.Block = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.BlockPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.BlockPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.CustomListValue = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.CustomListValue, domain.commercialspace",
+        Name: ko.observable(''),
+        Label: ko.observable(''),
+        MinOccurence: ko.observable(0),
+        MaxOccurence: ko.observable(),
+        CustomListRowCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.CustomListValuePartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.CustomListValuePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.CustomListRow = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.CustomListRow, domain.commercialspace",
+        CustomFieldValueCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.CustomListRowPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.CustomListRowPartial(model));
     }
     return model;
 };

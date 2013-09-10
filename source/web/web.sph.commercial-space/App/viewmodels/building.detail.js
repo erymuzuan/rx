@@ -33,16 +33,28 @@ define(['services/datacontext',
                     // build custom fields value
                     context.loadOneAsync("BuildingTemplate", "BuildingTemplateId eq " + templateId)
                         .done(function (template) {
-                            var cfs = _(template.CustomFieldCollection()).map(function (f) {
-                                var webid = system.guid();
-                                var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
-                                v.Name(f.Name());
-                                v.Type(f.Type());
-                                return v;
-                            });
+                            var fieldToValueMap = function (f) {
+                                    var webid = system.guid();
+                                    var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
+                                    v.Name(f.Name());
+                                    v.Type(f.Type());
+                                    return v;
+                                },
+                                cfs = _(template.CustomFieldCollection()).map(fieldToValueMap),
+                                cls = _(template.CustomListDefinitionCollection()).map(function (v) {
+                                    var lt = new bespoke.sphcommercialspace.domain.CustomListValue(system.guid());
+                                    lt.Name(v.Name());
+
+                                    var fields = _(v.CustomFieldCollection()).map(fieldToValueMap);
+                                    lt.CustomFieldCollection = ko.observableArray(fields);
+
+                                    return lt;
+                                });
 
                             vm.building().CustomFieldValueCollection(cfs);
+                            vm.building().CustomListValueCollection(cls);
                             vm.building().Type(template.Name());
+                            vm.building().TemplateId(templateId);
                             tcs.resolve();
 
                         });

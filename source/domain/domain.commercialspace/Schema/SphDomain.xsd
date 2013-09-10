@@ -97,6 +97,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="CustomListValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomListValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="BuildingId" type="xs:int" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
@@ -931,6 +938,36 @@
 				</xs:element>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CustomListValue">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="MaxOccurence" type="xs:int" nillable="true"/>
+				<xs:element name="CustomListRowCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomListRow" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Label" type="xs:string" use="required"/>
+			<xs:attribute name="MinOccurence" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CustomListRow">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="CustomFieldValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomFieldValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
