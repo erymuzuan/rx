@@ -66,6 +66,8 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/Content/theme." + theme + "/dashboard.css")
                 .Include("~/Content/theme." + theme + "/building.css")
                 .Include("~/Content/theme." + theme + "/complaint.css")
+                .Include("~/Content/theme." + theme + "/complaint.css")
+                .Include("~/Content/theme." + theme + "/rentalapplication.css")
               );
         }
 

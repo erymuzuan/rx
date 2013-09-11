@@ -117,6 +117,37 @@ ko.bindingHandlers.date = {
     }
 };
 
+
+ko.bindingHandlers.kendoUpload = {
+    init: function (element, valueAccessor) {
+        var logger = require('services/logger'),
+            value = valueAccessor();
+        $(element).attr("name", "files").kendoUpload({
+            async: {
+                saveUrl: "/BinaryStore/Upload",
+                removeUrl: "/BinaryStore/Remove",
+                autoUpload: true
+            },
+            multiple: false,
+            error: function (e) {
+                logger.logError(e, e, this, true);
+            },
+            success: function (e) {
+                logger.info('Your file has been ' + e.operation);
+                var storeId = e.response.storeId;
+                var uploaded = e.operation === "upload";
+                var removed = e.operation != "upload";
+                if (uploaded) {
+                    value(storeId);
+                }
+                if (removed) {
+                    value("");
+                }
+            }
+        });
+    }
+};
+
 ///user moment format
 ko.bindingHandlers.kendoDate = {
     init: function (element, valueAccessor) {
@@ -154,7 +185,7 @@ ko.bindingHandlers.kendoDate = {
 
         var date = moment(modelValue);
         var picker = $(element).data("kendoDatePicker");
-        if (null === date ||date.year() == 1) { // DateTime.Min
+        if (null === date || date.year() == 1) { // DateTime.Min
             picker.value(null);
         } else {
             picker.value(date.toDate());
@@ -298,12 +329,12 @@ ko.bindingHandlers.stringArrayAutoComplete = {
         var value = valueAccessor(),
             allBindings = allBindingsAccessor(),
             options = allBindings.data();
-     
+
         $(element).data("kendoAutoComplete") ||
            $(element).kendoAutoComplete({
                dataSource: options,
                change: function () {
-                   var data = _(this.value().split(",")).filter(function(s) {
+                   var data = _(this.value().split(",")).filter(function (s) {
                        return s;
                    });
                    value(data);
@@ -332,7 +363,7 @@ ko.bindingHandlers.cssAutoComplete = {
         });
         var data = ['btn', 'btn-warning', 'btn-success', 'btn-link'];
         if (bootstrap) {
-            data = _.chain(bootstrap.rules).filter(function(r) {
+            data = _.chain(bootstrap.rules).filter(function (r) {
                 return /^\./g.test(r.selectorText)
                     && !/:/g.test(r.selectorText)
                     && !/\s/g.test(r.selectorText)
@@ -340,7 +371,7 @@ ko.bindingHandlers.cssAutoComplete = {
                     && !/>/g.test(r.selectorText)
                     && !/\[/g.test(r.selectorText);
             }).map(function (s) {
-                return s.selectorText.replace(/\./g,"");
+                return s.selectorText.replace(/\./g, "");
             })
                 .value();
         }

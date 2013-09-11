@@ -1,1 +1,46 @@
-﻿
+﻿#available-space-list > div {
+  padding: 10px;
+  background-color: #0096e1;
+  margin: 10px;
+  margin-bottom: 15px;
+  color: white;
+}
+#available-space-list > div article > div > span {
+  font-weight: bold;
+  font-size: 2em;
+}
+#available-space-list > div form > a.btn {
+  float: right;
+  clear: both;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+#available-space-list > div h3 {
+  color: white;
+}
+#available-space-list > div a {
+  color: white;
+}
+#available-space-list > div .category {
+  font-style: oblique;
+}
+#available-space-list > div:nth-child(odd) {
+  background-color: #78b500;
+}
+div.space-image-panel {
+  float: right;
+}
+div.space-search-panel {
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  margin: 5px;
+}
+div.space-search-panel button {
+  position: relative;
+  right: 10px;
+  bottom: 5px;
+  float: right;
+}
+div.space-search-panel:last-child {
+  position: absolute;
+}
