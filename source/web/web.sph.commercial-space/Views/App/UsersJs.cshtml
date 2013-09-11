@@ -31,22 +31,23 @@
                          var departments = JSON.parse(ko.mapping.toJS(d.Value));;
                          vm.departmentOptions(departments);
                      }
-                     var list = _(p.itemCollection).map(function(item) {
-                         var profile = new bespoke.sphcommercialspace.domain.Profile();
-                         profile.IsNew(false);
-                         profile.FullName(item.FullName());
-                         profile.UserName(item.Username());
-                         profile.Email(item.Email());
-                         profile.Designation(item.Designation());
-                         profile.Department(item.Department());
-                         profile.Telephone(item.Telephone());
-                         return profile;
-                     });
+                     var list = _(p.itemCollection).map(map);
                      vm.profiles(list);
                     
                      tcs.resolve(true);
                  });
                 return tcs.promise();
+            },
+            map = function(item) {
+                var profile = new bespoke.sphcommercialspace.domain.Profile();
+                profile.IsNew(false);
+                profile.FullName(item.FullName());
+                profile.UserName(item.Username());
+                profile.Email(item.Email());
+                profile.Designation(item.Designation());
+                profile.Department(item.Department());
+                profile.Telephone(item.Telephone());
+                return profile;
             },
             loadDetails = function() {
                 designationvm.activate(roles);
@@ -90,6 +91,7 @@
             addCommand: add,
             editCommand: edit,
             saveCommand: save,
+            map: map,
             toolbar : ko.observable({
                 reloadCommand: function () {
                     return activate();

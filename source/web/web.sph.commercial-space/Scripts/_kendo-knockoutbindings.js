@@ -1,8 +1,8 @@
-﻿/// <reference path="modernizr-2.6.2.js" />
-/// <reference path="knockout-2.3.0.debug.js" />
+﻿/// <reference path="knockout-2.3.0.debug.js" />
 /// <reference path="underscore.js" />
 /// <reference path="moment.js" />
 /// <reference path="~/Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="~/App/durandal/amd/require.js" />
 /// <reference path="~/kendo/js/kendo.all.js" />
 /// <reference path="_pager.js" />
 
@@ -82,7 +82,7 @@ ko.bindingHandlers.date = {
         var value = ko.utils.unwrapObservable(valueAccessor());
 
         var date = moment(value.value());
-        if (date.year() == 1) { // DateTime.Min
+        if (null === date || date.year() == 1) { // DateTime.Min
             $(element).text("");
             $(element).val("");
         } else {
@@ -102,7 +102,7 @@ ko.bindingHandlers.date = {
     update: function (element, valueAccessor) {
         var value = ko.utils.unwrapObservable(valueAccessor());
         var date = moment(value.value());
-        if (date.year() == 1) { // DateTime.Min
+        if (null === date || date.year() == 1) { // DateTime.Min
             $(element).text("");
             $(element).val("");
 
@@ -114,6 +114,37 @@ ko.bindingHandlers.date = {
             }
 
         }
+    }
+};
+
+
+ko.bindingHandlers.kendoUpload = {
+    init: function (element, valueAccessor) {
+        var logger = require('services/logger'),
+            value = valueAccessor();
+        $(element).attr("name", "files").kendoUpload({
+            async: {
+                saveUrl: "/BinaryStore/Upload",
+                removeUrl: "/BinaryStore/Remove",
+                autoUpload: true
+            },
+            multiple: false,
+            error: function (e) {
+                logger.logError(e, e, this, true);
+            },
+            success: function (e) {
+                logger.info('Your file has been ' + e.operation);
+                var storeId = e.response.storeId;
+                var uploaded = e.operation === "upload";
+                var removed = e.operation != "upload";
+                if (uploaded) {
+                    value(storeId);
+                }
+                if (removed) {
+                    value("");
+                }
+            }
+        });
     }
 };
 
@@ -154,7 +185,7 @@ ko.bindingHandlers.kendoDate = {
 
         var date = moment(modelValue);
         var picker = $(element).data("kendoDatePicker");
-        if (null === date ||date.year() == 1) { // DateTime.Min
+        if (null === date || date.year() == 1) { // DateTime.Min
             picker.value(null);
         } else {
             picker.value(date.toDate());
@@ -298,12 +329,12 @@ ko.bindingHandlers.stringArrayAutoComplete = {
         var value = valueAccessor(),
             allBindings = allBindingsAccessor(),
             options = allBindings.data();
-     
+
         $(element).data("kendoAutoComplete") ||
            $(element).kendoAutoComplete({
                dataSource: options,
                change: function () {
-                   var data = _(this.value().split(",")).filter(function(s) {
+                   var data = _(this.value().split(",")).filter(function (s) {
                        return s;
                    });
                    value(data);
@@ -332,7 +363,7 @@ ko.bindingHandlers.cssAutoComplete = {
         });
         var data = ['btn', 'btn-warning', 'btn-success', 'btn-link'];
         if (bootstrap) {
-            data = _.chain(bootstrap.rules).filter(function(r) {
+            data = _.chain(bootstrap.rules).filter(function (r) {
                 return /^\./g.test(r.selectorText)
                     && !/:/g.test(r.selectorText)
                     && !/\s/g.test(r.selectorText)
@@ -340,10 +371,9 @@ ko.bindingHandlers.cssAutoComplete = {
                     && !/>/g.test(r.selectorText)
                     && !/\[/g.test(r.selectorText);
             }).map(function (s) {
-                return s.selectorText.replace(/\./g,"");
+                return s.selectorText.replace(/\./g, "");
             })
                 .value();
-            console.log(data);
         }
         $(element).data("kendoAutoComplete") ||
            $(element).kendoAutoComplete({
@@ -516,6 +546,7 @@ ko.bindingHandlers.serverPaging = {
             entity = value.entity,
             query = value.query,
             list = value.list,
+            map = value.map,
             $element = $(element),
             context = require('services/datacontext'),
             $pagerPanel = $('<div></div>'),
@@ -528,7 +559,10 @@ ko.bindingHandlers.serverPaging = {
                 $spinner.hide();
                 $element.fadeTo("fast", 1);
             },
-            setItemsSource = function(items) {
+            setItemsSource = function (items) {
+                if (map) {
+                    items = _(items).map(map);
+                }
                 if (typeof list === "string") {
                     viewModel[list](items);
                 }

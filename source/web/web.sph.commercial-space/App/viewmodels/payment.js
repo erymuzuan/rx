@@ -38,7 +38,7 @@ define(['services/datacontext', 'services/logger'],
             },
 	        showDetails = function (data) {
 	            vm.payment().ContractNo(data.ReferenceNo());
-	            vm.payment().TenantIdSsmNo(data.Tenant.IdSsmNo());
+	            vm.payment().TenantIdSsmNo(data.Tenant().IdSsmNo());
 	            $('#set-payment-modal').modal({});
 	        },
 	        

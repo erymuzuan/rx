@@ -1,0 +1,25 @@
+﻿#building-detail-page label {
+  color: black;
+  margin: 5px;
+}
+#building-detail-page input {
+  color: black;
+  margin: 5px;
+}
+#building-detail-page span {
+  color: black;
+  margin: 5px;
+}
+#building-detail-page .input-floor-no {
+  width: 90px;
+}
+#building-detail-page section#map-panel.modal {
+  width: 950px;
+  margin-left: -500px;
+}
+#form-designer-toolbox label.control-label {
+  width: 80px;
+}
+#form-designer-toolbox div.controls {
+  margin-left: 120px;
+}

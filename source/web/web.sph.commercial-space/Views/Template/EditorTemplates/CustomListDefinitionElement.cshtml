@@ -1,0 +1,26 @@
+﻿@model Bespoke.SphCommercialSpaces.Domain.CustomListDefinitionElement
+<!--ko if:$data['$type']() === "Bespoke.SphCommercialSpaces.Domain.CustomListDefinitionElement, domain.commercialspace" -->
+<a href="#" data-bind="click: addCustomField">+ field</a>
+<div>
+    <span class="input-small">Name</span>
+    <span style="margin-left: 70px" class="input-small">Type</span>
+</div>
+<ul data-bind="foreach: CustomFieldCollection" class="nav">
+    <li>
+        <div class="input-append">
+            <input class="input-small custom-list-name" type="text" data-bind="value: Name, valueUpdate: 'keyup'" />
+            <select class="input-small custom-list-type" data-bind="value: Type">
+                <option value="@typeof(string).AssemblyQualifiedName">String</option>
+                <option value="@typeof(int).AssemblyQualifiedName">Int</option>
+                <option value="@typeof(bool).AssemblyQualifiedName">Bool</option>
+                <option value="@typeof(decimal).AssemblyQualifiedName">Decimal</option>
+                <option value="@typeof(DateTime).AssemblyQualifiedName">DateTime</option>
+            </select>
+            <a class="add-on" href="#" data-bind="click:function(){ $parent.removeCustomField.call($parent,$data)}">
+                <i class="icon-remove"></i>
+            </a>
+        </div>
+    </li>
+</ul>
+
+<!--/ko-->

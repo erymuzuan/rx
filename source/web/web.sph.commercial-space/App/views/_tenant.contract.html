@@ -13,13 +13,13 @@
         <tbody data-bind="foreach: contractCollection">
             <tr>
                 <td data-bind="text: ReferenceNo"></td>
-                <td>
-                    <span data-bind="text: CommercialSpace.Category"></span>,
-                    <span data-bind="text: CommercialSpace.BuildingName"></span>,
-                    <span data-bind="text: CommercialSpace.FloorName"></span>,
-                    <span data-bind="text: CommercialSpace.LotName"></span>,
-                    <span data-bind="text: CommercialSpace.City"></span>,
-                    <span data-bind="text: CommercialSpace.State"></span>
+                <td data-bind="with:CommercialSpace">
+                    <span data-bind="text: Category"></span>,
+                    <span data-bind="text: BuildingName"></span>,
+                    <span data-bind="text: FloorName"></span>,
+                    <span data-bind="text: LotName"></span>,
+                    <span data-bind="text: City"></span>,
+                    <span data-bind="text: State"></span>
                 </td>
                 <td data-bind="date: { value: EndDate, format: 'DD/MM/YYYY' }"></td>
                 <td data-bind="text: Status"></td>

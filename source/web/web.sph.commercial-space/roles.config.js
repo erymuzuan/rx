@@ -21,13 +21,6 @@
     "IsActive": true
   },
   {
-    "Group": "maintenance",
-    "Name": "Petugas Senggara",
-    "Role": "can_inspect",
-    "Description": "Ditugaskan untuk membuat pemeriksaan terhadap aduan",
-    "IsActive": true
-  },
-  {
     "Group": "admin",
     "Name": "Pentadbir Tetapan",
     "Role": "can_edit_setting",
@@ -137,13 +130,6 @@
     "Name": "Admin Tanah",
     "Role": "can_edit_land",
     "Description": "Pentadbiran Tanah",
-    "IsActive": true
-  },
-  {
-    "Group": "admin",
-    "Name": "PRO Senggara",
-    "Role": "can_assign_maintenance_officer",
-    "Description": "Memantau status senggara",
     "IsActive": true
   }
 ]

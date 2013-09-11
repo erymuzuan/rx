@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="reports\FilterValueTestFixture.cs" />
+    <Compile Include="reports\ReportColumnsTestFixture.cs" />
     <Compile Include="reports\SqlCompileTestFixture.cs" />
     <Compile Include="reports\RdlTestFixture.cs" />
     <Compile Include="SqlPersistenceHelper.cs" />

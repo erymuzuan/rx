@@ -3,10 +3,10 @@
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/loadoperation.js" />
 /// <reference path="logger.js" />
-/// <reference path="domain.g.js" />
+/// <reference path="/App/schemas/sph.domain.g.js" />
 
 define(['services/logger', 'durandal/system'],
-function (logger,system) {
+function (logger, system) {
 
     return {
         loadAsync: loadAsync,
@@ -14,6 +14,7 @@ function (logger,system) {
         getSumAsync: getSumAsync,
         getCountAsync: getCountAsync,
         getListAsync: getListAsync,
+        getDistinctAsync: getDistinctAsync,
         getTuplesAsync: getTuplesAsync,
         post: post
     };
@@ -88,9 +89,21 @@ function (logger,system) {
                         if (typeof item === "function") return item;
                         if (typeof item === "number") return item;
                         if (typeof item === "string") return item;
-                        if (typeof item['$type'] !== "string") return item;
+                        if (typeof item['$type'] === "undefined") return item;
+                        if (_(item['$type']).isNull()) return item;
+
+                        if (typeof item['$type'] === "function") {
+                            type = pattern.exec(item['$type']())[1];
+                        }
+                        if (typeof item['$type'] === "string") {
+                            type = pattern.exec(item['$type'])[1];
+                        }
                         
-                        type = pattern.exec(item['$type'])[1];
+
+                        if (bespoke.sphcommercialspace.domain[type + "Partial"]) {
+                            var partial = new bespoke.sphcommercialspace.domain[type + "Partial"](item);
+                        }
+                        
                         for (var name in item) {
                             (function (prop) {
 
@@ -107,6 +120,9 @@ function (logger,system) {
                                 }
 
                                 if (propval.isNumber()
+                                    || propval.isNull()
+                                    || propval.isNaN()
+                                    || propval.isDate()
                                     || propval.isBoolean()
                                     || propval.isString()) {
                                     item[prop] = ko.observable(item[prop]);
@@ -122,19 +138,20 @@ function (logger,system) {
                             })(name);
 
                         }
-                        
-                        if (bespoke.sphcommercialspace.domain[type + "Partial"]) {
+
+                        if (partial) {
                             // NOTE :copy all the partial, DO NO use _extend as it will override the original value 
                             // if there is item with the same key
-                            var partial = new bespoke.sphcommercialspace.domain[type + "Partial"](item);
                             for (var prop1 in partial) {
                                 if (!item[prop1]) {
                                     item[prop1] = partial[prop1];
                                 }
                             }
                         }
+
                         // if there are new fields added, chances are it will not be present in the json,
                         // even it is, it would be nice to add Webid for those whos still missing one
+                        
                         if (bespoke.sphcommercialspace.domain[type]) {
                             var ent = new bespoke.sphcommercialspace.domain[type](system.guid());
                             for (var prop2 in ent) {
@@ -198,8 +215,33 @@ function (logger,system) {
 
         return tcs.promise();
     }
+
     function getListAsync(entity, query, field) {
         var url = "/List/";
+        url += "?filter=";
+        url += query;
+        url += "&column=";
+        url += field;
+        url += "&table=" + entity;
+
+
+        var tcs = new $.Deferred();
+        $.ajax({
+            type: "GET",
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: tcs.reject,
+            success: function (msg) {
+                tcs.resolve(msg);
+            }
+        });
+
+
+        return tcs.promise();
+    }
+    function getDistinctAsync(entity, query, field) {
+        var url = "/List/Distinct";
         url += "?filter=";
         url += query;
         url += "&column=";
@@ -248,9 +290,9 @@ function (logger,system) {
         return tcs.promise();
     }
 
-// ReSharper disable InconsistentNaming
+    // ReSharper disable InconsistentNaming
     function LoadOperation() {
-// ReSharper restore InconsistentNaming
+        // ReSharper restore InconsistentNaming
         var self = this;
         self.hasNextPage = false;
         self.itemCollection = [];

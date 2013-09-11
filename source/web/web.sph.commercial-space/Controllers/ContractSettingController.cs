@@ -16,6 +16,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             item.Description = template.Description;
             item.DocumentTemplateCollection.ClearAndAddRange(template.DocumentTemplateCollection);
             item.TopicCollection.ClearAndAddRange(template.TopicCollection);
+            item.CustomFieldCollection.ClearAndAddRange(template.CustomFieldCollection);
        
 
             using (var session = context.OpenSession())

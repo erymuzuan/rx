@@ -1,0 +1,7 @@
+﻿@model Bespoke.SphCommercialSpaces.Domain.TextBox
+<div data-bind="visible:@Model.Visible" class="control-group">
+    <label class="control-label">@Model.Label</label>
+    <div class="controls">
+        <span data-bind="@Model.GetKnockoutDisplayBindingExpression()"></span>
+    </div>
+</div>

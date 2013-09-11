@@ -1,51 +1,51 @@
 ﻿<h1>Maklumat Tawaran</h1>
 <form class="form-horizontal span8" data-bind="with: offer">
     <div class="control-group">
-        <label for="offer.Size" class="span3">Saiz Bangunan</label>
-        <input class="span3" data-bind="value: Size" id="offer.Size" type="number" min="1" name="offer.Size" />
+        <label for="offer-Size" class="span3">Saiz Bangunan</label>
+        <input class="span3" data-bind="value: Size" id="offer-Size" type="number" min="1" name="offer-Size" />
         <span class="add-on">kps</span>
     </div>
 
     <div class="control-group">
-        <label for="offer.Building" class="span3">Nama Bangunan</label>
-        <input class="span3" data-bind="value: Building" id="offer.Building" type="text" name="offer.Building" />
+        <label for="offer-Building" class="span3">Nama Bangunan</label>
+        <input class="span3" data-bind="value: Building" id="offer-Building" type="text" name="offer-Building" />
     </div>
 
     <div class="control-group">
-        <label for="offer.Floor" class="span3">Tingkat</label>
-        <input class="span3" data-bind="value: Floor" id="offer.Floor" type="text" name="offer.Floor" />
+        <label for="offer-Floor" class="span3">Tingkat</label>
+        <input class="span3" data-bind="value: Floor" id="offer-Floor" type="text" name="offer-Floor" />
     </div>
 
     <div class="control-group">
-        <label for="offer.Deposit" class="span3">Jumlah Deposit</label>
+        <label for="offer-Deposit" class="span3">Jumlah Deposit</label>
         <div class="input-prepend">
             <span class="add-on">RM</span>
-            <input data-bind="value: Deposit" id="offer.Deposit" type="number" min="0" name="offer.Deposit" />
+            <input data-bind="value: Deposit" id="offer-Deposit" type="number" min="0" name="offer-Deposit" />
         </div>
     </div>
 
     <div class="control-group">
-        <label for="offer.Rent" class="span3">Kadar Sewa</label>
+        <label for="offer-Rent" class="span3">Kadar Sewa</label>
         <div class="input-prepend">
             <span class="add-on">RM</span>
-            <input data-bind="value: Rent" id="offer.Rent" type="number" min="0" name="offer.Rent" />
+            <input data-bind="value: Rent" id="offer-Rent" type="number" min="0" name="offer-Rent" />
         </div>
     </div>
 
     <div class="control-group">
-        <label for="offer.Date" class="span3">Tarikh Mula Tawaran</label>
-        <input name="offer.Date" type="text" data-bind="kendoDate: Date" />
+        <label for="offer-Date" class="span3">Tarikh Mula Tawaran</label>
+        <input name="offer-Date" type="text" data-bind="kendoDate: Date" />
     </div>
 
     <div class="control-group">
-        <label for="offer.ExpiryDate" class="span3">Tarikh Akhir Tawaran</label>
-        <input name="offer.ExpiryDate" type="text" data-bind="kendoDate: ExpiryDate" />
+        <label for="offer-ExpiryDate" class="span3">Tarikh Akhir Tawaran</label>
+        <input name="offer-ExpiryDate" type="text" data-bind="kendoDate: ExpiryDate" />
     </div>
 
     <div class="control-group">
-        <label for="offer.Period" class="span3">Tempoh kontrak</label>
-        <input class="span1" data-bind="value: Period" id="offer.Period" type="number" step="1" name="offer.Period" />
-        <select data-bind="value: PeriodUnit" class="form-inline">
+        <label for="offer-Period" class="span3">Tempoh kontrak</label>
+        <input class="span1" data-bind="value: Period" id="offer-Period" type="number" step="1" name="offer-Period" />
+        <select id="offer-periodunit" name="offer-periodunit" data-bind="value: PeriodUnit" class="form-inline">
             <option value="">[Sila Pilih]</option>
             <option value="w">Minggu</option>
             <option value="m">Bulan</option>
@@ -71,16 +71,16 @@
             <tbody data-bind="foreach: OfferConditionCollection">
                 <tr>
                     <td>
-                        <input type="text" data-bind="value: Title, uniqueName: true" /></td>
+                        <input class="input-offer-condition-title" type="text" data-bind="value: Title, uniqueName: true" /></td>
                     <td>
-                        <textarea rows="2" data-bind="value: Description, uniqueName: true"/></td>
+                        <textarea class="input-offer-condition-description" rows="2" data-bind="value: Description, uniqueName: true"/></td>
                     <td>
-                        <textarea rows="2" data-bind="value: Note, uniqueName: true" /></td>
+                        <textarea class="input-offer-condition-note" rows="2" data-bind="value: Note, uniqueName: true" /></td>
                     <td>
-                        <input type="checkbox" data-bind="checked: IsRequired" /></td>
+                        <input class="input-offer-condition-isrequired" type="checkbox" data-bind="checked: IsRequired" /></td>
 
                     <td>
-                        <a data-bind="click: $parents[1].removeOfferCondition" class="btn btn-link pull-right">Buang</a>
+                        <a class="remove-offer-condition-button" data-bind="click: $parents[1].removeOfferCondition">Buang</a>
                     </td>
                 </tr>
             </tbody>

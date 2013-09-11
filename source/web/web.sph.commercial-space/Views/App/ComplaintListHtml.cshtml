@@ -15,7 +15,7 @@
     <tbody data-bind="foreach :complaintCollection" >
         <tr>
             <td>
-                 <a data-bind="attr: { href: '/#/complaint.assign/' + ComplaintId() }, text: ReferenceNo, visible: Status() == 'Baru'"></a>
+                 <a data-bind="attr: { href: '/#/complaint.assign-templateid.' + TemplateId() +'/' + ComplaintId() }, text: ReferenceNo, visible: Status() == 'Baru'"></a>
                  <a data-bind="attr: { href: '/#/complaint.close/' + ComplaintId() }, text: ReferenceNo, visible:Status() !='Baru'"></a>
             </td>
             <td data-bind="text:Category"></td>

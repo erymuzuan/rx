@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 
 namespace Bespoke.SphCommercialSpaces.Domain
@@ -22,6 +21,10 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [XmlInclude(typeof(RentalApplicationAttachmentsElement))]
     [XmlInclude(typeof(RentalApplicationContactElement))]
     [XmlInclude(typeof(CommercialSpaceLotsElement))]
+    [XmlInclude(typeof(HtmlElement))]
+    [XmlInclude(typeof(CustomListDefinitionElement))]
+    [XmlInclude(typeof(MaintenanceOfficerElement))]
+    [XmlInclude(typeof(BuildingBlocksElement))]
     public partial class FormElement : DomainObject
     {
         public virtual CustomField GenerateCustomField()
@@ -32,6 +35,29 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public virtual string GetKnockoutBindingExpression()
         {
             return null;
+        }
+        public virtual string GetKnockoutDisplayBindingExpression()
+        {
+       
+            var path = this.Path;
+            if (null != this.CustomField)
+                path = string.Format("CustomField('{0}')", this.Path);
+
+            return string.Format("text: {0}", path);
+        
+        }
+
+        public string GetNormalizedName()
+        {
+            if (string.IsNullOrWhiteSpace(this.Path)) return this.ElementId;
+            if (this.Path.StartsWith("CustomField"))
+            {
+                const string pattern = @"CustomField\('(?<field>.*?)'\)";
+                var customField = Strings.RegexSingleValue(this.Path, pattern, "field");
+                return customField;
+            }
+
+            return this.Path;
         }
 
         public CustomField CustomField { get; set; }

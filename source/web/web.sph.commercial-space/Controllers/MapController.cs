@@ -29,12 +29,20 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public async Task<ActionResult> CommercialSpaceImage(int id, int width = 400, int height = 400)
         {
+            
+
             var context = new SphDataContext();
             var cs = await context.LoadOneAsync<CommercialSpace>(c => c.CommercialSpaceId == id);
             var building = await context.LoadOneAsync<Building>(b => b.BuildingId == cs.BuildingId);
+            if (null == building)
+                return Content("/images/no-image.png");
+            var floor = building.FloorCollection.SingleOrDefault(f => f.Name == cs.FloorName);
+            if (null == floor)
+                return Content("/images/no-image.png");
 
-            var lot = building.FloorCollection.Single(f => f.Name == cs.FloorName)
-                        .LotCollection.Single(l => cs.LotName.Contains(l.Name));
+            var lot = floor.LotCollection.SingleOrDefault(l => cs.LotName.Contains(l.Name));
+            if (null == lot)
+                return Content("/images/no-image.png");
 
             var item = await context.GetScalarAsync<SpatialStore, string>(b => b.StoreId == lot.PlanStoreId, s => s.EncodedWkt);
             if (string.IsNullOrWhiteSpace(item))

@@ -7,6 +7,7 @@ using System.Web.Security;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
 
 namespace web.test
 {
@@ -31,8 +32,14 @@ namespace web.test
 
         protected IWebDriver InitiateDriver(string agent = null)
         {
-            IWebDriver driver = new FirefoxDriver();
-            return driver;
+
+            var options = new InternetExplorerOptions();
+            IWebDriver ie = new InternetExplorerDriver(options);
+            return ie;
+
+
+            //IWebDriver driver = new FirefoxDriver();
+            //return driver;
         }
 
         protected void PayWithMigs(IWebDriver driver)
@@ -63,7 +70,7 @@ namespace web.test
 
         }
 
-    
+
 
         public void AddUser(TestUser user)
         {
@@ -73,9 +80,14 @@ namespace web.test
             }
             this.ExecuteNonQuery("DELETE FROM [Sph].[UserProfile] WHERE [UserName] = @UserName", new SqlParameter("@UserName", user.UserName));
             var u = Membership.CreateUser(user.UserName, user.Password, user.Email);
-            var id =this.GetDatabaseScalarValue<int>(
+            var id = this.GetDatabaseScalarValue<int>(
                     "SELECT MAX([UserProfileId]) + 1 FROM [Sph].[UserProfile]");
 
+            foreach (var r in user.Roles)
+            {
+                if (!Roles.RoleExists(r))
+                    Roles.CreateRole(r);
+            }
 
             // add roles
             Roles.AddUserToRoles(user.UserName, user.Roles);

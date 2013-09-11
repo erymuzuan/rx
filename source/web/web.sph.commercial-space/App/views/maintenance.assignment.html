@@ -1,50 +1,42 @@
-﻿<h1>Pengeluaran Arahan Kerja</h1>
-<h2><strong>Perincian Aduan</strong></h2>
-<form class="well form-horizontal span6">
-    
+﻿<h3>Pengeluaran Arahan Kerja</h3>
+<form class="form-horizontal">
+
     <div data-bind="with: maintenance().Complaint">
-        <div class="control-group">
-            <label class="span1">Pengadu:</label>
-            <label class="span3" data-bind="text: Tenant.Name" id="tenant.Name" />
-        </div>
-        <div class="control-group ">
-            <label class="span4">Alamat :</label>
-            <div class="control-group span8" data-bind="with: Tenant.Address">
-                <div>
-                    <label data-bind="text: UnitNo" />
-                </div>
-                <div>
-                    <label data-bind="text: Street" />
-                </div>
-                <div>
-                    <label data-bind="text: City" />
-                </div>
-                <div>
-                    <label data-bind="text: Postcode" />
-                </div>
-                <div>
-                    <label data-bind="text: State" />
+        <div data-bind="visible: Tenant().Name">
+            <div class="control-group">
+                <label class="span2">Pengadu</label><label class="span1">:</label>
+                <span data-bind="text: Tenant().Name" />
+            </div>
+            <div class="control-group ">
+                <label class="span2">Alamat </label><label class="span1">:</label>
+                <div class="control-group" data-bind="with: Tenant().Address">
+                   
+                        <span data-bind="text: UnitNo" />
+                    
+                        <span data-bind="text: Street" />
+                   
+                        <span data-bind="text: City" />
+                   
+                        <span data-bind="text: Postcode" />
+                   
+                        <span data-bind="text: State" />
+                  
                 </div>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label ">Kategori :  </label>
-            <div class="controls">
-                <span data-bind="text: Category" id="Category" />
-            </div>
+            <label class="span2">Kategori</label><label class="span1">:</label>
+            <span data-bind="text: Category" />
         </div>
         <div class="control-group">
-            <label class="control-label ">SubKategori :  </label>
-            <div class="controls">
-                <span data-bind="text: SubCategory" id="SubCategory" />
-            </div>
+            <label class="span2">SubKategori</label><label class="span1">:</label>
+            <span data-bind="text: SubCategory" />
         </div>
         <div class="control-group">
-            <label class="control-label ">Keterangan :  </label>
-            <div class="controls">
-                <span data-bind="text: Remarks" id="Remarks" />
-            </div>
+            <label class="span2">Keterangan</label><label class="span1">:</label>
+            <span data-bind="text: Remarks" />
         </div>
+
     </div>
 </form>
 

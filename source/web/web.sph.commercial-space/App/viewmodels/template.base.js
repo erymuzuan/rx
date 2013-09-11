@@ -5,7 +5,7 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/domain.g.js" />
+/// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
@@ -47,7 +47,7 @@ define(['services/datacontext', 'durandal/system'],
                 datepicker.IsRequired(true);
 
                 var number = new bespoke.sphcommercialspace.domain.NumberTextBox(system.guid());
-                number.CssClass("icon-html5 pull-left");
+                number.CssClass("icon-xing-sign pull-left");
                 number.Name("Nombor");
                 number.Step(1);
                 number.IsRequired(true);
@@ -56,14 +56,26 @@ define(['services/datacontext', 'durandal/system'],
                 email.CssClass("icon-envelope pull-left");
                 email.Name("Emel");
                 email.IsRequired(true);
-                
+
                 var web = new bespoke.sphcommercialspace.domain.WebsiteFormElement(system.guid());
-                web.CssClass("icon-web pull-left");
+                web.CssClass("icon-link pull-left");
                 web.Name("Website");
                 web.IsRequired(true);
 
+                var html = new bespoke.sphcommercialspace.domain.HtmlElement(system.guid());
+                html.CssClass("icon-html5 pull-left");
+                html.Name("HTML");
+                html.IsRequired(false);
+                html.Tooltip("Allows you to create custom HTML markup");
+                
+                var list = new bespoke.sphcommercialspace.domain.CustomListDefinitionElement(system.guid());
+                list.CssClass("icon-th-list pull-left");
+                list.Name("List");
+                list.IsRequired(false);
+                list.Tooltip("Creates custom list");
+
                 var section = new bespoke.sphcommercialspace.domain.SectionFormElement(system.guid());
-                section.CssClass("icon-group pull-left");
+                section.CssClass("icon-reorder pull-left");
                 section.Name("Section");
 
                 elements.push(textbox);
@@ -74,6 +86,8 @@ define(['services/datacontext', 'durandal/system'],
                 elements.push(number);
                 elements.push(email);
                 elements.push(web);
+                elements.push(html);
+                elements.push(list);
                 elements.push(section);
 
                 vm.formElements(elements);
@@ -88,7 +102,6 @@ define(['services/datacontext', 'durandal/system'],
             designer = ko.observable(),
             viewAttached = function (view) {
 
-
                 var dropDown = function (e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -97,17 +110,17 @@ define(['services/datacontext', 'durandal/system'],
                     button.parent().addClass("open")
                         .find("input:first").focus()
                         .select();
-
-
                 };
 
                 // Fix input element click problem
                 $(view).on('click mouseup mousedown', '.dropdown-menu input, .dropdown-menu label',
                     function (e) {
-                    e.stopPropagation();
-                });
+                        e.stopPropagation();
+                    });
                 $('#template-form-designer').on('click', 'button.dropdown-toggle', dropDown);
 
+
+                //toolbox item clicked
                 $('#add-field').on("click", 'a', function (e) {
                     e.preventDefault();
                     _(designer().FormElementCollection()).each(function (f) {
@@ -126,7 +139,24 @@ define(['services/datacontext', 'durandal/system'],
                     designer().FormElementCollection.push(fe);
                     vm.selectedFormElement(fe);
 
+
                 });
+                
+                // kendoEditor
+                $('#template-form-designer').on('click', 'textarea', function () {
+                    var $editor = $(this);
+                    var kendoEditor = $editor.data("kendoEditor");
+                    if (!kendoEditor) {
+                       var htmlElement = ko.dataFor(this);
+                       $editor.kendoEditor({
+                           change:function() {
+                               htmlElement.Text(this.value());
+                           }
+                       });
+                        
+                    }
+                }
+                );
                 $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js')// only contains UI core and interactions API 
                     .done(function () {
 
@@ -182,7 +212,6 @@ define(['services/datacontext', 'durandal/system'],
                 designer().FormElementCollection.remove(fe);
             },
             addComboBoxOption = function () {
-
                 vm.selectedFormElement().ComboBoxItemCollection.push(new bespoke.sphcommercialspace.domain.ComboBoxItem);
             },
             removeComboBoxOption = function (option) {

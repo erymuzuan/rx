@@ -3,9 +3,7 @@
 @{
     ViewBag.Title = "title";
     Layout = null;
-    var i = 0;
 }
-
 <section class="container-fluid">
     <div class="row-fluid" id="cs-modal">
         <h1 class="span12" data-bind="text: title"></h1>
@@ -32,26 +30,50 @@
 
                     @foreach (var fe in Model.Template.FormDesign.FormElementCollection)
                     {
-                        if (null != fe.CustomField)
-                        {
-                            fe.Path = "CustomFieldValueCollection()[" + i++ + "].Value";
-                        }
-       
                         @Html.EditorFor(m => fe)
         
                     }
                     <div class="control-group" data-bind="visible: IsOnline">
-                        <label  class="control-label">Template Permohonan</label>
+                        <label class="control-label">Template Permohonan</label>
                         <div class="controls">
-                                @foreach (var t in Model.ApplicationTemplates)
-                                {
-                                    <label>
-                                        <input type="checkbox" value="@t.ApplicationTemplateId" data-bind="checked: ApplicationTemplateOptions"/>
-                                        @t.Name
-                                    </label>
-                                }
+                            @foreach (var t in Model.ApplicationTemplates)
+                            {
+                                <label>
+                                    <input type="checkbox" value="@t.ApplicationTemplateId" data-bind="checked: ApplicationTemplateOptions"/>
+                                    @t.Name
+                                </label>
+                            }
                         </div>
                     </div>
+                    <div>
+                        <a href="/#" data-bind="click: addPhoto">Add Photo</a>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Tajuk</th>
+                                    <th>Keterangan</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: PhotoCollection">
+                                <tr>
+                                    <td>
+                                        <input type="text" data-bind="value: Title, uniqueName: true" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="input-large" data-bind="value: Description, uniqueName: true" /></td>
+                                    <td>
+                                        <input class="cs-photo-upload" type="file" data-bind="kendoUpload: StoreId"/>
+                                    </td>
+                                    <td>
+                                        <a href="/#" data-bind="click: $parent.removePhoto.call($parent, $data)"></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
 
                 </form>
 

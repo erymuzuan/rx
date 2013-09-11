@@ -198,7 +198,7 @@
     "error": ""
   },
   {
-    "role": "can_edit_contract_template",
+    "role": "admin_dashboard",
     "url": "contract.create/:rentalApplicationId",
     "moduleId": "viewmodels/contract.create",
     "name": "create contract",
@@ -410,7 +410,7 @@
     "url": "complaint.list/:status",
     "moduleId": "viewmodels/complaint.list",
     "name": "Senarai Aduan",
-    "visible": true,
+    "visible": false,
     "icon": "icon-tasks",
     "caption": "Senarai Aduan",
     "settings": null,
@@ -425,18 +425,6 @@
     "visible": true,
     "icon": "icon-user",
     "caption": "Portal Penyewa",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_assign_complaint",
-    "url": "complaint.assign/:id",
-    "moduleId": "viewmodels/complaint.assign",
-    "name": "Pemeriksaan",
-    "visible": false,
-    "icon": "icon-check",
-    "caption": "pemeriksaan",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -479,12 +467,12 @@
   },
   {
     "role": "maintenance_officer",
-    "url": "officer.list",
-    "moduleId": "viewmodels/officer.list",
-    "name": "Senarai Penyenggaraan Officer",
+    "url": "workorder.list",
+    "moduleId": "viewmodels/workorder.list",
+    "name": "Senarai Arahan Kerja",
     "visible": true,
     "icon": "icon-file-text-alt",
-    "caption": "Senarai Penyenggaraan Officer",
+    "caption": "Senarai Arahan Kerja",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -578,7 +566,7 @@
     "error": ""
   },
   {
-    "role": "can_assign_maintenance_officer",
+    "role": "maintenance_dashboard",
     "url": "maintenance.assignment/:id",
     "moduleId": "viewmodels/maintenance.assignment",
     "name": "Perincian Aduan and Assisgment",

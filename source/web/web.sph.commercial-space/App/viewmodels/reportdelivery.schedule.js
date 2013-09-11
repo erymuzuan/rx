@@ -5,11 +5,11 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/report.g.js" />
+/// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/report.g', 'services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/system'],
+define(['schemas/report.builder.g', 'services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/system'],
     function (reportg, context, logger, router, system) {
 
         var isBusy = ko.observable(false),

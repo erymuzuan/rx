@@ -30,6 +30,19 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var models = TypeHelper.GetPropertyPath(typeof(Building));
             var template = this.GetRequestJson<BuildingTemplate>();
             this.BuildCustomFields(template.CustomFieldCollection, template.FormDesign, models);
+            var list = new ObjectCollection<CustomListDefinition>();
+            foreach (var c in template.FormDesign.FormElementCollection.OfType<CustomListDefinitionElement>())
+            {
+                var cl = new CustomListDefinition
+                {
+                    Name = c.Name
+                };
+                cl.CustomFieldCollection.AddRange(c.CustomFieldCollection);
+                list.Add(cl);
+            }
+            
+
+            template.CustomListDefinitionCollection.ClearAndAddRange(list);
 
             var errors = (await template.ValidateAsync()).ToList();
             if (errors.Any())
@@ -110,6 +123,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return Json(template.MaintenanceTemplateId);
         }
 
+
         private void BuildCustomFields(ObjectCollection<CustomField> fields, FormDesign form, string[] models)
         {
             if (fields.Any())
@@ -148,6 +162,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var vm = new TemplateFormViewModel { Entity = typeof(Building).Name };
             vm.FormElements.Add(new AddressElement());
             vm.FormElements.Add(new BuildingFloorsElement());
+            vm.FormElements.Add(new BuildingBlocksElement());
             vm.FormElements.Add(new BuildingMapElement());
 
 
@@ -181,6 +196,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var vm = new TemplateFormViewModel { Entity = typeof(Maintenance).Name };
             vm.FormElements.Add(new AddressElement());
+            vm.FormElements.Add(new MaintenanceOfficerElement());
 
 
             return View(vm);

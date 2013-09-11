@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using System.Linq;
 using System.Web.Security;
 using FluentDateTime;
 using NUnit.Framework;
@@ -9,9 +10,28 @@ namespace web.test
     [TestFixture]
     public class AdminTest : BrowserTest
     {
+        private TestUser m_admin;
+
+        [SetUp]
+        public void Init()
+        {
+            m_admin = new TestUser
+            {
+                UserName = "admin",
+                FullName = "Administrator",
+                Email = "admin@bespoke.com.my",
+                Department = "Test",
+                Designation = "Boss",
+                Password = "123456",
+                Roles = new[] { "admin_user", "admin_dashboard" }
+            };
+            this.AddUser(m_admin);
+        }
+
         public const string USERNAME = "izzati";
 
         [Test]
+// ReSharper disable InconsistentNaming
         public void _001_AddUser()
         {
             this.ExecuteNonQuery("DELETE FROM [Sph].[UserProfile] WHERE [UserName] = @UserName",
@@ -23,7 +43,7 @@ namespace web.test
             }
 
             var driver = this.InitiateDriver();
-            driver.Login()
+            driver.Login(m_admin)
 
              .NavigateToUrl("/#/users", 2.Seconds());
             driver.Click("#add-user-button")
@@ -53,6 +73,24 @@ namespace web.test
             driver.Quit();
         }
 
-
+        [Test]
+        public void _002_CreateLotsOfUsers()
+        {
+            var users = from i in Enumerable.Range(1, 100)
+                select new TestUser
+                {
+                    UserName = "admin" + i,
+                    FullName = "Administrator",
+                    Email = string.Format("admin{0}@bespoke.com.my",i),
+                    Department = "Test",
+                    Designation = "Boss",
+                    Password = "123456",
+                    Roles = new[] { "admin_user" }
+                };
+            foreach (var u in users)
+            {
+                this.AddUser(u);
+            }
+        }
     }
 }

@@ -28,53 +28,63 @@ define(['services/datacontext',
                 vm.stateOptions(config.stateOptions);
                 mapInitialized(false);
 
-                if (!id) {
 
-                    // build custom fields value
-                    context.loadOneAsync("BuildingTemplate", "BuildingTemplateId eq " + templateId)
-                        .done(function (template) {
-                            var cfs = _(template.CustomFieldCollection()).map(function (f) {
-                                var webid = system.guid();
-                                var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
-                                v.Name(f.Name());
-                                v.Type(f.Type());
-                                return v;
+
+                // build custom fields value
+                context.loadOneAsync("BuildingTemplate", "BuildingTemplateId eq " + templateId)
+                    .done(function (template) {
+                        var fieldToValueMap = function (f) {
+                            var webid = system.guid();
+                            var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
+                            v.Name(f.Name());
+                            v.Type(f.Type());
+                            return v;
+                        },
+                            cfs = _(template.CustomFieldCollection()).map(fieldToValueMap),
+                            cls = _(template.CustomListDefinitionCollection()).map(function (v) {
+                                var lt = new bespoke.sphcommercialspace.domain.CustomListValue(system.guid());
+                                lt.Name(v.Name());
+
+                                var fields = _(v.CustomFieldCollection()).map(fieldToValueMap);
+                                lt.CustomFieldCollection = ko.observableArray(fields);
+
+                                return lt;
                             });
 
-                            vm.building().CustomFieldValueCollection(cfs);
-                            vm.building().Type(template.Name());
+                        vm.building().CustomFieldValueCollection(cfs);
+                        vm.building().CustomListValueCollection(cls);
+                        vm.building().Type(template.Name());
+                        vm.building().TemplateId(templateId);
+
+
+                        if (!id) {
+                            vm.building().TemplateId(templateId);
+                            vm.toolbar.watching(false);
                             tcs.resolve();
+                            return;
+                        } else {
 
-                        });
-
-                    vm.building().TemplateId(templateId);
-                    vm.toolbar.watching(false);
-                    return tcs.promise();
-                }
+                            vm.toolbar.auditTrail.id(id);
+                            vm.toolbar.printCommand.id(id);
 
 
+                            var query = "BuildingId eq " + id,
+                                loadTask = context.loadOneAsync("Building", query),
+                                watcherTask = watcher.getIsWatchingAsync("Building", id);
 
-                vm.toolbar.auditTrail.id(id);
-                vm.toolbar.printCommand.id(id);
-
-
-                var query = "BuildingId eq " + id,
-                    loadTask = context.loadOneAsync("Building", query),
-                    watcherTask = watcher.getIsWatchingAsync("Building", id);
-
-                $.when(loadTask, watcherTask).done(function (b, w) {
-                    if (typeof b.Address !== "function") {
-                        var address = b.Address;
-                        b.Address = ko.observable(address);
-                    }
-
-                    vm.building(b);
-                    vm.toolbar.watching(w);
-
-                    tcs.resolve(true);
-                });
+                            $.when(loadTask, watcherTask).done(function (b, w) {
 
 
+                                vm.building(b);
+                                vm.building().CustomListValueCollection(cls);
+                                vm.toolbar.watching(w);
+
+                                tcs.resolve(true);
+                            });
+
+                        }
+
+                    });
 
 
                 return tcs.promise();

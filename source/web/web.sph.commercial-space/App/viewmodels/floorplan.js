@@ -108,13 +108,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             polygoncomplete = function (shape) {
                 lotPolygon = shape;
             },
-            viewAttached = function() {
+            viewAttached = function () {
                 $("#lotlist").on('click', 'a', function () {
                     $('#lotlist li').removeClass('active');
                     $(this).parent().addClass('active');
                 });
             },
-            select = function (lot,event,element) {
+            select = function (lot, event, element) {
                 isBusy(true);
                 activeLot(lot.Name());
                 $.get("/Building/GetFloorPlan/" + buildingId() + "?floor=" + floorname() + "&lot=" + lot.Name())
@@ -128,7 +128,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                                 encoded: shape.EncodedPolygon,
                                 draggable: true,
                                 editable: true,
-                                zIndex : 1,
+                                zIndex: 1,
                                 fillColor: shape.FillColor,
                                 fillOpacity: shape.FillOpacity
                             });
@@ -136,7 +136,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                         isBusy(false);
 
                     });
-                
+
 
                 $('#lotlist a.btn').removeClass('btn-warning')
                     .addClass('btn-success');
@@ -155,7 +155,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             saveCommand: save,
             selectCommand: select,
             isBusy: isBusy,
-            viewAttached : viewAttached
+            viewAttached: viewAttached
         };
 
         return vm;

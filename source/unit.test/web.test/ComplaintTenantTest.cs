@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Data.SqlClient;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using FluentDateTime;
 
 namespace web.test
 {
@@ -32,6 +28,7 @@ namespace web.test
         }
 
         [Test]
+// ReSharper disable InconsistentNaming
         public void _001_TenantComplaint()
         {
             var max = this.GetDatabaseScalarValue<int>("SELECT MAX([ComplaintId]) FROM [Sph].[Complaint]");

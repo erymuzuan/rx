@@ -60,6 +60,17 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         {
             var rdl = this.GetRequestJson<ReportDefinition>();
             var datasource = rdl.DataSource;
+
+            var sql = ObjectBuilder.GetObject<IReportDataSource>();
+            var typeName = (typeof(Entity).AssemblyQualifiedName ?? "").Replace("Entity", rdl.DataSource.EntityName);
+            var cols = await sql.GetColumnsAsync(Type.GetType(typeName));
+
+            foreach (var filter in rdl.DataSource.ReportFilterCollection)
+            {
+                var filter1 = filter;
+                filter.TypeName = cols.Single(c => c.Name == filter1.FieldName).TypeName;
+            }
+
             if (null != datasource)
             {
                 await Task.Delay(500);

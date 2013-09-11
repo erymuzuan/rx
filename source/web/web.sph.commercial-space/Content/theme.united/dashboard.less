@@ -1,0 +1,47 @@
+﻿@import 'variables.less';
+@import '..\less\mixins.less';
+
+#rental-list
+{
+    ul
+    {
+        list-style: none;
+
+        li
+        {
+            width: 200px;
+            height: 100px;
+            padding: 10px;
+            margin: 10px;
+            background-color: @modal-footer-border-color;
+            float: left;
+            border-radius:5px;
+            color:@gray-lighter;
+        }
+
+            li.Baru
+            {
+                background-color: @badge-active-color;
+            }
+            li.Menunggu
+            {
+                background-color: @alert-danger-bg;
+            }
+            li.Diluluskan
+            {
+                background-color: @alert-success-bg;
+            }
+            li.Ditolak
+            {
+                background-color: @alert-warning-bg;
+            }
+            li.Dikembalikan
+            {
+                background-color: #e27c19;
+            }
+            li.Selesai
+            {
+                background-color: #088018;
+            }
+    }
+}

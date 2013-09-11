@@ -7,4 +7,11 @@
             return null;
         }
     }
+    public partial class BuildingBlocksElement : FormElement
+    {
+        public override CustomField GenerateCustomField()
+        {
+            return null;
+        }
+    }
 }

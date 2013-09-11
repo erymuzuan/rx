@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Castle.Core.Internal;
+using FluentDateTime;
 using OpenQA.Selenium;
 using System.Linq;
 using OpenQA.Selenium.Support.UI;
@@ -24,20 +25,27 @@ namespace web.test
 
         public static IWebDriver Login(this IWebDriver driver, string username = "admin", string password = "123456", int wait = 2000)
         {
-            driver.Navigate().GoToUrl(BrowserTest.WEB_RUANG_KOMERCIAL_URL + "/Account/Login");
-            driver.Sleep(150)
-                .Sleep(TimeSpan.FromSeconds(2))
-                .Value("[name='UserName']", username)
+            driver
+                .NavigateToUrl("/Account/Logoff")
+                .NavigateToUrl("/Account/Login", 1.Seconds());
+            driver.Value("[name='UserName']", username)
                 .Value("[name='Password']", password)
-                .Click("[name='submit']")
-                .Sleep(200);
+                .Click("[name='submit']");
 
+            return driver;
+        }
+        public static IWebDriver LogOff(this IWebDriver driver)
+        {
+            driver.NavigateToUrl("/Account/Logoff");
             return driver;
         }
 
         public static IWebDriver Value(this IWebDriver driver, string selector, string text, int index = 0, int wait = 0)
         {
             var list = driver.FindElements(By.CssSelector(selector));
+            if (list.Count <= index) throw new ArgumentException(string.Format("There's only {0} elements for {1} selector", list.Count, selector));
+
+           
             var element = list[index];
 
             var ag = string.Format("{0}", element.TagName).ToLower();
@@ -77,15 +85,23 @@ namespace web.test
             return driver;
         }
 
-        public static IWebDriver SelectOption(this IWebDriver driver, string selector, string text)
+        public static IWebDriver SelectOption(this IWebDriver driver, string selector, string text, int index = 0, bool selectByText = true)
         {
-            new SelectElement(driver.FindElement(By.CssSelector(selector))).SelectByText(text);
+            var elements = driver.FindElements(By.CssSelector(selector));
+            if (elements.Count <= index) throw new ArgumentException(string.Format("There's only {0} elements for {1} selector", elements.Count, selector));
+
+            var select = new SelectElement(elements[index]);
+
+            if (selectByText)
+                select.SelectByText(text);
+            else
+                select.SelectByValue(text);
             return driver;
         }
 
 
-       
-        public static IWebDriver Click(this IWebDriver driver, string selector,int index =0, int wait = 0)
+
+        public static IWebDriver Click(this IWebDriver driver, string selector, int index = 0, int wait = 0)
         {
             try
             {
@@ -103,7 +119,7 @@ namespace web.test
                 throw;
             }
         }
-      
+
 
         public static IWebDriver AssertElementExist(this IWebDriver driver, string selector, Expression<Func<IWebElement, bool>> assert, string message = "")
         {
@@ -187,7 +203,7 @@ namespace web.test
         public static IWebDriver SetText(this IWebDriver driver, string selector, string text)
         {
             var element = driver.FindElement(By.CssSelector(selector));
-            return driver.SetText(element,text);
+            return driver.SetText(element, text);
         }
 
 

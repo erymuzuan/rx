@@ -69,7 +69,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                                     Icon = "icon-building",
                                     ModuleId = string.Format("viewmodels/commercialspace.detail-templateid.{0}", t.CommercialSpaceTemplateId)
                                 };
-            var complaintRoute = from t in complaintTemplates.ItemCollection
+            var complaintFormRoutes = from t in complaintTemplates.ItemCollection
                                 select new JsRoute
                                 {
                                     Name = t.Name,
@@ -79,6 +79,17 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                                     Icon = "icon-building",
                                     ModuleId = string.Format("viewmodels/complaint.form-templateid.{0}", t.ComplaintTemplateId)
                                 };
+            var complaintAssignmentRoutes = from t in complaintTemplates.ItemCollection
+                                select new JsRoute
+                                {
+                                    Name = t.Name,
+                                    Url = string.Format("complaint.assign-templateid.{0}/:id", t.ComplaintTemplateId),
+                                    Role = "can_assign_complaint",
+                                    Caption = t.Name,
+                                    Icon = "icon-check",
+                                    ModuleId = string.Format("viewmodels/complaint.assign-templateid.{0}", t.ComplaintTemplateId)
+                                };
+
             var applicationRoutes = from t in applicationTemplates.ItemCollection
                                 select new JsRoute
                                 {
@@ -111,7 +122,8 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
          
             routes.AddRange(buildingRoute);
             routes.AddRange(csRoute);
-            routes.AddRange(complaintRoute);
+            routes.AddRange(complaintFormRoutes);
+            routes.AddRange(complaintAssignmentRoutes);
             routes.AddRange(applicationRoutes);
             routes.AddRange(maintenanceRoute);
             routes.AddRange(rdlRoutes);

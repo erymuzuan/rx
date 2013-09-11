@@ -26,6 +26,7 @@ namespace Bespoke.Sph.Commerspace.Web.Helpers
                          .Replace(" lt ", " < ")
                          .Replace(" lte ", " <= ")
                          .Replace(" le ", " <= ")
+                         .Replace(" in ", " IN ")
                          .Replace("(From ", "([From] ")
                          .Replace("(To ", "([To] ")
                          .Replace("DateTime'", "'");
@@ -73,6 +74,11 @@ namespace Bespoke.Sph.Commerspace.Web.Helpers
         public string Scalar(string filter)
         {
             return string.Format("SELECT [{0}] FROM [Sph].[{1}] {2} ", m_column, m_table, this.Translate(filter));
+        }
+
+        public string Distinct(string filter)
+        {
+            return string.Format("SELECT DISTINCT [{0}] FROM [Sph].[{1}] {2} ", m_column, m_table, this.Translate(filter));
         }
 
         public string Select(string filter)

@@ -1,7 +1,6 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.ComplaintTemplate
 @{
     Layout = null;
-    var i = 0;
 }
 
 <h1>@Model.FormDesign.Name</h1>
@@ -9,11 +8,6 @@
 <form id="complaint-details" class="form-horizontal" data-bind="with: complaint">
     @foreach (var fe in Model.FormDesign.FormElementCollection)
     {
-        if (null != fe.CustomField)
-        {
-            fe.Path = "CustomFieldValueCollection()[" + i++ + "].Value";
-        }
-       
         @Html.EditorFor(m => fe)
         
     }

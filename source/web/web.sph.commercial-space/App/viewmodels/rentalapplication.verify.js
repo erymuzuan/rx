@@ -40,7 +40,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
 
                     $.get("/Map/CommercialSpaceImage/" + vm.rentalapplication().CommercialSpaceId() + "?width=300&height=200")
                         .then(function (b) {
-                            vm.commercialSpace().StaticMap(b);
+                            if (typeof vm.commercialSpace().StaticMap !== "function") {
+                                vm.commercialSpace().StaticMap = ko.observable(b);
+                            } else {
+                                vm.commercialSpace().StaticMap(b);
+                            }
                         });
                 });
 
@@ -87,9 +91,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         update = function () {
             var tcs = new $.Deferred();
             var attachments = ko.mapping.toJS(vm.rentalapplication().AttachmentCollection);
-            var note = ko.mapping.toJS(vm.rentalapplication().Remarks());
+            var note = ko.mapping.toJS(vm.rentalapplication().Remarks);
             var data = JSON.stringify({ id: id(), attachments: attachments, note: note });
             context.post(data, "/RentalApplication/Update").done(function () {
+                logger.info("Data dikemaskini");
                 tcs.resolve(true);
             });
             return tcs.promise();
@@ -149,13 +154,16 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         },
 
         createTenant = function () {
+            var username = vm.rentalapplication().Contact().IcNo() || vm.rentalapplication().CompanyRegistrationNo();
+            username = prompt('Nama pengguna untuk penyewa baru', username);
             var tcs = new $.Deferred();
-            var data = JSON.stringify({ id: vm.rentalapplication().RentalApplicationId() });
+            var data = JSON.stringify({
+                id: vm.rentalapplication().RentalApplicationId(),
+                username: username
+            });
             context.post(data, "/Tenant/Create").done(function (e) {
                 logger.log("Penyewa dijana ", e, "rentalapplication.verify", true);
                 tcs.resolve(true);
-                var url = '/#/admindashboard';
-                router.navigateTo(url);
             });
             return tcs.promise();
         },
@@ -191,6 +199,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         showDetailsCommand: showDetails,
         addAttachmentCommand: addAttachment,
+        username : ko.observable(),
         removeAttachmentCommand: removeAttachment,
         toolbar: ko.observable({
             reloadCommand: function () {

@@ -71,28 +71,45 @@ namespace domain.test.reports
         [Test]
         public void GetColumnsValue()
         {
-            var ds = new DataSource { EntityName = "Building", Query = "SELECT * FROM [Sph].[Building]" };
+            var ds = new DataSource { EntityName = "Building" };
             var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
-            var xml = (new Building
+
+
+            var building = new Building
             {
                 Name = "Test 1",
                 Floors = 15,
-                Address = new Address { State = "Kelantan" }
-            }).ToXElement();
+                Address = new Address {State = "Kelantan"},
+            };
+            building.CustomFieldValueCollection.Add(new CustomFieldValue{Name = "Custom01", Value = "XXX",Type = typeof(string).AssemblyQualifiedName});
+            var xml = (building).ToXElement();
 
+            Console.WriteLine("Exec");
             var row = new ReportRow();
-            rdl.GetAvailableColumnsAsync()
-                .ContinueWith(_ =>
-                {
-                    var colums = _.Result;
-                    row.ReportColumnCollection.AddRange(colums);
-                    m_sql.FillColumnValue(xml, row);
-                    foreach (var c in colums)
+
+            try
+            {
+                rdl.GetAvailableColumnsAsync()
+                    .ContinueWith(_ =>
                     {
-                        Console.WriteLine("{0}\t= {1}", c.Name, c.Value);
-                    }
-                    Assert.AreEqual("Kelantan", row["Address.State"].Value);
-                }).Wait(1000);
+                        if (_.IsFaulted)
+                        {
+                            Console.WriteLine(_.Exception);
+                        }
+                        var colums = _.Result;
+                        row.ReportColumnCollection.AddRange(colums);
+                        m_sql.FillColumnValue(xml, row);
+
+
+                        Console.WriteLine("Custom01: " + row["Custom01"].Value);
+                        Assert.AreEqual("XX", row["Custom01"].Value);
+                        Assert.AreEqual("Kelantan", row["Address.State"].Value);
+                    }).Wait(1000);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
 
         }
 

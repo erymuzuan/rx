@@ -5,12 +5,13 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/report.g.js" />
+/// <reference path="../schemas/report.builder.g.js" />
+/// <reference path="../durandal/app.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
-define(['services/report.g', 'services/datacontext', 'durandal/system', 'services/logger'],
-    function (reportg, context, system, logger) {
+define(['schemas/report.builder.g', 'services/datacontext', 'durandal/system', 'durandal/app', 'services/logger'],
+    function (reportg, context, system, app, logger) {
         var isBusy = ko.observable(false),
             rdl = ko.observable(new bespoke.sphcommercialspace.domain.ReportDefinition()),
             activate = function () {
@@ -79,37 +80,54 @@ define(['services/report.g', 'services/datacontext', 'durandal/system', 'service
             viewAttached = function (view) {
 
                 $('#layout-toolbox').on('click', 'input[type=radio]', function () {
+
                     var $radio = $(this),
-                        layout = $radio.val();
-                    rdl().ReportLayoutCollection.removeAll();
+                        layout = $radio.val(),
+                        buildLayout = function () {
 
-                    var header = new bespoke.sphcommercialspace.domain.ReportLayout(),
-                        footer = new bespoke.sphcommercialspace.domain.ReportLayout();
-                    header.Name("header");
-                    footer.Name("footer");
+                            rdl().ReportLayoutCollection.removeAll();
 
-                    rdl().ReportLayoutCollection.push(header);
+                            var header = new bespoke.sphcommercialspace.domain.ReportLayout(),
+                                footer = new bespoke.sphcommercialspace.domain.ReportLayout();
+                            header.Name("header");
+                            footer.Name("footer");
 
-                    if (layout === "TwoColumns") {
-                        var body1 = new bespoke.sphcommercialspace.domain.ReportLayout();
-                        body1.Name("Content 1");
-                        body1.Column(0);
-                        body1.ColumnSpan(6);
-                        rdl().ReportLayoutCollection.push(body1);
+                            rdl().ReportLayoutCollection.push(header);
 
-                        var body2 = new bespoke.sphcommercialspace.domain.ReportLayout();
-                        body2.Name("Content 2");
-                        body2.Column(6);
-                        body2.ColumnSpan(6);
-                        rdl().ReportLayoutCollection.push(body2);
+                            if (layout === "TwoColumns") {
+                                var body1 = new bespoke.sphcommercialspace.domain.ReportLayout();
+                                body1.Name("Content 1");
+                                body1.Column(0);
+                                body1.ColumnSpan(6);
+                                rdl().ReportLayoutCollection.push(body1);
 
+                                var body2 = new bespoke.sphcommercialspace.domain.ReportLayout();
+                                body2.Name("Content 2");
+                                body2.Column(6);
+                                body2.ColumnSpan(6);
+                                rdl().ReportLayoutCollection.push(body2);
+
+                            } else {
+                                var body = new bespoke.sphcommercialspace.domain.ReportLayout();
+                                body.Name("Content");
+                                rdl().ReportLayoutCollection.push(body);
+                            }
+                            rdl().ReportLayoutCollection.push(footer);
+                            sortableLayout();
+
+                        };
+
+                    if (rdl().ReportLayoutCollection().length) {
+                        app.showMessage("This will cause all the report layout will be reset", "RESET", ["Yes", "No"])
+                            .done(function (dialogResult) {
+                                if (dialogResult === "Yes") {
+                                    buildLayout();
+                                }
+                            });
                     } else {
-                        var body = new bespoke.sphcommercialspace.domain.ReportLayout();
-                        body.Name("Content");
-                        rdl().ReportLayoutCollection.push(body);
+                        buildLayout();
                     }
-                    rdl().ReportLayoutCollection.push(footer);
-                    sortableLayout();
+
                 });
 
                 // select layout
@@ -157,9 +175,9 @@ define(['services/report.g', 'services/datacontext', 'durandal/system', 'service
                         efc.Name(entity.Name);
                         efc.TypeName(entity.TypeName);
                         rdl().DataSource().EntityFieldCollection.push(efc);
-                    } 
+                    }
                 });
-                
+
                 sortableLayout();
 
             },

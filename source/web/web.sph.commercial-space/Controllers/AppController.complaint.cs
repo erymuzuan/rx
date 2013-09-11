@@ -33,6 +33,14 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
              return View();
          }
 
+         public async Task<ActionResult> ComplaintAssignHtml(int templateId)
+         {
+             var context = new SphDataContext();
+             var template = await context.LoadOneAsync<ComplaintTemplate>(t => t.ComplaintTemplateId == templateId);
+
+             return View(template);
+         }
+
          public ActionResult ComplaintListJs()
          {
              return View();

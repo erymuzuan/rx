@@ -380,13 +380,22 @@
     <Content Include="App\durandal\widget.js" />
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
-    <Content Include="App\services\CommercialSpace.js" />
-    <Content Include="App\services\Complaint.js" />
-    <Content Include="App\services\ConstantField.js" />
-    <Content Include="App\services\Contract.js" />
+    <Content Include="App\partial\CommercialSpace.js" />
+    <Content Include="App\partial\Complaint.js" />
+    <Content Include="App\partial\ConstantField.js" />
+    <Content Include="App\partial\Contract.js" />
+    <Content Include="App\partial\Building.js" />
+    <Content Include="App\partial\ContractTemplate.js" />
+    <Content Include="App\partial\CustomListRow.js" />
+    <Content Include="App\partial\RentalApplication.js" />
+    <Content Include="App\partial\CustomListDefinitionElement.js" />
+    <Content Include="App\partial\report.js" />
+    <Content Include="App\schemas\report.builder.g.js" />
+    <Content Include="App\schemas\sph.domain.g.js" />
+    <Content Include="App\schemas\trigger.workflow.g.js" />
     <Content Include="App\services\datacontext.js" />
-    <Content Include="App\services\Deposit.js" />
-    <Content Include="App\services\domain.g.js" />
+    <Content Include="App\partial\Deposit.js" />
+    <Content Include="App\schemas\form.designer.g.js" />
     <Content Include="App\services\jsonimportexport.js" />
     <Content Include="App\services\logger.js" />
     <Compile Include="Helpers\AssemblyInfo.cs" />
@@ -400,7 +409,6 @@
     <Compile Include="Models\JsRoute.cs" />
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="App\services\report.g.js" />
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
@@ -448,7 +456,6 @@
     <Content Include="App\views\chats.html" />
     <Content Include="App\views\commercialspace.template.form.html" />
     <Content Include="App\views\commercialspace.template.list.html" />
-    <Content Include="App\views\complaint.assign.html" />
     <Content Include="App\views\complaint.checkstatus.html" />
     <Content Include="App\views\complaint.dashboard.html" />
     <Content Include="App\views\maintenance.dashboard.html" />
@@ -486,6 +493,7 @@
     <Content Include="Content\bootstrap.metro-flat.css" />
     <Content Include="Content\bootstrap.kallyas.css" />
     <Content Include="Content\bootstrap.slate.css" />
+    <Content Include="Content\bootstrap.united.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\img\1.png" />
     <Content Include="Content\img\2.png" />
@@ -526,6 +534,12 @@
     <Content Include="Content\img\team2.jpg" />
     <Content Include="Content\img\team3.jpg" />
     <Content Include="Content\img\team4.jpg" />
+    <Content Include="Content\theme.default\complaint.css">
+      <DependentUpon>complaint.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.default\complaint.min.css">
+      <DependentUpon>complaint.less</DependentUpon>
+    </Content>
     <Content Include="Content\theme.default\dashboard.css">
       <DependentUpon>dashboard.less</DependentUpon>
     </Content>
@@ -556,6 +570,12 @@
     <Content Include="Content\theme.metro-admin\nav.min.css">
       <DependentUpon>nav.less</DependentUpon>
     </Content>
+    <Content Include="Content\theme.metro-admin\rentalapplication.css">
+      <DependentUpon>rentalapplication.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\rentalapplication.min.css">
+      <DependentUpon>rentalapplication.less</DependentUpon>
+    </Content>
     <Content Include="Content\theme.metro-admin\site.css">
       <DependentUpon>site.less</DependentUpon>
     </Content>
@@ -567,12 +587,6 @@
     </Content>
     <Content Include="Content\theme.metro-admin\variables.min.css">
       <DependentUpon>variables.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.metro-flat\site.css">
-      <DependentUpon>site.css.bundle</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.metro-flat\site.min.css">
-      <DependentUpon>site.css.bundle</DependentUpon>
     </Content>
     <Content Include="Content\theme.default\header.css">
       <DependentUpon>header.less</DependentUpon>
@@ -592,14 +606,6 @@
     <Content Include="Content\theme.default\variables.min.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
-    <Content Include="Content\theme.metro-flat\custom-slider.css" />
-    <Content Include="Content\theme.metro-flat\custom.css" />
-    <Content Include="Content\theme.metro-flat\m-buttons.css" />
-    <Content Include="Content\theme.metro-flat\m-forms.css" />
-    <Content Include="Content\theme.metro-flat\m-icons.css" />
-    <Content Include="Content\theme.metro-flat\metro-tile.css" />
-    <Content Include="Content\theme.metro-flat\slider.css" />
-    <Content Include="Content\theme.metro-flat\style-slider.css" />
     <Content Include="Content\theme.slate\building.css">
       <DependentUpon>building.less</DependentUpon>
     </Content>
@@ -666,6 +672,42 @@
     </Content>
     <Content Include="Content\theme.slate\variables.min.css">
       <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\building.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\building.min.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\commercialspace.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\commercialspace.min.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\dashboard.css">
+      <DependentUpon>dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\dashboard.min.css">
+      <DependentUpon>dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\header.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\header.min.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\nav.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\nav.min.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.united\site.min.css">
+      <DependentUpon>site.less</DependentUpon>
     </Content>
     <Content Include="Content\_public.css" />
     <Content Include="favicon.ico" />
@@ -777,7 +819,15 @@
     <Content Include="Content\theme.metro-admin\header.less" />
     <Content Include="Content\theme.metro-admin\nav.less" />
     <Content Include="Content\theme.metro-admin\variables.less" />
-    <None Include="Content\theme.metro-flat\site.css.bundle" />
+    <Content Include="Content\theme.default\complaint.less" />
+    <Content Include="Content\theme.united\variables.less" />
+    <Content Include="Content\theme.united\building.less" />
+    <Content Include="Content\theme.united\commercialspace.less" />
+    <Content Include="Content\theme.united\dashboard.less" />
+    <Content Include="Content\theme.united\header.less" />
+    <Content Include="Content\theme.united\nav.less" />
+    <Content Include="Content\theme.united\site.less" />
+    <Content Include="Content\theme.metro-admin\rentalapplication.less" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\demo.js" />
@@ -835,13 +885,14 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
+    <Folder Include="Scripts\schemas\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App\services\Object.xslt">
+    <Content Include="App\schemas\_object.xslt">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App\services\ReferenceObject.xslt" />
-    <Content Include="App\services\Rent.js" />
+    <Content Include="App\schemas\ReferenceObject.xslt" />
+    <Content Include="App\partial\Rent.js" />
     <Content Include="App\viewmodels\admindashboard.js" />
     <Content Include="App\viewmodels\applicationlist.js" />
     <Content Include="App\viewmodels\building.list.js" />
@@ -854,7 +905,7 @@
     <Content Include="App\viewmodels\contract.details.js" />
     <Content Include="App\viewmodels\contract.list.js" />
     <Content Include="App\viewmodels\contract.template.list.js" />
-    <Content Include="App\viewmodels\contract.type.template.js" />
+    <Content Include="App\viewmodels\contract.template.js" />
     <Content Include="App\viewmodels\deposit.js" />
     <Content Include="App\viewmodels\floorplan.js" />
     <Content Include="App\viewmodels\home.js" />
@@ -895,7 +946,7 @@
     <Content Include="App\views\contract.details.html" />
     <Content Include="App\views\contract.list.html" />
     <Content Include="App\views\contract.template.list.html" />
-    <Content Include="App\views\contract.type.template.html" />
+    <Content Include="App\views\contract.template.html" />
     <Content Include="App\views\deposit.html" />
     <Content Include="App\views\floorplan.html" />
     <Content Include="App\views\footer.html" />
@@ -1269,8 +1320,8 @@
     <Content Include="Views\App\UserProfileHtml.cshtml" />
     <Content Include="Views\App\UserProfileJs.cshtml" />
     <Content Include="Views\App\RoleSettingsHtml.cshtml" />
-    <Content Include="Views\App\OfficerListHtml.cshtml" />
-    <Content Include="Views\App\OfficerListJs.cshtml" />
+    <Content Include="Views\App\WorkorderListHtml.cshtml" />
+    <Content Include="Views\App\WorkorderListJs.cshtml" />
     <Content Include="Views\App\TenantPortalHtml.cshtml" />
     <Content Include="Views\App\TenantPortalJs.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
@@ -1407,9 +1458,30 @@
     <Content Include="Views\Home\ContactUs.cshtml" />
     <Content Include="Views\Home\Features.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\MaintenanceDetailHtml.cshtml" />
     <Content Include="Views\ReportDefinition\_PieChartDesignerContextAction.cshtml" />
     <Content Include="Views\ReportDefinition\_Preview.cshtml" />
+    <Content Include="Views\ReportDefinition\_BarLineChartDesignerContextAction.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\HtmlElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\HtmlElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\HtmlElement.cshtml" />
+    <Content Include="Views\App\MaintenanceFormHtml.cshtml" />
+    <Content Include="Views\App\EditorTemplates\MaintenanceOfficerElement.cshtml" />
+    <Content Include="Views\App\MaintenanceListHtml.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\MaintenanceOfficerElement.cshtml" />
+    <Content Include="Views\App\MaintenanceListJs.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\MaintenanceOfficerElement.cshtml" />
+    <Content Include="Views\App\ReportDefinitionPreview.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\CustomListDefinitionElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\CustomListDefinitionElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\CustomListDefinitionElement.cshtml" />
+    <Content Include="Views\App\ComplaintAssignHtml.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\TextBox.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\ComboBox.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\ComplaintCategoryElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\TextAreaElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\BuildingBlocksElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\BuildingBlocksElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\BuildingBlocksElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
