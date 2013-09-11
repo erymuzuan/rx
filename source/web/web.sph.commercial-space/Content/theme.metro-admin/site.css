@@ -6,6 +6,17 @@
 }
 .google-maps {
   min-height: 700px;
+  margin-left: -480px !important;
+  width: 930px;
+}
+.google-maps #map {
+  width: 900px;
+  height: 500px;
+}
+.google-maps div.modal-body {
+  width: 900px;
+  height: 500px;
+  max-height: 500px;
 }
 .google-maps img {
   max-width: none;

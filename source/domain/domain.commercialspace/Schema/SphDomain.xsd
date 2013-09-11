@@ -202,6 +202,13 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element ref="Address"/>
+				<xs:element name="PhotoCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Photo" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="CommercialSpaceId" type="xs:int" use="required"/>
 			<xs:attribute name="BuildingId" type="xs:int" use="required"/>
@@ -972,6 +979,13 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Photo">
+		<xs:complexType>
+			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="StoreId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

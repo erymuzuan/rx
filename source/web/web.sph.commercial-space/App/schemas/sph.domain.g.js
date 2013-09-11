@@ -253,6 +253,7 @@ bespoke.sphcommercialspace.domain.CommercialSpace = function (webId) {
         LotCollection: ko.observableArray([]),
         CustomFieldValueCollection: ko.observableArray([]),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
+        PhotoCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1290,6 +1291,24 @@ bespoke.sphcommercialspace.domain.CustomListRow = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.CustomListRowPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.CustomListRowPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Photo = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.Photo, domain.commercialspace",
+        Title: ko.observable(''),
+        Description: ko.observable(''),
+        StoreId: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.PhotoPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.PhotoPartial(model));
     }
     return model;
 };
