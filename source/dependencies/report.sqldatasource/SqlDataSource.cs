@@ -248,8 +248,9 @@ namespace Bespoke.Sph.SqlReportDataSource
                             if (null == cvName) continue;
                             if (cvName.Value == c.Name)
                             {
-                                c.Value = cv.Attribute("Value").Value;
-                                continue;
+                                var valueAtribute = cv.Attribute("Value");
+                                if (null == valueAtribute) continue;
+                                c.Value = valueAtribute.Value;
                             }
                         }
                         continue;

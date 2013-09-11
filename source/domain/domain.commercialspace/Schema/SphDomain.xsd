@@ -324,13 +324,6 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="CustomFieldValueCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="CustomFieldValue" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
 			</xs:all>
 			<xs:attribute name="ContractTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>

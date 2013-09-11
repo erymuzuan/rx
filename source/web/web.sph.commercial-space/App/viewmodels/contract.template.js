@@ -145,16 +145,6 @@ define(['services/datacontext', 'services/logger', 'services/jsonimportexport'],
                         template().ContractTemplateId(0);
 
                     });
-            },
-            /////////////////////CUSTOM FIELD\\\\\\\\\\\\\\\\\\\\\\\\
-
-            addCustomField = function() {
-                var customField = new bespoke.sphcommercialspace.domain.CustomFieldValue();
-                vm.template().CustomFieldValueCollection.push(customField);
-            },
-            
-            removeCustomField = function(customField) {
-                vm.template().CustomFieldValueCollection.remove(customField);
             };
         
         var vm = {
@@ -175,9 +165,6 @@ define(['services/datacontext', 'services/logger', 'services/jsonimportexport'],
             startAddTopicCommand: startAddTopic,
             startAddClauseCommand: startAddClause,
             
-            addCustomFieldCommand: addCustomField,
-            removeCustomFieldCommand : removeCustomField,
-
             toolbar: {
                 saveCommand: save,
                 exportCommand: exportJson,

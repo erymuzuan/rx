@@ -1,6 +1,6 @@
 ﻿<div class="container-fluid">
-    <div class="row-fluid">
-        <h1 class="span12">Jenis kontrak</h1>
+    <div>
+        <h1>Tetapan kontrak</h1>
     </div>
 </div>
 <div class="tabbable">
@@ -18,7 +18,7 @@
     <div class="tab-content">
         <div class="tab-pane active" id="form-div">
 
-            <form class="form-horizontal" data-bind="with : template">
+            <form class="form-horizontal" data-bind="with: template">
                 <div class="control-group">
                     <label for="template-Type" class="control-label">Jenis</label>
                     <div class="controls">
@@ -81,21 +81,21 @@
                         <li>
                             <div>
                                 <a href="#" class="topic-title-link" data-bind="text: Title, click: $parent.selectTopicCommand"></a>
-                                <a data-toggle="modal" href="#topic-dialog" data-bind="click : $root.editTopic" class="topic-edit-link">Edit</a>
+                                <a data-toggle="modal" href="#topic-dialog" data-bind="click: $root.editTopic" class="topic-edit-link">Edit</a>
                             </div>
                         </li>
                     </ul>
                     <a type="button" class="btn btn-link"
-                       data-toggle="modal"
-                       href="#topic-dialog" data-bind="click: startAddTopicCommand">+ Topic</a>
+                        data-toggle="modal"
+                        href="#topic-dialog" data-bind="click: startAddTopicCommand">+ Topic</a>
 
                 </div>
                 <!-- if ko : $root.selectedTopic() -->
                 <div class="span8">
                     <a type="button" class="btn btn-link"
-                       data-toggle="modal"
-                       href="#clause-dialog"
-                       data-bind="click: startAddClauseCommand">+ Klaus</a>
+                        data-toggle="modal"
+                        href="#clause-dialog"
+                        data-bind="click: startAddClauseCommand">+ Klaus</a>
                     <ul class="nav nav-stacked listview" data-bind="foreach: $root.selectedTopic().ClauseCollection">
                         <li>
                             <div>
@@ -111,35 +111,38 @@
                 <!-- /ko -->
             </div>
         </div>
-        
-        <div class="tab-pane" id ="customFields-div">
-            <table id="Table1" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>ValuePath</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody data-bind="foreach: CustomFieldValueCollection">
-                            <tr>
-                                <td>
-                                    <input type="text" data-bind="value: Name, uniqueName: true" />
-                                </td>
-                                <td>
-                                    <input type="text" data-bind="value: Type, uniqueName: true" />
-                                </td>
-                                <td>
-                                     <input type="text" data-bind="value: Value, uniqueName: true" />
-                                </td>
-                                <td>
-                                    <button class="btn btn-link" title="Buang" data-bind="click: $parent.removeCustomFieldCommand">Buang</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+        <div class="tab-pane" id="customFields-div">
+            <form class="form-horizontal" data-bind="with: template">
+                <a class="btn btn-mini pull-right" data-bind="click: addCustomField"> + Custom Field</a>
+                <table id="Table1" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>ValuePath</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: CustomFieldCollection">
+                        <tr>
+                            <td>
+                                <input type="text" data-bind="value: Name, uniqueName: true" />
+                            </td>
+                            <td>
+                                <input type="text" data-bind="value: Type, uniqueName: true" />
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                <button class="btn btn-link" title="Buang" data-bind="click: $parent.removeCustomField.call($parent,$data)">Buang</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
         </div>
+
     </div>
 </div>
 
@@ -152,7 +155,7 @@
         <h3>Topic</h3>
     </div>
     <div class="modal-body">
-        <form data-bind="with : editedTopic">
+        <form data-bind="with: editedTopic">
             <div class="control-group">
                 <label for="topic-Title" class="control-label">Tajuk</label>
                 <div class="controls">
@@ -187,7 +190,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h3>Klaus</h3>
     </div>
-    <div class="modal-body" data-bind="with : $root.editedClause">
+    <div class="modal-body" data-bind="with: $root.editedClause">
         <form>
             <div class="control-group">
                 <label for="clause-Title" class="control-label">Tajuk</label>
@@ -199,14 +202,14 @@
                 <label for="clause-Text" class="control-label">Text</label>
                 <div class="controls">
                     <textarea class="input-large input-block-level" rows="5" data-bind="value: Text" id="clause-Text"
-                              name="topic.Text"></textarea>
+                        name="topic.Text"></textarea>
                 </div>
             </div>
             <div class="control-group">
                 <label for="clause-Description" class="control-label">Nota</label>
                 <div class="controls">
                     <textarea class="input-block-level" data-bind="value: Description" id="clause-Description" rows="3"
-                              name="clause.Description" />
+                        name="clause.Description" />
                 </div>
             </div>
 
