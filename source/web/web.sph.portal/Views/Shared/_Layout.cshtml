@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - SPH</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+</head>
+    <body>
+        <div class="row header">
+
+            <!-- NAV -->
+
+            <nav class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container">
+
+                        <a class="btn btn-navbar btntop" data-toggle="collapse" data-target=".nav-collapse">NAVIGATION</a>
+
+
+                        <h1 class="brand hidden-phone hidden-tablet">
+                            <a href="#">
+                                <img src="/Images/logo_sph.png" alt="">
+                            </a>
+                        </h1>
+            
+                        <div class="nav-collapse">
+                            <ul class="nav pull-right">
+                                <li>@Html.ActionLink("Home","Index","Home")</li>
+                                <li>@Html.ActionLink("Features","Features","Home")</li>
+                                <li><a href="http://demo.sph.my">Demo</a></li>
+                                <li>@Html.ActionLink("Pricing","Pricing","Home")</li>
+                                <li>@Html.ActionLink("FAQ","Faq","Home")</li>
+                                <li>@Html.ActionLink("Contact","Contact","Home")</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="pagination-centered mobilelogo hidden-desktop">                  
+            <a href="index.html">
+                <img src="/Images/logo_sph.png" alt="">
+            </a>
+      </div>
+
+        <!-----END Nav--->
+        <div id="body">
+            @RenderSection("featured", required: false)
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+        
+       
+       <!-- FOOTER -->
+           <div class="row-fluid">
+
+            <div class="container footer">
+
+              <!-- Copyright and contact -->
+
+              <div class="span4 address">
+
+              ©2013 Bespoke Technology Sdn Bhd <a href="http://www.bespoke.com.my"></a>
+              <br>47400 Petaling Jaya
+              <br>Selangor
+
+              </div>
+
+               <!-- Sign Up -->
+
+            <div class="span5 pull-right footer-newsletter">
+              <h2>Sign Up For Free</h2>
+                <p>Try before you buy. Create an account today and build for FREE!</p>
+                  <form action="mail.php" id="subscribe-form" method="post">
+                    <input type="text" name="email" id="email" placeholder="Your Email Address" class="input-text m-wrap m-ctrl">
+                    <button type="submit" class="m-btn blue">Sign Up</button>
+                  </form>
+            </div>
+              </div>
+
+            </div>
+          
+
+
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
