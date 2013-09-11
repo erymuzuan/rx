@@ -23,7 +23,7 @@ namespace web.test
                 Department = "Test",
                 Designation = "Boss",
                 Password = "123456",
-                Roles = new[] { "admin_user" }
+                Roles = new[] { "admin_user", "admin_dashboard" }
             };
             this.AddUser(m_admin);
         }

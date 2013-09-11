@@ -239,6 +239,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public const string PropertyNameRegistrationNo = "RegistrationNo";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_username;
+        public const string PropertyNameUsername = "Username";
+
+
         private readonly ObjectCollection<ContractHistory> m_ContractHistoryCollection = new ObjectCollection<ContractHistory>();
 
         ///<summary>
@@ -529,6 +534,35 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_registrationNo;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Username
+        {
+            set
+            {
+                if (String.Equals(m_username, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameUsername, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_username = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_username;
             }
         }
 

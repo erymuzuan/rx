@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Bespoke.SphCommercialSpaces.Domain;
@@ -11,12 +8,12 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public class TenantController : Controller
     {
-        public async Task<ActionResult> Create(int id)
+        public async Task<ActionResult> Create(int id, string username)
         {
             var context = new SphDataContext();
            
             var application = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            var tenant = await context.LoadOneAsync<Tenant>(t => t.IdSsmNo == application.CompanyRegistrationNo || t.IdSsmNo == application.Contact.IcNo) ?? new Tenant{};
+            var tenant = await context.LoadOneAsync<Tenant>(t => t.IdSsmNo == application.CompanyRegistrationNo || t.IdSsmNo == application.Contact.IcNo) ?? new Tenant();
 
             if (tenant.TenantId > 0) return Json(false);
 
@@ -28,6 +25,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             tenant.Email = application.Contact.Email;
             tenant.RegistrationNo = application.RegistrationNo;
             tenant.Address = application.Address;
+            tenant.Username = username;
             
             var userprofile = await CreateUserProfile(tenant);
 
@@ -53,7 +51,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                     Designation = designation.Name,
                     Email = tenant.Email,
                     Telephone = string.Join(",", new[]{tenant.Phone,tenant.MobilePhone}),
-                    Username = tenant.IdSsmNo,
+                    Username = tenant.Username,
                     RoleTypes = string.Join(",",roles)
                 };
 

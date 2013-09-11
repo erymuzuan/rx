@@ -150,8 +150,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         },
 
         createTenant = function () {
+            var username = vm.rentalapplication().Contact().IcNo() || vm.rentalapplication().CompanyRegistrationNo();
+            username = prompt('Nama pengguna untuk penyewa baru', username);
             var tcs = new $.Deferred();
-            var data = JSON.stringify({ id: vm.rentalapplication().RentalApplicationId() });
+            var data = JSON.stringify({
+                id: vm.rentalapplication().RentalApplicationId(),
+                username: username
+            });
             context.post(data, "/Tenant/Create").done(function (e) {
                 logger.log("Penyewa dijana ", e, "rentalapplication.verify", true);
                 tcs.resolve(true);
@@ -190,6 +195,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         showDetailsCommand: showDetails,
         addAttachmentCommand: addAttachment,
+        username : ko.observable(),
         removeAttachmentCommand: removeAttachment,
         toolbar: ko.observable({
             reloadCommand: function () {

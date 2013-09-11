@@ -8,11 +8,11 @@
 	function (context, rentvm, contractvm, complaintListvm, cfvm, paymentvm) {
 
 	    var isBusy = ko.observable(false),
-        idSsm = ko.observable(),
+        userName = ko.observable(),
         tenant = new bespoke.sphcommercialspace.domain.Tenant(),
         activate = function () {
-            idSsm('@Html.Raw(username)');
-            var query = String.format("IdSsmNo eq '{0}'", idSsm());
+            userName('@Html.Raw(username)');
+            var query = String.format("Username eq '{0}'", userName());
             var tcs = new $.Deferred();
             var detailLoaded = function (tnt) {
                 vm.tenant(tnt);

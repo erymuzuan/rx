@@ -19,3 +19,7 @@ CREATE TABLE [Sph].[Tenant]
 	,[ChangedBy] VARCHAR(255) NULL
 
 )
+
+GO
+ALTER TABLE  [Sph].[Tenant]
+ADD [Username] NVARCHAR(255) NOT NULL DEFAULT ''
