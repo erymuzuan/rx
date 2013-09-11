@@ -82,7 +82,7 @@ ko.bindingHandlers.date = {
         var value = ko.utils.unwrapObservable(valueAccessor());
 
         var date = moment(value.value());
-        if (date.year() == 1) { // DateTime.Min
+        if (null === date || date.year() == 1) { // DateTime.Min
             $(element).text("");
             $(element).val("");
         } else {
@@ -102,7 +102,7 @@ ko.bindingHandlers.date = {
     update: function (element, valueAccessor) {
         var value = ko.utils.unwrapObservable(valueAccessor());
         var date = moment(value.value());
-        if (date.year() == 1) { // DateTime.Min
+        if (null === date || date.year() == 1) { // DateTime.Min
             $(element).text("");
             $(element).val("");
 

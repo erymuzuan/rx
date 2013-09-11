@@ -11,6 +11,9 @@
         <li>
             <a href="#topics-div" data-toggle="tab">Topics dan Klaus</a>
         </li>
+        <li>
+            <a href="#customFields-div" data-toggle="tab">Lain-lain</a>
+        </li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="form-div">
@@ -107,6 +110,35 @@
 
                 <!-- /ko -->
             </div>
+        </div>
+        
+        <div class="tab-pane" id ="customFields-div">
+            <table id="Table1" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>ValuePath</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: CustomFieldValueCollection">
+                            <tr>
+                                <td>
+                                    <input type="text" data-bind="value: Name, uniqueName: true" />
+                                </td>
+                                <td>
+                                    <input type="text" data-bind="value: Type, uniqueName: true" />
+                                </td>
+                                <td>
+                                     <input type="text" data-bind="value: Value, uniqueName: true" />
+                                </td>
+                                <td>
+                                    <button class="btn btn-link" title="Buang" data-bind="click: $parent.removeCustomFieldCommand">Buang</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
         </div>
     </div>
 </div>
