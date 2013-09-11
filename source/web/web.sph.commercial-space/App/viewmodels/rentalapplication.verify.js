@@ -42,6 +42,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                         .then(function (b) {
                             if (typeof vm.commercialSpace().StaticMap !== "function") {
                                 vm.commercialSpace().StaticMap = ko.observable(b);
+                            } else {
+                                vm.commercialSpace().StaticMap(b);
                             }
                         });
                 });
