@@ -569,6 +569,12 @@
     <Content Include="Content\theme.metro-admin\nav.min.css">
       <DependentUpon>nav.less</DependentUpon>
     </Content>
+    <Content Include="Content\theme.metro-admin\rentalapplication.css">
+      <DependentUpon>rentalapplication.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\rentalapplication.min.css">
+      <DependentUpon>rentalapplication.less</DependentUpon>
+    </Content>
     <Content Include="Content\theme.metro-admin\site.css">
       <DependentUpon>site.less</DependentUpon>
     </Content>
@@ -820,6 +826,7 @@
     <Content Include="Content\theme.united\header.less" />
     <Content Include="Content\theme.united\nav.less" />
     <Content Include="Content\theme.united\site.less" />
+    <Content Include="Content\theme.metro-admin\rentalapplication.less" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\demo.js" />
