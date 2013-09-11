@@ -137,6 +137,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 item.Status = building.Status;
                 item.FloorCollection.ClearAndAddRange(building.FloorCollection);
                 item.CustomFieldValueCollection.ClearAndAddRange(building.CustomFieldValueCollection);
+                item.CustomListValueCollection.ClearAndAddRange(building.CustomListValueCollection);
             }
 
             var errorMessage = new StringBuilder();

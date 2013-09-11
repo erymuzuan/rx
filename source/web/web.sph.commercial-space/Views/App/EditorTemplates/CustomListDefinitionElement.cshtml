@@ -26,6 +26,10 @@
                         {
                             <input class="input-small" type="number" data-bind="value: CustomField('@c.Name'), uniqueName: true" />
                         }
+                        @if (c.Type == typeof(decimal).AssemblyQualifiedName)
+                        {
+                            <input class="input-small" type="number" data-bind="value: CustomField('@c.Name'), uniqueName: true" />
+                        }
                         @if (c.Type == typeof(bool).AssemblyQualifiedName)
                         {
                             <input class="input-small" type="checkbox" data-bind="checked: CustomField('@c.Name'), uniqueName: true" />

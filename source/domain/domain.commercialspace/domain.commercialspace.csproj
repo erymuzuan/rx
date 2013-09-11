@@ -101,7 +101,6 @@
     <Compile Include="FormTemplates\CommercialSpaceTemplate.cs" />
     <Compile Include="Business\Complaint.cs" />
     <Compile Include="FormTemplates\ComplaintCategory.cs" />
-    <Compile Include="FormTemplates\ComplaintCustomField.cs" />
     <Compile Include="FormTemplates\ComplaintSubCategory.cs" />
     <Compile Include="FormTemplates\ComplaintTemplate.cs" />
     <Compile Include="Business\Contact.cs" />

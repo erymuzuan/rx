@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -34,6 +33,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private DateTime m_dateStart;
         public const string PropertyNameDateStart = "DateStart";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -125,6 +129,33 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_dateStart;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
             }
         }
 
@@ -234,6 +265,17 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 m_address = value;
                 OnPropertyChanged();
             }
+        }
+
+        private readonly ObjectCollection<CustomFieldValue> m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("CustomFieldValue", IsNullable = false)]
+        public ObjectCollection<CustomFieldValue> CustomFieldValueCollection
+        {
+            get { return m_CustomFieldValueCollection; }
         }
 
         ///<summary>
@@ -5057,6 +5099,17 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 m_extension = value;
                 OnPropertyChanged();
             }
+        }
+
+        private readonly ObjectCollection<CustomFieldValue> m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("CustomFieldValue", IsNullable = false)]
+        public ObjectCollection<CustomFieldValue> CustomFieldValueCollection
+        {
+            get { return m_CustomFieldValueCollection; }
         }
 
         ///<summary>
@@ -13209,15 +13262,15 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
 
 
-        private readonly ObjectCollection<CustomFieldValue> m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue>();
+        private readonly ObjectCollection<CustomListRow> m_CustomListRowCollection = new ObjectCollection<CustomListRow>();
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("CustomFieldValue", IsNullable = false)]
-        public ObjectCollection<CustomFieldValue> CustomFieldValueCollection
+        [XmlArrayItem("CustomListRow", IsNullable = false)]
+        public ObjectCollection<CustomListRow> CustomListRowCollection
         {
-            get { return m_CustomFieldValueCollection; }
+            get { return m_CustomListRowCollection; }
         }
 
         ///<summary>
@@ -13327,6 +13380,29 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 }
             }
             get { return m_maxOccurence; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("CustomListRow", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class CustomListRow
+    {
+
+        private readonly ObjectCollection<CustomFieldValue> m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("CustomFieldValue", IsNullable = false)]
+        public ObjectCollection<CustomFieldValue> CustomFieldValueCollection
+        {
+            get { return m_CustomFieldValueCollection; }
         }
 
 
@@ -13543,3 +13619,4 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
 }
 // ReSharper restore InconsistentNaming
+

@@ -38,6 +38,9 @@ namespace web.test
         public static IWebDriver Value(this IWebDriver driver, string selector, string text, int index = 0, int wait = 0)
         {
             var list = driver.FindElements(By.CssSelector(selector));
+            if (list.Count <= index) throw new ArgumentException(string.Format("There's only {0} elements for {1} selector", list.Count, selector));
+
+           
             var element = list[index];
 
             var ag = string.Format("{0}", element.TagName).ToLower();
@@ -77,9 +80,17 @@ namespace web.test
             return driver;
         }
 
-        public static IWebDriver SelectOption(this IWebDriver driver, string selector, string text)
+        public static IWebDriver SelectOption(this IWebDriver driver, string selector, string text, int index = 0, bool selectByText = true)
         {
-            new SelectElement(driver.FindElement(By.CssSelector(selector))).SelectByText(text);
+            var elements = driver.FindElements(By.CssSelector(selector));
+            if (elements.Count <= index) throw new ArgumentException(string.Format("There's only {0} elements for {1} selector", elements.Count, selector));
+
+            var select = new SelectElement(elements[index]);
+
+            if (selectByText)
+                select.SelectByText(text);
+            else
+                select.SelectByValue(text);
             return driver;
         }
 

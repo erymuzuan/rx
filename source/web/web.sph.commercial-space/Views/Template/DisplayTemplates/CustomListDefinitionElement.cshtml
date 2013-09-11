@@ -12,16 +12,33 @@
             </tr>
         </thead>
         <tbody>
+            @for (int i = 0; i < 5; i++)
+            {
             <tr data-bind="foreach: CustomFieldCollection">
                 <td>
-                    <input class="input-small" type="text" data-bind2="value: Number, uniqueName: true" value="G" /></td>
+                    <!-- ko if: Type() === '@typeof(string).AssemblyQualifiedName'-->
+                    <input class="input-small" type="text" value="sample data" />
+                    <!--/ko-->
+                    <!-- ko if: Type() === '@typeof(bool).AssemblyQualifiedName'-->
+                    <input class="input-small" type="checkbox" value="" checked="@(i % 2 ==0? "checked": "")" />
+                    <!--/ko-->
+                    <!-- ko if: Type() === '@typeof(DateTime).AssemblyQualifiedName'-->
+                    <div class="input-append">
+                        <input class="input-small" type="text" value="@DateTime.Today.ToShortDateString()" />
+                        <i class="icon-calendar add-on"></i>
+                    </div>
+                    <!--/ko-->
+                    <!-- ko if: Type() === '@typeof(int).AssemblyQualifiedName'-->
+                    <input class="input-small" type="number" value="@i" />
+                    <!--/ko-->
+                    <!-- ko if: Type() === '@typeof(decimal).AssemblyQualifiedName'-->
+                    <input class="input-small" type="number" value="@(i).00" />
+                    <!--/ko-->
+                </td>
 
             </tr>
-            <tr data-bind="foreach: CustomFieldCollection">
-                <td>
-                    <input class="input-small" type="text" data-bind2="value: Number, uniqueName: true" value="G" /></td>
-
-            </tr>
+  
+            }
         </tbody>
     </table>
 </div>

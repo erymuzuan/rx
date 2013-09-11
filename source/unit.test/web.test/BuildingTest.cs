@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 using FluentDateTime;
 
 namespace web.test
@@ -41,6 +39,7 @@ namespace web.test
         }
 
         [Test]
+        // ReSharper disable  InconsistentNaming
         public void _001_AddBuildingTemplate()
         {
             this.ExecuteNonQuery("DELETE FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
@@ -50,7 +49,7 @@ namespace web.test
             var driver = this.InitiateDriver();
             driver.Login(m_buildingAdmin);
             driver.NavigateToUrl("/#building.template.list", 2.Seconds())
-                  .NavigateToUrl("/#/template.building-id.0/0", 3.Seconds());
+                  .NavigateToUrl("/#/template.building-id.0/0", 4.Seconds());
 
             // add elements
             driver.Value("[name=Building-template-category]", BUILDING_TEMPLATE_NAME)
@@ -118,9 +117,36 @@ namespace web.test
                   .Value("[name=Path]", "FloorCollection")
                   ;
 
-            driver.Click("#save-button");
+            // custom list collection
+            driver.ClickFirst("a", e => e.Text == "Add a field")
+                  .ClickFirst("a", e => e.Text == "List")
+                  .ClickFirst("a", e => e.Text == "Fields settings")
+                  .Value("[name=Label]", "Senarai Pegawai Bertugas")
+                  .Value("[name=Path]", "Pegawai Bertugas")
+                  ;
 
-            driver.Sleep(TimeSpan.FromSeconds(3));
+            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
+                .Value("input[type=text].custom-list-name", "Nama Penuh")
+                .SelectOption("select.custom-list-type", typeof(string).AssemblyQualifiedName, 0, false);
+
+            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
+                .Value("input[type=text].custom-list-name", "Umur", 1)
+                .SelectOption("select.custom-list-type", typeof(int).AssemblyQualifiedName, 1, false);
+
+            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
+                .Value("input[type=text].custom-list-name", "Dob", 2)
+                .SelectOption("select.custom-list-type", typeof(DateTime).AssemblyQualifiedName, 2, false);
+
+            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
+                .Value("input[type=text].custom-list-name", "Tetap", 3)
+                .SelectOption("select.custom-list-type", typeof(bool).AssemblyQualifiedName, 3, false);
+
+            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
+                .Value("input[type=text].custom-list-name", "Gaji", 4)
+                .SelectOption("select.custom-list-type", typeof(decimal).AssemblyQualifiedName, 4, false);
+
+            driver.Click("#save-button")
+                .Sleep(5.Seconds());
 
 
             var latest = this.GetDatabaseScalarValue<int>("SELECT MAX([BuildingTemplateId]) FROM [Sph].[BuildingTemplate]");
@@ -143,9 +169,9 @@ namespace web.test
 
             var driver = this.InitiateDriver();
             driver.Login(m_buildingAdmin);
-            driver.NavigateToUrl("/#/building.list",2.Seconds());
+            driver.NavigateToUrl("/#/building.list", 2.Seconds());
 
-            driver.NavigateToUrl(String.Format("/#/building.detail-templateid.{0}/{0}/0", templateId),5.Seconds());
+            driver.NavigateToUrl(String.Format("/#/building.detail-templateid.{0}/{0}/0", templateId), 5.Seconds());
 
             driver.Value("[name='ConsessionName']", "Putrajaya Holding");
 
@@ -193,7 +219,7 @@ namespace web.test
         {
             var id = this.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_NAME));
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
-            
+
             var driver = this.InitiateDriver();
             driver.Login(m_buildingAdmin);
             driver.Sleep(TimeSpan.FromSeconds(2))
