@@ -10,7 +10,8 @@ bespoke.sphcommercialspace.domain = bespoke.sphcommercialspace.domain || {};
 
 
 bespoke.sphcommercialspace.domain.BuildingPartial = function () {
-    var getCustomField = function (name) {
+    var system = require('durandal/system'),
+        getCustomField = function (name) {
         var cs = _(this.CustomFieldValueCollection()).find(function (v) {
             return v.Name() === name;
         });
@@ -34,7 +35,6 @@ bespoke.sphcommercialspace.domain.BuildingPartial = function () {
                 var list = _(this.CustomListValueCollection()).find(function (v) {
                     return v.Name() === name;
                 });
-                var system = require('durandal/system');
                 var row = new bespoke.sphcommercialspace.domain.CustomListRow(system.guid());
                 var columns = _(list.CustomFieldCollection()).map(function (f) {
                     var webid = system.guid();
@@ -48,10 +48,21 @@ bespoke.sphcommercialspace.domain.BuildingPartial = function () {
                 list.CustomListRowCollection.push(row);
 
             };
+        },
+        addBlock = function() {
+            this.BlockCollection.push(new bespoke.sphcommercialspace.domain.Block(system.guid()));
+        },
+        removeBlock = function (block) {
+            var self = this;
+            return function() {
+                self.BlockCollection.remove(block);
+            };
         };
     return {
         CustomField: getCustomField,
         CustomList: getCustomList,
-        addCustomListItem: addCustomListItem
+        addCustomListItem: addCustomListItem,
+        addBlock: addBlock,
+        removeBlock : removeBlock
     };
 };

@@ -15,6 +15,7 @@ bespoke.sphcommercialspace.domain.ContractHistory = function (webId) {
         ContractNo: ko.observable(''),
         DateFrom: ko.observable(moment().format('DD/MM/YYYY')),
         DateStart: ko.observable(moment().format('DD/MM/YYYY')),
+        Name: ko.observable(''),
         DateEnd: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -40,8 +41,10 @@ bespoke.sphcommercialspace.domain.Tenant = function (webId) {
         MobilePhone: ko.observable(''),
         Email: ko.observable(''),
         RegistrationNo: ko.observable(''),
+        Username: ko.observable(''),
         ContractHistoryCollection: ko.observableArray([]),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
+        CustomFieldValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -115,6 +118,26 @@ bespoke.sphcommercialspace.domain.Building = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.BuildingPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.BuildingPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.Block = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.Block, domain.commercialspace",
+        Name: ko.observable(''),
+        Description: ko.observable(''),
+        Size: ko.observable(''),
+        FloorPlanStoreId: ko.observable(''),
+        FloorCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.BlockPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.BlockPartial(model));
     }
     return model;
 };
@@ -415,6 +438,7 @@ bespoke.sphcommercialspace.domain.Contract = function (webId) {
         TopicCollection: ko.observableArray([]),
         Termination: ko.observable(new bespoke.sphcommercialspace.domain.Termination()),
         Extension: ko.observable(new bespoke.sphcommercialspace.domain.Extension()),
+        CustomFieldValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1230,23 +1254,6 @@ bespoke.sphcommercialspace.domain.Message = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.MessagePartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.MessagePartial(model));
-    }
-    return model;
-};
-
-
-
-bespoke.sphcommercialspace.domain.Block = function (webId) {
-
-    var model = {
-        "$type": "Bespoke.SphCommercialSpaces.Domain.Block, domain.commercialspace",
-        Name: ko.observable(''),
-        FloorCollection: ko.observableArray([]),
-        isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
-    };
-    if (bespoke.sphcommercialspace.domain.BlockPartial) {
-        return _(model).extend(new bespoke.sphcommercialspace.domain.BlockPartial(model));
     }
     return model;
 };

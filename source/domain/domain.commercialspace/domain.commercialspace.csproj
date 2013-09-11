@@ -84,6 +84,7 @@
     <Compile Include="Business\Address.cs" />
     <Compile Include="Business\AdhocInvoice.cs" />
     <Compile Include="Business\Block.cs" />
+    <Compile Include="Business\CustomListRow.cs" />
     <Compile Include="Business\CustomListValue.cs" />
     <Compile Include="FormTemplates\ApplicationTemplate.cs" />
     <Compile Include="assemblyinfo.cs" />

@@ -24,6 +24,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [XmlInclude(typeof(HtmlElement))]
     [XmlInclude(typeof(CustomListDefinitionElement))]
     [XmlInclude(typeof(MaintenanceOfficerElement))]
+    [XmlInclude(typeof(BuildingBlocksElement))]
     public partial class FormElement : DomainObject
     {
         public virtual CustomField GenerateCustomField()

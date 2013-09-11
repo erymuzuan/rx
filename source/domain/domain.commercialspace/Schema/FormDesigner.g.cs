@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -1759,6 +1760,18 @@ namespace Bespoke.SphCommercialSpaces.Domain
             }
         }
 
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("BuildingBlocksElement", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class BuildingBlocksElement
+    {
 
 
     }

@@ -87,12 +87,6 @@ define(['services/datacontext',
                     });
 
 
-
-
-
-
-
-
                 return tcs.promise();
             },
             addLot = function (floor) {
