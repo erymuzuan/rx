@@ -34,6 +34,11 @@ namespace web.test
 
             return driver;
         }
+        public static IWebDriver LogOff(this IWebDriver driver)
+        {
+            driver.NavigateToUrl("/Account/Logoff");
+            return driver;
+        }
 
         public static IWebDriver Value(this IWebDriver driver, string selector, string text, int index = 0, int wait = 0)
         {

@@ -29,6 +29,7 @@ namespace web.test
             this.AddUser(m_prosenggara);
         }
 
+        // ReSharper disable InconsistentNaming
         [Test]
         public void _001_AddMaintenanceTemplate()
         {

@@ -3,8 +3,6 @@ using System.Data.SqlClient;
 using System.Globalization;
 using FluentDateTime;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 
 namespace web.test
 {
@@ -41,6 +39,7 @@ namespace web.test
             _006_CreateTenantForSuccessApplication();
         }
 
+        // ReSharper disable InconsistentNaming
         [Test]
         public void _001_MoveNewApplicationIntoWaitingList()
         {

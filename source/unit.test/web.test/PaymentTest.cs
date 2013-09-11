@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Xml.Linq;
-using Bespoke.SphCommercialSpaces.Domain;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 using FluentDateTime;
 
 namespace web.test
@@ -44,6 +41,7 @@ namespace web.test
             _004_RentalPayment();
         }
 
+        // ReSharper disable InconsistentNaming
         [Test]
         public void _001_CreateDeposit()
         {
@@ -101,7 +99,7 @@ namespace web.test
                 .Login(m_cashier)
                 .NavigateToUrl("/#/deposit",3.Seconds());
 
-            driver.ClickFirst("a",e => e.Text == max.ToString())
+            driver.ClickFirst("a",e => e.Text == max.ToString(CultureInfo.InvariantCulture))
                 .Sleep(2.Seconds());
             driver
                 .Click("#add-deposit-button")
@@ -119,7 +117,7 @@ namespace web.test
             driver.Click("#remove-deposit-payment", 1);
             driver.Click(".save-deposit-payment-button");
 
-            driver.ClickFirst("a", e => e.Text == max.ToString())
+            driver.ClickFirst("a", e => e.Text == max.ToString(CultureInfo.InvariantCulture))
                .Sleep(2.Seconds());
             driver.Sleep(TimeSpan.FromSeconds(3));
 

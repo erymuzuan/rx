@@ -29,6 +29,7 @@ namespace web.test
             this.AddUser(m_cashier);
         }
 
+        // ReSharper disable InconsistentNaming
         [Test]
         public void _001_AddRebate()
         {

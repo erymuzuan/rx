@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 using FluentDateTime;
 
 namespace web.test
@@ -40,6 +38,7 @@ namespace web.test
         }
 
         [Test]
+        // ReSharper disable InconsistentNaming
         public void _001_AddNewContractTemplate()
         {
             this.ExecuteNonQuery("DELETE FROM [Sph].[ContractTemplate] WHERE [Type] =@Type", new SqlParameter("@Type", CONTRACT_TEMPLATE_TYPE));

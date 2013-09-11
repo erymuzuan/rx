@@ -31,6 +31,7 @@ namespace web.test
         public const string USERNAME = "izzati";
 
         [Test]
+// ReSharper disable InconsistentNaming
         public void _001_AddUser()
         {
             this.ExecuteNonQuery("DELETE FROM [Sph].[UserProfile] WHERE [UserName] = @UserName",

@@ -2,8 +2,6 @@
 using System.Data.SqlClient;
 using FluentDateTime;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 
 namespace web.test
 {
@@ -43,7 +41,7 @@ namespace web.test
         }
 
         [Test]
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         public void _001_AddApplicationTemplate()
         {
             this.ExecuteNonQuery("DELETE FROM [Sph].[ApplicationTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", APP_TEMPLATE_NAME));
@@ -64,38 +62,38 @@ namespace web.test
                   ;
 
             //IsCompany
-           driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Checkboxes")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Permohonan Syarikat")
-                  .Value("[name=Path]", "IsCompany");
+            driver.ClickFirst("a", e => e.Text == "Add a field")
+                   .ClickFirst("a", e => e.Text == "Checkboxes")
+                   .ClickFirst("a", e => e.Text == "Fields settings")
+                   .Value("[name=Label]", "Permohonan Syarikat")
+                   .Value("[name=Path]", "IsCompany");
 
             //Company Name
-           driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Single line text")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Nama Syarikat")
-                  .Value("[name=Path]", "CompanyName")
-                  .Value("[name=Visible]", "IsCompany");
+            driver.ClickFirst("a", e => e.Text == "Add a field")
+                   .ClickFirst("a", e => e.Text == "Single line text")
+                   .ClickFirst("a", e => e.Text == "Fields settings")
+                   .Value("[name=Label]", "Nama Syarikat")
+                   .Value("[name=Path]", "CompanyName")
+                   .Value("[name=Visible]", "IsCompany");
 
             //Company SSM No
-           driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Single line text")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "SSM No")
-                  .Value("[name=Path]", "CompanyRegistrationNo")
-                  .Value("[name=Visible]", "IsCompany");
-            
+            driver.ClickFirst("a", e => e.Text == "Add a field")
+                   .ClickFirst("a", e => e.Text == "Single line text")
+                   .ClickFirst("a", e => e.Text == "Fields settings")
+                   .Value("[name=Label]", "SSM No")
+                   .Value("[name=Path]", "CompanyRegistrationNo")
+                   .Value("[name=Visible]", "IsCompany");
+
             //Header
-           driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Section")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Section")
-                  .Value("[name=Visible]", "IsCompany");
-            
+            driver.ClickFirst("a", e => e.Text == "Add a field")
+                   .ClickFirst("a", e => e.Text == "Section")
+                   .ClickFirst("a", e => e.Text == "Fields settings")
+                   .Value("[name=Label]", "Section")
+                   .Value("[name=Visible]", "IsCompany");
+
             //contact
-           driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Contact");
+            driver.ClickFirst("a", e => e.Text == "Add a field")
+                   .ClickFirst("a", e => e.Text == "Contact");
 
             // address
             driver.ClickFirst("a", e => e.Text == "Add a field")
@@ -120,20 +118,20 @@ namespace web.test
 
 
         [Test]
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public void _002_SubmitNewIndividualRentalApplication()
         {
             this.ExecuteNonQuery("DELETE FROM [Sph].[RentalApplication] WHERE [ContactIcNo] =@No", new SqlParameter("@No", RA_IC_NO));
             var max = this.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [ApplicationTemplateId] FROM [Sph].[ApplicationTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", APP_TEMPLATE_NAME));
             var csId = this.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
-            
+
             var driver = this.InitiateDriver();
             driver.Login(m_appTemplateAdmin)
-                .NavigateToUrl("/#/rentalapplication.selectspace",3.Seconds());
+                .NavigateToUrl("/#/rentalapplication.selectspace", 3.Seconds());
 
             driver
-                .NavigateToUrl(string.Format("/#/application.detail-templateid.{0}/{1}",templateId,csId),3.Seconds());
+                .NavigateToUrl(string.Format("/#/application.detail-templateid.{0}/{1}", templateId, csId), 3.Seconds());
             driver
                 .Value("[name='Name']", "WAN HUDA BIN WAN ALI")
                 .Value("[name='IcNo']", RA_IC_NO)
@@ -155,7 +153,7 @@ namespace web.test
         }
 
         [Test]
-// ReSharper disable once InconsistentNaming
+        // ReSharper disable once InconsistentNaming
         public void _003_SubmitNewCompanyRentalApplication()
         {
             this.ExecuteNonQuery("DELETE FROM [Sph].[RentalApplication] WHERE [CompanyRegistrationNo] =@No", new SqlParameter("@No", RA_COMPANYREGISTRATION_NO));
@@ -163,12 +161,12 @@ namespace web.test
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [ApplicationTemplateId] FROM [Sph].[ApplicationTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", APP_TEMPLATE_NAME));
             var csId = this.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
 
-            IWebDriver driver = new FirefoxDriver();
-            driver.Navigate().GoToUrl(WEB_RUANG_KOMERCIAL_URL + "/#/rentalapplication.selectspace");
-            driver.Sleep(TimeSpan.FromSeconds(3));
+            var driver = this.InitiateDriver();
             driver
-                .NavigateToUrl(string.Format("/#/application.detail-templateid.{0}/{1}", templateId, csId));
-            driver.Sleep(TimeSpan.FromSeconds(3));
+                .LogOff()
+                .NavigateToUrl("/#/rentalapplication.selectspace", 2.Seconds())
+                .NavigateToUrl(string.Format("/#/application.detail-templateid.{0}/{1}", templateId, csId), 3.Seconds());
+
             driver
                 .Click("[name='IsCompany']")
                 .Value("[name='CompanyName']", "CEKAL WIBAWA RESOURCES")

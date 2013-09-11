@@ -28,6 +28,7 @@ namespace web.test
         }
 
         [Test]
+// ReSharper disable InconsistentNaming
         public void _001_TenantComplaint()
         {
             var max = this.GetDatabaseScalarValue<int>("SELECT MAX([ComplaintId]) FROM [Sph].[Complaint]");
