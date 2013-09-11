@@ -298,6 +298,20 @@ bespoke.sphcommercialspace.domain.BuildingMapElement = function (webId) {
 
 
 
+bespoke.sphcommercialspace.domain.BuildingBlocksElement = function (webId) {
+
+    var v = new bespoke.sphcommercialspace.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.SphCommercialSpaces.Domain.BuildingBlocksElement, domain.commercialspace";
+
+    if (bespoke.sphcommercialspace.domain.BuildingBlocksElementPartial) {
+        return _(v).extend(new bespoke.sphcommercialspace.domain.BuildingBlocksElementPartial(v));
+    }
+    return v;
+};
+
+
+
 bespoke.sphcommercialspace.domain.BuildingFloorsElement = function (webId) {
 
     var v = new bespoke.sphcommercialspace.domain.FormElement(webId);

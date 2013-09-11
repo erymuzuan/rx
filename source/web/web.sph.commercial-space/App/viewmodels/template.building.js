@@ -7,7 +7,7 @@
 /// <reference path="../../Scripts/_task.js" />
 /// <reference path="../../Scripts/_constants.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/domain.g.js" />
+/// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
@@ -36,6 +36,11 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 floorsElement.CssClass("icon-table pull-left");
                 floorsElement.Name("Floors Table");
                 customElements.push(floorsElement);
+                
+                var blocksElement = new bespoke.sphcommercialspace.domain.BuildingBlocksElement();
+                blocksElement.CssClass("icon-building pull-left");
+                blocksElement.Name("Blocks Table");
+                customElements.push(blocksElement);
 
                 templateBase.activate(customElements);
 

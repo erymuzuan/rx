@@ -117,6 +117,23 @@
 			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Block">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="FloorCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Floor" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="Size" type="xs:string" use="required"/>
+			<xs:attribute name="FloorPlanStoreId" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="LatLng">
 		<xs:complexType>
 			<xs:all>
@@ -932,20 +949,6 @@
 			<xs:attribute name="IsRead" type="xs:boolean" use="required"/>
 			<xs:attribute name="Body" type="xs:string" use="required"/>
 			<xs:attribute name="UserName" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Block">
-		<xs:complexType>
-			<xs:all>
-				<xs:element name="FloorCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Floor" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:all>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CustomListValue">

@@ -1471,6 +1471,9 @@
     <Content Include="Views\App\DisplayTemplates\ComboBox.cshtml" />
     <Content Include="Views\App\DisplayTemplates\ComplaintCategoryElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\TextAreaElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\BuildingBlocksElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\BuildingBlocksElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\BuildingBlocksElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

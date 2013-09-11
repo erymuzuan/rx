@@ -2,7 +2,6 @@
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -15,7 +14,7 @@ namespace Bespoke.Sph.SqlReportDataSource
     public class SqlDataSource : IReportDataSource
     {
 
-        private void GetColumns(ObjectCollection<ReportColumn> columns, Type type, string root = "")
+        public void GetColumns(ObjectCollection<ReportColumn> columns, Type type, string root = "")
         {
             var nativeTypes = new[] { typeof(string), typeof(int),typeof(DateTime), typeof(decimal), typeof(double), typeof(float), typeof(bool) ,
                 typeof(int?),typeof(DateTime?), typeof(decimal?), typeof(double?), typeof(float?), typeof(bool?) };
@@ -37,10 +36,11 @@ namespace Bespoke.Sph.SqlReportDataSource
             var aggregates = type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
                .Where(p => p.PropertyType.Namespace == typeof(Entity).Namespace)
                .Where(p => p.Name != "Item")
+               .Where(p => !p.Name.EndsWith("Collection"))
                .ToList();
             foreach (var p in aggregates)
             {
-                this.GetColumns(columns, p.PropertyType, p.Name + ".");
+                this.GetColumns(columns, p.PropertyType, root + p.Name + ".");
             }
 
             columns.AddRange(props);
@@ -242,7 +242,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                         Console.WriteLine("Looking for " + c.Name);
                         var ce = xml.Element(x + "CustomFieldValueCollection");
                         if (null == ce) continue;
-                        foreach (var cv in ce.Elements(x +"CustomFieldValue"))
+                        foreach (var cv in ce.Elements(x + "CustomFieldValue"))
                         {
                             var cvName = cv.Attribute("Name");
                             if (null == cvName) continue;
