@@ -30,9 +30,18 @@ GO
 ALTER TABLE Sph.Building
 ADD [EncodedWkt] VARCHAR(MAX) NULL
 
-
-USE [Sph]
-
 GO
 ALTER TABLE Sph.Building
 ADD [TemplateId] INT NOT NULL DEFAULT 0
+
+GO
+ALTER TABLE Sph.Building
+ADD [HouseType] VARCHAR(255) NULL
+
+GO
+ALTER TABLE Sph.Building
+ADD [BuildingRegistrationNo] VARCHAR(255) NULL
+
+GO
+ALTER TABLE Sph.Building
+ADD [LandRegistrationNo] VARCHAR(255) NULL

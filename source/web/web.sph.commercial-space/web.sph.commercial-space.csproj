@@ -380,13 +380,13 @@
     <Content Include="App\durandal\widget.js" />
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
+    <Content Include="App\partial\Block.js" />
     <Content Include="App\partial\CommercialSpace.js" />
     <Content Include="App\partial\Complaint.js" />
     <Content Include="App\partial\ConstantField.js" />
     <Content Include="App\partial\Contract.js" />
     <Content Include="App\partial\Building.js" />
     <Content Include="App\partial\ContractTemplate.js" />
-    <Content Include="App\partial\DataGridItem.js" />
     <Content Include="App\partial\CustomListRow.js" />
     <Content Include="App\partial\RentalApplication.js" />
     <Content Include="App\partial\CustomListDefinitionElement.js" />
@@ -454,6 +454,7 @@
     <Content Include="App\viewmodels\_tenant.complaint.js" />
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\application.template.list.html" />
+    <Content Include="App\views\block.dialog.html" />
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\chats.html" />
     <Content Include="App\views\commercialspace.template.form.html" />
@@ -843,6 +844,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\theme.metro-admin\commercialspace.less" />
     <Content Include="Content\toastr.less" />
+    <Content Include="App\viewmodels\block.dialog.js" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\demo.js" />
