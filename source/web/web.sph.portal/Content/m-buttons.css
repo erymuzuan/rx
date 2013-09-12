@@ -52,7 +52,7 @@ sub {
 img {
   max-width: 100%;
   height: auto;
-  border: 0;
+  border:1px solid #d3d3d3;
   -ms-interpolation-mode: bicubic;
 }
 button,

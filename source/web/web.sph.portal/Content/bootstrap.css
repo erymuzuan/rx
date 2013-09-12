@@ -582,6 +582,7 @@ a:hover {
 
 p {
   margin: 0 0 10px;
+    text-align: justify;
 }
 
 .lead {
@@ -5206,3 +5207,4 @@ a.badge:hover {
 .affix {
   position: fixed;
 }
+
