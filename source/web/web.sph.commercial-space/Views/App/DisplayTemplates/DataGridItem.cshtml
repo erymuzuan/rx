@@ -4,7 +4,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                @foreach (var c in Model.ReportColumnCollection)
+                @foreach (var c in Model.DataGridColumnCollection)
                 {
                     <th>@c.Header</th>
                 }
@@ -15,14 +15,10 @@
             {
                 <tr>
 
-                    @foreach (var c in Model.ReportColumnCollection)
+                    @foreach (var c in Model.DataGridColumnCollection)
                     {
-                        var c1 = c;
-                        var cl = r.ReportColumnCollection.SingleOrDefault(l => l.Name == c1.Name);
-                        if (null != cl)
-                        {
-                            <td>@cl.Value</td>
-                        }
+                        var output = c.GenerateHtml(r);
+                        <td>@output</td>
                     }
                 </tr>
 

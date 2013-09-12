@@ -386,6 +386,7 @@
     <Content Include="App\partial\Contract.js" />
     <Content Include="App\partial\Building.js" />
     <Content Include="App\partial\ContractTemplate.js" />
+    <Content Include="App\partial\DataGridItem.js" />
     <Content Include="App\partial\CustomListRow.js" />
     <Content Include="App\partial\RentalApplication.js" />
     <Content Include="App\partial\CustomListDefinitionElement.js" />

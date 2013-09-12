@@ -92,10 +92,10 @@
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
-						<xs:element name="ReportColumnCollection">
+						<xs:element name="DataGridColumnCollection">
 							<xs:complexType>
 								<xs:sequence>
-									<xs:element ref="ReportColumn" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element ref="DataGridColumn" minOccurs="0" maxOccurs="unbounded"/>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
@@ -180,6 +180,15 @@
 			<xs:attribute name="Aggregate" type="xs:string" use="required"/>
 			<xs:attribute name="Order" type="xs:string" use="required"/>
 			<xs:attribute name="OrderPosition" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DataGridColumn">
+		<xs:complexType>
+			<xs:attribute name="Header" type="xs:string" use="required"/>
+			<xs:attribute name="Width" type="xs:string" use="required"/>
+			<xs:attribute name="Expression" type="xs:string" use="required"/>
+			<xs:attribute name="Format" type="xs:string" use="required"/>
+			<xs:attribute name="Action" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ReportColumn">
