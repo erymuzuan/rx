@@ -40,7 +40,7 @@ namespace web.test
 
             IWebDriver driver = new FirefoxDriver();
             return driver;
-        }
+        }   
 
         protected void PayWithMigs(IWebDriver driver)
         {

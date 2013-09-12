@@ -26,11 +26,9 @@
             <tbody data-bind="foreach: DataGridColumnCollection">
                 <tr>
                     <td>
-                        <select class="input-large" type="text" data-bind="kendoComboBox: Expression, options: $root.dataGridColumnOptions" >
-                            
-                        </select>
+                        <input  class="input-datagrid-column-expression input-large " data-bind="kendoComboBox: Expression, source: $root.dataGridColumnOptions" />
                     </td>
-                    <td><input type="text" class="input-datagrid-header" data-bind="value: Header" /></td>
+                    <td><input type="text" class="input-datagrid-column-header" data-bind="value: Header" /></td>
                     <td>
                         <select class="input-small" data-bind="value:Format">
                             <option></option>

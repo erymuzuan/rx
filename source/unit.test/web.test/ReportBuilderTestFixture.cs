@@ -119,15 +119,18 @@ namespace web.test
             driver
             .Click("div.report-layout", e => true, 1) // select the content layout
             .ClickFirst("span", e => e.Text == "Table") // table element in toolbox
-            .ClickFirst("button.btn-context-action", e => e.Displayed)
+            .ClickFirst("button.btn-context-action", e => e.Displayed);
 
+            driver
             .ClickFirst("button.btn-link", e => e.Text == "+ Column")
-            .Value("select.input-datagrid-columnname", "Location")
-            .Value("input.input-datagrid-header", "Location")
+            .Value("input.input-datagrid-column-expression", "[Location]")
+            .Value("input.input-datagrid-column-header", "Location");
 
+            driver
             .ClickFirst("button.btn-link", e => e.Text == "+ Column")
-            .Value("select.input-datagrid-columnname", "LandId_COUNT", 1)
-            .Value("input.input-datagrid-header", "Bilangan", 1)
+            // kendoComboBox creates another input which is not visible
+            .Value("input.input-datagrid-column-expression", "[LandId_COUNT]", 2)
+            .Value("input.input-datagrid-column-header", "Bilangan", 1)
             .Click("button.close", e => e.Displayed)
             .Sleep(1.Seconds())
             ;

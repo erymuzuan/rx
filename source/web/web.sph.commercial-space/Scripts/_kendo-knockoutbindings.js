@@ -30,6 +30,8 @@ ko.bindingHandlers.kendoDropDownListValue = {
     }
 };
 
+ko.bindingHandlers.source = {    
+};
 ko.bindingHandlers.kendoComboBox = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var value = valueAccessor(),
@@ -37,11 +39,11 @@ ko.bindingHandlers.kendoComboBox = {
             currentModelValue = ko.utils.unwrapObservable(value),
             dd = $(element).data('kendoComboBox') ||
                 $(element).kendoComboBox({
-                    dataSource: allBindings.options()
+                    dataSource: allBindings.source()
             }).data('kendoComboBox');
 
         dd.value(currentModelValue);
-        allBindings.options.subscribe(function(options) {
+        allBindings.source.subscribe(function(options) {
            // console.log(options, dd);
             dd.dataSource.data(options);
         });
