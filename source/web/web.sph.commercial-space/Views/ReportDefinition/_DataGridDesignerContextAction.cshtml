@@ -26,7 +26,9 @@
             <tbody data-bind="foreach: DataGridColumnCollection">
                 <tr>
                     <td>
-                        <input class="input-large" type="text" data-bind="value:Expression" />
+                        <select class="input-large" type="text" data-bind="kendoComboBox: Expression, options: $root.dataGridColumnOptions" >
+                            
+                        </select>
                     </td>
                     <td><input type="text" class="input-datagrid-header" data-bind="value: Header" /></td>
                     <td>
