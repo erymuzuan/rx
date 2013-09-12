@@ -96,7 +96,7 @@
                     @Html.Partial("_TriggerFieldDropDown", new { Property = "Left" })
                 </td>
                 <td>
-                    <select data-bind="value: Operator">
+                    <select name="rule-operator" data-bind="value: Operator">
                         <option value="Eq">=</option>
                         <option value="Le">&lt;=</option>
                         <option value="Lt">&lt;</option>
@@ -111,7 +111,7 @@
                     @Html.Partial("_TriggerFieldDropDown",new {Property = "Right"})
                 </td>
                 <td>
-                    <a rel="nofollow" href="#" data-bind="click : $root.removeRule">Remove</a>
+                    <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click : $root.removeRule">-</a>
                 </td>
             </tr>
         </tbody>
@@ -172,13 +172,13 @@
                     <!-- /ko -->
                 </td>
                 <td>
-                    <input type="text" data-bind="value: Note" />
+                    <input type="text" class="input-action-note" data-bind="value: Note" />
                 </td>
                 <td>
-                    <input data-bind="checked: IsActive" id="IsActive" type="checkbox" name="IsActive" />
+                    <input class="input-action-isactive" data-bind="checked: IsActive" id="IsActive" type="checkbox" name="IsActive" />
                 </td>
                 <td>
-                    <a rel="nofollow" href="#" data-bind="click : $root.removeAction">Remove</a>
+                     <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click: $root.removeAction">-</a>
                 </td>
             </tr>
         </tbody>

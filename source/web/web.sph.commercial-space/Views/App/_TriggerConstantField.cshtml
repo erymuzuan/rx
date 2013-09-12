@@ -9,21 +9,21 @@
     </div>
     <div class="modal-body">
         <div class="control-group">
-            <label for="constant-panel-name" class="control-label">Nama</label>
+            <label for="constant-field-name" class="control-label">Nama</label>
             <div class="controls">
-                <input data-bind="value: Name" id="constant-panel-name" type="text" name="Name" />
+                <input data-bind="value: Name" id="constant-field-name" type="text" name="constant-field-name" />
             </div>
         </div>
         <div class="control-group">
-            <label for="constant-note" class="control-label">Nota</label>
+            <label for="constant-field-note" class="control-label">Nota</label>
             <div class="controls">
-                <input data-bind="value: Note" id="constant-note" type="text" name="Note" />
+                <input data-bind="value: Note" id="constant-field-note" type="text" name="constant-field-note" />
             </div>
         </div>
         <div class="control-group">
-            <label for="constant-typename" class="control-label">Type</label>
+            <label for="constant-field-typename" class="control-label">Type</label>
             <div class="controls">
-                <select id="constant-typename" data-bind="value: TypeName">
+                <select id="constant-field-typename" name="constant-field-typename" data-bind="value: TypeName">
                     <option value="System.String, mscorlib">Teks</option>
                     <option value="System.DateTime">Tarikh</option>
                     <option value="System.Int32, mscorlib">Nombor bulat</option>
@@ -33,15 +33,15 @@
             </div>
         </div>
         <div class="control-group">
-            <label for="constant-value" class="control-label">Nilai</label>
+            <label for="constant-field-value" class="control-label">Nilai</label>
             <div class="controls">
-                <input data-bind="value: Value" id="constant-value" type="text" name="Value" />
+                <input data-bind="value: Value" id="constant-field-value" type="text" name="constant-field-value" />
             </div>
         </div>
     </div>
 
     <div class="modal-footer">
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: $root.saveField" />
+        <button data-dismiss="modal" class="btn btn-primary" value="OK" data-bind="click: $root.saveField" />
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
     </div>
 </section>

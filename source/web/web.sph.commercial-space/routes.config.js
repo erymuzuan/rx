@@ -604,7 +604,7 @@
     "error": ""
   },
   {
-    "role": "admin_dashboard",
+    "role": "can_add_trigger",
     "url": "trigger.setup/:id",
     "moduleId": "viewmodels/trigger.setup",
     "name": "Setting Trigger",
@@ -616,7 +616,7 @@
     "error": ""
   },
   {
-    "role": "admin_dashboard",
+    "role": "can_add_trigger",
     "url": "trigger.list",
     "moduleId": "viewmodels/trigger.list",
     "name": "Senarai Trigger",

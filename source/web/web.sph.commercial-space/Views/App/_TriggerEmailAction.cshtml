@@ -9,32 +9,33 @@
         <div class="control-group">
             <label for="email-action-title" class="control-label">Tajuk</label>
             <div class="controls">
-                <input data-bind="value: Title" id="email-action-title" type="text" name="Title" />
+                <input data-bind="value: Title" id="email-action-title" type="text" name="email-action-title" />
             </div>
         </div>
         <div class="control-group">
             <label for="email-action-to" class="control-label">To</label>
             <div class="controls">
-                <input class="input-xlarge" data-bind="value: To" id="email-action-to" type="text" name="Note" />
+                <input class="input-xlarge" data-bind="value: To" id="email-action-to" type="text" name="email-action-to" />
                 <span class="help-block">use @@Model to access the document</span>
             </div>
         </div>
         <div class="control-group">
             <label for="email-action-from" class="control-label">From</label>
             <div class="controls">
-                <input data-bind="value: From" id="email-action-from" type="text" name="Name" />
+                <input data-bind="value: From" id="email-action-from" type="text" name="email-action-from" />
             </div>
         </div>
         <div class="control-group">
             <label for="email-action-subject" class="control-label">Subject Template</label>
             <div class="controls">
-                <textarea id="email-action-subject" data-bind="value: SubjectTemplate" class="input-xxlarge" rows="5"></textarea>
+            <label for="email-action-subject" class="control-label">Subject Template</label>
+                <textarea id="email-action-subject" name="email-action-subject" data-bind="value: SubjectTemplate" class="input-xxlarge" rows="5"></textarea>
             </div>
         </div>
         <div class="control-group">
             <label for="email-action-body" class="control-label">Body Template</label>
             <div class="controls">
-                <textarea id="email-action-body" data-bind="value: BodyTemplate" class="input-xxlarge" rows="5"></textarea>
+                <textarea id="email-action-body" name="email-action-body" data-bind="value: BodyTemplate" class="input-xxlarge" rows="5"></textarea>
             </div>
         </div>
     </div>

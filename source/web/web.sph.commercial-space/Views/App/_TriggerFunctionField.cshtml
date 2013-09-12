@@ -7,21 +7,21 @@
     </div>
     <div class="modal-body">
         <div class="control-group">
-            <label for="function-panel-name" class="control-label">Nama</label>
+            <label for="function-field-name" class="control-label">Nama</label>
             <div class="controls">
-                <input data-bind="value: Name" id="function-panel-name" type="text" name="Name" />
+                <input data-bind="value: Name" id="function-field-name" type="text" name="function-field-name" />
             </div>
         </div>
         <div class="control-group">
-            <label for="func-note" class="control-label">Nota</label>
+            <label for="function-field-note" class="control-label">Nota</label>
             <div class="controls">
-                <input data-bind="value: Note" id="func-note" type="text" name="Note" />
+                <input data-bind="value: Note" id="function-field-note" type="text" name="function-field-note" />
             </div>
         </div>
         <div class="control-group">
-            <label for="func-script" class="control-label">Skript</label>
+            <label for="function-field-script" class="control-label">Skript</label>
             <div class="controls">
-                <textarea id="func-script" data-bind="value: Script" class="input-xxlarge" rows="5"></textarea>
+                <textarea id="function-field-script" name="function-field-script" data-bind="value: Script" class="input-xxlarge" rows="5"></textarea>
                 <span class="help-block">Must be a strict C# code, you can use ""item" member to access the current item, e.g. to return a Rental application status use <pre>return item.Status;</pre>
                 
                     any C# construct is valid

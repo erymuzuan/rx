@@ -76,6 +76,7 @@
     <Compile Include="ComplaintTest.cs" />
     <Compile Include="ComplaintTenantTest.cs" />
     <Compile Include="ContractTest.cs" />
+    <Compile Include="TriggerTest.cs" />
     <Compile Include="RebateTest.cs" />
     <Compile Include="PaymentTest.cs" />
     <Compile Include="MaintenanceTest.cs" />
