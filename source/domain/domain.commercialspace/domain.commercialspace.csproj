@@ -86,6 +86,7 @@
     <Compile Include="Business\Block.cs" />
     <Compile Include="Business\CustomListRow.cs" />
     <Compile Include="Business\CustomListValue.cs" />
+    <Compile Include="Business\MarketEvaluation.cs" />
     <Compile Include="Business\Photo.cs" />
     <Compile Include="FormTemplates\ApplicationTemplate.cs" />
     <Compile Include="assemblyinfo.cs" />
