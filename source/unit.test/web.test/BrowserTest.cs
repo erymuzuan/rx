@@ -33,13 +33,13 @@ namespace web.test
         protected IWebDriver InitiateDriver(string agent = null)
         {
 
-            //var options = new InternetExplorerOptions();
-            //IWebDriver ie = new InternetExplorerDriver(options);
-            //return ie;
+            var options = new InternetExplorerOptions();
+            IWebDriver ie = new InternetExplorerDriver(options);
+            return ie;
 
 
-            IWebDriver driver = new FirefoxDriver();
-            return driver;
+            //IWebDriver driver = new FirefoxDriver();
+            //return driver;
         }
 
         protected void PayWithMigs(IWebDriver driver)
