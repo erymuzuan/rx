@@ -10,17 +10,17 @@
         <div class="control-group">
             <label for="setter-action-title" class="control-label">Tajuk</label>
             <div class="controls">
-                <input data-bind="value: Title" id="setter-action-title" type="text" name="Title" />
+                <input data-bind="value: Title" id="setter-action-title" type="text" name="setter-action-title" />
             </div>
         </div>
         <div class="control-group">
-            <label for="function-panel-note" class="control-label">Nota</label>
+            <label for="setter-action-note" class="control-label">Nota</label>
             <div class="controls">
-                <textarea data-bind="value: Note" id="function-panel-note" class="input-xlarge" name="Note"></textarea>
+                <textarea data-bind="value: Note" id="setter-action-note" class="input-xlarge" name="setter-action-note"></textarea>
             </div>
         </div>
         <a class="btn btn-mini pull-right" data-bind="click: $root.addSetterActionChild">+</a>
-        <table id="action-table" class="table table-striped">
+        <table id="setter-action-table" class="table table-striped">
             <thead>
                 <tr>
                     <th>Path</th>
@@ -30,7 +30,7 @@
             <tbody data-bind="foreach: SetterActionChildCollection">
                 <tr>
                     <td>
-                        <input type="text" data-bind="value: Path" id="setter-action-child-path" />
+                        <input class="input-setter-path" type="text" data-bind="value: Path" id="setter-action-child-path" />
                     </td>
                     <td>
 
@@ -42,19 +42,19 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li data-bind="with : Field">
-                                    <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $root.startEditField, accessor : $parent, property:'Field'">
+                                    <a class="btn-add-setter-field" data-bind="visible: Name() !== '+ Field',unwrapClick: $root.startEditField, accessor : $parent, property:'Field'">
                                         <i class="icon-edit-sign"></i>
                                         Edit Field
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="btn btn-link" data-bind="unwrapClick: $root.startAddDocumentField, accessor : $data.Field" href="#document-panel-modal">+ Document Field</a>
+                                    <a class="btn-add-document-setter-field" data-bind="unwrapClick: $root.startAddDocumentField, accessor : $data.Field" href="#document-panel-modal">+ Document Field</a>
                                 </li>
                                 <li>
-                                    <a class="btn btn-link" data-bind="unwrapClick: $root.startAddConstantField, accessor : $data.Field" href="#constant-panel-modal">+ Constant Field</a>
+                                    <a class="btn-add-constant-setter-field" data-bind="unwrapClick: $root.startAddConstantField, accessor : $data.Field" href="#constant-panel-modal">+ Constant Field</a>
                                 </li>
                                 <li>
-                                    <a class="btn btn-link" data-bind="unwrapClick: $root.startAddFunctionField, accessor : $data.Field" href="#function-panel-modal">+ Function Field</a>
+                                    <a class="btn-add-function-setter-field" data-bind="unwrapClick: $root.startAddFunctionField, accessor : $data.Field" href="#function-panel-modal">+ Function Field</a>
                                 </li>
 
                             </ul>

@@ -49,6 +49,15 @@ bespoke.sphcommercialspace.domain.BuildingPartial = function () {
 
             };
         },
+        removeCustomListItem = function (name, row) {
+            var self = this,
+                list = _(self.CustomListValueCollection()).find(function (v) {
+                return v.Name() === name;
+            });
+            return function() {
+                list.CustomListRowCollection.remove(row);
+            };
+        },
         addBlock = function() {
             this.BlockCollection.push(new bespoke.sphcommercialspace.domain.Block(system.guid()));
         },
@@ -62,6 +71,7 @@ bespoke.sphcommercialspace.domain.BuildingPartial = function () {
         CustomField: getCustomField,
         CustomList: getCustomList,
         addCustomListItem: addCustomListItem,
+        removeCustomListItem: removeCustomListItem,
         addBlock: addBlock,
         removeBlock : removeBlock
     };

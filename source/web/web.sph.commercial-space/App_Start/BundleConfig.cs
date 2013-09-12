@@ -36,12 +36,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/App/schemas/*.js")
                 .Include("~/App/partial/*.js")
               );
-
-            bundles.Add(
-                new ScriptBundle("~/scripts/public")
-                    .Include("~/scripts/jquery-{version}.js")
-                    .Include("~/scripts/jcarousellite_1.0.1.js")
-                );
+            
             bundles.Add(
               new StyleBundle("~/Content/css")
                 .Include("~/kendo/styles/kendo.common.css")
@@ -53,13 +48,9 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/Content/bootstrap-responsive.css")
                 .Include("~/Content/durandal.css")
                 .Include("~/Content/nprogress.css")
-                .Include("~/Content/style.css")
-                .Include("~/Content/widget.css")
-                .Include("~/Content/icomoon.css")
                 .Include("~/Content/font-awesome.css")
                 .Include("~/Content/toastr.css")
-                .Include("~/Content/sprite.css")
-                .Include("~/Content/css/commercialspace.css")
+                .Include("~/Content/theme." + theme + "/commercialspace.css")
                 .Include("~/Content/theme." + theme + "/site.css")
                 .Include("~/Content/theme." + theme + "/header.css")
                 .Include("~/Content/theme." + theme + "/nav.css")

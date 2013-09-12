@@ -1,10 +1,12 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.DataGridItem
-
+@{
+    var index = 0;
+}
 <div>
     <table class="table table-striped">
         <thead>
             <tr>
-                @foreach (var c in Model.ReportColumnCollection)
+                @foreach (var c in Model.DataGridColumnCollection)
                 {
                     <th>@c.Header</th>
                 }
@@ -13,15 +15,19 @@
         <tbody>
             @foreach (var r in Model.ReportRowCollection)
             {
+                index++;
                 <tr>
 
-                    @foreach (var c in Model.ReportColumnCollection)
+                    @foreach (var c in Model.DataGridColumnCollection)
                     {
-                        var c1 = c;
-                        var cl = r.ReportColumnCollection.SingleOrDefault(l => l.Name == c1.Name);
-                        if (null != cl)
+                        if (c.Expression == "$index")
                         {
-                            <td>@cl.Value</td>
+                              <td>@index</td>
+                        }
+                        else
+                        {
+                            var output = c.GenerateHtml(r);
+                            <td>@output</td>
                         }
                     }
                 </tr>

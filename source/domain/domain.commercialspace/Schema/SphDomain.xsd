@@ -52,6 +52,13 @@
 				<xs:element name="LeasePeriod" type="xs:int" nillable="true"/>
 				<xs:element name="ApprovedDateTime" type="xs:dateTime" nillable="true"/>
 				<xs:element name="ApprovedBy" type="xs:string"/>
+				<xs:element name="PhotoCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Photo" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="LandId" type="xs:int" use="required"/>
 			<xs:attribute name="Lot" type="xs:string" use="required"/>
@@ -105,16 +112,41 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="CompletedDateTime" type="xs:dateTime" nillable="true"/>
+				<xs:element name="BuiltDateTime" type="xs:dateTime" nillable="true"/>
+				<xs:element name="MarketEvaluationCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="MarketEvaluation" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Cost" type="xs:decimal" nillable="true"/>
+				<xs:element name="HandingOverDateTime" type="xs:dateTime" nillable="true"/>
+				<xs:element name="RegisteredDateTime" type="xs:dateTime" nillable="true"/>
+				<xs:element name="PhotoCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Photo" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MovingInDateTime" type="xs:dateTime" nillable="true"/>
 			</xs:all>
 			<xs:attribute name="BuildingId" type="xs:int" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="LotNo" type="xs:string" use="required"/>
-			<xs:attribute name="Size" type="xs:double" use="required"/>
+			<xs:attribute name="BuildingSize" type="xs:double" use="required"/>
 			<xs:attribute name="Status" type="xs:string" use="required"/>
 			<xs:attribute name="Floors" type="xs:int" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
 			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
+			<xs:attribute name="BuildingType" type="xs:string" use="required"/>
+			<xs:attribute name="Blocks" type="xs:int" use="required"/>
+			<xs:attribute name="FloorSize" type="xs:double" use="required"/>
+			<xs:attribute name="BuildingRegistrationNo" type="xs:string" use="required"/>
+			<xs:attribute name="LandRegistrationNo" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Block">
@@ -130,7 +162,7 @@
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
-			<xs:attribute name="Size" type="xs:string" use="required"/>
+			<xs:attribute name="Size" type="xs:double" use="required"/>
 			<xs:attribute name="FloorPlanStoreId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
@@ -209,6 +241,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="CustomListValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomListValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="CommercialSpaceId" type="xs:int" use="required"/>
 			<xs:attribute name="BuildingId" type="xs:int" use="required"/>
@@ -228,6 +267,7 @@
 			<xs:attribute name="BuildingLot" type="xs:string" use="required"/>
 			<xs:attribute name="RentalRate" type="xs:decimal" use="required"/>
 			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
+			<xs:attribute name="Location" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="RentalApplication">
@@ -745,6 +785,13 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element ref="Tenant" minOccurs="0"/>
+				<xs:element name="PhotoCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Photo" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="ComplaintId" type="xs:int" use="required"/>
 			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
@@ -792,6 +839,13 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="CustomFieldValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PhotoCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Photo" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -986,6 +1040,13 @@
 			<xs:attribute name="Title" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="StoreId" type="xs:string" use="required"/>
+			<xs:attribute name="ThumbnailStoreId" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MarketEvaluation">
+		<xs:complexType>
+			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
+			<xs:attribute name="Value" type="xs:decimal" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

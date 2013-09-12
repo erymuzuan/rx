@@ -83,6 +83,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 context.post(data, "/Template/SaveCommercialSpaceTemplate")
                     .then(function (result) {
                         isBusy(false);
+                        logger.info("Data has been successfully save");
                         tcs.resolve(result);
                     });
                 return tcs.promise();

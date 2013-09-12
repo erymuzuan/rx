@@ -709,6 +709,17 @@
 			}
 			}
 		
+			private readonly ObjectCollection<Photo>  m_PhotoCollection = new ObjectCollection<Photo> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("Photo", IsNullable = false)]
+			public ObjectCollection<Photo> PhotoCollection
+			{
+			get{ return m_PhotoCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -1304,8 +1315,8 @@
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  double  m_size;
-                    public const string PropertyNameSize = "Size";
+                    private  double  m_buildingSize;
+                    public const string PropertyNameBuildingSize = "BuildingSize";
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1328,9 +1339,70 @@
                     public const string PropertyNameTemplateId = "TemplateId";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_buildingType;
+                    public const string PropertyNameBuildingType = "BuildingType";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  int  m_blocks;
+                    public const string PropertyNameBlocks = "Blocks";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  double  m_floorSize;
+                    public const string PropertyNameFloorSize = "FloorSize";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_buildingRegistrationNo;
+                    public const string PropertyNameBuildingRegistrationNo = "BuildingRegistrationNo";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_landRegistrationNo;
+                    public const string PropertyNameLandRegistrationNo = "LandRegistrationNo";
+
+                  
                 [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                 private int?  m_height;
                 public const string PropertyNameHeight = "Height";
+
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private DateTime?  m_completedDateTime;
+                public const string PropertyNameCompletedDateTime = "CompletedDateTime";
+
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private DateTime?  m_builtDateTime;
+                public const string PropertyNameBuiltDateTime = "BuiltDateTime";
+
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private decimal?  m_cost;
+                public const string PropertyNameCost = "Cost";
+
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private DateTime?  m_handingOverDateTime;
+                public const string PropertyNameHandingOverDateTime = "HandingOverDateTime";
+
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private DateTime?  m_registeredDateTime;
+                public const string PropertyNameRegisteredDateTime = "RegisteredDateTime";
+
+
+              
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private DateTime?  m_movingInDateTime;
+                public const string PropertyNameMovingInDateTime = "MovingInDateTime";
 
 
               
@@ -1393,6 +1465,28 @@
 			public ObjectCollection<CustomListValue> CustomListValueCollection
 			{
 			get{ return m_CustomListValueCollection;}
+			}
+		
+			private readonly ObjectCollection<MarketEvaluation>  m_MarketEvaluationCollection = new ObjectCollection<MarketEvaluation> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("MarketEvaluation", IsNullable = false)]
+			public ObjectCollection<MarketEvaluation> MarketEvaluationCollection
+			{
+			get{ return m_MarketEvaluationCollection;}
+			}
+		
+			private readonly ObjectCollection<Photo>  m_PhotoCollection = new ObjectCollection<Photo> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("Photo", IsNullable = false)]
+			public ObjectCollection<Photo> PhotoCollection
+			{
+			get{ return m_PhotoCollection;}
 			}
 		
                 ///<summary>
@@ -1516,22 +1610,22 @@
                 
                 [DebuggerHidden]
                 
-                    public double Size
+                    public double BuildingSize
                     {
                     set
                     {
-                    if( Math.Abs(m_size - value) < 0.00001d) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameSize, value);
+                    if( Math.Abs(m_buildingSize - value) < 0.00001d) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameBuildingSize, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)
                     {
-                    m_size= value;
+                    m_buildingSize= value;
                     OnPropertyChanged();
                     }
                     }
                     get
                     {
-                    return m_size;}
+                    return m_buildingSize;}
                     }
 
                   
@@ -1647,6 +1741,146 @@
                     }
 
                   
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string BuildingType
+                    {
+                    set
+                    {
+                    if( String.Equals( m_buildingType, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameBuildingType, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_buildingType= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_buildingType;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public int Blocks
+                    {
+                    set
+                    {
+                    if( m_blocks == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameBlocks, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_blocks= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_blocks;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public double FloorSize
+                    {
+                    set
+                    {
+                    if( Math.Abs(m_floorSize - value) < 0.00001d) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameFloorSize, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_floorSize= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_floorSize;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string BuildingRegistrationNo
+                    {
+                    set
+                    {
+                    if( String.Equals( m_buildingRegistrationNo, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameBuildingRegistrationNo, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_buildingRegistrationNo= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_buildingRegistrationNo;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string LandRegistrationNo
+                    {
+                    set
+                    {
+                    if( String.Equals( m_landRegistrationNo, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameLandRegistrationNo, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_landRegistrationNo= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_landRegistrationNo;}
+                    }
+
+                  
 
                 ///<summary>
                 /// 
@@ -1667,6 +1901,138 @@
                 }
                 }
                 get { return m_height;}
+                }
+              
+
+                ///<summary>
+                /// 
+                ///</summary>
+                [DebuggerHidden]
+				
+                public DateTime? CompletedDateTime
+                {
+                set
+                {
+                if(m_completedDateTime == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCompletedDateTime, value);
+                OnPropertyChanging(arg);
+                if(! arg.Cancel)
+                {
+                m_completedDateTime= value;
+                OnPropertyChanged();
+                }
+                }
+                get { return m_completedDateTime;}
+                }
+              
+
+                ///<summary>
+                /// 
+                ///</summary>
+                [DebuggerHidden]
+				
+                public DateTime? BuiltDateTime
+                {
+                set
+                {
+                if(m_builtDateTime == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBuiltDateTime, value);
+                OnPropertyChanging(arg);
+                if(! arg.Cancel)
+                {
+                m_builtDateTime= value;
+                OnPropertyChanged();
+                }
+                }
+                get { return m_builtDateTime;}
+                }
+              
+
+                ///<summary>
+                /// 
+                ///</summary>
+                [DebuggerHidden]
+				
+                public decimal? Cost
+                {
+                set
+                {
+                if(m_cost == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCost, value);
+                OnPropertyChanging(arg);
+                if(! arg.Cancel)
+                {
+                m_cost= value;
+                OnPropertyChanged();
+                }
+                }
+                get { return m_cost;}
+                }
+              
+
+                ///<summary>
+                /// 
+                ///</summary>
+                [DebuggerHidden]
+				
+                public DateTime? HandingOverDateTime
+                {
+                set
+                {
+                if(m_handingOverDateTime == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameHandingOverDateTime, value);
+                OnPropertyChanging(arg);
+                if(! arg.Cancel)
+                {
+                m_handingOverDateTime= value;
+                OnPropertyChanged();
+                }
+                }
+                get { return m_handingOverDateTime;}
+                }
+              
+
+                ///<summary>
+                /// 
+                ///</summary>
+                [DebuggerHidden]
+				
+                public DateTime? RegisteredDateTime
+                {
+                set
+                {
+                if(m_registeredDateTime == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRegisteredDateTime, value);
+                OnPropertyChanging(arg);
+                if(! arg.Cancel)
+                {
+                m_registeredDateTime= value;
+                OnPropertyChanged();
+                }
+                }
+                get { return m_registeredDateTime;}
+                }
+              
+
+                ///<summary>
+                /// 
+                ///</summary>
+                [DebuggerHidden]
+				
+                public DateTime? MovingInDateTime
+                {
+                set
+                {
+                if(m_movingInDateTime == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMovingInDateTime, value);
+                OnPropertyChanging(arg);
+                if(! arg.Cancel)
+                {
+                m_movingInDateTime= value;
+                OnPropertyChanged();
+                }
+                }
+                get { return m_movingInDateTime;}
                 }
               
 
@@ -1692,7 +2058,7 @@
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_size;
+                    private  double  m_size;
                     public const string PropertyNameSize = "Size";
 
                   
@@ -1777,11 +2143,11 @@
                 
                 [DebuggerHidden]
                 
-                    public string Size
+                    public double Size
                     {
                     set
                     {
-                    if( String.Equals( m_size, value, StringComparison.Ordinal)) return;
+                    if( Math.Abs(m_size - value) < 0.00001d) return;
                     var arg = new PropertyChangingEventArgs(PropertyNameSize, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)
@@ -2733,6 +3099,11 @@
                     public const string PropertyNameTemplateId = "TemplateId";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_location;
+                    public const string PropertyNameLocation = "Location";
+
+                  
 			private readonly ObjectCollection<Lot>  m_LotCollection = new ObjectCollection<Lot> ();
 
 			///<summary>
@@ -2781,6 +3152,17 @@
 			public ObjectCollection<Photo> PhotoCollection
 			{
 			get{ return m_PhotoCollection;}
+			}
+		
+			private readonly ObjectCollection<CustomListValue>  m_CustomListValueCollection = new ObjectCollection<CustomListValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomListValue", IsNullable = false)]
+			public ObjectCollection<CustomListValue> CustomListValueCollection
+			{
+			get{ return m_CustomListValueCollection;}
 			}
 		
                 ///<summary>
@@ -3280,6 +3662,34 @@
                     get
                     {
                     return m_templateId;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Location
+                    {
+                    set
+                    {
+                    if( String.Equals( m_location, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameLocation, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_location= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_location;}
                     }
 
                   
@@ -9750,6 +10160,17 @@
 			}
 			}
 		
+			private readonly ObjectCollection<Photo>  m_PhotoCollection = new ObjectCollection<Photo> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("Photo", IsNullable = false)]
+			public ObjectCollection<Photo> PhotoCollection
+			{
+			get{ return m_PhotoCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -10656,6 +11077,17 @@
 			public ObjectCollection<CustomFieldValue> CustomFieldValueCollection
 			{
 			get{ return m_CustomFieldValueCollection;}
+			}
+		
+			private readonly ObjectCollection<Photo>  m_PhotoCollection = new ObjectCollection<Photo> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("Photo", IsNullable = false)]
+			public ObjectCollection<Photo> PhotoCollection
+			{
+			get{ return m_PhotoCollection;}
 			}
 		
                 ///<summary>
@@ -13222,6 +13654,11 @@
                     public const string PropertyNameStoreId = "StoreId";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_thumbnailStoreId;
+                    public const string PropertyNameThumbnailStoreId = "ThumbnailStoreId";
+
+                  
                 ///<summary>
                 /// 
                 ///</summary>
@@ -13303,6 +13740,112 @@
                     get
                     {
                     return m_storeId;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string ThumbnailStoreId
+                    {
+                    set
+                    {
+                    if( String.Equals( m_thumbnailStoreId, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameThumbnailStoreId, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_thumbnailStoreId= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_thumbnailStoreId;}
+                    }
+
+                  
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("MarketEvaluation",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class MarketEvaluation
+          {
+          
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  DateTime  m_date;
+                    public const string PropertyNameDate = "Date";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  decimal  m_value;
+                    public const string PropertyNameValue = "Value";
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public DateTime Date
+                    {
+                    set
+                    {
+                    if( m_date == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameDate, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_date= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_date;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public decimal Value
+                    {
+                    set
+                    {
+                    if( m_value == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameValue, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_value= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_value;}
                     }
 
                   
