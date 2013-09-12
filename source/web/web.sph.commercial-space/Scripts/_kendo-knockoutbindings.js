@@ -30,13 +30,21 @@ ko.bindingHandlers.kendoDropDownListValue = {
     }
 };
 
-ko.bindingHandlers.kendoComboBoxValue = {
-    init: function (element, valueAccessor) {
-        var value = valueAccessor();
-        var currentModelValue = ko.utils.unwrapObservable(value);
-        var dd = $(element).data('kendoComboBox');
-        dd.value(currentModelValue);
+ko.bindingHandlers.kendoComboBox = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var value = valueAccessor(),
+            allBindings = allBindingsAccessor(),
+            currentModelValue = ko.utils.unwrapObservable(value),
+            dd = $(element).data('kendoComboBox') ||
+                $(element).kendoComboBox({
+                    dataSource: allBindings.options()
+            }).data('kendoComboBox');
 
+        dd.value(currentModelValue);
+        allBindings.options.subscribe(function(options) {
+           // console.log(options, dd);
+            dd.dataSource.data(options);
+        });
         dd.bind("change", function () {
             var nv = dd.value();
             value(nv);

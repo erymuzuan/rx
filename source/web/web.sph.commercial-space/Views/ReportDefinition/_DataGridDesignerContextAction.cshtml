@@ -17,26 +17,35 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Expression</th>
                     <th>Header</th>
-                    <th>Width</th>
+                    <th>Format</th>
                     <th></th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: ReportColumnCollection">
+            <tbody data-bind="foreach: DataGridColumnCollection">
                 <tr>
                     <td>
-                        <select class="input-datagrid-columnname" data-bind="value: Name, options: $root.dataGridColumnOptions, optionsText: 'Name', optionsValue: 'Name'">
+                        <select class="input-large" type="text" data-bind="kendoComboBox: Expression, options: $root.dataGridColumnOptions" >
                             
                         </select>
                     </td>
                     <td><input type="text" class="input-datagrid-header" data-bind="value: Header" /></td>
-                    <td><input type="text" data-bind="value: Width" /></td>
-                    <td><a href="#" data-bind="click : $root.removeDataGridColumn"><i class="icon-remove"></i></a></td>
+                    <td>
+                        <select class="input-small" data-bind="value:Format">
+                            <option></option>
+                            <option value="{0:d}">Short DateTime</option>
+                            <option value="{0:c}">Currency</option>
+                            <option value="{0:F2}">Decimal</option>
+                            <option value="Custom">Custome</option>
+                        </select>
+                    </td>
+                    <td><a href="#" data-bind="click : $parent.removeColumn.call($parent,$data)"><i class="icon-remove"></i></a></td>
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-link" data-bind="click : $root.addDataGridColumn">+ Column</button>
+        <button class="btn btn-link" data-bind="click : addColumn">+ Column</button>
+
         <a class="btn btn-link pull-right" data-bind="click: $root.removeReportItem">
             <i class="icon-remove"></i>
             Buang

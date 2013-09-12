@@ -5,16 +5,16 @@
     @Html.Partial("_DataGridDesignerContextAction")
     <table class="table table-striped">
         <thead>
-            <tr data-bind="foreach: ReportColumnCollection">
+            <tr data-bind="foreach: DataGridColumnCollection">
                 <th data-bind="text: Header"></th>
             </tr>
         </thead>
         <tbody>
-            <tr data-bind="foreach: ReportColumnCollection">
-                <td></td>
+            <tr data-bind="foreach: DataGridColumnCollection">
+                <td>Sample data</td>
             </tr>
-            <tr data-bind="foreach: ReportColumnCollection">
-                <td></td>
+            <tr data-bind="foreach: DataGridColumnCollection">
+                <td>....</td>
             </tr>
         </tbody>
     </table>

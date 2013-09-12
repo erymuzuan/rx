@@ -72,7 +72,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                             name = v.Name() + "_" + aggregate;
                         }
                     }
-                    return { Name: ko.observable(name) };
+                    return "[" + name + "]";
                 });
                 vm.dataGridColumnOptions(columns);
             },
