@@ -94,6 +94,25 @@ namespace web.test
                   .Value("[name=Label]", "Alamat")
                   .Value("[name=Path]", "Address")
                   ;
+            // peralatan / perkakas yang tersedia
+            driver.ClickFirst("a", e => e.Text == "Add a field")
+                  .ClickFirst("a", e => e.Text == "List")
+                  .ClickFirst("a", e => e.Text == "Fields settings")
+                  .Value("[name=Label]", "+ Peralatan / Perkakasan")
+                  .Value("[name=Path]", "EquipmentCollection")
+                  .ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
+                  .Value(".custom-list-name", "Nama")
+                  .SelectOption(".custom-list-type", "String");
+            //add 2nd list
+            driver
+                  .ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
+                  .Value(".custom-list-name", "Jenis",1)
+                  .SelectOption(".custom-list-type", "String",1);
+            //add 3rd list
+            driver
+                  .ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
+                  .Value(".custom-list-name", "Kuantiti",2)
+                  .SelectOption(".custom-list-type", "Int",2);
 
             // sewa
             driver.ClickFirst("a", e => e.Text == "Add a field")
@@ -124,6 +143,13 @@ namespace web.test
                   .ClickFirst("a", e => e.Text == "Fields settings")
                   .Value("[name=Label]", "Permohonan Online")
                   .Value("[name=Path]", "IsOnline")
+                  ; 
+            
+            // HTML
+            driver.ClickFirst("a", e => e.Text == "Add a field")
+                  .ClickFirst("a", e => e.Text == "HTML")
+                  .Value("[name=html-text]", "Sila pastikan maklumat ruang lengkap sebelum klik butang SIMPAN..tq")
+                  
                   ;
 
             driver.Click("#save-button");
@@ -164,7 +190,7 @@ namespace web.test
             driver
                 .Value("[name='RegistrationNo']", CS_REGISTRATION_NO)
                 .Click("#select-lot-button")
-                .Sleep(500.Milliseconds());
+                .Sleep(2.Seconds());
 
             driver.SelectOption("[name='selectedBuilding']", BuildingTest.BUILDING_NAME)
                 .Sleep(200.Milliseconds())
@@ -189,8 +215,8 @@ namespace web.test
             .Sleep(3.Seconds());
 
 
-            var id = this.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
-            Assert.IsTrue(max < id);
+            var latest = this.GetDatabaseScalarValue<int>("SELECT MAX([CommercialSpaceId]) FROM [Sph].[CommercialSpace]");
+            Assert.IsTrue(max < latest);
 
             driver.NavigateToUrl("/#/commercialspace");
             driver.Sleep(5.Seconds(), "See the result");

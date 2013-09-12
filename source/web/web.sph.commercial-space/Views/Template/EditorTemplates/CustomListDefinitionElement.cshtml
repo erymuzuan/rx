@@ -8,8 +8,8 @@
 <ul data-bind="foreach: CustomFieldCollection" class="nav">
     <li>
         <div class="input-append">
-            <input class="input-small custom-list-name" type="text" data-bind="value: Name, valueUpdate: 'keyup'" />
-            <select class="input-small custom-list-type" data-bind="value: Type">
+            <input class="custom-list-name" type="text" data-bind="value: Name, valueUpdate: 'keyup'" />
+            <select class="custom-list-type" data-bind="value: Type">
                 <option value="@typeof(string).AssemblyQualifiedName">String</option>
                 <option value="@typeof(int).AssemblyQualifiedName">Int</option>
                 <option value="@typeof(bool).AssemblyQualifiedName">Bool</option>

@@ -37,6 +37,7 @@ namespace web.test
             this.ExecuteNonQuery("DELETE FROM [Sph].[UserProfile] WHERE [UserName] = @UserName",
                 new SqlParameter("@UserName", USERNAME));
 
+            var designation = this.GetDatabaseScalarValue<string>("SELECT MAX([Name]) FROM [Sph].[Designation]");
             if (Membership.GetUser(USERNAME) != null)
             {
                 Membership.DeleteUser(USERNAME);
@@ -49,13 +50,13 @@ namespace web.test
             driver.Click("#add-user-button")
                 .Sleep(1.Seconds());
 
-            driver.Value("[name='Username']", USERNAME)
-                  .Value("[name='Password']", "123456")
-                  .Value("[name='ConfirmPassword']", "123456")
-                  .Value("[name='FullName']", "Noor Izzati")
-                  .Value("[name='Email']", "izzati@hotmail.com")
-                  .SelectOption("[name='designation']", "Manager")
-                  .Value("[name='Telephone']", "013-7724568");
+            driver.Value("[name=Username]", USERNAME)
+                  .Value("[name=Password]", "123456")
+                  .Value("[name=ConfirmPassword]", "123456")
+                  .Value("[name=FullName]", "Noor Izzati")
+                  .Value("[name=Email]", "izzati@hotmail.com")
+                  .SelectOption("[name=designation]", designation)
+                  .Value("[name=Telephone]", "013-7724568");
 
             driver.Sleep(2.Seconds());
             driver.Click("#save-button")
