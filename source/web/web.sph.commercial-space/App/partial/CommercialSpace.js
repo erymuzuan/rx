@@ -9,7 +9,6 @@ bespoke.sphcommercialspace.domain = bespoke.sphcommercialspace.domain || {};
 bespoke.sphcommercialspace.domain.CommercialSpacePartial = function () {
 
     var system = require('durandal/system'),
-        app = require('durandal/app'),
         getCustomField = function (name) {
             var cs = _(this.CustomFieldValueCollection()).find(function (v) {
                 return v.Name() === name;
@@ -28,7 +27,6 @@ bespoke.sphcommercialspace.domain.CommercialSpacePartial = function () {
                     dialog.photo(clone);
                     app2.showModal(dialog)
                         .done(function (result) {
-                            if (!result) return;
                             if (result == "OK") {
                                 self.PhotoCollection.replace(photo, clone);
                             }
