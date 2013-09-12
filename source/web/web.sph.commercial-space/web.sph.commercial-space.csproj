@@ -639,9 +639,6 @@
     <Content Include="Content\images\carousel-next.png" />
     <Content Include="Content\images\carousel-prev.png" />
     <Content Include="Content\images\img-border.png" />
-    <Content Include="Content\images\menu-row.gif" />
-    <Content Include="Content\images\screen1.JPG" />
-    <Content Include="Content\images\screen2.JPG" />
     <Content Include="Content\theme.default\commercialspace.css">
       <DependentUpon>commercialspace.less</DependentUpon>
     </Content>
