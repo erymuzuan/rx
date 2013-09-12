@@ -22,7 +22,6 @@ bespoke.sphcommercialspace.domain.CommercialSpacePartial = function () {
             var self = this;
             return function () {
                 require(['viewmodels/photo.dialog', 'durandal/app'], function (dialog, app2) {
-
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(photo));
                     dialog.photo(clone);
                     app2.showModal(dialog)

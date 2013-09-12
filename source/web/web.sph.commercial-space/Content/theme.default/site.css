@@ -584,7 +584,8 @@ div.controls > input.input-xxlarge {
 .google-maps img {
   max-width: none;
 }
-.modal {
+.modal,
+.view-model-modal {
   background-color: #ffffff;
 }
 div.modal-header > button.close {

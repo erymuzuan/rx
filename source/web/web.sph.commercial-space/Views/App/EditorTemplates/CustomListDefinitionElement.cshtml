@@ -1,6 +1,5 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.CustomListDefinitionElement
 
-
 <div>
     <input type="button" class="btn pull-right" value="@Model.Label" data-bind="click : addCustomListItem('@Model.Name')" />
     <table class="table table-condensed table-striped">
@@ -42,7 +41,7 @@
                     </td>
                 }
                 <td>
-                    <a href="#">Buang</a>
+                    <a href="#" data-bind="command : $parent.removeCustomListItem.call($parent,'@Model.Name',$data)">Buang</a>
                 </td>
 
             </tr>
