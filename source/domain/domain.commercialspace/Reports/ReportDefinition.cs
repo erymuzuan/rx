@@ -35,6 +35,18 @@ namespace Bespoke.SphCommercialSpaces.Domain
         /// </summary>
         /// <param name="parameterName"></param>
         /// <returns></returns>
+        public T Param<T>(string parameterName)
+        {
+            var parm = this.DataSource.ParameterCollection.SingleOrDefault(p => p.Name == parameterName);
+            if (null == parm) return default(T);
+            var stringValue = string.Format("{0}", parm.Value);
+            if (typeof (T) == typeof (int))
+            {
+                return (T)(object)int.Parse(stringValue);
+            }
+            return (T)parm.Value;
+        }
+
         public object Param(string parameterName)
         {
             var parm = this.DataSource.ParameterCollection.SingleOrDefault(p => p.Name == parameterName);
@@ -52,7 +64,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 foreach (var p in this.DataSource.ParameterCollection)
                 {
                     script.AppendLine();
-                    script.AppendFormat("var @{0} = item.Param(\"{0}\");", p.Name);
+                    script.AppendFormat("var @{0} = item.Param<{1}>(\"{0}\");", p.Name, p.Type.Name);
                 }
                 script.AppendLine();
                 return script.ToString();
