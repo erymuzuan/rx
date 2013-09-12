@@ -36,12 +36,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                 .Include("~/App/schemas/*.js")
                 .Include("~/App/partial/*.js")
               );
-
-            bundles.Add(
-                new ScriptBundle("~/scripts/public")
-                    .Include("~/scripts/jquery-{version}.js")
-                    .Include("~/scripts/jcarousellite_1.0.1.js")
-                );
+            
             bundles.Add(
               new StyleBundle("~/Content/css")
                 .Include("~/kendo/styles/kendo.common.css")
