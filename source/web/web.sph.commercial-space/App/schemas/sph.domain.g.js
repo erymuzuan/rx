@@ -1304,6 +1304,7 @@ bespoke.sphcommercialspace.domain.Photo = function (webId) {
         Title: ko.observable(''),
         Description: ko.observable(''),
         StoreId: ko.observable(''),
+        ThumbnailStoreId: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
