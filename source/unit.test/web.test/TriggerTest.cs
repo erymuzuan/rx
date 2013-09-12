@@ -9,7 +9,7 @@ namespace web.test
     [TestFixture]
     public class TriggerTest : BrowserTest
     {
-        public const string TRIGGER_NAME = "Aduan Kerosakan";
+        public const string TRIGGER_NAME = "Email Trigger (TEST)";
         private TestUser m_admintrigger;
 
         [SetUp]
@@ -43,7 +43,7 @@ namespace web.test
                 .NavigateToUrl("/#/trigger.setup/0")
                 .Sleep(3.Seconds());
 
-            driver.Value("[name=Name]", "Email Trigger (TEST)");
+            driver.Value("[name=Name]", TRIGGER_NAME);
             driver.SelectOption("[name=Entity]", "Aduan");
             driver.Value("[name=Note]", "Trigger email kepada penyewa atau orang awam yang hantar aduan")
               .Click("[name=IsActive]");
