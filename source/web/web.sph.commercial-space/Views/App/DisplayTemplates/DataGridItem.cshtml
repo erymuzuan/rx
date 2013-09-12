@@ -1,5 +1,7 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.DataGridItem
-
+@{
+    var index = 0;
+}
 <div>
     <table class="table table-striped">
         <thead>
@@ -13,12 +15,20 @@
         <tbody>
             @foreach (var r in Model.ReportRowCollection)
             {
+                index++;
                 <tr>
 
                     @foreach (var c in Model.DataGridColumnCollection)
                     {
-                        var output = c.GenerateHtml(r);
-                        <td>@output</td>
+                        if (c.Expression == "$index")
+                        {
+                              <td>@index</td>
+                        }
+                        else
+                        {
+                            var output = c.GenerateHtml(r);
+                            <td>@output</td>
+                        }
                     }
                 </tr>
 
