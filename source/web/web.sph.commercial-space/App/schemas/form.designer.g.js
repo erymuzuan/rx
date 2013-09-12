@@ -134,6 +134,7 @@ bespoke.sphcommercialspace.domain.CommercialSpaceTemplate = function (webId) {
         Category: ko.observable(''),
         CustomFieldCollection: ko.observableArray([]),
         FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
+        CustomListDefinitionCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

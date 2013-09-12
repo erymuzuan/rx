@@ -8,6 +8,7 @@ bespoke.sphcommercialspace = bespoke.sphcommercialspace || {};
 bespoke.sphcommercialspace.domain = bespoke.sphcommercialspace.domain || {};
 
 
+
 bespoke.sphcommercialspace.domain.ContractHistory = function (webId) {
 
     var model = {
@@ -254,6 +255,7 @@ bespoke.sphcommercialspace.domain.CommercialSpace = function (webId) {
         CustomFieldValueCollection: ko.observableArray([]),
         Address: ko.observable(new bespoke.sphcommercialspace.domain.Address()),
         PhotoCollection: ko.observableArray([]),
+        CustomListValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

@@ -18,15 +18,15 @@ bespoke.sphcommercialspace.domain.CommercialSpacePartial = function () {
             }
             return cs.Value;
         },
-        getCustomList = function (name) {
-            var cs = _(this.CustomListValueCollection()).find(function (v) {
-                return v.Name() === name;
-            });
-            if (!cs) {
-                throw "Cannot find custom list named " + name + " in Building";
-            }
-            return cs;
-        },
+      getCustomList = function (name) {
+          var cs = _(this.CustomListValueCollection()).find(function (v) {
+              return v.Name() === name;
+          });
+          if (!cs) {
+              throw "Cannot find custom list named " + name + " in Building";
+          }
+          return cs;
+      },
         addCustomListItem = function (name) {
 
             return function () {
@@ -47,10 +47,16 @@ bespoke.sphcommercialspace.domain.CommercialSpacePartial = function () {
 
             };
         },
-        addPhoto = function() {
-            this.PhotoCollection.push(new bespoke.sphcommercialspace.domain.Photo(system.guid()));
+        removeCustomListItem = function (name, row) {
+            var self = this,
+                list = _(self.CustomListValueCollection()).find(function (v) {
+                    return v.Name() === name;
+                });
+            return function () {
+                list.CustomListRowCollection.remove(row);
+            };
         },
-        editPhoto = function (photo) {
+      editPhoto = function (photo) {
             var self = this;
             return function () {
                 require(['viewmodels/photo.dialog', 'durandal/app'], function (dialog, app2) {
@@ -92,6 +98,7 @@ bespoke.sphcommercialspace.domain.CommercialSpacePartial = function () {
         CustomField: getCustomField,
         CustomList: getCustomList,
         addCustomListItem: addCustomListItem,
+        removeCustomListItem: removeCustomListItem,
         StaticMap: ko.observable("/images/no-image.png"),
         ApplicationTemplateOptions: ko.observableArray([]),
         addPhoto: addPhoto,

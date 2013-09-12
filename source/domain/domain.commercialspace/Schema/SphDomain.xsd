@@ -209,6 +209,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="CustomListValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomListValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="CommercialSpaceId" type="xs:int" use="required"/>
 			<xs:attribute name="BuildingId" type="xs:int" use="required"/>

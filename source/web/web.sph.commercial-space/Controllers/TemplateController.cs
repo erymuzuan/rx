@@ -81,7 +81,19 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var models = TypeHelper.GetPropertyPath(typeof(CommercialSpace));
             var template = this.GetRequestJson<CommercialSpaceTemplate>();
             this.BuildCustomFields(template.CustomFieldCollection, template.FormDesign, models);
+            var list = new ObjectCollection<CustomListDefinition>();
+            foreach (var c in template.FormDesign.FormElementCollection.OfType<CustomListDefinitionElement>())
+            {
+                var cl = new CustomListDefinition
+                {
+                    Name = c.Name
+                };
+                cl.CustomFieldCollection.AddRange(c.CustomFieldCollection);
+                list.Add(cl);
+            }
 
+
+            template.CustomListDefinitionCollection.ClearAndAddRange(list);
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {

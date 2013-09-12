@@ -118,6 +118,13 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element ref="FormDesign"/>
+				<xs:element name="CustomListDefinitionCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="CommercialSpaceTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
