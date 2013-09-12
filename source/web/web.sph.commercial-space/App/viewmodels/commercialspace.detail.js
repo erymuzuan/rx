@@ -10,7 +10,7 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 
-define(['services/datacontext', 'services/logger', './_commercialspace.contract', 'durandal/system'], function (context, logger, contractlistvm,system) {
+define(['services/datacontext', 'services/logger', './_commercialspace.contract', 'durandal/system','viewmodels/photo.dialog'], function (context, logger, contractlistvm,system) {
 
     var title = ko.observable(),
         selectedBuilding = {},

@@ -9,19 +9,51 @@ bespoke.sphcommercialspace.domain = bespoke.sphcommercialspace.domain || {};
 bespoke.sphcommercialspace.domain.CommercialSpacePartial = function () {
 
     var system = require('durandal/system'),
+        app = require('durandal/app'),
         getCustomField = function (name) {
-        var cs = _(this.CustomFieldValueCollection()).find(function (v) {
-            return v.Name() === name;
-        });
-        if (!cs) {
-            throw "Cannot find custom field for " + name + " in CommercialSpace";
-        }
-        return cs.Value;
-    },
-        addPhoto = function() {
-            this.PhotoCollection.push(new bespoke.sphcommercialspace.domain.Photo(system.guid()));
+            var cs = _(this.CustomFieldValueCollection()).find(function (v) {
+                return v.Name() === name;
+            });
+            if (!cs) {
+                throw "Cannot find custom field for " + name + " in CommercialSpace";
+            }
+            return cs.Value;
         },
-        removePhoto = function(photo) {
+        editPhoto = function (photo) {
+            var self = this;
+            return function () {
+                require(['viewmodels/photo.dialog', 'durandal/app'], function (dialog, app2) {
+
+                    var clone = ko.mapping.fromJS(ko.mapping.toJS(photo));
+                    dialog.photo(clone);
+                    app2.showModal(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result == "OK") {
+                                self.PhotoCollection.replace(photo, clone);
+                            }
+                        });
+
+                });
+            };
+        },
+        addPhoto = function () {
+            var self = this;
+            require(['viewmodels/photo.dialog', 'durandal/app'], function (dialog, app2) {
+                var photo = new bespoke.sphcommercialspace.domain.Photo(system.guid());
+                dialog.photo(photo);
+
+                app2.showModal(dialog)
+                .done(function (result) {
+                    if (!result) return;
+                    if (result == "OK") {
+                        self.PhotoCollection.push(photo);
+                    }
+                });
+
+            });
+        },
+        removePhoto = function (photo) {
             var self = this;
             return function () {
                 self.PhotoCollection.remove(photo);
@@ -32,11 +64,12 @@ bespoke.sphcommercialspace.domain.CommercialSpacePartial = function () {
         StaticMap: ko.observable("/images/no-image.png"),
         ApplicationTemplateOptions: ko.observableArray([]),
         addPhoto: addPhoto,
-        removePhoto : removePhoto
+        editPhoto: editPhoto,
+        removePhoto: removePhoto
     };
 };
 
-bespoke.sphcommercialspace.domain.RolePartial = function() {
+bespoke.sphcommercialspace.domain.RolePartial = function () {
 
     return {
         permissions: ko.observableArray()

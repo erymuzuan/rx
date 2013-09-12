@@ -1,0 +1,40 @@
+﻿<section style="background-color: white;">
+    <div class="modal-header">
+        <button type="button" class="close"  data-bind="click: cancelClick">&times;</button>
+        <h3>Image</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" data-bind="with: photo">
+            <div class="control-group">
+                <label for="title" class="control-label">Tajuk</label>
+                <div class="controls">
+                    <input class="input-xlarge" data-bind="value: Title" id="title" type="text" name="Title" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="input-description" class="control-label">Keterangan</label>
+                <div class="controls">
+                    <textarea class="input-xlarge" data-bind="value: Description" id="input-description" name="Description"></textarea>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="input-photo" class="control-label">Photo</label>
+                <div class="controls">
+                    <input data-bind="kendoUpload: StoreId" id="input-photo" type="file" name="files" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="input-thumbnail" class="control-label">Thumbnail</label>
+                <div class="controls">
+                    <input data-bind="kendoUpload: ThumbnailStoreId" id="input-thumbnail" type="file" name="files" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <input type="button" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+        <button class="btn" data-bind="click: cancelClick">Cancel</button>
+    </div>
+</section>

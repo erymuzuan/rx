@@ -416,6 +416,7 @@
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.list.js" />
     <Content Include="App\viewmodels\maintenance.workorder.js" />
+    <Content Include="App\viewmodels\photo.dialog.js" />
     <Content Include="App\viewmodels\reportdelivery.schedule.js" />
     <Content Include="App\viewmodels\_reportdefinition.preview.js" />
     <Content Include="App\viewmodels\_tenant.complaintform.js" />
@@ -460,6 +461,7 @@
     <Content Include="App\views\complaint.dashboard.html" />
     <Content Include="App\views\maintenance.dashboard.html" />
     <Content Include="App\views\maintenance.list.html" />
+    <Content Include="App\views\photo.dialog.html" />
     <Content Include="App\views\reportdelivery.schedule.html" />
     <Content Include="App\views\_reportdefinition.preview.html" />
     <Content Include="App\views\_tenant.complaintform.html" />
@@ -494,7 +496,12 @@
     <Content Include="Content\bootstrap.kallyas.css" />
     <Content Include="Content\bootstrap.slate.css" />
     <Content Include="Content\bootstrap.united.css" />
+    <Content Include="Content\bootstrap\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap\bootstrap.css" />
+    <Content Include="Content\bootstrap\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\1.png" />
     <Content Include="Content\img\2.png" />
     <Content Include="Content\img\3.png" />
@@ -551,6 +558,12 @@
     </Content>
     <Content Include="Content\theme.default\site.min.css">
       <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\commercialspace.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\commercialspace.min.css">
+      <DependentUpon>commercialspace.less</DependentUpon>
     </Content>
     <Content Include="Content\theme.metro-admin\dashboard.css">
       <DependentUpon>dashboard.less</DependentUpon>
@@ -709,7 +722,6 @@
     <Content Include="Content\theme.united\site.min.css">
       <DependentUpon>site.less</DependentUpon>
     </Content>
-    <Content Include="Content\_public.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\Adobe-Acrobat.png" />
@@ -828,6 +840,10 @@
     <Content Include="Content\theme.united\nav.less" />
     <Content Include="Content\theme.united\site.less" />
     <Content Include="Content\theme.metro-admin\rentalapplication.less" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\theme.metro-admin\commercialspace.less" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\demo.js" />
@@ -990,17 +1006,9 @@
     <Content Include="bootstrap\img\glyphicons-halflings.png" />
     <Content Include="bootstrap\js\bootstrap.js" />
     <Content Include="bootstrap\js\bootstrap.min.js" />
-    <Content Include="Content\bootstrap-datepicker.css" />
-    <Content Include="Content\bootstrap-datepicker.min.css" />
-    <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-responsive.css" />
-    <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap-toggle-buttons.css" />
     <Content Include="Content\bootstrap.default.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\datepicker.css" />
-    <Content Include="Content\demo-old.css" />
-    <Content Include="Content\demo.css" />
     <Content Include="Content\durandal.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\font\IcoMoon.svg" />
@@ -1017,8 +1025,6 @@
     <Content Include="Content\ie10mobile.css" />
     <Content Include="Content\images\Add.png" />
     <Content Include="Content\images\animated-overlay.gif" />
-    <Content Include="Content\images\glyphicons-halflings-white.png" />
-    <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\images\icon.png" />
     <Content Include="Content\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="Content\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
@@ -1036,7 +1042,6 @@
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\metro-ui-dark.css" />
     <Content Include="Content\metro-ui-light.css" />
-    <Content Include="Content\sprite.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -1101,7 +1106,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
-    <Content Include="Content\widgets.css" />
     <Content Include="default.aspx" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\azure\drawer-icons.1.png" />
