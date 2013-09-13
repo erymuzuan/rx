@@ -5,7 +5,7 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/report.g.js" />
+/// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
@@ -37,7 +37,8 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                 reportDefinitionId(id);
                 
                 if (!id) {
-                    preview.activate(designer.reportDefinition());
+                    var rdl = new bespoke.sphcommercialspace.domain.ReportDefinition(system.guid());
+                    setRdl(rdl);
 
                 } else {
                     var query = String.format("ReportDefinitionId eq {0}", id);
