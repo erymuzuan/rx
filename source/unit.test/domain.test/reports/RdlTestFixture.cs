@@ -134,7 +134,6 @@ namespace domain.test.reports
             rdl.ExecuteResultAsync()
                 .ContinueWith(_ =>
                 {
-                    
                     var rows = _.Result;
                     Assert.AreEqual(count, rows.Count);
                     Assert.IsTrue(rows[0].ReportColumnCollection.Any(c => c.Name == path));

@@ -506,6 +506,17 @@ namespace Bespoke.SphCommercialSpaces.Domain
         }
 
 
+        private readonly ObjectCollection<ChartSeries> m_ChartSeriesCollection = new ObjectCollection<ChartSeries>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ChartSeries", IsNullable = false)]
+        public ObjectCollection<ChartSeries> ChartSeriesCollection
+        {
+            get { return m_ChartSeriesCollection; }
+        }
+
 
     }
 
@@ -565,6 +576,17 @@ namespace Bespoke.SphCommercialSpaces.Domain
             }
         }
 
+
+        private readonly ObjectCollection<ChartSeries> m_ChartSeriesCollection = new ObjectCollection<ChartSeries>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ChartSeries", IsNullable = false)]
+        public ObjectCollection<ChartSeries> ChartSeriesCollection
+        {
+            get { return m_ChartSeriesCollection; }
+        }
 
 
     }
@@ -2606,6 +2628,86 @@ namespace Bespoke.SphCommercialSpaces.Domain
             }
             get { return m_htmlOutput; }
         }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ChartSeries", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ChartSeries
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_header;
+        public const string PropertyNameHeader = "Header";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_column;
+        public const string PropertyNameColumn = "Column";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Header
+        {
+            set
+            {
+                if (String.Equals(m_header, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameHeader, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_header = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_header;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Column
+        {
+            set
+            {
+                if (String.Equals(m_column, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameColumn, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_column = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_column;
+            }
+        }
+
 
 
     }
