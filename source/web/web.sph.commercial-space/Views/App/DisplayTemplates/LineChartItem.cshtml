@@ -6,49 +6,63 @@
 <div>
     <div id="@id"></div>
     <script type="text/javascript">
-            (function () {
-                
-                $("#@id").kendoChart({
-                    title: {
-                        text: "@Model.Title"
+        (function () {
+
+            $("#@id").kendoChart({
+                title: {
+                    text: "@Model.Title"
                     },
-                    legend: {
-                        position: "bottom"
-                    },
-                    chartArea: {
-                        background: ""
-                    },
-                    seriesDefaults: {
-                        type: "line"
-                    },
-                    series: [{
-                        name: "@Model.HorizontalAxisField",
-                        data: [@Html.Raw(Model.JsonValues)]
-                    }],
-                    valueAxis: {
-                        labels: {
-                            format: "@Model.ValueLabelFormat"
+                legend: {
+                    position: "bottom"
+                },
+                chartArea: {
+                    background: ""
+                },
+                seriesDefaults: {
+                    type: "line"
+                },
+                series: [
+                        @{
+                            var seriesCount = Model.Series.Length;
+                        }
+                        @for (var i = 0; i < Model.Series.Length; i++)
+                        {
+                            <text>
+                                {
+                                    name: "@Model.Series[i].Header",
+                                    data: [@string.Join(",", Model.Series[i].Values)]
+                                }
+                            </text>
+                            if (i < seriesCount-1)
+                            {
+                                 <text>,</text>
+                            }
+                        }
+                    ],
+                valueAxis: {
+                    labels: {
+                        format: "@Model.ValueLabelFormat"
                         },
                         line: {
                             visible: false
                         }
                     },
-                    categoryAxis: {
-                        categories: [@Html.Raw(Model.CategoryAxiesValues)],
+                categoryAxis: {
+                    categories: [@Html.Raw(Model.CategoryAxiesValues)],
                         majorGridLines: {
                             visible: false
                         }
                     },
-                    tooltip: {
-                        visible: true,
-                        format: "{0}%",
-                        template: "#= category #: #= value #"
-                    }
-                });
+                tooltip: {
+                    visible: true,
+                    format: "{0}%",
+                    template: "#= category #: #= value #"
+                }
+            });
 
 
 
-            })();
+        })();
 
     </script>
 

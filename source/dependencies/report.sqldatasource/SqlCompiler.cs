@@ -18,14 +18,18 @@ namespace Bespoke.Sph.SqlReportDataSource
         {
             var sql = new StringBuilder("SELECT ");
             var useDefaultColumn = true;
+
+            var aggregateColumns = new ObjectCollection<string>();
             // for normal aggregate
             foreach (var c in dataSource.EntityFieldCollection.Where(t => !string.IsNullOrWhiteSpace(t.Aggregate)))
             {
                 if (c.Aggregate == "GROUP") continue;
-                sql.AppendFormat("{0}([{1}]) AS {1}_{0}", c.Aggregate, c.Name);
+                aggregateColumns.Add(string.Format("{0}([{1}]) AS {1}_{0} ", c.Aggregate, c.Name));
 
                 useDefaultColumn = false;
             }
+            sql.Append(string.Join(",", aggregateColumns));
+
             if (useDefaultColumn)
             {
                 sql.AppendFormat("[{0}Id], [Data] ", dataSource.EntityName);
@@ -37,7 +41,6 @@ namespace Bespoke.Sph.SqlReportDataSource
                     sql.AppendFormat(", [{0}]", c.Name);
                 }
             }
-
             sql.AppendFormat(" FROM [Sph].[{0}] ", dataSource.EntityName);
 
             if (dataSource.ReportFilterCollection.Any())
