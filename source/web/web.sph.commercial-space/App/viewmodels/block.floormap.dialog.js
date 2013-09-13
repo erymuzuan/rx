@@ -9,10 +9,10 @@ define(['durandal/system', 'services/datacontext', 'durandal/plugins/router', 'v
     function (system, context, router, map) {
         
         var isBusy = ko.observable(false),
-            mapLoaded = false,
             activate = function (routeData) {
                 
                 var tcs = new $.Deferred();
+                //get address or building location
                 var geocode = $.get('http://maps.googleapis.com/maps/api/geocode/json?address=36+Taman+Dato+Demang,+Seri+Kembangan,+Selangor&sensor=false');
                 $.when(geocode)
                     .then(function (gc) {
@@ -20,7 +20,7 @@ define(['durandal/system', 'services/datacontext', 'durandal/plugins/router', 'v
                             var loc = gc.results[0].geometry.location;
                             setTimeout(function () {
                                 var panel = document.getElementById('blockfloormap');
-                                if (panel && !mapLoaded) {
+                                if (panel) {
                                     map.init({
                                         panel: 'blockfloormap',
                                         draw: true,
@@ -28,7 +28,6 @@ define(['durandal/system', 'services/datacontext', 'durandal/plugins/router', 'v
                                         center: new google.maps.LatLng(loc.lat, loc.lng),
                                         zoom: 17
                                     });
-                                    mapLoaded = true;
 
                                     //if (path[0]) {
                                     //    map.add({
