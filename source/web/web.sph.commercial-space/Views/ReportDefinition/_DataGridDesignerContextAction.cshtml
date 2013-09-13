@@ -30,13 +30,7 @@
                     </td>
                     <td><input type="text" class="input-datagrid-column-header" data-bind="value: Header" /></td>
                     <td>
-                        <select class="input-small" data-bind="value:Format">
-                            <option></option>
-                            <option value="{0:d}">Short DateTime</option>
-                            <option value="{0:c}">Currency</option>
-                            <option value="{0:F2}">Decimal</option>
-                            <option value="Custom">Custome</option>
-                        </select>
+                        <input class="input-small" data-bind="kendoComboBox:Format, source :ko.observableArray(['{0:d}','{0:F2}','{0:g}', '{0:c}'])" />
                     </td>
                     <td><a href="#" data-bind="click : $parent.removeColumn.call($parent,$data)"><i class="icon-remove"></i></a></td>
                 </tr>

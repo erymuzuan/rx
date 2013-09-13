@@ -43,7 +43,7 @@ for (int i = 0; i < 500; i++)
 		var land = l.Clone();
 		land.Title = "Tanah " + i;
 		land.Location = loc;
-		land.Size = 4000 + (i % 10);
+		land.Size = 40 + (i % 10);
 		land.Address.City = loc;
 		
 		var item = new LINQPad.User.Land{

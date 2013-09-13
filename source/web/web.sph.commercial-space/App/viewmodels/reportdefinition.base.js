@@ -188,6 +188,7 @@ define(['schemas/report.builder.g', 'services/datacontext', 'durandal/system', '
                     item.isSelected(false);
                 });
                 vm.selectedReportItem(ri);
+                if (!ri.isSelected) ri.isSelected = ko.observable(true);
                 ri.isSelected(true);
             },
             removeReportItem = function (item) {

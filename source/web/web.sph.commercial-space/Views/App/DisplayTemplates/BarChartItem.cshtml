@@ -3,7 +3,7 @@
 
 @{
     var id = Guid.NewGuid().ToString();
-    var series = from s in Model.Series
+    var series = from s in Model.ChartSeriesCollection
                  select new
                  {
                      name = s.Header,

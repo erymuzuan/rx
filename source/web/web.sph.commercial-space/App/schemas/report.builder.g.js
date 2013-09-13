@@ -61,6 +61,7 @@ bespoke.sphcommercialspace.domain.BarChartItem = function (webId) {
     v.Title = ko.observable('');
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.BarChartItem, domain.commercialspace";
 
+    v.ChartSeriesCollection = ko.observableArray([]);
     if (bespoke.sphcommercialspace.domain.BarChartItemPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.BarChartItemPartial(v));
     }
@@ -78,6 +79,7 @@ bespoke.sphcommercialspace.domain.LineChartItem = function (webId) {
     v.Title = ko.observable('');
     v["$type"] = "Bespoke.SphCommercialSpaces.Domain.LineChartItem, domain.commercialspace";
 
+    v.ChartSeriesCollection = ko.observableArray([]);
     if (bespoke.sphcommercialspace.domain.LineChartItemPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.LineChartItemPartial(v));
     }
@@ -257,12 +259,12 @@ bespoke.sphcommercialspace.domain.ReportColumn = function (webId) {
         "$type": "Bespoke.SphCommercialSpaces.Domain.ReportColumn, domain.commercialspace",
         Name: ko.observable(''),
         Header: ko.observable(''),
-        Value: ko.observable(''),
         Width: ko.observable(''),
         IsSelected: ko.observable(false),
         TypeName: ko.observable(''),
         IsFilterable: ko.observable(false),
         IsCustomField: ko.observable(false),
+        Value: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -401,6 +403,23 @@ bespoke.sphcommercialspace.domain.ReportContent = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.ReportContentPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.ReportContentPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.ChartSeries = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.ChartSeries, domain.commercialspace",
+        Header: ko.observable(''),
+        Column: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.ChartSeriesPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.ChartSeriesPartial(model));
     }
     return model;
 };

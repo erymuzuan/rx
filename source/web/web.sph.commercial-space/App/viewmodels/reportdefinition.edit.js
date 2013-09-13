@@ -73,8 +73,19 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                         }
                     }
                     return "[" + name + "]";
+                }),
+                    columns2 = _(fields).map(function (v) {
+                    var name = v.Name(),
+                        aggregate = v.Aggregate();
+                    if (aggregate) {
+                        if (aggregate !== "GROUP") {
+                            name = v.Name() + "_" + aggregate;
+                        }
+                    }
+                    return name;
                 });
                 vm.dataGridColumnOptions(columns);
+                vm.columnOptions(columns2);
             },
             loadEntityColumns = function (entity) {
                 var tcs = new $.Deferred();
@@ -206,6 +217,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
             removeDataGridColumn: removeDataGridColumn,
             addDataGridColumn: addDataGridColumn,
             dataGridColumnOptions: ko.observableArray(),
+            columnOptions: ko.observableArray(),
             
             toolbar: {
                 saveCommand: save,

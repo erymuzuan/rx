@@ -58,11 +58,11 @@ namespace Bespoke.Sph.SqlReportDataSource
             if (table == typeof(RentalApplication).Name) table = "Application";
 
             var name = "Name";
-            if (table == typeof (Contract).Name)
+            if (table == typeof(Contract).Name)
                 name = "Type";
 
             XNamespace x = Strings.DEFAULT_NAMESPACE;
-            var sql = string.Format("SELECT [{0}], [Data] FROM [Sph].[{1}Template]",name, table);
+            var sql = string.Format("SELECT [{0}], [Data] FROM [Sph].[{1}Template]", name, table);
             var cs = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
             using (var conn = new SqlConnection(cs))
             using (var cmd = new SqlCommand(sql, conn))
@@ -85,7 +85,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                                       select new ReportColumn
                                       {
                                           IsCustomField = true,
-                                          Name = string.Format("({0}) {1}",template, e.Name),
+                                          Name = string.Format("({0}) {1}", template, e.Name),
                                           TypeName = e.Type
                                       };
                         list.AddRange(columns);
@@ -218,7 +218,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                     {
                         foreach (var c in sqlcolumns)
                         {
-                            var column = new ReportColumn { Name = c, Value = string.Format("{0}", reader[c]) };
+                            var column = new ReportColumn { Name = c, Value = reader[c] };
                             r.ReportColumnCollection.Add(column);
                         }
                     }
@@ -241,8 +241,7 @@ namespace Bespoke.Sph.SqlReportDataSource
             {
                 if (!c.Name.Contains("."))
                 {
-                    if(c.Name.StartsWith("("))continue; // custom field
-
+                    if (c.Name.StartsWith("(")) continue; // custom field
                     var attribute = xml.Attribute(c.Name);
                     if (null != attribute)
                     {
@@ -254,7 +253,6 @@ namespace Bespoke.Sph.SqlReportDataSource
                     // custom fields
                     if (c.IsCustomField)
                     {
-                        Console.WriteLine("Looking for " + c.Name);
                         var ce = xml.Element(x + "CustomFieldValueCollection");
                         if (null == ce) continue;
                         foreach (var cv in ce.Elements(x + "CustomFieldValue"))
@@ -276,17 +274,18 @@ namespace Bespoke.Sph.SqlReportDataSource
                     continue;
                 }
 
-                var aggregate = c.Name.Split(new[] { '.' });
-                var prop = aggregate.Last();
+                var propertyPathList = c.Name.Split(new[] { '.' });
+                var prop = propertyPathList.Last();
 
                 var node = xml;
-                var currentPath = aggregate.First();
-                while (true)
+                foreach (var currentPath in propertyPathList)
                 {
                     var xe = node.Element(x + currentPath);
                     if (null == xe) break;
                     node = xe;
                 }
+
+
                 var attr = node.Attribute(prop);
                 if (null != attr)
                 {

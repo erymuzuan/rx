@@ -1,8 +1,12 @@
-﻿namespace Bespoke.SphCommercialSpaces.Domain
+﻿using System.Xml.Serialization;
+using Newtonsoft.Json;
+
+namespace Bespoke.SphCommercialSpaces.Domain
 {
-    public class ChartSeries
+    public partial class ChartSeries : DomainObject
     {
-        public string Header { get; set; }
+        [XmlIgnore]
+        [JsonIgnore]
         public decimal[] Values { get; set; }
     }
 }
