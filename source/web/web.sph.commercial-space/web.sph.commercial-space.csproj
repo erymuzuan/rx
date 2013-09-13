@@ -412,6 +412,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
+    <Content Include="App\viewmodels\block.floormap.dialog.js" />
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
