@@ -1357,7 +1357,7 @@ bespoke.sphcommercialspace.domain.Invoice = function (webId) {
         InvoiceId: ko.observable(0),
         Date: ko.observable(moment().format('DD/MM/YYYY')),
         Amount: ko.observable(0.00),
-        No: ko.observable(''),
+        InvoiceNo: ko.observable(''),
         Type: ko.observable('InvoiceType'),
         ContractNo: ko.observable(''),
         TenantIdSsmNo: ko.observable(''),
