@@ -762,7 +762,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\breeze.debug.js" />
     <Content Include="App\viewmodels\complaint.close.js" />
-    <Content Include="App\views\complaint.close.html" />
     <Content Include="App\views\complaint.detail.html" />
     <Content Include="Content\font\fontawesome-webfont.woff" />
     <Content Include="Content\font\fontawesome-webfont.ttf" />
@@ -1481,6 +1480,7 @@
     <Content Include="Views\App\EditorTemplates\BuildingBlocksElement.cshtml" />
     <Content Include="Scripts\toastr.min.js.map" />
     <Content Include="Views\App\DisplayTemplates\CustomListDefinitionElement.cshtml" />
+    <Content Include="Views\App\ComplaintCloseHtml.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
