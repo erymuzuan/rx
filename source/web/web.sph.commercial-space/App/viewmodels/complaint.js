@@ -16,7 +16,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 	    var
         isBusy = ko.observable(false),
         activate = function () {
-            var query = String.format("ComplaintTemplateId gt 0");
+            var query = String.format("ComplaintTemplateId gt 0 and IsActive eq 'true'");
             var tcs = new $.Deferred();
             context.loadAsync("ComplaintTemplate", query)
                 .done(function (lo) {

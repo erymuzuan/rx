@@ -1,8 +1,9 @@
 <Query Kind="Statements">
   <Connection>
-    <ID>84e06ebb-98ea-4fa0-a47c-8535465a77e6</ID>
-    <Server>.\KATMAI</Server>
+    <ID>a60442a9-d977-4eac-a3f0-a8a7142bbe06</ID>
+    <Server>(localdb)\Projects</Server>
     <Database>Sph</Database>
+    <DisplayName>sph</DisplayName>
   </Connection>
   <Output>DataGrids</Output>
   <Reference Relative="..\source\web\web.sph.commercial-space\bin\domain.commercialspace.dll">C:\project\work\sph\source\web\web.sph.commercial-space\bin\domain.commercialspace.dll</Reference>
@@ -10,7 +11,30 @@
   <Namespace>Bespoke.SphCommercialSpaces.Domain</Namespace>
 </Query>
 
-var l = XmlSerializerService.DeserializeFromXml<Bespoke.SphCommercialSpaces.Domain.Land>(Lands.First().Data.ToString());
+var l = new Bespoke.SphCommercialSpaces.Domain.Land{
+	Location = "Tanah Merah",
+	Address = new Address{
+		City = "Tanah Merah",
+		Country = "Malaysia",
+		Postcode = "5600",
+		State = "Kelantan"	
+	},
+	ApprovedBy = "Me",
+	ApprovedPlanNo = "234",
+	ApprovedDateTime = DateTime.Today,
+	CreatedDate = DateTime.Today,
+	CurrentMarketValue = 90000m,
+	Lot = "W09",
+	LandOffice = "Tanah Merah",
+	Owner= new Owner{
+		Email = "me@bespoke.com.my",
+		Name = "me"
+		},
+	Size = 45,
+	Status = "OK",
+	Title = "WA09",
+	Usage = "Perdaganga"
+};
 var locations = new []{"Jeli", "Tanah Merah", "Pasir mas", "Kota Bharu", "Gua Musang", "Bukit Bunga"};
 
 for (int i = 0; i < 500; i++)
@@ -19,7 +43,7 @@ for (int i = 0; i < 500; i++)
 		var land = l.Clone();
 		land.Title = "Tanah " + i;
 		land.Location = loc;
-		land.Size = 4000 + (i % 10);
+		land.Size = 40 + (i % 10);
 		land.Address.City = loc;
 		
 		var item = new LINQPad.User.Land{
@@ -34,12 +58,10 @@ for (int i = 0; i < 500; i++)
 		Lot = land.Lot,
 		//Path = l.Path,
 		SheetNo = land.SheetNo,
-		Size = land.Size,
+		Size = land.Size + (i % 10),
 		Title = land.Title,
 		Wkt = land.Wkt
-	};
-	
-	Lands.InsertOnSubmit(item);
-	
+	};	
+	Lands.InsertOnSubmit(item);	
 }
 SubmitChanges();

@@ -9,10 +9,8 @@ namespace Bespoke.SphCommercialSpaces.Domain
     {
         [XmlIgnore]
         [JsonIgnore]
-        public string JsonValues { get; private set; }
-        [XmlIgnore]
-        [JsonIgnore]
-        public string CategoryAxiesValues { get;private set; }
+        public string CategoryAxiesValues { get; private set; }
+
 
         public override void SetRows(ObjectCollection<ReportRow> rows)
         {
@@ -20,11 +18,14 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 rows.SelectMany(r => r.ReportColumnCollection.Where(c => c.Name == this.HorizontalAxisField))
                 .Select(c => "'" + c.Value + "'");
             this.CategoryAxiesValues = string.Join(",", categoryAxiesValues);
+            
+            foreach (var cl in this.ChartSeriesCollection)
+            {
+                var series1 = cl;
+                series1.Values = rows.SelectMany(r => r.ReportColumnCollection.Where(c => c.Name == series1.Column))
+                    .Select(c => Convert.ToDecimal(c.Value)).ToArray();
 
-            var a =
-                rows.SelectMany(r => r.ReportColumnCollection.Where(c => c.Name != this.HorizontalAxisField))
-                .Select(c =>  c.Value );
-            this.JsonValues = string.Join(",", a);
+            }
         }
     }
 }

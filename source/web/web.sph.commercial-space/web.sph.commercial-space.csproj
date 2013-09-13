@@ -260,7 +260,9 @@
     <Compile Include="Controllers\AppController.header.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.maintenance.cs" />
+    <Compile Include="Controllers\AppController.maintenance.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AppController.maintenancetemplate.cs.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
@@ -387,6 +389,8 @@
     <Content Include="App\partial\Contract.js" />
     <Content Include="App\partial\Building.js" />
     <Content Include="App\partial\ContractTemplate.js" />
+    <Content Include="App\partial\BarChartItem.js" />
+    <Content Include="App\partial\LineChartItem.js" />
     <Content Include="App\partial\CustomListRow.js" />
     <Content Include="App\partial\RentalApplication.js" />
     <Content Include="App\partial\CustomListDefinitionElement.js" />
@@ -761,7 +765,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\breeze.debug.js" />
     <Content Include="App\viewmodels\complaint.close.js" />
-    <Content Include="App\views\complaint.close.html" />
     <Content Include="App\views\complaint.detail.html" />
     <Content Include="Content\font\fontawesome-webfont.woff" />
     <Content Include="Content\font\fontawesome-webfont.ttf" />
@@ -1479,6 +1482,9 @@
     <Content Include="Views\Template\DisplayTemplates\BuildingBlocksElement.cshtml" />
     <Content Include="Views\App\EditorTemplates\BuildingBlocksElement.cshtml" />
     <Content Include="Scripts\toastr.min.js.map" />
+    <Content Include="Views\App\DisplayTemplates\CustomListDefinitionElement.cshtml" />
+    <Content Include="Views\App\ComplaintCloseHtml.cshtml" />
+    <Content Include="Views\App\_TenantDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -169,6 +169,10 @@ namespace web.test
             return driver;
         }
 
+        public static IWebDriver ActivateTabItem(this IWebDriver driver, string href)
+        {
+            return driver.ClickFirst("a[data-toggle=tab]", e =>  e.GetAttribute("href") == href);
+        }
         public static IWebDriver ClickFirst(this IWebDriver driver, string selector, Expression<Func<IWebElement, bool>> filter)
         {
             var elements = driver.FindElements(By.CssSelector(selector)).AsQueryable();

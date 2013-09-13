@@ -26,23 +26,32 @@ define(['services/datacontext', 'services/logger', 'durandal/system', 'config'],
 	            id(parseInt(routedata.templateId));
 	            var tcs = new $.Deferred();
 	            var query = "ComplaintTemplateId eq " + id();
-	            context.loadOneAsync("ComplaintTemplate", query).then(function (ct) {
-	                template(ct);
+	            context.loadOneAsync("ComplaintTemplate", query).then(function (tpl) {
+	                template(tpl);
 	                vm.complaint().TemplateId(id());
-	                var categories = _(ct.ComplaintCategoryCollection()).map(function (c) {
+	                var categories = _(tpl.ComplaintCategoryCollection()).map(function (c) {
 	                    return c.Name();
 	                });
 	                vm.categoryOptions(categories);
-
-	                var cfs = _(ct.CustomFieldCollection()).map(function (f) {
+	                var fieldToValueMap = function(f) {
 	                    var webid = system.guid();
 	                    var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
 	                    v.Name(f.Name());
 	                    v.Type(f.Type());
 	                    return v;
+	                },
+	                cfs = _(tpl.CustomFieldCollection()).map(fieldToValueMap),
+	                cls = _(tpl.CustomListDefinitionCollection()).map(function (v) {
+	                    var lt = new bespoke.sphcommercialspace.domain.CustomListValue(system.guid());
+	                    lt.Name(v.Name());
+
+	                    var fields = _(v.CustomFieldCollection()).map(fieldToValueMap);
+	                    lt.CustomFieldCollection = ko.observableArray(fields);
+	                    return lt;
 	                });
 
 	                vm.complaint().CustomFieldValueCollection(cfs);
+	                vm.complaint().CustomListValueCollection(cls);
 
 	                tcs.resolve(true);
 	                isBusy(false);

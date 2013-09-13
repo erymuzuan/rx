@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Runtime.InteropServices;
+﻿using System;
+using System.Linq;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -19,7 +19,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                        select new
                        {
                            category = r.ReportColumnCollection.Single(c => c.Name == this.CategoryField).Value,
-                           value = decimal.Parse(val)
+                           value = Convert.ToDecimal(val)
                        };
 
             this.JsonValues = JsonConvert.SerializeObject(data);

@@ -50,6 +50,15 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="ReportItem">
+					<xs:all>
+						<xs:element name="ChartSeriesCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ChartSeries" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
 					<xs:attribute name="ValueLabelFormat" type="xs:string" use="optional"/>
 					<xs:attribute name="HorizontalAxisField" type="xs:string" use="required"/>
 					<xs:attribute name="Title" type="xs:string" use="required"/>
@@ -61,6 +70,15 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="ReportItem">
+					<xs:all>
+						<xs:element name="ChartSeriesCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ChartSeries" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
 					<xs:attribute name="ValueLabelFormat" type="xs:string" use="optional"/>
 					<xs:attribute name="HorizontalAxisField" type="xs:string" use="required"/>
 					<xs:attribute name="Title" type="xs:string" use="required"/>
@@ -193,9 +211,11 @@
 	</xs:element>
 	<xs:element name="ReportColumn">
 		<xs:complexType>
+			<xs:all>
+				<xs:element name="Value" type="xs:anySimpleType"/>
+			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Header" type="xs:string" use="required"/>
-			<xs:attribute name="Value" type="xs:string" use="required"/>
 			<xs:attribute name="Width" type="xs:string" use="required"/>
 			<xs:attribute name="IsSelected" type="xs:boolean" use="required"/>
 			<xs:attribute name="TypeName" type="xs:string" use="required"/>
@@ -310,6 +330,12 @@
 			<xs:attribute name="ReportContentId" type="xs:int" use="required"/>
 			<xs:attribute name="ReportDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="ReportDeliveryId" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChartSeries">
+		<xs:complexType>
+			<xs:attribute name="Header" type="xs:string" use="required"/>
+			<xs:attribute name="Column" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

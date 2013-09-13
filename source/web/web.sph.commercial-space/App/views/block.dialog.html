@@ -1,5 +1,6 @@
 ﻿<section class="view-model-modal">
     <div class="modal-header">
+        <h2>Edit Block Floor</h2>
         <button type="button" class="close" data-bind="click: cancelClick">&times;</button>
     </div>
     <div class="modal-body" data-bind="with: block">
@@ -11,8 +12,6 @@
                     <th>No</th>
                     <th>Name</th>
                     <th>Size</th>
-                    <th></th>
-                    <th></th>
                     <th></th>
                 </tr>
             </thead>
@@ -26,16 +25,12 @@
                         <input class="input-floor-size" type="text" data-bind="value: Size, uniqueName: true" value="5000" /></td>
                     <td>
                         <input type="button" data-bind="click: $root.removeFloor, uniqueName: true" class="btn btn-mini" value="-" /></td>
-                    <td>
-                        <!--<input type="button" data-bind="click: $root.addLot, enable: $root.building().BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="+Lot" /></td>-->
-                    <td>
-                        <!--<input type="button" data-bind="click: $root.viewFloorPlan, enable: $root.building().BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="Pelan Lantai" /></td>-->
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="modal-footer">
         <input type="button" class="btn btn-primary" value="OK" data-bind="click: okClick" />
-        <button class="btn" data-bind="click: cancelClick">Batal</button>
+        <button class="btn" data-bind="click: cancelClick">Tutup</button>
     </div>
 </section>

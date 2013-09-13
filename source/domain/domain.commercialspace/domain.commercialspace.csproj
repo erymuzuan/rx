@@ -202,6 +202,7 @@
     <Compile Include="Business\Profile.cs" />
     <Compile Include="QueryHelper.cs" />
     <Compile Include="Reports\BarChartItem.cs" />
+    <Compile Include="Reports\ChartSeries.cs" />
     <Compile Include="Reports\DataGridColumn.cs" />
     <Compile Include="Reports\DataGridItem.cs" />
     <Compile Include="Reports\DataSource.cs" />

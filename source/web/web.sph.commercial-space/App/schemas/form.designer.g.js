@@ -44,6 +44,7 @@ bespoke.sphcommercialspace.domain.ComplaintTemplate = function (webId) {
         ComplaintCategoryCollection: ko.observableArray([]),
         CustomFieldCollection: ko.observableArray([]),
         FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
+        CustomListDefinitionCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -90,6 +91,7 @@ bespoke.sphcommercialspace.domain.ApplicationTemplate = function (webId) {
         Category: ko.observable(''),
         CustomFieldCollection: ko.observableArray([]),
         FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
+        CustomListDefinitionCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -112,6 +114,7 @@ bespoke.sphcommercialspace.domain.MaintenanceTemplate = function (webId) {
         Category: ko.observable(''),
         CustomFieldCollection: ko.observableArray([]),
         FormDesign: ko.observable(new bespoke.sphcommercialspace.domain.FormDesign()),
+        CustomListDefinitionCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

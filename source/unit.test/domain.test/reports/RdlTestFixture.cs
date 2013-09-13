@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Xml.Linq;
 using Bespoke.Sph.SqlReportDataSource;
 using Bespoke.SphCommercialSpaces.Domain;
 using domain.test.triggers;
@@ -27,7 +29,7 @@ namespace domain.test.reports
         public void GetParamInExpressionConflict()
         {
             var ds = new DataSource { EntityName = "Building", Query = "SELECT * FROM [Sph].[Building]" };
-            ds.ParameterCollection.Add(new Parameter { Name = "Today", Value = 30.00m });
+            ds.ParameterCollection.Add(new Parameter { Name = "Today", Value = 30.00m , Type = typeof(decimal)});
             var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
 
             var script = ObjectBuilder.GetObject<IScriptEngine>();
@@ -39,7 +41,7 @@ namespace domain.test.reports
         public void GetParamInExpression()
         {
             var ds = new DataSource { EntityName = "Building", Query = "SELECT * FROM [Sph].[Building]" };
-            ds.ParameterCollection.Add(new Parameter { Name = "Price", Value = 30.00m });
+            ds.ParameterCollection.Add(new Parameter { Name = "Price", Value = 30.00m, Type = typeof(decimal)});
             var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
 
             var script = ObjectBuilder.GetObject<IScriptEngine>();
@@ -114,12 +116,41 @@ namespace domain.test.reports
         }
 
         [Test]
+        public void ExecuteAggregateProperties()
+        {
+            const string path = "Tenant.Address.Street";
+            var count = "Sph".GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Contract]");
+            Assert.IsTrue(count > 0, "Fuck no contract");
+
+            var id = "Sph".GetDatabaseScalarValue<int>("SELECT TOP 1 [ContractId] FROM [Sph].[Contract] ORDER BY NEWID()");
+            var sql = "SELECT [Data] FROM [Sph].[Contract] WHERE [ContractId] = " + id;
+            var xml = XElement.Parse("Sph".GetDatabaseScalarValue<string>(sql));
+
+            var tenantStreet = xml.GetAttributeStringValue("Tenant", "Address", "Street");
+
+            var ds = new DataSource { EntityName = "Contract", Query =sql };
+            var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
+            
+            rdl.ExecuteResultAsync()
+                .ContinueWith(_ =>
+                {
+                    var rows = _.Result;
+                    Assert.AreEqual(count, rows.Count);
+                    Assert.IsTrue(rows[0].ReportColumnCollection.Any(c => c.Name == path));
+                     var street = rows[0][path];
+                    Assert.AreEqual(tenantStreet, street.Value as string);
+                })
+            .Wait(5000)
+            ;
+
+        }
+
+        [Test]
         public void ExecuteGetRowsCountWithQuery()
         {
             var count = "Sph".GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Building]");
             var ds = new DataSource { EntityName = "Building", Query = "SELECT * FROM [Sph].[Building]" };
             var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
-
             rdl.ExecuteResultAsync()
                 .ContinueWith(_ =>
                 {

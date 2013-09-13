@@ -7,7 +7,6 @@
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" /> 
 /// <reference path="../services/datacontext.js" />
-/// <reference path="~/App/services/Rent.js" />
 
 
 define(['services/datacontext'],

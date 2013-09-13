@@ -89,7 +89,16 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                                     Icon = "icon-check",
                                     ModuleId = string.Format("viewmodels/complaint.assign-templateid.{0}", t.ComplaintTemplateId)
                                 };
-
+            var complaintCloseRoutes = from t in complaintTemplates.ItemCollection
+                                            select new JsRoute
+                                            {
+                                                Name = t.Name,
+                                                Url = string.Format("complaint.close-templateid.{0}/:id", t.ComplaintTemplateId),
+                                                Role = "can_assign_complaint",
+                                                Caption = t.Name,
+                                                Icon = "icon-check",
+                                                ModuleId = string.Format("viewmodels/complaint.close-templateid.{0}", t.ComplaintTemplateId)
+                                            };
             var applicationRoutes = from t in applicationTemplates.ItemCollection
                                 select new JsRoute
                                 {
@@ -109,7 +118,6 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                                     Icon = "icon-building",
                                     ModuleId = string.Format("viewmodels/maintenance.detail-templateid.{0}", t.MaintenanceTemplateId)
                                 };
-
             var rdlRoutes = from t in rdls.ItemCollection
                                 select new JsRoute
                                 {
@@ -124,6 +132,7 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
             routes.AddRange(csRoute);
             routes.AddRange(complaintFormRoutes);
             routes.AddRange(complaintAssignmentRoutes);
+            routes.AddRange(complaintCloseRoutes);
             routes.AddRange(applicationRoutes);
             routes.AddRange(maintenanceRoute);
             routes.AddRange(rdlRoutes);

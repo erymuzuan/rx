@@ -312,6 +312,7 @@ bespoke.sphcommercialspace.domain.RentalApplication = function (webId) {
         Offer: ko.observable(new bespoke.sphcommercialspace.domain.Offer()),
         CommercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
         CustomFieldValueCollection: ko.observableArray([]),
+        CustomListValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -954,6 +955,7 @@ bespoke.sphcommercialspace.domain.Complaint = function (webId) {
         CustomFieldValueCollection: ko.observableArray([]),
         Tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
         PhotoCollection: ko.observableArray([]),
+        CustomListValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1028,6 +1030,7 @@ bespoke.sphcommercialspace.domain.Maintenance = function (webId) {
         WorkOrder: ko.observable(new bespoke.sphcommercialspace.domain.WorkOrder()),
         CustomFieldValueCollection: ko.observableArray([]),
         PhotoCollection: ko.observableArray([]),
+        CustomListValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1357,7 +1360,7 @@ bespoke.sphcommercialspace.domain.Invoice = function (webId) {
         InvoiceId: ko.observable(0),
         Date: ko.observable(moment().format('DD/MM/YYYY')),
         Amount: ko.observable(0.00),
-        No: ko.observable(''),
+        InvoiceNo: ko.observable(''),
         Type: ko.observable('InvoiceType'),
         ContractNo: ko.observable(''),
         TenantIdSsmNo: ko.observable(''),

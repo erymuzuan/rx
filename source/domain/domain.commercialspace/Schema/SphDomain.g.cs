@@ -3909,6 +3909,17 @@
 			get{ return m_CustomFieldValueCollection;}
 			}
 		
+			private readonly ObjectCollection<CustomListValue>  m_CustomListValueCollection = new ObjectCollection<CustomListValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomListValue", IsNullable = false)]
+			public ObjectCollection<CustomListValue> CustomListValueCollection
+			{
+			get{ return m_CustomListValueCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -10171,6 +10182,17 @@
 			get{ return m_PhotoCollection;}
 			}
 		
+			private readonly ObjectCollection<CustomListValue>  m_CustomListValueCollection = new ObjectCollection<CustomListValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomListValue", IsNullable = false)]
+			public ObjectCollection<CustomListValue> CustomListValueCollection
+			{
+			get{ return m_CustomListValueCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -11088,6 +11110,17 @@
 			public ObjectCollection<Photo> PhotoCollection
 			{
 			get{ return m_PhotoCollection;}
+			}
+		
+			private readonly ObjectCollection<CustomListValue>  m_CustomListValueCollection = new ObjectCollection<CustomListValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomListValue", IsNullable = false)]
+			public ObjectCollection<CustomListValue> CustomListValueCollection
+			{
+			get{ return m_CustomListValueCollection;}
 			}
 		
                 ///<summary>
@@ -13874,8 +13907,8 @@
       
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
-        private  string  m_no;
-        public const string PropertyNameNo = "No";
+        private  string  m_invoiceNo;
+        public const string PropertyNameInvoiceNo = "InvoiceNo";
       
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
@@ -13961,22 +13994,22 @@
 
 
         [XmlAttribute]
-        public string No
+        public string InvoiceNo
         {
         set
         {
-        if(m_no== value) return;
-        var arg = new PropertyChangingEventArgs(PropertyNameNo, value);
+        if(m_invoiceNo== value) return;
+        var arg = new PropertyChangingEventArgs(PropertyNameInvoiceNo, value);
         OnPropertyChanging(arg);
         if( !arg.Cancel)
         {
-        m_no= value;
+        m_invoiceNo= value;
         OnPropertyChanged();
         }
         }
         get
         {
-        return m_no;}
+        return m_invoiceNo;}
         }
       
 

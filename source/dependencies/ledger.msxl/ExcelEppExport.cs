@@ -29,7 +29,7 @@ namespace Bespoke.SphCommercialSpace.LedgerMsxl
                                      {
                                          Date = v.Date,
                                          CreditAmount = v.Amount,
-                                         Description = string.Format("Invoice : {0}", v.No)
+                                         Description = string.Format("Invoice : {0}", v.InvoiceNo)
                                      };
             var rebateEntries = from v in rebates
                                  select new JournalEntry

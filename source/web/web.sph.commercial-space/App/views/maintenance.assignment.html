@@ -1,26 +1,32 @@
 ﻿<h3>Pengeluaran Arahan Kerja</h3>
-<form class="form-horizontal">
-
-    <div data-bind="with: maintenance().Complaint">
+<form class="form-horizontal" data-bind="with: maintenance">
+    <div>
+        <div class="control-group">
+            <label for="CreatedDate" class="span2">Tarikh Dihantar</label><label class="span1">:</label>
+            <span data-bind="date: { value: CreatedDate, format: 'DD/MM/YYYY' }" id="CreatedDate" />
+        </div>
+    </div>
+    <div data-bind="with: Complaint">
         <div data-bind="visible: Tenant().Name">
             <div class="control-group">
                 <label class="span2">Pengadu</label><label class="span1">:</label>
                 <span data-bind="text: Tenant().Name" />
             </div>
             <div class="control-group ">
-                <label class="span2">Alamat </label><label class="span1">:</label>
+                <label class="span2">Alamat </label>
+                <label class="span1">:</label>
                 <div class="control-group" data-bind="with: Tenant().Address">
-                   
-                        <span data-bind="text: UnitNo" />
-                    
-                        <span data-bind="text: Street" />
-                   
-                        <span data-bind="text: City" />
-                   
-                        <span data-bind="text: Postcode" />
-                   
-                        <span data-bind="text: State" />
-                  
+
+                    <span data-bind="text: UnitNo" />
+
+                    <span data-bind="text: Street" />
+
+                    <span data-bind="text: City" />
+
+                    <span data-bind="text: Postcode" />
+
+                    <span data-bind="text: State" />
+
                 </div>
             </div>
         </div>
@@ -34,7 +40,7 @@
         </div>
         <div class="control-group">
             <label class="span2">Keterangan</label><label class="span1">:</label>
-            <span data-bind="text: Remarks" />
+            <span data-bind="text: Note" />
         </div>
 
     </div>
