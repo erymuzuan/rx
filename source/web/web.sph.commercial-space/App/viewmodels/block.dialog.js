@@ -23,12 +23,6 @@ define(['durandal/system', 'services/datacontext'],
             },
             removeFloor = function (floor) {
                 vm.block().FloorCollection.remove(floor);
-            },
-            addLot = function () {
-                alert('add lot');
-            },
-            viewFloorPlan = function () {
-                alert('view floor plan');
             };
         var vm = {
             isBusy: isBusy,
@@ -36,8 +30,6 @@ define(['durandal/system', 'services/datacontext'],
             activate: activate,
             addFloor: addFloor,
             removeFloor: removeFloor,
-            addLot: addLot,
-            viewFloorPlan: viewFloorPlan,
             okClick: okClick,
             cancelClick: cancelClick
         };

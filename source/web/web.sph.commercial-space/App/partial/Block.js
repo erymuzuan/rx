@@ -25,8 +25,25 @@ bespoke.sphcommercialspace.domain.BlockPartial = function () {
                         });
                 });
             };
+        },
+        editBlockMap = function(block) {
+            var self = this;
+            return function () {
+                require(['viewmodels/block.floormap.dialog', 'durandal/app'], function (dialog, app) {
+                    var clone = ko.mapping.fromJS(ko.mapping.toJS(block));
+                    dialog.block(clone);
+                    app.showModal(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result == "OK") {
+                                
+                            }
+                        });
+                });
+            };
         };
     return {
-        editFloor: editFloor
+        editFloor: editFloor,
+        editBlockMap: editBlockMap
     };
 };

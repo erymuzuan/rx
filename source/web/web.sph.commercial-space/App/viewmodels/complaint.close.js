@@ -21,9 +21,12 @@ define(['services/datacontext'],
                 context.loadOneAsync("Complaint", query)
                     .done(function (b) {
                         vm.complaint(b);
-                        context.loadOneAsync("Tenant", "TenantId eq " + b.TenantId())
-                        .done(function (tenant) {
+                        var tenantTask = context.loadOneAsync("Tenant", "TenantId eq " + b.TenantId());
+                        var maintenanceTask = context.loadOneAsync("Maintenance","ComplaintId eq " + b.ComplaintId());
+                       
+                        $.when(tenantTask, maintenanceTask).done(function (tenant, maintenance) {
                             vm.tenant(tenant);
+                            vm.maintenance(maintenance);
                         });
 
                         tcs.resolve(true);
@@ -50,6 +53,7 @@ define(['services/datacontext'],
             activate: activate,
             officerCollection: ko.observableArray(),
             complaint: ko.observable(new bespoke.sphcommercialspace.domain.Complaint()),
+            maintenance: ko.observable(new bespoke.sphcommercialspace.domain.Maintenance()),
             tenant: ko.observable(new bespoke.sphcommercialspace.domain.Tenant()),
             commercialSpace: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpace()),
             toolbar: ko.observable({

@@ -12,7 +12,9 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var template = await context.LoadOneAsync<ComplaintTemplate>(t => t.ComplaintTemplateId == templateId);
 
             return View(template);
-        }
+        }    
+        
+      
 
          public ActionResult TemplateComplaintHtml()
         {
@@ -44,6 +46,14 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
          public ActionResult ComplaintListJs()
          {
              return View();
-         }
+         }  
+        
+        public async Task<ActionResult> ComplaintCloseHtml(int templateId)
+        {
+            var context = new SphDataContext();
+            var template = await context.LoadOneAsync<ComplaintTemplate>(t => t.ComplaintTemplateId == templateId);
+
+            return View(template);
+        }
     }
 }
