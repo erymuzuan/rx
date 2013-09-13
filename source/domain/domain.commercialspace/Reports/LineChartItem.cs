@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -32,7 +33,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 {
                     Header = cl,
                     Values = rows.SelectMany(r => r.ReportColumnCollection.Where(c => c.Name == cl1))
-                        .Select(c => decimal.Parse(c.Value)).ToArray()
+                        .Select(c => Convert.ToDecimal(c.Value)).ToArray()
                 };
                 series.Add(sr);
             }

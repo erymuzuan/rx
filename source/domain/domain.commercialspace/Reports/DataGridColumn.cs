@@ -23,7 +23,8 @@ namespace Bespoke.SphCommercialSpaces.Domain
             if (!string.IsNullOrWhiteSpace(col))
             {
                 var f = row[col];
-                if (null != f) return f.Value;
+                if (null != f && !string.IsNullOrWhiteSpace(this.Format)) return string.Format(this.Format, f.Value);
+                if (null != f && string.IsNullOrWhiteSpace(this.Format)) return f.Value.ToEmptyString();
                 return string.Empty;
             }
             return row.ToString();
@@ -38,7 +39,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public string ColumnValue(string column)
         {
             var f = this.Row[column];
-            return null != f ? f.Value : string.Empty;
+            return null != f ? f.Value.ToEmptyString() : string.Empty;
         }
 
         public string Script

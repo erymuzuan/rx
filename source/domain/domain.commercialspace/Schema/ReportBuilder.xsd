@@ -193,9 +193,11 @@
 	</xs:element>
 	<xs:element name="ReportColumn">
 		<xs:complexType>
+			<xs:all>
+				<xs:element name="Value" type="xs:anySimpleType"/>
+			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Header" type="xs:string" use="required"/>
-			<xs:attribute name="Value" type="xs:string" use="required"/>
 			<xs:attribute name="Width" type="xs:string" use="required"/>
 			<xs:attribute name="IsSelected" type="xs:boolean" use="required"/>
 			<xs:attribute name="TypeName" type="xs:string" use="required"/>

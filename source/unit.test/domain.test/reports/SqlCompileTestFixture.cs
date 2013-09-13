@@ -137,7 +137,7 @@ namespace domain.test.reports
             source.EntityFieldCollection.Add(id);
 
             var sql = compiler.Compile(source);
-            Assert.AreEqual("SELECT COUNT([LandId]) AS LandId_COUNT, [Location] FROM [Sph].[Land]  GROUP BY [Location]", sql);
+            Assert.AreEqual("SELECT COUNT([LandId]) AS LandId_COUNT , [Location] FROM [Sph].[Land]  GROUP BY [Location]", sql);
         }
 
         [Test]
@@ -153,7 +153,7 @@ namespace domain.test.reports
             source.EntityFieldCollection.Add(id);
 
             var sql = compiler.Compile(source);
-            Assert.AreEqual("SELECT COUNT([LandId]) AS LandId_COUNT, [Location], [LotNo] FROM [Sph].[Land]  GROUP BY [Location], [LotNo]", sql);
+            Assert.AreEqual("SELECT COUNT([LandId]) AS LandId_COUNT , [Location], [LotNo] FROM [Sph].[Land]  GROUP BY [Location], [LotNo]", sql);
         }
 
 
