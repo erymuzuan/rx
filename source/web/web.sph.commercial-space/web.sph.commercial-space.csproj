@@ -260,7 +260,9 @@
     <Compile Include="Controllers\AppController.header.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.maintenance.cs" />
+    <Compile Include="Controllers\AppController.maintenance.cs">
+      <DependentUpon>AppController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AppController.maintenancetemplate.cs.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
@@ -412,7 +414,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
-    <Content Include="App\viewmodels\block.floormap.dialog.js" />
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
@@ -1481,6 +1482,7 @@
     <Content Include="Scripts\toastr.min.js.map" />
     <Content Include="Views\App\DisplayTemplates\CustomListDefinitionElement.cshtml" />
     <Content Include="Views\App\ComplaintCloseHtml.cshtml" />
+    <Content Include="Views\App\_TenantDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

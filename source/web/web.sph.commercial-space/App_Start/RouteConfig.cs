@@ -118,7 +118,6 @@ namespace Bespoke.Sph.Commerspace.Web.App_Start
                                     Icon = "icon-building",
                                     ModuleId = string.Format("viewmodels/maintenance.detail-templateid.{0}", t.MaintenanceTemplateId)
                                 };
-
             var rdlRoutes = from t in rdls.ItemCollection
                                 select new JsRoute
                                 {

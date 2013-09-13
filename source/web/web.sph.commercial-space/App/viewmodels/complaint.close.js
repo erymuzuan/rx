@@ -62,6 +62,7 @@ define(['services/datacontext'],
                         caption: 'Tutup Aduan',
                         icon: 'icon-file-text',
                         command: closeComplaint,
+                        visible : 'maintenance().Status == "Selesai"'
                     }])
             })
         };

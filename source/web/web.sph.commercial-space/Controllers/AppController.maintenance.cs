@@ -20,5 +20,13 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             return View(template);
         }
 
+       public async Task<ActionResult> MaintenanceAssignmentHtml(int id)
+       {
+           var context = new SphDataContext();
+           var maintenance = await context.LoadOneAsync<Maintenance>(m => m.MaintenanceId == id);
+           var template = await context.LoadOneAsync<ComplaintTemplate>(t => t.ComplaintTemplateId == maintenance.Complaint.TemplateId);
+
+           return View(template);
+       }
     }
 }
