@@ -558,6 +558,32 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], &
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/Shortcut/@EntryValue">dbfilter</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BCC1C2DFE6E4CD4A8158C2DCC1598121/Text/@EntryValue"> data-bind="filter : {path:'$SELECTOR$'}"</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BD2F7D3531552D43BF3AF7FD125025F3/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BD2F7D3531552D43BF3AF7FD125025F3/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BD2F7D3531552D43BF3AF7FD125025F3/Description/@EntryValue">Add and remove child item to a partial</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BD2F7D3531552D43BF3AF7FD125025F3/Field/=ITEM/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BD2F7D3531552D43BF3AF7FD125025F3/Field/=ITEM/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BD2F7D3531552D43BF3AF7FD125025F3/Reformat/@EntryValue">True</s:Boolean>
+	
+	
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BD2F7D3531552D43BF3AF7FD125025F3/Scope/=FFA15E6CFCBE90499C572A859225B012/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BD2F7D3531552D43BF3AF7FD125025F3/Scope/=FFA15E6CFCBE90499C572A859225B012/Type/@EntryValue">InJavaScriptFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BD2F7D3531552D43BF3AF7FD125025F3/Shortcut/@EntryValue">add-remove-child-item</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BD2F7D3531552D43BF3AF7FD125025F3/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BD2F7D3531552D43BF3AF7FD125025F3/Text/@EntryValue"> add$ITEM$ = function () {&#xD;
+            var self = this;&#xD;
+            self.$ITEM$Collection.push(new bespoke.sphcommercialspace.domain.$ITEM$(system.guid()));&#xD;
+        },&#xD;
+        remove$ITEM$ = function (obj) {&#xD;
+            var self = this;&#xD;
+            return function () {&#xD;
+                self.$ITEM$Collection.remove(obj);&#xD;
+            };&#xD;
+        };&#xD;
+&#xD;
+    return {&#xD;
+        add$ITEM$: add$ITEM$,&#xD;
+        remove$ITEM$: remove$ITEM$,</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=C13263FFE8262242B9DC3976C97E6275/Description/@EntryValue">set observable from source to vm</s:String>

@@ -22,14 +22,12 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                     });
                 });
 
-                if (typeof d.DataSource === "object") {
-                    d.DataSource = ko.observable(d.DataSource);
-                }
-
                 vm.reportDefinition(d);
                 designer.reportDefinition(d);
                 preview.activate(d);
                 loadSelectedEntityColumns(d.DataSource().EntityFieldCollection());
+
+                d.DataSource().EntityName.subscribe(loadEntityColumns);
             },
             activate = function (routeData) {
                 designer.activate();

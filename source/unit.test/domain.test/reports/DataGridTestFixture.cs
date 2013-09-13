@@ -80,5 +80,7 @@ namespace domain.test.reports
 
             Assert.AreEqual("25.02001", html);
         }
+
+
     }
 }

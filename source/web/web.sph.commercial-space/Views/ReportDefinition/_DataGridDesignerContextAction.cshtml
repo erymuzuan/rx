@@ -8,6 +8,7 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <span>DataGrid Properties</span>
         </div>
+        <button class="btn btn-link pull-right" data-bind="click : addColumn">+ Column</button>
         <table class="table table-striped">
             <colgroup>
                 <col style="width: 100px"/>
@@ -36,7 +37,36 @@
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-link" data-bind="click : addColumn">+ Column</button>
+
+        <button class="btn btn-link pull-right" data-bind="click: addDataGridGroupDefinition">+ Group</button>
+        <table class="table table-striped">
+            <colgroup>
+                <col style="width: 100px"/>
+                <col style="width: 100px"/>
+                <col style="width: 30px"/>
+                <col style="width: 100px"/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Text</th>
+                    <th>Style</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: DataGridGroupDefinitionCollection">
+                <tr>
+                    <td>
+                        <input  class="input-datagrid-group-column input-large " data-bind="kendoComboBox: Column, source: $root.columnOptions" />
+                    </td>
+                    <td><input type="text" class="input-datagrid-group-expression" data-bind="value: Expression" /></td>
+                    <td>
+                        <input class="input-small" data-bind="value:Style" />
+                    </td>
+                    <td><a href="#" data-bind="click: $parent.removeDataGridGroupDefinition.call($parent, $data)"><i class="icon-remove"></i></a></td>
+                </tr>
+            </tbody>
+        </table>
 
         <a class="btn btn-link pull-right" data-bind="click: $root.removeReportItem">
             <i class="icon-remove"></i>

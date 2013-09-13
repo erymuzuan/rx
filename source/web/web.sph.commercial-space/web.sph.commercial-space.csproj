@@ -390,6 +390,7 @@
     <Content Include="App\partial\Building.js" />
     <Content Include="App\partial\ContractTemplate.js" />
     <Content Include="App\partial\BarChartItem.js" />
+    <Content Include="App\partial\DataGridItem.js" />
     <Content Include="App\partial\LineChartItem.js" />
     <Content Include="App\partial\CustomListRow.js" />
     <Content Include="App\partial\RentalApplication.js" />
@@ -725,6 +726,7 @@
       <DependentUpon>site.less</DependentUpon>
     </Content>
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Content\_dummy.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\Adobe-Acrobat.png" />
@@ -1485,6 +1487,7 @@
     <Content Include="Views\App\DisplayTemplates\CustomListDefinitionElement.cshtml" />
     <Content Include="Views\App\ComplaintCloseHtml.cshtml" />
     <Content Include="Views\App\_TenantDetails.cshtml" />
+    <Content Include="Views\App\_DataGridItemRow.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -114,6 +114,7 @@ bespoke.sphcommercialspace.domain.DataGridItem = function (webId) {
 
     v.ReportRowCollection = ko.observableArray([]);
     v.DataGridColumnCollection = ko.observableArray([]);
+    v.DataGridGroupDefinitionCollection = ko.observableArray([]);
     if (bespoke.sphcommercialspace.domain.DataGridItemPartial) {
         return _(v).extend(new bespoke.sphcommercialspace.domain.DataGridItemPartial(v));
     }
@@ -420,6 +421,42 @@ bespoke.sphcommercialspace.domain.ChartSeries = function (webId) {
     };
     if (bespoke.sphcommercialspace.domain.ChartSeriesPartial) {
         return _(model).extend(new bespoke.sphcommercialspace.domain.ChartSeriesPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.DataGridGroupDefinition = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.DataGridGroupDefinition, domain.commercialspace",
+        Column: ko.observable(''),
+        Expression: ko.observable(''),
+        Style: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.DataGridGroupDefinitionPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.DataGridGroupDefinitionPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sphcommercialspace.domain.DataGridGroup = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.SphCommercialSpaces.Domain.DataGridGroup, domain.commercialspace",
+        Column: ko.observable(''),
+        Text: ko.observable(''),
+        ReportRowCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sphcommercialspace.domain.DataGridGroupPartial) {
+        return _(model).extend(new bespoke.sphcommercialspace.domain.DataGridGroupPartial(model));
     }
     return model;
 };

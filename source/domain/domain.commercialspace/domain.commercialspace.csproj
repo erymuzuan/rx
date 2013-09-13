@@ -204,6 +204,8 @@
     <Compile Include="Reports\BarChartItem.cs" />
     <Compile Include="Reports\ChartSeries.cs" />
     <Compile Include="Reports\DataGridColumn.cs" />
+    <Compile Include="Reports\DataGridGroup.cs" />
+    <Compile Include="Reports\DataGridGroupDefinition.cs" />
     <Compile Include="Reports\DataGridItem.cs" />
     <Compile Include="Reports\DataSource.cs" />
     <Compile Include="Reports\EntityField.cs" />

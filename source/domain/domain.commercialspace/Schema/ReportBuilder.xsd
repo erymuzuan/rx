@@ -117,6 +117,13 @@
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
+						<xs:element name="DataGridGroupDefinitionCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="DataGridGroupDefinition" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
 					</xs:all>
 				</xs:extension>
 			</xs:complexContent>
@@ -336,6 +343,35 @@
 		<xs:complexType>
 			<xs:attribute name="Header" type="xs:string" use="required"/>
 			<xs:attribute name="Column" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DataGridGroupDefinition">
+		<xs:complexType>
+			<xs:attribute name="Column" type="xs:string" use="required"/>
+			<xs:attribute name="Expression" type="xs:string" use="required"/>
+			<xs:attribute name="Style" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DataGridGroup">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="ReportRowCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ReportRow" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DataGridGroupCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DataGridGroup" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="Column" type="xs:string" use="required"/>
+			<xs:attribute name="Text" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

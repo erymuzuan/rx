@@ -698,6 +698,17 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get { return m_DataGridColumnCollection; }
         }
 
+        private readonly ObjectCollection<DataGridGroupDefinition> m_DataGridGroupDefinitionCollection = new ObjectCollection<DataGridGroupDefinition>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("DataGridGroupDefinition", IsNullable = false)]
+        public ObjectCollection<DataGridGroupDefinition> DataGridGroupDefinitionCollection
+        {
+            get { return m_DataGridGroupDefinitionCollection; }
+        }
+
 
     }
 
@@ -2705,6 +2716,222 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_column;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("DataGridGroupDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class DataGridGroupDefinition
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_column;
+        public const string PropertyNameColumn = "Column";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_expression;
+        public const string PropertyNameExpression = "Expression";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_style;
+        public const string PropertyNameStyle = "Style";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Column
+        {
+            set
+            {
+                if (String.Equals(m_column, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameColumn, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_column = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_column;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Expression
+        {
+            set
+            {
+                if (String.Equals(m_expression, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameExpression, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_expression = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_expression;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Style
+        {
+            set
+            {
+                if (String.Equals(m_style, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameStyle, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_style = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_style;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("DataGridGroup", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class DataGridGroup
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_column;
+        public const string PropertyNameColumn = "Column";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_text;
+        public const string PropertyNameText = "Text";
+
+
+        private readonly ObjectCollection<ReportRow> m_ReportRowCollection = new ObjectCollection<ReportRow>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ReportRow", IsNullable = false)]
+        public ObjectCollection<ReportRow> ReportRowCollection
+        {
+            get { return m_ReportRowCollection; }
+        }
+
+        private readonly ObjectCollection<DataGridGroup> m_DataGridGroupCollection = new ObjectCollection<DataGridGroup>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("DataGridGroup", IsNullable = false)]
+        public ObjectCollection<DataGridGroup> DataGridGroupCollection
+        {
+            get { return m_DataGridGroupCollection; }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Column
+        {
+            set
+            {
+                if (String.Equals(m_column, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameColumn, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_column = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_column;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Text
+        {
+            set
+            {
+                if (String.Equals(m_text, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameText, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_text = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_text;
             }
         }
 
