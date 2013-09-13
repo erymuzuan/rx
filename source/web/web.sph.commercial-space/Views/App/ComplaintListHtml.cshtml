@@ -16,7 +16,7 @@
         <tr>
             <td>
                  <a data-bind="attr: { href: '/#/complaint.assign-templateid.' + TemplateId() +'/' + ComplaintId() }, text: ReferenceNo, visible: Status() == 'Baru'"></a>
-                 <a data-bind="attr: { href: '/#/complaint.close/' + ComplaintId() }, text: ReferenceNo, visible:Status() !='Baru'"></a>
+                 <a data-bind="attr: { href: '/#/complaint.close-templateid.' + TemplateId() + '/' + ComplaintId() }, text: ReferenceNo, visible: Status() != 'Baru'"></a>
             </td>
             <td data-bind="text:Category"></td>
             <td data-bind="text: SubCategory"></td>
