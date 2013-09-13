@@ -1,6 +1,15 @@
-﻿@model Bespoke.SphCommercialSpaces.Domain.LineChartItem
+﻿@using Newtonsoft.Json
+@model Bespoke.SphCommercialSpaces.Domain.LineChartItem
 @{
     var id = Guid.NewGuid().ToString();
+    var series = from s in Model.Series
+        select new
+        {
+            name = s.Header,
+            data = s.Values
+        };
+
+    var seriesJson = JsonConvert.SerializeObject(series);
 }
 
 <div>
@@ -21,24 +30,7 @@
                 seriesDefaults: {
                     type: "line"
                 },
-                series: [
-                        @{
-                            var seriesCount = Model.Series.Length;
-                        }
-                        @for (var i = 0; i < Model.Series.Length; i++)
-                        {
-                            <text>
-                                {
-                                    name: "@Model.Series[i].Header",
-                                    data: [@string.Join(",", Model.Series[i].Values)]
-                                }
-                            </text>
-                            if (i < seriesCount-1)
-                            {
-                                 <text>,</text>
-                            }
-                        }
-                    ],
+                series:@Html.Raw(seriesJson),
                 valueAxis: {
                     labels: {
                         format: "@Model.ValueLabelFormat"

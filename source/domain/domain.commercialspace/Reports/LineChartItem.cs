@@ -32,17 +32,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
                 {
                     Header = cl,
                     Values = rows.SelectMany(r => r.ReportColumnCollection.Where(c => c.Name == cl1))
-                        .Select(c => c.Value).ToArray()
+                        .Select(c => decimal.Parse(c.Value)).ToArray()
                 };
                 series.Add(sr);
             }
             this.Series = series.ToArray();
         }
-    }
-
-    public class ChartSeries
-    {
-        public string Header { get; set; }
-        public string[] Values { get; set; }
     }
 }

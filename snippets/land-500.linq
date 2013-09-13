@@ -1,7 +1,6 @@
 <Query Kind="Statements">
   <Connection>
     <ID>a60442a9-d977-4eac-a3f0-a8a7142bbe06</ID>
-    <Persist>true</Persist>
     <Server>(localdb)\Projects</Server>
     <Database>Sph</Database>
     <DisplayName>sph</DisplayName>
@@ -31,7 +30,7 @@ var l = new Bespoke.SphCommercialSpaces.Domain.Land{
 		Email = "me@bespoke.com.my",
 		Name = "me"
 		},
-	Size = 9000,
+	Size = 45,
 	Status = "OK",
 	Title = "WA09",
 	Usage = "Perdaganga"
@@ -59,7 +58,7 @@ for (int i = 0; i < 500; i++)
 		Lot = land.Lot,
 		//Path = l.Path,
 		SheetNo = land.SheetNo,
-		Size = land.Size,
+		Size = land.Size + (i % 10),
 		Title = land.Title,
 		Wkt = land.Wkt
 	};	
