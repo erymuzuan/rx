@@ -53,6 +53,8 @@ namespace Bespoke.Sph.SqlReportDataSource
             if (table == typeof(Payment).Name) return list.ToArray();
             if (table == typeof(Tenant).Name) return list.ToArray();
             if (table == typeof(Inventory).Name) return list.ToArray();
+            if (table == typeof(Invoice).Name) return list.ToArray();
+            if (table == typeof(Rent).Name) return list.ToArray();
             if (table == typeof(RentalApplication).Name) table = "Application";
 
             var name = "Name";
