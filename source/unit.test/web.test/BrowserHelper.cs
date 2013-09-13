@@ -48,10 +48,10 @@ namespace web.test
            
             var element = list[index];
 
-            var ag = string.Format("{0}", element.TagName).ToLower();
-            if (ag == "select") return driver.SelectOption(element, text);
-            if (ag == "input") return driver.SetText(element, text);
-            if (ag == "textarea") return driver.SetText(element, text);
+            var tag = string.Format("{0}", element.TagName).ToLower();
+            if (tag == "select") return driver.SelectOption(element, text);
+            if (tag == "input") return driver.SetText(element, text);
+            if (tag == "textarea") return driver.SetText(element, text);
 
             if (wait > 0)
                 driver.Sleep(wait);
