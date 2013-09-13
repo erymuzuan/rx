@@ -53,6 +53,8 @@ namespace Bespoke.Sph.SqlReportDataSource
             if (table == typeof(Payment).Name) return list.ToArray();
             if (table == typeof(Tenant).Name) return list.ToArray();
             if (table == typeof(Inventory).Name) return list.ToArray();
+            if (table == typeof(Invoice).Name) return list.ToArray();
+            if (table == typeof(Rent).Name) return list.ToArray();
             if (table == typeof(RentalApplication).Name) table = "Application";
 
             var name = "Name";
@@ -179,6 +181,9 @@ namespace Bespoke.Sph.SqlReportDataSource
                 var compiler = new SqlCompiler(rdl);
                 query = compiler.Compile(dataSource);
             }
+            Console.WriteLine(" ---------- SQL ------------------");
+            Console.WriteLine(query);
+            Console.WriteLine(" ---------- .SQL ------------------");
             var cs = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
             using (var conn = new SqlConnection(cs))
             using (var cmd = new SqlCommand(query, conn))
@@ -236,6 +241,8 @@ namespace Bespoke.Sph.SqlReportDataSource
             {
                 if (!c.Name.Contains("."))
                 {
+                    if(c.Name.StartsWith("("))continue; // custom field
+
                     var attribute = xml.Attribute(c.Name);
                     if (null != attribute)
                     {

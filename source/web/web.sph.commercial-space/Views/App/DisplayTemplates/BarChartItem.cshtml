@@ -1,8 +1,18 @@
-﻿@model Bespoke.SphCommercialSpaces.Domain.BarChartItem
+﻿@using Newtonsoft.Json
+@model Bespoke.SphCommercialSpaces.Domain.BarChartItem
 
 @{
     var id = Guid.NewGuid().ToString();
+    var series = from s in Model.Series
+                 select new
+                 {
+                     name = s.Header,
+                     data = s.Values
+                 };
+
+    var seriesJson = JsonConvert.SerializeObject(series);
 }
+
 
 <div>
     <div id="@id"></div>
@@ -22,10 +32,7 @@
                     seriesDefaults: {
                         type: "bar"
                     },
-                    series: [{
-                        name: "@Model.HorizontalAxisField",
-                        data: [@Html.Raw(Model.JsonValues)]
-                    }],
+                    series:@Html.Raw(seriesJson),
                     valueAxis: {
                         labels: {
                             format: "@Model.ValueLabelFormat"

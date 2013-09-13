@@ -1,5 +1,5 @@
 ﻿<div>
-    <table class="table table-striped">
+    <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }" >
         <thead>
             <tr>
                 <th>No Kontrak</th>
@@ -19,7 +19,7 @@
                 <td data-bind="text: Month" />
                 <td data-bind="text: Quarter" />
                 <td data-bind="text: Half" />
-                <td data-bind="text: Amount" />
+                <td data-bind="money: Amount" />
             </tr>
         </tbody>
     </table>

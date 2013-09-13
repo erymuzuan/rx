@@ -114,10 +114,9 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                 return tcs.promise();
 
             },
-            removeReportItem = function (ri) {
+            removeReportItem = function (ri,e) {
                 designer.removeReportItem(ri);
-                console.log("remove " + ri.Name());
-
+                $(e.target).parents(".report-item");
             },
              configure = function () {
                  var tcs = new $.Deferred();
