@@ -241,6 +241,8 @@ namespace Bespoke.Sph.SqlReportDataSource
             {
                 if (!c.Name.Contains("."))
                 {
+                    if(c.Name.StartsWith("("))continue; // custom field
+
                     var attribute = xml.Attribute(c.Name);
                     if (null != attribute)
                     {
