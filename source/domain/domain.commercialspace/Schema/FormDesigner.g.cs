@@ -380,6 +380,17 @@
 			}
 			}
 		
+			private readonly ObjectCollection<CustomListDefinition>  m_CustomListDefinitionCollection = new ObjectCollection<CustomListDefinition> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomListDefinition", IsNullable = false)]
+			public ObjectCollection<CustomListDefinition> CustomListDefinitionCollection
+			{
+			get{ return m_CustomListDefinitionCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -834,6 +845,17 @@
 			}
 			}
 		
+			private readonly ObjectCollection<CustomListDefinition>  m_CustomListDefinitionCollection = new ObjectCollection<CustomListDefinition> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomListDefinition", IsNullable = false)]
+			public ObjectCollection<CustomListDefinition> CustomListDefinitionCollection
+			{
+			get{ return m_CustomListDefinitionCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -1037,6 +1059,17 @@
 			m_formDesign = value;
 			OnPropertyChanged();
 			}
+			}
+		
+			private readonly ObjectCollection<CustomListDefinition>  m_CustomListDefinitionCollection = new ObjectCollection<CustomListDefinition> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomListDefinition", IsNullable = false)]
+			public ObjectCollection<CustomListDefinition> CustomListDefinitionCollection
+			{
+			get{ return m_CustomListDefinitionCollection;}
 			}
 		
                 ///<summary>

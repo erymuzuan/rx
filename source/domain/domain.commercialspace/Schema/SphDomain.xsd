@@ -301,6 +301,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="CustomListValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomListValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="RentalApplicationId" type="xs:int" use="required"/>
 			<xs:attribute name="CompanyName" type="xs:string" use="required"/>
@@ -792,6 +799,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="CustomListValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomListValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="ComplaintId" type="xs:int" use="required"/>
 			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
@@ -846,6 +860,13 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="Photo" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CustomListValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="CustomListValue" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>

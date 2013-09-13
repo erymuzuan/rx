@@ -1479,6 +1479,7 @@
     <Content Include="Views\Template\DisplayTemplates\BuildingBlocksElement.cshtml" />
     <Content Include="Views\App\EditorTemplates\BuildingBlocksElement.cshtml" />
     <Content Include="Scripts\toastr.min.js.map" />
+    <Content Include="Views\App\DisplayTemplates\CustomListDefinitionElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

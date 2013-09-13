@@ -3909,6 +3909,17 @@
 			get{ return m_CustomFieldValueCollection;}
 			}
 		
+			private readonly ObjectCollection<CustomListValue>  m_CustomListValueCollection = new ObjectCollection<CustomListValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomListValue", IsNullable = false)]
+			public ObjectCollection<CustomListValue> CustomListValueCollection
+			{
+			get{ return m_CustomListValueCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -10171,6 +10182,17 @@
 			get{ return m_PhotoCollection;}
 			}
 		
+			private readonly ObjectCollection<CustomListValue>  m_CustomListValueCollection = new ObjectCollection<CustomListValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomListValue", IsNullable = false)]
+			public ObjectCollection<CustomListValue> CustomListValueCollection
+			{
+			get{ return m_CustomListValueCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -11088,6 +11110,17 @@
 			public ObjectCollection<Photo> PhotoCollection
 			{
 			get{ return m_PhotoCollection;}
+			}
+		
+			private readonly ObjectCollection<CustomListValue>  m_CustomListValueCollection = new ObjectCollection<CustomListValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("CustomListValue", IsNullable = false)]
+			public ObjectCollection<CustomListValue> CustomListValueCollection
+			{
+			get{ return m_CustomListValueCollection;}
 			}
 		
                 ///<summary>
