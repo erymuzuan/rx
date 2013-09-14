@@ -213,6 +213,7 @@
     <Compile Include="Reports\IntervalSchedule.cs" />
     <Compile Include="Reports\IReportDataSource.cs" />
     <Compile Include="Reports\LabelItem.cs" />
+    <Compile Include="Reports\LabelItemScriptHost.cs" />
     <Compile Include="Reports\LineChartItem.cs" />
     <Compile Include="Reports\LineItem.cs" />
     <Compile Include="Reports\Parameter.cs" />
