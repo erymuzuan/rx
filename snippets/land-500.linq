@@ -1,7 +1,7 @@
 <Query Kind="Statements">
   <Connection>
     <ID>a60442a9-d977-4eac-a3f0-a8a7142bbe06</ID>
-    <Server>(localdb)\Projects</Server>
+    <Server>.\KATMAI</Server>
     <Database>Sph</Database>
     <DisplayName>sph</DisplayName>
   </Connection>
@@ -36,19 +36,20 @@ var l = new Bespoke.SphCommercialSpaces.Domain.Land{
 	Usage = "Perdaganga"
 };
 var locations = new []{"Jeli", "Tanah Merah", "Pasir mas", "Kota Bharu", "Gua Musang", "Bukit Bunga"};
-
-for (int i = 0; i < 500; i++)
+var status = new []{"OK", "NA", "IN"};
+for (int i = 0; i < 900; i++)
 {
 		var loc = locations.OrderBy(f => Guid.NewGuid()).First();
 		var land = l.Clone();
 		land.Title = "Tanah " + i;
 		land.Location = loc;
-		land.Size = 40 + (i % 10);
+		land.Status = status.OrderBy(f => Guid.NewGuid()).First();
+		land.Size = 84 + (i % 10);
 		land.Address.City = loc;
 		
 		var item = new LINQPad.User.Land{
 		Data = land.ToXElement(),
-		Status = "OK",
+		Status = land.Status,
 		ChangedBy = "LinqPad",
 		ChangedDate = DateTime.Now,
 		CreatedBy = "LinqPad",

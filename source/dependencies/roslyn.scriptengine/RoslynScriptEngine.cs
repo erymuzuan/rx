@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using System.IO;
 using System.Text;
 using Bespoke.SphCommercialSpaces.Domain;
 using Roslyn.Compilers;
@@ -24,8 +24,11 @@ namespace roslyn.scriptengine
             session.AddReference("mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
             try
             {
-                session.Execute("#r \".\\domain.commercialspace.dll\"");
-                session.Execute("#r \".\\roslyn.scriptengine.dll\"");
+                var domain = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, typeof (Entity).Assembly.Location);
+                var dll = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, typeof(RoslynScriptEngine).Assembly.Location);
+                Console.WriteLine("#r \"" + domain + "\"");
+                session.Execute("#r \"" + domain + "\"");
+                session.Execute("#r \"" + dll + "\"");
             }
             catch (Exception e)
             {

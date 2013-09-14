@@ -122,8 +122,8 @@ namespace domain.test.reports
             var count = "Sph".GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Contract]");
             Assert.IsTrue(count > 0, "Fuck no contract");
 
-            var id = "Sph".GetDatabaseScalarValue<int>("SELECT TOP 1 [ContractId] FROM [Sph].[Contract] ORDER BY NEWID()");
-            var sql = "SELECT [Data] FROM [Sph].[Contract] WHERE [ContractId] = " + id;
+            var contractId = "Sph".GetDatabaseScalarValue<int>("SELECT TOP 1 [ContractId] FROM [Sph].[Contract] ORDER BY NEWID()");
+            var sql = "SELECT [Data] FROM [Sph].[Contract] WHERE [ContractId] = " + contractId;
             var xml = XElement.Parse("Sph".GetDatabaseScalarValue<string>(sql));
 
             var tenantStreet = xml.GetAttributeStringValue("Tenant", "Address", "Street");

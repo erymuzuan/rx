@@ -166,21 +166,5 @@ namespace domain.test.reports
             Assert.AreEqual(string.Format("'{0}'", DateTime.Today.DayOfWeek + "-" + new MockLdap().CurrentUserName), op);
 
         }
-        [Test]
-        public void GetFilterValueFromExpressionSum()
-        {
-
-            var compiler = new SqlCompiler(new ReportDefinition());
-            var filter = new ReportFilter
-            {
-                FieldName = "Location",
-                Type = typeof(int),
-                Operator = "Eq",
-                Value = "=SUM(new []{1,2,5})"
-            };
-            var op = compiler.GetFilterValue(filter);
-            Assert.AreEqual("8", op);
-
-        }
     }
 }
