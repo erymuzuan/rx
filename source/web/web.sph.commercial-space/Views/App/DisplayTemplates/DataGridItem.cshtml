@@ -20,8 +20,8 @@
                         @group.Text
                     </td>
                 </tr>
-                
-                 foreach (var r in group.ReportRowCollection)
+
+                foreach (var r in group.ReportRowCollection)
                 {
                     index++;
                     <tr>
@@ -63,6 +63,15 @@
                     </tr>
                 }
 
+                <!-- FOOTER -->
+                <tr>
+
+                    @foreach (var c in Model.DataGridColumnCollection)
+                    {
+                            <td>@Model.GetFooterText(c.FooterExpression)</td>
+                        
+                    }
+                </tr>
             }
         </tbody>
     </table>

@@ -243,6 +243,7 @@ bespoke.sphcommercialspace.domain.DataGridColumn = function (webId) {
         Expression: ko.observable(''),
         Format: ko.observable(''),
         Action: ko.observable(''),
+        FooterExpression: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -434,6 +435,7 @@ bespoke.sphcommercialspace.domain.DataGridGroupDefinition = function (webId) {
         Column: ko.observable(''),
         Expression: ko.observable(''),
         Style: ko.observable(''),
+        FooterExpression: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -452,6 +454,7 @@ bespoke.sphcommercialspace.domain.DataGridGroup = function (webId) {
         Column: ko.observable(''),
         Text: ko.observable(''),
         ReportRowCollection: ko.observableArray([]),
+        DataGridGroupCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

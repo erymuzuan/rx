@@ -1485,6 +1485,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public const string PropertyNameAction = "Action";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_footerExpression;
+        public const string PropertyNameFooterExpression = "FooterExpression";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -1626,6 +1631,35 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_action;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string FooterExpression
+        {
+            set
+            {
+                if (String.Equals(m_footerExpression, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFooterExpression, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_footerExpression = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_footerExpression;
             }
         }
 
@@ -2747,6 +2781,11 @@ namespace Bespoke.SphCommercialSpaces.Domain
         public const string PropertyNameStyle = "Style";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_footerExpression;
+        public const string PropertyNameFooterExpression = "FooterExpression";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -2830,6 +2869,35 @@ namespace Bespoke.SphCommercialSpaces.Domain
             get
             {
                 return m_style;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string FooterExpression
+        {
+            set
+            {
+                if (String.Equals(m_footerExpression, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFooterExpression, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_footerExpression = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_footerExpression;
             }
         }
 

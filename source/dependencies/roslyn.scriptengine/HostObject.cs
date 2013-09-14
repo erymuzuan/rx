@@ -18,6 +18,12 @@ namespace roslyn.scriptengine
         public DateTime @Today { get { return DateTime.Today; } }
         public DateTime @Now { get { return DateTime.Now; } }
 
-     
+
+        public string Format(string format, object obj)
+        {
+            var fs = "{0:" + format + "}";
+            return string.Format(fs, obj);
+        }
+
     }
 }

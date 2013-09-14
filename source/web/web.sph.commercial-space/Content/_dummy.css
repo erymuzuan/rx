@@ -6,8 +6,10 @@
 
 .input-datagrid-group-column {}
 .input-datagrid-group-expression {}
+.input-datagrid-group-footer {}
 .input-datagrid-column-expression {}
 .input-datagrid-column-header {}
+.input-datagrid-column-footer {}
 
 .btn-context-action {}
 .btn-close-configuration-dialog {}

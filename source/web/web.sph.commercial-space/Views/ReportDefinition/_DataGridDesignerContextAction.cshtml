@@ -21,6 +21,7 @@
                     <th>Expression</th>
                     <th>Header</th>
                     <th>Format</th>
+                    <th>Footer</th>
                     <th></th>
                 </tr>
             </thead>
@@ -32,6 +33,9 @@
                     <td><input type="text" class="input-datagrid-column-header" data-bind="value: Header" /></td>
                     <td>
                         <input class="input-small" data-bind="kendoComboBox:Format, source :ko.observableArray(['{0:d}','{0:F2}','{0:g}', '{0:c}'])" />
+                    </td>
+                    <td>
+                        <input type="text" class="input-datagrid-column-footer" data-bind="value: FooterExpression" />
                     </td>
                     <td><a href="#" data-bind="click : $parent.removeColumn.call($parent,$data)"><i class="icon-remove"></i></a></td>
                 </tr>
@@ -50,7 +54,7 @@
                 <tr>
                     <th>Column</th>
                     <th>Text</th>
-                    <th>Style</th>
+                    <th>Footer</th>
                     <th></th>
                 </tr>
             </thead>
@@ -61,7 +65,7 @@
                     </td>
                     <td><input type="text" class="input-datagrid-group-expression" data-bind="value: Expression" /></td>
                     <td>
-                        <input class="input-small" data-bind="value:Style" />
+                        <input class="input-medium input-datagrid-group-footer" data-bind="value: FooterExpression" />
                     </td>
                     <td><a href="#" data-bind="click: $parent.removeDataGridGroupDefinition.call($parent, $data)"><i class="icon-remove"></i></a></td>
                 </tr>

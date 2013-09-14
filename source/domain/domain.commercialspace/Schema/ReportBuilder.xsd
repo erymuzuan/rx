@@ -214,6 +214,7 @@
 			<xs:attribute name="Expression" type="xs:string" use="required"/>
 			<xs:attribute name="Format" type="xs:string" use="required"/>
 			<xs:attribute name="Action" type="xs:string" use="required"/>
+			<xs:attribute name="FooterExpression" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ReportColumn">
@@ -350,6 +351,7 @@
 			<xs:attribute name="Column" type="xs:string" use="required"/>
 			<xs:attribute name="Expression" type="xs:string" use="required"/>
 			<xs:attribute name="Style" type="xs:string" use="required"/>
+			<xs:attribute name="FooterExpression" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="DataGridGroup">
