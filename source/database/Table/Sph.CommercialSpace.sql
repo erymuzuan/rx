@@ -10,11 +10,11 @@ GO
  CREATE TABLE Sph.CommercialSpace
 (
 	 [CommercialSpaceId] INT PRIMARY KEY IDENTITY(1,1)
-	,[BuildingId] INT NOT NULL
+	,[BuildingId] INT NULL
+	,[BuildingName] VARCHAR(255) NULL
 	,[FloorName] VARCHAR(255) NULL
 	,[RegistrationNo] VARCHAR(255) NULL
 	,[LotName] VARCHAR(255) NULL
-	,[BuildingName] VARCHAR(255) NOT NULL
 	,[Status] VARCHAR(255)  NULL
 	,[Category] VARCHAR(255) NULL
 	,[IsOnline] BIT NOT NULL DEFAULT 0

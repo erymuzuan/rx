@@ -1,7 +1,7 @@
 ﻿<div id="commercialspace-list">
     <section>
-        <h1>Senarai Ruang Komersil</h1>
-        <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'CommercialSpace', query: 'CommercialSpaceId gt 0', list: commercialspaces }">
+        <h1 data-bind="text: title"></h1>
+        <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'CommercialSpace', query: 'CommercialSpaceId gt 0', list: spaces }">
             <thead>
                 <tr>
                     <th>No. Daftar</th>
@@ -13,7 +13,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: commercialspaces">
+            <tbody data-bind="foreach: spaces">
                 <tr>
                     <td>
                         <a data-bind="attr: { href: '/#/commercialspace.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() + '/' + FloorName() + '/' + CommercialSpaceId() }, text: RegistrationNo"></a>

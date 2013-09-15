@@ -7,10 +7,11 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
+/// <reference path="../objectbuilders.js" />
 
 
-define(['services/datacontext'],
-    function (context) {
+define([objectbuilders.datacontext, objectbuilders.cultures],
+    function (context, cultures) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -58,7 +59,8 @@ define(['services/datacontext'],
             csTemplate: ko.observable(new bespoke.sphcommercialspace.domain.CommercialSpaceTemplate()),
             addCustomField: addCustomField,
             removeCustomField: removeCustomField,
-            toolbar: { saveCommand: save }
+            toolbar: { saveCommand: save },
+            cultures: cultures
         };
 
         return vm;

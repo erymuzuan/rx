@@ -1,6 +1,15 @@
-﻿define(['services/datacontext', 'durandal/plugins/router'], function (context,router) {
+﻿/// <reference path="../services/cultures.my.js" />
+/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="../../Scripts/loadoperation.js" />
+/// <reference path="../objectbuilders.js" />
+/// <reference path="/App/schemas/sph.domain.g.js" />
 
-    var title = ko.observable('Senarai Ruang Komersil'),
+define([objectbuilders.datacontext, objectbuilders.router, objectbuilders.cultures],
+    function (context, router, cultures) {
+
+    var title = ko.observable(cultures.space.title),
         isBusy = ko.observable(false),
         activate = function() {
             var tcs = new $.Deferred();
@@ -24,11 +33,11 @@
                 });
                 vm.toolbar.groupCommands([ko.observable(
                 {
-                    caption: ko.observable("Ruang Komersil Baru"),
+                    caption: ko.observable(cultures.space.toolbar.ADD_NEW_SPACE),
                     commands: ko.observableArray(commands)
                 })
                 ]);
-                vm.commercialspaces(lo.itemCollection);
+                vm.spaces(lo.itemCollection);
                 tcs.resolve(true);
             });
            return tcs.promise();
@@ -38,10 +47,11 @@
         title: title,
         activate: activate,
         isBusy : isBusy,
-        commercialspaces: ko.observableArray([]),
+        spaces: ko.observableArray([]),
         toolbar: {
             groupCommands: ko.observableArray()
-        }
+        },
+        cultures : cultures
     };
 
     return vm;

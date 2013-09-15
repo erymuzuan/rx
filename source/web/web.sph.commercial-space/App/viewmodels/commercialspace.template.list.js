@@ -1,28 +1,29 @@
-﻿define(['services/datacontext'], function (context) {
-    var isBusy = ko.observable(false),
-        activate = function () {
-            var query = String.format("CommercialSpaceTemplateId gt 0");
-            var tcs = new $.Deferred();
-            context.loadAsync("CommercialSpaceTemplate", query)
-                .then(function (lo) {
-                    isBusy(false);
-                    vm.csTemplates(lo.itemCollection);
-                    tcs.resolve(true);
-                });
-            return tcs.promise();
+﻿/// <reference path="../objectbuilders.js" />
+/// <reference path="../services/cultures.my.js" />
+/// <reference path="/Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="/Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="/Scripts/string.js" />
+
+
+define([objectbuilders.datacontext, objectbuilders.cultures],
+    function (context, cultures) {
+        var
+            activate = function () {
+                return true;
+            };
+
+
+        var vm = {
+            activate: activate,
+            templates: ko.observableArray(),
+            toolbar: {
+                addNew: {
+                    location: '/#/template.commercialspace-id.0/0',
+                    caption: 'Tambah Templat Baru'
+                }
+            },
+            cultures: cultures
         };
 
-
-    var vm = {
-        activate: activate,
-        csTemplates: ko.observableArray(),
-        toolbar : {
-            addNew : {
-                location: '/#/template.commercialspace-id.0/0',
-                caption : 'Tambah Templat Baru'
-            }
-        }
-    };
-
-    return vm;
-});
+        return vm;
+    });

@@ -188,7 +188,7 @@ namespace Bespoke.Sph.Commerspace.Web.Api
                 };
 
             this.Response.ContentType = "application/json";
-            return Content(JsonConvert.SerializeObject(json, Formatting.None,setting));
+            return Content(JsonConvert.SerializeObject(json, Formatting.None, setting));
         }
 
         private async Task<int> ExecuteScalarAsync(string sql)
@@ -214,6 +214,7 @@ namespace Bespoke.Sph.Commerspace.Web.Api
 
             var paging = ObjectBuilder.GetObject<IPagingTranslator2>();
             sql2 = paging.Tranlate(sql2, page, size);
+            Console.WriteLine("*************" + sql2);
             using (var conn = new SqlConnection(ConnectionString))
             using (var command = new SqlCommand(sql2, conn))
             {
