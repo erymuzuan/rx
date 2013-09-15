@@ -100,8 +100,8 @@
     <Compile Include="Business\ChangeSubmission.cs" />
     <Compile Include="Business\Clause.cs" />
     <Compile Include="Business\Comment.cs" />
-    <Compile Include="Business\CommercialSpace.cs" />
-    <Compile Include="FormTemplates\CommercialSpaceTemplate.cs" />
+    <Compile Include="Business\Space.cs" />
+    <Compile Include="FormTemplates\SpaceTemplate.cs" />
     <Compile Include="Business\Complaint.cs" />
     <Compile Include="FormTemplates\ComplaintCategory.cs" />
     <Compile Include="FormTemplates\ComplaintSubCategory.cs" />

@@ -71,11 +71,11 @@ namespace Bespoke.Sph.Commerspace.Web.Api
 
         public async Task<ActionResult> CommercialSpace(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return await ExecuteAsync<CommercialSpace>(filter, page, size, includeTotal);
+            return await ExecuteAsync<Space>(filter, page, size, includeTotal);
         }
         public async Task<ActionResult> CommercialSpaceTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
-            return await ExecuteAsync<CommercialSpaceTemplate>(filter, page, size, includeTotal);
+            return await ExecuteAsync<SpaceTemplate>(filter, page, size, includeTotal);
         }
 
         public async Task<ActionResult> ComplaintTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)

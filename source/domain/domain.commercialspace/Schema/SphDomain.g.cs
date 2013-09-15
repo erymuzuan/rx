@@ -3005,13 +3005,13 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("CommercialSpace",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class CommercialSpace
+          [XmlType("Space",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class Space
           {
           
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  int  m_commercialSpaceId;
-                    public const string PropertyNameCommercialSpaceId = "CommercialSpaceId";
+                    private  int  m_spaceId;
+                    public const string PropertyNameSpaceId = "SpaceId";
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -3174,22 +3174,22 @@
                 
                 [DebuggerHidden]
                 
-                    public int CommercialSpaceId
+                    public int SpaceId
                     {
                     set
                     {
-                    if( m_commercialSpaceId == value) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameCommercialSpaceId, value);
+                    if( m_spaceId == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameSpaceId, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)
                     {
-                    m_commercialSpaceId= value;
+                    m_spaceId= value;
                     OnPropertyChanged();
                     }
                     }
                     get
                     {
-                    return m_commercialSpaceId;}
+                    return m_spaceId;}
                     }
 
                   
@@ -3882,18 +3882,18 @@
 			}
 		
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			private CommercialSpace m_commercialSpace
-					=  new CommercialSpace();
+			private Space m_space
+					=  new Space();
 				
-			public const string PropertyNameCommercialSpace = "CommercialSpace";
+			public const string PropertyNameSpace = "Space";
 			[DebuggerHidden]
 
-			public CommercialSpace CommercialSpace
+			public Space Space
 			{
-			get{ return m_commercialSpace;}
+			get{ return m_space;}
 			set
 			{
-			m_commercialSpace = value;
+			m_space = value;
 			OnPropertyChanged();
 			}
 			}
@@ -5542,18 +5542,18 @@
 			}
 		
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-			private CommercialSpace m_commercialSpace
-					=  new CommercialSpace();
+			private Space m_space
+					=  new Space();
 				
-			public const string PropertyNameCommercialSpace = "CommercialSpace";
+			public const string PropertyNameSpace = "Space";
 			[DebuggerHidden]
 
-			public CommercialSpace CommercialSpace
+			public Space Space
 			{
-			get{ return m_commercialSpace;}
+			get{ return m_space;}
 			set
 			{
-			m_commercialSpace = value;
+			m_space = value;
 			OnPropertyChanged();
 			}
 			}

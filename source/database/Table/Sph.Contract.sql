@@ -14,8 +14,8 @@ CREATE TABLE [Sph].[Contract]
 	,[TenantRegistrationNo] VARCHAR(255) NOT NULL
 	,[StartDate] SMALLDATETIME  NOT NULL
 	,[EndDate] SMALLDATETIME NOT NULL
-	,[CommercialSpaceId] INT NOT NULL
-	,[CommercialSpaceRegistrationNo] VARCHAR(255) NOT NULL
+	,[SpaceId] INT NOT NULL
+	,[SpaceRegistrationNo] VARCHAR(255) NOT NULL
 	,[Data] XML NOT NULL
 	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
 	,[CreatedBy] VARCHAR(255) NULL
@@ -23,5 +23,3 @@ CREATE TABLE [Sph].[Contract]
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
-ALTER TABLE [Sph].[Sph].[Contract]
-ADD [Title] VARCHAR(255) NULL

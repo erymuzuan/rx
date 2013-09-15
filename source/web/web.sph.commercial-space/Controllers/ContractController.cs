@@ -17,14 +17,14 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             var context = new SphDataContext();
             var application = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == rentalApplicationId);
-            var cs = await context.LoadOneAsync<CommercialSpace>(c => c.CommercialSpaceId == application.CommercialSpaceId);
+            var cs = await context.LoadOneAsync<Space>(c => c.CommercialSpaceId == application.CommercialSpaceId);
             cs.IsAvailable = false;
 
             using (var session = context.OpenSession())
             {
                 contract.RentalApplicationId = rentalApplicationId;
                 contract.Status = "Active";
-                contract.CommercialSpace = cs;
+                contract.Space = cs;
                 
                 session.Attach(contract,cs);
                 await session.SubmitChanges("Contract is created from application");
@@ -38,7 +38,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             var context = new SphDataContext();
             var template = await context.LoadOneAsync<ContractTemplate>(t => t.ContractTemplateId == templateId);
             var app = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == rentalApplicationId);
-            var cs = await context.LoadOneAsync<CommercialSpace>(r => r.CommercialSpaceId == app.Offer.CommercialSpaceId);
+            var cs = await context.LoadOneAsync<Space>(r => r.CommercialSpaceId == app.Offer.CommercialSpaceId);
             var setting = await context.LoadOneAsync<Setting>(s => s.Key == "Organization");
             var org = JsonConvert.DeserializeObject<Organization>(setting.Value);
             var contract = new Contract
@@ -56,7 +56,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                             Address = org.Address
                         },
                     Type = template.Type,
-                    CommercialSpace = cs,
+                    Space = cs,
                     Period = app.Offer.Period,
                     PeriodUnit = app.Offer.PeriodUnit,
                     Option = app.Offer.Option,

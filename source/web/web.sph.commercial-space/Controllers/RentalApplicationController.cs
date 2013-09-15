@@ -43,10 +43,10 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> Submit(RentalApplication rentalapplication)
         {
             var context = new SphDataContext();
-            var c = await context.LoadOneAsync<CommercialSpace>(cs => cs.CommercialSpaceId == rentalapplication.CommercialSpaceId);
+            var c = await context.LoadOneAsync<Space>(cs => cs.CommercialSpaceId == rentalapplication.CommercialSpaceId);
             rentalapplication.Status = "Baru";
             rentalapplication.ApplicationDate = DateTime.Now;
-            rentalapplication.CommercialSpace = c;
+            rentalapplication.Space = c;
 
             var audit = new AuditTrail
                 {
@@ -341,7 +341,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
             var template = await context.GetScalarAsync<Setting, string>(s => s.Key == "Template.Offer.Letter",
                                                                    s => s.Value);
-            var cs = await context.LoadOneAsync<CommercialSpace>(c => c.CommercialSpaceId == rentalApplication.Offer.CommercialSpaceId);
+            var cs = await context.LoadOneAsync<Space>(c => c.CommercialSpaceId == rentalApplication.Offer.CommercialSpaceId);
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var file = await store.GetContentAsync(template);

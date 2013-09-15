@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Messaging
                     OwnerCode = item.CreatedBy,
                     Summary = item.ToString(),
                     Code = item.RegistrationNo,
-                    Type = typeof(CommercialSpace).Name,
+                    Type = typeof(Space).Name,
                     Id = item.RentalApplicationId
                 };
             return Task.FromResult(metadata);

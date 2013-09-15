@@ -15,8 +15,8 @@ namespace Bespoke.SphCommercialSpaces.Domain
     {
         public IQueryable<Building> Buildings { get; set; }
         public IQueryable<BuildingTemplate> BuildingTemplates { get; set; }
-        public IQueryable<CommercialSpace> CommercialSpaces { get; set; }
-        public IQueryable<CommercialSpaceTemplate> CommercialSpaceTemplates { get; set; }
+        public IQueryable<Space> CommercialSpaces { get; set; }
+        public IQueryable<SpaceTemplate> CommercialSpaceTemplates { get; set; }
         public IQueryable<ComplaintTemplate> ComplaintTemplates { get; set; }
         public IQueryable<ApplicationTemplate> ApplicationTemplates { get; set; }
         public IQueryable<Complaint> Complaints { get; set; }
@@ -42,8 +42,8 @@ namespace Bespoke.SphCommercialSpaces.Domain
 
             this.Buildings = new Query<Building>(provider);
             this.BuildingTemplates = new Query<BuildingTemplate>(provider);
-            this.CommercialSpaces = new Query<CommercialSpace>(provider);
-            this.CommercialSpaceTemplates = new Query<CommercialSpaceTemplate>(provider);
+            this.CommercialSpaces = new Query<Space>(provider);
+            this.CommercialSpaceTemplates = new Query<SpaceTemplate>(provider);
             this.MaintenanceTemplates = new Query<MaintenanceTemplate>(provider);
             this.ComplaintTemplates = new Query<ComplaintTemplate>(provider);
             this.ApplicationTemplates = new Query<ApplicationTemplate>(provider);
@@ -126,10 +126,10 @@ namespace Bespoke.SphCommercialSpaces.Domain
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
                 }
-                if (type == typeof(CommercialSpaceTemplate))
+                if (type == typeof(SpaceTemplate))
                 {
-                    Expression<Func<CommercialSpaceTemplate, bool>> predicate = t => t.CommercialSpaceTemplateId == this.GetId(o1);
-                    var query = new Query<CommercialSpaceTemplate>(provider).Where(predicate);
+                    Expression<Func<SpaceTemplate, bool>> predicate = t => t.CommercialSpaceTemplateId == this.GetId(o1);
+                    var query = new Query<SpaceTemplate>(provider).Where(predicate);
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
                 }

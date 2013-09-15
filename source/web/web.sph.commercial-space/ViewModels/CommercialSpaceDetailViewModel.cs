@@ -4,7 +4,7 @@ namespace Bespoke.Sph.Commerspace.Web.ViewModels
 {
     public class CommercialSpaceDetailViewModel
     {
-        public CommercialSpaceTemplate Template { get; set; }
+        public SpaceTemplate Template { get; set; }
 
         public ApplicationTemplate[] ApplicationTemplates { get; set; }
     }

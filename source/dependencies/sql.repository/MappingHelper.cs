@@ -23,10 +23,10 @@ namespace Bespoke.Sph.SqlRepository
                         return contract.Tenant.RegistrationNo;
                     if (column == "TenantIdSsmNo")
                         return contract.Tenant.IdSsmNo;
-                    if (column == "CommercialSpaceId")
-                        return contract.CommercialSpace.CommercialSpaceId;
-                    if (column == "CommercialSpaceRegistrationNo")
-                        return contract.CommercialSpace.RegistrationNo;
+                    if (column == "SpaceId")
+                        return contract.Space.SpaceId;
+                    if (column == "SpaceRegistrationNo")
+                        return contract.Space.RegistrationNo;
                     break;
                 case "RentalApplication":
                     var app = (RentalApplication)item;

@@ -1,11 +1,11 @@
 USE [Sph]
-IF OBJECT_ID('Sph.CommercialSpaceTemplate', 'U') IS NOT NULL
+IF OBJECT_ID('Sph.SpaceTemplate', 'U') IS NOT NULL
   DROP TABLE Sph.CommercialSpaceTemplate
 GO
 
-CREATE TABLE Sph.CommercialSpaceTemplate
+CREATE TABLE Sph.SpaceTemplate
 (
-	 [CommercialSpaceTemplateId] INT PRIMARY KEY IDENTITY(1,1)	
+	 [SpaceTemplateId] INT PRIMARY KEY IDENTITY(1,1)	
 	,[Name] VARCHAR(255) NULL
 	,[Data] XML NOT NULL
 	,[IsActive] BIT NOT NULL

@@ -5,9 +5,9 @@ using Bespoke.SphCommercialSpaces.Domain;
 
 namespace Bespoke.Sph.Messaging
 {
-    public class CommercialSpaceIndexerSubscriber : EntityIndexer<CommercialSpace>
+    public class CommercialSpaceIndexerSubscriber : EntityIndexer<Space>
     {
-        protected override Task<SearchMetadata> GetMetadata(CommercialSpace item, MessageHeaders header)
+        protected override Task<SearchMetadata> GetMetadata(Space item, MessageHeaders header)
         {
             var metadata = new SearchMetadata
                 {
@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Messaging
                     OwnerCode = item.CreatedBy,
                     Summary = item.ToString(),
                     Code = item.LotName,
-                    Type = typeof(CommercialSpace).Name,
+                    Type = typeof(Space).Name,
                     Id = item.BuildingId
                 };
             return Task.FromResult(metadata);

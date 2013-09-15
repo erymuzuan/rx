@@ -77,21 +77,21 @@ namespace Bespoke.SphCommercialSpace.LedgerMsxl
             ws.Cells["A11"].Value = contract.Tenant.Address.City + ", " + contract.Tenant.Address.Postcode;
             ws.Cells["B12"].Value = contract.Tenant.Phone;
 
-            ws.Cells["A16"].Value = contract.CommercialSpace.LotName;
-            ws.Cells["A17"].Value = contract.CommercialSpace.BuildingName;
-            ws.Cells["A18"].Value = contract.CommercialSpace.City + ", " + contract.Tenant.Address.Postcode;
-            ws.Cells["B19"].Value = contract.CommercialSpace.State;
+            ws.Cells["A16"].Value = contract.Space.LotName;
+            ws.Cells["A17"].Value = contract.Space.BuildingName;
+            ws.Cells["A18"].Value = contract.Space.City + ", " + contract.Tenant.Address.Postcode;
+            ws.Cells["B19"].Value = contract.Space.State;
 
 
             ws.Cells["F3"].Value = contract.ReferenceNo;
-            ws.Cells["F4"].Value = contract.CommercialSpace.RentalRate;
+            ws.Cells["F4"].Value = contract.Space.RentalRate;
 
             ws.Cells["F6"].Value = contract.StartDate;
             ws.Cells["F7"].Value = contract.EndDate;
 
             ws.Cells["A24"].Value = contract.StartDate;
-            ws.Cells["B24"].Value = contract.CommercialSpace.RentalRate;
-            ws.Cells["C24"].Value = contract.CommercialSpace.RentalRate;
+            ws.Cells["B24"].Value = contract.Space.RentalRate;
+            ws.Cells["C24"].Value = contract.Space.RentalRate;
 
             var i = 0;
             foreach (var e in sortedEntries)

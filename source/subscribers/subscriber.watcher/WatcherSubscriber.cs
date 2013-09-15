@@ -38,7 +38,7 @@ namespace Bespoke.Sph.WathersSubscribers
         private ObjectCollection<Watcher> m_watchers;
         private IEntityChangedListener<Building> m_buildingListener;
         private IEntityChangedListener<RentalApplication> m_applicationListener;
-        private IEntityChangedListener<CommercialSpace> m_spaceListener;
+        private IEntityChangedListener<Space> m_spaceListener;
         private IEntityChangedListener<Complaint> m_complaintListener;
         private IEntityChangedListener<Maintenance> m_maintenanceListener;
         private IEntityChangedListener<Contract> m_contractListener;
@@ -72,7 +72,7 @@ namespace Bespoke.Sph.WathersSubscribers
             m_maintenanceListener.Changed += EntityChanged;
             m_maintenanceListener.Run();
 
-            m_spaceListener = ObjectBuilder.GetObject<IEntityChangedListener<CommercialSpace>>();
+            m_spaceListener = ObjectBuilder.GetObject<IEntityChangedListener<Space>>();
             m_spaceListener.Changed += EntityChanged;
             m_spaceListener.Run();
 

@@ -216,7 +216,7 @@
 			<xs:attribute name="PlanStoreId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="CommercialSpace">
+	<xs:element name="Space">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="LotCollection">
@@ -249,7 +249,7 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
-			<xs:attribute name="CommercialSpaceId" type="xs:int" use="required"/>
+			<xs:attribute name="SpaceId" type="xs:int" use="required"/>
 			<xs:attribute name="BuildingId" type="xs:int" use="required"/>
 			<xs:attribute name="LotName" type="xs:string" use="required"/>
 			<xs:attribute name="FloorName" type="xs:string" use="required"/>
@@ -293,7 +293,7 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element ref="Offer"/>
-				<xs:element ref="CommercialSpace" minOccurs="0"/>
+				<xs:element ref="Space" minOccurs="0"/>
 				<xs:element name="CustomFieldValueCollection">
 					<xs:complexType>
 						<xs:sequence>
@@ -407,7 +407,7 @@
 				<xs:element ref="ContractingParty"/>
 				<xs:element name="Option" type="xs:int" nillable="true"/>
 				<xs:element ref="Tenant"/>
-				<xs:element ref="CommercialSpace"/>
+				<xs:element ref="Space"/>
 				<xs:element name="TopicCollection">
 					<xs:complexType>
 						<xs:sequence>

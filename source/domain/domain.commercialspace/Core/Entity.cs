@@ -12,7 +12,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
     [XmlInclude(typeof(Building))]
     [XmlInclude(typeof(RentalApplication))]
     [XmlInclude(typeof(Maintenance))]
-    [XmlInclude(typeof(CommercialSpace))]
+    [XmlInclude(typeof(Space))]
     [XmlInclude(typeof(ComplaintTemplate))]
     [XmlInclude(typeof(Complaint))]
     [XmlInclude(typeof(UserProfile))]

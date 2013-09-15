@@ -14,7 +14,7 @@ namespace Bespoke.SphCommercialSpaces.Domain
                  Date = date,
                  Month = date.Month,
                  Year = date.Year,
-                 Amount = c1.CommercialSpace.RentalRate,
+                 Amount = c1.Space.RentalRate,
                  TenantIdSsmNo = c1.Tenant.IdSsmNo,
                  ContractNo = c1.ReferenceNo,
                  InvoiceNo = string.Format("{0}/{1:MMyyyy}", c1.ReferenceNo, date),

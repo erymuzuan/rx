@@ -97,8 +97,8 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> SaveCommercialSpaceTemplate()
         {
 
-            var models = TypeHelper.GetPropertyPath(typeof(CommercialSpace));
-            var template = this.GetRequestJson<CommercialSpaceTemplate>();
+            var models = TypeHelper.GetPropertyPath(typeof(Space));
+            var template = this.GetRequestJson<SpaceTemplate>();
             this.BuildCustomFields(template.CustomFieldCollection, template.FormDesign, models);
             var list = new ObjectCollection<CustomListDefinition>();
             foreach (var c in template.FormDesign.FormElementCollection.OfType<CustomListDefinitionElement>())
@@ -214,7 +214,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 
         public ActionResult CommercialSpace()
         {
-            var vm = new TemplateFormViewModel { Entity = typeof(CommercialSpace).Name };
+            var vm = new TemplateFormViewModel { Entity = typeof(Space).Name };
             vm.FormElements.Add(new AddressElement());
             vm.FormElements.Add(new BuildingElement());
             vm.FormElements.Add(new CommercialSpaceLotsElement());

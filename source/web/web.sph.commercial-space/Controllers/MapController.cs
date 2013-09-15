@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
             
 
             var context = new SphDataContext();
-            var cs = await context.LoadOneAsync<CommercialSpace>(c => c.CommercialSpaceId == id);
+            var cs = await context.LoadOneAsync<Space>(c => c.CommercialSpaceId == id);
             var building = await context.LoadOneAsync<Building>(b => b.BuildingId == cs.BuildingId);
             if (null == building)
                 return Content("/images/no-image.png");

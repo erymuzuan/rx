@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> CommercialSpaceDetailHtml(int templateId)
         {
             var context = new SphDataContext();
-            var templateTask =  context.LoadOneAsync<CommercialSpaceTemplate>(t => t.CommercialSpaceTemplateId == templateId);
+            var templateTask =  context.LoadOneAsync<SpaceTemplate>(t => t.CommercialSpaceTemplateId == templateId);
             var applicationTemplatesTask =  context.LoadAsync(context.ApplicationTemplates);
 
             await Task.WhenAll(templateTask, applicationTemplatesTask);

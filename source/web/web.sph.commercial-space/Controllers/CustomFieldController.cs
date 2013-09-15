@@ -23,7 +23,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
         public async Task<ActionResult> CommercialSpaceTemplate(int id)
         {
             var context = new SphDataContext();
-            var template = await context.LoadOneAsync<CommercialSpaceTemplate>(t => t.CommercialSpaceTemplateId == id);
+            var template = await context.LoadOneAsync<SpaceTemplate>(t => t.CommercialSpaceTemplateId == id);
             return View("CustomFieldHtml", new CustomFieldViewModel(template.CustomFieldCollection) { RootObject = "$root.complaint()" });
         }
     }

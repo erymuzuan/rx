@@ -6,20 +6,20 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
 {
     public class CommercialSpaceController : Controller
     {
-        public async Task<ActionResult> SaveCommercialSpace(CommercialSpace commercialSpace)
+        public async Task<ActionResult> SaveCommercialSpace(Space space)
         {
-            var buildingId = commercialSpace.BuildingId;
+            var buildingId = space.BuildingId;
             var context = new SphDataContext();
 
             var building = await context.LoadOneAsync<Building>(b => b.BuildingId == buildingId);
-            commercialSpace.State = building.Address.State;
-            commercialSpace.City = building.Address.City;
-            commercialSpace.BuildingName = building.Name;
-            commercialSpace.BuildingLot = building.LotNo;
+            space.State = building.Address.State;
+            space.City = building.Address.City;
+            space.BuildingName = building.Name;
+            space.BuildingLot = building.LotNo;
 
             using (var session = context.OpenSession())
             {
-                session.Attach(commercialSpace);
+                session.Attach(space);
                 await session.SubmitChanges();
             }
             return Json(true);

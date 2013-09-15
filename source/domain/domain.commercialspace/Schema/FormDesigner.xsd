@@ -128,7 +128,7 @@
 			<xs:attribute name="Category" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="CommercialSpaceTemplate">
+	<xs:element name="SpaceTemplate">
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="CustomFieldCollection">
@@ -143,6 +143,13 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="CustomListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DefaultValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DefaultValue"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -410,6 +417,16 @@
 			<xs:complexContent>
 				<xs:extension base="FormElement"/>
 			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DefaultValue">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Value" type="xs:anySimpleType"/>
+			</xs:all>
+			<xs:attribute name="PropertyName" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
+			<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

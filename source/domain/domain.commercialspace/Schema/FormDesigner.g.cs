@@ -1221,7 +1221,7 @@
           [DataObject(true)]
           [Serializable]
           [XmlType("CommercialSpaceTemplate",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class CommercialSpaceTemplate
+          public  partial class SpaceTemplate
           {
           
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
