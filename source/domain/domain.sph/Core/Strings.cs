@@ -95,6 +95,11 @@ namespace Bespoke.Sph.Domain
             return sb.ToString();
         }
 
+        public static string GetShortAssemblyQualifiedName(this Type type)
+        {
+            return string.Format("{0}, {1}", type.FullName, type.Assembly.GetName().Name);
+        }
+
         public static string ConvertToUnsecureString(this SecureString securePassword)
         {
             if (securePassword == null)

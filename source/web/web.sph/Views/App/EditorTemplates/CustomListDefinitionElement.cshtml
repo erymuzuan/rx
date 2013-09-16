@@ -1,4 +1,5 @@
-﻿@model Bespoke.Sph.Domain.CustomListDefinitionElement
+﻿@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Domain.CustomListDefinitionElement
 
 <div>
     <input type="button" class="btn pull-right" value="@Model.Label" data-bind="click : addCustomListItem('@Model.Name')" />
@@ -17,23 +18,23 @@
                 @foreach (var c in Model.CustomFieldCollection)
                 {
                     <td>
-                        @if (c.Type == typeof(string).AssemblyQualifiedName)
+                        @if (c.Type == typeof(string).GetShortAssemblyQualifiedName())
                         {
                             <input class="input-small" name="@c.Name" type="text" data-bind="value: CustomField('@c.Name'), uniqueName: true" />
                         }
-                        @if (c.Type == typeof(int).AssemblyQualifiedName)
+                        @if (c.Type == typeof(int).GetShortAssemblyQualifiedName())
                         {
                             <input class="input-small" name="@c.Name" type="number" data-bind="value: CustomField('@c.Name'), uniqueName: true" />
                         }
-                        @if (c.Type == typeof(decimal).AssemblyQualifiedName)
+                        @if (c.Type == typeof(decimal).GetShortAssemblyQualifiedName())
                         {
                             <input class="input-small" name="@c.Name" type="number" data-bind="value: CustomField('@c.Name'), uniqueName: true" />
                         }
-                        @if (c.Type == typeof(bool).AssemblyQualifiedName)
+                        @if (c.Type == typeof(bool).GetShortAssemblyQualifiedName())
                         {
                             <input class="input-small" name="@c.Name" type="checkbox" data-bind="checked: CustomField('@c.Name'), uniqueName: true" />
                         }
-                        @if (c.Type == typeof(DateTime).AssemblyQualifiedName)
+                        @if (c.Type == typeof(DateTime).GetShortAssemblyQualifiedName())
                         {
                             <input class="input-small" name="@c.Name" type="text" data-bind="kendoDate: CustomField('@c.Name'), uniqueName: true" />
                         }

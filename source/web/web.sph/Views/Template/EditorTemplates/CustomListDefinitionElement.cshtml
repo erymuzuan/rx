@@ -1,4 +1,5 @@
-﻿@model Bespoke.Sph.Domain.CustomListDefinitionElement
+﻿@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Domain.CustomListDefinitionElement
 <!--ko if:$data['$type']() === "Bespoke.Sph.Domain.CustomListDefinitionElement, domain.sph" -->
 <a href="#" data-bind="click: addCustomField">+ field</a>
 <div>
@@ -10,11 +11,11 @@
         <div class="input-append">
             <input class="custom-list-name" type="text" data-bind="value: Name, valueUpdate: 'keyup'" />
             <select class="custom-list-type" data-bind="value: Type">
-                <option value="@typeof(string).AssemblyQualifiedName">String</option>
-                <option value="@typeof(int).AssemblyQualifiedName">Int</option>
-                <option value="@typeof(bool).AssemblyQualifiedName">Bool</option>
-                <option value="@typeof(decimal).AssemblyQualifiedName">Decimal</option>
-                <option value="@typeof(DateTime).AssemblyQualifiedName">DateTime</option>
+                <option value="@typeof(string).GetShortAssemblyQualifiedName()">String</option>
+                <option value="@typeof(int).GetShortAssemblyQualifiedName()">Int</option>
+                <option value="@typeof(bool).GetShortAssemblyQualifiedName()">Bool</option>
+                <option value="@typeof(decimal).GetShortAssemblyQualifiedName()">Decimal</option>
+                <option value="@typeof(DateTime).GetShortAssemblyQualifiedName()">DateTime</option>
             </select>
             <a class="add-on" href="#" data-bind="click:function(){ $parent.removeCustomField.call($parent,$data)}">
                 <i class="icon-remove"></i>

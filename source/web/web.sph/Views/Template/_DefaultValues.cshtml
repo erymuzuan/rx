@@ -1,0 +1,19 @@
+﻿<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
+    <thead>
+        <tr>
+            <th>Path</th>
+            <th>Type</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach :DefaultValueCollection">
+        <tr data-bind="css : {'alert': IsNullable() === false}">
+            <td data-bind="text:PropertyName"></td>
+            <td data-bind="text:TypeName"></td>
+            <td>
+                <input type="text" data-bind="value:Value"/>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<button data-bind="command: $root.loadDefaultValueFields">Load</button>

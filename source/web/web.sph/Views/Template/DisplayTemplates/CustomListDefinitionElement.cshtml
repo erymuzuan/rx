@@ -1,4 +1,5 @@
-﻿@model Bespoke.Sph.Domain.CustomListDefinitionElement
+﻿@using Bespoke.Sph.Domain
+@model CustomListDefinitionElement
 
 
 <!--ko if:$data['$type']() === "Bespoke.Sph.Domain.CustomListDefinitionElement, domain.sph" -->
@@ -16,22 +17,22 @@
             {
             <tr data-bind="foreach: CustomFieldCollection">
                 <td>
-                    <!-- ko if: Type() === '@typeof(string).AssemblyQualifiedName'-->
+                    <!-- ko if: Type() === '@typeof(string).GetShortAssemblyQualifiedName()'-->
                     <input class="input-small" type="text" value="sample data" />
                     <!--/ko-->
-                    <!-- ko if: Type() === '@typeof(bool).AssemblyQualifiedName'-->
+                    <!-- ko if: Type() === '@typeof(bool).GetShortAssemblyQualifiedName()'-->
                     <input class="input-small" type="checkbox" value="" checked="@(i % 2 ==0? "checked": "")" />
                     <!--/ko-->
-                    <!-- ko if: Type() === '@typeof(DateTime).AssemblyQualifiedName'-->
+                    <!-- ko if: Type() === '@typeof(DateTime).GetShortAssemblyQualifiedName()'-->
                     <div class="input-append">
                         <input class="input-small" type="text" value="@DateTime.Today.ToShortDateString()" />
                         <i class="icon-calendar add-on"></i>
                     </div>
                     <!--/ko-->
-                    <!-- ko if: Type() === '@typeof(int).AssemblyQualifiedName'-->
+                    <!-- ko if: Type() === '@typeof(int).GetShortAssemblyQualifiedName()'-->
                     <input class="input-small" type="number" value="@i" />
                     <!--/ko-->
-                    <!-- ko if: Type() === '@typeof(decimal).AssemblyQualifiedName'-->
+                    <!-- ko if: Type() === '@typeof(decimal).GetShortAssemblyQualifiedName()'-->
                     <input class="input-small" type="number" value="@(i).00" />
                     <!--/ko-->
                 </td>

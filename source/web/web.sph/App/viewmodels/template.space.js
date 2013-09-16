@@ -18,12 +18,12 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
 
 
                 var customElements = [];
-                
+
                 var address = new bespoke.sph.domain.AddressElement(system.guid());
                 address.CssClass("icon-envelope pull-left");
                 address.Name("Address");
                 customElements.push(address);
-                
+
                 var building = new bespoke.sph.domain.BuildingElement(system.guid());
                 building.CssClass("icon-envelope pull-left");
                 building.Name("Building");
@@ -46,7 +46,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                     var tcs = new $.Deferred();
                     context.loadOneAsync("SpaceTemplate", query)
                         .done(function (b) {
-                            
+
                             _(b.FormDesign().FormElementCollection()).each(function (fe) {
                                 // add isSelected for the designer
                                 fe.isSelected = ko.observable(false);
@@ -60,10 +60,11 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 } else {
                     vm.template(new bespoke.sph.domain.SpaceTemplate());
 
-                    vm.template().FormDesign().Name("My form 1");
-                    vm.template().FormDesign().Description("Do whatever it takes");
+                    vm.template().FormDesign().Name("jenis ruang anda");
+                    vm.template().FormDesign().Description("Keterangan jenis ruang");
 
                     designerHost.designer(vm.template().FormDesign());
+
                     return true;
                 }
 
@@ -88,26 +89,47 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                     });
                 return tcs.promise();
             },
-            
+
         exportTemplate = function () {
             return eximp.exportJson("template.space." + vm.template().SpaceTemplateId() + ".json", ko.mapping.toJSON(vm.template));
         },
 
         importTemplateJson = function () {
-             return eximp.importJson()
-                 .done(function (json) {
-                     try {
-                         vm.template(ko.mapping.fromJSON(json));
-                         if (typeof vm.template().FormDesign === "object") {
-                             vm.template().FormDesign = ko.observable(vm.template().FormDesign);
-                         }
+            return eximp.importJson()
+                .done(function (json) {
+                    try {
+                        vm.template(ko.mapping.fromJSON(json));
+                        if (typeof vm.template().FormDesign === "object") {
+                            vm.template().FormDesign = ko.observable(vm.template().FormDesign);
+                        }
 
-                         vm.template().SpaceTemplateId(0);
-                     } catch(error) {
-                         logger.logError('Fail template import tidak sah', error, this, true);
-                     }
-                 });
-         };
+                        vm.template().SpaceTemplateId(0);
+                    } catch (error) {
+                        logger.logError('Fail template import tidak sah', error, this, true);
+                    }
+                });
+        },
+
+            loadDefaultValueFields = function () {
+                var tcs = new $.Deferred();
+                var data = JSON;
+
+                context.post(data, "/Template/PropertyPath/Space")
+                    .then(function (result) {
+
+                        var fields = _(result).map(function(f) {
+                            var field = new bespoke.sph.domain.DefaultValue(system.guid());
+                            field.PropertyName(f.Name);
+                            field.TypeName(f.TypeName);
+                            field.IsNullable(f.IsNullable);
+                            // TODO :look for existing values
+                            return field;
+                        });
+                        vm.template().DefaultValueCollection(fields);
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            };
 
         var vm = {
             activate: activate,
@@ -128,7 +150,8 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             selectPathFromPicker: designerHost.selectPathFromPicker,
             showPathPicker: designerHost.showPathPicker,
             addComboBoxOption: designerHost.addComboBoxOption,
-            config : config
+            config: config,
+            loadDefaultValueFields: loadDefaultValueFields
         };
 
         return vm;

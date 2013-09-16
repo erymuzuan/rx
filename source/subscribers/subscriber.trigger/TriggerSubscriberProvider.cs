@@ -18,7 +18,7 @@ namespace Bespoke.Sph.CustomTriggers
                 .Wait();
 
 
-            var typeFormat = typeof(Entity).AssemblyQualifiedName.ToEmptyString().Replace("Entity", "{0}");
+            var typeFormat = typeof(Entity).GetShortAssemblyQualifiedName().ToEmptyString().Replace("Entity", "{0}");
 
 
             var list = new List<dynamic>();

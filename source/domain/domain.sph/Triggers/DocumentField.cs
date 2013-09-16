@@ -23,7 +23,7 @@ namespace Bespoke.Sph.Domain
             }
             set
             {
-                this.TypeName = value.AssemblyQualifiedName;
+                this.TypeName = value.GetShortAssemblyQualifiedName();
             }
         }
 

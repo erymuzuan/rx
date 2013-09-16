@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Domain
         {
 
             // ReSharper disable PossibleNullReferenceException
-            var type = Type.GetType(typeof(Entity).AssemblyQualifiedName.Replace("Entity", this.DataSource.EntityName));
+            var type = Type.GetType(typeof(Entity).GetShortAssemblyQualifiedName().Replace("Entity", this.DataSource.EntityName));
             // ReSharper restore PossibleNullReferenceException
             
             var repository = ObjectBuilder.GetObject<IReportDataSource>();

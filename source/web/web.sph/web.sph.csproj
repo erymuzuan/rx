@@ -384,6 +384,7 @@
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
     <Content Include="App\partial\Block.js" />
+    <Content Include="App\partial\IFormTemplate.js" />
     <Content Include="App\partial\Space.js" />
     <Content Include="App\partial\Complaint.js" />
     <Content Include="App\partial\ConstantField.js" />
@@ -1391,6 +1392,7 @@
     <Content Include="Views\App\ComplaintCloseHtml.cshtml" />
     <Content Include="Views\App\_TenantDetails.cshtml" />
     <Content Include="Views\App\_DataGridItemRow.cshtml" />
+    <Content Include="Views\Template\_DefaultValues.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -44,7 +44,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             // update the Filter type based on the FieldName
             var dataSource = ObjectBuilder.GetObject<IReportDataSource>();
-            var typeName = (typeof(Entity).AssemblyQualifiedName ?? "").Replace("Entity", rdl.DataSource.EntityName);
+            var typeName = (typeof(Entity).GetShortAssemblyQualifiedName() ?? "").Replace("Entity", rdl.DataSource.EntityName);
             var cols = await dataSource.GetColumnsAsync(Type.GetType(typeName));
 
             foreach (var filter in rdl.DataSource.ReportFilterCollection)
@@ -71,7 +71,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> GetEntityColumns(string id)
         {
             var dataSource = ObjectBuilder.GetObject<IReportDataSource>();
-            var typeName = (typeof (Entity).AssemblyQualifiedName ?? "").Replace("Entity", id);
+            var typeName = (typeof (Entity).GetShortAssemblyQualifiedName() ?? "").Replace("Entity", id);
             var cols = await dataSource.GetColumnsAsync(Type.GetType(typeName));
 
             var json = JsonConvert.SerializeObject(cols);

@@ -167,7 +167,7 @@ namespace Bespoke.Sph.SqlReportDataSource
         {
 
             // ReSharper disable PossibleNullReferenceException
-            var type = Type.GetType(typeof(Entity).AssemblyQualifiedName.Replace("Entity", rdl.DataSource.EntityName));
+            var type = Type.GetType(typeof(Entity).GetShortAssemblyQualifiedName().Replace("Entity", rdl.DataSource.EntityName));
             // ReSharper restore PossibleNullReferenceException
 
             var dataSource = rdl.DataSource;

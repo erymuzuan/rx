@@ -9,7 +9,10 @@ namespace web.test
 {
     public static class XLinqHelper
     {
-
+        public static string GetShortAssemblyQualifiedName(this Type type)
+        {
+            return string.Format("{0}, {1}", type.FullName, type.Assembly.GetName().Name);
+        }
 
         public static string GetAttributeStringValue(this XElement xml, params string[] elements)
         {

@@ -83,7 +83,7 @@ namespace domain.test.reports
                 Floors = 15,
                 Address = new Address {State = "Kelantan"},
             };
-            building.CustomFieldValueCollection.Add(new CustomFieldValue{Name = "Custom01", Value = "XXX",Type = typeof(string).AssemblyQualifiedName});
+            building.CustomFieldValueCollection.Add(new CustomFieldValue{Name = "Custom01", Value = "XXX",Type = typeof(string).GetShortAssemblyQualifiedName()});
             var xml = (building).ToXElement();
 
             Console.WriteLine("Exec");

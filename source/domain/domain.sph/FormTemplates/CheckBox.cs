@@ -18,7 +18,7 @@
               {
                   IsRequired = this.IsRequired,
                   Name = this.Path,
-                  Type = typeof(bool).AssemblyQualifiedName
+                  Type = typeof(bool).GetShortAssemblyQualifiedName()
               };
         }
     }

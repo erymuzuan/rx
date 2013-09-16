@@ -4,8 +4,6 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming
@@ -1712,6 +1710,11 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isNullable;
+        public const string PropertyNameIsNullable = "IsNullable";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private object m_value;
         public const string PropertyNameValue = "Value";
 
@@ -1916,6 +1919,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isCustomField;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsNullable
+        {
+            set
+            {
+                if (m_isNullable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsNullable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isNullable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isNullable;
             }
         }
 

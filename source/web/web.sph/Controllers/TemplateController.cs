@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
 using Bespoke.Sph.Domain;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -59,7 +61,7 @@ namespace Bespoke.Sph.Web.Controllers
                 cl.CustomFieldCollection.AddRange(c.CustomFieldCollection);
                 list.Add(cl);
             }
-            
+
 
             template.CustomListDefinitionCollection.ClearAndAddRange(list);
 
@@ -231,6 +233,20 @@ namespace Bespoke.Sph.Web.Controllers
 
 
             return View(vm);
+        }
+
+        public async Task<ActionResult> PropertyPath(string id)
+        {
+            var dataSource = ObjectBuilder.GetObject<IReportDataSource>();
+            var typeName = (typeof(Entity).GetShortAssemblyQualifiedName() ?? "").Replace("Entity", id);
+            var cols =( await dataSource.GetColumnsAsync(Type.GetType(typeName)))
+                .Where(a =>! a.IsCustomField);
+
+            var json = JsonConvert.SerializeObject(cols);
+
+            this.Response.ContentType = "application/json; charset=utf-8";
+            return Content(json);
+
         }
     }
 }

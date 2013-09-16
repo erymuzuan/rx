@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Web.Helpers
         public static string[] GetPropertyPath(Type type)
         {
             var list = new List<string>();
-            TypeHelper.BuildFlatJsonTreeView(list, "", type);
+            BuildFlatJsonTreeView(list, "", type);
             var tjson = "[" + string.Join(",", list) + "]";
             var models = JsonConvert.DeserializeObject<IEnumerable<TypeModel>>(tjson)
                                     .Select(t => t.Path)
@@ -48,7 +48,7 @@ namespace Bespoke.Sph.Web.Helpers
                 {
                     text.AppendLine("<li>");
                     text.AppendFormat("<span>{0}</span>", p.Name);
-                    TypeHelper.BuildTreeView(text, path + "." + p.Name, p.PropertyType);
+                    BuildTreeView(text, path + "." + p.Name, p.PropertyType);
                     text.AppendLine("</li>");
                 }
                 else
@@ -75,6 +75,7 @@ namespace Bespoke.Sph.Web.Helpers
                 if (p.Name == "Error" && p.PropertyType == typeof(string)) continue;
                 if (p.Name == "Dirty" && p.PropertyType == typeof(bool)) continue;
                 if (p.Name == "Bil" && p.PropertyType == typeof(int)) continue;
+                if (p.Name == "Item") continue;
                 if (p.PropertyType == typeof(char)) continue;
                 if (p.PropertyType == typeof(DateTimeKind)) continue;
 
@@ -88,11 +89,12 @@ namespace Bespoke.Sph.Web.Helpers
                     gp, p.PropertyType.FullName, p.PropertyType.Assembly.GetName().Name, p.Name, parent));
 
                 if (path.Length < 255 && !path.EndsWith(".Date"))
-                    TypeHelper.BuildFlatJsonTreeView(text, path + "." + p.Name, p.PropertyType);
+                    BuildFlatJsonTreeView(text, path + "." + p.Name, p.PropertyType);
 
 
 
             }
         }
+
     }
 }

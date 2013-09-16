@@ -7,6 +7,7 @@ namespace web.test
 {
     [TestFixture]
 // ReSharper disable InconsistentNaming
+// ReSharper disable once InconsistentNaming
     public class _100_BuildingTest : BrowserTest
     {
         public const string BUILDING_NAME = "Bangunan Komersil Di Putrajaya (UJIAN)";
@@ -129,7 +130,7 @@ namespace web.test
 
             driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
                 .Value("input[type=text].custom-list-name", "Nama Penuh")
-                .SelectOption("select.custom-list-type", typeof(string).AssemblyQualifiedName, 0, false);
+                .SelectOption("select.custom-list-type", typeof(string).GetShortAssemblyQualifiedName(), 0, false);
 
             driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
                 .Value("input[type=text].custom-list-name", "Umur", 1)
