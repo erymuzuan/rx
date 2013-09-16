@@ -892,8 +892,8 @@
     <Content Include="App\views\tenant.html" />
     <Content Include="App\views\toolbar.html" />
     <Content Include="App\views\_audittrail.list.html" />
-    <Content Include="App\views\_commercialspace.contract.html" />
-    <Content Include="App\views\_complaint.commercialspace.detail.html" />
+    <Content Include="App\views\_space.contract.html" />
+    <Content Include="App\views\_complaint.space.detail.html" />
     <Content Include="App\views\_complaint.tenant.detail.html" />
     <Content Include="App\views\_contract.clauses.html" />
     <Content Include="App\views\_contract.documents.html" />
@@ -1238,7 +1238,7 @@
     <Content Include="Views\App\_TriggerFieldDropDown.cshtml" />
     <Content Include="Views\App\_TriggerChangedField.cshtml" />
     <Content Include="Views\RentalApplication\Print.cshtml" />
-    <Content Include="Views\App\CommercialSpaceDetailHtml.cshtml" />
+    <Content Include="Views\App\SpaceDetailHtml.cshtml" />
     <Content Include="Views\Shared\CustomFieldHtml.cshtml" />
     <Content Include="Views\App\ComplaintFormHtml.cshtml" />
     <Content Include="Views\Template\Building.cshtml" />

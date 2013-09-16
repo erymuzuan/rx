@@ -67,7 +67,7 @@ function (logger, system) {
         }
 
         var url = "/JsonDataService/" + entity;
-        url += "/?filter=" + query;
+        url += "/?filter=" + (query || "");
         url += "&page=" + page;
         url += "&includeTotal=" + includeTotal;
         url += "&size=" + size;

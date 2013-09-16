@@ -27,6 +27,7 @@ namespace web.test
                 Department = "Test",
                 Designation = "Boss",
                 Password = "abcad12334535",
+                StartModule = "application.template.list",
                 Roles = new[] { "can_edit_application_template" }
             };
             this.AddUser(m_appTemplateAdmin);
@@ -124,7 +125,7 @@ namespace web.test
             this.ExecuteNonQuery("DELETE FROM [Sph].[RentalApplication] WHERE [ContactIcNo] =@No", new SqlParameter("@No", RA_IC_NO));
             var max = this.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [ApplicationTemplateId] FROM [Sph].[ApplicationTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", APP_TEMPLATE_NAME));
-            var csId = this.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
+            var csId = this.GetDatabaseScalarValue<int>("SELECT [SpaceId] FROM [Sph].[Space] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
 
             var driver = this.InitiateDriver();
             driver.Login(m_appTemplateAdmin)
@@ -159,7 +160,7 @@ namespace web.test
             this.ExecuteNonQuery("DELETE FROM [Sph].[RentalApplication] WHERE [CompanyRegistrationNo] =@No", new SqlParameter("@No", RA_COMPANYREGISTRATION_NO));
             var max = this.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [ApplicationTemplateId] FROM [Sph].[ApplicationTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", APP_TEMPLATE_NAME));
-            var csId = this.GetDatabaseScalarValue<int>("SELECT [CommercialSpaceId] FROM [Sph].[CommercialSpace] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
+            var csId = this.GetDatabaseScalarValue<int>("SELECT [SpaceId] FROM [Sph].[Space] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
 
             var driver = this.InitiateDriver();
             driver

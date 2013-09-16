@@ -68,11 +68,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdminTest.cs" />
+    <Compile Include="_000_AdminTest.cs" />
     <Compile Include="BrowserHelper.cs" />
     <Compile Include="BrowserTest.cs" />
-    <Compile Include="BuildingTest.cs" />
-    <Compile Include="CommercialSpaceTest.cs" />
+    <Compile Include="_001_BuildingTest.cs" />
+    <Compile Include="_002_SpaceTest.cs" />
     <Compile Include="ComplaintTest.cs" />
     <Compile Include="ComplaintTenantTest.cs" />
     <Compile Include="ContractTest.cs" />
@@ -94,11 +94,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\web\web.sph.commercial-space\roles.config.js">
-      <Link>roles.config.js</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="invoice.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\web\web.sph\roles.config.js">
+      <Link>roles.config.js</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

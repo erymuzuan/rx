@@ -14,7 +14,7 @@ CREATE TABLE [Sph].[RentalApplication]
 	,[CompanyRegistrationNo] VARCHAR(255) NULL	
 	,[ContactName] VARCHAR(255) NULL	
 	,[ContactIcNo] VARCHAR(50) NULL	
-	,[CommercialSpaceId] INT  NULL
+	,[SpaceId] INT  NULL
 	,[Data] XML NOT NULL
 	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
 	,[CreatedBy] VARCHAR(255) NULL

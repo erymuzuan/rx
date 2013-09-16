@@ -120,7 +120,12 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                             vm.template().BuildingTemplateId(msg.id);
                             logger.info(bespoke.messagesText.SAVE_SUCCESS);
                         } else {
-                            logger.error(msg.message);
+                            var message = _(msg.errors).reduce(
+                            function(memo ,v) {
+                                return memo + "<br/>" + v.Message + "(" + v.PropertyName + ")";
+
+                            }, msg.message);
+                            logger.error(message);
                         }
                         tcs.resolve(true);
                     });

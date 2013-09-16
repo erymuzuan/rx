@@ -29,8 +29,6 @@ namespace Bespoke.Sph.Web.Controllers
 
         public async Task<ActionResult> SpaceImage(int id, int width = 400, int height = 400)
         {
-            
-
             var context = new SphDataContext();
             var cs = await context.LoadOneAsync<Space>(c => c.SpaceId == id);
             var building = await context.LoadOneAsync<Building>(b => b.BuildingId == cs.BuildingId);

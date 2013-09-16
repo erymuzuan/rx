@@ -29,7 +29,7 @@ namespace Bespoke.Sph.Domain
     {
         public virtual CustomField GenerateCustomField()
         {
-            throw new System.NotImplementedException();
+            throw new System.NotImplementedException(this.GetType().Name + " does not implement GenerateCustomField");
         }
 
         public virtual string GetKnockoutBindingExpression()

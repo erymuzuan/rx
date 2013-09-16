@@ -86,8 +86,8 @@ namespace Bespoke.Sph.Domain
             var name = key.ToString();
             if (key.IsGenericType)
             {
-                //Bespoke.SphCommercialSpaces.Domain.IRepository`1[Bespoke.SphCommercialSpaces.Domain.Trigger]
-                name = name.Replace("Bespoke.SphCommercialSpaces.Domain.", string.Empty)
+                //Bespoke.Sph.Domain.IRepository`1[Bespoke.Sph.Domain.Trigger]
+                name = name.Replace("Bespoke.Sph.Domain.", string.Empty)
                     .Replace("`1[", "<")
                     .Replace("]", ">")
                     ;

@@ -94,9 +94,10 @@ namespace Bespoke.Sph.Web.Controllers
             string message;
             bool result;
             var dbItem = await context.LoadOneAsync<RentalApplication>(r => r.RentalApplicationId == id);
-            var existingApprovedCs =
-                await context.GetCountAsync<RentalApplication>(r => r.SpaceId== dbItem.SpaceId&& (r.Status == "Approved" || r.Status == "Completed"));
-            if (existingApprovedCs == 0)
+            if (null == dbItem) return Json(new { status = "ERROR", message = "cannot find rental application with id " + id });
+
+            var spaceApproved = await context.GetAnyAsync<RentalApplication>(r => r.SpaceId == dbItem.SpaceId && (r.Status == "Approved" || r.Status == "Completed"));
+            if (spaceApproved)
             {
                 dbItem.Status = "Diluluskan";
                 message = "Diluluskan";

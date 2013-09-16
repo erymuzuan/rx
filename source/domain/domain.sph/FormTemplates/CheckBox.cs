@@ -11,5 +11,15 @@
                 path,
                 this.Visible);
         }
+
+        public override CustomField GenerateCustomField()
+        {
+            return new CustomField
+              {
+                  IsRequired = this.IsRequired,
+                  Name = this.Path,
+                  Type = typeof(bool).AssemblyQualifiedName
+              };
+        }
     }
 }

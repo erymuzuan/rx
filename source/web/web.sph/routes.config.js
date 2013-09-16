@@ -108,7 +108,7 @@
     "error": ""
   },
   {
-    "role": "can_add__space",
+    "role": "can_add_space",
     "url": "lotdetail/:buildingId/:floorname",
     "moduleId": "viewmodels/lotdetail",
     "name": "LotDetail",
@@ -148,7 +148,7 @@
     "error": ""
   },
   {
-    "role": "can_add__space",
+    "role": "can_add_space",
     "url": "building.list",
     "moduleId": "viewmodels/building.list",
     "name": "Bangunan",
@@ -162,7 +162,7 @@
     "error": ""
   },
   {
-    "role": "can_add__space",
+    "role": "can_add_space",
     "url": "space.detail/:templateId/:buildingId/:floorname/:csId",
     "moduleId": "viewmodels/space.detail",
     "name": "ruang komersial",
@@ -186,7 +186,7 @@
     "error": ""
   },
   {
-    "role": "can_add__space",
+    "role": "can_add_space",
     "url": "space.list",
     "moduleId": "viewmodels/space.list",
     "name": "Ruang",
@@ -222,7 +222,7 @@
     "error": ""
   },
   {
-    "role": "can_add__space",
+    "role": "can_add_space",
     "url": "building.bound",
     "moduleId": "viewmodels/building.bound",
     "name": "Peta Kawasan",
@@ -234,7 +234,7 @@
     "error": ""
   },
   {
-    "role": "can_add__space",
+    "role": "can_add_space",
     "url": "building.detail/:templateId/:id",
     "moduleId": "viewmodels/building.detail",
     "name": "BuildingDetail",
@@ -246,7 +246,7 @@
     "error": ""
   },
   {
-    "role": "can_add__space",
+    "role": "can_add_space",
     "url": "floorplan/:buildingId/:floorname",
     "moduleId": "viewmodels/floorplan",
     "name": "FloorPlan",

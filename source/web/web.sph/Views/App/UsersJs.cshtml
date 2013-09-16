@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var roles = Roles.GetAllRoles();
-    
+
 }
 
 <script type="text/javascript" data-script="true">
@@ -26,14 +26,14 @@
                      isBusy(false);
                      if (s) {
                          vm.designationOptions(s);
-                     } 
+                     }
                      if (d) {
                          var departments = JSON.parse(ko.mapping.toJS(d.Value));;
                          vm.departmentOptions(departments);
                      }
                      var list = _(p.itemCollection).map(map);
                      vm.profiles(list);
-                    
+
                      tcs.resolve(true);
                  });
                 return tcs.promise();
@@ -56,6 +56,10 @@
             add = function() {
                 vm.profile(new bespoke.sph.domain.Profile());
                 vm.profile().IsNew(true);
+                
+                
+                $('#user-details-modal').modal();
+                return Task.fromResult(true);
             },
             editedProfile = ko.observable(),
             edit = function(user) {
@@ -77,7 +81,7 @@
                     });
                 return tcs.promise();
             };
-            
+
 
         var vm = {
             activate: activate,
@@ -100,7 +104,13 @@
                     entity: ko.observable("UserProfile"),
                     id: ko.observable(0),
                     item: printprofile,
-                })
+                }),
+                commands : ko.observableArray([
+                    {
+                        caption : "Tambah Pengguna",
+                        icon : "icon-plus",
+                        command : add
+                    }])
             })
         };
 
@@ -117,12 +127,12 @@
                     if (result.status !== "OK") {
                         vm.userNameValidationStatus(result.message);
                     }
-                    
+
                     tcs.resolve(result);
                 });
             return tcs.promise();
         });
-        
+
         return vm;
     });
 </script>
