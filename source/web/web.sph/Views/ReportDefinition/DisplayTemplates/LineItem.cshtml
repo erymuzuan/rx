@@ -1,0 +1,8 @@
+﻿@model Bespoke.Sph.Domain.LineItem
+
+<!--ko if: $data['$type']() === "Bespoke.Sph.Domain.LineItem, domain.sph" -->
+<div class="report-item" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectedReportItem" class="control-group">
+    @Html.Partial("_DesignerContextAction")
+    <hr data-bind="attr: { class: CssClass }" />
+</div>
+<!--/ko-->

@@ -1,5 +1,5 @@
 ﻿using System.Threading;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Scheduler.Sph.Rental
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 using Roslyn.Compilers;
 using Roslyn.Scripting.CSharp;
 
@@ -49,7 +49,7 @@ namespace roslyn.scriptengine
             if (!block.EndsWith(";"))
                 block = string.Format("return {0};", script);
             var code = string.Format("using System;\r\n" +
-                                     "using Bespoke.SphCommercialSpaces.Domain;\r\n" +
+                                     "using Bespoke.Sph.Domain;\r\n" +
                                      "using System.Linq;\r\n" +
                                      "" +
                                      "public object Evaluate()\r\n" +

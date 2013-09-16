@@ -1,0 +1,10 @@
+﻿@model Bespoke.Sph.Domain.TextAreaElement
+
+<div class="control-group">
+     <label for="@Model.ElementId" class="control-label">@Model.Label</label>
+     <div class="controls">
+         <textarea class="@(Model.CssClass + " "+ Model.Size)" 
+                   title="@Model.Tooltip" data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" 
+                   id="@Model.ElementId" name="@Model.Path"></textarea>
+     </div>
+ </div>

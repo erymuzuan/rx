@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.CustomTriggers
 {

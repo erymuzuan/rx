@@ -7,9 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bespoke.Sph.RabbitMqPublisher;
 using Bespoke.Sph.SqlRepository;
-using Bespoke.SphCommercialSpaces.Domain;
-using Bespoke.SphCommercialSpaces.Domain.QueryProviders;
-using Contract = Bespoke.SphCommercialSpaces.Domain.Contract;
+using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.QueryProviders;
+using Contract = Bespoke.Sph.Domain.Contract;
 
 namespace Bespoke.Scheduler.Sph.Rental
 {

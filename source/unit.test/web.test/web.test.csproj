@@ -94,12 +94,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\domain\domain.commercialspace\domain.commercialspace.csproj">
-      <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
-      <Name>domain.commercialspace</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\..\web\web.sph.commercial-space\roles.config.js">
       <Link>roles.config.js</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

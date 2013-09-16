@@ -1,0 +1,19 @@
+﻿@model Bespoke.Sph.Domain.ComplaintCategoryElement
+
+<div class="control-group">
+    <label for="complaint-cateogry" class="control-label">@Model.Label</label>
+    <div class="controls">
+        <select data-bind="@Model.GetKnockoutBindingExpression()" id="complaint-cateogry" name="Category">
+            
+        </select>
+    </div>
+</div>
+
+<div class="control-group">
+    <label for="complaint-subcategory" class="control-label">@Model.SubCategoryLabel</label>
+    <div class="controls">
+        <select data-bind="@Model.GetSubCategoryKnockoutBindingExpression()" id="complaint-subcategory" name="SubCategory">
+            
+        </select>
+    </div>
+</div>

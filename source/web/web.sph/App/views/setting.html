@@ -1,0 +1,48 @@
+﻿<section>
+    <h1>Tetapan</h1>
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#template-tab" data-toggle="tab">Templat</a>
+            </li>
+            <li>
+                <a href="#state-tab" data-toggle="tab">Negeri</a>
+            </li> 
+            <li>
+                <a href="#category-tab" data-toggle="tab">Kategori Ruang</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="template-tab" class="tab-pane active">
+                <form class="form-horizontal">
+                    <div class="control-group">
+                        <label for="returnLetterTemplate" class="control-label">Returned letter template</label>
+                        <div class="controls">
+                            <input id="returnLetterTemplate" type="file" name="files" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="offerLetterTemplate" class="control-label">Template surat tawaran</label>
+                        <div class="controls">
+                            <input id="offerLetterTemplate" type="file" name="files" />
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn btn-primary" data-bind="command: saveCommand" data-loading-text="Diproses...." data-complete-text="Selesai">Simpan</button>
+                    </div>
+                </form>
+            </div>
+            <div id="state-tab" class="tab-pane">
+                <!--ko compose:'viewmodels/_setting.state' -->
+                <!--/ko-->
+            </div> 
+            <div id="category-tab" class="tab-pane">
+                <!--ko compose:'viewmodels/_setting.space.category' -->
+                <!--/ko-->
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,62 @@
+﻿<section class="btn-group pull-right" data-bind="visible: isSelected">
+    <button class="btn btn-link btn-context-action">
+        <i class="icon-chevron-sign-right"></i>
+    </button>
+    <div class="context-action alert alert-info">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <span>Line Chart Properties</span>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Title</label>
+            <div class="controls">
+                <input class="input-xlarge" data-bind="value: Title" id="line-chart" name="Title-linechart" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Label format</label>
+            <div class="controls">
+                <input data-bind="value: ValueLabelFormat" id="line-chart" name="ValueLabelFormat" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Category Axis</label>
+            <div class="controls">
+                <select data-bind="value: HorizontalAxisField, options:$root.columnOptions" name="HorizontalAxisField"></select>
+            </div>
+        </div>
+        
+        
+        <div style="font-size: 10px">
+            <a href="/#" data-bind="click : addSeries">+Series</a>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Column</th>
+                        <th>Header</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach :ChartSeriesCollection">
+                    <tr>
+                        <td>
+                            <select data-bind="value: Column, options:$root.columnOptions" name="HorizontalAxisField"></select>
+                        </td>
+                        <td>
+                            <input type="text" data-bind="value:Header" />
+                        </td>
+                        <td>
+                            <a href="/#" data-bind="click : $parent.removeSeries.call($parent,$data)">&times;</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <a class="btn btn-link pull-right" data-bind="click: $root.removeReportItem">
+            <i class="icon-remove"></i>
+            Buang
+        </a>
+    </div>
+</section>

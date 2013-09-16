@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.SqlReportDataSource
 {

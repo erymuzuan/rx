@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 using NUnit.Framework;
 using Newtonsoft.Json;
 using roslyn.scriptengine;

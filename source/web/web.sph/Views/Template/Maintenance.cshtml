@@ -1,0 +1,37 @@
+﻿@model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
+
+@{
+    Layout = null;
+}
+
+<h1>Maklumat Templat Penyenggaraan </h1>
+<div>
+    <div class="row">
+        <!-- left toobox-->
+        <div class="span4">
+            @Html.Partial("_Toolbox")
+        </div>
+
+        <div class="span8" data-bind="with: template">
+
+            <div data-bind="with: FormDesign" id="template-form-designer">
+                <h1 data-bind="text: Name"></h1>
+                <span data-bind="text: Description"></span>
+
+                <form class="form-horizontal">
+                    <!--ko foreach:FormElementCollection -->
+                    @foreach (var fe in Model.FormElements)
+                    {
+                        @Html.DisplayFor(m => fe)
+                    }
+                    <!--/ko-->
+
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_PathPicker")

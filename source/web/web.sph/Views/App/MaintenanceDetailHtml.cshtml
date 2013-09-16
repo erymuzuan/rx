@@ -1,0 +1,17 @@
+﻿@model Bespoke.Sph.Domain.MaintenanceTemplate
+@{
+    Layout = null;
+}
+
+<h1>@Model.FormDesign.Name</h1>
+<span>@Model.FormDesign.Description</span>
+
+<form id="building-details" class="form-horizontal" data-bind="with: maintenance">
+    @foreach (var fe in Model.FormDesign.FormElementCollection)
+    {
+        @Html.EditorFor(m => fe)
+        
+    }
+</form>
+
+

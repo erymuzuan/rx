@@ -1,0 +1,48 @@
+﻿@model Bespoke.Sph.Domain.RentalApplicationAttachmentsElement
+
+<!--ko if:$data['$type']() === "Bespoke.Sph.Domain.RentalApplicationAttachmentsElement, domain.sph" -->
+
+<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+      @Html.Partial("_DesignerContextAction")
+  
+    <button class="btn btn-link pull-right">
+        <i class="icon-file-alt"></i>+ Dokumen</button>
+
+    <table id="document-sokongan-table" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Jenis</th>
+                <th>Nama</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <input type="text" /></td>
+                <td>
+                    <input type="text" /></td>
+                <td>
+                    <button class="btn btn-link">Upload</button>
+                </td>
+                <td>
+                    <button class="btn btn-link">Buang</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" /></td>
+                <td>
+                    <input type="text" /></td>
+                <td>
+                    <button class="btn btn-link">Upload</button>
+                </td>
+                <td>
+                    <button class="btn btn-link">Buang</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!--/ko-->

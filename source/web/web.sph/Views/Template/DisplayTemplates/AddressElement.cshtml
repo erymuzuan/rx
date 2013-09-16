@@ -1,0 +1,38 @@
+﻿@model Bespoke.Sph.Domain.AddressElement
+
+<!--ko if:$data['$type']() === "Bespoke.Sph.Domain.AddressElement, domain.sph" -->
+<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+    @Html.Partial("_DesignerContextAction")
+    <div>
+        <h3 data-bind="text: Label"></h3>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label">Jalan</label>
+        <div class="controls">
+            <input class="input-xxlarge" type="text" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Bandar/Daerah</label>
+        <div class="controls">
+            <input type="text" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Poskod</label>
+        <div class="controls">
+            <input type="text" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Negeri</label>
+        <div class="controls">
+            <select>
+                <option value="Kelantan">Kelantan</option>
+            </select>
+        </div>
+    </div>
+
+</div>
+<!--/ko-->

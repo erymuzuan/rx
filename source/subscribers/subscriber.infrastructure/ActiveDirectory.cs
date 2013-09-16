@@ -1,4 +1,4 @@
-﻿using Bespoke.SphCommercialSpaces.Domain;
+﻿using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {

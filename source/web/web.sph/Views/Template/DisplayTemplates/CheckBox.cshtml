@@ -1,0 +1,18 @@
+﻿@model Bespoke.Sph.Domain.CheckBox
+
+<!--ko if:$data['$type']() === "Bespoke.Sph.Domain.CheckBox, domain.sph" -->
+<div class="control-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+      @Html.Partial("_DesignerContextAction")
+  <label class="control-label" data-bind="text:Label"></label>
+    <div class="controls">
+        <label class="checkbox control-label">
+            <input type="checkbox"/>
+        </label>
+        <!--ko text:HelpText-->
+        <!--/ko-->
+    </div>
+</div>
+
+
+
+<!--/ko-->

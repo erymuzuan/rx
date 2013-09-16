@@ -56,9 +56,9 @@
       <Project>{79494592-2FE0-429E-8F79-CB97863378DC}</Project>
       <Name>sql.repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\domain\domain.commercialspace\domain.commercialspace.csproj">
+    <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
-      <Name>domain.commercialspace</Name>
+      <Name>domain.sph</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

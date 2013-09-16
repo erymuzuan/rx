@@ -1,0 +1,24 @@
+﻿<div>
+    <header>
+        <!--ko compose: {view: 'header'} -->
+        <!--/ko-->
+        <!--ko compose: {view: 'nav'} -->
+        <!--/ko-->
+    </header>
+    <section id="content" class="container-fluid">
+
+        <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: router.isNavigating" />
+
+
+        <!--ko compose: {view: 'toolbar'} -->
+        <!--/ko-->
+
+        <!--ko compose: {model: router.activeItem,
+            afterCompose: router.afterCompose,
+            transition: 'entrance'} -->
+        <!--/ko-->
+
+    </section>
+    <!--ko compose: {view: 'logviewer'} -->
+    <!--/ko-->
+</div>

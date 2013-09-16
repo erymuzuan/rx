@@ -1,0 +1,23 @@
+﻿
+<div id="slider-menu">
+    <nav >
+        <ul class="nav">
+            <li>
+                <form class="form-search">
+                    <div class="input-append">
+                        <input id="filter-text" type="search" class="search-query input-medium" placeholder="Search items" />
+                        <i class="add-on icon-remove"></i>
+                    </div>
+
+                </form>
+            </li>
+            <!-- ko foreach :router.visibleRoutes -->
+            <li data-bind="css: { current: isActive }, attr :{'data-string':name}">
+                <a href="#" data-bind=" attr: { href: hash }">
+                    <i data-bind="attr : {class : icon}"></i><span data-bind="text: name"></span>
+                </a>
+            </li>
+            <!-- /ko -->
+        </ul>
+    </nav>
+</div>

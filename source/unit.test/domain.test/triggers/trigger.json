@@ -1,18 +1,18 @@
 {
-	"$type": "Bespoke.SphCommercialSpaces.Domain.Trigger, domain.commercialspace",
+	"$type": "Bespoke.Sph.Domain.Trigger, domain.sph",
 	"Name": "test 0002",
 	"Entity": "Building",
 	"RuleCollection": [{
-		"$type": "Bespoke.SphCommercialSpaces.Domain.Rule, domain.commercialspace",
+		"$type": "Bespoke.Sph.Domain.Rule, domain.sph",
 		"Left": {
-			"$type": "Bespoke.SphCommercialSpaces.Domain.DocumentField, domain.commercialspace",
+			"$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
 			"Name": "r1",
 			"Note": "r1",
 			"isBusy": false,
 			"XPath": "Name"
 		},
 		"Right": {
-			"$type": "Bespoke.SphCommercialSpaces.Domain.ConstantField, domain.commercialspace",
+			"$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
 			"Name": "r1",
 			"Note": "r1",
 			"isBusy": false,
@@ -23,16 +23,16 @@
 		"isBusy": false
 	},
 	{
-		"$type": "Bespoke.SphCommercialSpaces.Domain.Rule, domain.commercialspace",
+		"$type": "Bespoke.Sph.Domain.Rule, domain.sph",
 		"Left": {
-			"$type": "Bespoke.SphCommercialSpaces.Domain.DocumentField, domain.commercialspace",
+			"$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
 			"Name": "l2",
 			"Note": "l2",
 			"isBusy": false,
 			"XPath": "BuildingId"
 		},
 		"Right": {
-			"$type": "Bespoke.SphCommercialSpaces.Domain.ConstantField, domain.commercialspace",
+			"$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
 			"Name": "r2",
 			"Note": "r2",
 			"isBusy": false,
@@ -43,16 +43,16 @@
 		"isBusy": false
 	},
 	{
-		"$type": "Bespoke.SphCommercialSpaces.Domain.Rule, domain.commercialspace",
+		"$type": "Bespoke.Sph.Domain.Rule, domain.sph",
 		"Left": {
-			"$type": "Bespoke.SphCommercialSpaces.Domain.DocumentField, domain.commercialspace",
+			"$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
 			"Name": "l2",
 			"Note": "l2",
 			"isBusy": false,
 			"XPath": "BuildingId"
 		},
 		"Right": {
-			"$type": "Bespoke.SphCommercialSpaces.Domain.ConstantField, domain.commercialspace",
+			"$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
 			"Name": "r2",
 			"Note": "r2",
 			"isBusy": false,
@@ -63,16 +63,16 @@
 		"isBusy": false
 	},
 	{
-		"$type": "Bespoke.SphCommercialSpaces.Domain.Rule, domain.commercialspace",
+		"$type": "Bespoke.Sph.Domain.Rule, domain.sph",
 		"Left": {
-			"$type": "Bespoke.SphCommercialSpaces.Domain.DocumentField, domain.commercialspace",
+			"$type": "Bespoke.Sph.Domain.DocumentField, domain.sph",
 			"Name": "l2",
 			"Note": "l2",
 			"isBusy": false,
 			"XPath": "BuildingId"
 		},
 		"Right": {
-			"$type": "Bespoke.SphCommercialSpaces.Domain.ConstantField, domain.commercialspace",
+			"$type": "Bespoke.Sph.Domain.ConstantField, domain.sph",
 			"Name": "r2",
 			"Note": "r2",
 			"isBusy": false,

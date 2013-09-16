@@ -1,0 +1,37 @@
+﻿
+<h1 class="row-fluid">Senarai Laporan</h1>
+
+<table class="table"  data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'ReportDefinition', query: 'ReportDefinitionId gt 0', list: reports}">
+    <thead>
+        <tr>
+            <th>Execute</th>
+            <th>Nama</th>
+            <th>Owner</th>
+            <th>Private</th>
+            <th>Active</th>
+            <th>Scheduling</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: reports">
+        <tr>
+            <td>
+                <a class="execute-report" data-bind="attr: { href: '/#/reportdefinition.execute-id.' + ReportDefinitionId()  + '/' + ReportDefinitionId(), title:Title}" >
+                    <i class="icon-play"></i>
+                </a>
+            </td>
+            <td>
+                <a data-bind="attr: { href: '/#/reportdefinition.edit-id.0/' + ReportDefinitionId() }, text: Title" ></a> 
+            </td>
+            <td data-bind="text:CreatedBy"></td>
+            <td data-bind="text:IsPrivate">
+                
+            </td>
+            <td data-bind="text:IsActive"></td>
+            <td>
+                <a href="/#/reportdefinition.list" data-bind="attr: { href: '/#/reportdelivery.schedule/' + ReportDefinitionId() }">
+                    <i class="icon-calendar"></i>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

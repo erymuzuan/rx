@@ -1,0 +1,8 @@
+﻿@model Bespoke.Sph.Domain.BarChartItem
+
+<!--ko if: $data['$type']() === "Bespoke.Sph.Domain.BarChartItem, domain.sph" -->
+<div  class="report-item" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectedReportItem">
+    @Html.Partial("_BarLineChartDesignerContextAction")
+    <i class="icon-bar-chart icon-4x"></i>
+</div>
+<!--/ko-->

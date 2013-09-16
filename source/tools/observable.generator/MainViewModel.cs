@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Text;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System.Linq;

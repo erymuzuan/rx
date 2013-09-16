@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Xml.Linq;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 using InvokeSolutions.Docx;
 using InvokeSolutions.Docx.Data;
 using System.Linq;

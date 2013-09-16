@@ -50,15 +50,15 @@
     <Compile Include="WcfDataServiceJson.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\domain\domain.commercialspace\domain.commercialspace.csproj">
-      <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
-      <Name>domain.commercialspace</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <OutputFile Include="$(OutputPath)*.*">
       <Visible>false</Visible>
     </OutputFile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
+      <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
+      <Name>domain.sph</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="CopyOutputDirClientAndWeb">

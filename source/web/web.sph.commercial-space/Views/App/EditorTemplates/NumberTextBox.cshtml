@@ -1,9 +1,0 @@
-﻿@model Bespoke.SphCommercialSpaces.Domain.NumberTextBox
-<div class="control-group">
-    <label for="@Model.ElementId" class="control-label">@Model.Label</label>
-    <div class="controls">
-        <input step="@Model.Step" class="@(Model.CssClass + " "+ Model.Size)" 
-            title="@Model.Tooltip" data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
-             id="@Model.ElementId" type="number" name="@Model.Path" />
-    </div>
-</div>  

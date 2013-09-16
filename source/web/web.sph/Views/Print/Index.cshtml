@@ -1,0 +1,39 @@
+﻿@using System.Web.Optimization
+@using Newtonsoft.Json
+@model Bespoke.Sph.Web.ViewModels.PrintViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SPH: Print Details</title>
+</head>
+    <body>
+        
+        <div id="print-details">
+            <h1>@Model.Name</h1>
+            <div>
+                @foreach (var fe in Model.FormDesign.FormElementCollection)
+                {
+                    @Html.DisplayFor(m => fe)
+                }
+            </div>
+
+        </div>
+    </body>
+    @Scripts.Render("~/scripts/vendor")
+<script type="text/javascript">
+    $(function () {
+        var item = ko.mapping.fromJSON('@Html.Raw(JsonConvert.SerializeObject(Model.Item))');
+        ko.applyBindings(item);
+
+
+    });
+
+</script>
+</html>

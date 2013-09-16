@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 using FluentDateTime;
 using RabbitMQ.Client;
 

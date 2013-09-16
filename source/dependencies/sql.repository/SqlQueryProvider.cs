@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq.Expressions;
-using Bespoke.SphCommercialSpaces.Domain.QueryProviders;
+using Bespoke.Sph.Domain.QueryProviders;
 
 namespace Bespoke.Sph.SqlRepository
 {

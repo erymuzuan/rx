@@ -1,0 +1,79 @@
+﻿@using Newtonsoft.Json
+@model Bespoke.Sph.Domain.ReportDefinition
+@{
+    Layout = null;
+    var datasourceJson = JsonConvert.SerializeObject(Model.DataSource);
+}
+
+<script type="text/javascript" data-script="true">
+    define(['services/datacontext'], function (context) {
+        var isBusy = ko.observable(false),
+            id = 0,
+            activate = function (routeData) {
+                id = parseInt(routeData.id);
+
+                var query = String.format("ReportDefinitionId eq {0}", id),
+                    tcs = new $.Deferred();
+
+
+                context.loadOneAsync("ReportDefinition", query)
+                    .done(vm.rdl)
+                    .done(tcs.resolve);
+
+                return tcs.promise();
+            },
+            viewAttached = function () {
+                $('#parameters-dialog').modal();
+            },
+            exportCommand = function () {
+
+            },
+            print = function () {
+
+            },
+            showParameterDialog = function () {
+                $('#parameters-dialog').modal();
+                var tcs = new $.Deferred();
+                setTimeout(tcs.resolve, 500);
+                return tcs.promise();
+            },
+            execute = function () {
+                var $layout = $('#report-layout-panel');
+                $layout.html('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />');
+
+                NProgress.start();
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(vm.datasource);
+                $.post("/App/ReportDefinitionExecuteHtml/" + id, data, "html")
+                    .done(function (html) {
+                        NProgress.done();
+                        $layout.html(html);
+                        tcs.resolve(true);
+                    });
+
+                return tcs.promise();
+            };
+
+
+        var vm = {
+            isBusy: isBusy,
+            activate: activate,
+            viewAttached: viewAttached,
+            rdl: ko.observable(),
+            datasource: ko.mapping.fromJSON('@Html.Raw(datasourceJson)'),
+            executeCommand: execute,
+            toolbar: {
+                exportCommand: exportCommand,
+                printCommand: print,
+                commands: ko.observableArray([{
+                    command: showParameterDialog,
+                    caption: 'Show Parameter',
+                    icon: 'icon-keyboard'
+
+                }])
+            }
+
+        };
+        return vm;
+    });
+</script>

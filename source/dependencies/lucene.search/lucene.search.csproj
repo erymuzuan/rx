@@ -51,23 +51,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\domain\domain.commercialspace\domain.commercialspace.csproj">
-      <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
-      <Name>domain.commercialspace</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-
   <ItemGroup>
     <OutputFile Include="$(OutputPath)*.*">
       <Visible>false</Visible>
     </OutputFile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
+      <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
+      <Name>domain.sph</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-
   <Target Name="CopyOutputDirClientAndWeb">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph.commercial-space\bin" />
   </Target>

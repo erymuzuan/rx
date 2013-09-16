@@ -1,0 +1,82 @@
+﻿<section class="context-action-panel" data-bind="visible: isSelected">
+    <button class="btn btn-link btn-context-action">
+        <i class="icon-chevron-sign-right"></i>
+    </button>
+
+    <div class="context-action">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <span>DataGrid Properties</span>
+        </div>
+        <button class="btn btn-link pull-right" data-bind="click : addColumn">+ Column</button>
+        <table class="table table-striped">
+            <colgroup>
+                <col style="width: 100px"/>
+                <col style="width: 100px"/>
+                <col style="width: 30px"/>
+                <col style="width: 100px"/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Expression</th>
+                    <th>Header</th>
+                    <th>Format</th>
+                    <th>Footer</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: DataGridColumnCollection">
+                <tr>
+                    <td>
+                        <input  class="input-datagrid-column-expression input-large " data-bind="kendoComboBox: Expression, source: $root.dataGridColumnOptions" />
+                    </td>
+                    <td><input type="text" class="input-datagrid-column-header" data-bind="value: Header" /></td>
+                    <td>
+                        <input class="input-small" data-bind="kendoComboBox:Format, source :ko.observableArray(['{0:d}','{0:F2}','{0:g}', '{0:c}'])" />
+                    </td>
+                    <td>
+                        <input type="text" class="input-datagrid-column-footer" data-bind="value: FooterExpression" />
+                    </td>
+                    <td><a href="#" data-bind="click : $parent.removeColumn.call($parent,$data)"><i class="icon-remove"></i></a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="btn btn-link pull-right" data-bind="click: addDataGridGroupDefinition">+ Group</button>
+        <table class="table table-striped">
+            <colgroup>
+                <col style="width: 100px"/>
+                <col style="width: 100px"/>
+                <col style="width: 30px"/>
+                <col style="width: 100px"/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Text</th>
+                    <th>Footer</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: DataGridGroupDefinitionCollection">
+                <tr>
+                    <td>
+                        <input  class="input-datagrid-group-column input-large " data-bind="kendoComboBox: Column, source: $root.columnOptions" />
+                    </td>
+                    <td><input type="text" class="input-datagrid-group-expression" data-bind="value: Expression" /></td>
+                    <td>
+                        <input class="input-medium input-datagrid-group-footer" data-bind="value: FooterExpression" />
+                    </td>
+                    <td><a href="#" data-bind="click: $parent.removeDataGridGroupDefinition.call($parent, $data)"><i class="icon-remove"></i></a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a class="btn btn-link pull-right" data-bind="click: $root.removeReportItem">
+            <i class="icon-remove"></i>
+            Buang
+        </a>
+
+
+    </div>
+</section>

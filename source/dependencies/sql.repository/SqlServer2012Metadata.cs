@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.SqlRepository
 {

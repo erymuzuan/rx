@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 using OfficeOpenXml;
 
 namespace Bespoke.SphCommercialSpace.LedgerMsxl

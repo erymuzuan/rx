@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 using RazorEngine;
 
 namespace Bespoke.Sph.Templating

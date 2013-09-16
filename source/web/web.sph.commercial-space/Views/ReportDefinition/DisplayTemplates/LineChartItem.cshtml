@@ -1,8 +1,0 @@
-﻿@model Bespoke.SphCommercialSpaces.Domain.LineChartItem
-
-<!--ko if: $data['$type']() === "Bespoke.SphCommercialSpaces.Domain.LineChartItem, domain.commercialspace" -->
-<div  class="report-item" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectedReportItem" class="control-group">
-    @Html.Partial("_LineChartDesignerContextAction")
-    <img src="/Images/line-chart256.png" alt="line chart"/>
-</div>
-<!--/ko-->

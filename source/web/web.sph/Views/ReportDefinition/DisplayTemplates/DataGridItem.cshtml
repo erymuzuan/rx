@@ -1,0 +1,22 @@
+﻿@model Bespoke.Sph.Domain.DataGridItem
+
+<!--ko if: $data['$type']() === "Bespoke.Sph.Domain.DataGridItem, domain.sph" -->
+<div class="report-item" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectedReportItem" class="control-group">
+    @Html.Partial("_DataGridDesignerContextAction")
+    <table class="table table-striped">
+        <thead>
+            <tr data-bind="foreach: DataGridColumnCollection">
+                <th data-bind="text: Header"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-bind="foreach: DataGridColumnCollection">
+                <td>Sample data</td>
+            </tr>
+            <tr data-bind="foreach: DataGridColumnCollection">
+                <td>....</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!--/ko-->

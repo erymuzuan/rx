@@ -1,6 +1,6 @@
 ﻿using System;
 using Bespoke.Sph.SqlReportDataSource;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 using NUnit.Framework;
 using roslyn.scriptengine;
 

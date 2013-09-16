@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using Bespoke.SphCommercialSpaces.Domain.QueryProviders;
+using Bespoke.Sph.Domain.QueryProviders;
 
 namespace domain.test
 {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.SqlReportDataSource
 {

@@ -1,0 +1,16 @@
+﻿@model Bespoke.Sph.Domain.WebsiteFormElement
+
+<!--ko if: $data['$type']() === "Bespoke.Sph.Domain.WebsiteFormElement, domain.sph" -->
+<div class="control-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+    <label data-bind="text: Label" class="control-label"></label>
+    <div class="controls">
+        <input type="url" data-bind="attr: { 'title': Tooltip, 'class': CssClass() + ' ' + Size() }" />
+        <span data-bind="text: HelpText" class="help-inline"></span>
+
+    </div>
+    @Html.Partial("_DesignerContextAction")
+
+</div>
+<!--/ko-->
+
+

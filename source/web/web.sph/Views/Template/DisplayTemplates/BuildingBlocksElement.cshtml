@@ -1,0 +1,54 @@
+﻿@model Bespoke.Sph.Domain.BuildingBlocksElement
+
+<!--ko if:$data['$type']() === "Bespoke.Sph.Domain.BuildingBlocksElement, domain.sph" -->
+    <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+       @Html.Partial("_DesignerContextAction")
+     <input type="button" name="add-floor-button" class="btn pull-right" value="+ Block" />
+        <table class="table table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Size</th>
+                    <th>Floor Plan</th>
+                    <th>Floors</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind2="foreach: BlockCollection">
+                <tr>
+                    <td>
+                        <input class="input-small" type="text" value="Block Utama" /></td>
+
+                    <td>
+                        <input class="input-large" type="text" value="Bangunan block Utama Floor"/></td>
+                    <td>
+                        <input type="text" value="5000" /></td>
+                    <td>
+                        <input type="button"  class="btn btn-mini" value="Pelan Lantai" /></td>
+                    <td>
+                        <input type="button" class="btn btn-mini" value="Tingkat" /></td>
+                    <td>
+                        <a>Buang</a>
+                    </td>
+                </tr>    
+                <tr>
+                    <td>
+                        <input class="input-small" type="text" value="Block Timur" /></td>
+
+                    <td>
+                        <input class="input-large" type="text" value="Bangunan block timur"/></td>
+                    <td>
+                        <input type="text" value="5000" /></td>
+                    <td>
+                        <input type="button"  class="btn btn-mini" value="Pelan Lantai" /></td>
+                    <td>
+                        <input type="button" class="btn btn-mini" value="Tingkat" /></td>
+                    <td>
+                        <a>Buang</a>
+                    </td>
+                </tr>    
+            </tbody>
+        </table>
+    </div>
+<!--/ko-->

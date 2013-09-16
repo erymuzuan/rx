@@ -1,0 +1,119 @@
+﻿<div>
+    <div class="container-fluid">
+        <div>
+                <a href="#add-topic" id="add-topic-button" data-toggle="modal" class="pull-right">
+                    <br/><br/><img data-bind="click: startAddTopicCommand, attr: { src: '/Images/add_icon.png' }" src="/Images/add_icon.png" alt="Tambah Topik" title="Tambah Topik"/>
+                </a>
+            </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Topik (<span data-bind="text: topicCollection().length"></span>)</th>
+                    <th>Klausa
+                        <a href="#" data-bind="click: collapseDetailsCommand" class="pull-right">
+                            <i class="icon-collapse"></i>Tutup Senarai
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: topicCollection">
+                <tr>
+                    <td>
+                        <input type="text" class="input-large" data-bind="value: Title" />
+                        <textarea rows="5" class="input-large" data-bind="value: Text"></textarea>
+                    </td>
+                    <td>
+                        <ul data-bind="foreach: ClauseCollection">
+                            <li>
+                                <input class="input-xxlarge" data-bind="value: Title" type="text" />
+
+                                <textarea class="input-xxlarge" rows="8" data-bind="value: Text"></textarea>
+                                <button data-bind="click: $root.removeClauseCommand.bind($data, $parent), attr:{title : 'Buang Klausa ' + Title() }" class="close">
+                                    &times;
+                                </button>
+                            </li>
+                        </ul>
+                        <a class="btn btn-link" data-bind="click: $parent.startAddClauseCommand, attr:{title : 'Tambah Klausa  ' + Title() }"
+                           href="#add-clause"
+                           data-toggle="modal">+Klausa</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal hide" id="add-topic">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h2>Topik</h2>
+        </div>
+        <div class="modal-body" data-bind="with:topic">
+            <form>
+                <div class="control-group">
+                    <label for="topic.Title" class="control-label">Tajuk</label>
+                    <div class="controls">
+                        <input data-bind="value: Title" id="Text1" type="text" name="topic.Title" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="topic.Text" class="control-label">Keterangan</label>
+                    <div class="controls">
+                        <textarea class="input-large input-block-level" rows="5" data-bind="value: Text" id="Textarea1" name="topic.Text"></textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="topic.Description" class="control-label">Nota</label>
+                    <div class="controls">
+                        <textarea class="input-block-level" data-bind="value: Description" id="Textarea2" rows="3" name="topic.Description" />
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-inverse" data-dismiss="modal">Batal</a>
+            <input data-dismiss="modal" type="button" class="btn btn-inverse" value="OK" data-bind="click: addTopicCommand" />
+        </div>
+    </div>
+
+
+    <div class="modal hide" id="add-clause">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h2>Klausa</h2>
+        </div>
+        <div class="modal-body"  data-bind="with : clause"   >
+            <form>
+                <div class="control-group">
+                    <label for="clause.No" class="control-label">No</label>
+                    <div class="controls">
+                        <input data-bind="value: No" id="clause.No" type="text" name="clause.No" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="clause.Title" class="control-label">Tajuk</label>
+                    <div class="controls">
+                        <input data-bind="value: Title" id="clause.Title" type="text" name="clause.Title" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="clause.Text" class="control-label">Keterangan</label>
+                    <div class="controls">
+                        <textarea class="input-large input-block-level" rows="5" data-bind="value: Text" id="clause.Text" name="topic.Text"></textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="clause.Description" class="control-label">Nota</label>
+                    <div class="controls">
+                        <textarea class="input-block-level" data-bind="value: Description" id="clause.Description" rows="3" name="clause.Description" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <a href="#" class="btn btn-inverse" data-dismiss="modal">Batal</a>
+            <input data-dismiss="modal" type="button" class="btn btn-inverse" value="OK" data-bind="click: addClauseCommand" />
+        </div>
+    </div>
+</div>

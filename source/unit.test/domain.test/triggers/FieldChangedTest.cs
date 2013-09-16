@@ -1,4 +1,4 @@
-﻿using Bespoke.SphCommercialSpaces.Domain;
+﻿using Bespoke.Sph.Domain;
 using NUnit.Framework;
 
 namespace domain.test.triggers

@@ -1,0 +1,18 @@
+﻿<h1>Permohonan</h1>
+<section id="rental-list">
+    <ul class="today-datas" data-bind="foreach: applications">
+
+        <li data-bind="attr: { class: status }">
+            <a href="#" data-bind="attr: { href: '/#/applicationlist/' + status }">
+                <div class="pull-left">
+                    <img data-bind="attr: { src: '/Images/dashboard-' + status + '.png' }" src="/Images/dashboard-baru.png" alt="baru" />
+                </div>
+                <div class="pull-right">
+                    <h3 data-bind="text: count"></h3>
+                    <label data-bind="text: text"></label>
+                </div>
+            </a>
+        </li>
+    </ul>
+</section>
+    

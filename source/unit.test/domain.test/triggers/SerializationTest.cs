@@ -1,5 +1,5 @@
 ﻿using System;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 using NUnit.Framework;
 using roslyn.scriptengine;
 

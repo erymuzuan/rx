@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Bespoke.SphCommercialSpaces.Domain;
-using Bespoke.SphCommercialSpaces.Domain.QueryProviders;
+using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.QueryProviders;
 using NUnit.Framework;
 using roslyn.scriptengine;
 

@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using Bespoke.Sph.Messaging;
-using Bespoke.Sph.SubscribersInfrastructure;
-using Bespoke.SphCommercialSpaces.Domain;
+﻿using Bespoke.Sph.Messaging;
+using Bespoke.Sph.Domain;
 using NUnit.Framework;
 
 namespace subscriber.test

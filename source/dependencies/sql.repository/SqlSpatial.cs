@@ -7,9 +7,9 @@ using System.Linq.Expressions;
 using System.Spatial;
 using System.Text;
 using System.Threading.Tasks;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 using System.Linq;
-using Bespoke.SphCommercialSpaces.Domain.QueryProviders;
+using Bespoke.Sph.Domain.QueryProviders;
 
 namespace Bespoke.Sph.SqlRepository
 {

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 using Bespoke.Sph.SqlReportDataSource;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 using domain.test.triggers;
 using NUnit.Framework;
 using roslyn.scriptengine;

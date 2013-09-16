@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Bespoke.SphCommercialSpaces.Domain;
+using Bespoke.Sph.Domain;
 using NUnit.Framework;
 
 namespace domain.test.change.tracker

@@ -1,0 +1,53 @@
+﻿<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Tarikh/Masa</th>
+            <th>Pengguna</th>
+            <th>Operasi</th>
+            <th>Nota</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: auditTrailCollection">
+        <tr>
+            <td data-bind="">
+                <button class="btn btn-link" data-bind="click: $parent.showChangesCommand, date: { value: DateTime, format: 'D MMM YYYY HH:mm' },enable: ChangeCollection().length > 0"></button>
+            </td>
+            <td data-bind="text: User"></td>
+            <td data-bind="text: Operation"></td>
+            <td data-bind="text: Note"></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<section class="modal hide" id="changes-dialog">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3>Pertukaran</h3>
+    </div>
+    <div class="modal-body" data-bind="with: log">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Field</th>
+                    <th>Lama</th>
+                    <th>Baru</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: ChangeCollection">
+                <tr>
+                    <td data-bind="text:Action"></td>
+                    <td data-bind="text:PropertyName"></td>
+                    <td data-bind="text:OldValue"></td>
+                    <td data-bind="text:NewValue"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal-footer">
+        <a href="#changes-dialog" class="btn" data-dismiss="modal">Tutup</a>
+    </div>
+</section>
