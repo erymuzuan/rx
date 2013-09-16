@@ -54,7 +54,7 @@ namespace Bespoke.Sph.Domain
 
 
 
-                return compiler.Evaluate(output, host) as string;
+                return compiler.Evaluate<string, Entity>(output, host);
 
 
             }

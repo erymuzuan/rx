@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
+using Bespoke.Sph.RoslynScriptEngines;
 using Bespoke.Sph.SqlReportDataSource;
 using Bespoke.Sph.Domain;
 using domain.test.triggers;
 using NUnit.Framework;
-using roslyn.scriptengine;
 
 namespace domain.test.reports
 {
@@ -29,11 +29,11 @@ namespace domain.test.reports
         public void GetParamInExpressionConflict()
         {
             var ds = new DataSource { EntityName = "Building", Query = "SELECT * FROM [Sph].[Building]" };
-            ds.ParameterCollection.Add(new Parameter { Name = "Today", Value = 30.00m , Type = typeof(decimal)});
+            ds.ParameterCollection.Add(new Parameter { Name = "Volume", Value = 30.00m , Type = typeof(decimal)});
             var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
 
             var script = ObjectBuilder.GetObject<IScriptEngine>();
-            var result = script.Evaluate("@Today", rdl);
+            var result = script.Evaluate<decimal, Entity>("@Volume", rdl);
             Assert.AreEqual(30.00m, result);
 
         }
@@ -45,7 +45,7 @@ namespace domain.test.reports
             var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
 
             var script = ObjectBuilder.GetObject<IScriptEngine>();
-            var result = script.Evaluate("@Price", rdl);
+            var result = script.Evaluate<decimal, Entity>("@Price", rdl);
             Assert.AreEqual(30.00m, result);
 
         }

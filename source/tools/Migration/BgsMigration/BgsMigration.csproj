@@ -38,7 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="domain.commercialspace">
-      <HintPath>..\..\..\web\web.sph.commercial-space\bin\domain.commercialspace.dll</HintPath>
+      <HintPath>..\..\..\web\web.sph\bin\domain.sph.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

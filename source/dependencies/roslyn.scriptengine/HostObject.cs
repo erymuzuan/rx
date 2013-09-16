@@ -3,9 +3,9 @@ using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.RoslynScriptEngines
 {
-    public class HostObject
+    public class HostObject<T>
     {
-        public Entity Item { get; set; }
+        public T Item { get; set; }
 
         public string @UserName
         {

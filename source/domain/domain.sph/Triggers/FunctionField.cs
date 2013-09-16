@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Domain
 
         public override object GetValue(RuleContext context)
         {
-            return this.ScriptEngine.Evaluate(this.Script, context.Item);
+            return this.ScriptEngine.Evaluate<object, Entity>(this.Script, context.Item);
         }
     }
 }

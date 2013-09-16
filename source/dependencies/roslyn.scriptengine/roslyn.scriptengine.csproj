@@ -83,7 +83,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="CopyOutputDirClientAndWeb">
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph.commercial-space\bin" />
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\subscribers\workers.console.runner\bin\Debug" />
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\subscribers\workers.windowsservice.runner\bin\Debug" />
   </Target>

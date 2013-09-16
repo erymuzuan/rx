@@ -121,7 +121,7 @@ namespace Bespoke.Sph.SqlReportDataSource
             {
                 var script = filter.Value.Substring(1, filter.Value.Length - 1);
                 var engine = ObjectBuilder.GetObject<IScriptEngine>();
-                val = engine.Evaluate(script, m_rdl);
+                val = engine.Evaluate<object, Entity>(script, m_rdl);
 
             }
             if (null == val) return "NULL";

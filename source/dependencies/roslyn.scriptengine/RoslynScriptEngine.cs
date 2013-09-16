@@ -9,12 +9,11 @@ namespace Bespoke.Sph.RoslynScriptEngines
 {
     public class RoslynScriptEngine : IScriptEngine
     {
-
-        public object Evaluate(string script, Entity item)
+        public T Evaluate<T, T1>(string script, T1 arg1)
         {
-            var host = new HostObject
+            var host = new HostObject<T1>
             {
-                Item = item
+                Item = arg1
             };
             var scriptEngine = new ScriptEngine();
             var session = scriptEngine.CreateSession(host);
@@ -41,7 +40,7 @@ namespace Bespoke.Sph.RoslynScriptEngines
             }
 
             var customScript = string.Empty;
-            var itemCustomScript = item as ICustomScript;
+            var itemCustomScript = arg1 as ICustomScript;
             if (null != itemCustomScript)
                 customScript = itemCustomScript.Script;
 
@@ -52,12 +51,12 @@ namespace Bespoke.Sph.RoslynScriptEngines
                                      "using Bespoke.Sph.Domain;\r\n" +
                                      "using System.Linq;\r\n" +
                                      "" +
-                                     "public object Evaluate()\r\n" +
+                                     "public {2} Evaluate()\r\n" +
                                      "{{\r\n" +
                                      "var item = Item as {1};\r\n" +
                                      customScript + "\r\n" +
                                         "{0}\r\n" +
-                                     "}}", block, item.GetType().Name);
+                                     "}}", block, arg1.GetType().Name, typeof(T).FullName);
             try
             {
                 session.Execute(code);
@@ -68,14 +67,10 @@ namespace Bespoke.Sph.RoslynScriptEngines
             }
             var result = session.Execute("Evaluate();");
 
-            return result;
+            return (T)result;
 
         }
 
-        public T Evaluate<T, T1>(string script, T1 arg1)
-        {
-            throw new NotImplementedException();
-        }
 
         public T Evaluate<T, T1, T2>(string script, T1 arg1, T2 arg2)
         {

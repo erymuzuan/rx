@@ -52,6 +52,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <OutputFile Include="$(OutputPath)*.*">
+      <Visible>false</Visible>
+    </OutputFile>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
@@ -59,11 +64,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Target Name="CopyOutputDirClientAndWeb">
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\$(Configuration)" />
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn);CopyOutputDirClientAndWeb
+    </BuildDependsOn>
+  </PropertyGroup>
 </Project>

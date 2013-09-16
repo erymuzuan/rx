@@ -7,7 +7,7 @@
     <ProjectGuid>{247853F5-C1F5-4B4D-8EE4-C14B0E93706A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bespoke.SphCommercialSpace.LedgerMsxl</RootNamespace>
+    <RootNamespace>Bespoke.Sph.LedgerMsxl</RootNamespace>
     <AssemblyName>ledger.msxl</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExcelEppExport.cs" />
+    <Compile Include="JournalEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,11 +60,18 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <ItemGroup>
+    <OutputFile Include="$(OutputPath)*.*">
+      <Visible>false</Visible>
+    </OutputFile>
+  </ItemGroup>
+  <Target Name="CopyOutputDirClientAndWeb">
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\$(Configuration)" />
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn);CopyOutputDirClientAndWeb
+    </BuildDependsOn>
+  </PropertyGroup>
 </Project>

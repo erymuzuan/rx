@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Domain
             var path = this.Path;
             if (path.StartsWith("["))
                 path = this.GetCustomFieldValue(this.Path);
-            var result = script.Evaluate("item." + path, item);
+            var result = script.Evaluate<object, Entity>("item." + path, item);
             return result;
         }
 

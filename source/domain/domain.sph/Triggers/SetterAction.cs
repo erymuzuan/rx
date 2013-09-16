@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Domain
             }
             code.Append("return item;");
 
-            var modifiedItem = script.Evaluate(code.ToString(), item) as Entity;
+            var modifiedItem = script.Evaluate<Entity,Entity>(code.ToString(), item);
             var dcontext = new SphDataContext();
             using (var session = dcontext.OpenSession())
             {

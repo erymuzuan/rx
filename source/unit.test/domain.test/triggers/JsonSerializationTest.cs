@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.RoslynScriptEngines;
 using NUnit.Framework;
 using Newtonsoft.Json;
-using roslyn.scriptengine;
 
 namespace domain.test.triggers
 {

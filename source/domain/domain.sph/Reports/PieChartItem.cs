@@ -37,7 +37,7 @@ namespace Bespoke.Sph.Domain
             {
                 var engine = ObjectBuilder.GetObject<IScriptEngine>();
                 var script = this.Title.Substring(1, this.Title.Length - 1);
-                var output = engine.Evaluate(script, m_rdl);
+                var output = engine.Evaluate<object, Entity>(script, m_rdl);
 
                 return string.Format("{0}", output);
             }

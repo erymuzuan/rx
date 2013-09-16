@@ -117,7 +117,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 context.post(data, "/Template/PropertyPath/Space")
                     .then(function (result) {
 
-                        var fields = _(result).map(function(f) {
+                        var fields = _(result).map(function (f) {
                             var field = new bespoke.sph.domain.DefaultValue(system.guid());
                             field.PropertyName(f.Name);
                             field.TypeName(f.TypeName);

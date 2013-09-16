@@ -12,11 +12,11 @@ namespace Bespoke.Sph.Domain
             if (this.Expression.StartsWith("="))
             {
                 var compiler = ObjectBuilder.GetObject<IScriptEngine>();
-                var code = this.Expression.Substring(1, this.Expression.Length - 1); ;
+                var code = this.Expression.Substring(1, this.Expression.Length - 1);
                 var host = new DataGridColumnHost { Row = row, ColumnDefinition = this };
 
                 var output = Regex.Replace(code, pattern, m => string.Format("item.ColumnValue(\"{0}\")", m.Groups["column"].Value));
-                return compiler.Evaluate(output, host) as string;
+                return compiler.Evaluate<string, DataGridColumnHost>(output, host);
             }
 
             var col = Strings.RegexSingleValue(this.Expression, pattern, "column");
