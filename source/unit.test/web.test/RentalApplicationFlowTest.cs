@@ -29,7 +29,7 @@ namespace web.test
             this.AddUser(m_admindashboard);
         }
         [Test]
-        public void ApplicationFLowTest()
+        public void ApplicationFlowTest()
         {
             _001_MoveNewApplicationIntoWaitingList();
             _002_ApproveWaitingListApplication();
@@ -76,7 +76,7 @@ namespace web.test
             driver.NavigateToUrl(string.Format("/#/rentalapplication.verify/{0}", max))
                   .Sleep(2.Seconds());
             driver.ClickFirst("button", e => e.Text == "Luluskan");
-            driver.Sleep(TimeSpan.FromSeconds(3));
+            driver.Sleep(3.Seconds());
 
 
             var status = this.GetDatabaseScalarValue<string>("SELECT [Status] FROM [Sph].[RentalApplication] WHERE [RentalApplicationId] = @Id", new SqlParameter("@Id", max));

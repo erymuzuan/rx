@@ -34,7 +34,7 @@ namespace web.test
         }
 
         [Test]
-        public void SubmitApplicationFLowTest()
+        public void SubmitApplicationFlowTest()
         {
             _001_AddApplicationTemplate();
             _002_SubmitNewIndividualRentalApplication();
@@ -125,14 +125,14 @@ namespace web.test
             this.ExecuteNonQuery("DELETE FROM [Sph].[RentalApplication] WHERE [ContactIcNo] =@No", new SqlParameter("@No", RA_IC_NO));
             var max = this.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [ApplicationTemplateId] FROM [Sph].[ApplicationTemplate] WHERE [Name] =@Name", new SqlParameter("@Name", APP_TEMPLATE_NAME));
-            var csId = this.GetDatabaseScalarValue<int>("SELECT [SpaceId] FROM [Sph].[Space] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
+            var spaceId = this.GetDatabaseScalarValue<int>("SELECT [SpaceId] FROM [Sph].[Space] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
 
             var driver = this.InitiateDriver();
             driver.Login(m_appTemplateAdmin)
                 .NavigateToUrl("/#/rentalapplication.selectspace", 3.Seconds());
 
             driver
-                .NavigateToUrl(string.Format("/#/application.detail-templateid.{0}/{1}", templateId, csId), 3.Seconds());
+                .NavigateToUrl(string.Format("/#/application.detail-templateid.{0}/{1}", templateId, spaceId), 3.Seconds());
             driver
                 .Value("[name='Name']", "WAN HUDA BIN WAN ALI")
                 .Value("[name='IcNo']", RA_IC_NO)
@@ -144,13 +144,12 @@ namespace web.test
                 .Value("[name='address.Postcode']", "47300")
                 .SelectOption("[name='address.State']", "Selangor")
                 .ClickFirst("button", e => e.Text == "Hantar Permohonan")
-                .Sleep(TimeSpan.FromSeconds(5));
+                .Sleep(5.Seconds());
 
 
             var current = this.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
             Assert.IsTrue(max < current);
-            driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
-            driver.Quit();
+            driver.Sleep(5.Seconds(), "See the result").Quit();
         }
 
         [Test]
