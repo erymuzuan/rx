@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildingIndexerSubscriber.cs" />
-    <Compile Include="CommercialSpaceIndexerSubscriber.cs" />
+    <Compile Include="SpaceIndexerSubscriber.cs" />
     <Compile Include="EntityIndexer.cs" />
     <Compile Include="RentalApplicationIndexerSubscriber.cs" />
     <Compile Include="SearchMetadata.cs" />

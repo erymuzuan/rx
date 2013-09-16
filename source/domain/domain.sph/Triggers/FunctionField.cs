@@ -22,9 +22,4 @@ namespace Bespoke.Sph.Domain
             return this.ScriptEngine.Evaluate(this.Script, context.Item);
         }
     }
-
-    public interface IScriptEngine
-    {
-        object Evaluate(string script, Entity item);
-    }
 }

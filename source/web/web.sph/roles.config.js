@@ -72,7 +72,7 @@
   {
     "Group": "admin",
     "Name": "Admin Ruang Komersil",
-    "Role": "can_add_commercial_space",
+    "Role": "can_add_space",
     "Description": "Mengemaskini dan menambah bangunan, lot dan ruang komersial",
     "IsActive": true
   },
@@ -100,7 +100,7 @@
   {
     "Group": "admin",
     "Name": "Admin Templat Ruang Komersil",
-    "Role": "can_edit_commercialspace_template",
+    "Role": "can_edit_pace_template",
     "Description": "Menambah dan mengemaskini templat ruang komersil",
     "IsActive": true
   },

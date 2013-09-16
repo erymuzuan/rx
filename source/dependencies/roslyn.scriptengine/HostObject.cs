@@ -1,7 +1,7 @@
 ﻿using System;
 using Bespoke.Sph.Domain;
 
-namespace roslyn.scriptengine
+namespace Bespoke.Sph.RoslynScriptEngines
 {
     public class HostObject
     {

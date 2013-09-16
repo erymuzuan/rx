@@ -7,7 +7,7 @@
     <ProjectGuid>{E32D7760-5A94-4A0F-8354-52223C593A8E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>roslyn.scriptengine</RootNamespace>
+    <RootNamespace>Bespoke.Sph.RoslynScriptEngines</RootNamespace>
     <AssemblyName>roslyn.scriptengine</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

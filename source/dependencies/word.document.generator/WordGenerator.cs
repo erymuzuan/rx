@@ -16,7 +16,6 @@ namespace Bespoke.Sph.WordGenerator
         public string EndingParameterIdentifierToken { get; set; }
         public char AccessorOperator { get; set; }
         public string DefaultNamespace { get; set; }
-        //Bespoke.SphCommercialSpaces.Domain
 
 
         public WordGenerator()

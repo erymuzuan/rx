@@ -5,7 +5,7 @@ using Bespoke.Sph.Domain;
 using Roslyn.Compilers;
 using Roslyn.Scripting.CSharp;
 
-namespace roslyn.scriptengine
+namespace Bespoke.Sph.RoslynScriptEngines
 {
     public class RoslynScriptEngine : IScriptEngine
     {
@@ -32,7 +32,7 @@ namespace roslyn.scriptengine
             }
             catch (Exception e)
             {
-                var message = new StringBuilder("Error adding reference to domain.commercialspace.dll");
+                var message = new StringBuilder("Error adding reference to domain.sph.dll");
                 message.AppendLine("Script Engine base directory = " + scriptEngine.BaseDirectory);
                 message.AppendLine("AppDomain base directory = " + AppDomain.CurrentDomain.BaseDirectory);
                 message.AppendLine("Actual exception :");
@@ -70,6 +70,21 @@ namespace roslyn.scriptengine
 
             return result;
 
+        }
+
+        public T Evaluate<T, T1>(string script, T1 arg1)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T Evaluate<T, T1, T2>(string script, T1 arg1, T2 arg2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T Evaluate<T, T1, T2, T3>(string script, T1 arg1, T2 arg2, T3 arg3)
+        {
+            throw new NotImplementedException();
         }
     }
 }

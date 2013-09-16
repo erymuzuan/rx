@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Bespoke.Sph.Domain;
 using OfficeOpenXml;
 
-namespace Bespoke.SphCommercialSpace.LedgerMsxl
+namespace Bespoke.Sph.LedgerMsxl
 {
     public class ExcelEppExport : IWorkOrderExport
     {

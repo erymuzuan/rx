@@ -27,7 +27,7 @@
     <ContractHistoryCollection />
     <Address Street="LOT 241, JALAN JATI 14, TAMAN ACACIA PARK" City="BANDAR BARU NILAI" Postcode="71800" State="Negeri Sembilan" />
   </Tenant>
-  <CommercialSpace WebId="a1e8063b-0d7b-45ed-afb3-8139e8ff115d" CreatedDate="0001-01-01T00:00:00" ChangedDate="0001-01-01T00:00:00" CommercialSpaceId="21" BuildingId="24" LotName="Lot 1," FloorName="Ground Floor" Size="128.36" Category="Cafeteria" IsOnline="true" RegistrationNo="BPH.UT/KF/3" IsAvailable="false" ContactPerson="MOHD RIZAL BIN ABD WAHID" State="W.P. Putrajaya" City="Putrajaya" BuildingName="Block CA, Apartment Fasa 4C" RentalRate="2400" TemplateId="1">
+  <Space WebId="a1e8063b-0d7b-45ed-afb3-8139e8ff115d" CreatedDate="0001-01-01T00:00:00" ChangedDate="0001-01-01T00:00:00" CommercialSpaceId="21" BuildingId="24" LotName="Lot 1," FloorName="Ground Floor" Size="128.36" Category="Cafeteria" IsOnline="true" RegistrationNo="BPH.UT/KF/3" IsAvailable="false" ContactPerson="MOHD RIZAL BIN ABD WAHID" State="W.P. Putrajaya" City="Putrajaya" BuildingName="Block CA, Apartment Fasa 4C" RentalRate="2400" TemplateId="1">
     <ApplicationTemplateOptions>
       <int>1</int>
     </ApplicationTemplateOptions>
@@ -36,7 +36,7 @@
       <CustomFieldValue WebId="6f6b4c35-cbd1-407e-a903-320e0cf12dcc" Name="CafeName" Type="String" Value="KAFETARIA" />
     </CustomFieldValueCollection>
     <Address Street="Jalan P8H" City="Putrajaya" Postcode="62502" />
-  </CommercialSpace>
+  </Space>
   <TopicCollection />
   <Termination Date="0001-01-01T00:00:00" />
   <Extension Date="0001-01-01T00:00:00" />

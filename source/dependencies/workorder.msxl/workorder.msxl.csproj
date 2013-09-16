@@ -7,7 +7,7 @@
     <ProjectGuid>{48E77152-34D4-45B3-9E2E-E136AFF9DE4A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bespoke.SphCommercialSpace.LedgerMsxl</RootNamespace>
+    <RootNamespace>Bespoke.Sph.LedgerMsxl</RootNamespace>
     <AssemblyName>ledger.msxl</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

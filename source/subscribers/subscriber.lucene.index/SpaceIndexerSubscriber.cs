@@ -5,7 +5,7 @@ using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Messaging
 {
-    public class CommercialSpaceIndexerSubscriber : EntityIndexer<Space>
+    public class SpaceIndexerSubscriber : EntityIndexer<Space>
     {
         protected override Task<SearchMetadata> GetMetadata(Space item, MessageHeaders header)
         {
