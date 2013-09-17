@@ -232,7 +232,7 @@ a.member:hover{opacity: .7;}
 .blog_entry h2{font-size:26px!important;}
 .leadimage{margin-top:30px;}
 .sidebar h4{margin:0 0 10px 0;}
-.sidebar .nav-list > li > a, .nav-list > li > a, .nav-list .nav-header{padding-left:2px;}
+.sidebar .nav-list > li > a, .nav-list > li > a, .nav-list .nav-header{padding-left:16px;}
 .sidebar .label{margin-bottom:5px; border-radius: 0px; display:inline-block;}
 .sidebar .author a{color:#08C; font-weight:800;}
 .sidebar .author a:hover{text-decoration: none;}
@@ -372,6 +372,10 @@ top: 0px;
 
 /* Sidenav for Docs
 -------------------------------------------------- */
+.sidenav {
+    float: right;
+    margin-right: 200px;
+}
 
 .bs-docs-sidenav {
   width: 228px;
@@ -427,7 +431,6 @@ top: 0px;
 }
 .bs-docs-sidenav .active .icon-chevron-right,
 .bs-docs-sidenav .active a:hover .icon-chevron-right {
-  background-image: url(../img/glyphicons-halflings-white.png);
   opacity: 1;
 }
 .bs-docs-sidenav.affix {

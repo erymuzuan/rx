@@ -49,5 +49,12 @@ namespace web.sph.portal.Controllers
 
             return View();
         }
+
+        public ActionResult Rp()
+        {
+            ViewBag.Message = "Rumah peranginan";
+
+            return View();
+        }
     }
 }
