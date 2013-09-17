@@ -192,7 +192,7 @@
     "name": "Ruang",
     "visible": true,
     "icon": "icon-columns",
-    "caption": "Senarai Ruang Komersial",
+    "caption": "Senarai Ruang",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
@@ -658,7 +658,7 @@
     "name": "Templat Ruang",
     "visible": true,
     "icon": "icon-flag",
-    "caption": "Senarai Templat Ruang Komersil",
+    "caption": "Senarai Templat Ruang",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""

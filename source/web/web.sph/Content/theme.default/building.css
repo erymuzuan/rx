@@ -23,3 +23,6 @@
 #form-designer-toolbox div.controls {
   margin-left: 120px;
 }
+#block-map-dialog .modal-body {
+  max-height: 800px;
+}

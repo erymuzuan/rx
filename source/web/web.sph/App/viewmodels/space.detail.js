@@ -19,7 +19,6 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             activate = function (routeData) {
                 vm.space().BuildingId(parseInt(routeData.buildingId));
                 var templateId = parseInt(routeData.templateId);
-               
 
                 var tcs = new $.Deferred(),
                     templateTask = context.loadOneAsync("SpaceTemplate", "SpaceTemplateId eq " + templateId),

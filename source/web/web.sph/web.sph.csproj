@@ -418,6 +418,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
+    <Content Include="App\viewmodels\block.floormap.dialog.js" />
+    <Content Include="App\viewmodels\block.floors.js" />
+    <Content Include="App\viewmodels\block.map.js" />
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
@@ -461,6 +464,9 @@
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\application.template.list.html" />
     <Content Include="App\views\block.dialog.html" />
+    <Content Include="App\views\block.floormap.dialog.html" />
+    <Content Include="App\views\block.floors.html" />
+    <Content Include="App\views\block.map.html" />
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\chats.html" />
     <Content Include="App\views\space.template.form.html" />
@@ -1393,9 +1399,6 @@
     <Content Include="Views\App\_TenantDetails.cshtml" />
     <Content Include="Views\App\_DataGridItemRow.cshtml" />
     <Content Include="Views\Template\_DefaultValues.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\SpaceFeaturesElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\SpaceFeaturesElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\SpaceFeaturesElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

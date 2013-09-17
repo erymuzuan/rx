@@ -10,6 +10,9 @@ bespoke.sph.domain = bespoke.sph.domain || {};
 
 bespoke.sph.domain.BlockPartial = function () {
     var system = require('durandal/system'),
+        addFloor = function() {
+            this.FloorCollection.push(new bespoke.sph.domain.Floor(system.guid()));
+        },
         editFloor = function (block) {
             var self = this;
             return function() {
@@ -43,6 +46,7 @@ bespoke.sph.domain.BlockPartial = function () {
             };
         };
     return {
+        addFloor: addFloor,
         editFloor: editFloor,
         editBlockMap: editBlockMap
     };

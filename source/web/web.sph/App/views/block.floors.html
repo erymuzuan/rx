@@ -1,0 +1,66 @@
+﻿<section class="view-model-modal">
+    <div class="modal-header">
+        <button type="button" class="close" data-bind="click: cancelClick">&times;</button>
+        <h3 data-bind="with : block">Senarai tingkat untuk
+            <!-- ko text: Name -->
+            <!-- /ko -->
+
+        </h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" data-bind="with: block">
+
+            <input type="button" name="add-floor-button" class="btn pull-right" data-bind="click: addFloor" value="+ Floor" />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Size</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: FloorCollection">
+                    <tr>
+                        <td>
+                            <input class="input-floor-no" type="text" data-bind="value: Number, uniqueName: true" value="G" /></td>
+
+                        <td>
+                            <input class="input-floor-name" type="text" data-bind="value: Name, uniqueName: true" value="Ground Floor" /></td>
+                        <td>
+                            <input class="input-floor-size" type="text" data-bind="value: Size, uniqueName: true" value="5000" /></td>
+                        <td>
+                            <input type="button" data-bind2="click: $root.removeFloorCommand, uniqueName: true" class="btn btn-mini" value="-" /></td>
+                        <td>
+                            <input type="button" data-bind2="click: $root.addLotCommand, enable: $root.building().BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="+Lot" /></td>
+                        <td>
+                            <input type="button" data-bind2="click: $root.viewFloorPlanCommand, enable: $root.building().BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="Pelan Lantai" /></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <input type="button" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
