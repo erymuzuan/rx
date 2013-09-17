@@ -133,6 +133,8 @@
 				</xs:element>
 				<xs:element name="MovingInDateTime" type="xs:dateTime" nillable="true"/>
 			</xs:all>
+			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
+			<xs:attribute name="TemplateName" type="xs:string" use="required"/>
 			<xs:attribute name="BuildingId" type="xs:int" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -141,7 +143,6 @@
 			<xs:attribute name="Status" type="xs:string" use="required"/>
 			<xs:attribute name="Floors" type="xs:int" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
-			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="BuildingType" type="xs:string" use="required"/>
 			<xs:attribute name="Blocks" type="xs:int" use="required"/>
 			<xs:attribute name="FloorSize" type="xs:double" use="required"/>
@@ -250,6 +251,8 @@
 				</xs:element>
 			</xs:all>
 			<xs:attribute name="SpaceId" type="xs:int" use="required"/>
+			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
+			<xs:attribute name="TemplateName" type="xs:string" use="required"/>
 			<xs:attribute name="BuildingId" type="xs:int" use="required"/>
 			<xs:attribute name="LotName" type="xs:string" use="required"/>
 			<xs:attribute name="FloorName" type="xs:string" use="required"/>
@@ -266,7 +269,6 @@
 			<xs:attribute name="BuildingName" type="xs:string" use="required"/>
 			<xs:attribute name="BuildingLot" type="xs:string" use="required"/>
 			<xs:attribute name="RentalRate" type="xs:decimal" use="required"/>
-			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Location" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>

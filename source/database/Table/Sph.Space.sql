@@ -10,6 +10,8 @@ GO
  CREATE TABLE Sph.Space
 (
 	 [SpaceId] INT PRIMARY KEY IDENTITY(1,1)
+	,[TemplateId] INT NOT NULL
+	,[TemplateName] VARCHAR(255) NOT NULL
 	,[BuildingId] INT NULL
 	,[BuildingName] VARCHAR(255) NULL
 	,[FloorName] VARCHAR(255) NULL
