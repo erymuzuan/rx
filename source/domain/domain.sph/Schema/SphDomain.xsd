@@ -249,6 +249,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="FeatureCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Feature" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="SpaceId" type="xs:int" use="required"/>
 			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
@@ -1070,6 +1077,15 @@
 		<xs:complexType>
 			<xs:attribute name="Date" type="xs:dateTime" use="required"/>
 			<xs:attribute name="Value" type="xs:decimal" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Feature">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="Category" type="xs:string" use="required"/>
+			<xs:attribute name="IsRequired" type="xs:boolean" use="required"/>
+			<xs:attribute name="Charge" type="xs:decimal" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

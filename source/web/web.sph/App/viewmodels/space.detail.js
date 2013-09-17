@@ -19,7 +19,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             activate = function (routeData) {
                 vm.space().BuildingId(parseInt(routeData.buildingId));
                 var templateId = parseInt(routeData.templateId);
-                title('Tambah ruang komersil');
+               
 
                 var tcs = new $.Deferred(),
                     templateTask = context.loadOneAsync("SpaceTemplate", "SpaceTemplateId eq " + templateId),
@@ -39,7 +39,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                             space = new bespoke.sph.domain.Space();
                             space.TemplateId(templateId);
                             space.Category(template.Name());
-
+                            title(template.Name());
                             // default values
                             _(template.DefaultValueCollection()).each(function (v) {
                                 if (v.Value()) {
@@ -136,6 +136,13 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                 vm.space().LotName(lotName);
                 vm.space().Size(size);
                 vm.space().LotCollection(vm.selectedLots);
+            },
+            addFeatures = function () {
+                var feature = bespoke.sph.domain.Feature();
+                vm.space().FeatureCollection.push(feature);
+            },
+            removeFeatures = function (feature) {
+                vm.space().FeatureCollection.remove(feature);
             };
 
         var vm = {
@@ -155,6 +162,8 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             },
             selectLotCommand: selectLot,
             addLotsCommand: addLots,
+            addFeaturesCommand: addFeatures,
+            removeFeaturesCommand: removeFeatures,
             isBusy: isBusy
         };
 
