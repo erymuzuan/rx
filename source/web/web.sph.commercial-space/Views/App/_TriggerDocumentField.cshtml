@@ -8,21 +8,21 @@
     </div>
     <div class="modal-body">
         <div class="control-group">
-            <label for="doc-panel-name" class="control-label">Nama</label>
+            <label for="doc-field-name" class="control-label">Nama</label>
             <div class="controls">
-                <input data-bind="value: Name" id="doc-panel-name" type="text" name="Name" />
+                <input data-bind="value: Name" id="doc-field-name" type="text" name="doc-field-name" />
             </div>
         </div>
         <div class="control-group">
-            <label for="doc-note" class="control-label">Nota</label>
+            <label for="doc-field-note" class="control-label">Nota</label>
             <div class="controls">
-                <input data-bind="value: Note" id="doc-note" type="text" name="Note" />
+                <input data-bind="value: Note" id="doc-field-note" type="text" name="doc-field-note" />
             </div>
         </div>
         <div class="control-group">
-            <label for="doc-path" class="control-label">Path</label>
+            <label for="doc-field-path" class="control-label">Path</label>
             <div class="controls">
-                <input id="doc-path" data-bind="pathAutoComplete: {value: Path, type : $root.trigger().Entity}" class="input-xxlarge" />
+                <input id="doc-field-path" name="doc-field-path" data-bind="pathAutoComplete: {value: Path, type : $root.trigger().Entity}" class="input-xxlarge" />
                 <span class="btn-block">You can use Path.Subpath convention</span>
             </div>
         </div>

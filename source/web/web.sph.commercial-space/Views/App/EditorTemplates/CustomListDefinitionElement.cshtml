@@ -1,6 +1,5 @@
 ﻿@model Bespoke.SphCommercialSpaces.Domain.CustomListDefinitionElement
 
-
 <div>
     <input type="button" class="btn pull-right" value="@Model.Label" data-bind="click : addCustomListItem('@Model.Name')" />
     <table class="table table-condensed table-striped">
@@ -20,29 +19,29 @@
                     <td>
                         @if (c.Type == typeof(string).AssemblyQualifiedName)
                         {
-                            <input class="input-small" type="text" data-bind="value: CustomField('@c.Name'), uniqueName: true" />
+                            <input class="input-small" name="@c.Name" type="text" data-bind="value: CustomField('@c.Name'), uniqueName: true" />
                         }
                         @if (c.Type == typeof(int).AssemblyQualifiedName)
                         {
-                            <input class="input-small" type="number" data-bind="value: CustomField('@c.Name'), uniqueName: true" />
+                            <input class="input-small" name="@c.Name" type="number" data-bind="value: CustomField('@c.Name'), uniqueName: true" />
                         }
                         @if (c.Type == typeof(decimal).AssemblyQualifiedName)
                         {
-                            <input class="input-small" type="number" data-bind="value: CustomField('@c.Name'), uniqueName: true" />
+                            <input class="input-small" name="@c.Name" type="number" data-bind="value: CustomField('@c.Name'), uniqueName: true" />
                         }
                         @if (c.Type == typeof(bool).AssemblyQualifiedName)
                         {
-                            <input class="input-small" type="checkbox" data-bind="checked: CustomField('@c.Name'), uniqueName: true" />
+                            <input class="input-small" name="@c.Name" type="checkbox" data-bind="checked: CustomField('@c.Name'), uniqueName: true" />
                         }
                         @if (c.Type == typeof(DateTime).AssemblyQualifiedName)
                         {
-                            <input class="input-small" type="text" data-bind="kendoDate: CustomField('@c.Name'), uniqueName: true" />
+                            <input class="input-small" name="@c.Name" type="text" data-bind="kendoDate: CustomField('@c.Name'), uniqueName: true" />
                         }
 
                     </td>
                 }
                 <td>
-                    <a href="#">Buang</a>
+                    <a href="#" data-bind="command : $parent.removeCustomListItem.call($parent,'@Model.Name',$data)">Buang</a>
                 </td>
 
             </tr>

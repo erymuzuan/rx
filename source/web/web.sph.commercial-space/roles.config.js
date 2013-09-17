@@ -131,5 +131,12 @@
     "Role": "can_edit_land",
     "Description": "Pentadbiran Tanah",
     "IsActive": true
+  },
+  {
+    "Group": "Trigger",
+    "Name": "Admin Trigger",
+    "Role": "can_add_trigger",
+    "Description": "Mengemaskini dan menambah senarai trigger",
+    "IsActive": true
   }
 ]

@@ -133,7 +133,7 @@ namespace Bespoke.Sph.Commerspace.Web.Controllers
                 item.Name = building.Name;
                 item.LotNo = building.LotNo;
                 item.Floors = building.Floors;
-                item.Size = building.Size;
+                item.BuildingSize = building.BuildingSize;
                 item.Status = building.Status;
                 item.FloorCollection.ClearAndAddRange(building.FloorCollection);
                 item.BlockCollection.ClearAndAddRange(building.BlockCollection);

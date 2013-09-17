@@ -24,22 +24,8 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
                 templateTask = context.loadOneAsync("CommercialSpaceTemplate", "CommercialSpaceTemplateId eq " + templateId),
                 buildingTask = context.getTuplesAsync("Building", "", "BuildingId", "Name"),
                 stateTask = context.loadOneAsync("Setting", "Key eq 'State'"),
-                csTask = context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + routeData.csId),
-                buildCustomFieldValue = function (tpl) {
-                    var cfs = _(tpl.CustomFieldCollection()).map(function (f) {
-                        var webid = system.guid();
-                        var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
-                        v.Name(f.Name());
-                        v.Type(f.Type());
-                        v.Value('');
-                        return v;
-                    });
-
-                    vm.commercialSpace().CustomFieldValueCollection(cfs);
-                    vm.commercialSpace().Category(tpl.Name());
-                };
-
-
+                csTask = context.loadOneAsync("CommercialSpace", "CommercialSpaceId eq " + routeData.csId);
+         
             $.when(templateTask, buildingTask, csTask, stateTask)
                 .done(function (a, list) {
                     vm.buildingOptions(_(list).sortBy(function (bd) {
@@ -56,8 +42,26 @@ define(['services/datacontext', 'services/logger', './_commercialspace.contract'
                         cs.Category(tpl.Name);
                         vm.commercialSpace(cs);
 
-                        buildCustomFieldValue(tpl);
-                        
+                        var fieldToValueMap = function (f) {
+                            var webid = system.guid();
+                            var v = new bespoke.sphcommercialspace.domain.CustomFieldValue(webid);
+                            v.Name(f.Name());
+                            v.Type(f.Type());
+                            return v;
+                        },
+                           cfs = _(tpl.CustomFieldCollection()).map(fieldToValueMap),
+                           cls = _(tpl.CustomListDefinitionCollection()).map(function (v) {
+                               var lt = new bespoke.sphcommercialspace.domain.CustomListValue(system.guid());
+                               lt.Name(v.Name());
+
+                               var fields = _(v.CustomFieldCollection()).map(fieldToValueMap);
+                               lt.CustomFieldCollection = ko.observableArray(fields);
+
+                               return lt;
+                           });
+
+                        vm.commercialSpace().CustomFieldValueCollection(cfs);
+                        vm.commercialSpace().CustomListValueCollection(cls);
                         return;
                     }
                     

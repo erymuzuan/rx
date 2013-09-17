@@ -51,7 +51,6 @@
                             <thead>
                                 <tr>
                                     <th>Tajuk</th>
-                                    <th>Keterangan</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -59,15 +58,13 @@
                             <tbody data-bind="foreach: PhotoCollection">
                                 <tr>
                                     <td>
-                                        <input type="text" data-bind="value: Title, uniqueName: true" />
+                                        <a href="/#" data-bind="click : $parent.editPhoto.call($parent,$data),text: Title"></a>
                                     </td>
                                     <td>
-                                        <input type="text" class="input-large" data-bind="value: Description, uniqueName: true" /></td>
-                                    <td>
-                                        <input class="cs-photo-upload" type="file" data-bind="kendoUpload: StoreId"/>
+                                        <img alt="thumbnail" data-bind="attr : {src:'/Image/Store/' + ThumbnailStoreId()}" />
                                     </td>
                                     <td>
-                                        <a href="/#" data-bind="click: $parent.removePhoto.call($parent, $data)"></a>
+                                        <a href="/#" data-bind="click : $parent.removePhoto.call($parent,$data)">Buang</a>
                                     </td>
                                 </tr>
                             </tbody>

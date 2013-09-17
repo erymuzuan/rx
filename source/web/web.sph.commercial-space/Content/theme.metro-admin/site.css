@@ -21,8 +21,10 @@
 .google-maps img {
   max-width: none;
 }
-.modal {
+.modal,
+.view-model-modal {
   margin-left: -400px;
+  background-color: #fff;
 }
 .absolute-center {
   position: absolute;

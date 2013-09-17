@@ -49,11 +49,18 @@ namespace Bespoke.Sph.SqlReportDataSource
         private async Task<ReportColumn[]> GetCustomFieldColumns(string table)
         {
             var list = new ObjectCollection<ReportColumn>();
-            if (table == "Land") return list.ToArray();
-            if (table == "Tenant") return list.ToArray();
+            if (table == typeof(Land).Name) return list.ToArray();
+            if (table == typeof(Payment).Name) return list.ToArray();
+            if (table == typeof(Tenant).Name) return list.ToArray();
+            if (table == typeof(Inventory).Name) return list.ToArray();
+            if (table == typeof(RentalApplication).Name) table = "Application";
+
+            var name = "Name";
+            if (table == typeof (Contract).Name)
+                name = "Type";
 
             XNamespace x = Strings.DEFAULT_NAMESPACE;
-            var sql = string.Format("SELECT [Data] FROM [Sph].[{0}Template]", table);
+            var sql = string.Format("SELECT [{0}], [Data] FROM [Sph].[{1}Template]",name, table);
             var cs = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
             using (var conn = new SqlConnection(cs))
             using (var cmd = new SqlCommand(sql, conn))
@@ -63,7 +70,8 @@ namespace Bespoke.Sph.SqlReportDataSource
                 {
                     while (reader.Read())
                     {
-                        var xml = XElement.Parse(reader.GetString(0));
+                        var template = reader.GetString(0);
+                        var xml = XElement.Parse(reader.GetString(1));
                         var element = xml.Element(x + "CustomFieldCollection");
                         if (null == element) continue;
 
@@ -75,7 +83,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                                       select new ReportColumn
                                       {
                                           IsCustomField = true,
-                                          Name = e.Name,
+                                          Name = string.Format("({0}) {1}",template, e.Name),
                                           TypeName = e.Type
                                       };
                         list.AddRange(columns);
