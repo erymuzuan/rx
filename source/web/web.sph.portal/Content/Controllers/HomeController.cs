@@ -56,5 +56,26 @@ namespace web.sph.portal.Controllers
 
             return View();
         }
+
+        public ActionResult Quarters()
+        {
+            ViewBag.Message = "Rumah kerajaan";
+
+            return View();
+        }
+
+        public ActionResult Office()
+        {
+            ViewBag.Message = "pejabat";
+
+            return View();
+        }
+
+        public ActionResult Rk()
+        {
+            ViewBag.Message = "ruang komersial";
+
+            return View();
+        }
     }
 }
