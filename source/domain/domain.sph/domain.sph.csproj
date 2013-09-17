@@ -82,6 +82,7 @@
     <Compile Include="Business\Comment.cs" />
     <Compile Include="Business\Space.cs" />
     <Compile Include="FormTemplates\DefaultValue.cs" />
+    <Compile Include="FormTemplates\SpaceFeaturesElement.cs" />
     <Compile Include="FormTemplates\SpaceTemplate.cs" />
     <Compile Include="Business\Complaint.cs" />
     <Compile Include="FormTemplates\ComplaintCategory.cs" />

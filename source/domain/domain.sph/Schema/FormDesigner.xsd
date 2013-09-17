@@ -429,4 +429,11 @@
 			<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="SpaceFeaturesElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

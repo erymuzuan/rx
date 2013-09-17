@@ -559,6 +559,20 @@ bespoke.sph.domain.DefaultValue = function (webId) {
 };
 
 
+
+bespoke.sph.domain.SpaceFeaturesElement = function (webId) {
+
+    var v = new bespoke.sph.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.Sph.Domain.SpaceFeaturesElement, domain.sph";
+
+    if (bespoke.sph.domain.SpaceFeaturesElementPartial) {
+        return _(v).extend(new bespoke.sph.domain.SpaceFeaturesElementPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sph.domain.FormElement = function (webId) {
 
     return {
