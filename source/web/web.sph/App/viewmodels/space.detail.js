@@ -19,7 +19,6 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             activate = function (routeData) {
                 vm.space().BuildingId(parseInt(routeData.buildingId));
                 var templateId = parseInt(routeData.templateId);
-                title('Tambah ruang komersil');
 
                 var tcs = new $.Deferred(),
                     templateTask = context.loadOneAsync("SpaceTemplate", "SpaceTemplateId eq " + templateId),
@@ -33,7 +32,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                         }));
                     })
                     .done(function (template, b, space) {
-
+                        title(template.Name());
                         vm.stateOptions(config.stateOptions);
                         if (!space) {
                             space = new bespoke.sph.domain.Space();
