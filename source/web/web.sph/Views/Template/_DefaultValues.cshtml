@@ -3,13 +3,15 @@
         <tr>
             <th>Path</th>
             <th>Type</th>
+            <th>IsNullable</th>
             <th>Value</th>
         </tr>
     </thead>
     <tbody data-bind="foreach :DefaultValueCollection">
-        <tr data-bind="css : {'alert': IsNullable() === false}">
+        <tr>
             <td data-bind="text:PropertyName"></td>
             <td data-bind="text:TypeName"></td>
+            <td data-bind="text:IsNullable"></td>
             <td>
                 <input type="text" data-bind="value:Value"/>
             </td>

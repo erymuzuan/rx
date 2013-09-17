@@ -30,7 +30,8 @@ namespace Bespoke.Sph.SqlReportDataSource
                .Select(p => new ReportColumn
                {
                    Name = root + p.Name,
-                   Type = p.PropertyType
+                   Type = p.PropertyType,
+                   IsNullable = p.PropertyType.FullName.Contains("Nullable")
                });
 
             var aggregates = type.GetProperties(BindingFlags.Instance | BindingFlags.Public)

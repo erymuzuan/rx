@@ -123,6 +123,12 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                             field.TypeName(f.TypeName);
                             field.IsNullable(f.IsNullable);
                             // TODO :look for existing values
+                            var ef = _(vm.template().DefaultValueCollection()).find(function(e) {
+                                return e.PropertyName() === f.Name;
+                            });
+                            if (ef) {
+                                field.Value(ef.Value);
+                            }
                             return field;
                         });
                         vm.template().DefaultValueCollection(fields);

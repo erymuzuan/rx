@@ -237,10 +237,14 @@ namespace Bespoke.Sph.Web.Controllers
 
         public async Task<ActionResult> PropertyPath(string id)
         {
+            var excludes = new[] {"TemplateId", "TemplateName", "CreatedDate", "CreatedBy", "ChangedBy", "ChangedDate" };
             var dataSource = ObjectBuilder.GetObject<IReportDataSource>();
             var typeName = (typeof(Entity).GetShortAssemblyQualifiedName() ?? "").Replace("Entity", id);
-            var cols =( await dataSource.GetColumnsAsync(Type.GetType(typeName)))
-                .Where(a =>! a.IsCustomField);
+            var cols = (await dataSource.GetColumnsAsync(Type.GetType(typeName)))
+                .Where(a => !excludes.Contains(a.Name))
+                .Where(a => a.Name != id + "Id")
+                .Where(a => !a.IsCustomField)
+                .OrderBy(a => a.Name, new PropertyPathComparer());
 
             var json = JsonConvert.SerializeObject(cols);
 
