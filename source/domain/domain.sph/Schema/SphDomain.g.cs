@@ -3997,6 +3997,17 @@
 			get{ return m_CustomListValueCollection;}
 			}
 		
+			private readonly ObjectCollection<Feature>  m_FeatureCollection = new ObjectCollection<Feature> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("Feature", IsNullable = false)]
+			public ObjectCollection<Feature> FeatureCollection
+			{
+			get{ return m_FeatureCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -13992,10 +14003,32 @@
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  decimal  m_charge;
-                    public const string PropertyNameCharge = "Charge";
+                    private  int  m_occurence;
+                    public const string PropertyNameOccurence = "Occurence";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_occurenceTimeSpan;
+                    public const string PropertyNameOccurenceTimeSpan = "OccurenceTimeSpan";
+
+                  
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private decimal?  m_charge;
+                public const string PropertyNameCharge = "Charge";
+
+
+              
+			private readonly ObjectCollection<Photo>  m_PhotoCollection = new ObjectCollection<Photo> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("Photo", IsNullable = false)]
+			public ObjectCollection<Photo> PhotoCollection
+			{
+			get{ return m_PhotoCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -14117,25 +14150,75 @@
                 
                 [DebuggerHidden]
                 
-                    public decimal Charge
+                    public int Occurence
                     {
                     set
                     {
-                    if( m_charge == value) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameCharge, value);
+                    if( m_occurence == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameOccurence, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)
                     {
-                    m_charge= value;
+                    m_occurence= value;
                     OnPropertyChanged();
                     }
                     }
                     get
                     {
-                    return m_charge;}
+                    return m_occurence;}
                     }
 
                   
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string OccurenceTimeSpan
+                    {
+                    set
+                    {
+                    if( String.Equals( m_occurenceTimeSpan, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameOccurenceTimeSpan, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_occurenceTimeSpan= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_occurenceTimeSpan;}
+                    }
+
+                  
+
+                ///<summary>
+                /// 
+                ///</summary>
+                [DebuggerHidden]
+				
+                public decimal? Charge
+                {
+                set
+                {
+                if(m_charge == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCharge, value);
+                OnPropertyChanging(arg);
+                if(! arg.Cancel)
+                {
+                m_charge= value;
+                OnPropertyChanged();
+                }
+                }
+                get { return m_charge;}
+                }
+              
 
           }
         

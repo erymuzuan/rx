@@ -25,6 +25,23 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 var states = JSON.parse(ko.mapping.toJS(s.Value));
                 vm.stateOptions(states);
                 vm.space(cs);
+              
+                var categoryOptions = ko.observableArray();
+                _.each(cs.FeatureCollection(), function (t) {
+                    categoryOptions.push(t.Category());
+                });
+                var distinctCategories = ko.observableArray();
+                distinctCategories(_.uniq(categoryOptions()));
+                var features = _(distinctCategories()).map(function (t) {
+                    var filtered = _(cs.FeatureCollection()).filter(function (c) {
+                        return c.Category() === t;
+                    });
+                    return {
+                        category: t,
+                        features: filtered
+                    };
+                });
+                vm.facilities(features);
                 tcs.resolve(true);
             });
             vm.rentalapplication().SpaceId(routeData.id);
@@ -103,6 +120,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         },
         removeAttachement = function (attachment) {
             vm.rentalapplication().AttachmentCollection.remove(attachment);
+        },
+        addFeatureToList = function (attachment) {
+            vm.rentalapplication().AttachmentCollection.remove(attachment);
         }
     ;
 
@@ -112,6 +132,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         viewAttached: viewAttached,
         configureUpload: configureUpload,
         stateOptions: ko.observableArray(),
+        facilities: ko.observableArray(),
         rentalapplication: ko.observable(new bespoke.sph.domain.RentalApplication()),
         space: ko.observable(new bespoke.sph.domain.Space()),
         toolbar: {
@@ -133,7 +154,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         addBankCommand: addBankCollection,
         isBusy: isBusy,
         addAttachmentCommand: addAttachment,
-        removeAttachmentCommand: removeAttachement
+        removeAttachmentCommand: removeAttachement,
+        addFeatureToList: addFeatureToList
     };
 
     return vm;

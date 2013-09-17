@@ -283,17 +283,7 @@
 		<xs:complexType>
 			<xs:all>
 				<xs:element ref="Address" minOccurs="0"/>
-				<xs:element name="BankCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Bank" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
 				<xs:element ref="Contact" minOccurs="0"/>
-				<xs:element name="CurrentYearSales" type="xs:decimal" default="0"/>
-				<xs:element name="LastYearSales" type="xs:decimal" default="0"/>
-				<xs:element name="PreviousYearSales" type="xs:decimal" default="0"/>
 				<xs:element name="AttachmentCollection">
 					<xs:complexType>
 						<xs:sequence>
@@ -314,6 +304,13 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="CustomListValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FeatureCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Feature" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -1081,11 +1078,23 @@
 	</xs:element>
 	<xs:element name="Feature">
 		<xs:complexType>
+			<xs:all>
+				<xs:element name="PhotoCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Photo" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Charge" type="xs:decimal" nillable="true"/>
+			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="Category" type="xs:string" use="required"/>
 			<xs:attribute name="IsRequired" type="xs:boolean" use="required"/>
-			<xs:attribute name="Charge" type="xs:decimal" use="required"/>
+			<xs:attribute name="Occurence" type="xs:int" use="required"/>
+			<xs:attribute name="OccurenceTimeSpan" type="xs:string" use="required"/>
+			<xs:attribute name="Quantity" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

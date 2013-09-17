@@ -219,7 +219,7 @@ namespace web.test
 
             driver.Click("#add-feature-button");
 
-            driver.Value(".input-feature-name", "Parking")
+            driver.Value(".input-feature-name", "Lot A-1-3")
                   .Value(".input-feature-description", "Satu parking percuma")
                   .Value(".input-feature-category", "Parking")
                   .Click(".input-feature-isrequired")
@@ -229,10 +229,24 @@ namespace web.test
 
             driver.Value(".input-feature-name", "Kabinet",1)
                   .Value(".input-feature-description", "Kabinet disediakan jika di apply", 1)
-                  .Value(".input-feature-category", "Kemudahan", 1)
-                  .Click(".input-feature-isrequired", 1)
+                  .Value(".input-feature-category", "Perabot", 1)
                   .Value(".input-feature-charge", "50", 1)
                 ;
+
+            driver.Click("#add-feature-button");
+            driver.Value(".input-feature-name", "Kabinet Dapur Kayu", 2)
+                  .Value(".input-feature-description", "Kabinet disediakan jika di apply", 2)
+                  .Value(".input-feature-category", "Perabot", 2)
+                  .Value(".input-feature-charge", "50", 2)
+                ;
+
+            driver.Click("#add-feature-button");
+            driver.Value(".input-feature-name", "Oven", 3)
+                  .Value(".input-feature-description", "Oven disediakan jika di apply", 3)
+                  .Value(".input-feature-category", "Perabot", 3)
+                  .Value(".input-feature-charge", "100", 3)
+                ;
+
 
             driver.Value("[name='RentalRate']", "2500")
             .Value("[name='ContactPerson']", "Mohd Razali")

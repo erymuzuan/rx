@@ -316,6 +316,7 @@ bespoke.sph.domain.RentalApplication = function (webId) {
         Space: ko.observable(new bespoke.sph.domain.Space()),
         CustomFieldValueCollection: ko.observableArray([]),
         CustomListValueCollection: ko.observableArray([]),
+        FeatureCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1365,7 +1366,10 @@ bespoke.sph.domain.Feature = function (webId) {
         Description: ko.observable(''),
         Category: ko.observable(''),
         IsRequired: ko.observable(false),
-        Charge: ko.observable(0.00),
+        Occurence: ko.observable(0),
+        OccurenceTimeSpan: ko.observable(''),
+        PhotoCollection: ko.observableArray([]),
+        Charge: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
