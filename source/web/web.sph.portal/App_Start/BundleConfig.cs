@@ -48,27 +48,29 @@ namespace web.sph.portal
                         "~/Scripts/modernizr.custom.79639.js",
                         "~/Scripts/modernizr-*"));
 
+            /*
+             * 
+             * 
+             *    <link href="~/Content/bootstrap.css" rel="stylesheet">
+    <link href="~/Content/bootstrap-responsive.css" rel="stylesheet">
+    <link href="~/Content/font-awesome.css" rel="stylesheet">
+    <link href="~/Content/m-forms.min.css" rel="stylesheet">
+    <link href="~/Content/m-buttons.css" rel="stylesheet">
+    <link href="~/Content/custom.css" rel="stylesheet">
+             * 
+             * */
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                         "~/Content/custom.css",
                         "~/Content/bootstrap-responsive.css",
-                        "~/Content/bootstrap-responsive.min.css",
                         "~/Content/bootstrap.css",
-                        "~/Content/bootstrap.min.css",
                         "~/Content/custom-slider.css",
                         "~/Content/font-awesome-ie7.css",
                         "~/Content/font-awesome.css",
                         "~/Content/m-buttons.css",
-                        "~/Content/m-buttons.min.css",
                         "~/Content/m-forms.css",
-                        "~/Content/m-forms.min.css",
                         "~/Content/m-icons.css",
-                        "~/Content/m-icons.min.css",
-                        "~/Content/m-styles.min.css",
-                        "~/Content/metro-tile.css",
-                        "~/Content/slider.css",
-                        "~/Content/style-slider.css",
-                        "~/Content/Site.css"
+                        "~/Content/metro-tile.css"
                         ));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
