@@ -76,7 +76,7 @@ bespoke.sph.domain.BuildingPartial = function () {
                 console.log(" on block ", block);
 
                 require(['viewmodels/block.map', 'durandal/app'], function (dialog, app) {
-                    dialog.spatialStoreId(block.FloorPlanStoreId());
+                    dialog.init(building.BuildingId(), block.FloorPlanStoreId());
                     app.showModal(dialog)
                         .done(function (result) {
                             if (result == "OK") {

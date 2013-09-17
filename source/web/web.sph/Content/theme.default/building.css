@@ -26,3 +26,6 @@
 #block-map-dialog .modal-body {
   max-height: 800px;
 }
+#map-panel .modal-body {
+  max-height: 800px;
+}
