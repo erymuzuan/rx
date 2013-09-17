@@ -3,7 +3,7 @@
 <!--ko if:$data['$type']() === "Bespoke.Sph.Domain.SpaceFeaturesElement, domain.sph" -->
     <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
        @Html.Partial("_DesignerContextAction")
-     <input type="button" name="add-floor-button" class="btn pull-right" data-bind2="click: $parent.addFloorCommand" value="+ Feature" />
+     <input type="button" name="add-feature-button" class="btn pull-right" data-bind2="click: $parent.addFeaturesCommand" value="+ Feature" />
         <table class="table table-condensed table-striped">
             <thead>
                 <tr>

@@ -1,6 +1,6 @@
 ﻿@model Bespoke.Sph.Domain.SpaceFeaturesElement
 
-<input type="button" name="add-floor-button" class="btn pull-right" data-bind="click: $parent.addFeaturesCommand" value="+ Features" />
+<input type="button" name="add-feature-button" id="add-feature-button" class="btn pull-right" data-bind="click: $root.addFeaturesCommand" value="+ Features" />
 <table class="table table-striped">
     <thead>
         <tr>
@@ -15,19 +15,19 @@
     <tbody data-bind="foreach: FeatureCollection">
         <tr>
             <td>
-                <input class="input-small" type="text" data-bind="value: Name, uniqueName: true"/></td>
+                <input class="input-feature-name" type="text" data-bind="value: Name, uniqueName: true"/></td>
 
             <td>
-                <input class="input-large" type="text" data-bind="value: Description, uniqueName: true"/></td>
+                <input class="input-feature-description" type="text" data-bind="value: Description, uniqueName: true"/></td>
             <td>
-                <input type="text" data-bind="value: Category, uniqueName: true" /></td>
+                <input type="text" class="input-feature-category" data-bind="value: Category, uniqueName: true" /></td>
             <td>
-                <input type="checkbox" data-bind="value: IsRequired, uniqueName: true" class="input-large" /></td>
+                <input type="checkbox" class="input-feature-isrequired" data-bind="checked: IsRequired, uniqueName: true" class="input-large" /></td>
             <td>
                 <span class="add-on">RM</span>
-                <input type="text" data-bind="value: Charge, uniqueName: true" class="input-small"/></td>
+                <input type="text" class="input-feature-charge" data-bind="value: Charge, uniqueName: true"/></td>
             <td>
-                <input type="button" data-bind="click: $root.removeFeaturesCommand" class="btn btn-mini" value="X" /></td>
+                <input type="button" data-bind="click: $root.removeFeaturesCommand" class="btn-remove-feature" value="X" /></td>
 
         </tr>
     </tbody>

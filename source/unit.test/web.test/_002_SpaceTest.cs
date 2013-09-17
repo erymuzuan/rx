@@ -130,6 +130,14 @@ namespace web.test
                   .Value("[name=Path]", "ContactPerson")
                   ;
 
+            // contact
+            driver.ClickFirst("a", e => e.Text == "Add a field")
+                  .ClickFirst("a", e => e.Text == "Features")
+                  .ClickFirst("a", e => e.Text == "Fields settings")
+                  .Value("[name=Label]", "Feature Collection")
+                  .Value("[name=Path]", "FeatureCollection")
+                  ;
+
             // IsAvailable
             driver.ClickFirst("a", e => e.Text == "Add a field")
                   .ClickFirst("a", e => e.Text == "Checkboxes")
@@ -189,15 +197,15 @@ namespace web.test
             driver.NavigateToUrl("/#/space.list", 2.Seconds());
             driver.NavigateToUrl(String.Format("/#/space.detail-templateid.{0}/{0}/0/-/0", templateId), 3.Seconds());
             driver
-                .Value("[name='RegistrationNo']", CS_REGISTRATION_NO)
+                .Value("[name=RegistrationNo]", CS_REGISTRATION_NO)
                 .Click("#select-lot-button")
                 .Sleep(2.Seconds());
 
-            driver.SelectOption("[name='selectedBuilding']", _100_BuildingTest.BUILDING_NAME)
-                .Sleep(200.Milliseconds())
-                .SelectOption("[name='selectedFloor']", "1st Floor")
-                .Sleep(200.Milliseconds())
-                .SelectOption("[name='selectedLots']", "Lot 1")
+            driver.SelectOption("[name=selectedBuilding]", _100_BuildingTest.BUILDING_NAME)
+                .Sleep(1.Seconds())
+                .SelectOption("[name=selectedFloor]", "1st Floor")
+                .Sleep(1.Seconds())
+                .SelectOption("[name=selectedLots]", "Lot 1")
                 .Click("#add-lot-button");
 
             driver.Value("[name='Cafe Name']", "Cafe ABC");
@@ -208,6 +216,23 @@ namespace web.test
 
             driver.ClickFirst("input", e => e.GetAttribute("data-bind") == "click : addCustomListItem('List')")
                 .Sleep(2.Seconds());
+
+            driver.Click("#add-feature-button");
+
+            driver.Value(".input-feature-name", "Parking")
+                  .Value(".input-feature-description", "Satu parking percuma")
+                  .Value(".input-feature-category", "Parking")
+                  .Click(".input-feature-isrequired")
+                ;
+            driver.Click("#add-feature-button");
+
+
+            driver.Value(".input-feature-name", "Kabinet",1)
+                  .Value(".input-feature-description", "Kabinet disediakan jika di apply", 1)
+                  .Value(".input-feature-category", "Kemudahan", 1)
+                  .Click(".input-feature-isrequired", 1)
+                  .Value(".input-feature-charge", "50", 1)
+                ;
 
             driver.Value("[name='RentalRate']", "2500")
             .Value("[name='ContactPerson']", "Mohd Razali")

@@ -39,6 +39,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                             space = new bespoke.sph.domain.Space();
                             space.TemplateId(templateId);
                             space.Category(template.Name());
+                            space.TemplateName(template.Name());
                             title(template.Name());
                             // default values
                             _(template.DefaultValueCollection()).each(function (v) {
