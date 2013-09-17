@@ -109,9 +109,9 @@
   },
   {
     "role": "can_add_space",
-    "url": "lotdetail/:buildingId/:floorname",
+    "url": "lot.list/:buildingId/:block/:floorname",
     "moduleId": "viewmodels/lotdetail",
-    "name": "LotDetail",
+    "name": "Senarai lots",
     "visible": false,
     "icon": "icon-tablet",
     "caption": "Lot Details",
