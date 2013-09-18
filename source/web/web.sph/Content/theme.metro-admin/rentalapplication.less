@@ -1,91 +1,103 @@
-﻿@blue : #0096e1;
-@green :#78b500;
+﻿@blue: #0096e1;
+@green: #78b500;
 
-#available-space-list > div{
-    padding:10px;
-    background-color:@blue;
-    margin:10px;
-    margin-bottom:15px;
-    color:white;
-    article > div >span {
-        font-weight:bold;
-        font-size:2em;
+#available-space-list > div {
+    padding: 10px;
+    background-color: @blue;
+    margin: 10px;
+    margin-bottom: 15px;
+    color: white;
+
+    article > div > span {
+        font-weight: bold;
+        font-size: 2em;
     }
 
-    form > a.btn{
-        float : right;
-        clear:both;
-        margin-top:10px;
-        margin-bottom:5px;
-    }
-    h3{
-        color:white;
-    }
-    a{
-        color:white;
+    form > a.btn {
+        float: right;
+        clear: both;
+        margin-top: 10px;
+        margin-bottom: 5px;
     }
 
-    .category{
-        font-style:oblique;
+    h3 {
+        color: white;
     }
-}
 
-#available-space-list > div:nth-child(odd){    
-    background-color:@green;
-}
+    a {
+        color: white;
+    }
 
-div.space-image-panel{
-    float:right;
-}
-
-div.space-search-panel{
-    border:1px solid #e5e5e5;
-    border-radius:5px;
-    margin:5px;
-  
-    button{
-        position:relative;
-        right:10px;
-        bottom:5px;
-        float:right;
+    .category {
+        font-style: oblique;
     }
 }
 
-div.space-search-panel:last-child{
-    position:absolute;
+    #available-space-list > div:nth-child(odd) {
+        background-color: @green;
+    }
+
+div.space-image-panel {
+    float: right;
 }
 
-span.feature-category{
+div.space-search-panel {
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    margin: 5px;
+
+    button {
+        position: relative;
+        right: 10px;
+        bottom: 5px;
+        float: right;
+    }
+}
+
+    div.space-search-panel:last-child {
+        position: absolute;
+    }
+
+span.feature-category {
     font-weight: bold;
-    font-size : 14px;
+    font-size: 14px;
 }
-div.feature-item{
-    margin : 10px;
-    padding : 5px;
-    border-bottom : 1px solid gray;
 
-    span.feature-isrequired{
+div.feature-item {
+    margin: 10px;
+    padding: 5px;
+    border-bottom: 1px solid gray;
+
+    span.feature-isrequired {
         float: left;
-        font-weight : bold;
-        display:none;
+        font-weight: bold;
+        display: none;
     }
-    div.btn-add-feature{
-        float: right;       
+
+    div.btn-add-feature {
+        float: right;
     }
-    p.feature-description{
-        margin : 10px;
-        padding : 5px;
+
+    p.feature-description {
+        margin: 10px;
+        padding: 5px;
         font-style: italic;
     }
-    span.feature-charge{
-        float:right;
-        margin : 10px;
-        padding : 5px;
-        font-weight : bold;
-        color : green;
-        clear : both;
-    } 
-    span.feature-name{
-      
+
+    span.feature-charge {
+        float: right;
+        margin: 10px;
+        padding: 5px;
+        font-weight: bold;
+        color: green;
+        clear: both;
+    }
+
+    span.feature-name {
+    }
+
+    select.input-feature-available-quantity {
+        float: right;
+        width: 50px;
     }
 }

@@ -359,6 +359,9 @@
     <Content Include="Views\Home\Offices.cshtml" />
     <Content Include="Views\Home\Quarters.cshtml" />
     <Content Include="Views\Home\Halls.cshtml" />
+    <Content Include="Views\Home\Office.cshtml" />
+    <Content Include="Views\Home\Rk.cshtml" />
+    <Content Include="Views\Home\Rp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

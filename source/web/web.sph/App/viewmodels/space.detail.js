@@ -148,11 +148,11 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                 return tcs.promise();
             },
             addFeatures = function () {
-                var feature = bespoke.sph.domain.Feature();
-                vm.space().FeatureCollection.push(feature);
+                var feature = bespoke.sph.domain.FeatureDefinition();
+                vm.space().FeatureDefinitionCollection.push(feature);
             },
             removeFeatures = function (feature) {
-                vm.space().FeatureCollection.remove(feature);
+                vm.space().FeatureDefinitionCollection.remove(feature);
             };
 
         var vm = {

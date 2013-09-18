@@ -74,3 +74,7 @@ div.feature-item span.feature-charge {
   color: green;
   clear: both;
 }
+div.feature-item select.input-feature-available-quantity {
+  float: right;
+  width: 50px;
+}
