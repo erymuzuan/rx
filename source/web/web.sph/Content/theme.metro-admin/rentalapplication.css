@@ -1,4 +1,9 @@
-﻿#available-space-list > div {
+﻿#add-on-tab form {
+  font-family: "Segoe UI", "Segoe UI Web Regular", "Segoe UI Symbol", "Helvetica Neue", "BBAlpha Sans", "S60 Sans", Arial, "sans-serif";
+  width: 500px;
+  height: 500px;
+}
+#available-space-list > div {
   padding: 10px;
   background-color: #0096e1;
   margin: 10px;
