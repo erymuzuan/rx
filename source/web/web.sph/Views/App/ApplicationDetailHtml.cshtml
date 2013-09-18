@@ -29,10 +29,16 @@
                     <div>
                         <span class="feature-isrequired" data-bind="text: IsRequired" />
                         <span class="feature-name" data-bind="text: Name" />
-                        <span class="feature-charge" data-bind="money: Charge" />
-                        <p class="feature-description" data-bind="text: Description"/>
+                        <span class="feature-charge" data-bind="money: Charge, visible: Charge" />
+                        <p class="feature-description" data-bind="text: Description" />
+                        <select data-bind="value: AvailableQuantity, visible: Charge" class="input-feature-available-quantity">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
                         <!-- ko ifnot : IsRequired -->
-                        <input type="button" class="btn-add-feature" value="add-on" data-bind="click:$root.addFeatureToList"/>
+                        <input type="button" class="btn-add-feature" value="add-on" data-bind="click: $root.addFeatureToList" />
                         <!-- /ko -->
                     </div>
                 </div>
@@ -107,11 +113,23 @@
                     <label class="controls-row">Lokasi :</label>
                     <img alt="map" data-bind="attr: { src: $root.space().StaticMap }" class="img-polaroid centered controls-row" src="/Images/accent.png" />
                 </div>
-                <div class="control-group pull-right">
-                    <span class="bold large text-right">JUMLAH SEWAAN :</span>
-                    <span class="bold large text-left">RM</span>
-                    <span class="bold large text-left" data-bind="money: RentalRate" />
+
+            </div>
+            <h3>Tambahan</h3>
+            <div data-bind="foreach: rentalapplication().FeatureCollection">
+                <div class="control-group">
+                    <label class="controls-row" data-bind="text: Name"></label>
+                    <span class="" data-bind="text: Quantity"></span>
+                    <span class="add-on">RM</span>
+
+                    <label class="controls-row" data-bind="money: Charge" />
                 </div>
+                <input type="button" value="cancel" data-bind="click: $root.removeFeatureFromList" />
+            </div>
+            <div class="control-group pull-right">
+                <span class="bold large text-right">JUMLAH SEWAAN :</span>
+                <span class="bold large text-left">RM</span>
+                <span class="bold large text-left" data-bind="money: $root.totalRate" />
             </div>
         </form>
 

@@ -247,6 +247,12 @@ namespace web.test
                   .Value(".input-feature-charge", "100", 3)
                 ;
 
+            driver.Click("#add-feature-button");
+            driver.Value(".input-feature-name", "Parking Berbayar", 4)
+                  .Value(".input-feature-description", "Parking tambahan disediakan jika anda ingin menambah jumlah parking", 4)
+                  .Value(".input-feature-category", "Parking", 4)
+                  .Value(".input-feature-charge", "100", 4)
+                ;
 
             driver.Value("[name='RentalRate']", "2500")
             .Value("[name='ContactPerson']", "Mohd Razali")

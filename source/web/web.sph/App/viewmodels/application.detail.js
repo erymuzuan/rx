@@ -25,15 +25,15 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 var states = JSON.parse(ko.mapping.toJS(s.Value));
                 vm.stateOptions(states);
                 vm.space(cs);
-              
+               
                 var categoryOptions = ko.observableArray();
-                _.each(cs.FeatureCollection(), function (t) {
+                _.each(cs.FeatureDefinitionCollection(), function (t) {
                     categoryOptions.push(t.Category());
                 });
                 var distinctCategories = ko.observableArray();
                 distinctCategories(_.uniq(categoryOptions()));
                 var features = _(distinctCategories()).map(function (t) {
-                    var filtered = _(cs.FeatureCollection()).filter(function (c) {
+                    var filtered = _(cs.FeatureDefinitionCollection()).filter(function (c) {
                         return c.Category() === t;
                     });
                     return {
@@ -42,6 +42,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                     };
                 });
                 vm.facilities(features);
+                vm.totalRate(cs.RentalRate());
                 tcs.resolve(true);
             });
             vm.rentalapplication().SpaceId(routeData.id);
@@ -64,8 +65,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
 
                 vm.rentalapplication().TemplateId(1);
             }
-            var bank = new bespoke.sph.domain.Bank(system.guid());
-            vm.rentalapplication().BankCollection.push(bank);
             return tcs.promise();
         },
         viewAttached = function () {
@@ -110,10 +109,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             });
             return tcs.promise();
         },
-        addBankCollection = function () {
-            var bank = new bespoke.sph.domain.Bank(system.guid());
-            vm.rentalapplication().BankCollection.push(bank);
-        },
         addAttachment = function () {
             var attachment = new bespoke.sph.domain.Attachment(system.guid());
             vm.rentalapplication().AttachmentCollection.push(attachment);
@@ -121,8 +116,27 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         removeAttachement = function (attachment) {
             vm.rentalapplication().AttachmentCollection.remove(attachment);
         },
-        addFeatureToList = function (attachment) {
-            vm.rentalapplication().AttachmentCollection.remove(attachment);
+        addFeatureToList = function (fd) {
+            var feature = new bespoke.sph.domain.Feature();
+            feature.Name(fd.Name());
+            feature.Occurence(fd.Occurence());
+            feature.OccurenceTimeSpan(fd.OccurenceTimeSpan());
+            feature.Quantity(fd.AvailableQuantity());
+            feature.Charge(fd.AvailableQuantity() * fd.Charge());
+              
+            vm.rentalapplication().FeatureCollection.push(feature);
+            var rentalRate = vm.space().RentalRate();
+            var addedCharge = _(vm.rentalapplication().FeatureCollection()).reduce(function (memo, val) {
+                return memo + parseFloat(val.Charge());
+            }, 0);
+            vm.totalRate(addedCharge + rentalRate);
+        },
+        
+        removeFeatureFromList = function (feature) {
+            vm.rentalapplication().FeatureCollection.remove(feature);
+            var rentalRate = vm.totalRate();
+            var reduceCharge = parseFloat(feature.Charge());
+            vm.totalRate(rentalRate - reduceCharge);
         }
     ;
 
@@ -133,8 +147,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         configureUpload: configureUpload,
         stateOptions: ko.observableArray(),
         facilities: ko.observableArray(),
+        availableQuantities: ko.observableArray(),
         rentalapplication: ko.observable(new bespoke.sph.domain.RentalApplication()),
         space: ko.observable(new bespoke.sph.domain.Space()),
+        totalRate: ko.observable(),
         toolbar: {
             reloadCommand: function () {
                 return activate({ status: status() });
@@ -151,11 +167,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 command: saveApplication
             }])
         },
-        addBankCommand: addBankCollection,
         isBusy: isBusy,
         addAttachmentCommand: addAttachment,
         removeAttachmentCommand: removeAttachement,
-        addFeatureToList: addFeatureToList
+        addFeatureToList: addFeatureToList,
+        removeFeatureFromList: removeFeatureFromList
     };
 
     return vm;
