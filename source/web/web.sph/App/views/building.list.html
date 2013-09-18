@@ -1,22 +1,30 @@
 ﻿<div id="building-list-page">
-<h1>Senarai Bangunan</h1>
+<h1>Senarai Hartanah</h1>
 
 <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Building', query: 'BuildingId gt 0', list: buildings }">
     <thead>
         <tr>
+            <th>Negeri</th>
+            <th>Lokasi</th>
+            <th>Nama Hartanah</th>
             <th>Alamat</th>
             <th>Jenis</th>
             <th>Keluasan</th>
+            <th>Blok</th>
             <th>Tingkat</th>
         </tr>
     </thead>
     <tbody data-bind="foreach :buildings">
         <tr>
+            <td data-bind="text:Address().State"></td>
+            <td data-bind="text:Address().City"></td>
             <td>
                 <a data-bind="attr: { href: '/#/building.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() }, text: Name" ></a> 
             </td>
-            <td data-bind="text:Type"></td>
+            <td data-bind="text:Address().Street"></td>
+            <td data-bind="text:BuildingType"></td>
             <td data-bind="text:BuildingSize"></td>
+            <td data-bind="text:Blocks"></td>
             <td data-bind="text:Floors"></td>
         </tr>
     </tbody>
