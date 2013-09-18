@@ -64,8 +64,10 @@ namespace web.sph.portal.Controllers
         {
             return View();
         }
-        public ActionResult Offices()
+        public ActionResult Office()
         {
+            ViewBag.Message = "pejabat";
+
             return View();
         }
         public ActionResult CommercialSpaces()
@@ -74,6 +76,18 @@ namespace web.sph.portal.Controllers
         }
         public ActionResult Halls()
         {
+            return View();
+        }
+        public ActionResult Rp()
+        {
+            ViewBag.Message = "Rumah peranginan";
+
+            return View();
+        }
+        public ActionResult Rk()
+        {
+            ViewBag.Message = "ruang komersial";
+
             return View();
         }
     }

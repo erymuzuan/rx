@@ -3217,6 +3217,7 @@ input[type="submit"].btn.btn-mini {
   font-weight: bold;
   line-height: 20px;
   color: #999999;
+    background-color: whitesmoke;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
 }
@@ -3745,11 +3746,12 @@ input[type="submit"].btn.btn-mini {
 
 .navbar-fixed-top,
 .navbar-fixed-bottom {
-  position: fixed;
+  position: absolute;
   right: 0;
   left: 0;
   z-index: 9999;
   margin-bottom: 0;
+    border-bottom-style: inset;
 }
 
 .navbar-fixed-top .navbar-inner,
@@ -5087,7 +5089,7 @@ a.badge:hover {
 }
 
 .carousel .next {
-  left:0;opacity:1;z-index:1;;
+  left:0;opacity:1;z-index:1;
 }
 
 .carousel .prev {
