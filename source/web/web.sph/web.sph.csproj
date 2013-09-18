@@ -382,6 +382,7 @@
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
     <Content Include="App\partial\Block.js" />
+    <Content Include="App\partial\FeatureDefinition.js" />
     <Content Include="App\partial\IFormTemplate.js" />
     <Content Include="App\partial\Space.js" />
     <Content Include="App\partial\Complaint.js" />

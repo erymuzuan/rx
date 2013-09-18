@@ -1116,7 +1116,7 @@
 			<xs:attribute name="IsRequired" type="xs:boolean" use="required"/>
 			<xs:attribute name="Occurence" type="xs:int" use="required"/>
 			<xs:attribute name="OccurenceTimeSpan" type="xs:string" use="required"/>
-			<xs:attribute name="AvailableQuantity" type="xs:string" use="required"/>
+			<xs:attribute name="AvailableQuantity" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
