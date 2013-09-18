@@ -14233,7 +14233,7 @@
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_availableQuantity;
+                    private  int  m_availableQuantity;
                     public const string PropertyNameAvailableQuantity = "AvailableQuantity";
 
                   
@@ -14431,11 +14431,11 @@
                 
                 [DebuggerHidden]
                 
-                    public string AvailableQuantity
+                    public int AvailableQuantity
                     {
                     set
                     {
-                    if( String.Equals( m_availableQuantity, value, StringComparison.Ordinal)) return;
+                    if( m_availableQuantity == value) return;
                     var arg = new PropertyChangingEventArgs(PropertyNameAvailableQuantity, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)

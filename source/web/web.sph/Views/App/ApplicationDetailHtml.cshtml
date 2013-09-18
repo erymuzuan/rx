@@ -43,11 +43,8 @@
                                 <span class="feature-name" data-bind="text: Name" />
                                 <span class="feature-charge" data-bind="money: Charge, visible: Charge" />
                                 <p class="feature-description" data-bind="text: Description" />
-                                <select data-bind="value: AvailableQuantity, visible: Charge" class="input-feature-available-quantity">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
+                                <select data-bind="value: AvailableQuantity, visible: Charge,options:AvailableQuantityOptions" class="input-feature-available-quantity">
+                                  
                                 </select>
                                 <!-- ko ifnot : IsRequired -->
                                 <input type="button" class="btn-add-feature" value="add-on" data-bind="click: $root.addFeatureToList" />
