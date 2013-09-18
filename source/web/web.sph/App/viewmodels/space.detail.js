@@ -35,9 +35,8 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                         vm.stateOptions(config.stateOptions);
                         if (!space) {
                             space = new bespoke.sph.domain.Space();
-                            space.TemplateId(templateId);
-                            space.Category(template.Name());
                             space.TemplateName(template.Name());
+                            space.TemplateId(templateId);
                             title(template.Name());
                             // default values
                             _(template.DefaultValueCollection()).each(function (v) {
@@ -89,6 +88,8 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                             return;
                         }
 
+                        space.TemplateName(template.Name());
+                        space.TemplateId(templateId);
                         vm.space(space);
 
 
