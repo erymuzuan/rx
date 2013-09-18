@@ -34,7 +34,10 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 lot.Name("Lot");
                 customElements.push(lot);
 
-
+                var feature = new bespoke.sph.domain.SpaceFeaturesElement(system.guid());
+                feature.CssClass("icon-envelope pull-left");
+                feature.Name("Features");
+                customElements.push(feature);
 
                 designerHost.activate(customElements);
 

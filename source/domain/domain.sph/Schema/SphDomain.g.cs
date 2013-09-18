@@ -3214,6 +3214,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameLocation = "Location";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_description;
+        public const string PropertyNameDescription = "Description";
+
+
         private readonly ObjectCollection<Lot> m_LotCollection = new ObjectCollection<Lot>();
 
         ///<summary>
@@ -3273,6 +3278,17 @@ namespace Bespoke.Sph.Domain
         public ObjectCollection<CustomListValue> CustomListValueCollection
         {
             get { return m_CustomListValueCollection; }
+        }
+
+        private readonly ObjectCollection<Feature> m_FeatureCollection = new ObjectCollection<Feature>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Feature", IsNullable = false)]
+        public ObjectCollection<Feature> FeatureCollection
+        {
+            get { return m_FeatureCollection; }
         }
 
         ///<summary>
@@ -3851,6 +3867,35 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Description
+        {
+            set
+            {
+                if (String.Equals(m_description, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDescription, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_description = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_description;
+            }
+        }
+
+
 
     }
 
@@ -3949,24 +3994,6 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private decimal m_currentYearSales;
-        public const string PropertyNameCurrentYearSales = "CurrentYearSales";
-
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private decimal m_lastYearSales;
-        public const string PropertyNameLastYearSales = "LastYearSales";
-
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private decimal m_previousYearSales;
-        public const string PropertyNamePreviousYearSales = "PreviousYearSales";
-
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private Address m_address
                 = new Address();
 
@@ -3981,17 +4008,6 @@ namespace Bespoke.Sph.Domain
                 m_address = value;
                 OnPropertyChanged();
             }
-        }
-
-        private readonly ObjectCollection<Bank> m_BankCollection = new ObjectCollection<Bank>();
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlArrayItem("Bank", IsNullable = false)]
-        public ObjectCollection<Bank> BankCollection
-        {
-            get { return m_BankCollection; }
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -4076,6 +4092,17 @@ namespace Bespoke.Sph.Domain
         public ObjectCollection<CustomListValue> CustomListValueCollection
         {
             get { return m_CustomListValueCollection; }
+        }
+
+        private readonly ObjectCollection<Feature> m_FeatureCollection = new ObjectCollection<Feature>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Feature", IsNullable = false)]
+        public ObjectCollection<Feature> FeatureCollection
+        {
+            get { return m_FeatureCollection; }
         }
 
         ///<summary>
@@ -4568,72 +4595,6 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        public decimal CurrentYearSales
-        {
-            set
-            {
-                if (m_currentYearSales == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameCurrentYearSales, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_currentYearSales = value;
-                    OnPropertyChanged();
-                }
-            }
-            get { return m_currentYearSales; }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        public decimal LastYearSales
-        {
-            set
-            {
-                if (m_lastYearSales == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameLastYearSales, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_lastYearSales = value;
-                    OnPropertyChanged();
-                }
-            }
-            get { return m_lastYearSales; }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [DebuggerHidden]
-
-        public decimal PreviousYearSales
-        {
-            set
-            {
-                if (m_previousYearSales == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNamePreviousYearSales, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_previousYearSales = value;
-                    OnPropertyChanged();
-                }
-            }
-            get { return m_previousYearSales; }
-        }
 
 
     }
@@ -14319,6 +14280,295 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("Feature", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Feature
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_description;
+        public const string PropertyNameDescription = "Description";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_category;
+        public const string PropertyNameCategory = "Category";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isRequired;
+        public const string PropertyNameIsRequired = "IsRequired";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_occurence;
+        public const string PropertyNameOccurence = "Occurence";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_occurenceTimeSpan;
+        public const string PropertyNameOccurenceTimeSpan = "OccurenceTimeSpan";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_quantity;
+        public const string PropertyNameQuantity = "Quantity";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private decimal? m_charge;
+        public const string PropertyNameCharge = "Charge";
+
+
+
+        private readonly ObjectCollection<Photo> m_PhotoCollection = new ObjectCollection<Photo>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Photo", IsNullable = false)]
+        public ObjectCollection<Photo> PhotoCollection
+        {
+            get { return m_PhotoCollection; }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Description
+        {
+            set
+            {
+                if (String.Equals(m_description, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDescription, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_description = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_description;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Category
+        {
+            set
+            {
+                if (String.Equals(m_category, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCategory, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_category = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_category;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsRequired
+        {
+            set
+            {
+                if (m_isRequired == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsRequired, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isRequired = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isRequired;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int Occurence
+        {
+            set
+            {
+                if (m_occurence == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOccurence, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_occurence = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_occurence;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string OccurenceTimeSpan
+        {
+            set
+            {
+                if (String.Equals(m_occurenceTimeSpan, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOccurenceTimeSpan, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_occurenceTimeSpan = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_occurenceTimeSpan;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int Quantity
+        {
+            set
+            {
+                if (m_quantity == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameQuantity, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_quantity = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_quantity;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public decimal? Charge
+        {
+            set
+            {
+                if (m_charge == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameCharge, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_charge = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_charge; }
+        }
 
 
     }

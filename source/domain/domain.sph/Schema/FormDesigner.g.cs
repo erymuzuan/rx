@@ -4,6 +4,8 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming
@@ -1736,6 +1738,22 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private bool m_IsHtml;
+        [XmlAttribute]
+        public bool IsHtml
+        {
+            get
+            {
+                return m_IsHtml;
+            }
+            set
+            {
+                m_IsHtml = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 
@@ -2400,6 +2418,18 @@ namespace Bespoke.Sph.Domain
             }
             get { return m_value; }
         }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("SpaceFeaturesElement", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class SpaceFeaturesElement
+    {
 
 
     }

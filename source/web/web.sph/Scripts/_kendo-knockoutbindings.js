@@ -6,6 +6,39 @@
 /// <reference path="~/kendo/js/kendo.all.js" />
 /// <reference path="_pager.js" />
 
+
+
+ko.bindingHandlers.kendoEditor = {
+    init2: function (element, valueAccessor) {
+
+        var $editor = $(element),
+            value = valueAccessor();
+        var kendoEditor = $editor.data("kendoEditor");
+        if (!kendoEditor) {
+            $editor.kendoEditor({
+                change: function () {
+                    value(this.value());
+                }
+            });
+
+        }
+
+    },
+    update2: function (element, valueAccessor) {
+        var $editor = $(element),
+           value = valueAccessor();
+        var kendoEditor = $editor.data("kendoEditor");
+        if (!kendoEditor) {
+            $editor.kendoEditor({
+                change: function () {
+                    value(this.value());
+                }
+            });
+        }
+        kendoEditor.value(value());
+    }
+};
+
 ko.bindingHandlers.kendoDropDownListValue = {
     init: function (element, valueAccessor) {
         var value = valueAccessor();
@@ -30,7 +63,7 @@ ko.bindingHandlers.kendoDropDownListValue = {
     }
 };
 
-ko.bindingHandlers.source = {    
+ko.bindingHandlers.source = {
 };
 ko.bindingHandlers.kendoComboBox = {
     init: function (element, valueAccessor, allBindingsAccessor) {
@@ -40,11 +73,11 @@ ko.bindingHandlers.kendoComboBox = {
             dd = $(element).data('kendoComboBox') ||
                 $(element).kendoComboBox({
                     dataSource: allBindings.source()
-            }).data('kendoComboBox');
+                }).data('kendoComboBox');
 
         dd.value(currentModelValue);
-        allBindings.source.subscribe(function(options) {
-           // console.log(options, dd);
+        allBindings.source.subscribe(function (options) {
+            // console.log(options, dd);
             dd.dataSource.data(options);
         });
         dd.bind("change", function () {

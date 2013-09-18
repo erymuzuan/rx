@@ -579,7 +579,8 @@ div.controls > input.input-xxlarge {
   margin-bottom: 70px;
 }
 .google-maps {
-  min-height: 700px;
+  min-height: 600px;
+  min-width: 800px;
 }
 .google-maps img {
   max-width: none;

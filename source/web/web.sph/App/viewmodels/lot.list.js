@@ -6,21 +6,27 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../services/cultures.my.js" />
+/// <reference path="../objectbuilders.js" />
+/// <reference path="../objectbuilders.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/app', 'durandal/system'], 
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/app', 'durandal/system', objectbuilders.cultures ], 
     function (context, logger, router, app, system) {
 
     var title = ko.observable(''),
         buildingId = ko.observable(),
         isBusy = ko.observable(false),
         floorname = ko.observable(),
+        blockName = ko.observable(),
         activate = function (routeData) {
             logger.log('Lot Details View Activated', null, 'lotdetail', true);
 
             buildingId(routeData.buildingId);
             floorname(routeData.floorname);
+            blockName(routeData.block);
 
-            title('Lot details on ' + floorname());
+            title(String.format(cultures.lots.LOT_LIST_TITLE, blockName(), floorname()));
+            
             var tcs = new $.Deferred();
             context.loadOneAsync('Building', 'BuildingId eq ' + buildingId())
                 .done(function (b) {
@@ -28,6 +34,23 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                         var lot = new bespoke.sph.domain.Lot();
                         lot.IsSpace(true);
                         vm.floor().LotCollection.push(lot);
+                    }
+                    if (blockName()) {
+                        var block = _(b.BlockCollection()).find(function (k) {
+                            return k.Name() == blockName();
+                        });
+                        
+                        if (!block) {
+                            log.error("Cannot find block " + blockName());
+                            tcs.resolve(false);
+                            return;
+                        }
+                        var floor = _(block.FloorCollection()).find(function (f) {
+                            return f.Name() == floorname();
+                        });
+                        vm.floor(floor);
+                        tcs.resolve(true);
+                        return;
                     }
                     var flo = $.grep(b.FloorCollection(), function (x) { return x.Name() === floorname(); })[0];
                     vm.floor(flo);

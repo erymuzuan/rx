@@ -20,9 +20,10 @@
             if (null != this.CustomField)
                 path = string.Format("CustomField('{0}')", this.Path);
 
-            return string.Format("value: {0}, visible :{1}",
+            return string.Format("{2}: {0}, visible :{1}",
                 path,
-                this.Visible);
+                this.Visible,
+                this.IsHtml ? "kendoEditor" : "value");
         }
     }
 }

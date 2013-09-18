@@ -1,0 +1,52 @@
+﻿@model Bespoke.Sph.Domain.SpaceFeaturesElement
+
+<!--ko if:$data['$type']() === "Bespoke.Sph.Domain.SpaceFeaturesElement, domain.sph" -->
+    <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+       @Html.Partial("_DesignerContextAction")
+     <input type="button" name="add-feature-button" class="btn pull-right" data-bind2="click: $parent.addFeaturesCommand" value="+ Feature" />
+        <table class="table table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Keterangan</th>
+                    <th>Kategori</th>
+                    <th>Diwajibkan</th>
+                    <th>Caj</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind2="foreach: FeaturesCollection">
+                <tr>
+                    <td>
+                        <input class="input-small" type="text" data-bind2="value: Name, uniqueName: true" value="G" /></td>
+
+                    <td>
+                        <input class="input-large" type="text" data-bind2="value: Description, uniqueName: true"  value="Ground Floor"/></td>
+                    <td>
+                        <input type="text" data-bind2="value: Category, uniqueName: true" value="5000" /></td>
+                    <td>
+                        <input type="checkbox" data-bind2="value: IsRequired, uniqueName: true" class="input-large"/></td>
+                    <td>
+                       <span class="add-on">RM</span> <input type="text" data-bind2="value: Charge, uniqueName: true" class="input-small" value="200" /></td>
+                    <td>
+                        <input type="button" class="btn btn-mini" value="X" /></td>
+                </tr>    
+                 <tr>
+                    <td>
+                        <input class="input-small" type="text" data-bind2="value: Name, uniqueName: true" value="G" /></td>
+
+                    <td>
+                        <input class="input-large" type="text" data-bind2="value: Description, uniqueName: true"  value="Ground Floor"/></td>
+                    <td>
+                        <input type="text" data-bind2="value: Category, uniqueName: true" value="5000" /></td>
+                    <td>
+                        <input type="checkbox" data-bind2="value: IsRequired, uniqueName: true" class="input-large"/></td>
+                    <td>
+                       <span class="add-on">RM</span> <input type="text" data-bind2="value: Charge, uniqueName: true" class="input-small" value="200" /></td>
+                    <td>
+                        <input type="button" class="btn btn-mini" value="X" /></td>
+                </tr>    
+            </tbody>
+        </table>
+    </div>
+<!--/ko-->

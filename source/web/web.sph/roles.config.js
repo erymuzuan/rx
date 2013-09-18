@@ -100,7 +100,7 @@
   {
     "Group": "admin",
     "Name": "Admin Templat Ruang Komersil",
-    "Role": "can_edit_pace_template",
+    "Role": "can_edit_space_template",
     "Description": "Menambah dan mengemaskini templat ruang komersil",
     "IsActive": true
   },

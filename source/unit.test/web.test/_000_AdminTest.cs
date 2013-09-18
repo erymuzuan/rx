@@ -1,14 +1,17 @@
 ﻿using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web.Security;
 using FluentDateTime;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace web.test
 {
 
     [TestFixture]
-// ReSharper disable  InconsistentNaming
+// ReSharper disable once InconsistentNaming
     public class _000_AdminTest : BrowserTest
     {
         private TestUser m_admin;
@@ -16,6 +19,13 @@ namespace web.test
         [SetUp]
         public void Init()
         {
+            var json = File.ReadAllText(@".\roles.config.js");
+            var t = from j in JsonConvert.DeserializeObject(json) as JArray
+                    let role = j["Role"]
+                    select role.ToString()
+;
+            var roles = t.OrderBy(r => r).Distinct().ToArray();
+
             m_admin = new TestUser
             {
                 UserName = "admin",
@@ -24,7 +34,8 @@ namespace web.test
                 Department = "Test",
                 Designation = "Boss",
                 Password = "123456",
-                Roles = new[] { "admin_user", "admin_dashboard" }
+                StartModule = "admindashboard",
+                Roles = roles
             };
             this.AddUser(m_admin);
         }
@@ -32,7 +43,7 @@ namespace web.test
         public const string USERNAME = "izzati";
 
         [Test]
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         public void _001_AddUser()
         {
             this.ExecuteNonQuery("DELETE FROM [Sph].[UserProfile] WHERE [UserName] = @UserName",
@@ -79,16 +90,16 @@ namespace web.test
         public void _002_CreateLotsOfUsers()
         {
             var users = from i in Enumerable.Range(1, 100)
-                select new TestUser
-                {
-                    UserName = "admin" + i,
-                    FullName = "Administrator",
-                    Email = string.Format("admin{0}@bespoke.com.my",i),
-                    Department = "Test",
-                    Designation = "Boss",
-                    Password = "123456",
-                    Roles = new[] { "admin_user" }
-                };
+                        select new TestUser
+                        {
+                            UserName = "admin" + i,
+                            FullName = "Administrator",
+                            Email = string.Format("admin{0}@bespoke.com.my", i),
+                            Department = "Test",
+                            Designation = "Boss",
+                            Password = "123456",
+                            Roles = new[] { "admin_user" }
+                        };
             foreach (var u in users)
             {
                 this.AddUser(u);

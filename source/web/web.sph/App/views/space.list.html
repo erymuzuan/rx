@@ -1,7 +1,7 @@
 ﻿<div id="space-list">
     <section>
         <h1 data-bind="text: title"></h1>
-        <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Space', list: spaces }">
+        <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Space',query:'SpaceId gt 0', list: spaces }">
             <thead>
                 <tr>
                     <th>No. Daftar</th>

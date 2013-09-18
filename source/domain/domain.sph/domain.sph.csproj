@@ -66,6 +66,7 @@
     <Compile Include="Business\Block.cs" />
     <Compile Include="Business\CustomListRow.cs" />
     <Compile Include="Business\CustomListValue.cs" />
+    <Compile Include="Business\Feature.cs" />
     <Compile Include="Business\MarketEvaluation.cs" />
     <Compile Include="Business\Photo.cs" />
     <Compile Include="FormTemplates\ApplicationTemplate.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Business\Comment.cs" />
     <Compile Include="Business\Space.cs" />
     <Compile Include="FormTemplates\DefaultValue.cs" />
+    <Compile Include="FormTemplates\SpaceFeaturesElement.cs" />
     <Compile Include="FormTemplates\SpaceTemplate.cs" />
     <Compile Include="Business\Complaint.cs" />
     <Compile Include="FormTemplates\ComplaintCategory.cs" />

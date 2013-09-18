@@ -99,6 +99,8 @@ bespoke.sph.domain.Building = function (webId) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.Building, domain.sph",
+        TemplateId: ko.observable(0),
+        TemplateName: ko.observable(''),
         BuildingId: ko.observable(0),
         Type: ko.observable(''),
         Name: ko.observable(''),
@@ -107,7 +109,6 @@ bespoke.sph.domain.Building = function (webId) {
         Status: ko.observable(''),
         Floors: ko.observable(0),
         Note: ko.observable(''),
-        TemplateId: ko.observable(0),
         BuildingType: ko.observable(''),
         Blocks: ko.observable(0),
         FloorSize: ko.observable(0.00),
@@ -247,6 +248,8 @@ bespoke.sph.domain.Space = function (webId) {
     var model = {
         "$type": "Bespoke.Sph.Domain.Space, domain.sph",
         SpaceId: ko.observable(0),
+        TemplateId: ko.observable(0),
+        TemplateName: ko.observable(''),
         BuildingId: ko.observable(0),
         LotName: ko.observable(''),
         FloorName: ko.observable(''),
@@ -263,13 +266,14 @@ bespoke.sph.domain.Space = function (webId) {
         BuildingName: ko.observable(''),
         BuildingLot: ko.observable(''),
         RentalRate: ko.observable(0.00),
-        TemplateId: ko.observable(0),
         Location: ko.observable(''),
+        Description: ko.observable(''),
         LotCollection: ko.observableArray([]),
         CustomFieldValueCollection: ko.observableArray([]),
         Address: ko.observable(new bespoke.sph.domain.Address()),
         PhotoCollection: ko.observableArray([]),
         CustomListValueCollection: ko.observableArray([]),
+        FeatureCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -303,16 +307,13 @@ bespoke.sph.domain.RentalApplication = function (webId) {
         RegistrationNo: ko.observable(''),
         ApplicationDate: ko.observable(moment().format('DD/MM/YYYY')),
         Address: ko.observable(new bespoke.sph.domain.Address()),
-        BankCollection: ko.observableArray([]),
         Contact: ko.observable(new bespoke.sph.domain.Contact()),
-        CurrentYearSales: ko.observable(),
-        LastYearSales: ko.observable(),
-        PreviousYearSales: ko.observable(),
         AttachmentCollection: ko.observableArray([]),
         Offer: ko.observable(new bespoke.sph.domain.Offer()),
         Space: ko.observable(new bespoke.sph.domain.Space()),
         CustomFieldValueCollection: ko.observableArray([]),
         CustomListValueCollection: ko.observableArray([]),
+        FeatureCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1348,6 +1349,30 @@ bespoke.sph.domain.MarketEvaluation = function (webId) {
     };
     if (bespoke.sph.domain.MarketEvaluationPartial) {
         return _(model).extend(new bespoke.sph.domain.MarketEvaluationPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.Feature = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Feature, domain.sph",
+        Name: ko.observable(''),
+        Description: ko.observable(''),
+        Category: ko.observable(''),
+        IsRequired: ko.observable(false),
+        Occurence: ko.observable(0),
+        OccurenceTimeSpan: ko.observable(''),
+        Quantity: ko.observable(0),
+        PhotoCollection: ko.observableArray([]),
+        Charge: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.FeaturePartial) {
+        return _(model).extend(new bespoke.sph.domain.FeaturePartial(model));
     }
     return model;
 };

@@ -235,6 +235,7 @@ bespoke.sph.domain.TextAreaElement = function (webId) {
     var v = new bespoke.sph.domain.FormElement(webId);
 
     v.Rows = ko.observable('');
+    v.IsHtml = ko.observable(false);
     v["$type"] = "Bespoke.Sph.Domain.TextAreaElement, domain.sph";
 
     if (bespoke.sph.domain.TextAreaElementPartial) {
@@ -556,6 +557,20 @@ bespoke.sph.domain.DefaultValue = function (webId) {
         return _(model).extend(new bespoke.sph.domain.DefaultValuePartial(model));
     }
     return model;
+};
+
+
+
+bespoke.sph.domain.SpaceFeaturesElement = function (webId) {
+
+    var v = new bespoke.sph.domain.FormElement(webId);
+
+    v["$type"] = "Bespoke.Sph.Domain.SpaceFeaturesElement, domain.sph";
+
+    if (bespoke.sph.domain.SpaceFeaturesElementPartial) {
+        return _(v).extend(new bespoke.sph.domain.SpaceFeaturesElementPartial(v));
+    }
+    return v;
 };
 
 
