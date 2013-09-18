@@ -12,6 +12,8 @@ function (logger, system) {
         searchAsync: searchAsync,
         loadAsync: loadAsync,
         loadOneAsync: loadOneAsync,
+        getMaxAsync: getMaxAsync,
+        getMinAsync: getMinAsync,
         getSumAsync: getSumAsync,
         getCountAsync: getCountAsync,
         getListAsync: getListAsync,
@@ -183,9 +185,24 @@ function (logger, system) {
 
     }
     
-    function searchAsync(entity, query, filter) {
+    function searchAsync(entityOrOptions, query, filter) {
+        
+        if (!entityOrOptions) throw "This cannot be happending, you have to have entity or option";
+        
+        var entity = entityOrOptions,
+           includeTotal = false,
+           size = 20,
+           page = 1;
+        
+        if (typeof entityOrOptions === "object") {
+            entity = entityOrOptions.entity;
+            page = entityOrOptions.page || 1;
+            size = entityOrOptions.size || 20;
+        }
+        
         var url = "http://localhost:9200/sph/" + entity.toLowerCase();
         url += "/_search?q=_all:" + (filter || "");
+        url += String.Format("&from={0}&size={1}",(page -1) * size, size);
         logger.log(url);
         
         var tcs = new $.Deferred();
@@ -287,6 +304,10 @@ function (logger, system) {
                 });
                 var lo = new LoadOperation();
                 lo.itemCollection = rows;
+                lo.page = page;
+                lo.size = size;
+                lo.rows = msg.hits.total;
+                
 
                 tcs.resolve(lo);
             }
@@ -296,6 +317,12 @@ function (logger, system) {
         return tcs.promise();
     }
 
+    function getMaxAsync(entity, query, field) {
+        return getAggregateAsync("max", entity, query, field);
+    }
+    function getMinAsync(entity, query, field) {
+        return getAggregateAsync("min", entity, query, field);
+    }
     function getSumAsync(entity, query, field) {
         return getAggregateAsync("sum", entity, query, field);
     }

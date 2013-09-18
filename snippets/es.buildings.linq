@@ -20,14 +20,17 @@ void Main()
 	var list = from d in Buildings.Take(1000)
 				let item = Bespoke.Sph.Domain.XmlSerializerService.Deserialize<Bespoke.Sph.Domain.Building>(d.Data)
 				select new {item, id = d.BuildingId};
+				
+	var setting = new JsonSerializerSettings();
+	setting.TypeNameHandling = TypeNameHandling.All;
 	
 	foreach (var x in list)
 	{
 		var id = x.id;
 		x.item.BuildingId = id;
-		var json = JsonConvert.SerializeObject(x.item);
+		var json = JsonConvert.SerializeObject(x.item, setting);
 		var content = new StringContent(json);
-		/*
+		
 		HttpClient client = new HttpClient();
 		client.PutAsync("http://localhost:9200/sph/building/" + id,content)
 		.ContinueWith(_ =>{
@@ -35,8 +38,9 @@ void Main()
 			Console.WriteLine (result.Content.ReadAsStringAsync());
 		})
 		.Wait();
+		/*
+		File.WriteAllText(@"C:\project\work\sph\snippets\building." + id + ".json", json);
 		*/
-		File.WriteAllText(@".\building." + id + ".json", json);
 		
 	}
 }

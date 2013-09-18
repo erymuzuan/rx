@@ -36,6 +36,17 @@ define(['services/datacontext'], function (context) {
 
             });
 
+        // get max and min
+        context.getMaxAsync("Space", "IsAvailable eq 1 and IsOnline eq 1", "RentalRate")
+            .done(function(max) {
+                vm.searchTerm.max(max);
+                vm.searchTerm.maxValue(max);
+            });
+        context.getMinAsync("Space", "IsAvailable eq 1 and IsOnline eq 1", "RentalRate")
+            .done(function(min) {
+                vm.searchTerm.min(min);
+                vm.searchTerm.minValue(min);
+            });
 
         return tcs.promise();
     },
@@ -74,6 +85,7 @@ define(['services/datacontext'], function (context) {
                    if (buildings) {
                        query += String.format(" and BuildingId in ({0})", buildings);
                    }
+                   query += String.format(" and RentalRate ge {0} and RentalRate le {1}", vm.searchTerm.minValue(), vm.searchTerm.maxValue());
 
 
                    var templateTasks = context.loadAsync("ApplicationTemplate", "IsActive eq 1");
@@ -108,7 +120,12 @@ define(['services/datacontext'], function (context) {
             states: ko.observableArray(),
             categories: ko.observableArray(),
             stateOptions: ko.observableArray(),
-            categoryOptions: ko.observableArray()
+            categoryOptions: ko.observableArray(),
+            minValue : ko.observable(),
+            maxValue: ko.observable(),
+            min: ko.observable(),
+            max: ko.observable(),
+            
         },
         searchCommand: search
     };

@@ -592,8 +592,12 @@ ko.bindingHandlers.filter = {
             }
             if (serverPaging) {
                 startLoad();
-                console.log(serverPaging.entity, serverPaging.query + filter);
-                context.searchAsync(serverPaging.entity, serverPaging.query, filter)
+                var options = {
+                    entity: serverPaging.entity,
+                    page: serverPaging.page,
+                    size: serverPaging.size
+                };
+                context.searchAsync(options, serverPaging.query, filter)
                     .done(function (lo) {
                         setItemsSource(lo.itemCollection);
                         endLoad();
@@ -692,10 +696,10 @@ ko.bindingHandlers.serverPaging = {
             .then(function (lo) {
 
                 var options = {
-                    element: $pagerPanel,
-                    count: lo.rows,
-                    changed: changed
-                },
+                        element: $pagerPanel,
+                        count: lo.rows,
+                        changed: changed
+                    },
                     pager = new bespoke.utils.ServerPager(options);
                 console.log(pager);
                 setTimeout(function () {
