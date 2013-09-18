@@ -74,6 +74,9 @@ div.feature-item span.feature-charge {
   color: green;
   clear: both;
 }
+div.feature-item span.feature-name {
+  font-size: 14px;
+}
 div.feature-item select.input-feature-available-quantity {
   float: right;
   width: 50px;

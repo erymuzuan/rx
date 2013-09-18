@@ -1402,6 +1402,7 @@
     <Content Include="Views\App\EditorTemplates\SpaceFeaturesElement.cshtml" />
     <Content Include="Views\Template\EditorTemplates\SpaceFeaturesElement.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\SpaceFeaturesElement.cshtml" />
+    <Content Include="Views\App\MaintenanceAssignmentHtml.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
