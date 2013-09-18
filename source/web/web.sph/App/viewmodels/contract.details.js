@@ -12,8 +12,8 @@
 /// <reference path="./_contract.clauses.js" />
 
 
-define(['services/datacontext', './_contract.clauses', './_contract.documents', './_audittrail.list', 'services/watcher'],
-    function (context, clausesvm, documentsvm, audittrailvm, watcher) {
+define(['services/datacontext', './_contract.clauses', './_contract.documents', './_audittrail.list', './_contract.facility', 'services/watcher'],
+    function (context, clausesvm, documentsvm, audittrailvm, facilityvm, watcher) {
 
         var isBusy = ko.observable(false),
             isEnd = ko.observable(false),
@@ -27,7 +27,7 @@ define(['services/datacontext', './_contract.clauses', './_contract.documents', 
                     vm.title("Butiran kontrak " + ctr.ReferenceNo());
                     clausesvm.init(ctr);
                     documentsvm.init(ctr);
-
+                    facilityvm.init(ctr.RentalApplicationId);
                     //load audit trails
                     var query = _("EntityId eq <%= contractId %> AND Type eq 'Contract'").template({ contractId: ctr.ContractId() });
                     var query2 = _("EntityId eq <%= rentalApplicationId %> AND Type eq 'RentalApplication'").template({ rentalApplicationId: ctr.RentalApplicationId() });

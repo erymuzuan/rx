@@ -6,62 +6,76 @@
 
 <h1 class="row-fluid"><span>Borang Permohonan</span></h1>
 <div class="span7">
-    <form class="form-horizontal" data-bind="with: rentalapplication">
-        <div>
-            <h2>@Model.FormDesign.Name</h2>
-            <div class="alert alert-info">@Model.FormDesign.Description</div>
-        </div>
-        <div>
-            @foreach (var fe in Model.FormDesign.FormElementCollection)
-            {
-                @Html.EditorFor(m => fe)
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li>
+            <a href="#general-tab" data-toggle="tab">Borang</a>
+        </li>
+        <li>
+            <a href="#add-on-tab" data-toggle="tab">Fasiliti</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="general-tab" class="tab-pane active">
+            <form class="form-horizontal" data-bind="with: rentalapplication">
+                <div>
+                    <h2>@Model.FormDesign.Name</h2>
+                    <div class="alert alert-info">@Model.FormDesign.Description</div>
+                </div>
+                <div>
+                    @foreach (var fe in Model.FormDesign.FormElementCollection)
+                    {
+                        @Html.EditorFor(m => fe)
         
-            }
+                    }
+                </div>
+            </form>
         </div>
-    </form>
-    <form class="form-horizontal">
-        <h3 class="alert alert-info">Fasiliti</h3>
-
-        <div data-bind="foreach: facilities">
-            <div>
-                <span class="feature-category" data-bind="text: category"></span>
-                <div class="feature-item" data-bind="foreach: features">
+        <div id="add-on-tab" class="tab-pane">
+            <form class="form-horizontal">
+                <h4 class="alert alert-info">Fasiliti</h4>
+                <div data-bind="foreach: facilities">
                     <div>
-                        <span class="feature-isrequired" data-bind="text: IsRequired" />
-                        <span class="feature-name" data-bind="text: Name" />
-                        <span class="feature-charge" data-bind="money: Charge, visible: Charge" />
-                        <p class="feature-description" data-bind="text: Description" />
-                        <select data-bind="value: AvailableQuantity, visible: Charge" class="input-feature-available-quantity">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                        <!-- ko ifnot : IsRequired -->
-                        <input type="button" class="btn-add-feature" value="add-on" data-bind="click: $root.addFeatureToList" />
-                        <!-- /ko -->
+                        <span class="feature-category" data-bind="text: category"></span>
+                        <div class="feature-item" data-bind="foreach: features">
+                            <div>
+                                <span class="feature-isrequired" data-bind="text: IsRequired" />
+                                <span class="feature-name" data-bind="text: Name" />
+                                <span class="feature-charge" data-bind="money: Charge, visible: Charge" />
+                                <p class="feature-description" data-bind="text: Description" />
+                                <select data-bind="value: AvailableQuantity, visible: Charge" class="input-feature-available-quantity">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                                <!-- ko ifnot : IsRequired -->
+                                <input type="button" class="btn-add-feature" value="add-on" data-bind="click: $root.addFeatureToList" />
+                                <!-- /ko -->
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
-            </div>
+            </form>
         </div>
-
-    </form>
-    <section class="modal hide" id="success-panel">
-
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h2>Makluman Permohonan</h2>
-        </div>
-        <div class="modal-body">
-            <span>Permohonan anda sudah berjaya direkodkan, No Rujukan permohonan anda ialah <strong data-bind="text: registrationNo"></strong></span>
-        </div>
-
-        <div class="modal-footer">
-            <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" />
-        </div>
-    </section>
+    </div>
 </div>
+</div>
+<section class="modal hide" id="success-panel">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h2>Makluman Permohonan</h2>
+    </div>
+    <div class="modal-body">
+        <span>Permohonan anda sudah berjaya direkodkan, No Rujukan permohonan anda ialah <strong data-bind="text: registrationNo"></strong></span>
+    </div>
+
+    <div class="modal-footer">
+        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" />
+    </div>
+</section>
 
 <div class="span5 widget wlightblue" id="space">
     <div class="widget-head">
@@ -124,7 +138,7 @@
 
                     <label class="controls-row" data-bind="money: Charge" />
                 </div>
-                <input type="button" value="cancel" data-bind="click: $root.removeFeatureFromList" />
+                <input type="button" id="btn-remove-feature" value="cancel" data-bind="click: $root.removeFeatureFromList" />
             </div>
             <div class="control-group pull-right">
                 <span class="bold large text-right">JUMLAH SEWAAN :</span>

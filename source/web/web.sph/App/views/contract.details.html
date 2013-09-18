@@ -6,6 +6,9 @@
             <li class="active">
                 <a href="#am" data-toggle="tab">Maklumat Am</a>
             </li>
+             <li>
+                <a href="#facility" data-toggle="tab">Fasiliti</a>
+            </li>
             <li>
                 <a href="#clauses" data-toggle="tab">Klausa</a>
             </li>
@@ -15,13 +18,17 @@
             <li>
                 <a href="#history" data-toggle="tab">Sejarah</a>
             </li>
+           
         </ul>
         <div class="tab-content">
             <div id="am" class="tab-pane active">
-
                 <!--ko compose: {view: '_contract.form'} -->
                 <!--/ko-->
-
+            </div>
+              <div id="facility" class="tab-pane">
+                <h2>Fasiliti</h2>
+                <!--ko compose: 'viewmodels/_contract.facility' -->
+                <!--/ko-->
             </div>
             <div id="clauses" class="tab-pane">
                 <!--ko compose:'viewmodels/_contract.clauses' -->
@@ -38,6 +45,7 @@
                 <!--ko compose: 'viewmodels/_audittrail.list' -->
                 <!--/ko-->
             </div>
+          
         </div>
     </div>
 </div>
@@ -95,7 +103,7 @@
             <div class="control-group">
                 <label class="control-label">Catatan</label>
                 <div class="controls ">
-                    <textarea cols="5" rows="5" class="x" name="Contract.Termination.Note" data-bind="value: Termination.Remarks" />
+                    <textarea cols="5" rows="5" name="Contract.Termination.Note" data-bind="value: Termination.Remarks" />
                 </div>
             </div>
 
