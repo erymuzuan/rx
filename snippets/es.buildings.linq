@@ -1,8 +1,8 @@
 <Query Kind="Program">
   <Connection>
-    <ID>08de3e8b-14a7-4fb8-830a-907362486f0a</ID>
+    <ID>84e06ebb-98ea-4fa0-a47c-8535465a77e6</ID>
     <Persist>true</Persist>
-    <Server>(localdb)\Projects</Server>
+    <Server>.\KATMAI</Server>
     <Database>Sph</Database>
   </Connection>
   <Reference Relative="..\bin\Debug\domain.sph.dll">C:\project\work\sph\bin\Debug\domain.sph.dll</Reference>
@@ -19,30 +19,24 @@ void Main()
 {
 	var list = from d in Buildings.Take(1000)
 				let item = Bespoke.Sph.Domain.XmlSerializerService.Deserialize<Bespoke.Sph.Domain.Building>(d.Data)
-				let id = SetId(item, d.BuildingId)
-				select new {item, id};
+				select new {item, id = d.BuildingId};
 	
 	foreach (var x in list)
 	{
 		var id = x.id;
-		HttpClient client = new HttpClient();
+		x.item.BuildingId = id;
 		var json = JsonConvert.SerializeObject(x.item);
 		var content = new StringContent(json);
+		/*
+		HttpClient client = new HttpClient();
 		client.PutAsync("http://localhost:9200/sph/building/" + id,content)
 		.ContinueWith(_ =>{
 			var result = _.Result;
 			Console.WriteLine (result.Content.ReadAsStringAsync());
 		})
 		.Wait();
-		//Console.WriteLine (json);
+		*/
+		File.WriteAllText(@".\building." + id + ".json", json);
 		
 	}
-}
-
-// Define other methods and classes here
-public int SetId(Bespoke.Sph.Domain.Building building, int id)
-{
-	 Console.WriteLine ("Id"  + id);
-	 building.BuildingId = id;
-	 return id;
 }

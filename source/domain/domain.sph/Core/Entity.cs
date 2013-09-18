@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -47,6 +48,23 @@ namespace Bespoke.Sph.Domain
         public virtual Task<IEnumerable<ValidationError>> ValidateAsync()
         {
             return Task.FromResult(new List<ValidationError>().AsEnumerable());
+        }
+
+
+
+        private Type GetEntityType(Entity item)
+        {
+            var type = item.GetType();
+            var attr = type.GetCustomAttribute<EntityTypeAttribute>();
+            if (null != attr) return attr.Type;
+            return type;
+        }
+        public int GetId()
+        {
+            var type = this.GetEntityType(this);
+            var id = type.GetProperties().AsQueryable().Single(p => p.PropertyType == typeof(int)
+                                                                    && p.Name == type.Name + "Id");
+            return (int)id.GetValue(this);
         }
     }
 
