@@ -267,6 +267,7 @@ bespoke.sph.domain.Space = function (webId) {
         BuildingLot: ko.observable(''),
         RentalRate: ko.observable(0.00),
         Location: ko.observable(''),
+        Description: ko.observable(''),
         LotCollection: ko.observableArray([]),
         CustomFieldValueCollection: ko.observableArray([]),
         Address: ko.observable(new bespoke.sph.domain.Address()),
@@ -306,16 +307,13 @@ bespoke.sph.domain.RentalApplication = function (webId) {
         RegistrationNo: ko.observable(''),
         ApplicationDate: ko.observable(moment().format('DD/MM/YYYY')),
         Address: ko.observable(new bespoke.sph.domain.Address()),
-        BankCollection: ko.observableArray([]),
         Contact: ko.observable(new bespoke.sph.domain.Contact()),
-        CurrentYearSales: ko.observable(),
-        LastYearSales: ko.observable(),
-        PreviousYearSales: ko.observable(),
         AttachmentCollection: ko.observableArray([]),
         Offer: ko.observable(new bespoke.sph.domain.Offer()),
         Space: ko.observable(new bespoke.sph.domain.Space()),
         CustomFieldValueCollection: ko.observableArray([]),
         CustomListValueCollection: ko.observableArray([]),
+        FeatureCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1365,7 +1363,11 @@ bespoke.sph.domain.Feature = function (webId) {
         Description: ko.observable(''),
         Category: ko.observable(''),
         IsRequired: ko.observable(false),
-        Charge: ko.observable(0.00),
+        Occurence: ko.observable(0),
+        OccurenceTimeSpan: ko.observable(''),
+        Quantity: ko.observable(0),
+        PhotoCollection: ko.observableArray([]),
+        Charge: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

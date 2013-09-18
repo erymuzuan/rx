@@ -4,29 +4,43 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
+/// <reference path="../../Scripts/google-maps-3-vs-1-0-vsdoc.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router','viewmodels/map'],
-    function(context, logger, router, map) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'viewmodels/map'],
+    function (context, logger, router, map) {
 
         var isBusy = ko.observable(false),
-            activate = function(storeId) {
+            activate = function (storeId) {
                 vm.spatialStoreId(storeId);
-                
+
             },
-            viewAttached = function(view) {
-                map.init({
-                    panel: 'block-map-panel',
-                    draw: true,
-                    zoom: 18
-                });
+            init = function (buildingId, storeId) {
+                window.setTimeout(function () {
+
+                    $.get("/Building/GetCenter/" + buildingId)
+                      .done(function (e) {
+                          var point = new google.maps.LatLng(e.Lat, e.Lng);
+                          map.init({
+                              panel: 'block-map-panel',
+                              draw: true,
+                              zoom: 18,
+                              center: point
+                          });
+                      });
+
+                }, 1000);
+
             },
-            okClick = function() {
+            viewAttached = function (view) {
+
+            },
+            okClick = function () {
                 this.modal.close("OK");
             },
-            cancelClick = function() {
+            cancelClick = function () {
                 this.modal.close("Cancel");
             };
 
@@ -36,7 +50,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router','vi
             viewAttached: viewAttached,
             spatialStoreId: ko.observable(),
             okClick: okClick,
-            cancelClick: cancelClick
+            cancelClick: cancelClick,
+            init: init,
+            buildingId: ko.observable()
         };
 
         return vm;

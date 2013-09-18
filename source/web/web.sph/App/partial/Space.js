@@ -57,21 +57,21 @@ bespoke.sph.domain.SpacePartial = function () {
             };
         },
       editPhoto = function (photo) {
-            var self = this;
-            return function () {
-                require(['viewmodels/photo.dialog', 'durandal/app'], function (dialog, app2) {
-                    var clone = ko.mapping.fromJS(ko.mapping.toJS(photo));
-                    dialog.photo(clone);
-                    app2.showModal(dialog)
-                        .done(function (result) {
-                            if (result == "OK") {
-                                self.PhotoCollection.replace(photo, clone);
-                            }
-                        });
+          var self = this;
+          return function () {
+              require(['viewmodels/photo.dialog', 'durandal/app'], function (dialog, app2) {
+                  var clone = ko.mapping.fromJS(ko.mapping.toJS(photo));
+                  dialog.photo(clone);
+                  app2.showModal(dialog)
+                      .done(function (result) {
+                          if (result == "OK") {
+                              self.PhotoCollection.replace(photo, clone);
+                          }
+                      });
 
-                });
-            };
-        },
+              });
+          };
+      },
         addPhoto = function () {
             var self = this;
             require(['viewmodels/photo.dialog', 'durandal/app'], function (dialog, app2) {

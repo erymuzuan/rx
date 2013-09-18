@@ -235,6 +235,7 @@ bespoke.sph.domain.TextAreaElement = function (webId) {
     var v = new bespoke.sph.domain.FormElement(webId);
 
     v.Rows = ko.observable('');
+    v.IsHtml = ko.observable(false);
     v["$type"] = "Bespoke.Sph.Domain.TextAreaElement, domain.sph";
 
     if (bespoke.sph.domain.TextAreaElementPartial) {

@@ -17,11 +17,30 @@
                 @Html.EditorFor(m => fe)
         
             }
-    
-
         </div>
     </form>
+    <form class="form-horizontal">
+        <h3 class="alert alert-info">Fasiliti</h3>
 
+        <div data-bind="foreach: facilities">
+            <div>
+                <span class="feature-category" data-bind="text: category"></span>
+                <div class="feature-item" data-bind="foreach: features">
+                    <div>
+                        <span class="feature-isrequired" data-bind="text: IsRequired" />
+                        <span class="feature-name" data-bind="text: Name" />
+                        <span class="feature-charge" data-bind="money: Charge" />
+                        <p class="feature-description" data-bind="text: Description"/>
+                        <!-- ko ifnot : IsRequired -->
+                        <input type="button" class="btn-add-feature" value="add-on" data-bind="click:$root.addFeatureToList"/>
+                        <!-- /ko -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </form>
     <section class="modal hide" id="success-panel">
 
         <div class="modal-header">
@@ -81,11 +100,17 @@
                 </div>
                 <div class="control-group">
                     <label class="controls-row">Kadar Sewa :</label>
-                    <label class="controls-row" data-bind="text: RentalRate" />
+                    <span class="add-on">RM</span>
+                    <label class="controls-row" data-bind="money: RentalRate" />
                 </div>
                 <div class="control-group">
                     <label class="controls-row">Lokasi :</label>
                     <img alt="map" data-bind="attr: { src: $root.space().StaticMap }" class="img-polaroid centered controls-row" src="/Images/accent.png" />
+                </div>
+                <div class="control-group pull-right">
+                    <span class="bold large text-right">JUMLAH SEWAAN :</span>
+                    <span class="bold large text-left">RM</span>
+                    <span class="bold large text-left" data-bind="money: RentalRate" />
                 </div>
             </div>
         </form>

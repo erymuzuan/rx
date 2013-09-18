@@ -16,7 +16,10 @@ define([],
             messages : {
                 SAVE_SUCCESS: "{0} sudah beraya di simpan",
                 SAVE_ERROR : "Ada masalah untuk menyimpan data anda"
-            }
+            },
+            lots: {
+                LOT_LIST_TITLE: "Senarai lot di block : {0}, tingkat : {1}"
+            }            
         };
 
         return cultures;

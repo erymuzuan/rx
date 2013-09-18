@@ -1,14 +1,13 @@
-﻿/// <reference path="../../Scripts/jquery-1.9.1.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
-/// <reference path="../../Scripts/__common.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/domain.g.js" />
+/// <reference path="../schemas/sph.domain.g.js" />
 
 define(['services/datacontext', 'services/logger', './_space.contract', 'durandal/system', 'config'],
     function (context, logger, contractlistvm, system, config) {
@@ -36,8 +35,8 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                         vm.stateOptions(config.stateOptions);
                         if (!space) {
                             space = new bespoke.sph.domain.Space();
+                            space.TemplateName(template.Name());
                             space.TemplateId(templateId);
-                            space.Category(template.Name());
                             title(template.Name());
                             // default values
                             _(template.DefaultValueCollection()).each(function (v) {
@@ -89,6 +88,8 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                             return;
                         }
 
+                        space.TemplateName(template.Name());
+                        space.TemplateId(templateId);
                         vm.space(space);
 
 
@@ -135,6 +136,16 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                 vm.space().LotName(lotName);
                 vm.space().Size(size);
                 vm.space().LotCollection(vm.selectedLots);
+                // load the building address
+                var query = String.format("BuildingId eq {0}", vm.selectedBuilding());
+                var tcs = new $.Deferred();
+                context.loadOneAsync("Building", query)
+                    .done(function(b) {
+                        vm.space().Address(b.Address());
+                        tcs.resolve(true);
+                    });
+
+                return tcs.promise();
             },
             addFeatures = function () {
                 var feature = bespoke.sph.domain.Feature();
