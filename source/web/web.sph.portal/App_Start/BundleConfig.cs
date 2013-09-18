@@ -70,6 +70,7 @@ namespace web.sph.portal
                         "~/Content/m-buttons.css",
                         "~/Content/m-forms.css",
                         "~/Content/m-icons.css",
+                        "~/Content/sprite.css",
                         "~/Content/metro-tile.css"
                         ));
 
