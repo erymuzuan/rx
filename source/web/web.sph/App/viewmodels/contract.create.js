@@ -24,6 +24,7 @@ define(['services/datacontext','durandal/plugins/router', './_contract.clauses',
                 $.when(raTask, templateListTask, logTask).then(function (ra, list) {
                     vm.contractTypeOptions(list);
                     application = ra;
+                    vm.contract().RentalApplicationId(application.RentalApplicationId);
                     tcs.resolve(true);
                 });
 
@@ -47,14 +48,16 @@ define(['services/datacontext','durandal/plugins/router', './_contract.clauses',
             return tcs.promise();
         },
             save = function () {
-                var json = ko.mapping.toJSON({ contract: vm.contract(), rentalApplicationId: application.RentalApplicationId() });
                 var tcs = new $.Deferred();
-                context.post(json, "Contract/Create")
-                    .then(function (c) {
-                        vm.contract(ko.mapping.fromJS(c));
-                        tcs.resolve(c);
+                var data = ko.mapping.toJSON({ contract: vm.contract(), rentalApplicationId: application.RentalApplicationId()});
+                isBusy(true);
+                context.post(data, "/Contract/Create")
+                    .then(function(result) {
+                        isBusy(false);
+                        vm.contract(ko.mapping.fromJS(result));
                         var url = '/#/rentalapplication.verify/' + vm.contract().RentalApplicationId();
                         router.navigateTo(url);
+                        tcs.resolve(result);
                     });
                 return tcs.promise();
             };
