@@ -9,6 +9,7 @@ define(['services/logger', 'durandal/system'],
 function (logger, system) {
 
     return {
+        searchAsync: searchAsync,
         loadAsync: loadAsync,
         loadOneAsync: loadOneAsync,
         getSumAsync: getSumAsync,
@@ -180,6 +181,119 @@ function (logger, system) {
 
         return tcs.promise();
 
+    }
+    
+    function searchAsync(entity, query, filter) {
+        var url = "http://localhost:9200/sph/" + entity.toLowerCase();
+        url += "/_search?q=_all:" + (filter || "");
+        logger.log(url);
+        
+        var tcs = new $.Deferred();
+        $.ajax({
+            type: "GET",
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: tcs.reject,
+            success: function (msg) {
+
+                var hits = _(msg.hits.hits).map(function(h) {
+                    return h._source;
+                });
+
+                var pattern = /Bespoke\.Sph\.Domain\.(.*?),/;
+                var rows = _(hits).map(function (v) {
+                    var type = pattern.exec(v['$type'])[1];
+
+                    var observable = (function toObservable(item) {
+                        if (typeof item === "function") return item;
+                        if (typeof item === "number") return item;
+                        if (typeof item === "string") return item;
+                        if (typeof item['$type'] === "undefined") return item;
+                        if (_(item['$type']).isNull()) return item;
+
+                        if (typeof item['$type'] === "function") {
+                            type = pattern.exec(item['$type']())[1];
+                        }
+                        if (typeof item['$type'] === "string") {
+                            type = pattern.exec(item['$type'])[1];
+                        }
+
+
+                        if (bespoke.sph.domain[type + "Partial"]) {
+                            var partial = new bespoke.sph.domain[type + "Partial"](item);
+                        }
+
+                        for (var name in item) {
+                            (function (prop) {
+
+                                var propval = _(item[prop]);
+
+                                if (propval.isArray()) {
+
+                                    var children = propval.map(function (x) {
+                                        return toObservable(x);
+                                    });
+
+                                    item[prop] = ko.observableArray(children);
+                                    return;
+                                }
+
+                                if (propval.isNumber()
+                                    || propval.isNull()
+                                    || propval.isNaN()
+                                    || propval.isDate()
+                                    || propval.isBoolean()
+                                    || propval.isString()) {
+                                    item[prop] = ko.observable(item[prop]);
+                                    return;
+                                }
+
+                                if (propval.isObject()) {
+                                    var child = toObservable(item[prop]);
+                                    item[prop] = ko.observable(child);
+                                    return;
+                                }
+
+                            })(name);
+
+                        }
+
+                        if (partial) {
+                            // NOTE :copy all the partial, DO NO use _extend as it will override the original value 
+                            // if there is item with the same key
+                            for (var prop1 in partial) {
+                                if (!item[prop1]) {
+                                    item[prop1] = partial[prop1];
+                                }
+                            }
+                        }
+
+                        // if there are new fields added, chances are it will not be present in the json,
+                        // even it is, it would be nice to add Webid for those whos still missing one
+
+                        if (bespoke.sph.domain[type]) {
+                            var ent = new bespoke.sph.domain[type](system.guid());
+                            for (var prop2 in ent) {
+                                if (!item[prop2]) {
+                                    item[prop2] = ent[prop2];
+                                }
+                            }
+                        }
+                        return item;
+
+                    })(v);
+                    return observable;
+                });
+                var lo = new LoadOperation();
+                lo.itemCollection = rows;
+
+                tcs.resolve(lo);
+            }
+        });
+
+
+        return tcs.promise();
     }
 
     function getSumAsync(entity, query, field) {

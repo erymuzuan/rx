@@ -541,24 +541,74 @@ ko.bindingHandlers.commandWithParameter = {
 
 
 ko.bindingHandlers.filter = {
-    init: function (element, valueAccessor) {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
         var value = valueAccessor(),
+            bindingAccessor = allBindingsAccessor(),
             path = value.path,
             $element = $(element),
+            context = require('services/datacontext'),
+            $spinner = $('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />'),
             $filterInput = $("<input type='search' class='search-query input-medium' placeholder='Tapis..'>"),
+            $serverLoadButton = $("<a href='/#' title='Carian server'><i class='add-on icon-search'></i><a>"),
             $form = $("<form class='form-search'>" +
             " <div class='input-append pull-right'>" +
             " <i class='add-on icon-remove'></i>" +
+            " " +
             "</div>" +
-            " </form>");
-        $form.find('i').before($filterInput);
+            " </form>"),
+            serverPaging = bindingAccessor.serverPaging,
+            startLoad = function () {
+                $spinner.show();
+                $element.fadeTo("fast", 0.33);
+            },
+            endLoad = function () {
+                $spinner.hide();
+                $element.fadeTo("fast", 1);
+            },
+            setItemsSource = function (items) {
+                if (serverPaging.map) {
+                    items = _(items).map(serverPaging.map);
+                }
+                if (typeof serverPaging.list === "string") {
+                    viewModel[serverPaging.list](items);
+                }
+                if (typeof serverPaging.list === "function") {
+                    serverPaging.list(items);
+                }
+            };
+
+
+        $form.find('i.icon-remove').before($filterInput);
+        $form.find('i.icon-remove').after($serverLoadButton);
         $element.before($form);
+
+        $serverLoadButton.click(function (e) {
+            e.preventDefault();
+            var filter = $filterInput.val().toLowerCase(),
+                tcs = new $.Deferred();
+            if (!filter) {
+                tcs.promise();
+                return tcs.promise();
+            }
+            if (serverPaging) {
+                startLoad();
+                console.log(serverPaging.entity, serverPaging.query + filter);
+                context.searchAsync(serverPaging.entity, serverPaging.query, filter)
+                    .done(function (lo) {
+                        setItemsSource(lo.itemCollection);
+                        endLoad();
+                    });
+
+                return tcs.promise();
+            }
+            return tcs.promise();
+        });
 
 
 
         var dofilter = function () {
-            var $rows = $element.find(path);
-            var filter = $filterInput.val().toLowerCase();
+            var $rows = $element.find(path),
+                filter = $filterInput.val().toLowerCase();
             $rows.each(function () {
                 var $tr = $(this);
                 if ($tr.text().toLowerCase().indexOf(filter) > -1) {
@@ -567,6 +617,8 @@ ko.bindingHandlers.filter = {
                     $tr.hide();
                 }
             });
+
+
         };
 
         var throttled = _.throttle(dofilter, 800);
