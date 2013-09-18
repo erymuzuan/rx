@@ -1,0 +1,36 @@
+﻿@model Bespoke.SphCommercialSpaces.Domain.BuildingBlocksElement
+
+<input type="button" name="add-floor-button" class="btn pull-right" data-bind="click: addBlock" value="+ Block" />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Size</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: BlockCollection">
+        <tr>
+            <td>
+                <input class="input-block-name" type="text" data-bind="value: Name, uniqueName: true" value="G" /></td>
+
+            <td>
+                <input class="input-block-description" type="text" data-bind="value: Description, uniqueName: true" /></td>
+            <td>
+                <input class="input-block-size" type="text" data-bind="value: Size, uniqueName: true" value="5000" /></td>
+            <td>
+                <input type="button" data-bind="click: $parent.removeBlock, uniqueName: true" class="btn btn-mini button-block-floorplan" value="Pelan Lantai" />
+
+            </td>
+            <td>
+                <input type="button" data-bind="click: $parent.editFloor.call($parent,$data), uniqueName: true" class="btn btn-mini" value="Tingkat" />
+            </td>
+            <td>
+                <a class="btn btn-mini" data-bind="click: $parent.removeBlock.call($parent,$data), uniqueName: true" >Buang</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
