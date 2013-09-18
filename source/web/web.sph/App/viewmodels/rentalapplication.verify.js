@@ -23,7 +23,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             context.loadOneAsync("RentalApplication", "RentalApplicationId eq " + id())
                 .then(function (r) {
                     vm.rentalapplication(r);
-
+                   
                     lulusPermohonanCommandStatus(r.Status() == "Menunggu" || r.Status() == "Dikembalikan");
                     baruCommandStatus(r.Status() == "Baru");
                     dibatalkanCommandStatus(r.Status() == "Baru" || r.Status() == "Dikembalikan");
@@ -35,6 +35,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                     context.loadOneAsync("Space", "SpaceId eq " + vm.rentalapplication().SpaceId())
                         .then(function (b) {
                             vm.space(b);
+                            var sumCharge = _(vm.rentalapplication().FeatureCollection()).reduce(function (memo, val) {
+                                return memo + parseFloat(val.Charge());
+                            }, 0);
+
+                            vm.totalRate(b.RentalRate() + sumCharge);
                             tcs.resolve(true);
                         });
 
@@ -200,6 +205,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         showDetailsCommand: showDetails,
         addAttachmentCommand: addAttachment,
         username : ko.observable(),
+        totalRate: ko.observable(),
         removeAttachmentCommand: removeAttachment,
         toolbar: ko.observable({
             reloadCommand: function () {

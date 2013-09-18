@@ -2,53 +2,56 @@
 <div class="span9">
     <form class="form-horizontal" data-bind="with: rentalapplication">
         <div id="div-application">
-            <h2 class=" span7">Maklumat Pemohon</h2>
-            <div class="span7">
+            <div>
                 <a data-bind="click: $parent.showDetailsCommand" href="#details-panel" class="btn btn-link pull-right">
                     <i class="icon-camera"></i>Maklumat Lanjut</a>
             </div>
+            <h2>Maklumat Pemohon</h2>
+
             <div class="control-group">
                 <label class="span2">No Pendaftaran</label><label class="span1">:</label>
-                <label class="span3" data-bind="text: RegistrationNo" />
+                <div>
+                    <span data-bind="text: RegistrationNo" />
+                </div>
             </div>
             <div class="control-group">
                 <label class="span2">Nama Pegawai</label><label class="span1">:</label>
-                <label class="span3" data-bind="text: Contact().Name" />
+                <div>
+                    <span data-bind="text: Contact().Name" />
+                </div>
             </div>
             <div class="control-group">
                 <label class="span2">No. Telefon Pejabat</label><label class="span1">:</label>
-                <label class="span3" data-bind="text: Contact().OfficeNo" />
+                <div>
+                    <span data-bind="text: Contact().OfficeNo" />
+                </div>
             </div>
             <div class="control-group">
                 <label class="span2">No. Telefon Bimbit</label><label class="span1">:</label>
-                <label class="span3" data-bind="text: Contact().MobileNo" />
+                <div>
+                    <span data-bind="text: Contact().MobileNo" />
+                </div>
             </div>
             <div class="control-group" data-bind="visible: IsCompany()">
                 <label class="span2">Nama Syarikat</label><label class="span1">:</label>
-                <label class="span3" data-bind="text: CompanyName" />
+                <div>
+                    <span data-bind="text: CompanyName" />
+                </div>
             </div>
             <div class="control-group" data-bind="visible: IsCompany()">
                 <label class="span2">No. SSM</label><label class="span1">:</label>
-                <label class="span3" data-bind="text: CompanyRegistrationNo" />
+                <div>
+                    <span data-bind="text: CompanyRegistrationNo" />
+                </div>
             </div>
-            <div class="control-group span7 ">
-                <label>Alamat :</label>
+            <div class="control-group">
+                <label class="span2">Alamat</label><label class="span1">:</label>
                 <div data-bind="with: Address">
-                    <div class="span5">
-                        <label data-bind="text: UnitNo" />
-                    </div>
-                    <div class="span5">
-                        <label data-bind="text: Street" />
-                    </div>
-                    <div class="span5">
-                        <label data-bind="text: City" />
-                    </div>
-                    <div class="span5">
-                        <label data-bind="text: Postcode" />
-                    </div>
-                    <div class="span5">
-                        <label data-bind="text: State" />
-                    </div>
+                    <span data-bind="text: UnitNo" />
+                    <span data-bind="text: Street" />,
+                    <span data-bind="text: Postcode" />
+                    <span data-bind="text: City" />,
+                    <span data-bind="text: State" />
                 </div>
             </div>
         </div>
@@ -85,7 +88,7 @@
                         <td>
                             <input type="checkbox" class="checkbox" data-bind="checked: IsCompleted" /></td>
                         <td>
-                            <a class="btn btn-link" data-bind="click: $root.removeAttachmentCommand"> Buang </a>
+                            <a class="btn btn-link" data-bind="click: $root.removeAttachmentCommand">Buang </a>
                         </td>
                     </tr>
                 </tbody>
@@ -106,7 +109,7 @@
     </div>
     <div class="modal-body" data-bind="with: rentalapplication">
         <div class="control-group">
-            <span class="control-label"><strong>No. Permohonan :</strong> </span>
+            <label class="control-label"><strong>No. Permohonan :</strong> </label>
             <span data-bind="text: RegistrationNo" id="space.RegistrationNo" />
         </div>
         <div class="control-group">
@@ -148,18 +151,7 @@
             <span class="control-label"><strong>Pengalaman : </strong></span>
             <span data-bind="text: Experience" />
         </div>
-        <div class="control-group">
-            <span class="control-label"><strong>Maklumat Kewangan  </strong></span>
-            <br />
-            <span class="control-label"><strong>Tahun terkini : RM </strong></span>
-            <span data-bind="text: CurrentYearSales" />
-            <br />
-            <span class="control-label"><strong>Tahun terdahulu : RM </strong></span>
-            <span data-bind="text: LastYearSales" />
-            <br />
-            <span class="control-label"><strong>2 tahun terdahulu : RM </strong></span>
-            <span data-bind="text: PreviousYearSales" />
-        </div>
+
     </div>
     <div class="modal-footer">
         <input type="button" class="btn-small btn-primary" value="OK" data-dismiss="modal" />
@@ -176,46 +168,60 @@
         <form class="form-inline">
             <div id="space-Detail" data-bind="with: space">
                 <div class="control-group">
-                    <span>
-                    <label class="controls-row">Negeri :</label>
-                    <label class="controls-row" data-bind="text: State" /></span>
+                    <label>Negeri :</label>
+                    <span data-bind="text: State" />
                 </div>
                 <div class="control-group">
-                    <label class="controls-row">Bandar :</label>
-                    <label class="controls-row" data-bind="text: City" />
+                    <label>Bandar :</label>
+                    <span data-bind="text: City" />
                 </div>
                 <div class="control-group">
-                    <label class="controls-row">Nama Bangunan :</label>
-                    <label class="controls-row" data-bind="text: BuildingName" />
+                    <label>Nama Bangunan :</label>
+                    <span data-bind="text: BuildingName" />
                 </div>
                 <div class="control-group">
-                    <label class="controls-row">Lot Bangunan :</label>
-                    <label class="controls-row" data-bind="text: BuildingLot" />
+                    <label>Lot Bangunan :</label>
+                    <span data-bind="text: BuildingLot" />
                 </div>
                 <div class="control-group">
-                    <label class="controls-row">Tingkat :</label>
-                    <label class="controls-row" data-bind="text: FloorName" />
+                    <label>Tingkat :</label>
+                    <span data-bind="text: FloorName" />
                 </div>
                 <div class="control-group">
-                    <label class="controls-row">Lot :</label>
-                    <label class="controls-row" data-bind="text: LotName" />
+                    <label>Lot :</label>
+                    <span data-bind="text: LotName" />
                 </div>
                 <div class="control-group">
-                    <label class="controls-row">Jenis Ruang :</label>
-                    <label class="controls-row" data-bind="text: Category" />
+                    <label>Jenis Ruang :</label>
+                    <span data-bind="text: Category" />
                 </div>
                 <div class="control-group">
-                    <label class="controls-row">Saiz :</label>
-                    <label class="controls-row" data-bind="text: Size" />
+                    <label>Saiz :</label>
+                    <span data-bind="text: Size" />
                 </div>
                 <div class="control-group">
-                    <label class="controls-row">Kadar Sewa :</label>
-                    <label class="controls-row" data-bind="text: RentalRate" />
+                    <label>Kadar Sewa :</label>
+                    <span>RM </span><span data-bind="money: RentalRate" />
                 </div>
                 <div class="control-group">
                     <label class="controls-row">Lokasi :</label>
                     <img alt="map" data-bind="attr: { src: $root.space().StaticMap }" class="img-polaroid centered controls-row" src="/Images/accent.png" />
                 </div>
+            </div>
+            <h3>Tambahan</h3>
+            <div data-bind="foreach: rentalapplication().FeatureCollection">
+                <div class="control-group">
+                    <span data-bind="text: Name"></span>,
+                    <span data-bind="text: Quantity"></span>
+                    <span> Unit</span>,
+                    <span>RM</span>
+                    <span data-bind="money: Charge" />
+                </div>
+            </div>
+            <div class="control-group pull-right">
+                <span class="bold large text-right">JUMLAH SEWAAN :</span>
+                <span class="bold large text-left">RM</span>
+                <span class="bold large text-left" data-bind="money: $root.totalRate" />
             </div>
         </form>
     </div>

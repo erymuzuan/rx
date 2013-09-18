@@ -128,7 +128,7 @@ namespace web.test
             var spaceId = this.GetDatabaseScalarValue<int>("SELECT [SpaceId] FROM [Sph].[Space] WHERE [RegistrationNo] =@No", new SqlParameter("@No", CS_REGISTRATION_NO));
 
             var driver = this.InitiateDriver();
-            driver.Login(m_appTemplateAdmin)
+            driver
                 .NavigateToUrl("/#/rentalapplication.selectspace", 3.Seconds());
 
             driver
@@ -142,9 +142,18 @@ namespace web.test
                 .Value("[name='address.Street']", "Jalan SS20/27")
                 .Value("[name='address.City']", "Petaling Jaya")
                 .Value("[name='address.Postcode']", "47300")
-                .SelectOption("[name='address.State']", "Selangor")
-                .ClickFirst("button", e => e.Text == "Hantar Permohonan")
-                .Sleep(5.Seconds());
+                .SelectOption("[name='address.State']", "Selangor");
+
+            //add-on
+            driver.ClickFirst("a", e => e.Text == "Fasiliti")
+                .Click(".btn-add-feature")
+                .SelectOption(".input-feature-available-quantity", "2",1)
+                .Click(".btn-add-feature", 1)
+                .Click(".btn-add-feature", 2)
+                .Click("#btn-remove-feature", 2)
+                ;
+            driver.ClickFirst("button", e => e.Text == "Hantar Permohonan")
+           .Sleep(5.Seconds());
 
 
             var current = this.GetDatabaseScalarValue<int>("SELECT MAX([RentalApplicationId]) FROM [Sph].[RentalApplication]");
@@ -179,8 +188,16 @@ namespace web.test
                 .Value("[name='address.Street']", "NO. 8B,  JLN ANGGERIK VANILLA AD 31/AD, KOTA KEMUNING")
                 .Value("[name='address.City']", "SHAH ALAM")
                 .Value("[name='address.Postcode']", "40460")
-                .SelectOption("[name='address.State']", "Selangor")
-                .ClickFirst("button", e => e.Text == "Hantar Permohonan")
+                .SelectOption("[name='address.State']", "Selangor");
+             //add-on
+            driver.ClickFirst("a", e => e.Text == "Fasiliti")
+                .Click(".btn-add-feature")
+                .SelectOption(".input-feature-available-quantity", "2",1)
+                .Click(".btn-add-feature", 1)
+                .Click(".btn-add-feature", 2)
+                .Click("#btn-remove-feature", 2)
+                ;
+                driver.ClickFirst("button", e => e.Text == "Hantar Permohonan")
                 .Sleep(TimeSpan.FromSeconds(5));
 
 
