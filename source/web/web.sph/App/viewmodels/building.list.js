@@ -13,7 +13,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         var tcs = new $.Deferred();
         var templateTask = context.loadAsync("BuildingTemplate", "IsActive eq 1");
       
-
         $.when(templateTask).done(function (tlo) {
             vm.templates(tlo.itemCollection);
 
@@ -42,13 +41,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         });
 
         return tcs.promise();
-    },
-        exportList = function () {};
+        };
 
     var vm = {
         activate: activate,
         title: 'Building',
-        building:building,
+        building: building,
+        address: ko.observable(),
         buildings: ko.observableArray([]),
         templates: ko.observableArray([]),
         toolbar: {
@@ -60,8 +59,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 entity: ko.observable("Building"),
                 id: ko.observable(0),
                 item: building,
-            }),
-            exportCommand: exportList
+            })
         }
     };
 
