@@ -58,7 +58,11 @@ define(['services/datacontext',
 
 
                         if (!id) {
+                            vm.building(new bespoke.sph.domain.Building());
+                            vm.building().CustomFieldValueCollection(cfs);
+                            vm.building().CustomListValueCollection(cls);
                             vm.building().TemplateId(templateId);
+                            //vm.building().TemplateName(templateId);
                             vm.toolbar.watching(false);
                             tcs.resolve();
                             return;
@@ -152,18 +156,20 @@ define(['services/datacontext',
                  });
             },
             showMap = function () {
+                $('#map-panel').modal();
                 if (mapInitialized()) {
                     return;
                 }
                 mapInitialized(true);
                 isBusy(true);
                 var point = new google.maps.LatLng(3.1282, 101.6441);
-                var buildingId = vm.building().BuildingId();
-                    var address = vm.building().Address().Street() + ","
+                var buildingId = vm.building().BuildingId(),
+                    address = vm.building().Address().Street() + ","
                         + vm.building().Address().City() + ","
                         + vm.building().Address().Postcode() + ","
                         + vm.building().Address().State() + ","
                         + "Malaysia.";
+                
                 if (!buildingId) {
                     geoCode(address);
                     return;

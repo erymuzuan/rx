@@ -1,8 +1,8 @@
 <Query Kind="Statements">
   <Connection>
-    <ID>84e06ebb-98ea-4fa0-a47c-8535465a77e6</ID>
+    <ID>08de3e8b-14a7-4fb8-830a-907362486f0a</ID>
     <Persist>true</Persist>
-    <Server>.\KATMAI</Server>
+    <Server>(localdb)\Projects</Server>
     <Database>Sph</Database>
   </Connection>
   <Output>DataGrids</Output>
@@ -25,6 +25,7 @@ foreach (var item in Spaces)
 	item.Data = space.ToXElement();
 	item.IsAvailable = true;
 	item.IsOnline = true;
+	item.RentalRate = space.RentalRate;
 	
 	SubmitChanges();
 }
