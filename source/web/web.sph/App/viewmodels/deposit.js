@@ -61,7 +61,26 @@ define(['services/datacontext', 'services/logger'],
                     });
                 return tcs.promise();
             },
-            exportList = function() {};
+            exportList = function () { },
+        search = function () {
+            var tcs = new $.Deferred();
+            var depositQuery = String.format("DepositId gt 0");
+
+            if (vm.searchTerm.registrationNo()) {
+                depositQuery = String.format("RegistrationNo eq '{0}'", vm.searchTerm.registrationNo());
+            }
+            if (vm.searchTerm.keyword()) {
+                depositQuery += String.format(" or Name like '%{0}%'", vm.searchTerm.keyword());
+            }
+            console.log(depositQuery);
+            var depositTask = context.loadAsync("Deposit", depositQuery);
+            $.when(depositTask)
+                .done(function (lo) {
+                    vm.depositCollection(lo.itemCollection);
+                    tcs.resolve(true);
+                });
+            return tcs.promise();
+        };
 
         var vm = {
             isBusy: isBusy,
@@ -82,7 +101,12 @@ define(['services/datacontext', 'services/logger'],
                     item: deposit,
                 }),
                 exportCommand: exportList
-            })
+            }),
+            searchTerm: {
+                registrationNo: ko.observable(),
+                keyword: ko.observable()
+            },
+            searchCommand: search
         };
 
         return vm;

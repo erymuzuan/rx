@@ -12,9 +12,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         activate = function () {
         var tcs = new $.Deferred();
         var templateTask = context.loadAsync("BuildingTemplate", "IsActive eq 1");
-      
-        $.when(templateTask).done(function (tlo) {
+        var statesTask = context.getDistinctAsync("Building", "", "State");
+
+        $.when(templateTask,statesTask).done(function (tlo,states) {
             vm.templates(tlo.itemCollection);
+            vm.searchTerm.stateOptions(states);
 
             var commands = _(tlo.itemCollection).map(function (t) {
                 return {
@@ -41,6 +43,25 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         });
 
         return tcs.promise();
+        },
+        search = function () {
+            var tcs = new $.Deferred();
+            var buildingQuery = String.format("BuildingId gt 0");
+
+            if (vm.searchTerm.state()) {
+                buildingQuery = String.format("State eq '{0}'", vm.searchTerm.state());
+            }
+            if (vm.searchTerm.keyword()) {
+                buildingQuery += String.format(" or [State] like '%{0}%' or [LotNo] like '%{0}%' or [Name] like '%{0}%'", vm.searchTerm.keyword());
+            }
+            console.log(buildingQuery);
+            var buildingTask = context.loadAsync("Building", buildingQuery);
+            $.when(buildingTask)
+                .done(function (lo) {
+                    vm.buildings(lo.itemCollection);
+                    tcs.resolve(true);
+                });
+            return tcs.promise();
         };
 
     var vm = {
@@ -60,7 +81,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                 id: ko.observable(0),
                 item: building,
             })
-        }
+        },
+        searchTerm: {
+            state: ko.observable(),
+            stateOptions: ko.observableArray(),
+            keyword: ko.observable()
+        },
+        searchCommand: search
     };
 
     return vm;

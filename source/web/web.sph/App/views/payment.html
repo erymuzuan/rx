@@ -1,33 +1,55 @@
 ﻿<section>
     <h1 class="row-fluid">Rekod Bayaran Sewa</h1>
-    <table class="table table-condensed table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Contract', query: 'ContractId gt 0', list: contractCollection }">
-        <thead>
-            <tr>
-                <th>No.Kontrak</th>
-                <th>IdSsmNo</th>
-                <th>Bulan/Tahun</th>
-                <th>Tunggakan (RM)</th>
-                <th>Manual</th>
-            </tr>
+    <div class="space-list-search-panel row row-fluid" data-bind="with: searchTerm">
+        <div class="span10">
 
-        </thead>
-        <tbody data-bind=" foreach : contractCollection">
-            <tr>
-                <td><a download data-bind="text:ReferenceNo,attr: {href: 'Contract/GenerateLedger/' + ContractId()}"></a></td>
-                <td data-bind="text:Tenant().IdSsmNo"></td>
-                <td data-bind="date: { value: Date, format: 'MM/YYYY' }"></td>
-                <td data-bind="money:Accrued"></td>
-                <td><a type="button" class="set-payment-button" data-bind="click: $parent.showDetailsCommand, visible: CanPaid" href="#set-payment-modal">Set Bayar</a></td>
-            </tr>
-        </tbody>
-    </table>
+            <div class="span2">
+                <label>No Kontrak</label>
+                <input type="text" data-bind="value: contractNo" />
+            </div>
+            <div class="span2">
+                <label>Kata Kunci</label>
+                <input type="text" data-bind="value: keyword" />
+            </div>
+            <div class="btn-search">
+                <button class="btn btn-primary" data-bind="command: $root.searchCommand">
+                    <i class="icon-search pull-left"></i>
+                    Search
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <table class="table table-condensed table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Contract', query: 'ContractId gt 0', list: contractCollection }">
+            <thead>
+                <tr>
+                    <th>No.Kontrak</th>
+                    <th>IdSsmNo</th>
+                    <th>Bulan/Tahun</th>
+                    <th>Tunggakan (RM)</th>
+                    <th>Manual</th>
+                </tr>
+
+            </thead>
+            <tbody data-bind=" foreach: contractCollection">
+                <tr>
+                    <td><a download data-bind="text: ReferenceNo, attr: { href: 'Contract/GenerateLedger/' + ContractId() }"></a></td>
+                    <td data-bind="text: Tenant().IdSsmNo"></td>
+                    <td data-bind="date: { value: Date, format: 'MM/YYYY' }"></td>
+                    <td data-bind="money: Accrued"></td>
+                    <td><a type="button" class="set-payment-button" data-bind="click: $parent.showDetailsCommand, visible: CanPaid" href="#set-payment-modal">Set Bayar</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </section>
 
 <section id="set-payment-modal" class="modal hide fade">
     <div class="modal-header">
         <h2>Maklumat Bayaran</h2>
     </div>
-    <div class="modal-body" data-bind="with : payment">
+    <div class="modal-body" data-bind="with: payment">
         <form class="form-horizontal">
             <div class="control-group">
                 <label for="ContractNo" class="control-label">No. Kontrak</label>
@@ -59,7 +81,7 @@
                     <input data-bind="value: Amount" id="Amount" type="text" name="Amount" />
                 </div>
             </div>
-           </form>
+        </form>
     </div>
     <div class="modal-footer">
         <input type="button" value="Simpan" class="save-rental-payment-button" data-bind="click: saveCommand" data-dismiss="modal" />

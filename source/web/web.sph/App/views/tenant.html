@@ -1,30 +1,52 @@
 ﻿<section id="tenant-list">
     <h1 class="row-fluid">Senarai Penyewa</h1>
-    <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Tenant', query: 'TenantId gt 0', list: tenantCollection }">
-        <thead>
-            <tr>
-                <th>No. Id/SSM </th>
-                <th>Nama </th>
-                <th>No. Telefon </th>
-                <th>Email </th>
-                <th>Alamat </th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: tenantCollection">
-            <tr>
-                <td>
-                    <a data-bind="attr: { href: '/#/tenant.detail/' + TenantId() }, text: IdSsmNo"></a>
-                </td>
-                <td data-bind="text: Name"></td>
-                <td data-bind="text: MobilePhone"></td>
-                <td data-bind="text: Email"></td>
-                <td>
-                    <span data-bind="text: Address.Street"></span>,
+    <div class="space-list-search-panel row row-fluid" data-bind="with: searchTerm">
+        <div class="span10">
+
+            <div class="span2">
+                <label>No ID / SSM</label>
+                <input type="text" data-bind="value: tenantIdSsmNo" />
+            </div>
+            <div class="span2">
+                <label>Kata Kunci</label>
+                <input type="text" data-bind="value: keyword" />
+            </div>
+            <div class="btn-search">
+                <button class="btn btn-primary" data-bind="command: $root.searchCommand">
+                    <i class="icon-search pull-left"></i>
+                    Search
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Tenant', query: 'TenantId gt 0', list: tenantCollection }">
+            <thead>
+                <tr>
+                    <th>No. Id/SSM </th>
+                    <th>Nama </th>
+                    <th>No. Telefon </th>
+                    <th>Email </th>
+                    <th>Alamat </th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: tenantCollection">
+                <tr>
+                    <td>
+                        <a data-bind="attr: { href: '/#/tenant.detail/' + TenantId() }, text: IdSsmNo"></a>
+                    </td>
+                    <td data-bind="text: Name"></td>
+                    <td data-bind="text: MobilePhone"></td>
+                    <td data-bind="text: Email"></td>
+                    <td>
+                        <span data-bind="text: Address.Street"></span>,
                     <span data-bind="text: Address.Postcode"></span>
-                    <span data-bind="text: Address.City"></span>,
+                        <span data-bind="text: Address.City"></span>,
                     <span data-bind="text: Address.State"></span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </section>

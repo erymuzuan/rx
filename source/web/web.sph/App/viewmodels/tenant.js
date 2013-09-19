@@ -33,7 +33,26 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 
 	},
 	
-	exportList = function (){};
+	exportList = function () { },
+        search = function () {
+            var tcs = new $.Deferred();
+            var tenantQuery = String.format("TenantId gt 0");
+
+            if (vm.searchTerm.tenantIdSsmNo()) {
+                tenantQuery = String.format("IdSsmNo eq '{0}'", vm.searchTerm.tenantIdSsmNo());
+            }
+            if (vm.searchTerm.keyword()) {
+                tenantQuery += String.format(" or Name like '%{0}%'", vm.searchTerm.keyword());
+            }
+            console.log(tenantQuery);
+            var tenantTask = context.loadAsync("Tenant", tenantQuery);
+            $.when(tenantTask)
+                .done(function (lo) {
+                    vm.tenantCollection(lo.itemCollection);
+                    tcs.resolve(true);
+                });
+            return tcs.promise();
+        };
 
 	var vm = {
 		isBusy : isBusy,
@@ -50,7 +69,12 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 		        item: tenant,
 		    }),
 		    exportCommand: exportList
-		})
+		}),
+		searchTerm: {
+		    tenantIdSsmNo: ko.observable(),
+		    keyword: ko.observable()
+		},
+		searchCommand: search
 	};
 
 	return vm;
