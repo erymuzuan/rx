@@ -19,6 +19,17 @@
 .google-maps img {
   max-width: none;
 }
+table.table-striped th {
+  cursor: pointer;
+}
+table.table-striped th.headerSortUp:after {
+  float: right;
+  content: url('/images/up8.png');
+}
+table.table-striped th.headerSortDown:after {
+  float: right;
+  content: url('/images/down8.png');
+}
 .modal,
 .view-model-modal {
   margin-left: -400px;
