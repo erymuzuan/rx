@@ -1,91 +1,129 @@
-﻿@blue : #0096e1;
-@green :#78b500;
+﻿@blue: #0096e1;
+@green: #78b500;
 
-#available-space-list > div{
-    padding:10px;
-    background-color:@blue;
-    margin:10px;
-    margin-bottom:15px;
-    color:white;
-    article > div >span {
-        font-weight:bold;
-        font-size:2em;
-    }
-
-    form > a.btn{
-        float : right;
-        clear:both;
-        margin-top:10px;
-        margin-bottom:5px;
-    }
-    h3{
-        color:white;
-    }
-    a{
-        color:white;
-    }
-
-    .category{
-        font-style:oblique;
+#add-on-tab {
+    form {
+        font-family: "Segoe UI", "Segoe UI Web Regular", "Segoe UI Symbol", "Helvetica Neue", "BBAlpha Sans", "S60 Sans", Arial, "sans-serif";
+        width: 500px;
+        height: 500px;
     }
 }
 
-#available-space-list > div:nth-child(odd){    
-    background-color:@green;
-}
+#available-space-list > div {
+    padding: 10px;
+    background-color: #eee;
+    margin: 10px;
+    margin-bottom: 15px;
 
-div.space-image-panel{
-    float:right;
-}
+    article > div > span {
+        font-weight: bold;
+        font-size: 2em;
+    }
 
-div.space-search-panel{
-    border:1px solid #e5e5e5;
-    border-radius:5px;
-    margin:5px;
-  
-    button{
-        position:relative;
-        right:10px;
-        bottom:5px;
-        float:right;
+    form > a.btn {
+        float: right;
+        clear: both;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+    h3 {
+        color: white;
+    }
+
+    a {
+        color: white;
+    }
+
+    .category {
+        font-style: oblique;
     }
 }
 
-div.space-search-panel:last-child{
-    position:absolute;
+    #available-space-list > div:nth-child(odd) {
+        background-color: #fcfce3;
+    }
+
+div.space-image-panel {
+    float: right;
 }
 
-span.feature-category{
+
+
+span.feature-category {
     font-weight: bold;
-    font-size : 14px;
+    font-size: 14px;
 }
-div.feature-item{
-    margin : 10px;
-    padding : 5px;
-    border-bottom : 1px solid gray;
 
-    span.feature-isrequired{
+div.feature-item {
+    margin: 10px;
+    padding: 5px;
+    border-bottom: 1px solid gray;
+
+    span.feature-isrequired {
         float: left;
-        font-weight : bold;
-        display:none;
+        font-weight: bold;
+        display: none;
     }
-    div.btn-add-feature{
-        float: right;       
+
+    div.btn-add-feature {
+        float: right;
     }
-    p.feature-description{
-        margin : 10px;
-        padding : 5px;
+
+    p.feature-description {
+        margin: 10px;
+        padding: 5px;
         font-style: italic;
     }
-    span.feature-charge{
-        float:right;
-        margin : 10px;
-        padding : 5px;
-        font-weight : bold;
-        color : green;
-        clear : both;
-    } 
-    span.feature-name{
-      
+
+    span.feature-charge {
+        float: right;
+        margin: 10px;
+        padding: 5px;
+        font-weight: bold;
+        color: green;
+        clear: both;
+    }
+
+    span.feature-name {
+        font-size: 14px;
+    }
+
+    select.input-feature-available-quantity {
+        float: right;
+        width: 50px;
+    }
+}
+
+
+div.filter-panel {
+    background-color: #0096e1;
+    color: #fff;
+
+    div > div {
+        margin: 10px;
+    }
+
+    h3 {
+        font-size: 1.2em;
+        background-color: #fff;
+        margin-top: 0px;
+    }
+
+    form.form-horizontal div.control-group > label.control-label {
+        width: 30px;
+    }
+
+    form.form-horizontal div.controls {
+        margin-left: 40px;
+    }
+
+    span {
+        color: #fff;
+    }
+
+    button {
+        float: right;
+        margin: 10px;
     }
 }

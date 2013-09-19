@@ -49,7 +49,7 @@ namespace Bespoke.Sph.Web.Api
         public async Task<ActionResult> Min(string column, string table, string filter)
         {
             var translator = new OdataSqlTranslator(column, table);
-            var sql = translator.Count(filter);
+            var sql = translator.Min(filter);
             return await ExecuteScalarAsync(sql);
         }
 

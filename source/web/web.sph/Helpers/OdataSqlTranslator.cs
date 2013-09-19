@@ -47,7 +47,7 @@ namespace Bespoke.Sph.Web.Helpers
         }
         public string Min(string filter)
         {
-            return string.Format("SELECT MAX([{0}]) FROM [Sph].[{1}] ", m_column, m_table) +
+            return string.Format("SELECT MIN([{0}]) FROM [Sph].[{1}] ", m_column, m_table) +
                    Translate(filter)
                 ;
         }

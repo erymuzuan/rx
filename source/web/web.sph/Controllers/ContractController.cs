@@ -41,6 +41,7 @@ namespace Bespoke.Sph.Web.Controllers
             var cs = await context.LoadOneAsync<Space>(r => r.SpaceId == app.Offer.SpaceId);
             var setting = await context.LoadOneAsync<Setting>(s => s.Key == "Organization");
             var org = JsonConvert.DeserializeObject<Organization>(setting.Value);
+            var addOnValue = app.FeatureCollection.Sum(f => f.Charge);
             var contract = new Contract
                 {
                     Title = string.Format("Kontrak sewaan {0} dan {1}", app.CompanyName ?? app.Contact.Name, org.Name),
@@ -60,7 +61,7 @@ namespace Bespoke.Sph.Web.Controllers
                     Period = app.Offer.Period,
                     PeriodUnit = app.Offer.PeriodUnit,
                     Option = app.Offer.Option,
-                    Value = app.Offer.Deposit + app.Offer.Period * 12 * app.Offer.Rent,
+                    Value = app.Offer.Deposit + app.Offer.Period * 12 * app.Offer.Rent + addOnValue ?? 0,
                     Tenant = new Tenant
                         {
                             IdSsmNo = app.CompanyRegistrationNo ?? app.Contact.IcNo,

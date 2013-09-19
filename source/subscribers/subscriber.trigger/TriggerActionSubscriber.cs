@@ -43,8 +43,11 @@ namespace Bespoke.Sph.CustomTriggers
             if (this.Trigger.IsFiredOnDeleted && headers.Crud == CrudOperation.Deleted)
                 return true;
 
-            var ops = this.Trigger.FiredOnOperations.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            if (ops.Contains(headers.Operation)) return true;
+            if (!string.IsNullOrWhiteSpace(this.Trigger.FiredOnOperations))
+            {
+                var ops = this.Trigger.FiredOnOperations.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (ops.Contains(headers.Operation)) return true;
+            }
             this.WriteMessage("This trigger cannot be fired");
             return false;
         }

@@ -178,10 +178,11 @@ namespace Bespoke.Sph.Domain
                 .ConfigureAwait(false);
 
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
+            var logsAddedTask = publisher.PublishAdded(operation, logs);
             var addedTask = publisher.PublishAdded(operation, addedItems);
             var changedTask = publisher.PublishChanges(operation, changedItems, logs);
             var deletedTask = publisher.PublishDeleted(operation, session.DeletedCollection);
-            await Task.WhenAll(addedTask, changedTask, deletedTask).ConfigureAwait(false);
+            await Task.WhenAll(addedTask, changedTask, deletedTask, logsAddedTask).ConfigureAwait(false);
 
 
             return so;

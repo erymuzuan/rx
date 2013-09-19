@@ -273,7 +273,7 @@ bespoke.sph.domain.Space = function (webId) {
         Address: ko.observable(new bespoke.sph.domain.Address()),
         PhotoCollection: ko.observableArray([]),
         CustomListValueCollection: ko.observableArray([]),
-        FeatureCollection: ko.observableArray([]),
+        FeatureDefinitionCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1373,6 +1373,30 @@ bespoke.sph.domain.Feature = function (webId) {
     };
     if (bespoke.sph.domain.FeaturePartial) {
         return _(model).extend(new bespoke.sph.domain.FeaturePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.FeatureDefinition = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.FeatureDefinition, domain.sph",
+        Name: ko.observable(''),
+        Description: ko.observable(''),
+        Category: ko.observable(''),
+        IsRequired: ko.observable(false),
+        Occurence: ko.observable(0),
+        OccurenceTimeSpan: ko.observable(''),
+        AvailableQuantity: ko.observable(''),
+        Charge: ko.observable(),
+        PhotoCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.FeatureDefinitionPartial) {
+        return _(model).extend(new bespoke.sph.domain.FeatureDefinitionPartial(model));
     }
     return model;
 };

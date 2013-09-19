@@ -231,6 +231,9 @@ namespace web.test
                   .Value(".input-feature-description", "Kabinet disediakan jika di apply", 1)
                   .Value(".input-feature-category", "Perabot", 1)
                   .Value(".input-feature-charge", "50", 1)
+                  .Value(".input-feature-available-quantity", "3", 1)
+                  .Value(".input-feature-occurence", "1", 1)
+                  .SelectOption(".input-feature-occurencetimespan", "Sekali", 1)
                 ;
 
             driver.Click("#add-feature-button");
@@ -238,6 +241,9 @@ namespace web.test
                   .Value(".input-feature-description", "Kabinet disediakan jika di apply", 2)
                   .Value(".input-feature-category", "Perabot", 2)
                   .Value(".input-feature-charge", "50", 2)
+                  .Value(".input-feature-available-quantity", "5", 2)
+                  .Value(".input-feature-occurence", "1", 2)
+                  .Value(".input-feature-occurencetimespan", "Sekali", 2)
                 ;
 
             driver.Click("#add-feature-button");
@@ -245,9 +251,23 @@ namespace web.test
                   .Value(".input-feature-description", "Oven disediakan jika di apply", 3)
                   .Value(".input-feature-category", "Perabot", 3)
                   .Value(".input-feature-charge", "100", 3)
+                  .Value(".input-feature-available-quantity", "10", 3)
+                  .Value(".input-feature-occurence", "1", 3)
+                  .Value(".input-feature-occurencetimespan", "Tahun", 3)
                 ;
 
-
+            driver.Click("#add-feature-button");
+            driver.Value(".input-feature-name", "Parking Berbayar", 4)
+                  .Value(".input-feature-description", "Parking tambahan disediakan jika anda ingin menambah jumlah parking", 4)
+                  .Value(".input-feature-category", "Parking", 4)
+                  .Value(".input-feature-charge", "100", 4)
+                  .Value(".input-feature-available-quantity", "2", 4)
+                  .Value(".input-feature-occurence", "6", 4)
+                  .Value(".input-feature-occurencetimespan", "Bulan", 4)
+                ;
+            driver.Click("#add-feature-button");
+            driver.Click(".btn-remove-feature",5);
+           
             driver.Value("[name='RentalRate']", "2500")
             .Value("[name='ContactPerson']", "Mohd Razali")
             .Click("[name='IsOnline']")
