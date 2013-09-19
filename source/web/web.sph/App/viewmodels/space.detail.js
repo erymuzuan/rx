@@ -16,6 +16,8 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             selectedBuilding = {},
             isBusy = ko.observable(false),
             activate = function (routeData) {
+                vm.selectedBuilding(0);
+                
                 vm.space().BuildingId(parseInt(routeData.buildingId));
                 var templateId = parseInt(routeData.templateId);
 
@@ -90,6 +92,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
 
                         space.TemplateName(template.Name());
                         space.TemplateId(templateId);
+                        vm.selectedBuilding(space.BuildingId());
                         vm.space(space);
 
 
@@ -161,6 +164,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             viewAttached: viewAttached,
             space: ko.observable(new bespoke.sph.domain.Space()),
             buildingOptions: ko.observableArray(),
+            blockOptions: ko.observableArray(),
             floorOptions: ko.observableArray(),
             lotOptions: ko.observableArray(),
             stateOptions: ko.observableArray(),
@@ -178,15 +182,23 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
         };
 
         vm.selectedBuilding.subscribe(function (id) {
+            if (!id) return;
             vm.isBusy(true);
             vm.space().BuildingId(id);
             context.loadOneAsync("Building", "BuildingId eq " + id)
                 .then(function (b) {
                     var floors = _(b.FloorCollection()).map(function (f) {
                         return f.Name();
-                    });
+                    }),
+                        blocks = _(b.BlockCollection()).map(function(bl) {
+                            return bl.Name();
+                        });
+                    
+                    
                     vm.floorOptions(floors);
+                    vm.blockOptions(blocks);
                     vm.isBusy(false);
+                    vm.space().Address(b.Address());
                     selectedBuilding = b;
                 });
         });

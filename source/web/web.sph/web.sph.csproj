@@ -581,6 +581,12 @@
     <Content Include="Content\theme.default\space.min.css">
       <DependentUpon>space.less</DependentUpon>
     </Content>
+    <Content Include="Content\theme.metro-admin\building.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\building.min.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
     <Content Include="Content\theme.metro-admin\dashboard.css">
       <DependentUpon>dashboard.less</DependentUpon>
     </Content>
@@ -761,6 +767,7 @@
     <Content Include="Content\theme.metro-admin\space.less" />
     <Content Include="Content\toastr.less" />
     <Content Include="App\viewmodels\block.dialog.js" />
+    <Content Include="Content\theme.metro-admin\building.less" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\demo.js" />
@@ -909,7 +916,7 @@
     <Content Include="App\views\_contract.documents.html" />
     <Content Include="App\views\_contract.form.html" />
     <Content Include="App\views\_rentalapplication.verify.offer.html" />
-    <Content Include="App\views\_setting.commercialspace.category.html" />
+    <Content Include="App\views\_setting.space.category.html" />
     <Content Include="App\views\_setting.interest.html" />
     <Content Include="App\views\_setting.state.html" />
     <Content Include="App\views\_tenant.adhoc.html" />

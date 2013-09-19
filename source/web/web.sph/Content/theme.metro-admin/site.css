@@ -5,9 +5,7 @@
   margin-bottom: 70px;
 }
 .google-maps {
-  min-height: 700px;
-  margin-left: -480px !important;
-  width: 930px;
+  min-height: 600px;
 }
 .google-maps #map {
   width: 900px;
