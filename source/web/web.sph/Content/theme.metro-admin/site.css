@@ -5,9 +5,7 @@
   margin-bottom: 70px;
 }
 .google-maps {
-  min-height: 700px;
-  margin-left: -480px !important;
-  width: 930px;
+  min-height: 600px;
 }
 .google-maps #map {
   width: 900px;
@@ -20,6 +18,17 @@
 }
 .google-maps img {
   max-width: none;
+}
+table.table-striped th {
+  cursor: pointer;
+}
+table.table-striped th.headerSortUp:after {
+  float: right;
+  content: url('/images/up8.png');
+}
+table.table-striped th.headerSortDown:after {
+  float: right;
+  content: url('/images/down8.png');
 }
 .modal,
 .view-model-modal {

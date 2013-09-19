@@ -581,6 +581,12 @@
     <Content Include="Content\theme.default\space.min.css">
       <DependentUpon>space.less</DependentUpon>
     </Content>
+    <Content Include="Content\theme.metro-admin\building.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\building.min.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
     <Content Include="Content\theme.metro-admin\dashboard.css">
       <DependentUpon>dashboard.less</DependentUpon>
     </Content>
@@ -661,6 +667,7 @@
     <Content Include="Images\constantfield.png" />
     <Content Include="Images\courts.png" />
     <Content Include="Images\documentfield.png" />
+    <Content Include="Images\down8.png" />
     <Content Include="Images\EmailAction.png" />
     <Content Include="Images\functionfield.png" />
     <Content Include="Images\gelanggang.png" />
@@ -681,6 +688,7 @@
     <Content Include="Images\report-layout.2.png" />
     <Content Include="Images\rumah_peranginan.png" />
     <Content Include="Images\SetterAction.png" />
+    <Content Include="Images\up8.png" />
     <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />
     <Content Include="Scripts\bootmetro-charms.js" />
@@ -761,6 +769,7 @@
     <Content Include="Content\theme.metro-admin\space.less" />
     <Content Include="Content\toastr.less" />
     <Content Include="App\viewmodels\block.dialog.js" />
+    <Content Include="Content\theme.metro-admin\building.less" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\demo.js" />
@@ -780,6 +789,7 @@
     <Content Include="Scripts\jquery.scrollTo.js" />
     <Content Include="Scripts\jquery.signalR-1.1.3.js" />
     <Content Include="Scripts\jquery.signalR-1.1.3.min.js" />
+    <Content Include="Scripts\jquery.tablesorter.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
@@ -909,7 +919,7 @@
     <Content Include="App\views\_contract.documents.html" />
     <Content Include="App\views\_contract.form.html" />
     <Content Include="App\views\_rentalapplication.verify.offer.html" />
-    <Content Include="App\views\_setting.commercialspace.category.html" />
+    <Content Include="App\views\_setting.space.category.html" />
     <Content Include="App\views\_setting.interest.html" />
     <Content Include="App\views\_setting.state.html" />
     <Content Include="App\views\_tenant.adhoc.html" />

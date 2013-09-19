@@ -37,6 +37,16 @@
             });
             $(document).on('click', 'a.dropdown-toggle', dropDown);
 
+            $(document).on('click', 'table.table-striped th', function (e) {
+                e.preventDefault();
+                var table = $(this).parents("table.table-striped");
+                if (table && !table.prop("sorted")) {
+                    console.dir(e);
+                    table.tablesorter();
+                    table.prop("sorted", "1");
+                    $(this).trigger('click');
+                }
+            });
             var $menu = $('#slider-menu'),
                 hideSlider = function () {
                     $('section#content').animate({ "margin-left": 0 });

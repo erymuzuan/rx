@@ -367,6 +367,11 @@ bespoke.sph.domain.AddressElement = function (webId) {
 
     var v = new bespoke.sph.domain.FormElement(webId);
 
+    v.IsUnitNoVisible = ko.observable(false);
+    v.IsFloorVisible = ko.observable(false);
+    v.IsBlockVisible = ko.observable(false);
+    v.BlockOptionsPath = ko.observable('');
+    v.FloorOptionsPath = ko.observable('');
     v["$type"] = "Bespoke.Sph.Domain.AddressElement, domain.sph";
 
     if (bespoke.sph.domain.AddressElementPartial) {
