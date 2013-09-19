@@ -2,7 +2,7 @@
 
 <div class="row row-fluid">
 
-    <div class="span4 space-search-panel filter-panel" data-bind="with: searchTerm">
+    <div class="span3 space-search-panel filter-panel" data-bind="with: searchTerm">
         <div>
             <h3>Kategori</h3>
             <div>
@@ -58,8 +58,17 @@
     </div>
 
     <div class="span8" data-bind="filter: { path: 'section>div' }">
+        <div>
+            <select>
+                <option value="">[Susun Ikut]</option>
+                <option value="RentalRate">Kadar Sewa</option>
+                <option value="Category">Ketegori Kegunaan</option>
+                <option value="State">Negeri</option>
+                <option value="Size">Luas</option>
+            </select>
+        </div>
 
-        <section id="available-space-list" class="span12" data-bind="foreach: items">
+        <section id="available-space-list" data-bind="foreach: items">
             <h2 data-bind="text: name"></h2>
             <!-- ko foreach : spaces -->
             <div>
@@ -82,23 +91,30 @@
                         <form id="div-building">
 
                             <div>
-                                <span class="location">Lokasi :</span>
-                                <span class="lot-name" data-bind="text: LotName" />
-                                <span class="floor-name" data-bind="text: FloorName" />,
-                                <span class="building-name" data-bind="text: BuildingName" />,
-                                <span class="city" data-bind="text: City" />,
-                                <span class="state" data-bind="text: State" />.
+                                <p>
+                                    <span class="location">Lokasi :</span>
+                                    <span class="lot-name" data-bind="text: LotName" />
+                                    <span class="floor-name" data-bind="text: FloorName" />,
+                                    <span class="building-name" data-bind="text: BuildingName" />,
+                                    <span class="city" data-bind="text: City" />,
+                                    <span class="state" data-bind="text: State" />.
+                                </p>
                             </div>
 
                             <div>
-                                <span class="label">Saiz :</span>
-                                <span class="size" data-bind="text: Size" />mps
+                                <p>
+                                    <span class="label">Saiz :</span>
+                                    <span class="size" data-bind="text: Size" />mps
 
-                                <span class="label">Kadar Sewa :</span>
-                                RM <span class="rental-rate" data-bind="money: RentalRate" />
+                                    <span class="label">Kadar Sewa :</span>
+                                    RM <span class="rental-rate" data-bind="money: RentalRate" />
+                                </p>
                             </div>
-                            <a class="btn btn-success" data-bind="attr: { href: '/#/application.detail-templateid.' + $parents[0].id + '/' + SpaceId() }">Mohon Sewa</a>
-
+                            <p>
+                                <a class="btn btn-success" data-bind="attr: { href: '/#/application.detail-templateid.' + $parents[0].id + '/' + SpaceId() }">Mohon Sewa</a>
+    
+                            </p>
+                   
                         </form>
                         <!-- ko if: PhotoCollection().length > 0 -->
                         <h3>Gambar</h3>

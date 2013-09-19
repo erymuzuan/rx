@@ -30,8 +30,6 @@ define(['services/datacontext'], function (context) {
                 vm.items(items);
                 vm.searchTerm.stateOptions(states);
                 vm.searchTerm.categoryOptions(categories);
-                vm.searchTerm.states(states);
-                vm.searchTerm.categories(categories);
                 tcs.resolve(true);
 
             });

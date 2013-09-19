@@ -579,7 +579,9 @@ ko.bindingHandlers.filter = {
 
 
         $form.find('i.icon-remove').before($filterInput);
-        $form.find('i.icon-remove').after($serverLoadButton);
+        if (serverPaging) {
+            $form.find('i.icon-remove').after($serverLoadButton);
+        }
         $element.before($form);
 
         $serverLoadButton.click(function (e) {
@@ -696,10 +698,10 @@ ko.bindingHandlers.serverPaging = {
             .then(function (lo) {
 
                 var options = {
-                        element: $pagerPanel,
-                        count: lo.rows,
-                        changed: changed
-                    },
+                    element: $pagerPanel,
+                    count: lo.rows,
+                    changed: changed
+                },
                     pager = new bespoke.utils.ServerPager(options);
                 console.log(pager);
                 setTimeout(function () {
