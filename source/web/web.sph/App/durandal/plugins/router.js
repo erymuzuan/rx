@@ -207,10 +207,16 @@
 
             visibleRoutes.push(routeInfo);
         }
-
+        
         return routeInfo;
     }
 
+    function filterRoute(groupName) {
+        return ko.utils.arrayFilter(this.allRoutes(), function (route) {
+            return (route.groupName === groupName);
+        });
+    };
+    
     return router = {
         ready: ready,
         allRoutes: allRoutes,
@@ -218,6 +224,7 @@
         isNavigating: isNavigating,
         activeItem: activeItem,
         activeRoute: activeRoute,
+        filterRoute: filterRoute,
         afterCompose: function () {
             setTimeout(function () {
                 isNavigating(false);

@@ -3,6 +3,7 @@
     public  class JsRoute
     {
         public string Role { set; get; }
+        public string GroupName { set; get; }
         public string Url { set; get; }
         public string ModuleId{ set; get; }
         public string Name{ set; get; }
