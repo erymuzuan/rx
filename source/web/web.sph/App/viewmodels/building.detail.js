@@ -20,7 +20,46 @@ define(['services/datacontext',
 
 
         var isBusy = ko.observable(false),
+            setBuildingToContext = function(building, template) {
+                var fieldToValueMap = function (f) {
+                    var webid = system.guid();
+                    var v = new bespoke.sph.domain.CustomFieldValue(webid);
+                    v.Name(f.Name());
+                    v.Type(f.Type());
+                    return v;
+                },
+                          cfs = _(template.CustomFieldCollection()).map(fieldToValueMap),
+                          cls = _(template.CustomListDefinitionCollection()).map(function (v) {
+                              var lt = new bespoke.sph.domain.CustomListValue(system.guid());
+                              lt.Name(v.Name());
+
+                              var fields = _(v.CustomFieldCollection()).map(fieldToValueMap);
+                              lt.CustomFieldCollection = ko.observableArray(fields);
+
+                              return lt;
+                          });
+
+
+                _(cfs).each(function(f) {
+                    if (!building.CustomField(f.Name())) {
+                        building.CustomFieldValueCollection.push(f);
+                    }
+                });
+
+                _(cls).each(function(f) {
+                    if (!building.CustomList(f.Name())) {
+                        building.CustomListValueCollection.push(f);
+                    }
+                });
+
+                vm.building(building);
+                vm.building().TemplateId(template.BuildingTemplateId());
+                vm.building().TemplateName(template.Name());
+
+            },
             activate = function (routeData) {
+                // NOTE : this is the only way to debug as this file is returned as a result of redirect
+                //debugger;
                 var id = parseInt(routeData.id),
                     templateId = parseInt(routeData.templateId),
                     tcs = new $.Deferred();
@@ -28,41 +67,13 @@ define(['services/datacontext',
                 vm.stateOptions(config.stateOptions);
                 mapInitialized(false);
 
-
-
                 // build custom fields value
                 context.loadOneAsync("BuildingTemplate", "BuildingTemplateId eq " + templateId)
                     .done(function (template) {
-                        var fieldToValueMap = function (f) {
-                            var webid = system.guid();
-                            var v = new bespoke.sph.domain.CustomFieldValue(webid);
-                            v.Name(f.Name());
-                            v.Type(f.Type());
-                            return v;
-                        },
-                            cfs = _(template.CustomFieldCollection()).map(fieldToValueMap),
-                            cls = _(template.CustomListDefinitionCollection()).map(function (v) {
-                                var lt = new bespoke.sph.domain.CustomListValue(system.guid());
-                                lt.Name(v.Name());
 
-                                var fields = _(v.CustomFieldCollection()).map(fieldToValueMap);
-                                lt.CustomFieldCollection = ko.observableArray(fields);
-
-                                return lt;
-                            });
-
-                        vm.building().CustomFieldValueCollection(cfs);
-                        vm.building().CustomListValueCollection(cls);
-                        vm.building().Type(template.Name());
-                        vm.building().TemplateId(templateId);
-
-
+                        // new building
                         if (!id) {
-                            vm.building(new bespoke.sph.domain.Building());
-                            vm.building().CustomFieldValueCollection(cfs);
-                            vm.building().CustomListValueCollection(cls);
-                            vm.building().TemplateId(templateId);
-                            //vm.building().TemplateName(templateId);
+                            setBuildingToContext(new bespoke.sph.domain.Building(),template);
                             vm.toolbar.watching(false);
                             tcs.resolve();
                             return;
@@ -70,17 +81,13 @@ define(['services/datacontext',
 
                             vm.toolbar.auditTrail.id(id);
                             vm.toolbar.printCommand.id(id);
-
-
+                            
                             var query = "BuildingId eq " + id,
                                 loadTask = context.loadOneAsync("Building", query),
                                 watcherTask = watcher.getIsWatchingAsync("Building", id);
 
                             $.when(loadTask, watcherTask).done(function (b, w) {
-
-
-                                vm.building(b);
-                                vm.building().CustomListValueCollection(cls);
+                                setBuildingToContext(b, template);
                                 vm.toolbar.watching(w);
 
                                 tcs.resolve(true);
@@ -116,8 +123,8 @@ define(['services/datacontext',
 
             saveAsync = function () {
                 var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(vm.building());
-                context.post(data, "/Building/SaveBuilding")
+                var data = ko.toJSON(vm.building());
+                context.post(data, "/Building/Save")
                     .done(function (e) {
                         if (e.status) {
                             vm.building().BuildingId(e.buildingId);

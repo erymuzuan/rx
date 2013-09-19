@@ -122,24 +122,11 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
 
-        public async Task<ActionResult> SaveBuilding(Building building)
+        public async Task<ActionResult> Save()
         {
+            var building = this.GetRequestJson<Building>();
             var context = new SphDataContext();
-            var item = await context.LoadOneAsync<Building>(b => b.BuildingId == building.BuildingId) ?? building;
-            if (item != building)
-            {
-
-                item.Address = building.Address;
-                item.Name = building.Name;
-                item.LotNo = building.LotNo;
-                item.Floors = building.Floors;
-                item.BuildingSize = building.BuildingSize;
-                item.Status = building.Status;
-                item.FloorCollection.ClearAndAddRange(building.FloorCollection);
-                item.BlockCollection.ClearAndAddRange(building.BlockCollection);
-                item.CustomFieldValueCollection.ClearAndAddRange(building.CustomFieldValueCollection);
-                item.CustomListValueCollection.ClearAndAddRange(building.CustomListValueCollection);
-            }
+           
 
             var errorMessage = new StringBuilder();
             var duplicateFloors = building.FloorCollection.Select(f => f.Name)
@@ -164,10 +151,10 @@ namespace Bespoke.Sph.Web.Controllers
 
             using (var session = context.OpenSession())
             {
-                session.Attach(item);
+                session.Attach(building);
                 await session.SubmitChanges("Editing building details");
             }
-            return Json(new { status = "success", buildingId = building.BuildingId, message = item.Name });
+            return Json(new { status = "success", buildingId = building.BuildingId, message = building.Name });
         }
 
         public async Task<ActionResult> AddLot(Floor floor, int buildingId, string floorname)

@@ -18,7 +18,8 @@ bespoke.sph.domain.BuildingPartial = function () {
                 return v.Name() === name;
             });
             if (!cs) {
-                throw "Cannot find custom field for " + name + " in Building";
+                console.log("Cannot find custom field for " + name + " in Building", "CustomField");
+                return null;
             }
             return cs.Value;
         },
