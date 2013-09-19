@@ -40,7 +40,7 @@
                             <div class="field span8"><input type="text" value="" class="input-text m-wrap m-ctrl-large" id="name" name="name" placeholder="Your Name" required /></div>
                             <div class="field span8"><input type="text" value="" class="input-text m-wrap m-ctrl-large" id="organization-detail" name="organization" required placeholder="Your Organization/Company" /></div>
                             <div class="field span8"><input type="tel" value="" class="input-text m-wrap m-ctrl-large" id="telephone" name="telephone" placeholder="Your Telephone" /></div>
-                            <div class="field span8"><input type="email" value="" class="input-text m-wrap m-ctrl-large" id="email" name="email" required placeholder="Your Email Address" /></div>
+                            <div class="field span8"><input type="email" value="@ViewBag.Email" class="input-text m-wrap m-ctrl-large" id="email" name="email" required placeholder="Your Email Address" /></div>
                             <div class="field span8"><textarea class="input-textarea m-wrap m-ctrl-large" id="message" name="message" placeholder="Your Message"></textarea></div>
                             <div class="field span8"><input type="submit" class="m-btn green" value="Submit" /></div>
                         </div>
@@ -130,7 +130,7 @@
                     .prop('disabled', true);
                 $.post("/Home/Contact", data)
                     .done(function () {
-                        $form.html("Thank you for your interest");
+                        $form.html("Thank you for your interest, We will be in touch with you shortly");
                     });
             });
         })();

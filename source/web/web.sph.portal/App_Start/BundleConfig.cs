@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace web.sph.portal
 {
@@ -58,20 +57,18 @@ namespace web.sph.portal
     <link href="~/Content/m-buttons.css" rel="stylesheet">
     <link href="~/Content/custom.css" rel="stylesheet">
              * 
+             * 
              * */
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                        "~/Content/custom.css",
-                        "~/Content/bootstrap-responsive.css",
                         "~/Content/bootstrap.css",
-                        "~/Content/custom-slider.css",
+                        "~/Content/bootstrap-responsive.css",
                         "~/Content/font-awesome-ie7.css",
                         "~/Content/font-awesome.css",
-                        "~/Content/m-buttons.css",
                         "~/Content/m-forms.css",
-                        "~/Content/m-icons.css",
+                        "~/Content/m-buttons.css",
                         "~/Content/sprite.css",
-                        "~/Content/metro-tile.css"
+                        "~/Content/custom.css"
                         ));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(

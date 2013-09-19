@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuildingIndexTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,10 +54,6 @@
     <ProjectReference Include="..\..\subscribers\subscriber.infrastructure\subscriber.infrastructure.csproj">
       <Project>{40892CEA-FD47-4C1F-B821-7939776E9B6B}</Project>
       <Name>subscriber.infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\subscribers\subscriber.lucene.index\subscriber.lucene.index.csproj">
-      <Project>{F82F88BA-3A8B-489F-9119-2A97C96B9DAE}</Project>
-      <Name>subscriber.lucene.index</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
