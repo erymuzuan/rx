@@ -13,7 +13,7 @@
                 <input type="text" data-bind="value: keyword" />
             </div>
             <div class="btn-search">
-                <button class="btn btn-primary" data-bind="command: $root.newSearch">
+                <button class="btn btn-primary" data-bind="command: $root.searchCommand">
                     <i class="icon-search pull-left"></i>
                     Search
                 </button>
@@ -25,9 +25,9 @@
         <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Building', query: 'BuildingId gt 0', list: buildings }">
             <thead>
                 <tr>
+                    <th>Nama Hartanah</th>
                     <th>Negeri</th>
                     <th>Lokasi</th>
-                    <th>Nama Hartanah</th>
                     <th>Alamat</th>
                     <th>Jenis</th>
                     <th>Keluasan</th>
@@ -37,11 +37,11 @@
             </thead>
             <tbody data-bind="foreach: buildings">
                 <tr>
-                    <td data-bind="text: Address().State"></td>
-                    <td data-bind="text: Address().City"></td>
-                    <td>
+                     <td>
                         <a data-bind="attr: { href: '/#/building.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() }, text: Name"></a>
                     </td>
+                    <td data-bind="text: Address().State"></td>
+                    <td data-bind="text: Address().City"></td>
                     <td data-bind="text: Address().Street"></td>
                     <td data-bind="text: BuildingType"></td>
                     <td data-bind="text: BuildingSize"></td>

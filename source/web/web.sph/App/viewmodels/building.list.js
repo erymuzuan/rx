@@ -44,25 +44,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
 
         return tcs.promise();
         },
-        newSearch = function() {
-            var tcs = new $.Deferred();
-            var buildingQuery = String.format("BuildingId gt 0");
-
-            if (vm.searchTerm.state()) {
-                buildingQuery += String.format(" and State eq '{0}'", vm.searchTerm.state());
-            }
-            if (vm.searchTerm.keyword()) {
-                buildingQuery += String.format(" and Name like '%{0}%'", vm.searchTerm.keyword());
-            }
-            
-            var buildingTask = context.loadAsync("Building", buildingQuery);
-            $.when(buildingTask)
-                .done(function (lo) {
-                    vm.buildings(lo.itemCollection);
-                    tcs.resolve(true);
-                });
-            return tcs.promise();
-        },
         search = function () {
             var tcs = new $.Deferred();
             var buildingQuery = String.format("BuildingId gt 0");
@@ -106,8 +87,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             stateOptions: ko.observableArray(),
             keyword: ko.observable()
         },
-        searchCommand: search,
-        newSearch: newSearch
+        searchCommand: search
     };
 
     return vm;
