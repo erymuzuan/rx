@@ -90,6 +90,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
 
                         space.TemplateName(template.Name());
                         space.TemplateId(templateId);
+                        space.Category(template.Name());
                         vm.space(space);
 
 
