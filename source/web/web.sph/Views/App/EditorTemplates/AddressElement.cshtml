@@ -1,5 +1,50 @@
 ﻿@model Bespoke.Sph.Domain.AddressElement
+<h3>@Model.Label</h3>
 <div class="control-group" data-bind="with: Address">
+
+    @if (Model.IsUnitNoVisible)
+    {
+
+        <div class="control-group">
+            <label class="control-label">No Unit</label>
+            <div class="controls">
+                <input class="input-large" type="text" data-bind="value: UnitNo" />
+            </div>
+        </div>
+        
+    }
+
+    @if (Model.IsBlockVisible)
+    {
+        
+    <div class="control-group" >
+        <label class="control-label">Blok</label>
+        <div class="controls">
+            @if (!string.IsNullOrWhiteSpace(Model.BlockOptionsPath))
+            {
+                
+            <select class="input-large" data-bind="value:Block, options :@Model.BlockOptionsPath"></select>
+            }
+            else
+            {
+  
+            <input class="input-large" type="text" data-bind="value:Block" />
+            }
+        </div>
+    </div>
+    }
+    
+    @if (Model.IsFloorVisible)
+    {
+    <div class="control-group">
+        <label class="control-label">Tingkat</label>
+        <div class="controls">
+            <input class="input-large" type="text" data-bind="value:Floor" />
+        </div>
+    </div>
+
+        
+    }
 
     <div class="control-group">
         <label for="address.Street" class="control-label">Jalan</label>
@@ -7,6 +52,7 @@
             <input class="input-xxlarge" data-bind="value: Street" id="address.Street" type="text" name="address.Street" />
         </div>
     </div>
+
     <div class="control-group">
         <label for="address.City" class="control-label">Bandar/Daerah</label>
         <div class="controls">

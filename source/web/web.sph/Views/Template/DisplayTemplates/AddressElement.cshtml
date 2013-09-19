@@ -7,6 +7,33 @@
         <h3 data-bind="text: Label"></h3>
     </div>
 
+    <div class="control-group" data-bind="visible: IsUnitNoVisible">
+        <label class="control-label">No Unit</label>
+        <div class="controls">
+            <input class="input-large" type="text" />
+        </div>
+    </div>
+
+    <div class="control-group" data-bind="visible: IsBlockVisible">
+        <label class="control-label">Blok</label>
+        <div class="controls">
+            <!-- ko if : BlockOptionsPath -->
+            <select class="input-large"></select>
+            <!-- /ko -->
+            <!-- ko ifnot : BlockOptionsPath -->
+            <input class="input-large" type="text" />
+            <!-- /ko -->
+        </div>
+    </div>
+
+    <div class="control-group" data-bind="visible: IsFloorVisible">
+        <label class="control-label">Tingkat</label>
+        <div class="controls">
+            <input class="input-large" type="text" />
+        </div>
+    </div>
+
+
     <div class="control-group">
         <label class="control-label">Jalan</label>
         <div class="controls">

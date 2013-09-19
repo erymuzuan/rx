@@ -58,7 +58,11 @@ define(['services/datacontext',
 
 
                         if (!id) {
+                            vm.building(new bespoke.sph.domain.Building());
+                            vm.building().CustomFieldValueCollection(cfs);
+                            vm.building().CustomListValueCollection(cls);
                             vm.building().TemplateId(templateId);
+                            //vm.building().TemplateName(templateId);
                             vm.toolbar.watching(false);
                             tcs.resolve();
                             return;
@@ -126,40 +130,48 @@ define(['services/datacontext',
                 return tcs.promise();
             },
             mapInitialized = ko.observable(false),
+            geoCode = function (address) {
+
+                var point = new google.maps.LatLng(3.1282, 101.6441);
+                
+               return mapvm.geocode(address)
+                 .then(function (result) {
+                     if (result.status) {
+                         mapvm.init({
+                             panel: 'map',
+                             draw: true,
+                             polygoncomplete: polygoncomplete,
+                             zoom: 18,
+                             center: result.point
+                         });
+                     } else {
+                         mapvm.init({
+                             panel: 'map',
+                             draw: true,
+                             polygoncomplete: polygoncomplete,
+                             zoom: center[0] ? 18 : 12,
+                             center: point
+                         });
+                     }
+                 });
+            },
             showMap = function () {
+                $('#map-panel').modal();
                 if (mapInitialized()) {
                     return;
                 }
                 mapInitialized(true);
                 isBusy(true);
                 var point = new google.maps.LatLng(3.1282, 101.6441);
-                var buildingId = vm.building().BuildingId();
+                var buildingId = vm.building().BuildingId(),
+                    address = vm.building().Address().Street() + ","
+                        + vm.building().Address().City() + ","
+                        + vm.building().Address().Postcode() + ","
+                        + vm.building().Address().State() + ","
+                        + "Malaysia.";
+                
                 if (!buildingId) {
-                    mapvm.geocode(
-                        vm.building().Address().Street() + ","
-                       + vm.building().Address().City() + ","
-                       + vm.building().Address().Postcode() + ","
-                       + vm.building().Address().State() + ","
-                       + "Malaysia.")
-                    .then(function (result) {
-                        if (result.status) {
-                            mapvm.init({
-                                panel: 'map',
-                                draw: true,
-                                polygoncomplete: polygoncomplete,
-                                zoom: 18,
-                                center: result.point
-                            });
-                        } else {
-                            mapvm.init({
-                                panel: 'map',
-                                draw: true,
-                                polygoncomplete: polygoncomplete,
-                                zoom: center[0] ? 18 : 12,
-                                center: point
-                            });
-                        }
-                    });
+                    geoCode(address);
                     return;
                 }
 
@@ -170,6 +182,9 @@ define(['services/datacontext',
                     isBusy(false);
                     if (center[0]) {
                         point = new google.maps.LatLng(center[0].Lat, center[0].Lng);
+                    } else {
+                        geoCode(address);
+                        return;
                     }
                     mapvm.init({
                         panel: 'map',

@@ -1,6 +1,7 @@
 [
   {
     "role": "can_edit_maintenance_template",
+    "groupName": null,
     "url": "template.maintenance-id.0/:id",
     "moduleId": "viewmodels/template.maintenance-id.0",
     "name": "Tetapan Penyenggaraan",
@@ -13,6 +14,7 @@
   },
   {
     "role": "can_edit_maintenance_template",
+    "groupName": null,
     "url": "maintenance.template.list",
     "moduleId": "viewmodels/maintenance.template.list",
     "name": "Templat Penyelenggaraan",
@@ -25,6 +27,7 @@
   },
   {
     "role": "maintenance_dashboard",
+    "groupName": null,
     "url": "maintenance.dashboard",
     "moduleId": "viewmodels/maintenance.dashboard",
     "name": "Papan Senggara",
@@ -37,6 +40,7 @@
   },
   {
     "role": "can_assign_complaint",
+    "groupName": null,
     "url": "complaint.dashboard",
     "moduleId": "viewmodels/complaint.dashboard",
     "name": "Papan Aduan",
@@ -49,6 +53,7 @@
   },
   {
     "role": null,
+    "groupName": "Main",
     "url": "public.index",
     "moduleId": "viewmodels/public.index",
     "name": "Utama",
@@ -61,6 +66,7 @@
   },
   {
     "role": "admin_dashboard",
+    "groupName": null,
     "url": "admindashboard",
     "moduleId": "viewmodels/admindashboard",
     "name": "Papan Tugas",
@@ -73,6 +79,7 @@
   },
   {
     "role": "maintenance_dashboard",
+    "groupName": null,
     "url": "maintenance.detail/:templateId/:id",
     "moduleId": "viewmodels/maintenance.detail",
     "name": "Perincian Senggara",
@@ -85,6 +92,7 @@
   },
   {
     "role": "can_edit_contract_template",
+    "groupName": null,
     "url": "contract.template/:id",
     "moduleId": "viewmodels/contract.template",
     "name": "contract type",
@@ -97,6 +105,7 @@
   },
   {
     "role": "admin_dashboard",
+    "groupName": null,
     "url": "offerdetails/:rentalId/:csId",
     "moduleId": "viewmodels/offerdetails",
     "name": "Tawaran",
@@ -109,6 +118,7 @@
   },
   {
     "role": "can_add_space",
+    "groupName": null,
     "url": "lot.list/:buildingId/:block/:floorname",
     "moduleId": "viewmodels/lotdetail",
     "name": "Senarai lots",
@@ -121,6 +131,7 @@
   },
   {
     "role": "can_edit_setting",
+    "groupName": null,
     "url": "contract.list",
     "moduleId": "viewmodels/contract.list",
     "name": "Kontrak",
@@ -135,6 +146,7 @@
   },
   {
     "role": "can_view_contract_details",
+    "groupName": null,
     "url": "contract.details/:id",
     "moduleId": "viewmodels/contract.details",
     "name": "contractdetails",
@@ -149,6 +161,7 @@
   },
   {
     "role": "can_add_space",
+    "groupName": null,
     "url": "building.list",
     "moduleId": "viewmodels/building.list",
     "name": "Bangunan",
@@ -163,6 +176,7 @@
   },
   {
     "role": "can_add_space",
+    "groupName": null,
     "url": "space.detail/:templateId/:buildingId/:floorname/:csId",
     "moduleId": "viewmodels/space.detail",
     "name": "ruang komersial",
@@ -175,6 +189,7 @@
   },
   {
     "role": "admin_user",
+    "groupName": null,
     "url": "users",
     "moduleId": "viewmodels/users",
     "name": "Pengurusan Pengguna",
@@ -187,6 +202,7 @@
   },
   {
     "role": "can_add_space",
+    "groupName": null,
     "url": "space.list",
     "moduleId": "viewmodels/space.list",
     "name": "Ruang",
@@ -199,6 +215,7 @@
   },
   {
     "role": "admin_dashboard",
+    "groupName": null,
     "url": "contract.create/:rentalApplicationId",
     "moduleId": "viewmodels/contract.create",
     "name": "create contract",
@@ -211,6 +228,7 @@
   },
   {
     "role": "can_edit_contract_template",
+    "groupName": null,
     "url": "contract.template.list",
     "moduleId": "viewmodels/contract.template.list",
     "name": "Templat Kontrak",
@@ -223,6 +241,7 @@
   },
   {
     "role": "can_add_space",
+    "groupName": null,
     "url": "building.bound",
     "moduleId": "viewmodels/building.bound",
     "name": "Peta Kawasan",
@@ -235,6 +254,7 @@
   },
   {
     "role": "can_add_space",
+    "groupName": null,
     "url": "building.detail/:templateId/:id",
     "moduleId": "viewmodels/building.detail",
     "name": "BuildingDetail",
@@ -247,6 +267,7 @@
   },
   {
     "role": "can_add_space",
+    "groupName": null,
     "url": "floorplan/:buildingId/:floorname",
     "moduleId": "viewmodels/floorplan",
     "name": "FloorPlan",
@@ -259,6 +280,7 @@
   },
   {
     "role": "admin_dashboard",
+    "groupName": null,
     "url": "applicationlist/:status",
     "moduleId": "viewmodels/applicationlist",
     "name": "applicationlist",
@@ -273,6 +295,7 @@
   },
   {
     "role": "admin_dashboard",
+    "groupName": null,
     "url": "rentalapplication.verify/:applicationId",
     "moduleId": "viewmodels/rentalapplication.verify",
     "name": "rentalapplication.verify",
@@ -287,6 +310,7 @@
   },
   {
     "role": "admin_dashboard",
+    "groupName": null,
     "url": "returnedapplication/:id",
     "moduleId": "viewmodels/returnedapplication",
     "name": "rental application",
@@ -301,6 +325,7 @@
   },
   {
     "role": "admin_dashboard",
+    "groupName": null,
     "url": "tenant",
     "moduleId": "viewmodels/tenant",
     "name": "Penyewa",
@@ -315,6 +340,7 @@
   },
   {
     "role": "can_edit_payment",
+    "groupName": null,
     "url": "deposit",
     "moduleId": "viewmodels/deposit",
     "name": "Bayaran Deposit",
@@ -329,6 +355,7 @@
   },
   {
     "role": "can_edit_payment",
+    "groupName": null,
     "url": "rebate",
     "moduleId": "viewmodels/rebate",
     "name": "Senarai Rebat",
@@ -343,6 +370,7 @@
   },
   {
     "role": "admin_dashboard",
+    "groupName": null,
     "url": "tenant.detail/:tenantId",
     "moduleId": "viewmodels/tenant.detail",
     "name": "tenant.detail",
@@ -357,6 +385,7 @@
   },
   {
     "role": "can_edit_payment",
+    "groupName": null,
     "url": "payment",
     "moduleId": "viewmodels/payment",
     "name": "Bayaran Sewa",
@@ -371,6 +400,7 @@
   },
   {
     "role": "can_edit_setting",
+    "groupName": null,
     "url": "organization.detail",
     "moduleId": "viewmodels/organization.detail",
     "name": "Tetapan Organisasi",
@@ -383,6 +413,7 @@
   },
   {
     "role": "can_edit_complaint_template",
+    "groupName": null,
     "url": "complaint.template.list",
     "moduleId": "viewmodels/complaint.template.list",
     "name": "Templat Aduan",
@@ -395,6 +426,7 @@
   },
   {
     "role": "can_edit_complaint_template",
+    "groupName": null,
     "url": "template.complaint-id.0/:id",
     "moduleId": "viewmodels/template.complaint-id.0",
     "name": "Tetapan Aduan",
@@ -407,6 +439,7 @@
   },
   {
     "role": "can_assign_complaint",
+    "groupName": null,
     "url": "complaint.list/:status",
     "moduleId": "viewmodels/complaint.list",
     "name": "Senarai Aduan",
@@ -419,6 +452,7 @@
   },
   {
     "role": "can_view_tenant_details",
+    "groupName": null,
     "url": "tenant.portal",
     "moduleId": "viewmodels/tenant.portal",
     "name": "Portal Penyewa",
@@ -431,6 +465,7 @@
   },
   {
     "role": "can_assign_complaint",
+    "groupName": null,
     "url": "complaint.close/:id",
     "moduleId": "viewmodels/complaint.close",
     "name": "Penyenggaraan",
@@ -443,6 +478,7 @@
   },
   {
     "role": "everybody",
+    "groupName": null,
     "url": "user.profile",
     "moduleId": "viewmodels/user.profile",
     "name": "Profile",
@@ -455,6 +491,7 @@
   },
   {
     "role": "maintenance_dashboard",
+    "groupName": null,
     "url": "maintenance.list/:status",
     "moduleId": "viewmodels/maintenance.list",
     "name": "Senarai Penyenggaraan",
@@ -467,6 +504,7 @@
   },
   {
     "role": "maintenance_officer",
+    "groupName": null,
     "url": "workorder.list",
     "moduleId": "viewmodels/workorder.list",
     "name": "Senarai Arahan Kerja",
@@ -479,6 +517,7 @@
   },
   {
     "role": "can_edit_inventory",
+    "groupName": null,
     "url": "inventory.list",
     "moduleId": "viewmodels/inventory.list",
     "name": "Senarai Inventori",
@@ -491,6 +530,7 @@
   },
   {
     "role": "admin_user",
+    "groupName": null,
     "url": "role.settings/:id",
     "moduleId": "viewmodels/role.settings",
     "name": null,
@@ -503,6 +543,7 @@
   },
   {
     "role": null,
+    "groupName": null,
     "url": "rentalapplication/:id",
     "moduleId": "viewmodels/rentalapplication",
     "name": "rental application",
@@ -517,6 +558,7 @@
   },
   {
     "role": null,
+    "groupName": "Application",
     "url": "rentalapplication.selectspace",
     "moduleId": "viewmodels/rentalapplication.selectspace",
     "name": "Permohonan",
@@ -531,6 +573,7 @@
   },
   {
     "role": null,
+    "groupName": null,
     "url": "complaint.form/:templateId",
     "moduleId": "viewmodels/complaint.form",
     "name": "PerincianAduan",
@@ -543,6 +586,7 @@
   },
   {
     "role": null,
+    "groupName": "Complaint",
     "url": "complaint",
     "moduleId": "viewmodels/complaint",
     "name": "Aduan",
@@ -555,6 +599,7 @@
   },
   {
     "role": null,
+    "groupName": null,
     "url": "complaint.detail/:id",
     "moduleId": "viewmodels/complaint.detail",
     "name": null,
@@ -567,6 +612,7 @@
   },
   {
     "role": "maintenance_dashboard",
+    "groupName": null,
     "url": "maintenance.assignment/:id",
     "moduleId": "viewmodels/maintenance.assignment",
     "name": "Perincian Aduan and Assisgment",
@@ -579,6 +625,7 @@
   },
   {
     "role": "can_edit_setting",
+    "groupName": null,
     "url": "setting",
     "moduleId": "viewmodels/setting",
     "name": "Tetapan Umum",
@@ -593,6 +640,7 @@
   },
   {
     "role": "can_edit_inventory",
+    "groupName": null,
     "url": "inventory.detail/:id",
     "moduleId": "viewmodels/inventory.detail",
     "name": "Maklumat Inventori",
@@ -605,6 +653,7 @@
   },
   {
     "role": "can_add_trigger",
+    "groupName": null,
     "url": "trigger.setup/:id",
     "moduleId": "viewmodels/trigger.setup",
     "name": "Setting Trigger",
@@ -617,6 +666,7 @@
   },
   {
     "role": "can_add_trigger",
+    "groupName": null,
     "url": "trigger.list",
     "moduleId": "viewmodels/trigger.list",
     "name": "Senarai Trigger",
@@ -629,6 +679,7 @@
   },
   {
     "role": "can_edit_building_template",
+    "groupName": null,
     "url": "building.template.list",
     "moduleId": "viewmodels/building.template.list",
     "name": "Templat Bangunan",
@@ -641,6 +692,7 @@
   },
   {
     "role": "can_edit_building_template",
+    "groupName": null,
     "url": "template.building-id.0/:id",
     "moduleId": "viewmodels/template.building-id.0",
     "name": "Form Templat Bangunan",
@@ -653,6 +705,7 @@
   },
   {
     "role": "can_edit_space_template",
+    "groupName": null,
     "url": "space.template.list",
     "moduleId": "viewmodels/space.template.list",
     "name": "Templat Ruang",
@@ -665,6 +718,7 @@
   },
   {
     "role": "can_edit_space_template",
+    "groupName": null,
     "url": "template.space-id.0/:id",
     "moduleId": "viewmodels/template.space-id.0",
     "name": "Form templat ruang komersil",
@@ -677,6 +731,7 @@
   },
   {
     "role": "can_edit_application_template",
+    "groupName": null,
     "url": "application.template.list",
     "moduleId": "viewmodels/application.template.list",
     "name": "Templat Permohonan",
@@ -689,6 +744,7 @@
   },
   {
     "role": "can_edit_application_template",
+    "groupName": null,
     "url": "template.application-id.0/:id",
     "moduleId": "viewmodels/template.application-id.0",
     "name": "Form Templat Permohonan",
@@ -701,6 +757,7 @@
   },
   {
     "role": "everybody",
+    "groupName": null,
     "url": "message.detail/:id",
     "moduleId": "viewmodels/message.detail",
     "name": "Mesej",
@@ -713,6 +770,7 @@
   },
   {
     "role": "everybody",
+    "groupName": null,
     "url": "message.inbox",
     "moduleId": "viewmodels/message.inbox",
     "name": "Mesej",
@@ -725,6 +783,7 @@
   },
   {
     "role": "can_edit_land",
+    "groupName": null,
     "url": "land.list",
     "moduleId": "viewmodels/land.list",
     "name": "Senarai Tanah",
@@ -737,6 +796,7 @@
   },
   {
     "role": "can_edit_land",
+    "groupName": null,
     "url": "land.detail/:id",
     "moduleId": "viewmodels/land.detail",
     "name": "Butiran Tanah",
@@ -749,6 +809,7 @@
   },
   {
     "role": "admin_dashboard",
+    "groupName": null,
     "url": "reportdefinition.edit-id.0/:id",
     "moduleId": "viewmodels/reportdefinition.edit-id.0",
     "name": "Report Builder",
@@ -761,6 +822,7 @@
   },
   {
     "role": "admin_dashboard",
+    "groupName": null,
     "url": "reportdefinition.list",
     "moduleId": "viewmodels/reportdefinition.list",
     "name": "Report Manager",
@@ -773,6 +835,7 @@
   },
   {
     "role": "admin_dashboard",
+    "groupName": null,
     "url": "reportdelivery.schedule/:rdlid",
     "moduleId": "viewmodels/reportdelivery.schedule",
     "name": "Report Schedules",
@@ -785,6 +848,7 @@
   },
   {
     "role": null,
+    "groupName": "Complaint",
     "url": "complaint.checkstatus",
     "moduleId": "viewmodels/complaint.checkstatus",
     "name": "Semak Aduan",

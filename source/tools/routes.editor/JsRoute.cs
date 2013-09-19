@@ -12,7 +12,7 @@ namespace routes.editor
             return this.ModuleId;
         }
         public string Role { get; set; }
-
+        public string GroupName { get; set; }
         public string Url { set; get; }
         public string ModuleId { set; get; }
         public string Name { set; get; }

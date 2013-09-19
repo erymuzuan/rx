@@ -307,7 +307,13 @@
 	<xs:element name="AddressElement">
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="FormElement"/>
+				<xs:extension base="FormElement">
+					<xs:attribute name="IsUnitNoVisible" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsFloorVisible" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsBlockVisible" type="xs:boolean" use="required"/>
+					<xs:attribute name="BlockOptionsPath" type="xs:string" use="required"/>
+					<xs:attribute name="FloorOptionsPath" type="xs:string" use="required"/>
+				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>

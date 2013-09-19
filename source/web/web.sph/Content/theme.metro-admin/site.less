@@ -1,102 +1,112 @@
-﻿body
-{
+﻿body {
     background-color: #ffffff;
 }
 
-#body
-{
+#body {
     margin-bottom: 70px;
 }
 
-.google-maps
-{
-    min-height: 700px;
-    margin-left: -480px !important;
-    width: 930px;
-    #map{
-        width: 900px; height: 500px
+.google-maps {
+    min-height: 600px;
+
+    #map {
+        width: 900px;
+        height: 500px;
     }
-    div.modal-body{
-        width: 900px; height: 500px; max-height: 500px
+
+    div.modal-body {
+        width: 900px;
+        height: 500px;
+        max-height: 500px;
     }
 }
 
-    .google-maps img
-    {
+    .google-maps img {
         max-width: none;
     }
 
 
-.modal,.view-model-modal
-{
+table.table-striped {
+
+    th{
+        cursor:pointer;
+    }
+    th.headerSortUp:after {
+        float:right;
+        content: url('/images/up8.png');
+    }
+
+    th.headerSortDown:after {
+        float:right;
+        content: url('/images/down8.png');
+    }
+}
+
+.modal, .view-model-modal {
     margin-left: -400px;
-    background-color:#fff;
+    background-color: #fff;
 }
 
 
 .absolute-center {
-  position: absolute;
-  margin: auto;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
 }
+
 .context-action-panel {
-  float: right;
+    float: right;
 }
+
 .context-action {
-  display: none;
-  position: absolute;
-  z-index: 9999;
-  background-color: #ffffff;
-  min-width: 300px;
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    background-color: #ffffff;
+    min-width: 300px;
 }
-.context-action .modal-header {
-  color: #272b30;
-}
-.loader .page-progress-bar
-{
+
+    .context-action .modal-header {
+        color: #272b30;
+    }
+
+.loader .page-progress-bar {
     margin: 14px 0 0 0;
 }
 
-.loader
-{
+.loader {
     visibility: hidden;
 }
 
-    .loader.active
-    {
+    .loader.active {
         visibility: visible;
     }
 
-ul.listview
-{
+ul.listview {
     border: 1px solid #b6b6b6;
     padding: 5px;
 }
 
-    ul.listview li div
-    {
+    ul.listview li div {
         padding: 5px;
     }
 
 
-.selected
-{
+.selected {
     background-color: #e0e0e0;
     color: #ffffff;
 }
 
-#template-form-designer
-{
+#template-form-designer {
     border: 5px dashed #C0C0C0;
     min-height: 800px;
     padding: 15px;
 }
 
-    #template-form-designer > form > div
-    {
+    #template-form-designer > form > div {
         -ms-opacity: 0.6;
         opacity: 0.6;
         margin: 5px;
@@ -104,20 +114,17 @@ ul.listview
         border: 1px solid #FFF;
     }
 
-        #template-form-designer > form > div:hover
-        {
+        #template-form-designer > form > div:hover {
             border: 1px dashed#000000;
         }
 
-#report-designer
-{
+#report-designer {
     border: 5px dashed #C0C0C0;
     min-height: 800px;
     padding: 15px;
 }
 
-.report-layout
-{
+.report-layout {
     border: 2px dashed #d9ccb2;
     padding: 8px;
     margin: 5px;
@@ -126,16 +133,14 @@ ul.listview
     background-color: #f7f7f7;
 }
 
-    .report-layout.active
-    {
+    .report-layout.active {
         border: 3px dashed #e1e6fb;
         padding: 8px;
         margin: 5px;
         background-color: #ffffff;
     }
 
-    .report-layout > span
-    {
+    .report-layout > span {
         color: #ccc;
         font-size: 18px;
         position: absolute;
@@ -149,8 +154,7 @@ ul.listview
         right: 0;
     }
 
-.report-item
-{
+.report-item {
     margin: 5px;
     padding: 5px;
     -ms-opacity: 0.3 !important;
@@ -158,50 +162,42 @@ ul.listview
     position: relative;
 }
 
-#report-info
-{
+#report-info {
     padding: 0.5em 0 0.5em 0;
     border-bottom: 1px dotted #cccccc;
 }
 
-    #report-info h2
-    {
+    #report-info h2 {
         margin: 0;
         padding-bottom: 0;
         font-size: 160%;
         font-weight: bold;
     }
 
-    #report-info span
-    {
+    #report-info span {
         margin-top: 0;
         font-size: 90%;
     }
 
-#entity-columns
-{
+#entity-columns {
     list-style: none;
 }
 
-#add-field a
-{
+#add-field a {
     margin: 5px;
 }
 
-.ph
-{
+.ph {
     background-color: #FFFF99;
     border: 1px dashed#000000;
 }
 
-.form-element
-{
+.form-element {
     margin: 5px;
     padding: 5px;
 }
 
-.selected-form-element
-{
+.selected-form-element {
     margin: 5px;
     padding: 5px;
     -ms-opacity: 1.0 !important;
@@ -210,21 +206,18 @@ ul.listview
     position: relative;
 }
 
-    .selected-form-element label
-    {
+    .selected-form-element label {
         font-weight: bold;
         color: #000;
     }
 
-    .selected-form-element > section.btn-group
-    {
+    .selected-form-element > section.btn-group {
         position: absolute;
         top: 0%;
         left: 96%;
     }
 
-.container > .content
-{
+.container > .content {
     background-color: #fff;
     padding: 20px;
     margin: 0 -20px;
@@ -236,76 +229,63 @@ ul.listview
     box-shadow: 0 1px 2px rgba(0,0,0,.15);
 }
 
-.login-slider
-{
+.login-slider {
 }
 
-    .login-slider .item
-    {
+    .login-slider .item {
         height: 480px;
     }
 
-.login-form
-{
+.login-form {
     margin-left: 80px;
 }
 
-    .login-form .logo
-    {
+    .login-form .logo {
         margin-top: 65px;
     }
 
-legend
-{
+legend {
     margin-right: -50px;
     font-weight: bold;
     color: #404040;
 }
 
-#shell-logviewer-modal
-{
+#shell-logviewer-modal {
     width: 900px; /* SET THE WIDTH OF THE MODAL */
     margin: 20px 0 0 -450px; /* CHANGE MARGINS TO ACCOMODATE THE NEW WIDTH (original = margin: -250px 0 0 -280px;) */
 }
 
-    #shell-logviewer-modal .modal
-    {
+    #shell-logviewer-modal .modal {
         max-height: 800px;
     }
 
 
-header div.navbar-inner
-{
+header div.navbar-inner {
     padding-left: 0px;
 }
 
-header div.container
-{
+header div.container {
     padding-left: 0px;
     margin-left: 0px;
 }
 
-.heading-success
-{
+.heading-success {
     border-bottom: 1px solid #7cbb00;
     font-weight: 400;
 }
 
 
 
-.box
-{
+.box {
     text-align: center;
 }
 
-.well-primary, .carousel-caption.primary
-{
+.well-primary, .carousel-caption.primary {
     background: #0096e1;
     color: #fff;
 }
 
-.well
-{
+.well {
     border: none;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
@@ -315,38 +295,31 @@ header div.container
     box-shadow: none;
 }
 
-    .well a:hover
-    {
+    .well a:hover {
         color: #fff;
         text-decoration: none;
     }
 
-.well-primary:hover
-{
+.well-primary:hover {
     background: #0096e1;
 }
 
-.well-success:hover
-{
+.well-success:hover {
     background: #78b500;
 }
 
-.well-success, .carousel-caption.success
-{
+.well-success, .carousel-caption.success {
     background: #7cbb00;
     color: #fff;
 }
 
-.carousel h2
-{
+.carousel h2 {
     color: #fff;
 }
 
-@media (max-height: 800px)
-{
+@media (max-height: 800px) {
 
-    .google-maps
-    {
+    .google-maps {
         min-height: 400px;
     }
 }

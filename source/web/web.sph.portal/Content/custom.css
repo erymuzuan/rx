@@ -99,7 +99,6 @@ nav.primary ul li a:hover {
 } 
 
 
-
 /*ISOTOPE GALLERY*/
 
 
@@ -441,3 +440,7 @@ top: 0px;
   top: auto;
   bottom: 270px;
 }
+
+  div.plan h2 {
+        text-align: center !important;
+    }

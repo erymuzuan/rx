@@ -1962,6 +1962,86 @@ namespace Bespoke.Sph.Domain
     public partial class AddressElement
     {
 
+        private bool m_IsUnitNoVisible;
+        [XmlAttribute]
+        public bool IsUnitNoVisible
+        {
+            get
+            {
+                return m_IsUnitNoVisible;
+            }
+            set
+            {
+                m_IsUnitNoVisible = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsFloorVisible;
+        [XmlAttribute]
+        public bool IsFloorVisible
+        {
+            get
+            {
+                return m_IsFloorVisible;
+            }
+            set
+            {
+                m_IsFloorVisible = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsBlockVisible;
+        [XmlAttribute]
+        public bool IsBlockVisible
+        {
+            get
+            {
+                return m_IsBlockVisible;
+            }
+            set
+            {
+                m_IsBlockVisible = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_BlockOptionsPath;
+        [XmlAttribute]
+        public string BlockOptionsPath
+        {
+            get
+            {
+                return m_BlockOptionsPath;
+            }
+            set
+            {
+                m_BlockOptionsPath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_FloorOptionsPath;
+        [XmlAttribute]
+        public string FloorOptionsPath
+        {
+            get
+            {
+                return m_FloorOptionsPath;
+            }
+            set
+            {
+                m_FloorOptionsPath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 
