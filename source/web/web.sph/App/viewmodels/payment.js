@@ -59,7 +59,35 @@ define(['services/datacontext', 'services/logger'],
                         tcs.resolve(true);
                 });
                 return tcs.promise();
-            };
+            },
+        search = function () {
+            var tcs = new $.Deferred();
+            var paymentQuery = String.format("ContractId gt 0");
+
+            if (vm.searchTerm.contractNo()) {
+                paymentQuery = String.format("ReferenceNo eq '{0}'", vm.searchTerm.contractNo());
+            }
+            if (vm.searchTerm.keyword()) {
+                paymentQuery += String.format(" or TenantName like '%{0}%'", vm.searchTerm.keyword());
+            }
+            console.log(paymentQuery);
+            context.loadAsync("Contract", paymentQuery)
+                     .done(function (lo) {
+                         isBusy(false);
+                         var contracts = _(lo.itemCollection).map(function (r) {
+                             return _(r).extend(new bespoke.sph.domain.ContractPartial());
+                         });
+                         _(contracts).each(function (r2) {
+                             r2.getAccruedAmount(context)
+                                 .done(function (amount) {
+                                     r2.Accrued(amount);
+                                 });
+                         });
+                         vm.contractCollection(contracts);
+                         tcs.resolve(true);
+                     });
+            return tcs.promise();
+        };
 
 	    var vm = {
 	        isBusy: isBusy,
@@ -80,7 +108,12 @@ define(['services/datacontext', 'services/logger'],
 	                item: payment,
 	            }),
 	            exportCommand: exportList,
-	        })
+	        }),
+	        searchTerm: {
+	            contractNo: ko.observable(),
+	            keyword: ko.observable()
+	        },
+	        searchCommand: search
 
 	    };
 

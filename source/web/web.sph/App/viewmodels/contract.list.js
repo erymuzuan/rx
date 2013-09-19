@@ -20,7 +20,26 @@ define(['services/datacontext'],
             viewAttached = function(view) {
                 _uiready.init(view);
             },
-            exportList = function (){};
+            exportList = function (){},
+        search = function () {
+            var tcs = new $.Deferred();
+            var contractQuery = String.format("ContractId gt 0");
+
+            if (vm.searchTerm.contractNo()) {
+                contractQuery = String.format("ReferenceNo eq '{0}'", vm.searchTerm.contractNo());
+            }
+            if (vm.searchTerm.keyword()) {
+                contractQuery += String.format(" or TenantName like '%{0}%'", vm.searchTerm.keyword());
+            }
+            console.log(contractQuery);
+            var contractTask = context.loadAsync("Contract", contractQuery);
+            $.when(contractTask)
+                .done(function (lo) {
+                    vm.contracts(lo.itemCollection);
+                    tcs.resolve(true);
+                });
+            return tcs.promise();
+        };
 
         var vm = {
             isBusy: isBusy,
@@ -40,7 +59,12 @@ define(['services/datacontext'],
                     item: contract,
                 }),
                 exportCommand: exportList,
-            })
+            }),
+            searchTerm: {
+                contractNo: ko.observable(),
+                keyword: ko.observable()
+            },
+            searchCommand: search
         };
 
         return vm;
