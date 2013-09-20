@@ -46,16 +46,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         },
         search = function () {
             var tcs = new $.Deferred();
-            var buildingQuery = String.format("BuildingId gt 0");
-
-            if (vm.searchTerm.state()) {
-                buildingQuery = String.format("State eq '{0}'", vm.searchTerm.state());
-            }
-            if (vm.searchTerm.keyword()) {
-                buildingQuery += String.format(" or [State] like '%{0}%' or [LotNo] like '%{0}%' or [Name] like '%{0}%'", vm.searchTerm.keyword());
-            }
-            console.log(buildingQuery);
-            var buildingTask = context.loadAsync("Building", buildingQuery);
+          
+            var buildingTask = context.searchAsync("Building", null,vm.searchTerm.keyword());
             $.when(buildingTask)
                 .done(function (lo) {
                     vm.buildings(lo.itemCollection);
