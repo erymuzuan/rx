@@ -16,6 +16,7 @@ namespace Bespoke.Sph.Web.App_Start
               new ScriptBundle("~/scripts/vendor")
                 .Include("~/App/objectbuilders.js")
                 .Include("~/scripts/jquery-{version}.js")
+                .Include("~/scripts/jquery.dataTables.min.js")
                 .Include("~/scripts/jquery.tablesorter.min.js")
                 .Include("~/scripts/knockout-{version}.debug.js")
                 .Include("~/scripts/knockout.mapping-latest.js")
@@ -61,6 +62,7 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/Content/theme." + theme + "/complaint.css")
                 .Include("~/Content/theme." + theme + "/complaint.css")
                 .Include("~/Content/theme." + theme + "/rentalapplication.css")
+                .Include("~/Content/theme." + theme + "/user.css")
               );
         }
 
