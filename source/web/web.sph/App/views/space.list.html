@@ -16,7 +16,7 @@
             <tbody data-bind="foreach: spaces">
                 <tr>
                     <td>
-                        <a data-bind="attr: { href: '/#/space.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() + '/' + FloorName() + '/' + SpaceId() }, text: RegistrationNo"></a>
+                        <a class="btn btn-link" data-bind="attr: { href: '/#/space.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() + '/' + FloorName() + '/' + SpaceId() }, text: RegistrationNo"></a>
                     </td>
                     <td data-bind="text: Address().State"></td>
                     <td data-bind="text: Location"></td>

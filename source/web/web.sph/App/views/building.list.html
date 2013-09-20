@@ -32,13 +32,12 @@
                     <th>Jenis</th>
                     <th>Keluasan</th>
                     <th>Blok</th>
-                    <th>Tingkat</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: buildings">
                 <tr>
                      <td>
-                        <a data-bind="attr: { href: '/#/building.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() }, text: Name"></a>
+                        <a class="btn btn-link" data-bind="attr: { href: '/#/building.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() }, text: Name"></a>
                     </td>
                     <td data-bind="text: Address().State"></td>
                     <td data-bind="text: Address().City"></td>
@@ -46,7 +45,6 @@
                     <td data-bind="text: BuildingType"></td>
                     <td data-bind="text: BuildingSize"></td>
                     <td data-bind="text: Blocks"></td>
-                    <td data-bind="text: Floors"></td>
                 </tr>
             </tbody>
         </table>
