@@ -202,7 +202,7 @@ function (logger, system) {
         
         var url = "http://localhost:9200/sph/" + entity.toLowerCase();
         url += "/_search?q=_all:" + (filter || "");
-        url += String.Format("&from={0}&size={1}",(page -1) * size, size);
+        url += String.format("&from={0}&size={1}",(page -1) * size, size);
         logger.log(url);
         
         var tcs = new $.Deferred();
