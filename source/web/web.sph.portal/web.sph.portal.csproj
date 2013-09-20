@@ -351,6 +351,8 @@
     <Content Include="Views\Home\Faq.cshtml" />
     <Content Include="Views\Home\RumahPeranginan.cshtml" />
     <Content Include="Views\Home\Quarters.cshtml" />
+    <Content Include="Views\Home\Office2.cshtml" />
+    <Content Include="Views\Home\RuangKomersil2.cshtml" />
     <Content Include="Views\Home\Office.cshtml" />
     <Content Include="Views\Home\RuangKomersil.cshtml" />
   </ItemGroup>
