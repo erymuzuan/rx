@@ -212,7 +212,7 @@
     }
 
     function filterRoute(groupName) {
-        return ko.utils.arrayFilter(this.allRoutes(), function (route) {
+        return ko.utils.arrayFilter(allRoutes(), function (route) {
             return (route.groupName === groupName);
         });
     };

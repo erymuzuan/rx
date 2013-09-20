@@ -9,7 +9,7 @@
 }
 
 <script type="text/javascript" data-script="true">
-    define(['services/datacontext','viewmodels/_users.designation','viewmodels/_users.department'], function (context,designationvm,departmentvm) {
+    define(['services/datacontext','viewmodels/_users.designation','viewmodels/_users.department','services/logger'], function (context,designationvm,departmentvm,logger) {
         var isBusy = ko.observable(false),
             roles = @Html.Raw(JsonConvert.SerializeObject(roles)),
             printprofile = ko.observable(new bespoke.sph.domain.Profile()),
@@ -80,6 +80,39 @@
                         tcs.resolve(true);
                     });
                 return tcs.promise();
+            },
+            resetPassword = function(user) {
+                vm.password1('');
+                vm.password2('');
+                var c1 = ko.mapping.fromJSON(ko.mapping.toJSON(user));
+                var clone = c1;
+                vm.profile(clone);
+            },
+            savePassword = function(user) {
+                var tcs = new $.Deferred();
+                if (!vm.password1() && !vm.password2()) return tcs.promise();
+                if (vm.password1() != vm.password2()) {
+                    logger.logError('Password mismatch', user, this, true);
+                    return tcs.promise();
+                }
+                
+                var data = ko.mapping.toJSON({userName: vm.profile().UserName(), password: vm.password1}) ;
+                isBusy(true);
+
+                context.post(data, "/Admin/ResetPassword")
+                    .then(function(result) {
+                        isBusy(false);
+                        if (result.OK) {
+                            logger.info('Password of [' + vm.profile().UserName() + '] updated');
+                        } else {
+                            logger.logError(result.messages, user, this, true);
+                        }
+                        tcs.resolve(true);
+                        
+                    });
+                return tcs.promise();
+                
+                
             };
 
 
@@ -95,6 +128,10 @@
             addCommand: add,
             editCommand: edit,
             saveCommand: save,
+            password1: ko.observable(),
+            password2: ko.observable(),
+            resetPasswordCommand: resetPassword,
+            savePasswordCommand: savePassword,
             map: map,
             toolbar : ko.observable({
                 reloadCommand: function () {
