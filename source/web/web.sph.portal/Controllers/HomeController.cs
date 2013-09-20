@@ -4,14 +4,17 @@ namespace web.sph.portal.Controllers
 {
     public class HomeController : Controller
     {
+        private const string Moto = "Easy, Dynamic and Professional";
 
         public ActionResult Index()
         {
+            ViewBag.Moto = Moto;
             return View();
         }
 
         public ActionResult Pricing()
         {
+            ViewBag.Moto = Moto;
             return View();
         }
 
@@ -23,6 +26,7 @@ namespace web.sph.portal.Controllers
 
         public ActionResult Features()
         {
+            ViewBag.Moto = Moto;
             return View();
         }
 
@@ -39,16 +43,19 @@ namespace web.sph.portal.Controllers
 
         public ActionResult Quarters()
         {
+            ViewBag.Moto = Moto;
             return View();
         }
 
         public ActionResult Office()
         {
+            ViewBag.Moto = Moto;
             return View();
         }
 
         public ActionResult RuangKomersil()
         {
+            ViewBag.Moto = Moto;
             return View();
         }
 
