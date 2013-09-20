@@ -88,11 +88,11 @@
                 var clone = c1;
                 vm.profile(clone);
             },
-            savePassword = function(user) {
+            savePassword = function() {
                 var tcs = new $.Deferred();
                 if (!vm.password1() && !vm.password2()) return tcs.promise();
                 if (vm.password1() != vm.password2()) {
-                    logger.logError('Password mismatch', user, this, true);
+                    logger.logError('Password mismatch', this, this, true);
                     return tcs.promise();
                 }
                 
@@ -103,12 +103,11 @@
                     .then(function(result) {
                         isBusy(false);
                         if (result.OK) {
-                            logger.info('Password of [' + vm.profile().UserName() + '] updated');
+                            logger.info(result.messages);
                         } else {
-                            logger.logError(result.messages, user, this, true);
+                            logger.logError(result.messages, this, this, true);
                         }
                         tcs.resolve(true);
-                        
                     });
                 return tcs.promise();
                 
