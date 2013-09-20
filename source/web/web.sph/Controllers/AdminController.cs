@@ -109,7 +109,7 @@ namespace Bespoke.Sph.Web.Controllers
                 return Json(new { OK = false, messages = "Please specify new Password" });
 
             var em = Membership.GetUser(userName);
-            if (null == em) return Json(new { OK = false, messages = "User does notexist" });
+            if (null == em) return Json(new { OK = false, messages = "User does not exist" });
             if (em.IsLockedOut)
             {
                 em.UnlockUser();
