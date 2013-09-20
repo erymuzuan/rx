@@ -89,7 +89,7 @@ namespace web.test
         [Test]
         public void _002_CreateLotsOfUsers()
         {
-            var users = from i in Enumerable.Range(1, 100)
+            var users = from i in Enumerable.Range(1, 1000)
                         select new TestUser
                         {
                             UserName = "admin" + i,
