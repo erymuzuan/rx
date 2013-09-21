@@ -547,40 +547,19 @@ ko.bindingHandlers.filter = {
             bindingAccessor = allBindingsAccessor(),
             path = value.path,
             $element = $(element),
-            context = require('services/datacontext'),
-            $spinner = $('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />'),
             $filterInput = $("<input type='search' class='search-query input-medium' placeholder='Tapis..'>"),
             $serverLoadButton = $("<a href='/#' title='Carian server'><i class='add-on icon-search'></i><a>"),
             $form = $("<form class='form-search'>" +
-            " <div class='input-append pull-right'>" +
-            " <i class='add-on icon-remove'></i>" +
-            " " +
-            "</div>" +
-            " </form>"),
-            serverPaging = bindingAccessor.serverPaging,
-            startLoad = function () {
-                $spinner.show();
-                $element.fadeTo("fast", 0.33);
-            },
-            endLoad = function () {
-                $spinner.hide();
-                $element.fadeTo("fast", 1);
-            },
-            setItemsSource = function (items) {
-                if (serverPaging.map) {
-                    items = _(items).map(serverPaging.map);
-                }
-                if (typeof serverPaging.list === "string") {
-                    viewModel[serverPaging.list](items);
-                }
-                if (typeof serverPaging.list === "function") {
-                    serverPaging.list(items);
-                }
-            };
+                " <div class='input-append pull-right'>" +
+                " <i class='add-on icon-remove'></i>" +
+                " " +
+                "</div>" +
+                " </form>"),
+            pagedSearch = bindingAccessor.searchPaging;
 
 
         $form.find('i.icon-remove').before($filterInput);
-        if (serverPaging) {
+        if (pagedSearch) {
             $form.find('i.icon-remove').after($serverLoadButton);
         }
         $element.before($form);
@@ -593,20 +572,20 @@ ko.bindingHandlers.filter = {
                 tcs.promise();
                 return tcs.promise();
             }
-            if (serverPaging) {
-                startLoad();
-                var options = {
-                    entity: serverPaging.entity,
-                    page: serverPaging.page,
-                    size: serverPaging.size
+            if (pagedSearch) {
+                var query = {
+                    "query": {
+                        "bool": {
+                            "must": [
+                                {
+                                    "match_phrase": { "_all": filter }
+                                }
+                            ]
+                        }
+                    }
                 };
-                context.searchAsync(options, serverPaging.query, filter)
-                    .done(function (lo) {
-                        setItemsSource(lo.itemCollection);
-                        endLoad();
-                    });
-
-                return tcs.promise();
+                pagedSearch.query = query;
+                return pagedSearch.search(query);
             }
             return tcs.promise();
         });
@@ -764,61 +743,58 @@ ko.bindingHandlers.searchPaging = {
                          setItemsSource(lo.itemCollection);
                          endLoad();
                      });
+            },
+            search = function (q, page, size) {
+                executedQuery = q;
+                var tcs1 = new $.Deferred();
+                startLoad();
+                context.searchAsync({
+                    entity: entity,
+                    page: page || 1,
+                    size: size || 20
+                }, q)
+                    .then(function (lo) {
+                        if (pager) {
+                            pager.update(lo.rows);
+                        } else {
+                            var pagerOptions = {
+                                element: $pagerPanel,
+                                count: lo.rows,
+                                changed: pageChanged
+                            };
+                            pager = new bespoke.utils.ServerPager(pagerOptions);
+
+                        }
+
+                        setTimeout(function () {
+                            setItemsSource(lo.itemCollection);
+                            tcs1.resolve(lo);
+                            endLoad();
+                        }, 500);
+
+                    });
+                return tcs1.promise();
             };
 
+        //exposed the search function
+        value.search = search;
+        
         $element.after($pagerPanel).after($spinner)
             .fadeTo("slow", 0.33);
 
-        $(document).on('click', searchButton,function (e) {
-            e.preventDefault();
-            var tcs1 = new $.Deferred();
-            executedQuery = ko.toJS(query);
-            context.searchAsync({
-                entity: entity,
-                page: 1,
-                size: 20
-            }, executedQuery)
-                .then(function (lo) {
-                    pager.update(lo.rows);
-
-                    setTimeout(function () {
-                        setItemsSource(lo.itemCollection);
-                        tcs1.resolve(true);
-                        endLoad();
-                    }, 500);
-
-                });
-            return tcs1.promise();
-            
-
-        });
-
-        var tcs = new $.Deferred();
-        context.searchAsync({
-            entity: entity,
-            page: 1,
-            size: 20
-        }, executedQuery)
-            .then(function (lo) {
-
-                var options = {
-                    element: $pagerPanel,
-                    count: lo.rows,
-                    changed: pageChanged
-                };
-                pager = new bespoke.utils.ServerPager(options);
-
-
-                setTimeout(function () {
-                    setItemsSource(lo.itemCollection);
-                    tcs.resolve(true);
-                    endLoad();
-                }, 500);
-
+        if (searchButton) {
+            $(document).on('click', searchButton, function (e) {
+                e.preventDefault();
+                search(ko.toJS(query), 1, pager.pageSize);
             });
-        return tcs.promise();
+
+        }
 
 
+        search(ko.toJS(executedQuery));
+        return {
+            search: search
+        };
 
     }
 };

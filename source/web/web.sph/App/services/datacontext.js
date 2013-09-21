@@ -199,7 +199,7 @@ function (logger, system) {
             size = entityOrOptions.size || 20;
         }
         
-        var url = "http://localhost:9200/sph/" + entity.toLowerCase()+ "/_search";
+        var url = "/search/" + entity.toLowerCase();
         query.from = (page - 1) * size;
         query.size = size;
         

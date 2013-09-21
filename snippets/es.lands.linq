@@ -1,8 +1,8 @@
 <Query Kind="Program">
   <Connection>
-    <ID>08de3e8b-14a7-4fb8-830a-907362486f0a</ID>
+    <ID>84e06ebb-98ea-4fa0-a47c-8535465a77e6</ID>
     <Persist>true</Persist>
-    <Server>(localdb)\Projects</Server>
+    <Server>.\KATMAI</Server>
     <Database>Sph</Database>
   </Connection>
   <Reference Relative="..\bin\Debug\domain.sph.dll">C:\project\work\sph\bin\Debug\domain.sph.dll</Reference>
@@ -17,32 +17,30 @@
 
 void Main()
 {
-	var lands = from d in Lands.Take(5)
-	let dl = Bespoke.Sph.Domain.XmlSerializerService.Deserialize<Bespoke.Sph.Domain.Land>(d.Data)
-	let id = SetId(dl, d.LandId)
-	select new {dl, id};
+	var list = from d in Lands.Take(1000)
+				let item = Bespoke.Sph.Domain.XmlSerializerService.Deserialize<Bespoke.Sph.Domain.Land>(d.Data)
+				select new {item, id = d.LandId};
+				
+	var setting = new JsonSerializerSettings();
+	setting.TypeNameHandling = TypeNameHandling.All;
 	
-	foreach (var land in lands)
+	foreach (var x in list)
 	{
-		var id = land.id;
-		HttpClient client = new HttpClient();
-		var json = JsonConvert.SerializeObject(land.dl);
+		var id = x.id;
+		x.item.LandId = id;
+		var json = JsonConvert.SerializeObject(x.item, setting);
 		var content = new StringContent(json);
+		
+		HttpClient client = new HttpClient();
 		client.PutAsync("http://localhost:9200/sph/land/" + id,content)
 		.ContinueWith(_ =>{
 			var result = _.Result;
 			Console.WriteLine (result.Content.ReadAsStringAsync());
 		})
 		.Wait();
-		//Console.WriteLine (json);
+		/*
+		File.WriteAllText(@"C:\project\work\sph\snippets\land." + id + ".json", json);
+		*/
 		
 	}
-}
-
-// Define other methods and classes here
-public int SetId(Bespoke.Sph.Domain.Land land, int id)
-{
-Console.WriteLine ("Id"  + id);
-	 land.LandId = id;
-	 return id;
 }
