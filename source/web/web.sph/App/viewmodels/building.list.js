@@ -80,6 +80,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             state: searchState,
             stateOptions: ko.observableArray(),
             keyword: searchKeyword,
+            initalQuery : {},
             query: {
                 "query": {
                     "bool": {

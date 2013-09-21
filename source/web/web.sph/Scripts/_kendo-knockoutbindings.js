@@ -5,6 +5,7 @@
 /// <reference path="~/App/durandal/amd/require.js" />
 /// <reference path="~/kendo/js/kendo.all.js" />
 /// <reference path="_pager.js" />
+/// <reference path="/App/services/datacontext.js" />
 
 
 
@@ -704,6 +705,110 @@ ko.bindingHandlers.serverPaging = {
                 },
                     pager = new bespoke.utils.ServerPager(options);
                 console.log(pager);
+                setTimeout(function () {
+                    setItemsSource(lo.itemCollection);
+                    tcs.resolve(true);
+                    endLoad();
+                }, 500);
+
+            });
+        return tcs.promise();
+
+
+
+    }
+};
+
+
+ko.bindingHandlers.searchPaging = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var value = valueAccessor(),
+            entity = value.entity,
+            query = value.query,
+            executedQuery = value.initialQuery || {},
+            list = value.list,
+            map = value.map,
+            searchButton = value.searchButton,
+            $element = $(element),
+            context = require('services/datacontext'),
+            $pagerPanel = $('<div></div>'),
+            $spinner = $('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />'),
+            startLoad = function () {
+                $spinner.show();
+                $element.fadeTo("fast", 0.33);
+            },
+            endLoad = function () {
+                $spinner.hide();
+                $element.fadeTo("fast", 1);
+            },
+            setItemsSource = function (items) {
+                if (map) {
+                    items = _(items).map(map);
+                }
+                if (typeof list === "string") {
+                    viewModel[list](items);
+                }
+                if (typeof list === "function") {
+                    list(items);
+                }
+            },
+            pager = null,
+            pageChanged = function (page, size) {
+                startLoad();
+                context.searchAsync({
+                    entity: entity,
+                    page: page,
+                    size: size
+                }, executedQuery)
+                     .then(function (lo) {
+                         setItemsSource(lo.itemCollection);
+                         endLoad();
+                     });
+            };
+
+        $element.after($pagerPanel).after($spinner)
+            .fadeTo("slow", 0.33);
+
+        $(document).on('click', searchButton,function (e) {
+            e.preventDefault();
+            var tcs1 = new $.Deferred();
+            executedQuery = ko.toJS(query);
+            context.searchAsync({
+                entity: entity,
+                page: 1,
+                size: 20
+            }, executedQuery)
+                .then(function (lo) {
+                    pager.update(lo.rows);
+
+                    setTimeout(function () {
+                        setItemsSource(lo.itemCollection);
+                        tcs1.resolve(true);
+                        endLoad();
+                    }, 500);
+
+                });
+            return tcs1.promise();
+            
+
+        });
+
+        var tcs = new $.Deferred();
+        context.searchAsync({
+            entity: entity,
+            page: 1,
+            size: 20
+        }, executedQuery)
+            .then(function (lo) {
+
+                var options = {
+                    element: $pagerPanel,
+                    count: lo.rows,
+                    changed: pageChanged
+                };
+                pager = new bespoke.utils.ServerPager(options);
+
+
                 setTimeout(function () {
                     setItemsSource(lo.itemCollection);
                     tcs.resolve(true);

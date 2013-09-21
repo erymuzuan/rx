@@ -190,7 +190,6 @@ function (logger, system) {
         if (!entityOrOptions) throw "This cannot be happending, you have to have entity or option";
         
         var entity = entityOrOptions,
-           includeTotal = false,
            size = 20,
            page = 1;
         
@@ -201,15 +200,14 @@ function (logger, system) {
         }
         
         var url = "http://localhost:9200/sph/" + entity.toLowerCase()+ "/_search";
-        var q = JSON.parse(query);
-        q.from = (page - 1) * size;
-        q.size = size;
+        query.from = (page - 1) * size;
+        query.size = size;
         
         var tcs = new $.Deferred();
         $.ajax({
             type: "POST",
             url: url,
-            data : JSON.stringify(q),
+            data : JSON.stringify(query),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             error: tcs.reject,

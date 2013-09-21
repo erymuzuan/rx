@@ -8,7 +8,7 @@
             <label class="control-label">Kata Kunci</label>
             <input type="text" data-bind="value: keyword" required />
 
-            <button type="submit" class="btn btn-primary" data-bind="command: $root.searchCommand">
+            <button type="submit" class="btn btn-primary" id="building-search-btn">
                 <i class="icon-search pull-left"></i>
                 Search
             </button>
@@ -16,7 +16,14 @@
         </form>
     </div>
     <div>
-        <table id="building-list-table" class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
+        <table id="building-list-table" class="table table-striped" data-bind="filter: { path: 'tbody>tr' },
+            searchPaging :
+            {
+                query: searchTerm.query,
+                list: buildings,
+                entity: 'Building',
+                searchButton: '#building-search-btn'
+            }">
             <thead>
                 <tr>
                     <th>Nama Hartanah</th>
