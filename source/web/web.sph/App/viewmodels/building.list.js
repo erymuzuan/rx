@@ -47,14 +47,16 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         search = function () {
             var tcs = new $.Deferred();
           
-            var buildingTask = context.searchAsync("Building", null,vm.searchTerm.keyword());
+            var buildingTask = context.searchAsync("Building", ko.toJSON(vm.searchTerm.query));
             $.when(buildingTask)
                 .done(function (lo) {
                     vm.buildings(lo.itemCollection);
                     tcs.resolve(true);
                 });
             return tcs.promise();
-        };
+        },
+        searchState = ko.observable(),
+        searchKeyword = ko.observable();
 
     var vm = {
         activate: activate,
@@ -75,9 +77,25 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             })
         },
         searchTerm: {
-            state: ko.observable(),
+            state: searchState,
             stateOptions: ko.observableArray(),
-            keyword: ko.observable()
+            keyword: searchKeyword,
+            query: {
+                "query": {
+                    "bool": {
+                        "must": [{
+                            "match_phrase": {
+                                "Address.State": searchState
+                            }
+
+                        },
+                        {
+                            "match_phrase": { "_all": searchKeyword}
+                        }
+                        ]
+                    }
+                }
+            }
         },
         searchCommand: search
     };

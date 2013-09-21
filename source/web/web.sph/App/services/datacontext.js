@@ -185,7 +185,7 @@ function (logger, system) {
 
     }
     
-    function searchAsync(entityOrOptions, query, filter) {
+    function searchAsync(entityOrOptions, query) {
         
         if (!entityOrOptions) throw "This cannot be happending, you have to have entity or option";
         
@@ -200,15 +200,16 @@ function (logger, system) {
             size = entityOrOptions.size || 20;
         }
         
-        var url = "http://localhost:9200/sph/" + entity.toLowerCase();
-        url += "/_search?q=_all:" + (filter || "");
-        url += String.format("&from={0}&size={1}",(page -1) * size, size);
-        logger.log(url);
+        var url = "http://localhost:9200/sph/" + entity.toLowerCase()+ "/_search";
+        var q = JSON.parse(query);
+        q.from = (page - 1) * size;
+        q.size = size;
         
         var tcs = new $.Deferred();
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: url,
+            data : JSON.stringify(q),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             error: tcs.reject,
