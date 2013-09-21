@@ -6,6 +6,7 @@
 /// <reference path="~/kendo/js/kendo.all.js" />
 /// <reference path="_pager.js" />
 /// <reference path="/App/services/datacontext.js" />
+/// <reference path="/App/objectbuilders.js" />
 
 
 
@@ -542,7 +543,7 @@ ko.bindingHandlers.commandWithParameter = {
 
 
 ko.bindingHandlers.filter = {
-    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+    init: function (element, valueAccessor, allBindingsAccessor) {
         var value = valueAccessor(),
             bindingAccessor = allBindingsAccessor(),
             path = value.path,
@@ -578,7 +579,7 @@ ko.bindingHandlers.filter = {
                         "bool": {
                             "must": [
                                 {
-                                    "match_phrase": { "_all": filter }
+                                    "query_string": { "query": filter }
                                 }
                             ]
                         }
@@ -622,7 +623,7 @@ ko.bindingHandlers.filter = {
 };
 
 ko.bindingHandlers.serverPaging = {
-    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
         var value = valueAccessor(),
             entity = value.entity,
             query = value.query,
@@ -710,6 +711,8 @@ ko.bindingHandlers.searchPaging = {
             searchButton = value.searchButton,
             $element = $(element),
             context = require('services/datacontext'),
+            logger = require('services/logger'),
+            cultures =  require(objectbuilders.cultures),
             $pagerPanel = $('<div></div>'),
             $spinner = $('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />'),
             startLoad = function () {
@@ -785,6 +788,10 @@ ko.bindingHandlers.searchPaging = {
         if (searchButton) {
             $(document).on('click', searchButton, function (e) {
                 e.preventDefault();
+               if (!$(this).parents("form")[0].checkValidity()) {
+                   logger.error(cultures.messages.FORM_IS_NOT_VALID);
+                   return;
+               }
                 search(ko.toJS(query), 1, pager.pageSize);
             });
 

@@ -101,12 +101,12 @@ function (logger, system) {
                         if (typeof item['$type'] === "string") {
                             type = pattern.exec(item['$type'])[1];
                         }
-                        
+
 
                         if (bespoke.sph.domain[type + "Partial"]) {
                             var partial = new bespoke.sph.domain[type + "Partial"](item);
                         }
-                        
+
                         for (var name in item) {
                             (function (prop) {
 
@@ -154,7 +154,7 @@ function (logger, system) {
 
                         // if there are new fields added, chances are it will not be present in the json,
                         // even it is, it would be nice to add Webid for those whos still missing one
-                        
+
                         if (bespoke.sph.domain[type]) {
                             var ent = new bespoke.sph.domain[type](system.guid());
                             for (var prop2 in ent) {
@@ -184,41 +184,47 @@ function (logger, system) {
         return tcs.promise();
 
     }
-    
+
     function searchAsync(entityOrOptions, query) {
-        
+
         if (!entityOrOptions) throw "This cannot be happending, you have to have entity or option";
-        
+
         var entity = entityOrOptions,
            size = 20,
            page = 1;
-        
+
         if (typeof entityOrOptions === "object") {
             entity = entityOrOptions.entity;
             page = entityOrOptions.page || 1;
             size = entityOrOptions.size || 20;
         }
-        
+
         var url = "/search/" + entity.toLowerCase();
         query.from = (page - 1) * size;
         query.size = size;
-        
+
         var tcs = new $.Deferred();
         $.ajax({
             type: "POST",
             url: url,
-            data : JSON.stringify(query),
+            data: JSON.stringify(query),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             error: tcs.reject,
             success: function (msg) {
 
-                var hits = _(msg.hits.hits).map(function(h) {
-                    return h._source;
-                });
+                var hits = _(msg.hits.hits).chain()
+                    .map(function (h) {
+                        return h._source;
+                    })
+                    .filter(function (v) {
+                        return v.$type;
+                    })
+                .value();
 
                 var pattern = /Bespoke\.Sph\.Domain\.(.*?),/;
                 var rows = _(hits).map(function (v) {
+                    if (!v.$type) return null;
                     var type = pattern.exec(v['$type'])[1];
 
                     var observable = (function toObservable(item) {
@@ -306,7 +312,7 @@ function (logger, system) {
                 lo.page = page;
                 lo.size = size;
                 lo.rows = msg.hits.total;
-                
+
 
                 tcs.resolve(lo);
             }

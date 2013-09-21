@@ -36,12 +36,12 @@ define(['services/datacontext'], function (context) {
 
         // get max and min
         context.getMaxAsync("Space", "IsAvailable eq 1 and IsOnline eq 1", "RentalRate")
-            .done(function(max) {
+            .done(function (max) {
                 vm.searchTerm.max(max);
                 vm.searchTerm.maxValue(max);
             });
         context.getMinAsync("Space", "IsAvailable eq 1 and IsOnline eq 1", "RentalRate")
-            .done(function(min) {
+            .done(function (min) {
                 vm.searchTerm.min(min);
                 vm.searchTerm.minValue(min);
             });
@@ -57,7 +57,7 @@ define(['services/datacontext'], function (context) {
                 .replace(/\[/g, "")
                 .replace(/\]/g, ""),
                 buildingQuery = String.format("State in ({0})", states);
-            
+
             console.log(states);
             if (!states) {
                 buildingQuery = "BuildingId gt 0";
@@ -119,11 +119,36 @@ define(['services/datacontext'], function (context) {
             categories: ko.observableArray(),
             stateOptions: ko.observableArray(),
             categoryOptions: ko.observableArray(),
-            minValue : ko.observable(),
+            minValue: ko.observable(),
             maxValue: ko.observable(),
             min: ko.observable(),
             max: ko.observable(),
-            
+
+        },
+        query: {
+            "query": {
+                "bool": {
+                    "must": [
+              {
+
+                  "match": { "Address.State": { "query": "Kuala Lumpur OR Negeri Sembilan OR Putrajaya" } }
+              },
+              {
+                  "match": { "Category": { "query": "Tadika" } }
+              },
+              {
+                  "range": {
+                      "RentalRate": {
+                          "from": 500,
+                          "to": 1000
+                      }
+                  }
+              }
+                    ]
+
+
+                }
+            }
         },
         searchCommand: search
     };
