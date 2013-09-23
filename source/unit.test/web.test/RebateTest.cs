@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Globalization;
+using System.Xml.Linq;
 using FluentDateTime;
 using NUnit.Framework;
 
@@ -35,8 +37,17 @@ namespace web.test
         {
             var max = this.GetDatabaseScalarValue<int>("SELECT MAX([RebateId]) FROM [Sph].[Rebate]");
             var contractNo = this.GetDatabaseScalarValue<string>("SELECT MAX([ReferenceNo]) FROM [Sph].[Contract]");
+
+            //seed data for contract
+            var xml = XElement.Load(@".\rebate.xml");
+            var sql = string.Format("INSERT INTO [Sph].[Contract]([ReferenceNo],[Title],[Status],[TenantName],[TenantIdSsmNo]" +
+                        ",[TenantRegistrationNo],[StartDate],[EndDate],[SpaceId],[SpaceRegistrationNo],[Data]," +
+                                    "[CreatedDate],[CreatedBy],[ChangedDate],[ChangedBy])  " +
+                        "VALUES('BSPB/2013/2013000001','Kontrak sewaan WAN HUDA BIN WAN ALI dan Bahagian Pengurusan Hartanah','Active','WAN HUDA BIN WAN ALI','800212-02-9651','2013000001'" +
+                                    ",'2013-09-27 00:00:00','2014-09-27 00:00:00','28','BSPK/999999',@Data" +
+                                    ",'2013-09-18 16:45:00','test','2013-09-18 16:45:00','test')");
+            this.ExecuteNonQuery(sql, new SqlParameter("@Data", xml.ToString()));
             var driver = this.InitiateDriver();
-            
             driver.NavigateToUrl("/Account/Logoff")
                 .Login(m_cashier)
                 .NavigateToUrl("/#/rebate")
