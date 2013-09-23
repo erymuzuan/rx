@@ -368,6 +368,7 @@
     <Content Include="App\durandal\composition.js" />
     <Content Include="App\durandal\events.js" />
     <Content Include="App\durandal\http.js" />
+    <Content Include="App\durandal\knockout.js" />
     <Content Include="App\durandal\messageBox.html" />
     <Content Include="App\durandal\messageBox.js" />
     <Content Include="App\durandal\modalDialog.js" />
