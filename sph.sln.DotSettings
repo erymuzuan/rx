@@ -70,6 +70,36 @@ namespace $NAMESPACE$&#xD;
          &#xD;
     }&#xD;
 }</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/Description/@EntryValue">basic elastic search query</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/Field/=FIELD/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/Field/=FIELD/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/Field/=TEXT/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/Field/=TEXT/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/Field/=VALUE/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/Field/=VALUE/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/Scope/=FFA15E6CFCBE90499C572A859225B012/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/Scope/=FFA15E6CFCBE90499C572A859225B012/Type/@EntryValue">InJavaScriptFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/Shortcut/@EntryValue">es-query</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2220CFCE2D0F63478A7639F4238BE080/Text/@EntryValue"> {&#xD;
+    "query": {&#xD;
+        "bool": {&#xD;
+            "must": [{&#xD;
+                "match_phrase": {&#xD;
+                    "$FIELD$": $VALUE$&#xD;
+                }&#xD;
+&#xD;
+            },&#xD;
+            {&#xD;
+                "match_phrase": { "_all": $TEXT$}&#xD;
+            }&#xD;
+            ]&#xD;
+        }&#xD;
+    }&#xD;
+}</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Shortcut/@EntryValue">ff</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Description/@EntryValue">bootstraop horizontal form field</s:String>
@@ -192,6 +222,30 @@ return tcs.promise();</s:String>
 &#xD;
     return View($result$);&#xD;
 }</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Description/@EntryValue">data-bind for elastic search</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Field/=ENTITY/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Field/=ENTITY/Expression/@EntryValue">list("Land,Building,Space,Contract,Complaint,Payment,Invoice,Rebate,Maintenance")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Field/=ENTITY/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Field/=LIST/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Field/=LIST/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Field/=QUERY/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Field/=QUERY/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Field/=SEARCH_005FBUTTON/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Field/=SEARCH_005FBUTTON/Order/@EntryValue">3</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Scope/=A14108D8199BD94191FC02A2809F1F3D/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Scope/=A14108D8199BD94191FC02A2809F1F3D/Type/@EntryValue">InHtmlLikeFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Shortcut/@EntryValue">dbs</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=44A17F945F46674E91BAF2F0E24C52EB/Text/@EntryValue">data-bind="searchPaging :&#xD;
+            {&#xD;
+                query: $QUERY$,&#xD;
+                list: $LIST$,&#xD;
+                entity: $ENTITY$,&#xD;
+                searchButton: $SEARCH_BUTTON$&#xD;
+            }"</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=47119ABDAE6727469E0570E1782C2FC5/Field/=ENTITY/@KeyIndexDefined">True</s:Boolean>

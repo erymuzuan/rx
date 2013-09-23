@@ -1,28 +1,29 @@
 ﻿<div id="building-list-page">
     <h1>Senarai Hartanah</h1>
     <div class="space-list-search-panel row row-fluid" data-bind="with: searchTerm">
-        <div class="span10">
+        <form class="form-inline form-search">
+            <label class="control-label">Negeri</label>
+            <select data-bind="options: stateOptions, value: state, optionsCaption: '[Sila Pilih]'" required></select>
 
-            <div class="span2">
-                <label>Negeri</label>
-                <select data-bind="options: stateOptions, value: state, optionsCaption: '[Sila Pilih]'"></select>
+            <label class="control-label">Kata Kunci</label>
+            <input type="text" data-bind="value: keyword" required />
 
-            </div>
-            <div class="span2">
-                <label>Kata Kunci</label>
-                <input type="text" data-bind="value: keyword" />
-            </div>
-            <div class="btn-search">
-                <button class="btn btn-primary" data-bind="command: $root.searchCommand">
-                    <i class="icon-search pull-left"></i>
-                    Search
-                </button>
-            </div>
-        </div>
+            <button type="submit" class="btn btn-primary" id="building-search-btn">
+                <i class="icon-search pull-left"></i>
+                Search
+            </button>
 
+        </form>
     </div>
     <div>
-        <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Building', query: 'BuildingId gt 0', list: buildings }">
+        <table id="building-list-table" class="table table-striped" data-bind="filter: { path: 'tbody>tr' },
+            searchPaging :
+            {
+                query: searchTerm.query,
+                list: buildings,
+                entity: 'Building',
+                searchButton: '#building-search-btn'
+            }">
             <thead>
                 <tr>
                     <th>Nama Hartanah</th>
@@ -32,13 +33,12 @@
                     <th>Jenis</th>
                     <th>Keluasan</th>
                     <th>Blok</th>
-                    <th>Tingkat</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: buildings">
                 <tr>
-                     <td>
-                        <a data-bind="attr: { href: '/#/building.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() }, text: Name"></a>
+                    <td>
+                        <a class="btn btn-link" data-bind="attr: { href: '/#/building.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() }, text: Name"></a>
                     </td>
                     <td data-bind="text: Address().State"></td>
                     <td data-bind="text: Address().City"></td>
@@ -46,7 +46,6 @@
                     <td data-bind="text: BuildingType"></td>
                     <td data-bind="text: BuildingSize"></td>
                     <td data-bind="text: Blocks"></td>
-                    <td data-bind="text: Floors"></td>
                 </tr>
             </tbody>
         </table>

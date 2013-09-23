@@ -5,6 +5,8 @@
 /// <reference path="~/App/durandal/amd/require.js" />
 /// <reference path="~/kendo/js/kendo.all.js" />
 /// <reference path="_pager.js" />
+/// <reference path="/App/services/datacontext.js" />
+/// <reference path="/App/objectbuilders.js" />
 
 
 
@@ -541,45 +543,24 @@ ko.bindingHandlers.commandWithParameter = {
 
 
 ko.bindingHandlers.filter = {
-    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+    init: function (element, valueAccessor, allBindingsAccessor) {
         var value = valueAccessor(),
             bindingAccessor = allBindingsAccessor(),
             path = value.path,
             $element = $(element),
-            context = require('services/datacontext'),
-            $spinner = $('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />'),
             $filterInput = $("<input type='search' class='search-query input-medium' placeholder='Tapis..'>"),
             $serverLoadButton = $("<a href='/#' title='Carian server'><i class='add-on icon-search'></i><a>"),
             $form = $("<form class='form-search'>" +
-            " <div class='input-append pull-right'>" +
-            " <i class='add-on icon-remove'></i>" +
-            " " +
-            "</div>" +
-            " </form>"),
-            serverPaging = bindingAccessor.serverPaging,
-            startLoad = function () {
-                $spinner.show();
-                $element.fadeTo("fast", 0.33);
-            },
-            endLoad = function () {
-                $spinner.hide();
-                $element.fadeTo("fast", 1);
-            },
-            setItemsSource = function (items) {
-                if (serverPaging.map) {
-                    items = _(items).map(serverPaging.map);
-                }
-                if (typeof serverPaging.list === "string") {
-                    viewModel[serverPaging.list](items);
-                }
-                if (typeof serverPaging.list === "function") {
-                    serverPaging.list(items);
-                }
-            };
+                " <div class='input-append pull-right'>" +
+                " <i class='add-on icon-remove'></i>" +
+                " " +
+                "</div>" +
+                " </form>"),
+            pagedSearch = bindingAccessor.searchPaging;
 
 
         $form.find('i.icon-remove').before($filterInput);
-        if (serverPaging) {
+        if (pagedSearch) {
             $form.find('i.icon-remove').after($serverLoadButton);
         }
         $element.before($form);
@@ -592,20 +573,20 @@ ko.bindingHandlers.filter = {
                 tcs.promise();
                 return tcs.promise();
             }
-            if (serverPaging) {
-                startLoad();
-                var options = {
-                    entity: serverPaging.entity,
-                    page: serverPaging.page,
-                    size: serverPaging.size
+            if (pagedSearch) {
+                var query = {
+                    "query": {
+                        "bool": {
+                            "must": [
+                                {
+                                    "query_string": { "query": filter }
+                                }
+                            ]
+                        }
+                    }
                 };
-                context.searchAsync(options, serverPaging.query, filter)
-                    .done(function (lo) {
-                        setItemsSource(lo.itemCollection);
-                        endLoad();
-                    });
-
-                return tcs.promise();
+                pagedSearch.query = query;
+                return pagedSearch.search(query);
             }
             return tcs.promise();
         });
@@ -642,7 +623,7 @@ ko.bindingHandlers.filter = {
 };
 
 ko.bindingHandlers.serverPaging = {
-    init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
         var value = valueAccessor(),
             entity = value.entity,
             query = value.query,
@@ -714,6 +695,113 @@ ko.bindingHandlers.serverPaging = {
         return tcs.promise();
 
 
+
+    }
+};
+
+
+ko.bindingHandlers.searchPaging = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var value = valueAccessor(),
+            entity = value.entity,
+            query = value.query,
+            executedQuery = value.initialQuery || {},
+            list = value.list,
+            map = value.map,
+            searchButton = value.searchButton,
+            $element = $(element),
+            context = require('services/datacontext'),
+            logger = require('services/logger'),
+            cultures =  require(objectbuilders.cultures),
+            $pagerPanel = $('<div></div>'),
+            $spinner = $('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />'),
+            startLoad = function () {
+                $spinner.show();
+                $element.fadeTo("fast", 0.33);
+            },
+            endLoad = function () {
+                $spinner.hide();
+                $element.fadeTo("fast", 1);
+            },
+            setItemsSource = function (items) {
+                if (map) {
+                    items = _(items).map(map);
+                }
+                if (typeof list === "string") {
+                    viewModel[list](items);
+                }
+                if (typeof list === "function") {
+                    list(items);
+                }
+            },
+            pager = null,
+            pageChanged = function (page, size) {
+                startLoad();
+                context.searchAsync({
+                    entity: entity,
+                    page: page,
+                    size: size
+                }, executedQuery)
+                     .then(function (lo) {
+                         setItemsSource(lo.itemCollection);
+                         endLoad();
+                     });
+            },
+            search = function (q, page, size) {
+                executedQuery = q;
+                var tcs1 = new $.Deferred();
+                startLoad();
+                context.searchAsync({
+                    entity: entity,
+                    page: page || 1,
+                    size: size || 20
+                }, q)
+                    .then(function (lo) {
+                        if (pager) {
+                            pager.update(lo.rows);
+                        } else {
+                            var pagerOptions = {
+                                element: $pagerPanel,
+                                count: lo.rows,
+                                changed: pageChanged
+                            };
+                            pager = new bespoke.utils.ServerPager(pagerOptions);
+
+                        }
+
+                        setTimeout(function () {
+                            setItemsSource(lo.itemCollection);
+                            tcs1.resolve(lo);
+                            endLoad();
+                        }, 500);
+
+                    });
+                return tcs1.promise();
+            };
+
+        //exposed the search function
+        value.search = search;
+        
+        $element.after($pagerPanel).after($spinner)
+            .fadeTo("slow", 0.33);
+
+        if (searchButton) {
+            $(document).on('click', searchButton, function (e) {
+                e.preventDefault();
+               if (!$(this).parents("form")[0].checkValidity()) {
+                   logger.error(cultures.messages.FORM_IS_NOT_VALID);
+                   return;
+               }
+                search(ko.toJS(query), 1, pager.pageSize);
+            });
+
+        }
+
+
+        search(ko.toJS(executedQuery));
+        return {
+            search: search
+        };
 
     }
 };

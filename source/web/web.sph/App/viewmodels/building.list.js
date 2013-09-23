@@ -46,23 +46,17 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         },
         search = function () {
             var tcs = new $.Deferred();
-            var buildingQuery = String.format("BuildingId gt 0");
-
-            if (vm.searchTerm.state()) {
-                buildingQuery = String.format("State eq '{0}'", vm.searchTerm.state());
-            }
-            if (vm.searchTerm.keyword()) {
-                buildingQuery += String.format(" or [State] like '%{0}%' or [LotNo] like '%{0}%' or [Name] like '%{0}%'", vm.searchTerm.keyword());
-            }
-            console.log(buildingQuery);
-            var buildingTask = context.loadAsync("Building", buildingQuery);
+          
+            var buildingTask = context.searchAsync("Building", ko.toJSON(vm.searchTerm.query));
             $.when(buildingTask)
                 .done(function (lo) {
                     vm.buildings(lo.itemCollection);
                     tcs.resolve(true);
                 });
             return tcs.promise();
-        };
+        },
+        searchState = ko.observable(),
+        searchKeyword = ko.observable();
 
     var vm = {
         activate: activate,
@@ -83,9 +77,26 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             })
         },
         searchTerm: {
-            state: ko.observable(),
+            state: searchState,
             stateOptions: ko.observableArray(),
-            keyword: ko.observable()
+            keyword: searchKeyword,
+            initalQuery : {},
+            query: {
+                "query": {
+                    "bool": {
+                        "must": [{
+                            "match_phrase": {
+                                "Address.State": searchState
+                            }
+
+                        },
+                        {
+                            "match_phrase": { "_all": searchKeyword}
+                        }
+                        ]
+                    }
+                }
+            }
         },
         searchCommand: search
     };

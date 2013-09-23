@@ -15,7 +15,8 @@ define([],
             },
             messages : {
                 SAVE_SUCCESS: "{0} sudah beraya di simpan",
-                SAVE_ERROR : "Ada masalah untuk menyimpan data anda"
+                SAVE_ERROR: "Ada masalah untuk menyimpan data anda",
+                FORM_IS_NOT_VALID: "Sila pastikan input anda betul"
             },
             lots: {
                 LOT_LIST_TITLE: "Senarai lot di block : {0}, tingkat : {1}"

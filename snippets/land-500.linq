@@ -1,17 +1,17 @@
 <Query Kind="Statements">
   <Connection>
-    <ID>a60442a9-d977-4eac-a3f0-a8a7142bbe06</ID>
+    <ID>84e06ebb-98ea-4fa0-a47c-8535465a77e6</ID>
+    <Persist>true</Persist>
     <Server>.\KATMAI</Server>
     <Database>Sph</Database>
-    <DisplayName>sph</DisplayName>
   </Connection>
   <Output>DataGrids</Output>
-  <Reference Relative="..\source\web\web.sph.commercial-space\bin\domain.commercialspace.dll">C:\project\work\sph\source\web\web.sph.commercial-space\bin\domain.commercialspace.dll</Reference>
-  <Reference Relative="..\source\web\web.sph.commercial-space\bin\System.Spatial.dll">C:\project\work\sph\source\web\web.sph.commercial-space\bin\System.Spatial.dll</Reference>
-  <Namespace>Bespoke.SphCommercialSpaces.Domain</Namespace>
+  <Reference Relative="..\bin\Debug\domain.sph.dll">C:\project\work\sph\bin\Debug\domain.sph.dll</Reference>
+  <Reference Relative="..\bin\Debug\System.Spatial.dll">C:\project\work\sph\bin\Debug\System.Spatial.dll</Reference>
+  <Namespace>Bespoke.Sph.Domain</Namespace>
 </Query>
 
-var l = new Bespoke.SphCommercialSpaces.Domain.Land{
+var l = new Bespoke.Sph.Domain.Land{
 	Location = "Tanah Merah",
 	Address = new Address{
 		City = "Tanah Merah",
@@ -33,11 +33,11 @@ var l = new Bespoke.SphCommercialSpaces.Domain.Land{
 	Size = 45,
 	Status = "OK",
 	Title = "WA09",
-	Usage = "Perdaganga"
+	Usage = "Perdagangan"
 };
-var locations = new []{"Jeli", "Tanah Merah", "Pasir mas", "Kota Bharu", "Gua Musang", "Bukit Bunga"};
+var locations = new []{"Jeli", "Tanah Merah", "Pasir Mas","Pasir Puteh", "Pasir Hor", "Kota Bharu", "Gua Musang", "Bukit Bunga"};
 var status = new []{"OK", "NA", "IN"};
-for (int i = 0; i < 900; i++)
+for (int i = 1; i < 901; i++)
 {
 		var loc = locations.OrderBy(f => Guid.NewGuid()).First();
 		var land = l.Clone();

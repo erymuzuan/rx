@@ -1,59 +1,52 @@
 ﻿<div id="space-list">
-    <h1 data-bind="text: title"></h1>
+    <section>
+        <h1 data-bind="text: title"></h1>
+        <div class="space-list-search-panel row row-fluid" data-bind="with: searchTerm">
+            <div class="span10">
 
-    <div class="space-list-search-panel row row-fluid" data-bind="with: searchTerm">
-        <div class="span10">
-           
-            <div class="span2">
-                <label>Kategori</label>
-                <select data-bind="options: categoryOptions,value:category,optionsCaption:'[Sila Pilih]'"></select>
+                <div class="span2">
+                    <label>Negeri</label>
+                    <select data-bind="options: stateOptions, value: state, optionsCaption: '[Sila Pilih]'"></select>
+                </div>
+                <div class="span2">
+                    <label>Kata Kunci</label>
+                    <input type="text" data-bind="value: keyword" />
+                </div>
+                <div class="btn-search">
+                    <button class="btn btn-primary" data-bind="command: $root.searchCommand">
+                        <i class="icon-search pull-left"></i>
+                        Search
+                    </button>
+                </div>
             </div>
-            <div class="span2">
-                <label>Negeri</label>
-                <select data-bind="options: stateOptions, value: state, optionsCaption: '[Sila Pilih]'"></select>
-                
-            </div>
-            <div class="span2">
-                <label>Kata Kunci</label>
-                <input type="text" data-bind="value: keyword" />
-            </div>
-            <div class="btn-search">
-                <button class="btn btn-primary" data-bind="command: $root.searchCommand">
-                    <i class="icon-search pull-left"></i>
-                    Search
-                </button>
         </div>
+        <div>
+            <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Space', query: 'SpaceId gt 0', list: spaces }">
+                <thead>
+                    <tr>
+                        <th>No. Daftar</th>
+                        <th>Negeri</th>
+                        <th>Lokasi</th>
+                        <th>Jenis Ruang</th>
+                        <th>Kategori</th>
+                        <th>Nama Hartanah</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: spaces">
+                    <tr>
+                        <td>
+                            <a data-bind="attr: { href: '/#/space.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() + '/' + FloorName() + '/' + SpaceId() }, text: RegistrationNo"></a>
+                        </td>
+                        <td data-bind="text: Address().State"></td>
+                        <td data-bind="text: Location"></td>
+                        <td data-bind="text: TemplateName"></td>
+                        <td data-bind="text: Category"></td>
+                        <td data-bind="text: BuildingName"></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        
-    </div>
-
-    <div class="">
-        <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Space', query: 'SpaceId gt 0', list: spaces }">
-            <thead>
-                <tr>
-                    <th>No. Daftar</th>
-                    <th>Negeri</th>
-                    <th>Lokasi</th>
-                    <th>Jenis Ruang</th>
-                    <th>Kategori</th>
-                    <th>Nama Hartanah</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: spaces">
-                <tr>
-                    <td>
-                        <a data-bind="attr: { href: '/#/space.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() + '/' + FloorName() + '/' + SpaceId() }, text: RegistrationNo"></a>
-                    </td>
-                    <td data-bind="text: Address().State"></td>
-                    <td data-bind="text: Location"></td>
-                    <td data-bind="text: TemplateName"></td>
-                    <td data-bind="text: Category"></td>
-                    <td data-bind="text: BuildingName"></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    </section>
 </div>
-

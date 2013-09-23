@@ -1,5 +1,8 @@
-﻿define(['durandal/system', 'durandal/plugins/router', 'services/logger', 'services/datacontext', 'config'],
-    function (system, router, logger, context, config) {
+﻿/// <reference path="../objectbuilders.js" />
+
+
+define(['durandal/system', 'durandal/plugins/router', 'services/logger', 'services/datacontext', 'config', objectbuilders.cultures],
+    function (system, router, logger, context, config,cultures) {
 
         var viewAttached = function (view) {
 
