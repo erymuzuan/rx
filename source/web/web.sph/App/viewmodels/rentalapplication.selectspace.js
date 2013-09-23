@@ -52,71 +52,63 @@ define(['services/datacontext'], function (context) {
         search = function () {
             var tcs = new $.Deferred();
 
-            var states = JSON.stringify(vm.searchTerm.states())
-                .replace(/\"/g, "'")
-                .replace(/\[/g, "")
-                .replace(/\]/g, ""),
-                buildingQuery = String.format("State in ({0})", states);
-
-            console.log(states);
-            if (!states) {
-                buildingQuery = "BuildingId gt 0";
+            var musts = [{
+                "range": {
+                    "RentalRate": {
+                        "from": searchTerm.minValue(),
+                        "to": searchTerm.maxValue()
+                    }
+                }
+            }];
+            if (states().length) {
+                musts.push({
+                    "match": { "Address.State": { "query": states().join(" OR ") } }
+                });
             }
-
-            context.getListAsync("Building", buildingQuery, "BuildingId")
-               .then(function (ids) {
-
-                   var categories = JSON.stringify(vm.searchTerm.categories())
-                       .replace(/\"/g, "'")
-                       .replace(/\[/g, "")
-                       .replace(/\]/g, ""),
-                       buildings = JSON.stringify(ids)
-                       .replace(/\[/g, "")
-                       .replace(/\]/g, "");
-
-                   console.log("Building", buildings);
-                   console.log("categories", categories);
-                   var query = "IsAvailable eq 1 and IsOnline eq 1";
-                   if (categories) {
-                       query += String.format(" and Category in ({0})", categories);
-                   }
-                   if (buildings) {
-                       query += String.format(" and BuildingId in ({0})", buildings);
-                   }
-                   query += String.format(" and RentalRate ge {0} and RentalRate le {1}", vm.searchTerm.minValue(), vm.searchTerm.maxValue());
+            if (categories().length) {
+                musts.push({
+                    "match": { "Category": { "query": categories().join(" OR ") } }
+                });
+            }
+            
+            var sq = {
+                "query": {
+                    "bool": {
+                        "must": musts
+                    }
+                }
+            };
+            
 
 
-                   var templateTasks = context.loadAsync("ApplicationTemplate", "IsActive eq 1");
-                   var csTasks = context.loadAsync("Space", query);
-                   $.when(templateTasks, csTasks)
-                       .done(function (tlo, cslo) {
-                           var items = _(tlo.itemCollection).map(function (t) {
-                               var filtered = _(cslo.itemCollection).filter(function (c) {
-                                   return c.ApplicationTemplateOptions().indexOf(t.ApplicationTemplateId()) > -1;
-                               });
-                               return {
-                                   name: t.Name(),
-                                   id: t.ApplicationTemplateId(),
-                                   spaces: filtered
-                               };
-                           });
-                           vm.items(items);
-                           tcs.resolve(true);
+            var templateTasks = context.loadAsync("ApplicationTemplate", "IsActive eq 1");
+            var csTasks = context.searchAsync("Space", sq);
+            $.when(templateTasks, csTasks)
+                .done(function (tlo, cslo) {
+                    var items = _(tlo.itemCollection).map(function (t) {
+                        var filtered = _(cslo.itemCollection).filter(function (c) {
+                            return c.ApplicationTemplateOptions().indexOf(t.ApplicationTemplateId()) > -1;
+                        });
+                        return {
+                            name: t.Name(),
+                            id: t.ApplicationTemplateId(),
+                            spaces: filtered
+                        };
+                    });
+                    vm.items(items);
+                    tcs.resolve(true);
 
-                       });
+                });
 
 
-               });
             return tcs.promise();
 
-        };
-
-    var vm = {
-        activate: activate,
-        items: ko.observableArray([]),
-        searchTerm: {
-            states: ko.observableArray(),
-            categories: ko.observableArray(),
+        },
+        states = ko.observableArray(),
+        categories = ko.observableArray(),
+        searchTerm = {
+            states: states,
+            categories: categories,
             stateOptions: ko.observableArray(),
             categoryOptions: ko.observableArray(),
             minValue: ko.observable(),
@@ -124,32 +116,12 @@ define(['services/datacontext'], function (context) {
             min: ko.observable(),
             max: ko.observable(),
 
-        },
-        query: {
-            "query": {
-                "bool": {
-                    "must": [
-              {
+        };
 
-                  "match": { "Address.State": { "query": "Kuala Lumpur OR Negeri Sembilan OR Putrajaya" } }
-              },
-              {
-                  "match": { "Category": { "query": "Tadika" } }
-              },
-              {
-                  "range": {
-                      "RentalRate": {
-                          "from": 500,
-                          "to": 1000
-                      }
-                  }
-              }
-                    ]
-
-
-                }
-            }
-        },
+    var vm = {
+        activate: activate,
+        items: ko.observableArray([]),
+        searchTerm: searchTerm,
         searchCommand: search
     };
 
