@@ -23,7 +23,7 @@
             <td>
                 <input class="input-block-size" type="text" data-bind="value: Size, uniqueName: true" value="5000" /></td>
             <td>
-                <span data-bind="text: FloorCollection().length"></span>
+                <input type="number" data-bind="value: Floors" />
             </td>
             <td>
                 <input type="button" data-bind="click: $parent.editBlockMap.call($parent,$data), uniqueName: true" class="btn btn-mini button-block-floorplan" value="Pelan Lantai" />
