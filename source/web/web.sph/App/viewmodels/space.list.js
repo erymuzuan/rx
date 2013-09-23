@@ -46,6 +46,24 @@ define([objectbuilders.datacontext, objectbuilders.router, objectbuilders.cultur
                 });
                 return tcs.promise();
             },
+            searchState = ko.observable(),
+            searchKeyword = ko.observable(),
+            query = {
+                "query": {
+                    "bool": {
+                        "must": [{
+                            "match_phrase": {
+                                "Address.State": searchState
+                            }
+
+                        },
+                        {
+                            "match_phrase": { "_all": searchKeyword }
+                        }
+                        ]
+                    }
+                }
+            },
             search = function () {
                 var tcs = new $.Deferred();
                 var spaceQuery = {
@@ -77,12 +95,13 @@ define([objectbuilders.datacontext, objectbuilders.router, objectbuilders.cultur
                 groupCommands: ko.observableArray()
             },
             cultures: cultures,
+            query : query,
             searchTerm: {
-                state: ko.observable(),
+                state: searchState,
                 category: ko.observable(),
                 stateOptions: ko.observableArray(),
                 categoryOptions: ko.observableArray(),
-                keyword: ko.observable()
+                keyword: searchKeyword
             },
             searchCommand: search
         };

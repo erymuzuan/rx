@@ -176,7 +176,7 @@ function (logger, system) {
         url += "&page=" + page;
         url += "&includeTotal=" + includeTotal;
         url += "&size=" + size;
-        logger.log(url);
+        console.log("DataContext", url);
 
         var tcs = new $.Deferred();
         $.ajax({
