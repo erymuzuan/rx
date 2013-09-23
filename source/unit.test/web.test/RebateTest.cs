@@ -47,6 +47,7 @@ namespace web.test
                                     ",'2013-09-27 00:00:00','2014-09-27 00:00:00','28','BSPK/999999',@Data" +
                                     ",'2013-09-18 16:45:00','test','2013-09-18 16:45:00','test')");
             this.ExecuteNonQuery(sql, new SqlParameter("@Data", xml.ToString()));
+
             var driver = this.InitiateDriver();
             driver.NavigateToUrl("/Account/Logoff")
                 .Login(m_cashier)
