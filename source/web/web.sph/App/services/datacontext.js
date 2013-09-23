@@ -8,6 +8,107 @@
 define(['services/logger', 'durandal/system'],
 function (logger, system) {
 
+    var pattern = /Bespoke\.Sph\.Domain\.(.*?),/,
+
+        nativeTypePattern = /System\.(.*?),/,
+   toObservable = function (item) {
+       if (typeof item === "function") return item;
+       if (typeof item === "number") return item;
+       if (typeof item === "string") return item;
+       if (typeof item['$type'] === "undefined") return item;
+       if (_(item['$type']).isNull()) return item;
+
+       var $typeFieldValue = item.$type;
+
+       if (typeof item['$type'] === "function") {
+           $typeFieldValue = item.$type();
+       }
+       if (typeof $typeFieldValue === "string") {
+           var bespokeTypeMatch = pattern.exec($typeFieldValue);
+           if (bespokeTypeMatch) {
+
+               type = bespokeTypeMatch[1];
+               if (bespoke.sph.domain[type + "Partial"]) {
+                   var partial = new bespoke.sph.domain[type + "Partial"](item);
+               }
+           } else {
+               return item;
+           }
+
+       }
+
+
+
+       for (var name in item) {
+           (function (prop) {
+
+               var propval = _(item[prop]);
+
+               if (propval.isArray()) {
+
+                   var children = propval.map(function (x) {
+                       return toObservable(x);
+                   });
+
+                   item[prop] = ko.observableArray(children);
+                   return;
+               }
+
+               if (propval.isNumber()
+                   || propval.isNull()
+                   || propval.isNaN()
+                   || propval.isDate()
+                   || propval.isBoolean()
+                   || propval.isString()) {
+                   item[prop] = ko.observable(item[prop]);
+                   return;
+               }
+
+               if (propval.isObject()) {
+                   var $typeFieldValue2 = item[prop].$type;
+
+                   if ($typeFieldValue2 && nativeTypePattern.exec($typeFieldValue2)) {
+                       if (_(item[prop].$values).isArray()) {
+                           item[prop] = ko.observableArray(item[prop].$values);
+                       }
+                       return;
+                   }
+
+                   var child = toObservable(item[prop]);
+                   item[prop] = ko.observable(child);
+                   return;
+               }
+
+           })(name);
+
+       }
+
+       if (partial) {
+           // NOTE :copy all the partial, DO NO use _extend as it will override the original value 
+           // if there is item with the same key
+           for (var prop1 in partial) {
+               if (!item[prop1]) {
+                   item[prop1] = partial[prop1];
+               }
+           }
+       }
+
+       // if there are new fields added, chances are it will not be present in the json,
+       // even it is, it would be nice to add Webid for those whos still missing one
+
+       if (bespoke.sph.domain[type]) {
+           var ent = new bespoke.sph.domain[type](system.guid());
+           for (var prop2 in ent) {
+               if (!item[prop2]) {
+                   item[prop2] = ent[prop2];
+               }
+           }
+       }
+       return item;
+
+   };
+    
+
     return {
         searchAsync: searchAsync,
         loadAsync: loadAsync,
@@ -19,7 +120,8 @@ function (logger, system) {
         getListAsync: getListAsync,
         getDistinctAsync: getDistinctAsync,
         getTuplesAsync: getTuplesAsync,
-        post: post
+        post: post,
+        toObservable: toObservable
     };
 
     function post(json, url) {
@@ -84,88 +186,8 @@ function (logger, system) {
             dataType: "json",
             error: tcs.reject,
             success: function (msg) {
-                var pattern = /Bespoke\.Sph\.Domain\.(.*?),/;
                 var rows = _(msg.results).map(function (v) {
-                    var type = pattern.exec(v['$type'])[1];
-
-                    var observable = (function toObservable(item) {
-                        if (typeof item === "function") return item;
-                        if (typeof item === "number") return item;
-                        if (typeof item === "string") return item;
-                        if (typeof item['$type'] === "undefined") return item;
-                        if (_(item['$type']).isNull()) return item;
-
-                        if (typeof item['$type'] === "function") {
-                            type = pattern.exec(item['$type']())[1];
-                        }
-                        if (typeof item['$type'] === "string") {
-                            type = pattern.exec(item['$type'])[1];
-                        }
-
-
-                        if (bespoke.sph.domain[type + "Partial"]) {
-                            var partial = new bespoke.sph.domain[type + "Partial"](item);
-                        }
-
-                        for (var name in item) {
-                            (function (prop) {
-
-                                var propval = _(item[prop]);
-
-                                if (propval.isArray()) {
-
-                                    var children = propval.map(function (x) {
-                                        return toObservable(x);
-                                    });
-
-                                    item[prop] = ko.observableArray(children);
-                                    return;
-                                }
-
-                                if (propval.isNumber()
-                                    || propval.isNull()
-                                    || propval.isNaN()
-                                    || propval.isDate()
-                                    || propval.isBoolean()
-                                    || propval.isString()) {
-                                    item[prop] = ko.observable(item[prop]);
-                                    return;
-                                }
-
-                                if (propval.isObject()) {
-                                    var child = toObservable(item[prop]);
-                                    item[prop] = ko.observable(child);
-                                    return;
-                                }
-
-                            })(name);
-
-                        }
-
-                        if (partial) {
-                            // NOTE :copy all the partial, DO NO use _extend as it will override the original value 
-                            // if there is item with the same key
-                            for (var prop1 in partial) {
-                                if (!item[prop1]) {
-                                    item[prop1] = partial[prop1];
-                                }
-                            }
-                        }
-
-                        // if there are new fields added, chances are it will not be present in the json,
-                        // even it is, it would be nice to add Webid for those whos still missing one
-
-                        if (bespoke.sph.domain[type]) {
-                            var ent = new bespoke.sph.domain[type](system.guid());
-                            for (var prop2 in ent) {
-                                if (!item[prop2]) {
-                                    item[prop2] = ent[prop2];
-                                }
-                            }
-                        }
-                        return item;
-
-                    })(v);
+                    var observable = toObservable(v);
                     return observable;
                 });
                 var lo = new LoadOperation();
@@ -222,89 +244,9 @@ function (logger, system) {
                     })
                 .value();
 
-                var pattern = /Bespoke\.Sph\.Domain\.(.*?),/;
                 var rows = _(hits).map(function (v) {
                     if (!v.$type) return null;
-                    var type = pattern.exec(v['$type'])[1];
-
-                    var observable = (function toObservable(item) {
-                        if (typeof item === "function") return item;
-                        if (typeof item === "number") return item;
-                        if (typeof item === "string") return item;
-                        if (typeof item['$type'] === "undefined") return item;
-                        if (_(item['$type']).isNull()) return item;
-
-                        if (typeof item['$type'] === "function") {
-                            type = pattern.exec(item['$type']())[1];
-                        }
-                        if (typeof item['$type'] === "string") {
-                            type = pattern.exec(item['$type'])[1];
-                        }
-
-
-                        if (bespoke.sph.domain[type + "Partial"]) {
-                            var partial = new bespoke.sph.domain[type + "Partial"](item);
-                        }
-
-                        for (var name in item) {
-                            (function (prop) {
-
-                                var propval = _(item[prop]);
-
-                                if (propval.isArray()) {
-
-                                    var children = propval.map(function (x) {
-                                        return toObservable(x);
-                                    });
-
-                                    item[prop] = ko.observableArray(children);
-                                    return;
-                                }
-
-                                if (propval.isNumber()
-                                    || propval.isNull()
-                                    || propval.isNaN()
-                                    || propval.isDate()
-                                    || propval.isBoolean()
-                                    || propval.isString()) {
-                                    item[prop] = ko.observable(item[prop]);
-                                    return;
-                                }
-
-                                if (propval.isObject()) {
-                                    var child = toObservable(item[prop]);
-                                    item[prop] = ko.observable(child);
-                                    return;
-                                }
-
-                            })(name);
-
-                        }
-
-                        if (partial) {
-                            // NOTE :copy all the partial, DO NO use _extend as it will override the original value 
-                            // if there is item with the same key
-                            for (var prop1 in partial) {
-                                if (!item[prop1]) {
-                                    item[prop1] = partial[prop1];
-                                }
-                            }
-                        }
-
-                        // if there are new fields added, chances are it will not be present in the json,
-                        // even it is, it would be nice to add Webid for those whos still missing one
-
-                        if (bespoke.sph.domain[type]) {
-                            var ent = new bespoke.sph.domain[type](system.guid());
-                            for (var prop2 in ent) {
-                                if (!item[prop2]) {
-                                    item[prop2] = ent[prop2];
-                                }
-                            }
-                        }
-                        return item;
-
-                    })(v);
+                    var observable = toObservable(v);
                     return observable;
                 });
                 var lo = new LoadOperation();

@@ -304,6 +304,7 @@
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportDeliveryController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
@@ -636,6 +637,7 @@
     <Content Include="Content\img\team2.jpg" />
     <Content Include="Content\img\team3.jpg" />
     <Content Include="Content\img\team4.jpg" />
+    <Content Include="Content\qunit-1.12.0.css" />
     <Content Include="Content\theme.default\complaint.css">
       <DependentUpon>complaint.less</DependentUpon>
     </Content>
@@ -950,6 +952,7 @@
     <Content Include="Scripts\nprogress.js" />
     <Content Include="Scripts\q.js" />
     <Content Include="Scripts\q.min.js" />
+    <Content Include="Scripts\qunit-1.12.0.js" />
     <Content Include="Scripts\sammy-0.7.4.js" />
     <Content Include="Scripts\sammy-0.7.4.min.js" />
     <Content Include="Scripts\string.js" />
@@ -1354,6 +1357,7 @@
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
     <Content Include="Scripts\_pager.js" />
     <Content Include="Scripts\_utils.js" />
+    <Content Include="test\datacontext.html" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\Flyout.cshtml" />
@@ -1553,6 +1557,8 @@
     <Content Include="Views\Template\EditorTemplates\SpaceFeaturesElement.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\SpaceFeaturesElement.cshtml" />
     <Content Include="Views\App\MaintenanceAssignmentHtml.cshtml" />
+    <Content Include="Views\Test\DataContext.cshtml" />
+    <Content Include="Views\Shared\_LayoutTest.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
