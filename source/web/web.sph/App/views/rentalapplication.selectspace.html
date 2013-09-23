@@ -36,14 +36,14 @@
                         <label for="min-value" class="control-label">Min</label>
                         <div class="controls">
                             <input data-bind="value: minValue, attr: { max: max, min: min }" id="min-value" type="range" name="minValue" step="10" max="9999" />
-                            <span class="help-inline" data-bind="money:minValue"></span>
+                            <span class="help-inline" data-bind="money: minValue"></span>
                         </div>
                     </div>
                     <div class="control-group">
                         <label for="max-value" class="control-label">Max</label>
                         <div class="controls">
-                            <input data-bind="value: maxValue, attr: {max: max, min:min}" id="max-value" type="range" name="maxValue" step="10" max="99999" />
-                            <span class="help-inline" data-bind="money:maxValue"></span>
+                            <input data-bind="value: maxValue, attr: { max: max, min: min }" id="max-value" type="range" name="maxValue" step="10" max="99999" />
+                            <span class="help-inline" data-bind="money: maxValue"></span>
                         </div>
                     </div>
                 </form>
@@ -53,6 +53,7 @@
             <button class="btn btn-primary" data-bind="command: $root.searchCommand">
                 <i class="icon-search pull-left"></i>
                 Search
+           
             </button>
         </div>
     </div>
@@ -87,6 +88,7 @@
                         </div>
                         <!-- /ko -->
                         <span class="category" data-bind="text: Category" />di
+                       
                         <span class="building-name" data-bind="text: BuildingName" />
                         <form id="div-building">
 
@@ -95,9 +97,13 @@
                                     <span class="location">Lokasi :</span>
                                     <span class="lot-name" data-bind="text: LotName" />
                                     <span class="floor-name" data-bind="text: FloorName" />,
+                                   
                                     <span class="building-name" data-bind="text: BuildingName" />,
+                                   
                                     <span class="city" data-bind="text: City" />,
+                                   
                                     <span class="state" data-bind="text: State" />.
+                               
                                 </p>
                             </div>
 
@@ -106,15 +112,17 @@
                                     <span class="label">Saiz :</span>
                                     <span class="size" data-bind="text: Size" />mps
 
+                                   
+
                                     <span class="label">Kadar Sewa :</span>
                                     RM <span class="rental-rate" data-bind="money: RentalRate" />
                                 </p>
                             </div>
                             <p>
                                 <a class="btn btn-success" data-bind="attr: { href: '/#/application.detail-templateid.' + $parents[0].id + '/' + SpaceId() }">Mohon Sewa</a>
-    
+
                             </p>
-                   
+
                         </form>
                         <!-- ko if: PhotoCollection().length > 0 -->
                         <h3>Gambar</h3>
@@ -134,6 +142,7 @@
 
         </section>
 
+        <div id="search-space-pager"></div>
     </div>
 </div>
 

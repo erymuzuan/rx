@@ -24,7 +24,9 @@ namespace Bespoke.Sph.ElasticSearch
         {
             this.WriteMessage("INDEXING {0}", item);
 
-            var json = JsonConvert.SerializeObject(item);
+            var setting = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
+
+            var json = JsonConvert.SerializeObject(item, setting);
             var content = new StringContent(json);
             var id = item.GetId();
             var esServer = ConfigurationManager.AppSettings["es.server"];

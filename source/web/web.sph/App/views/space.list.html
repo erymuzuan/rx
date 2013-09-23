@@ -2,26 +2,27 @@
     <section>
         <h1 data-bind="text: title"></h1>
         <div class="space-list-search-panel row row-fluid" data-bind="with: searchTerm">
-            <div class="span10">
+            <form class="form-inline" id="space-search-form">
 
-                <div class="span2">
-                    <label>Negeri</label>
-                    <select data-bind="options: stateOptions, value: state, optionsCaption: '[Sila Pilih]'"></select>
-                </div>
-                <div class="span2">
-                    <label>Kata Kunci</label>
-                    <input type="text" data-bind="value: keyword" />
-                </div>
-                <div class="btn-search">
-                    <button class="btn btn-primary" data-bind="command: $root.searchCommand">
-                        <i class="icon-search pull-left"></i>
-                        Search
-                    </button>
-                </div>
-            </div>
+                <label class="control-label">Negeri</label>
+                <select data-bind="options: stateOptions, value: state, optionsCaption: '[Sila Pilih]'" required></select>
+
+                <label class="control-label">Kata Kunci</label>
+                <input type="text" data-bind="value: keyword" required />
+
+                <button class="btn btn-primary" id="space-search-btn" type="submit" form="space-search-form">
+                    <i class="icon-search pull-left"></i>Search
+                </button>
+            </form>
         </div>
         <div>
-            <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Space', query: 'SpaceId gt 0', list: spaces }">
+            <table class="table table-striped" data-bind="searchPaging :
+            {
+                query: query,
+                list: spaces,
+                entity: 'Space',
+                searchButton: '#space-search-btn'
+            }">
                 <thead>
                     <tr>
                         <th>No. Daftar</th>
