@@ -69,9 +69,14 @@ bespoke.utils.ServerPager = function (options) {
 
     var dropdownlist = $(element).find('select').data("kendoDropDownList");
     dropdownlist.bind("change", function () {
-        changed(1, this.value());
+        try {
+
+            changed(1, parseInt(this.value()));
+        } catch (e) {
+
+        }
     });
-  
+
 
 
     return self2;

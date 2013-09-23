@@ -70,7 +70,7 @@ define(['services/datacontext'], function (context) {
                     "match": { "Category": { "query": categories().join(" OR ") } }
                 });
             }
-            
+
             var sq = {
                 "query": {
                     "bool": {
@@ -78,15 +78,15 @@ define(['services/datacontext'], function (context) {
                     }
                 }
             };
-            
 
 
-            var templateTasks = context.loadAsync("ApplicationTemplate", "IsActive eq 1");
-            var csTasks = context.searchAsync("Space", sq);
+            var templateTasks = context.loadAsync("ApplicationTemplate", "IsActive eq 1"),
+                csTasks = context.searchAsync("Space", sq),
+                pager;
             $.when(templateTasks, csTasks)
-                .done(function (tlo, cslo) {
-                    var items = _(tlo.itemCollection).map(function (t) {
-                        var filtered = _(cslo.itemCollection).filter(function (c) {
+                .done(function spacesLoaded(templateLoadOperation, spaceLoadOperation) {
+                    var items = _(templateLoadOperation.itemCollection).map(function (t) {
+                        var filtered = _(spaceLoadOperation.itemCollection).filter(function (c) {
                             return c.ApplicationTemplateOptions().indexOf(t.ApplicationTemplateId()) > -1;
                         });
                         return {
@@ -97,6 +97,25 @@ define(['services/datacontext'], function (context) {
                     });
                     vm.items(items);
                     tcs.resolve(true);
+
+                    if (!pager) {
+                        var options = {
+                            element: $('#search-space-pager'),
+                            count: spaceLoadOperation.rows,
+                            changed: function(p,s) {
+                                context.searchAsync({
+                                    entity: "Space",
+                                    page: p,
+                                    size :s
+                                }, sq).done(function(lo) {
+                                    spacesLoaded(templateLoadOperation, lo);
+                                });
+                            }
+                        };
+                        pager = new bespoke.utils.ServerPager(options);
+                    } else {
+                        pager.update(spaceLoadOperation.rows);
+                    }
 
                 });
 
