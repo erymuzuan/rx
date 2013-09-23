@@ -20,7 +20,7 @@ define(['services/datacontext',
 
 
         var isBusy = ko.observable(false),
-            setBuildingToContext = function(building, template) {
+            setBuildingToContext = function (building, template) {
                 var fieldToValueMap = function (f) {
                     var webid = system.guid();
                     var v = new bespoke.sph.domain.CustomFieldValue(webid);
@@ -40,13 +40,13 @@ define(['services/datacontext',
                           });
 
 
-                _(cfs).each(function(f) {
+                _(cfs).each(function (f) {
                     if (!building.CustomField(f.Name())) {
                         building.CustomFieldValueCollection.push(f);
                     }
                 });
 
-                _(cls).each(function(f) {
+                _(cls).each(function (f) {
                     if (!building.CustomList(f.Name())) {
                         building.CustomListValueCollection.push(f);
                     }
@@ -73,7 +73,7 @@ define(['services/datacontext',
 
                         // new building
                         if (!id) {
-                            setBuildingToContext(new bespoke.sph.domain.Building(),template);
+                            setBuildingToContext(new bespoke.sph.domain.Building(), template);
                             vm.toolbar.watching(false);
                             tcs.resolve();
                             return;
@@ -81,7 +81,7 @@ define(['services/datacontext',
 
                             vm.toolbar.auditTrail.id(id);
                             vm.toolbar.printCommand.id(id);
-                            
+
                             var query = "BuildingId eq " + id,
                                 loadTask = context.loadOneAsync("Building", query),
                                 watcherTask = watcher.getIsWatchingAsync("Building", id);
@@ -140,27 +140,28 @@ define(['services/datacontext',
             geoCode = function (address) {
 
                 var point = new google.maps.LatLng(3.1282, 101.6441);
-                
-               return mapvm.geocode(address)
-                 .then(function (result) {
-                     if (result.status) {
-                         mapvm.init({
-                             panel: 'map',
-                             draw: true,
-                             polygoncomplete: polygoncomplete,
-                             zoom: 18,
-                             center: result.point
-                         });
-                     } else {
-                         mapvm.init({
-                             panel: 'map',
-                             draw: true,
-                             polygoncomplete: polygoncomplete,
-                             zoom: center[0] ? 18 : 12,
-                             center: point
-                         });
-                     }
-                 });
+
+                return mapvm.geocode(address)
+                  .then(function (result) {
+                      if (result.status) {
+                          mapvm.init({
+                              panel: 'map',
+                              draw: true,
+                              polygoncomplete: polygoncomplete,
+                              markercomplete: markercomplete,
+                              zoom: 18,
+                              center: result.point
+                          });
+                      } else {
+                          mapvm.init({
+                              panel: 'map',
+                              draw: true,
+                              polygoncomplete: polygoncomplete,
+                              zoom: center[0] ? 18 : 12,
+                              center: point
+                          });
+                      }
+                  });
             },
             showMap = function () {
                 $('#map-panel').modal();
@@ -176,7 +177,7 @@ define(['services/datacontext',
                         + vm.building().Address().Postcode() + ","
                         + vm.building().Address().State() + ","
                         + "Malaysia.";
-                
+
                 if (!buildingId) {
                     geoCode(address);
                     return;
@@ -197,16 +198,24 @@ define(['services/datacontext',
                         panel: 'map',
                         draw: true,
                         polygoncomplete: polygoncomplete,
+                        markercomplete : markercomplete,
                         zoom: center[0] ? 18 : 12,
                         center: point
                     });
                     if (path[0]) {
-                        buildingPolygon = mapvm.add({
+                        var shape = mapvm.add({
                             encoded: path[0],
                             draggable: true,
                             editable: true,
                             zoom: 18
                         });
+                        if (shape.type === 'marker') {
+                            pointMarker = shape;
+                        }
+                        
+                        if (shape.type === 'polygon') {
+                            buildingPolygon = shape;
+                        }
                     }
 
                 });
@@ -215,15 +224,34 @@ define(['services/datacontext',
             polygoncomplete = function (shape) {
                 buildingPolygon = shape;
             },
+            pointMarker = null,
+            markercomplete = function (marker) {
+                console.log(marker);
+                marker.setOptions({ draggable: true });
+                if (pointMarker) pointMarker.setMap(null);
+
+                pointMarker = marker;
+            },
             saveMap = function () {
-                if (!buildingPolygon) {
-                    logger.log("No shape");
+                if (!buildingPolygon && !pointMarker) {
+                    logger.error("No shape");
                     return false;
                 }
-                var tcs = new $.Deferred();
-                var data = JSON.stringify({ buildingId: vm.building().BuildingId(), path: mapvm.getEncodedPath(buildingPolygon) });
+                var tcs = new $.Deferred(),
+                    data = {
+                        buildingId: vm.building().BuildingId()
+                    };
+                if (buildingPolygon) {
+                    data.path = mapvm.getEncodedPath(buildingPolygon);
+                }
+                if (pointMarker) {
+                    data.point = {
+                        lat: pointMarker.getPosition().lat(),
+                        lng: pointMarker.getPosition().lng()
+                    };
+                }
                 context
-                    .post(data, "/Building/SaveMap")
+                    .post(JSON.stringify(data), "/Building/SaveMap")
                     .then(function (e) {
                         logger.log("Map has been successfully saved ", e, "buildingdetail", true);
                     });

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,23 +29,34 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(encodedPath, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> SaveMap(int buildingId, string path)
+        public async Task<ActionResult> SaveMap(int buildingId, string path, LatLng point)
         {
             var spatial = ObjectBuilder.GetObject<ISpatialService<Building>>();
             var context = new SphDataContext();
 
-            var item = await context.LoadOneAsync<Building>(b => b.BuildingId == buildingId);
-            item.EncodedWkt = path;
-            var points = path.Decode().ToList();
-            if (
-                Math.Abs(points.First().Lat - points.Last().Lat) > 0.00001
-                || Math.Abs(points.First().Lng - points.Last().Lng) > 0.00001
-                )
-                points.Add(points.First().Clone());
+            var building = await context.LoadOneAsync<Building>(b => b.BuildingId == buildingId);
 
-            item.Wkt = points.ToWkt();
+            if (null != point)
+            {
+                building.EncodedWkt = GoogleMapHelper.EncodeLatLong(new[] { point });
+                building.Wkt = point.ToWKT();
+            }
 
-            await spatial.UpdateAsync(item);
+            if (!string.IsNullOrWhiteSpace(path))
+            {
+
+                building.EncodedWkt = path;
+                var points = path.Decode().ToList();
+                if (
+                    Math.Abs(points.First().Lat - points.Last().Lat) > 0.00001
+                    || Math.Abs(points.First().Lng - points.Last().Lng) > 0.00001
+                    )
+                    points.Add(points.First().Clone());
+
+                building.Wkt = points.ToWkt();
+            }
+
+            await spatial.UpdateAsync(building);
             return Json(true);
         }
 
@@ -126,7 +138,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var building = this.GetRequestJson<Building>();
             var context = new SphDataContext();
-           
+
 
             var errorMessage = new StringBuilder();
             var duplicateFloors = building.FloorCollection.Select(f => f.Name)

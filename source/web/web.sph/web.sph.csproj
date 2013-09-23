@@ -764,6 +764,7 @@
     <Content Include="Images\logo.png" />
     <Content Include="Images\logoSPH.png" />
     <Content Include="Images\logo_sph.png" />
+    <Content Include="Images\maps\office-building.png" />
     <Content Include="Images\office.png" />
     <Content Include="Images\offices.png" />
     <Content Include="Images\pic1.png" />

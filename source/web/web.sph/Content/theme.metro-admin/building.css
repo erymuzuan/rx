@@ -17,3 +17,18 @@
   margin-right: 20px;
   margin-left: 20px;
 }
+.building-bound-map-info {
+  width: 400px;
+  height: 200px;
+}
+.building-bound-map-info h3 {
+  color: #f00;
+}
+.building-bound-map-info div.building-bound-map-image {
+  float: right;
+}
+.building-bound-map-info div.building-bound-map-image img {
+  width: 80px;
+  height: 80px;
+  background-color: #ccc;
+}
