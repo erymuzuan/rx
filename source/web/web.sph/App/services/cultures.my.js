@@ -5,7 +5,8 @@ define([],
     function() {
         var cultures = {
             space: {
-                title : "Senarai ruang",
+                title: "Senarai ruang",
+                ADD_NEW_BUILDING : "[Tiada dalam senarai]",
                 toolbar : {
                     ADD_NEW_SPACE : "Tambah ruang baru"
                 }
