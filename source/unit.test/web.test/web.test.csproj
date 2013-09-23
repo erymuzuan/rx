@@ -68,6 +68,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Space\AddNewSpace.cs" />
+    <Compile Include="Space\SpaceBaseTest.cs" />
+    <Compile Include="TestHelper.cs" />
     <Compile Include="_000_AdminTest.cs" />
     <Compile Include="BrowserHelper.cs" />
     <Compile Include="BrowserTest.cs" />
