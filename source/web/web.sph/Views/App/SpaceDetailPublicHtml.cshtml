@@ -4,17 +4,18 @@
     ViewBag.Title = "title";
     Layout = null;
 }
-<form id="space-public-panel" class="form-horizontal form" data-bind="with: space">
+<div id="space-public-panel" class="form-horizontal form" data-bind="with: space">
     <h1 data-bind="text:Category"></h1>
-    <div id="map-space" style="width: 900px" class="google-maps span12">
+    <div id="map-space" class="google-maps span12">
         
     </div>
-
+    
+    <div class="row">
     @foreach (var fe in Model.Template.FormDesign.FormElementCollection)
     {
         @Html.DisplayFor(m => fe)
         
-    }
-</form>
+    }</div>
+</div>
 
            
