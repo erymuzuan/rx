@@ -427,6 +427,7 @@
     <Content Include="App\viewmodels\block.map.js" />
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
+    <Content Include="App\viewmodels\space.detailpublic.js" />
     <Content Include="App\viewmodels\_contract.facility.js" />
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.list.js" />
@@ -1563,6 +1564,7 @@
     <Content Include="Views\App\MaintenanceAssignmentHtml.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutTest.cshtml" />
+    <Content Include="Views\App\SpaceDetailPublicHtml.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

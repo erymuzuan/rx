@@ -7,6 +7,16 @@ namespace Bespoke.Sph.Web.Controllers
 {
     public partial class AppController
     {
+        public async Task<ActionResult> SpaceDetailPublicHtml(int templateId)
+        {
+            var context = new SphDataContext();
+            var templateTask =  context.LoadOneAsync<SpaceTemplate>(t => t.SpaceTemplateId == templateId);
+
+            await Task.WhenAll(templateTask);
+         
+            return View(await templateTask);
+        }
+
         public async Task<ActionResult> ApplicationDetailHtml(int templateId)
         {
             var context = new SphDataContext();
@@ -16,6 +26,8 @@ namespace Bespoke.Sph.Web.Controllers
          
             return View(await templateTask);
         }
+
+
         public async Task<ActionResult> SpaceDetailHtml(int templateId)
         {
             var context = new SphDataContext();

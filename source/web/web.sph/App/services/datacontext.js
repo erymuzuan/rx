@@ -6,10 +6,10 @@
 /// <reference path="/App/schemas/sph.domain.g.js" />
 
 define(['services/logger', 'durandal/system', 'durandal/knockout'],
-function (logger, system, ko) {
+function (logger, system, ko2) {
     console.log("knokcout", typeof ko);
-    if (!window.ko && typeof ko === "object") {
-        window.ko = ko;
+    if (!window.ko && typeof ko2 === "object") {
+        window.ko = ko2;
     }
     var pattern = /Bespoke\.Sph\.Domain\.(.*?),/,
         arrayTypeNamePattern = /\[/,
