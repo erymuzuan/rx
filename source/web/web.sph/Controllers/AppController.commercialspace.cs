@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Web.ViewModels;
 using Bespoke.Sph.Domain;
@@ -10,11 +12,15 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> SpaceDetailPublicHtml(int templateId)
         {
             var context = new SphDataContext();
-            var templateTask =  context.LoadOneAsync<SpaceTemplate>(t => t.SpaceTemplateId == templateId);
+            var template  = await  context.LoadOneAsync<SpaceTemplate>(t => t.SpaceTemplateId == templateId);
+            Console.WriteLine("TemplateId {0}", templateId);
+            var vm = new SpaceDetailViewModel
+            {
+                Template = template,
+                ApplicationTemplates = new ApplicationTemplate[]{}
+            };
 
-            await Task.WhenAll(templateTask);
-         
-            return View(await templateTask);
+            return View(vm);
         }
 
         public async Task<ActionResult> ApplicationDetailHtml(int templateId)
