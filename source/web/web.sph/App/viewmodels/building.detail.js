@@ -6,6 +6,8 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/_task.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../services/cultures.my.js" />
+/// <reference path="../objectbuilders.js" />
 
 define(['services/datacontext',
         'durandal/plugins/router',
@@ -14,9 +16,10 @@ define(['services/datacontext',
         'viewmodels/map',
         'services/logger',
         'services/watcher',
-        'config'
+        'config',
+        objectbuilders.cultures
 ],
-    function (context, router, system, app, mapvm, logger, watcher, config) {
+    function (context, router, system, app, mapvm, logger, watcher, config, cultures) {
 
 
         var isBusy = ko.observable(false),
@@ -128,7 +131,7 @@ define(['services/datacontext',
                     .done(function (e) {
                         if (e.status) {
                             vm.building().BuildingId(e.buildingId);
-                            logger.info("Bangunan sudah di simpan");
+                            logger.info(cultures.building.SAVE_BUILDING_MESSAGE);
                         } else {
                             logger.logError(e.message, e, this, true);
                         }
@@ -301,6 +304,7 @@ define(['services/datacontext',
             viewAttached: viewAttached,
             removeFloorCommand: removeFloor,
             title: 'Perincian Bangunan',
+            cultures : cultures,
             toolbar: {
                 watchCommand: function () { return watcher.watch("Building", vm.building().BuildingId()); },
                 unwatchCommand: function () { return watcher.unwatch("Building", vm.building().BuildingId()); },

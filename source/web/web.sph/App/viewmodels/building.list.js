@@ -5,8 +5,9 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../objectbuilders.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router], function (context, logger, router) {
 
     var building = ko.observable(new bespoke.sph.domain.Building()),
         activate = function () {

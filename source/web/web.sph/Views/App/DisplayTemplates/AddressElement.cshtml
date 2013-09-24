@@ -1,0 +1,74 @@
+﻿@model Bespoke.Sph.Domain.AddressElement
+<h3>@Model.Label</h3>
+<div class="control-group" data-bind="with: Address">
+
+    @if (Model.IsUnitNoVisible)
+    {
+
+        <div class="control-group">
+            <label class="control-label">No Unit</label>
+            <div class="controls">
+                <span class="input-large"  data-bind="text: UnitNo" />
+            </div>
+        </div>
+        
+    }
+
+    @if (Model.IsBlockVisible)
+    {
+        
+    <div class="control-group" >
+        <label class="control-label">Blok</label>
+        <div class="controls">
+            @if (!string.IsNullOrWhiteSpace(Model.BlockOptionsPath))
+            {
+                
+            <span class="input-large" data-bind="text:Block"></span>
+            }
+            else
+            {
+  
+            <span class="input-large"  data-bind="text:Block" />
+            }
+        </div>
+    </div>
+    }
+    
+    @if (Model.IsFloorVisible)
+    {
+    <div class="control-group">
+        <label class="control-label">Tingkat</label>
+        <div class="controls">
+            <span class="input-large" data-bind="text:Floor" />
+        </div>
+    </div>
+
+        
+    }
+
+    <div class="control-group">
+        <label for="address.Street" class="control-label">Jalan</label>
+        <div class="controls">
+            <span class="input-xxlarge" data-bind="text: Street" id="address.Street" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label for="address.City" class="control-label">Bandar/Daerah</label>
+        <div class="controls">
+            <span data-bind="text: City" id="address.City"  />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="address.Postcode" class="control-label">Poskod</label>
+        <div class="controls">
+            <span data-bind="text: Postcode" id="address.Postcode"  />
+        </div>
+    </div>
+    <div class="control-group">
+        <label for="address.State" class="control-label">Negeri</label>
+        <div class="controls">
+            <span  id="address.State" data-bind="text: State"></span>
+        </div>
+    </div>
+</div>
