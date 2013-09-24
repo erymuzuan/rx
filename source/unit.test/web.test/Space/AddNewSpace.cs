@@ -20,24 +20,26 @@ namespace web.test.Space
 
             //need building to run test
             this.CreateTestBuilding(m_spaceAdmin, BUILDING_TEMPLATE_NAME, BUILDING_NAME);
+
+            //need spacetemplate
+            CreateSpaceTemplate(m_spaceAdmin,SPACE_TEMPLATE_NAME);
         }
 
         [Test]
         public void Add()
         {
-            CreateSpaceTemplate(m_spaceAdmin, SPACE_TEMPLATE_NAME);
-            CreateNewSpace(m_spaceAdmin, SPACE_TEMPLATE_NAME, SPACE_REGISTRATION_NO);
+            //CreateNewSpace(m_spaceAdmin, SPACE_TEMPLATE_NAME, SPACE_REGISTRATION_NO);
         }
 
         [TearDown]
         public void Clear()
         {
 
-            this.DeleteSpace(SPACE_REGISTRATION_NO);
-            this.DeleteSpaceTemplate(SPACE_TEMPLATE_NAME);
-            this.DeleteBuilding(BUILDING_NAME);
-            this.DeleteBuildingTemplate(BUILDING_TEMPLATE_NAME);
-            this.DeleteUser(m_spaceAdmin);
+            //this.DeleteSpace(SPACE_REGISTRATION_NO);
+            //this.DeleteSpaceTemplate(SPACE_TEMPLATE_NAME);
+            //this.DeleteBuilding(BUILDING_NAME);
+            //this.DeleteBuildingTemplate(BUILDING_TEMPLATE_NAME);
+            //this.DeleteUser(m_spaceAdmin);
         }
     }
 }
