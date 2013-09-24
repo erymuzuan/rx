@@ -5,17 +5,22 @@
     Layout = null;
 }
 <div id="space-public-panel" class="form-horizontal form" data-bind="with: space">
-    <h1 data-bind="text:Category"></h1>
+    <h1 data-bind="text: Category"></h1>
     <div id="map-space" class="google-maps span12">
-        
     </div>
-    
-    <div class="row">
-    @foreach (var fe in Model.Template.FormDesign.FormElementCollection)
-    {
-        @Html.DisplayFor(m => fe)
-        
-    }</div>
+
+    <div>
+        <span data-bind="text:RegistrationNo"></span>
+    </div>
+    <div>
+        <ul class="nav" data-bind="foreach :PhotoCollection">
+            <li>
+                <img data-bind="attr : {src:'/image/store/' + ThumbnailStoreId()}" />
+            </li>
+        </ul>
+    </div>
+
+    <a class="btn btn-success" data-bind="attr: { href: '/#/application.detail-templateid.' + $parents[0].id + '/' + SpaceId() }">Mohon Sewa</a>
+
 </div>
 
-           

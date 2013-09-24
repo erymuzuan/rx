@@ -50,7 +50,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                     point = new google.maps.LatLng(3.1282, 101.6441),
                     pathTask = $.get("/Building/GetEncodedPath/" + buildingId),
                     centerTask = $.get("/Building/GetCenter/" + buildingId);
-                
+
                 $.when(pathTask, centerTask)
                 .then(function (path, center) {
                     if (center[0]) {
@@ -59,20 +59,29 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                         $('#map-space').hide();
                         return;
                     }
-                    map.init({
-                        panel: 'map-space',
-                        zoom: center[0] ? 18 : 12,
-                        center: point
-                    });
-                    if (path[0]) {
-                        var shape = map.add({
-                            encoded: path[0],
-                            draggable: true,
-                            editable: true,
-                            zoom: 18,
-                            icon : '/images/maps/office-building.png'
+                    var staticMap = String.format("http://maps.googleapis.com/maps/api/staticmap?size=640x300&markers="+
+                        "icon:{2}&center={0},{1}&sensor=false&zoom=18",
+                        point.lat(), point.lng(),"https://s3-ap-southeast-1.amazonaws.com/sph.my/map-icons/office-building.png");
+                    $('#map-space').html('<img src="' + staticMap + '" alt="map"/>')
+                        .on('click', function () {
+
+                            map.init({
+                                panel: 'map-space',
+                                zoom: center[0] ? 18 : 12,
+                                center: point
+                            });
+                            if (path[0]) {
+                                var shape = map.add({
+                                    encoded: path[0],
+                                    draggable: true,
+                                    editable: true,
+                                    zoom: 18,
+                                    icon: '/images/maps/office-building.png'
+                                });
+                            }
+
                         });
-                    }
+
 
                 });
             };
@@ -80,6 +89,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
         var vm = {
             activate: activate,
             title: title,
+            map: ko.observable(),
             viewAttached: viewAttached,
             space: ko.observable(new bespoke.sph.domain.Space()),
             building: ko.observable(new bespoke.sph.domain.Building())
