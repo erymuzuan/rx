@@ -56,10 +56,9 @@
             add = function() {
                 vm.profile(new bespoke.sph.domain.Profile());
                 vm.profile().IsNew(true);
-                
-                
+                vm.profile().UserName('');
+                vm.profile().Email('');
                 $('#user-details-modal').modal();
-                return Task.fromResult(true);
             },
             editedProfile = ko.observable(),
             edit = function(user) {
@@ -118,13 +117,14 @@
         var vm = {
             activate: activate,
             isBusyValidatingUserName : ko.observable(false),
+            isBusyValidatingEmail : ko.observable(false),
             profiles: profiles,
             profile: ko.observable(new bespoke.sph.domain.Profile()),
             printprofile : printprofile,
             designationOptions : ko.observableArray(),
             departmentOptions : ko.observableArray(),
             userNameValidationStatus : ko.observable(),
-            addCommand: add,
+            emailValidationStatus : ko.observable(),
             editCommand: edit,
             saveCommand: save,
             password1: ko.observable(),
@@ -141,7 +141,7 @@
                     id: ko.observable(0),
                     item: printprofile,
                 }),
-                commands : ko.observableArray([
+                clicks : ko.observableArray([
                     {
                         caption : "Tambah Pengguna",
                         icon : "icon-plus",
@@ -149,8 +149,7 @@
                     }])
             })
         };
-
-
+        
         vm.profile().UserName.subscribe(function(username) {
             vm.isBusyValidatingUserName(true);
             var tcs = new $.Deferred();
@@ -168,7 +167,9 @@
                 });
             return tcs.promise();
         });
-
+        
         return vm;
+        
+
     });
 </script>

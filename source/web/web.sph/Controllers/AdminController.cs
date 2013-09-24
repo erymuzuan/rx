@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -18,7 +19,6 @@ namespace Bespoke.Sph.Web.Controllers
 
         public async Task<ActionResult> ValidateUserName(string userName)
         {
-            await Task.Delay(2000);
             var user = Membership.GetUser(userName);
             if (null != user)
                 return Json(new { status = "DUPLICATE", message = string.Format("nama pengguna '{0}' sudah digunakan", userName) });
@@ -26,7 +26,15 @@ namespace Bespoke.Sph.Web.Controllers
             return Content(await JsonConvert.SerializeObjectAsync(true));
 
         }
+        public async Task<ActionResult> ValidateEmail(string email)
+        {
+            var emailExist = Membership.GetUserNameByEmail(email);
+            if (null != emailExist)
+                return Json(new { status = "DUPLICATE", message = string.Format("email '{0}' sudah digunakan", email) });
+            this.Response.ContentType = "application/json; charset=utf-8";
+            return Content(await JsonConvert.SerializeObjectAsync(true));
 
+        }
         public async Task<ActionResult> AddUser(Profile profile)
         {
             var context = new SphDataContext();
@@ -38,12 +46,12 @@ namespace Bespoke.Sph.Web.Controllers
 
             if (null != em)
             {
-                //var userroles = Roles.GetRolesForUser(profile.UserName);
-                //if (userroles.Any())
-                //    Roles.RemoveUserFromRoles(profile.UserName, roles);
+                var userroles = Roles.GetRolesForUser(profile.UserName);
+                if (userroles.Any())
+                    Roles.RemoveUserFromRoles(profile.UserName, roles);
 
-                //Roles.AddUserToRoles(profile.UserName, profile.Roles);
-                //em.Email = profile.Email;
+                Roles.AddUserToRoles(profile.UserName, profile.Roles);
+                em.Email = profile.Email;
                 Membership.UpdateUser(em);
                 profile.Roles = roles;
                 await CreateProfile(profile, designation);
