@@ -1,15 +1,21 @@
-﻿using System.Web.Mvc;
+﻿using System.IO;
+using System.Web.Mvc;
+using Bespoke.Sph.Web.ViewModels;
 
 namespace Bespoke.Sph.Web.Controllers
 {
     public class TestController : Controller
     {
-        //
-        // GET: /Test/
-
-        public ActionResult DataContext()
+        public ActionResult Index(string id)
         {
-            return View();
+            var path = Server.MapPath("~/ScriptTests");
+            var files = Directory.GetFiles(path, "*.js");
+            var vm = new JsTestViewModel
+            {
+                Files = files,
+                Script = id
+            };
+            return View(vm);
         }
 
     }

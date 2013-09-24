@@ -347,6 +347,7 @@
     <Compile Include="Models\ApplicationConfigurationViewModel.cs" />
     <Compile Include="Models\RoleType.cs" />
     <Compile Include="Models\TypeModel.cs" />
+    <Compile Include="ViewModels\JsTestViewModel.cs" />
     <Compile Include="ViewModels\SpaceDetailViewModel.cs" />
     <Compile Include="ViewModels\CustomFieldViewModel.cs" />
     <Compile Include="ViewModels\PrintViewModel.cs" />
@@ -1359,7 +1360,8 @@
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
     <Content Include="Scripts\_pager.js" />
     <Content Include="Scripts\_utils.js" />
-    <Content Include="test\datacontext.html" />
+    <Content Include="ScriptTests\datacontext.aggregate.js" />
+    <Content Include="ScriptTests\datacontext.toObservable.js" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\Flyout.cshtml" />
@@ -1559,7 +1561,7 @@
     <Content Include="Views\Template\EditorTemplates\SpaceFeaturesElement.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\SpaceFeaturesElement.cshtml" />
     <Content Include="Views\App\MaintenanceAssignmentHtml.cshtml" />
-    <Content Include="Views\Test\DataContext.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutTest.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
