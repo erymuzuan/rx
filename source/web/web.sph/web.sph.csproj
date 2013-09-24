@@ -1565,6 +1565,29 @@
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutTest.cshtml" />
     <Content Include="Views\App\SpaceDetailPublicHtml.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\SpaceFeaturesElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\SpaceLotsElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\AddressElement.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\App\DisplayTemplates\BuildingBlocksElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\BuildingElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\BuildingFloorsElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\BuildingMapElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\CheckBox.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\DatePicker.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\EmailFormElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\FormElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\HtmlElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\MaintenanceOfficerElement.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\App\DisplayTemplates\NumberTextBox.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\RentalApplicationAttachmentsElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\RentalApplicationBanksElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\RentalApplicationContactElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\SectionFormElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\WebsiteFormElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

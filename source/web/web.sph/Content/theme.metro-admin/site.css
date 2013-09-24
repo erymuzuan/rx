@@ -4,6 +4,14 @@
 #body {
   margin-bottom: 70px;
 }
+.google-maps-medium {
+  min-height: 430px;
+}
+.google-maps-medium div.modal-body {
+  width: 600px;
+  height: 250px;
+  max-height: 300px;
+}
 .google-maps {
   min-height: 600px;
 }
@@ -215,7 +223,7 @@ header div.navbar-inner {
   padding-left: 0px;
 }
 header div.container {
-  padding-left: 10px;
+  padding-left: 0px;
   margin-left: 0px;
 }
 .heading-success {
