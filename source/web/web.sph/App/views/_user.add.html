@@ -36,6 +36,10 @@
                 <label for="Email" class="span2">Emel :</label>
                 <div class="controls">
                     <input data-bind="value: Email" id="Email" type="text" name="Email" />
+                    <div data-bind="visible: IsNew()">
+                        <i class="icon-spinner icon-spin icon-large" data-bind="visible: $root.isBusyValidatingEmail"></i>
+                        <span class="help-block alert alert-error" data-bind="text: $root.emailValidationStatus, visible: $root.emailValidationStatus() "></span>
+                    </div>
                 </div>
             </div>
             <div class="control-group" data-bind="with: $parent.departmentOptions">

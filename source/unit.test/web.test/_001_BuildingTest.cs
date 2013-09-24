@@ -261,7 +261,7 @@ namespace web.test
             driver.Login(m_buildingAdmin);
             driver.NavigateToUrl("/#/building.list", 2.Seconds());
 
-            driver.NavigateToUrl(String.Format("/#/building.detail-templateid.{0}/{0}/0", templateId), 5.Seconds());
+            driver.NavigateToUrl(String.Format("/#/building.detail-templateid.{0}/{0}/0", templateId), 6.Seconds());
 
          
             driver

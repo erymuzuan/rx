@@ -80,8 +80,7 @@ namespace web.test
                ;
             driver.Click("#save-button")
                     .Sleep(TimeSpan.FromSeconds(3));
-
-
+            
             var latest = this.GetDatabaseScalarValue<int>("SELECT MAX([ContractTemplateId]) FROM [Sph].[ContractTemplate]");
             Assert.IsTrue(max < latest);
 

@@ -5,11 +5,12 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../objectbuilders.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/_uiready.js" />
 
 
-define(['services/datacontext', 'services/logger', 'services/jsonimportexport'],
+define([objectbuilders.datacontext, objectbuilders.logger, 'services/jsonimportexport'],
     function (context, logger, exim) {
 
         var isBusy = ko.observable(false),
@@ -80,7 +81,8 @@ define(['services/datacontext', 'services/logger', 'services/jsonimportexport'],
                 existingTopic = tp;
             },
             selectedTopic = ko.observable(new bespoke.sph.domain.Topic()),
-            selectTopic = function(tp, ev) {
+            selectTopic = function (tp, ev) {
+               
                 selectedTopic(tp);
                 var element = $(ev.target);
                 element.parents("ul").children()
@@ -93,7 +95,7 @@ define(['services/datacontext', 'services/logger', 'services/jsonimportexport'],
             existingClause = null,
             editedClause = ko.observable(),
             startAddClause = function() {
-                if (selectedTopic() === null) {
+                if (selectedTopic().Name === null) {
                     console.log("no selected topic");
                     return;
                 }
