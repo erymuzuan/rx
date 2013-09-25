@@ -1,5 +1,3 @@
-using NDbUnit.Core;
-using NDbUnit.Core.SqlClient;
 using NUnit.Framework;
 
 namespace web.test.Space
@@ -19,11 +17,6 @@ namespace web.test.Space
             //create test user
             m_spaceAdmin = TestHelper.CreateSpaceAdmin();
             this.AddUser(m_spaceAdmin);
-
-            //var db = new SqlDbUnitTest(this.ConnectionString);
-            //db.ReadXmlSchema(@"..\..\BuildingTemplateSchema.xsd");
-            //db.ReadXml(@"..\..\data\building.template.data.xml");
-            //db.PerformDbOperation(DbOperationFlag.InsertIdentity);
 
             //need building to run test
             this.CreateTestBuilding(m_spaceAdmin, BUILDING_TEMPLATE_NAME, BUILDING_NAME);

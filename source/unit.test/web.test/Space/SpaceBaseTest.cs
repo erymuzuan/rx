@@ -2,6 +2,8 @@
 using System.Data.SqlClient;
 using System.Globalization;
 using FluentDateTime;
+using NDbUnit.Core;
+using NDbUnit.Core.SqlClient;
 using NUnit.Framework;
 
 namespace web.test.Space
@@ -276,13 +278,18 @@ namespace web.test.Space
 
         public void CreateTestBuilding(TestUser user, string buildingTemplateName, string buildingName)
         {
+            //
+            Console.WriteLine("Creating building templates..."); 
+            var db = new SqlDbUnitTest(this.ConnectionString);
+            db.ReadXmlSchema(@"..\..\schema\BuildingTemplateSchema.xsd");
+            db.ReadXml(@"..\..\data\building.template.data.xml");
+            db.PerformDbOperation(DbOperationFlag.CleanInsertIdentity);
+            this.ExecuteNonQuery("dbcc checkident ([Sph.BuildingTemplate], reseed, 0)");
+            var buildingTemplateCount = this.GetDatabaseScalarValue<int>("SELECT COUNT([BuildingTemplateId]) FROM [Sph].[BuildingTemplate]");
+            Assert.AreEqual(1,buildingTemplateCount);
+
             var driver = this.InitiateDriver();
             driver.Login(user);
-
-            //
-            Console.WriteLine("Creating building templates...");
-            //TestHelper.CreateBuildingTemplate(driver, buildingTemplateName);
-            //driver.LogOff();
 
             //
             Console.WriteLine("Creating test building...");

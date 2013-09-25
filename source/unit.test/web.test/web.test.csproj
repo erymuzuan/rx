@@ -105,7 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="BuildingTemplateSchema.xsd">
+    <None Include="schema\BuildingTemplateSchema.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>BuildingTemplateSchema.Designer.cs</LastGenOutput>
@@ -129,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="data\building.template.data.xml" />
+    <Content Include="data\sample.xml" />
     <Content Include="rebate.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
