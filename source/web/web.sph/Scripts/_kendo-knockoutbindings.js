@@ -11,33 +11,34 @@
 
 
 ko.bindingHandlers.kendoEditor = {
-    init2: function (element, valueAccessor) {
-
+    updating: false,
+    init: function (element, valueAccessor) {
         var $editor = $(element),
-            value = valueAccessor();
-        var kendoEditor = $editor.data("kendoEditor");
-        if (!kendoEditor) {
+            value = valueAccessor(),
+            self = this;
+
+        setTimeout(function () {
             $editor.kendoEditor({
                 change: function () {
+                    self.updating = true;
                     value(this.value());
+                    setTimeout(function () {
+                        self.updating = false;
+                    }, 500);
                 }
             });
-
-        }
+        }, 500);
 
     },
     update2: function (element, valueAccessor) {
         var $editor = $(element),
-           value = valueAccessor();
-        var kendoEditor = $editor.data("kendoEditor");
-        if (!kendoEditor) {
-            $editor.kendoEditor({
-                change: function () {
-                    value(this.value());
-                }
-            });
+            value = valueAccessor(),
+            ke = $editor.data("kendoEditor"),
+            self = this;
+        if (!self.updating) {
+            ke.value(value());
+
         }
-        kendoEditor.value(value());
     }
 };
 
@@ -124,41 +125,56 @@ ko.bindingHandlers.money = {
 ///user moment format
 ko.bindingHandlers.date = {
     init: function (element, valueAccessor) {
-        var value = ko.utils.unwrapObservable(valueAccessor());
-
-        var date = moment(value.value());
-        if (null === date || date.year() == 1) { // DateTime.Min
-            $(element).text("");
-            $(element).val("");
-        } else {
-            var dateString = date.format(value.format).toString();
-            if (dateString.indexOf("NaN") < 0) {
-                $(element).text(dateString);
-                $(element).val(dateString);
-            }
-        }
-
+        var value = ko.utils.unwrapObservable(valueAccessor()),
+            date = moment(value.value());
 
         $(element).on("change", function () {
             var nv = $(this).val();
             value.value(nv);
         });
+        if (!date) {
+            $(element).text("");
+            $(element).val("");
+            return;
+        }
+        if (date.year() == 1) { // DateTime.Min
+            $(element).text("");
+            $(element).val("");
+            return;
+        }
+
+
+        var dateString = date.format(value.format).toString();
+        if (dateString.indexOf("NaN") < 0) {
+            $(element).text(dateString);
+            $(element).val(dateString);
+        }
+
+
+
     },
     update: function (element, valueAccessor) {
         var value = ko.utils.unwrapObservable(valueAccessor());
         var date = moment(value.value());
-        if (null === date || date.year() == 1) { // DateTime.Min
+        if (!date) {
             $(element).text("");
             $(element).val("");
-
-        } else {
-            var dateString = date.format(value.format).toString();
-            if (dateString.indexOf("NaN") < 0) {
-                $(element).text(dateString);
-                $(element).val(dateString);
-            }
-
+            return;
         }
+        if (date.year() == 1) { // DateTime.Min
+            $(element).text("");
+            $(element).val("");
+            return;
+        }
+
+
+        var dateString = date.format(value.format).toString();
+        if (dateString.indexOf("NaN") < 0) {
+            $(element).text(dateString);
+            $(element).val(dateString);
+        }
+
+
     }
 };
 
@@ -196,19 +212,11 @@ ko.bindingHandlers.kendoUpload = {
 ///user moment format
 ko.bindingHandlers.kendoDate = {
     init: function (element, valueAccessor) {
-        var value = valueAccessor();
-        var currentValue = ko.utils.unwrapObservable(value);
-        var date = moment(currentValue);
-
-        var picker = $(element).data("kendoDatePicker") ||
+        var value = valueAccessor(),
+            currentValue = ko.utils.unwrapObservable(value),
+            date = moment(currentValue),
+            picker = $(element).data("kendoDatePicker") ||
             $(element).kendoDatePicker({ format: "dd/MM/yyyy" }).data("kendoDatePicker");
-
-        if (null === date || date.year() === 1) { // DateTime.Min
-            picker.value(null);
-        } else {
-            picker.value(date.toDate());
-            value(date);
-        }
 
         $(element).on("change", function () {
             var nv = $(this).val();
@@ -222,6 +230,22 @@ ko.bindingHandlers.kendoDate = {
             valueAccessor()(date.format("YYYY-MM-DD"));
             $(element).data("stop", "false");
         });
+
+
+        if (!date) {
+            picker.value(null);
+            return;
+        }
+
+        if (date.year() === 1) { // DateTime.Min
+            picker.value(null);
+            return;
+        }
+
+        picker.value(date.toDate());
+        value(date);
+
+
     },
     update: function (element, valueAccessor) {
         if ($(element).data("stop") == "true") return;
@@ -230,11 +254,18 @@ ko.bindingHandlers.kendoDate = {
 
         var date = moment(modelValue);
         var picker = $(element).data("kendoDatePicker");
-        if (null === date || date.year() == 1) { // DateTime.Min
+
+        if (!date) {
             picker.value(null);
-        } else {
-            picker.value(date.toDate());
+            return;
         }
+        if (date.year() == 1) { // DateTime.Min
+            picker.value(null);
+            return;
+        }
+
+        picker.value(date.toDate());
+
     }
 };
 
@@ -712,7 +743,7 @@ ko.bindingHandlers.searchPaging = {
             $element = $(element),
             context = require('services/datacontext'),
             logger = require('services/logger'),
-            cultures =  require(objectbuilders.cultures),
+            cultures = require(objectbuilders.cultures),
             $pagerPanel = $('<div></div>'),
             $spinner = $('<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" />'),
             startLoad = function () {
@@ -781,17 +812,17 @@ ko.bindingHandlers.searchPaging = {
 
         //exposed the search function
         value.search = search;
-        
+
         $element.after($pagerPanel).after($spinner)
             .fadeTo("slow", 0.33);
 
         if (searchButton) {
             $(document).on('click', searchButton, function (e) {
                 e.preventDefault();
-               if (!$(this).parents("form")[0].checkValidity()) {
-                   logger.error(cultures.messages.FORM_IS_NOT_VALID);
-                   return;
-               }
+                if (!$(this).parents("form")[0].checkValidity()) {
+                    logger.error(cultures.messages.FORM_IS_NOT_VALID);
+                    return;
+                }
                 search(ko.toJS(query), 1, pager.pageSize);
             });
 

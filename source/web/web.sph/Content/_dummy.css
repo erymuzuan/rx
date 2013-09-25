@@ -26,3 +26,17 @@
 .input-floor-size{}
 
 .filter-panel{}
+
+div.div-building {}
+div.div-building .location{}
+div.div-building .lot-name{}
+div.div-building .floor-name{}
+div.div-building .building-name{}
+div.div-building .city{}
+div.div-building .state{}
+div.div-building .size{}
+div.div-building .rental-rate{}
+
+.space-search-panel{}
+.topic-title-link{}
+.topic-edit-link{}

@@ -28,7 +28,8 @@ bespoke.sph.domain.BuildingPartial = function () {
                 return v.Name() === name;
             });
             if (!cs) {
-                throw "Cannot find custom list named " + name + " in Building";
+                console.log("Cannot find custom list named " + name + " in Building");
+                return null;
             }
             return cs;
         },

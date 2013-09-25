@@ -1,0 +1,17 @@
+﻿@model Bespoke.Sph.Domain.SpaceLotsElement
+
+<div class="control-group">
+    <label for="space_LotName" class="control-label">@Model.Label</label>
+    <div class="controls">
+        <input title="@Model.Tooltip" data-bind="value: LotName" id="space_LotName" type="text" name="space.LotName" readonly="readonly" />
+        <a type="button" class="btn help-inline"
+            data-toggle="modal" id="select-lot-button"
+            href="#lot-selection-panel">Pilih lot</a>
+        @if (!string.IsNullOrWhiteSpace(Model.HelpText))
+        {
+            @Html.Raw(Model.HelpText)
+        
+        }
+    </div>
+
+</div>

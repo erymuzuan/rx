@@ -1,0 +1,49 @@
+﻿@model Bespoke.Sph.Domain.SpaceFeaturesElement
+
+<input type="button" name="add-feature-button" id="add-feature-button" class="btn pull-right" data-bind="click: $root.addFeaturesCommand" value="+ Features" />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nama</th>
+            <th>Keterangan</th>
+            <th>Kategori</th>
+            <th>Diwajibkan</th>
+            <th>Caj</th>
+            <th>Occurence</th>
+            <th>Kuantiti Tersedia</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: FeatureDefinitionCollection">
+        <tr>
+            <td>
+                <input class="input-feature-name" type="text" data-bind="value: Name, uniqueName: true"/></td>
+            <td>
+                <input class="input-feature-description" type="text" data-bind="value: Description, uniqueName: true"/></td>
+            <td>
+                <input type="text" class="input-feature-category" data-bind="value: Category, uniqueName: true" /></td>
+            <td>
+                <input type="checkbox" class="input-feature-isrequired" data-bind="checked: IsRequired, uniqueName: true"/></td>
+            <td>
+                <span class="add-on">RM</span>
+                <input type="text" class="input-feature-charge" data-bind="value: Charge, uniqueName: true"/></td>
+            <td>
+                <input type="text" class="input-feature-occurence" data-bind="value: Occurence, uniqueName: true"/>
+                <select class="input-feature-occurencetimespan" data-bind="value: OccurenceTimeSpan, uniqueName: true">
+                    <option value="Sekali">Sekali</option>
+                    <option value="Hari">Hari</option>
+                    <option value="Minggu">Minggu</option>
+                    <option value="Bulan">Bulan</option>
+                    <option value="Tahun">Tahun</option>
+                </select>
+            </td>
+            <td>
+                <input type="text" class="input-feature-available-quantity" data-bind="value: AvailableQuantity, uniqueName: true"/>
+
+            </td>
+            <td>
+                <input type="button" data-bind="click: $root.removeFeaturesCommand" class="btn-remove-feature" value="X" /></td>
+
+        </tr>
+    </tbody>
+</table>

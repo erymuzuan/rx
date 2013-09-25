@@ -46,7 +46,26 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
                 }
 
                 var lines = google.maps.geometry.encoding.decodePath(shape.encoded);
+                if(lines.length === 1) {// point
+                    var marker = new google.maps.Marker({
+                        position: lines[0],
+                        map: map,
+                        zIndex: shape.zIndex || 0,
+                        clickable: shape.clikable || true,
+                        draggable: shape.draggable || false,
+                        title: shape.title,
+                        icon : shape.icon
+                    });
+                    marker.setMap(map);
+                    marker.type = 'marker';
+                    overlays.push(marker);
+                 
+                    google.maps.event.addListener(marker, 'dragend', function () {
+                        console.log(marker.getPosition());
+                    });
 
+                    return marker;
+                }
                 var polygon = new google.maps.Polygon({
                     paths: lines,
                     map: map,
@@ -60,6 +79,7 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
                     fillColor: shape.fillColor || "#00AEDB"
                 });
                 polygon.setMap(map);
+                polygon.type = 'polygon';
                 overlays.push(polygon);
 
                 return polygon;
@@ -121,12 +141,13 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
 
         function init(ops) {
 
-            var ops2 = ops || {};
-            var panel = ops2.panel || 'map';
-            var zoom = ops2.zoom || 11;
-
-            var center = ops2.center || new google.maps.LatLng(3.1282, 101.6441);
+            var ops2 = ops || {},
+                panel = ops2.panel || 'map',
+                zoom = ops2.zoom || 11,
+                center = ops2.center || new google.maps.LatLng(3.1282, 101.6441);
+            
             google.maps.visualRefresh = true;
+            
             var options = {
                 zoom: zoom,
                 center: center,
@@ -164,6 +185,7 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
                 });
                 if (ops.polygoncomplete) {
                     google.maps.event.addListener(drawingManager, 'polygoncomplete', function (pg) {
+                        pg.type = 'polygon';
                         overlays.push(pg);
                         ops2.polygoncomplete(pg);
                     });
@@ -189,6 +211,7 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
                 if (ops.markercomplete) {
                     google.maps.event.addListener(drawingManager, 'markercomplete', function (marker) {
                         overlays.push(marker);
+                        marker.type = 'marker';
                         ops2.markercomplete(marker);
                     });
                 }

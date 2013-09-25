@@ -8,6 +8,7 @@
   background-color: #eee;
   margin: 10px;
   margin-bottom: 15px;
+  min-height: 200px;
 }
 #available-space-list > div article > div > span {
   font-weight: bold;
@@ -31,8 +32,10 @@
 #available-space-list > div:nth-child(odd) {
   background-color: #fcfce3;
 }
+
 div.space-image-panel {
   float: right;
+  margin-top: -20px;
 }
 span.feature-category {
   font-weight: bold;
@@ -72,8 +75,8 @@ div.feature-item select.input-feature-available-quantity {
   width: 50px;
 }
 div.filter-panel {
-  background-color: #0096e1;
-  color: #fff;
+  background-color: #F8F8F8;
+  color: #000;
 }
 div.filter-panel div > div {
   margin: 10px;
@@ -90,7 +93,7 @@ div.filter-panel form.form-horizontal div.controls {
   margin-left: 40px;
 }
 div.filter-panel span {
-  color: #fff;
+  color: #000;
 }
 div.filter-panel button {
   float: right;

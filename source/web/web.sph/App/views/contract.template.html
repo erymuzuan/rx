@@ -90,8 +90,8 @@
                         href="#topic-dialog" data-bind="click: startAddTopicCommand">+ Topic</a>
 
                 </div>
-                <!-- if ko : $root.selectedTopic() -->
-                <div class="span8">
+             
+                <div class="span8" data-bind="visible: $root.selectedTopic().Title">
                     <a type="button" class="btn btn-link"
                         data-toggle="modal"
                         href="#clause-dialog"
@@ -108,7 +108,6 @@
 
                 </div>
 
-                <!-- /ko -->
             </div>
         </div>
 

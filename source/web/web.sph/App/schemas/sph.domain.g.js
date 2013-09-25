@@ -148,6 +148,7 @@ bespoke.sph.domain.Block = function (webId) {
         Size: ko.observable(0.00),
         FloorPlanStoreId: ko.observable(''),
         FloorCollection: ko.observableArray([]),
+        Floors: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1389,7 +1390,7 @@ bespoke.sph.domain.FeatureDefinition = function (webId) {
         IsRequired: ko.observable(false),
         Occurence: ko.observable(0),
         OccurenceTimeSpan: ko.observable(''),
-        AvailableQuantity: ko.observable(''),
+        AvailableQuantity: ko.observable(0),
         Charge: ko.observable(),
         PhotoCollection: ko.observableArray([]),
         isBusy: ko.observable(false),

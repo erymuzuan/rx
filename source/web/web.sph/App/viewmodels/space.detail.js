@@ -7,10 +7,11 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../services/cultures.my.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 
-define(['services/datacontext', 'services/logger', './_space.contract', 'durandal/system', 'config'],
-    function (context, logger, contractlistvm, system, config) {
+define(['services/datacontext', 'services/logger', './_space.contract', 'durandal/system', 'config', objectbuilders.cultures],
+    function (context, logger, contractlistvm, system, config, cultures) {
 
         var title = ko.observable(),
             selectedBuilding = {},
@@ -31,6 +32,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                         vm.buildingOptions(_(buildingNameList).sortBy(function (building) {
                             return building.Item2;
                         }));
+                        vm.buildingOptions.push({ Item1: 0, Item2: cultures.space.ADD_NEW_BUILDING });
                     })
                     .done(function (template, b, space) {
 
@@ -92,7 +94,6 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
 
                         space.TemplateName(template.Name());
                         space.TemplateId(templateId);
-                        space.Category(template.Name());
                         vm.selectedBuilding(space.BuildingId());
                         vm.space(space);
 
@@ -183,11 +184,12 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
         };
 
         vm.selectedBuilding.subscribe(function (id) {
+            vm.space().BuildingId(id);
             if (!id) return;
             vm.isBusy(true);
-            vm.space().BuildingId(id);
             context.loadOneAsync("Building", "BuildingId eq " + id)
                 .then(function (b) {
+                    if (!b) return;
                     var floors = _(b.FloorCollection()).map(function (f) {
                         return f.Name();
                     }),

@@ -2146,6 +2146,12 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameFloorPlanStoreId = "FloorPlanStoreId";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_floors;
+        public const string PropertyNameFloors = "Floors";
+
+
+
         private readonly ObjectCollection<Floor> m_FloorCollection = new ObjectCollection<Floor>();
 
         ///<summary>
@@ -2272,6 +2278,28 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? Floors
+        {
+            set
+            {
+                if (m_floors == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFloors, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_floors = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_floors; }
+        }
 
 
     }

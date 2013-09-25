@@ -53,7 +53,7 @@ define(['services/datacontext',
             viewAttached: viewAttached,
             highlightCommand: highlight,
             buildingCollection: buildingCollection,
-            selectedBuilding:ko.observable(new bespoke.sph.domain.Building()),
+            selectedBuilding: ko.observable(new bespoke.sph.domain.Building()),
             isBusy: isBusy
         };
 
@@ -83,22 +83,34 @@ define(['services/datacontext',
                 .then(function (list) {
 
                     mapvm.clear();
-                    var buildingPolygons = _.map(list, function (b) {
+                    var markers = _.map(list, function (b) {
+
+                        var marker = mapvm.add({
+                            encoded: b.EncodedWkt,
+                            draggable: false,
+                            editable: false,
+                            clickable: false,
+                            fillOpacity: 0.8,
+                            strokeWeight: 0.5,
+                            strokeColor: "#FF2800",
+                            title: b.Name,
+                            icon: '/images/maps/office-building.png'
+                        }),
+                            info = new google.maps.InfoWindow({
+                                content: $('#selected-building-panel').html(),
+                                maxWidth : 400
+                            });
+                        google.maps.event.addListener(marker, 'click', function () {
+                            vm.selectedBuilding(b);
+                            info.open(marker.getMap(), marker);
+                        });
+
                         return {
                             building: ko.mapping.fromJS(b),
-                            polygon:
-                                mapvm.add({
-                                    encoded: b.EncodedWkt,
-                                    draggable: false,
-                                    editable: false,
-                                    clickable: false,
-                                    fillOpacity: 0.8,
-                                    strokeWeight: 0.5,
-                                    strokeColor: "#FF2800"
-                                })
+                            polygon:marker 
                         };
                     });
-                    buildingCollection(buildingPolygons);
+                    buildingCollection(markers);
                     tcs.resolve(list);
                 });
 

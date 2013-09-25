@@ -53,7 +53,7 @@
             <button class="btn btn-primary" data-bind="command: $root.searchCommand">
                 <i class="icon-search pull-left"></i>
                 Search
-           
+
             </button>
         </div>
     </div>
@@ -75,11 +75,9 @@
             <div>
                 <article>
                     <div>
-
                         <!-- ko if: PhotoCollection().length > 0 -->
                         <div data-bind="with: PhotoCollection()[0]" class="space-image-panel">
                             <img data-bind="attr: { src: '/Image/Store/' + StoreId(), alt: Title }, text: Title" />
-
                         </div>
                         <!-- /ko -->
                         <!-- ko if: PhotoCollection().length === 0 -->
@@ -87,52 +85,48 @@
                             <img src="/Images/no-image.png" />
                         </div>
                         <!-- /ko -->
-                        <span class="category" data-bind="text: Category" />di
-                       
-                        <span class="building-name" data-bind="text: BuildingName" />
-                        <form id="div-building">
+                        <span class="category" data-bind="text: Category" />
+
+                        <div class="div-building">
 
                             <div>
+                                <p>
+                                    <span class="building-name" data-bind="text: BuildingName" />
+                                </p>
                                 <p>
                                     <span class="location">Lokasi :</span>
                                     <span class="lot-name" data-bind="text: LotName" />
                                     <span class="floor-name" data-bind="text: FloorName" />,
-                                   
+
                                     <span class="building-name" data-bind="text: BuildingName" />,
-                                   
+
                                     <span class="city" data-bind="text: City" />,
-                                   
+
                                     <span class="state" data-bind="text: State" />.
-                               
+
                                 </p>
                             </div>
 
                             <div>
                                 <p>
+                                    <!-- ko if :Size-->
                                     <span class="label">Saiz :</span>
                                     <span class="size" data-bind="text: Size" />mps
+                                    <!--/ko-->
 
-                                   
+
 
                                     <span class="label">Kadar Sewa :</span>
                                     RM <span class="rental-rate" data-bind="money: RentalRate" />
                                 </p>
                             </div>
                             <p>
-                                <a class="btn btn-success" data-bind="attr: { href: '/#/application.detail-templateid.' + $parents[0].id + '/' + SpaceId() }">Mohon Sewa</a>
+                                <a class="btn btn-success" data-bind="attr: { href: '/#/space.detailpublic-templateid.' + $parents[0].id + '/' + SpaceId() }">Mohon Sewa</a>
 
                             </p>
 
-                        </form>
-                        <!-- ko if: PhotoCollection().length > 0 -->
-                        <h3>Gambar</h3>
-                        <ul data-bind="foreach: PhotoCollection">
-                            <li>
-                                <a href="/#" data-bind="text: Title"></a>
-                            </li>
-                        </ul>
+                        </div>
 
-                        <!-- /ko -->
 
                     </div>
                 </article>

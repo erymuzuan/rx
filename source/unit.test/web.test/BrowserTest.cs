@@ -32,14 +32,12 @@ namespace web.test
 
         protected IWebDriver InitiateDriver(string agent = null)
         {
+            //var options = new InternetExplorerOptions();
+            //IWebDriver ie = new InternetExplorerDriver(options);
+            //return ie;
 
-            var options = new InternetExplorerOptions();
-            IWebDriver ie = new InternetExplorerDriver(options);
-            return ie;
-
-
-            //IWebDriver driver = new FirefoxDriver();
-            //return driver;
+            IWebDriver driver = new FirefoxDriver();
+            return driver;
         }   
 
         protected void PayWithMigs(IWebDriver driver)
@@ -74,11 +72,9 @@ namespace web.test
 
         public void AddUser(TestUser user)
         {
-            if (Membership.GetUser(user.UserName) != null)
-            {
-                Membership.DeleteUser(user.UserName);
-            }
-            this.ExecuteNonQuery("DELETE FROM [Sph].[UserProfile] WHERE [UserName] = @UserName", new SqlParameter("@UserName", user.UserName));
+            //
+            DeleteUser(user);
+
             var u = Membership.CreateUser(user.UserName, user.Password, user.Email);
             var id = this.GetDatabaseScalarValue<int>(
                     "SELECT MAX([UserProfileId]) + 1 FROM [Sph].[UserProfile]");
@@ -132,6 +128,16 @@ namespace web.test
 
             Console.WriteLine("User {0} is successfully created", user.UserName);
 
+        }
+
+        public void DeleteUser(TestUser user)
+        {
+            var existingUser = Membership.GetUser(user.UserName);
+            if (null == existingUser) return;
+            Membership.DeleteUser(user.UserName);
+            this.ExecuteNonQuery("DELETE FROM [Sph].[UserProfile] WHERE [UserName] = @UserName",
+                                 new SqlParameter("@UserName", user.UserName));
+            Console.WriteLine("User [{0}] is successfully deleted", user.UserName);
         }
     }
 }

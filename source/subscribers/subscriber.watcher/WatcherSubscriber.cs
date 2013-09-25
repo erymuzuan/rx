@@ -35,7 +35,7 @@ namespace Bespoke.Sph.WathersSubscribers
             return Task.FromResult(0);
         }
 
-        private ObjectCollection<Watcher> m_watchers;
+        private readonly ObjectCollection<Watcher> m_watchers =new ObjectCollection<Watcher>();
         private IEntityChangedListener<Building> m_buildingListener;
         private IEntityChangedListener<RentalApplication> m_applicationListener;
         private IEntityChangedListener<Space> m_spaceListener;
@@ -48,7 +48,7 @@ namespace Bespoke.Sph.WathersSubscribers
             var context = new SphDataContext();
             var query = context.Watchers.Where(w => w.IsActive == true);
             var lo = await context.LoadAsync(query, includeTotalRows: true);
-            m_watchers = new ObjectCollection<Watcher>(lo.ItemCollection);
+            m_watchers.ClearAndAddRange(lo.ItemCollection);
             while (lo.HasNextPage)
             {
                 lo = await context.LoadAsync(query, lo.CurrentPage + 1, includeTotalRows: true);

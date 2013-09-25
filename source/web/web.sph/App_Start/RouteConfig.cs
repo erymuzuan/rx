@@ -99,6 +99,17 @@ namespace Bespoke.Sph.Web.App_Start
                                                 Icon = "icon-check",
                                                 ModuleId = string.Format("viewmodels/complaint.close-templateid.{0}", t.ComplaintTemplateId)
                                             };
+
+            var spaceDetailPublicRoutes = from t in ruangTemplates.ItemCollection
+                                select new JsRoute
+                                {
+                                    Name = t.Name,
+                                    Url = string.Format("space.detailpublic-templateid.{0}/:id", t.SpaceTemplateId),
+                                    Caption = t.Name,
+                                    Icon = "icon-building",
+                                    ModuleId = string.Format("viewmodels/space.detailpublic-templateid.{0}", t.SpaceTemplateId)
+                                };
+
             var applicationRoutes = from t in applicationTemplates.ItemCollection
                                 select new JsRoute
                                 {
@@ -133,6 +144,7 @@ namespace Bespoke.Sph.Web.App_Start
             routes.AddRange(complaintFormRoutes);
             routes.AddRange(complaintAssignmentRoutes);
             routes.AddRange(complaintCloseRoutes);
+            routes.AddRange(spaceDetailPublicRoutes);
             routes.AddRange(applicationRoutes);
             routes.AddRange(maintenanceRoute);
             routes.AddRange(rdlRoutes);

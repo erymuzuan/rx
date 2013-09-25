@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Web.Controllers
                 await session.SubmitChanges();
             }
 
-            return Json(true);
+            return Json(rebate);
         }
 
     }

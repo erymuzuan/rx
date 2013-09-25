@@ -29,3 +29,7 @@
 #map-panel .modal-body {
   max-height: 800px;
 }
+.building-bound-map-info {
+  width: 400px;
+  height: 200px;
+}
