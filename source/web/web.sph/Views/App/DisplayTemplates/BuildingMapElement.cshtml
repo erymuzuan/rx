@@ -1,4 +1,8 @@
 ﻿@model Bespoke.Sph.Domain.BuildingMapElement
+           
+<!-- ko if : staticMap -->
+<img data-bind="attr : {src:staticMap}" src="/Images/no-image.png" alt="map" />
+<!-- /ko  -->
 <div class="control-group">
     <label for="@Model.ElementId" class="control-label">@Model.Label</label>
     <div class="controls">

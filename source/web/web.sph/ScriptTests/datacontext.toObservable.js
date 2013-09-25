@@ -107,7 +107,8 @@ $(document).ready(function () {
 
 
             var o = context.toObservable(hit);
-            test("space to observable", function () {
+            test("Entity to observable", function () {
+                equal(15, o.SpaceId(), "Space id");
                 ok(typeof o.ApplicationTemplateOptions === "function", "ApplicationTemplateOptions should be a function ");
 
                 equal(o.ApplicationTemplateOptions().length, 1, "There should only be 1 options ");

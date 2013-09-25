@@ -240,8 +240,7 @@ define(['services/datacontext',
                     logger.error("No shape");
                     return false;
                 }
-                var tcs = new $.Deferred(),
-                    data = {
+                var data = {
                         buildingId: vm.building().BuildingId()
                     };
                 if (buildingPolygon) {
@@ -253,12 +252,7 @@ define(['services/datacontext',
                         lng: pointMarker.getPosition().lng()
                     };
                 }
-                context
-                    .post(JSON.stringify(data), "/Building/SaveMap")
-                    .then(function (e) {
-                        logger.log("Map has been successfully saved ", e, "buildingdetail", true);
-                    });
-                return tcs.promise();
+               return vm.building().saveMap(data);
 
             },
             viewAttached = function () {
