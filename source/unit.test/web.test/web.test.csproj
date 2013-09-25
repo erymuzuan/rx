@@ -105,15 +105,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="schema\BuildingTemplateSchema.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>BuildingTemplateSchema.Designer.cs</LastGenOutput>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="schema\SphSchema.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SphSchema.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -128,8 +128,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="data\building.template.data.xml" />
-    <Content Include="data\sample.xml" />
+    <Content Include="data\seed.data.xml" />
     <Content Include="rebate.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

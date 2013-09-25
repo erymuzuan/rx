@@ -33,5 +33,16 @@ namespace web.test.Properties {
                 return ((string)(this["SphConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\DENALI;Initial Catalog=sph_test;Integrated Security=True;MultipleAc" +
+            "tiveResultSets=True;Application Name=sph.web")]
+        public string sph_testConnectionString {
+            get {
+                return ((string)(this["sph_testConnectionString"]));
+            }
+        }
     }
 }

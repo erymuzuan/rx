@@ -10,5 +10,13 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=.\DENALI;Initial Catalog=Sph;Integrated Security=True;MultipleActiveResultSets=True;Application Name=sph.web</Value>
     </Setting>
+    <Setting Name="sph_testConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=.\DENALI;Initial Catalog=sph_test;Integrated Security=True;MultipleActiveResultSets=True;Application Name=sph.web&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=.\DENALI;Initial Catalog=sph_test;Integrated Security=True;MultipleActiveResultSets=True;Application Name=sph.web</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
