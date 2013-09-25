@@ -512,7 +512,6 @@
     <Content Include="App\views\_workorder.ncr.html" />
     <Content Include="App\views\_workorder.partsandlabor.html" />
     <Content Include="App\views\_workorder.warranty.html" />
-    <Content Include="Content\blueimp-gallery.css" />
     <Content Include="Content\bootstrap.metro-admin.css" />
     <Content Include="Content\bootstrap.metro-flat.css" />
     <Content Include="Content\bootstrap.kallyas.css" />
@@ -783,9 +782,6 @@
     <Content Include="Images\up8.png" />
     <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />
-    <Content Include="Scripts\blueimp-gallery-fullscreen.js" />
-    <Content Include="Scripts\blueimp-gallery-indicator.js" />
-    <Content Include="Scripts\blueimp-gallery.min.js" />
     <Content Include="Scripts\bootmetro-charms.js" />
     <Content Include="Scripts\bootmetro.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
@@ -910,7 +906,6 @@
     <Content Include="Scripts\DataTables-1.9.4\extras\TableTools\media\js\TableTools.js" />
     <Content Include="Scripts\DataTables-1.9.4\extras\TableTools\media\js\TableTools.min.js" />
     <Content Include="Scripts\DataTables-1.9.4\extras\TableTools\media\js\ZeroClipboard.js" />
-    <Content Include="Scripts\jquery.blueimp-gallery.min.js" />
     <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\DataTables-1.9.4\media\js\jquery.js" />

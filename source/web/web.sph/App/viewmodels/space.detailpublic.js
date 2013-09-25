@@ -67,7 +67,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                         "icon:{2}&center={0},{1}&sensor=false&zoom=18",
                         point.lat(), point.lng(),"https://s3-ap-southeast-1.amazonaws.com/sph.my/map-icons/office-building.png");
                     $('#map-space').html('<img src="' + staticMap + '" alt="map"/>')
-                        .on('click', function () {
+                        .one('click', function () {
 
                             map.init({
                                 panel: 'map-space',
@@ -77,8 +77,8 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                             if (path[0]) {
                                 var shape = map.add({
                                     encoded: path[0],
-                                    draggable: true,
-                                    editable: true,
+                                    draggable: false,
+                                    editable: false,
                                     zoom: 18,
                                     icon: '/images/maps/office-building.png'
                                 });
