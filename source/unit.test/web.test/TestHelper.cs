@@ -65,8 +65,8 @@ namespace web.test
                   .ClickFirst("a", e => e.Text == "Fields settings")
                   .Value("[name=Label]", "Negara")
                   .Value("[name=Path]", "Country")
-                  .Value("[name=Visible]", "CustomField('IsOversea')")
-                  ;
+                  .Value("[name=Visible]", "CustomField('IsOversea')");
+
             //isikan nama negara
             driver
                   .Value(".input-combobox-value", "Singapura")
@@ -74,13 +74,11 @@ namespace web.test
                   .Value(".input-combobox-value", "Indonesia",1)
                   .Value(".input-combobox-caption", "Indonesia", 1)
                   .Value(".input-combobox-value", "Brunei",2)
-                  .Value(".input-combobox-caption", "Brunei", 2)
-                  ;
+                  .Value(".input-combobox-caption", "Brunei", 2);
 
             driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: $root.addComboBoxOption");
             driver.Value(".input-combobox-value", "Thailand",3)
-                  .Value(".input-combobox-caption", "Thailand", 3)
-                  ;
+                  .Value(".input-combobox-caption", "Thailand", 3);
 
             //Tarikh Dibina - Custom Field
             driver.ClickFirst("a", e => e.Text == "Add a field")
@@ -118,7 +116,7 @@ namespace web.test
                   .Value("[name=Label]", "Nama Konsesi")
                   .Value("[name=Path]", "ConsessionName");
 
-            // Lot NO
+            // Lot No
             driver.ClickFirst("a", e => e.Text == "Add a field")
                   .ClickFirst("a", e => e.Text == "Single line text")
                   .ClickFirst("a", e => e.Text == "Fields settings")
@@ -139,62 +137,61 @@ namespace web.test
                   .Value("[name=Label]", "Alamat")
                   .Value("[name=Path]", "Address");
 
-            // show map button
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Show map button")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Tunjuk Peta Kawasan")
-                  .Value("[name=CssClass]", "btn btn-success")
-                  .Value("[name=Icon]", "icon-globe")
-                  ;
+            //// show map button
+            //driver.ClickFirst("a", e => e.Text == "Add a field")
+            //      .ClickFirst("a", e => e.Text == "Show map button")
+            //      .ClickFirst("a", e => e.Text == "Fields settings")
+            //      .Value("[name=Label]", "Tunjuk Peta Kawasan")
+            //      .Value("[name=CssClass]", "btn btn-success")
+            //      .Value("[name=Icon]", "icon-globe");
 
-            // Bilangan Tingkat
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Single line text")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Bilangan Tingkat")
-                  .Value("[name=Path]", "Floors");
+            //// Bilangan Tingkat
+            //driver.ClickFirst("a", e => e.Text == "Add a field")
+            //      .ClickFirst("a", e => e.Text == "Single line text")
+            //      .ClickFirst("a", e => e.Text == "Fields settings")
+            //      .Value("[name=Label]", "Bilangan Tingkat")
+            //      .Value("[name=Path]", "Floors");
 
-            // floor collection
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Floors Table")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Senarai Tingkat")
-                  .Value("[name=Path]", "FloorCollection")
-                  ;
+            //// floor collection
+            //driver.ClickFirst("a", e => e.Text == "Add a field")
+            //      .ClickFirst("a", e => e.Text == "Floors Table")
+            //      .ClickFirst("a", e => e.Text == "Fields settings")
+            //      .Value("[name=Label]", "Senarai Tingkat")
+            //      .Value("[name=Path]", "FloorCollection");
+
             // blocks table
             driver.ClickFirst("a", e => e.Text == "Add a field")
                   .ClickFirst("a", e => e.Text == "Blocks Table")
                   .ClickFirst("a", e => e.Text == "Fields settings")
                   .Value("[name=Label]", "Senarai Blok")
-                  .Value("[name=Path]", "BlockCollection")
-                  ;
-            // custom list collection
-            driver.ClickFirst("a", e => e.Text == "Add a field");
-            driver.ClickFirst("a", e => e.Text == "List");
-            driver.ClickFirst("a", e => e.Text == "Fields settings");
-            driver.Value("[name=Label]", "Senarai Pegawai Bertugas");
-                  driver.Value("[name=Path]", "Pegawai Bertugas");
+                  .Value("[name=Path]", "BlockCollection");
 
-            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
-                .Value("input[type=text].custom-list-name", "Nama Penuh")
-                .SelectOption("select.custom-list-type", typeof(string).GetShortAssemblyQualifiedName(), 0, false);
+            //// custom list collection
+            //driver.ClickFirst("a", e => e.Text == "Add a field");
+            //driver.ClickFirst("a", e => e.Text == "List");
+            //driver.ClickFirst("a", e => e.Text == "Fields settings");
+            //driver.Value("[name=Label]", "Senarai Pegawai Bertugas");
+            //      driver.Value("[name=Path]", "Pegawai Bertugas");
 
-            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField");
-            driver.Value("input[type=text].custom-list-name", "Umur", 1);
-                driver.SelectOption("select.custom-list-type", "Int", 1);
+            //driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
+            //    .Value("input[type=text].custom-list-name", "Nama Penuh")
+            //    .SelectOption("select.custom-list-type", typeof(string).GetShortAssemblyQualifiedName(), 0, false);
 
-            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
-                .Value("input[type=text].custom-list-name", "Dob", 2)
-                .SelectOption("select.custom-list-type", "DateTime", 2);
+            //driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField");
+            //driver.Value("input[type=text].custom-list-name", "Umur", 1);
+            //    driver.SelectOption("select.custom-list-type", "Int", 1);
 
-            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
-                .Value("input[type=text].custom-list-name", "Tetap", 3)
-                .SelectOption("select.custom-list-type", "Bool", 3);
+            //driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
+            //    .Value("input[type=text].custom-list-name", "Dob", 2)
+            //    .SelectOption("select.custom-list-type", "DateTime", 2);
 
-            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
-                .Value("input[type=text].custom-list-name", "Gaji", 4)
-                .SelectOption("select.custom-list-type","Decimal", 4);
+            //driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
+            //    .Value("input[type=text].custom-list-name", "Tetap", 3)
+            //    .SelectOption("select.custom-list-type", "Bool", 3);
+
+            //driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
+            //    .Value("input[type=text].custom-list-name", "Gaji", 4)
+            //    .SelectOption("select.custom-list-type","Decimal", 4);
 
             //HTML - HTML Field
             driver.ClickFirst("a", e => e.Text == "Add a field")
@@ -221,12 +218,11 @@ namespace web.test
             driver.NavigateToUrl(string.Format("/#/building.detail-templateid.{0}/{0}/0", templateId), 5.Seconds());
 
             driver
+                .Sleep(5.Seconds(), "waiting maps scripts downloaded...")
                 .Value("[name='Name']", buildingName)
                 .Value("[name='Descripsi']", "Bangunan konsesi putrajaya holding mempunyai 1 blok")
                 .Click("[name='IsOversea']")
-                .Sleep(1.Seconds())
-                .Click("[name='IsOversea']")
-                .Sleep(1.Seconds())
+                .Sleep(20.Milliseconds())
                 .Value("[name='DevelopmentDate']", "14/03/1980")
                 .Value("[name='TotalContractor']", "2")
                 .Value("[name='Email']", "contractor@gmail.com")
@@ -237,20 +233,34 @@ namespace web.test
                 .Value("[name='address.Street']", "Jalan Cempaka")
                 .Value("[name='address.City']", "KB")
                 .Value("[name='address.Postcode']", "15210")
-                .SelectOption("[name='address.State']", "Kelantan")
-                .Value("[name='Floors']", "2");
+                .SelectOption("[name='address.State']", "Kelantan");
 
-            driver.Click("[name='add-floor-button']")
-            .Sleep(200.Milliseconds(), "Add floor")
-            .Value(".input-floor-no", "G1")
-            .Value(".input-floor-name", "1st Floor")
-            .Value(".input-floor-size", "48500");
+            //driver.Click("[name='add-floor-button']")
+            //.Sleep(200.Milliseconds(), "Add floor")
+            //.Value(".input-floor-no", "G1")
+            //.Value(".input-floor-name", "1st Floor")
+            //.Value(".input-floor-size", "48500");
 
-            driver.Click("[name='add-floor-button']")
-            .Sleep(200.Milliseconds(), "Add floor")
-            .Value(".input-floor-no", "G2", 1)
-            .Value(".input-floor-name", "2nd Floor", 1)
-            .Value(".input-floor-size", "48500", 1);
+            //driver.Click("[name='add-floor-button']")
+            //.Sleep(200.Milliseconds(), "Add floor")
+            //.Value(".input-floor-no", "G2", 1)
+            //.Value(".input-floor-name", "2nd Floor", 1)
+            //.Value(".input-floor-size", "48500", 1);
+
+            driver.Click("[name='add-block-button']")
+                  .Sleep(200.Milliseconds(), "Add block")
+                  .Value("input.input-block-name", "A")
+                  .Value("input.input-block-description", "Block A")
+                  .Value("input.input-block-size", "5000");
+
+            driver.Click(".button-block-floor")
+                  .Sleep(100.Milliseconds(), "Add floor")
+                  .Value("input.input-floor-no", "1")
+                  .Value("input.input-floor-name", "G")
+                  .Value("input.input-floor-size", "1000");
+
+            driver.Click("input[data-bind='click: okClick']")
+                  .Sleep(TimeSpan.FromSeconds(1));
 
             driver.Click("#save-button")
             .Sleep(TimeSpan.FromSeconds(2));
@@ -259,12 +269,12 @@ namespace web.test
             driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
         }
 
-        public static void CreateBuildingLots(IWebDriver driver, int templateId, int buildingId)
+        public static void CreateBuildingLots(IWebDriver driver, int templateId, int buildingId, string blockName, string floorName)
         {
             var url = String.Format("/#/building.detail-templateid.{0}/{0}/{1}", templateId, buildingId);
             Console.WriteLine(url);
 
-            url = String.Format("/#/lotdetail/{0}/1st Floor", buildingId);
+            url = String.Format("/#/lotdetail/{0}/{1}/{2}", buildingId, blockName, floorName);
             Console.WriteLine(url);
             driver.NavigateToUrl(url, 5.Seconds());
 

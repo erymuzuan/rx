@@ -281,14 +281,14 @@ namespace web.test.Space
 
             //
             Console.WriteLine("Creating building templates...");
-            TestHelper.CreateBuildingTemplate(driver, buildingTemplateName);
-            driver.LogOff();
+            //TestHelper.CreateBuildingTemplate(driver, buildingTemplateName);
+            //driver.LogOff();
 
             //
             Console.WriteLine("Creating test building...");
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] = @Name",
                 new SqlParameter("@Name", buildingTemplateName));
-            driver.Login(user);
+            //driver.Login(user);
             TestHelper.CreateBuilding(driver, templateId, buildingName);
             driver.LogOff();
 
@@ -297,7 +297,7 @@ namespace web.test.Space
             var buildingId = this.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] = @Name",
                 new SqlParameter("@Name", buildingName));
             driver.Login(user);
-            TestHelper.CreateBuildingLots(driver, templateId, buildingId);
+            TestHelper.CreateBuildingLots(driver, templateId, buildingId, "A", "G");
 
             driver.Quit();
 

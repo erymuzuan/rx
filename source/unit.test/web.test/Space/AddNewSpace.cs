@@ -1,3 +1,5 @@
+using NDbUnit.Core;
+using NDbUnit.Core.SqlClient;
 using NUnit.Framework;
 
 namespace web.test.Space
@@ -18,11 +20,16 @@ namespace web.test.Space
             m_spaceAdmin = TestHelper.CreateSpaceAdmin();
             this.AddUser(m_spaceAdmin);
 
+            //var db = new SqlDbUnitTest(this.ConnectionString);
+            //db.ReadXmlSchema(@"..\..\BuildingTemplateSchema.xsd");
+            //db.ReadXml(@"..\..\data\building.template.data.xml");
+            //db.PerformDbOperation(DbOperationFlag.InsertIdentity);
+
             //need building to run test
             this.CreateTestBuilding(m_spaceAdmin, BUILDING_TEMPLATE_NAME, BUILDING_NAME);
 
             //need spacetemplate
-            CreateSpaceTemplate(m_spaceAdmin,SPACE_TEMPLATE_NAME);
+            //CreateSpaceTemplate(m_spaceAdmin,SPACE_TEMPLATE_NAME);
         }
 
         [Test]
@@ -39,7 +46,7 @@ namespace web.test.Space
             //this.DeleteSpaceTemplate(SPACE_TEMPLATE_NAME);
             //this.DeleteBuilding(BUILDING_NAME);
             //this.DeleteBuildingTemplate(BUILDING_TEMPLATE_NAME);
-            //this.DeleteUser(m_spaceAdmin);
+            this.DeleteUser(m_spaceAdmin);
         }
     }
 }

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BuildingTemplateSchema xmlns="http://tempuri.org/BuildingTemplateSchema.xsd">
+  <Sph.BuildingTemplate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.bespoke.com.my/" WebId="b1d1ab30-b36a-482b-b85c-caccfc3e179e" CreatedBy="ruang-admin" CreatedDate="2013-09-24T11:57:17.1105638+08:00" ChangedBy="ruang-admin" ChangedDate="2013-09-24T11:57:17.1105638+08:00" BuildingTemplateId="0" Name="Bangunan Komersil" Description="" IsActive="true" Icon="" Category="Bangunan Komersil">
+    <CustomFieldCollection>
+      <CustomField Order="0" Name="Descripsi" IsRequired="true" Type="String">
+        <MaxLength xsi:nil="true" />
+        <MinLength xsi:nil="true" />
+      </CustomField>
+      <CustomField Order="0" Name="IsOversea" IsRequired="false" Type="System.Boolean, mscorlib">
+        <MaxLength xsi:nil="true" />
+        <MinLength xsi:nil="true" />
+      </CustomField>
+      <CustomField Order="0" Name="Country" IsRequired="true" Listing="Singapura,Indonesia,Brunei,Thailand">
+        <MaxLength xsi:nil="true" />
+        <MinLength xsi:nil="true" />
+      </CustomField>
+      <CustomField Order="0" Name="DevelopmentDate" IsRequired="true" Type="DateTime">
+        <MaxLength xsi:nil="true" />
+        <MinLength xsi:nil="true" />
+      </CustomField>
+      <CustomField Order="0" Name="TotalContractor" IsRequired="true" Type="Int32">
+        <MaxLength xsi:nil="true" />
+        <MinLength xsi:nil="true" />
+      </CustomField>
+      <CustomField Order="0" Name="Email" IsRequired="true" Type="String">
+        <MaxLength xsi:nil="true" />
+        <MinLength xsi:nil="true" />
+      </CustomField>
+      <CustomField Order="0" Name="Website" IsRequired="true" Type="String">
+        <MaxLength xsi:nil="true" />
+        <MinLength xsi:nil="true" />
+      </CustomField>
+      <CustomField Order="0" Name="ConsessionName" IsRequired="true" Type="String">
+        <MaxLength xsi:nil="true" />
+        <MinLength xsi:nil="true" />
+      </CustomField>
+      <CustomField Order="0" Name="Size" IsRequired="true" Type="String">
+        <MaxLength xsi:nil="true" />
+        <MinLength xsi:nil="true" />
+      </CustomField>
+    </CustomFieldCollection>
+    <FormDesign Name="Bangunan Komersil" Description="Bangunan Komersil" ConfirmationText="" ImageStoreId="">
+      <FormElementCollection>
+        <FormElement xsi:type="TextBox" WebId="6e7cf9e3-935e-48a8-a6eb-cbb48e8fb228" Name="Single line text" Label="Nama bangunan" Tooltip="" Path="Name" IsRequired="true" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="eee44faf-1284-47d6-b367-71aac0471138" HelpText="" DefaultValue="">
+          <MinLength xsi:nil="true" />
+          <MaxLength xsi:nil="true" />
+        </FormElement>
+        <FormElement xsi:type="TextAreaElement" WebId="9bb700c1-56ea-43c3-83ff-cf63b16cd724" Name="Paragrapah text" Label="Deskripsi" Tooltip="Maklumat terperinci berkenaan bangunan" Path="Descripsi" IsRequired="true" Size="input-xlarge" CssClass="" Visible="true" Enable="" ElementId="8cacbb73-4976-4873-b35a-c5deb692e8ba" HelpText="" Rows="5" IsHtml="false">
+          <CustomField Order="0" Name="Descripsi" IsRequired="true" Type="String">
+            <MaxLength xsi:nil="true" />
+            <MinLength xsi:nil="true" />
+          </CustomField>
+        </FormElement>
+        <FormElement xsi:type="CheckBox" WebId="2b592cba-9f71-463f-bac3-bfac0a0afdcf" Name="Checkboxes" Label="Bangunan Di Luar Negara" Tooltip="Bangunan di luar atau dalam negara" Path="IsOversea" IsRequired="false" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="cf25cff5-6b51-458d-b0a5-d061a84b9948" HelpText="">
+          <CustomField Order="0" Name="IsOversea" IsRequired="false" Type="System.Boolean, mscorlib">
+            <MaxLength xsi:nil="true" />
+            <MinLength xsi:nil="true" />
+          </CustomField>
+        </FormElement>
+        <FormElement xsi:type="ComboBox" WebId="001f6306-53a0-44fd-88c1-b7a2cf063148" Name="Select list" Label="Negara" Tooltip="" Path="Country" IsRequired="true" Size="input-large" CssClass="" Visible="CustomField('IsOversea')" Enable="" ElementId="b2f2f962-8111-47a2-923a-03262914522a" HelpText="">
+          <CustomField Order="0" Name="Country" IsRequired="true" Listing="Singapura,Indonesia,Brunei,Thailand">
+            <MaxLength xsi:nil="true" />
+            <MinLength xsi:nil="true" />
+          </CustomField>
+          <ComboBoxItemCollection>
+            <ComboBoxItem Caption="Singapura" Value="Singapura" />
+            <ComboBoxItem Caption="Indonesia" Value="Indonesia" />
+            <ComboBoxItem Caption="Brunei" Value="Brunei" />
+            <ComboBoxItem Caption="Thailand" Value="Thailand" />
+          </ComboBoxItemCollection>
+        </FormElement>
+        <FormElement xsi:type="DatePicker" WebId="1750c90a-5ab7-40c8-987c-07082828abda" Name="Tarikh" Label="Tarikh Dibina" Tooltip="" Path="DevelopmentDate" IsRequired="true" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="e5f68c9f-82f9-44bd-9d20-7b52d96d96c9" HelpText="">
+          <CustomField Order="0" Name="DevelopmentDate" IsRequired="true" Type="DateTime">
+            <MaxLength xsi:nil="true" />
+            <MinLength xsi:nil="true" />
+          </CustomField>
+        </FormElement>
+        <FormElement xsi:type="NumberTextBox" WebId="df2bd039-6f37-4f44-bad6-f9b39918f310" Name="Nombor" Label="Jumlah Kontraktor" Tooltip="" Path="TotalContractor" IsRequired="true" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="0ac54a0c-6ca1-4633-a4c2-399931564c76" HelpText="" Step="1">
+          <CustomField Order="0" Name="TotalContractor" IsRequired="true" Type="Int32">
+            <MaxLength xsi:nil="true" />
+            <MinLength xsi:nil="true" />
+          </CustomField>
+        </FormElement>
+        <FormElement xsi:type="EmailFormElement" WebId="834fa71e-49f4-47f4-87f8-d686cbb48df8" Name="Emel" Label="Email" Tooltip="" Path="Email" IsRequired="true" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="228f96a3-dde2-49f1-bfa4-7b1c31d0f0dc" HelpText="">
+          <CustomField Order="0" Name="Email" IsRequired="true" Type="String">
+            <MaxLength xsi:nil="true" />
+            <MinLength xsi:nil="true" />
+          </CustomField>
+        </FormElement>
+        <FormElement xsi:type="WebsiteFormElement" WebId="647302ce-58cc-4ab3-86fa-cdf622f9ee93" Name="Website" Label="Website" Tooltip="" Path="Website" IsRequired="true" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="121803b0-baf2-425e-ad2c-b5990138e267" HelpText="">
+          <CustomField Order="0" Name="Website" IsRequired="true" Type="String">
+            <MaxLength xsi:nil="true" />
+            <MinLength xsi:nil="true" />
+          </CustomField>
+        </FormElement>
+        <FormElement xsi:type="TextBox" WebId="6e7cf9e3-935e-48a8-a6eb-cbb48e8fb228" Name="Single line text" Label="Nama Konsesi" Tooltip="" Path="ConsessionName" IsRequired="true" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="1818b6f6-7103-49c6-a15e-e9262c2e0744" HelpText="" DefaultValue="">
+          <CustomField Order="0" Name="ConsessionName" IsRequired="true" Type="String">
+            <MaxLength xsi:nil="true" />
+            <MinLength xsi:nil="true" />
+          </CustomField>
+          <MinLength xsi:nil="true" />
+          <MaxLength xsi:nil="true" />
+        </FormElement>
+        <FormElement xsi:type="TextBox" WebId="6e7cf9e3-935e-48a8-a6eb-cbb48e8fb228" Name="Single line text" Label="No. Lot" Tooltip="" Path="LotNo" IsRequired="true" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="aa1a03c5-fb43-4d46-a07d-8e44a94040ca" HelpText="" DefaultValue="">
+          <MinLength xsi:nil="true" />
+          <MaxLength xsi:nil="true" />
+        </FormElement>
+        <FormElement xsi:type="TextBox" WebId="6e7cf9e3-935e-48a8-a6eb-cbb48e8fb228" Name="Single line text" Label="Saiz" Tooltip="" Path="Size" IsRequired="true" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="2b8c0a5b-ebdb-4925-a06e-5e7e351a961d" HelpText="" DefaultValue="">
+          <CustomField Order="0" Name="Size" IsRequired="true" Type="String">
+            <MaxLength xsi:nil="true" />
+            <MinLength xsi:nil="true" />
+          </CustomField>
+          <MinLength xsi:nil="true" />
+          <MaxLength xsi:nil="true" />
+        </FormElement>
+        <FormElement xsi:type="AddressElement" WebId="a7d57545-42b1-416e-9d89-b8e954e352f4" Name="Address" Label="Alamat" Tooltip="" Path="Address" IsRequired="false" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="b31addd0-f85d-4aad-963d-9cac695ce4d5" HelpText="" IsUnitNoVisible="false" IsFloorVisible="false" IsBlockVisible="false" BlockOptionsPath="" FloorOptionsPath="" />
+        <FormElement xsi:type="BuildingMapElement" Name="Show map button" Label="Tunjuk Peta Kawasan" Tooltip="" Path="" IsRequired="false" Size="input-large" CssClass="btn btn-success" Visible="true" Enable="" ElementId="377eefe8-c94b-47ed-a322-80133bf4fa49" HelpText="" Icon="icon-globe" />
+        <FormElement xsi:type="TextBox" WebId="6e7cf9e3-935e-48a8-a6eb-cbb48e8fb228" Name="Single line text" Label="Bilangan Tingkat" Tooltip="" Path="Floors" IsRequired="true" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="21ca9d95-972c-47ee-8490-e5ec53b6263f" HelpText="" DefaultValue="">
+          <MinLength xsi:nil="true" />
+          <MaxLength xsi:nil="true" />
+        </FormElement>
+        <FormElement xsi:type="BuildingFloorsElement" Name="Floors Table" Label="Senarai Tingkat" Tooltip="" Path="FloorCollection" IsRequired="false" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="e757590c-17ae-4ec8-833d-9c4cbbdb84b1" HelpText="" />
+        <FormElement xsi:type="BuildingBlocksElement" Name="Blocks Table" Label="Senarai Blok" Tooltip="" Path="BlockCollection" IsRequired="false" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="fbcd4567-6dc0-49ba-9f3c-5193304deff4" HelpText="" />
+        <FormElement xsi:type="CustomListDefinitionElement" WebId="dc181d3e-3426-435a-8219-a966f12b12f2" Name="List" Label="Senarai Pegawai Bertugas" Tooltip="Creates custom list" Path="Pegawai Bertugas" IsRequired="false" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="7c0e54d2-242e-4045-8bdb-4b288e6de57d" HelpText="">
+          <CustomFieldCollection>
+            <CustomField Order="0" Name="Nama Penuh" IsRequired="false" Type="System.String, mscorlib" Size="" Listing="" Group="">
+              <MaxLength xsi:nil="true" />
+              <MinLength xsi:nil="true" />
+            </CustomField>
+            <CustomField Order="0" Name="Umur" IsRequired="false" Type="System.Int32, mscorlib" Size="" Listing="" Group="">
+              <MaxLength xsi:nil="true" />
+              <MinLength xsi:nil="true" />
+            </CustomField>
+            <CustomField Order="0" Name="Dob" IsRequired="false" Type="System.DateTime, mscorlib" Size="" Listing="" Group="">
+              <MaxLength xsi:nil="true" />
+              <MinLength xsi:nil="true" />
+            </CustomField>
+            <CustomField Order="0" Name="Tetap" IsRequired="false" Type="System.Boolean, mscorlib" Size="" Listing="" Group="">
+              <MaxLength xsi:nil="true" />
+              <MinLength xsi:nil="true" />
+            </CustomField>
+            <CustomField Order="0" Name="Gaji" IsRequired="false" Type="System.Decimal, mscorlib" Size="" Listing="" Group="">
+              <MaxLength xsi:nil="true" />
+              <MinLength xsi:nil="true" />
+            </CustomField>
+          </CustomFieldCollection>
+        </FormElement>
+        <FormElement xsi:type="HtmlElement" WebId="478578c2-3c8e-4aac-842f-e44773dd9175" Name="HTML" Label="Label 17" Tooltip="Allows you to create custom HTML markup" Path="" IsRequired="false" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="15aec34c-1379-4017-bb3f-47a6fea63002" HelpText="">
+          <Text>Sila isi semua maklumat sebelom simpan maklumat bangunan</Text>
+        </FormElement>
+        <FormElement xsi:type="HtmlElement" WebId="478578c2-3c8e-4aac-842f-e44773dd9175" Name="HTML" Label="Label 18" Tooltip="Allows you to create custom HTML markup" Path="" IsRequired="false" Size="input-large" CssClass="" Visible="true" Enable="" ElementId="845938cd-74db-4cc7-8bcc-63994c498391" HelpText="" />
+      </FormElementCollection>
+    </FormDesign>
+    <CustomListDefinitionCollection>
+      <CustomListDefinition Name="List">
+        <CustomFieldCollection>
+          <CustomField Order="0" Name="Nama Penuh" IsRequired="false" Type="System.String, mscorlib" Size="" Listing="" Group="">
+            <MaxLength xsi:nil="true" />
+            <MinLength xsi:nil="true" />
+          </CustomField>
+          <CustomField Order="0" Name="Umur" IsRequired="false" Type="System.Int32, mscorlib" Size="" Listing="" Group="">
+            <MaxLength xsi:nil="true" />
+            <MinLength xsi:nil="true" />
+          </CustomField>
+          <CustomField Order="0" Name="Dob" IsRequired="false" Type="System.DateTime, mscorlib" Size="" Listing="" Group="">
+            <MaxLength xsi:nil="true" />
+            <MinLength xsi:nil="true" />
+          </CustomField>
+          <CustomField Order="0" Name="Tetap" IsRequired="false" Type="System.Boolean, mscorlib" Size="" Listing="" Group="">
+            <MaxLength xsi:nil="true" />
+            <MinLength xsi:nil="true" />
+          </CustomField>
+          <CustomField Order="0" Name="Gaji" IsRequired="false" Type="System.Decimal, mscorlib" Size="" Listing="" Group="">
+            <MaxLength xsi:nil="true" />
+            <MinLength xsi:nil="true" />
+          </CustomField>
+        </CustomFieldCollection>
+      </CustomListDefinition>
+    </CustomListDefinitionCollection>
+  </Sph.BuildingTemplate>
+</BuildingTemplateSchema>
