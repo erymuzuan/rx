@@ -279,34 +279,32 @@ namespace web.test.Space
         public void CreateTestBuilding(TestUser user, string buildingTemplateName, string buildingName)
         {
             //
-            Console.WriteLine("Creating building templates..."); 
+            Console.WriteLine("Load seed data..."); 
             var db = new SqlDbUnitTest(this.ConnectionString);
-            db.ReadXmlSchema(@"..\..\schema\BuildingTemplateSchema.xsd");
-            db.ReadXml(@"..\..\data\building.template.data.xml");
+
+            db.ReadXmlSchema(@"..\..\schema\SphSchema.xsd");
+            db.ReadXml(@"..\..\data\seed.data.xml");
             db.PerformDbOperation(DbOperationFlag.CleanInsertIdentity);
             this.ExecuteNonQuery("dbcc checkident ([Sph.BuildingTemplate], reseed, 0)");
+            this.ExecuteNonQuery("dbcc checkident ([Sph.Building], reseed, 0)");
             var buildingTemplateCount = this.GetDatabaseScalarValue<int>("SELECT COUNT([BuildingTemplateId]) FROM [Sph].[BuildingTemplate]");
-            Assert.AreEqual(1,buildingTemplateCount);
-
-            var driver = this.InitiateDriver();
-            driver.Login(user);
-
-            //
-            Console.WriteLine("Creating test building...");
+            Assert.AreEqual(1, buildingTemplateCount);
+            
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] = @Name",
                 new SqlParameter("@Name", buildingTemplateName));
+            Console.WriteLine("Loading building template ID:{0}", templateId);
+
+            //var driver = this.InitiateDriver();
+            ////TestHelper.CreateBuilding(driver, templateId, buildingName);
+
+            ////
+            //Console.WriteLine("Creating building lots...");
+            //var buildingId = this.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] = @Name",
+            //    new SqlParameter("@Name", buildingName));
             //driver.Login(user);
-            TestHelper.CreateBuilding(driver, templateId, buildingName);
-            driver.LogOff();
+            //TestHelper.CreateBuildingLots(driver, templateId, buildingId, "A", "G");
 
-            //
-            Console.WriteLine("Creating building lots...");
-            var buildingId = this.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] = @Name",
-                new SqlParameter("@Name", buildingName));
-            driver.Login(user);
-            TestHelper.CreateBuildingLots(driver, templateId, buildingId, "A", "G");
-
-            driver.Quit();
+            //driver.Quit();
 
         }
     }

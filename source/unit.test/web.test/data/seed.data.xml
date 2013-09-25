@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<BuildingTemplateSchema xmlns="http://tempuri.org/BuildingTemplateSchema.xsd">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SphSchema xmlns="http://tempuri.org/SphSchema.xsd">
   <Sph.BuildingTemplate>
     <BuildingTemplateId>1</BuildingTemplateId>
     <Name>Bangunan Komersil</Name>
@@ -10,4 +10,16 @@
     <ChangedDate>2013-09-25T12:12:00+08:00</ChangedDate>
     <ChangedBy>ruang-admin</ChangedBy>
   </Sph.BuildingTemplate>
-</BuildingTemplateSchema>
+  <Sph.Building>
+    <BuildingId>1</BuildingId>
+    <Data>&lt;Building xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.bespoke.com.my/" WebId="aede83b6-c93a-40a9-a7aa-abdb53d6e572" CreatedBy="ruang-admin" CreatedDate="2013-09-25T15:51:00.5498759+08:00" ChangedBy="ruang-admin" ChangedDate="2013-09-25T15:51:00.5498759+08:00" TemplateId="1" TemplateName="Bangunan Komersil" BuildingId="1" Type="" Name="Bangunan Komersil Di Putrajaya (UJIAN)" LotNo="12-001" BuildingSize="0" Status="" Floors="0" Note="" BuildingType="" Blocks="0" FloorSize="0" BuildingRegistrationNo="" LandRegistrationNo=""&gt;&lt;Address UnitNo="" Floor="" Block="" Street="Jalan Cempaka" City="KB" Postcode="15210" State="Kelantan" Country="" /&gt;&lt;FloorCollection /&gt;&lt;CustomFieldValueCollection&gt;&lt;CustomFieldValue WebId="a3617771-e3bf-4e51-903c-90522fe49a1d" Name="Descripsi" Type="String" Value="Bangunan konsesi putrajaya holding mempunyai 1 blok" /&gt;&lt;CustomFieldValue WebId="e1f89178-af3b-4641-9779-a5a4499ef793" Name="IsOversea" Type="System.Boolean, mscorlib" Value="True" /&gt;&lt;CustomFieldValue WebId="1bde55d4-c549-4a45-8cdd-3daf3a7dfabc" Name="Country" Value="Singapura" /&gt;&lt;CustomFieldValue WebId="77a5732d-ddd1-4f44-9176-f663bfc5341c" Name="DevelopmentDate" Type="DateTime" Value="1980-03-14" /&gt;&lt;CustomFieldValue WebId="cd9f4801-d464-46b1-8f55-46cccbe3b470" Name="TotalContractor" Type="Int32" Value="2" /&gt;&lt;CustomFieldValue WebId="a7dc0d20-b55a-43bd-b3b8-83cdb01e4b46" Name="Email" Type="String" Value="contractor@gmail.com" /&gt;&lt;CustomFieldValue WebId="ce318f88-41c5-4bcf-9c4a-9180423815ba" Name="Website" Type="String" Value="www.cidb.com.my" /&gt;&lt;CustomFieldValue WebId="63b288df-1397-4fae-9601-4cef0bab4219" Name="ConsessionName" Type="String" Value="Putrajaya Holding" /&gt;&lt;CustomFieldValue WebId="12a8d1fc-5af0-4fb1-adc7-0ba774b99e96" Name="Size" Type="String" Value="112991.02" /&gt;&lt;/CustomFieldValueCollection&gt;&lt;BlockCollection&gt;&lt;Block WebId="d64c56c9-9991-4576-93be-7fd1e99d025a" Name="A" Description="Block A" Size="5000" FloorPlanStoreId=""&gt;&lt;FloorCollection&gt;&lt;Floor WebId="0925e5c0-0faa-4905-9ea0-cdbb1980ad65" Name="G" Size="1000" Number="1" Note=""&gt;&lt;LotCollection /&gt;&lt;/Floor&gt;&lt;/FloorCollection&gt;&lt;Floors xsi:nil="true" /&gt;&lt;/Block&gt;&lt;/BlockCollection&gt;&lt;CustomListValueCollection /&gt;&lt;MarketEvaluationCollection /&gt;&lt;PhotoCollection /&gt;&lt;Height xsi:nil="true" /&gt;&lt;CompletedDateTime xsi:nil="true" /&gt;&lt;BuiltDateTime xsi:nil="true" /&gt;&lt;Cost xsi:nil="true" /&gt;&lt;HandingOverDateTime xsi:nil="true" /&gt;&lt;RegisteredDateTime xsi:nil="true" /&gt;&lt;MovingInDateTime xsi:nil="true" /&gt;&lt;/Building&gt;</Data>
+    <LotNo>12-001</LotNo>
+    <Name>Bangunan Komersil Di Putrajaya (UJIAN)</Name>
+    <Status />
+    <CreatedDate>2013-09-25T15:51:00+08:00</CreatedDate>
+    <CreatedBy>ruang-admin</CreatedBy>
+    <ChangedDate>2013-09-25T15:51:00+08:00</ChangedDate>
+    <ChangedBy>ruang-admin</ChangedBy>
+    <State>Kelantan</State>
+  </Sph.Building>
+</SphSchema>
