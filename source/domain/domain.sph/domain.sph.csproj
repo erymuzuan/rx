@@ -78,6 +78,7 @@
     <Compile Include="BinaryStore.cs" />
     <Compile Include="BoundedContextAttribute.cs" />
     <Compile Include="Business\Building.cs" />
+    <Compile Include="FormTemplates\BuildingBlocksElement.cs" />
     <Compile Include="FormTemplates\BuildingTemplate.cs" />
     <Compile Include="Business\ChangeSubmission.cs" />
     <Compile Include="Business\Clause.cs" />
