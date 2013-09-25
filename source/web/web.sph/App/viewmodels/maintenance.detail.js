@@ -7,8 +7,10 @@
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" /> 
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../services/cultures.my.js" />
+/// <reference path="../objectbuilders.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/system', 'services/watcher','config'], function (context, logger, router, system, watcher,config) {
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, 'durandal/system', 'services/watcher',objectbuilders.config,objectbuilders.cultures], function (context, logger, router, system, watcher,config,culture) {
     var isBusy = ko.observable(false),
         department = ko.observable(),
         designation = ko.observable(),
@@ -110,12 +112,25 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             var noncompliance = new bespoke.sph.domain.NonCompliance();
             vm.maintenance().WorkOrder.NonComplianceCollection.push(noncompliance);
         },
-
-        save = function () {
+        assignToOfficer = function () {
             var tcs = new $.Deferred();
             var data = ko.toJSON({officer : ko.mapping.toJS(vm.maintenance().Officer)  , id :id(), templateId : templateId()});
             isBusy(true);
             context.post(data, "/Maintenance/Assign")
+                .then(function (result) {
+                    isBusy(false);
+                    tcs.resolve(result);
+                });
+            var url = '/#/maintenance.dashboard';
+            router.navigateTo(url);
+            return tcs.promise();
+
+        },
+        closeMaintenance = function () {
+            var tcs = new $.Deferred();
+            var data = ko.toJSON({id :id()});
+            isBusy(true);
+            context.post(data, "/Maintenance/Closed")
                 .then(function (result) {
                     isBusy(false);
                     tcs.resolve(result);
@@ -137,11 +152,25 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
         addNewWarrantyCommand: addNewWarranty,
         addNewPartAndLaborCommand: addNewPartAndLabor,
         addNonComplianceCommand: addNonCompliance,
+        culture : culture,
         toolbar: ko.observable({
             watchCommand: function() { return watcher.watch("Maintenance", vm.maintenance().MaintenanceId()); },
             unwatchCommand: function () { return watcher.unwatch("Maintenance", vm.maintenance().MaintenanceId()); },
             watching: ko.observable(false),
-            saveCommand: save
+            saveCommand: assignToOfficer,
+            commands: ko.observableArray([
+                {
+                    caption: culture.maintenance_detail.CLOSE_MAINTENANCE_BUTTON_CAPTION,
+                    icon: 'icon-thumbs-up',
+                    command: closeMaintenance,
+                    visible: 'maintenance().Status == "culture.maintenance_dashboard.INPROGRESS_MAINTENANCE_STATUS_CAPTION"'
+                },
+                {
+                    caption: culture.maintenance_detail.ASSIGN_MAINTENANCE_BUTTON_CAPTION,
+                    icon: 'icon-thumbs-up',
+                    command: assignToOfficer,
+                    visible: 'maintenance().Status == "culture.maintenance_dashboard.NEW_MAINTENANCE_STATUS_CAPTION"'
+                }])
         })
 
     };

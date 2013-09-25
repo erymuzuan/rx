@@ -1,14 +1,14 @@
 USE [Sph]
-IF OBJECT_ID('Sph.Maintenance', 'U') IS NOT NULL
-  DROP TABLE Sph.[Maintenance]
+IF OBJECT_ID('Sph.WorkOrder', 'U') IS NOT NULL
+  DROP TABLE Sph.[WorkOrder]
 GO
 
-CREATE TABLE [Sph].[Maintenance]
+CREATE TABLE [Sph].[WorkOrder]
 (
-	 [MaintenanceId] INT PRIMARY KEY IDENTITY(1,1)		 
-	,[ComplaintId] VARCHAR (255) NULL
-	,[WorkOrderNo] VARCHAR(255) NULL
-	,[WorkOrderType] VARCHAR(255) NULL
+	 [WorkOrderId] INT PRIMARY KEY IDENTITY(1,1)		 
+	,[No] VARCHAR (255) NULL
+	,[MaintenanceId] VARCHAR (255) NULL
+	,[TemplateId] VARCHAR(255) NULL
 	,[Status] VARCHAR (255) NOT NULL
 	,[Resolution] VARCHAR(255) NOT NULL
 	,[Officer] VARCHAR (255) NULL

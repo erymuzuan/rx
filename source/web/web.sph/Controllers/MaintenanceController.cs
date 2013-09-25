@@ -8,6 +8,19 @@ namespace Bespoke.Sph.Web.Controllers
 {
     public class MaintenanceController : Controller
     {
+
+        public async Task<ActionResult> Save(Maintenance maintenance)
+        {
+            var context = new SphDataContext();
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(maintenance);
+                await session.SubmitChanges();
+            }
+            return Json(true);
+        }
+
         public async Task<ActionResult> Assign(string officer, int id, int templateId)
         {
             var context = new SphDataContext();
@@ -18,6 +31,29 @@ namespace Bespoke.Sph.Web.Controllers
             var workOrderNo = string.Format("WO{0:yyyy}{1}", DateTime.Today, id);
             maint.WorkOrderNo = workOrderNo;
 
+            var workorder = new WorkOrder
+                {
+                    No = maint.WorkOrderNo,
+                    MaintenanceId = maint.MaintenanceId,
+                    TemplateId = maint.TemplateId,
+                    Status = "Baru",
+                    Officer = maint.Officer,
+                    Department = maint.Department
+                };
+            using (var session = context.OpenSession())
+            {
+                session.Attach(maint,workorder);
+                await session.SubmitChanges();
+            }
+            return Json(new { status = "success", officer = maint.Officer });
+        }
+        
+        public async Task<ActionResult> Closed(int id)
+        {
+            var context = new SphDataContext();
+            var maint = await context.LoadOneAsync<Maintenance>(m => m.MaintenanceId == id);
+            maint.Status = "Selesai";
+          
             using (var session = context.OpenSession())
             {
                 session.Attach(maint);
@@ -26,18 +62,7 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(new { status = "success", officer = maint.Officer });
         }
 
-        public async Task<ActionResult> Save(Maintenance maintenance)
-        {
-            var context = new SphDataContext();
-            
-            using (var session = context.OpenSession())
-            {
-                session.Attach(maintenance);
-                await session.SubmitChanges();
-            }
-            return Json(true);
-        }
-
+       
         public async Task<ActionResult> GenerateWorkOrder(int id = 0)
         {
             var maintenanceId = id != 0 ? id : 1;

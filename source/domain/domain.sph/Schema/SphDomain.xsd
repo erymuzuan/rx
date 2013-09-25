@@ -160,7 +160,6 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="Floors" type="xs:int" nillable="true"/>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
@@ -856,7 +855,6 @@
 				<xs:element ref="Complaint" minOccurs="0"/>
 				<xs:element name="StartDate" type="xs:dateTime" nillable="true"/>
 				<xs:element name="EndDate" type="xs:dateTime" nillable="true"/>
-				<xs:element ref="WorkOrder" minOccurs="0"/>
 				<xs:element name="CustomFieldValueCollection">
 					<xs:complexType>
 						<xs:sequence>
@@ -945,7 +943,15 @@
 			<xs:attribute name="Priority" type="xs:string" use="required"/>
 			<xs:attribute name="Severity" type="xs:string" use="required"/>
 			<xs:attribute name="EstimationCost" type="xs:decimal" use="required"/>
-			<xs:attribute name="WorkOrderId" type="xs:int" use="required"/>
+			<xs:attribute name="No" type="xs:string" use="required"/>
+			<xs:attribute name="MaintenanceId" type="xs:int" use="required"/>
+			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
+			<xs:attribute name="Status" type="xs:string" use="required"/>
+			<xs:attribute name="Resolution" type="xs:string" use="required"/>
+			<xs:attribute name="Officer" type="xs:string" use="required"/>
+			<xs:attribute name="Department" type="xs:string" use="required"/>
+			<xs:attribute name="StartDate" type="xs:dateTime" use="required"/>
+			<xs:attribute name="EndDate" type="xs:dateTime" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Comment">

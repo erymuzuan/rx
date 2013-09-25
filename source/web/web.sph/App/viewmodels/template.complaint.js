@@ -134,10 +134,10 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 var data = ko.mapping.toJSON(vm.template);
 
                 context.post(data, "/Template/SaveComplaintTemplate")
-                    .then(function (result) {
+                    .then(function (msg) {
                         isBusy(false);
-                        tcs.resolve(result);
-                        vm.template().ComplaintTemplateId(result);
+                        tcs.resolve(msg.id);
+                        vm.template().ComplaintTemplateId(msg.id);
                     });
                 return tcs.promise();
             },

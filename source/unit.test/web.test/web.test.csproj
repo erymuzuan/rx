@@ -74,11 +74,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuildingTemplateSchema.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BuildingTemplateSchema.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -110,16 +105,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="BuildingTemplateSchema.xsc">
-      <DependentUpon>BuildingTemplateSchema.xsd</DependentUpon>
-    </None>
     <None Include="BuildingTemplateSchema.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>BuildingTemplateSchema.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="BuildingTemplateSchema.xss">
-      <DependentUpon>BuildingTemplateSchema.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

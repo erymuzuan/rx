@@ -23,6 +23,7 @@ namespace Bespoke.Sph.Domain
         public IQueryable<Contract> Contracts { get; set; }
         public IQueryable<Deposit> Deposits { get; set; }
         public IQueryable<Invoice> Invoices { get; set; }
+        public IQueryable<WorkOrder> WorkOrders { get; set; }
         public IQueryable<Organization> Organizations { get; set; }
         public IQueryable<MaintenanceTemplate> MaintenanceTemplates { get; set; }
         public IQueryable<Payment> Payments { get; set; }
@@ -62,6 +63,7 @@ namespace Bespoke.Sph.Domain
             this.UserProfiles = new Query<UserProfile>(provider);
             this.Triggers = new Query<Trigger>(provider);
             this.Watchers = new Query<Watcher>(provider);
+            this.WorkOrders = new Query<WorkOrder>(provider);
         }
 
 

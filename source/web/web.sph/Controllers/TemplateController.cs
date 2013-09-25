@@ -30,7 +30,6 @@ namespace Bespoke.Sph.Web.Controllers
 
 
             template.CustomListDefinitionCollection.ClearAndAddRange(list);
-
             var errors = (await template.ValidateAsync()).ToList();
             if (errors.Any())
             {
@@ -43,7 +42,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(template);
                 await session.SubmitChanges();
             }
-            return Json(template.ComplaintTemplateId);
+            return Json(new { status = "OK", id = template.ComplaintTemplateId, message = "template was succesfully saved" });
         }
 
         public async Task<ActionResult> SaveBuildingTemplate()

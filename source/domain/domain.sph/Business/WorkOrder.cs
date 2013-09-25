@@ -1,6 +1,6 @@
 ﻿namespace Bespoke.Sph.Domain
 {
-    public partial class WorkOrder : DomainObject
+    public partial class WorkOrder : Entity
     {
     }
 }
