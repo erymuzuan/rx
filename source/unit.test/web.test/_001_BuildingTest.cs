@@ -299,7 +299,9 @@ namespace web.test
             .Value(".input-floor-name", "2nd Floor", 1)
             .Value(".input-floor-size", "48500", 1);
 
-
+            driver.Click("[name=add-block-button]")
+                  .Sleep(200.Milliseconds(), "Add Block")
+                ;
 
             driver.Click("#save-button")
             .Sleep(TimeSpan.FromSeconds(2))

@@ -111,7 +111,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                     return ko.dataFor(div);
                 });
                 vm.template().FormDesign().FormElementCollection(elements);
-                var data = ko.mapping.toJSON(vm.template);
+                var data = ko.mapping.toJSON(vm.template());
 
                 context.post(data, "/Template/SaveBuildingTemplate")
                     .then(function (msg) {
