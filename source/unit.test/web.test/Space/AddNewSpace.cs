@@ -22,7 +22,7 @@ namespace web.test.Space
             this.CreateTestBuilding(m_spaceAdmin, BUILDING_TEMPLATE_NAME, BUILDING_NAME);
 
             //need spacetemplate
-            CreateSpaceTemplate(m_spaceAdmin,SPACE_TEMPLATE_NAME);
+            //CreateSpaceTemplate(m_spaceAdmin,SPACE_TEMPLATE_NAME);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace web.test.Space
             //this.DeleteSpaceTemplate(SPACE_TEMPLATE_NAME);
             //this.DeleteBuilding(BUILDING_NAME);
             //this.DeleteBuildingTemplate(BUILDING_TEMPLATE_NAME);
-            //this.DeleteUser(m_spaceAdmin);
+            this.DeleteUser(m_spaceAdmin);
         }
     }
 }
