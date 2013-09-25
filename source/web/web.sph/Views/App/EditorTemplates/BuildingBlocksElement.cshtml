@@ -1,6 +1,6 @@
 ﻿@model Bespoke.Sph.Domain.BuildingBlocksElement
 
-<input type="button" name="add-floor-button" class="btn pull-right" data-bind="click: addBlock" value="+ Block" />
+<input type="button" name="add-block-button" class="btn pull-right" data-bind="click: addBlock" value="+ Block" />
 <table class="table table-striped">
     <thead>
         <tr>
@@ -30,7 +30,7 @@
 
             </td>
             <td>
-                <input type="button" data-bind="click: $parent.editBlockFloor.call($parent, $data), uniqueName: true" class="btn btn-mini" value="Tingkat" />
+                <input type="button" data-bind="click: $parent.editBlockFloor.call($parent, $data), uniqueName: true" class="btn btn-mini button-block-floor" value="Tingkat" />
             </td>
             <td>
                 <a class="btn btn-mini" data-bind="click: $parent.removeBlock.call($parent,$data), uniqueName: true" >Buang</a>

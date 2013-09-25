@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +11,6 @@ namespace Bespoke.Sph.Web.Controllers
 {
     public class BuildingController : Controller
     {
-
         public async Task<ActionResult> GetCenter(int id)
         {
             var spatial = ObjectBuilder.GetObject<ISpatialService<Building>>();
@@ -141,23 +139,35 @@ namespace Bespoke.Sph.Web.Controllers
 
 
             var errorMessage = new StringBuilder();
-            var duplicateFloors = building.FloorCollection.Select(f => f.Name)
-                                 .GroupBy(s => s)
-                                 .Any(s => s.Count() > 1);
-            if (duplicateFloors)
+            var duplicateBlocks = building.BlockCollection.Select(b => b.Name)
+                                    .GroupBy(b => b)
+                                    .Any(b => b.Count() > 1);
+            if (duplicateBlocks)
             {
-                errorMessage.AppendLine("There are duplicate floor name or number");
+                errorMessage.AppendLine("There are duplicate block name");
             }
 
-            foreach (var floor in building.FloorCollection)
+            foreach (var block in building.BlockCollection)
             {
-                var duplicateLot = floor.LotCollection.Select(l => l.Name)
-                                        .GroupBy(s => s)
-                                        .Any(s => s.Count() > 1);
-                if (duplicateLot)
-                    errorMessage.AppendLine("There are duplicate Lot in floor" + floor.Name);
+                var duplicateFloors = block.FloorCollection.Select(f => f.Name)
+                                    .GroupBy(f => f)
+                                    .Any(f => f.Count() > 1);
+                if (duplicateFloors)
+                {
+                    errorMessage.AppendLine("There are duplicate floor in this block");
+                }
 
+                foreach (var floor in block.FloorCollection)
+                {
+                    var duplicateLot = floor.LotCollection.Select(l => l.Name)
+                                            .GroupBy(s => s)
+                                            .Any(s => s.Count() > 1);
+                    if (duplicateLot)
+                        errorMessage.AppendLine("There are duplicate Lot in floor" + floor.Name);
+
+                }
             }
+            
             if (errorMessage.Length > 0)
                 return Json(new { status = false, message = errorMessage.ToString() });
 

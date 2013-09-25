@@ -2,6 +2,8 @@
 using System.Data.SqlClient;
 using System.Globalization;
 using FluentDateTime;
+using NDbUnit.Core;
+using NDbUnit.Core.SqlClient;
 using NUnit.Framework;
 
 namespace web.test.Space
@@ -276,19 +278,24 @@ namespace web.test.Space
 
         public void CreateTestBuilding(TestUser user, string buildingTemplateName, string buildingName)
         {
+            //
+            Console.WriteLine("Creating building templates..."); 
+            var db = new SqlDbUnitTest(this.ConnectionString);
+            db.ReadXmlSchema(@"..\..\schema\BuildingTemplateSchema.xsd");
+            db.ReadXml(@"..\..\data\building.template.data.xml");
+            db.PerformDbOperation(DbOperationFlag.CleanInsertIdentity);
+            this.ExecuteNonQuery("dbcc checkident ([Sph.BuildingTemplate], reseed, 0)");
+            var buildingTemplateCount = this.GetDatabaseScalarValue<int>("SELECT COUNT([BuildingTemplateId]) FROM [Sph].[BuildingTemplate]");
+            Assert.AreEqual(1,buildingTemplateCount);
+
             var driver = this.InitiateDriver();
             driver.Login(user);
-
-            //
-            Console.WriteLine("Creating building templates...");
-            TestHelper.CreateBuildingTemplate(driver, buildingTemplateName);
-            driver.LogOff();
 
             //
             Console.WriteLine("Creating test building...");
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] = @Name",
                 new SqlParameter("@Name", buildingTemplateName));
-            driver.Login(user);
+            //driver.Login(user);
             TestHelper.CreateBuilding(driver, templateId, buildingName);
             driver.LogOff();
 
@@ -297,7 +304,7 @@ namespace web.test.Space
             var buildingId = this.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] = @Name",
                 new SqlParameter("@Name", buildingName));
             driver.Login(user);
-            TestHelper.CreateBuildingLots(driver, templateId, buildingId);
+            TestHelper.CreateBuildingLots(driver, templateId, buildingId, "A", "G");
 
             driver.Quit();
 

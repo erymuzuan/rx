@@ -41,6 +41,12 @@
     <Reference Include="FluentDateTime">
       <HintPath>..\..\..\packages\FluentDateTime.1.8.0.0\Lib\NET35\FluentDateTime.dll</HintPath>
     </Reference>
+    <Reference Include="NDbUnit.Core">
+      <HintPath>..\..\..\packages\NDbUnit.Core.1.6.8.0\lib\Net35\NDbUnit.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NDbUnit.SqlClient">
+      <HintPath>..\..\..\packages\NDbUnit.SqlClient.1.6.8.0\lib\Net35\NDbUnit.SqlClient.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -68,6 +74,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Space\AddNewSpace.cs" />
     <Compile Include="Space\SpaceBaseTest.cs" />
     <Compile Include="TestHelper.cs" />
@@ -94,7 +105,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="schema\BuildingTemplateSchema.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>BuildingTemplateSchema.Designer.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="invoice.xml">
@@ -108,6 +128,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="data\building.template.data.xml" />
+    <Content Include="data\sample.xml" />
     <Content Include="rebate.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
