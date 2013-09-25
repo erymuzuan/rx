@@ -32,6 +32,7 @@
 #available-space-list > div:nth-child(odd) {
   background-color: #fcfce3;
 }
+
 div.space-image-panel {
   float: right;
   margin-top: -20px;

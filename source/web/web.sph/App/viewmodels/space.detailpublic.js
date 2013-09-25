@@ -35,7 +35,11 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                             tcs.resolve(true);
                         }
 
-
+                        var templates = space.ApplicationTemplateOptions().join(",");
+                        context.loadAsync("ApplicationTemplate", String.format("ApplicationTemplateId in ({0})", templates))
+                            .done(function(lo) {
+                                vm.applicationTemplates(lo.itemCollection);
+                            });
                     });
 
 
@@ -84,6 +88,12 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
 
 
                 });
+                
+
+            },
+            showPhoto = function (photo) {
+                vm.photo(photo);
+                $('#photo-dialog').modal();
             };
 
         var vm = {
@@ -92,7 +102,10 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             map: ko.observable(),
             viewAttached: viewAttached,
             space: ko.observable(new bespoke.sph.domain.Space()),
-            building: ko.observable(new bespoke.sph.domain.Building())
+            building: ko.observable(new bespoke.sph.domain.Building()),
+            photo : ko.observable(new bespoke.sph.domain.Photo()),
+            showPhoto: showPhoto,
+            applicationTemplates : ko.observableArray()
         };
 
 

@@ -13,14 +13,38 @@
         <span data-bind="text:RegistrationNo"></span>
     </div>
     <div>
-        <ul class="nav" data-bind="foreach :PhotoCollection">
-            <li>
+        <div class="space-gallery-panel" data-bind="foreach :PhotoCollection">
+            <a href="/#" data-bind="attr : {title : Title}, click:$root.showPhoto" data-gallery="">
                 <img data-bind="attr : {src:'/image/store/' + ThumbnailStoreId()}" />
-            </li>
-        </ul>
+            </a>
+        </div>
+    </div>
+    <div data-bind="html:Description">
+
     </div>
 
-    <a class="btn btn-success" data-bind="attr: { href: '/#/application.detail-templateid.' + $parents[0].id + '/' + SpaceId() }">Mohon Sewa</a>
+    <div id="space-application-panel">
+        <!-- ko foreach: $root.applicationTemplates -->
+        <a class="btn btn-success" data-bind="attr: { href: '/#/application.detail-templateid.' + ApplicationTemplateId() + '/' + $root.space().SpaceId(), title : Name }, text:Name">Mohon Sewa</a>
+        <!--/ko -->
 
+    </div>
 </div>
 
+<section class="modal hide" id="photo-dialog" data-bind="with : photo">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 data-bind="text:Title"></h3>
+    </div>
+    <div class="modal-body">
+        <p>
+            <img data-bind="attr : {src:'/image/store/' + StoreId()},alt: Description" />
+        </p>
+        <p data-bind="text:Description"></p>
+    </div>
+
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Tutup</a>
+    </div>
+</section>
