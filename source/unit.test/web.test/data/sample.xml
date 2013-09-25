@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BuildingTemplateSchema xmlns="http://tempuri.org/BuildingTemplateSchema.xsd">
+  <Sph.BuildingTemplate>
+    <BuildingTemplateId>1</BuildingTemplateId>
+    <Name>Name1</Name>
+    <Data>Data1</Data>
+    <IsActive>true</IsActive>
+    <CreatedDate>2001-01-01T01:01:01</CreatedDate>
+    <CreatedBy>CreatedBy1</CreatedBy>
+    <ChangedDate>2002-01-01T01:01:01</ChangedDate>
+    <ChangedBy>ChangedBy1</ChangedBy>
+  </Sph.BuildingTemplate>
+  <Sph.BuildingTemplate>
+    <BuildingTemplateId>-2147483647</BuildingTemplateId>
+    <Name>Name2</Name>
+    <Data>Data2</Data>
+    <IsActive>false</IsActive>
+    <CreatedDate>2003-01-01T00:00:00</CreatedDate>
+    <CreatedBy>CreatedBy2</CreatedBy>
+    <ChangedDate>2004-01-01T00:00:00</ChangedDate>
+    <ChangedBy>ChangedBy2</ChangedBy>
+  </Sph.BuildingTemplate>
+</BuildingTemplateSchema>
