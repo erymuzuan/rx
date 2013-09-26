@@ -1,3 +1,4 @@
+using NDbUnit.Core.SqlClient;
 using NUnit.Framework;
 
 namespace web.test.Space
@@ -7,10 +8,7 @@ namespace web.test.Space
     {
         private TestUser m_spaceAdmin;
         private const string SPACE_REGISTRATION_NO = "BSPK/999999";
-        private const string SPACE_TEMPLATE_NAME = "Cafeteria Template"; 
-        public const string BUILDING_NAME = "Bangunan Komersil Di Putrajaya (UJIAN)";
-        public const string BUILDING_TEMPLATE_NAME = "Bangunan Komersil";
-
+        
         [SetUp]
         public void Init()
         {
@@ -18,24 +16,20 @@ namespace web.test.Space
             m_spaceAdmin = TestHelper.CreateSpaceAdmin();
             this.AddUser(m_spaceAdmin);
 
-            //need building to run test
-            this.CreateTestBuilding(m_spaceAdmin, BUILDING_TEMPLATE_NAME, BUILDING_NAME);
-
-            //need spacetemplate
-            //CreateSpaceTemplate(m_spaceAdmin,SPACE_TEMPLATE_NAME);
+            //need some seed data
+            this.CreateAddNewSpaceSeedData(m_spaceAdmin);
         }
 
         [Test]
         public void Add()
         {
-            //CreateNewSpace(m_spaceAdmin, SPACE_TEMPLATE_NAME, SPACE_REGISTRATION_NO);
+            CreateNewSpace(m_spaceAdmin, SPACE_REGISTRATION_NO);
         }
 
         [TearDown]
         public void Clear()
         {
             //this.DeleteSpace(SPACE_REGISTRATION_NO);
-            //this.DeleteSpaceTemplate(SPACE_TEMPLATE_NAME);
             this.DeleteUser(m_spaceAdmin);
         }
     }
