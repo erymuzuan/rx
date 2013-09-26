@@ -125,6 +125,10 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
             messages: messages,
             fitToBounds: fitToBounds,
             setCenter: setCenter,
+            getCenter: getCenter,
+            getMapCenter: function() {
+                return map.getCenter();
+            },
             setZoom: setZoom,
             init: init,
             clear: clear,
@@ -133,7 +137,6 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
             getEncodedPath: getEncodedPath,
             getBounds: getBound,
             geocode: geocode,
-            getCenter: getCenter,
             reverseGeocode: reverseGeocode,
             setupAutocomplete: setupAutocomplete
         };

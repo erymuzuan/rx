@@ -45,7 +45,7 @@ define(['services/datacontext',
                 vm.selectedBuilding(b.building);
             },
              deactivate = function() {
-                 center = mapvm.getCenter();
+                 center = mapvm.getMapCenter();
              };
 
         var vm = {
