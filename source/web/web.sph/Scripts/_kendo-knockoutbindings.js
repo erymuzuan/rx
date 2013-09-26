@@ -18,7 +18,7 @@ ko.bindingHandlers.kendoEditor = {
             self = this;
 
         setTimeout(function () {
-            $editor.kendoEditor({
+            var editor = $editor.kendoEditor({
                 change: function () {
                     self.updating = true;
                     value(this.value());
@@ -26,7 +26,9 @@ ko.bindingHandlers.kendoEditor = {
                         self.updating = false;
                     }, 500);
                 }
-            });
+            }).data("kendoEditor");
+
+            editor.value(value());
         }, 500);
 
     },
