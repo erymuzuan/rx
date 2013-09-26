@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.SqlClient;
-using System.Globalization;
 using FluentDateTime;
 using NDbUnit.Core;
 using NDbUnit.Core.SqlClient;
@@ -19,11 +18,6 @@ namespace web.test.Space
             var spaceTemplateId = this.GetDatabaseScalarValue<int>("SELECT [SpaceTemplateId] FROM [Sph].[SpaceTemplate] WHERE [Name] =@Name",
                 new SqlParameter("@Name", SPACE_TEMPLATE_NAME));
 
-            var permohonanId =
-                this.GetDatabaseScalarValue<int>(
-                    "SELECT [ApplicationTemplateId] FROM [Sph].[ApplicationTemplate] WHERE [Name] = @Name",
-                    new SqlParameter("@Name", RentalApplicationTest.APP_TEMPLATE_NAME));
-            
             var driver = this.InitiateDriver();
             driver.Login(user);
 
@@ -41,11 +35,11 @@ namespace web.test.Space
                 .SelectOption("[name=selectedLots]", "Empty Lot")
                 .Click("#add-lot-button");
 
-            driver.Value("[name='SpaceName']", "Cafe ABC");
-            driver.Value("[name='address.Street']", "Jalan Permata")
-                .Value("[name='address.City']", "Putrajaya")
-                .Value("[name='address.Postcode']", "62502")
-                .Value("[name='address.State']", "Selangor");
+            driver.Value("[name='SpaceName']", "Kafeteria Matyie");
+            driver.Value("[name='address.Street']", "Jalan Permata Yang Hilang")
+                .Value("[name='address.City']", "Kota Bharu")
+                .Value("[name='address.Postcode']", "15100")
+                .Value("[name='address.State']", "Kelantan");
 
             driver.Click("#add-feature-button");
 
