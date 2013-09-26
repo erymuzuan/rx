@@ -91,9 +91,14 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
 
                 context.post(data, "/Template/SaveSpaceTemplate")
                     .then(function (result) {
-                        isBusy(false);
-                        logger.info("Data has been successfully save");
-                        tcs.resolve(result);
+                        if (result.status === "OK") {
+
+                            logger.info("Data has been successfully save");
+                            tcs.resolve(result);
+                        } else {
+                            logger.error(result.message);
+                            tcs.resolve(result);
+                        }
                     });
                 return tcs.promise();
             },
@@ -131,7 +136,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                             field.TypeName(f.TypeName);
                             field.IsNullable(f.IsNullable);
                             // TODO :look for existing values
-                            var ef = _(vm.template().DefaultValueCollection()).find(function(e) {
+                            var ef = _(vm.template().DefaultValueCollection()).find(function (e) {
                                 return e.PropertyName() === f.Name;
                             });
                             if (ef) {

@@ -15,10 +15,14 @@ namespace Bespoke.Sph.Web.Controllers
             var context = new SphDataContext();
 
             var building = await context.LoadOneAsync<Building>(b => b.BuildingId == buildingId);
-            space.State = building.Address.State ?? space.Address.State;
-            space.City = building.Address.City ?? space.Address.City;
-            space.BuildingName = building.Name;
-            space.BuildingLot = building.LotNo;
+            if (null != building)
+            {
+                space.State = building.Address.State ?? space.Address.State;
+                space.City = building.Address.City ?? space.Address.City;
+                space.BuildingName = building.Name;
+                space.BuildingLot = building.LotNo;
+
+            }
 
             using (var session = context.OpenSession())
             {
