@@ -34,11 +34,8 @@ namespace web.test.Space
         [TearDown]
         public void Clear()
         {
-
             //this.DeleteSpace(SPACE_REGISTRATION_NO);
             //this.DeleteSpaceTemplate(SPACE_TEMPLATE_NAME);
-            //this.DeleteBuilding(BUILDING_NAME);
-            //this.DeleteBuildingTemplate(BUILDING_TEMPLATE_NAME);
             this.DeleteUser(m_spaceAdmin);
         }
     }

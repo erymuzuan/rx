@@ -68,8 +68,6 @@ namespace web.test
 
         }
 
-
-
         public void AddUser(TestUser user)
         {
             //
@@ -87,7 +85,6 @@ namespace web.test
 
             // add roles
             Roles.AddUserToRoles(user.UserName, user.Roles);
-
 
             var x =
                 string.Format(

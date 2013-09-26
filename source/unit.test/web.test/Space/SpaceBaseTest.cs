@@ -262,20 +262,6 @@ namespace web.test.Space
 
         }
 
-        public void DeleteBuildingTemplate(string templateName)
-        {
-            this.ExecuteNonQuery("DELETE FROM [Sph].[BuildingTemplate] WHERE [Name] = @Name",
-                new SqlParameter("@Name", templateName));
-            Console.WriteLine("Building template [{0}] successfully deleted.", templateName);
-        }
-
-        public void DeleteBuilding(string buildingName)
-        {
-            this.ExecuteNonQuery("DELETE FROM [Sph].[Building] WHERE [Name] = @Name",
-                new SqlParameter("@Name", buildingName));
-            Console.WriteLine("Building [{0}] successfully deleted.", buildingName);
-        }
-
         public void CreateTestBuilding(TestUser user, string buildingTemplateName, string buildingName)
         {
             //
@@ -293,6 +279,7 @@ namespace web.test.Space
             var templateId = this.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] = @Name",
                 new SqlParameter("@Name", buildingTemplateName));
             Console.WriteLine("Loading building template ID:{0}", templateId);
+            Assert.IsTrue(templateId > 0, "No template found");
 
             //var driver = this.InitiateDriver();
             ////TestHelper.CreateBuilding(driver, templateId, buildingName);
