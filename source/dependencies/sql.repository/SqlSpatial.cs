@@ -145,6 +145,7 @@ namespace Bespoke.Sph.SqlRepository
                     {
                         var item = XmlSerializerService.DeserializeFromXml<T>(reader.GetString(1));
                         item.EncodedWkt = reader.GetString(2);
+                        item.SetId(reader.GetInt32(0));
                         // item.GeoLocationId = reader.GetInt32(0);
                         list.Add(item);
                     }
