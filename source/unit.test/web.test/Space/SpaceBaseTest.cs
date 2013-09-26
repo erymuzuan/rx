@@ -26,36 +26,34 @@ namespace web.test.Space
             
             var driver = this.InitiateDriver();
             driver.Login(user);
-            driver.NavigateToUrl("/#/space.list", 2.Seconds());
-            driver.NavigateToUrl(String.Format("/#/space.detail-templateid.{0}/{0}/0/-/0", spaceTemplateId), 3.Seconds());
-            driver
-                .Value("[name=RegistrationNo]", spaceRegistrationKey)
-                .Click("#select-lot-button")
-                .Sleep(2.Seconds());
 
-            driver.SelectOption("[name=selectedBuilding]", BUILDING_NAME)
+            driver.NavigateToUrl("/#/space.list", 2.Seconds());
+            driver.NavigateToUrl(String.Format("/#/space.detail-templateid.{0}/{0}/0/-/0", spaceTemplateId), 2.Seconds());
+
+            driver.Value("[name=RegistrationNo]", spaceRegistrationKey);
+
+            driver.Click("#select-lot-button")
                 .Sleep(1.Seconds())
-                .SelectOption("[name=selectedFloor]", "1st Floor")
+                .SelectOption("[name=selectedBuilding]", BUILDING_NAME)
                 .Sleep(1.Seconds())
-                .SelectOption("[name=selectedLots]", "Lot 1")
+                .SelectOption("[name=selectedFloor]", "G")
+                .Sleep(1.Seconds())
+                .SelectOption("[name=selectedLots]", "Empty Lot")
                 .Click("#add-lot-button");
 
-            driver.Value("[name='Cafe Name']", "Cafe ABC");
+            driver.Value("[name='SpaceName']", "Cafe ABC");
             driver.Value("[name='address.Street']", "Jalan Permata")
                 .Value("[name='address.City']", "Putrajaya")
                 .Value("[name='address.Postcode']", "62502")
                 .Value("[name='address.State']", "Selangor");
-
-            driver.ClickFirst("input", e => e.GetAttribute("data-bind") == "click : addCustomListItem('List')")
-                .Sleep(2.Seconds());
 
             driver.Click("#add-feature-button");
 
             driver.Value(".input-feature-name", "Lot A-1-3")
                   .Value(".input-feature-description", "Satu parking percuma")
                   .Value(".input-feature-category", "Parking")
-                  .Click(".input-feature-isrequired")
-                ;
+                  .Click(".input-feature-isrequired");
+
             driver.Click("#add-feature-button");
 
 
@@ -65,8 +63,7 @@ namespace web.test.Space
                   .Value(".input-feature-charge", "50", 1)
                   .Value(".input-feature-available-quantity", "3", 1)
                   .Value(".input-feature-occurence", "1", 1)
-                  .SelectOption(".input-feature-occurencetimespan", "Sekali", 1)
-                ;
+                  .SelectOption(".input-feature-occurencetimespan", "Sekali", 1);
 
             driver.Click("#add-feature-button");
             driver.Value(".input-feature-name", "Kabinet Dapur Kayu", 2)
@@ -75,8 +72,7 @@ namespace web.test.Space
                   .Value(".input-feature-charge", "50", 2)
                   .Value(".input-feature-available-quantity", "5", 2)
                   .Value(".input-feature-occurence", "1", 2)
-                  .Value(".input-feature-occurencetimespan", "Sekali", 2)
-                ;
+                  .Value(".input-feature-occurencetimespan", "Sekali", 2);
 
             driver.Click("#add-feature-button");
             driver.Value(".input-feature-name", "Oven", 3)
@@ -85,8 +81,7 @@ namespace web.test.Space
                   .Value(".input-feature-charge", "100", 3)
                   .Value(".input-feature-available-quantity", "10", 3)
                   .Value(".input-feature-occurence", "1", 3)
-                  .Value(".input-feature-occurencetimespan", "Tahun", 3)
-                ;
+                  .Value(".input-feature-occurencetimespan", "Tahun", 3);
 
             driver.Click("#add-feature-button");
             driver.Value(".input-feature-name", "Parking Berbayar", 4)
@@ -95,30 +90,29 @@ namespace web.test.Space
                   .Value(".input-feature-charge", "100", 4)
                   .Value(".input-feature-available-quantity", "2", 4)
                   .Value(".input-feature-occurence", "6", 4)
-                  .Value(".input-feature-occurencetimespan", "Bulan", 4)
-                ;
+                  .Value(".input-feature-occurencetimespan", "Bulan", 4);
             driver.Click("#add-feature-button");
             driver.Click(".btn-remove-feature", 5);
 
             driver.Value("[name='RentalRate']", "2500")
-            .Value("[name='ContactPerson']", "Mohd Razali")
+            .Value("[name='ContactOfficer']", "Mohd Razali");
+
+            driver
             .Click("[name='IsOnline']")
             .Click("[name='IsAvailable']");
 
             driver
-            .ClickFirst("input[type=checkbox]", e => e.GetAttribute("value") == permohonanId.ToString(CultureInfo.InvariantCulture) && e.GetAttribute("data-bind") == "checked: ApplicationTemplateOptions")
             .Click("#save-button")
-            .Sleep(3.Seconds());
-
+            .Sleep(1.Seconds());
 
             var count = this.GetDatabaseScalarValue<int>("SELECT COUNT([RegistrationNo]) FROM [Sph].[Space] WHERE [RegistrationNo] = @No",
                 new SqlParameter("@No", spaceRegistrationKey));
             Assert.AreEqual(count, 1);
 
-            driver.NavigateToUrl("/#/space.list", 5.Seconds())
-                .AssertElementExist("td", e => e.Text == spaceRegistrationKey, "We should get 1 space with ref " + spaceRegistrationKey);
-
-            driver.Sleep(5.Seconds(), "See the result").Quit();
+            driver
+                .NavigateToUrl("/#/space.list", 2.Seconds())
+                .Sleep(2.Seconds(), "See the result")
+                .Quit();
 
             Console.WriteLine("Space [ID:{0}] added", spaceRegistrationKey);
         }
