@@ -50,30 +50,20 @@ define([objectbuilders.datacontext, objectbuilders.router, objectbuilders.cultur
             searchKeyword = ko.observable(),
             query = {
                 "query": {
-                    "bool": {
-                        "must": [{
-                            "match_phrase": {
-                                "Address.State": searchState
-                            }
-
-                        },
-                        {
-                            "match_phrase": { "_all": searchKeyword }
-                        }
-                        ]
+                    "query_string": {
+                        "fields": ["Name", "Address.State", "TemplateName", "BuildingName"],
+                        "query": searchKeyword
                     }
                 }
             },
             search = function () {
                 var tcs = new $.Deferred();
                 var spaceQuery = {
-                    //state match column state only
-                    "match": {
-                        "Address.State": vm.searchTerm.state()
-                    },
-                    //keyword match all except state
-                    "all": {
-                        "_all":vm.searchTerm.keyword()
+                    "query": {
+                        "query_string": {
+                            "fields": ["Name", "Address.State", "TemplateName", "BuildingName"],
+                            "query": vm.searchTerm.keyword()
+                        }
                     }
                 };
                 console.log(spaceQuery);

@@ -15,7 +15,7 @@ namespace web.test
                 Email = "ruang.admin@bespoke.com.my",
                 Department = "Test",
                 Designation = "Space Admin Manager",
-                Password = "abcad12334535",
+                Password = "123456",
                 StartModule = "space.list",
                 Roles = new[] { "can_add_space", "can_edit_space", "can_edit_space_template", "can_add_building", "can_edit_building_template" }
             };

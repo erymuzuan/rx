@@ -1,10 +1,9 @@
-using NDbUnit.Core.SqlClient;
 using NUnit.Framework;
 
 namespace web.test.Space
 {
     [TestFixture]
-    public class AddNewSpace : SpaceBaseTest
+    public class AddNewSpaceTest : SpaceBaseTest
     {
         private TestUser m_spaceAdmin;
         private const string SPACE_REGISTRATION_NO = "BSPK/999999";
@@ -21,7 +20,7 @@ namespace web.test.Space
         }
 
         [Test]
-        public void Add()
+        public void AddNew()
         {
             CreateNewSpace(m_spaceAdmin, SPACE_REGISTRATION_NO);
         }
@@ -30,7 +29,7 @@ namespace web.test.Space
         public void Clear()
         {
             //this.DeleteSpace(SPACE_REGISTRATION_NO);
-            this.DeleteUser(m_spaceAdmin);
+            //this.DeleteUser(m_spaceAdmin);
         }
     }
 }
