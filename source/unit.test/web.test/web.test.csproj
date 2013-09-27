@@ -110,10 +110,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="schema\SphSchema.xsd">
+    <None Include="Space\AddNewSpaceSchema.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>SphSchema.Designer.cs</LastGenOutput>
+      <LastGenOutput>AddNewSpaceSchema.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -128,10 +128,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="data\seed.data.xml" />
+    <Content Include="Space\AddNewSpaceData.xml" />
     <Content Include="rebate.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="data\" />
+    <Folder Include="schema\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
