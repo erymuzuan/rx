@@ -65,7 +65,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                     }
                     var staticMap = String.format("http://maps.googleapis.com/maps/api/staticmap?size=640x300&markers="+
                         "icon:{2}&center={0},{1}&sensor=false&zoom=18",
-                        point.lat(), point.lng(),"https://s3-ap-southeast-1.amazonaws.com/sph.my/map-icons/office-building.png");
+                        point.lat(), point.lng(),"http://s3-ap-southeast-1.amazonaws.com/sph.my/map-icons/office-building.png");
                     $('#map-space').html('<img src="' + staticMap + '" alt="map"/>')
                         .one('click', function () {
 

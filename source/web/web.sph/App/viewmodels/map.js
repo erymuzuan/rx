@@ -5,11 +5,10 @@
 /// <reference path="../services/logger.js" />
 /// <reference path="../../Scripts/google-maps-3-vs-1-0-vsdoc.js" />
 /// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/_task.js" />
 
-// see this blog
-// http://blog.millermedeiros.com/requirejs-2-0-delayed-module-evaluation-and-google-maps/
 
-define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&libraries=geometry,drawing,places'],
+define([],
     function () {
 
         var geocoder2, map;
@@ -46,7 +45,7 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
                 }
 
                 var lines = google.maps.geometry.encoding.decodePath(shape.encoded);
-                if(lines.length === 1) {// point
+                if (lines.length === 1) {// point
                     var marker = new google.maps.Marker({
                         position: lines[0],
                         map: map,
@@ -54,12 +53,12 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
                         clickable: shape.clikable || true,
                         draggable: shape.draggable || false,
                         title: shape.title,
-                        icon : shape.icon
+                        icon: shape.icon
                     });
                     marker.setMap(map);
                     marker.type = 'marker';
                     overlays.push(marker);
-                 
+
                     google.maps.event.addListener(marker, 'dragend', function () {
                         console.log(marker.getPosition());
                     });
@@ -86,8 +85,8 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
             },
             setupAutocomplete = function (input, placeChanged) {
 
-                var options = { componentRestrictions: {country: 'my'} };
-                var autocomplete = new google.maps.places.Autocomplete(input,options);
+                var options = { componentRestrictions: { country: 'my' } };
+                var autocomplete = new google.maps.places.Autocomplete(input, options);
                 if (map) {
                     autocomplete.bindTo('bounds', map);
                 }
@@ -115,8 +114,23 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
                     if (placeChanged)
                         placeChanged(address);
                 });
-            }
-        ;
+            },
+            loadGoogleMapLibs = function () {
+                if (typeof google.maps === "undefined") {
+                    var tcs1 = new $.Deferred();
+                    google.load('maps', '3.6', {
+                        other_params: 'region=my&sensor=false&libraries=geometry,drawing,places',
+                        callback: function () {
+                            tcs1.resolve(true);
+                        }
+                    });
+
+                    return tcs1.promise();
+                }
+
+                return Task.fromResult(true);
+            };
+
 
         var vm = {
             map: map,
@@ -126,9 +140,10 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
             fitToBounds: fitToBounds,
             setCenter: setCenter,
             getCenter: getCenter,
-            getMapCenter: function() {
+            getMapCenter: function () {
                 return map.getCenter();
             },
+            loadGoogleMapLibs: loadGoogleMapLibs,
             setZoom: setZoom,
             init: init,
             clear: clear,
@@ -142,15 +157,29 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
         };
         return vm;
 
+
+
         function init(ops) {
+
+            if (typeof google.maps === "undefined") {
+                var tcs1 = new $.Deferred();
+                loadGoogleMapLibs().done(function () {
+                    init(ops).done(function (p) {
+                        tcs1.resolve(p);
+                    });
+                });
+
+                return tcs1.promise();
+            }
+
 
             var ops2 = ops || {},
                 panel = ops2.panel || 'map',
                 zoom = ops2.zoom || 11,
                 center = ops2.center || new google.maps.LatLng(3.1282, 101.6441);
-            
+
             google.maps.visualRefresh = true;
-            
+
             var options = {
                 zoom: zoom,
                 center: center,
@@ -223,7 +252,7 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
 
             }
 
-
+            return Task.fromResult(true);
         }
 
 
@@ -265,6 +294,21 @@ define(['async!//maps.googleapis.com/maps/api/js?v=3.exp&region=my&sensor=false&
         }
 
         function geocode(address) {
+            if (typeof google.maps === "undefined") {
+                var tcs1 = new $.Deferred();
+                google.load('maps', '3.6', {
+                    other_params: 'region=my&sensor=false&libraries=geometry,drawing,places',
+                    callback: function () {
+                        geocode(address)
+                            .done(function (p) {
+                                tcs1.resolve(p);
+                            });
+                    }
+                });
+
+                return tcs1.promise();
+            }
+
             var tcs = new $.Deferred();
             if (!geocoder2)
                 geocoder2 = new google.maps.Geocoder();

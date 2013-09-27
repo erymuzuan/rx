@@ -219,6 +219,7 @@ namespace Bespoke.Sph.Web.Controllers
             var vm = new TemplateFormViewModel { Entity = typeof(Space).Name };
             vm.FormElements.Add(new AddressElement());
             vm.FormElements.Add(new BuildingElement());
+            vm.FormElements.Add(new BuildingMapElement());
             vm.FormElements.Add(new SpaceLotsElement());
             vm.FormElements.Add(new SpaceFeaturesElement());
 

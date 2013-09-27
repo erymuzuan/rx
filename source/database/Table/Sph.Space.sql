@@ -43,3 +43,15 @@ ADD [RentalRate] MONEY NOT NULL DEFAULT 0
 
 GO
 SELECT * FROM [Sph].[Space]
+
+GO
+ALTER TABLE [Sph].[Space]
+ADD [Path] GEOGRAPHY NULL
+
+GO
+ALTER TABLE [Sph].[Space]
+ADD [Wkt] VARCHAR(MAX) NULL
+
+GO
+ALTER TABLE [Sph].[Space]
+ADD [EncodedWkt] VARCHAR(MAX) NULL

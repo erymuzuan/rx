@@ -25,17 +25,22 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 customElements.push(address);
 
                 var building = new bespoke.sph.domain.BuildingElement(system.guid());
-                building.CssClass("icon-envelope pull-left");
+                building.CssClass("icon-building pull-left");
                 building.Name("Building");
                 customElements.push(building);
 
+                var map = new bespoke.sph.domain.BuildingMapElement(system.guid());
+                map.CssClass("icon-globe pull-left");
+                map.Name("Map");
+                customElements.push(map);
+
                 var lot = new bespoke.sph.domain.SpaceLotsElement(system.guid());
-                lot.CssClass("icon-envelope pull-left");
+                lot.CssClass("icon-check-empty pull-left");
                 lot.Name("Lot");
                 customElements.push(lot);
 
                 var feature = new bespoke.sph.domain.SpaceFeaturesElement(system.guid());
-                feature.CssClass("icon-envelope pull-left");
+                feature.CssClass("icon-list-ol pull-left");
                 feature.Name("Features");
                 customElements.push(feature);
 
