@@ -1,14 +1,24 @@
-﻿/// <reference path="../schemas/sph.domain.g.js" />
+﻿/// <reference path="../objectbuilders.js" />
+/// <reference path="../services/datacontext.js" />
+/// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
+/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
+/// <reference path="../../Scripts/google-maps-3-vs-1-0-vsdoc.js" />
+
 
 var bespoke = bespoke || {};
 bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
 
-bespoke.sph.domain.SpacePartial = function () {
+bespoke.sph.domain.SpacePartial = function (model) {
 
     var system = require('durandal/system'),
+        context = require(objectbuilders.datacontext),
+        logger = require(objectbuilders.logger),
         getCustomField = function (name) {
             var cs = _(this.CustomFieldValueCollection()).find(function (v) {
                 return v.Name() === name;
@@ -93,17 +103,55 @@ bespoke.sph.domain.SpacePartial = function () {
             return function () {
                 self.PhotoCollection.remove(photo);
             };
+        },
+        staticMap = ko.observable(),
+        mapChanged = function (id) {
+
+            if (!id) return;
+            var pathTask = $.get("/Space/GetEncodedPath/" + id),
+                centerTask = $.get("/Space/GetCenter/" + id);
+            $.when(pathTask, centerTask)
+                .then(function (path, center) {
+                    if (center[0]) {
+                        var location = center[0],
+                            url = String.format("http://maps.google.com/maps/api/staticmap?center={0},{1}&"
+                                + "size=640x300&markers={0},{1}&sensor=false", location.Lat, location.Lng);
+                        staticMap(url);
+                    }
+                });
+        },
+        saveMap = function (map) {
+            var tcs = new $.Deferred();
+            context
+                 .post(JSON.stringify(map), "/Space/SaveMap")
+                 .then(function (e) {
+                     tcs.resolve(true);
+                     logger.log("Map has been successfully saved ", e, "buildingdetail", true);
+                     mapChanged(map.spaceId);
+
+                 });
+            return tcs.promise();
         };
+
+    if (typeof model.SpaceId === "number") {
+        mapChanged(model.SpaceId);
+    }
+    if (typeof model.SpaceId === "function") {
+        mapChanged(model.SpaceId());
+        model.SpaceId.subscribe(mapChanged);
+    }
+
     return {
         CustomField: getCustomField,
         CustomList: getCustomList,
         addCustomListItem: addCustomListItem,
         removeCustomListItem: removeCustomListItem,
-        StaticMap: ko.observable("/images/no-image.png"),
+        staticMap: staticMap,
         ApplicationTemplateOptions: ko.observableArray([]),
         addPhoto: addPhoto,
         editPhoto: editPhoto,
-        removePhoto: removePhoto
+        removePhoto: removePhoto,
+        saveMap: saveMap
     };
 };
 

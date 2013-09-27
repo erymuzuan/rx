@@ -33,7 +33,7 @@ namespace Bespoke.Sph.Domain
     {
         [XmlAttribute]
         public string CreatedBy { get; set; }
-       
+
         [XmlAttribute]
         public DateTime CreatedDate { get; set; }
 
@@ -65,6 +65,13 @@ namespace Bespoke.Sph.Domain
             var id = type.GetProperties().AsQueryable().Single(p => p.PropertyType == typeof(int)
                                                                     && p.Name == type.Name + "Id");
             return (int)id.GetValue(this);
+        }
+        public void SetId(int id)
+        {
+            var type = this.GetEntityType(this);
+            var idp = type.GetProperties().AsQueryable().Single(p => p.PropertyType == typeof(int)
+                                                                    && p.Name == type.Name + "Id");
+            idp.SetValue(this, id);
         }
     }
 

@@ -142,7 +142,6 @@ define(['services/datacontext',
             mapInitialized = ko.observable(false),
             geoCode = function (address) {
 
-                var point = new google.maps.LatLng(3.1282, 101.6441);
 
                 return mapvm.geocode(address)
                   .then(function (result) {
@@ -156,6 +155,7 @@ define(['services/datacontext',
                               center: result.point
                           });
                       } else {
+                          var point = new google.maps.LatLng(3.1282, 101.6441);
                           mapvm.init({
                               panel: 'map',
                               draw: true,
@@ -201,7 +201,7 @@ define(['services/datacontext',
                         panel: 'map',
                         draw: true,
                         polygoncomplete: polygoncomplete,
-                        markercomplete : markercomplete,
+                        markercomplete: markercomplete,
                         zoom: center[0] ? 18 : 12,
                         center: point
                     });
@@ -215,7 +215,7 @@ define(['services/datacontext',
                         if (shape.type === 'marker') {
                             pointMarker = shape;
                         }
-                        
+
                         if (shape.type === 'polygon') {
                             buildingPolygon = shape;
                         }
@@ -240,10 +240,9 @@ define(['services/datacontext',
                     logger.error("No shape");
                     return false;
                 }
-                var tcs = new $.Deferred(),
-                    data = {
-                        buildingId: vm.building().BuildingId()
-                    };
+                var data = {
+                    buildingId: vm.building().BuildingId()
+                };
                 if (buildingPolygon) {
                     data.path = mapvm.getEncodedPath(buildingPolygon);
                 }
@@ -253,12 +252,7 @@ define(['services/datacontext',
                         lng: pointMarker.getPosition().lng()
                     };
                 }
-                context
-                    .post(JSON.stringify(data), "/Building/SaveMap")
-                    .then(function (e) {
-                        logger.log("Map has been successfully saved ", e, "buildingdetail", true);
-                    });
-                return tcs.promise();
+                return vm.building().saveMap(data);
 
             },
             viewAttached = function () {
@@ -304,7 +298,7 @@ define(['services/datacontext',
             viewAttached: viewAttached,
             removeFloorCommand: removeFloor,
             title: 'Perincian Bangunan',
-            cultures : cultures,
+            cultures: cultures,
             toolbar: {
                 watchCommand: function () { return watcher.watch("Building", vm.building().BuildingId()); },
                 unwatchCommand: function () { return watcher.unwatch("Building", vm.building().BuildingId()); },

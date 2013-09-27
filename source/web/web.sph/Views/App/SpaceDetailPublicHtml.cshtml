@@ -4,22 +4,27 @@
     ViewBag.Title = "title";
     Layout = null;
 }
-<div id="space-public-panel" class="form-horizontal form" data-bind="with: space">
+<div id="space-public-panel" class="container-fluid" data-bind="with: space">
     <h1 data-bind="text: Category"></h1>
-    <div id="map-space" class="google-maps span12">
+    
+    
+    <div id="map-space" class="google-maps row">
     </div>
 
-    <div>
-        <span data-bind="text:RegistrationNo"></span>
-    </div>
-    <div>
-        <div class="space-gallery-panel" data-bind="foreach :PhotoCollection">
-            <a href="/#" data-bind="attr : {title : Title}, click:$root.showPhoto" data-gallery="">
-                <img data-bind="attr : {src:'/image/store/' + ThumbnailStoreId()}" />
-            </a>
+    <div class="row">
+        <div>
+            <span data-bind="text:RegistrationNo"></span>
+        </div>
+        <div>
+            <div class="space-gallery-panel" data-bind="foreach :PhotoCollection">
+                <a href="/#" data-bind="attr : {title : Title}, click:$root.showPhoto" data-gallery="">
+                    <img data-bind="attr : {src:'/image/store/' + ThumbnailStoreId()}" />
+                </a>
+            </div>
         </div>
     </div>
-    <div data-bind="html:Description">
+
+    <div class="row" data-bind="html:Description">
 
     </div>
 

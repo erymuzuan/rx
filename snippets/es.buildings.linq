@@ -1,9 +1,9 @@
 <Query Kind="Program">
   <Connection>
-    <ID>84e06ebb-98ea-4fa0-a47c-8535465a77e6</ID>
+    <ID>b3819c1f-fba2-4316-80ee-6e094a070d4a</ID>
     <Persist>true</Persist>
-    <Server>.\KATMAI</Server>
-    <Database>Sph</Database>
+    <Server>(localdb)\Projects</Server>
+    <Database>sph</Database>
   </Connection>
   <Reference Relative="..\bin\Debug\domain.sph.dll">C:\project\work\sph\bin\Debug\domain.sph.dll</Reference>
   <Reference Relative="..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll">C:\project\work\sph\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</Reference>

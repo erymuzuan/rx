@@ -10,30 +10,30 @@ namespace web.test.Space
 {
     public class SpaceBaseTest : BrowserTest
     {
-        public void CreateNewSpace(TestUser user, string templateName, string spaceRegistrationKey)
+        private const string SPACE_TEMPLATE_NAME = "Cafeteria Template";
+        public const string BUILDING_NAME = "Bangunan Komersil Di Putrajaya (UJIAN)";
+        public const string BUILDING_TEMPLATE_NAME = "Bangunan Komersil";
+        
+        public void CreateNewSpace(TestUser user, string spaceRegistrationKey)
         {
-            var templateId = this.GetDatabaseScalarValue<int>("SELECT [SpaceTemplateId] FROM [Sph].[SpaceTemplate] WHERE [Name] =@Name",
-                new SqlParameter("@Name", templateName));
+            var spaceTemplateId = this.GetDatabaseScalarValue<int>("SELECT [SpaceTemplateId] FROM [Sph].[SpaceTemplate] WHERE [Name] =@Name",
+                new SqlParameter("@Name", SPACE_TEMPLATE_NAME));
 
-            var building = this.GetDatabaseScalarValue<int>("SELECT COUNT(*) FROM [Sph].[Building] WHERE [Name] = @Name",
-                    new SqlParameter("@Name", _100_BuildingTest.BUILDING_NAME));
             var permohonanId =
                 this.GetDatabaseScalarValue<int>(
                     "SELECT [ApplicationTemplateId] FROM [Sph].[ApplicationTemplate] WHERE [Name] = @Name",
                     new SqlParameter("@Name", RentalApplicationTest.APP_TEMPLATE_NAME));
-
-            Assert.AreEqual(1, building, "You'll need to run the AddBuildingTest");
-
+            
             var driver = this.InitiateDriver();
             driver.Login(user);
             driver.NavigateToUrl("/#/space.list", 2.Seconds());
-            driver.NavigateToUrl(String.Format("/#/space.detail-templateid.{0}/{0}/0/-/0", templateId), 3.Seconds());
+            driver.NavigateToUrl(String.Format("/#/space.detail-templateid.{0}/{0}/0/-/0", spaceTemplateId), 3.Seconds());
             driver
                 .Value("[name=RegistrationNo]", spaceRegistrationKey)
                 .Click("#select-lot-button")
                 .Sleep(2.Seconds());
 
-            driver.SelectOption("[name=selectedBuilding]", _100_BuildingTest.BUILDING_NAME)
+            driver.SelectOption("[name=selectedBuilding]", BUILDING_NAME)
                 .Sleep(1.Seconds())
                 .SelectOption("[name=selectedFloor]", "1st Floor")
                 .Sleep(1.Seconds())
@@ -123,130 +123,6 @@ namespace web.test.Space
             Console.WriteLine("Space [ID:{0}] added", spaceRegistrationKey);
         }
 
-        public void CreateSpaceTemplate(TestUser user, string templateName)
-        {
-            var driver = this.InitiateDriver();
-            driver.Login(user);
-
-            driver.NavigateToUrl("/#space.template.list", 2.Seconds())
-                   .NavigateToUrl("/#/template.space-id.0/0", 3.Seconds());
-
-            // add elements
-            driver.Value("[name=Space-template-category]", templateName)
-                  .Value("[name=Space-template-name]", templateName)
-                  .Click("[id=template-isactive]")
-                  .Value("[id=form-design-name]", templateName)
-                  .Value("[id=form-design-description]", templateName);
-
-            //No Daftar
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Single line text")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "No Daftar")
-                  .Value("[name=Path]", "RegistrationNo");
-
-
-            // Bangunan
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Building")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Nama Bangunan")
-                  .Value("[name=Path]", "BuildingName");
-
-            // No Lot
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Lot")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Lot")
-                  .Value("[name=Path]", "LotName");
-
-            // Nama Cafe
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Single line text")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Nama Cafe")
-                  .Value("[name=Path]", "Cafe Name");
-
-            // alamat
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Address")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Alamat")
-                  .Value("[name=Path]", "Address");
-
-            // peralatan / perkakas yang tersedia
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "List")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "+ Peralatan / Perkakasan")
-                  .Value("[name=Path]", "EquipmentCollection")
-                  .ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
-                  .Value(".custom-list-name", "Nama")
-                  .SelectOption(".custom-list-type", "String");
-
-            //add 2nd list
-            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
-                  .Value(".custom-list-name", "Jenis", 1)
-                  .SelectOption(".custom-list-type", "String", 1);
-
-            //add 3rd list
-            driver.ClickFirst("a", e => e.GetAttribute("data-bind") == "click: addCustomField")
-                  .Value(".custom-list-name", "Kuantiti", 2)
-                  .SelectOption(".custom-list-type", "Int", 2);
-
-            // sewa
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Single line text")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Sewa dicadangkan")
-                  .Value("[name=Path]", "RentalRate");
-
-            // contact
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Single line text")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Pegawai Untuk Dihubungi")
-                  .Value("[name=Path]", "ContactPerson");
-
-            // contact
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Features")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Feature Collection")
-                  .Value("[name=Path]", "FeatureCollection");
-
-            // IsAvailable
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Checkboxes")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Permohonan Dibuka")
-                  .Value("[name=Path]", "IsAvailable");
-
-            // IsOnline
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Checkboxes")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Permohonan Online")
-                  .Value("[name=Path]", "IsOnline");
-
-            // HTML
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "HTML")
-                  .Value("[name=html-text]", "Sila pastikan maklumat ruang lengkap sebelum klik butang SIMPAN");
-
-            //save
-            driver.Click("#save-button");
-            driver.Sleep(5.Seconds());
-
-            var count = this.GetDatabaseScalarValue<int>("SELECT COUNT([SpaceTemplateId]) FROM [Sph].[SpaceTemplate] WHERE [Name] = @Name", new SqlParameter("@Name", templateName));
-            Assert.AreEqual(count, 1);
-
-            driver.Sleep(TimeSpan.FromSeconds(2));
-            driver.NavigateToUrl("/#space.template.list");
-            driver.Sleep(TimeSpan.FromSeconds(5), "See the result");
-            driver.Quit();
-        }
-
         public void DeleteSpace(string spaceRegistrationNo)
         {
             this.ExecuteNonQuery("DELETE FROM [Sph].[Space] WHERE [RegistrationNo] = @No",
@@ -254,57 +130,36 @@ namespace web.test.Space
             Console.WriteLine("Space deleted.");
         }
 
-        public void DeleteSpaceTemplate(string templateName)
-        {
-            this.ExecuteNonQuery("DELETE FROM [Sph].[SpaceTemplate] WHERE [Name] = @Name",
-                new SqlParameter("@Name", templateName));
-            Console.WriteLine("Space template deleted.");
-
-        }
-
-        public void DeleteBuildingTemplate(string templateName)
-        {
-            this.ExecuteNonQuery("DELETE FROM [Sph].[BuildingTemplate] WHERE [Name] = @Name",
-                new SqlParameter("@Name", templateName));
-            Console.WriteLine("Building template [{0}] successfully deleted.", templateName);
-        }
-
-        public void DeleteBuilding(string buildingName)
-        {
-            this.ExecuteNonQuery("DELETE FROM [Sph].[Building] WHERE [Name] = @Name",
-                new SqlParameter("@Name", buildingName));
-            Console.WriteLine("Building [{0}] successfully deleted.", buildingName);
-        }
-
-        public void CreateTestBuilding(TestUser user, string buildingTemplateName, string buildingName)
+        public void CreateAddNewSpaceSeedData(TestUser user)
         {
             //
             Console.WriteLine("Load seed data..."); 
             var db = new SqlDbUnitTest(this.ConnectionString);
 
-            db.ReadXmlSchema(@"..\..\schema\SphSchema.xsd");
-            db.ReadXml(@"..\..\data\seed.data.xml");
+            db.ReadXmlSchema(@"..\..\Space\AddNewSpaceSchema.xsd");
+            db.ReadXml(@"..\..\Space\AddNewSpaceData.xml");
             db.PerformDbOperation(DbOperationFlag.CleanInsertIdentity);
             this.ExecuteNonQuery("dbcc checkident ([Sph.BuildingTemplate], reseed, 0)");
             this.ExecuteNonQuery("dbcc checkident ([Sph.Building], reseed, 0)");
+            this.ExecuteNonQuery("dbcc checkident ([Sph.SpaceTemplate], reseed, 0)");
             var buildingTemplateCount = this.GetDatabaseScalarValue<int>("SELECT COUNT([BuildingTemplateId]) FROM [Sph].[BuildingTemplate]");
             Assert.AreEqual(1, buildingTemplateCount);
             
-            var templateId = this.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] = @Name",
-                new SqlParameter("@Name", buildingTemplateName));
-            Console.WriteLine("Loading building template ID:{0}", templateId);
+            var buildingTemplateId = this.GetDatabaseScalarValue<int>("SELECT [BuildingTemplateId] FROM [Sph].[BuildingTemplate] WHERE [Name] = @Name",
+                new SqlParameter("@Name", BUILDING_TEMPLATE_NAME));
+            Console.WriteLine("Found building template ID:{0}", buildingTemplateId);
+            Assert.IsTrue(buildingTemplateId > 0, "No building template found");
 
-            //var driver = this.InitiateDriver();
-            ////TestHelper.CreateBuilding(driver, templateId, buildingName);
+            var buildingId = this.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] = @Name",
+                new SqlParameter("@Name", BUILDING_NAME));
+            Console.WriteLine("Found building ID:{0}", buildingId);
+            Assert.IsTrue(buildingTemplateId > 0, "No building found");
 
-            ////
-            //Console.WriteLine("Creating building lots...");
-            //var buildingId = this.GetDatabaseScalarValue<int>("SELECT [BuildingId] FROM [Sph].[Building] WHERE [Name] = @Name",
-            //    new SqlParameter("@Name", buildingName));
-            //driver.Login(user);
-            //TestHelper.CreateBuildingLots(driver, templateId, buildingId, "A", "G");
 
-            //driver.Quit();
+            var spaceTemplateId = this.GetDatabaseScalarValue<int>("SELECT [SpaceTemplateId] FROM [Sph].[SpaceTemplate] WHERE [Name] = @Name",
+                new SqlParameter("@Name", SPACE_TEMPLATE_NAME));
+            Console.WriteLine("Found space template ID:{0}", spaceTemplateId);
+            Assert.IsTrue(spaceTemplateId > 0, "No space template found");
 
         }
     }

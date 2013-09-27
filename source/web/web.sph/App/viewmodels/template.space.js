@@ -25,17 +25,22 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 customElements.push(address);
 
                 var building = new bespoke.sph.domain.BuildingElement(system.guid());
-                building.CssClass("icon-envelope pull-left");
+                building.CssClass("icon-building pull-left");
                 building.Name("Building");
                 customElements.push(building);
 
+                var map = new bespoke.sph.domain.BuildingMapElement(system.guid());
+                map.CssClass("icon-globe pull-left");
+                map.Name("Map");
+                customElements.push(map);
+
                 var lot = new bespoke.sph.domain.SpaceLotsElement(system.guid());
-                lot.CssClass("icon-envelope pull-left");
+                lot.CssClass("icon-check-empty pull-left");
                 lot.Name("Lot");
                 customElements.push(lot);
 
                 var feature = new bespoke.sph.domain.SpaceFeaturesElement(system.guid());
-                feature.CssClass("icon-envelope pull-left");
+                feature.CssClass("icon-list-ol pull-left");
                 feature.Name("Features");
                 customElements.push(feature);
 
@@ -86,9 +91,14 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
 
                 context.post(data, "/Template/SaveSpaceTemplate")
                     .then(function (result) {
-                        isBusy(false);
-                        logger.info("Data has been successfully save");
-                        tcs.resolve(result);
+                        if (result.status === "OK") {
+
+                            logger.info("Data has been successfully save");
+                            tcs.resolve(result);
+                        } else {
+                            logger.error(result.message);
+                            tcs.resolve(result);
+                        }
                     });
                 return tcs.promise();
             },
@@ -126,7 +136,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                             field.TypeName(f.TypeName);
                             field.IsNullable(f.IsNullable);
                             // TODO :look for existing values
-                            var ef = _(vm.template().DefaultValueCollection()).find(function(e) {
+                            var ef = _(vm.template().DefaultValueCollection()).find(function (e) {
                                 return e.PropertyName() === f.Name;
                             });
                             if (ef) {

@@ -41,5 +41,15 @@ ADD [IsAvailable] BIT NOT NULL DEFAULT 1
 ALTER TABLE [Sph].[Space]
 ADD [RentalRate] MONEY NOT NULL DEFAULT 0
 
+
 GO
-SELECT * FROM [Sph].[Space]
+ALTER TABLE [Sph].[Space]
+ADD [Path] GEOGRAPHY NULL
+
+GO
+ALTER TABLE [Sph].[Space]
+ADD [Wkt] VARCHAR(MAX) NULL
+
+GO
+ALTER TABLE [Sph].[Space]
+ADD [EncodedWkt] VARCHAR(MAX) NULL

@@ -37,7 +37,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
 
                         var templates = space.ApplicationTemplateOptions().join(",");
                         context.loadAsync("ApplicationTemplate", String.format("ApplicationTemplateId in ({0})", templates))
-                            .done(function(lo) {
+                            .done(function (lo) {
                                 vm.applicationTemplates(lo.itemCollection);
                             });
                     });
@@ -51,44 +51,49 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                 // load map
 
                 var buildingId = vm.building().BuildingId(),
-                    point = new google.maps.LatLng(3.1282, 101.6441),
                     pathTask = $.get("/Building/GetEncodedPath/" + buildingId),
                     centerTask = $.get("/Building/GetCenter/" + buildingId);
 
                 $.when(pathTask, centerTask)
                 .then(function (path, center) {
-                    if (center[0]) {
-                        point = new google.maps.LatLng(center[0].Lat, center[0].Lng);
-                    } else {
+                    if (!center[0]) {
                         $('#map-space').hide();
                         return;
                     }
-                    var staticMap = String.format("http://maps.googleapis.com/maps/api/staticmap?size=640x300&markers="+
-                        "icon:{2}&center={0},{1}&sensor=false&zoom=18",
-                        point.lat(), point.lng(),"https://s3-ap-southeast-1.amazonaws.com/sph.my/map-icons/office-building.png");
-                    $('#map-space').html('<img src="' + staticMap + '" alt="map"/>')
-                        .one('click', function () {
 
+                    var $panel = $('#map-space'),
+                            staticMap = String.format("http://maps.googleapis.com/maps/api/staticmap?size=640x300&markers=" +
+                        "icon:{2}%7C{0},{1}&center={0},{1}&sensor=false&zoom=18",
+                        center[0].Lat, center[0].Lng, "http://s3-ap-southeast-1.amazonaws.com/sph.my/map-icons/office-building.png"),
+                        height = $panel.css("min-height");
+                    
+
+                    $panel.css("min-height", 300).html('<img src="' + staticMap + '" alt="map"/>')
+                        .one('click', function () {
+                            $panel.css("min-height", height);
+                            
                             map.init({
                                 panel: 'map-space',
-                                zoom: center[0] ? 18 : 12,
-                                center: point
-                            });
-                            if (path[0]) {
-                                var shape = map.add({
-                                    encoded: path[0],
-                                    draggable: false,
-                                    editable: false,
-                                    zoom: 18,
-                                    icon: '/images/maps/office-building.png'
+                                zoom: center[0] ? 18 : 12
+                            })
+                                .done(function () {
+                                    map.setCenter(center[0].Lat, center[0].Lng);
+                                    if (path[0]) {
+                                        map.add({
+                                            encoded: path[0],
+                                            draggable: false,
+                                            editable: false,
+                                            zoom: 18,
+                                            icon: '/images/maps/office-building.png'
+                                        });
+                                    }
                                 });
-                            }
 
                         });
 
 
                 });
-                
+
 
             },
             showPhoto = function (photo) {
@@ -103,9 +108,9 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             viewAttached: viewAttached,
             space: ko.observable(new bespoke.sph.domain.Space()),
             building: ko.observable(new bespoke.sph.domain.Building()),
-            photo : ko.observable(new bespoke.sph.domain.Photo()),
+            photo: ko.observable(new bespoke.sph.domain.Photo()),
             showPhoto: showPhoto,
-            applicationTemplates : ko.observableArray()
+            applicationTemplates: ko.observableArray()
         };
 
 

@@ -17,7 +17,7 @@ namespace web.test
                 Designation = "Space Admin Manager",
                 Password = "abcad12334535",
                 StartModule = "space.list",
-                Roles = new[] { "can_add_space", "can_edit_space", "can_edit_space_template", "can_edit_building_template" }
+                Roles = new[] { "can_add_space", "can_edit_space", "can_edit_space_template", "can_add_building", "can_edit_building_template" }
             };
             return spaceAdminUser;
         }
@@ -80,12 +80,12 @@ namespace web.test
 
         public static void CreateBuildingLots(IWebDriver driver, int templateId, int buildingId, string blockName, string floorName)
         {
-            var url = String.Format("/#/building.detail-templateid.{0}/{0}/{1}", templateId, buildingId);
-            Console.WriteLine(url);
+            //var url = String.Format("/#/building.detail-templateid.{0}/{0}/{1}", templateId, buildingId);
+            //Console.WriteLine(url);
 
-            url = String.Format("/#/lotdetail/{0}/{1}/{2}", buildingId, blockName, floorName);
+            var url = String.Format("/#/lotdetail/{0}/{1}/{2}", buildingId, blockName, floorName);
             Console.WriteLine(url);
-            driver.NavigateToUrl(url, 5.Seconds());
+            driver.NavigateToUrl(url, 2.Seconds());
 
             driver.Click("#add-new-lot")
             .Value(".input-lot-name", "Lot 1")

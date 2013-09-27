@@ -10,3 +10,10 @@
   vertical-align: middle;
   cursor: pointer;
 }
+section#map-panel.modal {
+  width: 800px;
+}
+.space-gallery-panel {
+  padding: 10px;
+  background-color: #e2e2e2;
+}

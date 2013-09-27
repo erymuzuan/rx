@@ -160,7 +160,7 @@
     "error": ""
   },
   {
-    "role": "can_add_space",
+    "role": "can_add_building",
     "groupName": null,
     "url": "building.list",
     "moduleId": "viewmodels/building.list",
@@ -240,7 +240,7 @@
     "error": ""
   },
   {
-    "role": "can_add_space",
+    "role": "can_add_building",
     "groupName": null,
     "url": "building.bound",
     "moduleId": "viewmodels/building.bound",
@@ -253,7 +253,7 @@
     "error": ""
   },
   {
-    "role": "can_add_space",
+    "role": "can_add_building",
     "groupName": null,
     "url": "building.detail/:templateId/:id",
     "moduleId": "viewmodels/building.detail",

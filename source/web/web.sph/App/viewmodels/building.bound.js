@@ -21,7 +21,9 @@ define(['services/datacontext',
         var isBusy = ko.observable(false),
             isZoom = false,
             buildingCollection = ko.observableArray(),
+            center =  new google.maps.LatLng(3.1282, 101.6441),
             activate = function () {
+                logger.info("Loading map....");
                 return true;
             },
             viewAttached = function () {
@@ -39,17 +41,16 @@ define(['services/datacontext',
                     g.polygon.setOptions({ fillColor: "white" });
                 });
                 b.polygon.setOptions({ fillColor: "#FF2800" });
-                /* 
-                isZoom = true;
-                mapvm.setZoom(16);
-                mapvm.setCenter(mapvm.getCenter(b.polygon));
-                */
                 isZoom = false;
                 vm.selectedBuilding(b.building);
-            };
+            },
+             deactivate = function() {
+                 center = mapvm.getMapCenter();
+             };
 
         var vm = {
             activate: activate,
+            deactivate : deactivate,
             viewAttached: viewAttached,
             highlightCommand: highlight,
             buildingCollection: buildingCollection,
@@ -61,11 +62,12 @@ define(['services/datacontext',
 
 
         function createMap() {
-            var point = new google.maps.LatLng(3.1282, 101.6441);
+            $('#map-buildingbound').html('<img alt="loading" src="/Images/spinner-md.gif">');
+            buildingCollection.removeAll();
             mapvm.init({
                 panel: 'map-buildingbound',
                 zoom: 13,
-                center: point,
+                center: center,
                 idle: idle
             });
         }
@@ -82,8 +84,12 @@ define(['services/datacontext',
             $.get("/Map/Get/" + bound)
                 .then(function (list) {
 
-                    mapvm.clear();
-                    var markers = _.map(list, function (b) {
+                    var markers = _(list).chain().map(function (b) {
+
+                        var exist = _(buildingCollection()).find(function (v) {
+                            return v.building.BuildingId() === b.BuildingId;
+                        });
+                        if (exist) return null;
 
                         var marker = mapvm.add({
                             encoded: b.EncodedWkt,
@@ -97,21 +103,28 @@ define(['services/datacontext',
                             icon: '/images/maps/office-building.png'
                         }),
                             info = new google.maps.InfoWindow({
-                                content: $('#selected-building-panel').html(),
-                                maxWidth : 400
+                                content: '<img alt="loading" src="/Images/spinner-md.gif">',
+                                maxWidth: 400
                             });
                         google.maps.event.addListener(marker, 'click', function () {
                             vm.selectedBuilding(b);
                             info.open(marker.getMap(), marker);
+                            info.setContent($('#selected-building-panel').html());
                         });
 
                         return {
                             building: ko.mapping.fromJS(b),
-                            polygon:marker 
+                            polygon: marker
                         };
-                    });
-                    buildingCollection(markers);
-                    tcs.resolve(list);
+                    })
+                        .each(function (m) {
+                            if (null !== m) {
+                                buildingCollection.push(m);
+                            }
+                        })
+                        .value();
+
+                    tcs.resolve(markers);
                 });
 
             return tcs.promise();
