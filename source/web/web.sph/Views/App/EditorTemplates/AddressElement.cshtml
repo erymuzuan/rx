@@ -8,7 +8,7 @@
         <div class="control-group">
             <label class="control-label">No Unit</label>
             <div class="controls">
-                <input class="input-large" type="text" data-bind="value: UnitNo" />
+                <input class="input-xlarge" type="text" data-bind="value: UnitNo" />
             </div>
         </div>
         
@@ -23,12 +23,12 @@
             @if (!string.IsNullOrWhiteSpace(Model.BlockOptionsPath))
             {
                 
-            <select class="input-large" data-bind="value:Block, options :@Model.BlockOptionsPath"></select>
+            <select class="input-xlarge" data-bind="value:Block, options :@Model.BlockOptionsPath"></select>
             }
             else
             {
   
-            <input class="input-large" type="text" data-bind="value:Block" />
+            <input class="input-xlarge" type="text" data-bind="value:Block" />
             }
         </div>
     </div>
@@ -39,7 +39,7 @@
     <div class="control-group">
         <label class="control-label">Tingkat</label>
         <div class="controls">
-            <input class="input-large" type="text" data-bind="value:Floor" />
+            <input class="input-xlarge" type="text" data-bind="value:Floor" />
         </div>
     </div>
 
@@ -49,26 +49,26 @@
     <div class="control-group">
         <label for="address.Street" class="control-label">Jalan</label>
         <div class="controls">
-            <input class="input-xxlarge" data-bind="value: Street" id="address.Street" type="text" name="address.Street" />
+            <input class="input-xlarge" data-bind="value: Street" id="address.Street" type="text" name="address.Street" />
         </div>
     </div>
 
     <div class="control-group">
         <label for="address.City" class="control-label">Bandar/Daerah</label>
         <div class="controls">
-            <input data-bind="value: City" id="address.City" type="text" name="address.City" />
+            <input class="input-xlarge" data-bind="value: City" id="address.City" type="text" name="address.City" />
         </div>
     </div>
     <div class="control-group">
         <label for="address.Postcode" class="control-label">Poskod</label>
         <div class="controls">
-            <input data-bind="value: Postcode" id="address.Postcode" type="text" name="address.Postcode" />
+            <input class="input-xlarge" data-bind="value: Postcode" id="address.Postcode" type="text" name="address.Postcode" />
         </div>
     </div>
     <div class="control-group">
         <label for="address.State" class="control-label">Negeri</label>
         <div class="controls">
-            <select name="address.State" id="address.State" data-bind="value: State, options: $root.stateOptions, optionsText: 'Name', optionsValue: 'Name', optionsCaption: '[Sila Pilih]'"></select>
+            <select class="input-xlarge" name="address.State" id="address.State" data-bind="value: State, options: $root.stateOptions, optionsText: 'Name', optionsValue: 'Name', optionsCaption: '[Sila Pilih]'"></select>
         </div>
     </div>
 </div>
