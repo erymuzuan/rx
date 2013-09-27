@@ -96,6 +96,9 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
 
                         space.TemplateName(template.Name());
                         space.TemplateId(templateId);
+                        if (!space.MapIcon()) space.MapIcon(template.DefaultMapIcon());
+                        if (!space.SmallIcon()) space.SmallIcon(template.DefaultSmallIcon());
+                        if (!space.Icon()) space.Icon(template.DefaultIcon());
                         // NOTE : the browser keeps the value as string
                         space.ApplicationTemplateOptions(_(space.ApplicationTemplateOptions()).map(function (v) {
                             return v.toString();

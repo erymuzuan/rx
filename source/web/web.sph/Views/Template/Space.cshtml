@@ -51,8 +51,28 @@
                         <div class="control-group">
                             <label for="default-map-icon" class="control-label">Map icon</label>
                             <div class="controls">
+                                <!-- ko if : DefaultMapIcon -->
                                 <img data-bind="attr: { src: '/image/store/' + DefaultMapIcon()}" src="/Images/no-image.png" alt="map icon" />
+                                <!--/ko-->
                                 <input type="file" data-bind="kendoUpload: DefaultMapIcon" id="default-map-icon" name="files" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="default-map-icon" class="control-label">Small icon</label>
+                            <div class="controls">
+                                <!-- ko if : DefaultSmallIcon -->
+                                <img data-bind="attr: { src: '/image/store/' + DefaultSmallIcon()}" src="/Images/no-image.png" alt="map icon" />
+                                <!--/ko-->
+                                <input type="file" data-bind="kendoUpload: DefaultSmallIcon" id="default-map-icon" name="files" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="default-map-icon" class="control-label">icon</label>
+                            <div class="controls">
+                                <!-- ko if : DefaultIcon -->
+                                <img data-bind="attr: { src: '/image/store/' + DefaultIcon()}" src="/Images/no-image.png" alt="map icon" />
+                                <!--/ko-->
+                                <input type="file" data-bind="kendoUpload: DefaultIcon" id="default-map-icon" name="files" />
                             </div>
                         </div>
                     </form>

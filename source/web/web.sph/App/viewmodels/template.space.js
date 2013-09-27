@@ -12,8 +12,7 @@
 define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger', 'config'],
     function (context, system, designerHost, eximp, logger, config) {
 
-        var isBusy = ko.observable(false),
-            templateId = ko.observable(),
+        var templateId = ko.observable(),
             activate = function (routeData) {
 
 

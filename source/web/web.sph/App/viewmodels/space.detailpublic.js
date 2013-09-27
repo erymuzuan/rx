@@ -75,13 +75,14 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                             })
                                 .done(function () {
                                     map.setCenter(center[0].Lat, center[0].Lng);
+                                    var icon = vm.space().MapIcon() ? '/image/store/' + vm.space().MapIcon() : '/images/maps/office-building.png';
                                     if (path[0]) {
                                         map.add({
                                             encoded: path[0],
                                             draggable: false,
                                             editable: false,
                                             zoom: 18,
-                                            icon: '/images/maps/office-building.png'
+                                            icon: icon
                                         });
                                     }
                                 });
