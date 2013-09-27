@@ -41,8 +41,6 @@ ADD [IsAvailable] BIT NOT NULL DEFAULT 1
 ALTER TABLE [Sph].[Space]
 ADD [RentalRate] MONEY NOT NULL DEFAULT 0
 
-GO
-SELECT * FROM [Sph].[Space]
 
 GO
 ALTER TABLE [Sph].[Space]

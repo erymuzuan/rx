@@ -96,6 +96,10 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
 
                         space.TemplateName(template.Name());
                         space.TemplateId(templateId);
+                        // NOTE : the browser keeps the value as string
+                        space.ApplicationTemplateOptions(_(space.ApplicationTemplateOptions()).map(function (v) {
+                            return v.toString();
+                        }));
                         vm.selectedBuilding(space.BuildingId());
                         vm.space(space);
 
@@ -222,7 +226,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                         markercomplete: markercomplete,
                         zoom: center[0] ? 18 : 12
                     }).done(function () {
-                        map.setCenter(new google.maps.LatLng(center[0].Lat, center[0].Lng));
+                        map.setCenter(center[0].Lat, center[0].Lng);
                         if (path[0]) {
                             var shape = map.add({
                                 encoded: path[0],

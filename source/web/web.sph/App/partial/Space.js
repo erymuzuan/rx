@@ -14,7 +14,7 @@ var bespoke = bespoke || {};
 bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
 
-bespoke.sph.domain.SpacePartial = function () {
+bespoke.sph.domain.SpacePartial = function (model) {
 
     var system = require('durandal/system'),
         context = require(objectbuilders.datacontext),
@@ -108,8 +108,8 @@ bespoke.sph.domain.SpacePartial = function () {
         mapChanged = function (id) {
 
             if (!id) return;
-            var pathTask = $.get("/Building/GetEncodedPath/" + id),
-                centerTask = $.get("/Building/GetCenter/" + id);
+            var pathTask = $.get("/Space/GetEncodedPath/" + id),
+                centerTask = $.get("/Space/GetCenter/" + id);
             $.when(pathTask, centerTask)
                 .then(function (path, center) {
                     if (center[0]) {
@@ -127,12 +127,19 @@ bespoke.sph.domain.SpacePartial = function () {
                  .then(function (e) {
                      tcs.resolve(true);
                      logger.log("Map has been successfully saved ", e, "buildingdetail", true);
-                     mapChanged(map.buildingId);
+                     mapChanged(map.spaceId);
 
                  });
             return tcs.promise();
         };
-    
+
+    if (typeof model.SpaceId === "number") {
+        mapChanged(model.SpaceId);
+    }
+    if (typeof model.SpaceId === "function") {
+        mapChanged(model.SpaceId());
+        model.SpaceId.subscribe(mapChanged);
+    }
 
     return {
         CustomField: getCustomField,
