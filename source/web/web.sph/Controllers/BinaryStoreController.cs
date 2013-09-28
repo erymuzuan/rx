@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -16,13 +18,34 @@ namespace Bespoke.Sph.Web.Controllers
 
             foreach (var file in files)
             {
-                var fileName = System.IO.Path.GetFileName(file.FileName);
-                var extension = System.IO.Path.GetExtension(file.FileName);
-                System.IO.Stream stream = file.InputStream;  //initialise new stream
-                var content = new byte[stream.Length];
-                stream.Read(content, 0, content.Length); // read from stream to byte array
+                var fileName = Path.GetFileName(file.FileName);
+                var extension = Path.GetExtension(file.FileName) ?? "";
+                byte[] content;
+                Console.WriteLine("EXT " + extension);
+                if (extension.ToLowerInvariant() == ".jpg") // resize this
+                {
+                    Console.WriteLine("RESIZING image");
+                    using (var stream = new MemoryStream())
+                    {
+                        var setting = string.Format("width={0};format=jpg;mode=max",
+                            ConfigurationManager.AppSettings["jpg.max.width"]);
+                        var i = new ImageResizer.ImageJob(file, stream, new ImageResizer.ResizeSettings(setting)) { CreateParentDirectory = true };
+                        i.Build();
 
-                var gpx = new BinaryStore
+                        content = stream.ToArray();
+                    }
+                }
+                else
+                {
+                    var stream = file.InputStream;  //initialise new stream
+                    content = new byte[stream.Length];
+                    stream.Read(content, 0, content.Length); // read from stream to byte array
+
+                }
+
+
+
+                var document = new BinaryStore
                 {
                     Content = content,
                     Extension = extension,
@@ -31,7 +54,7 @@ namespace Bespoke.Sph.Web.Controllers
                     FileName = fileName
                 };
                 var binaryStore = ObjectBuilder.GetObject<IBinaryStore>();
-                await binaryStore.AddAsync(gpx);
+                await binaryStore.AddAsync(document);
 
 
             }
@@ -55,7 +78,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Remove(string fileNames)
         {
             var storeId = Session["GpxStoreId"] as string;
-            if (string.IsNullOrWhiteSpace(storeId)) return Json(new { OK = true });
+            if (string.IsNullOrWhiteSpace(storeId)) return Json(new { OK = false });
 
             var binaryStore = ObjectBuilder.GetObject<IBinaryStore>();
             await binaryStore.DeleteAsync(storeId);

@@ -5,19 +5,22 @@
 
 
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-    function(context, logger, router) {
+    function (context, logger, router) {
 
         var isBusy = ko.observable(false),
-            activate = function() {
+            activate = function () {
 
             },
-            viewAttached = function(view) {
+            viewAttached = function (view) {
 
             },
-            okClick = function() {
-                this.modal.close("OK");
+            okClick = function (data, ev) {
+                if (ev.target.form.checkValidity()) {
+                    this.modal.close("OK");
+                }
+
             },
-            cancelClick = function() {
+            cancelClick = function () {
                 this.modal.close("Cancel");
             };
 
@@ -27,9 +30,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             viewAttached: viewAttached,
             photo: ko.observable(new bespoke.sph.domain.Photo()),
             okClick: okClick,
-            cancelClick : cancelClick
+            cancelClick: cancelClick
         };
-        
+
 
         return vm;
 

@@ -19,7 +19,7 @@
         <div>
             <div class="space-gallery-panel" data-bind="foreach :PhotoCollection">
                 <a href="/#" data-bind="attr : {title : Title}, click:$root.showPhoto" data-gallery="">
-                    <img data-bind="attr : {src:'/image/store/' + ThumbnailStoreId()}" />
+                    <img alt="photo" src="~/Images/no-image.png" data-bind="attr: { src: '/image/Thumbnail/' + StoreId() }" />
                 </a>
             </div>
         </div>
@@ -65,12 +65,14 @@
     </div>
     <div class="modal-body">
         <p>
-            <img data-bind="attr : {src:'/image/store/' + StoreId()},alt: Description" />
+            <img src="~/Images/spinner-md.gif" alt="Photo" data-bind="attr : {src:'/image/store/' + StoreId()},alt: Description" />
         </p>
         <p data-bind="text:Description"></p>
     </div>
 
     <div class="modal-footer">
+        <a href="#" class="btn btn-primary" data-bind="click : $root.photoBack">&lt;</a>
+        <a href="#" class="btn btn-primary" data-bind="click : $root.photoForward">&gt;</a>
         <a href="#" class="btn" data-dismiss="modal">Tutup</a>
     </div>
 </section>

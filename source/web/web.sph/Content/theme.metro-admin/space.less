@@ -32,8 +32,7 @@ section#map-panel.modal {
 
     a > img {
         background-color: #808080;
-        width: 200px;
-        height: 200px;
+        height: 150px;
         padding: 8px;
     }
 }
@@ -42,4 +41,34 @@ div#space-application-panel {
     position: absolute;
     top: 120px;
     right: 90px;
+}
+
+
+#photo-dialog {
+    width: 800px;
+    .modal-body {
+        max-height:600px;
+        width:760px;
+    }
+}
+
+
+.photo-dialog {
+    width: 800px;
+
+    .modal-body {
+        height: 800px;
+        width: 760px;
+    }
+
+    input:invalid, textarea:invalid {
+        
+        background-image: url('/Images/star.png') !important;
+        background-repeat: no-repeat;
+        background-position: right top;
+    }
+    input:invalid:after, textarea:invalid:after {
+        
+        content: url('/Images/star.png') !important;
+    }
 }

@@ -81,6 +81,12 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\..\..\packages\EntityFramework.6.0.0-beta1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="ImageResizer">
+      <HintPath>..\..\..\packages\ImageResizer.3.3.3\lib\ImageResizer.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer.Mvc">
+      <HintPath>..\..\..\packages\ImageResizer.Mvc.3.3.3\lib\ImageResizer.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Invoke.Docx, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\dependencies\word.document.generator\bin\Debug\Invoke.Docx.dll</HintPath>
@@ -774,12 +780,17 @@
     <Content Include="Images\pic2.png" />
     <Content Include="Images\pic3.png" />
     <Content Include="Images\pic4.png" />
+    <Content Include="Images\pie-chart.png" />
     <Content Include="Images\quarters.png" />
+    <Content Include="Images\remove_icon.png" />
     <Content Include="Images\report-layout.1.png" />
     <Content Include="Images\report-layout.2.png" />
     <Content Include="Images\rumah_peranginan.png" />
+    <Content Include="Images\save.png" />
+    <Content Include="Images\search.png" />
     <Content Include="Images\SetterAction.png" />
     <Content Include="Images\up8.png" />
+    <Content Include="Images\warning.png" />
     <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />
     <Content Include="Scripts\bootmetro-charms.js" />

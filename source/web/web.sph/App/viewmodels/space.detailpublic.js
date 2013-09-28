@@ -63,12 +63,12 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
 
                     var $panel = $('#map-space'),
                         height = $panel.css("min-height");
-                    
+
 
                     $panel.css("min-height", 300)
                         .one('click', function () {
                             $panel.css("min-height", height);
-                            
+
                             map.init({
                                 panel: 'map-space',
                                 zoom: center[0] ? 18 : 12
@@ -97,6 +97,24 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             showPhoto = function (photo) {
                 vm.photo(photo);
                 $('#photo-dialog').modal();
+            },
+            photoBack = function (photo) {
+                var photos = vm.space().PhotoCollection(),
+                    index = photos.indexOf(photo),
+                    prev = index - 1;
+                if (index === 0) {
+                    prev = photos.length - 1;
+                }
+                vm.photo(photos[prev]);
+            },
+            photoForward = function (photo) {
+                var photos = vm.space().PhotoCollection(),
+                    index = photos.indexOf(photo),
+                    next = index + 1;
+                if (index === photos.length - 1) {
+                    next = 0;
+                }
+                vm.photo(photos[next]);
             };
 
         var vm = {
@@ -108,7 +126,9 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             building: ko.observable(new bespoke.sph.domain.Building()),
             photo: ko.observable(new bespoke.sph.domain.Photo()),
             showPhoto: showPhoto,
-            applicationTemplates: ko.observableArray()
+            applicationTemplates: ko.observableArray(),
+            photoForward: photoForward,
+            photoBack: photoBack
         };
 
 

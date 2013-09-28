@@ -19,12 +19,35 @@ section#map-panel.modal {
 }
 .space-gallery-panel a > img {
   background-color: #808080;
-  width: 200px;
-  height: 200px;
+  height: 150px;
   padding: 8px;
 }
 div#space-application-panel {
   position: absolute;
   top: 120px;
   right: 90px;
+}
+#photo-dialog {
+  width: 800px;
+}
+#photo-dialog .modal-body {
+  max-height: 600px;
+  width: 760px;
+}
+.photo-dialog {
+  width: 800px;
+}
+.photo-dialog .modal-body {
+  height: 800px;
+  width: 760px;
+}
+.photo-dialog input:invalid,
+.photo-dialog textarea:invalid {
+  background-image: url('/Images/star.png') !important;
+  background-repeat: no-repeat;
+  background-position: right top;
+}
+.photo-dialog input:invalid:after,
+.photo-dialog textarea:invalid:after {
+  content: url('/Images/star.png') !important;
 }
