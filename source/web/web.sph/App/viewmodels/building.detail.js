@@ -19,7 +19,7 @@ define(['services/datacontext',
         'config',
         objectbuilders.cultures
 ],
-    function (context, router, system, app, mapvm, logger, watcher, config, cultures) {
+    function (context, router, system, app, map, logger, watcher, config, cultures) {
 
 
         var isBusy = ko.observable(false),
@@ -143,10 +143,10 @@ define(['services/datacontext',
             geoCode = function (address) {
 
 
-                return mapvm.geocode(address)
+                return map.geocode(address)
                   .then(function (result) {
                       if (result.status) {
-                          mapvm.init({
+                          map.init({
                               panel: 'map',
                               draw: true,
                               polygoncomplete: polygoncomplete,
@@ -156,7 +156,7 @@ define(['services/datacontext',
                           });
                       } else {
                           var point = new google.maps.LatLng(3.1282, 101.6441);
-                          mapvm.init({
+                          map.init({
                               panel: 'map',
                               draw: true,
                               polygoncomplete: polygoncomplete,
@@ -172,8 +172,6 @@ define(['services/datacontext',
                     return;
                 }
                 mapInitialized(true);
-                isBusy(true);
-                var point = new google.maps.LatLng(3.1282, 101.6441);
                 var buildingId = vm.building().BuildingId(),
                     address = vm.building().Address().Street() + ","
                         + vm.building().Address().City() + ","
@@ -190,36 +188,40 @@ define(['services/datacontext',
                 var centerTask = $.get("/Building/GetCenter/" + buildingId);
                 $.when(pathTask, centerTask)
                 .then(function (path, center) {
-                    isBusy(false);
-                    if (center[0]) {
-                        point = new google.maps.LatLng(center[0].Lat, center[0].Lng);
-                    } else {
+                    if (!center[0]) {
                         geoCode(address);
                         return;
                     }
-                    mapvm.init({
+                    map.init({
                         panel: 'map',
                         draw: true,
                         polygoncomplete: polygoncomplete,
                         markercomplete: markercomplete,
-                        zoom: center[0] ? 18 : 12,
-                        center: point
-                    });
-                    if (path[0]) {
-                        var shape = mapvm.add({
-                            encoded: path[0],
-                            draggable: true,
-                            editable: true,
-                            zoom: 18
-                        });
-                        if (shape.type === 'marker') {
-                            pointMarker = shape;
+                        zoom: center[0] ? 18 : 12
+                    }).done(function () {
+                        if (center[0]) {
+                            map.setCenter(center[0].Lat, center[0].Lng);
+                        } else {
+                            map.setCenter(3.1282, 101.6441);
+                        }
+                        if (path[0]) {
+                            var shape = map.add({
+                                encoded: path[0],
+                                draggable: true,
+                                editable: true,
+                                zoom: 18
+                            });
+                            if (shape.type === 'marker') {
+                                pointMarker = shape;
+                            }
+
+                            if (shape.type === 'polygon') {
+                                buildingPolygon = shape;
+                            }
                         }
 
-                        if (shape.type === 'polygon') {
-                            buildingPolygon = shape;
-                        }
-                    }
+
+                    });
 
                 });
             },
@@ -244,7 +246,7 @@ define(['services/datacontext',
                     buildingId: vm.building().BuildingId()
                 };
                 if (buildingPolygon) {
-                    data.path = mapvm.getEncodedPath(buildingPolygon);
+                    data.path = map.getEncodedPath(buildingPolygon);
                 }
                 if (pointMarker) {
                     data.point = {
