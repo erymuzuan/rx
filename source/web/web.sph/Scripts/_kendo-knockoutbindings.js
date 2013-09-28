@@ -230,24 +230,24 @@ ko.bindingHandlers.kendoUpload = {
 ko.bindingHandlers.kendoDate = {
     init: function (element, valueAccessor) {
         var value = valueAccessor(),
+            $input = $(element),
             currentValue = ko.utils.unwrapObservable(value),
             date = moment(currentValue),
-            picker = $(element).data("kendoDatePicker") ||
-            $(element).kendoDatePicker({ format: "dd/MM/yyyy" }).data("kendoDatePicker");
+            changed = function (e) {
+                console.log(e);
+                var nv = this.value();
+                if (typeof nv == "string") {
+                    date = moment(nv, "DD/MM/YYYY");
+                } else {
+                    date = moment(nv);
+                }
+                // DO NOT fire update
+                $input.data("stop", "true");
+                value(date.format("YYYY-MM-DD"));
+                $input.data("stop", "false");
 
-        $(element).on("change", function () {
-            var nv = $(this).val();
-            if (typeof nv == "string") {
-                date = moment(nv, "DD/MM/YYYY");
-            } else {
-                date = moment(nv);
-            }
-            // DO NOT fire update
-            $(element).data("stop", "true");
-            valueAccessor()(date.format("YYYY-MM-DD"));
-            $(element).data("stop", "false");
-        });
-
+            },
+            picker = $input.kendoDatePicker({ format: "dd/MM/yyyy", change: changed }).data("kendoDatePicker");
 
         if (!date) {
             picker.value(null);
@@ -260,17 +260,15 @@ ko.bindingHandlers.kendoDate = {
         }
 
         picker.value(date.toDate());
-        value(date);
-
-
     },
     update: function (element, valueAccessor) {
-        if ($(element).data("stop") == "true") return;
-        var value = valueAccessor();
-        var modelValue = ko.utils.unwrapObservable(value);
-
-        var date = moment(modelValue);
-        var picker = $(element).data("kendoDatePicker");
+        var $input = $(element);
+        if ($input.data("stop") == "true") return;
+        
+        var value = valueAccessor(),
+            modelValue = ko.utils.unwrapObservable(value),
+            date = moment(modelValue),
+            picker = $input.data("kendoDatePicker");
 
         if (!date) {
             picker.value(null);

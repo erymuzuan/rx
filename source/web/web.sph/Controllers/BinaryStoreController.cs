@@ -77,9 +77,10 @@ namespace Bespoke.Sph.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Remove(string id)
         {
+            if (string.IsNullOrWhiteSpace(id)) return Json(new {success = false, status = "FAIL"});
             var binaryStore = ObjectBuilder.GetObject<IBinaryStore>();
             await binaryStore.DeleteAsync(id);
-            return Json(new { OK = true });
+            return Json(new { success = true , status =" OK"});
 
         }
 

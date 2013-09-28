@@ -17,17 +17,17 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                 vm.spatialStoreId(storeId);
 
             },
-            init = function (buildingId, storeId) {
+            init = function (buildingId) {
                 window.setTimeout(function () {
 
                     $.get("/Building/GetCenter/" + buildingId)
                       .done(function (e) {
-                          var point = new google.maps.LatLng(e.Lat, e.Lng);
                           map.init({
                               panel: 'block-map-panel',
                               draw: true,
-                              zoom: 18,
-                              center: point
+                              zoom: 18
+                          }).done(function() {
+                              map.setCenter(e.Lat, e.Lng);
                           });
                       });
 

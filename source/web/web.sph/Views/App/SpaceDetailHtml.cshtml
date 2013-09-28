@@ -122,15 +122,21 @@
     <div class="modal-body">
         <form class="form-horizontal">
             <div class="control-group">
-                <label for="selectedBuilding" class="control-label">Bangunan</label>
+                <label for="selected-buildingid" class="control-label">Bangunan</label>
                 <div class="controls" data-bind="with: buildingOptions">
-                    <select data-bind="value: $root.selectedBuilding, options: $data, optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Sila pilih]'" id="selectedBuilding" name="selectedBuilding"></select>
+                    <select data-bind="value: $root.selectedBuildingId, options: $data, optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Sila pilih]'" id="selected-buildingid" name="selected-buildingid"></select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="selected-block" class="control-label">Block</label>
+                <div class="controls">
+                    <select data-bind="value: selectedBlock, options: blockOptions, optionsText: 'Name',  optionsCaption: '[Sila pilih]'" id="selected-block" name="selected-block"></select>
                 </div>
             </div>
             <div class="control-group">
                 <label for="selectedFloor" class="control-label">Lantai</label>
                 <div class="controls">
-                    <select data-bind="value: selectedFloor, options: floorOptions, optionsCaption: '[Sila pilih]'" id="selectedFloor" name="selectedFloor"></select>
+                    <select data-bind="value: selectedFloor, options: floorOptions, optionsText: 'Name', optionsCaption: '[Sila pilih]'" id="selectedFloor" name="selectedFloor"></select>
                 </div>
             </div>
             <div class="control-group">
