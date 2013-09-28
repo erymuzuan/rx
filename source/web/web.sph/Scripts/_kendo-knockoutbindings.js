@@ -183,7 +183,8 @@ ko.bindingHandlers.date = {
 
 ko.bindingHandlers.kendoUpload = {
     init: function (element, valueAccessor) {
-        var logger = require('services/logger'),
+        var context = require(objectbuilders.datacontext),
+             logger = require(objectbuilders.logger),
             value = valueAccessor();
         $(element).attr("name", "files").kendoUpload({
             async: {
@@ -206,6 +207,16 @@ ko.bindingHandlers.kendoUpload = {
                 if (removed) {
                     value("");
                 }
+            },
+            remove: function (e) {
+                e.preventDefault();
+                var tcs = new $.Deferred(),
+                    data = JSON.stringify({ id: value() });
+                context.post(data, "/BinaryStore/Remove/")
+                    .then(function (result) {
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
             }
         });
     }
@@ -758,10 +769,10 @@ ko.bindingHandlers.searchPaging = {
             },
             setItemsSource = function (items) {
 
-                _(items).each(function(v) {
+                _(items).each(function (v) {
                     v.pager = {
                         page: pager.page(),
-                        size : pager.pageSize()
+                        size: pager.pageSize()
                     };
                 });
                 if (map) {

@@ -75,13 +75,10 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Remove(string fileNames)
+        public async Task<ActionResult> Remove(string id)
         {
-            var storeId = Session["GpxStoreId"] as string;
-            if (string.IsNullOrWhiteSpace(storeId)) return Json(new { OK = false });
-
             var binaryStore = ObjectBuilder.GetObject<IBinaryStore>();
-            await binaryStore.DeleteAsync(storeId);
+            await binaryStore.DeleteAsync(id);
             return Json(new { OK = true });
 
         }
