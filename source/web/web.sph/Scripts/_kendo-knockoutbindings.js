@@ -198,18 +198,22 @@ ko.bindingHandlers.kendoUpload = {
             },
             success: function (e) {
                 logger.info('Your file has been ' + e.operation);
-                var storeId = e.response.storeId;
-                var uploaded = e.operation === "upload";
-                var removed = e.operation != "upload";
+
+                var storeId = e.response.storeId,
+                    uploaded = e.operation === "upload",
+                    removed = e.operation != "upload",
+                    oldFile = value();
                 if (uploaded) {
                     value(storeId);
+                    if (oldFile) {
+                        context.post(JSON.stringify({ id: oldFile }), "/BinaryStore/Remove/");
+                    }
                 }
                 if (removed) {
                     value("");
                 }
             },
-            remove: function (e) {
-                e.preventDefault();
+            remove: function () {
                 var tcs = new $.Deferred(),
                     data = JSON.stringify({ id: value() });
                 context.post(data, "/BinaryStore/Remove/")
