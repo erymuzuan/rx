@@ -26,6 +26,7 @@
             }">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Nama Hartanah</th>
                     <th>Negeri</th>
                     <th>Lokasi</th>
@@ -37,6 +38,7 @@
             </thead>
             <tbody data-bind="foreach: buildings">
                 <tr>
+                    <td data-bind="text:(($index()+1) + ((pager.page -1)* pager.size ))"></td>
                     <td>
                         <a class="btn btn-link" data-bind="attr: { href: '/#/building.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() }, text: Name"></a>
                     </td>

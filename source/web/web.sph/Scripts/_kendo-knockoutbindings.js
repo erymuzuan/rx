@@ -757,6 +757,13 @@ ko.bindingHandlers.searchPaging = {
                 $element.fadeTo("fast", 1);
             },
             setItemsSource = function (items) {
+
+                _(items).each(function(v) {
+                    v.pager = {
+                        page: pager.page(),
+                        size : pager.pageSize()
+                    };
+                });
                 if (map) {
                     items = _(items).map(map);
                 }
@@ -825,7 +832,7 @@ ko.bindingHandlers.searchPaging = {
                     logger.error(cultures.messages.FORM_IS_NOT_VALID);
                     return;
                 }
-                search(ko.toJS(query), 1, pager.pageSize);
+                search(ko.toJS(query), 1, pager.pageSize());
             });
 
         }

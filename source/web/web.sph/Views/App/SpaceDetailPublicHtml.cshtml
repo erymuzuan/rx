@@ -6,8 +6,8 @@
 }
 <div id="space-public-panel" class="container-fluid" data-bind="with: space">
     <h1 data-bind="text: Category"></h1>
-    
-    
+
+
     <div id="map-space" class="google-maps row">
         <img data-bind="attr : {src:staticMap}" src="~/Images/no-image.png" alt="map" />
     </div>
@@ -24,7 +24,27 @@
             </div>
         </div>
     </div>
-
+    <div class="row" id="space-features-panel">
+        <h3> Kemudahan</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Keterangan</th>
+                    <th>Harga</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :FeatureDefinitionCollection">
+                <tr>
+                    <td data-bind="text:Name"></td>
+                    <td data-bind="text:Description"></td>
+                    <td data-bind="text:Charge"></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <div class="row" data-bind="html:Description">
 
     </div>
