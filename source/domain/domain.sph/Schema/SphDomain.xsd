@@ -279,6 +279,9 @@
 			<xs:attribute name="RentalRate" type="xs:decimal" use="required"/>
 			<xs:attribute name="Location" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="MapIcon" type="xs:string" use="required"/>
+			<xs:attribute name="SmallIcon" type="xs:string" use="required"/>
+			<xs:attribute name="Icon" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="RentalApplication">

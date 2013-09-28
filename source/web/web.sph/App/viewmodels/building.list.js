@@ -85,7 +85,6 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             query: {
                 "query": {
                     "query_string": {
-                        "fields": ["Name", "Address.Street", "Address.State"],
                         "query": searchKeyword
                     }
                 }

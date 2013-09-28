@@ -1277,6 +1277,21 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameCategory = "Category";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_defaultMapIcon;
+        public const string PropertyNameDefaultMapIcon = "DefaultMapIcon";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_defaultSmallIcon;
+        public const string PropertyNameDefaultSmallIcon = "DefaultSmallIcon";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_defaultIcon;
+        public const string PropertyNameDefaultIcon = "DefaultIcon";
+
+
         private readonly ObjectCollection<CustomField> m_CustomFieldCollection = new ObjectCollection<CustomField>();
 
         ///<summary>
@@ -1468,6 +1483,93 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_category;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string DefaultMapIcon
+        {
+            set
+            {
+                if (String.Equals(m_defaultMapIcon, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDefaultMapIcon, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_defaultMapIcon = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_defaultMapIcon;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string DefaultSmallIcon
+        {
+            set
+            {
+                if (String.Equals(m_defaultSmallIcon, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDefaultSmallIcon, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_defaultSmallIcon = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_defaultSmallIcon;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string DefaultIcon
+        {
+            set
+            {
+                if (String.Equals(m_defaultIcon, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDefaultIcon, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_defaultIcon = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_defaultIcon;
             }
         }
 

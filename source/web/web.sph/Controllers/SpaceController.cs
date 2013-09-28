@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 
@@ -35,6 +36,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         public async Task<ActionResult> SaveMap(int spaceId, string path, LatLng point)
         {
+            if (spaceId == 0) throw new ArgumentException("Space is not yet saved", "spaceId");
             var spatial = ObjectBuilder.GetObject<ISpatialService<Space>>();
             var context = new SphDataContext();
 
@@ -66,6 +68,8 @@ namespace Bespoke.Sph.Web.Controllers
 
         public async Task<ActionResult> GetCenter(int id)
         {
+            if (id == 0) return Json(false, JsonRequestBehavior.AllowGet);
+
             var spatial = ObjectBuilder.GetObject<ISpatialService<Space>>();
             var context = new SphDataContext();
             var center = await spatial.GetCenterAsync(b => b.SpaceId == id);

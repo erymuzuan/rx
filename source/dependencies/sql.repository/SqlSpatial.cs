@@ -116,8 +116,10 @@ namespace Bespoke.Sph.SqlRepository
                 await conn.OpenAsync();
                 var center = await cmd.ExecuteScalarAsync();
                 if (center == DBNull.Value) return null;
+                var wkt = center as string;
+                if (string.IsNullOrWhiteSpace(wkt)) return null;
 
-                var point = new LatLng(center as string, true);
+                var point = new LatLng(wkt, true);
                 return point;
 
             }

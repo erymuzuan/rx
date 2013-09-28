@@ -159,6 +159,9 @@
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 			<xs:attribute name="Category" type="xs:string" use="required"/>
+			<xs:attribute name="DefaultMapIcon" type="xs:string" use="required"/>
+			<xs:attribute name="DefaultSmallIcon" type="xs:string" use="required"/>
+			<xs:attribute name="DefaultIcon" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="FormDesign">

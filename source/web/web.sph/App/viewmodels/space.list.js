@@ -51,29 +51,9 @@ define([objectbuilders.datacontext, objectbuilders.router, objectbuilders.cultur
             query = {
                 "query": {
                     "query_string": {
-                        "fields": ["Name", "Address.State", "TemplateName", "BuildingName"],
                         "query": searchKeyword
                     }
                 }
-            },
-            search = function () {
-                var tcs = new $.Deferred();
-                var spaceQuery = {
-                    "query": {
-                        "query_string": {
-                            "fields": ["Name", "Address.State", "TemplateName", "BuildingName"],
-                            "query": vm.searchTerm.keyword()
-                        }
-                    }
-                };
-                console.log(spaceQuery);
-                var csTasks = context.searchAsync("Space", spaceQuery);
-                $.when(csTasks)
-                    .done(function (lo) {
-                        vm.spaces(lo.itemCollection);
-                        tcs.resolve(true);
-                    });
-                return tcs.promise();
             };
 
         var vm = {
@@ -92,8 +72,7 @@ define([objectbuilders.datacontext, objectbuilders.router, objectbuilders.cultur
                 stateOptions: ko.observableArray(),
                 categoryOptions: ko.observableArray(),
                 keyword: searchKeyword
-            },
-            searchCommand: search
+            }
         };
 
         return vm;

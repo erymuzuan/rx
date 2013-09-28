@@ -191,20 +191,25 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                   });
             },
             showMap = function () {
+                
+                if (vm.space().SpaceId() === 0) {
+                    logger.info("Sila simpan dulu ruang ini");
+                    return;
+                }
+
                 $('#map-panel').modal();
                 if (mapInitialized()) {
                     return;
                 }
                 mapInitialized(true);
-                var buildingId = vm.space().BuildingId(),
-                    spaceId = vm.space().SpaceId(),
+                var spaceId = vm.space().SpaceId(),
                     address = vm.space().Address().Street() + ","
                         + vm.space().Address().City() + ","
                         + vm.space().Address().Postcode() + ","
                         + vm.space().Address().State() + ","
                         + "Malaysia.";
 
-                if (!buildingId) {
+                if (!spaceId) {
                     geoCode(address);
                     return;
                 }

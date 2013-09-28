@@ -50,9 +50,9 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                 $(view).tooltip({ 'placement': 'right' });
                 // load map
 
-                var buildingId = vm.building().BuildingId(),
-                    pathTask = $.get("/Building/GetEncodedPath/" + buildingId),
-                    centerTask = $.get("/Building/GetCenter/" + buildingId);
+                var spaceId = vm.space().SpaceId(),
+                    pathTask = $.get("/Space/GetEncodedPath/" + spaceId),
+                    centerTask = $.get("/Space/GetCenter/" + spaceId);
 
                 $.when(pathTask, centerTask)
                 .then(function (path, center) {
@@ -62,13 +62,10 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                     }
 
                     var $panel = $('#map-space'),
-                            staticMap = String.format("http://maps.googleapis.com/maps/api/staticmap?size=640x300&markers=" +
-                        "icon:{2}%7C{0},{1}&center={0},{1}&sensor=false&zoom=18",
-                        center[0].Lat, center[0].Lng, "http://s3-ap-southeast-1.amazonaws.com/sph.my/map-icons/office-building.png"),
                         height = $panel.css("min-height");
                     
 
-                    $panel.css("min-height", 300).html('<img src="' + staticMap + '" alt="map"/>')
+                    $panel.css("min-height", 300)
                         .one('click', function () {
                             $panel.css("min-height", height);
                             
