@@ -45,7 +45,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (null == floor)
                 return Content("/images/no-image.png");
 
-            var lot = floor.LotCollection.SingleOrDefault(l => cs.LotName.Contains(l.Name));
+            var lot = floor.UnitCollection.SingleOrDefault(l => cs.UnitNo.Contains(l.No));
             if (null == lot)
                 return Content("/images/no-image.png");
 

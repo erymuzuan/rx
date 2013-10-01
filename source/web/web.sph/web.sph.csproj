@@ -1016,7 +1016,7 @@
     <Content Include="App\viewmodels\deposit.js" />
     <Content Include="App\viewmodels\floorplan.js" />
     <Content Include="App\viewmodels\home.js" />
-    <Content Include="App\viewmodels\lot.list.js" />
+    <Content Include="App\viewmodels\unit.list.js" />
     <Content Include="App\viewmodels\map.js" />
     <Content Include="App\viewmodels\offerdetails.js" />
     <Content Include="App\viewmodels\organization.detail.js" />
@@ -1058,7 +1058,7 @@
     <Content Include="App\views\floorplan.html" />
     <Content Include="App\views\footer.html" />
     <Content Include="App\views\home.html" />
-    <Content Include="App\views\lot.list.html" />
+    <Content Include="App\views\unit.list.html" />
     <Content Include="App\views\nav.html" />
     <Content Include="App\views\offerdetails.html" />
     <Content Include="App\views\organization.detail.html" />

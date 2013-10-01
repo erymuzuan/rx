@@ -40,7 +40,7 @@ namespace domain.test.triggers
             ObjectBuilder.AddCacheList<IPersistence>(persistence);
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher());
 
-            var building = new Building { LotNo = "4444" };
+            var building = new Building { UnitNo = "4444" };
             var setter = new SetterAction
             {
                 TriggerId = 44,

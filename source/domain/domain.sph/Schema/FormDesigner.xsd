@@ -350,7 +350,7 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="SpaceLotsElement">
+	<xs:element name="SpaceUnitElement">
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="FormElement"/>

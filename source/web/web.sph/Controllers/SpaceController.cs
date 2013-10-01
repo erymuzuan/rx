@@ -21,7 +21,6 @@ namespace Bespoke.Sph.Web.Controllers
                 space.State = building.Address.State ?? space.Address.State;
                 space.City = building.Address.City ?? space.Address.City;
                 space.BuildingName = building.Name;
-                space.BuildingLot = building.LotNo;
 
             }
 

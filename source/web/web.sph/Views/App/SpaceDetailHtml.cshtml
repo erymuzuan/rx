@@ -140,16 +140,16 @@
                 </div>
             </div>
             <div class="control-group">
-                <label for="selectedLots" class="control-label">Lot</label>
+                <label for="selectedLots" class="control-label">Unit</label>
                 <div class="controls">
-                    <select data-bind="selectedOptions: selectedLots, options: lotOptions, optionsText: 'Name'" id="selectedLots" name="selectedLots" multiple="multiple"></select>
+                    <select data-bind="selectedOptions: selectedUnits, options: lotOptions, optionsText: 'Name'" id="selectedLots" name="selectedUnits" multiple="multiple"></select>
                 </div>
             </div>
         </form>
     </div>
 
     <div class="modal-footer">
-        <input data-dismiss="modal" id="add-lot-button" type="button" class="btn btn-primary" data-bind="click: addLotsCommand" value="OK" />
+        <input data-dismiss="modal" id="add-lot-button" type="button" class="btn btn-primary" data-bind="click: addUnitsCommand" value="OK" />
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
     </div>
 </section>
