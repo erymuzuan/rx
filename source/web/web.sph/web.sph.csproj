@@ -1483,10 +1483,10 @@
     <Content Include="Views\Template\EditorTemplates\RentalApplicationBanksElement.cshtml" />
     <Content Include="Views\Template\_PathPicker.cshtml" />
     <Content Include="Views\Template\Space.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\SpaceLotsElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\SpaceLotsElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\SpaceUnitElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\SpaceUnitElement.cshtml" />
     <Content Include="Views\Template\_DesignerContextAction.cshtml" />
-    <Content Include="Views\App\EditorTemplates\SpaceLotsElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\SpaceUnitElement.cshtml" />
     <Content Include="Views\App\ApplicationDetailHtml.cshtml" />
     <Content Include="Views\Print\Index.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\AddressElement.cshtml" />
@@ -1494,7 +1494,7 @@
     <Content Include="Views\Print\DisplayTemplates\BuildingMapElement.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\CheckBox.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\ComboBox.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\SpaceLotsElement.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\SpaceUnitElement.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\ComplaintCategoryElement.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\DatePicker.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\EmailFormElement.cshtml" />
@@ -1585,7 +1585,7 @@
     <Content Include="Views\Shared\_LayoutTest.cshtml" />
     <Content Include="Views\App\SpaceDetailPublicHtml.cshtml" />
     <Content Include="Views\App\DisplayTemplates\SpaceFeaturesElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\SpaceLotsElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\SpaceUnitElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\AddressElement.cshtml">
       <SubType>Code</SubType>
     </Content>

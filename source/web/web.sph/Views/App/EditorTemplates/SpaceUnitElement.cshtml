@@ -1,9 +1,11 @@
 ﻿@model Bespoke.Sph.Domain.SpaceUnitElement
-
+@{
+    var id = Guid.NewGuid().ToString();
+}
 <div class="control-group">
-    <label for="space_LotName" class="control-label">@Model.Label</label>
+    <label for="@id" class="control-label">@Model.Label</label>
     <div class="controls">
-        <input title="@Model.Tooltip" data-bind="value: UnitName" id="space_LotName" type="text" name="space.UnitName" readonly="readonly" />
+        <input title="@Model.Tooltip" data-bind="value: UnitNo" id="@id" type="text" name="space-unitno" readonly="readonly" />
         <a type="button" class="btn help-inline"
             data-toggle="modal" id="select-lot-button"
             href="#lot-selection-panel">Pilih lot</a>

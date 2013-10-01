@@ -17,7 +17,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
 
         var title = ko.observable(),
             isBusy = ko.observable(false),
-            activate = function(routeData) {
+            activate = function (routeData) {
                 vm.selectedBuildingId(0);
 
                 vm.space().BuildingId(parseInt(routeData.buildingId));
@@ -29,13 +29,13 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                     getSpaceTask = context.loadOneAsync("Space", "SpaceId eq " + routeData.csId);
 
                 $.when(templateTask, buildingTask, getSpaceTask)
-                    .done(function(a, buildingNameList) {
-                        vm.buildingOptions(_(buildingNameList).sortBy(function(building) {
+                    .done(function (a, buildingNameList) {
+                        vm.buildingOptions(_(buildingNameList).sortBy(function (building) {
                             return building.Item2;
                         }));
                         vm.buildingOptions.push({ Item1: 0, Item2: cultures.space.ADD_NEW_BUILDING });
                     })
-                    .done(function(template, b, space) {
+                    .done(function (template, b, space) {
 
                         vm.stateOptions(config.stateOptions);
                         if (!space) {
@@ -44,7 +44,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                             space.TemplateId(templateId);
                             title(template.Name());
                             // default values
-                            _(template.DefaultValueCollection()).each(function(v) {
+                            _(template.DefaultValueCollection()).each(function (v) {
                                 if (v.Value()) {
                                     var props = v.PropertyName().split(".");
                                     if (props.length === 1) {
@@ -70,7 +70,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
 
                             vm.space(space);
 
-                            var fieldToValueMap = function(f) {
+                            var fieldToValueMap = function (f) {
                                 var webid = system.guid();
                                 var v = new bespoke.sph.domain.CustomFieldValue(webid);
                                 v.Name(f.Name());
@@ -78,7 +78,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                                 return v;
                             },
                                 cfs = _(template.CustomFieldCollection()).map(fieldToValueMap),
-                                cls = _(template.CustomListDefinitionCollection()).map(function(v) {
+                                cls = _(template.CustomListDefinitionCollection()).map(function (v) {
                                     var lt = new bespoke.sph.domain.CustomListValue(system.guid());
                                     lt.Name(v.Name());
 
@@ -99,7 +99,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                         if (!space.SmallIcon()) space.SmallIcon(template.DefaultSmallIcon());
                         if (!space.Icon()) space.Icon(template.DefaultIcon());
                         // NOTE : the browser keeps the value as string
-                        space.ApplicationTemplateOptions(_(space.ApplicationTemplateOptions()).map(function(v) {
+                        space.ApplicationTemplateOptions(_(space.ApplicationTemplateOptions()).map(function (v) {
                             return v.toString();
                         }));
                         vm.selectedBuildingId(space.BuildingId());
@@ -108,25 +108,25 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
 
                         title('Maklumat ruang komersil');
                         contractlistvm.activate(routeData)
-                            .then(function() {
+                            .then(function () {
                                 tcs.resolve(true);
                             });
                     })
-                    .done(function() {
+                    .done(function () {
                         tcs.resolve();
                     });
 
                 return tcs.promise();
             },
-            viewAttached = function(view) {
+            viewAttached = function (view) {
                 $(view).tooltip({ 'placement': 'right' });
             },
-            saveCs = function() {
+            saveCs = function () {
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.space());
                 isBusy(true);
                 context.post(data, "/Space/Save")
-                    .done(function(e) {
+                    .done(function (e) {
                         logger.log("Data has been successfully saved ", e, "space.detail", true);
 
                         isBusy(false);
@@ -134,43 +134,40 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                     });
                 return tcs.promise();
             },
-            selectLot = function() {
+            selectUnit = function () {
                 $('#lot-selection-panel').modal();
             },
-            addLots = function() {
-                vm.space().LotCollection(vm.selectedLots);
-                var lots = ko.mapping.toJS(vm.selectedLots);
-                var lotName = _(lots).reduce(function(memo, lot) {
-                    return memo + lot.Name + ",";
-                }, "");
-                var size = _(lots).reduce(function(memo, lot) {
-                    return memo + lot.Size;
-                }, 0);
-                vm.space().LotName(lotName);
+            addUnits = function () {
+                vm.space().UnitCollection(vm.selectedUnits);
+                var units = ko.mapping.toJS(vm.selectedUnits),
+                    unitNo = _(units).map(function (u) { return u.No; }).join(","),
+                    size = _(units).reduce(function (memo, lot) { return memo + lot.Size; }, 0);
+
+                vm.space().UnitNo(unitNo);
                 vm.space().Size(size);
-                vm.space().LotCollection(vm.selectedLots);
+                vm.space().UnitCollection(vm.selectedUnits);
                 // load the building address
-                var query = String.format("BuildingId eq {0}", vm.selectedBuildingId());
-                var tcs = new $.Deferred();
+                var query = String.format("BuildingId eq {0}", vm.selectedBuildingId()),
+                    tcs = new $.Deferred();
                 context.loadOneAsync("Building", query)
-                    .done(function(b) {
+                    .done(function (b) {
                         vm.space().Address(b.Address());
                         tcs.resolve(true);
                     });
 
                 return tcs.promise();
             },
-            addFeatures = function() {
+            addFeatures = function () {
                 var feature = bespoke.sph.domain.FeatureDefinition();
                 vm.space().FeatureDefinitionCollection.push(feature);
             },
-            removeFeatures = function(feature) {
+            removeFeatures = function (feature) {
                 vm.space().FeatureDefinitionCollection.remove(feature);
             },
             mapInitialized = ko.observable(false),
-            geoCode = function(address) {
+            geoCode = function (address) {
                 return map.geocode(address)
-                    .then(function(result) {
+                    .then(function (result) {
                         if (result.status) {
                             map.init({
                                 panel: 'map',
@@ -192,7 +189,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                         }
                     });
             },
-            showMap = function() {
+            showMap = function () {
 
                 if (vm.space().SpaceId() === 0) {
                     logger.info("Sila simpan dulu ruang ini");
@@ -219,7 +216,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                 var pathTask = $.get("/Space/GetEncodedPath/" + spaceId);
                 var centerTask = $.get("/Space/GetCenter/" + spaceId);
                 $.when(pathTask, centerTask)
-                    .then(function(path, center) {
+                    .then(function (path, center) {
                         if (center[0]) {
                             //var point = new google.maps.LatLng(center[0].Lat, center[0].Lng);
                         } else {
@@ -232,7 +229,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                             polygoncomplete: polygoncomplete,
                             markercomplete: markercomplete,
                             zoom: center[0] ? 18 : 12
-                        }).done(function() {
+                        }).done(function () {
                             map.setCenter(center[0].Lat, center[0].Lng);
                             if (path[0]) {
                                 var shape = map.add({
@@ -255,18 +252,18 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                     });
             },
             buildingPolygon = null,
-            polygoncomplete = function(shape) {
+            polygoncomplete = function (shape) {
                 buildingPolygon = shape;
             },
             pointMarker = null,
-            markercomplete = function(marker) {
+            markercomplete = function (marker) {
                 console.log(marker);
                 marker.setOptions({ draggable: true });
                 if (pointMarker) pointMarker.setMap(null);
 
                 pointMarker = marker;
             },
-            saveMap = function() {
+            saveMap = function () {
                 if (!buildingPolygon && !pointMarker) {
                     logger.error("No shape");
                     return false;
@@ -286,7 +283,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                 return vm.space().saveMap(data);
 
             },
-            selectedBuilding =ko.observable(new bespoke.sph.domain.Building());
+            selectedBuilding = ko.observable(new bespoke.sph.domain.Building());
 
         var vm = {
             activate: activate,
@@ -296,19 +293,19 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             buildingOptions: ko.observableArray(),
             blockOptions: ko.observableArray(),
             floorOptions: ko.observableArray(),
-            lotOptions: ko.observableArray(),
+            unitOptions: ko.observableArray(),
             stateOptions: ko.observableArray(),
             selectedBuildingId: ko.observable(),
             selectedBlock: ko.observable(),
             selectedFloor: ko.observable(),
-            selectedLots: ko.observableArray(),
+            selectedUnits: ko.observableArray(),
             toolbar: {
                 saveCommand: saveCs
             },
             showMapCommand: showMap,
             saveMapCommand: saveMap,
-            selectLotCommand: selectLot,
-            addLotsCommand: addLots,
+            selectUnitCommand: selectUnit,
+            addUnitsCommand: addUnits,
             addFeaturesCommand: addFeatures,
             removeFeaturesCommand: removeFeatures,
             isBusy: isBusy
@@ -342,8 +339,10 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
         });
 
         vm.selectedFloor.subscribe(function (floor) {
+            if (!floor) return;
+            if (!floor.Name) return;
             vm.space().FloorName(floor.Name());
-            vm.lotOptions(floor.LotCollection());
+            vm.unitOptions(floor.UnitCollection());
         });
 
         return vm;

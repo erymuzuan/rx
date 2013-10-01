@@ -32,7 +32,7 @@ namespace web.test.Space
                 .Sleep(1.Seconds())
                 .SelectOption("[name=selectedFloor]", "G")
                 .Sleep(1.Seconds())
-                .SelectOption("[name=selectedLots]", "Empty Lot")
+                .SelectOption("[name=selectedUnits]", "Empty Lot")
                 .Click("#add-lot-button");
 
             driver.Value("[name='SpaceName']", "Kafeteria Matyie");
