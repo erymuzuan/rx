@@ -446,7 +446,7 @@ bespoke.sph.domain.SpaceLotsElement = function (webId) {
 
     var v = new bespoke.sph.domain.FormElement(webId);
 
-    v["$type"] = "Bespoke.Sph.Domain.SpaceLotsElement, domain.sph";
+    v["$type"] = "Bespoke.Sph.Domain.SpaceUnitElement, domain.sph";
 
     if (bespoke.sph.domain.SpaceLotsElementPartial) {
         return _(v).extend(new bespoke.sph.domain.SpaceLotsElementPartial(v));

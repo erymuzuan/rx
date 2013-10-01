@@ -9,7 +9,7 @@ namespace domain.test.triggers
         [Test]
         public void GetValueInt()
         {
-            var building = new Building { LotNo = "A" };
+            var building = new Building { UnitNo = "A" };
             var log = new AuditTrail();
             log.ChangeCollection.Add(new Change
             {
@@ -31,7 +31,7 @@ namespace domain.test.triggers
         [Test]
         public void GetValue()
         {
-            var building = new Building { LotNo = "A" };
+            var building = new Building { UnitNo = "A" };
             var log = new AuditTrail();
             log.ChangeCollection.Add(new Change
             {

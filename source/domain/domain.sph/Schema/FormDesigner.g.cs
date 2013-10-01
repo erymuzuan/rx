@@ -2216,8 +2216,8 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("SpaceLotsElement", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class SpaceLotsElement
+    [XmlType("SpaceUnitElement", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class SpaceUnitElement
     {
 
 

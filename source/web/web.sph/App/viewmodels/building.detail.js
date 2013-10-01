@@ -104,7 +104,7 @@ define(['services/datacontext',
                 return tcs.promise();
             },
             addLot = function (floor) {
-                var url = '/#/lotdetail/' + vm.building().BuildingId() + '/' + floor.Name();
+                var url = '/#/unit.list/' + vm.building().BuildingId();
                 router.navigateTo(url);
             },
             viewFloorPlan = function (floor) {

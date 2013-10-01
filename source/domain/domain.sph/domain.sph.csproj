@@ -128,7 +128,7 @@
     <Compile Include="FormTemplates\CheckBox.cs" />
     <Compile Include="FormTemplates\ComboBox.cs" />
     <Compile Include="FormTemplates\ComboBoxItem.cs" />
-    <Compile Include="FormTemplates\SpaceLotsElement.cs" />
+    <Compile Include="FormTemplates\SpaceUnitElement.cs" />
     <Compile Include="FormTemplates\ComplaintCategoryElement.cs" />
     <Compile Include="FormTemplates\CustomListDefinition.cs" />
     <Compile Include="FormTemplates\CustomListDefinitionElement.cs" />
@@ -243,7 +243,7 @@
     <Compile Include="Gis\SpatialEntity.cs" />
     <Compile Include="Business\LatLng.cs" />
     <Compile Include="Business\LoadOperation.cs" />
-    <Compile Include="Business\Lot.cs" />
+    <Compile Include="Business\Unit.cs" />
     <Compile Include="PersistenceSession.cs" />
     <Compile Include="QueryProviders\AliasesProduced.cs" />
     <Compile Include="QueryProviders\ColumnProjector.cs" />

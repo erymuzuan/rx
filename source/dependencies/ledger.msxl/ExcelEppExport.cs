@@ -68,7 +68,7 @@ namespace Bespoke.Sph.LedgerMsxl
             ws.Cells["A11"].Value = contract.Tenant.Address.City + ", " + contract.Tenant.Address.Postcode;
             ws.Cells["B12"].Value = contract.Tenant.Phone;
 
-            ws.Cells["A16"].Value = contract.Space.LotName;
+            ws.Cells["A16"].Value = contract.Space.UnitNo;
             ws.Cells["A17"].Value = contract.Space.BuildingName;
             ws.Cells["A18"].Value = contract.Space.City + ", " + contract.Tenant.Address.Postcode;
             ws.Cells["B19"].Value = contract.Space.State;

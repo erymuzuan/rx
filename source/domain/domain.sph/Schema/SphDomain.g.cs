@@ -586,8 +586,8 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_lot;
-        public const string PropertyNameLot = "Lot";
+        private string m_unit;
+        public const string PropertyNameUnit = "Unit";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -772,22 +772,22 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public string Lot
+        public string Unit
         {
             set
             {
-                if (String.Equals(m_lot, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameLot, value);
+                if (String.Equals(m_unit, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameUnit, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_lot = value;
+                    m_unit = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_lot;
+                return m_unit;
             }
         }
 
@@ -1351,8 +1351,8 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_lotNo;
-        public const string PropertyNameLotNo = "LotNo";
+        private string m_unitNo;
+        public const string PropertyNameUnitNo = "UnitNo";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1679,22 +1679,22 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public string LotNo
+        public string UnitNo
         {
             set
             {
-                if (String.Equals(m_lotNo, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameLotNo, value);
+                if (String.Equals(m_unitNo, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameUnitNo, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_lotNo = value;
+                    m_unitNo = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_lotNo;
+                return m_unitNo;
             }
         }
 
@@ -2719,15 +2719,15 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameNote = "Note";
 
 
-        private readonly ObjectCollection<Lot> m_LotCollection = new ObjectCollection<Lot>();
+        private readonly ObjectCollection<Unit> m_UnitCollection = new ObjectCollection<Unit>();
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Lot", IsNullable = false)]
-        public ObjectCollection<Lot> LotCollection
+        [XmlArrayItem("Unit", IsNullable = false)]
+        public ObjectCollection<Unit> UnitCollection
         {
-            get { return m_LotCollection; }
+            get { return m_UnitCollection; }
         }
 
         ///<summary>
@@ -2854,13 +2854,13 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("Lot", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class Lot
+    [XmlType("Unit", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Unit
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_name;
-        public const string PropertyNameName = "Name";
+        private string m_no;
+        public const string PropertyNameNo = "No";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2871,6 +2871,11 @@ namespace Bespoke.Sph.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_floorNo;
         public const string PropertyNameFloorNo = "FloorNo";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_blockNo;
+        public const string PropertyNameBlockNo = "BlockNo";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2907,22 +2912,22 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public string Name
+        public string No
         {
             set
             {
-                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                if (String.Equals(m_no, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNo, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_name = value;
+                    m_no = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_name;
+                return m_no;
             }
         }
 
@@ -2981,6 +2986,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_floorNo;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string BlockNo
+        {
+            set
+            {
+                if (String.Equals(m_blockNo, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBlockNo, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_blockNo = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_blockNo;
             }
         }
 
@@ -3163,8 +3197,8 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_lotName;
-        public const string PropertyNameLotName = "LotName";
+        private string m_unitNo;
+        public const string PropertyNameUnitNo = "UnitNo";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -3228,8 +3262,8 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_buildingLot;
-        public const string PropertyNameBuildingLot = "BuildingLot";
+        private string m_buildingUnit;
+        public const string PropertyNameBuildingUnit = "BuildingUnit";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -3262,15 +3296,15 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIcon = "Icon";
 
 
-        private readonly ObjectCollection<Lot> m_LotCollection = new ObjectCollection<Lot>();
+        private readonly ObjectCollection<Unit> m_UnitCollection = new ObjectCollection<Unit>();
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("Lot", IsNullable = false)]
-        public ObjectCollection<Lot> LotCollection
+        [XmlArrayItem("Unit", IsNullable = false)]
+        public ObjectCollection<Unit> UnitCollection
         {
-            get { return m_LotCollection; }
+            get { return m_UnitCollection; }
         }
 
         private readonly ObjectCollection<CustomFieldValue> m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue>();
@@ -3459,22 +3493,22 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public string LotName
+        public string UnitNo
         {
             set
             {
-                if (String.Equals(m_lotName, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameLotName, value);
+                if (String.Equals(m_unitNo, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameUnitNo, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_lotName = value;
+                    m_unitNo = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_lotName;
+                return m_unitNo;
             }
         }
 
@@ -3832,22 +3866,22 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public string BuildingLot
+        public string BuildingUnit
         {
             set
             {
-                if (String.Equals(m_buildingLot, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameBuildingLot, value);
+                if (String.Equals(m_buildingUnit, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBuildingUnit, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_buildingLot = value;
+                    m_buildingUnit = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_buildingLot;
+                return m_buildingUnit;
             }
         }
 
