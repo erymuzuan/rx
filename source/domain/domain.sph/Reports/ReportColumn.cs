@@ -24,5 +24,50 @@ namespace Bespoke.Sph.Domain
         {
             return string.Format("{0}", this.Value);
         }
+
+        public void SetValue(string value)
+        {
+            this.Value = null;
+            if (this.Type == typeof (string))
+                this.Value = value;
+
+            if (this.Type == typeof (DateTime))
+            {
+                DateTime date;
+                if (DateTime.TryParse(value, out date))
+                    this.Value = date;
+            }
+
+            if (this.Type == typeof (int))
+            {
+                int date;
+                if (int.TryParse(value, out date))
+                    this.Value = date;
+            }
+            if (this.Type == typeof (decimal))
+            {
+                decimal date;
+                if (decimal.TryParse(value, out date))
+                    this.Value = date;
+            }
+            if (this.Type == typeof (double))
+            {
+                double date;
+                if (double.TryParse(value, out date))
+                    this.Value = date;
+            }
+            if (this.Type == typeof (bool))
+            {
+                bool date;
+                if (bool.TryParse(value, out date))
+                    this.Value = date;
+            }
+            if (this.Type == typeof (float))
+            {
+                float date;
+                if (float.TryParse(value, out date))
+                    this.Value = date;
+            }
+        }
     }
 }
