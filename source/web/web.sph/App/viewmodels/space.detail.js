@@ -16,10 +16,9 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
     function (context, logger, contractlistvm, system, config, cultures, map) {
 
         var title = ko.observable(),
-            selectedBuilding = {},
             isBusy = ko.observable(false),
             activate = function (routeData) {
-                vm.selectedBuilding(0);
+                vm.selectedBuildingId(0);
 
                 vm.space().BuildingId(parseInt(routeData.buildingId));
                 var templateId = parseInt(routeData.templateId);
@@ -78,16 +77,16 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                                 v.Type(f.Type());
                                 return v;
                             },
-                               cfs = _(template.CustomFieldCollection()).map(fieldToValueMap),
-                               cls = _(template.CustomListDefinitionCollection()).map(function (v) {
-                                   var lt = new bespoke.sph.domain.CustomListValue(system.guid());
-                                   lt.Name(v.Name());
+                                cfs = _(template.CustomFieldCollection()).map(fieldToValueMap),
+                                cls = _(template.CustomListDefinitionCollection()).map(function (v) {
+                                    var lt = new bespoke.sph.domain.CustomListValue(system.guid());
+                                    lt.Name(v.Name());
 
-                                   var fields = _(v.CustomFieldCollection()).map(fieldToValueMap);
-                                   lt.CustomFieldCollection = ko.observableArray(fields);
+                                    var fields = _(v.CustomFieldCollection()).map(fieldToValueMap);
+                                    lt.CustomFieldCollection = ko.observableArray(fields);
 
-                                   return lt;
-                               });
+                                    return lt;
+                                });
 
                             vm.space().CustomFieldValueCollection(cfs);
                             vm.space().CustomListValueCollection(cls);
@@ -96,11 +95,14 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
 
                         space.TemplateName(template.Name());
                         space.TemplateId(templateId);
+                        if (!space.MapIcon()) space.MapIcon(template.DefaultMapIcon());
+                        if (!space.SmallIcon()) space.SmallIcon(template.DefaultSmallIcon());
+                        if (!space.Icon()) space.Icon(template.DefaultIcon());
                         // NOTE : the browser keeps the value as string
                         space.ApplicationTemplateOptions(_(space.ApplicationTemplateOptions()).map(function (v) {
                             return v.toString();
                         }));
-                        vm.selectedBuilding(space.BuildingId());
+                        vm.selectedBuildingId(space.BuildingId());
                         vm.space(space);
 
 
@@ -132,24 +134,21 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                     });
                 return tcs.promise();
             },
-            selectLot = function () {
+            selectUnit = function () {
                 $('#lot-selection-panel').modal();
             },
-            addLots = function () {
-                vm.space().LotCollection(vm.selectedLots);
-                var lots = ko.mapping.toJS(vm.selectedLots);
-                var lotName = _(lots).reduce(function (memo, lot) {
-                    return memo + lot.Name + ",";
-                }, "");
-                var size = _(lots).reduce(function (memo, lot) {
-                    return memo + lot.Size;
-                }, 0);
-                vm.space().LotName(lotName);
+            addUnits = function () {
+                vm.space().UnitCollection(vm.selectedUnits);
+                var units = ko.mapping.toJS(vm.selectedUnits),
+                    unitNo = _(units).map(function (u) { return u.No; }).join(","),
+                    size = _(units).reduce(function (memo, lot) { return memo + lot.Size; }, 0);
+
+                vm.space().UnitNo(unitNo);
                 vm.space().Size(size);
-                vm.space().LotCollection(vm.selectedLots);
+                vm.space().UnitCollection(vm.selectedUnits);
                 // load the building address
-                var query = String.format("BuildingId eq {0}", vm.selectedBuilding());
-                var tcs = new $.Deferred();
+                var query = String.format("BuildingId eq {0}", vm.selectedBuildingId()),
+                    tcs = new $.Deferred();
                 context.loadOneAsync("Building", query)
                     .done(function (b) {
                         vm.space().Address(b.Address());
@@ -168,43 +167,48 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             mapInitialized = ko.observable(false),
             geoCode = function (address) {
                 return map.geocode(address)
-                  .then(function (result) {
-                      if (result.status) {
-                          map.init({
-                              panel: 'map',
-                              draw: true,
-                              polygoncomplete: polygoncomplete,
-                              markercomplete: markercomplete,
-                              zoom: 18,
-                              center: result.point
-                          });
-                      } else {
-                          var point = new google.maps.LatLng(3.1282, 101.6441);
-                          map.init({
-                              panel: 'map',
-                              draw: true,
-                              polygoncomplete: polygoncomplete,
-                              zoom: center[0] ? 18 : 12,
-                              center: point
-                          });
-                      }
-                  });
+                    .then(function (result) {
+                        if (result.status) {
+                            map.init({
+                                panel: 'map',
+                                draw: true,
+                                polygoncomplete: polygoncomplete,
+                                markercomplete: markercomplete,
+                                zoom: 18,
+                                center: result.point
+                            });
+                        } else {
+                            var point = new google.maps.LatLng(3.1282, 101.6441);
+                            map.init({
+                                panel: 'map',
+                                draw: true,
+                                polygoncomplete: polygoncomplete,
+                                zoom: center[0] ? 18 : 12,
+                                center: point
+                            });
+                        }
+                    });
             },
             showMap = function () {
+
+                if (vm.space().SpaceId() === 0) {
+                    logger.info("Sila simpan dulu ruang ini");
+                    return;
+                }
+
                 $('#map-panel').modal();
                 if (mapInitialized()) {
                     return;
                 }
                 mapInitialized(true);
-                var buildingId = vm.space().BuildingId(),
-                    spaceId = vm.space().SpaceId(),
+                var spaceId = vm.space().SpaceId(),
                     address = vm.space().Address().Street() + ","
                         + vm.space().Address().City() + ","
                         + vm.space().Address().Postcode() + ","
                         + vm.space().Address().State() + ","
                         + "Malaysia.";
 
-                if (!buildingId) {
+                if (!spaceId) {
                     geoCode(address);
                     return;
                 }
@@ -212,40 +216,40 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                 var pathTask = $.get("/Space/GetEncodedPath/" + spaceId);
                 var centerTask = $.get("/Space/GetCenter/" + spaceId);
                 $.when(pathTask, centerTask)
-                .then(function (path, center) {
-                    if (center[0]) {
-                        //var point = new google.maps.LatLng(center[0].Lat, center[0].Lng);
-                    } else {
-                        geoCode(address);
-                        return;
-                    }
-                    map.init({
-                        panel: 'map',
-                        draw: true,
-                        polygoncomplete: polygoncomplete,
-                        markercomplete: markercomplete,
-                        zoom: center[0] ? 18 : 12
-                    }).done(function () {
-                        map.setCenter(center[0].Lat, center[0].Lng);
-                        if (path[0]) {
-                            var shape = map.add({
-                                encoded: path[0],
-                                draggable: true,
-                                editable: true,
-                                zoom: 18
-                            });
-                            if (shape.type === 'marker') {
-                                pointMarker = shape;
-                            }
-
-                            if (shape.type === 'polygon') {
-                                buildingPolygon = shape;
-                            }
+                    .then(function (path, center) {
+                        if (center[0]) {
+                            //var point = new google.maps.LatLng(center[0].Lat, center[0].Lng);
+                        } else {
+                            geoCode(address);
+                            return;
                         }
+                        map.init({
+                            panel: 'map',
+                            draw: true,
+                            polygoncomplete: polygoncomplete,
+                            markercomplete: markercomplete,
+                            zoom: center[0] ? 18 : 12
+                        }).done(function () {
+                            map.setCenter(center[0].Lat, center[0].Lng);
+                            if (path[0]) {
+                                var shape = map.add({
+                                    encoded: path[0],
+                                    draggable: true,
+                                    editable: true,
+                                    zoom: 18
+                                });
+                                if (shape.type === 'marker') {
+                                    pointMarker = shape;
+                                }
+
+                                if (shape.type === 'polygon') {
+                                    buildingPolygon = shape;
+                                }
+                            }
+                        });
+
+
                     });
-
-
-                });
             },
             buildingPolygon = null,
             polygoncomplete = function (shape) {
@@ -278,7 +282,8 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                 }
                 return vm.space().saveMap(data);
 
-            };
+            },
+            selectedBuilding = ko.observable(new bespoke.sph.domain.Building());
 
         var vm = {
             activate: activate,
@@ -288,52 +293,56 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             buildingOptions: ko.observableArray(),
             blockOptions: ko.observableArray(),
             floorOptions: ko.observableArray(),
-            lotOptions: ko.observableArray(),
+            unitOptions: ko.observableArray(),
             stateOptions: ko.observableArray(),
-            selectedBuilding: ko.observable(),
+            selectedBuildingId: ko.observable(),
+            selectedBlock: ko.observable(),
             selectedFloor: ko.observable(),
-            selectedLots: ko.observableArray(),
+            selectedUnits: ko.observableArray(),
             toolbar: {
                 saveCommand: saveCs
             },
             showMapCommand: showMap,
             saveMapCommand: saveMap,
-            selectLotCommand: selectLot,
-            addLotsCommand: addLots,
+            selectUnitCommand: selectUnit,
+            addUnitsCommand: addUnits,
             addFeaturesCommand: addFeatures,
             removeFeaturesCommand: removeFeatures,
             isBusy: isBusy
         };
 
-        vm.selectedBuilding.subscribe(function (id) {
+        selectedBuilding.subscribe(function (b) {
+            console.log(b);
+        });
+        vm.selectedBuildingId.subscribe(function (id) {
             vm.space().BuildingId(id);
             if (!id) return;
-            vm.isBusy(true);
             context.loadOneAsync("Building", "BuildingId eq " + id)
                 .then(function (b) {
                     if (!b) return;
-                    var floors = _(b.FloorCollection()).map(function (f) {
-                        return f.Name();
-                    }),
-                        blocks = _(b.BlockCollection()).map(function (bl) {
-                            return bl.Name();
-                        });
+                    var floors = b.FloorCollection(),
+                        blocks = b.BlockCollection();
 
-
+                    selectedBuilding(b);
                     vm.floorOptions(floors);
                     vm.blockOptions(blocks);
-                    vm.isBusy(false);
                     vm.space().Address(b.Address());
-                    selectedBuilding = b;
                 });
         });
+
+        vm.selectedBlock.subscribe(function (block) {
+            if (block) {
+                vm.floorOptions(block.FloorCollection());
+            } else {
+                vm.floorOptions(selectedBuilding().FloorCollection());
+            }
+        });
+
         vm.selectedFloor.subscribe(function (floor) {
-            var building = ko.mapping.toJS(selectedBuilding);
-            var sf = _(building.FloorCollection).find(function (f) {
-                return f.Name == floor;
-            });
-            vm.space().FloorName(floor);
-            vm.lotOptions(sf.LotCollection);
+            if (!floor) return;
+            if (!floor.Name) return;
+            vm.space().FloorName(floor.Name());
+            vm.unitOptions(floor.UnitCollection());
         });
 
         return vm;

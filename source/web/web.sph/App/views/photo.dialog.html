@@ -1,10 +1,10 @@
-﻿<section class="view-model-modal">
+﻿<section class="view-model-modal photo-dialog">
     <div class="modal-header">
         <button type="button" class="close" data-bind="click: cancelClick">&times;</button>
         <h3>Gambar</h3>
     </div>
     <div class="modal-body">
-        <form class="form-horizontal" data-bind="with: photo">
+        <form id="form-photo-dialog" class="form-horizontal" data-bind="with: photo">
             <div class="control-group">
                 <label for="title" class="control-label">Tajuk</label>
                 <div class="controls">
@@ -21,22 +21,21 @@
             <div class="control-group">
                 <label for="input-photo" class="control-label">Gambar</label>
                 <div class="controls">
-                    <img alt="image" data-bind="attr: { src: '/Image/Store/' + StoreId() }" />
+                    <img src="/Images/no-image.png" alt="image" data-bind="attr: { src: '/Image/Store/' + StoreId() }" />
                     <input data-bind="kendoUpload: StoreId" id="input-photo" type="file" name="files" />
                 </div>
             </div>
             <div class="control-group">
-                <label for="input-thumbnail" class="control-label">Thumbnail</label>
+                <label class="control-label">Thumbnail</label>
                 <div class="controls">
-                    <img alt="thumbnail" data-bind="attr: { src: '/Image/Store/' + ThumbnailStoreId() }" />
-                    <input data-bind="kendoUpload: ThumbnailStoreId" id="input-thumbnail" type="file" name="files" />
+                    <img src="/Images/no-image.png" alt="thumbnail" data-bind="attr: { src: '/Image/Thumbnail/' + StoreId() }" />
                 </div>
             </div>
         </form>
     </div>
 
     <div class="modal-footer">
-        <input type="button" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+        <input type="submit" form="form-photo-dialog" class="btn btn-primary" value="OK" data-bind="click: okClick" />
         <button class="btn" data-bind="click: cancelClick">Cancel</button>
     </div>
 </section>

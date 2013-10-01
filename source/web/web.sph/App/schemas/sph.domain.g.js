@@ -61,7 +61,7 @@ bespoke.sph.domain.Land = function (webId) {
     var model = {
         "$type": "Bespoke.Sph.Domain.Land, domain.sph",
         LandId: ko.observable(0),
-        Lot: ko.observable(''),
+        Unit: ko.observable(''),
         Title: ko.observable(''),
         Location: ko.observable(''),
         Size: ko.observable(0.00),
@@ -104,7 +104,7 @@ bespoke.sph.domain.Building = function (webId) {
         BuildingId: ko.observable(0),
         Type: ko.observable(''),
         Name: ko.observable(''),
-        LotNo: ko.observable(''),
+        UnitNo: ko.observable(''),
         BuildingSize: ko.observable(0.00),
         Status: ko.observable(''),
         Floors: ko.observable(0),
@@ -209,7 +209,7 @@ bespoke.sph.domain.Floor = function (webId) {
         Size: ko.observable(0.00),
         Number: ko.observable(''),
         Note: ko.observable(''),
-        LotCollection: ko.observableArray([]),
+        UnitCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -221,13 +221,14 @@ bespoke.sph.domain.Floor = function (webId) {
 
 
 
-bespoke.sph.domain.Lot = function (webId) {
+bespoke.sph.domain.Unit = function (webId) {
 
     var model = {
-        "$type": "Bespoke.Sph.Domain.Lot, domain.sph",
-        Name: ko.observable(''),
+        "$type": "Bespoke.Sph.Domain.Unit, domain.sph",
+        No: ko.observable(''),
         Size: ko.observable(0.00),
         FloorNo: ko.observable(''),
+        BlockNo: ko.observable(''),
         IsSpace: ko.observable(false),
         Usage: ko.observable(''),
         FillOpacity: ko.observable(0.00),
@@ -236,8 +237,8 @@ bespoke.sph.domain.Lot = function (webId) {
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
-    if (bespoke.sph.domain.LotPartial) {
-        return _(model).extend(new bespoke.sph.domain.LotPartial(model));
+    if (bespoke.sph.domain.UnitPartial) {
+        return _(model).extend(new bespoke.sph.domain.UnitPartial(model));
     }
     return model;
 };
@@ -252,7 +253,7 @@ bespoke.sph.domain.Space = function (webId) {
         TemplateId: ko.observable(0),
         TemplateName: ko.observable(''),
         BuildingId: ko.observable(0),
-        LotName: ko.observable(''),
+        UnitNo: ko.observable(''),
         FloorName: ko.observable(''),
         Size: ko.observable(0.00),
         Category: ko.observable(''),
@@ -265,11 +266,14 @@ bespoke.sph.domain.Space = function (webId) {
         State: ko.observable(''),
         City: ko.observable(''),
         BuildingName: ko.observable(''),
-        BuildingLot: ko.observable(''),
+        BuildingUnit: ko.observable(''),
         RentalRate: ko.observable(0.00),
         Location: ko.observable(''),
         Description: ko.observable(''),
-        LotCollection: ko.observableArray([]),
+        MapIcon: ko.observable(''),
+        SmallIcon: ko.observable(''),
+        Icon: ko.observable(''),
+        UnitCollection: ko.observableArray([]),
         CustomFieldValueCollection: ko.observableArray([]),
         Address: ko.observable(new bespoke.sph.domain.Address()),
         PhotoCollection: ko.observableArray([]),
@@ -749,6 +753,7 @@ bespoke.sph.domain.UserProfile = function (webId) {
         Email: ko.observable(''),
         UserProfileId: ko.observable(0),
         Department: ko.observable(''),
+        HasChangedDefaultPassword: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

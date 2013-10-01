@@ -81,6 +81,12 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\..\..\packages\EntityFramework.6.0.0-beta1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="ImageResizer">
+      <HintPath>..\..\..\packages\ImageResizer.3.3.3\lib\ImageResizer.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer.Mvc">
+      <HintPath>..\..\..\packages\ImageResizer.Mvc.3.3.3\lib\ImageResizer.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Invoke.Docx, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\dependencies\word.document.generator\bin\Debug\Invoke.Docx.dll</HintPath>
@@ -306,6 +312,7 @@
     <Compile Include="Controllers\ReportDeliveryController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
+    <Compile Include="ViewModels\CreateMapModel.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
@@ -695,6 +702,12 @@
     <Content Include="Content\theme.metro-admin\rentalapplication.min.css">
       <DependentUpon>rentalapplication.less</DependentUpon>
     </Content>
+    <Content Include="Content\theme.metro-admin\report.css">
+      <DependentUpon>report.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\report.min.css">
+      <DependentUpon>report.less</DependentUpon>
+    </Content>
     <Content Include="Content\theme.metro-admin\site.css">
       <DependentUpon>site.less</DependentUpon>
     </Content>
@@ -774,13 +787,18 @@
     <Content Include="Images\pic2.png" />
     <Content Include="Images\pic3.png" />
     <Content Include="Images\pic4.png" />
+    <Content Include="Images\pie-chart.png" />
     <Content Include="Images\quarters.png" />
+    <Content Include="Images\remove_icon.png" />
     <Content Include="Images\report-layout.1.png" />
     <Content Include="Images\report-layout.2.png" />
     <Content Include="Images\rumah_peranginan.png" />
+    <Content Include="Images\save.png" />
+    <Content Include="Images\search.png" />
     <Content Include="Images\SetterAction.png" />
     <Content Include="Images\Slider1-edited.jpg" />
     <Content Include="Images\up8.png" />
+    <Content Include="Images\warning.png" />
     <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />
     <Content Include="Scripts\bootmetro-charms.js" />
@@ -868,6 +886,7 @@
     <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\copy document.psd" />
     <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\collection.psd" />
     <Content Include="Content\theme.metro-admin\user.less" />
+    <Content Include="Content\theme.metro-admin\report.less" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\DataTables-1.9.4\docs\media\js\doc.js" />
@@ -999,7 +1018,7 @@
     <Content Include="App\viewmodels\deposit.js" />
     <Content Include="App\viewmodels\floorplan.js" />
     <Content Include="App\viewmodels\home.js" />
-    <Content Include="App\viewmodels\lot.list.js" />
+    <Content Include="App\viewmodels\unit.list.js" />
     <Content Include="App\viewmodels\map.js" />
     <Content Include="App\viewmodels\offerdetails.js" />
     <Content Include="App\viewmodels\organization.detail.js" />
@@ -1041,7 +1060,7 @@
     <Content Include="App\views\floorplan.html" />
     <Content Include="App\views\footer.html" />
     <Content Include="App\views\home.html" />
-    <Content Include="App\views\lot.list.html" />
+    <Content Include="App\views\unit.list.html" />
     <Content Include="App\views\nav.html" />
     <Content Include="App\views\offerdetails.html" />
     <Content Include="App\views\organization.detail.html" />
@@ -1465,10 +1484,10 @@
     <Content Include="Views\Template\EditorTemplates\RentalApplicationBanksElement.cshtml" />
     <Content Include="Views\Template\_PathPicker.cshtml" />
     <Content Include="Views\Template\Space.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\SpaceLotsElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\SpaceLotsElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\SpaceUnitElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\SpaceUnitElement.cshtml" />
     <Content Include="Views\Template\_DesignerContextAction.cshtml" />
-    <Content Include="Views\App\EditorTemplates\SpaceLotsElement.cshtml" />
+    <Content Include="Views\App\EditorTemplates\SpaceUnitElement.cshtml" />
     <Content Include="Views\App\ApplicationDetailHtml.cshtml" />
     <Content Include="Views\Print\Index.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\AddressElement.cshtml" />
@@ -1476,7 +1495,7 @@
     <Content Include="Views\Print\DisplayTemplates\BuildingMapElement.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\CheckBox.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\ComboBox.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\SpaceLotsElement.cshtml" />
+    <Content Include="Views\Print\DisplayTemplates\SpaceUnitElement.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\ComplaintCategoryElement.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\DatePicker.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\EmailFormElement.cshtml" />
@@ -1567,7 +1586,7 @@
     <Content Include="Views\Shared\_LayoutTest.cshtml" />
     <Content Include="Views\App\SpaceDetailPublicHtml.cshtml" />
     <Content Include="Views\App\DisplayTemplates\SpaceFeaturesElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\SpaceLotsElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\SpaceUnitElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\AddressElement.cshtml">
       <SubType>Code</SubType>
     </Content>

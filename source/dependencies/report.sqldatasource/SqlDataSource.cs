@@ -235,6 +235,8 @@ namespace Bespoke.Sph.SqlReportDataSource
         }
 
 
+
+
         public void FillColumnValue(XElement xml, ReportRow r)
         {
             XNamespace x = Strings.DEFAULT_NAMESPACE;
@@ -246,7 +248,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                     var attribute = xml.Attribute(c.Name);
                     if (null != attribute)
                     {
-                        c.Value = attribute.Value;
+                        c.SetValue(attribute.Value);
                         continue;
                     }
 
@@ -264,14 +266,14 @@ namespace Bespoke.Sph.SqlReportDataSource
                             {
                                 var valueAtribute = cv.Attribute("Value");
                                 if (null == valueAtribute) continue;
-                                c.Value = valueAtribute.Value;
+                                c.SetValue(valueAtribute.Value);
                             }
                         }
                         continue;
                     }
 
                     var element = xml.Element(x + c.Name);
-                    if (null != element) c.Value = element.Value;
+                    if (null != element) c.SetValue(element.Value);
                     continue;
                 }
 
@@ -290,7 +292,7 @@ namespace Bespoke.Sph.SqlReportDataSource
                 var attr = node.Attribute(prop);
                 if (null != attr)
                 {
-                    c.Value = attr.Value;
+                    c.SetValue(attr.Value);
                 }
 
             }

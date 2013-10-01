@@ -36,10 +36,10 @@
 
                         }
                         <form method="POST" action="" accept-charset="UTF-8">
-                            @Html.TextBoxFor(m => m.UserName, new { placeholder = "Nama pengguna", @class = "input-xlarge" })
+                            @Html.TextBoxFor(m => m.UserName, new { placeholder = "Nama pengguna", @class = "input-xlarge", required = true })
                             @Html.ValidationMessageFor(m => m.UserName)
                             <label class="controls"></label>
-                            @Html.PasswordFor(m => m.Password, new { placeholder = "Kata laluan", @class = "input-xlarge" })
+                            @Html.PasswordFor(m => m.Password, new { placeholder = "Kata laluan", @class = "input-xlarge" , required = true})
                             @Html.ValidationMessageFor(m => m.Password)
                             <label class="checkbox">
                                 <input type="checkbox" name="remember" value="1">
@@ -69,8 +69,6 @@
 
 
     @Scripts.Render("~/scripts/vendor")
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $('.carousel').carousel({

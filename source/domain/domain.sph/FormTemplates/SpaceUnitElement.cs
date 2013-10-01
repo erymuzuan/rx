@@ -1,6 +1,6 @@
 ﻿namespace Bespoke.Sph.Domain
 {
-    public partial class SpaceLotsElement : FormElement
+    public partial class SpaceUnitElement : FormElement
     {
         public override CustomField GenerateCustomField()
         {

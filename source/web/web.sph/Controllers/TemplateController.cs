@@ -231,7 +231,7 @@ namespace Bespoke.Sph.Web.Controllers
             vm.FormElements.Add(new AddressElement());
             vm.FormElements.Add(new BuildingElement());
             vm.FormElements.Add(new BuildingMapElement());
-            vm.FormElements.Add(new SpaceLotsElement());
+            vm.FormElements.Add(new SpaceUnitElement());
             vm.FormElements.Add(new SpaceFeaturesElement());
 
             return View(vm);

@@ -86,7 +86,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                     floorname: floorname()
                 });
                 isBusy(true);
-                context.post(data, "/Building/AddLotFloorPlan")
+                context.post(data, "/Building/AddUnitFloorPlan")
                     .then(function (e) {
                         logger.log("Data has been successfully saved ", e, "buildingdetail", true);
 

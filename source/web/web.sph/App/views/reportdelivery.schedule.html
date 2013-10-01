@@ -1,8 +1,6 @@
 ﻿<h1>Report Delivery Schedules</h1>
-
 <div>
     <form class="form-horizontal" data-bind="with: delivery">
-
         <div class="control-group">
             <label for="Title" class="control-label">Title</label>
             <div class="controls">
@@ -21,13 +19,12 @@
                 <textarea class="input-xxlarge" data-bind="value: Description" id="Description" name="Description"></textarea>
             </div>
         </div>
-
         <div class="control-group">
             <label class="control-label">Add New Schedules</label>
             <div class="controls">
-
                 <div class="btn-group">
-                    <a class="btn btn-link dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">Add new Schedule
+                    <a class="btn btn-link dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
+                        Add new Schedule
                         <span class="caret pull-right"></span>
                     </a>
                     <ul class="dropdown-menu" data-bind="foreach: $root.scheduleOptions">
@@ -39,11 +36,9 @@
                         </li>
                     </ul>
                 </div>
-
             </div>
-
         </div>
-        
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -56,13 +51,13 @@
             <tbody data-bind="foreach: IntervalScheduleCollection">
                 <tr>
                     <td>
-                        <i data-bind="attr : {class:icon}" ></i>
+                        <i data-bind="attr : {class:icon}"></i>
                     </td>
                     <td>
                         <a href="#" data-bind="click: $root.editSchedule, text: name"></a>
                     </td>
                     <td>
-                        <input type="checkbox" name="isactive"  data-bind="checked:IsActive"/>
+                        <input type="checkbox" name="isactive" data-bind="checked:IsActive" />
                     </td>
                     <td></td>
                 </tr>
@@ -71,29 +66,25 @@
     </form>
 </div>
 
-
 <section class="modal hide" id="schedule-dialog" data-bind="with: editedSchedule">
-
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h3 data-bind="text: name"></h3>
     </div>
+    <!--ko if:$data['$type']() === "Bespoke.Sph.Domain.HourlySchedule, domain.sph" -->
     <div class="modal-body">
-        <!--ko if:$data['$type']() === "Bespoke.Sph.Domain.HourlySchedule, domain.sph" -->
         <div class="control-group">
             <label for="sche-start-hour" class="control-label">Start Hour</label>
             <div class="controls">
                 <input class="input-mini" data-bind="value: StartHour" min="0" id="sche-start-hour" type="number" name="StartHour" />
             </div>
         </div>
-
         <div class="control-group">
             <label for="h-end" class="control-label">End hour</label>
             <div class="controls">
                 <input class="input-mini" data-bind="value: EndHour, attr: {min : StartHour}" id="h-end" type="number" name="EndHour" />
             </div>
         </div>
-
         <div class="control-group">
             <label for="h-minute" class="control-label">On the minute</label>
             <div class="controls">
@@ -107,21 +98,24 @@
                 <span class="help-inline">every hour</span>
             </div>
         </div>
-
-        <!-- /ko-->
-        <!--ko if:$data['$type']() === "Bespoke.Sph.Domain.DailySchedule, domain.sph" -->
+    </div>
+    <!-- /ko-->
+    <!--ko if:$data['$type']() === "Bespoke.Sph.Domain.DailySchedule, domain.sph" -->
+    <div class="modal-body">
         <div class="control-group">
             <label for="daily-hour" class="control-label">Hour</label>
             <div class="controls">
-                <input class="input-mini" data-bind="value: Hour" id="daily-hour" type="number" max="23" name="sche-start-hour" />
+                <input class="input-mini" data-bind="value: Hour" id="daily-hour" type="number" min="0" max="23" name="sche-start-hour" />
             </div>
         </div>
         <div class="control-group">
             <label for="daily-minute" class="control-label">Minute</label>
             <div class="controls">
-                <input class="input-mini" data-bind="value: Minute" id="daily-minute" type="number" max="59" name="daily-minute" />
+                <input class="input-mini" data-bind="value: Minute" id="daily-minute" type="number" min="0" max="59" name="daily-minute" />
             </div>
         </div>
+
+
 
         <div class="control-group">
             <div class="controls">
@@ -131,7 +125,6 @@
                 </label>
             </div>
         </div>
-
         <div class="control-group">
             <div class="controls">
                 <label class="checkbox">
@@ -140,7 +133,6 @@
                 </label>
             </div>
         </div>
-
         <div class="control-group">
             <div class="controls">
                 <label class="checkbox">
@@ -149,7 +141,6 @@
                 </label>
             </div>
         </div>
-
         <div class="control-group">
             <div class="controls">
                 <label class="checkbox">
@@ -158,7 +149,6 @@
                 </label>
             </div>
         </div>
-
         <div class="control-group">
             <div class="controls">
                 <label class="checkbox">
@@ -167,7 +157,6 @@
                 </label>
             </div>
         </div>
-
         <div class="control-group">
             <div class="controls">
                 <label class="checkbox">
@@ -176,7 +165,6 @@
                 </label>
             </div>
         </div>
-
         <div class="control-group">
             <div class="controls">
                 <label class="checkbox">
@@ -185,8 +173,69 @@
                 </label>
             </div>
         </div>
-        <!-- /ko-->
+
+
     </div>
+    <!-- /ko-->
+    <!--ko if:$data.$type() === "Bespoke.Sph.Domain.WeeklySchedule, domain.sph" -->
+    <div class="modal-body">
+        <div class="control-group">
+            <label for="weekly-hour" class="control-label">Hour</label>
+            <div class="controls">
+                <input class="input-mini" data-bind="value: Hour" id="weekly-hour" min="0" type="number" max="23" name="weekly-hour" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="weekly-minute" class="control-label">Minute</label>
+            <div class="controls">
+                <input class="input-mini" data-bind="value: Minute" id="weekly-minute" min="0" type="number" max="59" name="weekly-minute" />
+            </div>
+        </div>
+
+        <div class="control-group">
+
+            <label for="weekly-day" class="control-label">Day of the week</label>
+            <div class="controls">
+
+                <select data-bind="value: Day" id="weekly-day" name="weekly-day">
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                </select>
+
+            </div>
+        </div>
+    </div>
+    <!-- /ko-->
+    <!--ko if:$data.$type() === "Bespoke.Sph.Domain.MonthlySchedule, domain.sph" -->
+    <div class="modal-body">
+        <div class="control-group">
+            <label for="monthly-hour" class="control-label">Hour</label>
+            <div class="controls">
+                <input class="input-mini" data-bind="value: Hour" id="monthly-hour" min="0" type="number" max="23" name="monthly-hour" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="monthly-minute" class="control-label">Minute</label>
+            <div class="controls">
+                <input class="input-mini" data-bind="value: Minute" id="monthly-minute" min="0" type="number" max="59" name="monthly-minute" />
+            </div>
+        </div>
+
+        <div class="control-group">
+
+            <label for="monthly-day" class="control-label">Day</label>
+            <div class="controls">
+                <input class="input-mini" data-bind="value: Day" id="monthly-day" min="1" type="number" max="31" name="monthly-day" />
+
+            </div>
+        </div>
+    </div>
+    <!-- /ko-->
 
     <div class="modal-footer">
         <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: $root.okDialog" />

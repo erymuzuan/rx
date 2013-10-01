@@ -8,7 +8,7 @@ $(document).ready(function () {
             "$values": [6]
         },
         "LotCollection": {
-            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Lot, domain.sph]], domain.sph",
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Unit, domain.sph]], domain.sph",
             "$values": []
         },
         "CustomFieldValueCollection": {

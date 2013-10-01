@@ -12,8 +12,7 @@
 define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger', 'config'],
     function (context, system, designerHost, eximp, logger, config) {
 
-        var isBusy = ko.observable(false),
-            templateId = ko.observable(),
+        var templateId = ko.observable(),
             activate = function (routeData) {
 
 
@@ -36,7 +35,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
 
                 var lot = new bespoke.sph.domain.SpaceLotsElement(system.guid());
                 lot.CssClass("icon-check-empty pull-left");
-                lot.Name("Lot");
+                lot.Name("Unit");
                 customElements.push(lot);
 
                 var feature = new bespoke.sph.domain.SpaceFeaturesElement(system.guid());

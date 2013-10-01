@@ -61,7 +61,7 @@
 				</xs:element>
 			</xs:all>
 			<xs:attribute name="LandId" type="xs:int" use="required"/>
-			<xs:attribute name="Lot" type="xs:string" use="required"/>
+			<xs:attribute name="Unit" type="xs:string" use="required"/>
 			<xs:attribute name="Title" type="xs:string" use="required"/>
 			<xs:attribute name="Location" type="xs:string" use="required"/>
 			<xs:attribute name="Size" type="xs:double" use="required"/>
@@ -138,7 +138,7 @@
 			<xs:attribute name="BuildingId" type="xs:int" use="required"/>
 			<xs:attribute name="Type" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="LotNo" type="xs:string" use="required"/>
+			<xs:attribute name="UnitNo" type="xs:string" use="required"/>
 			<xs:attribute name="BuildingSize" type="xs:double" use="required"/>
 			<xs:attribute name="Status" type="xs:string" use="required"/>
 			<xs:attribute name="Floors" type="xs:int" use="required"/>
@@ -192,10 +192,10 @@
 	<xs:element name="Floor">
 		<xs:complexType>
 			<xs:all>
-				<xs:element name="LotCollection">
+				<xs:element name="UnitCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="Lot" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="Unit" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -206,11 +206,12 @@
 			<xs:attribute name="Note" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Lot">
+	<xs:element name="Unit">
 		<xs:complexType>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="No" type="xs:string" use="required"/>
 			<xs:attribute name="Size" type="xs:double" use="required"/>
 			<xs:attribute name="FloorNo" type="xs:string" use="required"/>
+			<xs:attribute name="BlockNo" type="xs:string" use="required"/>
 			<xs:attribute name="IsSpace" type="xs:boolean" use="required"/>
 			<xs:attribute name="Usage" type="xs:string" use="required"/>
 			<xs:attribute name="FillOpacity" type="xs:double" use="required"/>
@@ -221,10 +222,10 @@
 	<xs:element name="Space">
 		<xs:complexType>
 			<xs:all>
-				<xs:element name="LotCollection">
+				<xs:element name="UnitCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="Lot" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="Unit" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -262,7 +263,7 @@
 			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="TemplateName" type="xs:string" use="required"/>
 			<xs:attribute name="BuildingId" type="xs:int" use="required"/>
-			<xs:attribute name="LotName" type="xs:string" use="required"/>
+			<xs:attribute name="UnitNo" type="xs:string" use="required"/>
 			<xs:attribute name="FloorName" type="xs:string" use="required"/>
 			<xs:attribute name="Size" type="xs:double" use="required"/>
 			<xs:attribute name="Category" type="xs:string" use="required"/>
@@ -275,10 +276,13 @@
 			<xs:attribute name="State" type="xs:string" use="required"/>
 			<xs:attribute name="City" type="xs:string" use="required"/>
 			<xs:attribute name="BuildingName" type="xs:string" use="required"/>
-			<xs:attribute name="BuildingLot" type="xs:string" use="required"/>
+			<xs:attribute name="BuildingUnit" type="xs:string" use="required"/>
 			<xs:attribute name="RentalRate" type="xs:decimal" use="required"/>
 			<xs:attribute name="Location" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="MapIcon" type="xs:string" use="required"/>
+			<xs:attribute name="SmallIcon" type="xs:string" use="required"/>
+			<xs:attribute name="Icon" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="RentalApplication">
@@ -629,6 +633,7 @@
 			<xs:attribute name="Email" type="xs:string" use="required"/>
 			<xs:attribute name="UserProfileId" type="xs:int" use="required"/>
 			<xs:attribute name="Department" type="xs:string" use="required"/>
+			<xs:attribute name="HasChangedDefaultPassword" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Deposit">

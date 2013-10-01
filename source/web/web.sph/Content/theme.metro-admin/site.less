@@ -8,7 +8,7 @@
 
 .google-maps-medium {
     min-height: 430px;
-      
+
 
     div.modal-body {
         width: 600px;
@@ -16,6 +16,7 @@
         max-height: 300px;
     }
 }
+
 .google-maps {
     min-height: 600px;
 
@@ -38,18 +39,19 @@
 
 table.table-striped {
 
-    th{
-        cursor:pointer;
-    }
-    th.headerSortUp:after {
-        float:right;
-        content: url('/images/up8.png');
+    th {
+        cursor: pointer;
     }
 
-    th.headerSortDown:after {
-        float:right;
-        content: url('/images/down8.png');
-    }
+        th.headerSortUp:after {
+            float: right;
+            content: url('/images/up8.png');
+        }
+
+        th.headerSortDown:after {
+            float: right;
+            content: url('/images/down8.png');
+        }
 }
 
 .modal, .view-model-modal {
@@ -333,3 +335,14 @@ header div.container {
         min-height: 400px;
     }
 }
+
+
+input:invalid, textarea:invalid {
+    background-image: url('/Images/star.png') !important;
+    background-repeat: no-repeat;
+    background-position: right top;
+}
+
+    input:invalid:after, textarea:invalid:after {
+        content: url('/Images/star.png') !important;
+    }

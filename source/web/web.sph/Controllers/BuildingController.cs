@@ -64,7 +64,7 @@ namespace Bespoke.Sph.Web.Controllers
             var context = new SphDataContext();
 
             var item = await context.LoadOneAsync<Building>(b => b.BuildingId == id);
-            var lotItem = item.FloorCollection.Single(f => f.Name == floor).LotCollection.Single(l => l.Name == lot);
+            var lotItem = item.FloorCollection.Single(f => f.Name == floor).UnitCollection.Single(l => l.No == lot);
             if (string.IsNullOrWhiteSpace(lotItem.PlanStoreId)) return Json(new { EncodedPolygon = string.Empty }, JsonRequestBehavior.AllowGet);
             var line = await context.GetScalarAsync<SpatialStore, string>(s => s.StoreId == lotItem.PlanStoreId, s => s.EncodedWkt);
 
@@ -82,7 +82,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
             var building = await context.LoadOneAsync<Building>(b => b.BuildingId == id);
-            var lotItem = building.FloorCollection.Single(f => f.Name == floorname).LotCollection.Single(l => l.Name == lot);
+            var lotItem = building.FloorCollection.Single(f => f.Name == floorname).UnitCollection.Single(l => l.No == lot);
             lotItem.FillOpacity = fillOpacity;
             lotItem.FillColor = fillColor;
             lotItem.PlanStoreId = Guid.NewGuid().ToString();
@@ -98,7 +98,7 @@ namespace Bespoke.Sph.Web.Controllers
             var store = new SpatialStore
                 {
                     StoreId = lotItem.PlanStoreId,
-                    Type = typeof(Lot).Name,
+                    Type = typeof(Unit).Name,
                     Tag = string.Format("{0};{1}{2}", id, floorname, lot),
                     EncodedWkt = path,
                     Wkt = points.ToWkt()
@@ -159,15 +159,15 @@ namespace Bespoke.Sph.Web.Controllers
 
                 foreach (var floor in block.FloorCollection)
                 {
-                    var duplicateLot = floor.LotCollection.Select(l => l.Name)
+                    var duplicateLot = floor.UnitCollection.Select(l => l.No)
                                             .GroupBy(s => s)
                                             .Any(s => s.Count() > 1);
                     if (duplicateLot)
-                        errorMessage.AppendLine("There are duplicate Lot in floor" + floor.Name);
+                        errorMessage.AppendLine("There are duplicate Unit in floor" + floor.Name);
 
                 }
             }
-            
+
             if (errorMessage.Length > 0)
                 return Json(new { status = false, message = errorMessage.ToString() });
 
@@ -179,27 +179,39 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(new { status = "success", buildingId = building.BuildingId, message = building.Name });
         }
 
-        public async Task<ActionResult> AddLot(Floor floor, int buildingId, string floorname)
+        public async Task<ActionResult> AddUnit(Floor floor, Block block, int buildingId, Unit unit)
         {
-            var duplicateLot = floor.LotCollection.Select(l => l.Name)
+
+            if(null == floor)throw new ArgumentNullException("floor");
+            if(null == unit)throw new ArgumentNullException("unit");
+            if(0 == buildingId)throw new ArgumentException("Building is is 0" ,"buildingId");
+
+            var duplicateLot = floor.UnitCollection.Select(l => l.No)
                                     .GroupBy(s => s)
                                     .Any(s => s.Count() > 1);
             if (duplicateLot)
-                return Json(new { status = false, message = "There are duplicate Lot in floor " + floor.Name });
+                return Json(new { status = false, message = "There are duplicate Unit in floor " + floor.Name });
 
 
             var context = new SphDataContext();
-            var dbItem = await context.LoadOneAsync<Building>(b => b.BuildingId == buildingId);
-            var dbfloor = dbItem.FloorCollection.Single(f => f.Name == floorname);
-
-            dbItem.BuildingId = buildingId;
-            dbItem.FloorCollection.Replace(dbfloor, floor);
+            var building = await context.LoadOneAsync<Building>(b => b.BuildingId == buildingId);
+            var dbfloor = building.FloorCollection.SingleOrDefault(f => f.Name == floor.Name);
+            if (null != block && !string.IsNullOrWhiteSpace(block.WebId))
+            {
+                var dbBlock = building.BlockCollection.Single(f => f.Name == block.Name);
+                dbfloor = dbBlock.FloorCollection.Single(f => f.Name == floor.Name);
+                unit.BlockNo = dbBlock.Name;
+            }
+            if(null == dbfloor)throw new Exception("Cannot find floor");
+            unit.FloorNo = dbfloor.Name;
+            dbfloor.UnitCollection.Add(unit);
+            building.BuildingId = buildingId;
 
 
 
             using (var session = context.OpenSession())
             {
-                session.Attach(dbItem);
+                session.Attach(building);
                 await session.SubmitChanges();
             }
             return Json(new { status = "success", message = "Your floor details has been saved" });

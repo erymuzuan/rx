@@ -40,18 +40,18 @@ namespace domain.test.triggers
             ObjectBuilder.AddCacheList<IPersistence>(persistence);
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher());
 
-            var building = new Building { LotNo = "4444" };
+            var building = new Building { UnitNo = "4444", Note = "Test 1234", Type = "Shopping Mall"};
             var setter = new SetterAction
             {
                 TriggerId = 44,
                 Title = "Unit test runner"
             };
             setter.SetterActionChildCollection.Add(new SetterActionChild { Path = "Name", Field = new ConstantField { Type = typeof(string), Value = "Damansara Intan" } }); ;
-            setter.SetterActionChildCollection.Add(new SetterActionChild { Path = "Note", Field = new DocumentField { Path = "LotNo", Type = typeof(string) } });
+            setter.SetterActionChildCollection.Add(new SetterActionChild { Path = "Note", Field = new DocumentField { Path = "Type", Type = typeof(string) } });
             setter.ExecuteAsync(new RuleContext(building)).Wait(5000);
 
             Assert.AreEqual("Damansara Intan", persistence.Building.Name);
-            Assert.AreEqual("4444", persistence.Building.Note);
+            Assert.AreEqual("Shopping Mall", persistence.Building.Note);
 
         }
     }

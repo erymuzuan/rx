@@ -33,3 +33,4 @@ debug/
 !ReportBuilder.g.cs
 SQLQuery[0-9].sql
 _ReSharper.commercial-space
+/source/web/web.sph/thumbnails

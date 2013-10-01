@@ -9,7 +9,6 @@ namespace Bespoke.Sph.Web.Helpers
 
         public static string GetRequestBody(this Controller controller)
         {
-
             using (var reader = new StreamReader(controller.Request.InputStream))
             {
                 string text = reader.ReadToEnd();

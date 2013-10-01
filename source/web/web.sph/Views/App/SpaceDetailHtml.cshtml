@@ -45,9 +45,9 @@
                             }
                         </div>
                     </div>
-                    <div>
+                    <div id="space-photo-gallery">
                         <a href="/#" data-bind="click: addPhoto">Add Photo</a>
-                        <table class="table table-striped">
+                        <table class="table table-striped" data-bind="visible:PhotoCollection().length">
                             <thead>
                                 <tr>
                                     <th>Tajuk</th>
@@ -61,7 +61,7 @@
                                         <a href="/#" data-bind="click: $parent.editPhoto.call($parent, $data), text: Title"></a>
                                     </td>
                                     <td>
-                                        <img alt="thumbnail" data-bind="attr: { src: '/Image/Store/' + ThumbnailStoreId() }" />
+                                        <img src="~/Images/no-image.png" alt="thumbnail" data-bind="attr: { src: '/Image/Thumbnail/' + StoreId() }" />
                                     </td>
                                     <td>
                                         <a href="/#" data-bind="click: $parent.removePhoto.call($parent, $data)">Buang</a>
@@ -71,7 +71,35 @@
                         </table>
                     </div>
 
-
+                    <div id="space-icons-panel">
+                        <div class="control-group">
+                            <label for="map-icon" class="control-label">Map Icon</label>
+                            <div class="controls">
+                                <!-- ko if : MapIcon -->
+                                <img data-bind="attr: { src: '/image/store/' + MapIcon() }" src="/Images/no-image.png" alt="map icon" />
+                                <!--/ko-->
+                                <input data-bind="kendoUpload: MapIcon" id="map-icon" type="file" name="files" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="small-icon" class="control-label">Small Icon</label>
+                            <div class="controls">
+                                <!-- ko if : SmallIcon -->
+                                <img data-bind="attr: { src: '/image/store/' + SmallIcon() }" src="/Images/no-image.png" alt="small icon" />
+                                <!--/ko-->
+                                <input data-bind="kendoUpload: SmallIcon" id="small-icon" type="file" name="files" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="icon" class="control-label">Icon</label>
+                            <div class="controls">
+                                <!-- ko if : Icon -->
+                                <img data-bind="attr: { src: '/image/store/' + Icon() }" src="/Images/no-image.png" alt="icon" />
+                                <!--/ko-->
+                                <input data-bind="kendoUpload: Icon" id="icon" type="file" name="files" />
+                            </div>
+                        </div>
+                    </div>   
                 </form>
 
             </div>
@@ -94,28 +122,34 @@
     <div class="modal-body">
         <form class="form-horizontal">
             <div class="control-group">
-                <label for="selectedBuilding" class="control-label">Bangunan</label>
+                <label for="selected-buildingid" class="control-label">Bangunan</label>
                 <div class="controls" data-bind="with: buildingOptions">
-                    <select data-bind="value: $root.selectedBuilding, options: $data, optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Sila pilih]'" id="selectedBuilding" name="selectedBuilding"></select>
+                    <select data-bind="value: $root.selectedBuildingId, options: $data, optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Sila pilih]'" id="selected-buildingid" name="selected-buildingid"></select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="selected-block" class="control-label">Block</label>
+                <div class="controls">
+                    <select data-bind="value: selectedBlock, options: blockOptions, optionsText: 'Name',  optionsCaption: '[Sila pilih]'" id="selected-block" name="selected-block"></select>
                 </div>
             </div>
             <div class="control-group">
                 <label for="selectedFloor" class="control-label">Lantai</label>
                 <div class="controls">
-                    <select data-bind="value: selectedFloor, options: floorOptions, optionsCaption: '[Sila pilih]'" id="selectedFloor" name="selectedFloor"></select>
+                    <select data-bind="value: selectedFloor, options: floorOptions, optionsText: 'Name', optionsCaption: '[Sila pilih]'" id="selectedFloor" name="selectedFloor"></select>
                 </div>
             </div>
             <div class="control-group">
-                <label for="selectedLots" class="control-label">Lot</label>
+                <label for="space-selected-units" class="control-label">Unit</label>
                 <div class="controls">
-                    <select data-bind="selectedOptions: selectedLots, options: lotOptions, optionsText: 'Name'" id="selectedLots" name="selectedLots" multiple="multiple"></select>
+                    <select data-bind="selectedOptions: selectedUnits, options: unitOptions, optionsText: 'No'" id="space-selected-units" name="selectedUnits" multiple="multiple"></select>
                 </div>
             </div>
         </form>
     </div>
 
     <div class="modal-footer">
-        <input data-dismiss="modal" id="add-lot-button" type="button" class="btn btn-primary" data-bind="click: addLotsCommand" value="OK" />
+        <input data-dismiss="modal" id="add-lot-button" type="button" class="btn btn-primary" data-bind="click: addUnitsCommand" value="OK" />
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
     </div>
 </section>

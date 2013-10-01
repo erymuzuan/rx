@@ -3,6 +3,14 @@
     TO DEFINE the style, use respective themes css/less
     
     */
+
+.photo-dialog
+{
+    background-image: url('/Images/warning.png');
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: fixed;
+}
 .application-template-checkbox{}
 .input-datagrid-group-column {}
 .input-datagrid-group-expression {}

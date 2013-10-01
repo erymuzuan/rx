@@ -1,6 +1,6 @@
 ﻿namespace Bespoke.Sph.Domain
 {
-    public partial class Lot : DomainObject
+    public partial class Unit : DomainObject
     {
     }
 }

@@ -205,7 +205,7 @@ namespace web.test
                 .Sleep(1.Seconds())
                 .SelectOption("[name=selectedFloor]", "1st Floor")
                 .Sleep(1.Seconds())
-                .SelectOption("[name=selectedLots]", "Lot 1")
+                .SelectOption("[name=selectedUnits]", "Lot 1")
                 .Click("#add-lot-button");
 
             driver.Value("[name='Cafe Name']", "Cafe ABC");

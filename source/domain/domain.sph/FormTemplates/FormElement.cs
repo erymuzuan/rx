@@ -20,7 +20,7 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(RentalApplicationBanksElement))]
     [XmlInclude(typeof(RentalApplicationAttachmentsElement))]
     [XmlInclude(typeof(RentalApplicationContactElement))]
-    [XmlInclude(typeof(SpaceLotsElement))]
+    [XmlInclude(typeof(SpaceUnitElement))]
     [XmlInclude(typeof(HtmlElement))]
     [XmlInclude(typeof(CustomListDefinitionElement))]
     [XmlInclude(typeof(MaintenanceOfficerElement))]
