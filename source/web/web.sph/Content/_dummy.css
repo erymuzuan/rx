@@ -11,6 +11,9 @@
     background-position: right top;
     background-attachment: fixed;
 }
+
+.complaint-check-panel{}
+.application-check-panel{}
 .application-template-checkbox{}
 .input-datagrid-group-column {}
 .input-datagrid-group-expression {}

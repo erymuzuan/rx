@@ -858,5 +858,18 @@
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": null,
+    "groupName": null,
+    "url": "public.check.application",
+    "moduleId": "viewmodels/public.check.application",
+    "name": "Semak Permohonan",
+    "visible": false,
+    "icon": "icon-calendar",
+    "caption": "Semak Permohonan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
   }
 ]

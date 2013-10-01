@@ -9,8 +9,27 @@ using System.Linq;
 
 namespace Bespoke.Sph.Web.Controllers
 {
+    [Authorize]
     public class RentalApplicationController : Controller
     {
+        [AllowAnonymous]
+        public async Task<ActionResult> Check(string id,string registrationNo)
+        {
+            var context = new SphDataContext();
+            var query = context.RentalApplications.Where(r => r.RegistrationNo == registrationNo && r.Contact.IcNo == id);
+            var lo = await context.LoadAsync(query);
+
+
+            if (Request.ContentType.Contains("application/json"))
+            {
+                var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
+                this.Response.ContentType = "application/json; charset=utf-8";
+                return Content(JsonConvert.SerializeObject(lo.ItemCollection,settings));
+            }
+
+            return View(lo.ItemCollection);
+        }
+
         public async Task<ActionResult> Print(int id)
         {
             var context = new SphDataContext();
