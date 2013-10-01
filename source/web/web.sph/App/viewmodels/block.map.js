@@ -14,6 +14,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
     function (context, logger, router, map) {
 
         var isBusy = ko.observable(false),
+            id = ko.observable(),
             activate = function (storeId) {
                 vm.spatialStoreId(storeId);
 
@@ -22,7 +23,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             polygoncomplate = function (shape) {
                 polygon = shape;
             },
-            init = function (buildingId) {
+            init = function (buildingId, spatialId) {
+                vm.spatialStoreId(spatialId);
+                id(buildingId);
+
+                // time out to allow for the UI to render
                 window.setTimeout(function () {
 
                     $.get("/Building/GetCenter/" + buildingId)
@@ -34,6 +39,26 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                               polygoncomplete: polygoncomplate
                           }).done(function () {
                               map.setCenter(e.Lat, e.Lng);
+
+                              context.getScalarAsync("SpatialStore", String.format("StoreId eq '{0}'", spatialId), "EncodedWkt")
+                                  .done(function (path) {
+                                      if (!path) return;
+                                      var shape = map.add({
+                                          encoded: path,
+                                          draggable: true,
+                                          editable: true,
+                                          zoom: 18
+                                      });
+                                      if (shape.type === 'marker') {
+                                          // pointMarker = shape;
+                                      }
+
+                                      if (shape.type === 'polygon') {
+                                          polygon = shape;
+                                      }
+
+                                  });
+
                           });
                       });
 
@@ -46,10 +71,15 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             okClick = function () {
                 // save the spatial
                 var tcs = new $.Deferred(),
-                    data = JSON.stringify(map.getEncodedPath(polygon)),
+                    data = JSON.stringify(
+                        {
+                            "EncodedPath": map.getEncodedPath(polygon),
+                            "Tag": id().toString(),
+                            "Type": "Block"
+                        }),
                     modal = vm.modal;
 
-                context.post(data, "/Map/Create/1")
+                context.post(data, "/Map/Create")
                     .then(function (result) {
                         tcs.resolve(result);
                         vm.spatialStoreId(result);

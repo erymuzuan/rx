@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Domain;
 using System.Linq;
+using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
@@ -12,18 +13,28 @@ namespace Bespoke.Sph.Web.Controllers
     public class MapController : Controller
     {
 
-        public async Task<ActionResult> Create(string id)
+        [HttpPost]
+        public async Task<ActionResult> Create()
         {
             var result = Guid.NewGuid().ToString();
+            var model = this.GetRequestJson<CreateMapModel>();
+            if (null == model) throw new Exception("Cannot deserialize CreateMapModel");
+            Console.WriteLine("BODY " + model);
+            
+            
+            var points = model.EncodedPath.Decode().ToList();
+            if (
+                Math.Abs(points.First().Lat - points.Last().Lat) > 0.00001
+                || Math.Abs(points.First().Lng - points.Last().Lng) > 0.00001
+                )
+                points.Add(points.First().Clone());
 
-            var body = this.GetRequestBody();
-            var path = body.Decode();
             var spatial = new SpatialStore
             {
-                EncodedWkt = body,
-                Wkt = path.ToWkt(),
-                Type = id,
-                Tag = id,
+                EncodedWkt = model.EncodedPath,
+                Wkt = points.ToWkt(),
+                Type = model.Type,
+                Tag = model.Tag,
                 StoreId = result
             };
             var context = new SphDataContext();

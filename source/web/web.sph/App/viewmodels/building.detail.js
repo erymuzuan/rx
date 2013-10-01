@@ -181,8 +181,8 @@ define(['services/datacontext',
                     return;
                 }
 
-                var pathTask = $.get("/Building/GetEncodedPath/" + buildingId);
-                var centerTask = $.get("/Building/GetCenter/" + buildingId);
+                var pathTask = $.get("/Building/GetEncodedPath/" + buildingId());
+                var centerTask = $.get("/Building/GetCenter/" + buildingId());
                 $.when(pathTask, centerTask)
                 .then(function (path, center) {
                     if (!center[0]) {

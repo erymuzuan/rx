@@ -116,6 +116,7 @@ function (logger, system, ko2) {
         searchAsync: searchAsync,
         loadAsync: loadAsync,
         loadOneAsync: loadOneAsync,
+        getScalarAsync: getScalarAsync,
         getMaxAsync: getMaxAsync,
         getMinAsync: getMinAsync,
         getSumAsync: getSumAsync,
@@ -267,6 +268,9 @@ function (logger, system, ko2) {
         return tcs.promise();
     }
 
+    function getScalarAsync(entity, query, field) {
+        return getAggregateAsync("scalar", entity, query, field);
+    }
     function getMaxAsync(entity, query, field) {
         return getAggregateAsync("max", entity, query, field);
     }
@@ -373,7 +377,11 @@ function (logger, system, ko2) {
             dataType: "json",
             error: tcs.reject,
             success: function (msg) {
-                tcs.resolve(parseFloat(msg));
+                if (aggregate === "scalar") {
+                    tcs.resolve(msg);
+                } else {
+                    tcs.resolve(parseFloat(msg));
+                }
             }
         });
 

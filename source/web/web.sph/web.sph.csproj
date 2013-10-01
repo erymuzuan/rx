@@ -312,6 +312,7 @@
     <Compile Include="Controllers\ReportDeliveryController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
+    <Compile Include="ViewModels\CreateMapModel.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
