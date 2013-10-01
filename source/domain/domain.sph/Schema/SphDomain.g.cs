@@ -8817,6 +8817,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameDepartment = "Department";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_hasChangedDefaultPassword;
+        public const string PropertyNameHasChangedDefaultPassword = "HasChangedDefaultPassword";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -9103,6 +9108,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_department;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool HasChangedDefaultPassword
+        {
+            set
+            {
+                if (m_hasChangedDefaultPassword == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameHasChangedDefaultPassword, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_hasChangedDefaultPassword = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_hasChangedDefaultPassword;
             }
         }
 

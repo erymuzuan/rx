@@ -632,6 +632,7 @@
 			<xs:attribute name="Email" type="xs:string" use="required"/>
 			<xs:attribute name="UserProfileId" type="xs:int" use="required"/>
 			<xs:attribute name="Department" type="xs:string" use="required"/>
+			<xs:attribute name="HasChangedDefaultPassword" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Deposit">

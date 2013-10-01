@@ -701,6 +701,12 @@
     <Content Include="Content\theme.metro-admin\rentalapplication.min.css">
       <DependentUpon>rentalapplication.less</DependentUpon>
     </Content>
+    <Content Include="Content\theme.metro-admin\report.css">
+      <DependentUpon>report.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\report.min.css">
+      <DependentUpon>report.less</DependentUpon>
+    </Content>
     <Content Include="Content\theme.metro-admin\site.css">
       <DependentUpon>site.less</DependentUpon>
     </Content>
@@ -878,6 +884,7 @@
     <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\copy document.psd" />
     <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\collection.psd" />
     <Content Include="Content\theme.metro-admin\user.less" />
+    <Content Include="Content\theme.metro-admin\report.less" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\DataTables-1.9.4\docs\media\js\doc.js" />

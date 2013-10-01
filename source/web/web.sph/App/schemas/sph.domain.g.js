@@ -752,6 +752,7 @@ bespoke.sph.domain.UserProfile = function (webId) {
         Email: ko.observable(''),
         UserProfileId: ko.observable(0),
         Department: ko.observable(''),
+        HasChangedDefaultPassword: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

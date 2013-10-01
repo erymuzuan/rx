@@ -347,6 +347,9 @@ ko.bindingHandlers.command = {
 
         $button.click(function (e) {
             e.preventDefault();
+            if (this.form) {
+                if (!this.form.checkValidity()) return;
+            }
 
             var $spinner = $("<i class='icon-spin icon-spinner icon-large'></i>");
             $spinner.css({ "margin-left": -($button.width() / 2) - 16, "position": "fixed", "margin-top": "10px" });
