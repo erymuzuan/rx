@@ -60,6 +60,7 @@ define(['services/datacontext',
                 vm.building().TemplateName(template.Name());
 
             },
+            buildingId = ko.observable(),
             activate = function (routeData) {
                 // NOTE : this is the only way to debug as this file is returned as a result of redirect
                 //debugger;
@@ -67,6 +68,7 @@ define(['services/datacontext',
                     templateId = parseInt(routeData.templateId),
                     tcs = new $.Deferred();
 
+                buildingId(id);
                 vm.stateOptions(config.stateOptions);
                 mapInitialized(false);
 
@@ -102,10 +104,6 @@ define(['services/datacontext',
 
 
                 return tcs.promise();
-            },
-            addLot = function (floor) {
-                var url = '/#/unit.list/' + vm.building().BuildingId();
-                router.navigateTo(url);
             },
             viewFloorPlan = function (floor) {
                 var url = '/#/floorplan/' + vm.building().BuildingId() + '/' + floor.Name();
@@ -172,14 +170,13 @@ define(['services/datacontext',
                     return;
                 }
                 mapInitialized(true);
-                var buildingId = vm.building().BuildingId(),
-                    address = vm.building().Address().Street() + ","
+                var address = vm.building().Address().Street() + ","
                         + vm.building().Address().City() + ","
                         + vm.building().Address().Postcode() + ","
                         + vm.building().Address().State() + ","
                         + "Malaysia.";
 
-                if (!buildingId) {
+                if (!buildingId()) {
                     geoCode(address);
                     return;
                 }
@@ -293,7 +290,6 @@ define(['services/datacontext',
             showMapCommand: showMap,
             saveMapCommand: saveMap,
             addFloorCommand: addFloor,
-            addLotCommand: addLot,
             viewFloorPlanCommand: viewFloorPlan,
             goBackCommand: goBack,
             isBusy: isBusy,
@@ -314,7 +310,16 @@ define(['services/datacontext',
                     entity: "Building",
                     id: ko.observable()
                 },
-                removeCommand: remove
+                removeCommand: remove,
+                commands: ko.observableArray([
+                    {
+                        caption: "Senarai units",
+                        command: function () {
+                            window.location = "/#/unit.list/" + buildingId();
+                        },
+                        icon: "icon-tablet"
+                    }])
+
             }
         };
 

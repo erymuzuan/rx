@@ -52,7 +52,7 @@ namespace Bespoke.Sph.SqlRepository
                 path.UdtTypeName = "GEOGRAPHY";
 
                 cmd.Parameters.AddWithValue("@EncodedWkt", item.EncodedWkt);
-                cmd.Parameters.AddWithValue("@Id", (int)properties.Single(p => p.Name == typeof(T).Name + "Id").GetValue(item));
+                cmd.Parameters.AddWithValue("@Id", item.GetId());
 
 
 

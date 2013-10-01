@@ -167,7 +167,7 @@ namespace Bespoke.Sph.Web.Controllers
 
                 }
             }
-            
+
             if (errorMessage.Length > 0)
                 return Json(new { status = false, message = errorMessage.ToString() });
 
@@ -179,8 +179,13 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(new { status = "success", buildingId = building.BuildingId, message = building.Name });
         }
 
-        public async Task<ActionResult> AddLot(Floor floor, int buildingId, string floorname)
+        public async Task<ActionResult> AddUnit(Floor floor, Block block, int buildingId, Unit unit)
         {
+
+            if(null == floor)throw new ArgumentNullException("floor");
+            if(null == unit)throw new ArgumentNullException("unit");
+            if(0 == buildingId)throw new ArgumentException("Building is is 0" ,"buildingId");
+
             var duplicateLot = floor.UnitCollection.Select(l => l.No)
                                     .GroupBy(s => s)
                                     .Any(s => s.Count() > 1);
@@ -189,17 +194,24 @@ namespace Bespoke.Sph.Web.Controllers
 
 
             var context = new SphDataContext();
-            var dbItem = await context.LoadOneAsync<Building>(b => b.BuildingId == buildingId);
-            var dbfloor = dbItem.FloorCollection.Single(f => f.Name == floorname);
-
-            dbItem.BuildingId = buildingId;
-            dbItem.FloorCollection.Replace(dbfloor, floor);
+            var building = await context.LoadOneAsync<Building>(b => b.BuildingId == buildingId);
+            var dbfloor = building.FloorCollection.SingleOrDefault(f => f.Name == floor.Name);
+            if (null != block && !string.IsNullOrWhiteSpace(block.WebId))
+            {
+                var dbBlock = building.BlockCollection.Single(f => f.Name == block.Name);
+                dbfloor = dbBlock.FloorCollection.Single(f => f.Name == floor.Name);
+                unit.BlockNo = dbBlock.Name;
+            }
+            if(null == dbfloor)throw new Exception("Cannot find floor");
+            unit.FloorNo = dbfloor.Name;
+            dbfloor.UnitCollection.Add(unit);
+            building.BuildingId = buildingId;
 
 
 
             using (var session = context.OpenSession())
             {
-                session.Attach(dbItem);
+                session.Attach(building);
                 await session.SubmitChanges();
             }
             return Json(new { status = "success", message = "Your floor details has been saved" });

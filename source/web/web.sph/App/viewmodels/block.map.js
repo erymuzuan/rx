@@ -6,6 +6,7 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../../Scripts/google-maps-3-vs-1-0-vsdoc.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../viewmodels/map.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
@@ -17,6 +18,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                 vm.spatialStoreId(storeId);
 
             },
+            polygon = null,
+            polygoncomplate = function (shape) {
+                polygon = shape;
+            },
             init = function (buildingId) {
                 window.setTimeout(function () {
 
@@ -25,8 +30,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                           map.init({
                               panel: 'block-map-panel',
                               draw: true,
-                              zoom: 18
-                          }).done(function() {
+                              zoom: 18,
+                              polygoncomplete: polygoncomplate
+                          }).done(function () {
                               map.setCenter(e.Lat, e.Lng);
                           });
                       });
@@ -38,7 +44,18 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
 
             },
             okClick = function () {
-                this.modal.close("OK");
+                // save the spatial
+                var tcs = new $.Deferred(),
+                    data = JSON.stringify(map.getEncodedPath(polygon)),
+                    modal = vm.modal;
+
+                context.post(data, "/Map/Create/1")
+                    .then(function (result) {
+                        tcs.resolve(result);
+                        vm.spatialStoreId(result);
+                        modal.close("OK");
+                    });
+                return tcs.promise();
             },
             cancelClick = function () {
                 this.modal.close("Cancel");

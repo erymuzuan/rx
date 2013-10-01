@@ -1,14 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Domain;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
     public class MapController : Controller
     {
+
+        public async Task<ActionResult> Create(string id)
+        {
+            var result = Guid.NewGuid().ToString();
+
+            var body = this.GetRequestBody();
+            var path = body.Decode();
+            var spatial = new SpatialStore
+            {
+                EncodedWkt = body,
+                Wkt = path.ToWkt(),
+                Type = id,
+                Tag = id,
+                StoreId = result
+            };
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(spatial);
+                await session.SubmitChanges("Create New");
+            }
+
+            var repos = ObjectBuilder.GetObject<ISpatialService<SpatialStore>>();
+            await repos.UpdateAsync(spatial);
+
+
+            if (Request.ContentType.Contains("application/json"))
+            {
+                this.Response.ContentType = "application/json; charset=utf-8";
+                return Content(JsonConvert.SerializeObject(result));
+            }
+
+            return View(result);
+        }
         public async Task<ActionResult> Get(string id, string[] filter)
         {
             var bounds = GoogleMapHelper.ParseBound(id).ToArray();
