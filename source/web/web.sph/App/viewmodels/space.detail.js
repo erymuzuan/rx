@@ -314,6 +314,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
         selectedBuilding.subscribe(function (b) {
             console.log(b);
         });
+        
         vm.selectedBuildingId.subscribe(function (id) {
             vm.space().BuildingId(id);
             if (!id) return;
