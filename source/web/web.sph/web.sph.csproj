@@ -434,6 +434,7 @@
     <Content Include="App\viewmodels\block.map.js" />
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
+    <Content Include="App\viewmodels\public.check.application.js" />
     <Content Include="App\viewmodels\space.detailpublic.js" />
     <Content Include="App\viewmodels\_contract.facility.js" />
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
@@ -482,6 +483,7 @@
     <Content Include="App\views\block.map.html" />
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\chats.html" />
+    <Content Include="App\views\public.check.application.html" />
     <Content Include="App\views\_contract.facility.html" />
     <Content Include="App\views\space.template.form.html" />
     <Content Include="App\views\space.template.list.html" />
@@ -696,6 +698,12 @@
     <Content Include="Content\theme.metro-admin\nav.min.css">
       <DependentUpon>nav.less</DependentUpon>
     </Content>
+    <Content Include="Content\theme.metro-admin\public.index.css">
+      <DependentUpon>public.index.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.metro-admin\public.index.min.css">
+      <DependentUpon>public.index.less</DependentUpon>
+    </Content>
     <Content Include="Content\theme.metro-admin\rentalapplication.css">
       <DependentUpon>rentalapplication.less</DependentUpon>
     </Content>
@@ -764,9 +772,16 @@
     <Content Include="Content\_dummy.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\add_icon.png" />
+    <Content Include="Images\add_user.png" />
     <Content Include="Images\Adobe-Acrobat.png" />
+    <Content Include="Images\arrow.png" />
     <Content Include="Images\background.png" />
     <Content Include="Images\blank.png" />
+    <Content Include="Images\box-1-white.png" />
+    <Content Include="Images\box-2-white.png" />
+    <Content Include="Images\box-3-white.png" />
+    <Content Include="Images\building_icon.png" />
     <Content Include="Images\constantfield.png" />
     <Content Include="Images\courts.png" />
     <Content Include="Images\documentfield.png" />
@@ -886,6 +901,7 @@
     <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\collection.psd" />
     <Content Include="Content\theme.metro-admin\user.less" />
     <Content Include="Content\theme.metro-admin\report.less" />
+    <Content Include="Content\theme.metro-admin\public.index.less" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\DataTables-1.9.4\docs\media\js\doc.js" />

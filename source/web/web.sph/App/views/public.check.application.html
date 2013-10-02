@@ -1,0 +1,50 @@
+﻿<h1>Semakan permohonan</h1>
+<div class="container">
+    <div class="row">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label for="registrion-no" class="control-label">No daftar</label>
+                <div class="controls">
+                    <input required data-bind="value: registrationNo" id="registrion-no" type="text" name="registrionNo" />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="id-no" class="control-label">No. SSM/ no. KP</label>
+                <div class="controls">
+                    <input required data-bind="value: id" id="id-no" type="text" name="id" />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="submit" class="control-label">.</label>
+                <div class="controls">
+                    <button data-bind="command: submit" id="submit" type="submit" name="submit">
+                        <i class="icon-search"></i>
+                        Semak
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row" data-bind="visible:results().length">
+        <h3>Senarai permohonan anda</h3>
+        <!-- ko foreach :results -->
+        <div>
+            <div class="control-group">
+                <label class="control-label">No Daftar</label>
+                <div class="controls">
+                    <span data-bind="text: RegistrationNo"  />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Status</label>
+                <div class="controls">
+                    <span data-bind="text: Status"  />
+                </div>
+            </div>
+        </div>
+        <!--/ko-->
+    </div>
+</div>
