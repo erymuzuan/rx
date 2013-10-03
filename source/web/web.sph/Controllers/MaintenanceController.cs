@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -21,14 +22,18 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(true);
         }
 
-        public async Task<ActionResult> Assign(string officer, int id, int templateId)
+        public async Task<ActionResult> Assign()
         {
             var context = new SphDataContext();
-            var maint = await context.LoadOneAsync<Maintenance>(m => m.MaintenanceId == id);
+            var data = this.GetRequestJson<Maintenance>();
+            var maint = await context.LoadOneAsync<Maintenance>(m => m.MaintenanceId ==data.MaintenanceId) ?? new Maintenance();
             maint.Status = "Pemeriksaan";
-            maint.Officer = officer;
-            maint.TemplateId = templateId;
-            var workOrderNo = string.Format("WO{0:yyyy}{1}", DateTime.Today, id);
+            maint.Officer = data.Officer;
+            maint.TemplateId = data.TemplateId;
+            maint.StartDate = data.StartDate;
+            maint.EndDate = data.EndDate;
+
+            var workOrderNo = string.Format("WO{0:yyyy}{1}", DateTime.Today, data.MaintenanceId);
             maint.WorkOrderNo = workOrderNo;
 
             var workorder = new WorkOrder
@@ -38,7 +43,10 @@ namespace Bespoke.Sph.Web.Controllers
                     TemplateId = maint.TemplateId,
                     Status = "Baru",
                     Officer = maint.Officer,
-                    Department = maint.Department
+                    Department = maint.Department,
+                    StartDate = maint.StartDate ?? DateTime.Today,
+                    EndDate = maint.EndDate ?? DateTime.Today.AddDays(7),
+                    Resolution = "Belum Dilaksanakan"
                 };
             using (var session = context.OpenSession())
             {

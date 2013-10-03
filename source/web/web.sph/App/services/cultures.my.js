@@ -30,7 +30,8 @@ define([],
                 CLOSE_MAINTENANCE_BUTTON_CAPTION: "Penyenggaraan Selesai",
                 ASSIGN_MAINTENANCE_BUTTON_CAPTION: "Tugaskan Pegawai"
             },
-            maintenance_dashboard : {
+            maintenance: {
+                SAVE_TEMPLATE: "Templat berjaya disimpan",
                 NEW_MAINTENANCE_STATUS_CAPTION: "Baru",
                 INSPECTION_MAINTENANCE_STATUS_CAPTION: "Pemeriksaan",
                 INPROGRESS_MAINTENANCE_STATUS_CAPTION: "Penyenggaraan",

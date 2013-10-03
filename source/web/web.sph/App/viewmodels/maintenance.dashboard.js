@@ -14,7 +14,7 @@ define([objectbuilders.datacontext, objectbuilders.config,objectbuilders.culture
             isBusy(true);
             department(config.profile.Department);
             var dept = String.format("Department eq '{0}'", department());
-            var status = culture.maintenance_dashboard;
+            var status = culture.maintenance;
             var m = [{ status: status.NEW_MAINTENANCE_STATUS_CAPTION, count: -1, text: status.NEW_MAINTENANCE_STATUS_CAPTION.toUpperCase(), color: "bviolet" },
                 { status: status.INSPECTION_MAINTENANCE_STATUS_CAPTION, count: -1, text: status.INSPECTION_MAINTENANCE_STATUS_CAPTION.toUpperCase(), color: "blightblue" },
                 { status: status.INPROGRESS_MAINTENANCE_STATUS_CAPTION, count: -1, text: status.INPROGRESS_MAINTENANCE_STATUS_CAPTION.toUpperCase(), color: "bblue" },

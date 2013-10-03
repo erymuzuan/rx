@@ -41,6 +41,8 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                         vm.maintenance().CustomFieldValueCollection(cfs);
                         vm.maintenance().WorkOrderType(template.Name());
+                        vm.maintenance().MaintenanceId(id());
+                        vm.maintenance().TemplateId(templateId());
                         vm.officerOptions(officers);
                         tcs.resolve();
 
@@ -114,7 +116,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         },
         assignToOfficer = function () {
             var tcs = new $.Deferred();
-            var data = ko.toJSON({officer : ko.mapping.toJS(vm.maintenance().Officer)  , id :id(), templateId : templateId()});
+            var data = ko.toJSON(vm.maintenance);
             isBusy(true);
             context.post(data, "/Maintenance/Assign")
                 .then(function (result) {
