@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.20827.3
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencies", "{799A5437-62C7-4385-95CC-ADEB4177B3FA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit.test", "unit.test", "{C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}"
@@ -77,6 +75,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.sph", "source\web\web.sph\web.sph.csproj", "{ACE7D8D5-1100-4E9A-852E-564E46083AA2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.elasticsearch.indexer", "source\subscribers\subscriber.elasticsearch.indexer\subscriber.elasticsearch.indexer.csproj", "{F63B8AF9-E4AE-45D4-BADF-47C217FEFABA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.lucene.index", "source\subscribers\subscriber.lucene.index\subscriber.lucene.index.csproj", "{F82F88BA-3A8B-489F-9119-2A97C96B9DAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -184,6 +184,10 @@ Global
 		{F63B8AF9-E4AE-45D4-BADF-47C217FEFABA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F63B8AF9-E4AE-45D4-BADF-47C217FEFABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F63B8AF9-E4AE-45D4-BADF-47C217FEFABA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F82F88BA-3A8B-489F-9119-2A97C96B9DAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F82F88BA-3A8B-489F-9119-2A97C96B9DAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F82F88BA-3A8B-489F-9119-2A97C96B9DAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F82F88BA-3A8B-489F-9119-2A97C96B9DAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -210,6 +214,7 @@ Global
 		{119D14EE-D942-404B-A02F-BD338C7935AD} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{0D512B46-42FE-4492-948C-1212BA371969} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{F63B8AF9-E4AE-45D4-BADF-47C217FEFABA} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
+		{F82F88BA-3A8B-489F-9119-2A97C96B9DAE} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{4DC05B0D-B33A-4DBC-BF29-FF6FDEAA7C17} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{713F54A8-3F06-43C5-9312-E7BBC825A88C} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{9D9FD4B6-7475-41CF-8D65-CA3789DF93EF} = {DB65484E-BE1F-4944-B216-4A57026360EB}

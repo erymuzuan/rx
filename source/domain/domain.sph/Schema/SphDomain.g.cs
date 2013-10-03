@@ -2100,6 +2100,12 @@
                     public const string PropertyNameFloorPlanStoreId = "FloorPlanStoreId";
 
                   
+                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                private int  m_floors;
+                public const string PropertyNameFloors = "Floors";
+
+
+              
 			private readonly ObjectCollection<Floor>  m_FloorCollection = new ObjectCollection<Floor> ();
 
 			///<summary>
@@ -2223,6 +2229,28 @@
                     }
 
                   
+
+                ///<summary>
+                /// 
+                ///</summary>
+                [DebuggerHidden]
+				
+                public int Floors
+                {
+                set
+                {
+                if(m_floors == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFloors, value);
+                OnPropertyChanging(arg);
+                if(! arg.Cancel)
+                {
+                m_floors= value;
+                OnPropertyChanged();
+                }
+                }
+                get { return m_floors;}
+                }
+              
 
           }
         
@@ -11850,6 +11878,11 @@
           {
           
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  int  m_workOrderId;
+                    public const string PropertyNameWorkOrderId = "WorkOrderId";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private  string  m_priority;
                     public const string PropertyNamePriority = "Priority";
 
@@ -11953,6 +11986,34 @@
 			get{ return m_NonComplianceCollection;}
 			}
 		
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public int WorkOrderId
+                    {
+                    set
+                    {
+                    if( m_workOrderId == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameWorkOrderId, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_workOrderId= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_workOrderId;}
+                    }
+
+                  
                 ///<summary>
                 /// 
                 ///</summary>

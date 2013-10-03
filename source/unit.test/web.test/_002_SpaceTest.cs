@@ -76,10 +76,10 @@ namespace web.test
 
             // No Lot
             driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Lot")
+                  .ClickFirst("a", e => e.Text == "Unit")
                   .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Lot")
-                  .Value("[name=Path]", "LotName");
+                  .Value("[name=Label]", "Unit")
+                  .Value("[name=Path]", "BuildingUnit");
 
             // Nama Cafe
             driver.ClickFirst("a", e => e.Text == "Add a field")
