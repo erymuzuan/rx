@@ -1,4 +1,6 @@
-﻿/// <reference path="../schemas/sph.domain.g.js" />
+﻿/// <reference path="../objectbuilders.js" />
+/// <reference path="../services/datacontext.js" />
+/// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../durandal/system.js" />
 /// <reference path="../durandal/amd/require.js" />
 /// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
@@ -11,8 +13,10 @@ bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
 
 
-bespoke.sph.domain.BuildingPartial = function () {
+bespoke.sph.domain.BuildingPartial = function (model) {
     var system = require('durandal/system'),
+        context = require(objectbuilders.datacontext),
+        logger = require(objectbuilders.logger),
         getCustomField = function (name) {
             var cs = _(this.CustomFieldValueCollection()).find(function (v) {
                 return v.Name() === name;
@@ -98,19 +102,58 @@ bespoke.sph.domain.BuildingPartial = function () {
                 if (block.FloorCollection().length === 0) {
                     block.FloorCollection.push(new bespoke.sph.domain.Floor(system.guid()));
                 }
-                
+
                 require(['viewmodels/block.floors', 'durandal/app'], function (dialog, app) {
                     dialog.block(block);
                     app.showModal(dialog)
                         .done(function (result) {
                             if (result == "OK") {
-                                
+
                             }
                         });
 
                 });
             };
+        },
+        staticMap = ko.observable(),
+        mapChanged = function (id) {
+
+            if (!id) return;
+            var pathTask = $.get("/Building/GetEncodedPath/" + id),
+                centerTask = $.get("/Building/GetCenter/" + id);
+            $.when(pathTask, centerTask)
+                .then(function (path, center) {
+                    if (center[0]) {
+                        var location = center[0],
+                            url =String.format("http://maps.google.com/maps/api/staticmap?center={0},{1}&"
+                                + "size=640x300&markers={0},{1}&sensor=false",location.Lat,location.Lng);
+                        staticMap(url);
+                    }
+                });
+        },
+        saveMap = function (map) {
+            var tcs = new $.Deferred();
+            context
+                 .post(JSON.stringify(map), "/Building/SaveMap")
+                 .then(function (e) {
+                     tcs.resolve(true);
+                     logger.log("Map has been successfully saved ", e, "buildingdetail", true);
+                     mapChanged(map.buildingId);
+
+                 });
+            return tcs.promise();
         };
+
+   
+    if (typeof model.BuildingId === "number") {
+        mapChanged(model.BuildingId);
+    }
+    if (typeof model.BuildingId === "function") {
+        mapChanged(model.BuildingId());
+        model.BuildingId.subscribe(mapChanged);
+    }
+
+
     return {
         CustomField: getCustomField,
         CustomList: getCustomList,
@@ -119,6 +162,8 @@ bespoke.sph.domain.BuildingPartial = function () {
         addBlock: addBlock,
         editBlockMap: editBlockMap,
         editBlockFloor: editBlockFloor,
-        removeBlock: removeBlock
+        removeBlock: removeBlock,
+        staticMap: staticMap,
+        saveMap : saveMap
     };
 };

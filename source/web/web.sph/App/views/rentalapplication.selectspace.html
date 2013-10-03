@@ -75,9 +75,9 @@
             <div>
                 <article>
                     <div>
-                        <!-- ko if: PhotoCollection().length > 0 -->
-                        <div data-bind="with: PhotoCollection()[0]" class="space-image-panel">
-                            <img data-bind="attr: { src: '/Image/Store/' + StoreId(), alt: Title }, text: Title" />
+                        <!-- ko if: Icon -->
+                        <div  class="space-image-panel">
+                            <img src="/Images/no-image.png" data-bind="attr: { src: '/Image/Store/' + Icon() }" alt="icon" />
                         </div>
                         <!-- /ko -->
                         <!-- ko if: PhotoCollection().length === 0 -->
@@ -95,7 +95,7 @@
                                 </p>
                                 <p>
                                     <span class="location">Lokasi :</span>
-                                    <span class="lot-name" data-bind="text: LotName" />
+                                    <span class="lot-name" data-bind="text: UnitNo" />
                                     <span class="floor-name" data-bind="text: FloorName" />,
 
                                     <span class="building-name" data-bind="text: BuildingName" />,
@@ -121,7 +121,7 @@
                                 </p>
                             </div>
                             <p>
-                                <a class="btn btn-success" data-bind="attr: { href: '/#/space.detailpublic-templateid.' + $parents[0].id + '/' + SpaceId() }">Mohon Sewa</a>
+                                <a class="btn btn-success" data-bind="attr: { href: '/#/space.detailpublic-templateid.' + TemplateId() + '/' + SpaceId() }">Mohon Sewa</a>
 
                             </p>
 

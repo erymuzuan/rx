@@ -24,7 +24,7 @@ define([],
                 FORM_IS_NOT_VALID: "Sila pastikan input anda betul"
             },
             lots: {
-                LOT_LIST_TITLE: "Senarai lot di block : {0}, tingkat : {1}"
+                LOT_LIST_TITLE: "Senarai unit di {0}"
             },
             maintenance_detail : {
                 CLOSE_MAINTENANCE_BUTTON_CAPTION: "Penyenggaraan Selesai",

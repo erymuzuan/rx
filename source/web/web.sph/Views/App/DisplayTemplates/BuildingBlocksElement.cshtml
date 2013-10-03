@@ -16,23 +16,26 @@
     <tbody data-bind="foreach: BlockCollection">
         <tr>
             <td>
-                <input class="input-block-name" type="text" data-bind="value: Name, uniqueName: true" value="G" /></td>
+                <input class="input-block-name" type="text" data-bind="value: Name, uniqueName: true" value="G" />
+            </td>
 
             <td>
-                <input class="input-block-description" type="text" data-bind="value: Description, uniqueName: true" /></td>
+                <input class="input-block-description" type="text" data-bind="value: Description, uniqueName: true" />
+            </td>
             <td>
-                <input class="input-block-size" type="text" data-bind="value: Size, uniqueName: true" value="5000" /></td>
+                <input class="input-block-size" type="text" data-bind="value: Size, uniqueName: true" value="5000" />
+            </td>
             <td>
                 <input class="input-block-floors" type="number" data-bind="value: Floors , uniqueName: true" />
             </td>
             <td>
-                <input type="button" data-bind="click: $parent.editBlockMap.call($parent,$data), uniqueName: true" class="btn btn-mini button-block-floorplan" value="Pelan Lantai" />
+                <a href="#" data-bind="click: $parent.editBlockMap.call($parent,$data)" class="button-block-floorplan">Pelan Lantai</a>
             </td>
             <td>
-                <input type="button" data-bind="click: $parent.editBlockFloor.call($parent, $data), uniqueName: true" class="btn btn-mini" value="Tingkat" />
+                <a href="#" data-bind="click: $parent.editBlockFloor.call($parent, $data)">Tingkat</a>
             </td>
             <td>
-                <a class="btn btn-mini" data-bind="click: $parent.removeBlock.call($parent,$data), uniqueName: true" >Buang</a>
+                <a href="#" data-bind="click: $parent.removeBlock.call($parent,$data)">Buang</a>
             </td>
         </tr>
     </tbody>

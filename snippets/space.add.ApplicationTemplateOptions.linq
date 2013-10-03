@@ -1,9 +1,9 @@
 <Query Kind="Statements">
   <Connection>
-    <ID>08de3e8b-14a7-4fb8-830a-907362486f0a</ID>
+    <ID>b3819c1f-fba2-4316-80ee-6e094a070d4a</ID>
     <Persist>true</Persist>
     <Server>(localdb)\Projects</Server>
-    <Database>Sph</Database>
+    <Database>sph</Database>
   </Connection>
   <Output>DataGrids</Output>
   <Reference Relative="..\bin\Debug\domain.sph.dll">C:\project\work\sph\bin\Debug\domain.sph.dll</Reference>

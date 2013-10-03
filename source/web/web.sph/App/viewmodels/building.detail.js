@@ -19,7 +19,7 @@ define(['services/datacontext',
         'config',
         objectbuilders.cultures
 ],
-    function (context, router, system, app, mapvm, logger, watcher, config, cultures) {
+    function (context, router, system, app, map, logger, watcher, config, cultures) {
 
 
         var isBusy = ko.observable(false),
@@ -60,6 +60,7 @@ define(['services/datacontext',
                 vm.building().TemplateName(template.Name());
 
             },
+            buildingId = ko.observable(),
             activate = function (routeData) {
                 // NOTE : this is the only way to debug as this file is returned as a result of redirect
                 //debugger;
@@ -67,6 +68,7 @@ define(['services/datacontext',
                     templateId = parseInt(routeData.templateId),
                     tcs = new $.Deferred();
 
+                buildingId(id);
                 vm.stateOptions(config.stateOptions);
                 mapInitialized(false);
 
@@ -103,10 +105,6 @@ define(['services/datacontext',
 
                 return tcs.promise();
             },
-            addLot = function (floor) {
-                var url = '/#/lotdetail/' + vm.building().BuildingId() + '/' + floor.Name();
-                router.navigateTo(url);
-            },
             viewFloorPlan = function (floor) {
                 var url = '/#/floorplan/' + vm.building().BuildingId() + '/' + floor.Name();
                 router.navigateTo(url);
@@ -142,12 +140,11 @@ define(['services/datacontext',
             mapInitialized = ko.observable(false),
             geoCode = function (address) {
 
-                var point = new google.maps.LatLng(3.1282, 101.6441);
 
-                return mapvm.geocode(address)
+                return map.geocode(address)
                   .then(function (result) {
                       if (result.status) {
-                          mapvm.init({
+                          map.init({
                               panel: 'map',
                               draw: true,
                               polygoncomplete: polygoncomplete,
@@ -156,7 +153,8 @@ define(['services/datacontext',
                               center: result.point
                           });
                       } else {
-                          mapvm.init({
+                          var point = new google.maps.LatLng(3.1282, 101.6441);
+                          map.init({
                               panel: 'map',
                               draw: true,
                               polygoncomplete: polygoncomplete,
@@ -172,54 +170,55 @@ define(['services/datacontext',
                     return;
                 }
                 mapInitialized(true);
-                isBusy(true);
-                var point = new google.maps.LatLng(3.1282, 101.6441);
-                var buildingId = vm.building().BuildingId(),
-                    address = vm.building().Address().Street() + ","
+                var address = vm.building().Address().Street() + ","
                         + vm.building().Address().City() + ","
                         + vm.building().Address().Postcode() + ","
                         + vm.building().Address().State() + ","
                         + "Malaysia.";
 
-                if (!buildingId) {
+                if (!buildingId()) {
                     geoCode(address);
                     return;
                 }
 
-                var pathTask = $.get("/Building/GetEncodedPath/" + buildingId);
-                var centerTask = $.get("/Building/GetCenter/" + buildingId);
+                var pathTask = $.get("/Building/GetEncodedPath/" + buildingId());
+                var centerTask = $.get("/Building/GetCenter/" + buildingId());
                 $.when(pathTask, centerTask)
                 .then(function (path, center) {
-                    isBusy(false);
-                    if (center[0]) {
-                        point = new google.maps.LatLng(center[0].Lat, center[0].Lng);
-                    } else {
+                    if (!center[0]) {
                         geoCode(address);
                         return;
                     }
-                    mapvm.init({
+                    map.init({
                         panel: 'map',
                         draw: true,
                         polygoncomplete: polygoncomplete,
-                        markercomplete : markercomplete,
-                        zoom: center[0] ? 18 : 12,
-                        center: point
+                        markercomplete: markercomplete,
+                        zoom: center[0] ? 18 : 12
+                    }).done(function () {
+                        if (center[0]) {
+                            map.setCenter(center[0].Lat, center[0].Lng);
+                        } else {
+                            map.setCenter(3.1282, 101.6441);
+                        }
+                        if (path[0]) {
+                            var shape = map.add({
+                                encoded: path[0],
+                                draggable: true,
+                                editable: true,
+                                zoom: 18
+                            });
+                            if (shape.type === 'marker') {
+                                pointMarker = shape;
+                            }
+
+                            if (shape.type === 'polygon') {
+                                buildingPolygon = shape;
+                            }
+                        }
+
+
                     });
-                    if (path[0]) {
-                        var shape = mapvm.add({
-                            encoded: path[0],
-                            draggable: true,
-                            editable: true,
-                            zoom: 18
-                        });
-                        if (shape.type === 'marker') {
-                            pointMarker = shape;
-                        }
-                        
-                        if (shape.type === 'polygon') {
-                            buildingPolygon = shape;
-                        }
-                    }
 
                 });
             },
@@ -240,12 +239,11 @@ define(['services/datacontext',
                     logger.error("No shape");
                     return false;
                 }
-                var tcs = new $.Deferred(),
-                    data = {
-                        buildingId: vm.building().BuildingId()
-                    };
+                var data = {
+                    buildingId: vm.building().BuildingId()
+                };
                 if (buildingPolygon) {
-                    data.path = mapvm.getEncodedPath(buildingPolygon);
+                    data.path = map.getEncodedPath(buildingPolygon);
                 }
                 if (pointMarker) {
                     data.point = {
@@ -253,12 +251,7 @@ define(['services/datacontext',
                         lng: pointMarker.getPosition().lng()
                     };
                 }
-                context
-                    .post(JSON.stringify(data), "/Building/SaveMap")
-                    .then(function (e) {
-                        logger.log("Map has been successfully saved ", e, "buildingdetail", true);
-                    });
-                return tcs.promise();
+                return vm.building().saveMap(data);
 
             },
             viewAttached = function () {
@@ -297,14 +290,13 @@ define(['services/datacontext',
             showMapCommand: showMap,
             saveMapCommand: saveMap,
             addFloorCommand: addFloor,
-            addLotCommand: addLot,
             viewFloorPlanCommand: viewFloorPlan,
             goBackCommand: goBack,
             isBusy: isBusy,
             viewAttached: viewAttached,
             removeFloorCommand: removeFloor,
             title: 'Perincian Bangunan',
-            cultures : cultures,
+            cultures: cultures,
             toolbar: {
                 watchCommand: function () { return watcher.watch("Building", vm.building().BuildingId()); },
                 unwatchCommand: function () { return watcher.unwatch("Building", vm.building().BuildingId()); },
@@ -318,7 +310,16 @@ define(['services/datacontext',
                     entity: "Building",
                     id: ko.observable()
                 },
-                removeCommand: remove
+                removeCommand: remove,
+                commands: ko.observableArray([
+                    {
+                        caption: "Senarai units",
+                        command: function () {
+                            window.location = "/#/unit.list/" + buildingId();
+                        },
+                        icon: "icon-tablet"
+                    }])
+
             }
         };
 

@@ -8,7 +8,7 @@ $(document).ready(function () {
             "$values": [6]
         },
         "LotCollection": {
-            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Lot, domain.sph]], domain.sph",
+            "$type": "Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.Unit, domain.sph]], domain.sph",
             "$values": []
         },
         "CustomFieldValueCollection": {
@@ -107,7 +107,8 @@ $(document).ready(function () {
 
 
             var o = context.toObservable(hit);
-            test("space to observable", function () {
+            test("Entity to observable", function () {
+                equal(15, o.SpaceId(), "Space id");
                 ok(typeof o.ApplicationTemplateOptions === "function", "ApplicationTemplateOptions should be a function ");
 
                 equal(o.ApplicationTemplateOptions().length, 1, "There should only be 1 options ");

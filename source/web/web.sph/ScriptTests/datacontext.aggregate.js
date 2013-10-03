@@ -107,7 +107,7 @@ $(document).ready(function () {
 
 
             var o = context.toObservable(hit);
-            test("space to observable", function () {
+            test("Space to observable", function () {
                 ok(typeof o.ApplicationTemplateOptions === "function", "ApplicationTemplateOptions should be a function ");
 
                 equal(o.ApplicationTemplateOptions().length, 1, "There should only be 1 options ");
@@ -115,7 +115,7 @@ $(document).ready(function () {
             });
 
 
-            test("aggregate field", function () {
+            test("Aggregate field", function () {
                 equal("function", typeof o.Address, "Should be observable ");
                 deepEqual("Malaysia", o.Address().Country(), "Address is aggregate and country should be observable");
 

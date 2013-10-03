@@ -11,33 +11,40 @@
 
 
 ko.bindingHandlers.kendoEditor = {
-    updating: false,
     init: function (element, valueAccessor) {
         var $editor = $(element),
             value = valueAccessor(),
-            self = this;
+            updating = false;
 
         setTimeout(function () {
-            $editor.kendoEditor({
+            var editor = $editor.kendoEditor({
                 change: function () {
-                    self.updating = true;
+                    if (updating) return;
+                    updating = true;
                     value(this.value());
-                    setTimeout(function () {
-                        self.updating = false;
-                    }, 500);
+                    setTimeout(function () { updating = false; }, 500);
                 }
+            }).data("kendoEditor");
+
+            editor.value(value());
+
+            value.subscribe(function (html) {
+                if (updating) return;
+                updating = true;
+                editor.value(html);
+                setTimeout(function () { updating = false; }, 500);
             });
+
         }, 500);
+
 
     },
     update2: function (element, valueAccessor) {
         var $editor = $(element),
             value = valueAccessor(),
-            ke = $editor.data("kendoEditor"),
-            self = this;
-        if (!self.updating) {
+            ke = $editor.data("kendoEditor");
+        if (!$editor.data("updating")) {
             ke.value(value());
-
         }
     }
 };
@@ -181,7 +188,8 @@ ko.bindingHandlers.date = {
 
 ko.bindingHandlers.kendoUpload = {
     init: function (element, valueAccessor) {
-        var logger = require('services/logger'),
+        var context = require(objectbuilders.datacontext),
+             logger = require(objectbuilders.logger),
             value = valueAccessor();
         $(element).attr("name", "files").kendoUpload({
             async: {
@@ -195,15 +203,29 @@ ko.bindingHandlers.kendoUpload = {
             },
             success: function (e) {
                 logger.info('Your file has been ' + e.operation);
-                var storeId = e.response.storeId;
-                var uploaded = e.operation === "upload";
-                var removed = e.operation != "upload";
+
+                var storeId = e.response.storeId,
+                    uploaded = e.operation === "upload",
+                    removed = e.operation != "upload",
+                    oldFile = value();
                 if (uploaded) {
                     value(storeId);
+                    if (oldFile) {
+                        context.post(JSON.stringify({ id: oldFile }), "/BinaryStore/Remove/");
+                    }
                 }
                 if (removed) {
                     value("");
                 }
+            },
+            remove: function () {
+                var tcs = new $.Deferred(),
+                    data = JSON.stringify({ id: value() });
+                context.post(data, "/BinaryStore/Remove/")
+                    .then(function (result) {
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
             }
         });
     }
@@ -213,24 +235,24 @@ ko.bindingHandlers.kendoUpload = {
 ko.bindingHandlers.kendoDate = {
     init: function (element, valueAccessor) {
         var value = valueAccessor(),
+            $input = $(element),
             currentValue = ko.utils.unwrapObservable(value),
             date = moment(currentValue),
-            picker = $(element).data("kendoDatePicker") ||
-            $(element).kendoDatePicker({ format: "dd/MM/yyyy" }).data("kendoDatePicker");
+            changed = function (e) {
+                console.log(e);
+                var nv = this.value();
+                if (typeof nv == "string") {
+                    date = moment(nv, "DD/MM/YYYY");
+                } else {
+                    date = moment(nv);
+                }
+                // DO NOT fire update
+                $input.data("stop", "true");
+                value(date.format("YYYY-MM-DD"));
+                $input.data("stop", "false");
 
-        $(element).on("change", function () {
-            var nv = $(this).val();
-            if (typeof nv == "string") {
-                date = moment(nv, "DD/MM/YYYY");
-            } else {
-                date = moment(nv);
-            }
-            // DO NOT fire update
-            $(element).data("stop", "true");
-            valueAccessor()(date.format("YYYY-MM-DD"));
-            $(element).data("stop", "false");
-        });
-
+            },
+            picker = $input.kendoDatePicker({ format: "dd/MM/yyyy", change: changed }).data("kendoDatePicker");
 
         if (!date) {
             picker.value(null);
@@ -243,17 +265,15 @@ ko.bindingHandlers.kendoDate = {
         }
 
         picker.value(date.toDate());
-        value(date);
-
-
     },
     update: function (element, valueAccessor) {
-        if ($(element).data("stop") == "true") return;
-        var value = valueAccessor();
-        var modelValue = ko.utils.unwrapObservable(value);
+        var $input = $(element);
+        if ($input.data("stop") == "true") return;
 
-        var date = moment(modelValue);
-        var picker = $(element).data("kendoDatePicker");
+        var value = valueAccessor(),
+            modelValue = ko.utils.unwrapObservable(value),
+            date = moment(modelValue),
+            picker = $input.data("kendoDatePicker");
 
         if (!date) {
             picker.value(null);
@@ -332,6 +352,9 @@ ko.bindingHandlers.command = {
 
         $button.click(function (e) {
             e.preventDefault();
+            if (this.form) {
+                if (!this.form.checkValidity()) return;
+            }
 
             var $spinner = $("<i class='icon-spin icon-spinner icon-large'></i>");
             $spinner.css({ "margin-left": -($button.width() / 2) - 16, "position": "fixed", "margin-top": "10px" });
@@ -755,6 +778,13 @@ ko.bindingHandlers.searchPaging = {
                 $element.fadeTo("fast", 1);
             },
             setItemsSource = function (items) {
+
+                _(items).each(function (v) {
+                    v.pager = {
+                        page: pager.page(),
+                        size: pager.pageSize()
+                    };
+                });
                 if (map) {
                     items = _(items).map(map);
                 }
@@ -823,7 +853,7 @@ ko.bindingHandlers.searchPaging = {
                     logger.error(cultures.messages.FORM_IS_NOT_VALID);
                     return;
                 }
-                search(ko.toJS(query), 1, pager.pageSize);
+                search(ko.toJS(query), 1, pager.pageSize());
             });
 
         }

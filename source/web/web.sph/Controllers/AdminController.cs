@@ -107,9 +107,12 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(userprofile);
                 await session.SubmitChanges();
             }
+            this.Response.ContentType = "application/json; charset=utf-8";
+            return Content(JsonConvert.SerializeObject(userprofile));
 
-            return Json(userprofile);
+
         }
+
 
         public ActionResult ResetPassword(string userName, string password)
         {

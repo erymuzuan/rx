@@ -1,9 +1,9 @@
-﻿@model Bespoke.Sph.Domain.SpaceLotsElement
+﻿@model Bespoke.Sph.Domain.SpaceUnitElement
 
-<!--ko if:$data['$type']() === "Bespoke.Sph.Domain.SpaceLotsElement, domain.sph" -->
+<!--ko if:$data['$type']() === "Bespoke.Sph.Domain.SpaceUnitElement, domain.sph" -->
 <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
       @Html.Partial("_DesignerContextAction")
-  <label class="control-label" data-bind="text: Label">Lot</label>
+  <label class="control-label" data-bind="text: Label">Unit</label>
     <div class="controls">
         <input type="text" readonly="readonly" />
         <button type="button" class="btn help-inline">Pilih lot</button>

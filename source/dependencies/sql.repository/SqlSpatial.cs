@@ -52,7 +52,7 @@ namespace Bespoke.Sph.SqlRepository
                 path.UdtTypeName = "GEOGRAPHY";
 
                 cmd.Parameters.AddWithValue("@EncodedWkt", item.EncodedWkt);
-                cmd.Parameters.AddWithValue("@Id", (int)properties.Single(p => p.Name == typeof(T).Name + "Id").GetValue(item));
+                cmd.Parameters.AddWithValue("@Id", item.GetId());
 
 
 
@@ -116,8 +116,10 @@ namespace Bespoke.Sph.SqlRepository
                 await conn.OpenAsync();
                 var center = await cmd.ExecuteScalarAsync();
                 if (center == DBNull.Value) return null;
+                var wkt = center as string;
+                if (string.IsNullOrWhiteSpace(wkt)) return null;
 
-                var point = new LatLng(center as string, true);
+                var point = new LatLng(wkt, true);
                 return point;
 
             }
@@ -145,6 +147,7 @@ namespace Bespoke.Sph.SqlRepository
                     {
                         var item = XmlSerializerService.DeserializeFromXml<T>(reader.GetString(1));
                         item.EncodedWkt = reader.GetString(2);
+                        item.SetId(reader.GetInt32(0));
                         // item.GeoLocationId = reader.GetInt32(0);
                         list.Add(item);
                     }

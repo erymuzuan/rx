@@ -7,7 +7,6 @@ using System.Web.Security;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.IE;
 
 namespace web.test
 {
@@ -68,8 +67,6 @@ namespace web.test
 
         }
 
-
-
         public void AddUser(TestUser user)
         {
             //
@@ -88,13 +85,13 @@ namespace web.test
             // add roles
             Roles.AddUserToRoles(user.UserName, user.Roles);
 
-
             var x =
                 string.Format(
                     "<UserProfile xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
                     "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"http://www.bespoke.com.my/\" " +
                     "WebId=\"{0}\" " +
                     "CreatedDate=\"2013-01-01T00:00:00\" " +
+                    "HasChangedDefaultPassword=\"true\" " +
                     "ChangedDate=\"2013-01-01T00:00:00\" " +
                     "Username=\"{1}\" " +
                     "FullName=\"{2}\" " +

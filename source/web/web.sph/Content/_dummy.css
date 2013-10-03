@@ -4,6 +4,14 @@
     
     */
 
+.photo-dialog
+{
+    background-image: url('/Images/warning.png');
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: fixed;
+}
+.application-template-checkbox{}
 .input-datagrid-group-column {}
 .input-datagrid-group-expression {}
 .input-datagrid-group-footer {}

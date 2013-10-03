@@ -12,30 +12,28 @@ namespace Bespoke.Sph.LedgerMsxl
         public string GenerateLedger(Contract contract, IEnumerable<Invoice> invoices, IEnumerable<Rebate> rebates, IEnumerable<Payment> payments,
                                     string filename)
         {
-
-
             var entries = new ObjectCollection<JournalEntry>();
             var invoiceEntries = from v in invoices
                                  select new JournalEntry
-                                     {
-                                         Date = v.Date,
-                                         CreditAmount = v.Amount,
-                                         Description = string.Format("Invoice : {0}", v.InvoiceNo)
-                                     };
+                                 {
+                                     Date = v.Date,
+                                     CreditAmount = v.Amount,
+                                     Description = string.Format("Invoice : {0}", v.InvoiceNo)
+                                 };
             var rebateEntries = from v in rebates
-                                 select new JournalEntry
-                                     {
-                                         Date = v.StartDate,
-                                         DebitAmount = v.Amount,
-                                         Description = string.Format("Rebate : {0}", v.ContractNo)
-                                     };
+                                select new JournalEntry
+                                {
+                                    Date = v.StartDate,
+                                    DebitAmount = v.Amount,
+                                    Description = string.Format("Rebate : {0}", v.ContractNo)
+                                };
             var paymentEntries = from v in payments
                                  select new JournalEntry
-                                     {
-                                         Date =v.Date,
-                                         DebitAmount = v.Amount,
-                                         Description = string.Format("Bayaran : {0}", v.ContractNo)
-                                     };
+                                 {
+                                     Date = v.Date,
+                                     DebitAmount = v.Amount,
+                                     Description = string.Format("Bayaran : {0}", v.ContractNo)
+                                 };
 
             entries.AddRange(invoiceEntries);
             entries.AddRange(rebateEntries);
@@ -49,11 +47,11 @@ namespace Bespoke.Sph.LedgerMsxl
                 balance = e.Balance;
             }
 
-            var input = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ruang.komersil.utility.ledger.xlsx");
+            var input = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ledger.xlsx");
             if (!File.Exists(input))
             {
                 throw new InvalidOperationException(
-                    "Please copy the ruang.komersil.utility.ledger.xlsx to the base directory"
+                    "Please copy the 'ledger.xlsx' to the base directory"
                     , new FileNotFoundException("Cannot find the ledger template", input));
             }
             var template = new FileInfo(input);
@@ -61,29 +59,47 @@ namespace Bespoke.Sph.LedgerMsxl
             var ws = pck.Workbook.Worksheets["0"];
             ws.Name = contract.Tenant.Name.ToUpper();
 
+            //info after header//
             ws.Cells["B3"].Value = contract.Tenant.Name;
             ws.Cells["B4"].Value = contract.Tenant.IdSsmNo;
+            ws.Cells["F3"].Value = contract.ReferenceNo;
+            ws.Cells["F4"].Value = contract.StartDate;
+            ws.Cells["F5"].Value = contract.EndDate;
 
-            ws.Cells["A9"].Value = contract.Tenant.Address.Street;
-            ws.Cells["A11"].Value = contract.Tenant.Address.City + ", " + contract.Tenant.Address.Postcode;
-            ws.Cells["B12"].Value = contract.Tenant.Phone;
+            //address tenant//
+            if (null == contract.Tenant.Address.UnitNo && null == contract.Tenant.Address.Block)
+            {
+                ws.Cells["B8"].Value = contract.Tenant.Address.UnitNo + contract.Tenant.Address.Block;
+            }
+            else
+            {
+                ws.Cells["B8"].Value = contract.Tenant.Address.Street;
+            }
 
-            ws.Cells["A16"].Value = contract.Space.LotName;
-            ws.Cells["A17"].Value = contract.Space.BuildingName;
-            ws.Cells["A18"].Value = contract.Space.City + ", " + contract.Tenant.Address.Postcode;
+            ws.Cells["B9"].Value = contract.Tenant.Address.City + ", " + contract.Tenant.Address.Postcode;
+            ws.Cells["B10"].Value = contract.Tenant.Address.State;
+            ws.Cells["B11"].Value = contract.Tenant.Phone;
+
+            //address space//
+            ws.Cells["B16"].Value = contract.Space.BuildingName;
+            if (null == contract.Space.Address.UnitNo && null == contract.Space.Address.Block)
+            {
+                ws.Cells["B17"].Value = contract.Space.Address.UnitNo + contract.Space.Address.Block;
+            }
+            else
+            {
+                ws.Cells["B17"].Value = contract.Space.Address.Street;
+            }
+
+            ws.Cells["B18"].Value = contract.Space.City + ", " + contract.Tenant.Address.Postcode;
             ws.Cells["B19"].Value = contract.Space.State;
 
-
-            ws.Cells["F3"].Value = contract.ReferenceNo;
-            ws.Cells["F4"].Value = contract.Space.RentalRate;
-
-            ws.Cells["F6"].Value = contract.StartDate;
-            ws.Cells["F7"].Value = contract.EndDate;
-
+            //deposit//
             ws.Cells["A24"].Value = contract.StartDate;
             ws.Cells["B24"].Value = contract.Space.RentalRate;
             ws.Cells["C24"].Value = contract.Space.RentalRate;
 
+            //sewa//
             var i = 0;
             foreach (var e in sortedEntries)
             {
@@ -103,6 +119,6 @@ namespace Bespoke.Sph.LedgerMsxl
             return outputpath;
         }
 
-       
+
     }
 }

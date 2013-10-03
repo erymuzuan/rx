@@ -135,6 +135,9 @@ bespoke.sph.domain.SpaceTemplate = function (webId) {
         Description: ko.observable(''),
         IsActive: ko.observable(false),
         Category: ko.observable(''),
+        DefaultMapIcon: ko.observable(''),
+        DefaultSmallIcon: ko.observable(''),
+        DefaultIcon: ko.observable(''),
         CustomFieldCollection: ko.observableArray([]),
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         CustomListDefinitionCollection: ko.observableArray([]),
@@ -439,14 +442,14 @@ bespoke.sph.domain.RentalApplicationContactElement = function (webId) {
 
 
 
-bespoke.sph.domain.SpaceLotsElement = function (webId) {
+bespoke.sph.domain.SpaceUnitElement = function (webId) {
 
     var v = new bespoke.sph.domain.FormElement(webId);
 
-    v["$type"] = "Bespoke.Sph.Domain.SpaceLotsElement, domain.sph";
+    v["$type"] = "Bespoke.Sph.Domain.SpaceUnitElement, domain.sph";
 
-    if (bespoke.sph.domain.SpaceLotsElementPartial) {
-        return _(v).extend(new bespoke.sph.domain.SpaceLotsElementPartial(v));
+    if (bespoke.sph.domain.SpaceUnitElementPartial) {
+        return _(v).extend(new bespoke.sph.domain.SpaceUnitElementPartial(v));
     }
     return v;
 };

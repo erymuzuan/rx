@@ -4,7 +4,7 @@
         var tcs = new $.Deferred(),
             ret = returnValue || true,
             d = delay || 100;
-        
+
         setTimeout(function () {
             tcs.resolve(ret);
         }, d);

@@ -1,14 +1,61 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Domain;
 using System.Linq;
+using Bespoke.Sph.Web.ViewModels;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
     public class MapController : Controller
     {
+
+        [HttpPost]
+        public async Task<ActionResult> Create()
+        {
+            var result = Guid.NewGuid().ToString();
+            var model = this.GetRequestJson<CreateMapModel>();
+            if (null == model) throw new Exception("Cannot deserialize CreateMapModel");
+            Console.WriteLine("BODY " + model);
+            
+            
+            var points = model.EncodedPath.Decode().ToList();
+            if (
+                Math.Abs(points.First().Lat - points.Last().Lat) > 0.00001
+                || Math.Abs(points.First().Lng - points.Last().Lng) > 0.00001
+                )
+                points.Add(points.First().Clone());
+
+            var spatial = new SpatialStore
+            {
+                EncodedWkt = model.EncodedPath,
+                Wkt = points.ToWkt(),
+                Type = model.Type,
+                Tag = model.Tag,
+                StoreId = result
+            };
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(spatial);
+                await session.SubmitChanges("Create New");
+            }
+
+            var repos = ObjectBuilder.GetObject<ISpatialService<SpatialStore>>();
+            await repos.UpdateAsync(spatial);
+
+
+            if (Request.ContentType.Contains("application/json"))
+            {
+                this.Response.ContentType = "application/json; charset=utf-8";
+                return Content(JsonConvert.SerializeObject(result));
+            }
+
+            return View(result);
+        }
         public async Task<ActionResult> Get(string id, string[] filter)
         {
             var bounds = GoogleMapHelper.ParseBound(id).ToArray();
@@ -45,7 +92,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (null == floor)
                 return Content("/images/no-image.png");
 
-            var lot = floor.LotCollection.SingleOrDefault(l => cs.LotName.Contains(l.Name));
+            var lot = floor.UnitCollection.SingleOrDefault(l => cs.UnitNo.Contains(l.No));
             if (null == lot)
                 return Content("/images/no-image.png");
 

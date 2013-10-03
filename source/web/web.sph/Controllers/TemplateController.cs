@@ -101,6 +101,12 @@ namespace Bespoke.Sph.Web.Controllers
             var models = TypeHelper.GetPropertyPath(typeof(Space));
             var template = this.GetRequestJson<SpaceTemplate>();
             this.BuildCustomFields(template.CustomFieldCollection, template.FormDesign, models);
+
+            if (template.CustomFieldCollection.Any(c => string.IsNullOrWhiteSpace(c.Name)))
+            {
+                return Json(new { success = false, status = "ERROR", message = "Custom fields need a Name/Path to be set" });
+            }
+
             var list = new ObjectCollection<CustomListDefinition>();
             foreach (var c in template.FormDesign.FormElementCollection.OfType<CustomListDefinitionElement>())
             {
@@ -120,7 +126,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(template);
                 await session.SubmitChanges();
             }
-            return Json(template.SpaceTemplateId);
+            return Json(new {id = template.SpaceTemplateId, success = true, status = "OK" });
         }
 
         public async Task<ActionResult> SaveApplicationTemplate()
@@ -129,6 +135,11 @@ namespace Bespoke.Sph.Web.Controllers
             var models = TypeHelper.GetPropertyPath(typeof(RentalApplication));
             var template = this.GetRequestJson<ApplicationTemplate>();
             this.BuildCustomFields(template.CustomFieldCollection, template.FormDesign, models);
+
+            if (template.CustomFieldCollection.Any(c => string.IsNullOrWhiteSpace(c.Name)))
+            {
+                return Json(new {success = false, status = "ERROR", message = "Custom fields need a Name/Path to be set"});
+            }
 
             var context = new SphDataContext();
             using (var session = context.OpenSession())
@@ -218,7 +229,8 @@ namespace Bespoke.Sph.Web.Controllers
             var vm = new TemplateFormViewModel { Entity = typeof(Space).Name };
             vm.FormElements.Add(new AddressElement());
             vm.FormElements.Add(new BuildingElement());
-            vm.FormElements.Add(new SpaceLotsElement());
+            vm.FormElements.Add(new BuildingMapElement());
+            vm.FormElements.Add(new SpaceUnitElement());
             vm.FormElements.Add(new SpaceFeaturesElement());
 
             return View(vm);

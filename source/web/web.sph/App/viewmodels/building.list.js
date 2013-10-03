@@ -84,17 +84,8 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             initalQuery : {},
             query: {
                 "query": {
-                    "bool": {
-                        "must": [{
-                            "match_phrase": {
-                                "Address.State": searchState
-                            }
-
-                        },
-                        {
-                            "match_phrase": { "_all": searchKeyword}
-                        }
-                        ]
+                    "query_string": {
+                        "query": searchKeyword
                     }
                 }
             }

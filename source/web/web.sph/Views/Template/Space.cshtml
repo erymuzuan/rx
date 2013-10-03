@@ -21,6 +21,9 @@
                 <li>
                     <a href="#space-default-values" data-toggle="tab">Default values</a>
                 </li>
+                <li>
+                    <a href="#space-icons" data-toggle="tab">Icons</a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div id="space-designer" class="tab-pane active" data-bind="with : template">
@@ -42,6 +45,37 @@
                 </div>
                 <div id="space-default-values" class="tab-pane" data-bind="with : template">
                     @Html.Partial("_DefaultValues")
+                </div>
+                <div id="space-icons" data-bind="with : template" class="tab-pane">
+                    <form class="form-horizontal">
+                        <div class="control-group">
+                            <label for="default-map-icon" class="control-label">Map icon</label>
+                            <div class="controls">
+                                <!-- ko if : DefaultMapIcon -->
+                                <img data-bind="attr: { src: '/image/store/' + DefaultMapIcon()}" src="/Images/no-image.png" alt="map icon" />
+                                <!--/ko-->
+                                <input type="file" data-bind="kendoUpload: DefaultMapIcon" id="default-map-icon" name="files" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="default-map-icon" class="control-label">Small icon</label>
+                            <div class="controls">
+                                <!-- ko if : DefaultSmallIcon -->
+                                <img data-bind="attr: { src: '/image/store/' + DefaultSmallIcon()}" src="/Images/no-image.png" alt="map icon" />
+                                <!--/ko-->
+                                <input type="file" data-bind="kendoUpload: DefaultSmallIcon" id="default-map-icon" name="files" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="default-map-icon" class="control-label">icon</label>
+                            <div class="controls">
+                                <!-- ko if : DefaultIcon -->
+                                <img data-bind="attr: { src: '/image/store/' + DefaultIcon()}" src="/Images/no-image.png" alt="map icon" />
+                                <!--/ko-->
+                                <input type="file" data-bind="kendoUpload: DefaultIcon" id="default-map-icon" name="files" />
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
