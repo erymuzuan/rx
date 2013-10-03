@@ -148,6 +148,7 @@ bespoke.sph.domain.Block = function (webId) {
         Size: ko.observable(0.00),
         FloorPlanStoreId: ko.observable(''),
         FloorCollection: ko.observableArray([]),
+        Floors: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1072,6 +1073,7 @@ bespoke.sph.domain.WorkOrder = function (webId) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.WorkOrder, domain.sph",
+        WorkOrderId: ko.observable(0),
         Priority: ko.observable(''),
         Severity: ko.observable(''),
         EstimationCost: ko.observable(0.00),

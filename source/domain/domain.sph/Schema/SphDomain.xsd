@@ -160,6 +160,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="Floors" type="xs:int"/>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
@@ -945,6 +946,7 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
+			<xs:attribute name="WorkOrderId" type="xs:int" use="required"/>
 			<xs:attribute name="Priority" type="xs:string" use="required"/>
 			<xs:attribute name="Severity" type="xs:string" use="required"/>
 			<xs:attribute name="EstimationCost" type="xs:decimal" use="required"/>
