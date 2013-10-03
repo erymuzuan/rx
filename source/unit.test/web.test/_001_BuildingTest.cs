@@ -28,7 +28,7 @@ namespace web.test
                 Designation = "Boss",
                 Password = "abcad12334535",
                 StartModule = "building.list",
-                Roles = new[] { "can_add_space", "can_edit_building_template" }
+                Roles = new[] { "can_add_space", "can_edit_building_template", "can_add_building" }
             };
             this.AddUser(m_buildingAdmin);
         }
@@ -149,8 +149,8 @@ namespace web.test
             driver.ClickFirst("a", e => e.Text == "Add a field")
                   .ClickFirst("a", e => e.Text == "Single line text")
                   .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "No. Lot")
-                  .Value("[name=Path]", "LotNo");
+                  .Value("[name=Label]", "No. Unit")
+                  .Value("[name=Path]", "UnitNo");
 
             // Size
             driver.ClickFirst("a", e => e.Text == "Add a field")
@@ -182,13 +182,7 @@ namespace web.test
                   .Value("[name=Label]", "Bilangan Tingkat")
                   .Value("[name=Path]", "Floors");
 
-            // floor collection
-            driver.ClickFirst("a", e => e.Text == "Add a field")
-                  .ClickFirst("a", e => e.Text == "Floors Table")
-                  .ClickFirst("a", e => e.Text == "Fields settings")
-                  .Value("[name=Label]", "Senarai Tingkat")
-                  .Value("[name=Path]", "FloorCollection")
-                  ;
+        
             // blocks table
             driver.ClickFirst("a", e => e.Text == "Add a field")
                   .ClickFirst("a", e => e.Text == "Blocks Table")
@@ -276,33 +270,54 @@ namespace web.test
                 .Value("[name='Email']", "contractor@gmail.com")
                 .Value("[name='Website']", "www.cidb.com.my")
                 .Value("[name=ConsessionName]", "Putrajaya Holding")
-                .Value("[name='LotNo']", "12-001")
+                .Value("[name='UnitNo']", "12-001")
                 .Value("[name='Size']", "112991.02")
                 .Value("[name='address.Street']", "Jalan Cempaka")
                 .Value("[name='address.City']", "KB")
                 .Value("[name='address.Postcode']", "15210")
-                .SelectOption("[name='address.State']", "Kelantan")
-                .Value("[name='Floors']", "2");
+                .SelectOption("[name='address.State']", "Kelantan");
 
-
-            driver.Click("[name='add-floor-button']")
-            .Sleep(200.Milliseconds(), "Add floor")
-            .Value(".input-floor-no", "G1")
-            .Value(".input-floor-name", "1st Floor")
-            .Value(".input-floor-size", "48500");
-
-
-
-            driver.Click("[name='add-floor-button']")
-            .Sleep(200.Milliseconds(), "Add floor")
-            .Value(".input-floor-no", "G2", 1)
-            .Value(".input-floor-name", "2nd Floor", 1)
-            .Value(".input-floor-size", "48500", 1);
-
+        
+            //Blok A
             driver.Click("[name=add-block-button]")
                   .Sleep(200.Milliseconds(), "Add Block")
                 ;
+            
+            driver.Value(".input-block-name", "A")
+                .Value(".input-block-description", "Blok A")
+                .Value(".input-block-size", "54000")
+                .Value(".input-block-floors", "8")
+                ;
 
+            //Floors for blok A
+            driver.Click(".button-block-floor")
+                .Sleep(200.Milliseconds())
+                .Click("[name=add-floor-button]")
+                .Value(".input-floor-no","GF")
+                .Value(".input-floor-name","Ground Floor")
+                .Value(".input-floor-size","54000")
+                .Click("[name=add-floor-button]")
+                .Value(".input-floor-no", "1ST",1)
+                .Value(".input-floor-name", "First Floor",1)
+                .Value(".input-floor-size", "54000",1)
+                .Click("[name=add-floor-button]")
+                .Value(".input-floor-no", "2ND",2)
+                .Value(".input-floor-name", "Second Floor",2)
+                .Value(".input-floor-size", "54000",2)
+                .Click("input", e => e.GetAttribute("data-bind") == "click: okClick")
+                .Sleep(2.Seconds())
+                ;
+
+            //Blok B
+            driver.Click("[name=add-block-button]")
+                 .Sleep(200.Milliseconds(), "Add Block")
+               ;
+            
+            driver.Value(".input-block-name", "B",1)
+                .Value(".input-block-description", "Blok B",1)
+                .Value(".input-block-size", "54000",1)
+                .Value(".input-block-floors", "8",1)
+                ;
             driver.Click("#save-button")
             .Sleep(TimeSpan.FromSeconds(2))
             ;

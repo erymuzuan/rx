@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Messaging
                     Created = item.CreatedDate == DateTime.MinValue ? DateTime.Today : item.CreatedDate,
                     OwnerCode = item.CreatedBy,
                     Summary = item.ToString(),
-                    Code = item.LotName,
+                    Code = item.UnitNo,
                     Type = typeof(Space).Name,
                     Id = item.BuildingId
                 };
