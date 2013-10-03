@@ -5,12 +5,10 @@
 
 <h2>RoleSettingsJs</h2>
 <script type="text/javascript" data-script="true">
-    define(['services/datacontext'],
-        function (context) {
+    define(['services/datacontext', objectbuilders.logger],
+        function (context, logger) {
 
-            var isBusy = ko.observable(),
-
-            activate = function (routeData) {
+            var activate = function (routeData) {
                 var id = parseInt(routeData.id);
                 if (id) {
                     var query = String.format("DesignationId eq {0}", id);
@@ -34,14 +32,11 @@
             save = function () {
                 var tcs = new $.Deferred();
                 var data = ko.toJSON(vm.designation);
-                isBusy(true);
 
                 context.post(data, "/Designation/Save")
                     .then(function (result) {
-                        isBusy(false);
-
-
                         tcs.resolve(result);
+                        logger.info("Jawatan sudah berjaya disimpan");
                     });
                 return tcs.promise();
             };
@@ -49,7 +44,6 @@
             var vm = {
                 activate: activate,
                 designation: ko.observable(),
-                isBusy: isBusy,
                 toolbar:{saveCommand: save}
             };
 

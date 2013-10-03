@@ -1,0 +1,67 @@
+﻿<Contract xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.bespoke.com.my/" WebId="47c337fd-48b0-4ff7-a2df-8918306cd54d" CreatedBy="ruzzaima" CreatedDate="2013-09-18T16:44:53.7270844+08:00" ChangedBy="ruzzaima" ChangedDate="2013-09-18T16:44:53.7270844+08:00" ContractId="0" ReferenceNo="BSPB/2013/2013000001" Type="Kontrak Baru" Date="2013-09-19T00:00:00" Value="35350" Title="Kontrak sewaan WAN HUDA BIN WAN ALI dan Bahagian Pengurusan Hartanah " Period="1" PeriodUnit="y" StartDate="2013-09-27T00:00:00" EndDate="2014-09-27T00:00:00" RentalApplicationId="1" Status="Active" InterestRate="0" IsEnd="false">
+  <DocumentCollection />
+  <Owner Name="Bahagian Pengurusan Hartanah " TelephoneNo="03-9189183" FaxNo="03-9812913" Email="support@bph.com.my">
+    <Address Street="Pusat Pentadbiran Kerajaan Persekutuan" City="Putrajaya" Postcode="62502" State="W.P. Putrajaya" />
+  </Owner>
+  <ContractingParty Name="WAN HUDA BIN WAN ALI" RegistrationNo="2013000001">
+    <Contact ContractId="0" Name="WAN HUDA BIN WAN ALI" MobileNo="013-6312237" OfficeNo="013-6312237" Email="huda@hotmail.com" IcNo="800212-02-9651" />
+    <Address Street="Jalan SS20/27" City="Petaling Jaya" Postcode="47300" State="Selangor" />
+  </ContractingParty>
+  <Tenant CreatedDate="0001-01-01T00:00:00" ChangedDate="0001-01-01T00:00:00" TenantId="0" IdSsmNo="800212-02-9651" Name="WAN HUDA BIN WAN ALI" RegistrationNo="2013000001">
+    <ContractHistoryCollection />
+    <Address Street="Jalan SS20/27" City="Petaling Jaya" Postcode="47300" State="Selangor" />
+    <CustomFieldValueCollection />
+  </Tenant>
+  <Space WebId="8d402357-97e8-4d96-a9c9-69e58fac877b" CreatedBy="ruang-admin" CreatedDate="2013-09-18T15:24:54.005841+08:00" ChangedBy="ruzzaima" ChangedDate="2013-09-18T16:42:50.1280844+08:00" SpaceId="28" TemplateId="2" TemplateName="Cafeteria" BuildingId="35" LotName="Lot 1," FloorName="1st Floor" Size="2500" IsOnline="true" RegistrationNo="BSPK/999999" IsAvailable="false" ContactPerson="Mohd Razali" State="Kelantan" City="KB" BuildingName="Bangunan Komersil Di Putrajaya (UJIAN)" BuildingLot="12-001" RentalRate="2500">
+    <ApplicationTemplateOptions>
+      <int>4</int>
+    </ApplicationTemplateOptions>
+    <LotCollection />
+    <CustomFieldValueCollection>
+      <CustomFieldValue WebId="16090b5a-173e-4b0a-986c-4001443a5176" Name="Cafe Name" Type="String" Value="Cafe ABC" />
+    </CustomFieldValueCollection>
+    <Address Street="Jalan Permata" City="Putrajaya" Postcode="62502" State="Selangor" />
+    <PhotoCollection />
+    <CustomListValueCollection>
+      <CustomListValue WebId="f6e9fd95-37c5-4022-98ad-5cade29e1e8d" Name="List" MinOccurence="0">
+        <CustomListRowCollection>
+          <CustomListRow WebId="37555bda-2740-4fcf-91d5-0efa8cef1425">
+            <CustomFieldValueCollection>
+              <CustomFieldValue WebId="82aafcdf-88a1-4ef0-ae73-056139f13f03" Name="Nama" Type="System.String, mscorlib" />
+              <CustomFieldValue WebId="b98a6be0-c2b5-4e3b-bd9c-e115ac825add" Name="Jenis" Type="System.String, mscorlib" />
+              <CustomFieldValue WebId="257dec08-36a2-419c-9087-bae931a715a4" Name="Kuantiti" Type="System.Int32, mscorlib" />
+            </CustomFieldValueCollection>
+          </CustomListRow>
+        </CustomListRowCollection>
+        <MaxOccurence xsi:nil="true" />
+      </CustomListValue>
+    </CustomListValueCollection>
+    <FeatureDefinitionCollection>
+      <FeatureDefinition Name="Lot A-1-3" Description="Satu parking percuma" Category="Parking" IsRequired="true" Occurence="0" OccurenceTimeSpan="OneTime">
+        <PhotoCollection />
+        <Charge>0</Charge>
+      </FeatureDefinition>
+      <FeatureDefinition Name="Kabinet" Description="Kabinet disediakan jika di apply" Category="Perabot" IsRequired="false" Occurence="1" OccurenceTimeSpan="OneTime" AvailableQuantity="3">
+        <PhotoCollection />
+        <Charge>50</Charge>
+      </FeatureDefinition>
+      <FeatureDefinition Name="Kabinet Dapur Kayu" Description="Kabinet disediakan jika di apply" Category="Perabot" IsRequired="false" Occurence="1" OccurenceTimeSpan="OneTime" AvailableQuantity="5">
+        <PhotoCollection />
+        <Charge>50</Charge>
+      </FeatureDefinition>
+      <FeatureDefinition Name="Oven" Description="Oven disediakan jika di apply" Category="Perabot" IsRequired="false" Occurence="1" OccurenceTimeSpan="Annually" AvailableQuantity="10">
+        <PhotoCollection />
+        <Charge>100</Charge>
+      </FeatureDefinition>
+      <FeatureDefinition Name="Parking Berbayar" Description="Parking tambahan disediakan jika anda ingin menambah jumlah parking" Category="Parking" IsRequired="false" Occurence="6" OccurenceTimeSpan="Monthly" AvailableQuantity="2">
+        <PhotoCollection />
+        <Charge>100</Charge>
+      </FeatureDefinition>
+    </FeatureDefinitionCollection>
+  </Space>
+  <TopicCollection />
+  <Termination Date="0001-01-01T00:00:00" />
+  <Extension Date="0001-01-01T00:00:00" />
+  <CustomFieldValueCollection />
+  <Option>0</Option>
+</Contract>
