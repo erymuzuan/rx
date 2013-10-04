@@ -57,7 +57,8 @@ namespace Bespoke.Sph.Web.Controllers
             return View(app);
 
         }
-
+        
+        [AllowAnonymous]
         public async Task<ActionResult> Submit(RentalApplication rentalapplication)
         {
             var context = new SphDataContext();
