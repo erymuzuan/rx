@@ -56,18 +56,15 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
                 return tcs.promise();
             },
-            removeUnit = function (floor) {
-                vm.floor().UnitCollection.remove(floor);
+            removeUnit = function (unit) {
+                vm.list.remove(unit);
+                vm.floor().UnitCollection.remove(unit);
             },
             addNew = function () {
                 $('#unit-dialog').modal();
                 $('#ok-unit-dialog-btn').one('click', function (ev) {
                     ev.preventDefault();
                     if (ev.target.form.checkValidity()) {
-                        //if (!vm.block.isPlaceHolder)
-                        //    unit.BlockNo(vm.block.Name());
-                        //unit.FloorNo(vm.floor.Number());
-                        //  vm.unit().BlockNo(vm.unit().BlockNo());
                         vm.unit().BlockNo(vm.blockNo().Name());
                         vm.unit().FloorNo(vm.floorNo().Name());
                         vm.list.push(vm.unit());
