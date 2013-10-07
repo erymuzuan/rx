@@ -113,7 +113,7 @@ namespace Bespoke.Sph.Web.Controllers
                 await session.SubmitChanges("Change password");
             }
 
-            if (Request.ContentType == "application/json; charset=utf-8")
+            if (Request.ContentType.Contains("application/json"))
             {
                 this.Response.ContentType = "application/json; charset=utf-8";
                 return Content(JsonConvert.SerializeObject(new { success = true, status = "OK" }));

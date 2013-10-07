@@ -7,10 +7,11 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
+/// <reference path="../objectbuilders.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
-define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger'],
-    function (context, system, templateBase, eximp, logger) {
+define([objectbuilders.datacontext, 'durandal/system', './template.base', 'services/jsonimportexport', objectbuilders.logger,objectbuilders.cultures],
+    function (context, system, templateBase, eximp, logger,culture) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -70,6 +71,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 context.post(data, "/Template/SaveMaintenanceTemplate")
                     .then(function (result) {
                         isBusy(false);
+                        logger.info(culture.maintenance.SAVE_TEMPLATE);
                         tcs.resolve(result);
                     });
                 return tcs.promise();

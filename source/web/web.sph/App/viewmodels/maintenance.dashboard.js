@@ -2,9 +2,11 @@
 /// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
+/// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../services/cultures.my.js" />
 
-define(['services/datacontext', 'config'], function (context , config) {
+define([objectbuilders.datacontext, objectbuilders.config,objectbuilders.cultures], function (context , config,culture) {
 
     var isBusy = ko.observable(false),
         department = ko.observable(),
@@ -12,11 +14,11 @@ define(['services/datacontext', 'config'], function (context , config) {
             isBusy(true);
             department(config.profile.Department);
             var dept = String.format("Department eq '{0}'", department());
-            
-            var m = [{ status: 'Baru', count: -1, text: "BARU", color: "bviolet" },
-                { status: 'Pemeriksaan', count: -1, text: "PEMERIKSAAN", color: "blightblue" },
-                { status: 'Penyenggaraan', count: -1, text: "PENYENGGARAAN", color: "bblue" },
-                { status: 'Selesai', count: -1, text: "SELESAI", color: "bgreen" }
+            var status = culture.maintenance;
+            var m = [{ status: status.NEW_MAINTENANCE_STATUS_CAPTION, count: -1, text: status.NEW_MAINTENANCE_STATUS_CAPTION.toUpperCase(), color: "bviolet" },
+                { status: status.INSPECTION_MAINTENANCE_STATUS_CAPTION, count: -1, text: status.INSPECTION_MAINTENANCE_STATUS_CAPTION.toUpperCase(), color: "blightblue" },
+                { status: status.INPROGRESS_MAINTENANCE_STATUS_CAPTION, count: -1, text: status.INPROGRESS_MAINTENANCE_STATUS_CAPTION.toUpperCase(), color: "bblue" },
+                { status: status.DONE_MAINTENANCE_STATUS_CAPTION, count: -1, text: status.DONE_MAINTENANCE_STATUS_CAPTION.toUpperCase(), color: "bgreen" }
             ];
             var tcs = new $.Deferred();
             _(m).each(function (s) {

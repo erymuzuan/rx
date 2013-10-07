@@ -214,7 +214,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(building);
                 await session.SubmitChanges();
             }
-            return Json(new { status = "success", message = "Your floor details has been saved" });
+            return Json(new { status = "success", message = "Your unit details has been saved" });
         }
     }
 }

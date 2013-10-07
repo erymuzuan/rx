@@ -67,6 +67,12 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
         [HttpPost]
+        public async Task<ActionResult> RentalApplication()
+        {
+            return await this.Es(typeof(RentalApplication).Name.ToLowerInvariant());
+        }
+
+        [HttpPost]
         public async Task<ActionResult> Invoice()
         {
             return await this.Es(typeof(Invoice).Name.ToLowerInvariant());

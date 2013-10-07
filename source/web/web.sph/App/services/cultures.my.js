@@ -25,7 +25,19 @@ define([],
             },
             lots: {
                 LOT_LIST_TITLE: "Senarai unit di {0}"
-            }            
+            },
+            maintenance_detail : {
+                CLOSE_MAINTENANCE_BUTTON_CAPTION: "Penyenggaraan Selesai",
+                ASSIGN_MAINTENANCE_BUTTON_CAPTION: "Tugaskan Pegawai"
+            },
+            maintenance: {
+                SAVE_TEMPLATE: "Templat berjaya disimpan",
+                NEW_MAINTENANCE_STATUS_CAPTION: "Baru",
+                INSPECTION_MAINTENANCE_STATUS_CAPTION: "Pemeriksaan",
+                INPROGRESS_MAINTENANCE_STATUS_CAPTION: "Penyenggaraan",
+                DONE_MAINTENANCE_STATUS_CAPTION: "Selesai"
+                
+            }
         };
 
         return cultures;

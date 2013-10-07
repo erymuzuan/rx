@@ -31,9 +31,16 @@ bespoke.sph.domain.BlockPartial = function () {
                         });
                 });
             };
+        },
+        removeFloor = function (floor) {
+            var self = this;
+            return function () {
+                self.FloorCollection.remove(floor);
+            };
         };
     return {
         addFloor: addFloor,
-        editFloor: editFloor
+        editFloor: editFloor,
+        removeFloor: removeFloor
     };
 };

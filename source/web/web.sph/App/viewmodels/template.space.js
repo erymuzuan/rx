@@ -33,10 +33,10 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 map.Name("Map");
                 customElements.push(map);
 
-                var lot = new bespoke.sph.domain.SpaceLotsElement(system.guid());
-                lot.CssClass("icon-check-empty pull-left");
-                lot.Name("Unit");
-                customElements.push(lot);
+                var unit = new bespoke.sph.domain.SpaceUnitElement(system.guid());
+                unit.CssClass("icon-check-empty pull-left");
+                unit.Name("Unit");
+                customElements.push(unit);
 
                 var feature = new bespoke.sph.domain.SpaceFeaturesElement(system.guid());
                 feature.CssClass("icon-list-ol pull-left");

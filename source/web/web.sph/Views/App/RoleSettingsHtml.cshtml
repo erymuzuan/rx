@@ -2,6 +2,7 @@
 
 @{
     Layout = null;
+    var row = 1;
 }
 
 <h1 class="row-fluid">Maklumat Jawatan</h1>
@@ -43,19 +44,22 @@
         <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Role</th>
                     <th>Keterangan</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var r in Model.Roles)
+                @foreach (var r in Model.Roles.OrderBy(e => e.Name))
                 {
                     <tr>
+                        <td>@(row++)</td>
                         <td>
-                            <label class="checkbox">
-                                <input data-bind="checked: RoleCollection" value="@r.Role" 
+                            <label class="checkbox" title="@r.Role">
+                                <input data-bind="checked: RoleCollection" value="@r.Role"
                                        type="checkbox" name="role" />
-                                @r.Name</label>
+                                @r.Name
+                                                    </label>
                         </td>
                         <td><span class="help-block">@r.Description</span></td>
                     </tr>

@@ -11,35 +11,40 @@
 
 
 ko.bindingHandlers.kendoEditor = {
-    updating: false,
     init: function (element, valueAccessor) {
         var $editor = $(element),
             value = valueAccessor(),
-            self = this;
+            updating = false;
 
         setTimeout(function () {
             var editor = $editor.kendoEditor({
                 change: function () {
-                    self.updating = true;
+                    if (updating) return;
+                    updating = true;
                     value(this.value());
-                    setTimeout(function () {
-                        self.updating = false;
-                    }, 500);
+                    setTimeout(function () { updating = false; }, 500);
                 }
             }).data("kendoEditor");
 
             editor.value(value());
+
+            value.subscribe(function (html) {
+                if (updating) return;
+                updating = true;
+                editor.value(html);
+                setTimeout(function () { updating = false; }, 500);
+            });
+
         }, 500);
+
 
     },
     update2: function (element, valueAccessor) {
         var $editor = $(element),
             value = valueAccessor(),
-            ke = $editor.data("kendoEditor"),
-            self = this;
-        if (!self.updating) {
+            ke = $editor.data("kendoEditor");
+        if (!$editor.data("updating")) {
             ke.value(value());
-
         }
     }
 };
@@ -264,7 +269,7 @@ ko.bindingHandlers.kendoDate = {
     update: function (element, valueAccessor) {
         var $input = $(element);
         if ($input.data("stop") == "true") return;
-        
+
         var value = valueAccessor(),
             modelValue = ko.utils.unwrapObservable(value),
             date = moment(modelValue),

@@ -6,7 +6,7 @@ namespace web.test.Space
     public class AddNewSpaceTest : SpaceBaseTest
     {
         private TestUser m_spaceAdmin;
-        private const string SPACE_REGISTRATION_NO = "BSPK/999999";
+        public const string SPACE_REGISTRATION_NO = "BSPK/999999";
         
         [SetUp]
         public void Init()

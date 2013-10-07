@@ -76,7 +76,7 @@ namespace web.test
                   .Value("[name=Label]", "Keterangan")
                   .Value("[name=Path]", "Remarks")
                   .SelectOption("[name=Size]", "XXL");
-
+            
             // lokasi
             driver.ClickFirst("a", e => e.Text == "Add a field")
                  .ClickFirst("a", e => e.Text == "Single line text")

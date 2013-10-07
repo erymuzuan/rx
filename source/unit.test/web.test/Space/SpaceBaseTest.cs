@@ -9,7 +9,7 @@ namespace web.test.Space
 {
     public class SpaceBaseTest : BrowserTest
     {
-        private const string SPACE_TEMPLATE_NAME = "Cafeteria Template";
+        public const string SPACE_TEMPLATE_NAME = "Cafeteria Template";
         public const string BUILDING_NAME = "Bangunan Komersil Di Putrajaya (UJIAN)";
         public const string BUILDING_TEMPLATE_NAME = "Bangunan Komersil";
         
