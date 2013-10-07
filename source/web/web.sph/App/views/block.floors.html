@@ -38,7 +38,7 @@
                             <input type="button" data-bind="click: $parent.removeFloor.call($parent,$data), uniqueName: true" class="btn btn-mini" value="-" />
                         </td>
                         <td>
-                            <input type="button" data-bind2="click: $root.viewFloorPlanCommand, enable: $root.building().BuildingId() > 0 && Name, uniqueName: true" class="btn btn-mini" value="Pelan Lantai" />
+                            <input type="button" data-bind="click: $parent.editFloorMap.call($parent,$data), uniqueName: true" class="btn btn-mini" value="Pelan Lantai" />
                         </td>
                     </tr>
                 </tbody>
