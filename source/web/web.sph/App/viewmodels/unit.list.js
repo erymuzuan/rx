@@ -139,8 +139,12 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             floorOptions: ko.observableArray(),
             removeUnitCommand: removeUnit,
             isBusy: isBusy,
-            toolbar: {
-                saveCommand: save
+            toolbar : {
+                clicks: ko.observableArray([{
+                    caption: "Unit",
+                    command: addNew,
+                    icon :"icon-plus-sign"
+                }])
             }
         };
 
