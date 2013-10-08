@@ -8,9 +8,10 @@ header a.logo {
   color: #fff0f5;
 }
 header a.logo {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 13px;
+  padding-left: 8px;
 }
 header div.nav-header,
 header div.nav-header > div,
@@ -25,10 +26,21 @@ header div.nav-header > ul {
 #header-navbar > div.navbar-inner {
   background-image: none;
   background-color: #000000 !important;
+  height: 55px;
 }
 #drawer-menu {
   background-image: none;
   background-color: #000000 !important;
   color: white;
   margin-top: 10px;
+}
+.icon-image {
+  width: auto\9;
+  float: left;
+  margin: 10px;
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+  border: 0;
+  -ms-interpolation-mode: bicubic;
 }

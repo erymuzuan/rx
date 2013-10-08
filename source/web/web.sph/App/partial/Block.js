@@ -37,10 +37,29 @@ bespoke.sph.domain.BlockPartial = function () {
             return function () {
                 self.FloorCollection.remove(floor);
             };
+        },
+        editFloorMap = function (block) {
+            var building = this;
+            return function () {
+                console.log("show map ", building);
+                console.log(" on block ", block);
+                require(['viewmodels/block.map', 'durandal/app'], function (dialog, app) {
+                    dialog.init(building.BuildingId(), block.FloorPlanStoreId());
+                    app.showModal(dialog)
+                        .done(function (result) {
+                            if (result == "OK") {
+                                block.FloorPlanStoreId(dialog.spatialStoreId());
+                            }
+                        });
+
+                });
+
+            };
         };
     return {
         addFloor: addFloor,
         editFloor: editFloor,
+        editFloorMap: editFloorMap,
         removeFloor: removeFloor
     };
 };
