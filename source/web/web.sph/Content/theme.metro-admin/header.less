@@ -3,42 +3,55 @@
 
 @header-height: 60px;
 
-header{
-    height : @header-height;
+header {
+    height: @header-height;
 
-    #drawer-menu, a.logo{
-        float:left;
-        display:block;
+    #drawer-menu, a.logo {
+        float: left;
+        display: block;
         color: #fff0f5;
     }
 
-    a.logo{
-        font-size:18px;
-        font-weight:bold;
-        margin-top: 10px;
-    }
-    div.nav-header,div.nav-header >div,div.nav-header >ul{
-        float:right;
+    a.logo {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 13px;
+        padding-left: 8px;
     }
 
-   
+    div.nav-header, div.nav-header > div, div.nav-header > ul {
+        float: right;
+    }
 }
 
 #header-navbar {
-   
 }
- .navbar .nav > li > a {
-        -webkit-text-shadow: none;
-        text-shadow: none;
-        color: white;
+
+.navbar .nav > li > a {
+    -webkit-text-shadow: none;
+    text-shadow: none;
+    color: white;
+}
+
+#header-navbar > div.navbar-inner {
+    background-image: none;
+    background-color: #000000 !important;
+    height: 55px;
+}
+
+#drawer-menu {
+    background-image: none;
+    background-color: #000000 !important;
+    color: white;
+    margin-top: 10px;
+}
+.icon-image {
+        width: auto\9;
+        float: left;
+        margin: 10px;
+        height: auto;
+        max-width: 100%;
+        vertical-align: middle;
+        border: 0;
+        -ms-interpolation-mode: bicubic;
     }
-#header-navbar>div.navbar-inner{
-    background-image:none;
-    background-color: #000000 !important;
-}
-#drawer-menu{
-    background-image:none;
-    background-color: #000000 !important;
-    color:white;
-    margin-top:10px;
-}
