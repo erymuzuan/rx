@@ -15,7 +15,7 @@
             </form>
         </div>
         <div>
-            <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
+            <table id="building-unit-list" class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -38,8 +38,8 @@
                         <td data-bind="text: Size"></td>
                         <td data-bind="text: Usage"></td>
                         <td>
-                            <a data-bind="click: $root.removeUnitCommand, attr: { title: 'Buang Unit' }" class="close">
-                                &times;
+                            <a data-bind="click: $root.removeUnitCommand, attr: { title: 'Buang Unit' }" class="btn btn-link">
+                                x
                             </a>
                     </tr>
                 </tbody>
