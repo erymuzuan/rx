@@ -1,52 +1,52 @@
-﻿<div id="building-lot-collection" class="container">
-    <section>
-        <h1 class="row-fluid" data-bind="text: title"></h1>
+﻿<div id="building-lot-collection">
+  <h1 class="row-fluid" data-bind="text: title"></h1>
 
         <div class="row space-search-panel">
             <form class="form-search" id="units-search-form">
                 <label class="control-label">Block</label>
-                <select data-bind="value:block, options: blockOptions, optionsText:'Name'"></select>
+                <select data-bind="value: searchTerm.block, options: blockOptions, optionsText: 'Name'"></select>
 
                 <label class="control-label">Tingkat</label>
-                <select data-bind="value:floor, options: floorOptions, optionsText:'Number'"></select>
+                <select data-bind="value: searchTerm.floor, options: floorOptions, optionsText: 'Number'"></select>
                 <button type="submit">
                     <i class="icon-search"></i>
                     Cari
                 </button>
             </form>
         </div>
-        <button id="add-new-lot" type="button" data-bind="click: addNewUnitCommand" class="btn pull-right">
-            + Unit
-        </button>
+        <div>
+            <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Unit No</th>
+                        <th>Blok</th>
+                        <th>Tingkat</th>
+                        <th>Keluasan</th>
+                        <th>Kegunaan</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: list">
+                    <tr>
+                        <td data-bind="text: ($index() + 1)"></td>
+                        <td>
+                            <a data-bind="text: No, click: $root.editUnit" data-toggle="modal" href="#unit-dialog"></a>
+                        </td>
+                        <td data-bind="text: BlockNo"></td>
+                        <td data-bind="text: FloorNo"></td>
+                        <td data-bind="text: Size"></td>
+                        <td data-bind="text: Usage"></td>
+                        <td>
+                            <a data-bind="click: $root.removeUnitCommand, attr: { title: 'Buang Unit' }" class="close">
+                                &times;
+                            </a>
+                    </tr>
+                </tbody>
 
-        <table class="table table-striped table-condensed" data-bind="filter: { path: 'tbody>tr' }">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Unit No</th>
-                    <th>Blok</th>
-                    <th>Tingkat</th>
-                    <th>Keluasan</th>
-                    <th>Kegunaan</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: list">
-                <tr>
-                    <td data-bind="text: ($index() + 1)"></td>
-                    <td data-bind="text:No"></td>
-                    <td data-bind="text:BlockNo"></td>
-                    <td data-bind="text:FloorNo"></td>
-                    <td data-bind="text:Size"></td>
-                    <td data-bind="text:Usage"></td>
-                    <td>
-                        <button data-bind="click: $parent.removeUnitCommand.bind($data), attr: { title: 'Buang Unit' }" class="close">
-                            &times;
-                        </button>
-                </tr>
-            </tbody>
+            </table>
+        </div>
 
-        </table>
 
         <datalist id="usage">
             <option value="Kediaman">
@@ -56,47 +56,47 @@
             <option value="Kedai buku">
             <option value="Kedai dobi">
         </datalist>
-    </section>
+
 </div>
 
-<section class="modal hide" id="unit-dialog">
+<div class="modal hide" id="unit-dialog">
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h3>Unit</h3>
     </div>
     <div class="modal-body">
-        <form class="form-horizontal" id="unit-form">
+        <form class="form-horizontal" id="unit-form" data-bind="with: unit">
 
             <div class="control-group">
                 <label for="unit-block" class="control-label">Blok</label>
                 <div class="controls">
-                    <select data-bind="value: block, options: blockOptions, optionsText: 'Name'" id="unit-block" name="$root.block" />
+                    <select data-bind="value: $root.blockNo, options: $root.blockOptions, optionsText: 'Name'" id="unit-block" name="BlockNo" />
                 </div>
             </div>
 
             <div class="control-group">
                 <label for="unit-floor" class="control-label">Tingkat</label>
                 <div class="controls">
-                    <select data-bind="value: floor, options: floorOptions, optionsText: 'Name'" id="unit-floor" name="Floor" />
+                    <select data-bind="value: $root.floorNo, options: $root.floorOptions, optionsText: 'Name'" id="unit-floor" name="FloorNo" />
                 </div>
             </div>
 
-            <div class="control-group" data-bind="with : unit">
+            <div class="control-group">
                 <label for="unit-no" class="control-label">No. unit</label>
                 <div class="controls">
                     <input required data-bind="value: No" id="unit-no" type="text" name="No" />
                 </div>
             </div>
 
-            <div class="control-group" data-bind="with : unit">
+            <div class="control-group">
                 <label for="unit-size" class="control-label">Luas</label>
                 <div class="controls">
                     <input required data-bind="value: Size" id="unit-size" type="number" min="0" name="Size" />
                 </div>
             </div>
 
-            <div class="control-group" data-bind="with : unit">
+            <div class="control-group">
                 <label for="unit-usage" class="control-label">Kegunaan</label>
                 <div class="controls">
                     <input list="usage" data-bind="value: Usage" id="unit-usage" type="text" name="Usage" />
@@ -111,5 +111,5 @@
         <input type="submit" form="unit-form" id="ok-unit-dialog-btn" class="btn btn-primary" value="OK" />
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
     </div>
-</section>
+</div>
 

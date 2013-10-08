@@ -7,11 +7,12 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../objectbuilders.js" />
 /// <reference path="../schemas/sph.domain.g.js" /> 
 
 
-define(['services/datacontext', 'services/logger', 'durandal/system', 'config'],
-	function (context, logger, system, config) {
+define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', objectbuilders.config,objectbuilders.config,objectbuilders.router],
+	function (context, logger, system, config,router) {
 
 	    var template = ko.observable(new bespoke.sph.domain.ComplaintTemplate()),
 	        id = ko.observable(),
@@ -33,7 +34,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', 'config'],
 	                    return c.Name();
 	                });
 	                vm.categoryOptions(categories);
-	                var fieldToValueMap = function(f) {
+	                var fieldToValueMap = function (f) {
 	                    var webid = system.guid();
 	                    var v = new bespoke.sph.domain.CustomFieldValue(webid);
 	                    v.Name(f.Name());
@@ -105,6 +106,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', 'config'],
 	                    tcs.resolve(result);
 	                    vm.complaint().ReferenceNo(result.referenceNo);
 	                    $('#complaint-ticket-modal').modal();
+	                    router.navigateTo('/#/public.index');
 	                });
 	            return tcs.promise();
 	        };
@@ -119,7 +121,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system', 'config'],
 	        subCategoryOptions: ko.observableArray([]),
 	        locationOptions: ko.observableArray(),
 	        customFields: ko.observable(),
-	        stateOptions : ko.observableArray(),
+	        stateOptions: ko.observableArray(),
 
 	        template: template,
 	        complaint: ko.observable(new bespoke.sph.domain.Complaint()),
