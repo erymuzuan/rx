@@ -73,67 +73,46 @@
             <h2 data-bind="text: name"></h2>
             <!-- ko foreach : spaces -->
             <div>
-                <article>
-                    <div>
+                <article class="list-article">
+                        <div class="list-header">
+                            <span class="category" data-bind="text: Category"></span>
+                            <span><a class="detail-button" data-bind="attr: { href: '/#/space.detailpublic-templateid.' + TemplateId() + '/' + SpaceId() }">Lihat Perincian</a></span>
+                        </div>
                         <!-- ko if: Icon -->
                         <div  class="space-image-panel">
-                            <img src="/Images/no-image.png" data-bind="attr: { src: '/Image/Store/' + Icon() }" alt="icon" />
+                            <img style="width: 150px; height: 120px " src="/Images/no-image.png" data-bind="attr: { src: '/Image/Store/' + Icon() }" alt="icon" />
                         </div>
                         <!-- /ko -->
-                        <!-- ko if: PhotoCollection().length === 0 -->
+                        
                         <div class="space-image-panel">
                             <img src="/Images/no-image.png" />
                         </div>
-                        <!-- /ko -->
-                        <span class="category" data-bind="text: Category" />
-
-                        <div class="div-building">
-
-                            <div>
-                                <p>
-                                    <span class="building-name" data-bind="text: BuildingName" />
-                                </p>
-                                <p>
-                                    <span class="location">Lokasi :</span>
-                                    <span class="lot-name" data-bind="text: UnitNo" />
-                                    <span class="floor-name" data-bind="text: FloorName" />,
-
-                                    <span class="building-name" data-bind="text: BuildingName" />,
-
-                                    <span class="city" data-bind="text: City" />,
-
-                                    <span class="state" data-bind="text: State" />.
-
-                                </p>
-                            </div>
-
-                            <div>
-                                <p>
-                                    <!-- ko if :Size-->
-                                    <span class="label">Saiz :</span>
-                                    <span class="size" data-bind="text: Size" />mps
-                                    <!--/ko-->
-
-
-
-                                    <span class="label">Kadar Sewa :</span>
-                                    RM <span class="rental-rate" data-bind="money: RentalRate" />
-                                </p>
-                            </div>
-                            <p>
-                                <a class="btn btn-success" data-bind="attr: { href: '/#/space.detailpublic-templateid.' + TemplateId() + '/' + SpaceId() }">Mohon Sewa</a>
-
+                        
+                    <div class="list-info">
+                            <p class="info-text">
+                                <span class="building-name" data-bind="text: BuildingName" />
                             </p>
-
-                        </div>
-
-
+                            <p class="info-text">
+                                <span data-bind="text: UnitNo" />
+                                <span data-bind="text: FloorName" />,
+                                <span data-bind="text: BuildingName" />,
+                                <span data-bind="text: City" />,
+                                <span data-bind="text: State" />.
+                            </p>
+                            <p class="info-text">
+                                <!-- ko if :Size-->
+                                <span>Saiz :</span>
+                                <span data-bind="text: Size" />mps
+                                <!--/ko-->
+                            </p>
+                    </div>
+                    
+                    <div class="list-footer">
+                        RM <span class="prices" data-bind="money: RentalRate" />
                     </div>
                 </article>
             </div>
-
             <!-- /ko -->
-
         </section>
 
         <div id="search-space-pager"></div>

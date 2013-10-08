@@ -31,7 +31,11 @@
                 <tr>
                     <th>Nama</th>
                     <th>Keterangan</th>
+                    <th>Kategori</th>
+                    <th>Kuantiti</th>
+                    <th>Jenis Bayaran</th>
                     <th>Harga</th>
+                    <th>Pilih</th>
                     <th></th>
                 </tr>
             </thead>
@@ -39,7 +43,11 @@
                 <tr>
                     <td data-bind="text:Name"></td>
                     <td data-bind="text:Description"></td>
+                    <td data-bind="text:Category"></td>
+                    <td data-bind="text:AvailableQuantity"></td>
+                    <td data-bind="text:OccurenceTimeSpan"></td>
                     <td data-bind="text:Charge"></td>
+                    <td data-bind="checked:IsRequired"></td>
                     <td></td>
                 </tr>
             </tbody>
