@@ -66,7 +66,7 @@ define([objectbuilders.datacontext, 'durandal/system', './template.base', 'servi
                     return ko.dataFor(div);
                 });
                 vm.template().FormDesign().FormElementCollection(elements);
-                var data = ko.mapping.toJSON(vm.template);
+                var data = ko.mapping.toJSON(vm.template());
 
                 context.post(data, "/Template/SaveMaintenanceTemplate")
                     .then(function (result) {
