@@ -15,6 +15,16 @@
 </head>
 <body>
     <div id="body" class="container">
+        <header>
+            <!--ko compose: {view: 'header'} -->
+            <div id="header-navbar" class="navbar" data-view="views/header" data-active-view="true">
+                
+                <div class="navbar-inner">
+                    <img class="icon-image" src="/Images/home.png" alt="Kembali" />
+                    <a href="/#/" class="logo">Sistem Pengurusan Harta</a>
+                </div>
+            </div>
+        </header>
         <section>
 
             @using (Html.BeginForm((string)ViewBag.FormAction, "Account"))
@@ -39,7 +49,7 @@
                             @Html.TextBoxFor(m => m.UserName, new { placeholder = "Nama pengguna", @class = "input-xlarge", required = true })
                             @Html.ValidationMessageFor(m => m.UserName)
                             <label class="controls"></label>
-                            @Html.PasswordFor(m => m.Password, new { placeholder = "Kata laluan", @class = "input-xlarge" , required = true})
+                            @Html.PasswordFor(m => m.Password, new { placeholder = "Kata laluan", @class = "input-xlarge", required = true })
                             @Html.ValidationMessageFor(m => m.Password)
                             <label class="checkbox">
                                 <input type="checkbox" name="remember" value="1">
@@ -61,7 +71,6 @@
                     <hr class="span12" />
                 </div>
                 @Html.Partial("_Footer")
-
 
             }
         </section>
