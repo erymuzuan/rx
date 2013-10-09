@@ -126,7 +126,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     vm.rentalapplication().Status('Diluluskan');
                 }
                 tcs.resolve(true);
-                if (result) {
+                if (r.result) {
                     var url = '/#/admindashboard';
                     router.navigateTo(url);
                 }
