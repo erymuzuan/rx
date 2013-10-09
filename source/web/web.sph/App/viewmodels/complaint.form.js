@@ -103,10 +103,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', ob
 	            context.post(data, "/Complaint/Submit")
 	                .then(function (result) {
 	                    isBusy(false);
-	                    tcs.resolve(result);
 	                    vm.complaint().ReferenceNo(result.referenceNo);
 	                    $('#complaint-ticket-modal').modal();
 	                    router.navigateTo('/#/public.index');
+	                    tcs.resolve(result);
 	                });
 	            return tcs.promise();
 	        };

@@ -7,84 +7,84 @@
     <div class="tabbable">
         <ul class="nav nav-tabs">
             <li>
-                <a href="#general-tab" data-toggle="tab">Profil</a>
+                <a href="#tenant-general-tab" data-toggle="tab">Profil</a>
             </li>
             <li>
-                <a href="#contract-tab" data-toggle="tab">Kontrak</a>
+                <a href="#tenant-contract-tab" data-toggle="tab">Kontrak</a>
             </li>
             <li>
-                <a href="#rental-tab" data-toggle="tab">Sewa</a>
+                <a href="#tenant-rental-tab" data-toggle="tab">Sewa</a>
             </li>
             <li>
-                <a href="#payment-tab" data-toggle="tab">Pembayaran</a>
+                <a href="#tenant-payment-tab" data-toggle="tab">Pembayaran</a>
             </li>
             <li>
-                <a href="#complaint-tab" data-toggle="tab" id="complainttab">Aduan &amp; Senggara</a>
+                <a href="#tenant-complaint-tab" data-toggle="tab" id="complainttab">Aduan &amp; Senggara</a>
             </li>
             <li>
-                <a href="#complaintList-tab" data-toggle="tab">Rekod Aduan</a>
+                <a href="#tenant-complaintList-tab" data-toggle="tab">Rekod Aduan</a>
             </li>
         </ul>
 
         <div class="tab-content">
-            <div id="general-tab" class="tab-pane active">
-                <section>
+            <div id="tenant-general-tab" class="tab-pane active">
+                <form class="form-horizontal">
                     <div class="control-group">
-                        <span class="control-label">Nama : </span>
+                        <span class="control-label">Nama  </span>
                         <span data-bind="text: tenant().Name" id="tenant.Name" />
                     </div>
                     <div class="control-group">
-                        <span class="control-label">Id / SSM No : </span>
+                        <span class="control-label">Id / SSM No  </span>
                         <span data-bind="text: tenant().IdSsmNo" id="tenant().IdSssmNo" />
                     </div>
                      <div class="control-group">
-                        <span class="control-label">Bisnes : </span>
+                        <span class="control-label">Bisnes  </span>
                         <span data-bind="text: tenant().BussinessType" id="tenant.BussinessType" />
                     </div>
                     <div class="control-group">
-                        <span class="control-label">No. Telefon : </span>
+                        <span class="control-label">No. Telefon  </span>
                         <span data-bind="text: tenant().PhoneNo" id="tenant().PhoneNo" />
                     </div>
                     <div class="control-group">
-                        <span class="control-label">No. Telefon Bimbit : </span>
+                        <span class="control-label">No. Telefon Bimbit  </span>
                         <span data-bind="text: tenant().MobilePhoneNo" id="tenant().MobilePhoneNo" />
                     </div>
                     <div class="control-group">
-                        <span class="control-label">No. Faks : </span>
+                        <span class="control-label">No. Faks  </span>
                         <span data-bind="text: tenant().FaksNo" id="tenant().FaksNo" />
                     </div>
                     <div class="control-group">
-                        <span class="control-label">Emel : </span>
+                        <span class="control-label">Emel  </span>
                         <span data-bind="text: tenant().Email" id="tenant().Email" />
                     </div>
-                    <section data-bind="with: tenant().Address">
+                    <div data-bind="with: tenant().Address">
                         <div>
-                            <span>Alamat : </span>
+                            <span class="control-label">Alamat  </span>
                             <span data-bind="text: Street"></span>, 
                             <span data-bind="text: City"></span>,
                             <span data-bind="text: Postcode"></span>,
                             <span data-bind="text: State"></span>
                         </div>
-                    </section>
-                </section>
+                    </div>
+                </form>
             </div>
-            <div id="contract-tab" class="tab-pane">
+            <div id="tenant-contract-tab" class="tab-pane">
                 <!--ko compose:'viewmodels/_tenant.contract' -->
                 <!--/ko-->
             </div>
-            <div id="rental-tab" class="tab-pane">
+            <div id="tenant-rental-tab" class="tab-pane">
                 <!--ko compose:'viewmodels/_tenant.rent' -->
                 <!--/ko-->
             </div>
-            <div id="payment-tab" class="tab-pane">
+            <div id="tenant-payment-tab" class="tab-pane">
                 <!--ko compose:'viewmodels/_tenant.payment' -->
                 <!--/ko-->
             </div>
-            <div id="complaint-tab" class="tab-pane">
+            <div id="tenant-complaint-tab" class="tab-pane">
                 <!--ko compose:'viewmodels/_tenant.complaintform' -->
                 <!--/ko-->
             </div>
-            <div id="complaintList-tab" class="tab-pane">
+            <div id="tenant-complaintList-tab" class="tab-pane">
                 <!--ko compose:'viewmodels/_tenant.complaint' -->
                 <!--/ko-->
             </div>
