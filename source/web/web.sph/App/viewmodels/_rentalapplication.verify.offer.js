@@ -8,8 +8,9 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
+/// <reference path="../objectbuilders.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router], function (context, logger, router) {
 
     var isBusy = ko.observable(false),
         activate = function (r) {

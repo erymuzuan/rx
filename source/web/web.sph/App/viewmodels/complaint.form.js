@@ -104,9 +104,12 @@ define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', ob
 	                .then(function (result) {
 	                    isBusy(false);
 	                    vm.complaint().ReferenceNo(result.referenceNo);
-	                    $('#complaint-ticket-modal').modal();
-	                    router.navigateTo('/#/public.index');
-	                    tcs.resolve(result);
+	                    $('#complaint-ticket-modal').modal({})
+                         .on('hidden', function () {
+                             var url = '/#/public.index';
+                             router.navigateTo(url);
+                         });
+	                    tcs.resolve(true);
 	                });
 	            return tcs.promise();
 	        };
