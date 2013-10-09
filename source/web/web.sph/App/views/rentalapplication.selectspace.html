@@ -58,19 +58,9 @@
         </div>
     </div>
 
-    <div class="span8" data-bind="filter: { path: 'section>div' }">
-        <div>
-            <select>
-                <option value="">[Susun Ikut]</option>
-                <option value="RentalRate">Kadar Sewa</option>
-                <option value="Category">Ketegori Kegunaan</option>
-                <option value="State">Negeri</option>
-                <option value="Size">Luas</option>
-            </select>
-        </div>
-
+    <div class="span8">
+        
         <section id="available-space-list" data-bind="foreach: items">
-            <h2 data-bind="text: name"></h2>
             <!-- ko foreach : spaces -->
             <div>
                 <article class="list-article">
@@ -92,13 +82,18 @@
                             <p class="info-text">
                                 <span class="building-name" data-bind="text: BuildingName" />
                             </p>
-                            <p class="info-text">
-                                <span data-bind="text: UnitNo" />
-                                <span data-bind="text: FloorName" />,
-                                <span data-bind="text: BuildingName" />,
-                                <span data-bind="text: City" />,
-                                <span data-bind="text: State" />.
-                            </p>
+                        <p class="info-text">
+                            <!-- ko if :UnitNo-->
+                            <span data-bind="text: UnitNo" />,
+                            <!--/ko-->
+                            <!-- ko if :FloorName-->
+                            <span data-bind="text: FloorName" />,
+                            <!--/ko-->
+                            <span data-bind="text: BuildingName" />,
+                            <span data-bind="text: City" />,
+                            <span data-bind="text: Address().Postcode" />,
+                            <span data-bind="text: State" />.
+                        </p>
                             <p class="info-text">
                                 <!-- ko if :Size-->
                                 <span>Saiz :</span>
