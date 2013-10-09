@@ -145,5 +145,12 @@
     "Role": "can_add_trigger",
     "Description": "Mengemaskini dan menambah senarai trigger",
     "IsActive": true
+  },
+  {
+    "Group": "admin",
+    "Name": "Kerani Permohonan",
+    "Role": "can_apply_onbehalf",
+    "Description": "Boleh mewakili pelanggan untuk memohon sewaan ruang",
+    "IsActive": true
   }
 ]

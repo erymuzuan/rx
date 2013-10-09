@@ -7,8 +7,9 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
+/// <reference path="../objectbuilders.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/system'], function (context, logger, router, system) {
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, 'durandal/system',objectbuilders.config], function (context, logger, router, system,config) {
 
     var isBusy = ko.observable(false),
         id = ko.observable(),
@@ -25,7 +26,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 var states = JSON.parse(ko.mapping.toJS(s.Value));
                 vm.stateOptions(states);
                 vm.space(cs);
-               
+
                 var categoryOptions = ko.observableArray();
                 _.each(cs.FeatureDefinitionCollection(), function (t) {
                     categoryOptions.push(t.Category());
@@ -49,9 +50,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             if (!id) {
 
                 // build custom fields value
-                context.loadOneAsync("ApplicationTemplate", "ApplicationTemplateId eq 1" )
-                    .done(function(template) {
-                        var cfs = _(template.CustomFieldCollection()).map(function(f) {
+                context.loadOneAsync("ApplicationTemplate", "ApplicationTemplateId eq 1")
+                    .done(function (template) {
+                        var cfs = _(template.CustomFieldCollection()).map(function (f) {
                             var webid = system.guid();
                             var v = new bespoke.sph.domain.CustomFieldValue(webid);
                             v.Name(f.Name());
@@ -97,16 +98,19 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             isBusy(true);
             context.post(data, "/RentalApplication/Submit")
                 .done(function (e) {
-                logger.log("Data has been successfully saved ", e, "rentalapplication", true);
-                isBusy(false);
-                registrationNo(e.registrationNo);
-                vm.rentalapplication(new bespoke.sph.domain.RentalApplication());
-                $('#success-panel').modal({})
-                    .on('hidden', function () {
-                        router.navigateTo('/#/');
-                    });
-                tcs.resolve(e.status);
-            });
+                    logger.log("Data has been successfully saved ", e, "rentalapplication", true);
+                    isBusy(false);
+                    registrationNo(e.registrationNo);
+                    vm.rentalapplication(new bespoke.sph.domain.RentalApplication());
+                    if (!config.isAuthenticated) {
+                        $('#success-panel').modal({})
+                            .on('hidden', function () {
+                            router.navigateTo('/#/');
+                            });
+                    }
+
+                    tcs.resolve(e.status);
+                });
             return tcs.promise();
         },
         addAttachment = function () {
@@ -123,7 +127,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             feature.OccurenceTimeSpan(fd.OccurenceTimeSpan());
             feature.Quantity(fd.AvailableQuantity());
             feature.Charge(fd.AvailableQuantity() * fd.Charge());
-              
+
             vm.rentalapplication().FeatureCollection.push(feature);
             var rentalRate = vm.space().RentalRate();
             var addedCharge = _(vm.rentalapplication().FeatureCollection()).reduce(function (memo, val) {
@@ -131,7 +135,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             }, 0);
             vm.totalRate(addedCharge + rentalRate);
         },
-        
+
         removeFeatureFromList = function (feature) {
             vm.rentalapplication().FeatureCollection.remove(feature);
             var rentalRate = vm.totalRate();

@@ -871,5 +871,18 @@
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": "can_apply_onbehalf",
+    "groupName": null,
+    "url": "rentalapplication.onbehalf",
+    "moduleId": "viewmodels/rentalapplication.onbehalf",
+    "name": "Permohonan Sewaan",
+    "visible": true,
+    "icon": "icon-flag",
+    "caption": "Permohonan Sewaan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
   }
 ]
