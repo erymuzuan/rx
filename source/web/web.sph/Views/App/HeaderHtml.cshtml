@@ -4,18 +4,20 @@
 <div id="header-navbar" class="navbar">
     <div class="navbar-inner">
         
-        <button class="btn btn-navbar" id="drawer-menu" title="Open menu">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        
+        @if (User.Identity.IsAuthenticated)
+        {
+            <button class="btn btn-navbar" id="drawer-menu" title="Open menu">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        }
         <!-- Site name for smallar screens -->
+        <img class="icon-image" src="/Images/home.png" alt="Kembali" />
         <a href="/#/@ViewBag.StartModule" class="logo">Sistem Pengurusan Harta</a>
 
         <!-- Navigation starts -->
         <div class="nav-header">
-
 
             @if (User.Identity.IsAuthenticated)
             {
@@ -48,13 +50,10 @@
             @if (!User.Identity.IsAuthenticated)
             {
                 <ul class="nav navbar-nav">
-                    <li><a id="log-in" href="@Url.Action("Login", "Account")"><i class="icon-signin"></i>Sign In</a></li>
+                    <li><a id="log-in" href="@Url.Action("Login", "Account")" class="login-label"><i class="icon-signin"></i>  Log Masuk </a></li>
                 </ul>
             }
 
-
         </div>
-
-
     </div>
 </div>

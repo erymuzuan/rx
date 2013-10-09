@@ -492,8 +492,10 @@ form label {
   width: 97% !important;
 }
 .navbar .nav > li > a {
-  font-size: 13px;
+  font-size: 14px;
   color: #fff;
+  margin: 4px;
+  padding-left: 0px;
 }
 .navbar i {
   margin-right: 3px;
