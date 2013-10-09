@@ -156,9 +156,6 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         space: ko.observable(new bespoke.sph.domain.Space()),
         totalRate: ko.observable(),
         toolbar: {
-            reloadCommand: function () {
-                return activate({ status: status() });
-            },
             printCommand: ko.observable({
                 entity: ko.observable("RentalApplication"),
                 id: ko.observable(0),
@@ -166,7 +163,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             }),
             commands: ko.observableArray([{
                 caption: "Hantar Permohonan",
-                icon: 'icon-envelop',
+                icon: 'icon-envelope',
                 status: 'none',
                 command: saveApplication
             }])
