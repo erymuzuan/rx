@@ -319,6 +319,7 @@ bespoke.sph.domain.RentalApplication = function (webId) {
         CustomFieldValueCollection: ko.observableArray([]),
         CustomListValueCollection: ko.observableArray([]),
         FeatureCollection: ko.observableArray([]),
+        BankCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

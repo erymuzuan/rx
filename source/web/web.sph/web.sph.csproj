@@ -1625,6 +1625,7 @@
     <Content Include="Views\App\DisplayTemplates\RentalApplicationContactElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\SectionFormElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Views\RentalApplication\Check.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

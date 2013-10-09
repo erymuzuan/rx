@@ -62,7 +62,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             },
             addNew = function () {
                 $('#unit-dialog').modal();
-                $('#ok-unit-dialog-btn').one('click', function (ev) {
+                $('#ok-unit-dialog-btn').one('click',function (ev) {
                     ev.preventDefault();
                     if (ev.target.form.checkValidity()) {
                         vm.unit().BlockNo(vm.blockNo().Name());
@@ -78,8 +78,17 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 var clone = c1;
                 editedUnit(unit);
                 vm.unit(clone);
-
                 $('#unit-dialog').modal({});
+                $('#ok-unit-dialog-btn').one('click', function (ev) {
+                    ev.preventDefault();
+                    if (ev.target.form.checkValidity()) {
+                        vm.unit().BlockNo(vm.blockNo().Name());
+                        vm.unit().FloorNo(vm.floorNo().Name());
+                        vm.list.push(vm.unit());
+                        $('#unit-dialog').modal("hide");
+                        return save(vm.unit());
+                    }
+                });
             },
             save = function (unit) {
                 var tcs = new $.Deferred();
@@ -126,12 +135,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             floorNo: ko.observable(),
             addCsCommand: addCs,
             addNewUnitCommand: addNew,
+            saveUnit:save,
             editUnit: editUnit,
             goBackCommand: goBack,
-            searchTerm: {
-                block: ko.observable(),
-                floor: ko.observable()
-            },
             blockOptions: ko.observableArray(),
             floorOptions: ko.observableArray(),
             removeUnitCommand: removeUnit,
@@ -144,7 +150,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 }])
             }
         };
-
+       
         vm.blockNo.subscribe(function (b) {
             if (!b) return;
             var floors = [{
@@ -157,26 +163,13 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 vm.floorOptions(_(floors).concat(building().FloorCollection()));
             }
         });
-
-        vm.searchTerm.block.subscribe(function (b) {
-            if (!b) return;
-            var floors = [{
-                Number: ko.observable('[Semua Lantai]'),
-                isPlaceHolder: true
-            }];
-            if (!b.isPlaceHolder) {
-                vm.floorOptions(_(floors).concat(b.FloorCollection()));
-            } else {
-                vm.floorOptions(_(floors).concat(building().FloorCollection()));
-            }
-        });
-        vm.searchTerm.floor.subscribe(function (floor) {
+        vm.floorNo.subscribe(function (floor) {
             if (!floor) return;
-            if (!vm.searchTerm.block()) return;
+            if (!vm.blockNo()) return;
 
 
             var units = [];
-            if (floor.isPlaceHolder && vm.searchTerm.block().isPlaceHolder) {
+            if (floor.isPlaceHolder && vm.blockNo().isPlaceHolder) {
                 // look for all blocks
                 _(building().BlockCollection()).each(function (blk) {
                     if (blk.isPlaceHolder) return;
@@ -192,7 +185,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 });
             }
             //
-            if (floor.isPlaceHolder && !vm.block().isPlaceHolder) {
+            if (floor.isPlaceHolder && !vm.blockNo().isPlaceHolder) {
 
                 _(vm.block().FloorCollection()).each(function (f) {
                     units = _(f.UnitCollection()).concat(units);

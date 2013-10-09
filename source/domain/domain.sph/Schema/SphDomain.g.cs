@@ -4172,6 +4172,17 @@
 			get{ return m_FeatureCollection;}
 			}
 		
+			private readonly ObjectCollection<Bank>  m_BankCollection = new ObjectCollection<Bank> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("Bank", IsNullable = false)]
+			public ObjectCollection<Bank> BankCollection
+			{
+			get{ return m_BankCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
