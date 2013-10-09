@@ -159,12 +159,12 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         },
 
         createTenant = function () {
-            var username = vm.rentalapplication().Contact().IcNo() || vm.rentalapplication().CompanyRegistrationNo();
-            username = prompt('Nama pengguna untuk penyewa baru', username);
+            vm.username(vm.rentalapplication().Contact().IcNo() || vm.rentalapplication().CompanyRegistrationNo());
+            $('#tenant-username-dialog').modal();
             var tcs = new $.Deferred();
             var data = JSON.stringify({
                 id: vm.rentalapplication().RentalApplicationId(),
-                username: username
+                username: vm.username()
             });
             context.post(data, "/Tenant/Create").done(function (e) {
                 logger.log("Penyewa dijana ", e, "rentalapplication.verify", true);
