@@ -11,12 +11,13 @@ define(['services/datacontext'], function (context) {
     var activate = function () {
         var tcs = new $.Deferred();
         var templateTasks = context.loadAsync("ApplicationTemplate", "IsActive eq 1");
-        var csTasks = context.loadAsync("Space", "IsAvailable eq 1 and IsOnline eq 1");
+        var csTasks = context.loadAsync("Space", "IsAvailable eq 1");
         var statesTask = context.getDistinctAsync("Building", "", "State");
         var categoriesTask = context.getDistinctAsync("Space", "", "Category");
 
         $.when(templateTasks, csTasks, statesTask, categoriesTask)
             .done(function (tlo, cslo, states, categories) {
+                vm.spaces(cslo.itemCollection);
                 var items = _(tlo.itemCollection).map(function (t) {
                     var filtered = _(cslo.itemCollection).filter(function (c) {
                         return c.ApplicationTemplateOptions().indexOf(t.ApplicationTemplateId()) > -1;
@@ -35,12 +36,12 @@ define(['services/datacontext'], function (context) {
             });
 
         // get max and min
-        context.getMaxAsync("Space", "IsAvailable eq 1 and IsOnline eq 1", "RentalRate")
+        context.getMaxAsync("Space", "IsAvailable eq 1", "RentalRate")
             .done(function (max) {
                 vm.searchTerm.max(max);
                 vm.searchTerm.maxValue(max);
             });
-        context.getMinAsync("Space", "IsAvailable eq 1 and IsOnline eq 1", "RentalRate")
+        context.getMinAsync("Space", "IsAvailable eq 1", "RentalRate")
             .done(function (min) {
                 vm.searchTerm.min(min);
                 vm.searchTerm.minValue(min);
@@ -122,6 +123,7 @@ define(['services/datacontext'], function (context) {
     var vm = {
         activate: activate,
         items: ko.observableArray([]),
+        spaces: ko.observableArray(),
         searchTerm: {
             state: ko.observable(),
             stateOptions: ko.observableArray(),
