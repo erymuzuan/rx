@@ -10,8 +10,9 @@ define(['services/datacontext'], function (context) {
 
     var activate = function () {
         var tcs = new $.Deferred();
+        vm.searchTerm.query('IsAvailable eq 1');
         var templateTasks = context.loadAsync("ApplicationTemplate", "IsActive eq 1");
-        var csTasks = context.loadAsync("Space", "IsAvailable eq 1");
+        var csTasks = context.loadAsync("Space",vm.searchTerm.query());
         var statesTask = context.getDistinctAsync("Building", "", "State");
         var categoriesTask = context.getDistinctAsync("Space", "", "Category");
 
@@ -125,6 +126,7 @@ define(['services/datacontext'], function (context) {
         items: ko.observableArray([]),
         spaces: ko.observableArray(),
         searchTerm: {
+            query: ko.observable(),
             state: ko.observable(),
             stateOptions: ko.observableArray(),
             categoryOptions: ko.observableArray(),

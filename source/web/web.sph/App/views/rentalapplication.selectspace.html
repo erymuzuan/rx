@@ -60,9 +60,14 @@
 
     <div class="span8">
         
-        <section id="available-space-list" data-bind="foreach: items">
+        <section id="available-space-list" data-bind="searchPaging:
+                    {
+                        query: searchTerm.query,
+                        list: spaces,
+                        entity: 'Space'
+                    }">
             <!-- ko foreach : spaces -->
-            <div>
+            <div >
                 <article class="list-article">
                         <div class="list-header">
                             <span class="category" data-bind="text: Category"></span>

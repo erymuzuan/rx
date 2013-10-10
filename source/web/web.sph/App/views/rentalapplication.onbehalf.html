@@ -26,6 +26,7 @@
                     <th>No. Pendaftaran</th>
                     <th>Alamat</th>
                     <th>Pegawai Untuk Dihubungi</th>
+                    <th>Negeri</th>
                     <th></th>
                 </tr>
             </thead>
@@ -35,6 +36,7 @@
                     <td data-bind="text: RegistrationNo"></td>
                     <td><span data-bind="text: UnitNo, visible: UnitNo"></span> <span data-bind="text: FloorName"></span> <span data-bind="text: BuildingName"></span></td>
                     <td data-bind="text: ContactPerson"></td>
+                    <td data-bind="text: Address().State"></td>
                     <td>
                         <a class="btn btn-mini" data-bind="attr: { href: '/#/application.detail-templateid.' + TemplateId() + '/' + SpaceId() }">Permohonan</a>
                     </td>
