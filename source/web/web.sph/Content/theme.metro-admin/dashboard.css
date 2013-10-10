@@ -123,8 +123,8 @@ h6 {
   line-height: 25px;
 }
 p {
-  padding: 2px 12px !important;
-  margin: 1px 0px !important;
+  padding: 0px 12px !important;
+  margin: 10px 0px !important;
 }
 a {
   color: #333;
@@ -1534,4 +1534,9 @@ footer.main {
   -moz-transition: all 0.2s linear;
   -ms-transition: all 0.2s linear;
   transition: all 0.2s linear;
+}
+.photo-section {
+  width: 800px;
+  margin-bottom: 20px;
+  border: 1px solid #aaa;
 }
