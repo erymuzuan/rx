@@ -25,6 +25,10 @@ define(['services/datacontext', 'config'],
             activate: activate,
             viewAttached: viewAttached,
             lands: ko.observableArray(),
+            searchTerm: {
+                location: ko.observable(),
+                keyword: ko.observable()
+            },
             toolbar: {
                 addNew: {
                     location: '/#/land.detail/0',

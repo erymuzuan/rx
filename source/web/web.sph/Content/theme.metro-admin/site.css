@@ -12,6 +12,14 @@
   height: 250px;
   max-height: 300px;
 }
+.search-panel {
+  padding: 8px;
+}
+.search-panel label {
+  font-weight: bold;
+  margin-right: 20px;
+  margin-left: 20px;
+}
 .google-maps {
   min-height: 600px;
 }

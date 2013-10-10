@@ -1,26 +1,42 @@
 ﻿<h1>Senarai Tanah</h1>
-<table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, searchPaging :
+<div class="search-panel row row-fluid" data-bind="with: searchTerm">
+    <form class="form-inline form-search">
+        <label>Lokasi</label>
+        <input type="text" data-bind="value: location" />
+
+        <label class="control-label">Kata Kunci</label>
+        <input type="text" data-bind="value: keyword" required />
+
+        <button type="submit" class="btn btn-primary" id="building-search-btn">
+            <i class="icon-search pull-left"></i>
+            Search
+        </button>
+
+    </form>
+</div>
+<div>
+    <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, searchPaging:
             {
                 list: lands,
                 entity: 'Land'
             }">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Lokasi</th>
-            <th>Saiz</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody data-bind="foreach: lands">
-        <tr>
-            <td>
-                <a data-bind="attr: { href: '/#/land.detail/' + LandId() }, text: Title"></a>
-            </td>
-            <td data-bind="text: Location"></td>
-            <td data-bind="text: Size"></td>
-            <td data-bind="text: Status"></td>
-        </tr>
-    </tbody>
-</table>
-
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Lokasi</th>
+                <th>Saiz</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: lands">
+            <tr>
+                <td>
+                    <a data-bind="attr: { href: '/#/land.detail/' + LandId() }, text: Title"></a>
+                </td>
+                <td data-bind="text: Location"></td>
+                <td data-bind="text: Size"></td>
+                <td data-bind="text: Status"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -41,6 +41,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         viewAttached: viewAttached,
         title: ko.observable(),
         applications: ko.observableArray([]),
+        searchTerm: {
+            state: ko.observable(),
+            stateOptions: ko.observableArray(),
+            keyword: ko.observable(),
+            initalQuery: {},
+            query: ko.observable()
+        },
         toolbar: ko.observable({
             reloadCommand: function () {
                 return activate({ status: status() });
