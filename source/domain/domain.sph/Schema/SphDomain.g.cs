@@ -3223,6 +3223,11 @@
                     public const string PropertyNameIcon = "Icon";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_furnishing;
+                    public const string PropertyNameFurnishing = "Furnishing";
+
+                  
 			private readonly ObjectCollection<Unit>  m_UnitCollection = new ObjectCollection<Unit> ();
 
 			///<summary>
@@ -3960,6 +3965,34 @@
                     get
                     {
                     return m_icon;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Furnishing
+                    {
+                    set
+                    {
+                    if( String.Equals( m_furnishing, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameFurnishing, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_furnishing= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_furnishing;}
                     }
 
                   

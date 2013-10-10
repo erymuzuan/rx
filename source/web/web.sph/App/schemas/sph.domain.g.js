@@ -273,6 +273,7 @@ bespoke.sph.domain.Space = function (webId) {
         MapIcon: ko.observable(''),
         SmallIcon: ko.observable(''),
         Icon: ko.observable(''),
+        Furnishing: ko.observable(''),
         UnitCollection: ko.observableArray([]),
         CustomFieldValueCollection: ko.observableArray([]),
         Address: ko.observable(new bespoke.sph.domain.Address()),
