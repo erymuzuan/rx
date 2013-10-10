@@ -30,47 +30,51 @@
 
                     @foreach (var fe in Model.Template.FormDesign.FormElementCollection)
                     {
-                    @Html.EditorFor(m => fe)
+                        @Html.EditorFor(m => fe)
 
                     }
+
                     <div class="control-group" data-bind="visible: IsOnline">
-                        <label class="control-label">Template Permohonan</label>
-                        <div class="controls">
+                        <div>
                             @foreach (var t in Model.ApplicationTemplates)
                             {
-                            <label>
-                                <input class="application-template-checkbox" type="checkbox" value="@t.ApplicationTemplateId" data-bind="checked: ApplicationTemplateOptions" />
-                                @t.Name
-                            </label>
+                                <label class="span5 offset1">
+                                    <input class="application-template-checkbox" type="checkbox" value="@t.ApplicationTemplateId" data-bind="checked: ApplicationTemplateOptions" />
+                                    @t.Name
+                                </label>
                             }
                         </div>
                     </div>
-                    <div id="space-photo-gallery">
-                        <a href="/#" data-bind="click: addPhoto">Add Photo</a>
-                        <table class="table table-striped" data-bind="visible:PhotoCollection().length">
-                            <thead>
-                                <tr>
-                                    <th>Tajuk</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody data-bind="foreach: PhotoCollection">
-                                <tr>
-                                    <td>
-                                        <a href="/#" data-bind="click: $parent.editPhoto.call($parent, $data), text: Title"></a>
-                                    </td>
-                                    <td>
-                                        <img src="~/Images/no-image.png" alt="thumbnail" data-bind="attr: { src: '/Image/Thumbnail/' + StoreId() }" />
-                                    </td>
-                                    <td>
-                                        <a href="/#" data-bind="click: $parent.removePhoto.call($parent, $data)">Buang</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
 
+                    <div>
+                        <a href="/#" data-bind="click: addPhoto" class="btn">Add Photo</a>
+                    </div>
+                    <div>
+                        <div id="space-photo-gallery photo-section">
+                            <table class="table table-bordered photo-section" data-bind="visible: PhotoCollection().length">
+                                <thead>
+                                    <tr>
+                                        <th>Tajuk</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: PhotoCollection">
+                                    <tr>
+                                        <td>
+                                            <a href="/#" data-bind="click: $parent.editPhoto.call($parent, $data), text: Title"></a>
+                                        </td>
+                                        <td>
+                                            <img src="~/Images/no-image.png" alt="thumbnail" data-bind="attr: { src: '/Image/Thumbnail/' + StoreId() }" />
+                                        </td>
+                                        <td>
+                                            <a href="/#" data-bind="click: $parent.removePhoto.call($parent, $data)">Buang</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <div id="space-icons-panel">
                         <div class="control-group">
                             <label for="map-icon" class="control-label">Map Icon</label>
@@ -99,7 +103,9 @@
                                 <input data-bind="kendoUpload: Icon" id="icon" type="file" name="files" />
                             </div>
                         </div>
-                    </div>   
+                    </div>
+
+
                 </form>
 
             </div>
@@ -130,7 +136,7 @@
             <div class="control-group">
                 <label for="selected-block" class="control-label">Block</label>
                 <div class="controls">
-                    <select data-bind="value: selectedBlock, options: blockOptions, optionsText: 'Name',  optionsCaption: '[Sila pilih]'" id="selected-block" name="selected-block"></select>
+                    <select data-bind="value: selectedBlock, options: blockOptions, optionsText: 'Name', optionsCaption: '[Sila pilih]'" id="selected-block" name="selected-block"></select>
                 </div>
             </div>
             <div class="control-group">
