@@ -6,24 +6,21 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
+/// <reference path="../objectbuilders.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'config'],
-    function (context, config) {
+define([objectbuilders.datacontext],
+    function (context) {
 
         var isBusy = ko.observable(false),
             activate = function () {
                 return true;
-            },
-            viewAttached = function (view) {
-
             };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
             lands: ko.observableArray(),
             searchTerm: {
                 location: ko.observable(),

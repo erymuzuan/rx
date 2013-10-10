@@ -20,34 +20,50 @@
 
     <div class="tab-content">
         <div id="user-tab" class="tab-pane active">
-          
-            <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'UserProfile', query: 'UserProfileId gt 0', list: profiles, map : map}">
-                <thead>
-                    <tr>
-                        <th>ID Pengguna</th>
-                        <th>Nama</th>
-                        <th>Jabatan</th>
-                        <th>Fungsi</th>
-                        <th>Emel</th>
-                        <th>Password</th>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: profiles">
-                    <tr>
-                        <td >
-                               <a data-toggle="modal" href="#user-details-modal" data-bind="click: $root.editCommand,text: UserName"></a>
-                    
-                        </td>
-                        <td data-bind="text: FullName"></td>
-                        <td data-bind="text: Department"></td>
-                        <td data-bind="text: Designation"></td>
-                        <td data-bind="text: Email"></td>
-                        <td>
-                            <a data-toggle="modal" class="k-button" href="#user-change-password" data-bind="click: $root.resetPasswordCommand">Reset</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="search-panel row row-fluid" data-bind="with: searchTerm">
+                <form class="form-inline form-search">
+                    <label>Jabatan</label>
+                    <select data-bind="options: $root.departmentOptions, value: department, optionsText: 'Name', optionsValue: 'Name'" ></select>
+
+                    <label class="control-label">Kata Kunci</label>
+                    <input type="text" data-bind="value: keyword" required />
+
+                    <button type="submit" class="btn btn-primary" id="search-btn">
+                        <i class="icon-search pull-left"></i>
+                        Search
+                    </button>
+
+                </form>
+            </div>
+            <div>
+                <table class="table table-striped" data-bind="serverPaging: { entity: 'UserProfile', query: 'UserProfileId gt 0', list: profiles, map: map }">
+                    <thead>
+                        <tr>
+                            <th>ID Pengguna</th>
+                            <th>Nama</th>
+                            <th>Jabatan</th>
+                            <th>Fungsi</th>
+                            <th>Emel</th>
+                            <th>Password</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: profiles">
+                        <tr>
+                            <td>
+                                <a data-toggle="modal" href="#user-details-modal" data-bind="click: $root.editCommand, text: UserName"></a>
+
+                            </td>
+                            <td data-bind="text: FullName"></td>
+                            <td data-bind="text: Department"></td>
+                            <td data-bind="text: Designation"></td>
+                            <td data-bind="text: Email"></td>
+                            <td>
+                                <a data-toggle="modal" class="k-button" href="#user-change-password" data-bind="click: $root.resetPasswordCommand">Reset</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div id="designation-tab" class="tab-pane ">
             <!--ko compose:'viewmodels/_users.designation' -->
@@ -59,9 +75,7 @@
         </div>
     </div>
 </div>
-
 <!--ko compose:'_user.add.html' -->
 <!--/ko-->
 <!--ko compose:'_user.change.password.html' -->
 <!--/ko-->
-
