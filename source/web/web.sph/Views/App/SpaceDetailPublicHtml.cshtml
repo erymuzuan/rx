@@ -8,12 +8,13 @@
     <div>
         <article class="list-article">
             <div class="list-header">
-                <span class="category" data-bind="text: Category"></span>
-             </div>
+                <p class="category" data-bind="text: Category"></p>
+            </div>
 
             <div class="list-info">
                 <p class="info-text">
                     <span class="building-name" data-bind="text: BuildingName" />
+                    (<span data-bind="text: RegistrationNo" />)
                 </p>
                 <p class="info-text">
                     <!-- ko if :UnitNo-->
@@ -38,50 +39,66 @@
 
         </article>
     </div>
-    <div id="map-space" class="google-maps row">
-        <img data-bind="attr: { src: staticMap }" src="~/Images/no-image.png" alt="map" />
-    </div>
 
-    <div class="row">
-        <div>
-            <span data-bind="text: RegistrationNo"></span>
-        </div>
-        <div>
-            <div class="space-gallery-panel" data-bind="foreach: PhotoCollection">
-                <a href="/#" data-bind="attr: { title: Title }, click: $root.showPhoto" data-gallery="">
-                    <img alt="photo" src="~/Images/no-image.png" data-bind="attr: { src: '/image/Thumbnail/' + StoreId() }" />
-                </a>
+
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li>
+                <a href="#gallery-tab" data-toggle="tab">Foto Galeri</a>
+            </li>
+            <li>
+                <a href="#map-tab" data-toggle="tab">Peta</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="gallery-tab" class="tab-pane active">
+                <div class="row">
+                    <div class="space-gallery-panel" data-bind="foreach: PhotoCollection">
+                        <a href="/#" data-bind="attr: { title: Title }, click: $root.showPhoto" data-gallery="">
+                            <img alt="photo" src="~/Images/no-image.png" data-bind="attr: { src: '/image/Thumbnail/' + StoreId() }" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="map-tab" class="tab-pane">
+                <div id="map-space" class="google-maps row">
+                    <img data-bind="attr: { src: staticMap }" src="~/Images/no-image.png" alt="map" />
+                </div>
             </div>
         </div>
     </div>
+
+
     <div class="row" id="space-features-panel" data-bind="visible: FeatureDefinitionCollection().length">
-        <h3>Kemudahan</h3>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Nama</th>
-                    <th>Keterangan</th>
-                    <th>Kategori</th>
-                    <th>Kuantiti</th>
-                    <th>Jenis Bayaran</th>
-                    <th>Harga</th>
-                    <th>Pilih</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: FeatureDefinitionCollection">
-                <tr>
-                    <td data-bind="text: Name"></td>
-                    <td data-bind="text: Description"></td>
-                    <td data-bind="text: Category"></td>
-                    <td data-bind="text: AvailableQuantity"></td>
-                    <td data-bind="text: OccurenceTimeSpan"></td>
-                    <td data-bind="text: Charge"></td>
-                    <td data-bind="checked: IsRequired"></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
+        <div>
+            <h3>Keterangan</h3>
+            <h5>Maklumat Am</h5>
+        </div>
+        
+        <div>
+            <h3>Kemudahan</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Keterangan</th>
+                        <th>Kuantiti</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: FeatureDefinitionCollection">
+                    <tr>
+                        <td data-bind="text: Name"></td>
+                        <td data-bind="text: Description"></td>
+                        <td data-bind="text: AvailableQuantity"></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        
     </div>
     <div class="row" data-bind="html: Description">
     </div>
