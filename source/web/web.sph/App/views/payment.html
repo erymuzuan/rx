@@ -1,27 +1,23 @@
 ﻿<section>
     <h1 class="row-fluid">Rekod Bayaran Sewa</h1>
     <div class="space-list-search-panel row row-fluid" data-bind="with: searchTerm">
-        <div class="span10">
+        <form class="form-inline">
 
-            <div class="span2">
                 <label>No Kontrak</label>
                 <input type="text" data-bind="value: contractNo" />
-            </div>
-            <div class="span2">
                 <label>Kata Kunci</label>
                 <input type="text" data-bind="value: keyword" />
-            </div>
-            <div class="btn-search">
+             <div class="btn-search">
                 <button class="btn btn-primary" data-bind="command: $root.searchCommand">
                     <i class="icon-search pull-left"></i>
                     Search
                 </button>
             </div>
-        </div>
+        </form>
 
     </div>
     <div>
-        <table class="table table-condensed table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Contract', query: 'ContractId gt 0', list: contractCollection }">
+        <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Contract', query: 'ContractId gt 0', list: contractCollection }">
             <thead>
                 <tr>
                     <th>No.Kontrak</th>

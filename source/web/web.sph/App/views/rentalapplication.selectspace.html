@@ -2,44 +2,22 @@
 
 <div class="row row-fluid">
 
-    <div class="span3 space-search-panel filter-panel" data-bind="with: searchTerm">
+    <div class="search-panel" data-bind="with: searchTerm">
         <div>
-            <h3>Kategori</h3>
-            <div>
-                <!-- ko  foreach: categoryOptions-->
-                <label class="checkbox">
-                    <input type="checkbox" data-bind="value: $data, checked: $parent.categories" />
-                    <!-- ko text:$data -->
-                    <!-- /ko -->
-                </label>
-                <!-- /ko -->
-            </div>
-
-        </div>
-        <div>
-            <h3>Negeri</h3>
-            <div>
-                <!-- ko  foreach: stateOptions-->
-                <label class="checkbox">
-                    <input type="checkbox" data-bind="value: $data, checked: $parent.states" />
-                    <!-- ko text:$data -->
-                    <!-- /ko -->
-                </label>
-                <!-- /ko -->
-            </div>
-        </div>
-        <div>
-            <h3>Price Range</h3>
             <div>
                 <form class="form-horizontal">
-                    <div class="control-group">
+                    <div class="control-group span3">
+                        <label class="control-label">Negeri</label>
+                        <select data-bind="options: stateOptions, value: state, optionsCaption: '[Sila Pilih]'"></select>
+                    </div>
+                    <div class="control-group span3">
                         <label for="min-value" class="control-label">Min</label>
                         <div class="controls">
                             <input data-bind="value: minValue, attr: { max: max, min: min }" id="min-value" type="range" name="minValue" step="10" max="9999" />
                             <span class="help-inline" data-bind="money: minValue"></span>
                         </div>
                     </div>
-                    <div class="control-group">
+                    <div class="control-group span3">
                         <label for="max-value" class="control-label">Max</label>
                         <div class="controls">
                             <input data-bind="value: maxValue, attr: { max: max, min: min }" id="max-value" type="range" name="maxValue" step="10" max="99999" />
@@ -58,82 +36,69 @@
         </div>
     </div>
 
-    <div class="span8" data-bind="filter: { path: 'section>div' }">
-        <div>
-            <select>
-                <option value="">[Susun Ikut]</option>
-                <option value="RentalRate">Kadar Sewa</option>
-                <option value="Category">Ketegori Kegunaan</option>
-                <option value="State">Negeri</option>
-                <option value="Size">Luas</option>
-            </select>
-        </div>
+    <div class="span8">
 
-        <section id="available-space-list" data-bind="foreach: items">
-            <h2 data-bind="text: name"></h2>
+        <section id="available-space-list" data-bind="searchPaging:
+                    {
+                        query: searchTerm.query,
+                        list: spaces,
+                        entity: 'Space'
+                    }">
             <!-- ko foreach : spaces -->
             <div>
-                <article>
-                    <div>
-                        <!-- ko if: Icon -->
-                        <div  class="space-image-panel">
-                            <img src="/Images/no-image.png" data-bind="attr: { src: '/Image/Store/' + Icon() }" alt="icon" />
-                        </div>
-                        <!-- /ko -->
-                        <!-- ko if: PhotoCollection().length === 0 -->
-                        <div class="space-image-panel">
-                            <img src="/Images/no-image.png" />
-                        </div>
-                        <!-- /ko -->
-                        <span class="category" data-bind="text: Category" />
+                <article class="list-article">
+                    <div class="list-header">
+                        <span class="category" data-bind="text: Category"></span>
+                        <span><a class="detail-button" data-bind="attr: { href: '/#/space.detailpublic-templateid.' + TemplateId() + '/' + SpaceId() }">Lihat Perincian</a></span>
+                    </div>
+                    <!-- ko if: Icon -->
+                    <div class="space-image-panel">
+                        <img style="width: 150px; height: 120px" src="/Images/no-image.png" data-bind="attr: { src: '/Image/Store/' + Icon() }" alt="icon" />
+                    </div>
+                    <!-- /ko -->
 
-                        <div class="div-building">
-
-                            <div>
-                                <p>
-                                    <span class="building-name" data-bind="text: BuildingName" />
-                                </p>
-                                <p>
-                                    <span class="location">Lokasi :</span>
-                                    <span class="lot-name" data-bind="text: UnitNo" />
-                                    <span class="floor-name" data-bind="text: FloorName" />,
-
-                                    <span class="building-name" data-bind="text: BuildingName" />,
-
-                                    <span class="city" data-bind="text: City" />,
-
-                                    <span class="state" data-bind="text: State" />.
-
-                                </p>
-                            </div>
-
-                            <div>
-                                <p>
-                                    <!-- ko if :Size-->
-                                    <span class="label">Saiz :</span>
-                                    <span class="size" data-bind="text: Size" />mps
-                                    <!--/ko-->
+                    <!-- ko if: PhotoCollection().length === 0 -->
+                    <div class="space-image-panel">
+                        <img src="/Images/no-image.png" />
+                    </div>
+                    <!-- /ko -->
 
 
+                    <div class="list-info">
+                        <p class="info-text">
+                            <!-- ko if :Size-->
+                            <span>Saiz :</span>
+                            <span data-bind="text: Size" />mps
+                                <!--/ko-->
+                        </p>
+                        <p class="info-text">
+                            <span class="building-name" data-bind="text: BuildingName" />
+                        </p>
+                        <p class="info-text">
+                            <!-- ko if :UnitNo-->
+                            <span data-bind="text: UnitNo" />,
+                            <!--/ko-->
+                            <!-- ko if :FloorName-->
+                            <span data-bind="text: FloorName" />,
+                            <!--/ko-->
+                            <span data-bind="text: BuildingName" />,
+                        </p>
+                        <p class="info-text">
+                            <span data-bind="text: City" />,
+                            <span data-bind="text: Address().Postcode" />,
+                        </p>
+                        <p class="info-text">
+                            <span data-bind="text: State" />.
+                        </p>
 
-                                    <span class="label">Kadar Sewa :</span>
-                                    RM <span class="rental-rate" data-bind="money: RentalRate" />
-                                </p>
-                            </div>
-                            <p>
-                                <a class="btn btn-success" data-bind="attr: { href: '/#/space.detailpublic-templateid.' + TemplateId() + '/' + SpaceId() }">Mohon Sewa</a>
+                    </div>
 
-                            </p>
-
-                        </div>
-
-
+                    <div class="list-footer">
+                        RM <span class="prices" data-bind="money: RentalRate" />
                     </div>
                 </article>
             </div>
-
             <!-- /ko -->
-
         </section>
 
         <div id="search-space-pager"></div>

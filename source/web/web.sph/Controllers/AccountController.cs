@@ -61,9 +61,6 @@ namespace Bespoke.Sph.Web.Controllers
                     ModelState.AddModelError("", "Your acount has beeen locked, Please contact NSRM administrator.");
                 else
                     ModelState.AddModelError("", "The user name or password provided is incorrect.");
-
-
-
             }
 
 

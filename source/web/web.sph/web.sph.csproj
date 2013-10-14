@@ -436,6 +436,7 @@
     <Content Include="App\viewmodels\complaint.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.officer.dashboard.js" />
     <Content Include="App\viewmodels\public.check.application.js" />
+    <Content Include="App\viewmodels\rentalapplication.onbehalf.js" />
     <Content Include="App\viewmodels\space.detailpublic.js" />
     <Content Include="App\viewmodels\_contract.facility.js" />
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
@@ -486,6 +487,7 @@
     <Content Include="App\views\chats.html" />
     <Content Include="App\views\maintenance.officer.dashboard.html" />
     <Content Include="App\views\public.check.application.html" />
+    <Content Include="App\views\rentalapplication.onbehalf.html" />
     <Content Include="App\views\_contract.facility.html" />
     <Content Include="App\views\space.template.form.html" />
     <Content Include="App\views\space.template.list.html" />
@@ -531,6 +533,7 @@
     <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\custom.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\doc.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\shCore.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\shThemeDataTables.css" />
@@ -610,7 +613,10 @@
     <Content Include="Content\DataTables-1.9.4\media\images\sort_both.png" />
     <Content Include="Content\DataTables-1.9.4\media\images\sort_desc.png" />
     <Content Include="Content\DataTables-1.9.4\media\images\sort_desc_disabled.png" />
+    <Content Include="Content\font-awesome-ie7.css" />
+    <Content Include="Content\font-awesome-ie7.min.css" />
     <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\1.png" />
     <Content Include="Content\img\2.png" />
@@ -651,6 +657,7 @@
     <Content Include="Content\img\team2.jpg" />
     <Content Include="Content\img\team3.jpg" />
     <Content Include="Content\img\team4.jpg" />
+    <Content Include="Content\m-buttons.css" />
     <Content Include="Content\qunit-1.12.0.css" />
     <Content Include="Content\theme.default\complaint.css">
       <DependentUpon>complaint.less</DependentUpon>
@@ -1626,6 +1633,7 @@
     <Content Include="Views\App\DisplayTemplates\RentalApplicationContactElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\SectionFormElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Views\RentalApplication\Check.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

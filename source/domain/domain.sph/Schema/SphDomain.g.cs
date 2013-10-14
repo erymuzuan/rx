@@ -3223,6 +3223,11 @@
                     public const string PropertyNameIcon = "Icon";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_furnishing;
+                    public const string PropertyNameFurnishing = "Furnishing";
+
+                  
 			private readonly ObjectCollection<Unit>  m_UnitCollection = new ObjectCollection<Unit> ();
 
 			///<summary>
@@ -3963,6 +3968,34 @@
                     }
 
                   
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Furnishing
+                    {
+                    set
+                    {
+                    if( String.Equals( m_furnishing, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameFurnishing, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_furnishing= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_furnishing;}
+                    }
+
+                  
 
           }
         
@@ -4170,6 +4203,17 @@
 			public ObjectCollection<Feature> FeatureCollection
 			{
 			get{ return m_FeatureCollection;}
+			}
+		
+			private readonly ObjectCollection<Bank>  m_BankCollection = new ObjectCollection<Bank> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("Bank", IsNullable = false)]
+			public ObjectCollection<Bank> BankCollection
+			{
+			get{ return m_BankCollection;}
 			}
 		
                 ///<summary>

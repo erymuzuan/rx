@@ -2,7 +2,7 @@
     <h3>Maklumat Penyewa</h3>
     <div class="tabbable">
         <ul class="nav nav-tabs">
-            <li>
+            <li class="active">
                 <a href="#general-tab" data-toggle="tab">AM</a>
             </li>
             <li>
@@ -24,7 +24,7 @@
 
         <div class="tab-content">
             <div id="general-tab" class="tab-pane active">
-                <section>
+                <form class="form-horizontal">
                     <div class="control-group">
                         <span class="control-label">Nama : </span>
                         <span data-bind="text: tenant().Name" id="tenant.Name" />
@@ -62,7 +62,7 @@
                             <span data-bind="text : State"></span>
                         </div>
                     </section>
-                </section>
+                </form>
             </div>
             <div id="contract-tab" class="tab-pane">
                 <!--ko compose:'viewmodels/_tenant.contract' -->

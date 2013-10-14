@@ -9,7 +9,7 @@
 }
 
 <script type="text/javascript" data-script="true">
-    define(['services/datacontext','viewmodels/_users.designation','viewmodels/_users.department','services/logger'], function (context,designationvm,departmentvm,logger) {
+    define([objectbuilders.datacontext,'viewmodels/_users.designation','viewmodels/_users.department','services/logger'], function (context,designationvm,departmentvm,logger) {
         var isBusy = ko.observable(false),
             roles = @Html.Raw(JsonConvert.SerializeObject(roles)),
             printprofile = ko.observable(new bespoke.sph.domain.Profile()),
@@ -132,6 +132,10 @@
             resetPasswordCommand: resetPassword,
             savePasswordCommand: savePassword,
             map: map,
+            searchTerm: {
+                department:ko.observable(),
+                keyword: ko.observable()
+            },
             toolbar : ko.observable({
                 reloadCommand: function () {
                     return activate();

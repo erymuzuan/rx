@@ -40,7 +40,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                                 {
                                     Name: ko.observable()
                                 };
-                            list2.Name(cs.Space().BuildingName() + " , " + cs.Space().FloorName() + " , " + cs.Space().LotName());
+                            list2.Name(cs.Space().BuildingName() + " , " + cs.Space().FloorName() + " , " + cs.Space().UnitNo());
                             vm.locationOptions.push(list2);
                         });
                         vm.typeOptions(_(list).sortBy(function (b) {

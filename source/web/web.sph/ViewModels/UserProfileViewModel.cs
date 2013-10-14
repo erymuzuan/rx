@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Web.Security;
+﻿using System.Web.Security;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Web.ViewModels

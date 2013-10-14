@@ -273,6 +273,7 @@ bespoke.sph.domain.Space = function (webId) {
         MapIcon: ko.observable(''),
         SmallIcon: ko.observable(''),
         Icon: ko.observable(''),
+        Furnishing: ko.observable(''),
         UnitCollection: ko.observableArray([]),
         CustomFieldValueCollection: ko.observableArray([]),
         Address: ko.observable(new bespoke.sph.domain.Address()),
@@ -319,6 +320,7 @@ bespoke.sph.domain.RentalApplication = function (webId) {
         CustomFieldValueCollection: ko.observableArray([]),
         CustomListValueCollection: ko.observableArray([]),
         FeatureCollection: ko.observableArray([]),
+        BankCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

@@ -8,8 +8,9 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
+/// <reference path="../objectbuilders.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router], function (context, logger, router) {
 
     var id = ko.observable(),
         app = ko.observable(),
@@ -64,7 +65,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         removeAttachment = function (doc) {
             vm.rentalapplication().AttachmentCollection.remove(doc);
         },
-
         showDetails = function () {
             $('#details-panel').modal({});
         },
@@ -126,7 +126,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                     vm.rentalapplication().Status('Diluluskan');
                 }
                 tcs.resolve(true);
-                if (result) {
+                if (r.result) {
                     var url = '/#/admindashboard';
                     router.navigateTo(url);
                 }
@@ -157,14 +157,16 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             });
             return tcs.promise();
         },
+        setUsername = function () {
+            vm.username(vm.rentalapplication().Contact().IcNo() || vm.rentalapplication().CompanyRegistrationNo());
+            $('#tenant-username-dialog').modal();
+        },
 
         createTenant = function () {
-            var username = vm.rentalapplication().Contact().IcNo() || vm.rentalapplication().CompanyRegistrationNo();
-            username = prompt('Nama pengguna untuk penyewa baru', username);
-            var tcs = new $.Deferred();
+             var tcs = new $.Deferred();
             var data = JSON.stringify({
                 id: vm.rentalapplication().RentalApplicationId(),
-                username: username
+                username: vm.username()
             });
             context.post(data, "/Tenant/Create").done(function (e) {
                 logger.log("Penyewa dijana ", e, "rentalapplication.verify", true);
@@ -207,6 +209,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
         username : ko.observable(),
         totalRate: ko.observable(),
         removeAttachmentCommand: removeAttachment,
+        createTenantCommand: createTenant,
         toolbar: ko.observable({
             reloadCommand: function () {
                 return activate(app());
@@ -217,6 +220,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             },
             printCommand: printList,
             exportCommand: exportList,
+            clicks: ko.observableArray([
+                {
+                    caption: 'Sediakan Maklumat Penyewa',
+                    icon: 'icon-file-text',
+                    command: setUsername,
+                    visible: selesaiCommandStatus
+                }]),
             commands: ko.observableArray([
                 {
                     caption: 'Kemaskini',
@@ -281,12 +291,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
                     icon: 'icon-file-text',
                     command: generateDeclinedOfferLetter,
                     visible: ditolakCommandStatus
-                },
-                {
-                    caption: 'Sediakan Maklumat Penyewa',
-                    icon: 'icon-file-text',
-                    command: createTenant,
-                    visible: selesaiCommandStatus
                 },
                 {
                     caption: 'Tidak Berjaya',

@@ -142,7 +142,7 @@ namespace Bespoke.Sph.Web.Controllers
                 await session.SubmitChanges("Approve");
             }
 
-            return Json(new { message, result });
+            return Json(new {message, result});
         }
         public async Task<ActionResult> Unsuccess(int id)
         {
