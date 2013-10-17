@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Web.Security;
+using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
@@ -14,12 +15,38 @@ namespace permissions.editor
         public RelayCommand OpenCommand { get; set; }
         public RelayCommand SaveCommand { get; set; }
         public RelayCommand ValidateCommand { get; set; }
+        public RelayCommand CreateUserAdminCommand { get; set; }
 
         public MainViewModel()
         {
             this.OpenCommand = new RelayCommand(Open);
             this.SaveCommand = new RelayCommand(Save);
+            this.CreateUserAdminCommand = new RelayCommand(CreateUserAdmin);
         }
+
+        private static void CreateUserAdmin()
+        {
+            var em = Membership.GetUser("useradmin");
+
+            if (null != em)
+            {
+                var userroles = Roles.GetRolesForUser("useradmin");
+                if (userroles.Any())
+                    Roles.RemoveUserFromRoles("useradmin", new[] { "admin_user" });
+
+                Roles.AddUserToRoles("useradmin", new[]{"admin_user"});
+                em.Email = "useradmin@gmail.com";
+                
+                Membership.UpdateUser(em);
+            }
+
+
+            Membership.CreateUser("useradmin", "123456", "useradmin@gmail.com");
+            Roles.AddUserToRoles("useradmin", new[] { "admin_user" });
+          
+            MessageBox.Show("Username : useradmin , Password : 123456");
+        }
+
         public void Load()
         {
             var lastFile = Properties.Settings.Default.LastFile;

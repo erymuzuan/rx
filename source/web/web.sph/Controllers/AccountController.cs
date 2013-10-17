@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Web.Helpers;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
@@ -52,8 +51,11 @@ namespace Bespoke.Sph.Web.Controllers
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     var context = new SphDataContext();
                     var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == model.UserName);
-                    if (!profile.HasChangedDefaultPassword)
-                        return RedirectToAction("ChangePassword");
+                    if (null != profile)
+                    {
+                        if (!profile.HasChangedDefaultPassword)
+                            return RedirectToAction("ChangePassword");
+                    }
                     return RedirectToAction("Index", "HotTowel");
                 }
                 var user = Membership.GetUser(model.UserName);
