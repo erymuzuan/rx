@@ -34,17 +34,20 @@ namespace permissions.editor
                 if (userroles.Any())
                     Roles.RemoveUserFromRoles("useradmin", new[] { "admin_user" });
 
-                Roles.AddUserToRoles("useradmin", new[]{"admin_user"});
+                Roles.AddUserToRoles("useradmin", new[] { "admin_user" });
                 em.Email = "useradmin@gmail.com";
-                
+
                 Membership.UpdateUser(em);
+                MessageBox.Show("useradmin already created..please login.");
             }
 
+            else
+            {
+                Membership.CreateUser("useradmin", "123456", "useradmin@gmail.com");
+                Roles.AddUserToRoles("useradmin", new[] { "admin_user" });
+                MessageBox.Show("Username : useradmin , Password : 123456");
+            }
 
-            Membership.CreateUser("useradmin", "123456", "useradmin@gmail.com");
-            Roles.AddUserToRoles("useradmin", new[] { "admin_user" });
-          
-            MessageBox.Show("Username : useradmin , Password : 123456");
         }
 
         public void Load()
@@ -78,7 +81,7 @@ namespace permissions.editor
 
         private void ReadJson()
         {
-           var json = System.IO.File.ReadAllText(this.FileName);
+            var json = System.IO.File.ReadAllText(this.FileName);
             var routes = JsonConvert.DeserializeObject<RoleModel[]>(json);
 
             this.RoleCollection.Clear();
