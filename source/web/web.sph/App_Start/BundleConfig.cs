@@ -31,6 +31,7 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/kendo/js/kendo.all.js")
                 .Include("~/scripts/nprogress.js")
                 .Include("~/scripts/_pager.js")
+                .Include("~/scripts/_theme.js")
                 .Include("~/scripts/_kendo-knockoutbindings.js")
                 .Include("~/scripts/_uiready.js")
                 .Include("~/scripts/_function.prototypes.js")
@@ -38,6 +39,10 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/scripts/_constants.js")
                 .Include("~/App/schemas/*.js")
                 .Include("~/App/partial/*.js")
+              );
+            bundles.Add(
+              new ScriptBundle("~/scripts/themes")
+                .Include("~/Content/theme." +  theme +"/*.js")
               );
             
             bundles.Add(

@@ -1,6 +1,6 @@
 ﻿<h1 class="header">Ruang Untuk Disewa</h1>
 
-<div class="row row-fluid">
+<div class="row row-fluid" data-bind="theme :''">
 
     <div class="search-panel" data-bind="with: searchTerm">
         <div>
@@ -45,7 +45,7 @@
                         entity: 'Space'
                     }">
             <!-- ko foreach : spaces -->
-            <div>
+            <div data-bind="theme:''">
                 <article class="space-item">
                     <div class="space-nav">
                         <span class="category" data-bind="text: Category"></span>
@@ -56,7 +56,6 @@
                         <img style="width: 150px; height: 120px" src="/Images/no-image.png" data-bind="attr: { src: '/Image/Store/' + Icon() }" alt="icon" />
                     </div>
                     <!-- /ko -->
-
                     <!-- ko if: PhotoCollection().length === 0 -->
                     <div class="space-image-panel">
                         <img src="/Images/no-image.png" />
@@ -69,7 +68,7 @@
                             <!-- ko if :Size-->
                             <span>Saiz :</span>
                             <span data-bind="text: Size" />mps
-                                <!--/ko-->
+                            <!--/ko-->
                         </p>
                         <p>
                             <span class="building-name" data-bind="text: BuildingName" />

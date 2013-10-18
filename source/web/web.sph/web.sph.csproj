@@ -683,6 +683,72 @@
     <Content Include="Content\theme.default\space.min.css">
       <DependentUpon>space.less</DependentUpon>
     </Content>
+    <Content Include="Content\theme.imanyer\building.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\building.min.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\dashboard.css">
+      <DependentUpon>dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\dashboard.min.css">
+      <DependentUpon>dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\header.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\header.min.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\nav.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\nav.min.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\public.index.css">
+      <DependentUpon>public.index.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\public.index.min.css">
+      <DependentUpon>public.index.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\rentalapplication.css">
+      <DependentUpon>rentalapplication.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\rentalapplication.min.css">
+      <DependentUpon>rentalapplication.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\report.css">
+      <DependentUpon>report.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\report.min.css">
+      <DependentUpon>report.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\site.min.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\space.css">
+      <DependentUpon>space.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\space.min.css">
+      <DependentUpon>space.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\user.css">
+      <DependentUpon>user.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\user.min.css">
+      <DependentUpon>user.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\variables.min.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
     <Content Include="Content\theme.metro-admin\building.css">
       <DependentUpon>building.less</DependentUpon>
     </Content>
@@ -719,6 +785,7 @@
     <Content Include="Content\theme.metro-admin\rentalapplication.min.css">
       <DependentUpon>rentalapplication.less</DependentUpon>
     </Content>
+    <Content Include="Content\theme.metro-admin\theme.js" />
     <Content Include="Content\theme.metro-admin\report.css">
       <DependentUpon>report.less</DependentUpon>
     </Content>
@@ -911,6 +978,17 @@
     <Content Include="Content\theme.metro-admin\user.less" />
     <Content Include="Content\theme.metro-admin\report.less" />
     <Content Include="Content\theme.metro-admin\public.index.less" />
+    <Content Include="Content\theme.imanyer\building.less" />
+    <Content Include="Content\theme.imanyer\dashboard.less" />
+    <Content Include="Content\theme.imanyer\header.less" />
+    <Content Include="Content\theme.imanyer\nav.less" />
+    <Content Include="Content\theme.imanyer\public.index.less" />
+    <Content Include="Content\theme.imanyer\rentalapplication.less" />
+    <Content Include="Content\theme.imanyer\report.less" />
+    <Content Include="Content\theme.imanyer\site.less" />
+    <Content Include="Content\theme.imanyer\space.less" />
+    <Content Include="Content\theme.imanyer\user.less" />
+    <Content Include="Content\theme.imanyer\variables.less" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\DataTables-1.9.4\docs\media\js\doc.js" />
@@ -1013,6 +1091,7 @@
     <Content Include="Scripts\_kendo-knockoutbindings.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Scripts\_task.js" />
+    <Content Include="Scripts\_theme.js" />
     <Content Include="Scripts\_uiready.js" />
   </ItemGroup>
   <ItemGroup>
