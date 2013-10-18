@@ -9,19 +9,21 @@
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../objectbuilders.js" />
 
-define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, 'durandal/system',objectbuilders.config], function (context, logger, router, system,config) {
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, 'durandal/system', objectbuilders.config], function (context, logger, router, system, config) {
 
     var isBusy = ko.observable(false),
-        id = ko.observable(),
+        spaceId = ko.observable(),
         registrationNo = ko.observable(),
         rentalApplication = ko.observable(new bespoke.sph.domain.RentalApplication()),
 
         activate = function (routeData) {
+            debugger;
+            spaceId(parseInt(routeData.spaceId));
+            var templateId = parseInt(routeData.templateId),
+                tcs = new $.Deferred(),
+                csTask = context.loadOneAsync('Space', 'SpaceId eq ' + spaceId()),
+                stateTask = context.loadOneAsync("Setting", "Key eq 'State'");
 
-            id(parseInt(routeData.id));
-            var tcs = new $.Deferred();
-            var csTask = context.loadOneAsync('Space', 'SpaceId eq ' + id());
-            var stateTask = context.loadOneAsync("Setting", "Key eq 'State'");
             $.when(csTask, stateTask).done(function (cs, s) {
                 var states = JSON.parse(ko.mapping.toJS(s.Value));
                 vm.stateOptions(states);
@@ -47,25 +49,26 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 tcs.resolve(true);
             });
             vm.rentalapplication().SpaceId(routeData.id);
-            if (!id) {
 
-                // build custom fields value
-                context.loadOneAsync("ApplicationTemplate", "ApplicationTemplateId eq 1")
-                    .done(function (template) {
-                        var cfs = _(template.CustomFieldCollection()).map(function (f) {
-                            var webid = system.guid();
-                            var v = new bespoke.sph.domain.CustomFieldValue(webid);
-                            v.Name(f.Name());
-                            v.Type(f.Type());
-                            return v;
-                        });
 
-                        vm.rentalapplication().CustomFieldValueCollection(cfs);
-
+            // build custom fields value
+            context.loadOneAsync("ApplicationTemplate", "ApplicationTemplateId eq " + templateId)
+                .done(function (template) {
+                    var cfs = _(template.CustomFieldCollection()).map(function (f) {
+                        var webid = system.guid();
+                        var v = new bespoke.sph.domain.CustomFieldValue(webid);
+                        v.Name(f.Name());
+                        v.Type(f.Type());
+                        return v;
                     });
 
-                vm.rentalapplication().TemplateId(1);
-            }
+                    vm.rentalapplication().CustomFieldValueCollection(cfs);
+                    vm.rentalapplication().TemplateName(template.Name());
+
+                });
+
+            vm.rentalapplication().TemplateId(templateId);
+
             return tcs.promise();
         },
         viewAttached = function () {
@@ -105,7 +108,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     if (!config.isAuthenticated) {
                         $('#success-panel').modal({})
                             .on('hidden', function () {
-                            router.navigateTo('/#/');
+                                router.navigateTo('/#/');
                             });
                     }
 

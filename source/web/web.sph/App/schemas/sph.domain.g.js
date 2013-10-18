@@ -296,6 +296,8 @@ bespoke.sph.domain.RentalApplication = function (webId) {
     var model = {
         "$type": "Bespoke.Sph.Domain.RentalApplication, domain.sph",
         RentalApplicationId: ko.observable(0),
+        TemplateId: ko.observable(0),
+        TemplateName: ko.observable(''),
         CompanyName: ko.observable(''),
         CompanyRegistrationNo: ko.observable(''),
         DateStart: ko.observable(moment().format('DD/MM/YYYY')),

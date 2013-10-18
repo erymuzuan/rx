@@ -86,7 +86,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                     return ko.dataFor(div);
                 });
              
-                vm.template().FormDesign.FormElementCollection(elements);
+                vm.template().FormDesign().FormElementCollection(elements);
                 var data = ko.mapping.toJSON(vm.template());
 
                 context.post(data, "/Template/SaveApplicationTemplate")
@@ -94,6 +94,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                         isBusy(false);
                         tcs.resolve(result);
                         vm.template().ApplicationTemplateId(result);
+                        logger.info("Your template has been saved");
                     });
                 return tcs.promise();
             },
