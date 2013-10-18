@@ -330,6 +330,8 @@
 				</xs:element>
 			</xs:all>
 			<xs:attribute name="RentalApplicationId" type="xs:int" use="required"/>
+			<xs:attribute name="TemplateId" type="xs:int" use="required"/>
+			<xs:attribute name="TemplateName" type="xs:string" use="required"/>
 			<xs:attribute name="CompanyName" type="xs:string" use="required"/>
 			<xs:attribute name="CompanyRegistrationNo" type="xs:string" use="required"/>
 			<xs:attribute name="DateStart" type="xs:dateTime" use="required"/>
