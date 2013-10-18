@@ -49,8 +49,7 @@ define(['services/datacontext'], function (context) {
             });
 
         return tcs.promise();
-    },
-
+    },        
         search = function () {
             var tcs = new $.Deferred();
 
