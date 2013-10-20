@@ -1,9 +1,9 @@
 <Query Kind="Program">
   <Connection>
-    <ID>b3819c1f-fba2-4316-80ee-6e094a070d4a</ID>
+    <ID>84e06ebb-98ea-4fa0-a47c-8535465a77e6</ID>
     <Persist>true</Persist>
-    <Server>(localdb)\Projects</Server>
-    <Database>sph</Database>
+    <Server>.\KATMAI</Server>
+    <Database>Sph</Database>
   </Connection>
   <Reference Relative="..\bin\Debug\domain.sph.dll">C:\project\work\sph\bin\Debug\domain.sph.dll</Reference>
   <Reference Relative="..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll">C:\project\work\sph\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</Reference>
@@ -17,9 +17,11 @@
 
 void Main()
 {
-	var list = from d in Buildings.Take(1000)
+	var list = (from d in Buildings.Take(1000)
 				let item = Bespoke.Sph.Domain.XmlSerializerService.Deserialize<Bespoke.Sph.Domain.Building>(d.Data)
-				select new {item, id = d.BuildingId};
+				select new {item, id = d.BuildingId}).ToList();
+				
+	Console.WriteLine (list.Count);			
 				
 	var setting = new JsonSerializerSettings();
 	setting.TypeNameHandling = TypeNameHandling.All;
