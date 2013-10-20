@@ -57,7 +57,8 @@ namespace Bespoke.Sph.Web.Controllers
             return View(app);
 
         }
-
+        
+        [AllowAnonymous]
         public async Task<ActionResult> Submit(RentalApplication rentalapplication)
         {
             var context = new SphDataContext();
@@ -141,7 +142,7 @@ namespace Bespoke.Sph.Web.Controllers
                 await session.SubmitChanges("Approve");
             }
 
-            return Json(new { message, result });
+            return Json(new {message, result});
         }
         public async Task<ActionResult> Unsuccess(int id)
         {

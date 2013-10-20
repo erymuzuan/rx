@@ -33,9 +33,9 @@
                         <a href="#" data-bind="attr: { href: '/#/contract.details/' + ContractId() }, text: ReferenceNo"></a>
                     </td>
                     <td data-bind="text:Title"></td>
-                    <td data-bind="text:Space.Category"></td>
-                    <td data-bind="text: Tenant.IdSsmNo"></td>
-                    <td data-bind="text:Tenant.Name"></td>
+                    <td data-bind="text:Space().Category"></td>
+                    <td data-bind="text: Tenant().IdSsmNo"></td>
+                    <td data-bind="text:Tenant().Name"></td>
                 </tr>
             </tbody>
         </table>

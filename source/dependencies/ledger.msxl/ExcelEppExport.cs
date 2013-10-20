@@ -95,19 +95,19 @@ namespace Bespoke.Sph.LedgerMsxl
             ws.Cells["B19"].Value = contract.Space.State;
 
             //deposit//
-            ws.Cells["A24"].Value = contract.StartDate;
-            ws.Cells["B24"].Value = contract.Space.RentalRate;
-            ws.Cells["C24"].Value = contract.Space.RentalRate;
+            ws.Cells["A25"].Value = contract.StartDate;
+            ws.Cells["B25"].Value = contract.Space.RentalRate;
+            ws.Cells["C25"].Value = contract.Space.RentalRate;
 
             //sewa//
             var i = 0;
             foreach (var e in sortedEntries)
             {
-                ws.Cells[31 + i, 1].Value = e.Date.ToString("d");
-                ws.Cells[31 + i, 2].Value = e.Description;
-                ws.Cells[31 + i, 3].Value = e.DebitAmount;
-                ws.Cells[31 + i, 4].Value = e.CreditAmount;
-                ws.Cells[31 + i, 5].Value = e.Balance;
+                ws.Cells[32 + i, 1].Value = e.Date.ToString("d");
+                ws.Cells[32 + i, 2].Value = e.Description;
+                ws.Cells[32 + i, 3].Value = e.DebitAmount;
+                ws.Cells[32 + i, 4].Value = e.CreditAmount;
+                ws.Cells[32 + i, 5].Value = e.Balance;
                 i++;
             }
             var desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);

@@ -5,6 +5,7 @@ define([],
     function() {
         var cultures = {
             building: {
+                TEMPLATE_NAME: "Templat bangunan",
                 SAVE_BUILDING_MESSAGE: "Bangunan sudah di simpan",
                 MAP_TITLE: "Peta bangunan"
             },
@@ -19,13 +20,29 @@ define([],
                 title : "Templat ruang"
             },
             messages : {
-                SAVE_SUCCESS: "{0} sudah beraya di simpan",
+                SAVE_SUCCESS: "{0} sudah berjaya di simpan",
                 SAVE_ERROR: "Ada masalah untuk menyimpan data anda",
-                FORM_IS_NOT_VALID: "Sila pastikan input anda betul"
+                FORM_IS_NOT_VALID: "Sila pastikan input anda betul",
+                DELETE_SUCCESS: "{0} sudah berjaya dihapuskan",
             },
             lots: {
                 LOT_LIST_TITLE: "Senarai unit di {0}"
-            }            
+            },
+            maintenance_detail : {
+                CLOSE_MAINTENANCE_BUTTON_CAPTION: "Penyenggaraan Selesai",
+                ASSIGN_MAINTENANCE_BUTTON_CAPTION: "Tugaskan Pegawai"
+            },
+            maintenance: {
+                SAVE_TEMPLATE: "Templat berjaya disimpan",
+                NEW_MAINTENANCE_STATUS_CAPTION: "Baru",
+                INSPECTION_MAINTENANCE_STATUS_CAPTION: "Pemeriksaan",
+                INPROGRESS_MAINTENANCE_STATUS_CAPTION: "Penyenggaraan",
+                DONE_MAINTENANCE_STATUS_CAPTION: "Selesai"
+                
+            },
+            application: {
+                TEMPLATE_NAME: "Templat Permohonan"
+            }
         };
 
         return cultures;

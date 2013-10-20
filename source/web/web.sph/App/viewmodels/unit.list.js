@@ -8,9 +8,8 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/cultures.my.js" />
 /// <reference path="../objectbuilders.js" />
-/// <reference path="../objectbuilders.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/app', 'durandal/system', objectbuilders.cultures],
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, 'durandal/app', 'durandal/system', objectbuilders.cultures],
     function (context, logger, router, app, system, cultures) {
 
         var title = ko.observable(''),
@@ -18,11 +17,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             building = ko.observable(),
             isBusy = ko.observable(false),
             floorname = ko.observable(),
+            editedUnit = ko.observable(),
             activate = function (routeData) {
                 logger.log('Unit Details View Activated', null, 'lotdetail', true);
 
                 buildingId(parseInt(routeData.buildingId));
-
 
                 var tcs = new $.Deferred();
                 context.loadOneAsync('Building', 'BuildingId eq ' + buildingId())
@@ -52,39 +51,52 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                         }];
 
                         vm.floorOptions(_(floors).concat(b.FloorCollection()));
-
-
                         tcs.resolve(true);
                     });
 
                 return tcs.promise();
             },
-            removeUnit = function (floor) {
-                vm.floor().UnitCollection.remove(floor);
+            removeUnit = function (unit) {
+                vm.list.remove(unit);
+                vm.floor().UnitCollection.remove(unit);
             },
             addNew = function () {
-                var unit = new bespoke.sph.domain.Unit(system.guid());
-                vm.unit(unit);
+                vm.unit(new bespoke.sph.domain.Unit());
                 $('#unit-dialog').modal();
+                $('#ok-unit-dialog-btn').one('click',function (ev) {
+                    ev.preventDefault();
+                    if (ev.target.form.checkValidity()) {
+                        vm.unit().BlockNo(vm.blockNo().Name());
+                        vm.unit().FloorNo(vm.floorNo().Name());
+                        vm.list.push(vm.unit());
+                        $('#unit-dialog').modal("hide");
+                        return save(vm.unit());
+                    }
+                    return 0;
+                });
+            },
+            editUnit = function (unit) {
+                var c1 = ko.mapping.fromJSON(ko.mapping.toJSON(unit));
+                var clone = c1;
+                editedUnit(unit);
+                vm.unit(clone);
+                $('#unit-dialog').modal({});
                 $('#ok-unit-dialog-btn').one('click', function (ev) {
                     ev.preventDefault();
                     if (ev.target.form.checkValidity()) {
-                        //if (!vm.block.isPlaceHolder)
-                        //    unit.BlockNo(vm.block.Name());
-                        
-                        //unit.FloorNo(vm.floor.Number());
-                        vm.list.push(unit);
+                        vm.unit().BlockNo(vm.blockNo().Name());
+                        vm.unit().FloorNo(vm.floorNo().Name());
+                        vm.list.push(vm.unit());
                         $('#unit-dialog').modal("hide");
-
-                        return save(unit);
+                        return save(vm.unit());
                     }
                 });
             },
             save = function (unit) {
                 var tcs = new $.Deferred();
                 var data = JSON.stringify({
-                    floor: ko.mapping.toJS(vm.floor),
-                    block: ko.mapping.toJS(vm.block),
+                    floor: ko.mapping.toJS(vm.floorNo()),
+                    block: ko.mapping.toJS(vm.blockNo()),
                     buildingId: buildingId(),
                     unit: ko.toJS(unit)
                 });
@@ -121,22 +133,27 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
             block: ko.observable(new bespoke.sph.domain.Block()),
             unit: ko.observable(new bespoke.sph.domain.Unit()),
             list: ko.observableArray(),
-
+            blockNo: ko.observable(),
+            floorNo: ko.observable(),
             addCsCommand: addCs,
             addNewUnitCommand: addNew,
+            saveUnit:save,
+            editUnit: editUnit,
             goBackCommand: goBack,
-
             blockOptions: ko.observableArray(),
             floorOptions: ko.observableArray(),
-
-
             removeUnitCommand: removeUnit,
             isBusy: isBusy,
-            toolbar: {
-                saveCommand: save
+            toolbar : {
+                clicks: ko.observableArray([{
+                    caption: "Unit",
+                    command: addNew,
+                    icon :"icon-plus-sign"
+                }])
             }
         };
-        vm.block.subscribe(function (b) {
+       
+        vm.blockNo.subscribe(function (b) {
             if (!b) return;
             var floors = [{
                 Number: ko.observable('[Semua Lantai]'),
@@ -148,13 +165,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 vm.floorOptions(_(floors).concat(building().FloorCollection()));
             }
         });
-        vm.floor.subscribe(function (floor) {
+        vm.floorNo.subscribe(function (floor) {
             if (!floor) return;
-            if (!vm.block()) return;
+            if (!vm.blockNo()) return;
 
 
             var units = [];
-            if (floor.isPlaceHolder && vm.block().isPlaceHolder) {
+            if (floor.isPlaceHolder && vm.blockNo().isPlaceHolder) {
                 // look for all blocks
                 _(building().BlockCollection()).each(function (blk) {
                     if (blk.isPlaceHolder) return;
@@ -170,7 +187,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'd
                 });
             }
             //
-            if (floor.isPlaceHolder && !vm.block().isPlaceHolder) {
+            if (floor.isPlaceHolder && !vm.blockNo().isPlaceHolder) {
 
                 _(vm.block().FloorCollection()).each(function (f) {
                     units = _(f.UnitCollection()).concat(units);

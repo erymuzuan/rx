@@ -434,7 +434,9 @@
     <Content Include="App\viewmodels\block.map.js" />
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
+    <Content Include="App\viewmodels\maintenance.officer.dashboard.js" />
     <Content Include="App\viewmodels\public.check.application.js" />
+    <Content Include="App\viewmodels\rentalapplication.onbehalf.js" />
     <Content Include="App\viewmodels\space.detailpublic.js" />
     <Content Include="App\viewmodels\_contract.facility.js" />
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
@@ -483,7 +485,9 @@
     <Content Include="App\views\block.map.html" />
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\chats.html" />
+    <Content Include="App\views\maintenance.officer.dashboard.html" />
     <Content Include="App\views\public.check.application.html" />
+    <Content Include="App\views\rentalapplication.onbehalf.html" />
     <Content Include="App\views\_contract.facility.html" />
     <Content Include="App\views\space.template.form.html" />
     <Content Include="App\views\space.template.list.html" />
@@ -529,6 +533,7 @@
     <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\custom.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\doc.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\shCore.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\shThemeDataTables.css" />
@@ -608,7 +613,10 @@
     <Content Include="Content\DataTables-1.9.4\media\images\sort_both.png" />
     <Content Include="Content\DataTables-1.9.4\media\images\sort_desc.png" />
     <Content Include="Content\DataTables-1.9.4\media\images\sort_desc_disabled.png" />
+    <Content Include="Content\font-awesome-ie7.css" />
+    <Content Include="Content\font-awesome-ie7.min.css" />
     <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\1.png" />
     <Content Include="Content\img\2.png" />
@@ -649,6 +657,7 @@
     <Content Include="Content\img\team2.jpg" />
     <Content Include="Content\img\team3.jpg" />
     <Content Include="Content\img\team4.jpg" />
+    <Content Include="Content\m-buttons.css" />
     <Content Include="Content\qunit-1.12.0.css" />
     <Content Include="Content\theme.default\complaint.css">
       <DependentUpon>complaint.less</DependentUpon>
@@ -673,6 +682,72 @@
     </Content>
     <Content Include="Content\theme.default\space.min.css">
       <DependentUpon>space.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\building.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\building.min.css">
+      <DependentUpon>building.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\dashboard.css">
+      <DependentUpon>dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\dashboard.min.css">
+      <DependentUpon>dashboard.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\header.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\header.min.css">
+      <DependentUpon>header.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\nav.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\nav.min.css">
+      <DependentUpon>nav.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\public.index.css">
+      <DependentUpon>public.index.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\public.index.min.css">
+      <DependentUpon>public.index.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\rentalapplication.css">
+      <DependentUpon>rentalapplication.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\rentalapplication.min.css">
+      <DependentUpon>rentalapplication.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\report.css">
+      <DependentUpon>report.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\report.min.css">
+      <DependentUpon>report.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\site.min.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\space.css">
+      <DependentUpon>space.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\space.min.css">
+      <DependentUpon>space.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\user.css">
+      <DependentUpon>user.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\user.min.css">
+      <DependentUpon>user.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.imanyer\variables.min.css">
+      <DependentUpon>variables.less</DependentUpon>
     </Content>
     <Content Include="Content\theme.metro-admin\building.css">
       <DependentUpon>building.less</DependentUpon>
@@ -710,6 +785,7 @@
     <Content Include="Content\theme.metro-admin\rentalapplication.min.css">
       <DependentUpon>rentalapplication.less</DependentUpon>
     </Content>
+    <Content Include="Content\theme.metro-admin\theme.js" />
     <Content Include="Content\theme.metro-admin\report.css">
       <DependentUpon>report.less</DependentUpon>
     </Content>
@@ -902,6 +978,17 @@
     <Content Include="Content\theme.metro-admin\user.less" />
     <Content Include="Content\theme.metro-admin\report.less" />
     <Content Include="Content\theme.metro-admin\public.index.less" />
+    <Content Include="Content\theme.imanyer\building.less" />
+    <Content Include="Content\theme.imanyer\dashboard.less" />
+    <Content Include="Content\theme.imanyer\header.less" />
+    <Content Include="Content\theme.imanyer\nav.less" />
+    <Content Include="Content\theme.imanyer\public.index.less" />
+    <Content Include="Content\theme.imanyer\rentalapplication.less" />
+    <Content Include="Content\theme.imanyer\report.less" />
+    <Content Include="Content\theme.imanyer\site.less" />
+    <Content Include="Content\theme.imanyer\space.less" />
+    <Content Include="Content\theme.imanyer\user.less" />
+    <Content Include="Content\theme.imanyer\variables.less" />
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\DataTables-1.9.4\docs\media\js\doc.js" />
@@ -1004,6 +1091,7 @@
     <Content Include="Scripts\_kendo-knockoutbindings.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Scripts\_task.js" />
+    <Content Include="Scripts\_theme.js" />
     <Content Include="Scripts\_uiready.js" />
   </ItemGroup>
   <ItemGroup>
@@ -1623,6 +1711,7 @@
     <Content Include="Views\App\DisplayTemplates\RentalApplicationContactElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\SectionFormElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Views\RentalApplication\Check.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

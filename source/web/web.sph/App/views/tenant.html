@@ -1,23 +1,19 @@
 ﻿<section id="tenant-list">
     <h1 class="row-fluid">Senarai Penyewa</h1>
-    <div class="space-list-search-panel row row-fluid" data-bind="with: searchTerm">
-        <div class="span10">
+    <div class="search-panel row row-fluid" data-bind="with: searchTerm">
+        <form class="form-inline form-search">
+            <label>No ID / SSM</label>
+            <input type="text" data-bind="value: tenantIdSsmNo" />
 
-            <div class="span2">
-                <label>No ID / SSM</label>
-                <input type="text" data-bind="value: tenantIdSsmNo" />
-            </div>
-            <div class="span2">
-                <label>Kata Kunci</label>
-                <input type="text" data-bind="value: keyword" />
-            </div>
-            <div class="btn-search">
-                <button class="btn btn-primary" data-bind="command: $root.searchCommand">
-                    <i class="icon-search pull-left"></i>
-                    Search
-                </button>
-            </div>
-        </div>
+            <label class="control-label">Kata Kunci</label>
+            <input type="text" data-bind="value: keyword" required />
+
+            <button type="submit" class="btn btn-primary" id="building-search-btn">
+                <i class="icon-search pull-left"></i>
+                Search
+            </button>
+
+        </form>
     </div>
     <div>
         <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }, serverPaging: { entity: 'Tenant', query: 'TenantId gt 0', list: tenantCollection }">
@@ -39,10 +35,10 @@
                     <td data-bind="text: MobilePhone"></td>
                     <td data-bind="text: Email"></td>
                     <td>
-                        <span data-bind="text: Address.Street"></span>,
-                    <span data-bind="text: Address.Postcode"></span>
-                        <span data-bind="text: Address.City"></span>,
-                    <span data-bind="text: Address.State"></span>
+                        <span data-bind="text: Address().Street"></span>,
+                    <span data-bind="text: Address().Postcode"></span>
+                        <span data-bind="text: Address().City"></span>,
+                    <span data-bind="text: Address().State"></span>
                     </td>
                 </tr>
             </tbody>

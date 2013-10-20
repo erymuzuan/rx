@@ -2147,7 +2147,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int? m_floors;
+        private int m_floors;
         public const string PropertyNameFloors = "Floors";
 
 
@@ -2285,7 +2285,7 @@ namespace Bespoke.Sph.Domain
         ///</summary>
         [DebuggerHidden]
 
-        public int? Floors
+        public int Floors
         {
             set
             {
@@ -3296,6 +3296,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIcon = "Icon";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_furnishing;
+        public const string PropertyNameFurnishing = "Furnishing";
+
+
         private readonly ObjectCollection<Unit> m_UnitCollection = new ObjectCollection<Unit>();
 
         ///<summary>
@@ -4060,6 +4065,35 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Furnishing
+        {
+            set
+            {
+                if (String.Equals(m_furnishing, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameFurnishing, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_furnishing = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_furnishing;
+            }
+        }
+
+
 
     }
 
@@ -4075,6 +4109,16 @@ namespace Bespoke.Sph.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int m_rentalApplicationId;
         public const string PropertyNameRentalApplicationId = "RentalApplicationId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_templateId;
+        public const string PropertyNameTemplateId = "TemplateId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_templateName;
+        public const string PropertyNameTemplateName = "TemplateName";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -4269,6 +4313,17 @@ namespace Bespoke.Sph.Domain
             get { return m_FeatureCollection; }
         }
 
+        private readonly ObjectCollection<Bank> m_BankCollection = new ObjectCollection<Bank>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Bank", IsNullable = false)]
+        public ObjectCollection<Bank> BankCollection
+        {
+            get { return m_BankCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -4294,6 +4349,64 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_rentalApplicationId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int TemplateId
+        {
+            set
+            {
+                if (m_templateId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTemplateId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_templateId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_templateId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string TemplateName
+        {
+            set
+            {
+                if (String.Equals(m_templateName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTemplateName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_templateName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_templateName;
             }
         }
 
@@ -11595,23 +11708,6 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private WorkOrder m_workOrder
-                = new WorkOrder();
-
-        public const string PropertyNameWorkOrder = "WorkOrder";
-        [DebuggerHidden]
-
-        public WorkOrder WorkOrder
-        {
-            get { return m_workOrder; }
-            set
-            {
-                m_workOrder = value;
-                OnPropertyChanged();
-            }
-        }
-
         private readonly ObjectCollection<CustomFieldValue> m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue>();
 
         ///<summary>
@@ -12214,6 +12310,11 @@ namespace Bespoke.Sph.Domain
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_workOrderId;
+        public const string PropertyNameWorkOrderId = "WorkOrderId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_priority;
         public const string PropertyNamePriority = "Priority";
 
@@ -12229,8 +12330,48 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_workOrderId;
-        public const string PropertyNameWorkOrderId = "WorkOrderId";
+        private string m_no;
+        public const string PropertyNameNo = "No";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_maintenanceId;
+        public const string PropertyNameMaintenanceId = "MaintenanceId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_templateId;
+        public const string PropertyNameTemplateId = "TemplateId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_status;
+        public const string PropertyNameStatus = "Status";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_resolution;
+        public const string PropertyNameResolution = "Resolution";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_officer;
+        public const string PropertyNameOfficer = "Officer";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_department;
+        public const string PropertyNameDepartment = "Department";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private DateTime m_startDate;
+        public const string PropertyNameStartDate = "StartDate";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private DateTime m_endDate;
+        public const string PropertyNameEndDate = "EndDate";
 
 
         private readonly ObjectCollection<Comment> m_CommentCollection = new ObjectCollection<Comment>();
@@ -12276,6 +12417,35 @@ namespace Bespoke.Sph.Domain
         {
             get { return m_NonComplianceCollection; }
         }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int WorkOrderId
+        {
+            set
+            {
+                if (m_workOrderId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameWorkOrderId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_workOrderId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_workOrderId;
+            }
+        }
+
 
         ///<summary>
         /// 
@@ -12373,22 +12543,254 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int WorkOrderId
+        public string No
         {
             set
             {
-                if (m_workOrderId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameWorkOrderId, value);
+                if (String.Equals(m_no, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNo, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_workOrderId = value;
+                    m_no = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_workOrderId;
+                return m_no;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int MaintenanceId
+        {
+            set
+            {
+                if (m_maintenanceId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMaintenanceId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_maintenanceId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_maintenanceId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int TemplateId
+        {
+            set
+            {
+                if (m_templateId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTemplateId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_templateId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_templateId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Status
+        {
+            set
+            {
+                if (String.Equals(m_status, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameStatus, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_status = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_status;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Resolution
+        {
+            set
+            {
+                if (String.Equals(m_resolution, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameResolution, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_resolution = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_resolution;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Officer
+        {
+            set
+            {
+                if (String.Equals(m_officer, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOfficer, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_officer = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_officer;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Department
+        {
+            set
+            {
+                if (String.Equals(m_department, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDepartment, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_department = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_department;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public DateTime StartDate
+        {
+            set
+            {
+                if (m_startDate == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameStartDate, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_startDate = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_startDate;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public DateTime EndDate
+        {
+            set
+            {
+                if (m_endDate == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEndDate, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_endDate = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_endDate;
             }
         }
 

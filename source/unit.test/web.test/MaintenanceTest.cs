@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
+using NDbUnit.Core;
+using NDbUnit.Core.SqlClient;
 using NUnit.Framework;
 using FluentDateTime;
 
@@ -27,6 +29,22 @@ namespace web.test
                 Telephone = "03-7291822"
             };
             this.AddUser(m_prosenggara);
+
+            CreateComplaintSeedData();
+        }
+
+        [Test]
+        public void CreateComplaintSeedData()
+        {
+            Console.WriteLine("Load seed data...");
+            var db = new SqlDbUnitTest(this.ConnectionString);
+            db.ReadXmlSchema(@"..\..\Maintenance\AssignMaintenanceSchema.xsd");
+            db.ReadXml(@"..\..\Maintenance\AssignMaintenanceData.xml");
+            db.PerformDbOperation(DbOperationFlag.CleanInsertIdentity);
+            this.ExecuteNonQuery("dbcc checkident ([Sph.ComplaintTemplate], reseed, 0)");
+            this.ExecuteNonQuery("dbcc checkident ([Sph.Complaint], reseed, 0)");
+            var complaintTemplateCount = this.GetDatabaseScalarValue<int>("SELECT COUNT([ComplaintTemplateId]) FROM [Sph].[ComplaintTemplate]");
+            Assert.AreEqual(1, complaintTemplateCount,"There's complaint template to be test");
         }
 
         // ReSharper disable InconsistentNaming
@@ -141,9 +159,7 @@ namespace web.test
                 .Login(m_prosenggara)
                   .NavigateToUrl("/#/maintenance.list/Pemeriksaan");
             driver.NavigateToUrl(string.Format("/#/maintenance.detail-templateid.{0}/{0}/{1}", templateId,max), 2.Seconds());
-
-         
-
+            
           //  driver.Click("#save-button");
 
             driver.Sleep(TimeSpan.FromSeconds(3));

@@ -16,7 +16,7 @@
             </form>
         </div>
         <div>
-            <table class="table table-striped" data-bind="searchPaging :
+            <table id="space-list-table" class="table table-striped" data-bind="searchPaging :
             {
                 query: query,
                 list: spaces,
@@ -25,6 +25,7 @@
             }">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>No. Daftar</th>
                         <th>Negeri</th>
                         <th>Lokasi</th>
@@ -36,6 +37,7 @@
                 </thead>
                 <tbody data-bind="foreach: spaces">
                     <tr>
+                        <td data-bind="text: (($index() + 1) + ((pager.page - 1) * pager.size))"></td>
                         <td>
                             <a data-bind="attr: { href: '/#/space.detail-templateid.' + TemplateId() + '/' + TemplateId() + '/' + BuildingId() + '/' + FloorName() + '/' + SpaceId() }, text: RegistrationNo"></a>
                         </td>

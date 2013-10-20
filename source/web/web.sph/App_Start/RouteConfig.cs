@@ -114,7 +114,7 @@ namespace Bespoke.Sph.Web.App_Start
                                 select new JsRoute
                                 {
                                     Name = t.Name,
-                                    Url = string.Format("application.detail-templateid.{0}/:id", t.ApplicationTemplateId),
+                                    Url = string.Format("application.detail-templateid.{0}/:templateId/:spaceId", t.ApplicationTemplateId),
                                     Caption = t.Name,
                                     Icon = "icon-building",
                                     ModuleId = string.Format("viewmodels/application.detail-templateid.{0}", t.ApplicationTemplateId)

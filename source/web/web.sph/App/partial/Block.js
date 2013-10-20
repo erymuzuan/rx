@@ -31,9 +31,35 @@ bespoke.sph.domain.BlockPartial = function () {
                         });
                 });
             };
+        },
+        removeFloor = function (floor) {
+            var self = this;
+            return function () {
+                self.FloorCollection.remove(floor);
+            };
+        },
+        editFloorMap = function (block) {
+            var building = this;
+            return function () {
+                console.log("show map ", building);
+                console.log(" on block ", block);
+                require(['viewmodels/block.map', 'durandal/app'], function (dialog, app) {
+                    dialog.init(building.BuildingId(), block.FloorPlanStoreId());
+                    app.showModal(dialog)
+                        .done(function (result) {
+                            if (result == "OK") {
+                                block.FloorPlanStoreId(dialog.spatialStoreId());
+                            }
+                        });
+
+                });
+
+            };
         };
     return {
         addFloor: addFloor,
-        editFloor: editFloor
+        editFloor: editFloor,
+        editFloorMap: editFloorMap,
+        removeFloor: removeFloor
     };
 };

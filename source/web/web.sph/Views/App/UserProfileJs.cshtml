@@ -5,10 +5,8 @@
 }
 <script type="text/javascript" data-script="true">
 
-    define(['services/datacontext'],
+    define([objectbuilders.datacontext],
         function (context) {
-
-
             var isBusy = ko.observable(false),
             username = ko.observable('@Model.User.UserName'),
             activate = function () {

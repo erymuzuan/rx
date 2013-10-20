@@ -182,15 +182,23 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> AddUnit(Floor floor, Block block, int buildingId, Unit unit)
         {
 
-            if(null == floor)throw new ArgumentNullException("floor");
-            if(null == unit)throw new ArgumentNullException("unit");
-            if(0 == buildingId)throw new ArgumentException("Building is is 0" ,"buildingId");
+            if (null == floor) throw new ArgumentNullException("floor");
+            if (null == unit) throw new ArgumentNullException("unit");
+            if (0 == buildingId) throw new ArgumentException("Building is is 0", "buildingId");
 
             var duplicateLot = floor.UnitCollection.Select(l => l.No)
                                     .GroupBy(s => s)
                                     .Any(s => s.Count() > 1);
             if (duplicateLot)
-                return Json(new { status = false, message = "There are duplicate Unit in floor " + floor.Name });
+            {
+                var units =
+                    floor.UnitCollection.Where(u => u.FloorNo == unit.FloorNo && u.BlockNo == unit.BlockNo && u.No == unit.No);
+                var oldunit =
+                    floor.UnitCollection.FirstOrDefault(
+                        u =>u.FloorNo == unit.FloorNo && u.BlockNo == unit.BlockNo && u.No == unit.No);
+                floor.UnitCollection.Replace(oldunit,unit);
+            }
+            //return Json(new { status = false, message = "There are duplicate Unit in floor " + floor.Name });
 
 
             var context = new SphDataContext();
@@ -202,7 +210,7 @@ namespace Bespoke.Sph.Web.Controllers
                 dbfloor = dbBlock.FloorCollection.Single(f => f.Name == floor.Name);
                 unit.BlockNo = dbBlock.Name;
             }
-            if(null == dbfloor)throw new Exception("Cannot find floor");
+            if (null == dbfloor) throw new Exception("Cannot find floor");
             unit.FloorNo = dbfloor.Name;
             dbfloor.UnitCollection.Add(unit);
             building.BuildingId = buildingId;
@@ -214,7 +222,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(building);
                 await session.SubmitChanges();
             }
-            return Json(new { status = "success", message = "Your floor details has been saved" });
+            return Json(new { status = "success", message = "Your unit details has been saved" });
         }
     }
 }

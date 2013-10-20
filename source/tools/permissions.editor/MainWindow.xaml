@@ -25,19 +25,21 @@
                 <telerik:GridViewDataColumn Header="Description" DataMemberBinding="{Binding Description}" Width="200"/>
                 <telerik:GridViewCheckBoxColumn Header="IsActive" DataMemberBinding="{Binding IsActive}" Width="120"/>
                 <telerik:GridViewColumn Width="80">
-                <telerik:GridViewColumn.CellTemplate>
-                    <DataTemplate>
-                        <telerik:RadButton Content="-"
+                    <telerik:GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <telerik:RadButton Content="-"
 											   Command="telerik:RadGridViewCommands.Delete"
 											   CommandParameter="{Binding}" />
-                    </DataTemplate>
-                </telerik:GridViewColumn.CellTemplate>
+                        </DataTemplate>
+                    </telerik:GridViewColumn.CellTemplate>
                 </telerik:GridViewColumn>
             </telerik:RadGridView.Columns>
         </telerik:RadGridView>
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
             <telerik:RadButton FontSize="18" Margin="5" Grid.Row="2" Content="Validate" Command="{Binding ValidateCommand}" />
             <telerik:RadButton FontSize="18" HorizontalAlignment="Left" Margin="5" Grid.Row="2" Content="Save" Command="{Binding SaveCommand}" />
-        </StackPanel>
+            <telerik:RadButton FontSize="18" HorizontalAlignment="Left" Margin="5" Grid.Row="2" Content="Create User Admin" Command="{Binding CreateUserAdminCommand}" />
+        </StackPanel>  
+        
     </Grid>
 </Window>

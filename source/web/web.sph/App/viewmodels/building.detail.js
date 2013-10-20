@@ -115,7 +115,6 @@ define(['services/datacontext',
             },
             removeFloor = function (floor) {
                 vm.building().FloorCollection.remove(floor);
-
             },
             addFloor = function () {
                 var floor = new bespoke.sph.domain.Floor();

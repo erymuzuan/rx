@@ -273,6 +273,7 @@ bespoke.sph.domain.Space = function (webId) {
         MapIcon: ko.observable(''),
         SmallIcon: ko.observable(''),
         Icon: ko.observable(''),
+        Furnishing: ko.observable(''),
         UnitCollection: ko.observableArray([]),
         CustomFieldValueCollection: ko.observableArray([]),
         Address: ko.observable(new bespoke.sph.domain.Address()),
@@ -295,6 +296,8 @@ bespoke.sph.domain.RentalApplication = function (webId) {
     var model = {
         "$type": "Bespoke.Sph.Domain.RentalApplication, domain.sph",
         RentalApplicationId: ko.observable(0),
+        TemplateId: ko.observable(0),
+        TemplateName: ko.observable(''),
         CompanyName: ko.observable(''),
         CompanyRegistrationNo: ko.observable(''),
         DateStart: ko.observable(moment().format('DD/MM/YYYY')),
@@ -319,6 +322,7 @@ bespoke.sph.domain.RentalApplication = function (webId) {
         CustomFieldValueCollection: ko.observableArray([]),
         CustomListValueCollection: ko.observableArray([]),
         FeatureCollection: ko.observableArray([]),
+        BankCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1034,7 +1038,6 @@ bespoke.sph.domain.Maintenance = function (webId) {
         Complaint: ko.observable(new bespoke.sph.domain.Complaint()),
         StartDate: ko.observable(),
         EndDate: ko.observable(),
-        WorkOrder: ko.observable(new bespoke.sph.domain.WorkOrder()),
         CustomFieldValueCollection: ko.observableArray([]),
         PhotoCollection: ko.observableArray([]),
         CustomListValueCollection: ko.observableArray([]),
@@ -1074,10 +1077,19 @@ bespoke.sph.domain.WorkOrder = function (webId) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.WorkOrder, domain.sph",
+        WorkOrderId: ko.observable(0),
         Priority: ko.observable(''),
         Severity: ko.observable(''),
         EstimationCost: ko.observable(0.00),
-        WorkOrderId: ko.observable(0),
+        No: ko.observable(''),
+        MaintenanceId: ko.observable(0),
+        TemplateId: ko.observable(0),
+        Status: ko.observable(''),
+        Resolution: ko.observable(''),
+        Officer: ko.observable(''),
+        Department: ko.observable(''),
+        StartDate: ko.observable(moment().format('DD/MM/YYYY')),
+        EndDate: ko.observable(moment().format('DD/MM/YYYY')),
         CommentCollection: ko.observableArray([]),
         PartsAndLaborCollection: ko.observableArray([]),
         WarrantyCollection: ko.observableArray([]),

@@ -10,13 +10,15 @@ define(['services/datacontext'], function (context) {
 
     var activate = function () {
         var tcs = new $.Deferred();
+        vm.searchTerm.query('IsAvailable eq 1 and IsOnline eq 1');
         var templateTasks = context.loadAsync("ApplicationTemplate", "IsActive eq 1");
-        var csTasks = context.loadAsync("Space", "IsAvailable eq 1 and IsOnline eq 1");
+        var csTasks = context.loadAsync("Space", vm.searchTerm.query());
         var statesTask = context.getDistinctAsync("Building", "", "State");
         var categoriesTask = context.getDistinctAsync("Space", "", "Category");
 
         $.when(templateTasks, csTasks, statesTask, categoriesTask)
             .done(function (tlo, cslo, states, categories) {
+                vm.spaces(cslo.itemCollection);
                 var items = _(tlo.itemCollection).map(function (t) {
                     var filtered = _(cslo.itemCollection).filter(function (c) {
                         return c.ApplicationTemplateOptions().indexOf(t.ApplicationTemplateId()) > -1;
@@ -47,8 +49,7 @@ define(['services/datacontext'], function (context) {
             });
 
         return tcs.promise();
-    },
-
+    },        
         search = function () {
             var tcs = new $.Deferred();
 
@@ -87,7 +88,10 @@ define(['services/datacontext'], function (context) {
                 .done(function spacesLoaded(templateLoadOperation, spaceLoadOperation) {
                     var items = _(templateLoadOperation.itemCollection).map(function (t) {
                         var filtered = _(spaceLoadOperation.itemCollection).filter(function (c) {
-                            return c.ApplicationTemplateOptions().indexOf(t.ApplicationTemplateId()) > -1;
+                            if (c.ApplicationTemplateOptions().indexOf(t.ApplicationTemplateId()) > -1) {
+                                return c.ApplicationTemplateOptions().indexOf(t.ApplicationTemplateId()) > -1;
+                            }
+                            
                         });
                         return {
                             name: t.Name(),
@@ -102,12 +106,12 @@ define(['services/datacontext'], function (context) {
                         var options = {
                             element: $('#search-space-pager'),
                             count: spaceLoadOperation.rows,
-                            changed: function(p,s) {
+                            changed: function (p, s) {
                                 context.searchAsync({
                                     entity: "Space",
                                     page: p,
-                                    size :s
-                                }, sq).done(function(lo) {
+                                    size: s
+                                }, sq).done(function (lo) {
                                     spacesLoaded(templateLoadOperation, lo);
                                 });
                             }
@@ -125,20 +129,21 @@ define(['services/datacontext'], function (context) {
         },
         states = ko.observableArray(),
         categories = ko.observableArray(),
-        searchTerm = {
-            states: states,
-            categories: categories,
-            stateOptions: ko.observableArray(),
-            categoryOptions: ko.observableArray(),
-            minValue: ko.observable(),
-            maxValue: ko.observable(),
-            min: ko.observable(),
-            max: ko.observable(),
+            searchTerm = {
+                query: ko.observable(),
+                state: ko.observable(),
+                stateOptions: ko.observableArray(),
+                categoryOptions: ko.observableArray(),
+                minValue: ko.observable(),
+                maxValue: ko.observable(),
+                min: ko.observable(),
+                max: ko.observable(),
 
-        };
+            };
 
     var vm = {
         activate: activate,
+        spaces : ko.observableArray([]),
         items: ko.observableArray([]),
         searchTerm: searchTerm,
         searchCommand: search

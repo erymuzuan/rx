@@ -85,20 +85,22 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 var elements = _($('#template-form-designer>form>div')).map(function (div) {
                     return ko.dataFor(div);
                 });
+             
                 vm.template().FormDesign().FormElementCollection(elements);
-                var data = ko.mapping.toJSON(vm.template);
+                var data = ko.mapping.toJSON(vm.template());
 
                 context.post(data, "/Template/SaveApplicationTemplate")
                     .then(function (result) {
                         isBusy(false);
                         tcs.resolve(result);
                         vm.template().ApplicationTemplateId(result);
+                        logger.info("Your template has been saved");
                     });
                 return tcs.promise();
             },
 
         exportTemplate = function () {
-            return eximp.exportJson("template.application." + vm.template().ApplicationTemplateId() + ".json", ko.mapping.toJSON(vm.template));
+            return eximp.exportJson("template.application." + vm.template().ApplicationTemplateId() + ".json", ko.mapping.toJSON(vm.template()));
         },
 
         importTemplateJson = function () {

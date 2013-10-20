@@ -1,0 +1,24 @@
+USE [Sph]
+IF OBJECT_ID('Sph.WorkOrder', 'U') IS NOT NULL
+  DROP TABLE Sph.[WorkOrder]
+GO
+
+CREATE TABLE [Sph].[WorkOrder]
+(
+	 [WorkOrderId] INT PRIMARY KEY IDENTITY(1,1)		 
+	,[No] VARCHAR (255) NULL
+	,[MaintenanceId] VARCHAR (255) NULL
+	,[TemplateId] VARCHAR(255) NULL
+	,[Status] VARCHAR (255) NOT NULL
+	,[Resolution] VARCHAR(255) NOT NULL
+	,[Officer] VARCHAR (255) NULL
+	,[Department] VARCHAR (255) NOT NULL
+	,[StartDate] SMALLDATETIME NULL
+	,[EndDate] SMALLDATETIME NULL
+	,[Data] XML NOT NULL
+	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
+	,[CreatedBy] VARCHAR(255) NULL
+	,[ChangedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
+	,[ChangedBy] VARCHAR(255) NULL
+)
+GO 

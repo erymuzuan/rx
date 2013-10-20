@@ -2,7 +2,7 @@
     <h3>BORANG ADUAN</h3>
     <form class="form-horizontal">
         <div class="control-group">
-            <label for="complaint.Space" class="span2">Lokasi:</label>
+            <label for="complaint.Space" class="control-label">Lokasi</label>
             <div class="controls">
                 <select data-bind="options: locationOptions, optionsCaption: '[Sila pilih]', optionsText: 'Name', optionsValue: 'Name', value: complaint().Space" id="complaint.Space" name="complaint.Space">
                 </select>
@@ -10,7 +10,7 @@
         </div>
 
         <div class="control-group">
-            <label for="complaint.Type" class="span2">Jenis Aduan:</label>
+            <label for="complaint.Type" class="control-label">Jenis Aduan</label>
             <div class="controls">
                 <select data-bind="value: complaint().Type, options: typeOptions, optionsValue: 'Item2', optionsText: 'Item2', optionsCaption: '[Sila pilih]'" id="complaint.Type" name="complaint.Type">
                 </select>
@@ -18,24 +18,24 @@
         </div>
 
         <div class="control-group">
-            <label for="complaint.Category" class="span2">Kategori:</label>
+            <label for="complaint.Category" class="control-label">Kategori</label>
             <select data-bind="options: categoryOptions, optionsCaption: '[Sila Pilih]', value: complaint().Category" id="complaint.Category" name="complaint.Category"></select>
         </div>
         <div class="control-group">
-            <label for="complaint.SubCategory" class="span2">Sub-Kategori:</label>
+            <label for="complaint.SubCategory" class="control-label">Sub-Kategori</label>
             <select data-bind="options: subCategoryOptions, optionsCaption: '[Sila Pilih]', value: complaint().SubCategory" id="complaint.SubCategory" name="complaint.SubCategory"></select>
         </div>
         
         <div id="custom-fields-panel"></div>
 
         <div class="control-group" data-bind="with: complaint">
-            <label for="complaint.remarks" class="span2">Nota:</label>
+            <label for="complaint.remarks" class="control-label">Nota</label>
             <div class="controls">
                 <textarea data-bind="value: Remarks" id="complaint.remarks" cols="4" rows="4" name="Remarks" />
             </div>
         </div>
         <div class="control-group">
-            <label for="AttachmentStoreId" class="span2">Lampiran:</label>
+            <label for="AttachmentStoreId" class="control-label">Lampiran</label>
             <div class="controls">
                 <input id="AttachmentStoreId" type="file" name="files" />
             </div>
