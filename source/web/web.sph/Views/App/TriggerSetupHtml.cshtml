@@ -11,7 +11,8 @@
             <input placeholder="Trigger's' name" class="input-xxlarge form-control" data-bind="value: Name" id="Name" type="text" name="Name" />
         </div>
     </div>
-    
+
+
 
     <div class="form-group">
         <label for="Entity" class="col-lg-2 control-label">Entiti</label>
@@ -30,6 +31,8 @@
         </div>
     </div>
 
+
+
     <div class="form-group">
         <label for="Note" class="col-lg-2 control-label">Nota</label>
         <div class="col-lg-6">
@@ -38,7 +41,7 @@
     </div>
 
     <div class="form-group">
-        <label for="" class="col-lg-2 control-label"></label>
+        <label for="isActive" class="col-lg-2 control-label"></label>
         <div class="col-lg-6">
             <label class="checkbox">
                 <input data-bind="checked: IsActive" id="isActive" type="checkbox" name="IsActive" />
@@ -46,7 +49,7 @@
             </label>
         </div>
     </div>
-    
+
     <div class="control-group">
         <div class="controls">
             <label class="checkbox">
@@ -55,7 +58,7 @@
             </label>
         </div>
     </div>
-    
+
     <div class="control-group">
         <div class="controls">
             <label class="checkbox">
@@ -72,7 +75,7 @@
             </label>
         </div>
     </div>
-    
+
     <div class="form-group">
         <label for="fired-on-operations" class="control-label col-lg-2">When this operation is invoked</label>
         <div class="col-lg-6">
@@ -95,7 +98,7 @@
         <tbody data-bind="foreach: RuleCollection">
             <tr>
                 <td>
-                    @Html.Partial("_TriggerFieldDropDown", new TypeModel{Path = "Left"})
+                    @Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Left" })
                 </td>
                 <td>
                     <select name="rule-operator" class="form-control" data-bind="value: Operator">
@@ -110,7 +113,7 @@
                     </select>
                 </td>
                 <td>
-                    @Html.Partial("_TriggerFieldDropDown",new TypeModel{Path = "Right"})
+                    @Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Right" })
                 </td>
                 <td>
                     <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click : $root.removeRule">-</a>
@@ -180,7 +183,7 @@
                     <input class="input-action-isactive" data-bind="checked: IsActive" id="IsActive" type="checkbox" name="IsActive" />
                 </td>
                 <td>
-                     <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click: $root.removeAction">-</a>
+                    <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click: $root.removeAction">-</a>
                 </td>
             </tr>
         </tbody>

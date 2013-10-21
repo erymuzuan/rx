@@ -6,4 +6,8 @@
                data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
                id="@Model.ElementId" type="text" name="@Model.Path" />
     </div>
+    @if (!string.IsNullOrWhiteSpace(Model.HelpText))
+    {
+        <span class="help-block">@Model.HelpText</span>
+    }
 </div>
