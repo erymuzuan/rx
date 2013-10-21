@@ -1,17 +1,27 @@
 ﻿ko.bindingHandlers.bootstrapDropDown = {
-    init: function(element) {
-      
-        var dropDown = function (e) {
-            e.preventDefault();
-            e.stopPropagation();
+    init: function (element) {
 
-            var button = $(this);
-            button.parent().addClass("open");
+        var opened = false,
+            dropDown = function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var button = $(this);
 
-            $(document).one('click', function () {
-                button.parent().removeClass("open");
-            });
-        };
+                if (opened) {
+                    button.parent().removeClass("open");
+                    opened = false;
+
+                } else {
+                    button.parent().addClass("open");
+                    opened = true;
+                    $(document).one('click', function () {
+                        button.parent().removeClass("open");
+                        opened = false;
+                    });
+                }
+
+
+            };
         $(element).click(dropDown);
     }
 };

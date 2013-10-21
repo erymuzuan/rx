@@ -4,19 +4,19 @@
 }
 
 <h1>Buat trigger baru </h1>
-<form class="form-horizontal" data-bind="with: trigger">
-    <div class="control-group">
-        <label for="Name" class="control-label">Nama</label>
-        <div class="controls">
-            <input class="input-xxlarge" data-bind="value: Name" id="Name" type="text" name="Name" />
+<form class="form-horizontal" data-bind="with: trigger" role="form">
+    <div class="form-group">
+        <label for="Name" class="col-lg-2 control-label">Nama</label>
+        <div class="col-lg-6">
+            <input placeholder="Trigger's' name" class="input-xxlarge form-control" data-bind="value: Name" id="Name" type="text" name="Name" />
         </div>
     </div>
     
 
-    <div class="control-group">
-        <label for="Entity" class="control-label">Entiti</label>
-        <div class="controls">
-            <select data-bind="value: Entity" id="Entity" name="Entity">
+    <div class="form-group">
+        <label for="Entity" class="col-lg-2 control-label">Entiti</label>
+        <div class="col-lg-6">
+            <select class="form-control" data-bind="value: Entity" id="Entity" name="Entity">
                 <option value="">[--Sila Pilih--]</option>
                 <option value="Building">Bangunan</option>
                 <option value="RentalApplication">Permohonan Sewa</option>
@@ -30,15 +30,16 @@
         </div>
     </div>
 
-    <div class="control-group">
-        <label for="Note" class="control-label">Nota</label>
-        <div class="controls">
-            <textarea class="input-xxlarge" data-bind="value: Note" id="Note" name="Note"></textarea>
+    <div class="form-group">
+        <label for="Note" class="col-lg-2 control-label">Nota</label>
+        <div class="col-lg-6">
+            <textarea class="input-xxlarge form-control" data-bind="value: Note" id="Note" name="Note"></textarea>
         </div>
     </div>
 
-    <div class="control-group">
-        <div class="controls">
+    <div class="form-group">
+        <label for="" class="col-lg-2 control-label"></label>
+        <div class="col-lg-6">
             <label class="checkbox">
                 <input data-bind="checked: IsActive" id="isActive" type="checkbox" name="IsActive" />
                 Aktif
@@ -72,10 +73,10 @@
         </div>
     </div>
     
-    <div class="control-group">
-        <label for="fired-on-operations" class="control-label">When this operation is invoked</label>
-        <div class="controls">
-            <input class="input-xxlarge" data-bind="value: FiredOnOperations" id="fired-on-operations" type="text" name="FireOnOperations" />
+    <div class="form-group">
+        <label for="fired-on-operations" class="control-label col-lg-2">When this operation is invoked</label>
+        <div class="col-lg-6">
+            <input class="input-xxlarge form-control" data-bind="value: FiredOnOperations" id="fired-on-operations" type="text" name="FireOnOperations" />
             <span class="help-block">Use "," to add more than 1 operations</span>
         </div>
     </div>
@@ -97,7 +98,7 @@
                     @Html.Partial("_TriggerFieldDropDown", new TypeModel{Path = "Left"})
                 </td>
                 <td>
-                    <select name="rule-operator" data-bind="value: Operator">
+                    <select name="rule-operator" class="form-control" data-bind="value: Operator">
                         <option value="Eq">=</option>
                         <option value="Le">&lt;=</option>
                         <option value="Lt">&lt;</option>

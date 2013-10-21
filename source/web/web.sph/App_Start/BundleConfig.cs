@@ -54,7 +54,7 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/kendo/styles/kendo.dataviz.css")
                 .Include("~/kendo/styles/kendo.dataviz.metrol.css")
                 .Include("~/Content/ie10mobile.css")
-                .Include("~/Content/bootstrap." + theme + ".css")
+                .Include("~/Content/bootstrap/bootstrap.css")
                 .Include("~/Content/bootstrap-responsive.css")
                 .Include("~/Content/durandal.css")
                 .Include("~/Content/nprogress.css")

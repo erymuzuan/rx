@@ -46,11 +46,6 @@ table.table-striped th.headerSortDown:after {
   float: right;
   content: url('/images/down8.png');
 }
-.modal,
-.view-model-modal {
-  margin-left: -400px;
-  background-color: #fff;
-}
 .absolute-center {
   position: absolute;
   margin: auto;
