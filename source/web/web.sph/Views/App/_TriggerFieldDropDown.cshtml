@@ -1,30 +1,30 @@
-﻿@model dynamic
+﻿@model Bespoke.Sph.Web.Models.TypeModel
 
 <div class="btn-group">
-    <a data-bind="with : @Model.Property" class="btn btn-link dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
+    <a data-bind="with : @Model.Path" class="btn btn-link dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
         <img data-bind="fieldImage : $type" class="pull-left" alt="." />
         <!-- ko text : Name -->
         <!-- /ko -->
         <span class="caret pull-right"></span>
     </a>
     <ul class="dropdown-menu">
-        <li data-bind="with : @Model.Property">
-            <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $root.startEditField, accessor : $parent.@Model.Property">
+        <li data-bind="with : @Model.Path">
+            <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $root.startEditField, accessor : $parent.@Model.Path">
                 <i class="icon-edit-sign"></i>
                 Edit Field
             </a>
         </li>
         <li>
-            <a class="btn btn-link" data-bind="unwrapClick: $root.startAddDocumentField, accessor : $data.@Model.Property" href="#document-panel-modal">+ Document Field</a>
+            <a class="btn btn-link" data-bind="unwrapClick: $root.startAddDocumentField, accessor : $data.@Model.Path" href="#document-panel-modal">+ Document Field</a>
         </li>
         <li>
-            <a class="btn btn-link" data-bind="unwrapClick: $root.startAddConstantField, accessor : $data.@Model.Property" href="#constant-panel-modal">+ Constant Field</a>
+            <a class="btn btn-link" data-bind="unwrapClick: $root.startAddConstantField, accessor : $data.@Model.Path" href="#constant-panel-modal">+ Constant Field</a>
         </li>
         <li>
-            <a class="btn btn-link" data-bind="unwrapClick: $root.startAddFunctionField, accessor : $data.@Model.Property" href="#function-panel-modal">+ Function Field</a>
+            <a class="btn btn-link" data-bind="unwrapClick: $root.startAddFunctionField, accessor : $data.@Model.Path" href="#function-panel-modal">+ Function Field</a>
         </li>
         <li>
-            <a class="btn btn-link" data-bind="unwrapClick: $root.startAddChangedField, accessor : $data.@Model.Property" href="#changed-panel-modal">+ Changed Field</a>
+            <a class="btn btn-link" data-bind="unwrapClick: $root.startAddChangedField, accessor : $data.@Model.Path" href="#changed-panel-modal">+ Changed Field</a>
         </li>
 
     </ul>

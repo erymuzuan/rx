@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Bespoke.Sph.Web.Models
+@{
     Layout = null;
 }
 
@@ -93,7 +94,7 @@
         <tbody data-bind="foreach: RuleCollection">
             <tr>
                 <td>
-                    @Html.Partial("_TriggerFieldDropDown", new { Property = "Left" })
+                    @Html.Partial("_TriggerFieldDropDown", new TypeModel{Path = "Left"})
                 </td>
                 <td>
                     <select name="rule-operator" data-bind="value: Operator">
@@ -108,7 +109,7 @@
                     </select>
                 </td>
                 <td>
-                    @Html.Partial("_TriggerFieldDropDown",new {Property = "Right"})
+                    @Html.Partial("_TriggerFieldDropDown",new TypeModel{Path = "Right"})
                 </td>
                 <td>
                     <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click : $root.removeRule">-</a>
