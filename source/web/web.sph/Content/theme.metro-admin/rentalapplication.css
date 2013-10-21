@@ -89,21 +89,6 @@ div.filter-panel button {
   float: right;
   margin: 10px;
 }
-.list-header {
-  height: 45px;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #378de5));
-  background: -moz-linear-gradient(top, #79bbff 5%, #378de5 100%);
-  background: -webkit-linear-gradient(top, #79bbff 5%, #378de5 100%);
-  background: -o-linear-gradient(top, #79bbff 5%, #378de5 100%);
-  background: -ms-linear-gradient(top, #79bbff 5%, #378de5 100%);
-  background: linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#378de5', GradientType=0);
-  background-color: #79bbff;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  border: 1px solid #337bc4;
-}
 .list-header .category {
   font-size: 20px;
   font-weight: bolder;

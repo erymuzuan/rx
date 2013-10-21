@@ -1730,6 +1730,9 @@
     <Content Include="Scripts\_theme.min.js.map">
       <DependentUpon>_theme.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\_pager.min.js.map">
+      <DependentUpon>_pager.js</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

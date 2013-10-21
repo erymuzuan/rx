@@ -51,7 +51,9 @@ bespoke.utils.ServerPager = function (options) {
         for (var j = 0; j < count2 ; j++) {
             rows[j] = j;
         }
-        pagerDataSource.data(rows);
+        setTimeout(function () {
+            pagerDataSource.data(rows);
+        }, 500);
     };
 
     self2.pageSize = function (size) {
@@ -70,7 +72,6 @@ bespoke.utils.ServerPager = function (options) {
     var dropdownlist = $(element).find('select').data("kendoDropDownList");
     dropdownlist.bind("change", function () {
         try {
-
             changed(1, parseInt(this.value()));
         } catch (e) {
 
