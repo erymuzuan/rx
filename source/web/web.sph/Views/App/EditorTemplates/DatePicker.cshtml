@@ -1,8 +1,8 @@
 ﻿@model Bespoke.Sph.Domain.DatePicker
 
-<div class="control-group">
-    <label for="@Model.ElementId" class="control-label">@Model.Label</label>
-    <div class="controls">
+<div class="form-group">
+    <label for="@Model.ElementId" class="control-label col-lg-2">@Model.Label</label>
+    <div class="controls col-lg-6">
         <input class="@(Model.CssClass + " "+ Model.Size)" 
             data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" type="text" 
             name="@Model.Path" />
