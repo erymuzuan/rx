@@ -49,8 +49,7 @@ define(['services/datacontext'], function (context) {
             });
 
         return tcs.promise();
-    },
-
+    },        
         search = function () {
             var tcs = new $.Deferred();
 
@@ -89,7 +88,10 @@ define(['services/datacontext'], function (context) {
                 .done(function spacesLoaded(templateLoadOperation, spaceLoadOperation) {
                     var items = _(templateLoadOperation.itemCollection).map(function (t) {
                         var filtered = _(spaceLoadOperation.itemCollection).filter(function (c) {
-                            return c.ApplicationTemplateOptions().indexOf(t.ApplicationTemplateId()) > -1;
+                            if (c.ApplicationTemplateOptions().indexOf(t.ApplicationTemplateId()) > -1) {
+                                return c.ApplicationTemplateOptions().indexOf(t.ApplicationTemplateId()) > -1;
+                            }
+                            
                         });
                         return {
                             name: t.Name(),

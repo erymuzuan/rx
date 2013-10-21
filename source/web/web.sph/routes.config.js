@@ -13,19 +13,6 @@
     "error": ""
   },
   {
-    "role": "can_edit_maintenance_template",
-    "groupName": null,
-    "url": "maintenance.template.list",
-    "moduleId": "viewmodels/maintenance.template.list",
-    "name": "Templat Penyelenggaraan",
-    "visible": true,
-    "icon": "icon-flag",
-    "caption": "Senarai Templat Penyelenggaraan",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
     "role": "maintenance_dashboard",
     "groupName": null,
     "url": "maintenance.dashboard",
@@ -420,6 +407,19 @@
     "visible": true,
     "icon": "icon-comments-alt",
     "caption": "aduan",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_maintenance_template",
+    "groupName": null,
+    "url": "maintenance.template.list",
+    "moduleId": "viewmodels/maintenance.template.list",
+    "name": "Templat Penyelenggaraan",
+    "visible": true,
+    "icon": "icon-flag",
+    "caption": "Senarai Templat Penyelenggaraan",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""

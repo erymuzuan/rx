@@ -1,9 +1,8 @@
 <Query Kind="Statements">
   <Connection>
-    <ID>84e06ebb-98ea-4fa0-a47c-8535465a77e6</ID>
-    <Persist>true</Persist>
-    <Server>.\KATMAI</Server>
-    <Database>Sph</Database>
+    <ID>b3819c1f-fba2-4316-80ee-6e094a070d4a</ID>
+    <Server>(localdb)\Projects</Server>
+    <Database>sph</Database>
   </Connection>
   <Output>DataGrids</Output>
 </Query>

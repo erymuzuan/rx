@@ -34,3 +34,5 @@ debug/
 SQLQuery[0-9].sql
 _ReSharper.commercial-space
 /source/web/web.sph/thumbnails
+/source/web/web.sph/.idea
+/source/web/web.sph/kibana

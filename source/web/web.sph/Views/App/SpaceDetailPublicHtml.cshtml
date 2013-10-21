@@ -6,17 +6,17 @@
 }
 <div id="space-public-panel" class="container-fluid" data-bind="with: space">
     <div>
-        <article class="list-article">
-            <div class="list-header">
+        <article>
+            <div>
                 <p class="category" data-bind="text: Category"></p>
             </div>
 
-            <div class="list-info">
-                <p class="info-text">
+            <div>
+                <p>
                     <span class="building-name" data-bind="text: BuildingName" />
                     (<span data-bind="text: RegistrationNo" />)
                 </p>
-                <p class="info-text">
+                <p>
                     <!-- ko if :UnitNo-->
                     <span data-bind="text: UnitNo" />,
                     <!--/ko-->
@@ -27,11 +27,11 @@
                     <span data-bind="text: City" />,
                             
                 </p>
-                <p class="info-text">
+                <p>
                     <span data-bind="text: Address().Postcode" />,
                             <span data-bind="text: State" />.
                 </p>
-                <p class="info-text">
+                <p>
                     <!-- ko if :Size-->
                     <span>Saiz :</span>
                     <span data-bind="text: Size" />mps
@@ -47,7 +47,7 @@
     <div>
         <div class="space-detail-tab">
             <ul class="nav nav-tabs">
-                <li>
+                <li class="active">
                     <a href="#gallery-tab" data-toggle="tab">Foto Galeri</a>
                 </li>
                 <li>
@@ -131,7 +131,7 @@
 
 <div id="space-application-panel">
     <!-- ko foreach: $root.applicationTemplates -->
-    <a class="btn btn-success" data-bind="attr: { href: '/#/application.detail-templateid.' + ApplicationTemplateId() + '/' + $root.space().SpaceId(), title: Name }, text: Name">Mohon Sewa</a>
+    <a class="btn btn-success" data-bind="attr: { href: '/#/application.detail-templateid.' + ApplicationTemplateId() + '/' + ApplicationTemplateId() + '/' + $root.space().SpaceId(), title: Name }, text: Name">Mohon Sewa</a>
     <!--/ko -->
 
 </div>

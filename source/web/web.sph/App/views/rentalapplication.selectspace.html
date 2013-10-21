@@ -1,6 +1,6 @@
 ﻿<h1 class="header">Ruang Untuk Disewa</h1>
 
-<div class="row row-fluid">
+<div class="row row-fluid" data-bind="theme :'rentalapplication.selectspace'">
 
     <div class="search-panel" data-bind="with: searchTerm">
         <div>
@@ -45,18 +45,17 @@
                         entity: 'Space'
                     }">
             <!-- ko foreach : spaces -->
-            <div>
-                <article class="list-article">
-                    <div class="list-header">
+            <div data-bind="theme:'rentalapplication.selectspace-spaceitem'">
+                <article class="space-item">
+                    <div class="space-nav">
                         <span class="category" data-bind="text: Category"></span>
-                        <span><a class="detail-button" data-bind="attr: { href: '/#/space.detailpublic-templateid.' + TemplateId() + '/' + SpaceId() }">Lihat Perincian</a></span>
+                        <span><a data-bind="attr: { href: '/#/space.detailpublic-templateid.' + TemplateId() + '/' + SpaceId() }">Lihat Perincian</a></span>
                     </div>
                     <!-- ko if: Icon -->
                     <div class="space-image-panel">
                         <img style="width: 150px; height: 120px" src="/Images/no-image.png" data-bind="attr: { src: '/Image/Store/' + Icon() }" alt="icon" />
                     </div>
                     <!-- /ko -->
-
                     <!-- ko if: PhotoCollection().length === 0 -->
                     <div class="space-image-panel">
                         <img src="/Images/no-image.png" />
@@ -64,17 +63,17 @@
                     <!-- /ko -->
 
 
-                    <div class="list-info">
-                        <p class="info-text">
+                    <div class="space-info">
+                        <p>
                             <!-- ko if :Size-->
                             <span>Saiz :</span>
                             <span data-bind="text: Size" />mps
-                                <!--/ko-->
+                            <!--/ko-->
                         </p>
-                        <p class="info-text">
+                        <p>
                             <span class="building-name" data-bind="text: BuildingName" />
                         </p>
-                        <p class="info-text">
+                        <p>
                             <!-- ko if :UnitNo-->
                             <span data-bind="text: UnitNo" />,
                             <!--/ko-->
@@ -83,17 +82,17 @@
                             <!--/ko-->
                             <span data-bind="text: BuildingName" />,
                         </p>
-                        <p class="info-text">
+                        <p>
                             <span data-bind="text: City" />,
                             <span data-bind="text: Address().Postcode" />,
                         </p>
-                        <p class="info-text">
+                        <p>
                             <span data-bind="text: State" />.
                         </p>
 
                     </div>
 
-                    <div class="list-footer">
+                    <div class="space-rental-rate">
                         RM <span class="prices" data-bind="money: RentalRate" />
                     </div>
                 </article>

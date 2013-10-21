@@ -10,10 +10,11 @@
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
+/// <reference path="../objectbuilders.js" />
 
 
-define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger', 'durandal/app', 'durandal/plugins/router'],
-    function (context, system, templateBase, eximp, logger, app, router) {
+define([objectbuilders.datacontext, 'durandal/system', './template.base', 'services/jsonimportexport', objectbuilders.logger, 'durandal/app', objectbuilders.router,objectbuilders.cultures],
+    function (context, system, templateBase, eximp, logger, app, router,culture) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -118,7 +119,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                         isBusy(false);
                         if (msg.status === bespoke.ServerOperationStatus.OK) {
                             vm.template().BuildingTemplateId(msg.id);
-                            logger.info(bespoke.messagesText.SAVE_SUCCESS);
+                            logger.info(String.format(culture.messages.SAVE_SUCCESS,culture.building.TEMPLATE_NAME));
                         } else {
                             var message = _(msg.errors).reduce(
                             function(memo ,v) {
@@ -138,6 +139,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
 
                             var tcs = new $.Deferred();
                             var data = ko.mapping.toJSON(vm.template);
+                            var templateName = vm.template().Name();
                             isBusy(true);
 
                             context.post(data, "/Template/RemoveBuildingTemplate")
@@ -145,7 +147,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                                     if (msg.status === bespoke.ServerOperationStatus.ERROR) {
                                         logger.error(msg.message);
                                     } else {
-                                        logger.info("Ok deleted");
+                                        logger.info(String.format(culture.messages.DELETE_SUCCESS, templateName));
                                         router.navigateTo("/#/building.template.list");
                                     }                                    
                                     tcs.resolve(result);
@@ -168,13 +170,13 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                 return eximp.importJson()
                     .done(function (json) {
                         try {
-                            var clone = ko.mapping.fromJSON(json);
-                            clone.BuildingTemplateId(0);
-                            if (typeof clone.FormDesign !== "function") {
-                                clone.FormDesign = ko.observable(clone.FormDesign);
-                            }
 
+                            var obj = JSON.parse(json),
+                                clone = context.toObservable(obj);
+                            
+                            clone.BuildingTemplateId(0);
                             vm.template(clone);
+                            
                         } catch (error) {
                             logger.logError('Fail template import tidak sah', error, this, true);
                         }

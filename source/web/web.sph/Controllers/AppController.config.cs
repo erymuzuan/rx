@@ -36,6 +36,10 @@ namespace Bespoke.Sph.Web.Controllers
                 DepartmentOptions =string.IsNullOrWhiteSpace(departmentOptions) ? "[]": departmentOptions,
                 UserProfile = profile
             };
+            if (username == "useradmin")
+            {
+                vm.StartModule = "users";
+            }
             if (null != profile)
             {
                  vm.StartModule = profile.StartModule;

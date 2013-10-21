@@ -24,7 +24,7 @@
                     <th>Tarikh Permohonan</th>
                     <th>Nama</th>
                     <th>Syarikat</th>
-                    <th>Ruang Komersil</th>
+                    <th>Ruang</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: applications">
@@ -34,11 +34,16 @@
                     <td data-bind="text: Contact().Name"></td>
                     <td data-bind="text: CompanyName"></td>
                     <td>
-                        <span data-bind="text: Space().Category"></span>,
-                    <span data-bind="text: Space().BuildingName"></span>,
-                    <span data-bind="text: Space().FloorName"></span>,
-                    <span data-bind="text: Space().UnitNo"></span>
+                        <span data-bind="text: Space().Category"></span> ,
+                            <!-- ko if : Space.UnitNo-->
+                            <span data-bind="text: Space().UnitNo" /> ,
+                            <!--/ko-->
+                            <!-- ko if :Space.FloorName-->
+                            <span data-bind="text: Space().FloorName" /> ,
+                            <!--/ko-->
+                        <span data-bind="text: Space().BuildingName"></span>
                     </td>
+                    
                 </tr>
             </tbody>
         </table>

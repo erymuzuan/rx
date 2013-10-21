@@ -61,6 +61,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 vm.floor().UnitCollection.remove(unit);
             },
             addNew = function () {
+                vm.unit(new bespoke.sph.domain.Unit());
                 $('#unit-dialog').modal();
                 $('#ok-unit-dialog-btn').one('click',function (ev) {
                     ev.preventDefault();
@@ -71,6 +72,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                         $('#unit-dialog').modal("hide");
                         return save(vm.unit());
                     }
+                    return 0;
                 });
             },
             editUnit = function (unit) {
