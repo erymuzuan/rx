@@ -1,7 +1,7 @@
 ﻿@model Bespoke.Sph.Web.Models.TypeModel
 
 <div class="btn-group">
-    <a data-bind="with : @Model.Path" class="btn btn-link dropdown-toggle input-xlarge" data-toggle="drop-down" href="#">
+    <a data-bind="with : @Model.Path, bootstrapDropDown : {}" class="btn btn-link input-xlarge" href="#">
         <img data-bind="fieldImage : $type" class="pull-left" alt="." />
         <!-- ko text : Name -->
         <!-- /ko -->
