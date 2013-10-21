@@ -887,6 +887,7 @@
     <Content Include="Images\save.png" />
     <Content Include="Images\search.png" />
     <Content Include="Images\SetterAction.png" />
+    <Content Include="Images\Slider1-edited.jpg" />
     <Content Include="Images\up8.png" />
     <Content Include="Images\warning.png" />
     <Content Include="roles.config.js" />

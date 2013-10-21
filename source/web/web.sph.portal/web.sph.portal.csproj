@@ -262,6 +262,9 @@
     <Content Include="Images\quarters.png" />
     <Content Include="Images\rekod_bayaran.png" />
     <Content Include="Images\report.png" />
+    <Content Include="Images\Slider1-edited.jpg" />
+    <Content Include="Images\Slider2.png" />
+    <Content Include="Images\slider3.png" />
     <Content Include="Images\social\digg.png" />
     <Content Include="Images\social\Dribbble.png" />
     <Content Include="Images\social\Facebook.png" />
