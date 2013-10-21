@@ -10,8 +10,8 @@
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
-define([objectbuilders.datacontext, 'durandal/system', './template.base', 'services/jsonimportexport', objectbuilders.logger,objectbuilders.cultures],
-    function (context, system, templateBase, eximp, logger,culture) {
+define([objectbuilders.datacontext, 'durandal/system', './template.base', 'services/jsonimportexport', objectbuilders.logger, objectbuilders.cultures],
+    function (context, system, templateBase, eximp, logger, culture) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -27,7 +27,7 @@ define([objectbuilders.datacontext, 'durandal/system', './template.base', 'servi
                 officers.CssClass("icon-user pull-left");
                 officers.Name("Officers");
                 customElements.push(officers);
-                
+
                 templateBase.activate(customElements);
 
 
@@ -76,23 +76,26 @@ define([objectbuilders.datacontext, 'durandal/system', './template.base', 'servi
                     });
                 return tcs.promise();
             },
-            
+
         exportTemplate = function () {
             return eximp.exportJson("template.maintenance." + vm.template().MaintenanceTemplateId() + ".json", ko.mapping.toJSON(vm.template));
         },
 
         importTemplateJson = function () {
-             return eximp.importJson()
-                 .done(function (json) {
-                     try {
-                         vm.template(ko.mapping.fromJSON(json));
-                         vm.template().MaintenanceTemplateId(0);
-                     } catch(error) {
-                         logger.logError('Fail template import tidak sah', error, this, true);
-                     }
-                 });
-         };
-        
+            return eximp.importJson()
+                .done(function (json) {
+                    try {
+
+                        var obj = JSON.parse(json),
+                            clone = context.toObservable(obj);
+                        vm.template(clone);
+                        vm.template().MaintenanceTemplateId(0);
+                    } catch (error) {
+                        logger.logError('Fail template import tidak sah', error, this, true);
+                    }
+                });
+        };
+
         var vm = {
             activate: activate,
             viewAttached: templateBase.viewAttached,
