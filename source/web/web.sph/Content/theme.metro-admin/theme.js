@@ -1,7 +1,10 @@
 ﻿bespoke.sph.Theme = function() {
     return {
-        init : function(element) {
-            $("div.space-nav a").addClass("detail-button");
+        "rentalapplication.selectspace-spaceitem": function (element, space) {
+            $(element).find("div.space-nav a").addClass("btn");
+            if (space.Category() === "Kedai Runcit") {
+                
+            }
             
         }
     };

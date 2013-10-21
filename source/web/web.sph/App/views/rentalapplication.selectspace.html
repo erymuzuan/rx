@@ -1,6 +1,6 @@
 ﻿<h1 class="header">Ruang Untuk Disewa</h1>
 
-<div class="row row-fluid" data-bind="theme :''">
+<div class="row row-fluid" data-bind="theme :'rentalapplication.selectspace'">
 
     <div class="search-panel" data-bind="with: searchTerm">
         <div>
@@ -45,7 +45,7 @@
                         entity: 'Space'
                     }">
             <!-- ko foreach : spaces -->
-            <div data-bind="theme:''">
+            <div data-bind="theme:'rentalapplication.selectspace-spaceitem'">
                 <article class="space-item">
                     <div class="space-nav">
                         <span class="category" data-bind="text: Category"></span>

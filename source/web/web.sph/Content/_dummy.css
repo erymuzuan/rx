@@ -12,6 +12,11 @@
     background-attachment: fixed;
 }
 
+.home-complaint-tile{}
+.home-application-status-tile{}
+.home-application-tile{}
+.home-complaint-status-tile{}
+
 .complaint-check-panel{}
 .application-check-panel{}
 .application-template-checkbox{}

@@ -989,6 +989,9 @@
     <Content Include="Content\theme.imanyer\space.less" />
     <Content Include="Content\theme.imanyer\user.less" />
     <Content Include="Content\theme.imanyer\variables.less" />
+    <Content Include="Content\theme.metro-admin\theme.min.js.map">
+      <DependentUpon>theme.js</DependentUpon>
+    </Content>
     <None Include="Scripts\breeze.intellisense.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\DataTables-1.9.4\docs\media\js\doc.js" />
@@ -1712,6 +1715,9 @@
     <Content Include="Views\App\DisplayTemplates\SectionFormElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\WebsiteFormElement.cshtml" />
     <Content Include="Views\RentalApplication\Check.cshtml" />
+    <Content Include="Scripts\_theme.min.js.map">
+      <DependentUpon>_theme.js</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
