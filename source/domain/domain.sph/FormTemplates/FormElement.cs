@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 
 namespace Bespoke.Sph.Domain
@@ -62,6 +63,25 @@ namespace Bespoke.Sph.Domain
         }
 
         public CustomField CustomField { get; set; }
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public string LabelCssClass
+        {
+            get
+            {
+                return string.Format("control-label col-lg-{0}", this.LabelColumnSpan);
+            }
+        }
+        [JsonIgnore]
+        [XmlIgnore]
+        public string InputPanelCssClass
+        {
+            get
+            {
+                return string.Format("col-lg-{0}", this.InputColumnSpan);
+            }
+        }
 
         
     }

@@ -8,6 +8,15 @@
     <form class="form-horizontal" id="building-form" data-bind="with: building">
         @foreach (var fe in Model.FormDesign.FormElementCollection)
         {
+            if (fe.LabelColumnSpan == 0)
+            {
+                fe.LabelColumnSpan = 2;
+            }
+            if (fe.InputColumnSpan == 0)
+            {
+                fe.InputColumnSpan = 6;
+            }
+            
             @Html.EditorFor(m => fe)
         
         }
