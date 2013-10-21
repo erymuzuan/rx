@@ -17,6 +17,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
 
         var title = ko.observable(),
             isBusy = ko.observable(false),
+            templateName = ko.observable('SpaceForm'),
             activate = function (routeData) {
                 vm.selectedBuildingId(0);
 
@@ -43,6 +44,20 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                             space.TemplateName(template.Name());
                             space.TemplateId(templateId);
                             title(template.Name());
+
+                            _(template.FormDesign().FormElementCollection()).each(function (f) {
+                                var path = f.Path(),
+                                    val = {};
+                                if (f.FieldValidation()) {
+                                    val[path] = {
+                                        required: f.FieldValidation().IsRequired(),
+                                        minlength: f.FieldValidation().MinLength(),
+                                        maxlength: f.FieldValidation().MaxLength()
+                                    };
+                                    vm.validationOptions.push(val);
+                                }
+
+                            });
                             // default values
                             _(template.DefaultValueCollection()).each(function (v) {
                                 if (v.Value()) {
@@ -122,6 +137,14 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                 $(view).tooltip({ 'placement': 'right' });
             },
             saveCs = function () {
+                var rules = vm.validationOptions();
+                $('#SpaceForm').validate({ // initialize the plugin
+                    rules: rules,
+                    submitHandler: function (form) { // for demo
+                        alert('valid form submitted'); // for demo
+                        return false; // for demo
+                    }
+                });
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.space());
                 isBusy(true);
@@ -291,6 +314,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             viewAttached: viewAttached,
             space: ko.observable(new bespoke.sph.domain.Space()),
             buildingOptions: ko.observableArray(),
+            validationOptions: ko.observableArray(),
             blockOptions: ko.observableArray(),
             floorOptions: ko.observableArray(),
             unitOptions: ko.observableArray(),
@@ -314,7 +338,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
         selectedBuilding.subscribe(function (b) {
             console.log(b);
         });
-        
+
         vm.selectedBuildingId.subscribe(function (id) {
             vm.space().BuildingId(id);
             if (!id) return;

@@ -16,6 +16,7 @@ namespace Bespoke.Sph.Web.App_Start
               new ScriptBundle("~/scripts/vendor")
                 .Include("~/App/objectbuilders.js")
                 .Include("~/scripts/jquery-{version}.js")
+                .Include("~/scripts/jquery.validate.min.js")
                 .Include("~/scripts/jquery.dataTables.min.js")
                 .Include("~/scripts/jquery.tablesorter.min.js")
                 .Include("~/scripts/knockout-{version}.debug.js")

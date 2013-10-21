@@ -182,6 +182,7 @@ bespoke.sph.domain.TextBox = function (webId) {
 
     v.MinLength = ko.observable();//nillable
     v.MaxLength = ko.observable();//nillable
+    v.FieldValidation = ko.observable(new bespoke.sph.domain.FieldValidation());
     if (bespoke.sph.domain.TextBoxPartial) {
         return _(v).extend(new bespoke.sph.domain.TextBoxPartial(v));
     }
@@ -579,6 +580,26 @@ bespoke.sph.domain.SpaceFeaturesElement = function (webId) {
         return _(v).extend(new bespoke.sph.domain.SpaceFeaturesElementPartial(v));
     }
     return v;
+};
+
+
+
+bespoke.sph.domain.FieldValidation = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
+        IsRequired: ko.observable(false),
+        MaxLength: ko.observable(0),
+        MinLength: ko.observable(0),
+        Message: ko.observable(''),
+        Pattern: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.FieldValidationPartial) {
+        return _(model).extend(new bespoke.sph.domain.FieldValidationPartial(model));
+    }
+    return model;
 };
 
 
