@@ -142,8 +142,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, 'services/jsonimporte
             },
             importJson = function() {
                 return exim.importJson()
-                    .done(function(json) {
-                        template(ko.mapping.fromJSON(json));
+                    .done(function (json) {
+                        var clone = context.toObservable(JSON.parse(json));
+                        template(clone);
                         template().ContractTemplateId(0);
 
                     });

@@ -602,18 +602,19 @@ ko.bindingHandlers.filter = {
             bindingAccessor = allBindingsAccessor(),
             path = value.path,
             $element = $(element),
-            $filterInput = $("<input type='search' class='search-query input-medium' placeholder='Tapis..'>"),
+            $filterInput = $("<input type='search' class='search-query input-medium form-control' placeholder='Tapis..'>"),
             $serverLoadButton = $("<a href='/#' title='Carian server'><i class='add-on icon-search'></i><a>"),
-            $form = $("<form class='form-search'>" +
-                " <div class='input-append pull-right'>" +
-                " <i class='add-on icon-remove'></i>" +
-                " " +
+            $form = $("<form class='form-search col-lg-4 col-lg-offset-8'>" +
+                " <div class='input-group pull-right'>" +
+                "<span class='input-group-addon'>" +
+                " <i class='icon-remove'></i>" +
+                "</span> " +
                 "</div>" +
                 " </form>"),
             pagedSearch = bindingAccessor.searchPaging;
 
 
-        $form.find('i.icon-remove').before($filterInput);
+        $form.find('span.input-group-addon').before($filterInput);
         if (pagedSearch) {
             $form.find('i.icon-remove').after($serverLoadButton);
         }
@@ -663,7 +664,7 @@ ko.bindingHandlers.filter = {
         };
 
         var throttled = _.throttle(dofilter, 800);
-        $filterInput.on('keyup', throttled).siblings('.icon-remove')
+        $filterInput.on('keyup', throttled).siblings('span.input-group-addon')
             .click(function () {
                 $filterInput.val('');
                 dofilter();

@@ -978,6 +978,9 @@
     <Content Include="App\viewmodels\application.detail.min.js.map">
       <DependentUpon>application.detail.js</DependentUpon>
     </Content>
+    <Content Include="App\viewmodels\contract.template.min.js.map">
+      <DependentUpon>contract.template.js</DependentUpon>
+    </Content>
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
@@ -1651,6 +1654,9 @@
       <DependentUpon>_ko.bootstrap.js</DependentUpon>
     </Content>
     <Content Include="Views\Template\_ValidationSetting.cshtml" />
+    <Content Include="Scripts\_ko.kendo.min.js.map">
+      <DependentUpon>_ko.kendo.js</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
