@@ -48,7 +48,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 vm.totalRate(cs.RentalRate());
                 tcs.resolve(true);
             });
-            vm.rentalapplication().SpaceId(routeData.id);
+            vm.rentalapplication().SpaceId(spaceId());
 
 
             // build custom fields value

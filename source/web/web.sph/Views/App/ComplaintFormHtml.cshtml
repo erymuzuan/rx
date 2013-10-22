@@ -5,7 +5,7 @@
 
 <h1>@Model.FormDesign.Name</h1>
 <span>@Html.Raw(Model.FormDesign.Description)</span>
-<form id="complaint-details" class="form-horizontal" data-bind="with: complaint">
+<form id="complaint-form-detail" class="form-horizontal" data-bind="with: complaint">
     @foreach (var fe in Model.FormDesign.FormElementCollection)
     {
         @Html.EditorFor(m => fe)

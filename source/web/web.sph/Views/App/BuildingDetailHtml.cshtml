@@ -5,7 +5,7 @@
 <div id="building-detail-page">
     <h1>@Model.FormDesign.Name</h1>
     <span>@Model.FormDesign.Description</span>
-    <form class="form-horizontal" id="building-form" data-bind="with: building">
+    <form class="form-horizontal" id="building-detail-form" data-bind="with: building">
         @foreach (var fe in Model.FormDesign.FormElementCollection)
         {
             if (fe.LabelColumnSpan == 0)

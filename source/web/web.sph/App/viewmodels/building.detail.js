@@ -9,21 +9,14 @@
 /// <reference path="../services/cultures.my.js" />
 /// <reference path="../objectbuilders.js" />
 
-define(['services/datacontext',
-        'durandal/plugins/router',
-        'durandal/system',
-        'durandal/app',
-        'viewmodels/map',
-        'services/logger',
-        'services/watcher',
-        'config',
-        objectbuilders.cultures
-],
-    function (context, router, system, app, map, logger, watcher, config, cultures) {
-
-
+define([objectbuilders.datacontext,objectbuilders.router,'durandal/system','durandal/app',
+        'viewmodels/map',objectbuilders.logger,objectbuilders.watcher,objectbuilders.config,
+        objectbuilders.cultures,objectbuilders.validation],
+    function (context, router, system, app, map, logger, watcher, config, cultures,validation) {
         var isBusy = ko.observable(false),
+            m_template = ko.observable(),
             setBuildingToContext = function (building, template) {
+                m_template(template);
                 var fieldToValueMap = function (f) {
                     var webid = system.guid();
                     var v = new bespoke.sph.domain.CustomFieldValue(webid);
@@ -122,6 +115,10 @@ define(['services/datacontext',
             },
 
             saveAsync = function () {
+
+                if (!validation.valid()) {
+                    return Task.fromResult(false);
+                }
                 var tcs = new $.Deferred();
                 var data = ko.toJSON(vm.building());
                 context.post(data, "/Building/Save")
@@ -254,6 +251,7 @@ define(['services/datacontext',
 
             },
             viewAttached = function () {
+                validation.init($('#building-detail-form'),m_template());
                 $('*[title]').tooltip({ placement: 'right' });
             },
             remove = function () {

@@ -11,17 +11,15 @@
 /// <reference path="../schemas/sph.domain.g.js" /> 
 
 
-define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', objectbuilders.config,objectbuilders.config,objectbuilders.router],
-	function (context, logger, system, config,router) {
+define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', objectbuilders.config, objectbuilders.router, objectbuilders.validation],
+	function (context, logger, system, config, router, validation) {
 
 	    var template = ko.observable(new bespoke.sph.domain.ComplaintTemplate()),
 	        id = ko.observable(),
 	        isBusy = ko.observable(false),
-
-
-	        activate = function (routedata) {
-
-	            vm.stateOptions(config.stateOptions);
+	        m_template = ko.observable(false),
+            activate = function (routedata) {
+                vm.stateOptions(config.stateOptions);
 
 	            isBusy(true);
 	            id(parseInt(routedata.templateId));
@@ -29,6 +27,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', ob
 	            var query = "ComplaintTemplateId eq " + id();
 	            context.loadOneAsync("ComplaintTemplate", query).then(function (tpl) {
 	                template(tpl);
+	                m_template(tpl);
 	                vm.complaint().TemplateId(id());
 	                var categories = _(tpl.ComplaintCategoryCollection()).map(function (c) {
 	                    return c.Name();
@@ -62,7 +61,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', ob
 	        },
 
             viewAttached = function (view) {
-
+                validation.init($('#complaint-form-detail'), m_template());
                 $(view).find('*[title]').tooltip({ placement: 'right' });
                 $("#AttachmentStoreId").kendoUpload({
                     async: {
@@ -94,6 +93,9 @@ define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', ob
             },
 
 	        submit = function () {
+	            if (!validation.valid()) {
+	                return Task.fromResult(false);
+	            }
 	            var tcs = new $.Deferred();
 	            var templateName = template().Name();
 	            vm.complaint().Type(templateName);
