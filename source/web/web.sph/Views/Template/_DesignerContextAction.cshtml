@@ -9,23 +9,23 @@
             <span>Properties</span>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             <label for="context-action-label" class="control-label">Label</label>
             <div class="controls">
-                <input data-bind="value: Label, valueUpdate: 'keyup'" id="context-action-label" type="text" />
+                <input class="form-control" data-bind="value: Label, valueUpdate: 'keyup'" id="context-action-label" type="text" />
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group">
             <label for="context-action-label" class="control-label">Tooltip</label>
             <div class="controls">
-                <input data-bind="value: Tooltip, valueUpdate: 'keyup'" id="context-action-tooltip" type="text" />
+                <input class="form-control" data-bind="value: Tooltip, valueUpdate: 'keyup'" id="context-action-tooltip" type="text" />
             </div>
         </div>
-        <div class="control-group">
+        <div class="form-group">
             <label for="context-action-label" class="control-label">Help</label>
             <div class="controls">
-                <textarea rows="3" cols="32" data-bind="value: HelpText, valueUpdate: 'keyup'" id="context-action-help"></textarea>
+                <textarea class="form-control" rows="3" cols="32" data-bind="value: HelpText, valueUpdate: 'keyup'" id="context-action-help"></textarea>
             </div>
         </div>
         <a class="btn btn-link pull-right" data-bind="click: $root.removeFormElement">

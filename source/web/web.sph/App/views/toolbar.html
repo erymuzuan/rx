@@ -32,7 +32,7 @@
         <!-- /ko -->
 
         <!-- ko if: typeof addNewCommand === "function"-->
-        <button id="save" class="btn" data-bind="command: addNewCommand" data-loading-text="Simpan....">
+        <button id="save" class="btn btn-primary" data-bind="command: addNewCommand" data-loading-text="Simpan....">
             <i class="icon-plus"></i>
             Tambah
         </button>
@@ -40,7 +40,7 @@
 
         <!-- ko if: typeof addNew === "object"-->
         <!-- ko with: addNew-->
-        <a id="savebutton" class="btn" data-bind="attr: { href: location }" data-loading-text="Simpan....">
+        <a id="savebutton" class="btn btn-primary" data-bind="attr: { href: location }" data-loading-text="Simpan....">
             <i class="icon-plus"></i>
             <!-- ko text : caption -->
             <!-- /ko -->
@@ -49,19 +49,19 @@
         <!-- /ko -->
 
         <!-- ko if: typeof saveCommand === "function"-->
-        <button id="save-button" class="btn" data-bind="command: saveCommand">
+        <button id="save-button" class="btn btn-primary" data-bind="command: saveCommand">
             <i class="icon-save"></i>
             Simpan
         </button>
         <!-- /ko -->
         <!-- ko if: typeof removeCommand === "function"-->
-        <button class="btn" data-bind="command: removeCommand">
+        <button class="btn btn-danger" data-bind="command: removeCommand">
             <i class="icon-remove"></i>
             Hapuskan
         </button>
         <!-- /ko -->
         <!-- ko if: typeof reloadCommand === "function"-->
-        <button class="btn" data-bind="command: reloadCommand" data-loading-text="Sedang Proses....">
+        <button class="btn btn-warning" data-bind="command: reloadCommand" data-loading-text="Sedang Proses....">
             <i class="icon-refresh"></i>
             Muat Semula
         </button>
@@ -81,34 +81,34 @@
 
 
         <!-- ko if: typeof exportCommand === "function"-->
-        <button class="btn" data-bind="command: exportCommand">
+        <button class="btn btn-default" data-bind="command: exportCommand">
             <i class="icon-download"></i>
             Eksport
         </button>
         <!-- /ko -->
         
         <!-- ko if: typeof importCommand === "function"-->
-        <button class="btn" data-bind="command: importCommand">
+        <button class="btn btn-default" data-bind="command: importCommand">
             <i class="icon-upload"></i>
             Import
         </button>
         <!-- /ko -->
 
         <!-- ko if: typeof emailCommand === "function"-->
-        <button class="btn" data-bind="command: emailCommand" data-loading-text="Sedang Proses....">
+        <button class="btn btn-default" data-bind="command: emailCommand" data-loading-text="Sedang Proses....">
             <i class="icon-envelope"></i>
             Emel
         </button>
         <!-- /ko -->
 
         <!-- ko if: typeof watchCommand === "function"-->
-        <button class="btn" data-bind="command: watchCommand, visible: watching() === false" data-loading-text="saving....">
+        <button class="btn btn-default" data-bind="command: watchCommand, visible: watching() === false" data-loading-text="saving....">
             <i class="icon-eye-open"></i>
             Pantau
         </button>
         <!-- /ko -->
         <!-- ko if: typeof unwatchCommand === "function"-->
-        <button class="btn" data-bind="command: unwatchCommand, visible: watching" data-loading-text="saving....">
+        <button class="btn btn-warning" data-bind="command: unwatchCommand, visible: watching" data-loading-text="saving....">
             <i class="icon-eye-close"></i>
             Unwatch
         </button>
