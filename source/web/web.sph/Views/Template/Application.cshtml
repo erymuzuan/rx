@@ -8,11 +8,11 @@
 <div>
     <div class="row">
         <!-- left toobox-->
-        <div class="span4">
+        <div class="col-lg-4">
             @Html.Partial("_Toolbox")
         </div>
 
-        <div class="span8" data-bind="with: template">
+        <div class="col-lg-8" data-bind="with: template">
 
             <div data-bind="with: FormDesign" id="template-form-designer">
                 <h1 data-bind="text: Name"></h1>

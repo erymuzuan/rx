@@ -1765,6 +1765,23 @@ namespace Bespoke.Sph.Domain
 
         public int? MaxLength { get; set; }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private FieldValidation m_fieldValidation
+                = new FieldValidation();
+
+        public const string PropertyNameFieldValidation = "FieldValidation";
+        [DebuggerHidden]
+
+        public FieldValidation FieldValidation
+        {
+            get { return m_fieldValidation; }
+            set
+            {
+                m_fieldValidation = value;
+                OnPropertyChanged();
+            }
+        }
+
 
     }
 
@@ -2612,6 +2629,188 @@ namespace Bespoke.Sph.Domain
     [XmlType("SpaceFeaturesElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class SpaceFeaturesElement
     {
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("FieldValidation", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class FieldValidation
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isRequired;
+        public const string PropertyNameIsRequired = "IsRequired";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_maxLength;
+        public const string PropertyNameMaxLength = "MaxLength";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_minLength;
+        public const string PropertyNameMinLength = "MinLength";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_message;
+        public const string PropertyNameMessage = "Message";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_pattern;
+        public const string PropertyNamePattern = "Pattern";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsRequired
+        {
+            set
+            {
+                if (m_isRequired == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsRequired, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isRequired = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isRequired;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int MaxLength
+        {
+            set
+            {
+                if (m_maxLength == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMaxLength, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_maxLength = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_maxLength;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int MinLength
+        {
+            set
+            {
+                if (m_minLength == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMinLength, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_minLength = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_minLength;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Message
+        {
+            set
+            {
+                if (String.Equals(m_message, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMessage, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_message = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_message;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Pattern
+        {
+            set
+            {
+                if (String.Equals(m_pattern, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePattern, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_pattern = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_pattern;
+            }
+        }
+
 
 
     }

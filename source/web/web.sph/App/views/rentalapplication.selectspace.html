@@ -1,44 +1,70 @@
 ﻿<h1 class="header">Ruang Untuk Disewa</h1>
 
-<div class="row row-fluid" data-bind="theme :'rentalapplication.selectspace'">
+<div class="container">
 
-    <div class="search-panel" data-bind="with: searchTerm">
-        <div>
+
+    <div class="row">
+        <div class="col-lg-4 space-search-panel filter-panel" data-bind="with: searchTerm">
             <div>
-                <form class="form-horizontal">
-                    <div class="control-group span3">
-                        <label class="control-label">Negeri</label>
-                        <select data-bind="options: stateOptions, value: state, optionsCaption: '[Sila Pilih]'"></select>
-                    </div>
-                    <div class="control-group span3">
-                        <label for="min-value" class="control-label">Min</label>
-                        <div class="controls">
-                            <input data-bind="value: minValue, attr: { max: max, min: min }" id="min-value" type="range" name="minValue" step="10" max="9999" />
-                            <span class="help-inline" data-bind="money: minValue"></span>
+                <h3>Kategori</h3>
+                <div>
+                    <!-- ko  foreach: categoryOptions-->
+                    <label class="checkbox">
+                        <input type="checkbox" data-bind="value: $data, checked: $parent.categories" />
+                        <!-- ko text:$data -->
+                        <!-- /ko -->
+                    </label>
+                    <!-- /ko -->
+                </div>
+
+            </div>
+            <div>
+                <h3>Negeri</h3>
+                <div>
+                    <!-- ko  foreach: stateOptions-->
+                    <label class="checkbox">
+                        <input type="checkbox" data-bind="value: $data, checked: $parent.states" />
+                        <!-- ko text:$data -->
+                        <!-- /ko -->
+                    </label>
+                    <!-- /ko -->
+                </div>
+            </div>
+            <div>
+                <h3>Price Range</h3>
+                <div>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="min-value" class="control-label col-lg-1">Min</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" data-bind="value: minValue, attr: { max: max, min: min }" id="min-value" type="range" name="minValue" step="10" max="9999" />
+                                <span class="help-inline" data-bind="money: minValue"></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="control-group span3">
-                        <label for="max-value" class="control-label">Max</label>
-                        <div class="controls">
-                            <input data-bind="value: maxValue, attr: { max: max, min: min }" id="max-value" type="range" name="maxValue" step="10" max="99999" />
-                            <span class="help-inline" data-bind="money: maxValue"></span>
+                        <div class="form-group">
+                            <label for="max-value" class="control-label col-lg-1">Max</label>
+                            <div class="col-lg-9">
+                                <input class="form-control" data-bind="value: maxValue, attr: { max: max, min: min }" id="max-value" type="range" name="maxValue" step="10" max="99999" />
+                                <span class="help-inline" data-bind="money: maxValue"></span>
+                            </div>
                         </div>
-                    </div>
-                </form>
+
+                        <div class="form-group">
+                            <label class="sr-only col-lg-1">Search</label>
+                            <div class="col-lg-9">
+                                <button class="btn btn-primary" data-bind="command: $root.searchCommand">
+                                    <i class="icon-search pull-left"></i>
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="control-group">
-            <button class="btn btn-primary" data-bind="command: $root.searchCommand">
-                <i class="icon-search pull-left"></i>
-                Search
 
-            </button>
-        </div>
-    </div>
 
-    <div class="span8">
-
-        <section id="available-space-list" data-bind="searchPaging:
+        <div class="col-lg-8" id="available-space-list" data-bind="searchPaging:
                     {
                         query: searchTerm.query,
                         list: spaces,
@@ -53,12 +79,12 @@
                     </div>
                     <!-- ko if: Icon -->
                     <div class="space-image-panel">
-                        <img style="width: 150px; height: 120px" src="/Images/no-image.png" data-bind="attr: { src: '/Image/Store/' + Icon() }" alt="icon" />
+                        <img src="/Images/no-image.png" data-bind="attr: { src: '/Image/Store/' + Icon() }" alt="icon" />
                     </div>
                     <!-- /ko -->
                     <!-- ko if: PhotoCollection().length === 0 -->
                     <div class="space-image-panel">
-                        <img src="/Images/no-image.png" />
+                        <img src="/Images/no-image.png" alt="no image specified" />
                     </div>
                     <!-- /ko -->
 
@@ -98,12 +124,14 @@
                 </article>
             </div>
             <!-- /ko -->
-        </section>
+        </div>
 
-        <div id="search-space-pager"></div>
     </div>
+    <div class="row">
+        <div id="search-space-pager" class="col-lg-offset-4 col-lg-8">
+
+        </div>
+    </div>
+
+
 </div>
-
-
-
-
