@@ -16,10 +16,8 @@ define([],
             init = function (form, template) {
                 m_form = form;
                 m_template = template;
-
-
+                
                 var validation = { rules: {}, messages: {} };
-
                 _(template.FormDesign().FormElementCollection()).each(function (f) {
                     var path = f.Path(), v = f.FieldValidation();
                     if (!f.FieldValidation()) {

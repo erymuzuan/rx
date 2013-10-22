@@ -1,4 +1,7 @@
-﻿#rental-list h3 {
+﻿.error {
+  color: red;
+}
+#rental-list h3 {
   color: #fff;
   font-style: bold;
 }

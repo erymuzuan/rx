@@ -1,8 +1,8 @@
 @model Bespoke.Sph.Domain.TextBox
 <div data-bind="visible:@Model.Visible" class="form-group">
-    <label for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
-    <div class="@Model.InputPanelCssClass">
-        <input class="@(Model.CssClass + " form-control " + Model.Size) form-control" title="@Model.Tooltip"
+    <label for="@Model.ElementId" class="control-label col-lg-2">@Model.Label</label>
+    <div class="col-lg-6">
+        <input class="@(Model.CssClass + " form-control " + Model.Size)" title="@Model.Tooltip"
                data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
                id="@Model.ElementId" type="text" name="@Model.Path" />
     </div>
