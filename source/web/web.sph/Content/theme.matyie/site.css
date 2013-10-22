@@ -4,6 +4,9 @@
 #body {
   margin-bottom: 70px;
 }
+#toolbar-panel {
+  background-color: transparent;
+}
 .google-maps-medium {
   min-height: 430px;
 }
