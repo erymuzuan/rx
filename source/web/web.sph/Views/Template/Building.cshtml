@@ -7,13 +7,13 @@
 <h1>Maklumat Templat Bangunan </h1>
 <div id="building-template-page">
     <div class="row">
-        <div class="span4">
+        <div class="col-lg-4">
         <!-- left toolbox-->
         @Html.Partial("_Toolbox")
        </div>
-        <div class="span8" data-bind="with: template">
+        <div class="col-lg-8" data-bind="with: template">
 
-            <div data-bind="with: FormDesign" id="template-form-designer">
+            <div data-bind="with: FormDesign" id="template-form-designer" >
                 <h1 data-bind="text: Name"></h1>
                 <span data-bind="text: Description"></span>
 

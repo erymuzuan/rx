@@ -9,15 +9,15 @@
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../objectbuilders.js" />
 
-define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, 'durandal/system', objectbuilders.config], function (context, logger, router, system, config) {
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, 'durandal/system', objectbuilders.config,objectbuilders.validation], function (context, logger, router, system, config,validation) {
 
     var isBusy = ko.observable(false),
         spaceId = ko.observable(),
+        m_template = ko.observable(),
         registrationNo = ko.observable(),
         rentalApplication = ko.observable(new bespoke.sph.domain.RentalApplication()),
 
         activate = function (routeData) {
-            debugger;
             spaceId(parseInt(routeData.spaceId));
             var templateId = parseInt(routeData.templateId),
                 tcs = new $.Deferred(),
@@ -54,6 +54,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             // build custom fields value
             context.loadOneAsync("ApplicationTemplate", "ApplicationTemplateId eq " + templateId)
                 .done(function (template) {
+                    m_template(template);
                     var cfs = _(template.CustomFieldCollection()).map(function (f) {
                         var webid = system.guid();
                         var v = new bespoke.sph.domain.CustomFieldValue(webid);
@@ -72,7 +73,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             return tcs.promise();
         },
         viewAttached = function () {
-
+            validation.init($('#aplication-detail-form'), m_template());
         },
         configureUpload = function (element, index, attachment) {
 
@@ -96,6 +97,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         },
 
         saveApplication = function () {
+
+            if (!validation.valid()) {
+                return Task.fromResult(false);
+            }
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON(vm.rentalapplication());
             isBusy(true);

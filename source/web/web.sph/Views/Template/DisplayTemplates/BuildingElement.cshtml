@@ -1,12 +1,12 @@
 ﻿@model Bespoke.Sph.Domain.BuildingElement
 
 <!--ko if:$data['$type']() === "Bespoke.Sph.Domain.BuildingElement, domain.sph" -->
-<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+<div class="form-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
     @Html.Partial("_DesignerContextAction")
-    <label data-bind="text: Label" class="control-label">LABEL</label>
-    <div class="controls">
-        <select data-bind="attr: { 'class': CssClass() + ' ' + Size(), 'title': Tooltip }"></select>
-        <span data-bind="text: HelpText" class="help-inline"></span>
+    <label data-bind="text: Label" class="control-label col-lg-2">LABEL</label>
+    <div class="col-lg-4">
+        <select data-bind="attr: { 'class': CssClass() + ' form-control' + ' ' + Size(), 'title': Tooltip }"></select>
+        <span data-bind="text: HelpText" class="help-block"></span>
     </div>
 </div>
 <!--/ko-->
