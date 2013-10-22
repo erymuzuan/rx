@@ -8,13 +8,13 @@
         <h3 data-bind="text: Label"></h3>
     </div>
     <div>
-        <div class="control-group" data-bind="visible: IsUnitNoVisible">
+        <div class="form-group" data-bind="visible: IsUnitNoVisible">
             <label class="control-label col-lg-2">No Unit</label>
             <div class="col-lg-4">
                 <input class="form-control" type="text" />
             </div>
         </div>
-        <div class="control-group" data-bind="visible: IsBlockVisible">
+        <div class="form-group" data-bind="visible: IsBlockVisible">
             <label class="control-label col-lg-2">Blok</label>
             <div class="col-lg-4">
                 <!-- ko if : BlockOptionsPath -->
@@ -25,7 +25,7 @@
                 <!-- /ko -->
             </div>
         </div>
-        <div class="control-group" data-bind="visible: IsFloorVisible">
+        <div class="form-group" data-bind="visible: IsFloorVisible">
             <label class="control-label col-lg-2">Tingkat</label>
             <div class="col-lg-4">
                 <input type="text" class="form-control"/>

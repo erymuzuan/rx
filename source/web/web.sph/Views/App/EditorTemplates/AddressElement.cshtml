@@ -46,27 +46,27 @@
 }
 
 <div class="form-group">
-    <label for="address.Street" class="control-label @Model.LabelColumnSpan">Jalan</label>
-    <div class="controls">
+    <label for="address.Street" class="control-label col-lg-@Model.LabelColumnSpan">Jalan</label>
+    <div class="col-lg-6">
         <input class="input-large form-control" data-bind="value: Street" id="address.Street" type="text" name="address.Street" />
     </div>
 </div>
 
 <div class="form-group">
-    <label for="address.City" class="control-label  @Model.LabelColumnSpan">Bandar/Daerah</label>
-    <div class="controls">
+    <label for="address.City" class="control-label  col-lg-@Model.LabelColumnSpan">Bandar/Daerah</label>
+    <div class="col-lg-6">
         <input class="input-xxlarge form-control" data-bind="value: City" id="address.City" type="text" name="address.City" />
     </div>
 </div>
 <div class="form-group">
-    <label for="address.Postcode" class="control-label @Model.LabelColumnSpan">Poskod</label>
-    <div class="col-lg-4">
+    <label for="address.Postcode" class="control-label col-lg-@Model.LabelColumnSpan">Poskod</label>
+    <div class="col-lg-6">
         <input class="input-large form-control" data-bind="value: Postcode" id="address.Postcode" type="text" name="address.Postcode" />
     </div>
 </div>
 <div class="form-group">
-    <label for="address.State" class="control-label @Model.LabelColumnSpan">Negeri</label>
-    <div class="col-lg-4">
+    <label for="address.State" class="control-label col-lg-@Model.LabelColumnSpan">Negeri</label>
+    <div class="col-lg-6">
         <select class="input-large form-control" name="address.State" id="address.State" data-bind="value: State, options: $root.stateOptions, optionsText: 'Name', optionsValue: 'Name', optionsCaption: '[Sila Pilih]'"></select>
     </div>
 </div>
