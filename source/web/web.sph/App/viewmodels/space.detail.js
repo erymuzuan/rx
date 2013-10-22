@@ -45,18 +45,33 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                             space.TemplateId(templateId);
                             title(template.Name());
 
+
+                            var validation = { rules: {}, messages: {} };
+
                             _(template.FormDesign().FormElementCollection()).each(function (f) {
-                                var path = f.Path(),
-                                    val = {};
-                                    val[path] = {
-                                        required: f.FieldValidation().IsRequired(),
-                                        minlength: f.FieldValidation().MinLength(),
-                                        maxlength: f.FieldValidation().MaxLength()
-                                    };
-                                    vm.validationOptions.push(val);
-                               
+                                var path = f.Path(), v = f.FieldValidation();
+                                if (!f.FieldValidation()) {
+                                    return;
+                                }
+
+                                validation.rules[path] = { required: v.IsRequired() };
+                                if (v.Message()) {
+                                    validation.messages[path] = v.Message();
+                                }
+
+                                if (v.MaxLength()) {
+                                    validation.rules[path].maxLength = v.MaxLength();
+                                }
+                                if (v.MinLength()) {
+                                    validation.rules[path].minLength = v.MinLength();
+                                }
+                                if (v.Mode()) {
+                                    validation.rules[path][v.Mode()] = true;
+                                }
+
 
                             });
+                            vm.validationOptions(validation);
                             // default values
                             _(template.DefaultValueCollection()).each(function (v) {
                                 if (v.Value()) {
@@ -133,26 +148,26 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                 return tcs.promise();
             },
             viewAttached = function (view) {
+                $('#SpaceForm').validate(vm.validationOptions());
+
                 $(view).tooltip({ 'placement': 'right' });
             },
             saveCs = function () {
-                var rules = vm.validationOptions();
-                $('#SpaceForm').validate({ // initialize the plugin
-                    rules: rules,
-                    submitHandler: function (form) { // for demo
-                        var tcs = new $.Deferred();
-                        var data = ko.mapping.toJSON(vm.space());
-                        isBusy(true);
-                        context.post(data, "/Space/Save")
-                            .done(function (e) {
-                                logger.log("Data has been successfully saved ", e, "space.detail", true);
+                var $form = $('#SpaceForm');
+                if (!$form.valid()) {
+                    return Task.fromResult(false);
+                }
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(vm.space());
+                isBusy(true);
+                context.post(data, "/Space/Save")
+                    .done(function (e) {
+                        logger.log("Data has been successfully saved ", e, "space.detail", true);
 
-                                isBusy(false);
-                                tcs.resolve(true);
-                            });
-                        return tcs.promise();
-                    }
-                });                
+                        isBusy(false);
+                        tcs.resolve(true);
+                    });
+                return tcs.promise();
             },
             selectUnit = function () {
                 $('#lot-selection-panel').modal();
@@ -311,7 +326,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
             viewAttached: viewAttached,
             space: ko.observable(new bespoke.sph.domain.Space()),
             buildingOptions: ko.observableArray(),
-            validationOptions: ko.observableArray(),
+            validationOptions: ko.observable(),
             blockOptions: ko.observableArray(),
             floorOptions: ko.observableArray(),
             unitOptions: ko.observableArray(),

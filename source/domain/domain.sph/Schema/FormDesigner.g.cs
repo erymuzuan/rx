@@ -1765,23 +1765,6 @@ namespace Bespoke.Sph.Domain
 
         public int? MaxLength { get; set; }
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private FieldValidation m_fieldValidation
-                = new FieldValidation();
-
-        public const string PropertyNameFieldValidation = "FieldValidation";
-        [DebuggerHidden]
-
-        public FieldValidation FieldValidation
-        {
-            get { return m_fieldValidation; }
-            set
-            {
-                m_fieldValidation = value;
-                OnPropertyChanged();
-            }
-        }
-
 
     }
 
@@ -2658,13 +2641,18 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_message;
-        public const string PropertyNameMessage = "Message";
+        private string m_pattern;
+        public const string PropertyNamePattern = "Pattern";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_pattern;
-        public const string PropertyNamePattern = "Pattern";
+        private string m_mode;
+        public const string PropertyNameMode = "Mode";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_message;
+        public const string PropertyNameMessage = "Message";
 
 
         ///<summary>
@@ -2763,35 +2751,6 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public string Message
-        {
-            set
-            {
-                if (String.Equals(m_message, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameMessage, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_message = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_message;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
         public string Pattern
         {
             set
@@ -2808,6 +2767,64 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_pattern;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Mode
+        {
+            set
+            {
+                if (String.Equals(m_mode, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMode, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_mode = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_mode;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Message
+        {
+            set
+            {
+                if (String.Equals(m_message, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMessage, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_message = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_message;
             }
         }
 
@@ -2884,6 +2901,23 @@ namespace Bespoke.Sph.Domain
 
         private int m_inputColumnSpan;
         public const string PropertyNameInputColumnSpan = "InputColumnSpan";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private FieldValidation m_fieldValidation
+                = new FieldValidation();
+
+        public const string PropertyNameFieldValidation = "FieldValidation";
+        [DebuggerHidden]
+
+        public FieldValidation FieldValidation
+        {
+            get { return m_fieldValidation; }
+            set
+            {
+                m_fieldValidation = value;
+                OnPropertyChanged();
+            }
+        }
 
 
         // public properties members

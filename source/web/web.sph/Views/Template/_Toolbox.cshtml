@@ -10,6 +10,9 @@
         <li>
             <a href="#fields-settings" data-toggle="tab">Fields settings</a>
         </li>
+        <li>
+            <a href="#fields-validation" data-toggle="tab">Validation settings</a>
+        </li>
     </ul>
     <div class="tab-content">
 
@@ -83,21 +86,23 @@
         <div id="fields-settings" class="tab-pane" data-bind="with: selectedFormElement">
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label for="form-element-label" class="control-label">Label</label>
-                    <div class="controls">
+                    <label for="form-element-label" class="control-label col-lg-2">Label</label>
+                    <div class="col-lg-9">
                         <input class="form-control" data-bind="value: Label, valueUpdate: 'keyup'" id="form-element-label" type="text" name="Label" />
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="form-element-path" class="control-label">Path</label>
-                    <div class="controls">
-                        <div class="input-append">
-                            <input class="form-control" data-bind="value: Path" id="form-element-path" type="text" name="Path" />
-                            <a href="#" class="search-path-button add-on" data-bind="click: $root.showPathPicker.bind($data,'@Model.Entity    ')">
-                                <i class="icon-search"></i>
-                            </a>
-                        </div>
+                    <label for="form-element-path" class="control-label col-lg-2">Path</label>
+                    <div class="col-lg-6">
+                        <input class="form-control" data-bind="value: Path" id="form-element-path" type="text" name="Path" />
+
+
+                    </div>
+                    <div class="col-lg-3">
+                        <a href="#" class="search-path-button add-on" data-bind="click: $root.showPathPicker.bind($data,'@Model.Entity    ')">
+                            <i class="icon-search"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -161,13 +166,17 @@
 
                 @foreach (var fe in Model.FormElements)
                 {
-                @Html.EditorFor(m => fe)
+                    @Html.EditorFor(m => fe)
                 }
 
                 <button data-bind="click: $root.removeFormElement" class="btn btn-warning" title="remove this element">Remove</button>
                 <!-- END OF EDITOR TOOLBOX -->
             </form>
 
+        </div>
+        
+        <div id="fields-validation" data-bind="with : selectedFormElement">
+            @Html.Partial("_ValidationSetting")
         </div>
     </div>
 </div>

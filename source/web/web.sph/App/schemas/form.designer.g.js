@@ -182,7 +182,6 @@ bespoke.sph.domain.TextBox = function (webId) {
 
     v.MinLength = ko.observable();//nillable
     v.MaxLength = ko.observable();//nillable
-    v.FieldValidation = ko.observable(new bespoke.sph.domain.FieldValidation());
     if (bespoke.sph.domain.TextBoxPartial) {
         return _(v).extend(new bespoke.sph.domain.TextBoxPartial(v));
     }
@@ -591,8 +590,9 @@ bespoke.sph.domain.FieldValidation = function (webId) {
         IsRequired: ko.observable(false),
         MaxLength: ko.observable(0),
         MinLength: ko.observable(0),
-        Message: ko.observable(''),
         Pattern: ko.observable(''),
+        Mode: ko.observable(''),
+        Message: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -618,6 +618,9 @@ bespoke.sph.domain.FormElement = function (webId) {
         Enable: ko.observable(''),
         ElementId: ko.observable(''),
         HelpText: ko.observable(''),
+        LabelColumnSpan: ko.observable(0),
+        InputColumnSpan: ko.observable(0),
+        FieldValidation: ko.observable(new bespoke.sph.domain.FieldValidation()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
