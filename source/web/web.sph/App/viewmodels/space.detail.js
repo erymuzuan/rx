@@ -48,14 +48,13 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                             _(template.FormDesign().FormElementCollection()).each(function (f) {
                                 var path = f.Path(),
                                     val = {};
-                                if (f.FieldValidation()) {
                                     val[path] = {
                                         required: f.FieldValidation().IsRequired(),
                                         minlength: f.FieldValidation().MinLength(),
                                         maxlength: f.FieldValidation().MaxLength()
                                     };
                                     vm.validationOptions.push(val);
-                                }
+                               
 
                             });
                             // default values
@@ -141,21 +140,19 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                 $('#SpaceForm').validate({ // initialize the plugin
                     rules: rules,
                     submitHandler: function (form) { // for demo
-                        alert('valid form submitted'); // for demo
-                        return false; // for demo
-                    }
-                });
-                var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(vm.space());
-                isBusy(true);
-                context.post(data, "/Space/Save")
-                    .done(function (e) {
-                        logger.log("Data has been successfully saved ", e, "space.detail", true);
+                        var tcs = new $.Deferred();
+                        var data = ko.mapping.toJSON(vm.space());
+                        isBusy(true);
+                        context.post(data, "/Space/Save")
+                            .done(function (e) {
+                                logger.log("Data has been successfully saved ", e, "space.detail", true);
 
-                        isBusy(false);
-                        tcs.resolve(true);
-                    });
-                return tcs.promise();
+                                isBusy(false);
+                                tcs.resolve(true);
+                            });
+                        return tcs.promise();
+                    }
+                });                
             },
             selectUnit = function () {
                 $('#lot-selection-panel').modal();
