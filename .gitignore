@@ -36,3 +36,7 @@ _ReSharper.commercial-space
 /source/web/web.sph/thumbnails
 /source/web/web.sph/.idea
 /source/web/web.sph/kibana
+*.css~HEAD
+*.css~working on bootstrap 3
+*.less~HEAD
+*.less~working on bootstrap 3

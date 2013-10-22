@@ -193,6 +193,8 @@
 		<xs:attribute name="Enable" type="xs:string" use="optional" default="true"/>
 		<xs:attribute name="ElementId" type="xs:string" use="required"/>
 		<xs:attribute name="HelpText" type="xs:string" use="optional"/>
+		<xs:attribute name="LabelColumnSpan" type="xs:int" use="required"/>
+		<xs:attribute name="InputColumnSpan" type="xs:int" use="required"/>
 	</xs:complexType>
 	<xs:element name="TextBox">
 		<xs:complexType>

@@ -1,9 +1,13 @@
-﻿@model Bespoke.Sph.Domain.TextBox
-<div data-bind="visible:@Model.Visible" class="control-group">
-    <label for="@Model.ElementId" class="control-label">@Model.Label</label>
-    <div class="controls">
-        <input class="@(Model.CssClass + " "+ Model.Size)" title="@Model.Tooltip" 
-            data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
-            id="@Model.ElementId" type="text" name="@Model.Path" />
+@model Bespoke.Sph.Domain.TextBox
+<div data-bind="visible:@Model.Visible" class="form-group">
+    <label for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
+    <div class="@Model.InputPanelCssClass">
+        <input class="@(Model.CssClass + " " + Model.Size) form-control" title="@Model.Tooltip"
+               data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
+               id="@Model.ElementId" type="text" name="@Model.Path" />
     </div>
+    @if (!string.IsNullOrWhiteSpace(Model.HelpText))
+    {
+        <span class="help-block">@Model.HelpText</span>
+    }
 </div>

@@ -9,15 +9,17 @@
 define(['services/datacontext'], function (context) {
 
     var activate = function () {
-        var tcs = new $.Deferred();
         vm.searchTerm.query('IsAvailable eq 1 and IsOnline eq 1');
-        var templateTasks = context.loadAsync("ApplicationTemplate", "IsActive eq 1");
-        var csTasks = context.loadAsync("Space", vm.searchTerm.query());
-        var statesTask = context.getDistinctAsync("Building", "", "State");
-        var categoriesTask = context.getDistinctAsync("Space", "", "Category");
+        
+        var tcs = new $.Deferred(),
+            templateTasks = context.loadAsync("ApplicationTemplate", "IsActive eq 1"),
+            csTasks = context.loadAsync("Space", vm.searchTerm.query()),
+            statesTask = context.getDistinctAsync("Building", "", "State"),
+            categoriesTask = context.getDistinctAsync("Space", "", "Category");
+        
 
         $.when(templateTasks, csTasks, statesTask, categoriesTask)
-            .done(function (tlo, cslo, states, categories) {
+            .done(function (tlo, cslo, states2, categories2) {
                 vm.spaces(cslo.itemCollection);
                 var items = _(tlo.itemCollection).map(function (t) {
                     var filtered = _(cslo.itemCollection).filter(function (c) {
@@ -29,9 +31,9 @@ define(['services/datacontext'], function (context) {
                         spaces: filtered
                     };
                 });
-                vm.items(items);
-                vm.searchTerm.stateOptions(states);
-                vm.searchTerm.categoryOptions(categories);
+                vm.spaces(items);
+                vm.searchTerm.stateOptions(states2);
+                vm.searchTerm.categoryOptions(categories2);
                 tcs.resolve(true);
 
             });
@@ -91,7 +93,7 @@ define(['services/datacontext'], function (context) {
                             if (c.ApplicationTemplateOptions().indexOf(t.ApplicationTemplateId()) > -1) {
                                 return c.ApplicationTemplateOptions().indexOf(t.ApplicationTemplateId()) > -1;
                             }
-                            
+                            return false;
                         });
                         return {
                             name: t.Name(),
@@ -99,7 +101,7 @@ define(['services/datacontext'], function (context) {
                             spaces: filtered
                         };
                     });
-                    vm.items(items);
+                    vm.spaces(items);
                     tcs.resolve(true);
 
                     if (!pager) {
@@ -144,7 +146,6 @@ define(['services/datacontext'], function (context) {
     var vm = {
         activate: activate,
         spaces : ko.observableArray([]),
-        items: ko.observableArray([]),
         searchTerm: searchTerm,
         searchCommand: search
     };

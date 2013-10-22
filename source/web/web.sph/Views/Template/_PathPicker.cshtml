@@ -1,16 +1,19 @@
-﻿<section class="modal hide" id="path-picker-panel" >
+﻿<div class="modal fade" id="path-picker-panel">
+    <div class="modal-body">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Select a path</h3>
+            </div>
+            <div class="modal-body" id="path-picker-treepanel">
 
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3>Select a path</h3>
-    </div>
-    <div class="modal-body" id="path-picker-treepanel">
-        
-    </div>
+            </div>
 
-    <div class="modal-footer">
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: selectPathFromPicker" />
-        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <div class="modal-footer">
+                <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: selectPathFromPicker" />
+                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
     </div>
-</section>
+</div>
 
