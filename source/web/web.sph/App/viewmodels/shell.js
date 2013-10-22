@@ -158,7 +158,7 @@ define(['durandal/system', 'durandal/plugins/router', 'services/logger', 'servic
             filterInput
                 .on('keyup', throttled)
                 .on('keyup', navigateSelectedItem)
-                .siblings('.icon-remove')
+                .siblings('span')
                 .click(function () {
                     filterInput.val('');
                     dofilter();

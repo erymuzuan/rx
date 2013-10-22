@@ -1,41 +1,40 @@
-﻿<section class="view-model-modal photo-dialog">
-    <div class="modal-header">
-        <button type="button" class="close" data-bind="click: cancelClick">&times;</button>
-        <h3>Gambar</h3>
-    </div>
-    <div class="modal-body">
-        <form id="form-photo-dialog" class="form-horizontal" data-bind="with: photo">
-            <div class="control-group">
-                <label for="title" class="control-label">Tajuk</label>
-                <div class="controls">
-                    <input required class="input-xlarge" data-bind="value: Title" id="title" type="text" name="Title" />
-                </div>
+﻿<div class="view-model-modal photo-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bind="click: cancelClick">&times;</button>
+                <h3>Gambar</h3>
             </div>
-            <div class="control-group">
-                <label for="input-description" class="control-label">Keterangan</label>
-                <div class="controls">
-                    <textarea required class="input-xlarge" data-bind="value: Description" id="input-description" name="Description"></textarea>
-                </div>
+            <div class="modal-body">
+                <form id="form-photo-dialog" class="form-horizontal" data-bind="with: photo">
+                    <div class="form-group">
+                        <label for="title" class="control-label col-lg-2">Tajuk</label>
+                        <div class="col-lg-7">
+                            <input required class="form-control" data-bind="value: Title" id="title" type="text" name="Title" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-description" class="control-label">Keterangan</label>
+                        <div class="col-lg-7">
+                            <textarea required class="form-control" data-bind="value: Description" id="input-description" name="Description"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-photo" class="control-label col-lg-2">Gambar</label>
+                        <div class="col-lg-7">
+                            <img src="/Images/no-image.png" alt="image" data-bind="attr: { src: '/Image/Thumbnail/' + StoreId() }" />
+                            <input data-bind="kendoUpload: StoreId" id="input-photo" type="file" name="files" />
+                        </div>
+                    </div>
+                  
+                </form>
             </div>
 
-            <div class="control-group">
-                <label for="input-photo" class="control-label">Gambar</label>
-                <div class="controls">
-                    <img src="/Images/no-image.png" alt="image" data-bind="attr: { src: '/Image/Store/' + StoreId() }" />
-                    <input data-bind="kendoUpload: StoreId" id="input-photo" type="file" name="files" />
-                </div>
+            <div class="modal-footer">
+                <input type="submit" form="form-photo-dialog" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <button class="btn" data-bind="click: cancelClick">Cancel</button>
             </div>
-            <div class="control-group">
-                <label class="control-label">Thumbnail</label>
-                <div class="controls">
-                    <img src="/Images/no-image.png" alt="thumbnail" data-bind="attr: { src: '/Image/Thumbnail/' + StoreId() }" />
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
-
-    <div class="modal-footer">
-        <input type="submit" form="form-photo-dialog" class="btn btn-primary" value="OK" data-bind="click: okClick" />
-        <button class="btn" data-bind="click: cancelClick">Cancel</button>
-    </div>
-</section>
+</div>

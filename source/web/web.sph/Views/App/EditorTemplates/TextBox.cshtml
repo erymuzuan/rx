@@ -2,7 +2,7 @@
 <div data-bind="visible:@Model.Visible" class="form-group">
     <label for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
     <div class="@Model.InputPanelCssClass">
-        <input class="@(Model.CssClass + " " + Model.Size) form-control" title="@Model.Tooltip"
+        <input class="@(Model.CssClass + " form-control " + Model.Size) form-control" title="@Model.Tooltip"
                data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
                id="@Model.ElementId" type="text" name="@Model.Path" />
     </div>

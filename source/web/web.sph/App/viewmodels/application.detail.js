@@ -17,7 +17,6 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
         rentalApplication = ko.observable(new bespoke.sph.domain.RentalApplication()),
 
         activate = function (routeData) {
-            debugger;
             spaceId(parseInt(routeData.spaceId));
             var templateId = parseInt(routeData.templateId),
                 tcs = new $.Deferred(),

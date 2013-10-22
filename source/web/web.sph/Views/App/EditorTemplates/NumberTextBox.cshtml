@@ -1,9 +1,13 @@
 ﻿@model Bespoke.Sph.Domain.NumberTextBox
 <div class="form-group">
-    <label for="@Model.ElementId" class="control-label">@Model.Label</label>
-    <div class="controls">
+    <label for="@Model.ElementId" class="control-label @Model.LabelColumnSpan">@Model.Label</label>
+    <div class="col-lg-3">
         <input step="@Model.Step" class="@(Model.CssClass + " "+ Model.Size) form-control" 
-            title="@Model.Tooltip" data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
-             id="@Model.ElementId" type="number" name="@Model.Path" />
+               title="@Model.Tooltip" data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
+               id="@Model.ElementId" type="number" name="@Model.Path" />
     </div>
+    @if (!string.IsNullOrWhiteSpace(Model.HelpText))
+    {
+        <span class="help-block">@Model.HelpText</span>
+    }
 </div>  
