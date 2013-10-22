@@ -12,12 +12,12 @@
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 
-define(['services/datacontext', 'services/logger', './_space.contract', 'durandal/system', 'config', objectbuilders.cultures, objectbuilders.map],
-    function (context, logger, contractlistvm, system, config, cultures, map) {
+define(['services/datacontext', 'services/logger', './_space.contract', 'durandal/system', 'config', objectbuilders.cultures, objectbuilders.map, objectbuilders.validation],
+    function (context, logger, contractlistvm, system, config, cultures, map, validation) {
 
         var title = ko.observable(),
             isBusy = ko.observable(false),
-            templateName = ko.observable('SpaceForm'),
+            m_template = ko.observable(),
             activate = function (routeData) {
                 vm.selectedBuildingId(0);
 
@@ -38,6 +38,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                     })
                     .done(function (template, b, space) {
 
+                        m_template(template);
                         vm.stateOptions(config.stateOptions);
                         if (!space) {
                             space = new bespoke.sph.domain.Space();
@@ -45,33 +46,6 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                             space.TemplateId(templateId);
                             title(template.Name());
 
-
-                            var validation = { rules: {}, messages: {} };
-
-                            _(template.FormDesign().FormElementCollection()).each(function (f) {
-                                var path = f.Path(), v = f.FieldValidation();
-                                if (!f.FieldValidation()) {
-                                    return;
-                                }
-
-                                validation.rules[path] = { required: v.IsRequired() };
-                                if (v.Message()) {
-                                    validation.messages[path] = v.Message();
-                                }
-
-                                if (v.MaxLength()) {
-                                    validation.rules[path].maxLength = v.MaxLength();
-                                }
-                                if (v.MinLength()) {
-                                    validation.rules[path].minLength = v.MinLength();
-                                }
-                                if (v.Mode()) {
-                                    validation.rules[path][v.Mode()] = true;
-                                }
-
-
-                            });
-                            vm.validationOptions(validation);
                             // default values
                             _(template.DefaultValueCollection()).each(function (v) {
                                 if (v.Value()) {
@@ -92,7 +66,7 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                                     if (typeof k === "function") {
                                         k()[props[props.length - 1]](v.Value());
                                     } else {
-                                        throw "What the fuck is wrong with k";
+                                        throw "What the fuck is wrong with k,, !! ima kata : astrairllah";
                                     }
                                 }
                             });
@@ -148,13 +122,11 @@ define(['services/datacontext', 'services/logger', './_space.contract', 'duranda
                 return tcs.promise();
             },
             viewAttached = function (view) {
-                $('#SpaceForm').validate(vm.validationOptions());
-
+                validation.init($('#space-detail-form'), m_template());
                 $(view).tooltip({ 'placement': 'right' });
             },
             saveCs = function () {
-                var $form = $('#SpaceForm');
-                if (!$form.valid()) {
+                if (!validation.valid()) {
                     return Task.fromResult(false);
                 }
                 var tcs = new $.Deferred();
