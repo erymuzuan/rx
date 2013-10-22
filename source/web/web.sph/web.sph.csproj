@@ -677,30 +677,6 @@
     <Content Include="Content\theme.default\space.min.css">
       <DependentUpon>space.less</DependentUpon>
     </Content>
-    <Content Include="Content\theme.imanyer\building.css" />
-    <Content Include="Content\theme.imanyer\building.min.css" />
-    <Content Include="Content\theme.imanyer\dashboard.css" />
-    <Content Include="Content\theme.imanyer\dashboard.min.css" />
-    <Content Include="Content\theme.imanyer\header.css" />
-    <Content Include="Content\theme.imanyer\header.min.css" />
-    <Content Include="Content\theme.imanyer\nav.css" />
-    <Content Include="Content\theme.imanyer\nav.min.css" />
-    <Content Include="Content\theme.imanyer\public.index.css" />
-    <Content Include="Content\theme.imanyer\public.index.min.css" />
-    <Content Include="Content\theme.imanyer\rentalapplication.css" />
-    <Content Include="Content\theme.imanyer\rentalapplication.min.css" />
-    <Content Include="Content\theme.imanyer\report.css" />
-    <Content Include="Content\theme.imanyer\report.min.css" />
-    <Content Include="Content\theme.imanyer\site.css" />
-    <Content Include="Content\theme.imanyer\site.min.css" />
-    <Content Include="Content\theme.imanyer\space.css" />
-    <Content Include="Content\theme.imanyer\space.min.css" />
-    <Content Include="Content\theme.imanyer\theme.js" />
-    <Content Include="Content\theme.imanyer\theme.min.js" />
-    <Content Include="Content\theme.imanyer\user.css" />
-    <Content Include="Content\theme.imanyer\user.min.css" />
-    <Content Include="Content\theme.imanyer\variables.css" />
-    <Content Include="Content\theme.imanyer\variables.min.css" />
     <Content Include="Content\theme.matyie\building.css">
       <DependentUpon>building.less</DependentUpon>
     </Content>
@@ -814,11 +790,18 @@
     <Content Include="Images\building_icon.png" />
     <Content Include="Images\constantfield.png" />
     <Content Include="Images\courts.png" />
+    <Content Include="Images\dashboard-new.png" />
+    <Content Include="Images\dashboard-pemeriksaan.png" />
+    <Content Include="Images\dashboard-penyenggaraan.png" />
+    <Content Include="Images\dashboard-pro.png" />
     <Content Include="Images\documentfield.png" />
     <Content Include="Images\down8.png" />
+    <Content Include="Images\edit_icon.png" />
     <Content Include="Images\EmailAction.png" />
+    <Content Include="Images\FieldChangeField.png" />
     <Content Include="Images\functionfield.png" />
     <Content Include="Images\gelanggang.png" />
+    <Content Include="Images\home.png" />
     <Content Include="Images\hotel.png" />
     <Content Include="Images\kuarters.png" />
     <Content Include="Images\line-chart256.png" />
@@ -989,18 +972,12 @@
       <DependentUpon>rentalapplication.selectspace.js</DependentUpon>
     </Content>
     <Content Include="Content\theme.metro-admin\rentalapplication.min.css.orig" />
-    <Content Include="Content\theme.imanyer\building.less" />
-    <Content Include="Content\theme.imanyer\dashboard.less" />
-    <Content Include="Content\theme.imanyer\header.less" />
-    <Content Include="Content\theme.imanyer\nav.less" />
-    <Content Include="Content\theme.imanyer\public.index.less" />
-    <Content Include="Content\theme.imanyer\rentalapplication.less" />
-    <Content Include="Content\theme.imanyer\report.less" />
-    <Content Include="Content\theme.imanyer\site.less" />
-    <Content Include="Content\theme.imanyer\space.less" />
-    <Content Include="Content\theme.imanyer\theme.min.js.map" />
-    <Content Include="Content\theme.imanyer\user.less" />
-    <Content Include="Content\theme.imanyer\variables.less" />
+    <Content Include="App\viewmodels\shell.min.js.map">
+      <DependentUpon>shell.js</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\application.detail.min.js.map">
+      <DependentUpon>application.detail.js</DependentUpon>
+    </Content>
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />

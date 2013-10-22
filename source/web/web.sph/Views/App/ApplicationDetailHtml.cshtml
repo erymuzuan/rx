@@ -3,57 +3,133 @@
 @{
     Layout = null;
 }
-
-<h1 class="row-fluid"><span>Borang Permohonan</span></h1>
-<div class="span7">
-    <div class="tabbable">
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#general-tab" data-toggle="tab">Borang</a>
-            </li>
-            <li>
-                <a href="#add-on-tab" data-toggle="tab">Fasiliti</a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            <div id="general-tab" class="tab-pane active">
-                <form id="aplication-detail-form" class="form-horizontal" data-bind="with: rentalapplication">
-                    <div>
-                        <h2>@Model.FormDesign.Name</h2>
-                        <div class="alert alert-info">@Model.FormDesign.Description</div>
-                    </div>
-                    <div>
-                        @foreach (var fe in Model.FormDesign.FormElementCollection)
-                        {
-                            @Html.EditorFor(m => fe)
-        
-                        }
-                    </div>
-                </form>
-            </div>
-            <div id="add-on-tab" class="tab-pane">
-                <form>
-                    <h4 class="alert alert-info">Fasiliti</h4>
-                    <div data-bind="foreach: facilities">
+<div class="container">
+    <h1 class="row"><span>Borang Permohonan</span></h1>
+    <div class="row">
+        <div class="tabbable col-lg-7">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#general-tab" data-toggle="tab">Borang</a>
+                </li>
+                <li>
+                    <a href="#add-on-tab" data-toggle="tab">Fasiliti</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="general-tab" class="tab-pane active">
+                    <form id="application-detail-form" class="form-horizontal" data-bind="with: rentalapplication">
                         <div>
-                            <span class="feature-category" data-bind="text: category"></span>
-                            <div class="feature-item" data-bind="foreach: features">
-                                <div>
-                                    <span class="feature-isrequired" data-bind="text: IsRequired" />
-                                    <span class="feature-name" data-bind="text: Name" />
-                                    <span class="feature-charge" data-bind="money: Charge, visible: Charge" />
-                                    <p class="feature-description" data-bind="text: Description" />
-                                    <select data-bind="value: AvailableQuantity, visible: Charge, options: AvailableQuantityOptions" class="input-feature-available-quantity">
-                                    </select>
-                                    <!-- ko ifnot : IsRequired -->
-                                    <input type="button" class="btn-add-feature" value="add-on" data-bind="click: $root.addFeatureToList" />
-                                    <!-- /ko -->
-                                </div>
-                            </div>
-
+                            <h2>@Model.FormDesign.Name</h2>
+                            <div class="alert alert-info">@Model.FormDesign.Description</div>
                         </div>
-                    </div>
+                        <div>
+                            @foreach (var fe in Model.FormDesign.FormElementCollection)
+                            {
+                                if (fe.LabelColumnSpan == 0)
+                                {
+                                    fe.LabelColumnSpan = 4;
+                                }
+                                if (fe.InputColumnSpan == 0)
+                                {
+                                    fe.InputColumnSpan = 6;
+                                }
+                                @Html.EditorFor(m => fe)
 
+                            }
+                        </div>
+                    </form>
+                </div>
+                <div id="add-on-tab" class="tab-pane">
+                    <form>
+                        <h4 class="alert alert-info">Fasiliti</h4>
+                        <div data-bind="foreach: facilities">
+                            <div>
+                                <span class="feature-category" data-bind="text: category"></span>
+                                <div class="feature-item" data-bind="foreach: features">
+                                    <div>
+                                        <span class="feature-isrequired" data-bind="text: IsRequired" />
+                                        <span class="feature-name" data-bind="text: Name" />
+                                        <span class="feature-charge" data-bind="money: Charge, visible: Charge" />
+                                        <p class="feature-description" data-bind="text: Description" />
+                                        <select data-bind="value: AvailableQuantity, visible: Charge, options: AvailableQuantityOptions" class="input-feature-available-quantity"></select>
+                                        <!-- ko ifnot : IsRequired -->
+                                        <input type="button" class="btn-add-feature" value="add-on" data-bind="click: $root.addFeatureToList" />
+                                        <!-- /ko -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 widget wlightblue" id="space">
+            <div class="widget-head">
+                <div class="pull-left">Ruang Komersil</div>
+                <div class="widget-icons pull-right"></div>
+                <div class="clearfix"></div>
+            </div>
+            <div>
+                <form class="form-inline">
+                    <div id="space-Detail" data-bind="with: space">
+                        <div class="control-group">
+                            <label class="controls-row">Negeri :</label>
+                            <label class="controls-row" data-bind="text: State" />
+                        </div>
+                        <div class="control-group">
+                            <label class="controls-row">Bandar :</label>
+                            <label class="controls-row" data-bind="text: City" />
+                        </div>
+                        <div class="control-group">
+                            <label class="controls-row">Nama Bangunan :</label>
+                            <label class="controls-row" data-bind="text: BuildingName" />
+                        </div>
+                        <div class="control-group">
+                            <label class="controls-row">Tingkat :</label>
+                            <label class="controls-row" data-bind="text: FloorName" />
+                        </div>
+                        <div class="control-group">
+                            <label class="controls-row">No Unit :</label>
+                            <label class="controls-row" data-bind="text: UnitNo" />
+                        </div>
+                        <div class="control-group">
+                            <label class="controls-row">Jenis Ruang :</label>
+                            <label class="controls-row" data-bind="text: Category" />
+                        </div>
+                        <div class="control-group">
+                            <label class="controls-row">Saiz :</label>
+                            <label class="controls-row" data-bind="text: Size" />
+                        </div>
+                        <div class="control-group">
+                            <label class="controls-row">Kadar Sewa :</label>
+                            <span class="add-on">RM</span>
+                            <label class="controls-row" data-bind="money: RentalRate" />
+                        </div>
+                        <div class="control-group">
+                            <label class="controls-row">Lokasi :</label>
+                            <img alt="map" data-bind="attr: { src: $root.space().staticMap }" class="img-polaroid centered controls-row" src="/Images/accent.png" />
+                        </div>
+
+                    </div>
+                    <h3>Tambahan</h3>
+                    <div data-bind="foreach: rentalapplication().FeatureCollection">
+                        <div class="control-group">
+                            <label class="controls-row" data-bind="text: Name"></label>
+                            <span class="" data-bind="text: Quantity"></span>
+                            <span class="add-on">RM</span>
+
+                            <label class="controls-row" data-bind="money: Charge" />
+                        </div>
+                        <input type="button" id="btn-remove-feature" value="cancel" data-bind="click: $root.removeFeatureFromList" />
+                    </div>
+                    <div class="control-group pull-right">
+                        <span class="bold large text-right">JUMLAH SEWAAN :</span>
+                        <span class="bold large text-left">RM</span>
+                        <span class="bold large text-left" data-bind="money: $root.totalRate" />
+                    </div>
                 </form>
             </div>
         </div>
@@ -72,72 +148,3 @@
         <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" />
     </div>
 </section>
-
-<div class="span5 widget wlightblue" id="space">
-    <div class="widget-head">
-        <div class="pull-left">Ruang Komersil</div>
-        <div class="widget-icons pull-right"></div>
-        <div class="clearfix"></div>
-    </div>
-    <div class="span5">
-        <form class="form-inline">
-            <div id="space-Detail" data-bind="with: space">
-                <div class="control-group">
-                    <label class="controls-row">Negeri :</label>
-                    <label class="controls-row" data-bind="text: State" />
-                </div>
-                <div class="control-group">
-                    <label class="controls-row">Bandar :</label>
-                    <label class="controls-row" data-bind="text: City" />
-                </div>
-                <div class="control-group">
-                    <label class="controls-row">Nama Bangunan :</label>
-                    <label class="controls-row" data-bind="text: BuildingName" />
-                </div>
-                <div class="control-group">
-                    <label class="controls-row">Tingkat :</label>
-                    <label class="controls-row" data-bind="text: FloorName" />
-                </div>
-                <div class="control-group">
-                    <label class="controls-row">No Unit :</label>
-                    <label class="controls-row" data-bind="text: UnitNo" />
-                </div>
-                <div class="control-group">
-                    <label class="controls-row">Jenis Ruang :</label>
-                    <label class="controls-row" data-bind="text: Category" />
-                </div>
-                <div class="control-group">
-                    <label class="controls-row">Saiz :</label>
-                    <label class="controls-row" data-bind="text: Size" />
-                </div>
-                <div class="control-group">
-                    <label class="controls-row">Kadar Sewa :</label>
-                    <span class="add-on">RM</span>
-                    <label class="controls-row" data-bind="money: RentalRate" />
-                </div>
-                <div class="control-group">
-                    <label class="controls-row">Lokasi :</label>
-                    <img alt="map" data-bind="attr: { src: $root.space().staticMap }" class="img-polaroid centered controls-row" src="/Images/accent.png" />
-                </div>
-
-            </div>
-            <h3>Tambahan</h3>
-            <div data-bind="foreach: rentalapplication().FeatureCollection">
-                <div class="control-group">
-                    <label class="controls-row" data-bind="text: Name"></label>
-                    <span class="" data-bind="text: Quantity"></span>
-                    <span class="add-on">RM</span>
-
-                    <label class="controls-row" data-bind="money: Charge" />
-                </div>
-                <input type="button" id="btn-remove-feature" value="cancel" data-bind="click: $root.removeFeatureFromList" />
-            </div>
-            <div class="control-group pull-right">
-                <span class="bold large text-right">JUMLAH SEWAAN :</span>
-                <span class="bold large text-left">RM</span>
-                <span class="bold large text-left" data-bind="money: $root.totalRate" />
-            </div>
-        </form>
-
-    </div>
-</div>

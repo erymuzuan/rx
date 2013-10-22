@@ -1,34 +1,34 @@
 ﻿@model Bespoke.Sph.Domain.RentalApplicationContactElement
 
  <div data-bind="with : Contact">
-     <div class="control-group">
-         <label for="Contact.Name" class="control-label">Nama</label>
-         <div class="controls">
-             <input data-bind="value: Name" id="Contact.Name" type="text" name="Name" />
+     <div class="form-group">
+         <label for="Contact.Name" class="control-label @Model.LabelCssClass">Nama</label>
+         <div class="@Model.InputPanelCssClass">
+             <input class="form-control" data-bind="value: Name" id="Contact.Name" type="text" name="Name" />
          </div>
      </div>
-     <div class="control-group">
-         <label for="Contact.IcNo" class="control-label">No. Pengenalan</label>
-         <div class="controls">
-             <input data-bind="value: IcNo" id="Contact.IcNo" type="text" name="IcNo" />
+     <div class="form-group">
+         <label for="Contact.IcNo" class="control-label @Model.LabelCssClass">No. Pengenalan</label>
+         <div class="@Model.InputPanelCssClass">
+             <input class="form-control" data-bind="value: IcNo" id="Contact.IcNo" type="text" name="IcNo" />
          </div>
      </div>
-      <div class="control-group">
-          <label for="Contact.OfficeNo" class="control-label">No. Telefon (Pejabat)</label>
-          <div class="controls">
-              <input data-bind="value: OfficeNo" id="Contact.OfficeNo" type="text" name="OfficeNo" />
+      <div class="form-group">
+          <label for="Contact.OfficeNo" class="control-label @Model.LabelCssClass">No. Telefon (Pejabat)</label>
+          <div class="@Model.InputPanelCssClass">
+              <input class="form-control" data-bind="value: OfficeNo" id="Contact.OfficeNo" type="text" name="OfficeNo" />
           </div>
       </div>
-      <div class="control-group">
-          <label for="Contact.MobileNo" class="control-label">No. Telefon (Bimbit)</label>
-          <div class="controls">
-              <input data-bind="value: MobileNo" id="Contact.MobileNo" type="text" name="MobileNo" />
+      <div class="form-group">
+          <label for="Contact.MobileNo" class="control-label @Model.LabelCssClass">No. Telefon (Bimbit)</label>
+          <div class="@Model.InputPanelCssClass">
+              <input class="form-control" data-bind="value: MobileNo" id="Contact.MobileNo" type="tel" name="MobileNo" />
           </div>
       </div>
-     <div class="control-group">
-         <label for="Contact.Emadil" class="control-label">Emel</label>
-         <div class="controls">
-             <input data-bind="value: Email" id="Contact.Email" type="text" name="Email" />
+     <div class="form-group">
+         <label for="Contact.Email" class="control-label @Model.LabelCssClass">Emel</label>
+         <div class="@Model.InputPanelCssClass">
+             <input class="form-control" data-bind="value: Email" id="Contact.Email" type="email" name="Email" />
          </div>
      </div>
      

@@ -73,7 +73,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             return tcs.promise();
         },
         viewAttached = function () {
-            validation.init($('#aplication-detail-form'), m_template());
+            validation.init($('#application-detail-form'), m_template());
         },
         configureUpload = function (element, index, attachment) {
 
