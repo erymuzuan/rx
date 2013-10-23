@@ -194,19 +194,6 @@ div.filter-panel button {
 .space-detail-tab {
   border-bottom: 1px solid #877878;
 }
-div > div h4 {
-  font-size: 16px;
-  font-family: Verdana, Geneva, 'DejaVu Sans', sans-serif;
-  font-weight: bold;
-  color: black;
-}
-div > div h5 {
-  font-size: 15px;
-  font-family: Verdana, Geneva, 'DejaVu Sans', sans-serif;
-  font-weight: bold;
-  color: green;
-  border-bottom: 1px solid #877878;
-}
 .label-am {
   font-size: 15px;
   font-family: Verdana, Geneva, 'DejaVu Sans', sans-serif;

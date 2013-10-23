@@ -67,6 +67,21 @@ namespace domain.test.triggers
             Assert.IsTrue(result);
         }
 
+        [Test]
+        public void ConstString()
+        {
+            var building = new Building();
+            var rule = new Rule
+            {
+                Left = new ConstantField{Value = "Mohd Ali", Type = typeof(string)},
+                Operator = Operator.Substringof,
+                Right = new ConstantField{Value = "Ali", Type = typeof(string)}
+            };
+
+            var result = rule.Execute(new RuleContext(building));
+            Assert.IsTrue(result);
+        }
+
 
 
         [Test]

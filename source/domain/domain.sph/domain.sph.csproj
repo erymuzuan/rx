@@ -288,6 +288,7 @@
     <Content Include="Scripts\jquery.signalR-1.1.3.min.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Schema\SphDomain.xsd">
       <SubType>Designer</SubType>

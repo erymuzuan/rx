@@ -387,6 +387,8 @@ bespoke.sph.domain.Contact = function (webId) {
         OfficeNo: ko.observable(''),
         Email: ko.observable(''),
         IcNo: ko.observable(''),
+        Title: ko.observable(''),
+        Designation: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
