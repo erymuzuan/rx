@@ -12,23 +12,23 @@
 
 <div id="report-container">
     <div class="row">
-        <div class="span4" id="layout-toolbox">
+        <div class="col-lg-4" id="layout-toolbox">
             <ul class="nav nav-tabs">
                 <li>
                     <label>
                         <input type="radio" value="SingleColumns" name="layout">
-                   <img src="~/Images/report-layout.1.png" />
+                   <img alt="layout with 1 column" src="~/Images/report-layout.1.png" />
                     </label>
                 </li>
                 <li>
                     <label>
                         <input type="radio" value="TwoColumns" name="layout">
-                    <img src="~/Images/report-layout.2.png" /></label>
+                    <img alt="layout with 2 columns" src="~/Images/report-layout.2.png" /></label>
                 </li>
             </ul>
         </div>
 
-        <div class="span8" id="reportitems-toolbox">
+        <div class="col-lg-8" id="reportitems-toolbox">
             <ul data-bind="foreach: toolboxitems" class="nav nav-tabs">
                 <li>
                     <a href="#">

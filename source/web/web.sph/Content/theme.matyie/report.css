@@ -1,7 +1,8 @@
-﻿#preview-parameters-dialog {
-  width: 800px;
-}
-#preview-parameters-dialog .modal-body {
+﻿#preview-parameters-dialog .modal-dialog {
   height: 800px;
+  width: 900px;
+}
+#rdl-configuration-panel .modal-dialog {
+  max-height: 600px;
   width: 760px;
 }

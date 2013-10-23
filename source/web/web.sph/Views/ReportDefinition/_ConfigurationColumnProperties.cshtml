@@ -15,7 +15,7 @@
                     <span data-bind="text: Name"></span>
                 </td>
                 <td>
-                    <select data-bind="value: Aggregate" class="input-medium input-col-group">
+                    <select data-bind="value: Aggregate" class="form-control input-col-group">
                         <option value="">None</option>
                         <option value="GROUP">Group</option>
                         <option value="SUM">Sum</option>
@@ -26,14 +26,14 @@
                     </select>
                 </td>
                 <td>
-                    <select data-bind="value: Order" class="input-medium input-col-order">
+                    <select data-bind="value: Order" class="form-control input-col-order">
                         <option value="">None</option>
                         <option value="ASC">Ascending</option>
                         <option value="DESC">Descending</option>
                     </select>
                 </td>
                 <td>
-                    <input type="number" data-bind="value:OrderPosition" class="input-mini input-col-orderpos"/>
+                    <input type="number" data-bind="value:OrderPosition" class="form-control input-col-orderpos"/>
                 </td>
                 <td>
                     <a href="#" data-bind="click : $root.removeField">Buang</a>

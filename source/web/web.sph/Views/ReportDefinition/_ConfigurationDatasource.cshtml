@@ -1,8 +1,8 @@
 ﻿<form class="form-horizontal" data-bind="with: DataSource">
-    <div class="control-group">
+    <div class="form-group">
         <label for="data-source-entity" class="control-label">Entity</label>
         <div class="controls">
-            <select data-bind="value: EntityName" id="data-source-entity" name="Entity">
+            <select class="form-control" data-bind="value: EntityName" id="data-source-entity" name="Entity">
                 <option value="">[--Sila Pilih--]</option>
                 <option value="Land">Tanah</option>
                 <option value="Building">Bangunan</option>
@@ -19,9 +19,9 @@
             </select>
         </div>
     </div>
-    <div class="control-group">
+    <div class="form-group">
     </div>
-    <a href="#" data-bind="click: $root.addFilter">+ Filter</a>
+    <a class="btn-link pull-right" href="#" data-bind="click: $root.addFilter">+ Filter</a>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -34,10 +34,10 @@
         <tbody data-bind="foreach: ReportFilterCollection">
             <tr>
                 <td>
-                    <select class="input-datasource-fieldname" data-bind="value: FieldName, options: $root.filterableEntityColumns, optionsText: 'Name', optionsValue: 'Name'"></select>
+                    <select class="input-datasource-fieldname form-control" data-bind="value: FieldName, options: $root.filterableEntityColumns, optionsText: 'Name', optionsValue: 'Name'"></select>
                 </td>
                 <td>
-                    <select data-bind="value: Operator" class="input-datasource-operator">
+                    <select data-bind="value: Operator" class="input-datasource-operator form-control">
                         <option value="Eq">=</option>
                         <option value="Le">&lt;=</option>
                         <option value="Lt">&lt;</option>
@@ -49,7 +49,7 @@
                     </select>
                 </td>
                 <td>
-                    <input class="input-datasource-value" type="text" data-bind="value: Value" />
+                    <input class="input-datasource-value form-control" type="text" data-bind="value: Value" />
                 </td>
                 <td>
                     <a href="#" data-bind="click: $root.removeFilter">Buang</a>
@@ -57,10 +57,10 @@
             </tr>
         </tbody>
     </table>
-      <div class="control-group">
+      <div class="form-group">
         <label for="data-source-query" class="control-label">Query</label>
         <div class="controls">
-            <textarea class="input-xxlarge" rows="8" data-bind="value: Query" id="data-source-query" name="Query"></textarea>
+            <textarea class="form-control" rows="8" data-bind="value: Query" id="data-source-query" name="Query"></textarea>
         </div>
     </div>
 </form>

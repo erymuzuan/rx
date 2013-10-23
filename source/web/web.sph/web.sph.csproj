@@ -987,6 +987,15 @@
     <Content Include="App\objectbuilders.min.js.map">
       <DependentUpon>objectbuilders.js</DependentUpon>
     </Content>
+    <Content Include="App\viewmodels\reportdefinition.edit.min.js.map">
+      <DependentUpon>reportdefinition.edit.js</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\land.detail.min.js.map">
+      <DependentUpon>land.detail.js</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\map.min.js.map">
+      <DependentUpon>map.js</DependentUpon>
+    </Content>
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
