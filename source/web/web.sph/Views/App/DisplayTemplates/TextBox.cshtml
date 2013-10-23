@@ -1,7 +1,7 @@
 ﻿@model Bespoke.Sph.Domain.TextBox
-<div class="control-group">
-    <label class="form-group">@Model.Label </label>
-    <div class="controls">
-        <span data-bind="@Model.GetKnockoutDisplayBindingExpression()"/>
+<div class="form-group">
+    <label class="control-label">@Model.Label </label>
+    <div>
+        <span data-bind="@Model.GetKnockoutDisplayBindingExpression()" />
     </div>
 </div>
