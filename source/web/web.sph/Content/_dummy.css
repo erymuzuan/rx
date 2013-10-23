@@ -12,6 +12,12 @@
     background-attachment: fixed;
 }
 
+.input-offer-condition-title{}
+.input-offer-condition-description{}
+.input-offer-condition-isrequired{}
+.input-offer-condition-note{}
+.remove-offer-condition-button{}
+
 .space-item{}
 .space-info{}
 .space-rental-rate{}

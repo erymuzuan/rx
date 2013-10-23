@@ -1,89 +1,115 @@
-﻿<h1>Maklumat Tawaran</h1>
-<form class="form-horizontal span8" data-bind="with: offer">
-    <div class="control-group">
-        <label for="offer-Size" class="span3">Saiz Bangunan</label>
-        <input class="span3" data-bind="value: Size" id="offer-Size" type="number" min="1" name="offer-Size" />
-        <span class="add-on">kps</span>
+﻿<div class="row">
+    <div class="col-lg-12">
+        <h1>Maklumat Tawaran</h1>
     </div>
+    <div class="col-lg-12">
+        <form class="form-horizontal" data-bind="with: offer">
+            <div class="form-group">
+                <label for="offer-Size" class="col-lg-3 control-label">Saiz Bangunan</label>
+                <div class="col-lg-4 input-group">
+                    <input class="form-control" data-bind="value: Size" id="offer-Size" type="number" min="1" name="offer-Size" />
+                    <span class="input-group-addon">kps</span>
+                </div>
+            </div>
 
-    <div class="control-group">
-        <label for="offer-Building" class="span3">Nama Bangunan</label>
-        <input class="span3" data-bind="value: Building" id="offer-Building" type="text" name="offer-Building" />
+            <div class="form-group">
+                <label for="offer-Building" class="col-lg-3 control-label">Nama Bangunan</label>
+                <div class="col-lg-4">
+                    <input class="form-control" data-bind="value: Building" id="offer-Building" type="text" name="offer-Building" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="offer-Floor" class="col-lg-3 control-label">Tingkat</label>
+                <div class="col-lg-4">
+                    <input class="form-control" data-bind="value: Floor" id="offer-Floor" type="text" name="offer-Floor" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="offer-Deposit" class="col-lg-3 control-label">Jumlah Deposit</label>
+                <div class="input-group col-lg-4">
+                    <span class="input-group-addon">RM</span>
+                    <input data-bind="value: Deposit" id="offer-Deposit" type="number" min="0" name="offer-Deposit" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="offer-Rent" class="col-lg-3 control-label">Kadar Sewa</label>
+                <div class="input-group col-lg-4">
+                    <span class="input-group-addon">RM</span>
+                    <input class="form-control" data-bind="value: Rent" id="offer-Rent" type="number" min="0" name="offer-Rent" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="offer-Date" class="col-lg-3 control-label">Tarikh Mula Tawaran</label>
+                <div class="col-lg-4">
+                    <input class="form-control" name="offer-Date" type="text" data-bind="kendoDate: Date" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="offer-ExpiryDate" class="col-lg-3">Tarikh Akhir Tawaran</label>
+                <div class="col-lg-4">
+                    <input class="form-control" name="offer-ExpiryDate" type="text" data-bind="kendoDate: ExpiryDate" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="offer-Period" class="col-lg-3">Tempoh kontrak</label>
+                <div class="col-lg-1">
+                    <input class="form-control" data-bind="value: Period" id="offer-Period" type="number" step="1" name="offer-Period" />
+
+                </div>
+                <div class="col-lg-2">
+                    <select id="offer-periodunit" name="offer-periodunit" data-bind="value: PeriodUnit" class="form-control">
+                        <option value="">[Sila Pilih]</option>
+                        <option value="w">Minggu</option>
+                        <option value="m">Bulan</option>
+                        <option value="y">Tahun</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group col-lg-10">
+                <div>
+                    <a data-bind="click: $parent.addConditionCommand" class="btn btn-link pull-right">
+                        <i class="icon-file-alt"></i> + Terma &amp; Syarat
+                    </a>
+                </div>
+                <table id="offer-condition-table" class="table table-bordered table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tajuk</th>
+                            <th>Keterangan</th>
+                            <th>Nota</th>
+                            <th>Wajib</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: OfferConditionCollection">
+                        <tr>
+                            <td>
+                                <input class="input-offer-condition-title form-control" type="text" data-bind="value: Title, uniqueName: true" />
+                            </td>
+                            <td>
+                                <textarea class="input-offer-condition-description form-control" rows="2" data-bind="value: Description, uniqueName: true" />
+                            </td>
+                            <td>
+                                <textarea class="input-offer-condition-note form-control" rows="2" data-bind="value: Note, uniqueName: true" />
+                            </td>
+                            <td>
+                                <input class="input-offer-condition-isrequired" type="checkbox" data-bind="checked: IsRequired" />
+                            </td>
+
+                            <td>
+                                <a class="remove-offer-condition-button" data-bind="click: $parents[1].removeOfferCondition">Buang</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
     </div>
-
-    <div class="control-group">
-        <label for="offer-Floor" class="span3">Tingkat</label>
-        <input class="span3" data-bind="value: Floor" id="offer-Floor" type="text" name="offer-Floor" />
-    </div>
-
-    <div class="control-group">
-        <label for="offer-Deposit" class="span3">Jumlah Deposit</label>
-        <div class="input-prepend">
-            <span class="add-on">RM</span>
-            <input data-bind="value: Deposit" id="offer-Deposit" type="number" min="0" name="offer-Deposit" />
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label for="offer-Rent" class="span3">Kadar Sewa</label>
-        <div class="input-prepend">
-            <span class="add-on">RM</span>
-            <input data-bind="value: Rent" id="offer-Rent" type="number" min="0" name="offer-Rent" />
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label for="offer-Date" class="span3">Tarikh Mula Tawaran</label>
-        <input name="offer-Date" type="text" data-bind="kendoDate: Date" />
-    </div>
-
-    <div class="control-group">
-        <label for="offer-ExpiryDate" class="span3">Tarikh Akhir Tawaran</label>
-        <input name="offer-ExpiryDate" type="text" data-bind="kendoDate: ExpiryDate" />
-    </div>
-
-    <div class="control-group">
-        <label for="offer-Period" class="span3">Tempoh kontrak</label>
-        <input class="span1" data-bind="value: Period" id="offer-Period" type="number" step="1" name="offer-Period" />
-        <select id="offer-periodunit" name="offer-periodunit" data-bind="value: PeriodUnit" class="form-inline">
-            <option value="">[Sila Pilih]</option>
-            <option value="w">Minggu</option>
-            <option value="m">Bulan</option>
-            <option value="y">Tahun</option>
-        </select>
-    </div>
-
-    <div class="control-group span10">
-        <div>
-            <a data-bind="click: $parent.addConditionCommand" class="btn btn-link pull-right">
-            <i class="icon-file-alt"></i> + Terma &amp; Syarat</a>
-        </div>
-        <table id="offer-condition-table" class="table table-bordered table-bordered">
-            <thead>
-                <tr>
-                    <th>Tajuk</th>
-                    <th>Keterangan</th>
-                    <th>Nota</th>
-                    <th>Wajib</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: OfferConditionCollection">
-                <tr>
-                    <td>
-                        <input class="input-offer-condition-title" type="text" data-bind="value: Title, uniqueName: true" /></td>
-                    <td>
-                        <textarea class="input-offer-condition-description" rows="2" data-bind="value: Description, uniqueName: true"/></td>
-                    <td>
-                        <textarea class="input-offer-condition-note" rows="2" data-bind="value: Note, uniqueName: true" /></td>
-                    <td>
-                        <input class="input-offer-condition-isrequired" type="checkbox" data-bind="checked: IsRequired" /></td>
-
-                    <td>
-                        <a class="remove-offer-condition-button" data-bind="click: $parents[1].removeOfferCondition">Buang</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</form>
+</div>
