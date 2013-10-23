@@ -1,5 +1,5 @@
-﻿<section id="setting.states">
-    <a class="btn btn-primary" data-bind="click: addStateCommand">+ Negeri</a>
+﻿<section id="setting-states">
+    <a data-bind="click: addStateCommand" href="#setting-states">+ Negeri</a>
     <table>
         <thead>
             <tr>
@@ -10,7 +10,7 @@
         <tbody data-bind="foreach : states">
             <tr>
                 <td>
-                    <input type="text" data-bind="value: Name" />
+                    <input class="form-control" type="text" data-bind="value: Name" />
                 </td>
                 <td>
                     <a href="#" data-bind="click: $parent.removeState">Buang</a>

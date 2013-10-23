@@ -1,11 +1,13 @@
-﻿<div class="span10">
+﻿<div class="col-lg-10">
     <div class="span4">
         <div>
-            <a href="#" id="add-user-button" data-bind="click: addCommand" data-toggle="modal" class="btn btn-link pull-left"><i class="icon-plus">Jabatan </i></a>
+            <a href="#" id="add-user-button" data-bind="click: addCommand" data-toggle="modal" class="btn btn-default pull-left">
+                + Jabatan
+            </a>
             <input type="button" data-bind="command: saveCommand" class="btn btn-primary pull-right" value="Simpan" data-loading-text="diproses.." data-complete-text="Selesai" />
         </div>
     </div>
-    <table class="table table-striped span10">
+    <table class="table table-striped col-lg-10">
         <thead>
             <tr>
                 <th>Nama</th>
@@ -15,7 +17,7 @@
         <tbody data-bind="foreach: departments">
             <tr>
                 <td>
-                    <input type="text" data-bind="value: Name" />
+                    <input class="form-control" type="text" data-bind="value: Name" />
                 </td>
                 <td>
                     <button data-bind="click: $parent.removeCommand.bind($data), attr: { title: 'Buang Jabatan' }" class="close">

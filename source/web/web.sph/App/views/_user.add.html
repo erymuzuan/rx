@@ -1,70 +1,77 @@
-﻿<div id="user-details-modal" class="modal hide" >
-    <div class="modal-header"><h2>Pengguna baru</h2></div>
-    <div class="modal-body">
-        <form class="form-horizontal" data-bind="with: profile">
-            <div class="control-group">
-                <label for="Username" class="span2">Nama pengguna :</label>
-                <div class="controls">
-                    <input data-bind="value: UserName" id="Username" type="text" name="Username" />
-                    <div data-bind="visible: IsNew()">
-                        <i class="icon-spinner icon-spin icon-large" data-bind="visible: $root.isBusyValidatingUserName"></i>
-                        <span class="help-block alert alert-error" data-bind="text: $root.userNameValidationStatus, visible: $root.userNameValidationStatus() "></span>
+﻿<div id="user-details-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2>Pengguna baru</h2>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" data-bind="with: profile">
+                    <div class="form-group">
+                        <label for="Username" class="">Nama pengguna :</label>
+                        <div class="controls">
+                            <input class="form-control" data-bind="value: UserName" id="Username" type="text" name="Username" />
+                            <div data-bind="visible: IsNew()">
+                                <i class="icon-spinner icon-spin icon-large" data-bind="visible: $root.isBusyValidatingUserName"></i>
+                                <span class="help-block alert alert-danger" data-bind="text: $root.userNameValidationStatus, visible: $root.userNameValidationStatus() "></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" data-bind="visible: IsNew()">
+                        <label for="Password" class="">Password :</label>
+                        <div class="controls">
+                            <input class="form-control" data-bind="value: Password" id="Password" type="password" name="Password" />
+                        </div>
+                    </div>
+                    <div class="form-group" data-bind="visible: IsNew()">
+                        <label for="ConfirmPassword" class="">Confirm Password :</label>
+                        <div class="controls">
+                            <input class="form-control" data-bind="value: ConfirmPassword" id="ConfirmPassword" type="password" name="ConfirmPassword" />
+                        </div>
                     </div>
 
-                </div>
-            </div>
-            <div class="control-group" data-bind="visible: IsNew()">
-                <label for="Password" class="span2">Password :</label>
-                <div class="controls">
-                    <input data-bind="value: Password" id="Password" type="password" name="Password" />
-                </div>
-            </div>
-            <div class="control-group" data-bind="visible: IsNew()">
-                <label for="ConfirmPassword" class="span2">Confirm Password :</label>
-                <div class="controls">
-                    <input data-bind="value: ConfirmPassword" id="ConfirmPassword" type="password" name="ConfirmPassword" />
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label for="FullName" class="span2">Nama penuh :</label>
-                <div class="controls">
-                    <input data-bind="value: FullName" id="FullName" type="text" name="FullName" />
-                </div>
-            </div>
-            <div class="control-group">
-                <label for="Email" class="span2">Emel :</label>
-                <div class="controls">
-                    <input data-bind="value: Email" id="Email" type="text" name="Email" />
-                    <div data-bind="visible: IsNew()">
-                        <i class="icon-spinner icon-spin icon-large" data-bind="visible: $root.isBusyValidatingEmail"></i>
-                        <span class="help-block alert alert-error" data-bind="text: $root.emailValidationStatus, visible: $root.emailValidationStatus() "></span>
+                    <div class="form-group">
+                        <label for="FullName" class="">Nama penuh :</label>
+                        <div class="controls">
+                            <input class="form-control" data-bind="value: FullName" id="FullName" type="text" name="FullName" />
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="control-group" data-bind="with: $parent.departmentOptions">
-                <label for="department" class="span2">Jabatan :</label>
-                <div class="controls">
-                    <select id="department" name="department" data-bind="options: $data, optionsText: 'Name', optionsValue: 'Name', value: $parent.Department, optionsCaption: '[Sila Pilih]'"></select>
-                </div>
-            </div>
-            <div class="control-group" data-bind="with: $parent.designationOptions">
-                <label for="designation" class="span2">Jawatan :</label>
-                <div class="controls">
-                    <select id="designation" name="designation" data-bind="options: $data, value: $parent.Designation, optionsCaption: '[Sila Pilih]'"></select>
-                </div>
-            </div>
-            <div class="control-group">
-                <label for="Telephone" class="span2">No. Telefon :</label>
-                <div class="controls">
-                    <input data-bind="value: Telephone" id="Telephone" type="text" name="Telephone" />
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label for="Email" class="">Emel :</label>
+                        <div class="controls">
+                            <input class="form-control" data-bind="value: Email" id="Email" type="text" name="Email" />
+                            <div data-bind="visible: IsNew()">
+                                <i class="icon-spinner icon-spin icon-large" data-bind="visible: $root.isBusyValidatingEmail"></i>
+                                <span class="help-block alert alert-danger" data-bind="text: $root.emailValidationStatus, visible: $root.emailValidationStatus() "></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" data-bind="with: $parent.departmentOptions">
+                        <label for="department" class="">Jabatan :</label>
+                        <div class="controls">
+                            <select class="form-control" id="department" name="department" data-bind="options: $data, optionsText: 'Name', optionsValue: 'Name', value: $parent.Department, optionsCaption: '[Sila Pilih]'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group" data-bind="with: $parent.designationOptions">
+                        <label for="designation" class="">Jawatan :</label>
+                        <div class="controls">
+                            <select class="form-control" id="designation" name="designation" data-bind="options: $data, value: $parent.Designation, optionsCaption: '[Sila Pilih]'"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Telephone" class="">No. Telefon :</label>
+                        <div class="controls">
+                            <input class="form-control" data-bind="value: Telephone" id="Telephone" type="text" name="Telephone" />
+                        </div>
+                    </div>
 
-        </form>
-    </div>
-    <div class="modal-footer">
-        <input type="button" id="save-button" class="btn btn-primary" data-bind="click: saveCommand" data-dismiss="modal" value="Simpan" />
-        <input type="button" class="btn" data-dismiss="modal" value="Batal" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input type="button" id="save-button" class="btn btn-primary" data-bind="click: saveCommand" data-dismiss="modal" value="Simpan" />
+                <input type="button" class="btn btn-default" data-dismiss="modal" value="Batal" />
+            </div>
+        </div>
     </div>
 </div>

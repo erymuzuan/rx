@@ -2,10 +2,10 @@
     ViewBag.Title = "Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div>
-    <h1 class="row-fluid">Pengurusan Pengguna</h1>
+<div class="row">
+    <h1 class="col-lg-12">Pengurusan Pengguna</h1>
 </div>
-<div class="tabbable row-fluid">
+<div class="tabbable row">
     <ul class="nav nav-tabs">
         <li class="active">
             <a href="#user-tab" data-toggle="tab">Pengguna</a>
@@ -20,8 +20,8 @@
 
     <div class="tab-content">
         <div id="user-tab" class="tab-pane active">
-            <div class="search-panel row row-fluid" data-bind="with: searchTerm">
-                <form class="form-inline form-search">
+            <div class="search-panel row" data-bind="with: searchTerm">
+                <form class="form-inline">
                     <label>Jabatan</label>
                     <select data-bind="options: $root.departmentOptions, value: department, optionsText: 'Name', optionsValue: 'Name'" ></select>
 
@@ -58,7 +58,7 @@
                             <td data-bind="text: Designation"></td>
                             <td data-bind="text: Email"></td>
                             <td>
-                                <a data-toggle="modal" class="k-button" href="#user-change-password" data-bind="click: $root.resetPasswordCommand">Reset</a>
+                                <a data-toggle="modal" href="#user-change-password" data-bind="click: $root.resetPasswordCommand">Reset</a>
                             </td>
                         </tr>
                     </tbody>
