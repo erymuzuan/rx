@@ -9,6 +9,7 @@
 }
 span.k-datepicker {
   border: none;
+  width: 200px;
 }
 span.k-datepicker span.k-picker-wrap {
   margin-top: -6px;

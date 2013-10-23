@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (null == content)
                 return Redirect("/images/no-image.png");
 
-            var thumbnail = Server.MapPath("~/thumbnails/" + id + ".jpg");
+            var thumbnail = Server.MapPath("~/thumbnails/" + id + content.Extension);
 
             if (System.IO.File.Exists(thumbnail)) return File(thumbnail, MimeMapping.GetMimeMapping(thumbnail));
 

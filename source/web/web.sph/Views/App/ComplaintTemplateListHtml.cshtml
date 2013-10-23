@@ -4,17 +4,11 @@
     ViewBag.Title = "title";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="row">
+    <h1 class="col-lg-12">Templat Aduan</h1>
+</div>
 
-<h1 class="row-fluid">Templat Aduan</h1>
-
-<form class="form-search">
-    <div class="input-append pull-right">
-        <input id="complait-template-filter-text" type="search" class="search-query input-medium" placeholder="Tapis..">
-        <i class="add-on icon-remove"></i>
-    </div>
-</form>
-
-<table class="table table-striped">
+<table class="table table-striped" data-bind="filter : {path:'tbody>tr'}">
     <thead>
         <tr>
             <th>Nama</th>
@@ -25,11 +19,11 @@
     <tbody data-bind="foreach:templates">
         <tr>
             <td>
-                 <a data-bind="attr: { href: '/#/template.complaint-id.0/' + ComplaintTemplateId() }, text: Name"></a>
-             </td>
+                <a data-bind="attr: { href: '/#/template.complaint-id.0/' + ComplaintTemplateId() }, text: Name"></a>
+            </td>
             <td data-bind="text: FormDesign().Description"></td>
             <td>
-                <input type="checkbox" data-bind="checked:IsActive"/>
+                <input type="checkbox" data-bind="checked:IsActive" />
             </td>
         </tr>
     </tbody>
