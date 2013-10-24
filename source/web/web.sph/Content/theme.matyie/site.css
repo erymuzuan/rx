@@ -7,6 +7,16 @@
 #toolbar-panel {
   background-color: transparent;
 }
+span.k-datepicker {
+  border: none;
+  width: 200px;
+}
+span.k-datepicker span.k-picker-wrap {
+  margin-top: -6px;
+}
+span.k-datepicker span.k-picker-wrap input.form-control {
+  height: 32px;
+}
 .google-maps-medium {
   min-height: 430px;
 }
@@ -30,8 +40,8 @@
   width: 900px;
   height: 500px;
 }
-.google-maps div.modal-body {
-  width: 900px;
+.google-maps div.modal-dialog {
+  width: 960px;
   height: 500px;
   max-height: 500px;
 }

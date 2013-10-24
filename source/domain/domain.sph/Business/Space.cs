@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bespoke.Sph.Domain
 {
@@ -16,17 +17,19 @@ namespace Bespoke.Sph.Domain
         public object ValidateBusinessRule(IEnumerable<BusinessRule> businessRules)
         {
             var context = new RuleContext(this);
-            string message = "";
+            var message = "";
+            var messages = new List<string>();
             foreach (var br in businessRules)
             {
+                
                 foreach (var r in br.RuleCollection)
-                {   Console.WriteLine(r);
+                {   
                     var result = r.Execute(context);
                     message = result ? "rule berjaya" : br.ErrorMessage;
                 }
-                return message;
+                messages.Add(message);
             }
-            return null;
+            return string.Join(",",messages);
         }
     }
    

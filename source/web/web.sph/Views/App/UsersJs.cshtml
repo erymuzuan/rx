@@ -58,6 +58,8 @@
                 vm.profile().IsNew(true);
                 vm.profile().UserName('');
                 vm.profile().Email('');
+                vm.profile().UserName.subscribe(userNameChaged);
+                
                 $('#user-details-modal').modal();
             },
             editedProfile = ko.observable(),
@@ -111,6 +113,23 @@
                 return tcs.promise();
                 
                 
+            }, 
+            userNameChaged = function(username) {
+                vm.isBusyValidatingUserName(true);
+                var tcs = new $.Deferred();
+                var data = JSON.stringify({userName : username});
+                isBusy(true);
+                context.post(data, "/Admin/ValidateUserName")
+                    .then(function(result) {
+                        isBusy(false);
+                        vm.isBusyValidatingUserName(false);
+                        if (result.status !== "OK") {
+                            vm.userNameValidationStatus(result.message);
+                        }
+
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
             };
 
 
@@ -154,23 +173,6 @@
             })
         };
         
-        vm.profile().UserName.subscribe(function(username) {
-            vm.isBusyValidatingUserName(true);
-            var tcs = new $.Deferred();
-            var data = JSON.stringify({userName : username});
-            isBusy(true);
-            context.post(data, "/Admin/ValidateUserName")
-                .then(function(result) {
-                    isBusy(false);
-                    vm.isBusyValidatingUserName(false);
-                    if (result.status !== "OK") {
-                        vm.userNameValidationStatus(result.message);
-                    }
-
-                    tcs.resolve(result);
-                });
-            return tcs.promise();
-        });
         
         return vm;
         

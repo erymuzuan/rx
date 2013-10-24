@@ -4,68 +4,71 @@
     Layout = null;
     var row = 1;
 }
+<div class="row">
+    <h1 class="col-lg-12">Maklumat Jawatan</h1>
+</div>
+<div class="row">
+    <form class="form-horizontal" data-bind="with: designation">
 
-<h1 class="row-fluid">Maklumat Jawatan</h1>
-<form class="form-horizontal" data-bind="with: designation">
-    
-  
-    <div class="control-group">
-        <label for="Name" class="control-label">Nama Jawatan</label>
-        <div class="controls">
-            <input class="input-xxlarge" data-bind="value: Name" id="Name" type="text" name="Name" />
+
+        <div class="form-group">
+            <label for="Name" class="control-label">Nama Jawatan</label>
+            <div class="controls">
+                <input class="form-control" data-bind="value: Name" id="Name" type="text" name="Name" />
+            </div>
         </div>
-    </div>
 
-    <div class="control-group">
-        <label for="description" class="control-label">Keterangan</label>
-        <div class="controls">
-            <textarea class="input-xxlarge" rows="8" data-bind="value: Description" id="description" name="description"></textarea>
+        <div class="form-group">
+            <label for="description" class="control-label">Keterangan</label>
+            <div class="controls">
+                <textarea class="form-control" rows="8" data-bind="value: Description" id="description" name="description"></textarea>
+            </div>
         </div>
-    </div>
 
-    <div class="control-group">
-        <label for="StartModule" class="control-label">Modul Permulaan</label>
-        <div class="controls">
-            <select id="StartModule" data-bind="value: StartModule">
-                @foreach (var r in Model.Routes.Where(j => j.Visible))
-                {
-                    <option value="@r.Url">@r.Name</option>
-        
-                }
-            </select>
+        <div class="form-group">
+            <label for="StartModule" class="control-label">Modul Permulaan</label>
+            <div class="controls">
+                <select class="form-control" id="StartModule" data-bind="value: StartModule">
+                    @foreach (var r in Model.Routes.Where(j => j.Visible))
+                    {
+                        <option value="@r.Url">@r.Name</option>
+
+                    }
+                </select>
+            </div>
         </div>
-    </div>
 
-    <div class="control-group">
-        <span>Sila <i class="icon-ok"></i> bagi menetapkan kebenaran akses bagi jawatan yang ingin didaftarkan</span>
-    </div>
+        <div class="form-group">
+            <span>Sila <i class="icon-ok"></i> bagi menetapkan kebenaran akses bagi jawatan yang ingin didaftarkan</span>
+        </div>
 
-    <div>
-        <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Role</th>
-                    <th>Keterangan</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var r in Model.Roles.OrderBy(e => e.Name))
-                {
+        <div>
+            <table class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
+                <thead>
                     <tr>
-                        <td>@(row++)</td>
-                        <td>
-                            <label class="checkbox" title="@r.Role">
-                                <input data-bind="checked: RoleCollection" value="@r.Role"
-                                       type="checkbox" name="role" />
-                                @r.Name
-                                                    </label>
-                        </td>
-                        <td><span class="help-block">@r.Description</span></td>
+                        <th>#</th>
+                        <th>Role</th>
+                        <th>Keterangan</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</form>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model.Roles.OrderBy(e => e.Name))
+                    {
+                        <tr>
+                            <td>@(row++)</td>
+                            <td>
+                                <label class="checkbox" title="@r.Role">
+                                    <input data-bind="checked: RoleCollection" value="@r.Role"
+                                           type="checkbox" name="role" />
+                                    @r.Name
+                                </label>
+                            </td>
+                            <td><span class="help-block">@r.Description</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </form>
 
+</div>

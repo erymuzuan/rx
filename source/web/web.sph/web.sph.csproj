@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bespoke.Sph.Web</RootNamespace>
     <AssemblyName>web.sph</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -159,9 +159,9 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
@@ -392,11 +392,8 @@
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
     <Content Include="App\partial\Block.js" />
-    <Content Include="App\partial\Rule.js" />
     <Content Include="App\partial\FeatureDefinition.js" />
     <Content Include="App\partial\IFormTemplate.js" />
-    <Content Include="App\partial\BusinessRule.js" />
-    <Content Include="App\partial\SpaceTemplate.js" />
     <Content Include="App\partial\Space.js" />
     <Content Include="App\partial\Complaint.js" />
     <Content Include="App\partial\ConstantField.js" />
@@ -438,7 +435,6 @@
     <Content Include="App\viewmodels\block.map.js" />
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
-    <Content Include="App\viewmodels\field.document.js" />
     <Content Include="App\viewmodels\maintenance.officer.dashboard.js" />
     <Content Include="App\viewmodels\public.check.application.js" />
     <Content Include="App\viewmodels\rentalapplication.onbehalf.js" />
@@ -490,7 +486,6 @@
     <Content Include="App\views\block.map.html" />
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\chats.html" />
-    <Content Include="App\views\field.document.html" />
     <Content Include="App\views\maintenance.officer.dashboard.html" />
     <Content Include="App\views\public.check.application.html" />
     <Content Include="App\views\rentalapplication.onbehalf.html" />
@@ -682,30 +677,6 @@
     <Content Include="Content\theme.default\space.min.css">
       <DependentUpon>space.less</DependentUpon>
     </Content>
-    <Content Include="Content\theme.imanyer\building.css" />
-    <Content Include="Content\theme.imanyer\building.min.css" />
-    <Content Include="Content\theme.imanyer\dashboard.css" />
-    <Content Include="Content\theme.imanyer\dashboard.min.css" />
-    <Content Include="Content\theme.imanyer\header.css" />
-    <Content Include="Content\theme.imanyer\header.min.css" />
-    <Content Include="Content\theme.imanyer\nav.css" />
-    <Content Include="Content\theme.imanyer\nav.min.css" />
-    <Content Include="Content\theme.imanyer\public.index.css" />
-    <Content Include="Content\theme.imanyer\public.index.min.css" />
-    <Content Include="Content\theme.imanyer\rentalapplication.css" />
-    <Content Include="Content\theme.imanyer\rentalapplication.min.css" />
-    <Content Include="Content\theme.imanyer\report.css" />
-    <Content Include="Content\theme.imanyer\report.min.css" />
-    <Content Include="Content\theme.imanyer\site.css" />
-    <Content Include="Content\theme.imanyer\site.min.css" />
-    <Content Include="Content\theme.imanyer\space.css" />
-    <Content Include="Content\theme.imanyer\space.min.css" />
-    <Content Include="Content\theme.imanyer\theme.js" />
-    <Content Include="Content\theme.imanyer\theme.min.js" />
-    <Content Include="Content\theme.imanyer\user.css" />
-    <Content Include="Content\theme.imanyer\user.min.css" />
-    <Content Include="Content\theme.imanyer\variables.css" />
-    <Content Include="Content\theme.imanyer\variables.min.css" />
     <Content Include="Content\theme.matyie\building.css">
       <DependentUpon>building.less</DependentUpon>
     </Content>
@@ -1007,18 +978,24 @@
     <Content Include="App\viewmodels\application.detail.min.js.map">
       <DependentUpon>application.detail.js</DependentUpon>
     </Content>
-    <Content Include="Content\theme.imanyer\building.less" />
-    <Content Include="Content\theme.imanyer\dashboard.less" />
-    <Content Include="Content\theme.imanyer\header.less" />
-    <Content Include="Content\theme.imanyer\nav.less" />
-    <Content Include="Content\theme.imanyer\public.index.less" />
-    <Content Include="Content\theme.imanyer\rentalapplication.less" />
-    <Content Include="Content\theme.imanyer\report.less" />
-    <Content Include="Content\theme.imanyer\site.less" />
-    <Content Include="Content\theme.imanyer\space.less" />
-    <Content Include="Content\theme.imanyer\theme.min.js.map" />
-    <Content Include="Content\theme.imanyer\user.less" />
-    <Content Include="Content\theme.imanyer\variables.less" />
+    <Content Include="App\viewmodels\contract.template.min.js.map">
+      <DependentUpon>contract.template.js</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\rentalapplication.verify.min.js.map">
+      <DependentUpon>rentalapplication.verify.js</DependentUpon>
+    </Content>
+    <Content Include="App\objectbuilders.min.js.map">
+      <DependentUpon>objectbuilders.js</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\reportdefinition.edit.min.js.map">
+      <DependentUpon>reportdefinition.edit.js</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\land.detail.min.js.map">
+      <DependentUpon>land.detail.js</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\map.min.js.map">
+      <DependentUpon>map.js</DependentUpon>
+    </Content>
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
@@ -1489,13 +1466,13 @@
     <Content Include="Views\App\TenantPortalJs.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
     <Content Include="Views\App\TriggerSetupHtml.cshtml" />
-    <Content Include="Views\Shared\_TriggerSetterAction.cshtml" />
-    <Content Include="Views\Shared\_TriggerEmailAction.cshtml" />
-    <Content Include="Views\Shared\_TriggerFunctionField.cshtml" />
-    <Content Include="Views\Shared\_TriggerDocumentField.cshtml" />
-    <Content Include="Views\Shared\_TriggerConstantField.cshtml" />
-    <Content Include="Views\Shared\_TriggerFieldDropDown.cshtml" />
-    <Content Include="Views\Shared\_TriggerChangedField.cshtml" />
+    <Content Include="Views\App\_TriggerSetterAction.cshtml" />
+    <Content Include="Views\App\_TriggerEmailAction.cshtml" />
+    <Content Include="Views\App\_TriggerFunctionField.cshtml" />
+    <Content Include="Views\App\_TriggerDocumentField.cshtml" />
+    <Content Include="Views\App\_TriggerConstantField.cshtml" />
+    <Content Include="Views\App\_TriggerFieldDropDown.cshtml" />
+    <Content Include="Views\App\_TriggerChangedField.cshtml" />
     <Content Include="Views\RentalApplication\Print.cshtml" />
     <Content Include="Views\App\SpaceDetailHtml.cshtml" />
     <Content Include="Views\Shared\CustomFieldHtml.cshtml" />
@@ -1692,7 +1669,9 @@
       <DependentUpon>_ko.bootstrap.js</DependentUpon>
     </Content>
     <Content Include="Views\Template\_ValidationSetting.cshtml" />
-    <Content Include="Views\Template\_BusinessRule.cshtml" />
+    <Content Include="Scripts\_ko.kendo.min.js.map">
+      <DependentUpon>_ko.kendo.js</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,17 +1,13 @@
 ﻿<div id="complaint.checkstatus-page">
     <h1>Semak status aduan anda</h1>
-    <form class="form-horizontal">
-        <div class="control-group">
-            <label for="tiket-no" class="control-label">No tiket aduan</label>
-            <div class="controls">
-                <input data-bind="value: ticketNo" id="tiket-no" type="text" name="TicketNo" />
-            </div>
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="tiket-no" class="sr-only">No tiket aduan</label>
+            <input class="form-control" data-bind="value: ticketNo" id="tiket-no" type="text" name="TicketNo" placeholder="No ticket aduan" />
         </div>
-        <div class="control-group">
-            <label class="control-label">-</label>
-            <div class="controls">
-                <input type="submit" class="btn btn-success" value="Submit" data-bind="command : search" />
-            </div>
+        <div class="form-group">
+            <label class="sr-only">Submit</label>
+            <input type="submit" class="btn btn-primary" value="Submit" data-bind="command : search" />
         </div>
     </form>
 
@@ -33,15 +29,15 @@
             </tr>
         </tbody>
     </table>
-    
-    <section class="modal hide" id="complaint-details-dialog" >
+
+    <section class="modal hide" id="complaint-details-dialog">
 
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h3>Maklumat Aduan</h3>
         </div>
         <div class="modal-body" data-bind="with : selectedItem">
-            
+
         </div>
 
         <div class="modal-footer">

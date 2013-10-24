@@ -10,7 +10,8 @@
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../objectbuilders.js" />
 
-define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router], function (context, logger, router) {
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.eximp],
+    function (context, logger, router, eximp) {
 
     var id = ko.observable(),
         app = ko.observable(),
@@ -186,7 +187,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
 
         printList = function () { },
 
-        exportList = function () { },
+        exportList = function() {
+            return eximp.exportJson("rental.application." + vm.rentalapplication().RentalApplicationId() + ".json", ko.toJSON(vm.rentalapplication()));
+
+        },
 
         lulusPermohonanCommandStatus = ko.observable(),
         baruCommandStatus = ko.observable(),

@@ -1,14 +1,14 @@
 ﻿@using Bespoke.Sph.Domain
 
-<button class="btn btn-link pull-right" data-bind="click : $root.addParameter">+ parameter</button>
+<button class="btn btn-link pull-right" data-bind="click : $root.addParameter">+ Parameter</button>
 
 
 <table class="table table-striped" data-bind="with : DataSource">
     <colgroup>
         <col style="width: 20%" />
         <col style="width: 20%" />
-        <col style="width: 10%" />
-        <col style="width: 10%" />
+        <col style="width: 20%" />
+        <col style="width: 20%" />
         <col style="width: 20%" />
         <col style="width: 10%" />
     </colgroup>
@@ -25,13 +25,13 @@
     <tbody data-bind="foreach :ParameterCollection">
         <tr>
             <td>
-                <input type="text" data-bind="value:Name" class="input-medium input-parameter-name" />
+                <input type="text" data-bind="value:Name" class="form-control input-parameter-name" />
             </td>
             <td>
-                <input type="text" data-bind="value:Label" class="input-parameter-label" />
+                <input type="text" data-bind="value:Label" class="input-parameter-label form-control" />
             </td>
             <td>
-                <select data-bind="value:TypeName" class="input-medium input-parameter-type">
+                <select data-bind="value:TypeName" class="form-control input-parameter-type">
                     <option value="@typeof(string).GetShortAssemblyQualifiedName()">String</option>
                     <option value="@typeof(int).GetShortAssemblyQualifiedName()">Number</option>
                     <option value="@typeof(decimal).GetShortAssemblyQualifiedName()">Decimal</option>
@@ -40,10 +40,10 @@
                 </select>
             </td>
             <td>
-                <input type="text" data-bind="value:DefaultValue" class="input-medium" />
+                <input type="text" data-bind="value:DefaultValue" class="form-control" />
             </td>
             <td>
-                <input type="text" data-bind="value:AvailableValues" class="input-medium" />
+                <input type="text" data-bind="value:AvailableValues" class="form-control" />
             </td>
             <td>
                 <button class="btn btn-link" data-bind="click : $root.removeParameter">Buang</button>

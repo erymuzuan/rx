@@ -164,7 +164,7 @@ namespace Bespoke.Sph.Web.Controllers
             using (var session = context.OpenSession())
             {
                 session.Attach(dbItem, audit);
-                await session.SubmitChanges();
+                await session.SubmitChanges("Decline");
             }
 
             return Json(true);
@@ -458,7 +458,7 @@ namespace Bespoke.Sph.Web.Controllers
             using (var session = context.OpenSession())
             {
                 session.Attach(dbItem, audit);
-                await session.SubmitChanges();
+                await session.SubmitChanges("Complete");
             }
 
             return Json(true);

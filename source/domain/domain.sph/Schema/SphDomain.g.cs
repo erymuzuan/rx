@@ -5363,6 +5363,16 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIcNo = "IcNo";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_title;
+        public const string PropertyNameTitle = "Title";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_designation;
+        public const string PropertyNameDesignation = "Designation";
+
+
         ///<summary>
         /// 
         ///</summary>
@@ -5529,6 +5539,64 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_icNo;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Title
+        {
+            set
+            {
+                if (String.Equals(m_title, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTitle, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_title = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_title;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Designation
+        {
+            set
+            {
+                if (String.Equals(m_designation, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDesignation, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_designation = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_designation;
             }
         }
 

@@ -4,44 +4,44 @@
 }
 
 <h1>Profil @User.Identity.Name</h1>
-<div>
+<div class="row">
     <form class="form-horizontal" data-bind="with: userProfile">
-        <div class="control-group">
+        <div class="form-group">
             <label for="FullName" class="control-label">Nama penuh</label>
             <div class="controls">
-                <input class="input-xxlarge" data-bind="value: FullName" id="FullName" type="text" name="FullName" />
+                <input class="form-control" data-bind="value: FullName" id="FullName" type="text" name="FullName" />
             </div>
         </div>
-        <div class="control-group">
+        <div class="form-group">
             <label for="email" class="control-label">Email</label>
             <div class="controls">
-                <input data-bind="value: Email" id="email" type="email" name="email" />
+                <input class="form-control" data-bind="value: Email" id="email" type="email" name="email" />
             </div>
         </div>
-        <div class="control-group">
+        <div class="form-group">
             <label for="email" class="control-label">Jabatan </label>
             <div class="controls">
                 <span data-bind="text: Department" />
             </div>
         </div>
-        <div class="control-group">
+        <div class="form-group">
             <label for="email" class="control-label">Jawatan </label>
             <div class="controls">
                 <span data-bind="text: Designation" />
             </div>
         </div>
-        <div class="control-group">
+        <div class="form-group">
             <label for="startModule" class="control-label">startModule </label>
             <div class="controls">
-                <select id="startModule" data-bind="value: StartModule,options: $root.startModuleOptions, optionText: 'Muka mula'">
+                <select class="form-control" id="startModule" data-bind="value: StartModule,options: $root.startModuleOptions, optionText: 'Muka mula'">
                     
                 </select>
             </div>
         </div>
-        <div class="control-group">
+        <div class="form-group">
             <label for="Telephone" class="control-label">No Telefon </label>
             <div class="controls">
-                <input data-bind="value: Telephone" id="Telephone" type="text" name="Telephone" />
+                <input class="form-control" data-bind="value: Telephone" id="Telephone" type="text" name="Telephone" />
             </div>
         </div>
 

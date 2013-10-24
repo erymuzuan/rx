@@ -381,6 +381,8 @@
 			<xs:attribute name="OfficeNo" type="xs:string" use="optional"/>
 			<xs:attribute name="Email" type="xs:string" use="required"/>
 			<xs:attribute name="IcNo" type="xs:string" use="required"/>
+			<xs:attribute name="Title" type="xs:string" use="required"/>
+			<xs:attribute name="Designation" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ContractTemplate">

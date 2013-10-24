@@ -64,31 +64,6 @@ define([objectbuilders.datacontext, 'durandal/system', './template.base', 'servi
 
             },
             viewAttached = function(view) {
-                $("#imageStoreId").kendoUpload({
-                    async: {
-                        saveUrl: "/BinaryStore/Upload",
-                        removeUrl: "/BinaryStore/Remove",
-                        autoUpload: true
-                    },
-                    multiple: false,
-                    error: function (e) {
-                    },
-                    success: function (e) {
-                        var storeId = e.response.storeId;
-                        var uploaded = e.operation === "upload";
-                        var removed = e.operation != "upload";
-                        // NOTE : the input file name is "files" and the id should equal to the vm.propertyName
-                        if (uploaded) {
-                            vm.template().FormDesign().ImageStoreId(storeId);
-                        }
-
-                        if (removed) {
-                            vm.template().FormDesign().ImageStoreId("");
-                        }
-
-
-                    }
-                });
                 templateBase.viewAttached(view);
             },
             addComplaintCategory = function () {

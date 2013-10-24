@@ -134,7 +134,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                      tcs.resolve(true);
                  }, 500);
 
-                 $('#configuration-panel').modal();
+                 $('#rdl-configuration-panel').modal();
                  return tcs.promise();
              },
             removeParameter = function (p) {
@@ -170,20 +170,14 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                 return eximp.importJson()
                     .done(function (json) {
                         try {
-                            var orig = new bespoke.sph.domain.ReportDefinition(),
-                                extended = _(orig).extend(JSON.parse(json));
+                            var clone = context.toObservable(JSON.parse(json));
 
-                            _(extended.DataSource.ParameterCollection).each(function(p) {
+                            _(clone.DataSource.ParameterCollection).each(function(p) {
                                 if (!p.DefaultValue) {
                                     p.DefaultValue = "";
                                 }
                             });
-                            var clone = ko.mapping.fromJS(extended);
-                            
                             clone.ReportDefinitionId(0);
-                            if (typeof clone.DataSource !== "function") {
-                                clone.DataSource = ko.observable(clone.DataSource);
-                            }
                             loadEntityColumns(clone.DataSource().EntityName());
                             setRdl(clone);
                         } catch (error) {

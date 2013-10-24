@@ -31,9 +31,6 @@ define(['services/datacontext', 'config', 'viewmodels/map', 'services/logger'],
 
 
             },
-            viewAttached = function (view) {
-
-            },
             save = function () {
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.land);
@@ -47,10 +44,22 @@ define(['services/datacontext', 'config', 'viewmodels/map', 'services/logger'],
             },
              showMap = function () {
 
-                 var tcs = new $.Deferred();
-                 $('#land-map-panel').modal();
-                 var point = new google.maps.LatLng(3.1282, 101.6441),
+                 var tcs = new $.Deferred(),
+                     initMapAndSetCenter = function (center) {
+                         return mapvm.init({
+                             panel: 'map',
+                             draw: true,
+                             polygoncomplete: polygoncomplete,
+                             zoom: 18
+                         }).done(function () {
+                             mapvm.setCenter(center);
+                         });
+                     },
+                     point = { lat: 3.1282, lng: 101.6441 },
                      landId = vm.land().LandId();
+
+
+                 $('#land-map-panel').modal();
                  if (!landId) {
                      mapvm.geocode(
                           vm.land().Address().Street() + ","
@@ -59,24 +68,7 @@ define(['services/datacontext', 'config', 'viewmodels/map', 'services/logger'],
                         + vm.land().Address().State() + ","
                         + "Malaysia.")
                      .then(function (result) {
-                         if (result.status) {
-                             mapvm.init({
-                                 panel: 'map',
-                                 draw: true,
-                                 polygoncomplete: polygoncomplete,
-                                 zoom: 18,
-                                 center: result.point
-                             });
-                         } else {
-                             mapvm.init({
-                                 panel: 'map',
-                                 draw: true,
-                                 polygoncomplete: polygoncomplete,
-                                 zoom: center[0] ? 18 : 12,
-                                 center: point
-                             });
-                         }
-
+                         initMapAndSetCenter(result.status ? result.point : point);
                          tcs.resolve(true);
                      });
                      return tcs.promise();
@@ -87,23 +79,20 @@ define(['services/datacontext', 'config', 'viewmodels/map', 'services/logger'],
                  $.when(pathTask, centerTask)
                  .then(function (path, center) {
                      if (center[0]) {
-                         point = new google.maps.LatLng(center[0].Lat, center[0].Lng);
+                         point = { lat: center[0].Lat, lng: center[0].Lng };
                      }
-                     mapvm.init({
-                         panel: 'map',
-                         draw: true,
-                         polygoncomplete: polygoncomplete,
-                         zoom: center[0] ? 18 : 12,
-                         center: point
-                     });
-                     if (path[0]) {
-                         landPolygon = mapvm.add({
-                             encoded: path[0],
-                             draggable: true,
-                             editable: true,
-                             zoom: 18
+                     initMapAndSetCenter(point)
+                         .done(function () {
+
+                             if (path[0]) {
+                                 landPolygon = mapvm.add({
+                                     encoded: path[0],
+                                     draggable: true,
+                                     editable: true,
+                                     zoom: 18
+                                 });
+                             }
                          });
-                     }
                      tcs.resolve(true);
 
                  });
@@ -133,11 +122,10 @@ define(['services/datacontext', 'config', 'viewmodels/map', 'services/logger'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
             land: ko.observable(),
             saveMapCommand: saveMap,
             showMapCommand: showMap,
-            stateOptions : ko.observableArray([{Name : 'Kelantan'}]),
+            stateOptions: ko.observableArray([{ Name: 'Kelantan' }]),
             toolbar: {
                 saveCommand: save
             }

@@ -269,7 +269,12 @@ define([],
         }
 
 
-        function setCenter(lat, lng) {
+        function setCenter(latOrPoint, lng) {
+            var lat = 0;
+            if (typeof latOrPoint === "object") {
+                lat = latOrPoint.lat;
+                lng = latOrPoint.lng;
+            }
             var p = new google.maps.LatLng(lat, lng);
             map.setCenter(p);
 

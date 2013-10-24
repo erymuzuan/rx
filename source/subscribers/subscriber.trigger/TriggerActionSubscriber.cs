@@ -66,7 +66,6 @@ namespace Bespoke.Sph.CustomTriggers
             {
                 try
                 {
-
                     var result = rule.Execute(new RuleContext(item) { Log = header.Log });
                     if (!result)
                     {
