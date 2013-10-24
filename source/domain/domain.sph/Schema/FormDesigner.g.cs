@@ -391,6 +391,17 @@
 			get{ return m_CustomListDefinitionCollection;}
 			}
 		
+			private readonly ObjectCollection<BusinessRule>  m_BusinessRuleCollection = new ObjectCollection<BusinessRule> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("BusinessRule", IsNullable = false)]
+			public ObjectCollection<BusinessRule> BusinessRuleCollection
+			{
+			get{ return m_BusinessRuleCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -610,6 +621,17 @@
 			public ObjectCollection<CustomListDefinition> CustomListDefinitionCollection
 			{
 			get{ return m_CustomListDefinitionCollection;}
+			}
+		
+			private readonly ObjectCollection<BusinessRule>  m_BusinessRuleCollection = new ObjectCollection<BusinessRule> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("BusinessRule", IsNullable = false)]
+			public ObjectCollection<BusinessRule> BusinessRuleCollection
+			{
+			get{ return m_BusinessRuleCollection;}
 			}
 		
                 ///<summary>
@@ -856,6 +878,17 @@
 			get{ return m_CustomListDefinitionCollection;}
 			}
 		
+			private readonly ObjectCollection<BusinessRule>  m_BusinessRuleCollection = new ObjectCollection<BusinessRule> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("BusinessRule", IsNullable = false)]
+			public ObjectCollection<BusinessRule> BusinessRuleCollection
+			{
+			get{ return m_BusinessRuleCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -1070,6 +1103,17 @@
 			public ObjectCollection<CustomListDefinition> CustomListDefinitionCollection
 			{
 			get{ return m_CustomListDefinitionCollection;}
+			}
+		
+			private readonly ObjectCollection<BusinessRule>  m_BusinessRuleCollection = new ObjectCollection<BusinessRule> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("BusinessRule", IsNullable = false)]
+			public ObjectCollection<BusinessRule> BusinessRuleCollection
+			{
+			get{ return m_BusinessRuleCollection;}
 			}
 		
                 ///<summary>
@@ -1312,6 +1356,17 @@
 			public ObjectCollection<DefaultValue> DefaultValueCollection
 			{
 			get{ return m_DefaultValueCollection;}
+			}
+		
+			private readonly ObjectCollection<BusinessRule>  m_BusinessRuleCollection = new ObjectCollection<BusinessRule> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("BusinessRule", IsNullable = false)]
+			public ObjectCollection<BusinessRule> BusinessRuleCollection
+			{
+			get{ return m_BusinessRuleCollection;}
 			}
 		
                 ///<summary>
@@ -2716,259 +2771,10 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("FunctionField",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class FunctionField
+          [XmlType("BusinessRule",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class BusinessRule
           {
           
-                    private string  m_Script;
-                    [XmlAttribute]
-                    public  string Script {get{
-                    return m_Script;}
-                    set{
-                    m_Script = value;
-                      RaisePropertyChanged();
-                    }}
-
-                  
-
-          }
-        
-          ///<summary>
-          /// 
-          ///</summary>
-          [DataObject(true)]
-          [Serializable]
-          [XmlType("ConstantField",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class ConstantField
-          {
-          
-                    private string  m_TypeName;
-                    [XmlAttribute]
-                    public  string TypeName {get{
-                    return m_TypeName;}
-                    set{
-                    m_TypeName = value;
-                      RaisePropertyChanged();
-                    }}
-
-                  
-
-          }
-        
-          ///<summary>
-          /// 
-          ///</summary>
-          [DataObject(true)]
-          [Serializable]
-          [XmlType("DocumentField",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class DocumentField
-          {
-          
-                    private string  m_XPath;
-                    [XmlAttribute]
-                    public  string XPath {get{
-                    return m_XPath;}
-                    set{
-                    m_XPath = value;
-                      RaisePropertyChanged();
-                    }}
-
-                  
-                    private string  m_NamespacePrefix;
-                    [XmlAttribute]
-                    public  string NamespacePrefix {get{
-                    return m_NamespacePrefix;}
-                    set{
-                    m_NamespacePrefix = value;
-                      RaisePropertyChanged();
-                    }}
-
-                  
-                    private string  m_TypeName;
-                    [XmlAttribute]
-                    public  string TypeName {get{
-                    return m_TypeName;}
-                    set{
-                    m_TypeName = value;
-                      RaisePropertyChanged();
-                    }}
-
-                  
-                    private string  m_Path;
-                    [XmlAttribute]
-                    public  string Path {get{
-                    return m_Path;}
-                    set{
-                    m_Path = value;
-                      RaisePropertyChanged();
-                    }}
-
-                  
-
-          }
-        
-          ///<summary>
-          /// 
-          ///</summary>
-          [DataObject(true)]
-          [Serializable]
-          [XmlType("FieldChangeField",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class FieldChangeField
-          {
-          
-                    private string  m_Path;
-                    [XmlAttribute]
-                    public  string Path {get{
-                    return m_Path;}
-                    set{
-                    m_Path = value;
-                      RaisePropertyChanged();
-                    }}
-
-                  
-                    private string  m_TypeName;
-                    [XmlAttribute]
-                    public  string TypeName {get{
-                    return m_TypeName;}
-                    set{
-                    m_TypeName = value;
-                      RaisePropertyChanged();
-                    }}
-
-                  
-                    private string  m_OldValue;
-                    [XmlAttribute]
-                    public  string OldValue {get{
-                    return m_OldValue;}
-                    set{
-                    m_OldValue = value;
-                      RaisePropertyChanged();
-                    }}
-
-                  
-                    private string  m_NewValue;
-                    [XmlAttribute]
-                    public  string NewValue {get{
-                    return m_NewValue;}
-                    set{
-                    m_NewValue = value;
-                      RaisePropertyChanged();
-                    }}
-
-                  
-
-          }
-        
-          ///<summary>
-          /// 
-          ///</summary>
-          [DataObject(true)]
-          [Serializable]
-          [XmlType("ValidationRule",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class ValidationRule
-          {
-          
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private Field  m_left;
-                public const string PropertyNameLeft = "Left";
-
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private Field  m_right;
-                public const string PropertyNameRight = "Right";
-
-
-              
-                [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                private Operator  m_operator;
-                public const string PropertyNameOperator = "Operator";
-
-
-              
-
-                ///<summary>
-                /// 
-                ///</summary>
-                [DebuggerHidden]
-				 [JsonProperty(TypeNameHandling = TypeNameHandling.All)] 
-                public Field Left
-                {
-                set
-                {
-                if(m_left == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameLeft, value);
-                OnPropertyChanging(arg);
-                if(! arg.Cancel)
-                {
-                m_left= value;
-                OnPropertyChanged();
-                }
-                }
-                get { return m_left;}
-                }
-              
-
-                ///<summary>
-                /// 
-                ///</summary>
-                [DebuggerHidden]
-				[JsonProperty(TypeNameHandling = TypeNameHandling.All)] 
-                public Field Right
-                {
-                set
-                {
-                if(m_right == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameRight, value);
-                OnPropertyChanging(arg);
-                if(! arg.Cancel)
-                {
-                m_right= value;
-                OnPropertyChanged();
-                }
-                }
-                get { return m_right;}
-                }
-              
-
-                ///<summary>
-                /// 
-                ///</summary>
-                [DebuggerHidden]
-				[JsonConverter(typeof(StringEnumConverter))]
-                public Operator Operator
-                {
-                set
-                {
-                if(m_operator == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameOperator, value);
-                OnPropertyChanging(arg);
-                if(! arg.Cancel)
-                {
-                m_operator= value;
-                OnPropertyChanged();
-                }
-                }
-                get { return m_operator;}
-                }
-              
-
-          }
-        
-          ///<summary>
-          /// 
-          ///</summary>
-          [DataObject(true)]
-          [Serializable]
-          [XmlType("ValidationBusinessRule",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class ValidationBusinessRule
-          {
-          
-                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_message;
-                    public const string PropertyNameMessage = "Message";
-
-                  
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
                     private  string  m_description;
                     public const string PropertyNameDescription = "Description";
@@ -2979,34 +2785,22 @@
                     public const string PropertyNameName = "Name";
 
                   
-                ///<summary>
-                /// 
-                ///</summary>
-                [XmlAttribute]
-                
-                  [Required]
-                
-                [DebuggerHidden]
-                
-                    public string Message
-                    {
-                    set
-                    {
-                    if( String.Equals( m_message, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameMessage, value);
-                    OnPropertyChanging(arg);
-                    if( !arg.Cancel)
-                    {
-                    m_message= value;
-                    OnPropertyChanged();
-                    }
-                    }
-                    get
-                    {
-                    return m_message;}
-                    }
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_errorLocation;
+                    public const string PropertyNameErrorLocation = "ErrorLocation";
 
                   
+			private readonly ObjectCollection<Rule>  m_RuleCollection = new ObjectCollection<Rule> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("ns1:Rule", IsNullable = false)]
+			public ObjectCollection<Rule> RuleCollection
+			{
+			get{ return m_RuleCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -3060,6 +2854,34 @@
                     get
                     {
                     return m_name;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string ErrorLocation
+                    {
+                    set
+                    {
+                    if( String.Equals( m_errorLocation, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameErrorLocation, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_errorLocation= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_errorLocation;}
                     }
 
                   
@@ -3433,93 +3255,6 @@
 
       }
 
-    
-      [XmlType("Field",  Namespace=Strings.DEFAULT_NAMESPACE)]
-      public partial class Field
-      {
-
-      
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-
-        private  string  m_name;
-        public const string PropertyNameName = "Name";
-      
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-
-        private  string  m_note;
-        public const string PropertyNameNote = "Note";
-      
-
-      // public properties members
-      
-
-
-        [XmlAttribute]
-        public string Name
-        {
-        set
-        {
-        if(m_name== value) return;
-        var arg = new PropertyChangingEventArgs(PropertyNameName, value);
-        OnPropertyChanging(arg);
-        if( !arg.Cancel)
-        {
-        m_name= value;
-        OnPropertyChanged();
-        }
-        }
-        get
-        {
-        return m_name;}
-        }
-      
-
-
-        [XmlAttribute]
-        public string Note
-        {
-        set
-        {
-        if(m_note== value) return;
-        var arg = new PropertyChangingEventArgs(PropertyNameNote, value);
-        OnPropertyChanging(arg);
-        if( !arg.Cancel)
-        {
-        m_note= value;
-        OnPropertyChanged();
-        }
-        }
-        get
-        {
-        return m_note;}
-        }
-      
-
-
-      }
-
-    
-      [JsonConverter(typeof(StringEnumConverter))]
-      public enum FieldType
-      {
-      DocumentField,
-      ConstantField,
-      FunctionField,
-      }
-    
-      [JsonConverter(typeof(StringEnumConverter))]
-      public enum Operator
-      {
-      Eq,
-      Lt,
-      Le,
-      Gt,
-      Ge,
-      Substringof,
-      StartsWith,
-      EndsWith,
-      NotContains,
-      }
     
     }
 // ReSharper restore InconsistentNaming

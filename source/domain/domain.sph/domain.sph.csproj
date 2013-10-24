@@ -147,6 +147,9 @@
     <Compile Include="FormTemplates\SectionFormElement.cs" />
     <Compile Include="FormTemplates\TextAreaElement.cs" />
     <Compile Include="FormTemplates\TextBox.cs" />
+    <Compile Include="FormTemplates\BusinessRule.cs" />
+    <Compile Include="FormTemplates\ValidationField.cs" />
+    <Compile Include="FormTemplates\ValidationRule.cs" />
     <Compile Include="FormTemplates\WebsiteFormElement.cs" />
     <Compile Include="Triggers\FunctionField.cs" />
     <Compile Include="IBinaryStore.cs" />

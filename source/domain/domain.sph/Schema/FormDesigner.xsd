@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
-<xs:schema xmlns="http://tempuri.org/FormDesigner.xsd" xmlns:mstns="http://tempuri.org/FormDesigner.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://tempuri.org/FormDesigner.xsd" elementFormDefault="qualified" id="FormDesigner">
+<xs:schema xmlns="http://tempuri.org/FormDesigner.xsd" xmlns:mstns="http://tempuri.org/FormDesigner.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/TriggersWorkflow.xsd" targetNamespace="http://tempuri.org/FormDesigner.xsd" elementFormDefault="qualified" id="FormDesigner">
+	<xs:import namespace="http://tempuri.org/TriggersWorkflow.xsd" schemaLocation="D:\project\work\sph\source\domain\domain.sph\Schema\TriggersWorkflow.xsd"/>
 	<xs:element name="CustomField">
 		<xs:complexType>
 			<xs:all>
@@ -41,6 +42,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="BusinessRuleCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="BusinessRule" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="ComplaintTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -64,6 +72,13 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="CustomListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BusinessRuleCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="BusinessRule" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -94,6 +109,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="BusinessRuleCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="BusinessRule" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="ApplicationTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -117,6 +139,13 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="CustomListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BusinessRuleCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="BusinessRule" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -150,6 +179,13 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="DefaultValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BusinessRuleCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="BusinessRule" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -461,107 +497,20 @@
 			<xs:attribute name="Message" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="Field">
-		<xs:attribute name="Name" type="xs:string" use="required"/>
-		<xs:attribute name="Note" type="xs:string" use="required"/>
-	</xs:complexType>
-	<xs:element name="FunctionField">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="Field">
-					<xs:attribute name="Script" type="xs:string" use="optional"/>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="ConstantField">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="Field">
-					<xs:attribute name="TypeName" type="xs:string" use="required"/>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="DocumentField">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="Field">
-					<xs:attribute name="XPath" type="xs:string" use="optional"/>
-					<xs:attribute name="NamespacePrefix" type="xs:string" use="required"/>
-					<xs:attribute name="TypeName" type="xs:string" use="required"/>
-					<xs:attribute name="Path" type="xs:string" use="required"/>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="FieldChangeField">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="Field">
-					<xs:attribute name="Path" type="xs:string" use="required"/>
-					<xs:attribute name="TypeName" type="xs:string" use="required"/>
-					<xs:attribute name="OldValue" type="xs:string" use="required"/>
-					<xs:attribute name="NewValue" type="xs:string" use="required"/>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:simpleType name="FieldType">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="DocumentField"/>
-			<xs:enumeration value="ConstantField"/>
-			<xs:enumeration value="FunctionField"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:element name="ValidationRule">
+	<xs:element name="BusinessRule">
 		<xs:complexType>
 			<xs:all>
-				<xs:element name="Left" type="Field">
-					<xs:annotation>
-						<xs:appinfo source="attr"> [JsonProperty(TypeNameHandling = TypeNameHandling.All)] </xs:appinfo>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="Right" type="Field">
-					<xs:annotation>
-						<xs:appinfo source="attr">[JsonProperty(TypeNameHandling = TypeNameHandling.All)] </xs:appinfo>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="Operator" type="Operator">
-					<xs:annotation>
-						<xs:appinfo source="attr">[JsonConverter(typeof(StringEnumConverter))]</xs:appinfo>
-					</xs:annotation>
-				</xs:element>
-			</xs:all>
-		</xs:complexType>
-	</xs:element>
-	<xs:simpleType name="Operator">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="Eq"/>
-			<xs:enumeration value="Lt"/>
-			<xs:enumeration value="Le"/>
-			<xs:enumeration value="Gt"/>
-			<xs:enumeration value="Ge"/>
-			<xs:enumeration value="Substringof"/>
-			<xs:enumeration value="StartsWith"/>
-			<xs:enumeration value="EndsWith"/>
-			<xs:enumeration value="NotContains"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:element name="ValidationBusinessRule">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="ValidationRuleCollection">
+				<xs:element name="RuleCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="ValidationRule" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="ns1:Rule" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-			</xs:sequence>
-			<xs:attribute name="Message" type="xs:string" use="required"/>
+			</xs:all>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="ErrorLocation" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
