@@ -40,7 +40,7 @@
                     <div class="form-group">
                         <label for="Email" class="">Emel :</label>
                         <div class="controls">
-                            <input class="form-control" data-bind="value: Email" id="Email" type="text" name="Email" />
+                            <input class="form-control" data-bind="value: Email" id="Email" type="email" name="Email" />
                             <div data-bind="visible: IsNew()">
                                 <i class="icon-spinner icon-spin icon-large" data-bind="visible: $root.isBusyValidatingEmail"></i>
                                 <span class="help-block alert alert-danger" data-bind="text: $root.emailValidationStatus, visible: $root.emailValidationStatus() "></span>
