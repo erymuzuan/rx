@@ -1,40 +1,45 @@
 ﻿
-<section class="modal hide" id="function-panel-modal" data-bind="with : $root.functionField">
+<section class="modal fade" id="function-panel-modal" data-bind="with : $root.functionField">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Function</h3>
+            </div>
+            <div class="modal-body">
+                <div class="control-group">
+                    <label for="function-field-name" class="control-label">Nama</label>
+                    <div class="controls">
+                        <input data-bind="value: Name" id="function-field-name" type="text" name="function-field-name" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="function-field-note" class="control-label">Nota</label>
+                    <div class="controls">
+                        <input data-bind="value: Note" id="function-field-note" type="text" name="function-field-note" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="function-field-script" class="control-label">Skript</label>
+                    <div class="controls">
+                        <textarea id="function-field-script" name="function-field-script" data-bind="value: Script" class="input-xxlarge" rows="5"></textarea>
+                        <span class="help-block">
+                            Must be a strict C# code, you can use ""item" member to access the current item, e.g. to return a Rental application status use <pre>return item.Status;</pre>
 
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3>Function</h3>
-    </div>
-    <div class="modal-body">
-        <div class="control-group">
-            <label for="function-field-name" class="control-label">Nama</label>
-            <div class="controls">
-                <input data-bind="value: Name" id="function-field-name" type="text" name="function-field-name" />
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="function-field-note" class="control-label">Nota</label>
-            <div class="controls">
-                <input data-bind="value: Note" id="function-field-note" type="text" name="function-field-note" />
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="function-field-script" class="control-label">Skript</label>
-            <div class="controls">
-                <textarea id="function-field-script" name="function-field-script" data-bind="value: Script" class="input-xxlarge" rows="5"></textarea>
-                <span class="help-block">Must be a strict C# code, you can use ""item" member to access the current item, e.g. to return a Rental application status use <pre>return item.Status;</pre>
-                
-                    any C# construct is valid
-                    <pre>
+                            any C# construct is valid
+                            <pre>
 // return date = 1 Jan 2015
 return new DateTime(2015,1,1);
-</pre></span>
+</pre>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: $root.saveField" />
+                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
             </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: $root.saveField" />
-        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
     </div>
 </section>
 

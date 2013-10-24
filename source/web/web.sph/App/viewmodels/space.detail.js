@@ -12,7 +12,7 @@
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 
-define(['services/datacontext', 'services/logger', './_space.contract', 'durandal/system', 'config', objectbuilders.cultures, objectbuilders.map, objectbuilders.validation],
+define([objectbuilders.datacontext, objectbuilders.logger, './_space.contract', 'durandal/system', objectbuilders.config, objectbuilders.cultures, objectbuilders.map, objectbuilders.validation],
     function (context, logger, contractlistvm, system, config, cultures, map, validation) {
 
         var title = ko.observable(),

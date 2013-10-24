@@ -10,7 +10,7 @@ CREATE TABLE [Sph].[Complaint]
 	,[Type] VARCHAR (255) NULL
 	,[Category] VARCHAR(255) NULL
 	,[SubCategory] VARCHAR (255) NULL
-	,[CommercialSpace] VARCHAR (255) NULL
+	,[Space] VARCHAR (255) NULL
 	,[Status] VARCHAR(255) NULL
 	,[TenantId] INT NULL
 	,[Data] XML NULL

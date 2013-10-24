@@ -1,47 +1,50 @@
 ﻿@model dynamic
 
 
-<section class="modal hide" id="changed-panel-modal" data-bind="with : $root.changedField">
+<section class="modal fade" id="changed-panel-modal" data-bind="with : $root.changedField">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Changed</h3>
+            </div>
+            <div class="modal-body">
+                <div class="control-group">
+                    <label for="changed-field-name" class="control-label">Nama</label>
+                    <div class="controls">
+                        <input data-bind="value: Name" id="changed-field-name" type="text" name="changed-field-name" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="changed-field-note" class="control-label">Nota</label>
+                    <div class="controls">
+                        <input data-bind="value: Note" id="changed-field-note" type="text" name="changed-field-note" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="changed-field-typename" class="control-label">Type</label>
+                    <div class="controls">
+                        <select id="changed-field-typename" name="changed-field-typename" data-bind="value: TypeName">
+                            <option value="System.String, mscorlib">Teks</option>
+                            <option value="System.DateTime">Tarikh</option>
+                            <option value="System.Int32, mscorlib">Nombor bulat</option>
+                            <option value="System.Decimal">Nombor pecahan</option>
+                            <option value="System.Boolean, mscorlib">Betul/Salah</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="changed-field-path" class="control-label">Path</label>
+                    <div class="controls">
+                        <input data-bind="value: Path" id="changed-field-path" type="text" name="changed-field-path" />
+                    </div>
+                </div>
+            </div>
 
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3>Changed</h3>
-    </div>
-    <div class="modal-body">
-        <div class="control-group">
-            <label for="changed-field-name" class="control-label">Nama</label>
-            <div class="controls">
-                <input data-bind="value: Name" id="changed-field-name" type="text" name="changed-field-name" />
+            <div class="modal-footer">
+                <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: $root.saveField" />
+                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
             </div>
         </div>
-        <div class="control-group">
-            <label for="changed-field-note" class="control-label">Nota</label>
-            <div class="controls">
-                <input data-bind="value: Note" id="changed-field-note" type="text" name="changed-field-note" />
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="changed-field-typename" class="control-label">Type</label>
-            <div class="controls">
-                <select id="changed-field-typename" name="changed-field-typename" data-bind="value: TypeName">
-                    <option value="System.String, mscorlib">Teks</option>
-                    <option value="System.DateTime">Tarikh</option>
-                    <option value="System.Int32, mscorlib">Nombor bulat</option>
-                    <option value="System.Decimal">Nombor pecahan</option>
-                    <option value="System.Boolean, mscorlib">Betul/Salah</option>
-                </select>
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="changed-field-path" class="control-label">Path</label>
-            <div class="controls">
-                <input data-bind="value: Path" id="changed-field-path" type="text" name="changed-field-path" />
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-footer">
-        <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: $root.saveField" />
-        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
     </div>
 </section>

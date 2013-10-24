@@ -24,6 +24,9 @@
                 <li>
                     <a href="#space-icons" data-toggle="tab">Icons</a>
                 </li>
+                <li>
+                    <a href="#space-business-rule" data-toggle="tab">Business Rule</a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div id="space-designer" class="tab-pane active" data-bind="with : template">
@@ -45,7 +48,7 @@
                 </div>
                 <div id="space-default-values" class="tab-pane" data-bind="with : template">
                     @Html.Partial("_DefaultValues")
-                </div>
+                </div> 
                 <div id="space-icons" data-bind="with : template" class="tab-pane">
                     <form class="form-horizontal">
                         <div class="control-group">
@@ -76,6 +79,10 @@
                             </div>
                         </div>
                     </form>
+                </div>
+                
+                <div id="space-business-rule" class="tab-pane" data-bind="with: template">
+                    @Html.Partial("_BusinessRule")
                 </div>
             </div>
         </div>

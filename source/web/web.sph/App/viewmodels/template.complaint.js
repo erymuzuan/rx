@@ -4,13 +4,14 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
+/// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
 
-define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger'],
+define([objectbuilders.datacontext, 'durandal/system', './template.base', 'services/jsonimportexport',objectbuilders.logger],
     function (context, system, templateBase, eximp, logger) {
 
         var isBusy = ko.observable(false),

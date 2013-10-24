@@ -603,6 +603,108 @@ bespoke.sph.domain.FieldValidation = function (webId) {
 };
 
 
+
+bespoke.sph.domain.FunctionField = function (webId) {
+
+    var v = new bespoke.sph.domain.Field(webId);
+
+    v.Script = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.FunctionField, domain.sph";
+
+    if (bespoke.sph.domain.FunctionFieldPartial) {
+        return _(v).extend(new bespoke.sph.domain.FunctionFieldPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ConstantField = function (webId) {
+
+    var v = new bespoke.sph.domain.Field(webId);
+
+    v.TypeName = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.ConstantField, domain.sph";
+
+    if (bespoke.sph.domain.ConstantFieldPartial) {
+        return _(v).extend(new bespoke.sph.domain.ConstantFieldPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.DocumentField = function (webId) {
+
+    var v = new bespoke.sph.domain.Field(webId);
+
+    v.XPath = ko.observable('');
+    v.NamespacePrefix = ko.observable('');
+    v.TypeName = ko.observable('');
+    v.Path = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.DocumentField, domain.sph";
+
+    if (bespoke.sph.domain.DocumentFieldPartial) {
+        return _(v).extend(new bespoke.sph.domain.DocumentFieldPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.FieldChangeField = function (webId) {
+
+    var v = new bespoke.sph.domain.Field(webId);
+
+    v.Path = ko.observable('');
+    v.TypeName = ko.observable('');
+    v.OldValue = ko.observable('');
+    v.NewValue = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.FieldChangeField, domain.sph";
+
+    if (bespoke.sph.domain.FieldChangeFieldPartial) {
+        return _(v).extend(new bespoke.sph.domain.FieldChangeFieldPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ValidationRule = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ValidationRule, domain.sph",
+        Left: ko.observable(),
+        Right: ko.observable(),
+        Operator: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.ValidationRulePartial) {
+        return _(model).extend(new bespoke.sph.domain.ValidationRulePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ValidationBusinessRule = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ValidationBusinessRule, domain.sph",
+        Message: ko.observable(''),
+        Description: ko.observable(''),
+        Name: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.ValidationBusinessRulePartial) {
+        return _(model).extend(new bespoke.sph.domain.ValidationBusinessRulePartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.FormElement = function (webId) {
 
     return {
@@ -626,3 +728,41 @@ bespoke.sph.domain.FormElement = function (webId) {
     };
 };
 
+
+bespoke.sph.domain.Field = function (webId) {
+
+    return {
+        "$type": "Bespoke.Sph.Domain.Field, domain.sph",
+        Name: ko.observable(''),
+        Note: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+};
+
+
+bespoke.sph.domain.FieldType = function () {
+    return {
+        DOCUMENT_FIELD: 'DocumentField',
+        CONSTANT_FIELD: 'ConstantField',
+        FUNCTION_FIELD: 'FunctionField',
+
+        DO_NOT_SELECT: 'DONTDOTHIS'
+    };
+}();
+
+bespoke.sph.domain.Operator = function () {
+    return {
+        EQ: 'Eq',
+        LT: 'Lt',
+        LE: 'Le',
+        GT: 'Gt',
+        GE: 'Ge',
+        SUBSTRINGOF: 'Substringof',
+        STARTS_WITH: 'StartsWith',
+        ENDS_WITH: 'EndsWith',
+        NOT_CONTAINS: 'NotContains',
+
+        DO_NOT_SELECT: 'DONTDOTHIS'
+    };
+}();
