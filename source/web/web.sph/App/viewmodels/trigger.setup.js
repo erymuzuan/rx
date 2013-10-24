@@ -54,73 +54,7 @@ define(['services/datacontext', 'services/jsonimportexport'],
         removeRule = function (rule) {
             vm.trigger().RuleCollection.remove(rule);
         },
-            /* fields */
-            startAddDocumentField = function (accessor) {
-                editedField = accessor;
-
-                var documentField = new bespoke.sph.domain.DocumentField();
-                vm.documentField(documentField);
-
-                $('#document-panel-modal').modal({});
-            },
-            startAddConstantField = function (accessor) {
-                editedField = accessor;
-
-                vm.constantField(new bespoke.sph.domain.ConstantField());
-                $('#constant-panel-modal').modal({});
-            },
-            startAddFunctionField = function (accessor) {
-                editedField = accessor;
-
-                vm.functionField(new bespoke.sph.domain.FunctionField());
-                $('#function-panel-modal').modal({});
-            },
-            startAddChangedField = function (accessor) {
-                editedField = accessor;
-
-                vm.changedField(new bespoke.sph.domain.FieldChangeField());
-                $('#changed-panel-modal').modal({});
-            },
-
-            startEditField = function (accessor) {
-                if (typeof accessor === "function") {
-                    var tf = accessor().$type;
-                    var fieldType = typeof tf === "function" ? tf() : tf;
-
-
-                    editedField = accessor;
-                    var clone = ko.mapping.fromJS(ko.mapping.toJS(accessor()));
-
-                    switch (fieldType) {
-                        case "Bespoke.Sph.Domain.ConstantField, domain.sph":
-                            vm.constantField(clone);
-                            $('#constant-panel-modal').modal({});
-                            break;
-                        case "Bespoke.Sph.Domain.DocumentField, domain.sph":
-                            vm.documentField(clone);
-                            $('#document-panel-modal').modal({});
-                            break;
-                        case "Bespoke.Sph.Domain.FunctionField, domain.sph":
-                            vm.functionField(clone);
-                            $('#function-panel-modal').modal({});
-                            break;
-                        case "Bespoke.Sph.Domain.FieldChangeField, domain.sph":
-                            vm.changedField(clone);
-                            $('#changed-panel-modal').modal({});
-                            break;
-                        default:
-                            throw "unrecognized type : " + fieldType;
-                    }
-                }
-
-                if (typeof accessor === "object") {
-                    console.log("this is hard", accessor);
-                }
-            },
-
-            saveField = function (field) {
-                editedField(field);
-            },
+           
 
             /* email */
             addEmailAction = function () {
@@ -203,24 +137,11 @@ define(['services/datacontext', 'services/jsonimportexport'],
             isBusy: isBusy,
             activate: activate,
             viewAttached: viewAttached,
-
-            functionField: ko.observable(new bespoke.sph.domain.FunctionField()),
-            constantField: ko.observable(new bespoke.sph.domain.ConstantField()),
-            documentField: ko.observable(new bespoke.sph.domain.DocumentField()),
-            changedField: ko.observable(new bespoke.sph.domain.FieldChangeField()),
             trigger: ko.observable(new bespoke.sph.domain.Trigger()),
 
             addRuleCommand: addRule,
             removeRule: removeRule,
 
-
-            /*** FIELD */
-            startAddDocumentField: startAddDocumentField,
-            startAddFunctionField: startAddFunctionField,
-            startAddConstantField: startAddConstantField,
-            startAddChangedField: startAddChangedField,
-            saveField: saveField,
-            startEditField: startEditField,
 
             /* email action*/
             addEmailActionCommand: addEmailAction,

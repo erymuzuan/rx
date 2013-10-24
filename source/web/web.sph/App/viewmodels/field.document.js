@@ -8,17 +8,17 @@ define([],
     function () {
 
         var okClick = function (data, ev) {
-                if (ev.target.form.checkValidity()) {
-                    this.modal.close("OK");
-                }
+            if (ev.target.form.checkValidity()) {
+                this.modal.close("OK");
+            }
 
-            },
+        },
             cancelClick = function () {
                 this.modal.close("Cancel");
             };
 
         var vm = {
-            photo: ko.observable(new bespoke.sph.domain.Photo()),
+            field: ko.observable(new bespoke.sph.domain.DocumentField()),
             okClick: okClick,
             cancelClick: cancelClick
         };

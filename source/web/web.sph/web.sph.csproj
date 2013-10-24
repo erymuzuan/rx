@@ -392,6 +392,7 @@
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
     <Content Include="App\partial\Block.js" />
+    <Content Include="App\partial\Rule.js" />
     <Content Include="App\partial\FeatureDefinition.js" />
     <Content Include="App\partial\IFormTemplate.js" />
     <Content Include="App\partial\BusinessRule.js" />
@@ -437,6 +438,7 @@
     <Content Include="App\viewmodels\block.map.js" />
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
+    <Content Include="App\viewmodels\field.document.js" />
     <Content Include="App\viewmodels\maintenance.officer.dashboard.js" />
     <Content Include="App\viewmodels\public.check.application.js" />
     <Content Include="App\viewmodels\rentalapplication.onbehalf.js" />
@@ -488,6 +490,7 @@
     <Content Include="App\views\block.map.html" />
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\chats.html" />
+    <Content Include="App\views\field.document.html" />
     <Content Include="App\views\maintenance.officer.dashboard.html" />
     <Content Include="App\views\public.check.application.html" />
     <Content Include="App\views\rentalapplication.onbehalf.html" />

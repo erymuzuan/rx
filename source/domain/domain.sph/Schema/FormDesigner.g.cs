@@ -2790,6 +2790,11 @@
                     public const string PropertyNameErrorLocation = "ErrorLocation";
 
                   
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_errorMessage;
+                    public const string PropertyNameErrorMessage = "ErrorMessage";
+
+                  
 			private readonly ObjectCollection<Rule>  m_RuleCollection = new ObjectCollection<Rule> ();
 
 			///<summary>
@@ -2882,6 +2887,34 @@
                     get
                     {
                     return m_errorLocation;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string ErrorMessage
+                    {
+                    set
+                    {
+                    if( String.Equals( m_errorMessage, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameErrorMessage, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_errorMessage= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_errorMessage;}
                     }
 
                   

@@ -1,14 +1,12 @@
-﻿@model dynamic
-
-<section class="modal fade" id="document-panel-modal" data-bind="with: documentField">
+﻿<section class="view-model-modal" id="document-panel-modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3>Dokumen</h3>
             </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
+            <div class="modal-body" data-bind="with : field">
+                <form class="form-horizontal" id="document-field-form">
                     <div class="form-group">
                         <label for="doc-field-name" class="control-label">Nama</label>
                         <div class="controls">
@@ -24,7 +22,7 @@
                     <div class="form-group">
                         <label for="doc-field-path" class="control-label">Path</label>
                         <div class="controls">
-                            <input class="form-control" placeholder="Path to the property" id="doc-field-path" name="doc-field-path" data-bind="pathAutoComplete: {value: Path, type : $root.trigger().Entity}" class="input-xxlarge" />
+                            <input class="form-control" placeholder="Path to the property" id="doc-field-path" name="doc-field-path" data-bind2="pathAutoComplete: {value: Path, type : $root.trigger().Entity}" />
                             <span class="btn-block">You can use Path.Subpath convention</span>
                         </div>
                     </div>
@@ -32,8 +30,8 @@
             </div>
 
             <div class="modal-footer">
-                <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: $root.saveField" />
-                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                <input form="document-field-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
             </div>
         </div>
     </div>

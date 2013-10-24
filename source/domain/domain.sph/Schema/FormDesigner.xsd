@@ -511,6 +511,7 @@
 			<xs:attribute name="Description" type="xs:string" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="ErrorLocation" type="xs:string" use="required"/>
+			<xs:attribute name="ErrorMessage" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

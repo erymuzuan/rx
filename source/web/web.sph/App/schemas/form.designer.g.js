@@ -616,6 +616,7 @@ bespoke.sph.domain.BusinessRule = function (webId) {
         Description: ko.observable(''),
         Name: ko.observable(''),
         ErrorLocation: ko.observable(''),
+        ErrorMessage: ko.observable(''),
         RuleCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)

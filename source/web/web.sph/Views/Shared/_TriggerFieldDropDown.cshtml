@@ -9,22 +9,22 @@
     </a>
     <ul class="dropdown-menu">
         <li data-bind="with : @Model.Path">
-            <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $root.startEditField, accessor : $parent.@Model.Path">
+            <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.startEditField.call($parent, $data), accessor : $parent.@Model.Path">
                 <i class="icon-edit-sign"></i>
                 Edit Field
             </a>
         </li>
         <li>
-            <a class="btn btn-link" data-bind="unwrapClick: $root.startAddDocumentField, accessor : $data.@Model.Path" href="#document-panel-modal">+ Document Field</a>
+            <a class="btn btn-link" data-bind="unwrapClick: startAddDocumentField, accessor : $data.@Model.Path" href="#document-panel-modal">+ Document Field</a>
         </li>
         <li>
-            <a class="btn btn-link" data-bind="unwrapClick: $root.startAddConstantField, accessor : $data.@Model.Path" href="#constant-panel-modal">+ Constant Field</a>
+            <a class="btn btn-link" data-bind="unwrapClick: startAddConstantField, accessor : $data.@Model.Path" href="#constant-panel-modal">+ Constant Field</a>
         </li>
         <li>
-            <a class="btn btn-link" data-bind="unwrapClick: $root.startAddFunctionField, accessor : $data.@Model.Path" href="#function-panel-modal">+ Function Field</a>
+            <a class="btn btn-link" data-bind="unwrapClick: startAddFunctionField, accessor : $data.@Model.Path" href="#function-panel-modal">+ Function Field</a>
         </li>
         <li>
-            <a class="btn btn-link" data-bind="unwrapClick: $root.startAddChangedField, accessor : $data.@Model.Path" href="#changed-panel-modal">+ Changed Field</a>
+            <a class="btn btn-link" data-bind="unwrapClick: startAddChangedField, accessor : $data.@Model.Path" href="#changed-panel-modal">+ Changed Field</a>
         </li>
 
     </ul>
