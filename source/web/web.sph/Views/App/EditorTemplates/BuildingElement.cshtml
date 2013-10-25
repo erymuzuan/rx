@@ -1,7 +1,7 @@
 ﻿@model Bespoke.Sph.Domain.BuildingElement
 
 <div class="form-group">
-    <label class="control-label @Model.LabelColumnSpan">@Model.Label</label>
+    <label class="control-label @Model.LabelCssClass">@Model.Label</label>
     <div class="@Model.InputPanelCssClass">
         <select class="form-control" name="buildingName" data-bind="options: $root.buildingOptions, optionsValue: 'Item1', optionsText: 'Item2', optionsCaption: '[Sila pilih]', value: $root.selectedBuildingId">
         </select>

@@ -1,6 +1,6 @@
 ﻿@model Bespoke.Sph.Domain.SpaceFeaturesElement
 
-<input type="button" name="add-feature-button" id="add-feature-button" class="btn pull-right" data-bind="click: $root.addFeaturesCommand" value="+ Features" />
+<a id="add-feature-button" class="btn btn-default pull-right" data-bind="click: $root.addFeaturesCommand">+ Features</a>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -17,32 +17,45 @@
     <tbody data-bind="foreach: FeatureDefinitionCollection">
         <tr>
             <td>
-                <input class="input-feature-name" type="text" data-bind="value: Name, uniqueName: true"/></td>
-            <td>
-                <input class="input-feature-description" type="text" data-bind="value: Description, uniqueName: true"/></td>
-            <td>
-                <input type="text" class="input-feature-category" data-bind="value: Category, uniqueName: true" /></td>
-            <td>
-                <input type="checkbox" class="input-feature-isrequired" data-bind="checked: IsRequired, uniqueName: true"/></td>
-            <td>
-                <span class="add-on">RM</span>
-                <input type="text" class="input-feature-charge" data-bind="value: Charge, uniqueName: true"/></td>
-            <td>
-                <input type="text" class="input-feature-occurence" data-bind="value: Occurence, uniqueName: true"/>
-                <select class="input-feature-occurencetimespan" data-bind="value: OccurenceTimeSpan, uniqueName: true">
-                    <option value="Sekali">Sekali</option>
-                    <option value="Hari">Hari</option>
-                    <option value="Minggu">Minggu</option>
-                    <option value="Bulan">Bulan</option>
-                    <option value="Tahun">Tahun</option>
-                </select>
+                <input class="input-feature-name form-control" type="text" data-bind="value: Name, uniqueName: true" />
             </td>
             <td>
-                <input type="text" class="input-feature-available-quantity" data-bind="value: AvailableQuantity, uniqueName: true"/>
+                <input class="input-feature-description form-control" type="text" data-bind="value: Description, uniqueName: true" />
+            </td>
+            <td>
+                <input type="text" class="input-feature-category form-control" data-bind="value: Category, uniqueName: true" />
+            </td>
+            <td>
+                <input type="checkbox" class="input-feature-isrequired" data-bind="checked: IsRequired, uniqueName: true" />
+            </td>
+            <td>
+                <div class="input-group">
+
+                    <span class="input-group-addon">RM</span>
+                    <input type="text" class="input-feature-charge form-control" data-bind="value: Charge, uniqueName: true" />
+                </div>
+            </td>
+            <td>
+                <div class="container">
+                    <div class="row">
+                        <input type="text" class="input-feature-occurence form-control col-lg-1" data-bind="value: Occurence, uniqueName: true" />
+                        <select class="input-feature-occurencetimespan form-control col-lg-2" data-bind="value: OccurenceTimeSpan, uniqueName: true">
+                            <option value="Sekali">Sekali</option>
+                            <option value="Hari">Hari</option>
+                            <option value="Minggu">Minggu</option>
+                            <option value="Bulan">Bulan</option>
+                            <option value="Tahun">Tahun</option>
+                        </select>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <input type="text" class="input-feature-available-quantity form-control" data-bind="value: AvailableQuantity, uniqueName: true" />
 
             </td>
             <td>
-                <input type="button" data-bind="click: $root.removeFeaturesCommand" class="btn-remove-feature" value="X" /></td>
+                <a data-bind="click: $root.removeFeaturesCommand" class="btn-remove-feature">Buang</a>
+            </td>
 
         </tr>
     </tbody>
