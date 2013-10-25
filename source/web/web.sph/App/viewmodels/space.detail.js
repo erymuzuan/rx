@@ -135,7 +135,10 @@ define([objectbuilders.datacontext, objectbuilders.logger, './_space.contract', 
                 context.post(data, "/Space/Save")
                     .done(function (e) {
                         logger.log("Data has been successfully saved ", e, "space.detail", true);
-
+                        if (!e.Success) {
+                            
+                            alert(e.ValidationErrors[0].Message);
+                        }
                         isBusy(false);
                         tcs.resolve(true);
                     });

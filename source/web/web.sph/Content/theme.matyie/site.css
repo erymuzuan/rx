@@ -7,6 +7,12 @@
 #toolbar-panel {
   background-color: transparent;
 }
+a.dropdown {
+  width: 110%;
+}
+a.dropdown > span.caret {
+  margin-top: 8px;
+}
 span.k-datepicker {
   border: none;
   width: 200px;

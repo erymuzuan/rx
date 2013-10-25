@@ -57,7 +57,7 @@
                 vm.profile(new bespoke.sph.domain.Profile());
                 vm.profile().IsNew(true);
                 vm.profile().UserName('');
-                vm.profile().Email('');
+                vm.profile().Email.subscribe(emailChanged);
                 vm.profile().UserName.subscribe(userNameChaged);
                 
                 $('#user-details-modal').modal();
@@ -125,6 +125,23 @@
                         vm.isBusyValidatingUserName(false);
                         if (result.status !== "OK") {
                             vm.userNameValidationStatus(result.message);
+                        }
+
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            },
+            emailChanged = function(email) {
+                vm.isb(true);
+                var tcs = new $.Deferred();
+                var data = JSON.stringify({email : email});
+                isBusy(true);
+                context.post(data, "/Admin/ValidateEmail")
+                    .then(function(result) {
+                        isBusy(false);
+                        vm.isBusyValidatingEmail(false);
+                        if (result.status !== "OK") {
+                            vm.emailValidationStatus(result.message);
                         }
 
                         tcs.resolve(result);

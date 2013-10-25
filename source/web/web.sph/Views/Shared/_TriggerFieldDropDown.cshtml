@@ -1,7 +1,7 @@
 ﻿@model Bespoke.Sph.Web.Models.TypeModel
 
 <div class="btn-group">
-    <a data-bind="with : @Model.Path, bootstrapDropDown : {}" class="btn btn-link input-xlarge" href="#">
+    <a data-bind="with : @Model.Path, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
         <img data-bind="fieldImage : $type" class="pull-left" alt="." />
         <!-- ko text : Name -->
         <!-- /ko -->
@@ -9,7 +9,7 @@
     </a>
     <ul class="dropdown-menu">
         <li data-bind="with : @Model.Path">
-            <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.startEditField.call($parent, $data), accessor : $parent.@Model.Path">
+            <a class="btn btn-link" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.startEditField.call($parent, $data, $parent.@Model.Path)">
                 <i class="icon-edit-sign"></i>
                 Edit Field
             </a>
