@@ -30,63 +30,26 @@ bespoke.sph.domain.RulePartial = function () {
 
             });
         },
-        /* fields */
-        startAddDocumentField = function (accessor) {
-            var documentField = new bespoke.sph.domain.DocumentField(system.guid());
-            showFieldDialog(accessor, documentField, 'field.document');
+        addField = function (accessor, type) {
+            var field = new bespoke.sph.domain[type + 'Field'](system.guid());
+            showFieldDialog(accessor, field, 'field.' + type.toLowerCase());
         },
-        startAddConstantField = function (accessor) {
-            var constantField = new bespoke.sph.domain.ConstantField(system.guid());
-            showFieldDialog(accessor, constantField, 'field.constant');
-
-        },
-        startAddFunctionField = function (accessor) {
-
-            var functionField = new bespoke.sph.domain.FunctionField(system.guid());
-            showFieldDialog(accessor, functionField, 'field.function');
-
-        },
-        startAddChangedField = function (accessor) {
-
-            var changedField = new bespoke.sph.domain.FieldChangeField(system.guid());
-            showFieldDialog(accessor, changedField, 'field.changed');
-
-        },
-        startEditField = function (field, accessor) {
+        editField = function (field, accessor) {
             return function () {
                 var fieldType = ko.unwrap(field.$type),
-                    clone = ko.mapping.fromJS(ko.mapping.toJS(field));
-                
-                switch (fieldType) {
-                    case "Bespoke.Sph.Domain.ConstantField, domain.sph":
-                        showFieldDialog(accessor, clone, 'field.constant');
-                        break;
-                    case "Bespoke.Sph.Domain.DocumentField, domain.sph":
-                        showFieldDialog(accessor, clone, 'field.document');
-                        break;
-                    case "Bespoke.Sph.Domain.FunctionField, domain.sph":
-                        showFieldDialog(accessor, clone, 'field.function');
-                        break;
-                    case "Bespoke.Sph.Domain.FieldChangeField, domain.sph":
-                        showFieldDialog(accessor, clone, 'field.changed');
-                        break;
-                    default:
-                        throw "unrecognized type : " + fieldType;
-                }
+                    clone = ko.mapping.fromJS(ko.mapping.toJS(field)),
+                    pattern = /Bespoke\.Sph\.Domain\.(.*?)Field,/,
+                    type = pattern.exec(fieldType)[1];
 
 
+                showFieldDialog(accessor, clone, 'field.' + type.toLowerCase());
 
             };
         };
 
     var vm = {
-
-        /*** FIELD */
-        startAddDocumentField: startAddDocumentField,
-        startAddFunctionField: startAddFunctionField,
-        startAddConstantField: startAddConstantField,
-        startAddChangedField: startAddChangedField,
-        startEditField: startEditField
+        addField: addField,
+        editField: editField
 
     };
 

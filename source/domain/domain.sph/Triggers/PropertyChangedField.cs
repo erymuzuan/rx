@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class FieldChangeField : Field
+    public partial class PropertyChangedField : Field
     {
         [System.Xml.Serialization.XmlIgnore]
         [JsonIgnore]

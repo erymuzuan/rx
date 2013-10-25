@@ -477,8 +477,8 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
-          [XmlType("FieldChangeField",  Namespace=Strings.DEFAULT_NAMESPACE)]
-          public  partial class FieldChangeField
+          [XmlType("PropertyChangedField",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class PropertyChangedField
           {
           
                     private string  m_Path;

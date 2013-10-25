@@ -18,7 +18,7 @@ define([],
             };
 
         var vm = {
-            field: ko.observable(new bespoke.sph.domain.FieldChangeField()),
+            field: ko.observable(new bespoke.sph.domain.PropertyChangedField()),
             okClick: okClick,
             cancelClick: cancelClick
         };

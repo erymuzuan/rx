@@ -378,6 +378,10 @@ ko.bindingHandlers.command = {
     }
 };
 
+ko.bindingHandlers.field = {
+    init: function() {
+    }
+};
 ko.bindingHandlers.unwrapClick = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var action = valueAccessor(),
@@ -387,8 +391,9 @@ ko.bindingHandlers.unwrapClick = {
 
         button.click(function (e) {
             e.preventDefault();
-            var prop = allBindings.property;
-            var accessor = allBindings.accessor;
+            var prop = allBindings.property,
+                accessor = allBindings.accessor,
+                type = allBindings.field;
             /* if we can't get to the function , i.e. it's still object not ko.observable
             
             */
@@ -400,10 +405,10 @@ ko.bindingHandlers.unwrapClick = {
                     accessor[prop] = ko.observable(accessor[prop]);
                 }
                 if (typeof accessor[prop] === "function") {
-                    action(accessor[prop]);
+                    action(accessor[prop],type);
                 }
             } else {
-                action(accessor);
+                action(accessor,type);
             }
 
         });

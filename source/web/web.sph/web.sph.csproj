@@ -423,7 +423,7 @@
     <Content Include="App\viewmodels\complaint.dashboard.js" />
     <Content Include="App\viewmodels\field.constant.js" />
     <Content Include="App\viewmodels\field.function.js" />
-    <Content Include="App\viewmodels\field.changed.js" />
+    <Content Include="App\viewmodels\field.propertychanged.js" />
     <Content Include="App\viewmodels\field.document.js" />
     <Content Include="App\viewmodels\maintenance.officer.dashboard.js" />
     <Content Include="App\viewmodels\public.check.application.js" />
@@ -477,7 +477,7 @@
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\chats.html" />
     <Content Include="App\views\field.function.html" />
-    <Content Include="App\views\field.changed.html" />
+    <Content Include="App\views\field.propertychanged.html" />
     <Content Include="App\views\field.constant.html" />
     <Content Include="App\views\field.document.html" />
     <Content Include="App\views\maintenance.officer.dashboard.html" />
@@ -792,7 +792,7 @@
     <Content Include="Images\down8.png" />
     <Content Include="Images\edit_icon.png" />
     <Content Include="Images\EmailAction.png" />
-    <Content Include="Images\FieldChangeField.png" />
+    <Content Include="Images\propertychanged.png" />
     <Content Include="Images\functionfield.png" />
     <Content Include="Images\gelanggang.png" />
     <Content Include="Images\home.png" />
@@ -1455,13 +1455,6 @@
     <Content Include="Views\App\TenantPortalHtml.cshtml" />
     <Content Include="Views\App\TenantPortalJs.cshtml" />
     <Content Include="Views\App\TriggerSetupHtml.cshtml" />
-    <Content Include="Views\App\_TriggerSetterAction.cshtml" />
-    <Content Include="Views\App\_TriggerEmailAction.cshtml" />
-    <Content Include="Views\App\_TriggerFunctionField.cshtml" />
-    <Content Include="Views\App\_TriggerDocumentField.cshtml" />
-    <Content Include="Views\App\_TriggerConstantField.cshtml" />
-    <Content Include="Views\App\_TriggerFieldDropDown.cshtml" />
-    <Content Include="Views\App\_TriggerChangedField.cshtml" />
     <Content Include="Views\RentalApplication\Print.cshtml" />
     <Content Include="Views\App\SpaceDetailHtml.cshtml" />
     <Content Include="Views\Shared\CustomFieldHtml.cshtml" />
@@ -1664,6 +1657,7 @@
     <Content Include="Views\Shared\_TriggerEmailAction.cshtml" />
     <Content Include="Views\Shared\_TriggerFieldDropDown.cshtml" />
     <Content Include="Views\Shared\_TriggerSetterAction.cshtml" />
+    <Content Include="Views\Shared\_PublicLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

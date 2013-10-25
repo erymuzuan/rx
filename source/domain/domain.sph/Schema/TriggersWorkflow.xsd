@@ -68,7 +68,7 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="FieldChangeField">
+	<xs:element name="PropertyChangedField">
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Field">

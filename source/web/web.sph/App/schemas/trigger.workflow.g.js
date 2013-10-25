@@ -83,7 +83,7 @@ bespoke.sph.domain.DocumentField = function (webId) {
 
 
 
-bespoke.sph.domain.FieldChangeField = function (webId) {
+bespoke.sph.domain.PropertyChangedField = function (webId) {
 
     var v = new bespoke.sph.domain.Field(webId);
 
@@ -91,10 +91,10 @@ bespoke.sph.domain.FieldChangeField = function (webId) {
     v.TypeName = ko.observable('');
     v.OldValue = ko.observable('');
     v.NewValue = ko.observable('');
-    v["$type"] = "Bespoke.Sph.Domain.FieldChangeField, domain.sph";
+    v["$type"] = "Bespoke.Sph.Domain.PropertyChangedField, domain.sph";
 
-    if (bespoke.sph.domain.FieldChangeFieldPartial) {
-        return _(v).extend(new bespoke.sph.domain.FieldChangeFieldPartial(v));
+    if (bespoke.sph.domain.PropertyChangedFieldPartial) {
+        return _(v).extend(new bespoke.sph.domain.PropertyChangedFieldPartial(v));
     }
     return v;
 };

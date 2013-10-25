@@ -18,7 +18,7 @@ namespace domain.test.triggers
                 OldValue = "4",
                 NewValue = "15"
             });
-            var fcf = new FieldChangeField
+            var fcf = new PropertyChangedField
             {
                 TypeName = typeof(int).AssemblyQualifiedName,
                 Path = "Floors"
@@ -40,7 +40,7 @@ namespace domain.test.triggers
                 OldValue = "B",
                 NewValue = "A"
             });
-            var fcf = new FieldChangeField
+            var fcf = new PropertyChangedField
             {
                 Type = typeof(string),
                 Path = "LotNo"
