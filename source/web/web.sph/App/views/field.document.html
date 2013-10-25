@@ -22,7 +22,14 @@
                     <div class="form-group">
                         <label for="doc-field-path" class="control-label">Path</label>
                         <div class="controls">
-                            <input class="form-control" placeholder="Path to the property" id="doc-field-path" name="doc-field-path" data-bind2="pathAutoComplete: {value: Path, type : $root.trigger().Entity}" />
+                            <input class="form-control" placeholder="Path to the property" id="doc-field-path" name="doc-field-path" data-bind="value:Path" />
+                            <span class="btn-block">You can use Path.Subpath convention</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="doc-field-xpath" class="control-label">XPath</label>
+                        <div class="controls">
+                            <input class="form-control" placeholder="XPath to the property" id="doc-field-xpath" name="doc-field-xpath" data-bind="value:XPath" />
                             <span class="btn-block">You can use Path.Subpath convention</span>
                         </div>
                     </div>

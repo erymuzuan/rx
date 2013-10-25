@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 
@@ -23,13 +22,18 @@ namespace Bespoke.Sph.Web.Controllers
                 space.BuildingName = building.Name;
 
             }
-
+            var template = await context.LoadOneAsync<SpaceTemplate>(s => s.SpaceTemplateId == space.TemplateId);
+            var result = space.ValidateBusinessRule(template.BusinessRuleCollection);
+            if (result.Success == false)
+            {
+                return Json(result);
+            }
             using (var session = context.OpenSession())
             {
                 session.Attach(space);
                 await session.SubmitChanges();
             }
-            return Json(true);
+            return Json(result);
         }
 
 
