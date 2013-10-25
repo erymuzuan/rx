@@ -392,8 +392,10 @@
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
     <Content Include="App\partial\Block.js" />
+    <Content Include="App\partial\BusinessRule.js" />
     <Content Include="App\partial\FeatureDefinition.js" />
     <Content Include="App\partial\IFormTemplate.js" />
+    <Content Include="App\partial\Rule.js" />
     <Content Include="App\partial\Space.js" />
     <Content Include="App\partial\Complaint.js" />
     <Content Include="App\partial\ConstantField.js" />
@@ -407,6 +409,7 @@
     <Content Include="App\partial\RentalApplication.js" />
     <Content Include="App\partial\CustomListDefinitionElement.js" />
     <Content Include="App\partial\report.js" />
+    <Content Include="App\partial\SpaceTemplate.js" />
     <Content Include="App\schemas\report.builder.g.js" />
     <Content Include="App\schemas\sph.domain.g.js" />
     <Content Include="App\schemas\trigger.workflow.g.js" />
@@ -435,6 +438,10 @@
     <Content Include="App\viewmodels\block.map.js" />
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
+    <Content Include="App\viewmodels\field.constant.js" />
+    <Content Include="App\viewmodels\field.function.js" />
+    <Content Include="App\viewmodels\field.changed.js" />
+    <Content Include="App\viewmodels\field.document.js" />
     <Content Include="App\viewmodels\maintenance.officer.dashboard.js" />
     <Content Include="App\viewmodels\public.check.application.js" />
     <Content Include="App\viewmodels\rentalapplication.onbehalf.js" />
@@ -486,6 +493,10 @@
     <Content Include="App\views\block.map.html" />
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\chats.html" />
+    <Content Include="App\views\field.function.html" />
+    <Content Include="App\views\field.changed.html" />
+    <Content Include="App\views\field.constant.html" />
+    <Content Include="App\views\field.document.html" />
     <Content Include="App\views\maintenance.officer.dashboard.html" />
     <Content Include="App\views\public.check.application.html" />
     <Content Include="App\views\rentalapplication.onbehalf.html" />
@@ -1672,6 +1683,9 @@
     <Content Include="Scripts\_ko.kendo.min.js.map">
       <DependentUpon>_ko.kendo.js</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\_TriggerEmailAction.cshtml" />
+    <Content Include="Views\Shared\_TriggerFieldDropDown.cshtml" />
+    <Content Include="Views\Shared\_TriggerSetterAction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

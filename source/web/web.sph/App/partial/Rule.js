@@ -38,22 +38,55 @@ bespoke.sph.domain.RulePartial = function (model) {
             
         },
         startAddConstantField = function (accessor) {
-            editedField = accessor;
+            require(['viewmodels/field.constant', 'durandal/app'], function (dialog, app2) {
+                var constantField = new bespoke.sph.domain.ConstantField(system.guid());
+                dialog.field(constantField);
 
-            vm.constantField(new bespoke.sph.domain.ConstantField());
-            $('#constant-panel-modal').modal({});
+
+                app2.showModal(dialog)
+                .done(function (result) {
+                    if (!result) return;
+                    if (result === "OK") {
+                        accessor(constantField);
+                    }
+                });
+
+            });
+
         },
         startAddFunctionField = function (accessor) {
-            editedField = accessor;
+            require(['viewmodels/field.function', 'durandal/app'], function (dialog, app2) {
+                var functionField = new bespoke.sph.domain.FunctionField(system.guid());
+                dialog.field(functionField);
 
-            vm.functionField(new bespoke.sph.domain.FunctionField());
-            $('#function-panel-modal').modal({});
+
+                app2.showModal(dialog)
+                .done(function (result) {
+                    if (!result) return;
+                    if (result === "OK") {
+                        accessor(functionField);
+                    }
+                });
+
+            });
+
         },
-        startAddChangedField = function (accessor) {
-            editedField = accessor;
+        startAddChangedField =  function (accessor) {
+            require(['viewmodels/field.changed', 'durandal/app'], function (dialog, app2) {
+                var changedField = new bespoke.sph.domain.FieldChangeField(system.guid());
+                dialog.field(changedField);
+               
 
-            vm.changedField(new bespoke.sph.domain.FieldChangeField());
-            $('#changed-panel-modal').modal({});
+                app2.showModal(dialog)
+                .done(function (result) {
+                    if (!result) return;
+                    if (result === "OK") {
+                        accessor( changedField);
+                    }
+                });
+
+            });
+            
         },
         startEditField = function (accessor) {
             var self = this;

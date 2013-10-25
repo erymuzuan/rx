@@ -73,11 +73,18 @@ namespace Bespoke.Sph.Domain
                                                                     && p.Name == type.Name + "Id");
             idp.SetValue(this, id);
         }
-    }
 
-    public class ValidationError
-    {
-        public string PropertyName { get; set; }
-        public string Message { get; set; }
+        public ValidationResult ValidateBusinessRule(IEnumerable<BusinessRule> businessRules)
+        {
+            var result = new ValidationResult();
+            var context = new RuleContext(this);
+            var valids = businessRules.Select(r => r.Evaluate(this)).ToList();
+            var errors = valids.SelectMany(v => v.ValidationErrors);
+
+            result.Success = valids.All(v => v.Success);
+            result.ValidationErrors.AddRange(errors);
+
+            return result;
+        }
     }
 }
