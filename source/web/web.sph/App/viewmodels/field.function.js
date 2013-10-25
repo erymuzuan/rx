@@ -15,12 +15,23 @@ define([],
         },
             cancelClick = function () {
                 this.modal.close("Cancel");
+            },
+            viewAttached = function (view) {
+
+                $('#script-help-buttton').popover({
+                    title: 'C# scripting help',
+                    content: $('#script-help-content').html(),
+                    html: true
+                });
+
+
             };
 
         var vm = {
             field: ko.observable(new bespoke.sph.domain.FunctionField()),
             okClick: okClick,
-            cancelClick: cancelClick
+            cancelClick: cancelClick,
+            viewAttached: viewAttached
         };
 
 

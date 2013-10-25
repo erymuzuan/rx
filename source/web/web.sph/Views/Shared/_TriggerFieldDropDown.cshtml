@@ -1,4 +1,7 @@
 ﻿@model Bespoke.Sph.Web.Models.TypeModel
+@{
+    var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+}
 
 <div class="btn-group">
     <a data-bind="with : @Model.Path, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
@@ -14,18 +17,14 @@
                 Edit Field
             </a>
         </li>
-        <li>
-            <a class="btn btn-link" data-bind="unwrapClick: addField, field : 'Document', accessor : $data.@Model.Path" href="#document-panel-modal">+ Document</a>
-        </li>
-        <li>
-            <a class="btn btn-link" data-bind="unwrapClick: addField, field : 'Constant', accessor : $data.@Model.Path" href="#constant-panel-modal">+ Constant</a>
-        </li>
-        <li>
-            <a class="btn btn-link" data-bind="unwrapClick: addField, field : 'Function', accessor : $data.@Model.Path" href="#function-panel-modal">+ Function</a>
-        </li>
-        <li>
-            <a class="btn btn-link" data-bind="unwrapClick: addField, field : 'PropertyChanged', accessor : $data.@Model.Path" href="#changed-panel-modal">+ Property changed</a>
-        </li>
+
+        @foreach (var type in fieldTypes)
+        {
+            <li>
+                <a class="btn btn-link" data-bind="unwrapClick: addField, field : '@type', accessor : $data.@Model.Path" href="#">+ @type</a>
+            </li>
+        }
+
 
     </ul>
 </div>

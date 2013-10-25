@@ -768,8 +768,15 @@
     <Content Include="Content\images\img-border.png" />
     <Content Include="Content\nprogress.css" />
     <Content Include="Content\theme.matyie\widgets.css" />
+    <Content Include="Content\theme.matyie\workflow.triggers.css">
+      <DependentUpon>workflow.triggers.less</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.matyie\workflow.triggers.min.css">
+      <DependentUpon>workflow.triggers.less</DependentUpon>
+    </Content>
     <Content Include="Content\toastr.min.css" />
-    <Content Include="Content\_dummy.css" />
+    <Content Include="Content\_semantic.home.css" />
+    <Content Include="Content\_semantic.workflow.triggers.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\add_icon.png" />
@@ -990,6 +997,7 @@
     <Content Include="App\viewmodels\map.min.js.map">
       <DependentUpon>map.js</DependentUpon>
     </Content>
+    <Content Include="Content\theme.matyie\workflow.triggers.less" />
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />

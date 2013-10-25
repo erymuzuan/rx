@@ -74,6 +74,7 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/Content/theme." + theme + "/user.css")
                 .Include("~/Content/theme." + theme + "/report.css")
                 .Include("~/Content/theme." + theme + "/public.index.css")
+                .Include("~/Content/theme." + theme + "/workflow.triggers.css")
               );
         }
 

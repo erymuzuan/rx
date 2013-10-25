@@ -8,22 +8,25 @@
             <div class="modal-body" data-bind="with : field">
                 <form id="function-field-form" class="form-horizontal">
                     <div class="form-group">
-                        <label for="function-field-name" class="control-label">Nama</label>
+                        <label for="function-field-name" class="control-label">Name</label>
                         <div class="controls">
                             <input class="form-control" data-bind="value: Name" id="function-field-name" type="text" name="function-field-name" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="function-field-note" class="control-label">Nota</label>
+                        <label for="function-field-note" class="control-label">Note</label>
                         <div class="controls">
                             <input class="form-control" data-bind="value: Note" id="function-field-note" type="text" name="function-field-note" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="function-field-script" class="control-label">Skript</label>
+                        <label for="function-field-script" class="control-label">Script</label>
                         <div class="controls">
                             <textarea id="function-field-script" name="function-field-script" data-bind="value: Script" class="input-xxlarge form-control" rows="5"></textarea>
-                            <span class="help-block">
+                            <button class="btn btn-default" id="script-help-buttton">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </button>
+                            <div class="hidden" id="script-help-content">
                                 Must be a strict C# code, you can use ""item" member to access the current item, e.g. to return a Rental application status use <pre>return item.Status;</pre>
 
                                 any C# construct is valid
@@ -31,7 +34,7 @@
 // return date = 1 Jan 2015
 return new DateTime(2015,1,1);
 </pre>
-                            </span>
+                            </div>
                         </div>
                     </div>
                 </form>
