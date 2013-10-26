@@ -1,4 +1,5 @@
-﻿@using Bespoke.Sph.Web.Models
+﻿@using System.Web.Mvc.Html
+@using Bespoke.Sph.Web.Models
 @{
     Layout = null;
 }
@@ -85,7 +86,7 @@
     </div>
 
     <h3>Rules</h3>
-    <a href="#" class="pull-right" data-bind="click: $parent.addRuleCommand">+ Rule</a>
+    <a href="#" class="pull-right" data-bind="click: addRule">+ Rule</a>
     <table id="rules-table" class="table table-striped">
         <thead>
             <tr>
@@ -116,7 +117,7 @@
                     @Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Right" })
                 </td>
                 <td>
-                    <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click : $root.removeRule">-</a>
+                    <a  rel="nofollow" href="#" data-bind="click : $parent.removeRule.call($parent,$data)">Buang</a>
                 </td>
             </tr>
         </tbody>
@@ -130,13 +131,13 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a class="btn btn-link" data-bind="click: $root.addEmailActionCommand">
+                    <a class="btn btn-link" data-bind="click: addAction('Email')">
                         <i class="icon-envelope"></i>
                         Add Email Action
                     </a>
                 </li>
                 <li>
-                    <a class="btn btn-link" data-bind="click: $root.addSetterActionCommand">
+                    <a class="btn btn-link" data-bind="click: addAction('Setter')">
                         <i class="icon-gear"></i>
                         Add Setter Action
                     </a>
@@ -146,6 +147,7 @@
         </div>
 
     </div>
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -158,26 +160,16 @@
         <tbody data-bind="foreach: ActionCollection">
             <tr>
                 <td>
-                    <!-- ko if: $data.hasOwnProperty("Bcc") -->
-                    <a type="button" class="btn btn-link" data-bind="click : $root.startEditEmailAction" href="#email-action-modal">
+                    <a type="button" class="btn btn-link" data-bind="click : $parent.editAction.call($parent,$data)" href="#">
 
                         <img data-bind="fieldImage : $type" class="pull-left" alt="." />
                         &nbsp;
                         <!-- ko text : Title -->
                         <!-- /ko -->
                     </a>
-                    <!-- /ko -->
-                    <!-- ko if: $data.hasOwnProperty("SetterActionChildCollection") -->
-                    <a type="button" class="btn btn-link" data-bind="click : $root.startEditSetterAction" href="#setter-action-modal">
-                        <img data-bind="fieldImage : $type" class="pull-left" alt="." />
-                        &nbsp;
-                        <!-- ko text : Title -->
-                        <!-- /ko -->
-                    </a>
-                    <!-- /ko -->
                 </td>
                 <td>
-                    <input type="text" class="input-action-note" data-bind="value: Note" />
+                    <input type="text" class="input-action-note form-control" data-bind="value: Note" />
                 </td>
                 <td>
                     <input class="input-action-isactive" data-bind="checked: IsActive" id="IsActive" type="checkbox" name="IsActive" />

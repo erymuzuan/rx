@@ -1,0 +1,53 @@
+﻿
+<section class="view-model-modal" id="email-action-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Hantar email notifikasi</h3>
+            </div>
+            <div class="modal-body" data-bind="with: action">
+
+                <form class="form-horizontal" id="email-action-form">
+                    <div class="form-group">
+                        <label for="email-action-title" class="control-label">Tajuk</label>
+                        <div class="controls">
+                            <input class="form-control" required data-bind="value: Title" id="email-action-title" type="text" name="email-action-title" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email-action-to" class="control-label">To</label>
+                        <div class="controls">
+                            <input class="form-control" data-bind="value: To" id="email-action-to" type="text" required name="email-action-to" />
+                            <span class="help-block">use @@Model to access the document</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email-action-from" class="control-label">From</label>
+                        <div class="controls">
+                            <input required class="form-control" data-bind="value: From" id="email-action-from" type="text" name="email-action-from" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email-action-subject" class="control-label">Subject Template</label>
+                        <div class="controls">
+                            <input type="text" required id="email-action-subject" name="email-action-subject" data-bind="value: SubjectTemplate" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email-action-body" class="control-label">Body Template</label>
+                        <div class="controls">
+                            <textarea required id="email-action-body" name="email-action-body" data-bind="value: BodyTemplate" class="form-control" rows="5"></textarea>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="email-action-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

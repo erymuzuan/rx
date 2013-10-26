@@ -5,16 +5,15 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/domain.g.js" />
+/// <reference path="../services/datacontext.js" />
+/// <reference path="../objectbuilders.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
-define(['services/datacontext', 'services/jsonimportexport'],
-    function (context, eximp) {
+define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app],
+    function (context, eximp, app) {
 
         var isBusy = ko.observable(false),
             id = ko.observable(),
-            editedField,
-            editedEmail,
             activate = function (routeData) {
                 id(parseInt(routeData.id));
 
@@ -35,76 +34,7 @@ define(['services/datacontext', 'services/jsonimportexport'],
             viewAttached = function () {
 
 
-                $('#setter-action-modal').on('click', 'a.btn,button.close', function (e) {
-                    e.preventDefault(true);
-                    if ($(this).data("dismiss") === "modal") {
-                        $('#setter-action-modal').hide();
-                    }
-                });
-
             },
-            addRule = function () {
-                var rule = new bespoke.sph.domain.Rule();
-                rule.Left({ Name: ko.observable("+ Field") });
-                rule.Right({ Name: ko.observable("+ Field") });
-                vm.trigger().RuleCollection.push(rule);
-                $('#rules-table .dropdown-toggle').dropdown();
-            },
-
-        removeRule = function (rule) {
-            vm.trigger().RuleCollection.remove(rule);
-        },
-           
-
-            /* email */
-            addEmailAction = function () {
-                var emailAction = new bespoke.sph.domain.EmailAction();
-                vm.trigger().ActionCollection.push(emailAction);
-            },
-            startEditEmailAction = function (email) {
-                editedEmail = email;
-                var clone = ko.mapping.fromJS(ko.mapping.toJS(email));
-                vm.emailAction(clone);
-
-                $('#email-action-modal').modal({});
-            },
-            saveEmail = function () {
-                var clone = ko.mapping.fromJS(ko.mapping.toJS(vm.emailAction));
-                vm.trigger().ActionCollection.replace(editedEmail, clone);
-            },
-            /* setter action */
-            editedSetter,
-            addSetterAction = function () {
-                var setterAction = new bespoke.sph.domain.SetterAction();
-                vm.trigger().ActionCollection.push(setterAction);
-            },
-
-             addSetterActionChild = function () {
-                 var child = new bespoke.sph.domain.SetterActionChild();
-                 child.Field({ Name: ko.observable("+ Field") });
-                 vm.setterAction().SetterActionChildCollection.push(child);
-
-             },
-
-            startEditSetterAction = function (setter) {
-                editedSetter = setter;
-                var clone = ko.mapping.fromJS(ko.mapping.toJS(setter));
-                vm.setterAction(clone);
-
-                $('#setter-action-modal').show();
-            },
-
-            saveSetter = function () {
-
-                var clone = ko.mapping.fromJS(ko.mapping.toJS(vm.setterAction));
-                vm.trigger().ActionCollection.replace(editedSetter, clone);
-            },
-
-        removeAction = function (action) {
-            vm.trigger().ActionCollection.remove(action);
-        },
-
-
             save = function () {
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.trigger);
@@ -131,7 +61,15 @@ define(['services/datacontext', 'services/jsonimportexport'],
                      vm.trigger().TriggerId(0);
 
                  });
-         };
+         },
+            reload = function () {
+                return app.showMessage("This discard all your changed, do you wish to continue", "Reload", ["Yes", "No"])
+                     .done(function (dialogResult) {
+                         if (dialogResult === "Yes") {
+                             activate({ id: id() });
+                         }
+                     });
+            };
 
         var vm = {
             isBusy: isBusy,
@@ -139,29 +77,11 @@ define(['services/datacontext', 'services/jsonimportexport'],
             viewAttached: viewAttached,
             trigger: ko.observable(new bespoke.sph.domain.Trigger()),
 
-            addRuleCommand: addRule,
-            removeRule: removeRule,
-
-
-            /* email action*/
-            addEmailActionCommand: addEmailAction,
-            startEditEmailAction: startEditEmailAction,
-            saveEmail: saveEmail,
-            emailAction: ko.observable(new bespoke.sph.domain.EmailAction()),
-
-            /* setter action */
-            setterAction: ko.observable(new bespoke.sph.domain.SetterAction()),
-            addSetterActionCommand: addSetterAction,
-            addSetterActionChild: addSetterActionChild,
-            startEditSetterAction: startEditSetterAction,
-            saveSetter: saveSetter,
-            removeAction: removeAction,
-
 
 
             toolbar: {
                 saveCommand: save,
-                reloadCommand: function () { return activate({ id: id() }); },
+                reloadCommand: reload,
                 exportCommand: exportJson,
                 commands: ko.observableArray([
                     {

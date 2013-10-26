@@ -1,20 +1,21 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600');
 
-*{
+* {
 	border-radius: 0 !important;
 	box-shadow: none !important;
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false) !important;
 	text-shadow: none !important;
-	font-family: "Open Sans", Arial, Helvetica, sans-serif;
+	/*font-family: "Open Sans", Arial, Helvetica, sans-serif;
 	font-weight: 400;
+        */
 }
 
 .navbar *{
 	background-image: none !important;
 }
 
-form *{
-	font-family: "Open Sans", Arial, Helvetica, sans-serif;
+form * {
+	/*font-family: "Open Sans", Arial, Helvetica, sans-serif;*/
 }
 
 input, textarea{

@@ -1,3 +1,11 @@
-﻿#function-panel-modal {
-    
-}
+﻿#function-panel-modal {}
+
+.input-action-note{}
+.input-action-isactive{}
+
+
+.input-setter-path{}
+.btn-add-setter-field{}
+.btn-add-document-setter-field{}
+.btn-add-constant-setter-field{}
+.btn-add-function-setter-field{}

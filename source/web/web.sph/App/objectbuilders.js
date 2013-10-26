@@ -1,5 +1,7 @@
 ﻿var objectbuilders = {
     datacontext: 'services/datacontext',
+    system: 'durandal/system',
+    app: 'durandal/app',
     logger: 'services/logger',
     watcher: 'services/watcher',
     config: 'config',

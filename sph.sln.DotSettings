@@ -677,6 +677,23 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], &
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9CB7186BF562FA4B9114F871FCF88B9E/Shortcut/@EntryValue">dbv</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9CB7186BF562FA4B9114F871FCF88B9E/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9CB7186BF562FA4B9114F871FCF88B9E/Text/@EntryValue">data-bind="value:$VAL$"$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/Field/=MESSAGE/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/Field/=MESSAGE/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/Field/=TITLE/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/Field/=TITLE/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/Scope/=FFA15E6CFCBE90499C572A859225B012/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/Scope/=FFA15E6CFCBE90499C572A859225B012/Type/@EntryValue">InJavaScriptFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/Shortcut/@EntryValue">durandal-messagebox</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/Text/@EntryValue">app.showMessage("$MESSAGE$", "$TITLE$", ["Yes", "No"])&#xD;
+	.done(function (dialogResult) {&#xD;
+		if (dialogResult === "Yes") {&#xD;
+			$END$&#xD;
+		}&#xD;
+	});</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BB2CA7F5BDEA28458B7A28102359D46F/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BB2CA7F5BDEA28458B7A28102359D46F/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BB2CA7F5BDEA28458B7A28102359D46F/Reformat/@EntryValue">True</s:Boolean>
