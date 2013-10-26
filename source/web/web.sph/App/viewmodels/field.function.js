@@ -7,16 +7,19 @@
 define([],
     function () {
 
-        var okClick = function (data, ev) {
-            if (ev.target.form.checkValidity()) {
-                this.modal.close("OK");
-            }
+        var editor = null,
+            okClick = function (data, ev) {
+                if (ev.target.form.checkValidity()) {
 
-        },
+                    vm.field().Script(editor.getValue());
+                    this.modal.close("OK");
+                }
+
+            },
             cancelClick = function () {
                 this.modal.close("Cancel");
             },
-            viewAttached = function (view) {
+            viewAttached = function () {
 
                 $('#script-help-buttton').popover({
                     title: 'C# scripting help',
@@ -34,6 +37,24 @@ define([],
             viewAttached: viewAttached
         };
 
+        vm.field.subscribe(function (field) {
+            var createEditor = function () {
+                setTimeout(function () { // wait fo the modal
+                    editor = ace.edit("function-field-script");
+                    editor.setTheme("ace/theme/textmate");
+                    editor.getSession().setMode("ace/mode/csharp");
+
+                    editor.setValue(field.Script());
+
+                }, 1000);
+
+            };
+            if (typeof ace === "undefined") {
+                $.getScript('/scripts/ace/ace.js').done(createEditor);
+            } else {
+                createEditor();
+            }
+        });
 
         return vm;
 
