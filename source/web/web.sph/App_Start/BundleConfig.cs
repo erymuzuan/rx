@@ -58,7 +58,7 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/Content/bootstrap-responsive.css")
                 .Include("~/Content/durandal.css")
                 .Include("~/Content/nprogress.css")
-                .Include("~/Content/font-awesome.css")
+                .Include("~/Content/fontawesome/font-awesome.css")
                 .Include("~/Content/toastr.css")
                 .Include("~/Content/blueimp-gallery.css")
                 .Include("~/Content/theme." + theme + "/style.css")

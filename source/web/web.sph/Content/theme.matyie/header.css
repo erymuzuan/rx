@@ -18,6 +18,9 @@ header div.nav-header > div,
 header div.nav-header > ul {
   float: right;
 }
+#header-navbar {
+  height: 47px;
+}
 .navbar .nav > li > a {
   -webkit-text-shadow: none;
   text-shadow: none;
@@ -26,7 +29,6 @@ header div.nav-header > ul {
 #header-navbar > div.navbar-inner {
   background-image: none;
   background-color: #000000 !important;
-  height: 60px;
 }
 #drawer-menu {
   background-image: none;

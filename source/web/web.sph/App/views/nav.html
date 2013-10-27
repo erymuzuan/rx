@@ -2,10 +2,10 @@
     <nav class="menu-nav nav">
         <ul class="menu-nav nav">
             <li>
-                <form class="form-search" role="search">
+                <form class="form-inline" role="search">
                     <div class="input-group">
                         <input id="filter-text" type="search" class="search-query form-control" placeholder="Search items" />
-                        <span class="input-group-addon"><i class="icon-remove"></i></span>
+                        <span class="input-group-addon"><i class="fa fa-remove"></i></span>
 
                     </div>
                 </form>
@@ -13,7 +13,7 @@
             <!-- ko foreach :router.visibleRoutes -->
             <li data-bind="css: { current: isActive }, attr :{'data-string':name}">
                 <a href="#" data-bind=" attr: { href: hash }">
-                    <i data-bind="attr : {class : icon}"></i><span data-bind="text: name"></span>
+                    <i data-bind="attr : {'class' : 'fa ' + icon}"></i><span data-bind="text: name"></span>
                 </a>
             </li>
             <!-- /ko -->

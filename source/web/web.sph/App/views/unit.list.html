@@ -1,15 +1,15 @@
 ﻿<div id="building-lot-collection">
-  <h1 class="row-fluid" data-bind="text: title"></h1>
+  <h1 class="row" data-bind="text: title"></h1>
 
         <div class="row space-search-panel">
-            <form class="form-search" id="units-search-form">
+            <form class="form-inline" id="units-search-form">
                 <label class="control-label">Block</label>
                 <select data-bind="value: blockNo, options: blockOptions, optionsText: 'Name'"></select>
 
                 <label class="control-label">Tingkat</label>
                 <select data-bind="value: floorNo, options: floorOptions, optionsText: 'Number'"></select>
                 <button type="submit">
-                    <i class="icon-search"></i>
+                    <i class="fa fa-search"></i>
                     Cari
                 </button>
             </form>

@@ -33,7 +33,7 @@
 
         <!-- ko if: typeof addNewCommand === "function"-->
         <button id="save" class="btn btn-primary" data-bind="command: addNewCommand" data-loading-text="Simpan....">
-            <i class="icon-plus"></i>
+            <i class="fa fa-plus"></i>
             Tambah
         </button>
         <!-- /ko -->
@@ -41,7 +41,7 @@
         <!-- ko if: typeof addNew === "object"-->
         <!-- ko with: addNew-->
         <a id="savebutton" class="btn btn-primary" data-bind="attr: { href: location }" data-loading-text="Simpan....">
-            <i class="icon-plus"></i>
+            <i class="fa fa-plus"></i>
             <!-- ko text : caption -->
             <!-- /ko -->
         </a>
@@ -50,31 +50,31 @@
 
         <!-- ko if: typeof saveCommand === "function"-->
         <button id="save-button" class="btn btn-primary" data-bind="command: saveCommand">
-            <i class="icon-save"></i>
+            <i class="fa fa-save"></i>
             Simpan
         </button>
         <!-- /ko -->
         <!-- ko if: typeof removeCommand === "function"-->
         <button class="btn btn-danger" data-bind="command: removeCommand">
-            <i class="icon-remove"></i>
+            <i class="fa fa-remove"></i>
             Hapuskan
         </button>
         <!-- /ko -->
         <!-- ko if: typeof reloadCommand === "function"-->
         <button class="btn btn-warning" data-bind="command: reloadCommand" data-loading-text="Sedang Proses....">
-            <i class="icon-refresh"></i>
+            <i class="fa fa-refresh"></i>
             Muat Semula
         </button>
         <!-- /ko -->
         <!-- ko if: typeof auditTrail === "object"-->
         <a data-toggle="modal" href="#shell-logviewer-modal" class="btn" data-bind="commandWithParameter: { command: $root.viewAuditTrailCommand, commandParameter: auditTrail }" data-loading-text="Sedang Proses....">
-            <i class="icon-calendar"></i>
+            <i class="fa fa-calendar"></i>
             Log
         </a>
         <!-- /ko -->
         <!-- ko if: typeof printCommand === "object"-->
         <button class="btn" data-bind="commandWithParameter: { command: $root.printCommand, commandParameter: printCommand }" data-loading-text="Cetak....">
-            <i class="icon-print"></i>
+            <i class="fa fa-print"></i>
             Cetak
         </button>
         <!-- /ko -->
@@ -82,34 +82,34 @@
 
         <!-- ko if: typeof exportCommand === "function"-->
         <button class="btn btn-default" data-bind="command: exportCommand">
-            <i class="icon-download"></i>
+            <i class="fa fa-download"></i>
             Eksport
         </button>
         <!-- /ko -->
         
         <!-- ko if: typeof importCommand === "function"-->
         <button class="btn btn-default" data-bind="command: importCommand">
-            <i class="icon-upload"></i>
+            <i class="fa fa-upload"></i>
             Import
         </button>
         <!-- /ko -->
 
         <!-- ko if: typeof emailCommand === "function"-->
         <button class="btn btn-default" data-bind="command: emailCommand" data-loading-text="Sedang Proses....">
-            <i class="icon-envelope"></i>
+            <i class="fa-envelope"></i>
             Emel
         </button>
         <!-- /ko -->
 
         <!-- ko if: typeof watchCommand === "function"-->
         <button class="btn btn-default" data-bind="command: watchCommand, visible: watching() === false" data-loading-text="saving....">
-            <i class="icon-eye-open"></i>
+            <i class="fa fa-eye-open"></i>
             Pantau
         </button>
         <!-- /ko -->
         <!-- ko if: typeof unwatchCommand === "function"-->
         <button class="btn btn-warning" data-bind="command: unwatchCommand, visible: watching" data-loading-text="saving....">
-            <i class="icon-eye-close"></i>
+            <i class="fa fa-eye-close"></i>
             Unwatch
         </button>
         <!-- /ko -->

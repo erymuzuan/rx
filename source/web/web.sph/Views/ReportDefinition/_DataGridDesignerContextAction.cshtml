@@ -1,6 +1,6 @@
 ﻿<section class="context-action-panel" data-bind="visible: isSelected">
     <button class="btn btn-link btn-context-action">
-        <i class="icon-chevron-sign-right"></i>
+        <i class="fa fa-chevron-sign-right"></i>
     </button>
 
     <div class="context-action">
@@ -37,7 +37,7 @@
                     <td>
                         <input type="text" class="input-datagrid-column-footer" data-bind="value: FooterExpression" />
                     </td>
-                    <td><a href="#" data-bind="click : $parent.removeColumn.call($parent,$data)"><i class="icon-remove"></i></a></td>
+                    <td><a href="#" data-bind="click : $parent.removeColumn.call($parent,$data)"><i class="fa fa-remove"></i></a></td>
                 </tr>
             </tbody>
         </table>
@@ -67,13 +67,13 @@
                     <td>
                         <input class="input-medium input-datagrid-group-footer" data-bind="value: FooterExpression" />
                     </td>
-                    <td><a href="#" data-bind="click: $parent.removeDataGridGroupDefinition.call($parent, $data)"><i class="icon-remove"></i></a></td>
+                    <td><a href="#" data-bind="click: $parent.removeDataGridGroupDefinition.call($parent, $data)"><i class="fa fa-remove"></i></a></td>
                 </tr>
             </tbody>
         </table>
 
         <a class="btn btn-link pull-right" data-bind="click: $root.removeReportItem">
-            <i class="icon-remove"></i>
+            <i class="fa fa-remove"></i>
             Buang
         </a>
 
