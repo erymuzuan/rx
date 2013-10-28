@@ -11,12 +11,13 @@
 
 define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'durandal/app',
         'viewmodels/map', objectbuilders.logger, objectbuilders.watcher, objectbuilders.config,
-        objectbuilders.cultures, objectbuilders.validation],
-    function (context, router, system, app, map, logger, watcher, config, cultures, validation) {
+        objectbuilders.cultures, objectbuilders.validation,objectbuilders.defaultValueProvider],
+    function (context, router, system, app, map, logger, watcher, config, cultures, validation, defaultValueProvider) {
         var isBusy = ko.observable(false),
-            m_template = ko.observable(),
+            mTemplate = ko.observable(),
             setBuildingToContext = function (building, template) {
-                m_template(template);
+               
+                mTemplate(template);
                 var fieldToValueMap = function (f) {
                     var webid = system.guid();
                     var v = new bespoke.sph.domain.CustomFieldValue(webid);
@@ -47,7 +48,7 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
                         building.CustomListValueCollection.push(f);
                     }
                 });
-
+               
                 vm.building(building);
                 vm.building().TemplateId(template.BuildingTemplateId());
                 vm.building().TemplateName(template.Name());
@@ -68,7 +69,7 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
                 // build custom fields value
                 context.loadOneAsync("BuildingTemplate", "BuildingTemplateId eq " + templateId)
                     .done(function (template) {
-
+                        defaultValueProvider.setDefaultValues(vm.building(), template);
                         // new building
                         if (!id) {
                             setBuildingToContext(new bespoke.sph.domain.Building(), template);
@@ -263,7 +264,7 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
 
             },
             viewAttached = function () {
-                validation.init($('#building-detail-form'), m_template());
+                validation.init($('#building-detail-form'), mTemplate());
                 $('*[title]').tooltip({ placement: 'right' });
             },
             remove = function () {
