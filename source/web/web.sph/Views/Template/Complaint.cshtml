@@ -23,6 +23,9 @@
                 <li>
                     <a href="#complaint-others" data-toggle="tab">Others Information</a>
                 </li>
+                <li>
+                    <a href="#complaint-business-rules" data-toggle="tab">Business Rule</a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div id="complaint-designer" class="tab-pane active" data-bind="with: template">
@@ -121,7 +124,9 @@
                         </div>
                     </form>
                 </div>
-
+                <div id="complaint-business-rules" class="tab-pane" data-bind="with: template">
+                    @Html.Partial("_BusinessRule")
+                </div>
             </div>
         </div>
 

@@ -17,7 +17,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', ob
 	    var template = ko.observable(new bespoke.sph.domain.ComplaintTemplate()),
 	        id = ko.observable(),
 	        isBusy = ko.observable(false),
-	        m_template = ko.observable(false),
+	        mTemplate = ko.observable(false),
             activate = function (routedata) {
                 vm.stateOptions(config.stateOptions);
 
@@ -27,7 +27,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', ob
                 var query = "ComplaintTemplateId eq " + id();
                 context.loadOneAsync("ComplaintTemplate", query).then(function (tpl) {
                     template(tpl);
-                    m_template(tpl);
+                    mTemplate(tpl);
                     vm.complaint().TemplateId(id());
                     var categories = _(tpl.ComplaintCategoryCollection()).map(function (c) {
                         return c.Name();
@@ -61,7 +61,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', ob
             },
 
             viewAttached = function (view) {
-                validation.init($('#complaint-form-detail'), m_template());
+                validation.init($('#complaint-form-detail'), mTemplate());
                 $(view).find('*[title]').tooltip({ placement: 'right' });
                 $("#AttachmentStoreId").kendoUpload({
                     async: {
@@ -94,6 +94,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', ob
 
 	        submit = function () {
 	            if (!validation.valid()) {
+// ReSharper disable once UseOfImplicitGlobalInFunctionScope
 	                return Task.fromResult(false);
 	            }
 	            var tcs = new $.Deferred();
@@ -101,20 +102,38 @@ define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', ob
 	            vm.complaint().Type(templateName);
 	            var data = ko.toJSON(vm.complaint);
 	            isBusy(true);
-
 	            context.post(data, "/Complaint/Submit")
-	                .then(function (result) {
-	                    isBusy(false);
-	                    vm.complaint().ReferenceNo(result.referenceNo);
-	                    $('#complaint-ticket-modal').modal({})
-                         .on('click', 'a.btn', function () {
-                             var url = '/#/public.index';
-                             setTimeout(function () {
-                                 router.navigateTo(url);
-                             }, 500);
+                 .done(function (e) {
+                     if (!e.Success) {
+                         
+                         isBusy(false);
+                         
+// ReSharper disable once UseOfImplicitGlobalInFunctionScope
+                         require(['viewmodels/error.message', 'durandal/app'], function (dialog, app2) {
+                             dialog.validationErrors(e.ValidationErrors);
+                             app2.showModal(dialog)
+                              .done(function (result) {
+                                  if (!result) return;
+                              });
+
                          });
-	                    tcs.resolve(true);
-	                });
+                         tcs.resolve(true);
+                     }
+                     else {
+                         isBusy(false);
+                         vm.complaint().ReferenceNo(e.ReferenceNo);
+                         $('#complaint-ticket-modal').modal({})
+                          .on('click', 'a.btn', function () {
+                              var url = '/#/public.index';
+                              setTimeout(function () {
+                                  router.navigateTo(url);
+                              }, 500);
+                          });
+
+                     }
+
+                     tcs.resolve(true);
+                 });
 	            return tcs.promise();
 	        };
 
