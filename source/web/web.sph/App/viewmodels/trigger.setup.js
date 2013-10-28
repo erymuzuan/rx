@@ -57,7 +57,8 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app]
          importJson = function () {
              return eximp.importJson()
                  .done(function (json) {
-                     vm.trigger(ko.mapping.fromJSON(json));
+                     var clone = context.toObservable(JSON.parse(json));
+                     vm.trigger(clone);
                      vm.trigger().TriggerId(0);
 
                  });
@@ -85,7 +86,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app]
                 exportCommand: exportJson,
                 commands: ko.observableArray([
                     {
-                        icon: 'icon-upload',
+                        icon: 'fa fa-upload',
                         caption: 'import',
                         command: importJson
                     }
