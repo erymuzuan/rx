@@ -277,6 +277,7 @@
     </Compile>
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
+    <Compile Include="Controllers\EditorController.cs" />
     <Compile Include="Controllers\SpaceController.cs" />
     <Compile Include="Controllers\ComplaintController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
@@ -1939,6 +1940,7 @@
     </Content>
     <Content Include="Views\Shared\_TriggerFieldDropDown.cshtml" />
     <Content Include="Views\Shared\_PublicLayout.cshtml" />
+    <Content Include="Views\Editor\Ace.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

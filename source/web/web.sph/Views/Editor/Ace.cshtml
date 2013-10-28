@@ -1,0 +1,89 @@
+﻿@model dynamic
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Editor</title>
+    <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet" />
+    <style type="text/css" media="screen">
+        body {
+            overflow: hidden;
+        }
+
+        #editor {
+            margin: 0;
+            position: absolute;
+            top: 0;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <pre id="editor">
+// PLEASE WAIT WHILE YOUR SCRIPT IS LOADING
+</pre>
+    <div class="navbar-fixed-bottom row">
+        <form class="form-inline">
+            <div class="form-group pull-left">
+                <label class="sr-only">Theme</label>
+                <select style="width: 200px" class="form-control" id="theme">
+                    <optgroup label="Light">
+                        <option value="textmate">Textmate</option>
+                        <option value="crimson_editor">Crimson</option>
+                    </optgroup>
+                    <optgroup label="Dark">
+                        <option value="monokai">Monokai</option>
+                        <option value="twilight">Twilight</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="form-group pull-left">
+                <label class="sr-only">Font size</label>
+                <select style="width: 100px" id="font-size" class="form-control">
+                    @for (int i = 10; i < 21; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <button id="save-button" class="btn btn-primary pull-right">SAVE</button>
+            </div>
+      
+        </form>
+    </div>
+
+    <script src="~/Scripts/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/crimson_editor");
+        editor.getSession().setMode("ace/mode/csharp");
+
+        editor.setValue(field.Script());
+
+        $('#save-button').click(function () {
+            if (window.saved)
+                window.saved(editor.getValue());
+        });
+
+        $('#theme').change(function () {
+            editor.setTheme("ace/theme/" + $(this).val());
+        });
+        $('#font-size').change(function () {
+            $('#editor').css("font-size", $(this).val() + "px");
+        });
+    </script>
+
+</body>
+</html>
