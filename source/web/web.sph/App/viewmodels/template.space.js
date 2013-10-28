@@ -9,8 +9,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger', 'config'],
-    function (context, system, designerHost, eximp, logger, config) {
+define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger', 'config', objectbuilders.defaultValueProvider],
+    function (context, system, designerHost, eximp, logger, config, defaultValueProvider) {
 
         var templateId = ko.observable(),
             activate = function (routeData) {
@@ -122,30 +122,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
         },
 
             loadDefaultValueFields = function () {
-                var tcs = new $.Deferred();
-                var data = JSON;
-
-                context.post(data, "/Template/PropertyPath/Space")
-                    .then(function (result) {
-
-                        var fields = _(result).map(function (f) {
-                            var field = new bespoke.sph.domain.DefaultValue(system.guid());
-                            field.PropertyName(f.Name);
-                            field.TypeName(f.TypeName);
-                            field.IsNullable(f.IsNullable);
-                            // TODO :look for existing values
-                            var ef = _(vm.template().DefaultValueCollection()).find(function (e) {
-                                return e.PropertyName() === f.Name;
-                            });
-                            if (ef) {
-                                field.Value(ef.Value);
-                            }
-                            return field;
-                        });
-                        vm.template().DefaultValueCollection(fields);
-                        tcs.resolve(result);
-                    });
-                return tcs.promise();
+                return defaultValueProvider.loadAsync("Space", vm.template());
             };
 
         var vm = {

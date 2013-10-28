@@ -40,6 +40,7 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/scripts/_task.js")
                 .Include("~/scripts/_constants.js")
                 .Include("~/App/schemas/*.js")
+                .Include("~/App/prototypes/*.js")
                 .Include("~/App/partial/*.js")
               );
             bundles.Add(

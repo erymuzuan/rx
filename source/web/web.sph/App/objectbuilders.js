@@ -1,4 +1,5 @@
 ﻿var objectbuilders = {
+    defaultValueProvider: 'services/default.value.provider',
     datacontext: 'services/datacontext',
     system: 'durandal/system',
     app: 'durandal/app',
