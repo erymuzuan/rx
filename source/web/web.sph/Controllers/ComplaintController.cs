@@ -12,7 +12,14 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
             complaint.Status = "Baru";
- 
+
+            var template = await context.LoadOneAsync<ComplaintTemplate>(s => s.ComplaintTemplateId == complaint.TemplateId);
+            var result = complaint.ValidateBusinessRule(template.BusinessRuleCollection);
+            if (result.Success == false)
+            {
+                return Json(result);
+            }
+
             using (var session = context.OpenSession())
             {
                 session.Attach(complaint);
@@ -26,8 +33,8 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(complaint);
                 await session.SubmitChanges("generate complaint number");
             }
-
-            return Json(new { status = "success", referenceNo = complaint.ReferenceNo });
+            result.ReferenceNo = complaint.ReferenceNo;
+            return Json(result);
         }
 
         public async Task<ActionResult> Assign(Complaint comp)

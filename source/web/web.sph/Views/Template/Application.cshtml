@@ -11,25 +11,36 @@
         <div class="col-lg-4">
             @Html.Partial("_Toolbox")
         </div>
+        <div class="tabbable col-lg-8">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#application-designer" data-toggle="tab">Designer</a>
+                </li>
+                <li>
+                    <a href="#application-business-rules" data-toggle="tab">Business Rules</a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div id="application-designer" class="col-lg-8 tab-pane active" data-bind="with: template">
+                <div data-bind="with: FormDesign" id="template-form-designer">
+                    <h1 data-bind="text: Name"></h1>
+                    <span data-bind="text: Description"></span>
 
-        <div class="col-lg-8" data-bind="with: template">
+                    <form class="form-horizontal">
+                        <!--ko foreach:FormElementCollection -->
+                        @foreach (var fe in Model.FormElements)
+                        {
+                            @Html.DisplayFor(m => fe)
+                        }
+                        <!--/ko-->
 
-            <div data-bind="with: FormDesign" id="template-form-designer">
-                <h1 data-bind="text: Name"></h1>
-                <span data-bind="text: Description"></span>
-
-                <form class="form-horizontal">
-                    <!--ko foreach:FormElementCollection -->
-                    @foreach (var fe in Model.FormElements)
-                    {
-                        @Html.DisplayFor(m => fe)
-                    }
-                    <!--/ko-->
-
-                </form>
+                    </form>
+                </div>
             </div>
-
-
+            <div id="application-business-rules" class="col-lg-8 tab-pane" data-bind="with: template">
+                @Html.Partial("_BusinessRule")
+            </div>
         </div>
     </div>
 </div>@Html.Partial("_PathPicker")

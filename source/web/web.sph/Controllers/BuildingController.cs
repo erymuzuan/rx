@@ -137,7 +137,12 @@ namespace Bespoke.Sph.Web.Controllers
             var building = this.GetRequestJson<Building>();
             var context = new SphDataContext();
 
-
+            var template = await context.LoadOneAsync<BuildingTemplate>(s => s.BuildingTemplateId == building.TemplateId);
+            var result = building.ValidateBusinessRule(template.BusinessRuleCollection);
+            if (result.Success == false)
+            {
+                return Json(result);
+            }
             var errorMessage = new StringBuilder();
             var duplicateBlocks = building.BlockCollection.Select(b => b.Name)
                                     .GroupBy(b => b)
@@ -176,7 +181,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(building);
                 await session.SubmitChanges("Editing building details");
             }
-            return Json(new { status = "success", buildingId = building.BuildingId, message = building.Name });
+            return Json(result);
         }
 
         public async Task<ActionResult> AddUnit(Floor floor, Block block, int buildingId, Unit unit)

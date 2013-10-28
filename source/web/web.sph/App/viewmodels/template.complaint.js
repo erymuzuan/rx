@@ -11,7 +11,7 @@
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
 
-define([objectbuilders.datacontext, 'durandal/system', './template.base', 'services/jsonimportexport',objectbuilders.logger],
+define([objectbuilders.datacontext, objectbuilders.system, './template.base', 'services/jsonimportexport',objectbuilders.logger],
     function (context, system, templateBase, eximp, logger) {
 
         var isBusy = ko.observable(false),
@@ -114,6 +114,7 @@ define([objectbuilders.datacontext, 'durandal/system', './template.base', 'servi
                         isBusy(false);
                         tcs.resolve(msg.id);
                         vm.template().ComplaintTemplateId(msg.id);
+                        logger.info("Data has been successfully saved ");
                     });
                 return tcs.promise();
             },

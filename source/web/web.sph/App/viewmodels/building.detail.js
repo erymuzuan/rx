@@ -9,10 +9,10 @@
 /// <reference path="../services/cultures.my.js" />
 /// <reference path="../objectbuilders.js" />
 
-define([objectbuilders.datacontext,objectbuilders.router,'durandal/system','durandal/app',
-        'viewmodels/map',objectbuilders.logger,objectbuilders.watcher,objectbuilders.config,
-        objectbuilders.cultures,objectbuilders.validation],
-    function (context, router, system, app, map, logger, watcher, config, cultures,validation) {
+define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'durandal/app',
+        'viewmodels/map', objectbuilders.logger, objectbuilders.watcher, objectbuilders.config,
+        objectbuilders.cultures, objectbuilders.validation],
+    function (context, router, system, app, map, logger, watcher, config, cultures, validation) {
         var isBusy = ko.observable(false),
             m_template = ko.observable(),
             setBuildingToContext = function (building, template) {
@@ -123,13 +123,25 @@ define([objectbuilders.datacontext,objectbuilders.router,'durandal/system','dura
                 var data = ko.toJSON(vm.building());
                 context.post(data, "/Building/Save")
                     .done(function (e) {
-                        if (e.status) {
-                            vm.building().BuildingId(e.buildingId);
-                            logger.info(cultures.building.SAVE_BUILDING_MESSAGE);
-                        } else {
-                            logger.logError(e.message, e, this, true);
+                        if (!e.Success) {
+                            isBusy(false);
+                            require(['viewmodels/error.message', 'durandal/app'], function (dialog, app2) {
+                                dialog.validationErrors(e.ValidationErrors);
+                                app2.showModal(dialog)
+                                 .done(function (result) {
+                                     if (!result) return;
+                                 });
+
+                            });
+                            tcs.resolve(true);
                         }
-                        tcs.resolve(e);
+                        else {
+                            isBusy(false);
+                            vm.building().BuildingId(e.buildingId);
+                            logger.log("Data has been successfully saved ", e, "building.detail", true);
+                        }
+
+                        tcs.resolve(true);
                     });
                 return tcs.promise();
             },
@@ -251,7 +263,7 @@ define([objectbuilders.datacontext,objectbuilders.router,'durandal/system','dura
 
             },
             viewAttached = function () {
-                validation.init($('#building-detail-form'),m_template());
+                validation.init($('#building-detail-form'), m_template());
                 $('*[title]').tooltip({ placement: 'right' });
             },
             remove = function () {

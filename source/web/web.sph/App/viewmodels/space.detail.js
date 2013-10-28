@@ -17,7 +17,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, './_space.contract', 
 
         var title = ko.observable(),
             isBusy = ko.observable(false),
-            m_template = ko.observable(),
+            mTemplate = ko.observable(),
             activate = function (routeData) {
                 vm.selectedBuildingId(0);
 
@@ -38,7 +38,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, './_space.contract', 
                     })
                     .done(function (template, b, space) {
 
-                        m_template(template);
+                        mTemplate(template);
                         vm.stateOptions(config.stateOptions);
                         if (!space) {
                             space = new bespoke.sph.domain.Space();
@@ -99,11 +99,12 @@ define([objectbuilders.datacontext, objectbuilders.logger, './_space.contract', 
                 return tcs.promise();
             },
             viewAttached = function (view) {
-                validation.init($('#space-detail-form'), m_template());
+                validation.init($('#space-detail-form'), mTemplate());
                 $(view).tooltip({ 'placement': 'right' });
             },
             saveCs = function () {
                 if (!validation.valid()) {
+// ReSharper disable once UseOfImplicitGlobalInFunctionScope
                     return Task.fromResult(false);
                 }
                 var tcs = new $.Deferred();

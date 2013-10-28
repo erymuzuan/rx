@@ -76,7 +76,12 @@ namespace Bespoke.Sph.Web.Controllers
                     EntityId = rentalapplication.RentalApplicationId,
                     Note = "Permohonan melalui web"
                 };
-
+            var template = await context.LoadOneAsync<ApplicationTemplate>(s => s.ApplicationTemplateId == rentalapplication.TemplateId);
+            var result = rentalapplication.ValidateBusinessRule(template.BusinessRuleCollection);
+            if (result.Success == false)
+            {
+                return Json(result);
+            }
             using (var session = context.OpenSession())
             {
                 session.Attach(rentalapplication);
@@ -92,7 +97,7 @@ namespace Bespoke.Sph.Web.Controllers
                 await session.SubmitChanges();
             }
 
-            return Json(new { status = "success", registrationNo = rentalapplication.RegistrationNo });
+            return Json(result);
         }
         public async Task<ActionResult> WaitingList(int id)
         {
