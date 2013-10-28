@@ -19,17 +19,19 @@ namespace Bespoke.Sph.Domain
             if (null == method)
                 throw new InvalidOperationException("Cannot load method " + this.Method);
             var args = method.GetParameters();
-            if (args.Length != this.ParameterCollection.Count)
-                throw new InvalidOperationException(string.Format("Expected {0} args but you had supplied {1} args instead", args.Length, ParameterCollection.Count));
+            if (args.Length != this.MethodArgCollection.Count)
+                throw new InvalidOperationException(string.Format("Expected {0} args but you had supplied {1} args instead", args.Length, MethodArgCollection.Count));
 
             var temp = new List<object>();
             foreach (var g in args)
             {
                 var g1 = g;
-                if (this.ParameterCollection.Count(p => p.Name == g1.Name) != 1)
+                if (this.MethodArgCollection.Count(p => p.Name == g1.Name) != 1)
                     throw new InvalidOperationException("Cannot find the parameter " + g1);
-            
-                temp.Add(this.ParameterCollection.Single(p=> p.Name == g1.Name).Value);
+
+                var arg = this.MethodArgCollection.Single(p => p.Name == g1.Name);
+                var value = arg.GetValue(context);
+                temp.Add(value);
             }
 
             if (this.IsAsync)

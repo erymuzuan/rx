@@ -236,6 +236,7 @@
     <Compile Include="Triggers\ConstantField.cs" />
     <Compile Include="Triggers\DocumentField.cs" />
     <Compile Include="Triggers\Field.cs" />
+    <Compile Include="Triggers\MethodArg.cs" />
     <Compile Include="Triggers\PropertyChangedField.cs" />
     <Compile Include="Triggers\Rule.cs" />
     <Compile Include="Triggers\CustomAction.cs" />

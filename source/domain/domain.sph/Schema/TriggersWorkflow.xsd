@@ -45,10 +45,10 @@
 			<xs:complexContent>
 				<xs:extension base="Field">
 					<xs:all>
-						<xs:element name="ParameterCollection">
+						<xs:element name="MethodArgCollection">
 							<xs:complexType>
 								<xs:sequence>
-									<xs:element ref="ns1:Parameter" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element ref="MethodArg" minOccurs="0" maxOccurs="unbounded"/>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
@@ -193,6 +193,15 @@
 				</xs:element>
 			</xs:all>
 			<xs:attribute name="Path" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MethodArg">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="ValueProvider" type="Field"/>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

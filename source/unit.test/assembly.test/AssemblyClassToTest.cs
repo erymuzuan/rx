@@ -3,6 +3,15 @@ using Bespoke.Sph.Domain;
 
 namespace assembly.test
 {
+    public class BudgetServiceAgent
+    {
+        public async Task<object> GetBudgetAsync(int id)
+        {
+            await Task.Delay(500);
+            return 50000;
+        }
+         
+    }
     public class AssemblyClassToTest
     {
         public string SayHello(string name)

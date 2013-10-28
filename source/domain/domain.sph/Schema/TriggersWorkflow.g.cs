@@ -475,15 +475,15 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        private readonly ObjectCollection<Parameter> m_ParameterCollection = new ObjectCollection<Parameter>();
+        private readonly ObjectCollection<MethodArg> m_MethodArgCollection = new ObjectCollection<MethodArg>();
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ns1:Parameter", IsNullable = false)]
-        public ObjectCollection<Parameter> ParameterCollection
+        [XmlArrayItem("MethodArg", IsNullable = false)]
+        public ObjectCollection<MethodArg> MethodArgCollection
         {
-            get { return m_ParameterCollection; }
+            get { return m_MethodArgCollection; }
         }
 
 
@@ -993,6 +993,114 @@ namespace Bespoke.Sph.Domain
                 }
             }
             get { return m_field; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("MethodArg", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class MethodArg
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Field m_valueProvider;
+        public const string PropertyNameValueProvider = "ValueProvider";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string TypeName
+        {
+            set
+            {
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public Field ValueProvider
+        {
+            set
+            {
+                if (m_valueProvider == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameValueProvider, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_valueProvider = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_valueProvider; }
         }
 
 

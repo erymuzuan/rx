@@ -70,6 +70,8 @@ namespace Bespoke.Sph.Web.Controllers
                 return RedirectPermanent("~/images/EmailAction.png");
             if (type == typeof(PropertyChangedField))
                 return RedirectPermanent("~/images/PropertyChangedField.png");
+            if (type == typeof(AssemblyField))
+                return RedirectPermanent("~/images/AssemblyField.png");
 
             return Content("www");
         }

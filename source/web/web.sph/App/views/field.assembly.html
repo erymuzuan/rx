@@ -3,18 +3,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3>Constant</h3>
+                <h3>Assembly</h3>
             </div>
             <div class="modal-body" data-bind="with : field">
                 <form id="constant-field-form" class="form-horizontal">
                     <div class="form-group">
-                        <label for="constant-field-name" class="control-label">Nama</label>
+                        <label for="constant-field-name" class="control-label">Name</label>
                         <div class="controls">
                             <input class="form-control" data-bind="value: Name" id="constant-field-name" type="text" name="constant-field-name" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="constant-field-note" class="control-label">Nota</label>
+                        <label for="constant-field-note" class="control-label">Note</label>
                         <div class="controls">
                             <input class="form-control" data-bind="value: Note" id="constant-field-note" type="text" name="constant-field-note" />
                         </div>
@@ -24,6 +24,13 @@
                         <label for="assembly-field-location" class="col-lg-2 control-label">Location</label>
                         <div class="col-lg-6">
                             <input data-bind="value:Location" type="text" class="form-control" id="assembly-field-location" placeholder="Assembly location">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="assembly-field-type" class="col-lg-2 control-label">Class</label>
+                        <div class="col-lg-6">
+                            <input data-bind="value:TypeName" type="text" class="form-control" id="assembly-field-type" placeholder="Full type name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -42,8 +49,15 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="form-group" data-bind="enable:IsAsync">
+                        <label for="assembly-field-timeout" class="col-lg-2 control-label">Async timeout</label>
+                        <div class="col-lg-6">
+                            <input data-bind="value:AsyncTimeout" type="number" class="form-control" id="assembly-field-timeout" placeholder="Async time out">
+                        </div>
+                    </div>
                   
-                    <a href="#" data-bind="click : addParameter">+Parameters</a>
+                    <a href="#" data-bind="click : addParameter">+ Arguement</a>
                     <table class="table">
                         <thead>
                             <tr>
@@ -53,7 +67,7 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody data-bind="foreach :ParameterCollection">
+                        <tbody data-bind="foreach :MethodArgCollection">
                             <tr>
                                 <td>
                                     <input type="text" data-bind="value:Name" class="form-control"/>
@@ -62,7 +76,36 @@
                                     <input type="text" data-bind="value:TypeName" class="form-control"/>
                                 </td>
                                 <td>
-                                    <input type="text" data-bind="value:Value" class="form-control"/>
+
+                                    <div class="btn-group">
+
+                                        <a data-bind="with : ValueProvider, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                                            <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                                            <!-- ko text : Name -->
+                                            <!-- /ko -->
+                                            <span class="caret"></span>
+                                        </a>
+
+
+                                        <ul class="dropdown-menu">
+                                            <li data-bind="with : ValueProvider">
+                                                <a class="btn-add-setter-field" data-bind="visible: Name() !== '+ Field',unwrapClick: $parent.editField.call($parent,$data)">
+                                                    <i class="fa fa-edit"></i>
+                                                    Edit Field
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="btn-add-document-setter-field" data-bind="unwrapClick: addField,field : 'Document', accessor : $data.ValueProvider" href="#">+ Document Field</a>
+                                            </li>
+                                            <li>
+                                                <a class="btn-add-constant-setter-field" data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.ValueProvider" href="#">+ Constant Field</a>
+                                            </li>
+                                            <li>
+                                                <a class="btn-add-function-setter-field" data-bind="unwrapClick: addField,field : 'Function', accessor : $data.ValueProvider" href="#">+ Function Field</a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
                                 </td>
                                 <td>
                                     <a href="#" data-bind="click : $parent.removeParameter.call($parent,$data)">Buang</a>

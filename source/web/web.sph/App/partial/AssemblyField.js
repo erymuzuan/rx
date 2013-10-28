@@ -9,12 +9,12 @@
 bespoke.sph.domain.AssemblyFieldPartial = function () {
     var system = require(objectbuilders.system),
         addParameter = function () {
-            this.ParameterCollection.push(new bespoke.sph.domain.Parameter(system.guid()));
+            this.MethodArgCollection.push(new bespoke.sph.domain.MethodArg(system.guid()));
         },
         removeParameter = function(p) {
             var self = this;
             return function() {
-                self.ParameterCollection.remove(p);
+                self.MethodArgCollection.remove(p);
             };
         };
     return {

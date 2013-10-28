@@ -1,4 +1,5 @@
 ﻿using Bespoke.Sph.Domain;
+using Bespoke.Sph.RoslynScriptEngines;
 using NUnit.Framework;
 
 namespace domain.test.triggers
@@ -7,7 +8,7 @@ namespace domain.test.triggers
     public class AssemblyFieldTest
     {
         [Test]
-        public void GetValueStringWithOneParameter()
+        public void GetValueStringWithOneMethodArg()
         {
             var building = new Building { Name = "A" };
             var context = new RuleContext(building);
@@ -18,14 +19,14 @@ namespace domain.test.triggers
                 Location = @"c:\project\work\sph\source\unit.test\assembly.test\bin\Debug\assembly.test.dll",
                 TypeName = @"assembly.test.AssemblyClassToTest"
             };
-            af.ParameterCollection.Add(new Parameter { Type = typeof(string), Value = "erymuzuan", Name = "name"});
+            af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "erymuzuan", Type = typeof(string) }, Name = "name" });
 
             var name = af.GetValue(context);
             Assert.AreEqual("Hello erymuzuan", name);
 
         }
         [Test]
-        public void GetValueStringWith2Parameters()
+        public void GetValueStringWith2MethodArgs()
         {
             var building = new Building { Name = "A" };
             var context = new RuleContext(building);
@@ -36,8 +37,8 @@ namespace domain.test.triggers
                 Location = @"c:\project\work\sph\source\unit.test\assembly.test\bin\Debug\assembly.test.dll",
                 TypeName = @"assembly.test.AssemblyClassToTest"
             };
-            af.ParameterCollection.Add(new Parameter { Type = typeof(string), Value = "erymuzuan", Name = "name" });
-            af.ParameterCollection.Add(new Parameter { Type = typeof(string), Value = "Good morning", Name = "greet" });
+            af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "erymuzuan", Type = typeof(string) }, Name = "name" });
+            af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "Good morning", Type = typeof(string) }, Name = "greet" });
 
             var name = af.GetValue(context);
             Assert.AreEqual("Good morning erymuzuan", name);
@@ -45,7 +46,7 @@ namespace domain.test.triggers
         }
 
         [Test]
-        public void GetValueStringWithEntityParameter()
+        public void GetValueStringWithEntityMethodArg()
         {
             var building = new Building { Name = "Masjid kampung Bukit Bunga" };
             var context = new RuleContext(building);
@@ -56,19 +57,23 @@ namespace domain.test.triggers
                 Location = @"c:\project\work\sph\source\unit.test\assembly.test\bin\Debug\assembly.test.dll",
                 TypeName = @"assembly.test.AssemblyClassToTest"
             };
-            af.ParameterCollection.Add(new Parameter { Type = typeof(string), Value = "Welcome to", Name = "greet" });
-            af.ParameterCollection.Add(new Parameter { Type = typeof(Building), Value = building, Name = "masjid" });
+            var masjidField = new FunctionField { Script = "return item;", ScriptEngine = new RoslynScriptEngine() };
+            af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "Welcome to", Type = typeof(string) }, Name = "greet" });
+            af.MethodArgCollection.Add(new MethodArg { Type = typeof(Building), ValueProvider = masjidField, Name = "masjid" });
 
             var name = af.GetValue(context);
             Assert.AreEqual("Welcome to Masjid kampung Bukit Bunga", name);
 
-        } 
-        
+        }
+
+
         [Test]
         public void GetAsyncValueString()
         {
             var building = new Building { Name = "Masjid kampung Bukit Bunga" };
             var context = new RuleContext(building);
+
+            var masjidField = new FunctionField { Script = "return item;", ScriptEngine = new RoslynScriptEngine() };
 
             var af = new AssemblyField
             {
@@ -78,11 +83,11 @@ namespace domain.test.triggers
                 IsAsync = true,
                 AsyncTimeout = 650
             };
-            af.ParameterCollection.Add(new Parameter { Type = typeof(string), Value = "Welcome to", Name = "greet" });
-            af.ParameterCollection.Add(new Parameter { Type = typeof(Building), Value = building, Name = "masjid" });
+            af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "Welcome to ", Type = typeof(string) }, Name = "greet" });
+            af.MethodArgCollection.Add(new MethodArg { Type = typeof(Building), ValueProvider = masjidField, Name = "masjid" });
 
             var name = af.GetValue(context);
-            Assert.AreEqual("Welcome to Masjid kampung Bukit Bunga", name);
+            Assert.AreEqual("Welcome to  Masjid kampung Bukit Bunga", name);
 
         }
 

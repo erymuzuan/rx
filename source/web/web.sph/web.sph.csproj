@@ -381,7 +381,7 @@
     <Content Include="App\partial\BusinessRule.js" />
     <Content Include="App\partial\FeatureDefinition.js" />
     <Content Include="App\partial\IFormTemplate.js" />
-    <Content Include="App\partial\Rule - Copy.js" />
+    <Content Include="App\partial\MethodArg.js" />
     <Content Include="App\partial\SetterActionChild.js" />
     <Content Include="App\partial\SetterAction.js" />
     <Content Include="App\partial\BuildingTemplate.js" />
@@ -798,6 +798,7 @@
     <Content Include="Images\add_user.png" />
     <Content Include="Images\Adobe-Acrobat.png" />
     <Content Include="Images\arrow.png" />
+    <Content Include="Images\AssemblyField.png" />
     <Content Include="Images\background.png" />
     <Content Include="Images\blank.png" />
     <Content Include="Images\box-1-white.png" />
@@ -832,6 +833,7 @@
     <Content Include="Images\pic3.png" />
     <Content Include="Images\pic4.png" />
     <Content Include="Images\pie-chart.png" />
+    <Content Include="Images\PropertyChangedField.png" />
     <Content Include="Images\quarters.png" />
     <Content Include="Images\remove_icon.png" />
     <Content Include="Images\report-layout.1.png" />
