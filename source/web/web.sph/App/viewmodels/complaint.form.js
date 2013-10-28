@@ -11,8 +11,8 @@
 /// <reference path="../schemas/sph.domain.g.js" /> 
 
 
-define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', objectbuilders.config, objectbuilders.router, objectbuilders.validation],
-	function (context, logger, system, config, router, validation) {
+define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', objectbuilders.config, objectbuilders.router, objectbuilders.validation,objectbuilders.defaultValueProvider],
+	function (context, logger, system, config, router, validation, defaultValueProvider) {
 
 	    var template = ko.observable(new bespoke.sph.domain.ComplaintTemplate()),
 	        id = ko.observable(),
@@ -28,6 +28,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', ob
                 context.loadOneAsync("ComplaintTemplate", query).then(function (tpl) {
                     template(tpl);
                     mTemplate(tpl);
+                    defaultValueProvider.setDefaultValues(vm.complaint(), template());
                     vm.complaint().TemplateId(id());
                     var categories = _(tpl.ComplaintCategoryCollection()).map(function (c) {
                         return c.Name();
@@ -115,7 +116,6 @@ define([objectbuilders.datacontext, objectbuilders.logger, 'durandal/system', ob
                               .done(function (result) {
                                   if (!result) return;
                               });
-
                          });
                          tcs.resolve(true);
                      }

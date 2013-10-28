@@ -46,6 +46,7 @@ bespoke.sph.domain.ComplaintTemplate = function (webId) {
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         CustomListDefinitionCollection: ko.observableArray([]),
         BusinessRuleCollection: ko.observableArray([]),
+        DefaultValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -71,6 +72,7 @@ bespoke.sph.domain.BuildingTemplate = function (webId) {
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         CustomListDefinitionCollection: ko.observableArray([]),
         BusinessRuleCollection: ko.observableArray([]),
+        DefaultValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -95,6 +97,7 @@ bespoke.sph.domain.ApplicationTemplate = function (webId) {
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         CustomListDefinitionCollection: ko.observableArray([]),
         BusinessRuleCollection: ko.observableArray([]),
+        DefaultValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -119,6 +122,7 @@ bespoke.sph.domain.MaintenanceTemplate = function (webId) {
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         CustomListDefinitionCollection: ko.observableArray([]),
         BusinessRuleCollection: ko.observableArray([]),
+        DefaultValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

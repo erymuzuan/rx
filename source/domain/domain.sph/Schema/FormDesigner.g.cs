@@ -402,6 +402,17 @@
 			get{ return m_BusinessRuleCollection;}
 			}
 		
+			private readonly ObjectCollection<DefaultValue>  m_DefaultValueCollection = new ObjectCollection<DefaultValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("DefaultValue", IsNullable = false)]
+			public ObjectCollection<DefaultValue> DefaultValueCollection
+			{
+			get{ return m_DefaultValueCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -632,6 +643,17 @@
 			public ObjectCollection<BusinessRule> BusinessRuleCollection
 			{
 			get{ return m_BusinessRuleCollection;}
+			}
+		
+			private readonly ObjectCollection<DefaultValue>  m_DefaultValueCollection = new ObjectCollection<DefaultValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("DefaultValue", IsNullable = false)]
+			public ObjectCollection<DefaultValue> DefaultValueCollection
+			{
+			get{ return m_DefaultValueCollection;}
 			}
 		
                 ///<summary>
@@ -889,6 +911,17 @@
 			get{ return m_BusinessRuleCollection;}
 			}
 		
+			private readonly ObjectCollection<DefaultValue>  m_DefaultValueCollection = new ObjectCollection<DefaultValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("DefaultValue", IsNullable = false)]
+			public ObjectCollection<DefaultValue> DefaultValueCollection
+			{
+			get{ return m_DefaultValueCollection;}
+			}
+		
                 ///<summary>
                 /// 
                 ///</summary>
@@ -1114,6 +1147,17 @@
 			public ObjectCollection<BusinessRule> BusinessRuleCollection
 			{
 			get{ return m_BusinessRuleCollection;}
+			}
+		
+			private readonly ObjectCollection<DefaultValue>  m_DefaultValueCollection = new ObjectCollection<DefaultValue> ();
+
+			///<summary>
+			/// 
+			///</summary>
+			[XmlArrayItem("DefaultValue", IsNullable = false)]
+			public ObjectCollection<DefaultValue> DefaultValueCollection
+			{
+			get{ return m_DefaultValueCollection;}
 			}
 		
                 ///<summary>
