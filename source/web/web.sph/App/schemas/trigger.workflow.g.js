@@ -35,6 +35,26 @@ bespoke.sph.domain.Trigger = function (webId) {
 
 
 
+bespoke.sph.domain.AssemblyField = function (webId) {
+
+    var v = new bespoke.sph.domain.Field(webId);
+
+    v.Location = ko.observable('');
+    v.TypeName = ko.observable('');
+    v.Method = ko.observable('');
+    v.IsAsync = ko.observable(false);
+    v.AsyncTimeout = ko.observable(0);
+    v["$type"] = "Bespoke.Sph.Domain.AssemblyField, domain.sph";
+
+    v.ParameterCollection = ko.observableArray([]);
+    if (bespoke.sph.domain.AssemblyFieldPartial) {
+        return _(v).extend(new bespoke.sph.domain.AssemblyFieldPartial(v));
+    }
+    return v;
+};
+
+
+
 bespoke.sph.domain.FunctionField = function (webId) {
 
     var v = new bespoke.sph.domain.Field(webId);

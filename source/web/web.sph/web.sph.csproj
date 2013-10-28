@@ -381,6 +381,7 @@
     <Content Include="App\partial\BusinessRule.js" />
     <Content Include="App\partial\FeatureDefinition.js" />
     <Content Include="App\partial\IFormTemplate.js" />
+    <Content Include="App\partial\Rule - Copy.js" />
     <Content Include="App\partial\SetterActionChild.js" />
     <Content Include="App\partial\SetterAction.js" />
     <Content Include="App\partial\Trigger.js" />
@@ -395,7 +396,7 @@
     <Content Include="App\partial\DataGridItem.js" />
     <Content Include="App\partial\LineChartItem.js" />
     <Content Include="App\partial\CustomListRow.js" />
-    <Content Include="App\partial\RentalApplication.js" />
+    <Content Include="App\partial\AssemblyField.js" />
     <Content Include="App\partial\CustomListDefinitionElement.js" />
     <Content Include="App\partial\report.js" />
     <Content Include="App\partial\SpaceTemplate.js" />
@@ -429,6 +430,7 @@
     <Content Include="App\viewmodels\block.map.js" />
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
+    <Content Include="App\viewmodels\field.assembly.js" />
     <Content Include="App\viewmodels\field.constant.js" />
     <Content Include="App\viewmodels\field.function.js" />
     <Content Include="App\viewmodels\field.propertychanged.js" />
@@ -486,6 +488,7 @@
     <Content Include="App\views\block.map.html" />
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\chats.html" />
+    <Content Include="App\views\field.assembly.html" />
     <Content Include="App\views\field.function.html" />
     <Content Include="App\views\field.propertychanged.html" />
     <Content Include="App\views\field.constant.html" />

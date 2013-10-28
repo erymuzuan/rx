@@ -1,0 +1,84 @@
+﻿<section class="view-model-modal" id="constant-panel-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Constant</h3>
+            </div>
+            <div class="modal-body" data-bind="with : field">
+                <form id="constant-field-form" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="constant-field-name" class="control-label">Nama</label>
+                        <div class="controls">
+                            <input class="form-control" data-bind="value: Name" id="constant-field-name" type="text" name="constant-field-name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="constant-field-note" class="control-label">Nota</label>
+                        <div class="controls">
+                            <input class="form-control" data-bind="value: Note" id="constant-field-note" type="text" name="constant-field-note" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="assembly-field-location" class="col-lg-2 control-label">Location</label>
+                        <div class="col-lg-6">
+                            <input data-bind="value:Location" type="text" class="form-control" id="assembly-field-location" placeholder="Assembly location">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="assembly-field-method" class="col-lg-2 control-label">Method</label>
+                        <div class="col-lg-6">
+                            <input data-bind="value:Method" type="text" class="form-control" id="assembly-field-method" placeholder="Method name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: IsAsync" id="assembly-field-isasync" type="checkbox" name="IsAsync" />
+                                    Async
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                  
+                    <a href="#" data-bind="click : addParameter">+Parameters</a>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Value</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach :ParameterCollection">
+                            <tr>
+                                <td>
+                                    <input type="text" data-bind="value:Name" class="form-control"/>
+                                </td>
+                                <td>
+                                    <input type="text" data-bind="value:TypeName" class="form-control"/>
+                                </td>
+                                <td>
+                                    <input type="text" data-bind="value:Value" class="form-control"/>
+                                </td>
+                                <td>
+                                    <a href="#" data-bind="click : $parent.removeParameter.call($parent,$data)">Buang</a>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <input form="constant-field-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

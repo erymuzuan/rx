@@ -112,7 +112,7 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                     try {
                         var obj = JSON.parse(json),
                             clone = context.toObservable(obj);
-                        
+
                         vm.template(clone);
                         vm.template().SpaceTemplateId(0);
                     } catch (error) {

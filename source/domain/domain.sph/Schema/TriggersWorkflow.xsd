@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:mstns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://tempuri.org/TriggersWorkflow.xsd" elementFormDefault="qualified" id="TriggersWorkflow">
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<xs:schema xmlns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:mstns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/ReportManagerSchema.xsd" targetNamespace="http://tempuri.org/TriggersWorkflow.xsd" elementFormDefault="qualified" id="TriggersWorkflow">
+	<xs:import namespace="http://tempuri.org/ReportManagerSchema.xsd" schemaLocation="C:\project\work\sph\source\domain\domain.sph\Schema\ReportBuilder.xsd"/>
 	<xs:element name="Trigger">
 		<xs:complexType>
 			<xs:all>
@@ -38,6 +40,28 @@
 		<xs:attribute name="Name" type="xs:string" use="required"/>
 		<xs:attribute name="Note" type="xs:string" use="required"/>
 	</xs:complexType>
+	<xs:element name="AssemblyField">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Field">
+					<xs:all>
+						<xs:element name="ParameterCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ns1:Parameter" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="Location" type="xs:string" use="required"/>
+					<xs:attribute name="TypeName" type="xs:string" use="required"/>
+					<xs:attribute name="Method" type="xs:string" use="required"/>
+					<xs:attribute name="IsAsync" type="xs:boolean" use="required"/>
+					<xs:attribute name="AsyncTimeout" type="xs:int" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="FunctionField">
 		<xs:complexType>
 			<xs:complexContent>
