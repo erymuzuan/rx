@@ -14,7 +14,7 @@ var bespoke = bespoke || {};
 bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
 
-bespoke.sph.domain.SpaceTemplatePartial = function () {
+bespoke.sph.domain.BuildingTemplatePartial = function () {
     var self = this,
         system = require(objectbuilders.system);
     
@@ -26,4 +26,4 @@ bespoke.sph.domain.SpaceTemplatePartial = function () {
     };
 };
 
-bespoke.sph.domain.SpaceTemplatePartial.prototype = new bespoke.sph.domain.BusinessRuleBase();
+bespoke.sph.domain.BuildingTemplatePartial.prototype = new bespoke.sph.domain.BusinessRuleBase();

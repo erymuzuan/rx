@@ -383,6 +383,7 @@
     <Content Include="App\partial\IFormTemplate.js" />
     <Content Include="App\partial\SetterActionChild.js" />
     <Content Include="App\partial\SetterAction.js" />
+    <Content Include="App\partial\BuildingTemplate.js" />
     <Content Include="App\partial\Trigger.js" />
     <Content Include="App\partial\Rule.js" />
     <Content Include="App\partial\Space.js" />
@@ -419,6 +420,7 @@
     <Compile Include="Models\JsRoute.cs" />
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="App\prototypes\BusinessRuleBase.js" />
     <Content Include="App\services\validation.js" />
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\action.email.js" />
@@ -1009,6 +1011,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="App\services\default.value.provider.js" />
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
@@ -1943,6 +1946,7 @@
     <Content Include="Views\Shared\_TriggerFieldDropDown.cshtml" />
     <Content Include="Views\Shared\_PublicLayout.cshtml" />
     <Content Include="Views\Editor\Ace.cshtml" />
+    <Content Include="Views\Template\_BusinessRule.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

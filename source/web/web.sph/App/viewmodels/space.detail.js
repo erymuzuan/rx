@@ -12,8 +12,8 @@
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../schemas/sph.domain.g.js" />
 
-define([objectbuilders.datacontext, objectbuilders.logger, './_space.contract', 'durandal/system', objectbuilders.config, objectbuilders.cultures, objectbuilders.map, objectbuilders.validation],
-    function (context, logger, contractlistvm, system, config, cultures, map, validation) {
+define([objectbuilders.datacontext, objectbuilders.logger, './_space.contract', 'durandal/system', objectbuilders.config, objectbuilders.cultures, objectbuilders.map, objectbuilders.validation, objectbuilders.defaultValueProvider],
+    function (context, logger, contractlistvm, system, config, cultures, map, validation, defaultValueProvider) {
 
         var title = ko.observable(),
             isBusy = ko.observable(false),
@@ -46,30 +46,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, './_space.contract', 
                             space.TemplateId(templateId);
                             title(template.Name());
 
-                            // default values
-                            _(template.DefaultValueCollection()).each(function (v) {
-                                if (v.Value()) {
-                                    var props = v.PropertyName().split(".");
-                                    if (props.length === 1) {
-                                        space[props[0]](v.Value());
-                                        return;
-                                    }
-                                    var k = null;
-                                    for (var i = 0; i < props.length - 1; i++) {
-                                        if (typeof k === "function") {
-                                            k = space[props[i]]();
-                                        } else {
-                                            k = space[props[i]];
-                                        }
-
-                                    }
-                                    if (typeof k === "function") {
-                                        k()[props[props.length - 1]](v.Value());
-                                    } else {
-                                        throw "What the fuck is wrong with k,, !! ima kata : astrairllah";
-                                    }
-                                }
-                            });
+                            defaultValueProvider.setDefaultValues(space, template);
 
                             vm.space(space);
 

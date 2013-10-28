@@ -8,29 +8,43 @@
 <div id="building-template-page">
     <div class="row">
         <div class="col-lg-4">
-        <!-- left toolbox-->
-        @Html.Partial("_Toolbox")
-       </div>
-        <div class="col-lg-8" data-bind="with: template">
-
-            <div data-bind="with: FormDesign" id="template-form-designer" >
-                <h1 data-bind="text: Name"></h1>
-                <span data-bind="text: Description"></span>
-
-                <form class="form-horizontal">
-                    <!--ko foreach:FormElementCollection -->
-                    @foreach (var fe in Model.FormElements)
-                    {
-                        @Html.DisplayFor(m => fe)
-                    }
-                    <!--/ko-->
-
-                </form>
-            </div>
-
-
+            <!-- left toolbox-->
+            @Html.Partial("_Toolbox")
         </div>
-    </div>
+        <div class="tabbable col-lg-8">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#building-designer" data-toggle="tab">Designer</a>
+                </li>
+                <li>
+                    <a href="#building-business-rules" data-toggle="tab">Business Rules</a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div id="building-designer" class="col-lg-8 tab-pane active" data-bind="with: template">
+
+                <div data-bind="with: FormDesign" id="template-form-designer">
+                    <h1 data-bind="text: Name"></h1>
+                    <span data-bind="text: Description"></span>
+
+                    <form class="form-horizontal">
+                        <!--ko foreach:FormElementCollection -->
+                        @foreach (var fe in Model.FormElements)
+                        {
+                            @Html.DisplayFor(m => fe)
+                        }
+                        <!--/ko-->
+                    </form>
+                </div>
+
+
+            </div>
+            <div id="building-business-rules" class="col-lg-8 tab-pane" data-bind="with: template">
+                @Html.Partial("_BusinessRule")
+            </div>
+        </div>
+        </div>
 </div>
 
 
