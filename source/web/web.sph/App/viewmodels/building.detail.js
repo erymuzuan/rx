@@ -314,7 +314,7 @@ define([objectbuilders.datacontext,objectbuilders.router,'durandal/system','dura
                         command: function () {
                             window.location = "/#/unit.list/" + buildingId();
                         },
-                        icon: "icon-tablet"
+                        icon: "fa fa-tablet"
                     }])
 
             }

@@ -1,4 +1,5 @@
-﻿@model Bespoke.Sph.Domain.LineChartItem
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Domain.LineChartItem
 
 <!--ko if: $data['$type']() === "Bespoke.Sph.Domain.LineChartItem, domain.sph" -->
 <div  class="report-item" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectedReportItem" class="control-group">

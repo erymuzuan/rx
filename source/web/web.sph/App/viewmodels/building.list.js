@@ -22,7 +22,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 var commands = _(tlo.itemCollection).map(function (t) {
                     return {
                         caption: ko.observable(t.Name()),
-                        icon: "icon-building",
+                        icon: "fa fa-building",
                         command: function () {
                             var url = '/#/building.detail-templateid.' + t.BuildingTemplateId() + "/" + t.BuildingTemplateId() + "/0";
                             router.navigateTo(url);

@@ -72,7 +72,7 @@ define(['services/datacontext','durandal/plugins/router', './_contract.clauses',
                 commands: ko.observableArray([
                     {
                         caption: "Simpan",
-                        icon: "icon-ok",
+                        icon: "fa fa-ok",
                         command: save
                     }
                 ])

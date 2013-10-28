@@ -80,13 +80,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], f
             commands: ko.observableArray([
                 {
                     caption: "Simpan",
-                    icon: "icon-envelop",
+                    icon: "fa fa-envelop",
                     command: saveOffer,
                     status: "none"
                 },
                 {
                     caption: "Cetak Surat Tawaran",
-                    icon: "icon-download-alt",
+                    icon: "fa fa-download-alt",
                     command: generateOfferLetter,
                     status: "none"
                 }

@@ -31,7 +31,7 @@ define(['services/datacontext', 'durandal/plugins/router'],
                     var commands = _(tlo.itemCollection).map(function (t) {
                         return {
                             caption: ko.observable(t.Name()),
-                            icon: "icon-gear",
+                            icon: "fa fa-gear",
                             command: function () {
                                 var url = '/#/maintenance.detail-templateid.' + t.MaintenanceTemplateId() + "/" + t.MaintenanceTemplateId() + "/" + id() ;
                                 router.navigateTo(url);

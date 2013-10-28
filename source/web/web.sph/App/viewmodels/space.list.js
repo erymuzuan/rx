@@ -25,7 +25,7 @@ define([objectbuilders.datacontext, objectbuilders.router, objectbuilders.cultur
                     var commands = _(tlo.itemCollection).map(function (t) {
                         return {
                             caption: ko.observable("" + t.Name()),
-                            icon: "icon-plus",
+                            icon: "fa fa-plus",
                             command: function () {
                                 var url = '/#/space.detail-templateid.' + t.SpaceTemplateId() + "/" + t.SpaceTemplateId() + "/0/-/0";
                                 router.navigateTo(url);
