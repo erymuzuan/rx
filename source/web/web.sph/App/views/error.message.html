@@ -1,0 +1,21 @@
+﻿<section class="view-model-modal" id="messages-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Error Messages</h3>
+            </div>
+            <div class="modal-body">
+                <form id="messages-form" class="form-horizontal">
+                    <ul data-bind="foreach : validationErrors">
+                        <li><span data-bind="text:Message"></span></li>
+                    </ul>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <input form="messages-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+            </div>
+        </div>
+    </div>
+</section>

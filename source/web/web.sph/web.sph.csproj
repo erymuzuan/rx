@@ -430,6 +430,7 @@
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
     <Content Include="App\viewmodels\field.constant.js" />
+    <Content Include="App\viewmodels\error.message.js" />
     <Content Include="App\viewmodels\field.function.js" />
     <Content Include="App\viewmodels\field.propertychanged.js" />
     <Content Include="App\viewmodels\field.document.js" />
@@ -486,6 +487,7 @@
     <Content Include="App\views\block.map.html" />
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\chats.html" />
+    <Content Include="App\views\error.message.html" />
     <Content Include="App\views\field.function.html" />
     <Content Include="App\views\field.propertychanged.html" />
     <Content Include="App\views\field.constant.html" />

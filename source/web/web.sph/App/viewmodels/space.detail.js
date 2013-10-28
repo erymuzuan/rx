@@ -134,12 +134,24 @@ define([objectbuilders.datacontext, objectbuilders.logger, './_space.contract', 
                 isBusy(true);
                 context.post(data, "/Space/Save")
                     .done(function (e) {
-                        logger.log("Data has been successfully saved ", e, "space.detail", true);
                         if (!e.Success) {
-                            
-                            alert(e.ValidationErrors[0].Message);
+                            isBusy(false);
+                            require(['viewmodels/error.message', 'durandal/app'], function (dialog, app2) {
+                                dialog.validationErrors(e.ValidationErrors);
+                               app2.showModal(dialog)
+                                .done(function (result) {
+                                    if (!result) return;
+                                });
+
+                            });
+                            tcs.resolve(true);
                         }
-                        isBusy(false);
+                        else {
+                            isBusy(false);
+                            logger.log("Data has been successfully saved ", e, "space.detail", true);
+                           
+                        }
+
                         tcs.resolve(true);
                     });
                 return tcs.promise();
