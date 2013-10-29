@@ -17,6 +17,9 @@
                     <a href="#application-designer" data-toggle="tab">Designer</a>
                 </li>
                 <li>
+                    <a href="#application-default-values" data-toggle="tab">Default Values</a>
+                </li>
+                <li>
                     <a href="#application-business-rules" data-toggle="tab">Business Rules</a>
                 </li>
             </ul>
@@ -37,6 +40,9 @@
 
                     </form>
                 </div>
+            </div>
+            <div id="application-default-values" class="col-lg-8 tab-pane" data-bind="with : template">
+                @Html.Partial("_DefaultValues")
             </div>
             <div id="application-business-rules" class="col-lg-8 tab-pane" data-bind="with: template">
                 @Html.Partial("_BusinessRule")

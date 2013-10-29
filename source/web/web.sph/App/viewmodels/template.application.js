@@ -6,12 +6,13 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
+/// <reference path="../objectbuilders.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
 
-define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', 'services/logger'],
-    function (context, system, templateBase, eximp, logger) {
+define(['services/datacontext', 'durandal/system', './template.base', 'services/jsonimportexport', objectbuilders.logger,objectbuilders.defaultValueProvider],
+    function (context, system, templateBase, eximp, logger, defaultValueProvider) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -113,7 +114,9 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
                          logger.logError('Fail template import tidak sah', error, this, true);
                      }
                  });
-         };
+        }, loadDefaultValueFields = function () {
+            return defaultValueProvider.loadAsync("RentalApplication", vm.template());
+        };
         
         var vm = {
             activate: activate,
@@ -134,7 +137,8 @@ define(['services/datacontext', 'durandal/system', './template.base', 'services/
             addComboBoxOption: templateBase.addComboBoxOption,
             selectPathFromPicker: templateBase.selectPathFromPicker,
             showPathPicker: templateBase.showPathPicker,
-            imageStoreId : ko.observable()
+            imageStoreId: ko.observable(),
+            loadDefaultValueFields: loadDefaultValueFields
         };
 
         return vm;

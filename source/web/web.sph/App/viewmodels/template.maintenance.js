@@ -10,8 +10,8 @@
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
-define([objectbuilders.datacontext, 'durandal/system', './template.base', 'services/jsonimportexport', objectbuilders.logger, objectbuilders.cultures],
-    function (context, system, templateBase, eximp, logger, culture) {
+define([objectbuilders.datacontext, 'durandal/system', './template.base', 'services/jsonimportexport', objectbuilders.logger, objectbuilders.cultures,objectbuilders.defaultValueProvider],
+    function (context, system, templateBase, eximp, logger, culture,defaultValueProvider) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -94,6 +94,8 @@ define([objectbuilders.datacontext, 'durandal/system', './template.base', 'servi
                         logger.logError('Fail template import tidak sah', error, this, true);
                     }
                 });
+        }, loadDefaultValueFields = function () {
+            return defaultValueProvider.loadAsync("Maintenance", vm.template());
         };
 
         var vm = {
@@ -113,7 +115,8 @@ define([objectbuilders.datacontext, 'durandal/system', './template.base', 'servi
             removeComboBoxOption: templateBase.removeComboBoxOption,
             selectPathFromPicker: templateBase.selectPathFromPicker,
             showPathPicker: templateBase.showPathPicker,
-            addComboBoxOption: templateBase.addComboBoxOption
+            addComboBoxOption: templateBase.addComboBoxOption,
+            loadDefaultValueFields: loadDefaultValueFields
         };
 
         return vm;
