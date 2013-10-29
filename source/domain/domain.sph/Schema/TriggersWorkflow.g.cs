@@ -1158,8 +1158,13 @@
 
                   
                     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-                    private  string  m_status;
-                    public const string PropertyNameStatus = "Status";
+                    private  string  m_state;
+                    public const string PropertyNameState = "State";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  bool  m_isActive;
+                    public const string PropertyNameIsActive = "IsActive";
 
                   
 			private readonly ObjectCollection<CustomFieldValue>  m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue> ();
@@ -1266,22 +1271,50 @@
                 
                 [DebuggerHidden]
                 
-                    public string Status
+                    public string State
                     {
                     set
                     {
-                    if( String.Equals( m_status, value, StringComparison.Ordinal)) return;
-                    var arg = new PropertyChangingEventArgs(PropertyNameStatus, value);
+                    if( String.Equals( m_state, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameState, value);
                     OnPropertyChanging(arg);
                     if( !arg.Cancel)
                     {
-                    m_status= value;
+                    m_state= value;
                     OnPropertyChanged();
                     }
                     }
                     get
                     {
-                    return m_status;}
+                    return m_state;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public bool IsActive
+                    {
+                    set
+                    {
+                    if( m_isActive == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameIsActive, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_isActive= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_isActive;}
                     }
 
                   

@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Domain
             {
                 Name = this.Name,
                 WorkflowDefinitionId = this.WorkflowDefinitionId,
-                Status = "Active"
+                State = "Active"
 
             };
             if (null != screen)

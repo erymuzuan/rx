@@ -192,7 +192,7 @@
                     <input class="input-action-isactive" data-bind="checked: IsActive" id="IsActive" type="checkbox" name="IsActive" />
                 </td>
                 <td>
-                    <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click: $root.removeAction">Buang</a>
+                    <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click: $parent.removeAction.call($parent,$data)">Buang</a>
                 </td>
             </tr>
         </tbody>

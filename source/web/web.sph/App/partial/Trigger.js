@@ -15,11 +15,29 @@ bespoke.sph.domain = bespoke.sph.domain || {};
 bespoke.sph.domain.TriggerPartial = function () {
 
     var system = require('durandal/system'),
+        removeAction = function(action) {
+            var self = this;
+            return function() {
+                self.ActionCollection.remove(action);
+            };
+        },
         addAction = function (type) {
             var self = this;
             return function () {
                 var action = new bespoke.sph.domain[type + 'Action'](system.guid());
-                self.ActionCollection.push(action);
+                
+                require(['viewmodels/action.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
+                    dialog.action(action);
+                    app2.showModal(dialog)
+                    .done(function (result) {
+                        if (!result) return;
+                        if (result === "OK") {
+                            self.ActionCollection.push(action);
+                        }
+                    });
+
+                });
+                
             };
         },
         editAction = function (action) {
@@ -61,6 +79,7 @@ bespoke.sph.domain.TriggerPartial = function () {
     var vm = {
         addRule: addRule,
         removeRule: removeRule,
+        removeAction: removeAction,
         addAction: addAction,
         editAction: editAction
 

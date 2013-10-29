@@ -55,7 +55,7 @@ namespace domain.test.workflows
                 {
                     var wf = _.Result;
                     Assert.AreEqual("Permohonan Tanah Wakaf", wf.Name);
-                    Assert.AreEqual("Active", wf.Status);
+                    Assert.AreEqual("Active", wf.State);
 
                     //
                     Assert.AreEqual(3,wf.CustomFieldValueCollection.Count);
