@@ -884,5 +884,31 @@
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": "can_edit_workflow",
+    "groupName": "Workflow",
+    "url": "workflow.definition.list",
+    "moduleId": "viewmodels/workflow.definition.list",
+    "name": "Senarai Workflow Definition",
+    "visible": true,
+    "icon": null,
+    "caption": "Senarai Workflow Definition",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_workflow",
+    "groupName": "",
+    "url": "viewmodels/workflow.definition.detail/:definitionId",
+    "moduleId": "viewmodels/workflow.definition.detail",
+    "name": "Workflow Definition",
+    "visible": false,
+    "icon": null,
+    "caption": "Workflow Definition",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
   }
 ]

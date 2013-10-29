@@ -218,6 +218,7 @@ bespoke.sph.domain.WorkflowDefinition = function (webId) {
         Note: ko.observable(''),
         IsActive: ko.observable(false),
         ActivityCollection: ko.observableArray([]),
+        CustomFieldCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -236,7 +237,9 @@ bespoke.sph.domain.Workflow = function (webId) {
         WorkflowId: ko.observable(0),
         WorkflowDefinitionId: ko.observable(0),
         Name: ko.observable(''),
-        Status: ko.observable(''),
+        State: ko.observable(''),
+        IsActive: ko.observable(false),
+        CustomFieldValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

@@ -152,5 +152,12 @@
     "Role": "can_apply_onbehalf",
     "Description": "Boleh mewakili pelanggan untuk memohon sewaan ruang",
     "IsActive": true
+  },
+  {
+    "Group": "admin",
+    "Name": "Pentadbir Workflow",
+    "Role": "can_edit_workflow",
+    "Description": "Menambah dan mengemaskini workflow definition",
+    "IsActive": true
   }
 ]

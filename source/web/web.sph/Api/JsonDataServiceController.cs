@@ -152,6 +152,14 @@ namespace Bespoke.Sph.Web.Api
         {
             return await ExecuteAsync<WorkOrder>(filter, page, size, includeTotal);
         }
+        public async Task<ActionResult> WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<WorkflowDefinition>(filter, page, size, includeTotal);
+        } 
+        public async Task<ActionResult> Workflow(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Workflow>(filter, page, size, includeTotal);
+        }
 
         public async Task<ActionResult> ExecuteAsync<T>(string filter = null, int page = 1, int size = 40, bool includeTotal = false) where T : Entity
         {
