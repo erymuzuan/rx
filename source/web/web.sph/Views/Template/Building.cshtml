@@ -17,6 +17,9 @@
                     <a href="#building-designer" data-toggle="tab">Designer</a>
                 </li>
                 <li>
+                    <a href="#building-default-values" data-toggle="tab">Default Values</a>
+                </li>
+                <li>
                     <a href="#building-business-rules" data-toggle="tab">Business Rules</a>
                 </li>
             </ul>
@@ -39,6 +42,9 @@
                 </div>
 
 
+            </div>
+            <div id="building-default-values" class="col-lg-8 tab-pane" data-bind="with : template">
+                @Html.Partial("_DefaultValues")
             </div>
             <div id="building-business-rules" class="col-lg-8 tab-pane" data-bind="with: template">
                 @Html.Partial("_BusinessRule")

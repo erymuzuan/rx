@@ -13,8 +13,8 @@
 /// <reference path="../objectbuilders.js" />
 
 
-define([objectbuilders.datacontext, 'durandal/system', './template.base', 'services/jsonimportexport', objectbuilders.logger, 'durandal/app', objectbuilders.router,objectbuilders.cultures],
-    function (context, system, templateBase, eximp, logger, app, router,culture) {
+define([objectbuilders.datacontext, 'durandal/system', './template.base', 'services/jsonimportexport', objectbuilders.logger, 'durandal/app', objectbuilders.router,objectbuilders.cultures,objectbuilders.defaultValueProvider],
+    function (context, system, templateBase, eximp, logger, app, router, culture, defaultValueProvider) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -53,7 +53,7 @@ define([objectbuilders.datacontext, 'durandal/system', './template.base', 'servi
                     var tcs = new $.Deferred();
                     context.loadOneAsync("BuildingTemplate", query)
                         .done(function (b) {
-
+                         
                             _(b.FormDesign().FormElementCollection()).each(function (fe) {
                                 // add isSelected for the designer
                                 fe.isSelected = ko.observable(false);
@@ -181,6 +181,8 @@ define([objectbuilders.datacontext, 'durandal/system', './template.base', 'servi
                             logger.logError('Fail template import tidak sah', error, this, true);
                         }
                     });
+            }, loadDefaultValueFields = function () {
+                return defaultValueProvider.loadAsync("Building", vm.template());
             };
 
         var vm = {
@@ -201,7 +203,8 @@ define([objectbuilders.datacontext, 'durandal/system', './template.base', 'servi
             removeComboBoxOption: templateBase.removeComboBoxOption,
             selectPathFromPicker: templateBase.selectPathFromPicker,
             showPathPicker: templateBase.showPathPicker,
-            addComboBoxOption: templateBase.addComboBoxOption
+            addComboBoxOption: templateBase.addComboBoxOption,
+            loadDefaultValueFields: loadDefaultValueFields
         };
 
         return vm;

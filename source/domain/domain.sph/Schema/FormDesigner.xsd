@@ -49,6 +49,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="DefaultValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DefaultValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="ComplaintTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -79,6 +86,13 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="BusinessRule" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DefaultValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DefaultValue" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -116,6 +130,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="DefaultValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DefaultValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="ApplicationTemplateId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -146,6 +167,13 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="BusinessRule" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DefaultValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DefaultValue" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>

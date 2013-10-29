@@ -11,8 +11,8 @@
 /// <reference path="../../Scripts/jquery-ui-1.10.3.js" />
 
 
-define([objectbuilders.datacontext, objectbuilders.system, './template.base', 'services/jsonimportexport',objectbuilders.logger],
-    function (context, system, templateBase, eximp, logger) {
+define([objectbuilders.datacontext, objectbuilders.system, './template.base', 'services/jsonimportexport', objectbuilders.logger, objectbuilders.defaultValueProvider],
+    function (context, system, templateBase, eximp, logger, defaultValueProvider) {
 
         var isBusy = ko.observable(false),
             templateId = ko.observable(),
@@ -20,7 +20,7 @@ define([objectbuilders.datacontext, objectbuilders.system, './template.base', 's
 
 
                 var customElements = [];
-                
+
                 var address = new bespoke.sph.domain.AddressElement(system.guid());
                 address.CssClass("icon-envelope pull-left");
                 address.Name("Address");
@@ -63,7 +63,7 @@ define([objectbuilders.datacontext, objectbuilders.system, './template.base', 's
 
 
             },
-            viewAttached = function(view) {
+            viewAttached = function (view) {
                 templateBase.viewAttached(view);
             },
             addComplaintCategory = function () {
@@ -118,7 +118,7 @@ define([objectbuilders.datacontext, objectbuilders.system, './template.base', 's
                     });
                 return tcs.promise();
             },
-            
+
         exportTemplate = function () {
             return eximp.exportJson("template.complaint." + vm.template().ComplaintTemplateId() + ".json", ko.mapping.toJSON(vm.template));
         },
@@ -136,8 +136,11 @@ define([objectbuilders.datacontext, objectbuilders.system, './template.base', 's
                         logger.logError('Fail template import tidak sah', error, this, true);
                     }
                 });
-        };
-        
+        },
+            loadDefaultValueFields = function () {
+                return defaultValueProvider.loadAsync("Complaint", vm.template());
+            };
+
         var vm = {
             activate: activate,
             viewAttached: viewAttached,
@@ -165,7 +168,8 @@ define([objectbuilders.datacontext, objectbuilders.system, './template.base', 's
             addComboBoxOption: templateBase.addComboBoxOption,
             selectPathFromPicker: templateBase.selectPathFromPicker,
             showPathPicker: templateBase.showPathPicker,
-            imageStoreId : ko.observable()
+            imageStoreId: ko.observable(),
+            loadDefaultValueFields: loadDefaultValueFields
         };
 
         return vm;

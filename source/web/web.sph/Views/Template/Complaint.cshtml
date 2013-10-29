@@ -11,7 +11,7 @@
         <div class="col-lg-4">
             @Html.Partial("_Toolbox")
         </div>
-        
+
         <div class="tabbable col-lg-8">
             <ul class="nav nav-tabs">
                 <li class="active">
@@ -19,6 +19,9 @@
                 </li>
                 <li>
                     <a href="#complaint-category" data-toggle="tab">Categories</a>
+                </li>
+                <li>
+                    <a href="#complaint-default-values" data-toggle="tab">Default values</a>
                 </li>
                 <li>
                     <a href="#complaint-others" data-toggle="tab">Others Information</a>
@@ -38,7 +41,7 @@
                             <!--ko foreach:FormElementCollection -->
                             @foreach (var fe in Model.FormElements)
                             {
-                                @Html.DisplayFor(m => fe)
+                            @Html.DisplayFor(m => fe)
                             }
                             <!--/ko-->
 
@@ -62,11 +65,14 @@
                         <tbody data-bind="foreach: template().ComplaintCategoryCollection">
                             <tr>
                                 <td>
-                                    <input type="text" class="input-category-name" data-bind="value: Name" /></td>
+                                    <input type="text" class="input-category-name" data-bind="value: Name" />
+                                </td>
                                 <td>
-                                    <input type="text" class="input-category-description" data-bind="value: Description" /></td>
+                                    <input type="text" class="input-category-description" data-bind="value: Description" />
+                                </td>
                                 <td>
-                                    <a class="add-subcategory-button" href="/#" data-bind="click: $root.editCategory">Sub Kategori</a></td>
+                                    <a class="add-subcategory-button" href="/#" data-bind="click: $root.editCategory">Sub Kategori</a>
+                                </td>
                                 <td>
                                     <a class="remove-category-button" href="/#" data-bind="click: $root.removeCategory">Buang</a>
                                 </td>
@@ -105,11 +111,14 @@
                         </div>
 
                         <div class="modal-footer">
-                            
+
                             <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: saveSubCategoryCommand" />
                             <a href="#" class="btn" data-dismiss="modal">Cancel</a>
                         </div>
                     </section>
+                </div>
+                <div id="complaint-default-values" class="tab-pane" data-bind="with : template">
+                    @Html.Partial("_DefaultValues")
                 </div>
                 <div id="complaint-others" class="tab-pane" data-bind="with : template">
                     <form class="form-horizontal" data-bind="with : FormDesign">

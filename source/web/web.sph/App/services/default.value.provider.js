@@ -42,21 +42,21 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
 
 
         },
-        setDefaultValues = function (space, template) {
+        setDefaultValues = function (item, template) {
             // default values
             _(template.DefaultValueCollection()).each(function (v) {
                 if (v.Value()) {
                     var props = v.PropertyName().split(".");
                     if (props.length === 1) {
-                        space[props[0]](v.Value());
+                        item[props[0]](v.Value());
                         return;
                     }
                     var k = null;
                     for (var i = 0; i < props.length - 1; i++) {
                         if (typeof k === "function") {
-                            k = space[props[i]]();
+                            k = item[props[i]]();
                         } else {
-                            k = space[props[i]];
+                            k = item[props[i]];
                         }
 
                     }
