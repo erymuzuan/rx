@@ -405,7 +405,7 @@
     "moduleId": "viewmodels/complaint.template.list",
     "name": "Templat Aduan",
     "visible": true,
-    "icon": "fa-comments-alt",
+    "icon": "fa-comments-o",
     "caption": "aduan",
     "settings": null,
     "showWhenLoggedIn": false,

@@ -19,35 +19,35 @@ define(['schemas/report.builder.g', 'services/datacontext', 'durandal/system', '
                 var toolboxElements = [];
 
                 var labelToolbox = new bespoke.sph.domain.LabelItem(system.guid());
-                labelToolbox.CssClass("icon-report-label");
+                labelToolbox.CssClass("fa fa-report-label");
                 labelToolbox.Name("Label");
-                labelToolbox.Icon("icon-font icon-2x");
+                labelToolbox.Icon("fa fa-font icon-2x");
                 labelToolbox.Html("Label 1");
 
                 var lineToolbox = new bespoke.sph.domain.LineItem(system.guid());
-                lineToolbox.CssClass("icon-report-line");
+                lineToolbox.CssClass("fa fa-report-line");
                 lineToolbox.Name("Line");
-                lineToolbox.Icon("icon-ellipsis-horizontal icon-2x");
+                lineToolbox.Icon("fa fa-ellipsis-horizontal icon-2x");
 
                 var tableToolbox = new bespoke.sph.domain.DataGridItem(system.guid());
-                tableToolbox.CssClass("icon-report-table");
+                tableToolbox.CssClass("fa fa-report-table");
                 tableToolbox.Name("Table");
-                tableToolbox.Icon("icon-table icon-2x");
+                tableToolbox.Icon("fa fa-table icon-2x");
 
                 var barChartToolbox = new bespoke.sph.domain.BarChartItem(system.guid());
-                barChartToolbox.CssClass("icon-report-barchart");
+                barChartToolbox.CssClass("fa fa-report-barchart");
                 barChartToolbox.Name("Bar Chart");
-                barChartToolbox.Icon("icon-bar-chart icon-2x");
+                barChartToolbox.Icon("fa fa-bar-chart-o icon-2x");
 
                 var lineChartToolbox = new bespoke.sph.domain.LineChartItem(system.guid());
-                lineChartToolbox.CssClass("icon-report-linechart");
+                lineChartToolbox.CssClass("fa fa-report-linechart");
                 lineChartToolbox.Name("Line Chart");
-                lineChartToolbox.Icon("icon-bar-chart icon-2x");
+                lineChartToolbox.Icon("fa fa-bar-chart-o icon-2x");
 
                 var pieChartToolbox = new bespoke.sph.domain.PieChartItem(system.guid());
-                pieChartToolbox.CssClass("icon-report-piechart");
+                pieChartToolbox.CssClass("fa fa-report-piechart");
                 pieChartToolbox.Name("Pie Chart");
-                pieChartToolbox.Icon("icon-circle icon-2x");
+                pieChartToolbox.Icon("fa fa-circle icon-2x");
 
                 toolboxElements.push(labelToolbox);
                 toolboxElements.push(lineToolbox);

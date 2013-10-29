@@ -70,13 +70,13 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             commands: ko.observableArray([
                 {
                     caption: '1. Sediakan Tawaran',
-                    icon: "icon-file-text ",
+                    icon: "fa fa-file-text ",
                     command: generateOfferLetter,
                     status: 'Diluluskan'
                 },
                 {
                     caption: '2. Sediakan Kontrak',
-                    icon: "icon-file-text ",
+                    icon: "fa fa-file-text ",
                     command: function () {
                         router.navigateTo("/#/contract.create/" + vm.rentalapplication().RentalApplicationId());
                     },
@@ -84,25 +84,25 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 },
                 {
                     caption: '3. Selesai',
-                    icon: "icon-file-text ",
+                    icon: "fa fa-file-text ",
                     command: complete,
                     status: 'Diluluskan'
                 },
                 {
                     caption: 'Cetak Surat Pembatalan',
-                    icon: "icon-file-text ",
+                    icon: "fa fa-file-text ",
                     command: generateDeclinedOfferLetter,
                     status: 'Ditolak'
                 },
                 {
                     caption: 'Sediakan Maklumat Penyewa',
-                    icon: "icon-file-text ",
+                    icon: "fa fa-file-text ",
                     command: createTenant,
                     status: 'Selesai'
                 },
                 {
                     caption: 'Tidak Berjaya',
-                    icon: "icon-file-text ",
+                    icon: "fa fa-file-text ",
                     command: unsucces,
                     status: 'Menunggu'
                 }

@@ -1,6 +1,6 @@
 ﻿<section class="context-action-panel" data-bind="visible: isSelected">
     <button class="btn btn-link btn-context-action">
-        <i class="fa fa-chevron-sign-right"></i>
+        <i class="fa fa-chevron-circle-right"></i>
     </button>
 
     <div class="context-action">
@@ -32,7 +32,7 @@
                     </td>
                     <td><input type="text" class="input-datagrid-column-header" data-bind="value: Header" /></td>
                     <td>
-                        <input class="input-small" data-bind="kendoComboBox:Format, source :ko.observableArray(['{0:d}','{0:F2}','{0:g}', '{0:c}'])" />
+                        <input class="form-control" data-bind="kendoComboBox:Format, source :ko.observableArray(['{0:d}','{0:F2}','{0:g}', '{0:c}'])" />
                     </td>
                     <td>
                         <input type="text" class="input-datagrid-column-footer" data-bind="value: FooterExpression" />
@@ -63,9 +63,9 @@
                     <td>
                         <input  class="input-datagrid-group-column input-large " data-bind="kendoComboBox: Column, source: $root.columnOptions" />
                     </td>
-                    <td><input type="text" class="input-datagrid-group-expression" data-bind="value: Expression" /></td>
+                    <td><input type="text" class="form-control input-datagrid-group-expression" data-bind="value: Expression" /></td>
                     <td>
-                        <input class="input-medium input-datagrid-group-footer" data-bind="value: FooterExpression" />
+                        <input class="form-control input-datagrid-group-footer" data-bind="value: FooterExpression" />
                     </td>
                     <td><a href="#" data-bind="click: $parent.removeDataGridGroupDefinition.call($parent, $data)"><i class="fa fa-remove"></i></a></td>
                 </tr>
@@ -73,7 +73,7 @@
         </table>
 
         <a class="btn btn-link pull-right" data-bind="click: $root.removeReportItem">
-            <i class="fa fa-remove"></i>
+            <i class="glyphicon glyphicon-remove"></i>
             Buang
         </a>
 

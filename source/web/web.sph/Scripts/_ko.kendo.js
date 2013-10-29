@@ -612,7 +612,7 @@ ko.bindingHandlers.filter = {
             $form = $("<form class='form-search col-lg-4 col-lg-offset-8'>" +
                 " <div class='input-group pull-right'>" +
                 "<span class='input-group-addon'>" +
-                " <i class='icon-remove'></i>" +
+                " <span class='glyphicon glyphicon-remove'></span>" +
                 "</span> " +
                 "</div>" +
                 " </form>"),
@@ -621,7 +621,7 @@ ko.bindingHandlers.filter = {
 
         $form.find('span.input-group-addon').before($filterInput);
         if (pagedSearch) {
-            $form.find('i.icon-remove').after($serverLoadButton);
+            $form.find('span.glyphicon-remove').after($serverLoadButton);
         }
         $element.before($form);
 

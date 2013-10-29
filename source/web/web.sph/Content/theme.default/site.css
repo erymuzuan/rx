@@ -559,6 +559,9 @@ table .table {
 input[type=search] {
   height: 30px;
 }
+div.durandal-wrapper {
+  clear: both;
+}
 div.control-group {
   margin-bottom: 20px;
 }
@@ -566,14 +569,14 @@ div.control-group > label.control-label {
   width: 90px;
   float: left;
 }
+div.checkbox > label > input[type=checkbox] {
+  margin-top: 6px !important;
+}
 div.controls {
   margin-left: 140px;
 }
 div.controls > input.input-large {
   width: 210px;
-}
-div.controls > input.input-xxlarge {
-  width: 530px;
 }
 #body {
   margin-bottom: 70px;

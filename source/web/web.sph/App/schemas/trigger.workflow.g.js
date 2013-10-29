@@ -35,6 +35,26 @@ bespoke.sph.domain.Trigger = function (webId) {
 
 
 
+bespoke.sph.domain.AssemblyField = function (webId) {
+
+    var v = new bespoke.sph.domain.Field(webId);
+
+    v.Location = ko.observable('');
+    v.TypeName = ko.observable('');
+    v.Method = ko.observable('');
+    v.IsAsync = ko.observable(false);
+    v.AsyncTimeout = ko.observable(0);
+    v["$type"] = "Bespoke.Sph.Domain.AssemblyField, domain.sph";
+
+    v.MethodArgCollection = ko.observableArray([]);
+    if (bespoke.sph.domain.AssemblyFieldPartial) {
+        return _(v).extend(new bespoke.sph.domain.AssemblyFieldPartial(v));
+    }
+    return v;
+};
+
+
+
 bespoke.sph.domain.FunctionField = function (webId) {
 
     var v = new bespoke.sph.domain.Field(webId);
@@ -165,6 +185,24 @@ bespoke.sph.domain.SetterActionChild = function (webId) {
     };
     if (bespoke.sph.domain.SetterActionChildPartial) {
         return _(model).extend(new bespoke.sph.domain.SetterActionChildPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.MethodArg = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.MethodArg, domain.sph",
+        Name: ko.observable(''),
+        TypeName: ko.observable(''),
+        ValueProvider: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.MethodArgPartial) {
+        return _(model).extend(new bespoke.sph.domain.MethodArgPartial(model));
     }
     return model;
 };

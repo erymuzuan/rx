@@ -1,6 +1,6 @@
 ﻿
 
-<div id="toolbar-panel" class="navbar navbar-inner" data-bind="visible: typeof router.activeItem().toolbar === 'object' || typeof router.activeItem().toolbar === 'function'">
+<div id="toolbar-panel" class="navbar row" data-bind="visible: typeof router.activeItem().toolbar === 'object' || typeof router.activeItem().toolbar === 'function'">
     <div data-bind="with: router.activeItem().toolbar">
 
 
@@ -8,7 +8,7 @@
         <!-- ko foreach: groupCommands-->
 
         <div class="btn-group">
-            <a class="btn dropdown-toggle input-large" data-toggle="drop-down" href="#">
+            <a class="btn btn-default dropdown-toggle input-large" data-toggle="drop-down" href="#">
 
                 <!-- ko text : caption -->
                 <!-- /ko -->
@@ -118,14 +118,14 @@
         <!-- ko foreach: commands-->
 
         <!-- ko if: typeof visible === "undefined"-->
-        <button class="btn" data-bind="command: command">
+        <button class="btn btn-default" data-bind="command: command">
             <i data-bind=" attr: { 'class': icon }"></i>
             <!-- ko text: caption -->
             <!-- /ko -->
         </button>
         <!-- /ko -->
         <!-- ko if: typeof visible === "function"-->
-        <button class="btn" data-bind="command: command, isvisible: visible">
+        <button class="btn btn-default" data-bind="command: command, isvisible: visible">
             <i data-bind=" attr: { 'class': icon }"></i>
             <!-- ko text: caption -->
             <!-- /ko -->
@@ -139,14 +139,14 @@
         <!-- ko foreach: clicks-->
 
         <!-- ko if: typeof visible === "undefined"-->
-        <button class="btn" data-bind="click: command">
+        <button class="btn btn-default" data-bind="click: command">
             <i data-bind=" attr: { 'class': icon }"></i>
             <!-- ko text: caption -->
             <!-- /ko -->
         </button>
         <!-- /ko -->
         <!-- ko if: typeof visible === "function"-->
-        <button class="btn" data-bind="click: command, visible: visible">
+        <button class="btn btn-default" data-bind="click: command, visible: visible">
             <i data-bind=" attr: { 'class': icon }"></i>
             <!-- ko text: caption -->
             <!-- /ko -->

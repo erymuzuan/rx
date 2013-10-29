@@ -327,7 +327,7 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
                         command: function () {
                             window.location = "/#/unit.list/" + buildingId();
                         },
-                        icon: "icon-tablet"
+                        icon: "fa fa-tablet"
                     }])
 
             }

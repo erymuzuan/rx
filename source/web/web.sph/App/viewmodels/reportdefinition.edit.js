@@ -219,13 +219,13 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
                 commands: ko.observableArray([{
                     command: configure,
                     caption: "Configuration",
-                    icon: "icon-gear"
+                    icon: "fa fa-gear"
                 },
                     {
 
                         command: preview.showPreview,
                         caption: "Preview",
-                        icon: " icon-file-text-alt"
+                        icon: "fa fa-file-text-o"
                     }])
             }
         };

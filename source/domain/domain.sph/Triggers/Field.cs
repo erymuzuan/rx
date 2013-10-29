@@ -5,8 +5,9 @@ namespace Bespoke.Sph.Domain
 {
     [XmlInclude(typeof(DocumentField))]
     [XmlInclude(typeof(FunctionField))]
-    [XmlInclude(typeof(ConstantField))] 
-    [XmlInclude(typeof(PropertyChangedField))] 
+    [XmlInclude(typeof(ConstantField))]
+    [XmlInclude(typeof(PropertyChangedField))]
+    [XmlInclude(typeof(AssemblyField))]
     public partial class Field : DomainObject
     {
         public virtual object GetValue(RuleContext context)

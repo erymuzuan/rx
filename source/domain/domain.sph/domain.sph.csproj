@@ -153,6 +153,10 @@
     <Compile Include="FormTemplates\ValidationField.cs" />
     <Compile Include="FormTemplates\ValidationRule.cs" />
     <Compile Include="FormTemplates\WebsiteFormElement.cs" />
+    <Compile Include="Triggers\AssemblyAction.cs" />
+    <Compile Include="Triggers\AssemblyField.cs" />
+    <Compile Include="Triggers\CreateEntityAction.cs" />
+    <Compile Include="Triggers\DeleteEntityAction.cs" />
     <Compile Include="Triggers\FunctionField.cs" />
     <Compile Include="IBinaryStore.cs" />
     <Compile Include="IComputable.cs" />
@@ -235,6 +239,7 @@
     <Compile Include="Triggers\ConstantField.cs" />
     <Compile Include="Triggers\DocumentField.cs" />
     <Compile Include="Triggers\Field.cs" />
+    <Compile Include="Triggers\MethodArg.cs" />
     <Compile Include="Triggers\PropertyChangedField.cs" />
     <Compile Include="Triggers\Rule.cs" />
     <Compile Include="Triggers\CustomAction.cs" />
@@ -278,6 +283,8 @@
     <Compile Include="Business\Warranty.cs" />
     <Compile Include="Business\Watcher.cs" />
     <Compile Include="Business\WorkOrder.cs" />
+    <Compile Include="Triggers\UpdateEntityAction.cs" />
+    <Compile Include="Triggers\WorkflowInitiatorAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Schema\_object.xslt">

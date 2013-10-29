@@ -21,15 +21,15 @@ define(['services/datacontext',
         var isBusy = ko.observable(false),
             isZoom = false,
             buildingCollection = ko.observableArray(),
-            center =  new google.maps.LatLng(3.1282, 101.6441),
+            center = { lat: 3.1282, lng: 101.6441 },
             activate = function () {
                 logger.info("Loading map....");
                 return true;
             },
             viewAttached = function () {
                 mapvm.setupAutocomplete(document.getElementById('search'));
-                $('form.form-search').on('click', 'a', function () {
-                    $('form.form-search')
+                $('form.form-inline').on('click', 'a', function () {
+                    $('form.form-inline')
                         .find('input')
                         .val("")
                         .focus();
@@ -67,9 +67,11 @@ define(['services/datacontext',
             mapvm.init({
                 panel: 'map-buildingbound',
                 zoom: 13,
-                center: center,
                 idle: idle
-            });
+            })
+                .done(function() {
+                    mapvm.setCenter(center);
+                });
         }
 
         function idle() {
