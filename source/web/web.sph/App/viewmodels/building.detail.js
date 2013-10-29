@@ -69,14 +69,16 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
                 // build custom fields value
                 context.loadOneAsync("BuildingTemplate", "BuildingTemplateId eq " + templateId)
                     .done(function (template) {
-                        defaultValueProvider.setDefaultValues(vm.building(), template);
+                      
                         // new building
                         if (!id) {
                             setBuildingToContext(new bespoke.sph.domain.Building(), template);
+                            defaultValueProvider.setDefaultValues(vm.building(), template);
                             vm.toolbar.watching(false);
                             tcs.resolve();
                             return;
-                        } else {
+                        }
+                        else {
 
                             vm.toolbar.auditTrail.id(id);
                             vm.toolbar.printCommand.id(id);

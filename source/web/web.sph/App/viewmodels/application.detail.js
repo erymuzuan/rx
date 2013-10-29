@@ -68,7 +68,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     vm.rentalapplication().TemplateName(template.Name());
 
                 });
-                  defaultValueProvider.setDefaultValues(vm.building(), template);
+                  defaultValueProvider.setDefaultValues(vm.rentalapplication(), template);
             vm.rentalapplication().TemplateId(templateId);
 
             return tcs.promise();
