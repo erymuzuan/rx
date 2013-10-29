@@ -209,4 +209,13 @@
 	<xs:element name="UpdateEntityAction" type="CustomAction"/>
 	<xs:element name="WorkflowInitiatorAction" type="CustomAction"/>
 	<xs:element name="AssemblyAction" type="CustomAction"/>
+	<xs:element name="WorkflowDefinition">
+		<xs:complexType>
+			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Note" type="xs:string" use="required"/>
+			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Activity"/>
 </xs:schema>
