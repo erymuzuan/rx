@@ -4,87 +4,104 @@
     Layout = null;
 }
 
-<h1>Buat trigger baru </h1>
-<form class="form-horizontal" data-bind="with: trigger" role="form">
-    <div class="form-group">
-        <label for="Name" class="col-lg-2 control-label">Nama</label>
-        <div class="col-lg-6">
-            <input placeholder="Trigger's' name" class="input-xxlarge form-control" data-bind="value: Name" id="Name" type="text" name="Name" />
+<h1>Trigger</h1>
+<form class="form-horizontal" data-bind="with: trigger" role="form" style="clear: both">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <strong>General options</strong>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label for="Name" class="col-lg-2 control-label">Name</label>
+                <div class="col-lg-6">
+                    <input required placeholder="Trigger's' name" class="form-control" data-bind="value: Name" id="Name" type="text" name="Name" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Entity" class="col-lg-2 control-label">Entity</label>
+                <div class="col-lg-6">
+                    <select required class="form-control" data-bind="value: Entity" id="Entity" name="Entity">
+                        <option value="">[--SELECT TRIGGER ENTITY--]</option>
+                        <option value="Land">Land</option>
+                        <option value="Building">Building</option>
+                        <option value="RentalApplication">Rental Application</option>
+                        <option value="Deposit">Deposit</option>
+                        <option value="Contract">Contract</option>
+                        <option value="Space">Space</option>
+                        <option value="Tenant">Tenant</option>
+                        <option value="Invoice">Invoice</option>
+                        <option value="Complaint">Complaint</option>
+                        <option value="Maintenance">Maintenance</option>
+                    </select>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label for="Note" class="col-lg-2 control-label">Note</label>
+                <div class="col-lg-6">
+                    <textarea class="form-control" data-bind="value: Note" id="Note" name="Note"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="isActive" class="col-lg-2 control-label">State</label>
+                <div class="col-lg-10">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsActive" id="isActive" type="checkbox" name="IsActive" />
+                            Active
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">When</label>
+                <div class="col-lg-10">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsFiredOnAdded" id="fired-on-added" type="checkbox" name="IsFiredOnAdded" />
+                            New item added
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsFiredOnChanged" id="fired-on-changed" type="checkbox" name="IsFireOnChanged" />
+                            When item has changed
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsFiredOnDeleted" id="fire-on-deleted" type="checkbox" name="IsFireOnDeleted" />
+                            When the item has been deleted
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="fired-on-operations" class="control-label col-lg-2">Operation</label>
+                <div class="col-lg-6">
+                    <input class="form-control" data-bind="value: FiredOnOperations" id="fired-on-operations" type="text" name="FireOnOperations" />
+                    <span class="help-block">When this operation is invoked. Use "," to add more than 1 operations</span>
+                </div>
+            </div>
         </div>
     </div>
-
-
-
-    <div class="form-group">
-        <label for="Entity" class="col-lg-2 control-label">Entiti</label>
-        <div class="col-lg-6">
-            <select class="form-control" data-bind="value: Entity" id="Entity" name="Entity">
-                <option value="">[--Sila Pilih--]</option>
-                <option value="Building">Bangunan</option>
-                <option value="RentalApplication">Permohonan Sewa</option>
-                <option value="Deposit">Deposit</option>
-                <option value="Contract">Kontrak</option>
-                <option value="Space">Ruang</option>
-                <option value="Tenant">Penyewa</option>
-                <option value="Invoice">Invois</option>
-                <option value="Complaint">Aduan</option>
-            </select>
-        </div>
-    </div>
-
-
-
-    <div class="form-group">
-        <label for="Note" class="col-lg-2 control-label">Nota</label>
-        <div class="col-lg-6">
-            <textarea class="input-xxlarge form-control" data-bind="value: Note" id="Note" name="Note"></textarea>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="isActive" class="col-lg-2 control-label"></label>
-        <div class="col-lg-6">
-            <label class="checkbox">
-                <input data-bind="checked: IsActive" id="isActive" type="checkbox" name="IsActive" />
-                Aktif
-            </label>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <div class="controls">
-            <label class="checkbox">
-                <input data-bind="checked: IsFiredOnAdded" id="fired-on-added" type="checkbox" name="IsFiredOnAdded" />
-                New item added
-            </label>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <div class="controls">
-            <label class="checkbox">
-                <input data-bind="checked: IsFiredOnChanged" id="fired-on-changed" type="checkbox" name="IsFireOnChanged" />
-                When item has changed
-            </label>
-        </div>
-    </div>
-    <div class="control-group">
-        <div class="controls">
-            <label class="checkbox">
-                <input data-bind="checked: IsFiredOnDeleted" id="fire-on-deleted" type="checkbox" name="IsFireOnDeleted" />
-                When the item has been deleted
-            </label>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="fired-on-operations" class="control-label col-lg-2">When this operation is invoked</label>
-        <div class="col-lg-6">
-            <input class="input-xxlarge form-control" data-bind="value: FiredOnOperations" id="fired-on-operations" type="text" name="FireOnOperations" />
-            <span class="help-block">Use "," to add more than 1 operations</span>
-        </div>
-    </div>
-
     <h3>Rules</h3>
     <a href="#" class="pull-right" data-bind="click: addRule">+ Rule</a>
     <table id="rules-table" class="table table-striped">
@@ -117,7 +134,7 @@
                     @Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Right" })
                 </td>
                 <td>
-                    <a  rel="nofollow" href="#" data-bind="click : $parent.removeRule.call($parent,$data)">Buang</a>
+                    <a rel="nofollow" href="#" data-bind="click : $parent.removeRule.call($parent,$data)">Buang</a>
                 </td>
             </tr>
         </tbody>
@@ -151,9 +168,9 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Tajuk</th>
-                <th>Nota</th>
-                <th>Aktif</th>
+                <th>Title</th>
+                <th>Note</th>
+                <th>Is active</th>
                 <th></th>
             </tr>
         </thead>
@@ -175,7 +192,7 @@
                     <input class="input-action-isactive" data-bind="checked: IsActive" id="IsActive" type="checkbox" name="IsActive" />
                 </td>
                 <td>
-                    <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click: $root.removeAction">-</a>
+                    <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click: $root.removeAction">Buang</a>
                 </td>
             </tr>
         </tbody>

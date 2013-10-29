@@ -85,35 +85,40 @@ define([],
             },
             setupAutocomplete = function (input, placeChanged) {
 
-                var options = { componentRestrictions: { country: 'my' } };
-                var autocomplete = new google.maps.places.Autocomplete(input, options);
-                if (map) {
-                    autocomplete.bindTo('bounds', map);
-                }
-                google.maps.event.addListener(autocomplete, 'place_changed', function () {
-                    var place = autocomplete.getPlace();
+                loadGoogleMapLibs().done(function () {
 
+                    var options = { componentRestrictions: { country: 'my' } };
+                    var autocomplete = new google.maps.places.Autocomplete(input, options);
                     if (map) {
-                        if (place.geometry.viewport) {
-                            map.fitBounds(place.geometry.viewport);
-                        } else {
-                            map.setCenter(place.geometry.location);
-                            map.setZoom(17);
+                        autocomplete.bindTo('bounds', map);
+                    }
+                    google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                        var place = autocomplete.getPlace();
+
+                        if (map) {
+                            if (place.geometry.viewport) {
+                                map.fitBounds(place.geometry.viewport);
+                            } else {
+                                map.setCenter(place.geometry.location);
+                                map.setZoom(17);
+                            }
+
                         }
 
-                    }
+                        var address = '';
+                        if (place.address_components) {
+                            address = [
+                              (place.address_components[0] && place.address_components[0].short_name || ''),
+                              (place.address_components[1] && place.address_components[1].short_name || ''),
+                              (place.address_components[2] && place.address_components[2].short_name || '')
+                            ].join(' ');
+                        }
+                        if (placeChanged)
+                            placeChanged(address);
+                    });
 
-                    var address = '';
-                    if (place.address_components) {
-                        address = [
-                          (place.address_components[0] && place.address_components[0].short_name || ''),
-                          (place.address_components[1] && place.address_components[1].short_name || ''),
-                          (place.address_components[2] && place.address_components[2].short_name || '')
-                        ].join(' ');
-                    }
-                    if (placeChanged)
-                        placeChanged(address);
                 });
+
             },
             loadGoogleMapLibs = function () {
                 if (typeof google.maps === "undefined") {
@@ -161,7 +166,7 @@ define([],
 
         function init(ops) {
 
-            if (typeof google.maps === "undefined") {
+            if (typeof google.maps === "undefined" ||typeof google.maps.Map === "undefined") {
                 var tcs1 = new $.Deferred();
                 loadGoogleMapLibs().done(function () {
                     init(ops).done(function (p) {

@@ -53,13 +53,16 @@ define(['durandal/system', 'durandal/plugins/router', 'services/logger', 'servic
             var $menu = $('#slider-menu'),
                 hideSlider = function () {
                     $('section#content').animate({ "margin-left": 0 });
-                    $menu.animate({ "width": 0 }, function () { $menu.hide(); });
+                    $menu.hide().css({ "width": 0 });
                 },
                 showSlider = function () {
                     var tcs = new $.Deferred();
 
-                    $('section#content').animate({ "margin-left": 280 }, tcs.resolve);
-                    $menu.css("height", $(document).height()).show().animate({ "width": 280 }, tcs.resolve)
+                    $('section#content').animate({ "margin-left": 280 }, function() {
+                        tcs.resolve(true);
+                        $menu.show();
+                    });
+                    $menu.css("height", $(document).height()).animate({ "width": 280 }, tcs.resolve)
 
                     return tcs.promise();
 

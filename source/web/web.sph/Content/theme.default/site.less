@@ -11,7 +11,9 @@ table {
 input[type=search] {
     height: 30px;
 }
-
+div.durandal-wrapper {
+    clear: both;
+}
 div.control-group {
     margin-bottom: 20px;
 }
@@ -22,6 +24,13 @@ div.control-group {
     }
 
 
+div.checkbox {
+    >label {
+        >input[type=checkbox] {
+            margin-top: 6px !important;
+        }
+    }
+}
 
 div.controls {
     margin-left: 140px;
@@ -31,9 +40,6 @@ div.controls {
         width: 210px;
     }
 
-    div.controls > input.input-xxlarge {
-        width: 530px;
-    }
 
 #body {
     margin-bottom: 70px;
@@ -41,7 +47,7 @@ div.controls {
 
 .google-maps {
     min-height: 600px;
-    min-width : 800px;
+    min-width: 800px;
 }
 
     .google-maps img {
@@ -49,7 +55,7 @@ div.controls {
     }
 
 
-.modal,.view-model-modal {
+.modal, .view-model-modal {
     background-color: @modal-content-bg;
 }
 

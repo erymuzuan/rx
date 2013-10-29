@@ -838,6 +838,7 @@
     <Content Include="Images\pie-chart.png" />
     <Content Include="Images\PropertyChangedField.png" />
     <Content Include="Images\quarters.png" />
+    <Content Include="Images\red-bar.png" />
     <Content Include="Images\remove_icon.png" />
     <Content Include="Images\report-layout.1.png" />
     <Content Include="Images\report-layout.2.png" />
