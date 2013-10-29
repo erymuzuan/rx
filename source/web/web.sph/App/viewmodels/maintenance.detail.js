@@ -10,7 +10,7 @@
 /// <reference path="../services/cultures.my.js" />
 /// <reference path="../objectbuilders.js" />
 
-define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, 'durandal/system', 'services/watcher',objectbuilders.config,objectbuilders.cultures], function (context, logger, router, system, watcher,config,culture) {
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, 'durandal/system', 'services/watcher', objectbuilders.config, objectbuilders.cultures, objectbuilders.defaultValueProvider], function (context, logger, router, system, watcher, config, culture, defaultValueProvider) {
     var isBusy = ko.observable(false),
         department = ko.observable(),
         designation = ko.observable(),
@@ -38,7 +38,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                             v.Type(f.Type());
                             return v;
                         });
-
+                        defaultValueProvider.setDefaultValues(vm.maintenance, template);
                         vm.maintenance().CustomFieldValueCollection(cfs);
                         vm.maintenance().WorkOrderType(template.Name());
                         vm.maintenance().MaintenanceId(id());

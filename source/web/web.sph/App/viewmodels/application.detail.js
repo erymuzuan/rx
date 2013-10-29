@@ -9,11 +9,11 @@
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../objectbuilders.js" />
 
-define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, 'durandal/system', objectbuilders.config,objectbuilders.validation], function (context, logger, router, system, config,validation) {
+define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, 'durandal/system', objectbuilders.config, objectbuilders.validation, objectbuilders.defaultValueProvider], function (context, logger, router, system, config, validation, defaultValueProvider) {
 
     var isBusy = ko.observable(false),
         spaceId = ko.observable(),
-        m_template = ko.observable(),
+        mTemplate = ko.observable(),
         registrationNo = ko.observable(),
         rentalApplication = ko.observable(new bespoke.sph.domain.RentalApplication()),
 
@@ -54,7 +54,8 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
             // build custom fields value
             context.loadOneAsync("ApplicationTemplate", "ApplicationTemplateId eq " + templateId)
                 .done(function (template) {
-                    m_template(template);
+                    mTemplate(template);
+                    defaultValueProvider.setDefaultValues(vm.rentalapplication(), template);
                     var cfs = _(template.CustomFieldCollection()).map(function (f) {
                         var webid = system.guid();
                         var v = new bespoke.sph.domain.CustomFieldValue(webid);
@@ -67,13 +68,13 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                     vm.rentalapplication().TemplateName(template.Name());
 
                 });
-
+                  defaultValueProvider.setDefaultValues(vm.building(), template);
             vm.rentalapplication().TemplateId(templateId);
 
             return tcs.promise();
         },
         viewAttached = function () {
-            validation.init($('#application-detail-form'), m_template());
+            validation.init($('#application-detail-form'), mTemplate());
         },
         configureUpload = function (element, index, attachment) {
 
