@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
-<xs:schema xmlns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:mstns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/ReportManagerSchema.xsd" targetNamespace="http://tempuri.org/TriggersWorkflow.xsd" elementFormDefault="qualified" id="TriggersWorkflow">
-	<xs:import namespace="http://tempuri.org/ReportManagerSchema.xsd" schemaLocation="C:\project\work\sph\source\domain\domain.sph\Schema\ReportBuilder.xsd"/>
+<xs:schema xmlns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:mstns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/ReportManagerSchema.xsd" xmlns:ns2="http://tempuri.org/FormDesigner.xsd" targetNamespace="http://tempuri.org/TriggersWorkflow.xsd" elementFormDefault="qualified" id="TriggersWorkflow">
+	<xs:import namespace="http://tempuri.org/FormDesigner.xsd" schemaLocation="C:\project\work\sph\source\domain\domain.sph\Schema\FormDesigner.xsd"/>
 	<xs:element name="Trigger">
 		<xs:complexType>
 			<xs:all>
@@ -211,11 +211,59 @@
 	<xs:element name="AssemblyAction" type="CustomAction"/>
 	<xs:element name="WorkflowDefinition">
 		<xs:complexType>
+			<xs:all>
+				<xs:element name="ActivityCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Activity" type="Activity" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CustomFieldCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CustomField" type="ns2:CustomField" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
 			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="Activity"/>
+	<xs:complexType name="Activity">
+		<xs:attribute name="IsInitiator" type="xs:boolean" use="required"/>
+	</xs:complexType>
+	<xs:element name="Workflow">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="CustomFieldValueCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CustomFieldValue" type="ns2:CustomFieldValue" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="WorkflowId" type="xs:int" use="required"/>
+			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="State" type="xs:string" use="required"/>
+			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ScreenActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element ref="ns2:FormDesign"/>
+					</xs:all>
+					<xs:attribute name="Title" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

@@ -208,6 +208,61 @@ bespoke.sph.domain.MethodArg = function (webId) {
 };
 
 
+
+bespoke.sph.domain.WorkflowDefinition = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.WorkflowDefinition, domain.sph",
+        WorkflowDefinitionId: ko.observable(0),
+        Name: ko.observable(''),
+        Note: ko.observable(''),
+        IsActive: ko.observable(false),
+        ActivityCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.WorkflowDefinitionPartial) {
+        return _(model).extend(new bespoke.sph.domain.WorkflowDefinitionPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.Workflow = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Workflow, domain.sph",
+        WorkflowId: ko.observable(0),
+        WorkflowDefinitionId: ko.observable(0),
+        Name: ko.observable(''),
+        Status: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.WorkflowPartial) {
+        return _(model).extend(new bespoke.sph.domain.WorkflowPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ScreenActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v.Title = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.ScreenActivity, domain.sph";
+
+    v.FormDesign = ko.observable(new bespoke.sph.domain.FormDesign());
+    if (bespoke.sph.domain.ScreenActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.ScreenActivityPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sph.domain.Field = function (webId) {
 
     return {
@@ -229,6 +284,17 @@ bespoke.sph.domain.CustomAction = function (webId) {
         TriggerId: ko.observable(0),
         Note: ko.observable(''),
         CustomActionId: ko.observable(0),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+};
+
+
+bespoke.sph.domain.Activity = function (webId) {
+
+    return {
+        "$type": "Bespoke.Sph.Domain.Activity, domain.sph",
+        IsInitiator: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

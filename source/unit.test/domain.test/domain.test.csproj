@@ -73,6 +73,7 @@
     <Compile Include="triggers\JsonSerializationTest.cs" />
     <Compile Include="triggers\RuleTest.cs" />
     <Compile Include="triggers\SerializationTest.cs" />
+    <Compile Include="workflows\CreationTest.cs" />
     <Compile Include="XlinqHelper.cs" />
   </ItemGroup>
   <ItemGroup>
