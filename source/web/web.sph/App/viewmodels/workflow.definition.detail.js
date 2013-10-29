@@ -15,12 +15,16 @@ define([objectbuilders.datacontext],
         var isBusy = ko.observable(false),
             id = ko.observable(),
             activate = function (routeData) {
-                id(routeData.definitionId);
+                id(parseFloat(routeData.definitionId));
+                if (!id()) {
+                    vm.workflowdefinition(new bespoke.sph.domain.WorkflowDefinition());
+                    return true;
+                }
                 var query = String.format("WorkflowDefinitionId eq {0}", id());
                 var tcs = new $.Deferred();
                 context.loadOneAsync("WorkflowDefinition", query)
-                    .done(function(b) {
-                        vm.workflowdefinition(b);
+                    .done(function(wf) {
+                        vm.workflowdefinition(wf);
                         tcs.resolve(true);
                     });
                 return tcs.promise();

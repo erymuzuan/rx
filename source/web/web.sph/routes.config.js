@@ -901,7 +901,7 @@
   {
     "role": "can_edit_workflow",
     "groupName": "",
-    "url": "viewmodels/workflow.definition.detail/:definitionId",
+    "url": "workflow.definition.detail/:definitionId",
     "moduleId": "viewmodels/workflow.definition.detail",
     "name": "Workflow Definition",
     "visible": false,
