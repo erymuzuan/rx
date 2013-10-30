@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:mstns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/ReportManagerSchema.xsd" xmlns:ns2="http://tempuri.org/FormDesigner.xsd" targetNamespace="http://tempuri.org/TriggersWorkflow.xsd" elementFormDefault="qualified" id="TriggersWorkflow">
-	<xs:import namespace="http://tempuri.org/FormDesigner.xsd" schemaLocation="C:\project\work\sph\source\domain\domain.sph\Schema\FormDesigner.xsd"/>
 	<xs:element name="Trigger">
 		<xs:complexType>
 			<xs:all>
@@ -231,6 +230,7 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+			<xs:attribute name="SchemaStoreId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="Activity">
@@ -259,7 +259,7 @@
 			<xs:complexContent>
 				<xs:extension base="Activity">
 					<xs:all>
-						<xs:element ref="ns2:FormDesign"/>
+						<xs:element ref="FormDesign"/>
 					</xs:all>
 					<xs:attribute name="Title" type="xs:string" use="required"/>
 				</xs:extension>
@@ -295,4 +295,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="CustomElementVariable" type="Variable"/>
+	<xs:element name="FormDesign">
+		<xs:annotation>
+			<xs:documentation>Placeholder</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 </xs:schema>

@@ -19,6 +19,7 @@ define([],
 
         var vm = {
             variable: ko.observable(new bespoke.sph.domain.ComplexVariable()),
+            elementNameOptions : ko.observableArray(),
             okClick: okClick,
             cancelClick: cancelClick
         };

@@ -101,8 +101,16 @@ namespace $NAMESPACE$&#xD;
     }&#xD;
 }</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=binding/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=binding/Expression/@EntryValue">list("value,kendoDate,kendoUpload")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=binding/Order/@EntryValue">5</s:Int64>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=PLACE_005FHOLDER/@KeyIndexDefined">True</s:Boolean>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=PLACE_005FHOLDER/Order/@EntryValue">3</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=PROPERTY/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=PROPERTY/Order/@EntryValue">6</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=REQUIRED/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=REQUIRED/Expression/@EntryValue">list("required,")</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=REQUIRED/Order/@EntryValue">4</s:Int64>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=TYPE/@KeyIndexDefined">True</s:Boolean>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Field/=TYPE/Order/@EntryValue">2</s:Int64>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Shortcut/@EntryValue">ff</s:String>
@@ -110,7 +118,7 @@ namespace $NAMESPACE$&#xD;
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Text/@EntryValue">&lt;div class="form-group"&gt;&#xD;
     &lt;label for="$ID$" class="col-lg-2 control-label"&gt;$LABEL$&lt;/label&gt;&#xD;
     &lt;div class="col-lg-6"&gt;&#xD;
-      &lt;input type="$TYPE$" class="form-control" id="$ID$" placeholder="$PLACE_HOLDER$"&gt;&#xD;
+      &lt;input $REQUIRED$ type="$TYPE$" data-bind="$binding$: $PROPERTY$" class="form-control" id="$ID$" placeholder="$PLACE_HOLDER$"&gt;&#xD;
     &lt;/div&gt;&#xD;
 &lt;/div&gt;</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=2CF1BD9419E86B4EA9A2BFB6E20F96C3/Reformat/@EntryValue">True</s:Boolean>

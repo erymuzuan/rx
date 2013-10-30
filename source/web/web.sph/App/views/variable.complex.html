@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
                 <h3>Complex Type</h3>
             </div>
             <div class="modal-body" data-bind="with : variable">
@@ -10,16 +10,18 @@
                     <div class="form-group">
                         <label for="complex-variable-name" class="control-label">Name</label>
                         <div class="controls">
-                            <input class="form-control" data-bind="value: Name" id="complex-variable-name" type="text" name="complex-variable-name" />
+                            <input required class="form-control" data-bind="value: Name" id="complex-variable-name" type="text" name="complex-variable-name" />
                         </div>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="complex-variable-schema" class="control-label">Schema</label>
-                        <div class="controls">
-                            <input class="form-control" data-bind="kendoUpload: SchemaStoreId" id="complex-variable-schema" type="file" name="complex-variable-schema" />
+                        <label for="complex-variable-element" class="col-lg-2 control-label">Element name</label>
+                        <div class="col-lg-6">
+                            <select required data-bind="value:TypeName,options:$root.elementNameOptions" class="form-control" id="complex-variable-element">
+                                <option value=""></option>
+                            </select>
                         </div>
                     </div>
+                   
                 </form>
             </div>
 

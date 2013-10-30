@@ -12,9 +12,10 @@ var bespoke = bespoke || {};
 bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
 
-bespoke.sph.domain.WorkflowDefinitionPartial = function () {
+bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
     var system = require('durandal/system'),
+        elementNameOptions = ko.observableArray(),
         removeActivity = function (activity) {
             var self = this;
             return function () {
@@ -70,6 +71,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function () {
 
                 require(['viewmodels/variable.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.variable(variable);
+                    dialog.elementNameOptions(elementNameOptions());
                     app2.showModal(dialog)
                         .done(function (result) {
                             if (!result) return;
@@ -111,6 +113,13 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function () {
                  self.VariableDefinitionCollection.remove(variable);
              };
          };
+
+    model.SchemaStoreId.subscribe(function (storeId) {
+        $.get("/Workflow/GetXsdElementName/" + storeId)
+            .then(function (result) {
+                elementNameOptions(result);
+            });
+    });
 
     var vm = {
         removeActivity: removeActivity,

@@ -217,6 +217,7 @@ bespoke.sph.domain.WorkflowDefinition = function (webId) {
         Name: ko.observable(''),
         Note: ko.observable(''),
         IsActive: ko.observable(false),
+        SchemaStoreId: ko.observable(''),
         ActivityCollection: ko.observableArray([]),
         VariableDefinitionCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
@@ -300,12 +301,27 @@ bespoke.sph.domain.ComplexVariable = function (webId) {
 
     var v = new bespoke.sph.domain.Variable(webId);
 
-    v["$type"] = "Bespoke.Sph.Domain.ComplexVariable, domain.sph",
-     v.SchemaStoreId = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.ComplexVariable, domain.sph";
+
     if (bespoke.sph.domain.ComplexVariablePartial) {
         return _(v).extend(new bespoke.sph.domain.ComplexVariablePartial(v));
     }
     return v;
+};
+
+
+
+bespoke.sph.domain.FormDesign = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.FormDesignPartial) {
+        return _(model).extend(new bespoke.sph.domain.FormDesignPartial(model));
+    }
+    return model;
 };
 
 
