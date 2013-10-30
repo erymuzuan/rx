@@ -26,5 +26,7 @@ namespace Bespoke.Sph.Domain
         {
             return this.ActivityCollection.Single(p => p.IsInitiator) as ScreenActivity;
         }
+
+        public string SchemaStoreId { get; set; }
     }
 }

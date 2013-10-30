@@ -80,6 +80,10 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="triggers\trigger.json" />
+    <None Include="workflows\PemohonWakaf.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\dependencies\report.sqldatasource\report.sqldatasource.csproj">

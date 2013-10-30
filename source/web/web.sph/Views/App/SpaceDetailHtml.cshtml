@@ -1,4 +1,5 @@
-﻿@model Bespoke.Sph.Web.ViewModels.SpaceDetailViewModel
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Web.ViewModels.SpaceDetailViewModel
 
 @{
     ViewBag.Title = "title";
@@ -39,7 +40,7 @@
                             fe.InputColumnSpan = 6;
                         }
 
-                    @Html.EditorFor(m => fe)
+                        @Html.EditorFor(m => fe)
 
                     }
 
