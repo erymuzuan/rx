@@ -71,7 +71,9 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
                 require(['viewmodels/variable.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.variable(variable);
-                    dialog.elementNameOptions(elementNameOptions());
+                    if (typeof dialog.elementNameOptions === "function") {
+                        dialog.elementNameOptions(elementNameOptions());
+                    }
                     app2.showModal(dialog)
                         .done(function (result) {
                             if (!result) return;
