@@ -441,6 +441,7 @@
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
     <Content Include="App\viewmodels\field.assembly.js" />
+    <Content Include="App\viewmodels\variable.complex.js" />
     <Content Include="App\viewmodels\variable.simple.js" />
     <Content Include="App\viewmodels\field.constant.js" />
     <Content Include="App\viewmodels\error.message.js" />
@@ -505,6 +506,7 @@
     <Content Include="App\views\chats.html" />
     <Content Include="App\views\error.message.html" />
     <Content Include="App\views\field.assembly.html" />
+    <Content Include="App\views\variable.complex.html" />
     <Content Include="App\views\variable.simple.html" />
     <Content Include="App\views\field.function.html" />
     <Content Include="App\views\field.propertychanged.html" />
