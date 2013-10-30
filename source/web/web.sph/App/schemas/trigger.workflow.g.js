@@ -218,7 +218,7 @@ bespoke.sph.domain.WorkflowDefinition = function (webId) {
         Note: ko.observable(''),
         IsActive: ko.observable(false),
         ActivityCollection: ko.observableArray([]),
-        CustomFieldCollection: ko.observableArray([]),
+        VariableDefinitionCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -239,7 +239,7 @@ bespoke.sph.domain.Workflow = function (webId) {
         Name: ko.observable(''),
         State: ko.observable(''),
         IsActive: ko.observable(false),
-        CustomFieldValueCollection: ko.observableArray([]),
+        VariableCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -261,6 +261,49 @@ bespoke.sph.domain.ScreenActivity = function (webId) {
     v.FormDesign = ko.observable(new bespoke.sph.domain.FormDesign());
     if (bespoke.sph.domain.ScreenActivityPartial) {
         return _(v).extend(new bespoke.sph.domain.ScreenActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.NotificationActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v.From = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.NotificationActivity, domain.sph";
+
+    if (bespoke.sph.domain.NotificationActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.NotificationActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.SimpleVariable = function (webId) {
+
+    var v = new bespoke.sph.domain.Variable(webId);
+
+    v["$type"] = "Bespoke.Sph.Domain.SimpleVariable, domain.sph";
+
+    if (bespoke.sph.domain.SimpleVariablePartial) {
+        return _(v).extend(new bespoke.sph.domain.SimpleVariablePartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ComplexVariable = function (webId) {
+
+    var v = new bespoke.sph.domain.Variable(webId);
+
+    v["$type"] = "Bespoke.Sph.Domain.ComplexVariable, domain.sph";
+
+    if (bespoke.sph.domain.ComplexVariablePartial) {
+        return _(v).extend(new bespoke.sph.domain.ComplexVariablePartial(v));
     }
     return v;
 };
@@ -298,6 +341,19 @@ bespoke.sph.domain.Activity = function (webId) {
     return {
         "$type": "Bespoke.Sph.Domain.Activity, domain.sph",
         IsInitiator: ko.observable(false),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+};
+
+
+bespoke.sph.domain.Variable = function (webId) {
+
+    return {
+        "$type": "Bespoke.Sph.Domain.Variable, domain.sph",
+        Name: ko.observable(''),
+        TypeName: ko.observable(''),
+        DefaultValue: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

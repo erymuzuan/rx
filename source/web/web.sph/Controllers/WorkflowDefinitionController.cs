@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         public async Task<ActionResult> Save()
         {
-              var wd = this.GetRequestJson<WorkflowDefinition>();
+            var wd = this.GetRequestJson<WorkflowDefinition>();
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {

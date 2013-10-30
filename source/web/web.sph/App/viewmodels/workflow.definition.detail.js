@@ -10,8 +10,8 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define([objectbuilders.datacontext],
-    function(context) {
+define([objectbuilders.datacontext,objectbuilders.logger],
+    function (context, logger) {
         var isBusy = ko.observable(false),
             id = ko.observable(),
             activate = function (routeData) {
@@ -38,7 +38,7 @@ define([objectbuilders.datacontext],
                 context.post(data, "/WorkflowDefinition/Save")
                     .then(function(result) {
                         isBusy(false);
-
+                        logger.info("Data have been succesfully save");
                         
                         tcs.resolve(result);
                     });

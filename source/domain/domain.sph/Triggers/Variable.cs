@@ -1,6 +1,10 @@
-﻿namespace Bespoke.Sph.Domain
+﻿using System.Xml.Serialization;
+
+namespace Bespoke.Sph.Domain
 {
-   public partial class Variable : DomainObject
+    [XmlInclude(typeof(SimpleVariable))]
+    [XmlInclude(typeof(ComplexVariable))]
+    public partial class Variable : DomainObject
     {
     }
 }

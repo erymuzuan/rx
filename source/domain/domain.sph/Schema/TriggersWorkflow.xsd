@@ -278,8 +278,21 @@
 	<xs:complexType name="Variable">
 		<xs:attribute name="Name" type="xs:string" use="required"/>
 		<xs:attribute name="TypeName" type="xs:string" use="required"/>
+		<xs:attribute name="DefaultValue" type="xs:string" use="optional"/>
 	</xs:complexType>
-	<xs:element name="DateTimeVariable" type="Variable"/>
-	<xs:element name="StringVariable" type="Variable"/>
+	<xs:element name="SimpleVariable">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Variable"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ComplexVariable">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Variable"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="CustomElementVariable" type="Variable"/>
 </xs:schema>

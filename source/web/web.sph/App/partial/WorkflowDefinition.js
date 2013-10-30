@@ -104,10 +104,17 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function () {
                 });
 
             };
-        };
+        },
+         removeVariable = function (variable) {
+             var self = this;
+             return function () {
+                 self.VariableDefinitionCollection.remove(variable);
+             };
+         };
 
     var vm = {
         removeActivity: removeActivity,
+        removeVariable: removeVariable,
         addActivity: addActivity,
         editActivity: editActivity,
         addVariable: addVariable,
