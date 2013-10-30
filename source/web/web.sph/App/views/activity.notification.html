@@ -1,0 +1,27 @@
+﻿
+<section class="view-model-modal" id="activity-notification-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Notification Activity</h3>
+            </div>
+            <div class="modal-body" data-bind="with: activity">
+
+                <form class="form-horizontal" id="activity-notification-modal-form">
+                    <div class="form-group">
+                        <label for="activity-notification-from" class="col-lg-2 control-label">From</label>
+                        <div class="col-lg-6">
+                            <input data-bind="value:From" required type="text" class="form-control" id="activity-notification-from" placeholder="From">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="activity-notification-modal-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

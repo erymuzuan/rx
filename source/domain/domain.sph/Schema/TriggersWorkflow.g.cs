@@ -1360,6 +1360,28 @@
 
           }
         
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("NotificationActivity",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class NotificationActivity
+          {
+          
+                    private string  m_From;
+                    [XmlAttribute]
+                    public  string From {get{
+                    return m_From;}
+                    set{
+                    m_From = value;
+                      RaisePropertyChanged();
+                    }}
+
+                  
+
+          }
+        
       [XmlType("Field",  Namespace=Strings.DEFAULT_NAMESPACE)]
       public partial class Field
       {

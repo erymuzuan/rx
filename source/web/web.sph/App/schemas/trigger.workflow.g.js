@@ -266,6 +266,21 @@ bespoke.sph.domain.ScreenActivity = function (webId) {
 };
 
 
+
+bespoke.sph.domain.NotificationActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v.From = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.NotificationActivity, domain.sph";
+
+    if (bespoke.sph.domain.NotificationActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.NotificationActivityPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sph.domain.Field = function (webId) {
 
     return {
