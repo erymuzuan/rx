@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:mstns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/ReportManagerSchema.xsd" xmlns:ns2="http://tempuri.org/FormDesigner.xsd" targetNamespace="http://tempuri.org/TriggersWorkflow.xsd" elementFormDefault="qualified" id="TriggersWorkflow">
+	<xs:import namespace="http://tempuri.org/FormDesigner.xsd" schemaLocation="C:\project\work\sph\source\domain\domain.sph\Schema\FormDesigner.xsd"/>
 	<xs:element name="Trigger">
 		<xs:complexType>
 			<xs:all>
@@ -218,11 +219,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-<<<<<<< HEAD
 				<xs:element name="VariableDefinitionCollection">
-=======
-				<xs:element name="VariableCollection">
->>>>>>> 3239a69384705b3603b1eb7a3a9f62a4b761c378
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="Variable" type="Variable" minOccurs="0" maxOccurs="unbounded"/>
@@ -241,7 +238,6 @@
 	</xs:complexType>
 	<xs:element name="Workflow">
 		<xs:complexType>
-<<<<<<< HEAD
 			<xs:all>
 				<xs:element name="VariableCollection">
 					<xs:complexType>
@@ -251,9 +247,6 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:all>
-=======
-			<xs:all/>
->>>>>>> 3239a69384705b3603b1eb7a3a9f62a4b761c378
 			<xs:attribute name="WorkflowId" type="xs:int" use="required"/>
 			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -266,7 +259,7 @@
 			<xs:complexContent>
 				<xs:extension base="Activity">
 					<xs:all>
-						<xs:element ref="FormDesign"/>
+						<xs:element ref="ns2:FormDesign"/>
 					</xs:all>
 					<xs:attribute name="Title" type="xs:string" use="required"/>
 				</xs:extension>
@@ -282,7 +275,6 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-<<<<<<< HEAD
 	<xs:complexType name="Variable">
 		<xs:attribute name="Name" type="xs:string" use="required"/>
 		<xs:attribute name="TypeName" type="xs:string" use="required"/>
@@ -302,18 +294,5 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-=======
-	<xs:element name="FormDesign">
-		<xs:annotation>
-			<xs:documentation>PlaceHolder</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:complexType name="Variable">
-		<xs:attribute name="Name" type="xs:string" use="required"/>
-		<xs:attribute name="TypeName" type="xs:string" use="required"/>
-	</xs:complexType>
-	<xs:element name="DateTimeVariable" type="Variable"/>
-	<xs:element name="StringVariable" type="Variable"/>
->>>>>>> 3239a69384705b3603b1eb7a3a9f62a4b761c378
 	<xs:element name="CustomElementVariable" type="Variable"/>
 </xs:schema>
