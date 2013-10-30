@@ -281,6 +281,7 @@ bespoke.sph.domain.NotificationActivity = function (webId) {
 };
 
 
+<<<<<<< HEAD
 
 bespoke.sph.domain.SimpleVariable = function (webId) {
 
@@ -309,6 +310,8 @@ bespoke.sph.domain.ComplexVariable = function (webId) {
 };
 
 
+=======
+>>>>>>> 3239a69384705b3603b1eb7a3a9f62a4b761c378
 bespoke.sph.domain.Field = function (webId) {
 
     return {

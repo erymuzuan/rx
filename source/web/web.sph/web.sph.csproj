@@ -433,6 +433,7 @@
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\action.email.js" />
     <Content Include="App\viewmodels\action.setter.js" />
+    <Content Include="App\viewmodels\activity.notification.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\block.floormap.dialog.js" />
     <Content Include="App\viewmodels\block.floors.js" />

@@ -1,4 +1,5 @@
 USE [Sph]
+GO
 IF OBJECT_ID('Sph.Workflow', 'U') IS NOT NULL
   DROP TABLE Sph.Workflow
 GO
