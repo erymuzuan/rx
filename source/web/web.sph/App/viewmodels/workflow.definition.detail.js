@@ -30,8 +30,19 @@ define([objectbuilders.datacontext],
                 return tcs.promise();
 
             },
-            saveAsync = function(parameters) {
-                
+            saveAsync = function() {
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(vm.workflowdefinition());
+                isBusy(true);
+
+                context.post(data, "/WorkflowDefinition/Save")
+                    .then(function(result) {
+                        isBusy(false);
+
+                        
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
             };
 
         var vm = {

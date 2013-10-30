@@ -298,6 +298,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportDeliveryController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\WorkflowDefinitionController.cs" />
     <Compile Include="Controllers\WorkflowController.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="ViewModels\CreateMapModel.cs" />
@@ -492,6 +493,7 @@
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\action.email.html" />
     <Content Include="App\views\action.setter.html" />
+    <Content Include="App\views\activity.notification.html" />
     <Content Include="App\views\application.template.list.html" />
     <Content Include="App\views\block.dialog.html" />
     <Content Include="App\views\block.floormap.dialog.html" />
