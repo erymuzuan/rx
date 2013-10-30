@@ -29,12 +29,18 @@ define([objectbuilders.datacontext],
                     });
                 return tcs.promise();
 
+            },
+            saveAsync = function(parameters) {
+                
             };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            workflowdefinition: ko.observable(new bespoke.sph.domain.WorkflowDefinition())
+            workflowdefinition: ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
+            toolbar : {
+                saveCommand: saveAsync
+            }
         };
 
         return vm;

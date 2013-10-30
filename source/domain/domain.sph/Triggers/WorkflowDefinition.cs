@@ -6,7 +6,7 @@ namespace Bespoke.Sph.Domain
 {
     public partial class WorkflowDefinition : Entity
     {
-        public Task<Workflow> InitiateAsync(IEnumerable<CustomFieldValue> values = null, ScreenActivity screen = null)
+        public Task<Workflow> InitiateAsync(IEnumerable<Variable> values = null, ScreenActivity screen = null)
         {
             var wf = new Workflow
             {
@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Domain
             };
             if (null != screen)
             {
-                wf.CustomFieldValueCollection.ClearAndAddRange(values);
+                wf.VariableCollection.ClearAndAddRange(values);
             }
             return Task.FromResult(wf);
         }

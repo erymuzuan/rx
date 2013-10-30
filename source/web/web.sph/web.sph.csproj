@@ -499,6 +499,7 @@
     <Content Include="App\views\block.map.html" />
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\chats.html" />
+    <Content Include="App\views\error.message.html" />
     <Content Include="App\views\field.assembly.html" />
     <Content Include="App\views\field.function.html" />
     <Content Include="App\views\field.propertychanged.html" />

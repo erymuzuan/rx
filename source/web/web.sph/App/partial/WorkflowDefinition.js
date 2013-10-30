@@ -62,12 +62,56 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function () {
                 });
 
             };
+        },
+        addVariable = function(type) {
+            var self = this;
+            return function() {
+                var variable = new bespoke.sph.domain[type + 'Variable'](system.guid());
+
+                require(['viewmodels/variable.' + type.toLowerCase(), 'durandal/app'], function(dialog, app2) {
+                    dialog.variable(variable);
+                    app2.showModal(dialog)
+                        .done(function(result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                self.VariableDefinitionCollection.push(variable);
+                            }
+                        });
+
+                });
+
+            };
+        },
+        editVariable = function (variable) {
+            var self = this;
+            return function () {
+                var variableType = ko.unwrap(variable.$type),
+                    clone = ko.mapping.fromJS(ko.mapping.toJS(variable)),
+                    pattern = /Bespoke\.Sph\.Domain\.(.*?)Variable,/,
+                    type = pattern.exec(variableType)[1];
+
+                require(['viewmodels/variable.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
+                    dialog.variable(clone);
+
+                    app2.showModal(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                self.VariableCollection.replace(variable, clone);
+                            }
+                        });
+
+                });
+
+            };
         };
 
     var vm = {
         removeActivity: removeActivity,
         addActivity: addActivity,
-        editActivity: editActivity
+        editActivity: editActivity,
+        addVariable: addVariable,
+        editVariable: editVariable
 
     };
 

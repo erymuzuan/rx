@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:mstns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/ReportManagerSchema.xsd" xmlns:ns2="http://tempuri.org/FormDesigner.xsd" targetNamespace="http://tempuri.org/TriggersWorkflow.xsd" elementFormDefault="qualified" id="TriggersWorkflow">
 	<xs:import namespace="http://tempuri.org/FormDesigner.xsd" schemaLocation="C:\project\work\sph\source\domain\domain.sph\Schema\FormDesigner.xsd"/>
 	<xs:element name="Trigger">
@@ -219,10 +219,10 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="CustomFieldCollection">
+				<xs:element name="VariableDefinitionCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="CustomField" type="ns2:CustomField" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element name="Variable" type="Variable" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -239,10 +239,10 @@
 	<xs:element name="Workflow">
 		<xs:complexType>
 			<xs:all>
-				<xs:element name="CustomFieldValueCollection">
+				<xs:element name="VariableCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="CustomFieldValue" type="ns2:CustomFieldValue" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element name="Variable" type="Variable" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -266,4 +266,20 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="NotificationActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:attribute name="From" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Variable">
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="TypeName" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:element name="DateTimeVariable" type="Variable"/>
+	<xs:element name="StringVariable" type="Variable"/>
+	<xs:element name="CustomElementVariable" type="Variable"/>
 </xs:schema>

@@ -6,7 +6,7 @@
 }
 
 
-<section class="view-model-modal" id="activity-screen-modal">
+<div class="view-model-modal" id="activity-screen-modal">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -15,7 +15,6 @@
                 <h3>Screen Activity</h3>
             </div>
             <div class="modal-body">
-
                 <form class="form-horizontal" id="activity-screen-modal-form" data-bind="with: activity">
                     <div class="row">
                         <div class="form-group">
@@ -29,15 +28,11 @@
                 </form>
                 <div class="row">
                     <!-- left toolbox-->
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         @Html.Partial("_Toolbox")
                     </div>
-
-
                     <!-- ko with : activity -->
-
-	
-                    <div id="space-designer" class="col-lg-8" data-bind="with: FormDesign">
+                    <div id="screen-activity-designer" class="col-lg-6" data-bind="with: FormDesign">
                         <div id="template-form-designer">
                             <h1 data-bind="text: Name"></h1>
                             <span data-bind="text: Description"></span>
@@ -56,12 +51,7 @@
                     </div>
 
                     <!-- /ko -->
-
-
-
-
                 </div>
-
             </div>
             <div class="modal-footer">
                 <input form="activity-screen-modal-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
@@ -69,4 +59,4 @@
             </div>
         </div>
     </div>
-</section>
+</div>

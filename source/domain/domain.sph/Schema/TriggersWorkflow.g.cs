@@ -1007,15 +1007,15 @@
 			get{ return m_ActivityCollection;}
 			}
 		
-			private readonly ObjectCollection<CustomField>  m_CustomFieldCollection = new ObjectCollection<CustomField> ();
+			private readonly ObjectCollection<Variable>  m_VariableDefinitionCollection = new ObjectCollection<Variable> ();
 
 			///<summary>
 			/// 
 			///</summary>
 			[XmlArrayItem("", IsNullable = false)]
-			public ObjectCollection<CustomField> CustomFieldCollection
+			public ObjectCollection<Variable> VariableDefinitionCollection
 			{
-			get{ return m_CustomFieldCollection;}
+			get{ return m_VariableDefinitionCollection;}
 			}
 		
                 ///<summary>
@@ -1167,15 +1167,15 @@
                     public const string PropertyNameIsActive = "IsActive";
 
                   
-			private readonly ObjectCollection<CustomFieldValue>  m_CustomFieldValueCollection = new ObjectCollection<CustomFieldValue> ();
+			private readonly ObjectCollection<Variable>  m_VariableCollection = new ObjectCollection<Variable> ();
 
 			///<summary>
 			/// 
 			///</summary>
 			[XmlArrayItem("", IsNullable = false)]
-			public ObjectCollection<CustomFieldValue> CustomFieldValueCollection
+			public ObjectCollection<Variable> VariableCollection
 			{
-			get{ return m_CustomFieldValueCollection;}
+			get{ return m_VariableCollection;}
 			}
 		
                 ///<summary>
@@ -1357,6 +1357,28 @@
 			}
 			}
 		
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("NotificationActivity",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class NotificationActivity
+          {
+          
+                    private string  m_From;
+                    [XmlAttribute]
+                    public  string From {get{
+                    return m_From;}
+                    set{
+                    m_From = value;
+                      RaisePropertyChanged();
+                    }}
+
+                  
 
           }
         
@@ -1600,6 +1622,71 @@
         get
         {
         return m_isInitiator;}
+        }
+      
+
+
+      }
+
+    
+      [XmlType("Variable",  Namespace=Strings.DEFAULT_NAMESPACE)]
+      public partial class Variable
+      {
+
+      
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private  string  m_name;
+        public const string PropertyNameName = "Name";
+      
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private  string  m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+      
+
+      // public properties members
+      
+
+
+        [XmlAttribute]
+        public string Name
+        {
+        set
+        {
+        if(m_name== value) return;
+        var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+        OnPropertyChanging(arg);
+        if( !arg.Cancel)
+        {
+        m_name= value;
+        OnPropertyChanged();
+        }
+        }
+        get
+        {
+        return m_name;}
+        }
+      
+
+
+        [XmlAttribute]
+        public string TypeName
+        {
+        set
+        {
+        if(m_typeName== value) return;
+        var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+        OnPropertyChanging(arg);
+        if( !arg.Cancel)
+        {
+        m_typeName= value;
+        OnPropertyChanged();
+        }
+        }
+        get
+        {
+        return m_typeName;}
         }
       
 
