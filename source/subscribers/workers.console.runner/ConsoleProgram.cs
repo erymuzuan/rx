@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Design;
 using System.Linq;
 using Bespoke.Sph.SubscribersInfrastructure;
 

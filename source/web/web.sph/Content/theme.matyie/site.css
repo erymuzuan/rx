@@ -180,6 +180,9 @@ ul.listview li div {
 #add-field a {
   margin: 5px;
 }
+#add-field a i {
+  float: left;
+}
 .ph {
   background-color: #FFFF99;
   border: 1px dashed#000000;

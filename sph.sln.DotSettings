@@ -677,6 +677,89 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], &
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9CB7186BF562FA4B9114F871FCF88B9E/Shortcut/@EntryValue">dbv</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9CB7186BF562FA4B9114F871FCF88B9E/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9CB7186BF562FA4B9114F871FCF88B9E/Text/@EntryValue">data-bind="value:$VAL$"$END$</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/CustomProperties/=Extension/@EntryIndexedValue">js</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/CustomProperties/=FileName/@EntryIndexedValue">dialog.view.modal</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/CustomProperties/=ValidateFileName/@EntryIndexedValue">False</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Description/@EntryValue">dialog.view.modal.js</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Field/=DEFAULT_005FITEM/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Field/=DEFAULT_005FITEM/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Field/=domain/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Field/=domain/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Field/=ID/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Field/=ID/InitialSection/@EntryValue">39B65139D6F80647AE0B8FF33272C285</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Field/=ID/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Field/=TITLE/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Field/=TITLE/InitialSection/@EntryValue">39B65139D6F80647AE0B8FF33272C285</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Field/=TITLE/Order/@EntryValue">3</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Scope/=50AF970EC1279940A9104D92F89E47E1/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Scope/=50AF970EC1279940A9104D92F89E47E1/Type/@EntryValue">InAspCSharpProject</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Section/=39B65139D6F80647AE0B8FF33272C285/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Section/=39B65139D6F80647AE0B8FF33272C285/LocationSelectorConfig/@EntryValue">&lt;RelativeConfig Folder="../views" File="$NAME$.html" /&gt;</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Section/=39B65139D6F80647AE0B8FF33272C285/LocationSelectorName/@EntryValue">manual</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Section/=39B65139D6F80647AE0B8FF33272C285/Order/@EntryValue">0</s:Int64>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Section/=39B65139D6F80647AE0B8FF33272C285/SectionPlain/Text/@EntryValue">&#xD;
+&lt;section class="view-model-modal" id="$ID$"&gt;&#xD;
+    &lt;div class="modal-dialog"&gt;&#xD;
+        &lt;div class="modal-content"&gt;&#xD;
+&#xD;
+            &lt;div class="modal-header"&gt;&#xD;
+                &lt;button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick"&gt;&amp;times;&lt;/button&gt;&#xD;
+                &lt;h3&gt;$TITLE$&lt;/h3&gt;&#xD;
+            &lt;/div&gt;&#xD;
+            &lt;div class="modal-body" data-bind="with: $domain$"&gt;&#xD;
+&#xD;
+                &lt;form class="form-horizontal" id="$ID$-form"&gt;&#xD;
+                  &#xD;
+&#xD;
+                &lt;/form&gt;&#xD;
+            &lt;/div&gt;&#xD;
+            &lt;div class="modal-footer"&gt;&#xD;
+                &lt;input form="$ID$-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" /&gt;&#xD;
+                &lt;a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick"&gt;Cancel&lt;/a&gt;&#xD;
+            &lt;/div&gt;&#xD;
+        &lt;/div&gt;&#xD;
+    &lt;/div&gt;&#xD;
+&lt;/section&gt;</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9D75C49F597DFD4790F55E4E6363C22A/Text/@EntryValue">/// &lt;reference path="../../Scripts/jquery-2.0.3.intellisense.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/knockout-2.3.0.debug.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/knockout.mapping-latest.debug.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/require.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/underscore.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/moment.js" /&gt;&#xD;
+/// &lt;reference path="../services/datacontext.js" /&gt;&#xD;
+/// &lt;reference path="../services/domain.g.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/bootstrap.js" /&gt;&#xD;
+&#xD;
+&#xD;
+&#xD;
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],&#xD;
+    function(context, logger, router) {&#xD;
+&#xD;
+        var okClick = function (data, ev) {&#xD;
+            if (ev.target.form.checkValidity()) {&#xD;
+                this.modal.close("OK");&#xD;
+            }&#xD;
+&#xD;
+        },&#xD;
+           cancelClick = function () {&#xD;
+               this.modal.close("Cancel");&#xD;
+           };&#xD;
+&#xD;
+        var vm = {&#xD;
+            $domain$: ko.observable(new bespoke.sph.domain.$DEFAULT_ITEM$()),&#xD;
+            okClick: okClick,&#xD;
+            cancelClick: cancelClick&#xD;
+        };&#xD;
+&#xD;
+&#xD;
+        return vm;&#xD;
+&#xD;
+    });&#xD;
+</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=9EEBEA5ABA48FF4892740514FA7A7AE5/Field/=MESSAGE/@KeyIndexDefined">True</s:Boolean>

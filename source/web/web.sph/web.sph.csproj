@@ -275,6 +275,7 @@
     <Compile Include="Controllers\AppController.reportdefinition.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AppController.workflow.cs" />
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\EditorController.cs" />
@@ -297,6 +298,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportDeliveryController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\WorkflowController.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="ViewModels\CreateMapModel.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
@@ -388,6 +390,7 @@
     <Content Include="App\partial\SetterActionChild.js" />
     <Content Include="App\partial\SetterAction.js" />
     <Content Include="App\partial\BuildingTemplate.js" />
+    <Content Include="App\partial\WorkflowDefinition.js" />
     <Content Include="App\partial\Trigger.js" />
     <Content Include="App\partial\Rule.js" />
     <Content Include="App\partial\Space.js" />
@@ -1959,6 +1962,24 @@
     <Content Include="Views\Shared\_PublicLayout.cshtml" />
     <Content Include="Views\Editor\Ace.cshtml" />
     <Content Include="Views\Template\_BusinessRule.cshtml" />
+    <Content Include="Views\Workflow\ScreenHtml.cshtml" />
+    <Content Include="Views\Workflow\_Toolbox.cshtml" />
+    <Content Include="Views\Workflow\_ValidationSetting.cshtml" />
+    <Content Include="Views\Workflow\Application.cshtml" />
+    <Content Include="Views\Workflow\ScreenJs.cshtml" />
+    <Content Include="Views\Workflow\DisplayTemplates\AddressElement.cshtml" />
+    <Content Include="Views\Workflow\DisplayTemplates\CheckBox.cshtml" />
+    <Content Include="Views\Workflow\DisplayTemplates\ComboBox.cshtml" />
+    <Content Include="Views\Workflow\DisplayTemplates\DatePicker.cshtml" />
+    <Content Include="Views\Workflow\DisplayTemplates\EmailFormElement.cshtml" />
+    <Content Include="Views\Workflow\DisplayTemplates\FormElement.cshtml" />
+    <Content Include="Views\Workflow\DisplayTemplates\HtmlElement.cshtml" />
+    <Content Include="Views\Workflow\DisplayTemplates\NumberTextBox.cshtml" />
+    <Content Include="Views\Workflow\DisplayTemplates\SectionFormElement.cshtml" />
+    <Content Include="Views\Workflow\DisplayTemplates\TextAreaElement.cshtml" />
+    <Content Include="Views\Workflow\DisplayTemplates\TextBox.cshtml" />
+    <Content Include="Views\Workflow\DisplayTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Views\Workflow\_DesignerContextAction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

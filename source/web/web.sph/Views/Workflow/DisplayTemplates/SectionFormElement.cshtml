@@ -1,0 +1,8 @@
+﻿@model Bespoke.Sph.Domain.SectionFormElement
+
+<!--ko if:$data['$type']() === "Bespoke.Sph.Domain.SectionFormElement, domain.sph" -->
+<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+    <h2 data-bind="text: Label"></h2>
+    <div data-bind="attr : {'class':CssClass},html: HelpText" ></div>
+</div>
+<!--/ko-->

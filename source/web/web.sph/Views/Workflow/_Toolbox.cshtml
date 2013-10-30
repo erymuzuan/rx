@@ -1,0 +1,126 @@
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
+
+<div class="tabbable" id="form-designer-toolbox">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#add-field" data-toggle="tab">Add a field</a>
+        </li>
+        <li>
+            <a href="#fields-settings" data-toggle="tab">Fields settings</a>
+        </li>
+        <li>
+            <a href="#fields-validation" data-toggle="tab">Validation settings</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+
+        <div id="add-field" class="tab-pane active">
+            <ul class="nav" data-bind="foreach: formElements">
+                <li>
+                    <a class="btn btn-default" href="#add-field" data-bind="attr : {title:Tooltip}">
+                        <i data-bind="attr: { 'class': CssClass }" class="pull-left"></i>
+                        <!-- ko text: Name -->
+                        <!-- /ko-->
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="fields-settings" class="tab-pane" data-bind="with: selectedFormElement">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="form-element-label" class="control-label col-lg-2">Label</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" data-bind="value: Label, valueUpdate: 'keyup'" id="form-element-label" type="text" name="Label" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="form-element-path" class="control-label col-lg-2">Path</label>
+                    <div class="col-lg-6">
+                        <input class="form-control" data-bind="value: Path" id="form-element-path" type="text" name="Path" />
+
+
+                    </div>
+                    <div class="col-lg-3">
+                        <a href="#" class="search-path-button" data-bind2="click: $root.showPathPicker.bind($data,'')">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="form-element-tooltip" class="control-label">Tooltip</label>
+                    <div class="controls">
+                        <input class="form-control" data-bind="value: Tooltip" id="form-element-tooltip" type="text" name="Tooltip" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="form-element-help-text" class="control-label">Help</label>
+                    <div class="controls">
+                        <input class="form-control" data-bind="value: HelpText, valueUpdate: 'keyup'" id="form-element-help-text" type="text" name="HelpText" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="form-element-size" class="control-label">Saiz</label>
+                    <div class="controls">
+                        <select class="form-control" data-bind="value: Size" id="form-element-size" name="Size">
+                            <option value="input-mini">XS</option>
+                            <option value="input-small">S</option>
+                            <option value="input-medium">M</option>
+                            <option value="input-large">L</option>
+                            <option value="input-xlarge">XL</option>
+                            <option value="input-xxlarge">XXL</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="form-element-css-class" class="control-label">Css class</label>
+                    <div class="controls">
+                        <input data-bind="cssAutoComplete: CssClass" id="form-element-css-class" type="text" name="CssClass" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="form-element-visible" class="control-label">Visible</label>
+                    <div class="controls">
+                        <input class="form-control" data-bind="value: Visible, valueUpdate : 'keyup'" id="form-element-visible" type="text" name="Visible" />
+                        <span class="help-block">You can use binding expression e.g. Age() === 0 </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="controls">
+                        <label class="checkbox">
+                            <input data-bind="checked: IsRequired" id="form-element-isrequired" type="checkbox" name="IsRequired" />
+                            Required
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="form-element-elementId" class="control-label">Id</label>
+                    <div class="controls">
+                        <input class="form-control" data-bind="value: ElementId" id="form-element-elementId" type="text" name="ElementId" />
+                    </div>
+                </div>
+
+
+                @foreach (var fe in Model.FormElements)
+                {
+                    @Html.EditorFor(m => fe)
+                }
+
+                <button data-bind="click: $root.removeFormElement" class="btn btn-warning" title="remove this element">Remove</button>
+                <!-- END OF EDITOR TOOLBOX -->
+            </form>
+
+        </div>
+        
+        <div id="fields-validation" class="tab-pane" data-bind="with : selectedFormElement">
+            @Html.Partial("_ValidationSetting")
+        </div>
+    </div>
+</div>

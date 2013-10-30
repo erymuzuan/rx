@@ -1,0 +1,72 @@
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
+
+@{
+    Layout = null;
+}
+
+
+<section class="view-model-modal" id="activity-screen-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Screen Activity</h3>
+            </div>
+            <div class="modal-body">
+
+                <form class="form-horizontal" id="activity-screen-modal-form" data-bind="with: activity">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="screen-title" class="col-lg-2 control-label">Title</label>
+                            <div class="col-lg-6">
+                                <input data-bind="value:Title" required type="text" class="form-control" id="screen-title" placeholder="Title">
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+                <div class="row">
+                    <!-- left toolbox-->
+                    <div class="col-lg-4">
+                        @Html.Partial("_Toolbox")
+                    </div>
+
+
+                    <!-- ko with : activity -->
+
+	
+                    <div id="space-designer" class="col-lg-8" data-bind="with: FormDesign">
+                        <div id="template-form-designer">
+                            <h1 data-bind="text: Name"></h1>
+                            <span data-bind="text: Description"></span>
+
+                            <form class="form-horizontal">
+                                <!--ko foreach:FormElementCollection -->
+                                @foreach (var fe in Model.FormElements)
+                                {
+                                    @Html.DisplayFor(m => fe)
+                                }
+                                <!--/ko-->
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                    <!-- /ko -->
+
+
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <input form="activity-screen-modal-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

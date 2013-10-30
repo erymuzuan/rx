@@ -19,22 +19,22 @@ define(['services/datacontext', 'durandal/system'],
                 */
                 var elements = [];
                 var textbox = new bespoke.sph.domain.TextBox(system.guid());
-                textbox.CssClass("icon-text-width pull-left");
+                textbox.CssClass("fa fa-text-width pull-left");
                 textbox.Name("Single line text");
                 textbox.IsRequired(true);
 
                 var textarea = new bespoke.sph.domain.TextAreaElement(system.guid());
-                textarea.CssClass("icon-desktop pull-left");
+                textarea.CssClass("fa fa-desktop pull-left");
                 textarea.Name("Paragrapah text");
                 textarea.Rows(5);
                 textarea.IsRequired(true);
 
                 var checkbox = new bespoke.sph.domain.CheckBox(system.guid());
-                checkbox.CssClass("icon-check pull-left");
+                checkbox.CssClass("fa fa-check pull-left");
                 checkbox.Name("Checkboxes");
 
                 var cbb = new bespoke.sph.domain.ComboBox(system.guid());
-                cbb.CssClass("icon-chevron-down pull-left");
+                cbb.CssClass("fa fa-chevron-down pull-left");
                 cbb.Name("Select list");
                 cbb.ComboBoxItemCollection.push(new bespoke.sph.domain.ComboBoxItem());
                 cbb.ComboBoxItemCollection.push(new bespoke.sph.domain.ComboBoxItem());
@@ -42,40 +42,40 @@ define(['services/datacontext', 'durandal/system'],
                 cbb.IsRequired(true);
 
                 var datepicker = new bespoke.sph.domain.DatePicker(system.guid());
-                datepicker.CssClass("icon-calendar pull-left");
+                datepicker.CssClass("fa fa-calendar pull-left");
                 datepicker.Name("Tarikh");
                 datepicker.IsRequired(true);
 
                 var number = new bespoke.sph.domain.NumberTextBox(system.guid());
-                number.CssClass("icon-xing-sign pull-left");
+                number.CssClass("fa fa-xing pull-left");
                 number.Name("Nombor");
                 number.Step(1);
                 number.IsRequired(true);
 
                 var email = new bespoke.sph.domain.EmailFormElement(system.guid());
-                email.CssClass("icon-envelope pull-left");
+                email.CssClass("fa fa-envelope pull-left");
                 email.Name("Emel");
                 email.IsRequired(true);
 
                 var web = new bespoke.sph.domain.WebsiteFormElement(system.guid());
-                web.CssClass("icon-link pull-left");
+                web.CssClass("fa fa-link pull-left");
                 web.Name("Website");
                 web.IsRequired(true);
 
                 var html = new bespoke.sph.domain.HtmlElement(system.guid());
-                html.CssClass("icon-html5 pull-left");
+                html.CssClass("fa fa-html5 pull-left");
                 html.Name("HTML");
                 html.IsRequired(false);
                 html.Tooltip("Allows you to create custom HTML markup");
                 
                 var list = new bespoke.sph.domain.CustomListDefinitionElement(system.guid());
-                list.CssClass("icon-th-list pull-left");
+                list.CssClass("fa fa-th-list pull-left");
                 list.Name("List");
                 list.IsRequired(false);
                 list.Tooltip("Creates custom list");
 
                 var section = new bespoke.sph.domain.SectionFormElement(system.guid());
-                section.CssClass("icon-reorder pull-left");
+                section.CssClass("fa fa-reorder pull-left");
                 section.Name("Section");
 
                 elements.push(textbox);

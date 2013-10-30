@@ -1,0 +1,11 @@
+﻿@model Bespoke.Sph.Domain.NumberTextBox
+
+<!--ko if: $data['$type']() === "Bespoke.Sph.Domain.NumberTextBox, domain.sph" -->
+<div class="form-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+     @Html.Partial("_DesignerContextAction")
+   <label data-bind="text: Label" class="control-label col-lg-2"></label>
+    <div class="col-lg-4">
+        <input type="number" data-bind="attr: { 'title': Tooltip, 'step': Step, 'class': CssClass() + ' ' + Size() }" />
+    </div>
+</div>
+<!--/ko-->

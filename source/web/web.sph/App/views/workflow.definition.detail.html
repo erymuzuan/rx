@@ -31,7 +31,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="btn btn-link" data-bind="click: addAction('ScreenActivity')">
+                        <a class="btn btn-link" data-bind="click: addActivity('Screen')">
                             <i class="fa fa-laptop"></i>
                             Screen Activity
                         </a>
@@ -55,7 +55,7 @@
                         <input class="input-action-isinitiator" data-bind="checked: IsInitiator" id="IsInitiator" type="checkbox" name="IsInitiator" />
                     </td>
                     <td>
-                        <a type="button" class="btn btn-link" data-bind="click : $parent.editAction.call($parent,$data)" href="#">
+                        <a type="button" class="btn btn-link" data-bind="click : $parent.editActivity.call($parent,$data)" href="#">
 
                             <img data-bind="fieldImage : $type" class="pull-left" alt="." />
                             &nbsp;
@@ -64,7 +64,7 @@
                         </a>
                     </td>
                     <td>
-                        <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click: $parent.removeAction.call($parent,$data)">Buang</a>
+                        <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click: $parent.removeActivity.call($parent,$data)">Buang</a>
                     </td>
                 </tr>
             </tbody>

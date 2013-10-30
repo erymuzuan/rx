@@ -497,6 +497,12 @@ form label {
   margin: 4px;
   padding-left: 0px;
 }
+.navbar .nav > li > a:hover {
+  background-color: #000;
+}
+.navbar .nav > li > a:focus {
+  background-color: #000;
+}
 .navbar i {
   margin-right: 3px;
 }

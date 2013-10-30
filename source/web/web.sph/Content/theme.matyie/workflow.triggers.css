@@ -4,3 +4,10 @@
 #function-field-script {
   height: 180px;
 }
+#activity-screen-modal {
+  margin-left: -560px !important;
+}
+#activity-screen-modal div.modal-content {
+  width: 990px;
+  max-height: 900px;
+}

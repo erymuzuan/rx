@@ -892,7 +892,7 @@
     "moduleId": "viewmodels/workflow.definition.list",
     "name": "Senarai Workflow Definition",
     "visible": true,
-    "icon": null,
+    "icon": "fa-gears",
     "caption": "Senarai Workflow Definition",
     "settings": null,
     "showWhenLoggedIn": false,

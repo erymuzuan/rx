@@ -1,0 +1,157 @@
+﻿@using Newtonsoft.Json
+@model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
+
+@{
+    Layout = null;
+    var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, Formatting = Formatting.Indented };
+}
+<script src="~/App/objectbuilders.js"></script>
+<script type="text/javascript" data-script="true">
+
+    /// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+    /// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+    /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
+    /// <reference path="../../Scripts/require.js" />
+    /// <reference path="../../Scripts/underscore.js" />
+    /// <reference path="../../Scripts/moment.js" />
+    /// <reference path="../services/datacontext.js" />
+    /// <reference path="../services/domain.g.js" />
+    /// <reference path="../../Scripts/bootstrap.js" />
+
+
+
+    define(['services/datacontext', 'services/logger', 'durandal/plugins/router', objectbuilders.system],
+        function (context, logger, router, system) {
+
+            var activate = function () {
+                var elements = @Html.Raw(JsonConvert.SerializeObject(Model.FormElements,setting));
+                vm.formElements(elements.$values);
+            },
+                viewAttached = function(view) {
+                    
+                    var dropDown = function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        var button = $(this);
+                        button.parent().addClass("open")
+                            .find("input:first").focus()
+                            .select();
+                    };
+
+                    // Fix input element click problem
+                    $(view).on('click mouseup mousedown', '.dropdown-menu input, .dropdown-menu label',
+                        function (e) {
+                            e.stopPropagation();
+                        });
+                    $('#template-form-designer').on('click', 'button.dropdown-toggle', dropDown);
+
+
+                    //toolbox item clicked
+                    $('#add-field').on("click", 'a', function (e) {
+                        e.preventDefault();
+                        _(vm.activity().FormDesign().FormElementCollection()).each(function (f) {
+                            f.isSelected(false);
+                        });
+
+                        // clone
+                        var fe = ko.mapping.fromJS(ko.mapping.toJS(ko.dataFor(this)));
+                        fe.isSelected = ko.observable(true);
+                        fe.Label("Label " + vm.activity().FormDesign().FormElementCollection().length);
+                        fe.CssClass("");
+                        fe.Visible("true");
+                        fe.Size("input-large");
+                        fe.ElementId(system.guid());
+
+                        vm.activity().FormDesign().FormElementCollection.push(fe);
+                        vm.selectedFormElement(fe);
+
+
+                    });
+                
+                    // kendoEditor
+                    $('#template-form-designer').on('click', 'textarea', function () {
+                        var $editor = $(this);
+                        var kendoEditor = $editor.data("kendoEditor");
+                        if (!kendoEditor) {
+                            var htmlElement = ko.dataFor(this);
+                            $editor.kendoEditor({
+                                change:function() {
+                                    htmlElement.Text(this.value());
+                                }
+                            });
+                        
+                        }
+                    }
+                    );
+                    $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js')// only contains UI core and interactions API 
+                        .done(function () {
+
+                            var initDesigner = function () {
+                                $('#template-form-designer>form').sortable({
+                                    items: '>div',
+                                    placeholder: 'ph',
+                                    helper: 'original',
+                                    dropOnEmpty: true,
+                                    forcePlaceholderSize: true,
+                                    forceHelperSize: false,
+                                    receive: receive
+                                });
+
+                            },
+                                receive = function (evt, ui) {
+                                    var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                                        return ko.dataFor(div);
+                                    });
+                                    var fe = ko.dataFor(ui.item[0]);
+                                    fe.isSelected = ko.observable(true);
+                                    elements.splice(2, 0, fe);
+                                    $('#template-form-designer>form').sortable("destroy");
+
+
+                                    vm.activity().FormDesign().FormElementCollection(elements);
+                                };
+
+                            initDesigner();
+                            $('#add-field>ul>li').draggable({
+                                helper: 'clone',
+                                connectToSortable: "#template-form-designer>form"
+                            });
+                        });
+
+
+                    // get the position
+                    $('#template-form-designer').on('click', 'form>div', function (e) {
+                        e.preventDefault();
+                        var top = $(this).position().top;
+                        $('#form-designer-toolbox').animate({ "margin-top": top - 140 }, 300);
+
+                    });
+                },
+            okClick = function (data, ev) {
+                if (ev.target.form.checkValidity()) {
+                    this.modal.close("OK");
+                }
+
+            },
+                cancelClick = function () {
+                    this.modal.close("Cancel");
+                };
+
+            var vm = {
+                viewAttached: viewAttached,
+                activate: activate,
+                formElements: ko.observableArray(),
+                selectedFormElement: ko.observable(),
+                activity: ko.observable(new bespoke.sph.domain.ScreenActivity()),
+                okClick: okClick,
+                cancelClick: cancelClick
+            };
+
+
+            return vm;
+
+        });
+
+
+</script>
