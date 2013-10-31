@@ -5,7 +5,9 @@
             if (space.Category() === "Kedai Runcit") {
                 
             }
-            
+        },
+        "public-index":function(element) {
+            $(element).find("div.carousel-inner>div.item").first().after('<a class="btn btn-warning" href="/workflow/start/1">Mohon Wakaf</a>');
         }
     };
 };

@@ -117,7 +117,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
          };
 
     model.SchemaStoreId.subscribe(function (storeId) {
-        $.get("/Workflow/GetXsdElementName/" + storeId)
+        $.get("/WorkflowDefinition/GetXsdElementName/" + storeId)
             .then(function (result) {
                 elementNameOptions(result);
             });

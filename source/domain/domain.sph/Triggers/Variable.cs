@@ -6,5 +6,9 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(ComplexVariable))]
     public partial class Variable : DomainObject
     {
+        public virtual string GetEmptyJson(WorkflowDefinition wd)
+        {
+            return "null";
+        }
     }
 }

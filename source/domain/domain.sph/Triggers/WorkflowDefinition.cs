@@ -40,12 +40,12 @@ namespace Bespoke.Sph.Domain
             var elements = xsd.Elements(x + "element").ToList();
             var e = elements.SingleOrDefault(a => a.Attribute("name").Value == elementName);
 
-            var json = this.GenerateJson(e, level);
+            var json = this.GenerateJson(xsd,e, level);
             return json;
 
         }
 
-        public string GenerateJson(XElement e, int level = 0)
+        public string GenerateJson(XElement xsd, XElement e, int level = 0)
         {
             var tab = new string(' ', level + 1);
             var tab1 = tab;
@@ -75,7 +75,7 @@ namespace Bespoke.Sph.Domain
 
                 var refElements = from at in all.Elements(x + "element")
                                   where at.Attribute("ref") != null
-                                  select tab + "\r\n" + at.Attribute("ref").Value + ":" + this.GenerateJson(at.Attribute("ref").Value, e, level + 1);
+                                  select tab + "\r\n" + at.Attribute("ref").Value + ":" + this.GenerateJson(at.Attribute("ref").Value, xsd, level + 1);
                 properties.AddRange(refElements);
 
             }

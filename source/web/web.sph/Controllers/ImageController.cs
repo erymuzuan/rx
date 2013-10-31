@@ -73,7 +73,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (type == typeof(AssemblyField))
                 return RedirectPermanent("~/images/AssemblyField.png");
 
-            return Content("www");
+            return Redirect("/images/no-image.png");
         }
 
     }
