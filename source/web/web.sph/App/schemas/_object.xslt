@@ -20,6 +20,9 @@
         <!-- Complex TYPE -->
         <xsl:when test="@type">
         </xsl:when>
+        <xsl:when test="xs:annotation/xs:documentation = 'Placeholder'">
+          // placeholder for <xsl:value-of select="@name"/>
+        </xsl:when>
         <!-- ELEMENT -->
         <xsl:otherwise>
 

@@ -20,7 +20,6 @@ define([objectbuilders.datacontext, 'durandal/system', './template.base', 'servi
             templateId = ko.observable(),
             activate = function (routeData) {
 
-
                 var customElements = [];
                 var address = new bespoke.sph.domain.AddressElement(system.guid());
                 address.CssClass("icon-envelope pull-left");

@@ -15,47 +15,47 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
     function (context, router, system, app, map, logger, watcher, config, cultures, validation, defaultValueProvider) {
         var isBusy = ko.observable(false),
             mTemplate = ko.observable(),
-            setBuildingToContext = function (building, template) {
-               
+            setBuildingToContext = function(building, template) {
+
                 mTemplate(template);
-                var fieldToValueMap = function (f) {
+                var fieldToValueMap = function(f) {
                     var webid = system.guid();
                     var v = new bespoke.sph.domain.CustomFieldValue(webid);
                     v.Name(f.Name());
                     v.Type(f.Type());
                     return v;
                 },
-                          cfs = _(template.CustomFieldCollection()).map(fieldToValueMap),
-                          cls = _(template.CustomListDefinitionCollection()).map(function (v) {
-                              var lt = new bespoke.sph.domain.CustomListValue(system.guid());
-                              lt.Name(v.Name());
+                    cfs = _(template.CustomFieldCollection()).map(fieldToValueMap),
+                    cls = _(template.CustomListDefinitionCollection()).map(function(v) {
+                        var lt = new bespoke.sph.domain.CustomListValue(system.guid());
+                        lt.Name(v.Name());
 
-                              var fields = _(v.CustomFieldCollection()).map(fieldToValueMap);
-                              lt.CustomFieldCollection = ko.observableArray(fields);
+                        var fields = _(v.CustomFieldCollection()).map(fieldToValueMap);
+                        lt.CustomFieldCollection = ko.observableArray(fields);
 
-                              return lt;
-                          });
+                        return lt;
+                    });
 
 
-                _(cfs).each(function (f) {
+                _(cfs).each(function(f) {
                     if (!building.CustomField(f.Name())) {
                         building.CustomFieldValueCollection.push(f);
                     }
                 });
 
-                _(cls).each(function (f) {
+                _(cls).each(function(f) {
                     if (!building.CustomList(f.Name())) {
                         building.CustomListValueCollection.push(f);
                     }
                 });
-               
+
                 vm.building(building);
                 vm.building().TemplateId(template.BuildingTemplateId());
                 vm.building().TemplateName(template.Name());
 
             },
             buildingId = ko.observable(),
-            activate = function (routeData) {
+            activate = function(routeData) {
                 // NOTE : this is the only way to debug as this file is returned as a result of redirect
                 //debugger;
                 var id = parseInt(routeData.id),
@@ -68,8 +68,8 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
 
                 // build custom fields value
                 context.loadOneAsync("BuildingTemplate", "BuildingTemplateId eq " + templateId)
-                    .done(function (template) {
-                      
+                    .done(function(template) {
+
                         // new building
                         if (!id) {
                             setBuildingToContext(new bespoke.sph.domain.Building(), template);
@@ -77,8 +77,7 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
                             vm.toolbar.watching(false);
                             tcs.resolve();
                             return;
-                        }
-                        else {
+                        } else {
 
                             vm.toolbar.auditTrail.id(id);
                             vm.toolbar.printCommand.id(id);
@@ -87,7 +86,7 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
                                 loadTask = context.loadOneAsync("Building", query),
                                 watcherTask = watcher.getIsWatchingAsync("Building", id);
 
-                            $.when(loadTask, watcherTask).done(function (b, w) {
+                            $.when(loadTask, watcherTask).done(function(b, w) {
                                 setBuildingToContext(b, template);
                                 vm.toolbar.watching(w);
 
@@ -101,23 +100,22 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
 
                 return tcs.promise();
             },
-            viewFloorPlan = function (floor) {
+            viewFloorPlan = function(floor) {
                 var url = '/#/floorplan/' + vm.building().BuildingId() + '/' + floor.Name();
                 router.navigateTo(url);
             },
-            goBack = function () {
+            goBack = function() {
                 var url = '/#/building';
                 router.navigateTo(url);
             },
-            removeFloor = function (floor) {
+            removeFloor = function(floor) {
                 vm.building().FloorCollection.remove(floor);
             },
-            addFloor = function () {
+            addFloor = function() {
                 var floor = new bespoke.sph.domain.Floor();
                 vm.building().FloorCollection.push(floor);
             },
-
-            saveAsync = function () {
+            saveAsync = function() {
 
                 if (!validation.valid()) {
                     return Task.fromResult(false);
@@ -125,23 +123,23 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
                 var tcs = new $.Deferred();
                 var data = ko.toJSON(vm.building());
                 context.post(data, "/Building/Save")
-                    .done(function (e) {
+                    .done(function(e) {
                         if (!e.Success) {
                             isBusy(false);
-                            require(['viewmodels/error.message', 'durandal/app'], function (dialog, app2) {
+                            require(['viewmodels/error.message', 'durandal/app'], function(dialog, app2) {
                                 dialog.validationErrors(e.ValidationErrors);
                                 app2.showModal(dialog)
-                                 .done(function (result) {
-                                     if (!result) return;
-                                 });
+                                    .done(function(result) {
+                                        if (!result) return;
+                                    });
 
                             });
                             tcs.resolve(true);
-                        }
-                        else {
+                        } else {
                             isBusy(false);
                             vm.building().BuildingId(e.buildingId);
                             logger.log("Data has been successfully saved ", e, "building.detail", true);
+
                         }
 
                         tcs.resolve(true);
@@ -149,43 +147,43 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
                 return tcs.promise();
             },
             mapInitialized = ko.observable(false),
-            geoCode = function (address) {
+            geoCode = function(address) {
 
 
                 return map.geocode(address)
-                  .then(function (result) {
-                      if (result.status) {
-                          map.init({
-                              panel: 'map',
-                              draw: true,
-                              polygoncomplete: polygoncomplete,
-                              markercomplete: markercomplete,
-                              zoom: 18,
-                              center: result.point
-                          });
-                      } else {
-                          var point = new google.maps.LatLng(3.1282, 101.6441);
-                          map.init({
-                              panel: 'map',
-                              draw: true,
-                              polygoncomplete: polygoncomplete,
-                              zoom: center[0] ? 18 : 12,
-                              center: point
-                          });
-                      }
-                  });
+                    .then(function(result) {
+                        if (result.status) {
+                            map.init({
+                                panel: 'map',
+                                draw: true,
+                                polygoncomplete: polygoncomplete,
+                                markercomplete: markercomplete,
+                                zoom: 18,
+                                center: result.point
+                            });
+                        } else {
+                            var point = new google.maps.LatLng(3.1282, 101.6441);
+                            map.init({
+                                panel: 'map',
+                                draw: true,
+                                polygoncomplete: polygoncomplete,
+                                zoom: center[0] ? 18 : 12,
+                                center: point
+                            });
+                        }
+                    });
             },
-            showMap = function () {
+            showMap = function() {
                 $('#map-panel').modal();
                 if (mapInitialized()) {
                     return;
                 }
                 mapInitialized(true);
                 var address = vm.building().Address().Street() + ","
-                        + vm.building().Address().City() + ","
-                        + vm.building().Address().Postcode() + ","
-                        + vm.building().Address().State() + ","
-                        + "Malaysia.";
+                    + vm.building().Address().City() + ","
+                    + vm.building().Address().Postcode() + ","
+                    + vm.building().Address().State() + ","
+                    + "Malaysia.";
 
                 if (!buildingId()) {
                     geoCode(address);
@@ -195,57 +193,57 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
                 var pathTask = $.get("/Building/GetEncodedPath/" + buildingId());
                 var centerTask = $.get("/Building/GetCenter/" + buildingId());
                 $.when(pathTask, centerTask)
-                .then(function (path, center) {
-                    if (!center[0]) {
-                        geoCode(address);
-                        return;
-                    }
-                    map.init({
-                        panel: 'map',
-                        draw: true,
-                        polygoncomplete: polygoncomplete,
-                        markercomplete: markercomplete,
-                        zoom: center[0] ? 18 : 12
-                    }).done(function () {
-                        if (center[0]) {
-                            map.setCenter(center[0].Lat, center[0].Lng);
-                        } else {
-                            map.setCenter(3.1282, 101.6441);
+                    .then(function(path, center) {
+                        if (!center[0]) {
+                            geoCode(address);
+                            return;
                         }
-                        if (path[0]) {
-                            var shape = map.add({
-                                encoded: path[0],
-                                draggable: true,
-                                editable: true,
-                                zoom: 18
-                            });
-                            if (shape.type === 'marker') {
-                                pointMarker = shape;
+                        map.init({
+                            panel: 'map',
+                            draw: true,
+                            polygoncomplete: polygoncomplete,
+                            markercomplete: markercomplete,
+                            zoom: center[0] ? 18 : 12
+                        }).done(function() {
+                            if (center[0]) {
+                                map.setCenter(center[0].Lat, center[0].Lng);
+                            } else {
+                                map.setCenter(3.1282, 101.6441);
+                            }
+                            if (path[0]) {
+                                var shape = map.add({
+                                    encoded: path[0],
+                                    draggable: true,
+                                    editable: true,
+                                    zoom: 18
+                                });
+                                if (shape.type === 'marker') {
+                                    pointMarker = shape;
+                                }
+
+                                if (shape.type === 'polygon') {
+                                    buildingPolygon = shape;
+                                }
                             }
 
-                            if (shape.type === 'polygon') {
-                                buildingPolygon = shape;
-                            }
-                        }
 
+                        });
 
                     });
-
-                });
             },
             buildingPolygon = null,
-            polygoncomplete = function (shape) {
+            polygoncomplete = function(shape) {
                 buildingPolygon = shape;
             },
             pointMarker = null,
-            markercomplete = function (marker) {
+            markercomplete = function(marker) {
                 console.log(marker);
                 marker.setOptions({ draggable: true });
                 if (pointMarker) pointMarker.setMap(null);
 
                 pointMarker = marker;
             },
-            saveMap = function () {
+            saveMap = function() {
                 if (!buildingPolygon && !pointMarker) {
                     logger.error("No shape");
                     return false;
@@ -265,33 +263,34 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
                 return vm.building().saveMap(data);
 
             },
-            viewAttached = function () {
+            viewAttached = function() {
                 validation.init($('#building-detail-form'), mTemplate());
                 $('*[title]').tooltip({ placement: 'right' });
             },
-            remove = function () {
+            remove = function() {
                 return app.showMessage("Adakah anda pasti untuk buang bangunan ini dari rekod", "Buang Rekod", ["Ya", "Tidak"])
-                      .done(function (result) {
-                          if (result === "Ya") {
-                              var tcs = new $.Deferred();
-                              var data = ko.mapping.toJSON(vm.building);
+                    .done(function(result) {
+                        if (result === "Ya") {
+                            var tcs = new $.Deferred();
+                            var data = ko.mapping.toJSON(vm.building);
 
-                              context.post(data, "/Building/Remove")
-                                  .then(function (msg) {
-                                      tcs.resolve(true);
-                                      if (msg.status === "OK") {
-                                          logger.info("Bangunan sudah berjaya di buang");
-                                          router.navigateTo("/#/building.list");
-                                      } else {
-                                          logger.error(msg.message);
-                                      }
-                                  });
-                              return tcs.promise();
-                          }
+                            context.post(data, "/Building/Remove")
+                                .then(function(msg) {
+                                    tcs.resolve(true);
+                                    if (msg.status === "OK") {
+                                        logger.info("Bangunan sudah berjaya di buang");
+                                        router.navigateTo("/#/building.list");
+                                    } else {
+                                        logger.error(msg.message);
+                                    }
+                                });
+                            return tcs.promise();
+                        }
 
-                          return Task.fromResult(true);
-                      });
+                        return Task.fromResult(true);
+                    });
             };
+            
 
         var vm = {
             activate: activate,
@@ -310,8 +309,8 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
             title: 'Perincian Bangunan',
             cultures: cultures,
             toolbar: {
-                watchCommand: function () { return watcher.watch("Building", vm.building().BuildingId()); },
-                unwatchCommand: function () { return watcher.unwatch("Building", vm.building().BuildingId()); },
+                watchCommand: function() { return watcher.watch("Building", vm.building().BuildingId()); },
+                unwatchCommand: function() { return watcher.unwatch("Building", vm.building().BuildingId()); },
                 watching: ko.observable(false),
                 saveCommand: saveAsync,
                 auditTrail: {
@@ -324,12 +323,13 @@ define([objectbuilders.datacontext, objectbuilders.router, 'durandal/system', 'd
                 },
                 removeCommand: remove,
                 commands: ko.observableArray([
-                    {
-                        caption: "Senarai units",
-                        command: function () {
-                            window.location = "/#/unit.list/" + buildingId();
-                        },
-                        icon: "fa fa-tablet"
+                {
+                    caption: "Senarai units",
+                    command: function() {
+                        window.location = "/#/unit.list/" + buildingId();
+                    },
+                    visible: buildingId,
+                    icon: "fa fa-tablet"
                     }])
 
             }

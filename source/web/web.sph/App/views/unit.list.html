@@ -1,115 +1,118 @@
 ﻿<div id="building-lot-collection">
-  <h1 class="row" data-bind="text: title"></h1>
+    <h1 class="row" data-bind="text: title"></h1>
 
-        <div class="row space-search-panel">
-            <form class="form-inline" id="units-search-form">
-                <label class="control-label">Block</label>
-                <select data-bind="value: blockNo, options: blockOptions, optionsText: 'Name'"></select>
+    <div class="row space-search-panel">
+        <form class="form-inline" id="units-search-form">
+            <label class="control-label">Block</label>
+            <select data-bind="value: blockNo, options: blockOptions, optionsText: 'Name'"></select>
 
-                <label class="control-label">Tingkat</label>
-                <select data-bind="value: floorNo, options: floorOptions, optionsText: 'Number'"></select>
-                <button type="submit">
-                    <i class="fa fa-search"></i>
-                    Cari
-                </button>
-            </form>
-        </div>
-        <div>
-            <table id="building-unit-list" class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Unit No</th>
-                        <th>Blok</th>
-                        <th>Tingkat</th>
-                        <th>Keluasan</th>
-                        <th>Kegunaan</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: list">
-                    <tr>
-                        <td data-bind="text: ($index() + 1)"></td>
-                        <td>
-                            <a data-bind="text: No, click: $root.editUnit" data-toggle="modal" href="#unit-dialog"></a>
-                        </td>
-                        <td data-bind="text: BlockNo"></td>
-                        <td data-bind="text: FloorNo"></td>
-                        <td data-bind="text: Size"></td>
-                        <td data-bind="text: Usage"></td>
-                        <td>
-                            <a data-bind="click: $root.removeUnitCommand, attr: { title: 'Buang Unit' }" class="btn btn-link">
-                                x
-                            </a>
-                    </tr>
-                </tbody>
+            <label class="control-label">Tingkat</label>
+            <select data-bind="value: floorNo, options: floorOptions, optionsText: 'Number'"></select>
+            <button type="submit">
+                <i class="fa fa-search"></i>
+                Cari
+            </button>
+        </form>
+    </div>
+    <div>
+        <table id="building-unit-list" class="table table-striped" data-bind="filter: { path: 'tbody>tr' }">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Unit No</th>
+                    <th>Blok</th>
+                    <th>Tingkat</th>
+                    <th>Keluasan</th>
+                    <th>Kegunaan</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: list">
+                <tr>
+                    <td data-bind="text: ($index() + 1)"></td>
+                    <td>
+                        <a data-bind="text: No, click: $root.editUnit" data-toggle="modal" href="#unit-dialog"></a>
+                    </td>
+                    <td data-bind="text: BlockNo"></td>
+                    <td data-bind="text: FloorNo"></td>
+                    <td data-bind="text: Size"></td>
+                    <td data-bind="text: Usage"></td>
+                    <td>
+                        <a data-bind="click: $root.removeUnitCommand, attr: { title: 'Buang Unit' }" class="btn btn-link">
+                            x
+                        </a>
+                </tr>
+            </tbody>
 
-            </table>
-        </div>
+        </table>
+    </div>
 
 
-        <datalist id="usage">
-            <option value="Kediaman">
-            <option value="Parking">
-            <option value="Ruang komersial">
-            <option value="Restauran">
-            <option value="Kedai buku">
-            <option value="Kedai dobi">
-        </datalist>
+    <datalist id="usage">
+        <option value="Kediaman">
+        <option value="Parking">
+        <option value="Ruang komersial">
+        <option value="Restauran">
+        <option value="Kedai buku">
+        <option value="Kedai dobi">
+    </datalist>
 
 </div>
 
-<div class="modal hide" id="unit-dialog">
+<div class="modal fade" id="unit-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Unit</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="unit-form" data-bind="with: unit">
 
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3>Unit</h3>
-    </div>
-    <div class="modal-body">
-        <form class="form-horizontal" id="unit-form" data-bind="with: unit">
+                    <div class="form-group">
+                        <label for="unit-block" class="control-label">Blok</label>
+                        <div class="control-label">
+                            <select data-bind="value: $root.blockNo, options: $root.blockOptions, optionsText: 'Name'" id="unit-block" name="BlockNo" />
+                        </div>
+                    </div>
 
-            <div class="control-group">
-                <label for="unit-block" class="control-label">Blok</label>
-                <div class="controls">
-                    <select data-bind="value: $root.blockNo, options: $root.blockOptions, optionsText: 'Name'" id="unit-block" name="BlockNo" />
-                </div>
+                    <div class="form-group">
+                        <label for="unit-floor" class="control-label">Tingkat</label>
+                        <div class="control-label">
+                            <select data-bind="value: $root.floorNo, options: $root.floorOptions, optionsText: 'Name'" id="unit-floor" name="FloorNo" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="unit-no" class="control-label">No. unit</label>
+                        <div class="control-label">
+                            <input required data-bind="value: No" id="unit-no" type="text" name="No" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="unit-size" class="control-label">Luas</label>
+                        <div class="control-label">
+                            <input required data-bind="value: Size" id="unit-size" type="number" min="0" name="Size" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="unit-usage" class="control-label">Kegunaan</label>
+                        <div class="control-label">
+                            <input list="usage" data-bind="value: Usage" id="unit-usage" type="text" name="Usage" />
+                        </div>
+                    </div>
+
+                </form>
+
             </div>
 
-            <div class="control-group">
-                <label for="unit-floor" class="control-label">Tingkat</label>
-                <div class="controls">
-                    <select data-bind="value: $root.floorNo, options: $root.floorOptions, optionsText: 'Name'" id="unit-floor" name="FloorNo" />
-                </div>
+            <div class="modal-footer">
+                <input type="submit" form="unit-form" id="ok-unit-dialog-btn" class="btn btn-primary" value="OK" />
+                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
             </div>
-
-            <div class="control-group">
-                <label for="unit-no" class="control-label">No. unit</label>
-                <div class="controls">
-                    <input required data-bind="value: No" id="unit-no" type="text" name="No" />
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label for="unit-size" class="control-label">Luas</label>
-                <div class="controls">
-                    <input required data-bind="value: Size" id="unit-size" type="number" min="0" name="Size" />
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label for="unit-usage" class="control-label">Kegunaan</label>
-                <div class="controls">
-                    <input list="usage" data-bind="value: Usage" id="unit-usage" type="text" name="Usage" />
-                </div>
-            </div>
-
-        </form>
-
-    </div>
-
-    <div class="modal-footer">
-        <input type="submit" form="unit-form" id="ok-unit-dialog-btn" class="btn btn-primary" value="OK" />
-        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+        </div>
     </div>
 </div>
 

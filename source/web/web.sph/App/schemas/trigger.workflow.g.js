@@ -310,21 +310,7 @@ bespoke.sph.domain.ComplexVariable = function (webId) {
 };
 
 
-
-bespoke.sph.domain.FormDesign = function (webId) {
-
-    var model = {
-        "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
-        isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
-    };
-    if (bespoke.sph.domain.FormDesignPartial) {
-        return _(model).extend(new bespoke.sph.domain.FormDesignPartial(model));
-    }
-    return model;
-};
-
-
+// placeholder for FormDesign
 bespoke.sph.domain.Field = function (webId) {
 
     return {
