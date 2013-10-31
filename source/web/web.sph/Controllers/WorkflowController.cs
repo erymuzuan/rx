@@ -9,6 +9,7 @@ namespace Bespoke.Sph.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Start()
         {
+            
             return Content("");
         }
 

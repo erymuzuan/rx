@@ -29,6 +29,8 @@
             },
                 viewAttached = function(view) {
                     
+                    var fd = ko.unwrap(vm.activity().FormDesign);
+                    
                     var dropDown = function (e) {
                         e.preventDefault();
                         e.stopPropagation();
@@ -50,20 +52,20 @@
                     //toolbox item clicked
                     $('#add-field').on("click", 'a', function (e) {
                         e.preventDefault();
-                        _(vm.activity().FormDesign().FormElementCollection()).each(function (f) {
+                        _(fd.FormElementCollection()).each(function (f) {
                             f.isSelected(false);
                         });
 
                         // clone
                         var fe = ko.mapping.fromJS(ko.mapping.toJS(ko.dataFor(this)));
                         fe.isSelected = ko.observable(true);
-                        fe.Label("Label " + vm.activity().FormDesign().FormElementCollection().length);
+                        fe.Label("Label " + fd.FormElementCollection().length);
                         fe.CssClass("");
                         fe.Visible("true");
                         fe.Size("input-large");
                         fe.ElementId(system.guid());
 
-                        vm.activity().FormDesign().FormElementCollection.push(fe);
+                        fd.FormElementCollection.push(fe);
                         vm.selectedFormElement(fe);
 
 
@@ -109,7 +111,7 @@
                                     $('#template-form-designer>form').sortable("destroy");
 
 
-                                    vm.activity().FormDesign().FormElementCollection(elements);
+                                    fd.FormElementCollection(elements);
                                 };
 
                             initDesigner();
@@ -147,6 +149,13 @@
                 okClick: okClick,
                 cancelClick: cancelClick
             };
+
+            vm.activity.subscribe(function(screen) {
+                var fd = ko.unwrap(screen.FormDesign);
+                _(fd.FormElementCollection()).each(function(v) {
+                    v.isSelected = ko.observable(false);
+                });
+            });
 
 
             return vm;

@@ -1,7 +1,7 @@
 @model Bespoke.Sph.Domain.TextBox
-           @{
-               var required = Model.IsRequired ? "required" : null;
-           }
+@{
+    var required = Model.IsRequired || Model.FieldValidation.IsRequired ? "required" : null;
+}
 <div data-bind="visible:@Model.Visible" class="form-group">
     <label for="@Model.ElementId" class="control-label col-lg-2">@Model.Label</label>
     <div class="col-lg-6">

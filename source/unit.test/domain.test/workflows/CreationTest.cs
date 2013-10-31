@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Bespoke.Sph.Domain;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace domain.test.workflows
@@ -83,7 +84,28 @@ namespace domain.test.workflows
             var json = wd.GenerateJson("Applicant", xsd);
             Console.WriteLine(json);
         }
+
+        [Test]
+        public void ExtractStartWorkflowVariables()
+        {
+
+
+            var wd = new WorkflowDefinition();
+            wd.VariableDefinitionCollection.Add(new SimpleVariable{ Name = "nama", Type = typeof(string)});
+            const string json =
+                " {\"$type\":\"Bespoke.Sph.Domain.ScreenActivityViewModel,custom.workflow\",\"nama\":\"test\",\"pemohon\":{\"$type\":\"Bespoke.Sph.Domain.Wd_1_Applicant,custom.workflow\",\"Name\":\"ima\",\"Address\":{\"$type\":\"Bespoke.Sph.Domain.Wd_1_Address,custom.workflow\",\"Postcode\":\"74555\"}}}";
+
+            dynamic obj = JsonConvert.DeserializeObject(json);
+            var wf = new Workflow();
+            Console.WriteLine(obj);
+
+
+            Assert.AreEqual(2, wf.VariableCollection.Count);
+            Assert.IsInstanceOf<SimpleVariable>(wf.VariableCollection[0]);
+            Assert.AreEqual("nama", wf.VariableCollection[0].Name);
+        }
     }
+
 
 
 }

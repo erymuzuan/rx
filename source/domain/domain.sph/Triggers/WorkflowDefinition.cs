@@ -54,7 +54,7 @@ namespace Bespoke.Sph.Domain
             XNamespace x = "http://www.w3.org/2001/XMLSchema";
             var json = new StringBuilder("{");
             var name = e.Attribute("name").Value;
-            json.AppendFormat(tab + "\r\n$type:\"{0}\",", name);
+            json.AppendFormat(tab + "\r\n$type:\"Bespoke.Sph.Domain.Wd_{1}_{0},custom.workflow\",", name, this.WorkflowDefinitionId);
 
             var ct = e.Element(x + "complexType");
             if (null == ct) return json.ToString();

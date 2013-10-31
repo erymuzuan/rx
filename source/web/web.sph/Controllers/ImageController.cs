@@ -73,6 +73,11 @@ namespace Bespoke.Sph.Web.Controllers
             if (type == typeof(AssemblyField))
                 return RedirectPermanent("~/images/AssemblyField.png");
 
+            if (null != type && System.IO.File.Exists(Server.MapPath("~/images/" + type.Name + ".png")))
+            {
+                return Redirect("~/images/" + type.Name + ".png");
+            }
+
             return Redirect("/images/no-image.png");
         }
 

@@ -20,7 +20,11 @@
             @Html.EditorFor(f => fe)
         }
         <div class="form-group">
-            <button type="submit">Save</button>
+            <label class="control-label col-lg-2"></label>
+            <div class="col-lg-2 col-lg-offset-8">
+                <button type="submit" class="btn btn-default">Save</button>
+                
+            </div>
         </div>
     </form>
 
@@ -32,6 +36,8 @@
         require(['services/datacontext', 'jquery'], function(context) {
 
             var vm = {
+                $type : "Bespoke.Sph.Domain.ScreenActivityViewModel,custom.workflow",
+                id : @Model.WorkflowDefinition.WorkflowDefinitionId,
                 @foreach (var v in Model.WorkflowDefinition.VariableDefinitionCollection)
                 {
                     <text>
@@ -46,6 +52,19 @@
             };
             var ovm = context.toObservable(vm);
             ko.applyBindings(ovm);
+
+            $('#workflow-start-form').submit(function(e) {
+                e.preventDefault();
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(ovm);
+                isBusy(true);
+
+                context.post(data, "/Workflow/Start")
+                    .then(function(result) {
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            });
 
         });
 

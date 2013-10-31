@@ -380,6 +380,7 @@
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
+    <Content Include="App\partial\FormElement.js" />
     <Content Include="App\partial\MaintenanceTemplate.js" />
     <Content Include="App\partial\ComplaintTemplate.js" />
     <Content Include="App\partial\Block.js" />
