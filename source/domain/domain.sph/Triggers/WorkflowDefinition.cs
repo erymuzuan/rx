@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Domain
 {
     public partial class WorkflowDefinition : Entity
     {
-        public Task<Workflow> InitiateAsync(IEnumerable<Variable> values = null, ScreenActivity screen = null)
+        public Task<Workflow> InitiateAsync(IEnumerable<VariableValue> values = null, ScreenActivity screen = null)
         {
             var wf = new Workflow
             {
@@ -20,7 +20,7 @@ namespace Bespoke.Sph.Domain
             };
             if (null != screen)
             {
-                wf.VariableCollection.ClearAndAddRange(values);
+                wf.VariableValueCollection.ClearAndAddRange(values);
             }
             return Task.FromResult(wf);
         }
@@ -29,9 +29,6 @@ namespace Bespoke.Sph.Domain
         {
             return this.ActivityCollection.Single(p => p.IsInitiator) as ScreenActivity;
         }
-
-        public string SchemaStoreId { get; set; }
-
 
 
         public string GenerateJson(string elementName, XElement xsd, int level = 0)

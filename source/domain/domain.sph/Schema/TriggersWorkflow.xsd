@@ -239,10 +239,10 @@
 	<xs:element name="Workflow">
 		<xs:complexType>
 			<xs:all>
-				<xs:element name="VariableCollection">
+				<xs:element name="VariableValueCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="Variable" type="Variable" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="VariableValue" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -299,5 +299,11 @@
 		<xs:annotation>
 			<xs:documentation>Placeholder</xs:documentation>
 		</xs:annotation>
+	</xs:element>
+	<xs:element name="VariableValue">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Value" type="xs:string" use="required"/>
+		</xs:complexType>
 	</xs:element>
 </xs:schema>

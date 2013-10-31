@@ -1135,6 +1135,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsActive = "IsActive";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_schemaStoreId;
+        public const string PropertyNameSchemaStoreId = "SchemaStoreId";
+
+
         private readonly ObjectCollection<Activity> m_ActivityCollection = new ObjectCollection<Activity>();
 
         ///<summary>
@@ -1273,6 +1278,35 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string SchemaStoreId
+        {
+            set
+            {
+                if (String.Equals(m_schemaStoreId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSchemaStoreId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_schemaStoreId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_schemaStoreId;
+            }
+        }
+
+
 
     }
 
@@ -1310,15 +1344,15 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsActive = "IsActive";
 
 
-        private readonly ObjectCollection<Variable> m_VariableCollection = new ObjectCollection<Variable>();
+        private readonly ObjectCollection<VariableValue> m_VariableValueCollection = new ObjectCollection<VariableValue>();
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<Variable> VariableCollection
+        [XmlArrayItem("VariableValue", IsNullable = false)]
+        public ObjectCollection<VariableValue> VariableValueCollection
         {
-            get { return m_VariableCollection; }
+            get { return m_VariableValueCollection; }
         }
 
         ///<summary>
@@ -1495,7 +1529,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private FormDesign m_FormDesign
+        private FormDesign m_formDesign
                 = new FormDesign();
 
         public const string PropertyNameFormDesign = "FormDesign";
@@ -1503,10 +1537,10 @@ namespace Bespoke.Sph.Domain
 
         public FormDesign FormDesign
         {
-            get { return m_FormDesign; }
+            get { return m_formDesign; }
             set
             {
-                m_FormDesign = value;
+                m_formDesign = value;
                 OnPropertyChanged();
             }
         }
@@ -1562,6 +1596,87 @@ namespace Bespoke.Sph.Domain
     [XmlType("ComplexVariable", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ComplexVariable
     {
+
+
+    }
+
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("VariableValue", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class VariableValue
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_value;
+        public const string PropertyNameValue = "Value";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Value
+        {
+            set
+            {
+                if (String.Equals(m_value, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameValue, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_value = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_value;
+            }
+        }
+
 
 
     }
