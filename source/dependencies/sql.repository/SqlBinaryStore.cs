@@ -28,6 +28,36 @@ namespace Bespoke.Sph.SqlRepository
 
        
 
+        public BinaryStore GetContent(string stroreid)
+        {
+            const string sql = "SELECT [StoreId],[Content],[Extension],[FileName] FROM [Sph].[BinaryStore]" +
+                               " WHERE [StoreId] =  @StoreId";
+            using (var conn = new SqlConnection(m_connectionString))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Connection = conn;
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("@StoreId", stroreid);
+
+                conn.Open();
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    var document = new BinaryStore
+                        {
+                            Extension = reader.GetString(2),
+                            StoreId = reader.GetString(0),
+                            Content = (byte[])reader[1],
+                            FileName = reader.GetString(3)
+                        };
+                    return document;
+                }
+
+
+            }
+
+            return null;
+        }
         public async Task<BinaryStore> GetContentAsync(string stroreid)
         {
             const string sql = "SELECT [StoreId],[Content],[Extension],[FileName] FROM [Sph].[BinaryStore]" +

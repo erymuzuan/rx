@@ -6,13 +6,13 @@ namespace Bespoke.Sph.Web.Controllers
     {
         public ActionResult ActivityScreenHtml()
         {
-            this.Server.TransferRequest("/Workflow/ScreenHtml");
+            this.Server.TransferRequest("/WorkflowDefinition/ScreenHtml");
             return Content("");
 
         }
         public ActionResult ActivityScreenJs()
         {
-            this.Server.TransferRequest("/Workflow/ScreenJs");
+            this.Server.TransferRequest("/WorkflowDefinition/ScreenJs");
             return Content("");
 
         }

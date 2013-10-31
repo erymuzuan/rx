@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Domain
 {
     public partial class WorkflowDefinition : Entity
     {
-        public Task<Workflow> InitiateAsync(IEnumerable<Variable> values = null, ScreenActivity screen = null)
+        public Task<Workflow> InitiateAsync(IEnumerable<VariableValue> values = null, ScreenActivity screen = null)
         {
             var wf = new Workflow
             {
@@ -20,7 +20,7 @@ namespace Bespoke.Sph.Domain
             };
             if (null != screen)
             {
-                wf.VariableCollection.ClearAndAddRange(values);
+                wf.VariableValueCollection.ClearAndAddRange(values);
             }
             return Task.FromResult(wf);
         }
@@ -30,9 +30,6 @@ namespace Bespoke.Sph.Domain
             return this.ActivityCollection.Single(p => p.IsInitiator) as ScreenActivity;
         }
 
-        public string SchemaStoreId { get; set; }
-
-
 
         public string GenerateJson(string elementName, XElement xsd, int level = 0)
         {
@@ -40,12 +37,12 @@ namespace Bespoke.Sph.Domain
             var elements = xsd.Elements(x + "element").ToList();
             var e = elements.SingleOrDefault(a => a.Attribute("name").Value == elementName);
 
-            var json = this.GenerateJson(e, level);
+            var json = this.GenerateJson(xsd,e, level);
             return json;
 
         }
 
-        public string GenerateJson(XElement e, int level = 0)
+        public string GenerateJson(XElement xsd, XElement e, int level = 0)
         {
             var tab = new string(' ', level + 1);
             var tab1 = tab;
@@ -54,7 +51,7 @@ namespace Bespoke.Sph.Domain
             XNamespace x = "http://www.w3.org/2001/XMLSchema";
             var json = new StringBuilder("{");
             var name = e.Attribute("name").Value;
-            json.AppendFormat(tab + "\r\n$type:\"{0}\",", name);
+            json.AppendFormat(tab + "\r\n$type:\"Bespoke.Sph.Domain.Wd_{1}_{0},custom.workflow\",", name, this.WorkflowDefinitionId);
 
             var ct = e.Element(x + "complexType");
             if (null == ct) return json.ToString();
@@ -75,7 +72,7 @@ namespace Bespoke.Sph.Domain
 
                 var refElements = from at in all.Elements(x + "element")
                                   where at.Attribute("ref") != null
-                                  select tab + "\r\n" + at.Attribute("ref").Value + ":" + this.GenerateJson(at.Attribute("ref").Value, e, level + 1);
+                                  select tab + "\r\n" + at.Attribute("ref").Value + ":" + this.GenerateJson(at.Attribute("ref").Value, xsd, level + 1);
                 properties.AddRange(refElements);
 
             }

@@ -116,5 +116,10 @@ namespace Bespoke.Sph.Domain
                 Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
             }
         }
+
+        public static string ConvertJavascriptObjectToFunction(this string path)
+        {
+            return path.Replace(".", "().");
+        }
     }
 }
