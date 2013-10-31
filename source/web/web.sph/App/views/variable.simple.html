@@ -10,14 +10,14 @@
                     <div class="form-group">
                         <label for="variable-name" class="control-label">Name</label>
                         <div class="controls">
-                            <input class="form-control" data-bind="value: Name" id="variable-name" type="text" name="variable-name" />
+                            <input required class="form-control" data-bind="value: Name" id="variable-name" type="text" name="variable-name" />
                         </div>
                     </div>
                   
                     <div class="form-group">
                         <label for="variable-typename" class="control-label">Type</label>
                         <div class="controls">
-                            <select class="form-control" id="variable-typename" name="variable-typename" data-bind="value: TypeName">
+                            <select required class="form-control" id="variable-typename" name="variable-typename" data-bind="value: TypeName">
                                 <option value="System.String, mscorlib">Text</option>
                                 <option value="System.DateTime">Date</option>
                                 <option value="System.Int32, mscorlib">Integer</option>

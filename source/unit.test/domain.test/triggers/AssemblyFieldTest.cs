@@ -1,4 +1,5 @@
-﻿using Bespoke.Sph.Domain;
+﻿using System;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.RoslynScriptEngines;
 using NUnit.Framework;
 
@@ -84,6 +85,32 @@ namespace domain.test.triggers
                 AsyncTimeout = 650
             };
             af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "Welcome to ", Type = typeof(string) }, Name = "greet" });
+            af.MethodArgCollection.Add(new MethodArg { Type = typeof(Building), ValueProvider = masjidField, Name = "masjid" });
+
+            var name = af.GetValue(context);
+            Assert.AreEqual("Welcome to  Masjid kampung Bukit Bunga", name);
+
+        }
+
+        [Test]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void GetAsyncValueOverloaded()
+        {
+            var building = new Building { Name = "Masjid kampung Bukit Bunga" };
+            var context = new RuleContext(building);
+
+            var masjidField = new FunctionField { Script = "return item;", ScriptEngine = new RoslynScriptEngine() };
+
+            var af = new AssemblyField
+            {
+                Method = "GreetAsync",
+                Location = @"c:\project\work\sph\source\unit.test\assembly.test\bin\Debug\assembly.test.dll",
+                TypeName = @"assembly.test.AssemblyClassToTest",
+                IsAsync = true,
+                AsyncTimeout = 650
+            };
+            af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "Welcome to ", Type = typeof(string) }, Name = "greet" });
+            af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "Wwhat... ", Type = typeof(string) }, Name = "warning" });
             af.MethodArgCollection.Add(new MethodArg { Type = typeof(Building), ValueProvider = masjidField, Name = "masjid" });
 
             var name = af.GetValue(context);

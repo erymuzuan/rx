@@ -31,5 +31,15 @@ namespace assembly.test
             await Task.Delay(500);
             return string.Format( greet + " " + masjid.Name);
         }
+        public async Task<object> GreetAsync(Building masjid, string greet, bool warning)
+        {
+            await Task.Delay(500);
+            return string.Format( greet + " warning " + masjid.Name);
+        }
+        public async Task<object> GreetAsync(Building masjid, string greet, string warning)
+        {
+            await Task.Delay(500);
+            return string.Format( greet + " warning " + masjid.Name);
+        }
     }
 }
