@@ -318,6 +318,7 @@ header div.container {
     min-height: 400px;
   }
 }
+select:invalid,
 input:invalid,
 textarea:invalid {
   background-image: url('/Images/red-bar.png') !important;

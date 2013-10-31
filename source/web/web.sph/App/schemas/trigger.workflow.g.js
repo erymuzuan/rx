@@ -217,8 +217,9 @@ bespoke.sph.domain.WorkflowDefinition = function (webId) {
         Name: ko.observable(''),
         Note: ko.observable(''),
         IsActive: ko.observable(false),
+        SchemaStoreId: ko.observable(''),
         ActivityCollection: ko.observableArray([]),
-        CustomFieldCollection: ko.observableArray([]),
+        VariableDefinitionCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -239,7 +240,7 @@ bespoke.sph.domain.Workflow = function (webId) {
         Name: ko.observable(''),
         State: ko.observable(''),
         IsActive: ko.observable(false),
-        CustomFieldValueCollection: ko.observableArray([]),
+        VariableCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -281,6 +282,49 @@ bespoke.sph.domain.NotificationActivity = function (webId) {
 };
 
 
+
+bespoke.sph.domain.SimpleVariable = function (webId) {
+
+    var v = new bespoke.sph.domain.Variable(webId);
+
+    v["$type"] = "Bespoke.Sph.Domain.SimpleVariable, domain.sph";
+
+    if (bespoke.sph.domain.SimpleVariablePartial) {
+        return _(v).extend(new bespoke.sph.domain.SimpleVariablePartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ComplexVariable = function (webId) {
+
+    var v = new bespoke.sph.domain.Variable(webId);
+
+    v["$type"] = "Bespoke.Sph.Domain.ComplexVariable, domain.sph";
+
+    if (bespoke.sph.domain.ComplexVariablePartial) {
+        return _(v).extend(new bespoke.sph.domain.ComplexVariablePartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.FormDesign = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.FormDesignPartial) {
+        return _(model).extend(new bespoke.sph.domain.FormDesignPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.Field = function (webId) {
 
     return {
@@ -313,6 +357,19 @@ bespoke.sph.domain.Activity = function (webId) {
     return {
         "$type": "Bespoke.Sph.Domain.Activity, domain.sph",
         IsInitiator: ko.observable(false),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+};
+
+
+bespoke.sph.domain.Variable = function (webId) {
+
+    return {
+        "$type": "Bespoke.Sph.Domain.Variable, domain.sph",
+        Name: ko.observable(''),
+        TypeName: ko.observable(''),
+        DefaultValue: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

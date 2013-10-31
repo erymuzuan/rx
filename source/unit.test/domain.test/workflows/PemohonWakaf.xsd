@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<xs:schema xmlns="http://www.maim.gov.my/wakaf" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.maim.gov.my/wakaf" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Address">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="Street" type="xs:string"/>
+			<xs:attribute name="Postcode" type="xs:string"/>
+			<xs:attribute name="State" type="xs:string"/>
+			<xs:attribute name="City" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Applicant">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Address"/>
+				<xs:element name="Age" type="xs:int" nillable="true"/>
+				<xs:element ref="Contact"/>
+				<xs:element name="Dob" type="xs:dateTime" nillable="true"/>
+			</xs:all>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="MyKad" type="xs:string" use="required"/>
+			<xs:attribute name="RegisteredDate" type="xs:dateTime" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Contact">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Address"/>
+			</xs:all>
+			<xs:attribute name="Telephone" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

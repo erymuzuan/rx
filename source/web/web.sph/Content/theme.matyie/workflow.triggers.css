@@ -6,6 +6,7 @@
 }
 #activity-screen-modal {
   margin-left: -560px !important;
+  margin-top: -440px !important;
 }
 #activity-screen-modal div.modal-content {
   width: 990px;

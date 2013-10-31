@@ -156,6 +156,7 @@
     <Compile Include="Triggers\Activity.cs" />
     <Compile Include="Triggers\AssemblyAction.cs" />
     <Compile Include="Triggers\AssemblyField.cs" />
+    <Compile Include="Triggers\ComplexVariable.cs" />
     <Compile Include="Triggers\CreateEntityAction.cs" />
     <Compile Include="Triggers\DeleteEntityAction.cs" />
     <Compile Include="Triggers\FunctionField.cs" />
@@ -241,12 +242,14 @@
     <Compile Include="Triggers\DocumentField.cs" />
     <Compile Include="Triggers\Field.cs" />
     <Compile Include="Triggers\MethodArg.cs" />
+    <Compile Include="Triggers\NotificationActivity.cs" />
     <Compile Include="Triggers\PropertyChangedField.cs" />
     <Compile Include="Triggers\Rule.cs" />
     <Compile Include="Triggers\CustomAction.cs" />
     <Compile Include="Triggers\EmailAction.cs" />
     <Compile Include="Triggers\ScreenActivity.cs" />
     <Compile Include="Triggers\SetterAction.cs" />
+    <Compile Include="Triggers\SimpleVariable.cs" />
     <Compile Include="Triggers\Trigger.cs" />
     <Compile Include="Triggers\SetterActionChild.cs" />
     <Compile Include="Business\UserProfile.cs" />
@@ -286,6 +289,7 @@
     <Compile Include="Business\Watcher.cs" />
     <Compile Include="Business\WorkOrder.cs" />
     <Compile Include="Triggers\UpdateEntityAction.cs" />
+    <Compile Include="Triggers\Variable.cs" />
     <Compile Include="Triggers\Workflow.cs" />
     <Compile Include="Triggers\WorkflowDefinition.cs" />
     <Compile Include="Triggers\WorkflowInitiatorAction.cs" />

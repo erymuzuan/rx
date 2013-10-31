@@ -12,24 +12,25 @@ var bespoke = bespoke || {};
 bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
 
-bespoke.sph.domain.WorkflowDefinitionPartial = function () {
+bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
     var system = require('durandal/system'),
-        removeActivity = function(activity) {
+        elementNameOptions = ko.observableArray(),
+        removeActivity = function (activity) {
             var self = this;
-            return function() {
+            return function () {
                 self.ActivityCollection.remove(activity);
             };
         },
-        addActivity = function(type) {
+        addActivity = function (type) {
             var self = this;
-            return function() {
+            return function () {
                 var activity = new bespoke.sph.domain[type + 'Activity'](system.guid());
 
-                require(['viewmodels/activity.' + type.toLowerCase(), 'durandal/app'], function(dialog, app2) {
+                require(['viewmodels/activity.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.activity(activity);
                     app2.showModal(dialog)
-                        .done(function(result) {
+                        .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {
                                 self.ActivityCollection.push(activity);
@@ -40,19 +41,19 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function () {
 
             };
         },
-        editActivity = function(activity) {
+        editActivity = function (activity) {
             var self = this;
-            return function() {
+            return function () {
                 var activityType = ko.unwrap(activity.$type),
                     clone = ko.mapping.fromJS(ko.mapping.toJS(activity)),
                     pattern = /Bespoke\.Sph\.Domain\.(.*?)Activity,/,
                     type = pattern.exec(activityType)[1];
 
-                require(['viewmodels/activity.' + type.toLowerCase(), 'durandal/app'], function(dialog, app2) {
+                require(['viewmodels/activity.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.activity(clone);
 
                     app2.showModal(dialog)
-                        .done(function(result) {
+                        .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {
                                 self.ActivityCollection.replace(activity, clone);
@@ -62,12 +63,73 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function () {
                 });
 
             };
-        };
+        },
+        addVariable = function (type) {
+            var self = this;
+            return function () {
+                var variable = new bespoke.sph.domain[type + 'Variable'](system.guid());
+
+                require(['viewmodels/variable.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
+                    dialog.variable(variable);
+                    if (typeof dialog.elementNameOptions === "function") {
+                        dialog.elementNameOptions(elementNameOptions());
+                    }
+                    app2.showModal(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                self.VariableDefinitionCollection.push(variable);
+                            }
+                        });
+
+                });
+
+            };
+        },
+        editVariable = function (variable) {
+            var self = this;
+            return function () {
+                var variableType = ko.unwrap(variable.$type),
+                    clone = ko.mapping.fromJS(ko.mapping.toJS(variable)),
+                    pattern = /Bespoke\.Sph\.Domain\.(.*?)Variable,/,
+                    type = pattern.exec(variableType)[1];
+
+                require(['viewmodels/variable.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
+                    dialog.variable(clone);
+
+                    app2.showModal(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                self.VariableCollection.replace(variable, clone);
+                            }
+                        });
+
+                });
+
+            };
+        },
+         removeVariable = function (variable) {
+             var self = this;
+             return function () {
+                 self.VariableDefinitionCollection.remove(variable);
+             };
+         };
+
+    model.SchemaStoreId.subscribe(function (storeId) {
+        $.get("/Workflow/GetXsdElementName/" + storeId)
+            .then(function (result) {
+                elementNameOptions(result);
+            });
+    });
 
     var vm = {
         removeActivity: removeActivity,
+        removeVariable: removeVariable,
         addActivity: addActivity,
-        editActivity: editActivity
+        editActivity: editActivity,
+        addVariable: addVariable,
+        editVariable: editVariable
 
     };
 

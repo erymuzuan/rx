@@ -36,6 +36,8 @@ namespace Bespoke.Sph.Domain
         public IQueryable<UserProfile> UserProfiles { get; set; }
         public IQueryable<Trigger> Triggers { get; set; }
         public IQueryable<Watcher> Watchers { get; set; }
+        public IQueryable<WorkflowDefinition> WorkflowDefinitions { get; set; }
+        public IQueryable<Workflow> Workflows { get; set; }
 
         public SphDataContext()
         {
@@ -64,6 +66,8 @@ namespace Bespoke.Sph.Domain
             this.Triggers = new Query<Trigger>(provider);
             this.Watchers = new Query<Watcher>(provider);
             this.WorkOrders = new Query<WorkOrder>(provider);
+            this.Workflows = new Query<Workflow>(provider);
+            this.WorkflowDefinitions = new Query<WorkflowDefinition>(provider);
         }
 
 
