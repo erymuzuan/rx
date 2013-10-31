@@ -5,15 +5,17 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
+/// <reference path="../objectbuilders.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/google-maps-3-vs-1-0-vsdoc.js" />
 
 
-define(['services/datacontext', 'config', 'viewmodels/map', 'services/logger'],
+define([objectbuilders.datacontext, objectbuilders.config, 'viewmodels/map', objectbuilders.logger],
     function (context, config, mapvm, logger) {
 
         var isBusy = ko.observable(false),
             activate = function (routeData) {
+                vm.stateOptions(config.stateOptions);
                 var id = parseInt(routeData.id);
                 if (id === 0) {
                     vm.land(new bespoke.sph.domain.Land());
@@ -21,7 +23,6 @@ define(['services/datacontext', 'config', 'viewmodels/map', 'services/logger'],
                 }
                 var query = "LandId eq " + id;
                 var tcs = new $.Deferred();
-
                 context.loadOneAsync("Land", query)
                     .then(function (land) {
                         vm.land(land);
@@ -125,7 +126,7 @@ define(['services/datacontext', 'config', 'viewmodels/map', 'services/logger'],
             land: ko.observable(),
             saveMapCommand: saveMap,
             showMapCommand: showMap,
-            stateOptions: ko.observableArray([{ Name: 'Kelantan' }]),
+            stateOptions: ko.observableArray(),
             toolbar: {
                 saveCommand: save
             }
