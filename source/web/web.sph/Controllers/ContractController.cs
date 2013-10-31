@@ -99,7 +99,7 @@ namespace Bespoke.Sph.Web.Controllers
                 Operation = "Generate agreement document",
                 DateTime = DateTime.Now,
                 User = User.Identity.Name,
-                Type = typeof(RentalApplication).Name,
+                Type = typeof(Contract).Name,
                 EntityId = id,
                 Note = remarks
             };
@@ -110,7 +110,7 @@ namespace Bespoke.Sph.Web.Controllers
             var temp = System.IO.Path.GetTempFileName() + ".docx";
             System.IO.File.WriteAllBytes(temp, file.Content);
             var word = ObjectBuilder.GetObject<IDocumentGenerator>();
-
+            
             var sessionKey = Guid.NewGuid().ToString();
             var fileName = string.Format("{0}-{1:yyyyMMdd}.{2}.docx", contract.ReferenceNo, DateTime.Today, title);
             var doc = new Document { Title = title, Extension = ".docx" };

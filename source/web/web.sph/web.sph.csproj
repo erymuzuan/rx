@@ -1703,6 +1703,10 @@
       <Project>{247853F5-C1F5-4B4D-8EE4-C14B0E93706A}</Project>
       <Name>ledger.msxl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\dependencies\word.document.generator\word.document.generator.csproj">
+      <Project>{3C83CD91-EF5C-46AB-A5E0-EE038A608A62}</Project>
+      <Name>word.document.generator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
@@ -2011,7 +2015,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>4216</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

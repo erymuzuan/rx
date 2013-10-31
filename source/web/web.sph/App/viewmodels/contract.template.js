@@ -134,7 +134,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, 'services/jsonimporte
                     });
             },
             removeDocument = function(doc) {
-                template.DocumentTemplateCollection.remove(doc);
+                template().DocumentTemplateCollection.remove(doc);
             },
             exportJson = function() {
                 return exim.exportJson("contract.template." + template().ContractTemplateId() + ".json", ko.mapping.toJSON(template));

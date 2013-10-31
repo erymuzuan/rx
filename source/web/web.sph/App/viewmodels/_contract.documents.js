@@ -44,7 +44,7 @@ define(['services/datacontext'],
                     title: vm.documentTitle()
                 });
                 context.post(data, "/Contract/GenerateDocument")
-                    .then(function (doc) {
+                    .done(function (doc) {
                         vm.documentCollection.push(doc);
                         tcs.resolve(doc);
                     });
