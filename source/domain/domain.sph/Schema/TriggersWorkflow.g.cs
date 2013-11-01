@@ -1140,6 +1140,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameSchemaStoreId = "SchemaStoreId";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_version;
+        public const string PropertyNameVersion = "Version";
+
+
         private readonly ObjectCollection<Activity> m_ActivityCollection = new ObjectCollection<Activity>();
 
         ///<summary>
@@ -1303,6 +1308,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_schemaStoreId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int Version
+        {
+            set
+            {
+                if (m_version == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameVersion, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_version = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_version;
             }
         }
 
