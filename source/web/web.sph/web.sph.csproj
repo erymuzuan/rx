@@ -76,13 +76,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.3.13295\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
     </Reference>
-    <Reference Include="ImageResizer, Version=3.4.0.763, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ImageResizer, Version=3.4.1.897, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\ImageResizer.3.4.0\lib\ImageResizer.dll</HintPath>
+      <HintPath>..\..\..\packages\ImageResizer.3.4.1\lib\ImageResizer.dll</HintPath>
     </Reference>
-    <Reference Include="ImageResizer.Mvc, Version=3.4.0.763, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ImageResizer.Mvc, Version=3.4.1.897, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\ImageResizer.Mvc.3.4.0\lib\ImageResizer.Mvc.dll</HintPath>
+      <HintPath>..\..\..\packages\ImageResizer.Mvc.3.4.1\lib\ImageResizer.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Invoke.Docx, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -166,7 +166,7 @@
     </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.1\lib\net40\System.Web.Optimization.dll</HintPath>
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.2\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -867,8 +867,6 @@
     <Content Include="Images\warning.png" />
     <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App\viewmodels\complaint.close.js" />
     <Content Include="App\views\complaint.detail.html" />
     <Content Include="App\viewmodels\message.detail.js" />
@@ -928,9 +926,6 @@
     <Content Include="Content\theme.matyie\variables.less" />
     <Content Include="Content\theme.default\complaint.less" />
     <Content Include="Content\theme.matyie\rentalapplication.less" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\theme.matyie\space.less" />
     <Content Include="Content\toastr.less" />
     <Content Include="App\viewmodels\block.dialog.js" />
@@ -958,6 +953,8 @@
     <Content Include="App\viewmodels\template.maintenance.min.js.map">
       <DependentUpon>template.maintenance.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\DataTables-1.9.4\docs\media\js\doc.js" />
     <Content Include="Scripts\DataTables-1.9.4\docs\media\js\jquery.js" />
     <Content Include="Scripts\DataTables-1.9.4\docs\media\js\shBrushJScript.js" />
@@ -1036,6 +1033,9 @@
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\FontAwesome.otf" />
     <Content Include="App\services\default.value.provider.js" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
