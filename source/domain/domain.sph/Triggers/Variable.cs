@@ -10,5 +10,10 @@ namespace Bespoke.Sph.Domain
         {
             return "null";
         }
+
+        public virtual string GeneratedCode(WorkflowDefinition workflowDefinition)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

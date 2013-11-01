@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -81,6 +82,35 @@ namespace Bespoke.Sph.Domain
             json.AppendLine(string.Join(",", properties));
             json.AppendLine("}");
             return json.ToString();
+        }
+
+        public string GenerateCode()
+        {
+            var code = new StringBuilder();
+            code.AppendLine("namespace Bespoke.Sph.Workflows_" + this.WorkflowDefinitionId);
+            code.AppendLine("{");
+
+            code.AppendLine("   public class " + this.Name.Replace(" ", string.Empty));
+            code.AppendLine("   {");
+
+
+            foreach (var variable in this.VariableDefinitionCollection)
+            {
+                code.AppendLine("       " + variable.GeneratedCode(this));
+            }
+
+            foreach (var activity in this.ActivityCollection)
+            {
+                code.AppendLine("       " + activity.GeneratedCode(this));
+            }
+
+
+
+
+            code.AppendLine("   }");// end class
+
+            code.AppendLine("}");// end namespace
+            return code.ToString();
         }
     }
 }
