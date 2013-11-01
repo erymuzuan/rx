@@ -126,6 +126,36 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(template);
                 await session.SubmitChanges();
             }
+
+            var existingSpaceRecords = context.Spaces.Where(s => s.TemplateId == template.SpaceTemplateId);
+            var lo = await context.LoadAsync(existingSpaceRecords, includeTotalRows: true);
+            spaces.ClearAndAddRange(lo.ItemCollection);
+            foreach (var space in lo.ItemCollection)
+            {
+                space.TemplateName = template.Name;
+                using (var session = context.OpenSession())
+                {
+                    session.Attach(space);
+                    await session.SubmitChanges("Update template name for existing space records");
+                }
+            }
+
+            while (lo.HasNextPage)
+            {
+                lo = await context.LoadAsync(existingSpaceRecords, lo.CurrentPage + 1, includeTotalRows: true);
+                spaces.AddRange(lo.ItemCollection);
+
+                foreach (var space in lo.ItemCollection)
+                {
+                    space.TemplateName = template.Name;
+                    using (var session = context.OpenSession())
+                    {
+                        session.Attach(space);
+                        await session.SubmitChanges("Update template name for existing space records");
+                    }
+                }
+            }
+
             return Json(new {id = template.SpaceTemplateId, success = true, status = "OK" });
         }
 
@@ -264,5 +294,8 @@ namespace Bespoke.Sph.Web.Controllers
             return Content(json);
 
         }
+
+        private readonly ObjectCollection<Space> spaces = new ObjectCollection<Space>();
+        
     }
 }
