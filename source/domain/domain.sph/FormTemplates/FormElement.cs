@@ -83,6 +83,10 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        
+
+        public virtual string GenerateMarkup()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

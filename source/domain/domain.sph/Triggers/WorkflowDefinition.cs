@@ -38,7 +38,7 @@ namespace Bespoke.Sph.Domain
             var elements = xsd.Elements(x + "element").ToList();
             var e = elements.SingleOrDefault(a => a.Attribute("name").Value == elementName);
 
-            var json = this.GenerateJson(xsd,e, level);
+            var json = this.GenerateJson(xsd, e, level);
             return json;
 
         }
@@ -98,16 +98,17 @@ namespace Bespoke.Sph.Domain
             {
                 code.AppendLine("       " + variable.GeneratedCode(this));
             }
+            code.AppendLine("   }");// end class
+
 
             foreach (var activity in this.ActivityCollection)
             {
+
                 code.AppendLine("       " + activity.GeneratedCode(this));
+
             }
 
 
-
-
-            code.AppendLine("   }");// end class
 
             code.AppendLine("}");// end namespace
             return code.ToString();

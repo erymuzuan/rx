@@ -14,7 +14,11 @@
             };
         }
 
-     
+        public override string GenerateMarkup()
+        {
+            return string.Format("<input type='text' data-bind='value:{0}' name='{1}'></input>",this.Path,this.Name);
+        }
+
         public override string GetKnockoutBindingExpression()
         {
             var path = this.Path;
