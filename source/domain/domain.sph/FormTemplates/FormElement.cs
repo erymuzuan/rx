@@ -86,7 +86,11 @@ namespace Bespoke.Sph.Domain
 
         public virtual string GenerateMarkup()
         {
+<<<<<<< HEAD
             throw new System.NotImplementedException();
+=======
+            return string.Empty;
+>>>>>>> 9d231e8cc46ff2933f65639a1155bbfe7992abac
         }
     }
 }

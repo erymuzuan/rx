@@ -87,10 +87,10 @@ namespace Bespoke.Sph.Domain
         public string GenerateCode()
         {
             var code = new StringBuilder();
-            code.AppendLine("namespace Bespoke.Sph.Workflows_" + this.WorkflowDefinitionId);
+            code.AppendLine("namespace Bespoke.Sph.Workflows_" + this.WorkflowDefinitionId + "_" + this.Version);
             code.AppendLine("{");
 
-            code.AppendLine("   public class " + this.Name.Replace(" ", string.Empty));
+            code.AppendLine("   public class " + this.Name.Replace(" ", string.Empty) + " : " + typeof (Workflow).FullName);
             code.AppendLine("   {");
 
 
@@ -104,10 +104,15 @@ namespace Bespoke.Sph.Domain
             foreach (var activity in this.ActivityCollection)
             {
 
+<<<<<<< HEAD
                 code.AppendLine("       " + activity.GeneratedCode(this));
 
             }
 
+
+=======
+            code.AppendLine("   }");// end class
+>>>>>>> 9d231e8cc46ff2933f65639a1155bbfe7992abac
 
 
             code.AppendLine("}");// end namespace
