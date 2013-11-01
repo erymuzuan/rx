@@ -8,9 +8,9 @@ namespace Bespoke.Sph.Domain
         {
             var code = new StringBuilder();
 
-            code.AppendFormat("public partial class Workflow{0}Controller : Controller", wd.WorkflowDefinitionId);
+            code.AppendFormat("public partial class Workflow{0}Controller : System.Web.Mvc.Controller", wd.WorkflowDefinitionId);
             code.AppendLine("   {");
-            code.AppendLine("       public ActionResult "+ this.Title +"()");
+            code.AppendLine("       public System.Web.Mvc.ActionResult "+ this.Title +"()");
             code.AppendLine("       {");
 
             code.AppendLine("              var html = new System.Text.StringBuilder();");
@@ -18,7 +18,7 @@ namespace Bespoke.Sph.Domain
             {
                 code.AppendLine("               html.AppendLine(\"" + formElement.GenerateMarkup() + "\");");
             }
-            code.AppendLine("               return html.ToString();");
+            code.AppendLine("               return Content(html.ToString());");
             code.AppendLine("       }");
 
             code.AppendLine("   }");

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -90,7 +91,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("namespace Bespoke.Sph.Workflows_" + this.WorkflowDefinitionId + "_" + this.Version);
             code.AppendLine("{");
 
-            code.AppendLine("   public class " + this.Name.Replace(" ", string.Empty) + " : " + typeof (Workflow).FullName);
+            code.AppendLine("   public class " + this.Name.Replace(" ", string.Empty) + " : " + typeof(Workflow).FullName);
             code.AppendLine("   {");
 
 
@@ -100,23 +101,59 @@ namespace Bespoke.Sph.Domain
             }
             code.AppendLine("   }");// end class
 
-
+            var complexVariables = this.GetXsdElementName(this.SchemaStoreId);
+            foreach (var v in complexVariables)
+            {
+                var attributes = this.GetAttributeByElementName(v);
+                code.AppendFormat("public partial class {0} : DomainObject", v);
+                code.AppendLine("{");
+                foreach (var a in attributes)
+                {
+                    code.AppendFormat("public int[] {0} {{ get; set; }}",a);
+                }
+                code.AppendLine("}");
+            }
             foreach (var activity in this.ActivityCollection)
             {
-
-<<<<<<< HEAD
                 code.AppendLine("       " + activity.GeneratedCode(this));
-
             }
-
-
-=======
-            code.AppendLine("   }");// end class
->>>>>>> 9d231e8cc46ff2933f65639a1155bbfe7992abac
-
 
             code.AppendLine("}");// end namespace
             return code.ToString();
+        }
+
+        private List<string> GetAttributeByElementName(string s)
+        {
+            XNamespace x = "http://www.w3.org/2001/XMLSchema";
+            XElement xml = XElement.Load("test.xml");
+            var attributes =  xml.Attributes("attribute")
+                             .Select(e => e.Name.ToString()).ToList();
+            return attributes;
+        }
+
+
+        public XElement GetSchema(string id)
+        {
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var content = store.GetContent(id);
+            using (var stream = new MemoryStream(content.Content))
+            {
+                var xsd = XElement.Load(stream);
+                return xsd;
+            }
+        }
+        public List<string> GetXsdElementName(string id)
+        {
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var content = store.GetContent(id);
+            using (var stream = new MemoryStream(content.Content))
+            {
+                var xsd = XElement.Load(stream);
+                XNamespace x = "http://www.w3.org/2001/XMLSchema";
+                var elements = xsd.Elements(x + "element").Select(e => e.Attribute("name").Value).ToList();
+                return elements;
+
+            }
         }
     }
 }
