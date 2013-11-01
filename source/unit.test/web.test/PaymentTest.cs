@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Xml.Linq;
 using NUnit.Framework;
-using FluentDateTime;
+using FluentDate;
 
 namespace web.test
 {

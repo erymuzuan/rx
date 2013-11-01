@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
-using FluentDateTime;
+using FluentDate;
 using NDbUnit.Core;
 using NDbUnit.Core.SqlClient;
 using NUnit.Framework;

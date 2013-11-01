@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Castle.Core.Internal;
-using FluentDateTime;
+using FluentDate;
 using OpenQA.Selenium;
 using System.Linq;
 using OpenQA.Selenium.Support.UI;

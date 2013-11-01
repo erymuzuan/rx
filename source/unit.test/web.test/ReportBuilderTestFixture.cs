@@ -1,6 +1,6 @@
 ﻿using System.Data.SqlClient;
 using System.Globalization;
-using FluentDateTime;
+using FluentDate;
 using NUnit.Framework;
 
 // ReSharper disable InconsistentNaming
