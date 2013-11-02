@@ -353,6 +353,8 @@
     <Compile Include="ViewModels\TemplateFormViewModel.cs" />
     <Compile Include="ViewModels\TriggerPathPickerHtmlViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
+    <Compile Include="WorkflowHelpers\ScreenActivityVirtualFile.cs" />
+    <Compile Include="WorkflowHelpers\WorkflowScreenActivityPathProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\async.js" />
@@ -1995,7 +1997,7 @@
     <Content Include="Views\WorkflowDefinition\DisplayTemplates\TextBox.cshtml" />
     <Content Include="Views\WorkflowDefinition\DisplayTemplates\WebsiteFormElement.cshtml" />
     <Content Include="Views\WorkflowDefinition\_DesignerContextAction.cshtml" />
-    <Content Include="Views\Workflow\Start.cshtml" />
+    <Content Include="Views\Workflow\_xxxxStart.cshtml" />
     <Content Include="Views\Workflow\EditorTemplates\CheckBox.cshtml" />
     <Content Include="Views\Workflow\EditorTemplates\ComboBox.cshtml" />
     <Content Include="Views\Workflow\EditorTemplates\DatePicker.cshtml" />
@@ -2008,6 +2010,7 @@
     <Content Include="Views\Workflow\EditorTemplates\TextAreaElement.cshtml" />
     <Content Include="Views\Workflow\EditorTemplates\TextBox.cshtml" />
     <Content Include="Views\Workflow\EditorTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Views\Shared\_LayoutWorkflow.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

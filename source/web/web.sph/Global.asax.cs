@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Bespoke.Sph.Web.App_Start;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.WorkflowHelpers;
 
 namespace Bespoke.Sph.Web
 {
@@ -18,6 +20,7 @@ namespace Bespoke.Sph.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+            HostingEnvironment.RegisterVirtualPathProvider(new WorkflowScreenActivityPathProvider());
 
 
             ModelBinders.Binders.Add(typeof(IEnumerable<Rule>), new RuleModelBinder());

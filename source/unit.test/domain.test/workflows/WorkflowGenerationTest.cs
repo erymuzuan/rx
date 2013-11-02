@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.IO;
 using Bespoke.Sph.Domain;
 using Microsoft.CSharp;
 using NUnit.Framework;
@@ -20,9 +21,12 @@ namespace domain.test.workflows
 
             var screen = new ScreenActivity {Title = "Pohon"};
             screen.FormDesign.FormElementCollection.Add(new TextBox{Path = "Nama",Label = "Test"});
+            wd.ActivityCollection.Add(screen);
 
             var code = wd.GenerateCode();
-            wd.Version = System.IO.Directory.GetFiles(".", "workflows.8.*.dll").Length + 1;
+            wd.Version = Directory.GetFiles(".", "workflows.8.*.dll").Length + 1;
+
+            Assert.IsTrue(File.Exists(""), "assembly");
             Console.WriteLine(code);
 
             using(var provider = new CSharpCodeProvider())

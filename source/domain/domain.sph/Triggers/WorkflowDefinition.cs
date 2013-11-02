@@ -110,5 +110,10 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("}");// end namespace
             return code.ToString();
         }
+
+        public void Compile()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
