@@ -53,6 +53,32 @@ namespace Bespoke.Sph.SqlRepository
             return null;
         }
 
+        public T LoadOne(IQueryable<T> query)
+        {
+            var elementType = typeof(T);
+            var sql = query.ToString().Replace("[Data]", string.Format("[{0}Id],[Data]", elementType.Name));
+
+            var id = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Single(p => p.Name == elementType.Name + "Id");
+
+            using (var conn = new SqlConnection(m_connectionString))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                conn.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var xml = XElement.Parse(reader.GetString(1));
+                        dynamic t = xml.DeserializeFromXml(elementType);
+                        id.SetValue(t, reader.GetInt32(0), null);
+                        return t;
+                    }
+                }
+            }
+            return null;
+        }
+
         public async Task<IEnumerable<TResult>> GetListAsync<TResult>(IQueryable<T> query, Expression<Func<T, TResult>> selector)
         {
             var column = GetMemberName(selector);

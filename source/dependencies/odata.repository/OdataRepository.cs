@@ -43,6 +43,11 @@ namespace Bespoke.Sph.OdataRepository
             return lo.ItemCollection.SingleOrDefault();
         }
 
+        public T LoadOne(IQueryable<T> query)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<int> GetCountAsync(IQueryable<T> query)
         {
             return await ExecuteScalarAsync<int>(query, "*","count");

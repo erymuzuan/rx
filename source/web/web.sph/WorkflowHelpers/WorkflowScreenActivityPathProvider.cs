@@ -1,10 +1,12 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
 using System.Web.Hosting;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Web.WorkflowHelpers
 {
     public class WorkflowScreenActivityPathProvider : VirtualPathProvider
     {
+        private readonly Dictionary<string, Page> m_screens = new Dictionary<string, Page>(); 
 
         public override bool FileExists(string virtualPath)
         {
@@ -18,36 +20,28 @@ namespace Bespoke.Sph.Web.WorkflowHelpers
 
         public override VirtualFile GetFile(string virtualPath)
         {
-            dynamic page = FindPage(virtualPath);
+            var page = FindPage(virtualPath);
             if (page == null)
             {
                 return base.GetFile(virtualPath);
             }
-            return new ScreenActivityVirtualFile(virtualPath, page.ViewData);
+            return new ScreenActivityVirtualFile(virtualPath, page);
         }
 
-        private object FindPage(string virtualPath)
+        private Page FindPage(string virtualPath)
         {
-            const string razor = @"@using System.Web.Mvc.Html
-@using Bespoke.Sph.Domain
-@model Bespoke.Sph.Web.Controllers.WorkflowStartViewModel
+            if (m_screens.ContainsKey(virtualPath)) return m_screens[virtualPath];
+            
+            var context = new SphDataContext();
+            var page = context.LoadOne<Page>(p => p.VirtualPath == virtualPath);
+            if (null != page)
+            {
+                m_screens.Add(virtualPath,page);
+                return page;
 
-@{
-    ViewBag.Title =""test 1234"";
-    Layout = ""~/Views/Shared/_LayoutWorkflow.cshtml"";
-}
-<h1> test 1234 @DateTime.Now</h1>
-<div>
-       @foreach (var fe in Model.Screen.FormDesign.FormElementCollection)
-        {
-            <div>TO DO : generate this razor for the given workflowDefinition and screen</div>
-            @Html.EditorFor(f => fe)
-        }
-</div>
-";
-            if (virtualPath.Contains("workflow") && virtualPath.Contains("start") && virtualPath.EndsWith(".cshtml"))
-                return new { Name = virtualPath, ViewData = Encoding.UTF8.GetBytes(razor) };
+            }
             return null;
+
         }
     }
 }

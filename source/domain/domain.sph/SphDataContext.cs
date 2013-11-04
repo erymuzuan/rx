@@ -38,6 +38,7 @@ namespace Bespoke.Sph.Domain
         public IQueryable<Watcher> Watchers { get; set; }
         public IQueryable<WorkflowDefinition> WorkflowDefinitions { get; set; }
         public IQueryable<Workflow> Workflows { get; set; }
+        public IQueryable<Page> Pages { get; set; }
 
         public SphDataContext()
         {
@@ -68,6 +69,7 @@ namespace Bespoke.Sph.Domain
             this.WorkOrders = new Query<WorkOrder>(provider);
             this.Workflows = new Query<Workflow>(provider);
             this.WorkflowDefinitions = new Query<WorkflowDefinition>(provider);
+            this.Pages = new Query<Page>(provider);
         }
 
 
@@ -200,6 +202,13 @@ namespace Bespoke.Sph.Domain
             var query = new Query<T>(provider).Where(predicate);
             var repos = ObjectBuilder.GetObject<IRepository<T>>();
             return await repos.LoadOneAsync(query).ConfigureAwait(false);
+        }
+        public T LoadOne<T>(Expression<Func<T, bool>> predicate) where T : Entity
+        {
+            var provider = ObjectBuilder.GetObject<QueryProvider>();
+            var query = new Query<T>(provider).Where(predicate);
+            var repos = ObjectBuilder.GetObject<IRepository<T>>();
+            return  repos.LoadOne(query);
         }
 
         public async Task<LoadOperation<T>> LoadAsync<T>(IQueryable<T> query, int page = 1, int size = 40, bool includeTotalRows = false) where T : Entity
