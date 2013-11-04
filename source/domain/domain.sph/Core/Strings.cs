@@ -19,6 +19,14 @@ namespace Bespoke.Sph.Domain
             }
             return value.Equals(value2);
         }
+
+        public static StringBuilder AppendFormatLine(this StringBuilder text, string format, params object[] args)
+        {
+            text.AppendFormat(format, args);
+            text.AppendLine();
+
+            return text;
+        }
         //public static bool IsEqual<T>(this T? value, T? value2) where T : struct ,IConvertible
         //{
         //    if (!typeof(T).IsEnum)

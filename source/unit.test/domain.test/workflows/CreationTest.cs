@@ -81,9 +81,6 @@ namespace domain.test.workflows
             var elements = xsd.Elements(x + "element").ToList();
             Console.WriteLine(elements.Count());
             Console.WriteLine(customNs);
-            var wd = new WorkflowDefinition();
-            var json = wd.GenerateJson("Applicant", xsd);
-            Console.WriteLine(json);
         }
 
         [Test]

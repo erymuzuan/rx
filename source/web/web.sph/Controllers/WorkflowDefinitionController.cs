@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -47,16 +48,63 @@ namespace Bespoke.Sph.Web.Controllers
             }
         }
 
+        public async Task<ActionResult> Compile()
+        {
+            var wd = this.GetRequestJson<WorkflowDefinition>();
+            await this.Save(wd);
+            var output = wd.Compile();
+            return Json(output);
+        }
+
+        public async Task<ActionResult> Publish(int id, int version = 0)
+        {
+            var wd = this.GetRequestJson<WorkflowDefinition>();
+            await this.Save(wd);
+            await this.Save();
+            var output = wd.Compile();
+            return Json(output);
+        }
+
         public async Task<ActionResult> Save()
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
+            var id = await this.Save(wd);
+            return Json(id);
+        }
+
+        private async Task<int> Save(WorkflowDefinition wd)
+        {
             var context = new SphDataContext();
+            if(null == wd)throw new ArgumentNullException("wd");
+            var screens = (from s in wd.ActivityCollection.OfType<ScreenActivity>()
+                           select new Page
+                           {
+                               VirtualPath = s.ViewVirtualPath,
+                               Code = s.GetView(wd),
+                               Title = s.Title,
+                               IsPartial = false,
+                               IsRazor = true,
+                               WebId = Guid.NewGuid().ToString()
+                           })
+                              .ToArray();
+            var paths = screens.Select(s => s.VirtualPath).ToArray();
+
             using (var session = context.OpenSession())
             {
                 session.Attach(wd);
+                session.Attach(screens.Cast<Entity>().ToArray());
+
+
+                if (paths.Any())
+                {
+                    var existingPages = await context.LoadAsync(context.Pages.Where(p => paths.Contains(p.VirtualPath)));
+                    session.Delete(existingPages.ItemCollection.Cast<Entity>().ToArray());
+
+                }
+
                 await session.SubmitChanges();
             }
-            return Json(wd.WorkflowDefinitionId);
+            return wd.WorkflowDefinitionId;
         }
 
 

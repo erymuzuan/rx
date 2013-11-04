@@ -10,7 +10,7 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define([objectbuilders.datacontext,objectbuilders.logger],
+define([objectbuilders.datacontext, objectbuilders.logger],
     function (context, logger) {
         var isBusy = ko.observable(false),
             id = ko.observable(),
@@ -23,23 +23,51 @@ define([objectbuilders.datacontext,objectbuilders.logger],
                 var query = String.format("WorkflowDefinitionId eq {0}", id());
                 var tcs = new $.Deferred();
                 context.loadOneAsync("WorkflowDefinition", query)
-                    .done(function(wf) {
+                    .done(function (wf) {
                         vm.workflowdefinition(wf);
                         tcs.resolve(true);
                     });
                 return tcs.promise();
 
             },
-            saveAsync = function() {
+            compileAsync = function () {
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(vm.workflowdefinition);
+                isBusy(true);
+
+                context.post(data, "/WorkflowDefinition/Compile")
+                    .then(function (result) {
+                        isBusy(false);
+                        logger.info("The workflow had been succesfully compiled");
+
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            },
+            publishAsync = function () {
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(vm.workflowdefinition());
+                isBusy(true);
+
+                context.post(data, "/WorkflowDefinition/Publish")
+                    .then(function (result) {
+                        isBusy(false);
+                        logger.info("The workflow had been succesfully published");
+
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
+            },
+            saveAsync = function () {
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.workflowdefinition());
                 isBusy(true);
 
                 context.post(data, "/WorkflowDefinition/Save")
-                    .then(function(result) {
+                    .then(function (result) {
                         isBusy(false);
                         logger.info("Data have been succesfully save");
-                        
+
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -49,8 +77,19 @@ define([objectbuilders.datacontext,objectbuilders.logger],
             isBusy: isBusy,
             activate: activate,
             workflowdefinition: ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
-            toolbar : {
-                saveCommand: saveAsync
+            toolbar: {
+                saveCommand: saveAsync,
+                commands: ko.observableArray([
+                    {
+                        command: compileAsync,
+                        caption: 'compile',
+                        icon: "fa fa-gear"
+                    },
+                    {
+                        command: publishAsync,
+                        caption: 'publish',
+                        icon: "fa fa-sign-out"
+                    }])
             }
         };
 

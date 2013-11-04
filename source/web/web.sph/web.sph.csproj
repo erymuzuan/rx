@@ -2011,6 +2011,7 @@
     <Content Include="Views\Workflow\EditorTemplates\TextBox.cshtml" />
     <Content Include="Views\Workflow\EditorTemplates\WebsiteFormElement.cshtml" />
     <Content Include="Views\Shared\_LayoutWorkflow.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TextBox.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

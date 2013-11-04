@@ -1,4 +1,6 @@
-﻿namespace Bespoke.Sph.Domain
+﻿using System.Text;
+
+namespace Bespoke.Sph.Domain
 {
     public partial class TextBox : FormElement
     {
@@ -14,7 +16,13 @@
             };
         }
 
-     
+        public override string GenerateMarkup()
+        {
+            var element = new StringBuilder();
+            element.AppendFormat("<input type='text' data-bind='value:{0}' name='{1}'></input>", this.Path, this.Name);
+            return element.ToString();
+        }
+
         public override string GetKnockoutBindingExpression()
         {
             var path = this.Path;

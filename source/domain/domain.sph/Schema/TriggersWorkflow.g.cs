@@ -1406,6 +1406,26 @@
                     }}
 
                   
+                    private string  m_ViewVirtualPath;
+                    [XmlAttribute]
+                    public  string ViewVirtualPath {get{
+                    return m_ViewVirtualPath;}
+                    set{
+                    m_ViewVirtualPath = value;
+                      RaisePropertyChanged();
+                    }}
+
+                  
+                    private int  m_WorkflowDefinitionId;
+                    [XmlAttribute]
+                    public  int WorkflowDefinitionId {get{
+                    return m_WorkflowDefinitionId;}
+                    set{
+                    m_WorkflowDefinitionId = value;
+                      RaisePropertyChanged();
+                    }}
+
+                  
 			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 			private FormDesign m_formDesign
 					=  new FormDesign();
@@ -1471,6 +1491,7 @@
           
 
           }
+        
         
           ///<summary>
           /// 

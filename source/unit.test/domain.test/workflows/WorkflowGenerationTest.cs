@@ -1,8 +1,7 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.IO;
 using Bespoke.Sph.Domain;
-using Microsoft.CSharp;
+using Moq;
 using NUnit.Framework;
 
 namespace domain.test.workflows
@@ -10,63 +9,46 @@ namespace domain.test.workflows
     [TestFixture]
     public class WorkflowGenerationTest
     {
+        [SetUp]
+        public void Init()
+        {
+            var doc = new BinaryStore
+            {
+                Content = File.ReadAllBytes(@".\workflows\PemohonWakaf.xsd")
+            };
+            var store = new Mock<IBinaryStore>(MockBehavior.Strict);
+            store.Setup(x => x.GetContent(It.IsAny<string>()))
+                .Returns(doc);
+            ObjectBuilder.AddCacheList(store.Object);
+        }
+
         [Test]
-        public void Generate()
+        public void Compile()
         {
 
-            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8};
-            wd.VariableDefinitionCollection.Add(new SimpleVariable{Name = "Title", Type = typeof(string)});
-            wd.VariableDefinitionCollection.Add(new SimpleVariable{Name = "Umur", Type = typeof(int)});
+            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = "cd6a8751-ceed-4805-a200-02a193b651e0" };
+            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "test", TypeName = "Applicant" });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
 
 
-            var screen = new ScreenActivity {Title = "Pohon"};
-            screen.FormDesign.FormElementCollection.Add(new TextBox{Path = "Nama",Label = "Test"});
+            var screen = new ScreenActivity
+            {
+                Title = "Pohon",
+                ViewVirtualPath = "~/Views/Workflows_8_1/pohon.cshtml",
+                WebId = Guid.NewGuid().ToString()
+            };
+            screen.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
+            screen.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
             wd.ActivityCollection.Add(screen);
 
-            var code = wd.GenerateCode();
             wd.Version = Directory.GetFiles(".", "workflows.8.*.dll").Length + 1;
+            var dll = wd.Compile();
 
-            Assert.IsTrue(File.Exists(""), "assembly");
-            Console.WriteLine(code);
+            Assert.IsTrue(File.Exists(dll), "assembly " + dll);
+            File.Copy(dll, @"\project\work\sph\source\web\web.sph\bin\" + dll);
 
-            using(var provider = new CSharpCodeProvider())
-            {
-                var options = new CompilerParameters
-                {
-                    OutputAssembly = string.Format("workflows.{0}.{1}.dll", wd.WorkflowDefinitionId,wd.Version),
-                    GenerateExecutable = false
-                    
-                };
-                options.ReferencedAssemblies.Add("domain.sph.dll");
-                options.ReferencedAssemblies.Add("System.dll");
-
-                var result = provider.CompileAssemblyFromSource(options, code);
-                foreach (var error in result.Errors)
-                {
-                    Console.WriteLine(error);
-                }
-                Console.WriteLine(result.Errors);
-            }
-            /*
-             * namespace Bespoke.Sph.Workflow_8
-             * {
-             *      public class Permohonan_Tanah_Wakaf
-             *      {
-             *          public string Title{get;set;}
-             *      }
-             *      
-             *      public class Workflow8_PohonController : System.Web.Mvc.Controller
-             *      {
-             *          public ActionResult Index()
-             *          {
-             *              var html = "<input/>";   
-             *              return Content(html);
-             *          }
-             *      }
-             *      
-             * }
-             * 
-             **/
+            Console.WriteLine(screen.GetView(wd));
 
         }
     }
