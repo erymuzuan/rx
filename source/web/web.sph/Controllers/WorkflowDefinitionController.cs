@@ -75,7 +75,7 @@ namespace Bespoke.Sph.Web.Controllers
         private async Task<int> Save(WorkflowDefinition wd)
         {
             var context = new SphDataContext();
-            if(null == wd)throw new ArgumentNullException("wd");
+            if (null == wd) throw new ArgumentNullException("wd");
             var screens = (from s in wd.ActivityCollection.OfType<ScreenActivity>()
                            select new Page
                            {
@@ -98,7 +98,8 @@ namespace Bespoke.Sph.Web.Controllers
                 if (paths.Any())
                 {
                     var existingPages = await context.LoadAsync(context.Pages.Where(p => paths.Contains(p.VirtualPath)));
-                    session.Delete(existingPages.ItemCollection.Cast<Entity>().ToArray());
+                    if (existingPages.ItemCollection.Any())
+                        session.Delete(existingPages.ItemCollection.Cast<Entity>().ToArray());
 
                 }
 

@@ -19,10 +19,15 @@ namespace web.test.Space
             this.CreateAddNewSpaceSeedData(m_spaceAdmin);
         }
 
+        private void CreateAddNewSpaceSeedData(TestUser spaceAdmin, string no= null)
+        {
+            throw new System.NotImplementedException();
+        }
+
         [Test]
         public void AddNew()
         {
-            CreateNewSpace(m_spaceAdmin, SPACE_REGISTRATION_NO);
+            CreateNewSpace(m_spaceAdmin, SPACE_REGISTRATION_NO,null);
         }
 
         [TearDown]

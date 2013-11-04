@@ -37,8 +37,8 @@ namespace Bespoke.Sph.Domain
 
 
 
-           // code.AppendLine("               return View(vm);");
-            code.AppendLine("               return Content(wf.ToXmlString());");
+            code.AppendLine("               return View(vm);");
+             //  code.AppendLine("               return Content(wf.ToXmlString());");
             //this.ToXmlString()
             code.AppendLine("}");// end try
             code.AppendLine("catch(Exception exc){return Content(exc.ToString());}");
@@ -71,7 +71,7 @@ namespace Bespoke.Sph.Domain
         {
 
             var code = new StringBuilder();
-            code.AppendFormatLine("@inherits System.Web.Mvc.WebViewPage<{0}>", this.ViewModelType);
+           // code.AppendFormatLine("@inherits System.Web.Mvc.WebViewPage<{0}>", this.ViewModelType);
             code.AppendLine("@using System.Web.Mvc.Html");
             code.AppendLine("@using Bespoke.Sph.Domain");
             code.AppendLine("@model " + wd.CodeNamespace + "." + this.ViewModelType);

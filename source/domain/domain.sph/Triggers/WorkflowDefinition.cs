@@ -179,7 +179,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("using " + typeof(Enumerable).Namespace + ";");
             code.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
 
-            code.AppendLine(this.CodeNamespace);
+            code.AppendLine("namespace " + this.CodeNamespace);
             code.AppendLine("{");
 
             code.AppendLine("   public class " + this.WorkflowTypeName + " : " + typeof(Workflow).FullName);
@@ -263,7 +263,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return "namespace Bespoke.Sph.Workflows_" + this.WorkflowDefinitionId + "_" + this.Version;
+                return "Bespoke.Sph.Workflows_" + this.WorkflowDefinitionId + "_" + this.Version;
             }
         }
     }

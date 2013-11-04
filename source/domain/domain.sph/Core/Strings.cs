@@ -127,6 +127,7 @@ namespace Bespoke.Sph.Domain
 
         public static string ConvertJavascriptObjectToFunction(this string path)
         {
+            if (string.IsNullOrWhiteSpace(path)) return string.Empty;
             return path.Replace(".", "().");
         }
     }
