@@ -1,4 +1,5 @@
-﻿@model Bespoke.Sph.Domain.TextBox
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Domain.TextBox
 
 <!--ko if: $data['$type']() === "Bespoke.Sph.Domain.TextBox, domain.sph" -->
 <div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement" class="form-group">

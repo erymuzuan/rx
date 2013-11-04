@@ -28,9 +28,9 @@
                 vm.formElements(elements.$values);
             },
                 viewAttached = function(view) {
-                    
+
                     var fd = ko.unwrap(vm.activity().FormDesign);
-                    
+
                     var dropDown = function (e) {
                         e.preventDefault();
                         e.stopPropagation();
@@ -70,7 +70,7 @@
 
 
                     });
-                
+
                     // kendoEditor
                     $('#template-form-designer').on('click', 'textarea', function () {
                         var $editor = $(this);
@@ -82,11 +82,11 @@
                                     htmlElement.Text(this.value());
                                 }
                             });
-                        
+
                         }
                     }
                     );
-                    $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js')// only contains UI core and interactions API 
+                    $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js')// only contains UI core and interactions API
                         .done(function () {
 
                             var initDesigner = function () {
@@ -129,22 +129,49 @@
                         $('#form-designer-toolbox').animate({ "margin-top": top - 140 }, 300);
 
                     });
+
+                    $('section.context-action-panel').on('click', 'buton.close', function() {
+                        $(this).parents('div.context-action').hide();
+                    });
                 },
             okClick = function (data, ev) {
                 if (ev.target.form.checkValidity()) {
+                    
+                    var fd = ko.unwrap(vm.activity().FormDesign);
+                    // get the sorted element
+                    var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                        return ko.dataFor(div);
+                    });
+                    fd.FormElementCollection(elements);
+
                     this.modal.close("OK");
                 }
 
             },
                 cancelClick = function () {
                     this.modal.close("Cancel");
-                };
+                },
+            selectFormElement = function (fe) {
+                
+                var fd = ko.unwrap(vm.activity().FormDesign);
+                _(fd.FormElementCollection()).each(function (f) {
+                    f.isSelected(false);
+                });
+                fe.isSelected(true);
+                vm.selectedFormElement(fe);
+            },
+            removeFormElement = function (fe) {
+                var fd = ko.unwrap(vm.activity().FormDesign);
+                fd.FormElementCollection.remove(fe);
+            };
 
             var vm = {
                 viewAttached: viewAttached,
                 activate: activate,
                 formElements: ko.observableArray(),
                 selectedFormElement: ko.observable(),
+                selectFormElement : selectFormElement,
+                removeFormElement : removeFormElement,
                 activity: ko.observable(new bespoke.sph.domain.ScreenActivity()),
                 okClick: okClick,
                 cancelClick: cancelClick

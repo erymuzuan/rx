@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using System.Web.Hosting;
 
 namespace Bespoke.Sph.Web.WorkflowHelpers
@@ -42,7 +40,7 @@ namespace Bespoke.Sph.Web.WorkflowHelpers
 <div>
        @foreach (var fe in Model.Screen.FormDesign.FormElementCollection)
         {
-            <div>XXX</div>
+            <div>TO DO : generate this razor for the given workflowDefinition and screen</div>
             @Html.EditorFor(f => fe)
         }
 </div>
