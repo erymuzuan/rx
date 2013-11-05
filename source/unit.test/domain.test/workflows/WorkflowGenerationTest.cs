@@ -53,7 +53,6 @@ namespace domain.test.workflows
 
             // try to instantiate the Workflow
             var assembly = Assembly.LoadFrom(dll);
-            Assert.IsNotNull(assembly);
             var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.WorkflowDefinitionId, wd.Version,
                 wd.WorkflowTypeName);
 

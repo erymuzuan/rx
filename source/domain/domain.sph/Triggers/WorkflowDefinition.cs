@@ -209,6 +209,12 @@ namespace Bespoke.Sph.Domain
             // contructor
             code.AppendLine("       public " + this.WorkflowTypeName + "()");
             code.AppendLine("       {");
+
+            // default properties
+            code.AppendLinf("           this.Name = \"{0}\";", this.Name);
+            code.AppendLinf("           this.Version = {0};", this.Version);
+            code.AppendLinf("           this.WorkflowDefinitionId = {0};", this.WorkflowDefinitionId);
+
             // register type for the XML serializer
             code.AppendLinf("           Bespoke.Sph.Domain.XmlSerializerService.RegisterKnowTypes(typeof({0}),typeof({1}));", typeof(Workflow).FullName, this.WorkflowTypeName);
             foreach (var variable in this.VariableDefinitionCollection.OfType<ComplexVariable>())

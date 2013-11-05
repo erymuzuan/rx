@@ -9,6 +9,7 @@ CREATE TABLE Sph.Workflow
 	 [WorkflowId] INT PRIMARY KEY IDENTITY(1,1)	
 	,[WorkflowDefinitionId] VARCHAR(255) NULL
 	,[Name] VARCHAR(255) NULL
+	,[Version] INT NOT NULL
 	,[State] VARCHAR(255) NULL
 	,[IsActive] BIT NOT NULL
 	,[Data] XML NOT NULL
