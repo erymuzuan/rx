@@ -15,44 +15,66 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       public async Task<System.Web.Mvc.ActionResult> " + this.ActionName + "(int id = 0)");
             code.AppendLine("       {");
 
-            //
-            /* code.AppendLine("               return Content(\"test test\");");
-                * */
-            code.AppendLine("try{");
-            code.AppendFormatLine("              var vm = new {0}();", this.ViewModelType);
-            code.AppendLine("           var context = new SphDataContext();");
+            code.AppendLine("           try{");
+            code.AppendLinf("               var vm = new {0}();", this.ViewModelType);
+            code.AppendLine("               var context = new SphDataContext();");
 
 
-            code.AppendFormatLine("           var wf = id == 0 ? new  {0}() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));", wd.WorkflowTypeName);
-            code.AppendFormatLine("           var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == {0});", wd.WorkflowDefinitionId);
-            code.AppendFormatLine("           var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"{0}\");", this.WebId);
+            code.AppendLinf("               var wf = id == 0 ? new  {0}() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));", wd.WorkflowTypeName);
+            code.AppendLinf("               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == {0});", wd.WorkflowDefinitionId);
+            code.AppendLinf("               var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"{0}\");", this.WebId);
 
-            code.AppendFormatLine("           if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");");
+            code.AppendLinf("               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");");
 
 
 
-            code.AppendFormatLine("         vm.Screen  = screen;");
-            code.AppendFormatLine("         vm.Instance  = wf as {0};", wd.WorkflowTypeName);
-            code.AppendFormatLine("         vm.WorkflowDefinition  = wd;");
-
-
+            code.AppendLinf("               vm.Screen  = screen;");
+            code.AppendLinf("               vm.Instance  = wf as {0};", wd.WorkflowTypeName);
+            code.AppendLinf("               vm.WorkflowDefinition  = wd;");
+            code.AppendLinf("               vm.Controller  = this.GetType().Name;");
+            code.AppendLinf("               vm.SaveAction  = \"Save{0}\";",this.ActionName);
+            code.AppendLinf("               vm.Namespace  = \"{0}\";",wd.CodeNamespace);
 
             code.AppendLine("               return View(vm);");
-             //  code.AppendLine("               return Content(wf.ToXmlString());");
-            //this.ToXmlString()
-            code.AppendLine("}");// end try
-            code.AppendLine("catch(Exception exc){return Content(exc.ToString());}");
 
-            code.AppendLine("       }");// end action
+            code.AppendLine("           }");// end try
+            code.AppendLine("           catch(Exception exc){return Content(exc.ToString());}");
+
+            code.AppendLine("       }");// end GET action
+            code.AppendLine();
+
+
+            code.AppendLine("       [System.Web.Mvc.HttpPost]");
+            code.AppendLine("       public async Task<System.Web.Mvc.ActionResult> Save" + this.ActionName + "()");
+            code.AppendLine("       {");
+
+            code.AppendLinf("           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<{0}>(this);", wd.WorkflowTypeName);// this is extension method
+            code.AppendLine("           var context = new SphDataContext();");
+
+            // any business rules?
+
+
+            // save
+            code.AppendLine("           using(var session = context.OpenSession())");
+            code.AppendLine("           {");
+            code.AppendLine("               session.Attach(wf);");
+            code.AppendLinf("               await session.SubmitChanges(\"{0}\");",this.ActionName);
+            code.AppendLine("           }");
+            code.AppendLine("           return Json(new {sucess = true, status = \"OK\"});");
+            code.AppendLine("       }"); // end SAVE action
+
 
             code.AppendLine("   }");// end controller
 
             // viewmodel
             code.AppendLine("   public class " + ViewModelType);
             code.AppendLine("   {");
-            code.AppendFormatLine("     public {0} Instance {{get;set;}}", wd.WorkflowTypeName);
-            code.AppendFormatLine("     public WorkflowDefinition WorkflowDefinition {{get;set;}}");
-            code.AppendFormatLine("     public ScreenActivity Screen {{get;set;}}");
+            code.AppendLinf("       public {0} Instance {{get;set;}}", wd.WorkflowTypeName);
+            code.AppendLinf("       public WorkflowDefinition WorkflowDefinition {{get;set;}}");
+            code.AppendLinf("       public ScreenActivity Screen {{get;set;}}");
+            code.AppendLinf("       public string Controller {{get;set;}}");
+            code.AppendLinf("       public string Namespace {{get;set;}}");
+            code.AppendLinf("       public string SaveAction {{get;set;}}");
             code.AppendLine("   }");
 
 
@@ -71,15 +93,19 @@ namespace Bespoke.Sph.Domain
         {
 
             var code = new StringBuilder();
-           // code.AppendFormatLine("@inherits System.Web.Mvc.WebViewPage<{0}>", this.ViewModelType);
+           // code.AppendLinf("@inherits System.Web.Mvc.WebViewPage<{0}>", this.ViewModelType);
             code.AppendLine("@using System.Web.Mvc.Html");
             code.AppendLine("@using Bespoke.Sph.Domain");
+            code.AppendLine("@using Newtonsoft.Json");
             code.AppendLine("@model " + wd.CodeNamespace + "." + this.ViewModelType);
 
             code.AppendFormat(@"
 @{{
     ViewBag.Title = Model.WorkflowDefinition.Name;
     Layout = ""~/Views/Shared/_Layout.cshtml"";
+    const string controllerString = ""Controller"";
+    var setting = new JsonSerializerSettings {{TypeNameHandling = TypeNameHandling.All}};
+    
 }}
 
 <div class=""row"">
@@ -87,12 +113,14 @@ namespace Bespoke.Sph.Domain
 </div>
 <div class=""row"">
     <form class=""form-horizontal"" id=""workflow-start-form"">
+        <!-- ko with :instance -->
         @foreach (var fe in Model.Screen.FormDesign.FormElementCollection)
         {{
             fe.Path = fe.Path.ConvertJavascriptObjectToFunction();
 
             @Html.EditorFor(f => fe)
         }}
+        <!-- /ko -->
         <div class=""form-group"" >
             <label class=""control-label col-lg-2""></label>
             <div class=""col-lg-2 col-lg-offset-8"">
@@ -108,27 +136,23 @@ namespace Bespoke.Sph.Domain
 {{
     <script type=""text/javascript"">
         require(['services/datacontext', 'jquery'], function(context) {{
-           var vm = {{
-                $type : ""Bespoke.Sph.Domain.ScreenActivityViewModel,custom.workflow"",
+
+            
+           var instance =context.toObservable(@Html.Raw(JsonConvert.SerializeObject(Model.Instance, setting)),/@Model.Namespace.Replace(""."",""\\."")\.(.*?),/),
+               screen = context.toObservable(@Html.Raw(JsonConvert.SerializeObject(Model.Screen, setting)),/@Model.Namespace.Replace(""."",""\\."")\.(.*?),/),
+               vm = {{
                 id : @Model.WorkflowDefinition.WorkflowDefinitionId,
-                @foreach (var v in Model.WorkflowDefinition.VariableDefinitionCollection)
-                {{
-                    <text>
-                @v.Name : @Html.Raw(v.GetEmptyJson(Model.WorkflowDefinition)),
-
-                </text>
-                }}
-
+                instance : ko.observable(instance),    
+                screen : ko.observable(screen),
                 isBusy : ko.observable()
             }};
-            var ovm = context.toObservable(vm);
-            ko.applyBindings(ovm);
+            ko.applyBindings(vm);
 
             $('#save-button').click(function(e) {{
                 e.preventDefault();
                 var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(ovm);
-                context.post(data, ""/Workflow/StartWorkflow"")
+                var data = ko.mapping.toJSON(vm.instance);
+                context.post(data, ""/@Model.Controller.Replace(controllerString, string.Empty)/@Model.SaveAction"")
                     .then(function(result) {{
                         tcs.resolve(result);
                     }});

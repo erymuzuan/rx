@@ -89,7 +89,7 @@ $(document).ready(function () {
 
     setTimeout(function () {
 
-        require(['services/datacontext', 'durandal/knockout'], function (context, ko) {
+        require(['services/datacontext'], function (context) {
             console.log(typeof ko);
             // array
             var arrayTypeNamePattern = /\[/;
@@ -113,6 +113,9 @@ $(document).ready(function () {
 
                 equal(o.ApplicationTemplateOptions().length, 1, "There should only be 1 options ");
                 deepEqual([6], o.ApplicationTemplateOptions(), "There value should be 6");
+
+                equal(typeof o.Location,"function",  "Null value property should be convert to ko.observable");
+                equal(o.Location.name,"observable", "Null value property should be convert to ko.observable");
             });
 
 

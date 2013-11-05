@@ -20,7 +20,7 @@ namespace Bespoke.Sph.Domain
             return value.Equals(value2);
         }
 
-        public static StringBuilder AppendFormatLine(this StringBuilder text, string format, params object[] args)
+        public static StringBuilder AppendLinf(this StringBuilder text, string format, params object[] args)
         {
             text.AppendFormat(format, args);
             text.AppendLine();

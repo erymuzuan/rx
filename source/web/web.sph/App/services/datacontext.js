@@ -11,16 +11,16 @@ function (logger, system, ko2) {
     if (!window.ko && typeof ko2 === "object") {
         window.ko = ko2;
     }
-    var pattern = /Bespoke\.Sph\.Domain\.(.*?),/,
-        arrayTypeNamePattern = /\[/,
-        toObservable = function (item) {
+    var arrayTypeNamePattern = /\[/,
+        toObservable = function (item, namespacePattern) {
             if (typeof item === "function") return item;
             if (typeof item === "number") return item;
             if (typeof item === "string") return item;
             if (typeof item.$type === "undefined") return item;
             if (_(item.$type).isNull()) return item;
 
-            var $typeFieldValue = item.$type,
+            var pattern = namespacePattern || /Bespoke\.Sph\.Domain\.(.*?),/,
+                $typeFieldValue = item.$type,
                 type = "",
                 partial = null;
 
@@ -44,7 +44,7 @@ function (logger, system, ko2) {
                     if (propval.isArray()) {
 
                         var children = propval.map(function (x) {
-                            return toObservable(x);
+                            return toObservable(x, pattern);
                         });
 
                         item[prop] = ko.observableArray(children);
@@ -67,14 +67,14 @@ function (logger, system, ko2) {
                         if ($typeFieldValue2 && arrayTypeNamePattern.exec($typeFieldValue2)) {
                             if (_(item[prop].$values).isArray()) {
                                 var childItems = _(item[prop].$values).map(function (v) {
-                                    return toObservable(v);
+                                    return toObservable(v, pattern);
                                 });
                                 item[prop] = ko.observableArray(childItems);
                             }
                             return;
                         }
 
-                        var child = toObservable(item[prop]);
+                        var child = toObservable(item[prop], pattern);
                         item[prop] = ko.observable(child);
                         return;
                     }

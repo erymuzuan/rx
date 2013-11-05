@@ -43,10 +43,10 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(screen);
 
             wd.Version = Directory.GetFiles(".", "workflows.8.*.dll").Length + 1;
-            var dll = wd.Compile();
+            var dll = wd.Compile(@"C:\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll",
+                @"C:\project\work\sph\source\web\web.sph\bin\web.sph.dll");
 
             Assert.IsTrue(File.Exists(dll), "assembly " + dll);
-            File.Copy(dll, @"\project\work\sph\source\web\web.sph\bin\" + dll);
 
             Console.WriteLine(screen.GetView(wd));
 

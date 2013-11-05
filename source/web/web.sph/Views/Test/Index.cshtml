@@ -1,29 +1,29 @@
 ﻿@model Bespoke.Sph.Web.ViewModels.JsTestViewModel
 
-    @{
-        ViewBag.Title = "title";
-        Layout = "~/Views/Shared/_LayoutTest.cshtml";
-        var script = Model.Script;
-    }
-    <div class="alert alert-success" style="width: 300px; margin: 20px;position: absolute; right: 10px; top:10px;">
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_LayoutTest.cshtml";
+    var script = Model.Script;
+}
+<div class="alert alert-success" style="width: 300px; margin: 20px;position: absolute; right: 10px; top:10px;">
 
-        <ul class="nav">
-            @foreach (var f in Model.Files)
-            {
-                <li class="" style="margin-top: 5px">
-                    <a class="btn btn-success" href="@Url.Action("Index", "Test", new {id = Path.GetFileNameWithoutExtension(f)})">
-                        <i class="fa fa-play pull-left"></i>    @(Path.GetFileNameWithoutExtension(f))
-
-                    </a>
-                </li>
-            }
-        </ul>
-    </div>
-    @section scripts
-{
-        @if (!string.IsNullOrWhiteSpace(script))
+    <ul class="nav">
+        @foreach (var f in Model.Files)
         {
+            <li class="" style="margin-top: 5px">
+                <a class="btn btn-default" href="@Url.Action("Index", "Test", new {id = Path.GetFileNameWithoutExtension(f)})">
+                    <i class="fa fa-play pull-left"></i>    @(Path.GetFileNameWithoutExtension(f))
 
-            <script src="~/ScriptTests/@(script).js"></script>
+                </a>
+            </li>
         }
+    </ul>
+</div>
+@section scripts
+{
+    @if (!string.IsNullOrWhiteSpace(script))
+    {
+
+        <script src="~/ScriptTests/@(script).js"></script>
     }
+}

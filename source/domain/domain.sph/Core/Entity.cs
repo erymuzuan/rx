@@ -59,6 +59,7 @@ namespace Bespoke.Sph.Domain
             if (null != attr) return attr.Type;
             return type;
         }
+
         public int GetId()
         {
             var type = this.GetEntityType(this);
@@ -66,6 +67,8 @@ namespace Bespoke.Sph.Domain
                                                                     && p.Name == type.Name + "Id");
             return (int)id.GetValue(this);
         }
+
+
         public void SetId(int id)
         {
             var type = this.GetEntityType(this);
