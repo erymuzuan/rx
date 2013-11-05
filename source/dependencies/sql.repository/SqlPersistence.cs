@@ -161,8 +161,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var type = item.GetType();
             var attr = type.GetCustomAttribute<EntityTypeAttribute>();
-            if (null != attr) return attr.Type;
-            return type;
+            return null != attr ? attr.Type : type;
         }
 
 

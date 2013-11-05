@@ -7,10 +7,9 @@ using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
 
-#if !SILVERLIGHT
 using System.Xml.Linq;
 using System.Data.SqlTypes;
-#endif
+
 
 namespace Bespoke.Sph.Domain
 {
@@ -60,7 +59,6 @@ namespace Bespoke.Sph.Domain
             var ser = GetDefaultSerializer(typeof(T));
             return (T)ser.Deserialize(xmlReader);
         }
-#if !SILVERLIGHT
 
         public static T DeserializeFromXml<T>(SqlXml sql)
         {
@@ -73,10 +71,10 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-#endif
+
         public static T DeserializeFromXmlWithId<T>(string xmlString, int id) where T : class
         {
-            var item = DeserializeFromXml<T>(xmlString); 
+            var item = DeserializeFromXml<T>(xmlString);
             var propId = typeof(T).GetProperties().Single(p => p.Name == typeof(T).Name + "Id");
             propId.SetValue(item, id);
             return item;
@@ -172,7 +170,6 @@ namespace Bespoke.Sph.Domain
             XmlSerializer serializer = GetDefaultSerializer(value.GetType());
             using (var writer = new StringWriter())
             {
-                
                 serializer.Serialize(writer, value);
                 writer.Flush();
                 return writer.ToString();
@@ -181,15 +178,36 @@ namespace Bespoke.Sph.Domain
 
 
         private static readonly Dictionary<Type, XmlSerializer> m_serializers = new Dictionary<Type, XmlSerializer>(16);
-        private static XmlSerializer GetDefaultSerializer(Type type)
+        private static XmlSerializer GetDefaultSerializer(Type serializedType)
         {
-            if (!m_serializers.ContainsKey(type))
+            if (!m_serializers.ContainsKey(serializedType))
             {
-                var serializer = new XmlSerializer(type, Strings.DEFAULT_NAMESPACE);
-                if (!m_serializers.ContainsKey(type)) m_serializers.Add(type, serializer); // for the race condition
+                var serializer = new XmlSerializer(serializedType, Strings.DEFAULT_NAMESPACE);
+                if (m_knowTypes.ContainsKey(serializedType))
+                {
+                    serializer = new XmlSerializer(serializedType,null,m_knowTypes[serializedType].ToArray(),null, Strings.DEFAULT_NAMESPACE);
+                }
+                //
+                if (!m_serializers.ContainsKey(serializedType)) m_serializers.Add(serializedType, serializer); // for the race condition
             }
 
-            return m_serializers[type];
+            return m_serializers[serializedType];
+        }
+
+        private static readonly Dictionary<Type, List<Type>> m_knowTypes = new Dictionary<Type, List<Type>>();
+        public static void RegisterKnowTypes(Type serializedType, Type knowType)
+        {
+            if (m_knowTypes.ContainsKey(serializedType))
+            {
+                m_knowTypes[serializedType].Add(knowType);
+            }
+            else
+            {
+                m_knowTypes.Add(serializedType, new List<Type> { knowType });
+            }
+
+            if (m_serializers.ContainsKey(serializedType))
+                m_serializers.Remove(serializedType);
         }
 
         public static string ToXmlString(object value)
@@ -232,7 +250,7 @@ namespace Bespoke.Sph.Domain
         /// Just a helper for the XmlSerializerService.ToXmlString(value)
         /// </summary>
         /// <param name="value"></param>
-        /// <param name="serializerType">If you want to use the base type</param>
+        /// <param name="serializerType">If you want to use the base serializedType</param>
         /// <returns></returns>
         public static string ToXmlString(this DomainObject value, Type serializerType)
         {
@@ -282,7 +300,7 @@ namespace Bespoke.Sph.Domain
         /// Just a helper for the XmlSerializerService.ToXmlString(value)
         /// </summary>
         /// <param name="value"></param>
-        /// <param name="serializedType">the type serilized to</param>
+        /// <param name="serializedType">the serializedType serilized to</param>
         /// <returns></returns>
         public static XElement ToXElement(this DomainObject value, Type serializedType)
         {
@@ -332,9 +350,8 @@ namespace Bespoke.Sph.Domain
             var serializer = GetDefaultSerializer(value.GetType());
             serializer.Serialize(stream, value);
         }
-        
-#if !SILVERLIGHT
-        private static string UTF8ByteArrayToString(byte[] characters)
+
+        private static string Utf8ByteArrayToString(byte[] characters)
         {
             var encoding = new UTF8Encoding();
             string constructedString = encoding.GetString(characters);
@@ -349,13 +366,13 @@ namespace Bespoke.Sph.Domain
         public static string ToUtf8EncodedXmlString(object graph)
         {
             if (graph == null) return string.Empty;
-            
+
             var strm = new MemoryStream();
             var xs = GetDefaultSerializer(graph.GetType());
             var xmlTextWriter = new XmlTextWriter(strm, Encoding.UTF8);
             xs.Serialize(xmlTextWriter, graph);
             strm = (MemoryStream)xmlTextWriter.BaseStream;
-            string xml = UTF8ByteArrayToString(strm.ToArray());
+            string xml = Utf8ByteArrayToString(strm.ToArray());
 
             strm.Dispose();
             xmlTextWriter.Close();
@@ -363,14 +380,14 @@ namespace Bespoke.Sph.Domain
             return xml;
         }
 
-#endif
+
 
         /// <summary>
-        /// This returns an object which the undelrlying type is the typeName
+        /// This returns an object which the undelrlying serializedType is the typeName
         /// </summary>
         /// <typeparam name="T">Object</typeparam>
         /// <param name="graph">graph</param>
-        /// <param name="typeName">The actual type to cast to</param>
+        /// <param name="typeName">The actual serializedType to cast to</param>
         /// <returns></returns>
         public static T DeserializeFromXml<T>(string graph, string typeName) where T : class
         {
@@ -381,11 +398,10 @@ namespace Bespoke.Sph.Domain
             }
             if (null == type)
             {
-#if !SILVERLIGHT
                 // ReSharper disable RedundantAssignment
                 type = Assembly.LoadFrom("domain.rp.dll").GetType(typeName);
                 // ReSharper restore RedundantAssignment
-#endif
+
             }
 
             XmlSerializer ser = GetDefaultSerializer(typeof(T));
@@ -404,7 +420,6 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-#if !SILVERLIGHT
         /// <summary>
         /// Creates and XElement from object graph for used in LINQ queries
         /// </summary>
@@ -425,6 +440,6 @@ namespace Bespoke.Sph.Domain
                 }
             }
         }
-#endif
+
     }
 }

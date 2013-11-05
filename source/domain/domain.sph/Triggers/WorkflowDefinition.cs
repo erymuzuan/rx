@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -208,9 +209,11 @@ namespace Bespoke.Sph.Domain
             // contructor
             code.AppendLine("       public " + this.WorkflowTypeName + "()");
             code.AppendLine("       {");
+            // register type for the XML serializer
+            code.AppendLinf("           Bespoke.Sph.Domain.XmlSerializerService.RegisterKnowTypes(typeof({0}),typeof({1}));", typeof(Workflow).FullName, this.WorkflowTypeName);
             foreach (var variable in this.VariableDefinitionCollection.OfType<ComplexVariable>())
             {
-                code.AppendLinf("       this.{0} = new {1}();", variable.Name, variable.TypeName);
+                code.AppendLinf("           this.{0} = new {1}();", variable.Name, variable.TypeName);
             }
             code.AppendLine("       }");// end contructor
 
@@ -238,7 +241,7 @@ namespace Bespoke.Sph.Domain
             }
 
             code.AppendLine("}");// end namespace
-            Console.WriteLine(code);
+            Debug.WriteLine(code);
             return code.ToString();
         }
 

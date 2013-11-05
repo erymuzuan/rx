@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using Bespoke.Sph.Domain;
 using Moq;
 using NUnit.Framework;
@@ -28,7 +29,7 @@ namespace domain.test.workflows
 
             var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = "cd6a8751-ceed-4805-a200-02a193b651e0" };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
-            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "test", TypeName = "Applicant" });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
 
 
@@ -49,6 +50,20 @@ namespace domain.test.workflows
             Assert.IsTrue(File.Exists(dll), "assembly " + dll);
 
             Console.WriteLine(screen.GetView(wd));
+
+            // try to instantiate the Workflow
+            var assembly = Assembly.LoadFrom(dll);
+            Assert.IsNotNull(assembly);
+            var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.WorkflowDefinitionId, wd.Version,
+                wd.WorkflowTypeName);
+
+            var wfType = assembly.GetType(wfTypeName);
+            Assert.IsNotNull(wfType, wfTypeName + " is null");
+
+            var wf = Activator.CreateInstance(wfType) as Entity;
+            XmlSerializerService.RegisterKnowTypes(typeof(Workflow), wfType);
+            Assert.IsNotNull(wf);
+            Console.WriteLine(wf.ToXmlString(typeof(Workflow)));
 
         }
     }
