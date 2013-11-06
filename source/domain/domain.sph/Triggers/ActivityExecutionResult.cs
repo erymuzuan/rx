@@ -2,5 +2,18 @@
 {
     public class ActivityExecutionResult : DomainObject
     {
+        public ActivityExecutionStatus Status { get; set; }
+        public string Message { get; set; }
+        public object Result { get; set; }
+        public Activity NextActivity { get; set; }
+    }
+
+    public enum ActivityExecutionStatus
+    {
+        None,
+        WaitingAsync,
+        NotRun,
+        Failed,
+        Success,
     }
 }

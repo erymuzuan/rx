@@ -85,8 +85,8 @@ namespace Bespoke.Sph.Domain
 
 
                 var refInitializers = from at in all.Elements(x + "element")
-                                  where at.Attribute("ref") != null
-                                  select "      this." + at.Attribute("ref").Value + " = new " + at.Attribute("ref").Value + "();";
+                                      where at.Attribute("ref") != null
+                                      select "      this." + at.Attribute("ref").Value + " = new " + at.Attribute("ref").Value + "();";
                 // contructor should be created for ref
                 code.AppendLinf("       public {0}()", name);
                 code.AppendLine("           {");
@@ -176,7 +176,7 @@ namespace Bespoke.Sph.Domain
                 {
                     options.ReferencedAssemblies.Add(ass);
                 }
-                
+
                 var result = provider.CompileAssemblyFromSource(options, code);
 
                 var errors = new StringBuilder();
@@ -206,6 +206,13 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   public class " + this.WorkflowTypeName + " : " + typeof(Workflow).FullName);
             code.AppendLine("   {");
 
+            // static ctor
+            code.AppendLinf("       static {0}()", this.WorkflowTypeName);
+            code.AppendLine("       {");  // register type for the XML serializer
+            code.AppendLinf("           XmlSerializerService.RegisterKnownTypes(typeof({0}),typeof({1}));", typeof(Workflow).Name, this.WorkflowTypeName);
+
+            code.AppendLine("       }");
+
             // contructor
             code.AppendLine("       public " + this.WorkflowTypeName + "()");
             code.AppendLine("       {");
@@ -215,19 +222,63 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("           this.Version = {0};", this.Version);
             code.AppendLinf("           this.WorkflowDefinitionId = {0};", this.WorkflowDefinitionId);
 
-            // register type for the XML serializer
-            code.AppendLinf("           Bespoke.Sph.Domain.XmlSerializerService.RegisterKnowTypes(typeof({0}),typeof({1}));", typeof(Workflow).FullName, this.WorkflowTypeName);
             foreach (var variable in this.VariableDefinitionCollection.OfType<ComplexVariable>())
             {
                 code.AppendLinf("           this.{0} = new {1}();", variable.Name, variable.TypeName);
             }
             code.AppendLine("       }");// end contructor
 
+            // execute
+            code.AppendLine("       public async override Task<ActivityExecutionResult> ExecuteAsync()");
+            code.AppendLine("       {");
+            code.AppendLine("               var act = this.GetCurrentActivity();");
+            code.AppendLine("               if(null == act)");
+            code.AppendLine("                   throw new InvalidOperationException(\"No current activity\");");
+            code.AppendLine("               if(act.IsAsync)");
+            code.AppendLine("               {");
+            code.AppendLine("                   this.State = \"WaitingAsync\";");
+            code.AppendLine("                   await this.SaveAsync(act.WebId);");
+            code.AppendLine("                   return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};");
+            code.AppendLine("               }");
+            code.AppendLine();
+            code.AppendLine("               ActivityExecutionResult result = null;");
+            code.AppendLine("               switch(act.WebId)");
+            code.AppendLine("               {");
+
+            foreach (var activity in this.ActivityCollection)
+            {
+                code.AppendLinf("                   case \"{0}\" : ", activity.WebId);
+                code.AppendLinf("                       result = await this.{0}();" ,activity.MethodName);
+                code.AppendLine("                       break;");
+            }
+            code.AppendLine("               }");// end switch
+            
+            code.AppendLine("               if(null == result)");
+            code.AppendLine("                   throw new Exception(\"what ever\");");
+            code.AppendLine("               if(null != result.NextActivity)");
+            code.AppendLine("               {");
+            code.AppendLine("                   this.CurrentActivityWebId = result.NextActivity.WebId;");
+            code.AppendLine("                   await this.SaveAsync(act.WebId);");
+            code.AppendLine("               }");
+            code.AppendLine("                return result;");
+
+
+            code.AppendLine("       }");// end Execute
+
             // properties for each Variables
             foreach (var variable in this.VariableDefinitionCollection)
             {
                 code.AppendLine("       " + variable.GeneratedCode(this));
             }
+
+            // activities method
+
+            foreach (var activity in this.ActivityCollection)
+            {
+                code.AppendLine();
+                code.AppendLine(activity.GeneratedExecutionMethodCode(this));
+            }
+
 
             code.AppendLine("   }");// end class
 
@@ -243,7 +294,7 @@ namespace Bespoke.Sph.Domain
 
             foreach (var activity in this.ActivityCollection)
             {
-                code.AppendLine("   " + activity.GeneratedCode(this));
+                code.AppendLine("   " + activity.GeneratedCustomTypeCode(this));
             }
 
             code.AppendLine("}");// end namespace
@@ -300,7 +351,7 @@ namespace Bespoke.Sph.Domain
 
         public Activity GetNextActivity(string activityId)
         {
-            throw new NotImplementedException();
+            return new DecisionActivity();
         }
     }
 }

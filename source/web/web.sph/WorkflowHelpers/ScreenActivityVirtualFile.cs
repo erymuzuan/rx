@@ -17,7 +17,6 @@ namespace Bespoke.Sph.Web.WorkflowHelpers
 
         public override Stream Open()
         {
-
             return new MemoryStream(Encoding.UTF8.GetBytes(m_page.Code));
         }
     }

@@ -8,7 +8,29 @@ namespace Bespoke.Sph.Domain
 {
     public partial class ScreenActivity : Activity
     {
-        public override string GeneratedCode(WorkflowDefinition wd)
+        public override bool IsAsync
+        {
+            get { return true; }
+        }
+
+        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+        {
+            var code = new StringBuilder();
+            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
+            code.AppendLine("   {");
+            code.AppendLine("       this.State = \"Ready\";");
+            // set the next activity
+            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", wd.GetNextActivity(this.WebId));/* webid*/
+            code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
+            code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
+            //code.AppendLine("   result.NextActivity = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
+            code.AppendLine("       return result;");
+            code.AppendLine("   }");
+
+            return code.ToString();
+        }
+
+        public override string GeneratedCustomTypeCode(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
             code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", wd.WorkflowDefinitionId, wd.Version);
@@ -50,18 +72,21 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       {");
 
             code.AppendLinf("           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<{0}>(this);", wd.WorkflowTypeName);// this is extension method
-            code.AppendLine("           var context = new SphDataContext();");
+
+            code.AppendLinf("           var result = await wf.{0}();", this.MethodName);
 
             // any business rules?
 
 
-            // save
+            /*   
+            code.AppendLine("           var context = new SphDataContext();");
             code.AppendLine("           using(var session = context.OpenSession())");
             code.AppendLine("           {");
             code.AppendLine("               session.Attach(wf);");
             code.AppendLinf("               await session.SubmitChanges(\"{0}\");",this.WebId);
             code.AppendLine("           }");
-            code.AppendLine("           return Json(new {sucess = true, status = \"OK\"});");
+            */
+            code.AppendLine("           return Json(new {sucess = true, status = \"OK\", result = result});");
             code.AppendLine("       }"); // end SAVE action
 
 

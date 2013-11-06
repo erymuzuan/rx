@@ -60,7 +60,7 @@ namespace domain.test.workflows
             Assert.IsNotNull(wfType, wfTypeName + " is null");
 
             var wf = Activator.CreateInstance(wfType) as Entity;
-            XmlSerializerService.RegisterKnowTypes(typeof(Workflow), wfType);
+            XmlSerializerService.RegisterKnownTypes(typeof(Workflow), wfType);
             Assert.IsNotNull(wf);
             Console.WriteLine(wf.ToXmlString(typeof(Workflow)));
 
