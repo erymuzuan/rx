@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
@@ -52,8 +50,9 @@ namespace Bespoke.Sph.Domain
 
 
 
-        private Type GetEntityType(Entity item)
+        public Type GetEntityType()
         {
+            var item = this;
             var type = item.GetType();
             var attr = type.GetCustomAttribute<EntityTypeAttribute>();
             if (null != attr) return attr.Type;
@@ -62,7 +61,7 @@ namespace Bespoke.Sph.Domain
 
         public int GetId()
         {
-            var type = this.GetEntityType(this);
+            var type = this.GetEntityType();
             var id = type.GetProperties().AsQueryable().Single(p => p.PropertyType == typeof(int)
                                                                     && p.Name == type.Name + "Id");
             return (int)id.GetValue(this);
@@ -71,7 +70,7 @@ namespace Bespoke.Sph.Domain
 
         public void SetId(int id)
         {
-            var type = this.GetEntityType(this);
+            var type = this.GetEntityType();
             var idp = type.GetProperties().AsQueryable().Single(p => p.PropertyType == typeof(int)
                                                                     && p.Name == type.Name + "Id");
             idp.SetValue(this, id);

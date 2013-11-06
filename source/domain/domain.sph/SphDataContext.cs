@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain.QueryProviders;
 
@@ -85,7 +84,7 @@ namespace Bespoke.Sph.Domain
             foreach (var item in items)
             {
                 var o1 = item;
-                var type = item.GetType();
+                var type = item.GetEntityType();
                 var reposType = typeof(IRepository<>).MakeGenericType(new[] { type });
                 var repos = ObjectBuilder.GetObject(reposType);
                 var provider = ObjectBuilder.GetObject<QueryProvider>();
