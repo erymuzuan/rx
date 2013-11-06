@@ -57,7 +57,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("               vm.Controller  = this.GetType().Name;");
             code.AppendLinf("               vm.SaveAction  = \"Save{0}\";",this.ActionName);
             code.AppendLinf("               vm.Namespace  = \"{0}\";",wd.CodeNamespace);
-
+            code.AppendLinf("               ");
             code.AppendLine("               return View(vm);");
 
             code.AppendLine("           }");// end try
@@ -208,5 +208,7 @@ namespace Bespoke.Sph.Domain
         {
             return null;
         }
+
+       
     }
 }

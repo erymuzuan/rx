@@ -79,6 +79,7 @@
     <Compile Include="workflows\CreationTest.cs" />
     <Compile Include="workflows\WorkflowExecutionTest.cs" />
     <Compile Include="workflows\WorkflowGenerationTest.cs" />
+    <Compile Include="workflows\WorkflowScreenPerformerTest.cs" />
     <Compile Include="XlinqHelper.cs" />
   </ItemGroup>
   <ItemGroup>

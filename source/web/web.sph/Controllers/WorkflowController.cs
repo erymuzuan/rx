@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Web.Controllers
             var screen = wd.GetInititorScreen();
 
             var vm = new WorkflowStartViewModel { WorkflowDefinition = wd, Screen = screen };
-
+         
             return View(vm);
         }
 
