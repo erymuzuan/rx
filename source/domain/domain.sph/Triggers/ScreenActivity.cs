@@ -80,7 +80,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("               } ");
 
             code.AppendLine("               if(canview) return View(vm);");
-            code.AppendLine("               return View();");
+            code.AppendLine("               return RedirectToAction(\"Unauthorised\");");
 
             code.AppendLine("           }");// end try
             code.AppendLine("           catch(Exception exc){return Content(exc.ToString());}");
@@ -111,6 +111,14 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("           return Json(new {sucess = true, status = \"OK\", result = result});");
             code.AppendLine("       }"); // end SAVE action
 
+
+            // start UNAUTHORISED view
+            code.AppendLine();
+
+            code.AppendLine("       public async Task<System.Web.Mvc.ActionResult> Unauthorised" + this.ActionName + "()");
+            code.AppendLine("       {");
+            code.AppendLine("           return View();");
+            code.AppendLine("       }"); // end UNAUTHORISED view
 
             code.AppendLine("   }");// end controller
 

@@ -30,6 +30,7 @@ namespace Bespoke.Sph.Domain
             {
                 wf.VariableValueCollection.ClearAndAddRange(values);
             }
+            
             return Task.FromResult(wf);
         }
 
