@@ -157,10 +157,12 @@
     <Compile Include="FormTemplates\ValidationRule.cs" />
     <Compile Include="FormTemplates\WebsiteFormElement.cs" />
     <Compile Include="Triggers\Activity.cs" />
+    <Compile Include="Triggers\ActivityExecutionResult.cs" />
     <Compile Include="Triggers\AssemblyAction.cs" />
     <Compile Include="Triggers\AssemblyField.cs" />
     <Compile Include="Triggers\ComplexVariable.cs" />
     <Compile Include="Triggers\CreateEntityAction.cs" />
+    <Compile Include="Triggers\DecisionActivity.cs" />
     <Compile Include="Triggers\DeleteEntityAction.cs" />
     <Compile Include="Triggers\FunctionField.cs" />
     <Compile Include="IBinaryStore.cs" />

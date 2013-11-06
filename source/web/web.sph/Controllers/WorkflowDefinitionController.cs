@@ -48,21 +48,42 @@ namespace Bespoke.Sph.Web.Controllers
             }
         }
 
+        [HttpPost]
         public async Task<ActionResult> Compile()
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
             await this.Save(wd);
-            var output = wd.Compile();
-            return Json(output);
+            try
+            {
+                var output = wd.Compile(
+                    typeof(Controller).Assembly.Location,
+                    typeof(WorkflowDefinitionController).Assembly.Location);
+                return Json(new { success = true, status = "OK", message = "Your workflow has been successfully compiled  : " + Path.GetFileName(output) });
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = true, status = "OK", message = e.Message });
+
+            }
+
         }
 
-        public async Task<ActionResult> Publish(int id, int version = 0)
+        public async Task<ActionResult> Publish()
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
+            wd.Version = wd.Version + 1;// publish will increase the version
+
             await this.Save(wd);
-            await this.Save();
-            var output = wd.Compile();
-            return Json(output);
+            var output = wd.Compile(typeof(Controller).Assembly.Location,
+                typeof(WorkflowDefinitionController).Assembly.Location);
+            // copy the output to bin
+            System.IO.File.Copy(output, Server.MapPath("~/bin/" + Path.GetFileName(output)), true);
+            var pdb = output.Replace(".dll", ".pdb");
+            if (System.IO.File.Exists(pdb))
+                System.IO.File.Copy(pdb, Server.MapPath("~/bin/" + Path.GetFileName(pdb)), true);
+
+            return Json(new { success = true, version = wd.Version, status = "OK", message = "Your workflow has been successfully compiled and published : " + Path.GetFileName(output) });
         }
 
         public async Task<ActionResult> Save()
@@ -75,11 +96,11 @@ namespace Bespoke.Sph.Web.Controllers
         private async Task<int> Save(WorkflowDefinition wd)
         {
             var context = new SphDataContext();
-            if(null == wd)throw new ArgumentNullException("wd");
+            if (null == wd) throw new ArgumentNullException("wd");
             var screens = (from s in wd.ActivityCollection.OfType<ScreenActivity>()
                            select new Page
                            {
-                               VirtualPath = s.ViewVirtualPath,
+                               VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowDefinitionId, wd.Version, s.Title.Replace(" ", string.Empty)),
                                Code = s.GetView(wd),
                                Title = s.Title,
                                IsPartial = false,
@@ -98,7 +119,8 @@ namespace Bespoke.Sph.Web.Controllers
                 if (paths.Any())
                 {
                     var existingPages = await context.LoadAsync(context.Pages.Where(p => paths.Contains(p.VirtualPath)));
-                    session.Delete(existingPages.ItemCollection.Cast<Entity>().ToArray());
+                    if (existingPages.ItemCollection.Any())
+                        session.Delete(existingPages.ItemCollection.Cast<Entity>().ToArray());
 
                 }
 

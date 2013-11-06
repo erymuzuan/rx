@@ -82,12 +82,10 @@ namespace Bespoke.Sph.Domain
 
         #region Public API
 
-#if !SILVERLIGHT
         public bool HasErrors()
         {
             return (this.Errors.Count > 0);
         }
-#endif
         #endregion
 
         #region Private API
@@ -130,7 +128,6 @@ namespace Bespoke.Sph.Domain
 
         #region IDataErrorInfo Members
 
-#if !SILVERLIGHT
         [JsonIgnore]
         public string Error
         {
@@ -146,7 +143,7 @@ namespace Bespoke.Sph.Domain
         {
             if (string.IsNullOrWhiteSpace(column))
                 return string.Empty;
-            string col = ((null == column) ? null : column.Trim().ToLower());
+            var col = (column.Trim().ToLower());
 
             if (string.IsNullOrEmpty(col) || (null == Shape.Find(col, true)))
             {
@@ -193,7 +190,6 @@ namespace Bespoke.Sph.Domain
 
             return (Errors.ContainsKey(col) ? Errors[col] : null);
         }
-#endif
         /// <summary>
         /// Validate the object and set the IDataError
         /// </summary>

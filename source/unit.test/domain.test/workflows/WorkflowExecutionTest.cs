@@ -8,8 +8,9 @@ using NUnit.Framework;
 namespace domain.test.workflows
 {
     [TestFixture]
-    public class WorkflowGenerationTest
+    public class WorkflowExecutionTest
     {
+
         [SetUp]
         public void Init()
         {
@@ -24,24 +25,34 @@ namespace domain.test.workflows
         }
 
         [Test]
-        public void Compile()
+        public void CompileAndRun()
         {
-
             var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = "cd6a8751-ceed-4805-a200-02a193b651e0" };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
 
 
-            var screen = new ScreenActivity
+            var pohon = new ScreenActivity
             {
                 Title = "Pohon",
                 ViewVirtualPath = "~/Views/Workflows_8_1/pohon.cshtml",
-                WebId = Guid.NewGuid().ToString()
+                WebId = Guid.NewGuid().ToString(),
+                IsInitiator = true
             };
-            screen.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
-            screen.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
-            wd.ActivityCollection.Add(screen);
+            pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
+            pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
+            wd.ActivityCollection.Add(pohon);
+
+            var approval = new ScreenActivity
+            {
+                Title = "Kelulusan",
+                WebId = Guid.NewGuid().ToString(),
+                ViewVirtualPath = "d"
+            };
+            wd.ActivityCollection.Add(approval);
+
+
 
             wd.Version = Directory.GetFiles(".", "workflows.8.*.dll").Length + 1;
             var dll = wd.Compile(@"C:\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll",
@@ -49,7 +60,6 @@ namespace domain.test.workflows
 
             Assert.IsTrue(File.Exists(dll), "assembly " + dll);
 
-            Console.WriteLine(screen.GetView(wd));
 
             // try to instantiate the Workflow
             var assembly = Assembly.LoadFrom(dll);
@@ -62,8 +72,7 @@ namespace domain.test.workflows
             var wf = Activator.CreateInstance(wfType) as Entity;
             XmlSerializerService.RegisterKnowTypes(typeof(Workflow), wfType);
             Assert.IsNotNull(wf);
-            Console.WriteLine(wf.ToXmlString(typeof(Workflow)));
-
+            
         }
     }
 }

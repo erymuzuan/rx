@@ -101,7 +101,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                         .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {
-                                self.VariableCollection.replace(variable, clone);
+                                self.VariableDefinitionCollection.replace(variable, clone);
                             }
                         });
 

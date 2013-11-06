@@ -14,7 +14,6 @@ namespace Bespoke.Sph.Web.App_Start
 
             bundles.Add(
               new ScriptBundle("~/scripts/vendor")
-                .Include("~/App/objectbuilders.js")
                 .Include("~/scripts/jquery-{version}.js")
                 .Include("~/scripts/jquery.validate.js")
                 .Include("~/scripts/jquery.dataTables.min.js")
@@ -27,10 +26,14 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/scripts/Q.js")
                 .Include("~/scripts/bootstrap.js")
                 .Include("~/scripts/moment.js")
-                .Include("~/scripts/string.js")
                 .Include("~/scripts/underscore.js")
                 .Include("~/kendo/js/kendo.all.js")
                 .Include("~/scripts/nprogress.js")
+              );
+            bundles.Add(
+              new ScriptBundle("~/scripts/core")
+                .Include("~/App/objectbuilders.js")
+                .Include("~/scripts/string.js")
                 .Include("~/scripts/_pager.js")
                 .Include("~/scripts/_theme.js")
                 .Include("~/scripts/_ko.bootstrap.js")
@@ -39,8 +42,17 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/scripts/_function.prototypes.js")
                 .Include("~/scripts/_task.js")
                 .Include("~/scripts/_constants.js")
+              );
+            bundles.Add(
+              new ScriptBundle("~/scripts/domain.schema")
                 .Include("~/App/schemas/*.js")
+              );
+            bundles.Add(
+              new ScriptBundle("~/scripts/domain.prototypes")
                 .Include("~/App/prototypes/*.js")
+              );
+            bundles.Add(
+              new ScriptBundle("~/scripts/domain.partials")
                 .Include("~/App/partial/*.js")
               );
             bundles.Add(

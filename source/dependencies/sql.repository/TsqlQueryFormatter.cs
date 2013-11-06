@@ -86,7 +86,7 @@ namespace Bespoke.Sph.SqlRepository
                 if (m.Arguments[0].Type == typeof(string[]))
                 {
                     dynamic list = m.Arguments[0];
-                    var flatted = ((string[])list.Value).Select(s => s.Replace("'", "''"));
+                    var flatted = ((string[])list.Value).Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Replace("'", "''"));
                     var cccs = string.Join("','", flatted);
                     m_sb.AppendFormat("'{0}'", cccs);
                 }

@@ -253,6 +253,7 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="State" type="xs:string" use="required"/>
 			<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+			<xs:attribute name="Version" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ScreenActivity">
@@ -266,6 +267,13 @@
 					<xs:attribute name="ViewVirtualPath" type="xs:string" use="required"/>
 					<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
 				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DecisionActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity"/>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>

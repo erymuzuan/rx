@@ -218,6 +218,7 @@ bespoke.sph.domain.WorkflowDefinition = function (webId) {
         Note: ko.observable(''),
         IsActive: ko.observable(false),
         SchemaStoreId: ko.observable(''),
+        Version: ko.observable(0),
         ActivityCollection: ko.observableArray([]),
         VariableDefinitionCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
@@ -240,7 +241,7 @@ bespoke.sph.domain.Workflow = function (webId) {
         Name: ko.observable(''),
         State: ko.observable(''),
         IsActive: ko.observable(false),
-        VariableCollection: ko.observableArray([]),
+        VariableValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -257,6 +258,8 @@ bespoke.sph.domain.ScreenActivity = function (webId) {
     var v = new bespoke.sph.domain.Activity(webId);
 
     v.Title = ko.observable('');
+    v.ViewVirtualPath = ko.observable('');
+    v.WorkflowDefinitionId = ko.observable(0);
     v["$type"] = "Bespoke.Sph.Domain.ScreenActivity, domain.sph";
 
     v.FormDesign = ko.observable(new bespoke.sph.domain.FormDesign());
@@ -311,6 +314,44 @@ bespoke.sph.domain.ComplexVariable = function (webId) {
 
 
 // placeholder for FormDesign
+
+bespoke.sph.domain.VariableValue = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.VariableValue, domain.sph",
+        Name: ko.observable(''),
+        Value: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.VariableValuePartial) {
+        return _(model).extend(new bespoke.sph.domain.VariableValuePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.Page = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Page, domain.sph",
+        PageId: ko.observable(0),
+        Title: ko.observable(''),
+        IsRazor: ko.observable(false),
+        IsPartial: ko.observable(false),
+        VirtualPath: ko.observable(''),
+        Code: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.PagePartial) {
+        return _(model).extend(new bespoke.sph.domain.PagePartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.Field = function (webId) {
 
     return {

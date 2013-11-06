@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -50,9 +51,12 @@ namespace Bespoke.Sph.Domain
             var xsd = this.GetCustomSchema();
             var ns = xsd.Attribute("targetNamespace");
 
-            code.AppendFormatLine("    [XmlType(\"{0}\",  Namespace=\"{1}\")]", name, ns != null ? ns.Value : "");
-            code.AppendFormatLine("    public partial class {0} : DomainObject", name);
+            code.AppendLinf("    [XmlType(\"{0}\",  Namespace=\"{1}\")]", name, ns != null ? ns.Value : "");
+            code.AppendLinf("    public partial class {0} : DomainObject", name);
             code.AppendLine("   {");
+
+
+
 
 
             var ct = e.Element(x + "complexType");
@@ -77,6 +81,17 @@ namespace Bespoke.Sph.Domain
                                   where at.Attribute("ref") != null
                                   select "      public " + at.Attribute("ref").Value + " " + at.Attribute("ref").Value + " {get;set;}";
                 properties.AddRange(refElements);
+
+
+
+                var refInitializers = from at in all.Elements(x + "element")
+                                  where at.Attribute("ref") != null
+                                  select "      this." + at.Attribute("ref").Value + " = new " + at.Attribute("ref").Value + "();";
+                // contructor should be created for ref
+                code.AppendLinf("       public {0}()", name);
+                code.AppendLine("           {");
+                refInitializers.ToList().ForEach(c => code.AppendLine(c));
+                code.AppendLine("           }");
 
             }
 
@@ -139,7 +154,7 @@ namespace Bespoke.Sph.Domain
             return type;
         }
 
-        public string Compile()
+        public string Compile(params  string[] referencedAssemblies)
         {
             var code = this.GeneratreCode();
             using (var provider = new CSharpCodeProvider())
@@ -157,17 +172,22 @@ namespace Bespoke.Sph.Domain
                 options.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
                 options.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
                 options.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
-                options.ReferencedAssemblies.Add(@"\project\work\sph\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll");
-
-                var result = provider.CompileAssemblyFromSource(options, code);
-                foreach (var error in result.Errors)
+                foreach (var ass in referencedAssemblies)
                 {
-                    Console.WriteLine(error);
+                    options.ReferencedAssemblies.Add(ass);
+                }
+                
+                var result = provider.CompileAssemblyFromSource(options, code);
+
+                var errors = new StringBuilder();
+                foreach (var er in result.Errors)
+                {
+                    errors.AppendLine(er.ToString());
                 }
                 if (result.Errors.HasErrors)
-                    throw new Exception("Cannot compile see error");
-                Console.WriteLine(Path.GetFullPath(options.OutputAssembly));
-                return options.OutputAssembly;
+                    throw new Exception("Cannot compile see error \r\n" + errors);
+
+                return Path.GetFullPath(options.OutputAssembly);
             }
         }
         private string GeneratreCode()
@@ -179,25 +199,36 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("using " + typeof(Enumerable).Namespace + ";");
             code.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
 
-            code.AppendLine(this.CodeNamespace);
+            code.AppendLine("namespace " + this.CodeNamespace);
             code.AppendLine("{");
 
+            code.AppendLine("   [EntityType(typeof(Workflow))]");
             code.AppendLine("   public class " + this.WorkflowTypeName + " : " + typeof(Workflow).FullName);
             code.AppendLine("   {");
 
-            // contructore
+            // contructor
             code.AppendLine("       public " + this.WorkflowTypeName + "()");
             code.AppendLine("       {");
+
+            // default properties
+            code.AppendLinf("           this.Name = \"{0}\";", this.Name);
+            code.AppendLinf("           this.Version = {0};", this.Version);
+            code.AppendLinf("           this.WorkflowDefinitionId = {0};", this.WorkflowDefinitionId);
+
+            // register type for the XML serializer
+            code.AppendLinf("           Bespoke.Sph.Domain.XmlSerializerService.RegisterKnowTypes(typeof({0}),typeof({1}));", typeof(Workflow).FullName, this.WorkflowTypeName);
             foreach (var variable in this.VariableDefinitionCollection.OfType<ComplexVariable>())
             {
-                code.AppendFormatLine("       this.{0} = new {1}();", variable.Name, variable.TypeName);
+                code.AppendLinf("           this.{0} = new {1}();", variable.Name, variable.TypeName);
             }
-            code.AppendLine("       }");
+            code.AppendLine("       }");// end contructor
 
+            // properties for each Variables
             foreach (var variable in this.VariableDefinitionCollection)
             {
                 code.AppendLine("       " + variable.GeneratedCode(this));
             }
+
             code.AppendLine("   }");// end class
 
 
@@ -212,11 +243,11 @@ namespace Bespoke.Sph.Domain
 
             foreach (var activity in this.ActivityCollection)
             {
-                code.AppendLine("       " + activity.GeneratedCode(this));
+                code.AppendLine("   " + activity.GeneratedCode(this));
             }
 
             code.AppendLine("}");// end namespace
-            Console.WriteLine(code);
+            Debug.WriteLine(code);
             return code.ToString();
         }
 
@@ -263,8 +294,13 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return "namespace Bespoke.Sph.Workflows_" + this.WorkflowDefinitionId + "_" + this.Version;
+                return "Bespoke.Sph.Workflows_" + this.WorkflowDefinitionId + "_" + this.Version;
             }
+        }
+
+        public Activity GetNextActivity(string activityId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

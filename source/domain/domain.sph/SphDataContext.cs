@@ -92,21 +92,21 @@ namespace Bespoke.Sph.Domain
 
                 if (type == typeof(Tenant))
                 {
-                    Expression<Func<Tenant, bool>> predicate = t => t.TenantId == this.GetId(o1);
+                    Expression<Func<Tenant, bool>> predicate = t => t.TenantId == o1.GetId();
                     var query = new Query<Tenant>(provider).Where(predicate);
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
                 }
                 if (type == typeof(RentalApplication))
                 {
-                    Expression<Func<RentalApplication, bool>> predicate = t => t.RentalApplicationId == this.GetId(o1);
+                    Expression<Func<RentalApplication, bool>> predicate = t => t.RentalApplicationId ==o1.GetId();
                     var query = new Query<RentalApplication>(provider).Where(predicate);
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
                 }
                 if (type == typeof(Trigger))
                 {
-                    Expression<Func<Trigger, bool>> predicate = t => t.TriggerId == this.GetId(o1);
+                    Expression<Func<Trigger, bool>> predicate = t => t.TriggerId == o1.GetId();
                     var query = new Query<Trigger>(provider).Where(predicate);
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
@@ -114,7 +114,7 @@ namespace Bespoke.Sph.Domain
 
                 if (type == typeof(Contract))
                 {
-                    Expression<Func<Contract, bool>> predicate = t => t.ContractId == this.GetId(o1);
+                    Expression<Func<Contract, bool>> predicate = t => t.ContractId == o1.GetId();
                     var query = new Query<Contract>(provider).Where(predicate);
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
@@ -122,35 +122,35 @@ namespace Bespoke.Sph.Domain
                 }
                 if (type == typeof(Building))
                 {
-                    Expression<Func<Building, bool>> predicate = t => t.BuildingId == this.GetId(o1);
+                    Expression<Func<Building, bool>> predicate = t => t.BuildingId == o1.GetId();
                     var query = new Query<Building>(provider).Where(predicate);
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
                 }
                 if (type == typeof(BuildingTemplate))
                 {
-                    Expression<Func<BuildingTemplate, bool>> predicate = t => t.BuildingTemplateId == this.GetId(o1);
+                    Expression<Func<BuildingTemplate, bool>> predicate = t => t.BuildingTemplateId == o1.GetId();
                     var query = new Query<BuildingTemplate>(provider).Where(predicate);
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
                 }
                 if (type == typeof(SpaceTemplate))
                 {
-                    Expression<Func<SpaceTemplate, bool>> predicate = t => t.SpaceTemplateId == this.GetId(o1);
+                    Expression<Func<SpaceTemplate, bool>> predicate = t => t.SpaceTemplateId == o1.GetId();
                     var query = new Query<SpaceTemplate>(provider).Where(predicate);
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
                 }
                 if (type == typeof(Complaint))
                 {
-                    Expression<Func<Complaint, bool>> predicate = t => t.ComplaintId == this.GetId(o1);
+                    Expression<Func<Complaint, bool>> predicate = t => t.ComplaintId == o1.GetId();
                     var query = new Query<Complaint>(provider).Where(predicate);
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
                 }
                 if (type == typeof(Maintenance))
                 {
-                    Expression<Func<Maintenance, bool>> predicate = t => t.MaintenanceId == this.GetId(o1);
+                    Expression<Func<Maintenance, bool>> predicate = t => t.MaintenanceId == o1.GetId();
                     var query = new Query<Maintenance>(provider).Where(predicate);
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
@@ -160,8 +160,8 @@ namespace Bespoke.Sph.Domain
         }
         internal async Task<SubmitOperation> SubmitChangesAsync(string operation, PersistenceSession session)
         {
-            var addedItems = session.AttachedCollection.Where(t => this.GetId(t) == 0).ToArray();
-            var changedItems = session.AttachedCollection.Where(t => this.GetId(t) > 0).ToArray();
+            var addedItems = session.AttachedCollection.Where(t => t.GetId() == 0).ToArray();
+            var changedItems = session.AttachedCollection.Where(t => t.GetId() > 0).ToArray();
 
             var ds = ObjectBuilder.GetObject<IDirectoryService>();
             var previous = await GetPreviousItems(changedItems);
@@ -176,7 +176,7 @@ namespace Bespoke.Sph.Domain
                             DateTime = DateTime.Now,
                             User = ds.CurrentUserName,
                             Type = e.GetType().Name,
-                            EntityId = this.GetId(e),
+                            EntityId = e.GetId(),
                             Note = "-"
                         }).ToArray();
             session.AttachedCollection.AddRange(logs.Cast<Entity>());
@@ -317,22 +317,6 @@ namespace Bespoke.Sph.Domain
             return await repos.GetMinAsync(query, selector).ConfigureAwait(false);
         }
 
-
-        private Type GetEntityType(Entity item)
-        {
-            var type = item.GetType();
-            var attr = type.GetCustomAttribute<EntityTypeAttribute>();
-            if (null != attr) return attr.Type;
-            return type;
-        }
-
-        private int GetId(Entity item)
-        {
-            var type = this.GetEntityType(item);
-            var id = type.GetProperties().AsQueryable().Single(p => p.PropertyType == typeof(int)
-                                                                    && p.Name == type.Name + "Id");
-            return (int)id.GetValue(item);
-        }
 
         public async Task<TResult> GetScalarAsync<T, TResult>(IQueryable<T> query, Expression<Func<T, TResult>> selector)
             where T : Entity

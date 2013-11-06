@@ -2,7 +2,7 @@
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class NotificationActivity : Activity
+    public partial class DecisionActivity : Activity
     {
         public override string GeneratedCode(WorkflowDefinition workflowDefinition)
         {

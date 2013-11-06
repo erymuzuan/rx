@@ -33,13 +33,10 @@ define([objectbuilders.datacontext, objectbuilders.logger],
             compileAsync = function () {
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.workflowdefinition);
-                isBusy(true);
 
                 context.post(data, "/WorkflowDefinition/Compile")
                     .then(function (result) {
-                        isBusy(false);
-                        logger.info("The workflow had been succesfully compiled");
-
+                        logger[result.success ? "info" : "error"](result.message);
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -47,13 +44,13 @@ define([objectbuilders.datacontext, objectbuilders.logger],
             publishAsync = function () {
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.workflowdefinition());
-                isBusy(true);
 
                 context.post(data, "/WorkflowDefinition/Publish")
                     .then(function (result) {
-                        isBusy(false);
-                        logger.info("The workflow had been succesfully published");
-
+                        logger[result.success ? "info" : "error"](result.message);
+                        if (result.success) {
+                            vm.workflowdefinition().Version(result.version);
+                        }
                         tcs.resolve(result);
                     });
                 return tcs.promise();

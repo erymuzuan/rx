@@ -43,13 +43,6 @@ namespace Bespoke.Sph.RabbitMqPublisher
             await SendMessage("deleted", operation, deletedCollection.ToArray());
         }
 
-        private int GetId(Entity item)
-        {
-            var type = this.GetEntityType(item);
-            var id = type.GetProperties().AsQueryable().Single(p => p.PropertyType == typeof(int)
-                                                                    && p.Name == type.Name + "Id");
-            return (int)id.GetValue(item);
-        }
         private async Task SendMessage(string action, string operation, IEnumerable<Entity> items, IEnumerable<AuditTrail> logs = null)
         {
             var factory = new ConnectionFactory
@@ -68,7 +61,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
                 {
                     var entityType = this.GetEntityType(item);
                     var log = string.Empty;
-                    var id = this.GetId(item);
+                    var id = item.GetId();
                     if (null != logs && id > 0)
                     {
                         var audit = logs.SingleOrDefault(l => l.Type == entityType.Name && l.EntityId == id);
