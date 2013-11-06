@@ -248,11 +248,11 @@ namespace Bespoke.Sph.Domain
             foreach (var activity in this.ActivityCollection)
             {
                 code.AppendLinf("                   case \"{0}\" : ", activity.WebId);
-                code.AppendLinf("                       result = await this.{0}();" ,activity.MethodName);
+                code.AppendLinf("                       result = await this.{0}();", activity.MethodName);
                 code.AppendLine("                       break;");
             }
             code.AppendLine("               }");// end switch
-            
+
             code.AppendLine("               if(null == result)");
             code.AppendLine("                   throw new Exception(\"what ever\");");
             code.AppendLine("               if(null != result.NextActivity)");
@@ -351,7 +351,11 @@ namespace Bespoke.Sph.Domain
 
         public Activity GetNextActivity(string activityId)
         {
-            return new DecisionActivity();
+            return new DecisionActivity
+            {
+                WebId = Guid.NewGuid().ToString()
+
+            };
         }
     }
 }

@@ -236,6 +236,7 @@
 	</xs:element>
 	<xs:complexType name="Activity">
 		<xs:attribute name="IsInitiator" type="xs:boolean" use="required"/>
+		<xs:attribute name="NextActivityWebId" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:element name="Workflow">
 		<xs:complexType>
@@ -329,4 +330,5 @@
 			<xs:attribute name="VirtualPath" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="EndActivity" type="Activity"/>
 </xs:schema>

@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.QueryProviders;
 using Moq;
 using NUnit.Framework;
 
@@ -23,6 +26,30 @@ namespace domain.test.workflows
             m_store.Setup(x => x.GetContent("schema-storeid"))
                 .Returns(doc);
             ObjectBuilder.AddCacheList(m_store.Object);
+            var qp = new Mock<QueryProvider>(MockBehavior.Loose);
+            ObjectBuilder.AddCacheList(qp.Object);
+
+            var ds = new Mock<IDirectoryService>(MockBehavior.Loose);
+            ObjectBuilder.AddCacheList(ds.Object);
+
+            var ps = new Mock<IPersistence>(MockBehavior.Strict);
+            ps.Setup(
+                x =>
+                    x.SubmitChanges(It.IsAny<IEnumerable<Entity>>(), It.IsAny<IEnumerable<Entity>>(),
+                        It.IsAny<PersistenceSession>()))
+                .Returns(() => Task.FromResult(new SubmitOperation()));
+            ObjectBuilder.AddCacheList(ps.Object);
+
+            var ecp = new Mock<IEntityChangePublisher>(MockBehavior.Loose);
+            ecp.Setup(x => x.PublishAdded(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>()))
+                .Returns(() => Task.Delay(100));
+            ecp.Setup(x => x.PublishChanges(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>(), It.IsAny<IEnumerable<AuditTrail>>()))
+                .Returns(() => Task.Delay(100));
+            ecp.Setup(x => x.PublishDeleted(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>()))
+                .Returns(() => Task.Delay(100));
+            ObjectBuilder.AddCacheList(ecp.Object);
+
+
         }
 
         [Test]
@@ -36,10 +63,11 @@ namespace domain.test.workflows
 
             var pohon = new ScreenActivity
             {
-                Title = "Pohon",
+                Title = "Pohon",//[A-Z|a-z|.]
                 ViewVirtualPath = "~/Views/Workflows_8_1/pohon.cshtml",
-                WebId = Guid.NewGuid().ToString(),
-                IsInitiator = true
+                WebId = "_A_",
+                IsInitiator = true,
+                NextActivityWebId = "_B_"
             };
             pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
             pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
@@ -47,7 +75,8 @@ namespace domain.test.workflows
 
             var decide = new DecisionActivity
             {
-                WebId = Guid.NewGuid().ToString(),
+                WebId = "_B_",
+                NextActivityWebId = "_C_"
 
             };
             wd.ActivityCollection.Add(decide);
@@ -55,11 +84,12 @@ namespace domain.test.workflows
             var approval = new ScreenActivity
             {
                 Title = "Kelulusan",
-                WebId = Guid.NewGuid().ToString(),
+                WebId = "_C_",
+                NextActivityWebId = "_D_",
                 ViewVirtualPath = "d"
             };
             wd.ActivityCollection.Add(approval);
-
+            wd.ActivityCollection.Add(new EndActivity { WebId = "_D_"});
 
             m_store.Setup(x => x.GetContent("wd-storeid"))
                 .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), StoreId = "wd-storeid" });

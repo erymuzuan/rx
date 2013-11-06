@@ -44,8 +44,13 @@ namespace Bespoke.Sph.Domain
 
         public async virtual Task SaveAsync(string activityId)
         {
-            await Task.Delay(500);
             Console.WriteLine("saving....." + activityId);
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(this);
+                await session.SubmitChanges(activityId);
+            }
         }
 
     }

@@ -38,10 +38,7 @@ namespace Bespoke.Sph.WorkflowsExecution
             var result = await next.ExecuteAsync();
             Console.WriteLine(result);
 
-            using (var session = context.OpenSession())
-            {
-                await session.SubmitChanges("ds");
-            }
+           
 
         }
 

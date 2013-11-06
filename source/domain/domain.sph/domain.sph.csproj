@@ -164,6 +164,7 @@
     <Compile Include="Triggers\CreateEntityAction.cs" />
     <Compile Include="Triggers\DecisionActivity.cs" />
     <Compile Include="Triggers\DeleteEntityAction.cs" />
+    <Compile Include="Triggers\EndActivity.cs" />
     <Compile Include="Triggers\FunctionField.cs" />
     <Compile Include="IBinaryStore.cs" />
     <Compile Include="IComputable.cs" />
