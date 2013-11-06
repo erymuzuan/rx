@@ -525,6 +525,11 @@
 			<xs:attribute name="Message" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Performer">
+		<xs:annotation>
+			<xs:documentation>Placeholder</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:element name="BusinessRule">
 		<xs:complexType>
 			<xs:all>

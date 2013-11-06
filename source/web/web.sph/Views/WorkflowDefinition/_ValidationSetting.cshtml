@@ -1,9 +1,9 @@
-﻿<form class="form-horizontal" data-bind="with : FieldValidation">
+﻿<form class="form-horizontal" data-bind2="with : FieldValidation">
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-6">
             <div class="checkbox">
                 <label>
-                    <input data-bind="checked: IsRequired" id="validation-isrequired" type="checkbox" name="IsRequired" />
+                    <input data-bind2="checked: IsRequired" id="validation-isrequired" type="checkbox" name="IsRequired" />
                     Is required
                 </label>
             </div>
@@ -13,27 +13,27 @@
     <div class="form-group">
         <label for="validation-pattern" class="col-lg-2 control-label">Pattern</label>
         <div class="col-lg-6">
-            <input data-bind="value:Pattern" type="text" class="form-control" id="validation-pattern" placeholder="regex pattern">
+            <input data-bind2="value:Pattern" type="text" class="form-control" id="validation-pattern" placeholder="regex pattern">
         </div>
     </div>
     <div class="form-group">
         <label for="validation-minlength" class="col-lg-2 control-label">Min Length</label>
         <div class="col-lg-6">
-            <input data-bind="value:MinLength" type="number" class="form-control" id="validation-minlength" >
+            <input data-bind2="value:MinLength" type="number" class="form-control" id="validation-minlength" >
         </div>
     </div>
     
     <div class="form-group">
         <label for="validation-maxlength" class="col-lg-2 control-label">Max Length</label>
         <div class="col-lg-6">
-            <input data-bind="value:MaxLength" type="number" class="form-control" id="validation-maxlength">
+            <input data-bind2="value:MaxLength" type="number" class="form-control" id="validation-maxlength">
         </div>
     </div>
     
     <div class="form-group">
         <label for="validation-mode" class="col-lg-2 control-label">Mode</label>
         <div class="col-lg-6">
-            <select class="form-control" id="validation-mode" data-bind="value:Mode">
+            <select class="form-control" id="validation-mode" data-bind2="value:Mode">
                 <option value="">Text</option>
                 <option value="email">Email</option>
                 <option value="url">Url</option>
@@ -47,7 +47,7 @@
     <div class="form-group">
         <label for="validation-message" class="col-lg-2 control-label">Message</label>
         <div class="col-lg-6">
-            <input data-bind="value:Message" type="text" class="form-control" id="validation-message" placeholder="Error message">
+            <input data-bind2="value:Message" type="text" class="form-control" id="validation-message" placeholder="Error message">
         </div>
     </div>
 </form>

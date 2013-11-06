@@ -1,5 +1,5 @@
 ﻿
-/// <reference path="~/scripts/knockout-2.3.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.0.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -241,6 +241,7 @@ bespoke.sph.domain.Workflow = function (webId) {
         Name: ko.observable(''),
         State: ko.observable(''),
         IsActive: ko.observable(false),
+        Version: ko.observable(0),
         VariableValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -263,8 +264,23 @@ bespoke.sph.domain.ScreenActivity = function (webId) {
     v["$type"] = "Bespoke.Sph.Domain.ScreenActivity, domain.sph";
 
     v.FormDesign = ko.observable(new bespoke.sph.domain.FormDesign());
+    v.Performer = ko.observable(new bespoke.sph.domain.Performer());
     if (bespoke.sph.domain.ScreenActivityPartial) {
         return _(v).extend(new bespoke.sph.domain.ScreenActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.DecisionActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v["$type"] = "Bespoke.Sph.Domain.DecisionActivity, domain.sph";
+
+    if (bespoke.sph.domain.DecisionActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.DecisionActivityPartial(v));
     }
     return v;
 };
@@ -347,6 +363,23 @@ bespoke.sph.domain.Page = function (webId) {
     };
     if (bespoke.sph.domain.PagePartial) {
         return _(model).extend(new bespoke.sph.domain.PagePartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.Performer = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
+        UserProperty: ko.observable(''),
+        Value: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.PerformerPartial) {
+        return _(model).extend(new bespoke.sph.domain.PerformerPartial(model));
     }
     return model;
 };

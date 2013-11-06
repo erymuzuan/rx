@@ -12,6 +12,9 @@
         <li>
             <a href="#fields-validation" data-toggle="tab">Validation settings</a>
         </li>
+        <li>
+            <a href="#screen-performer" data-toggle="tab">Screen Performer</a>
+        </li>
     </ul>
     <div class="tab-content">
 
@@ -118,9 +121,12 @@
             </form>
 
         </div>
-        
+
         <div id="fields-validation" class="tab-pane" data-bind="with : selectedFormElement">
             @Html.Partial("_ValidationSetting")
+        </div>
+        <div id="screen-performer" class="tab-pane" data-bind="with : activity">
+            @Html.Partial("_ScreenPerformer")
         </div>
     </div>
 </div>
