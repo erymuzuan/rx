@@ -8,10 +8,39 @@
 	"buffers":
 	[
 		{
-			"file": "source/web/web.sph/Views/Workflow/Start.cshtml",
+			"file": "source/web/web.sph/Views/Workflow/EditorTemplates/TextBox.cshtml",
 			"settings":
 			{
-				"buffer_size": 1707,
+				"buffer_size": 697,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "using Bespoke.Sph.Domain;\nusing System;\nusing System.Threading.Tasks;\nusing System.Linq;\nusing System.Xml.Serialization;\nnamespace Bespoke.Sph.Workflows_8_40\n{\n   public class PermohonanTanahWakaf : Bespoke.Sph.Domain.Workflow\n   {\n       public System.String Title{get;set;}\n       public Applicant test {get;set;}\n       public Address alamat {get;set;}\n   }\n    [XmlType(\"Address\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Address : DomainObject\n   {\n     [XmlAttribute]\n     public string Street {get;set;}\n     [XmlAttribute]\n     public string Postcode {get;set;}\n     [XmlAttribute]\n     public string State {get;set;}\n     [XmlAttribute]\n     public string City {get;set;}\n   }\n\n    [XmlType(\"Applicant\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Applicant : DomainObject\n   {\n     [XmlAttribute]\n     public string Name {get;set;}\n     [XmlAttribute]\n     public string MyKad {get;set;}\n     [XmlAttribute]\n     public DateTime RegisteredDate {get;set;}\n      public int? Age {get;set;}\n      public DateTime? Dob {get;set;}\n      public Address Address {get;set;}\n      public Contact Contact {get;set;}\n   }\n\n    [XmlType(\"Contact\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Contact : DomainObject\n   {\n     [XmlAttribute]\n     public string Telephone {get;set;}\n      public Address Address {get;set;}\n   }\n\n       public partial class Workflow_8_40Controller : System.Web.Mvc.Controller   {\n       public async Task<System.Web.Mvc.ActionResult> Pohon(int id)\n       {\n              var vm = new PohonViewModel();\n           var context = new SphDataContext();\n           var wf = await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id);\n           var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == 8);\n           var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"2393eb78-4f12-4278-92a0-ad6a04d2e6ea\");\n           if(screen.IsInitiator) wf = new PermohonanTanahWakaf();\n         vm.Screen  = screen;\n         vm.Instance  = wf as PermohonanTanahWakaf;\n         vm.WorkflowDefinition  = wd;\n               return View(\"~/Views/Workflows_8_1/pohon.cshtml\",vm);\n       }\n   }\n   public class PohonViewModel\n   {\n     public PermohonanTanahWakaf Instance {get;set;}\n     public WorkflowDefinition WorkflowDefinition {get;set;}\n     public ScreenActivity Screen {get;set;}\n   }\n\n}",
+			"settings":
+			{
+				"buffer_size": 2456,
+				"line_ending": "Windows",
+				"name": "using Bespoke.Sph.Domain;"
+			}
+		},
+		{
+			"contents": "@inherits System.Web.Mvc.WebViewPage<PohonViewModel>\n@using System.Web.Mvc.Html\n@using Bespoke.Sph.Domain\n@model namespace Bespoke.Sph.Workflows_8_40.PohonViewModel\n\n@{\n    ViewBag.Title = Model.WorkflowDefinition.Name;\n    Layout = \"~/Views/Shared/_Layout.cshtml\";\n}\n\n<div class=\"row\">\n    <h1>@Model.Screen.Title</h1>\n</div>\n<div class=\"row\">\n    <form class=\"form-horizontal\" id=\"workflow-start-form\">\n        @foreach (var fe in Model.Screen.FormDesign.FormElementCollection)\n        {\n            fe.Path = fe.Path.ConvertJavascriptObjectToFunction();\n\n            @Html.EditorFor(f => fe)\n        }\n        <div class=\"form-group\" >\n            <label class=\"control-label col-lg-2\"></label>\n            <div class=\"col-lg-2 col-lg-offset-8\">\n                <button id=\"save-button\" type=\"submit\" class=\"btn btn-default\">Save</button>\n            </div>\n        </div>\n    </form>\n\n</div>\n\n\n@section scripts\n{\n    <script type=\"text/javascript\">\n        require(['services/datacontext', 'jquery'], function(context) {\n           var vm = {\n                $type : \"Bespoke.Sph.Domain.ScreenActivityViewModel,custom.workflow\",\n                id : @Model.WorkflowDefinition.WorkflowDefinitionId,\n                @foreach (var v in Model.WorkflowDefinition.VariableDefinitionCollection)\n                {\n                    <text>\n                @v.Name : @Html.Raw(v.GetEmptyJson(Model.WorkflowDefinition)),\n\n                </text>\n                }\n\n                isBusy : ko.observable()\n            };\n            var ovm = context.toObservable(vm);\n            ko.applyBindings(ovm);\n\n            $('#save-button').click(function(e) {\n                e.preventDefault();\n                var tcs = new $.Deferred();\n                var data = ko.mapping.toJSON(ovm);\n                context.post(data, \"/Workflow/StartWorkflow\")\n                    .then(function(result) {\n                        tcs.resolve(result);\n                    });\n                return tcs.promise();\n            });\n\n        });\n\n    </script>\n}",
+			"settings":
+			{
+				"buffer_size": 2040,
+				"line_ending": "Windows",
+				"name": "@inherits System.Web.Mvc.WebViewPage<PohonViewMode"
+			}
+		},
+		{
+			"contents": "~/Views/Workflow1/Permohonan",
+			"file": "/C/Users/itpro/AppData/Local/Temp/ipuuso0s.0.cs",
+			"file_size": -1,
+			"file_write_time": -1,
+			"settings":
+			{
+				"buffer_size": 28,
 				"line_ending": "Windows"
 			}
 		},
@@ -19,7 +48,7 @@
 			"file": "source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
 			"settings":
 			{
-				"buffer_size": 3722,
+				"buffer_size": 5459,
 				"line_ending": "Windows"
 			}
 		},
@@ -43,7 +72,10 @@
 	},
 	"console":
 	{
-		"height": 0.0
+		"height": 0.0,
+		"history":
+		[
+		]
 	},
 	"distraction_free":
 	{
@@ -56,6 +88,7 @@
 	},
 	"file_history":
 	[
+		"/C/project/work/sph/source/web/web.sph/Views/Workflow/Start.cshtml"
 	],
 	"find":
 	{
@@ -101,29 +134,30 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 5,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "source/web/web.sph/Views/Workflow/Start.cshtml",
+					"file": "source/web/web.sph/Views/Workflow/EditorTemplates/TextBox.cshtml",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1707,
+						"buffer_size": 697,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								142,
-								142
+								684,
+								684
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -134,10 +168,98 @@
 				},
 				{
 					"buffer": 1,
-					"file": "source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3722,
+						"buffer_size": 2456,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1769,
+								1769
+							]
+						],
+						"settings":
+						{
+							"auto_name": "using Bespoke.Sph.Domain;",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2040,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1513,
+								1513
+							]
+						],
+						"settings":
+						{
+							"auto_name": "@inherits System.Web.Mvc.WebViewPage<PohonViewMode",
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 540.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/Users/itpro/AppData/Local/Temp/ipuuso0s.0.cs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 28,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								28,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C#/C#.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5459,
 						"regions":
 						{
 						},
@@ -155,14 +277,15 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1296.0,
+						"translation.y": 1150.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 5,
 					"file": "source/web/web.sph/App/partial/WorkflowDefinition.js",
+					"semi_transient": false,
 					"settings":
 					{
 						"buffer_size": 5052,
@@ -172,8 +295,8 @@
 						"selection":
 						[
 							[
-								820,
-								820
+								2668,
+								2668
 							]
 						],
 						"settings":
@@ -183,7 +306,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 696.0,
+						"translation.y": 926.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -222,6 +345,7 @@
 		]
 	},
 	"menu_visible": true,
+	"project": "sph.sublime-project",
 	"replace":
 	{
 		"height": 0.0
@@ -255,10 +379,24 @@
 		],
 		"width": 0.0
 	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": true,
-	"side_bar_width": 150.0,
-	"status_bar_visible": true
+	"side_bar_visible": false,
+	"side_bar_width": 308.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
 }
