@@ -243,7 +243,7 @@ namespace Bespoke.Sph.Domain
 
             foreach (var activity in this.ActivityCollection)
             {
-                code.AppendLine("       " + activity.GeneratedCode(this));
+                code.AppendLine("   " + activity.GeneratedCode(this));
             }
 
             code.AppendLine("}");// end namespace
@@ -296,6 +296,11 @@ namespace Bespoke.Sph.Domain
             {
                 return "Bespoke.Sph.Workflows_" + this.WorkflowDefinitionId + "_" + this.Version;
             }
+        }
+
+        public Activity GetNextActivity(string activityId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

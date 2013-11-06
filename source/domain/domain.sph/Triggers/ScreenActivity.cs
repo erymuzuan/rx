@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -10,8 +11,8 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedCode(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
-            code.AppendFormat("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", wd.WorkflowDefinitionId, wd.Version);
-            code.AppendLine("   {");
+            code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", wd.WorkflowDefinitionId, wd.Version);
+            code.AppendLine("{");
             code.AppendLine("       public async Task<System.Web.Mvc.ActionResult> " + this.ActionName + "(int id = 0)");
             code.AppendLine("       {");
 
@@ -58,7 +59,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("           using(var session = context.OpenSession())");
             code.AppendLine("           {");
             code.AppendLine("               session.Attach(wf);");
-            code.AppendLinf("               await session.SubmitChanges(\"{0}\");",this.ActionName);
+            code.AppendLinf("               await session.SubmitChanges(\"{0}\");",this.WebId);
             code.AppendLine("           }");
             code.AppendLine("           return Json(new {sucess = true, status = \"OK\"});");
             code.AppendLine("       }"); // end SAVE action
@@ -176,6 +177,11 @@ namespace Bespoke.Sph.Domain
             {
                 return this.Title.Replace(" ", string.Empty);
             }
+        }
+
+        public override Task<ActivityExecutionResult> ExecuteAsync()
+        {
+            return null;
         }
     }
 }

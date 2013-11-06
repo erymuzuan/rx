@@ -1653,6 +1653,18 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    [XmlType("DecisionActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class DecisionActivity
+    {
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     [XmlType("NotificationActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class NotificationActivity
     {

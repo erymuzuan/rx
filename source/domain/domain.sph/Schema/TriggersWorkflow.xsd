@@ -270,6 +270,13 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="DecisionActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="NotificationActivity">
 		<xs:complexType>
 			<xs:complexContent>
