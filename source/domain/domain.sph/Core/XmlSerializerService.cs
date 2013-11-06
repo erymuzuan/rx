@@ -195,7 +195,7 @@ namespace Bespoke.Sph.Domain
         }
 
         private static readonly Dictionary<Type, List<Type>> m_knowTypes = new Dictionary<Type, List<Type>>();
-        public static void RegisterKnowTypes(Type serializedType, Type knowType)
+        public static void RegisterKnownTypes(Type serializedType, Type knowType)
         {
             if (m_knowTypes.ContainsKey(serializedType))
             {

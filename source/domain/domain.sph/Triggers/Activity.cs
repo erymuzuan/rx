@@ -4,9 +4,22 @@ using System.Xml.Serialization;
 namespace Bespoke.Sph.Domain
 {
     [XmlInclude(typeof(ScreenActivity))]
+    [XmlInclude(typeof(DecisionActivity))]
+    [XmlInclude(typeof(NotificationActivity))]
     public partial class Activity : DomainObject
     {
-        public virtual string GeneratedCode(WorkflowDefinition workflowDefinition)
+        public string MethodName
+        {
+            get
+            {
+                return string.Format("Exec{0}{1}Async", this.GetType().Name, this.WebId.Replace("-", "_"));
+            }
+        }
+        public virtual string GeneratedCustomTypeCode(WorkflowDefinition workflowDefinition)
+        {
+            return string.Empty;
+        }
+        public virtual string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
             throw new System.NotImplementedException();
         }
@@ -14,6 +27,17 @@ namespace Bespoke.Sph.Domain
         public virtual Task<ActivityExecutionResult> ExecuteAsync()
         {
             throw new System.NotImplementedException();
+        }
+
+        /// <summary>
+        /// Flags to say that this activity listen to event
+        /// </summary>
+        public virtual bool IsAsync
+        {
+            get
+            {
+                return false;
+            }
         }
     }
 }
