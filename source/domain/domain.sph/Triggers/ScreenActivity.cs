@@ -48,11 +48,10 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLinf("               var wf = id == 0 ? new  {0}() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));", wd.WorkflowTypeName);
             code.AppendLinf("               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == {0});", wd.WorkflowDefinitionId);
+            code.AppendLinf("               var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);");
             code.AppendLinf("               var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"{0}\");", this.WebId);
-
             code.AppendLinf("               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");");
-
-
+            
 
             code.AppendLinf("               vm.Screen  = screen;");
             code.AppendLinf("               vm.Instance  = wf as {0};", wd.WorkflowTypeName);
@@ -60,8 +59,28 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("               vm.Controller  = this.GetType().Name;");
             code.AppendLinf("               vm.SaveAction  = \"Save{0}\";", this.ActionName);
             code.AppendLinf("               vm.Namespace  = \"{0}\";", wd.CodeNamespace);
+            code.AppendLinf("               var canview = false;");
+            code.AppendLinf("               switch (screen.Performer.UserProperty)");
+            code.AppendLine("               { ");
+            code.AppendLine("                  case \"Username\":");
+            code.AppendLine("                       canview = screen.Performer.Value == profile.Username;");
+            code.AppendLine("                        break;");
+            code.AppendLine("                  case \"Department\":");
+            code.AppendLine("                       canview = screen.Performer.Value == profile.Department;");
+            code.AppendLine("                        break;");
+            code.AppendLine("                  case \"Designation\":");
+            code.AppendLine("                       canview = screen.Performer.Value == profile.Designation;");
+            code.AppendLine("                        break;");
+            code.AppendLine("                  case \"Roles\":");
+            code.AppendLine("                       canview = profile.RoleTypes.Contains(screen.Performer.Value);");
+            code.AppendLine("                        break;");
+            code.AppendLine("                  default:");
+            code.AppendLine("                       canview = false;");
+            code.AppendLine("                        break;");
+            code.AppendLine("               } ");
 
-            code.AppendLine("               return View(vm);");
+            code.AppendLine("               if(canview) return View(vm);");
+            code.AppendLine("               return View();");
 
             code.AppendLine("           }");// end try
             code.AppendLine("           catch(Exception exc){return Content(exc.ToString());}");

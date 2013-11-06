@@ -417,6 +417,7 @@ bespoke.sph.domain.Activity = function (webId) {
     return {
         "$type": "Bespoke.Sph.Domain.Activity, domain.sph",
         IsInitiator: ko.observable(false),
+        NextActivityWebId: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
