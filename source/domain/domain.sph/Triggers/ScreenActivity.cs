@@ -15,12 +15,15 @@ namespace Bespoke.Sph.Domain
 
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
+            if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
+                throw new InvalidOperationException("NextActivityWebId is null or empty");
+
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLine("       this.State = \"Ready\";");
             // set the next activity
-            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", wd.GetNextActivity(this.WebId));/* webid*/
+            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);/* webid*/
             code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
             //code.AppendLine("   result.NextActivity = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
@@ -55,9 +58,9 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("               vm.Instance  = wf as {0};", wd.WorkflowTypeName);
             code.AppendLinf("               vm.WorkflowDefinition  = wd;");
             code.AppendLinf("               vm.Controller  = this.GetType().Name;");
-            code.AppendLinf("               vm.SaveAction  = \"Save{0}\";",this.ActionName);
-            code.AppendLinf("               vm.Namespace  = \"{0}\";",wd.CodeNamespace);
-            code.AppendLinf("               ");
+            code.AppendLinf("               vm.SaveAction  = \"Save{0}\";", this.ActionName);
+            code.AppendLinf("               vm.Namespace  = \"{0}\";", wd.CodeNamespace);
+
             code.AppendLine("               return View(vm);");
 
             code.AppendLine("           }");// end try
@@ -119,7 +122,7 @@ namespace Bespoke.Sph.Domain
         {
 
             var code = new StringBuilder();
-           // code.AppendLinf("@inherits System.Web.Mvc.WebViewPage<{0}>", this.ViewModelType);
+            // code.AppendLinf("@inherits System.Web.Mvc.WebViewPage<{0}>", this.ViewModelType);
             code.AppendLine("@using System.Web.Mvc.Html");
             code.AppendLine("@using Bespoke.Sph.Domain");
             code.AppendLine("@using Newtonsoft.Json");
@@ -208,7 +211,5 @@ namespace Bespoke.Sph.Domain
         {
             return null;
         }
-
-       
     }
 }

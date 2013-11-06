@@ -2325,6 +2325,11 @@ namespace Bespoke.Sph.Domain
         private bool m_isInitiator;
         public const string PropertyNameIsInitiator = "IsInitiator";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_nextActivityWebId;
+        public const string PropertyNameNextActivityWebId = "NextActivityWebId";
+
 
         // public properties members
 
@@ -2347,6 +2352,28 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isInitiator;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string NextActivityWebId
+        {
+            set
+            {
+                if (m_nextActivityWebId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameNextActivityWebId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_nextActivityWebId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_nextActivityWebId;
             }
         }
 
