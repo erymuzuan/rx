@@ -59,7 +59,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("               vm.Controller  = this.GetType().Name;");
             code.AppendLinf("               vm.SaveAction  = \"Save{0}\";", this.ActionName);
             code.AppendLinf("               vm.Namespace  = \"{0}\";", wd.CodeNamespace);
-            code.AppendLine("               var canview = false;");
+            code.AppendLine("               var canview = screen.Performer.IsPublic;");
             code.AppendLine("               if(!screen.Performer.IsPublic)");
             code.AppendLine("               {");
             code.AppendLine("                   switch (screen.Performer.UserProperty)");
@@ -83,7 +83,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("               }");
 
             code.AppendLine("               if(canview) return View(vm);");
-            code.AppendLine("               return new HttpUnauthorizedResult();");
+            code.AppendLine("               return new System.Web.Mvc.HttpUnauthorizedResult();");
 
             code.AppendLine("           }");// end try
             code.AppendLine("           catch(Exception exc){return Content(exc.ToString());}");

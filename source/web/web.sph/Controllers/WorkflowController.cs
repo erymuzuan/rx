@@ -22,6 +22,7 @@ namespace Bespoke.Sph.Web.Controllers
                 var v = new VariableValue { Name = name, Value = value };
                 wf.VariableValueCollection.Add(v);
             }
+            
             return Content("");
         }
 
@@ -30,7 +31,6 @@ namespace Bespoke.Sph.Web.Controllers
             var context = new SphDataContext();
             var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == id);
             var screen = wd.GetInititorScreen();
-
             var vm = new WorkflowStartViewModel { WorkflowDefinition = wd, Screen = screen };
          
             return View(vm);
