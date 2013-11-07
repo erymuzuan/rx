@@ -19,19 +19,25 @@
                     <form class="form-horizontal col-lg-12" id="activity-screen-modal-form" data-bind="with: activity">
                         <div class="row">
                             <div class="form-group">
-                                <label for="screen-title" class="col-lg-2 control-label">Title</label>
+                                <label for="screen-vpath" class="col-lg-2 control-label">Name</label>
                                 <div class="col-lg-6">
-                                    <input data-bind="value:Title" required type="text" class="form-control" id="screen-title" placeholder="Title">
+                                    <input required type="text" data-bind="value: Name" class="form-control" id="screen-vpath" placeholder="Name">
                                 </div>
                             </div>
-                            
                             <div class="form-group">
-                                <label for="screen-vpath" class="col-lg-2 control-label">VPath</label>
+                                <label for="screen-next" class="col-lg-2 control-label">Next</label>
                                 <div class="col-lg-6">
-                                    <input required type="text" data-bind="value: ViewVirtualPath" class="form-control" id="screen-vpath" placeholder="Razor view virtual path">
+                                    <select id="screen-next" required
+                                            data-bind="value:NextActivityWebId,
+                                                    uniqueName:true,
+                                                    options: $root.wd().ActivityCollection,
+                                                    optionsText:'Name',
+                                                    optionsValue:'WebId',
+                                                    optionsCaption:'Please select next activity'"
+                                            class="form-control"></select>
+
                                 </div>
                             </div>
-
                         </div>
                     </form>
                 </div>
@@ -41,7 +47,7 @@
                         @Html.Partial("_Toolbox")
                     </div>
                     <!-- ko with : activity -->
-                    <div id="screen-activity-designer" style="min-height: 400px; max-height: 600px; overflow: scroll;" class="col-lg-9" data-bind="with: FormDesign">
+                    <div id="screen-activity-designer" style="min-height: 400px; max-height: 550px; overflow: scroll;" class="col-lg-9" data-bind="with: FormDesign">
                         <div id="template-form-designer">
                             <h1 data-bind="text: Name"></h1>
                             <span data-bind="text: Description"></span>

@@ -1,0 +1,27 @@
+﻿
+<section class="view-model-modal" id="end-act-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>End</h3>
+            </div>
+            <div class="modal-body" data-bind="with: activity">
+
+                <form class="form-horizontal" id="end-act-dialog-form">
+                    <div class="form-group">
+                        <label for="end-name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-6">
+                            <input required type="text" data-bind="value: Name" class="form-control" id="end-name" placeholder="Name">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="end-act-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

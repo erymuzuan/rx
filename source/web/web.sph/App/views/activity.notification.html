@@ -9,7 +9,28 @@
             </div>
             <div class="modal-body" data-bind="with: activity">
 
+
                 <form class="form-horizontal" id="activity-notification-modal-form">
+                    <div class="form-group">
+                        <label for="notification-activity-name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-6">
+                            <input required type="text" data-bind="value: Name" class="form-control" id="notification-activity-name" placeholder="Name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notification-next" class="col-lg-2 control-label">Next</label>
+                        <div class="col-lg-6">
+                            <select id="notification-next" required
+                                    data-bind="value:NextActivityWebId,
+                                        uniqueName:true,
+                                        options: $root.wd().ActivityCollection,
+                                        optionsText:'Name',
+                                        optionsValue:'WebId',
+                                        optionsCaption:'Please select next activity'" class="form-control"></select>
+
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="activity-notification-from" class="col-lg-2 control-label">From</label>
                         <div class="col-lg-6">

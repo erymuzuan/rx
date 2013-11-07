@@ -101,6 +101,18 @@
                             Notification Activity
                         </a>
                     </li>
+                    <li>
+                        <a class="btn btn-link" data-bind="click: addActivity('Decision')">
+                            <img src="/Images/DecisionActivity.png" alt="Decision activity"/>
+                            Decision Activity
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn btn-link" data-bind="click: addActivity('End')">
+                            <i class="fa fa-stop"></i>
+                            End
+                        </a>
+                    </li>
                 </ul>
             </div>
 
@@ -124,7 +136,7 @@
 
                             <img data-bind="fieldImage : $type" class="pull-left" alt="." />
                             &nbsp;
-                            <!-- ko text : Title -->
+                            <!-- ko text : Name -->
                             <!-- /ko -->
                         </a>
                     </td>

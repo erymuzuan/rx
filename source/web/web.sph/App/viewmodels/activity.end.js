@@ -1,18 +1,17 @@
 ﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
+/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/domain.g.js" />
-/// <reference path="../objectbuilders.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-    function (context, logger, router) {
+define([],
+    function () {
 
         var okClick = function (data, ev) {
             if (ev.target.form.checkValidity()) {
@@ -25,9 +24,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             };
 
         var vm = {
-            activity: ko.observable(new bespoke.sph.domain.NotificationActivity()),
+            activity: ko.observable(new bespoke.sph.domain.EndActivity()),
             okClick: okClick,
-            wd : ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
             cancelClick: cancelClick
         };
 

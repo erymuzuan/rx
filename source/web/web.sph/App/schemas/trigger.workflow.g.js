@@ -279,8 +279,25 @@ bespoke.sph.domain.DecisionActivity = function (webId) {
 
     v["$type"] = "Bespoke.Sph.Domain.DecisionActivity, domain.sph";
 
+    v.DecisionBranchCollection = ko.observableArray([]);
     if (bespoke.sph.domain.DecisionActivityPartial) {
         return _(v).extend(new bespoke.sph.domain.DecisionActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.DecisionBranch = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v.IsDefault = ko.observable(false);
+    v["$type"] = "Bespoke.Sph.Domain.DecisionBranch, domain.sph";
+
+    v.Expression = ko.observable();//type but not nillable
+    if (bespoke.sph.domain.DecisionBranchPartial) {
+        return _(v).extend(new bespoke.sph.domain.DecisionBranchPartial(v));
     }
     return v;
 };
@@ -369,6 +386,20 @@ bespoke.sph.domain.Page = function (webId) {
 
 
 
+bespoke.sph.domain.EndActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+    v.IsTerminating = ko.observable(false);
+    v["$type"] = "Bespoke.Sph.Domain.EndActivity, domain.sph";
+
+    if (bespoke.sph.domain.EndActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.EndActivityPartial(v));
+    }
+    return v;
+};
+
+
+
 bespoke.sph.domain.Performer = function (webId) {
 
     var model = {
@@ -418,6 +449,7 @@ bespoke.sph.domain.Activity = function (webId) {
         "$type": "Bespoke.Sph.Domain.Activity, domain.sph",
         IsInitiator: ko.observable(false),
         NextActivityWebId: ko.observable(''),
+        Name: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
