@@ -19,8 +19,11 @@
                     <div class="form-group">
                         <label for="ce-entitytype" class="col-lg-2 control-label">Entity</label>
                         <div class="col-lg-6">
-                            <select class="form-control" id="ce-entitytype">
-                                <option value=""></option>
+                            <select class="form-control" id="ce-entitytype" data-bind="value:EntityType">
+                                <option value="Land">Land</option>
+                                <option value="Building">Building</option>
+                                <option value="Space">Space</option>
+                                <option value="Contract">Contract</option>
                             </select>
                         </div>
                     </div>
@@ -37,23 +40,46 @@
 
                         </div>
                     </div>
-                    
-                    <a href="#">+ Mapping</a>
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
+                                Add Property Mapping &nbsp;<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="btn btn-link" data-bind="click: addPropertyMapping('Simple')">
+                                        <i class="fa fa-code"></i>
+                                        Simple Mapping
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn btn-link" data-bind="click: addPropertyMapping('Functoid')">
+                                        <i class="fa fa-sitemap"></i>
+                                        Functoid Mapping
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+                                <th>Source</th>
+                                <th>Destination</th>
+                                <th>Functoid</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody data-bind="foreach :PropertyMappingCollection">
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><input type="text" data-bind="value:Source" /></td>
+                                <td><input type="text" data-bind="value:Destination" /></td>
+                                <td>
+                                    <!-- ko if : $data.hasOwnProperty("Functoid") -->
+                                        <input type="text" data-bind="value:Functoid" />
+                                    <!--/ko-->
+                                </td>
+                                <td><a data-bind="click : $parent.removePropertyMapping.call($parent,$data)">Buang</a></td>
                             </tr>
                         </tbody>
                     </table>

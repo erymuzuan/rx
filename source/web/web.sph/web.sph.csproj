@@ -381,6 +381,7 @@
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
+    <Content Include="App\partial\CreateEntityActivity.js" />
     <Content Include="App\partial\WorkflowDesigner.js" />
     <Content Include="App\partial\DecisionActivity.js" />
     <Content Include="App\partial\FormElement.js" />
