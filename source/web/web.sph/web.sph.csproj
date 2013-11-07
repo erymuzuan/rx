@@ -381,6 +381,7 @@
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
+    <Content Include="App\partial\DecisionActivity.js" />
     <Content Include="App\partial\FormElement.js" />
     <Content Include="App\partial\MaintenanceTemplate.js" />
     <Content Include="App\partial\ComplaintTemplate.js" />
@@ -435,6 +436,8 @@
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\action.email.js" />
     <Content Include="App\viewmodels\action.setter.js" />
+    <Content Include="App\viewmodels\activity.end.js" />
+    <Content Include="App\viewmodels\activity.decision.js" />
     <Content Include="App\viewmodels\activity.notification.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\block.floormap.dialog.js" />
@@ -498,6 +501,8 @@
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\action.email.html" />
     <Content Include="App\views\action.setter.html" />
+    <Content Include="App\views\activity.end.html" />
+    <Content Include="App\views\activity.decision.html" />
     <Content Include="App\views\activity.notification.html" />
     <Content Include="App\views\application.template.list.html" />
     <Content Include="App\views\block.dialog.html" />
@@ -834,6 +839,7 @@
     <Content Include="Images\dashboard-pemeriksaan.png" />
     <Content Include="Images\dashboard-penyenggaraan.png" />
     <Content Include="Images\dashboard-pro.png" />
+    <Content Include="Images\DecisionActivity.png" />
     <Content Include="Images\documentfield.png" />
     <Content Include="Images\down8.png" />
     <Content Include="Images\edit_icon.png" />

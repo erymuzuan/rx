@@ -173,6 +173,7 @@
                 selectFormElement : selectFormElement,
                 removeFormElement : removeFormElement,
                 activity: ko.observable(new bespoke.sph.domain.ScreenActivity()),
+                wd : ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
                 okClick: okClick,
                 cancelClick: cancelClick
             };

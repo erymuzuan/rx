@@ -361,7 +361,15 @@
 			<xs:attribute name="VirtualPath" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="EndActivity" type="Activity"/>
+	<xs:element name="EndActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:attribute name="IsTerminating" type="xs:boolean" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Performer">
 		<xs:complexType>
 			<xs:attribute name="UserProperty" type="xs:string" use="required"/>
@@ -372,5 +380,20 @@
 		<xs:attribute name="Source" type="xs:string" use="required"/>
 		<xs:attribute name="Destination" type="xs:string" use="required"/>
 	</xs:complexType>
-	<xs:element name="StringMapping" type="PropertyMapping"/>
+	<xs:element name="SimpleMapping">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="PropertyMapping"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FunctoidMapping">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="PropertyMapping">
+					<xs:attribute name="Functoid" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

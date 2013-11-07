@@ -29,6 +29,9 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
                 require(['viewmodels/activity.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.activity(activity);
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(self);
+                    }
                     app2.showModal(dialog)
                         .done(function (result) {
                             if (!result) return;
@@ -52,6 +55,10 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                 require(['viewmodels/activity.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.activity(clone);
 
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(self);
+                    }
+                    
                     app2.showModal(dialog)
                         .done(function (result) {
                             if (!result) return;

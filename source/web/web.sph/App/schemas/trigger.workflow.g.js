@@ -387,6 +387,20 @@ bespoke.sph.domain.Page = function (webId) {
 
 
 
+bespoke.sph.domain.EndActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+    v.IsTerminating = ko.observable(false);
+    v["$type"] = "Bespoke.Sph.Domain.EndActivity, domain.sph";
+
+    if (bespoke.sph.domain.EndActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.EndActivityPartial(v));
+    }
+    return v;
+};
+
+
+
 bespoke.sph.domain.Performer = function (webId) {
 
     var model = {
