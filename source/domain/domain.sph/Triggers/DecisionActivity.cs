@@ -41,7 +41,6 @@ namespace Bespoke.Sph.Domain
             var default1 = this.DecisionBranchCollection.Single(b => b.IsDefault);
 
             code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", default1.NextActivityWebId);
-            code.AppendLine("       System.Console.WriteLine(\"Running decision\" + this.Title);");
             code.AppendLine("       return result;");
             code.AppendLine("   }");// end metod
 

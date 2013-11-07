@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
@@ -15,30 +16,34 @@ namespace Bespoke.Sph.WorkflowsExecution
 
         public override string[] RoutingKeys
         {
-            get { return new[] { "workflow.*" }; }
+            get { return new[] { "Workflow.*" }; }
         }
 
         protected async override Task ProcessMessage(Workflow item, MessageHeaders header)
         {
-            var context = new SphDataContext();
-            var wd =
-                await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == item.WorkflowDefinitionId);
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var doc = await store.GetContentAsync(item.SerializedDefinitionStoreId);
+
+            WorkflowDefinition wd;
+            using (var stream = new MemoryStream(doc.Content))
+            {
+                wd = stream.DeserializeFromXml<WorkflowDefinition>();
+            }
+            item.WorkflowDefinition = wd;
+
             // get current activity
             var initiator = wd.ActivityCollection.Single(a => a.IsInitiator);
             var activityId = header.Operation;
-            
+
             if (initiator.WebId == activityId)
             {
                 Console.WriteLine("started");
             }
 
-            var next = wd.GetNextActivity(activityId);
-            if (null == next) return;
-
-            var result = await next.ExecuteAsync();
+            var result = await item.ExecuteAsync();
             Console.WriteLine(result);
 
-           
+
 
         }
 

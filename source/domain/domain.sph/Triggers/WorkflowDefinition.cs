@@ -110,13 +110,5 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public Activity GetNextActivity(string activityId)
-        {
-            return new DecisionActivity
-            {
-                WebId = Guid.NewGuid().ToString()
-
-            };
-        }
     }
 }
