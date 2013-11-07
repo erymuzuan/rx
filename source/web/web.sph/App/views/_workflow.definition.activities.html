@@ -1,0 +1,66 @@
+﻿<div id="workflow-definition-activity-collection">
+    <h3>Activity</h3>
+    <div id="activity-panel" class="pull-right">
+        <div class="btn-group">
+            <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
+                Add Activity &nbsp;<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="btn btn-link" data-bind="click: addActivity('Screen')">
+                        <i class="fa fa-laptop"></i>
+                        Screen Activity
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-link" data-bind="click: addActivity('Notification')">
+                        <i class="fa fa-envelope"></i>
+                        Notification Activity
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-link" data-bind="click: addActivity('Decision')">
+                        <img src="/Images/DecisionActivity.png" alt="Decision activity" />
+                        Decision Activity
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-link" data-bind="click: addActivity('End')">
+                        <i class="fa fa-stop"></i>
+                        End
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Is Initiator</th>
+                <th>Title</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: ActivityCollection">
+            <tr>
+                <td>
+                    <input class="input-action-isinitiator" data-bind="checked: IsInitiator" id="IsInitiator" type="checkbox" name="IsInitiator" />
+                </td>
+                <td>
+                    <a type="button" class="btn btn-link" data-bind="click : $parent.editActivity.call($parent,$data)" href="#">
+
+                        <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                        &nbsp;
+                        <!-- ko text : Title -->
+                        <!-- /ko -->
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-mini" rel="nofollow" href="#" data-bind="click: $parent.removeActivity.call($parent,$data)">Buang</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

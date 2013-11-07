@@ -121,7 +121,18 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
              return function () {
                  self.VariableDefinitionCollection.remove(variable);
              };
-         };
+         },
+        addPropertyMapping = function () {
+            var self = this;
+            var mapping = new bespoke.sph.domain.PropertyMapping();
+            self.PropertyMappingCollection.push(mapping);
+        },
+        removePropertyMapping = function (mapping) {
+            var self = this;
+            return function () {
+                self.PropertyMappingCollection.remove(mapping);
+            };
+        };
 
     model.SchemaStoreId.subscribe(function (storeId) {
         $.get("/WorkflowDefinition/GetXsdElementName/" + storeId)
@@ -136,7 +147,9 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         addActivity: addActivity,
         editActivity: editActivity,
         addVariable: addVariable,
-        editVariable: editVariable
+        editVariable: editVariable,
+        addPropertyMapping: addPropertyMapping,
+        removePropertyMapping: removePropertyMapping
 
     };
 

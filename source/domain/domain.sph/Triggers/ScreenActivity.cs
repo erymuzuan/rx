@@ -112,13 +112,6 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       }"); // end SAVE action
 
 
-            // start UNAUTHORISED view
-            code.AppendLine();
-
-            code.AppendLine("       public async Task<System.Web.Mvc.ActionResult> Unauthorised" + this.ActionName + "()");
-            code.AppendLine("       {");
-            code.AppendLine("           return View();");
-            code.AppendLine("       }"); // end UNAUTHORISED view
 
             code.AppendLine("   }");// end controller
 

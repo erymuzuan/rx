@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:mstns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/ReportManagerSchema.xsd" xmlns:ns2="http://tempuri.org/FormDesigner.xsd" targetNamespace="http://tempuri.org/TriggersWorkflow.xsd" elementFormDefault="qualified" id="TriggersWorkflow">
 	<xs:element name="Trigger">
 		<xs:complexType>
@@ -225,6 +225,13 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="PropertyMappingCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PropertyMapping" type="PropertyMapping" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -372,10 +379,31 @@
 			<xs:attribute name="Value" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="WorkflowDesigner">
+		<xs:element name="WorkflowDesigner">
 		<xs:complexType>
 			<xs:attribute name="X" type="xs:int"/>
 			<xs:attribute name="Y" type="xs:int"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:complexType name="PropertyMapping">
+		<xs:attribute name="Source" type="xs:string" use="required"/>
+		<xs:attribute name="Destination" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:element name="SimpleMapping">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="PropertyMapping"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FunctoidMapping">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="PropertyMapping">
+					<xs:attribute name="Functoid" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

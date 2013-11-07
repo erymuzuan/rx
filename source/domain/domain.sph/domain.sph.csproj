@@ -255,6 +255,7 @@
     <Compile Include="Triggers\Page.cs" />
     <Compile Include="Triggers\Performer.cs" />
     <Compile Include="Triggers\PropertyChangedField.cs" />
+    <Compile Include="Triggers\PropertyMapping.cs" />
     <Compile Include="Triggers\Rule.cs" />
     <Compile Include="Triggers\CustomAction.cs" />
     <Compile Include="Triggers\EmailAction.cs" />
