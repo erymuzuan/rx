@@ -246,6 +246,9 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("               switch(act.WebId)");
             code.AppendLine("               {");
 
+          
+
+            // viewmodel
             foreach (var activity in this.ActivityCollection)
             {
                 code.AppendLinf("                   case \"{0}\" : ", activity.WebId);
@@ -266,12 +269,27 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("       }");// end Execute
 
+           
             // properties for each Variables
             foreach (var variable in this.VariableDefinitionCollection)
             {
                 code.AppendLine("       " + variable.GeneratedCode(this));
             }
 
+            code.AppendLine();
+            code.AppendLinf("   public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", this.WorkflowDefinitionId, this.Version);
+            code.AppendLine("   {");
+         
+            // start UNAUTHORISED view
+            code.AppendLine();
+
+            code.AppendLine("       public async Task<System.Web.Mvc.ActionResult> Unauthorised()");
+            code.AppendLine("       {");
+            code.AppendLine("           return View();");
+            code.AppendLine("       }"); // end UNAUTHORISED view
+
+
+            code.AppendLine("   }");// end controller
             // activities method
 
             foreach (var activity in this.ActivityCollection)
