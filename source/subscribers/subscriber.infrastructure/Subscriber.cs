@@ -64,6 +64,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             const string deadLetterExchange = "sph.ms-dead-letter";
             const string deadLetterQueue = "ms_dead_letter_queue";
 
+            this.OnStart();
+
             var factory = new ConnectionFactory
             {
                 UserName = this.UserName,
@@ -119,7 +121,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
                     };
 
-                this.OnStart();
 
                 channel.BasicConsume(this.QueueName, noAck, consumer);
                 while (!m_stopped)

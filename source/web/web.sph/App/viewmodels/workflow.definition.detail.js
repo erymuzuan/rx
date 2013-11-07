@@ -36,7 +36,11 @@ define([objectbuilders.datacontext, objectbuilders.logger],
 
                 context.post(data, "/WorkflowDefinition/Compile")
                     .then(function (result) {
-                        logger[result.success ? "info" : "error"](result.message);
+                        if (result.success) {
+                            logger.info(result.message);
+                        } else {
+                            logger.error(result);
+                        }
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -47,9 +51,11 @@ define([objectbuilders.datacontext, objectbuilders.logger],
 
                 context.post(data, "/WorkflowDefinition/Publish")
                     .then(function (result) {
-                        logger[result.success ? "info" : "error"](result.message);
                         if (result.success) {
+                            logger.info(result.message);
                             vm.workflowdefinition().Version(result.version);
+                        } else {
+                            logger.error(result);
                         }
                         tcs.resolve(result);
                     });

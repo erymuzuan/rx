@@ -178,6 +178,16 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("               var act = this.GetCurrentActivity();");
             code.AppendLine("               if(null == act)");
             code.AppendLine("                   throw new InvalidOperationException(\"No current activity\");");
+
+
+
+            code.AppendLine("               if(act.IsAsync && this.State == \"WaitingAsync\")");
+            code.AppendLine("               {");
+            code.AppendLine("                   return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};");
+            code.AppendLine("               }");
+
+
+
             code.AppendLine("               if(act.IsAsync)");
             code.AppendLine("               {");
             code.AppendLine("                   this.State = \"WaitingAsync\";");

@@ -74,14 +74,16 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
             wd.Version += 1;// publish will increase the version
-            //wd.
 
-            //archide the WD
+            //archive the WD
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var archived = new BinaryStore
             {
                 StoreId = string.Format("wd.{0}.{1}", wd.WorkflowDefinitionId, wd.Version),
-                Content = Encoding.Unicode.GetBytes(wd.ToXmlString())
+                Content = Encoding.Unicode.GetBytes(wd.ToXmlString()),
+                Extension = ".xml",
+                FileName = string.Format("wd.{0}.{1}.xml", wd.WorkflowDefinitionId, wd.Version)
+               
             };
             await store.AddAsync(archived);
 
@@ -95,7 +97,7 @@ namespace Bespoke.Sph.Web.Controllers
             options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
 
             var result = wd.Compile(options);
-            if (!result.Result)
+            if (!result.Result|| !System.IO.File.Exists(result.Output))
             {
                 return Json(new { success = false, version = wd.Version, status = "ERROR", messages = result.Errors });
             }
