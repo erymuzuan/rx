@@ -12,10 +12,13 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
-            code.AppendLinf("   public Task<ActivityExecutionResult> {0}()", this.MethodName);
+            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLine("       var result = new ActivityExecutionResult();");
-            code.AppendLine("       return Task.FromResult(result);");
+            code.AppendLinf("       this.CurrentActivityWebId = null;");
+            code.AppendLinf("       this.State = \"Completed\";");
+            code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
+            code.AppendLine("       return result;");
             code.AppendLine("   }");
 
             return code.ToString();

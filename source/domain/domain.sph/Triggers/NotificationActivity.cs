@@ -9,11 +9,13 @@ namespace Bespoke.Sph.Domain
         {
 
             var code = new StringBuilder();
-            code.AppendLinf("   public Task<ActivityExecutionResult> {0}()", this.MethodName);
+            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLine("       var result = new ActivityExecutionResult();");
-            code.AppendLinf("       System.Console.WriteLine(\"sending notification from {0}\");", this.From);
-            code.AppendLine("       return Task.FromResult(result);");
+            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);
+            code.AppendLinf("       System.Console.WriteLine(\"Sending email : {0}\");", this.Name);
+            code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
+            code.AppendLine("       return result;");
             code.AppendLine("   }");
 
             return code.ToString();

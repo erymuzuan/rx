@@ -35,7 +35,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
         public async Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection, IEnumerable<AuditTrail> logs)
         {
             var items = attachedCollection.ToArray();
-            await SendMessage("changed", operation, items,logs);
+            await SendMessage("changed", operation, items, logs);
         }
 
         public async Task PublishDeleted(string operation, IEnumerable<Entity> deletedCollection)
@@ -70,7 +70,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
                     }
                     var routingKey = entityType.Name + "." + action;
                     var item1 = item;
-                    var xml = item1.ToXmlString();
+                    var xml = item1.ToXmlString(entityType);
                     var body = await CompressAsync(xml);
 
                     var props = channel.CreateBasicProperties();

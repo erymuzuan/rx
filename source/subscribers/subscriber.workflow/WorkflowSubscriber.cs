@@ -1,6 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -19,10 +19,26 @@ namespace Bespoke.Sph.WorkflowsExecution
             get { return new[] { "Workflow.*" }; }
         }
 
+        protected override void OnStart()
+        {
+            this.WriteMessage("Registering Workflow types for XmlSerializer");
+            var files = Directory.GetFiles(@".\", "workflows.*.dll");
+            foreach (var s in files)
+            {
+                var types = Assembly.LoadFrom(s).GetTypes().Where(t => t.BaseType == typeof(Workflow)).ToList();
+                types.ForEach(t => XmlSerializerService.RegisterKnownTypes(typeof(Workflow), t));
+
+                this.WriteMessage(string.Join(",", types.Select(t => t.FullName).ToArray()));
+            }
+            base.OnStart();
+        }
+
         protected async override Task ProcessMessage(Workflow item, MessageHeaders header)
         {
             var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var doc = await store.GetContentAsync(item.SerializedDefinitionStoreId);
+            var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", item.WorkflowDefinitionId, item.Version));
+
+            if (item.State == "Completed") return;
 
             WorkflowDefinition wd;
             using (var stream = new MemoryStream(doc.Content))
@@ -37,11 +53,11 @@ namespace Bespoke.Sph.WorkflowsExecution
 
             if (initiator.WebId == activityId)
             {
-                Console.WriteLine("started");
+                this.WriteMessage("started");
             }
-
+            this.WriteMessage("Running {0}", item.GetCurrentActivity());
             var result = await item.ExecuteAsync();
-            Console.WriteLine(result);
+            this.WriteMessage(result);
 
 
 
