@@ -235,6 +235,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="Activity">
+		<xs:all>
+			<xs:element ref="WorkflowDesigner"/>
+		</xs:all>
 		<xs:attribute name="IsInitiator" type="xs:boolean" use="required"/>
 		<xs:attribute name="NextActivityWebId" type="xs:string" use="required"/>
 		<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -367,6 +370,12 @@
 		<xs:complexType>
 			<xs:attribute name="UserProperty" type="xs:string" use="required"/>
 			<xs:attribute name="Value" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WorkflowDesigner">
+		<xs:complexType>
+			<xs:attribute name="X" type="xs:int"/>
+			<xs:attribute name="Y" type="xs:int"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

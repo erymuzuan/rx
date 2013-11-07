@@ -308,6 +308,7 @@
       <DependentUpon>WorkflowDefinition.cs</DependentUpon>
     </Compile>
     <Compile Include="Triggers\WorkflowDefinition.cs" />
+    <Compile Include="Triggers\WorkflowDesigner.cs" />
     <Compile Include="Triggers\WorkflowInitiatorAction.cs" />
   </ItemGroup>
   <ItemGroup>
