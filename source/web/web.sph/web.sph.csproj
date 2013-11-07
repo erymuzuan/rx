@@ -397,7 +397,6 @@
     <Content Include="App\partial\SetterActionChild.js" />
     <Content Include="App\partial\SetterAction.js" />
     <Content Include="App\partial\BuildingTemplate.js" />
-    <Content Include="App\partial\trigger.workflow.g.js" />
     <Content Include="App\partial\WorkflowDefinition.js" />
     <Content Include="App\partial\Trigger.js" />
     <Content Include="App\partial\Rule.js" />
@@ -696,6 +695,10 @@
     <Content Include="Content\img\team4.jpg" />
     <Content Include="Content\jsplumb\demo-all.css" />
     <Content Include="Content\jsplumb\demo.css" />
+    <Content Include="Content\jsplumb\sph.wf.32.css" />
+    <Content Include="Content\jsplumb\sph.wf.32.png" />
+    <Content Include="Content\jsplumb\sph.wf.64.css" />
+    <Content Include="Content\jsplumb\sph.wf.64.png" />
     <Content Include="Content\qunit-1.12.0.css" />
     <Content Include="Content\theme.default\complaint.css">
       <DependentUpon>complaint.less</DependentUpon>
@@ -842,6 +845,7 @@
     <Content Include="Images\building_icon.png" />
     <Content Include="Images\constantfield.png" />
     <Content Include="Images\courts.png" />
+    <Content Include="Images\CreateEntityActivity.png" />
     <Content Include="Images\dashboard-new.png" />
     <Content Include="Images\dashboard-pemeriksaan.png" />
     <Content Include="Images\dashboard-penyenggaraan.png" />

@@ -8,31 +8,31 @@
             <ul class="dropdown-menu">
                 <li>
                     <a class="btn btn-link" data-bind="click: addActivity('Screen')">
-                        <i class="fa fa-laptop"></i>
-                        Screen Activity
+                        <i class="fa fa-laptop pull-left"></i>
+                        Screen
                     </a>
                 </li>
                 <li>
                     <a class="btn btn-link" data-bind="click: addActivity('Notification')">
-                        <i class="fa fa-envelope"></i>
-                        Notification Activity
+                        <i class="fa fa-envelope pull-left"></i>
+                        Notification
                     </a>
                 </li>
                 <li>
                     <a class="btn btn-link" data-bind="click: addActivity('Decision')">
-                        <img src="/Images/DecisionActivity.png" alt="Decision activity" />
-                        Decision Activity
+                        <img src="/Images/DecisionActivity.png" class="pull-left" alt="Decision activity" />
+                        Decision
                     </a>
                 </li>
                 <li>
                     <a class="btn btn-link" data-bind="click: addActivity('CreateEntity')">
-                        <img src="/Images/DecisionActivity.png" alt="Create Entity activity" />
-                        Create Entity Activity
+                        <img src="/Images/CreateEntityActivity.png" class="pull-left" alt="Create Entity activity" />
+                        Create Record
                     </a>
                 </li>
                 <li>
                     <a class="btn btn-link" data-bind="click: addActivity('End')">
-                        <i class="fa fa-stop"></i>
+                        <i class="fa fa-stop pull-left"></i>
                         End
                     </a>
                 </li>
@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <table class="table table-striped">
+    <table class="table table-striped" id="activities-table">
         <thead>
             <tr>
                 <th>Is Initiator</th>

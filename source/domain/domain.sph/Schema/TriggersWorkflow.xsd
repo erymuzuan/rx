@@ -436,4 +436,10 @@
 			<xs:attribute name="Value" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="SendActivity" type="Activity"/>
+	<xs:element name="ListenActivity" type="Activity"/>
+	<xs:element name="ParallelActivity" type="Activity"/>
+	<xs:element name="DelayActivity" type="Activity"/>
+	<xs:element name="ThrowActivity" type="Activity"/>
+	<xs:element name="ParallelBranch" type="Activity"/>
 </xs:schema>

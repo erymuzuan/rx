@@ -30,6 +30,13 @@ define([objectbuilders.datacontext, objectbuilders.logger],
                 return tcs.promise();
 
             },
+            viewAttached = function () {
+                $('table#activities-table').on('mouseenter', 'tr', function (e) {
+                    var act = ko.dataFor(this),
+                        wid = ko.unwrap(act.WebId);
+                    console.log(wid);
+                });
+            },
             compileAsync = function () {
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.workflowdefinition);
@@ -86,6 +93,7 @@ define([objectbuilders.datacontext, objectbuilders.logger],
         var vm = {
             isBusy: isBusy,
             activate: activate,
+            viewAttached: viewAttached,
             openVisualDesigner: openVisualDesigner,
             workflowdefinition: ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
             toolbar: {

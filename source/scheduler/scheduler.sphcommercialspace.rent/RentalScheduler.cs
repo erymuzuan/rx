@@ -45,7 +45,7 @@ namespace Bespoke.Scheduler.Sph.Rental
             var contractLoadOperation = await context.LoadAsync(contractQuery);
             var contracts = contractLoadOperation.ItemCollection;
             var invoiceCollection = new List<Invoice>();
-           foreach (var c in contracts)
+            foreach (var c in contracts)
             {
                 var c1 = c;
                 var existing = await context.LoadOneAsync<Invoice>(i => i.ContractNo == c1.ReferenceNo && i.Type == InvoiceType.Rental);
@@ -97,7 +97,7 @@ namespace Bespoke.Scheduler.Sph.Rental
             ObjectBuilder.AddCacheList<IDirectoryService>(new AspNetDirectoryService());
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new ChangePublisherClient(broker));
             ObjectBuilder.AddCacheList<IPagingTranslator>(new Sql2008PagingTranslator());
-            ObjectBuilder.AddCacheList<ISqlServerMetadata>(new SqlServer2012Metadata(conn,db));
+            ObjectBuilder.AddCacheList<ISqlServerMetadata>(new SqlServer2012Metadata(conn, db));
             ObjectBuilder.AddCacheList<IRepository<Contract>>(new SqlRepository<Contract>(conn));
             ObjectBuilder.AddCacheList<IRepository<Invoice>>(new SqlRepository<Invoice>(conn));
             ObjectBuilder.AddCacheList<IRepository<Tenant>>(new SqlRepository<Tenant>(conn));

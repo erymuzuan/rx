@@ -1,5 +1,5 @@
-﻿@model Bespoke.Sph.Web.ViewModels.WorkflowDefinitionVisualViewModel
-
+﻿@using System.Web.Optimization
+@model Bespoke.Sph.Web.ViewModels.WorkflowDefinitionVisualViewModel
 @{
     Layout = null;
 }
@@ -12,29 +12,56 @@
     <link href="~/Content/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/jsplumb/demo.css" rel="stylesheet" />
     <link href="~/Content/jsplumb/demo-all.css" rel="stylesheet" />
+    <link href="~/Content/jsplumb/sph.wf.64.css" rel="stylesheet" />
+    <link href="~/Content/jsplumb/sph.wf.32.css" rel="stylesheet" />
 </head>
 <body>
-    <div id="container" data-bind="with : wd">
-        <h1 data-bind="text:Name()"></h1>
-        <!-- ko foreach : ActivityCollection() -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 
-        <div class="activity w" data-bind="attr : {id:WebId()}">
-            <!-- ko text : Name() -->
-
-	            
-
-            <!-- /ko -->
-
-            <div class="ep"></div>
+        <button class="btn btn-default" data-bind="click : save">Save</button>
+        <button class="btn btn-default" data-bind="click : save">Save &amp; Close</button>
+        <strong data-bind="text:wd().Name()"></strong>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2"></div>
         </div>
+        <div class="row">
+            <div class="col-lg-9" id="container" data-bind="with : wd">
+                <!-- ko foreach : ActivityCollection() -->
+                <div class="activity w" data-bind="attr : {id:WebId()}">
+                    <div class="activity32 pull-right"></div>
+                    <!-- ko text : Name() -->
+                    <!-- /ko -->
 
-        <!-- /ko -->
+                    <div class="ep"></div>
+                </div>
 
+                <!-- /ko -->
+            </div>
+            <div class="col-lg-3" style="background-color: rgb(163, 163, 163);height: 800px">
+                <h3>Toolbox</h3>
+                <div>
+                    <!-- ko foreach : toolboxElements -->
+
+                    <div class="btn btn-default col-lg-12" data-bind="attr : {id:WebId()}">
+                        <div data-bind="attr : {'class':CssClass}" ></div>
+                        <strong data-bind="text:Name"></strong>
+                        <p data-bind="text:Note"></p>
+
+                    </div>
+
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
     </div>
     <script src="~/Scripts/underscore.js"></script>
     <script src="~/Scripts/jquery-2.0.3.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="~/Scripts/jquery.ui.touch-punch.min.js"></script>
+    <script src="~/Scripts/knockout-3.0.0.debug.js"></script>
+    <script src="~/Scripts/knockout.mapping-latest.js"></script>
 
     <script src="~/Scripts/jsPlumb/util.js"></script>
     <script src="~/Scripts/jsPlumb/dom-adapter.js"></script>
@@ -53,121 +80,167 @@
     <script src="~/Scripts/jsplumb-geom-0.1.js"></script>
     <script src="~/Scripts/jsBezier-0.6-min.js"></script>
 
-    <script src="~/Scripts/knockout-3.0.0.js"></script>
-    <script src="~/Scripts/knockout.mapping-latest.js"></script>
+    <script src="~/App/durandal/amd/require.js"></script>
+
+    @Scripts.Render("~/scripts/core")
+    @Scripts.Render("~/scripts/domain.schema")
+    @Scripts.Render("~/scripts/domain.prototypes")
+    @Scripts.Render("~/scripts/domain.partials")
+
     <script type="text/javascript">
+        /* */   require.config({
+            baseUrl: "/App",
+            waitSeconds: 15
+        });
 
-        ; (function () {
+        define('jquery', function () { return jQuery; });
+        //define('knockout-3.0.0',function (){return ko;});
 
-            console.log(window.wd);
-            $(function () {
-                var save = function () {
+        require(['services/datacontext', 'jquery'],
+
+            function (context) {
+
+                console.log(window.wd);
+                var elements = [
+                    new bespoke.sph.domain.ScreenActivity("@Guid.NewGuid()"),
+                    new bespoke.sph.domain.DecisionActivity("@Guid.NewGuid()"),
+                    new bespoke.sph.domain.CreateEntityActivity("@Guid.NewGuid()"),
+                    new bespoke.sph.domain.NotificationActivity("@Guid.NewGuid()"),
+                    new bespoke.sph.domain.EndActivity("@Guid.NewGuid()")
+                ];
+                elements[0].Name("Screen");
+                elements[1].Name("Decision");
+                elements[2].Name("Create Record");
+                elements[3].Name("Notifify");
+                elements[4].Name("End");
+
+                elements[0].Note = "Screen";
+                elements[1].Note = "Decision";
+                elements[2].Note = "Create Record";
+                elements[3].Note = "Notify";
+                elements[4].Note = "End";
+
+                elements[0].CssClass = "pull-left activity64 activity64-ScreenActivity";
+                elements[1].CssClass = "pull-left activity64 activity64-DecisionActivity";
+                elements[2].CssClass = "pull-left activity64 activity64-CreateEntityActivity";
+                elements[3].CssClass = "pull-left activity64 activity64-NotificationActivity";
+                elements[4].CssClass = "pull-left activity64 activity64-EndActivity";
+
+                $(function () {
+                    var save = function () {
+                        $('div#container>div.activity').each(function () {
+                            var p = $(this),
+                                act = ko.dataFor(this),
+                                x = parseInt(p.css("left")),
+                                y = parseInt(p.css("top"));
+
+                            act.WorkflowDesigner().X(x);
+                            act.WorkflowDesigner().Y(y);
+
+                        });
+                        window.saved(vm.wd());
+                        window.close();
+
+                    },
+                        vm = {
+                            wd: ko.observable(window.wd),
+                            save: save,
+                            toolboxElements: ko.observableArray(elements)
+                        };
+                    ko.applyBindings(vm);
+                    // set the positions
+                    var count = 1;
                     $('div#container>div.activity').each(function () {
+
+                        console.log(ko.dataFor(this));
+
                         var p = $(this),
                             act = ko.dataFor(this),
-                            x = parseInt(p.css("left")),
-                            y = parseInt(p.css("top"));
+                            x = act.WorkflowDesigner().X() || 250,
+                            y = act.WorkflowDesigner().Y() || 150 * count,
+                            fullName = typeof act.$type === "function" ? act.$type() : act.$type,
+                            name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1];
+                        console.log(fullName, "Activity type");
+                        console.log(name, "Activity type name");
+                        p.css("left", x + "px").css("top", y + "px").find("div.activity32").addClass("activity32-" + name);
 
-                        act.WorkflowDesigner().X(x);
-                        act.WorkflowDesigner().Y(y);
 
+                        count++;
                     });
-                    window.saved(vm.wd());
-                    window.close();
-
-                },
-                vm = {
-                    wd: ko.observable(window.wd),
-                    save: save
-                };
-                ko.applyBindings(vm);
-                // set the positions
-                var count = 1;
-                $('div#container>div.activity').each(function () {
-                    var p = $(this),
-                        act = ko.dataFor(this),
-                        x = act.WorkflowDesigner().X() || 250,
-                        y = act.WorkflowDesigner().Y() || 150 * count;
-
-                    p.css("left", x + "px").css("top", y + "px");
 
 
-                    count++;
-                });
+                    jsPlumb.ready(function () {
+                        jsPlumb.init();
+                        jsPlumb.Defaults.Container = "container";
+                        jsPlumb.draggable($("div.activity"));
 
+                        // setup some defaults for jsPlumb.
+                        jsPlumb.importDefaults({
+                            Endpoint: ["Dot", { radius: 2 }],
+                            HoverPaintStyle: { strokeStyle: "#000", lineWidth: 2 },
+                            PaintStyle: { strokeStyle: "#575757", lineWidth: 2 },
+                            ConnectionOverlays: [
+                                ["Arrow", {
+                                    location: 1,
+                                    id: "arrow",
+                                    length: 14,
+                                    foldback: 0.8
+                                }]
+                            ]
+                        });
 
-                jsPlumb.ready(function () {
-                    jsPlumb.init();
-                    jsPlumb.Defaults.Container = "container";
-                    jsPlumb.draggable($("div.activity"));
-                    
-                    // setup some defaults for jsPlumb.	
-                    jsPlumb.importDefaults({
-                        Endpoint: ["Dot", { radius: 2 }],
-                        HoverPaintStyle: { strokeStyle: "#1e8151", lineWidth: 2 },
-                        ConnectionOverlays: [
-                            ["Arrow", {
-                                location: 1,
-                                id: "arrow",
-                                length: 14,
-                                foldback: 0.8
-                            }]
-                        ]
-                    });
-                    
-                    var activitiest = vm.wd().ActivityCollection(),
-                        createConnection = function (source, target, label) {
+                        var activitiest = vm.wd().ActivityCollection(),
+                            createConnection = function (source, target, label) {
 
-                            jsPlumb.connect({
-                                source: source,
-                                target: target,
-                                container: 'container',
-                                endpoint: 'Blank',
-                                connector: ["StateMachine", { curviness: 0 }],
-                                connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 1, outlineColor: "transparent", outlineWidth: 1 },
-                                anchors: ["Bottom", "TopCenter"],
-                                overlays: [
-                                    ["Arrow", {
-                                        cssClass: "l1arrow"
-                                        
-                                    }],
-                                    [
-                                        "Label", {
-                                            cssClass : "l1 component label",
-                                            label: label || '',
-                                            location: 0.2,
-                                            id : target + '-label'
-                                        }
+                                jsPlumb.connect({
+                                    source: source,
+                                    target: target,
+                                    container: 'container',
+                                    endpoint: 'Blank',
+                                    connector: ["Flowchart", { cornerRadius: 5 }],
+                                    connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 1, outlineColor: "transparent", outlineWidth: 1 },
+                                    anchors: ["Bottom", "TopCenter"],
+                                    overlays: [
+                                        ["Arrow", {
+                                            cssClass: "l1arrow"
+                                        }],
+                                        [
+                                            "Label", {
+                                                cssClass: "l1 component label",
+                                                label: label || '',
+                                                location: 0.2,
+                                                id: target + '-label'
+                                            }
+                                        ]
                                     ]
-                                ]
-                            });
-                        };
+                                });
+                            };
 
-                    _(activitiest).each(function (v) {
-                        console.log("connecting ", v);
-                        if (v.NextActivityWebId()) {
-                            createConnection(v.WebId(), v.NextActivityWebId());
-                        }
+                        _(activitiest).each(function (v) {
+                            console.log("connecting ", v);
+                            if (v.NextActivityWebId()) {
+                                createConnection(v.WebId(), v.NextActivityWebId());
+                            }
 
-                        if (v.multipleEndPoints) {
-                            _(v.multipleEndPoints()).each(function (d) {
-                                createConnection(v.WebId(), d.NextActivityWebId(), d.Name());
-                                console.log("connecting branches");
-                            });
-                        }
+                            if (v.multipleEndPoints) {
+                                _(v.multipleEndPoints()).each(function (d) {
+                                    createConnection(v.WebId(), d.NextActivityWebId(), d.Name());
+                                    console.log("connecting branches");
+                                });
+                            }
 
+
+                        });
 
                     });
 
                 });
+
 
             });
-
-
-        })();
     </script>
-    <div class="navbar-fixed-top">
-        <button class="btn btn-default" data-bind="click : save">Save</button>
-    </div>
 </body>
+
+
+
 </html>
