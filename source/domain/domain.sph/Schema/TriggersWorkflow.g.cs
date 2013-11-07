@@ -2011,6 +2011,80 @@
           ///</summary>
           [DataObject(true)]
           [Serializable]
+          [XmlType("WorkflowDesigner",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class WorkflowDesigner
+          {
+          
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  int  m_x;
+                    public const string PropertyNameX = "X";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  int  m_y;
+                    public const string PropertyNameY = "Y";
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                [DebuggerHidden]
+                
+                    public int X
+                    {
+                    set
+                    {
+                    if( m_x == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameX, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_x= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_x;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                [DebuggerHidden]
+                
+                    public int Y
+                    {
+                    set
+                    {
+                    if( m_y == value) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameY, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_y= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_y;}
+                    }
+
+                  
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
           [XmlType("SimpleMapping",  Namespace=Strings.DEFAULT_NAMESPACE)]
           public  partial class SimpleMapping
           {
@@ -2315,6 +2389,23 @@
         private  string  m_name;
         public const string PropertyNameName = "Name";
       
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			private WorkflowDesigner m_workflowDesigner
+					=  new WorkflowDesigner();
+				
+			public const string PropertyNameWorkflowDesigner = "WorkflowDesigner";
+			[DebuggerHidden]
+
+			public WorkflowDesigner WorkflowDesigner
+			{
+			get{ return m_workflowDesigner;}
+			set
+			{
+			m_workflowDesigner = value;
+			OnPropertyChanged();
+			}
+			}
+		
 
       // public properties members
       

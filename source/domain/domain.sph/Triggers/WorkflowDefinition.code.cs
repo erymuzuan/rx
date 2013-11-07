@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Domain
     public partial class WorkflowDefinition
     {
         private XElement m_customSchema;
-        
+
         private string GenerateXsdElementClass(XElement e, int level = 0)
         {
             var properties = new List<string>();
@@ -126,7 +126,7 @@ namespace Bespoke.Sph.Domain
             if (nillable) type += "?";
             return type;
         }
-        
+
         private string GenerateCode()
         {
             var code = new StringBuilder();
@@ -168,8 +168,9 @@ namespace Bespoke.Sph.Domain
             // start
             code.AppendLine("       public override Task<ActivityExecutionResult> StartAsync()");
             code.AppendLine("       {");
+            code.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.WorkflowDefinitionId, this.Version);
             code.AppendLinf("           return this.{0}();", this.GetInititorScreen().MethodName);
-            
+
             code.AppendLine("       }");
             // execute
             code.AppendLine("       public async override Task<ActivityExecutionResult> ExecuteAsync()");
@@ -269,6 +270,6 @@ namespace Bespoke.Sph.Domain
 
         }
 
-    
+
     }
 }

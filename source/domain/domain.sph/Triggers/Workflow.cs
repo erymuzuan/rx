@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Domain
         public WorkflowDefinition WorkflowDefinition { get; set; }
 
         /// <summary>
-        /// once a workflow definition is published the copy of the definition is stored for reference with id and version no
+        /// Once a workflow definition is published the copy of the definition is stored for reference with id and version no
         /// </summary>
         [XmlAttribute]
         public string SerializedDefinitionStoreId { get; set; }

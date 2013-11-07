@@ -221,7 +221,6 @@ bespoke.sph.domain.WorkflowDefinition = function (webId) {
         Version: ko.observable(0),
         ActivityCollection: ko.observableArray([]),
         VariableDefinitionCollection: ko.observableArray([]),
-        PropertyMappingCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -483,18 +482,6 @@ bespoke.sph.domain.Variable = function (webId) {
         Name: ko.observable(''),
         TypeName: ko.observable(''),
         DefaultValue: ko.observable(''),
-        isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
-    };
-};
-
-
-bespoke.sph.domain.PropertyMapping = function (webId) {
-
-    return {
-        "$type": "Bespoke.Sph.Domain.PropertyMapping, domain.sph",
-        Source: ko.observable(''),
-        Destination: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

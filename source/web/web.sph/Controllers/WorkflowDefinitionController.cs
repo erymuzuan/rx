@@ -74,20 +74,36 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
             wd.Version += 1;// publish will increase the version
+            //wd.
+
+            //archide the WD
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var archived = new BinaryStore
+            {
+                StoreId = string.Format("wd.{0}.{1}", wd.WorkflowDefinitionId, wd.Version),
+                Content = Encoding.Unicode.GetBytes(wd.ToXmlString())
+            };
+            await store.AddAsync(archived);
 
             await this.Save(wd);
 
-            var options = new CompilerOptions();
+            var options = new CompilerOptions
+            {
+                SourceCodeDirectory = @"d:\temp\"
+            };
             options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
             options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
 
             var result = wd.Compile(options);
+            if (!result.Result)
+            {
+                return Json(new { success = false, version = wd.Version, status = "ERROR", messages = result.Errors });
+            }
             // copy the output to bin
             System.IO.File.Copy(result.Output, Server.MapPath("~/bin/" + Path.GetFileName(result.Output)), true);
             var pdb = result.Output.Replace(".dll", ".pdb");
             if (System.IO.File.Exists(pdb))
                 System.IO.File.Copy(pdb, Server.MapPath("~/bin/" + Path.GetFileName(pdb)), true);
-
             return Json(new { success = true, version = wd.Version, status = "OK", message = "Your workflow has been successfully compiled and published : " + Path.GetFileName(result.Output) });
         }
 

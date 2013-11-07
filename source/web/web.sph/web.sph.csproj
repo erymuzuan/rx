@@ -381,6 +381,7 @@
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
+    <Content Include="App\partial\WorkflowDesigner.js" />
     <Content Include="App\partial\DecisionActivity.js" />
     <Content Include="App\partial\FormElement.js" />
     <Content Include="App\partial\MaintenanceTemplate.js" />
@@ -394,6 +395,7 @@
     <Content Include="App\partial\SetterActionChild.js" />
     <Content Include="App\partial\SetterAction.js" />
     <Content Include="App\partial\BuildingTemplate.js" />
+    <Content Include="App\partial\trigger.workflow.g.js" />
     <Content Include="App\partial\WorkflowDefinition.js" />
     <Content Include="App\partial\Trigger.js" />
     <Content Include="App\partial\Rule.js" />
@@ -845,6 +847,7 @@
     <Content Include="Images\down8.png" />
     <Content Include="Images\edit_icon.png" />
     <Content Include="Images\EmailAction.png" />
+    <Content Include="Images\EndActivity.png" />
     <Content Include="Images\propertychanged.png" />
     <Content Include="Images\functionfield.png" />
     <Content Include="Images\gelanggang.png" />
