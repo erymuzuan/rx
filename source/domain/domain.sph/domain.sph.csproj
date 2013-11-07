@@ -160,9 +160,12 @@
     <Compile Include="Triggers\ActivityExecutionResult.cs" />
     <Compile Include="Triggers\AssemblyAction.cs" />
     <Compile Include="Triggers\AssemblyField.cs" />
+    <Compile Include="Triggers\CompilerMessage.cs" />
+    <Compile Include="Triggers\CompilerOptions.cs" />
     <Compile Include="Triggers\ComplexVariable.cs" />
     <Compile Include="Triggers\CreateEntityAction.cs" />
     <Compile Include="Triggers\DecisionActivity.cs" />
+    <Compile Include="Triggers\DecisionBranch.cs" />
     <Compile Include="Triggers\DeleteEntityAction.cs" />
     <Compile Include="Triggers\EndActivity.cs" />
     <Compile Include="Triggers\FunctionField.cs" />
@@ -300,6 +303,10 @@
     <Compile Include="Triggers\Variable.cs" />
     <Compile Include="Triggers\VariableValue.cs" />
     <Compile Include="Triggers\Workflow.cs" />
+    <Compile Include="Triggers\WorkflowCompilerResult.cs" />
+    <Compile Include="Triggers\WorkflowDefinition.code.cs">
+      <DependentUpon>WorkflowDefinition.cs</DependentUpon>
+    </Compile>
     <Compile Include="Triggers\WorkflowDefinition.cs" />
     <Compile Include="Triggers\WorkflowInitiatorAction.cs" />
   </ItemGroup>

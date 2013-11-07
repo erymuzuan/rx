@@ -237,6 +237,7 @@
 	<xs:complexType name="Activity">
 		<xs:attribute name="IsInitiator" type="xs:boolean" use="required"/>
 		<xs:attribute name="NextActivityWebId" type="xs:string" use="required"/>
+		<xs:attribute name="Name" type="xs:string" use="required"/>
 	</xs:complexType>
 	<xs:element name="Workflow">
 		<xs:complexType>
@@ -275,7 +276,29 @@
 	<xs:element name="DecisionActivity">
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="Activity"/>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="DecisionBranchCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="DecisionBranch" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DecisionBranch">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="Expression" type="xs:string"/>
+					</xs:all>
+					<xs:attribute name="IsDefault" type="xs:boolean" use="required"/>
+				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>

@@ -6,6 +6,11 @@
         public string Message { get; set; }
         public object Result { get; set; }
         public Activity NextActivity { get; set; }
+
+        public override string ToString()
+        {
+            return this.ToJsonString();
+        }
     }
 
     public enum ActivityExecutionStatus

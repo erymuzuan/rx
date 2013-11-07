@@ -10,6 +10,8 @@ namespace domain.test.workflows
     [TestFixture]
     public class WorkflowGenerationTest
     {
+        private readonly string m_schemaStoreId = Guid.NewGuid().ToString();
+
         [SetUp]
         public void Init()
         {
@@ -18,7 +20,7 @@ namespace domain.test.workflows
                 Content = File.ReadAllBytes(@".\workflows\PemohonWakaf.xsd")
             };
             var store = new Mock<IBinaryStore>(MockBehavior.Strict);
-            store.Setup(x => x.GetContent(It.IsAny<string>()))
+            store.Setup(x => x.GetContent(m_schemaStoreId))
                 .Returns(doc);
             ObjectBuilder.AddCacheList(store.Object);
         }
@@ -27,32 +29,38 @@ namespace domain.test.workflows
         public void Compile()
         {
 
-            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = "cd6a8751-ceed-4805-a200-02a193b651e0" };
+            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = m_schemaStoreId };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
 
 
-            var screen = new ScreenActivity
+            var apply = new ScreenActivity
             {
-                Title = "Pohon",
+                Title = "Apply",
                 ViewVirtualPath = "~/Views/Workflows_8_1/pohon.cshtml",
-                WebId = Guid.NewGuid().ToString()
+                WebId = Guid.NewGuid().ToString(),
+                NextActivityWebId = Guid.NewGuid().ToString()
             };
-            screen.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
-            screen.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
-            wd.ActivityCollection.Add(screen);
+            apply.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
+            apply.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
+            wd.ActivityCollection.Add(apply);
+            wd.ActivityCollection.Add(new EndActivity { WebId = apply.NextActivityWebId });
 
             wd.Version = Directory.GetFiles(".", "workflows.8.*.dll").Length + 1;
-            var dll = wd.Compile(@"C:\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll",
-                @"C:\project\work\sph\source\web\web.sph\bin\web.sph.dll");
 
-            Assert.IsTrue(File.Exists(dll), "assembly " + dll);
+            var options = new CompilerOptions {IsDebug = true};
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll")));
 
-            Console.WriteLine(screen.GetView(wd));
+            var result = wd.Compile(options);
+
+            Assert.IsTrue(File.Exists(result.Output), "assembly " + result);
+
+            Console.WriteLine(apply.GetView(wd));
 
             // try to instantiate the Workflow
-            var assembly = Assembly.LoadFrom(dll);
+            var assembly = Assembly.LoadFrom(result.Output);
             var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.WorkflowDefinitionId, wd.Version,
                 wd.WorkflowTypeName);
 
