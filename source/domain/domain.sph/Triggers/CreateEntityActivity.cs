@@ -14,14 +14,14 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLinf("        var item = new {0}();",this.EntityType);
-            code.AppendLinf("        var self = this.WorkflowDefinition.ActivityCollection.Single(a => a.WebId == \"{0}\"",this.WebId);
+            code.AppendLinf("        var self = this.WorkflowDefinition.ActivityCollection.OfType<CreateEntityActivity>().Single(a => a.WebId == \"{0}\");", this.WebId);
 
             var count = 1;
             foreach (var mapping in this.PropertyMappingCollection)
             {
-                code.AppendLinf("       var functoid{1} =  self.MappingCollection.SingleOrDefault(m => m.WebId == \"{0}\") as FunctoidMapping;", mapping.WebId, count);
+                code.AppendLinf("       var functoid{1} =  self.PropertyMappingCollection.SingleOrDefault(m => m.WebId == \"{0}\") as FunctoidMapping;", mapping.WebId, count);
                 code.AppendLinf("       if(null != functoid{0})", count);
-                code.AppendLinf("           item.{0} = functoid.Convert(this.{1});", mapping.Destination, mapping.Source);
+                code.AppendLinf("           item.{0} = functoid{2}.Functoid.Convert<string,string>(this.{1});", mapping.Destination, mapping.Source, count);
                 code.AppendLine("       else");
                 code.AppendLinf("           item.{0} = this.{1};", mapping.Destination, mapping.Source);
 

@@ -1,6 +1,6 @@
 ﻿namespace Bespoke.Sph.Domain
 {
-    partial class FunctoidMapping : PropertyMapping
+    public partial class FunctoidMapping : PropertyMapping
     {
     }
 }

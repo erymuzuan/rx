@@ -140,6 +140,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("{");
 
             code.AppendLine("   [EntityType(typeof(Workflow))]");
+            code.AppendLinf("   [XmlType(\"{0}.{1}\",Namespace = Strings.DEFAULT_NAMESPACE)]",this.CodeNamespace, this.WorkflowTypeName);
             code.AppendLine("   public class " + this.WorkflowTypeName + " : " + typeof(Workflow).FullName);
             code.AppendLine("   {");
 
