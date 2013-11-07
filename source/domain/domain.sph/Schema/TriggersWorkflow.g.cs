@@ -1674,6 +1674,47 @@ namespace Bespoke.Sph.Domain
     public partial class DecisionActivity
     {
 
+        private readonly ObjectCollection<DecisionBranch> m_DecisionBranchCollection = new ObjectCollection<DecisionBranch>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("DecisionBranch", IsNullable = false)]
+        public ObjectCollection<DecisionBranch> DecisionBranchCollection
+        {
+            get { return m_DecisionBranchCollection; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("DecisionBranch", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class DecisionBranch
+    {
+
+        private bool m_IsDefault;
+        [XmlAttribute]
+        public bool IsDefault
+        {
+            get
+            {
+                return m_IsDefault;
+            }
+            set
+            {
+                m_IsDefault = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        public string Expression { get; set; }
+
 
     }
 
@@ -1729,6 +1770,7 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    // placeholder for FormDesign
     ///<summary>
     /// 
     ///</summary>
@@ -2329,6 +2371,11 @@ namespace Bespoke.Sph.Domain
         private string m_nextActivityWebId;
         public const string PropertyNameNextActivityWebId = "NextActivityWebId";
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
 
         // public properties members
 
@@ -2373,6 +2420,28 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_nextActivityWebId;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string Name
+        {
+            set
+            {
+                if (m_name == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
             }
         }
 

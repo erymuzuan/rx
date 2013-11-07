@@ -1,8 +1,9 @@
 ﻿using System;
-using System.IO;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
 {
@@ -10,11 +11,25 @@ namespace Bespoke.Sph.Domain
     {
         [XmlAttribute]
         public string CurrentActivityWebId { get; set; }
+
+        /// <summary>
+        /// once a workflow definition is published the copy of the definition is stored for reference with id and version no,
+        /// the WorkflowDefinitionId may not be of the correct version anymore
+        /// </summary>
+        [XmlIgnore]
+        [JsonIgnore]
+        public WorkflowDefinition WorkflowDefinition { get; set; }
+
+        /// <summary>
+        /// once a workflow definition is published the copy of the definition is stored for reference with id and version no
+        /// </summary>
         [XmlAttribute]
         public string SerializedDefinitionStoreId { get; set; }
 
         public virtual Task<ActivityExecutionResult> StartAsync()
         {
+            // run the first one and save
+
             return Task.FromResult(new ActivityExecutionResult { Status = ActivityExecutionStatus.None });
         }
 
@@ -25,31 +40,31 @@ namespace Bespoke.Sph.Domain
 
         public Activity GetCurrentActivity()
         {
-            var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var s = store.GetContent(this.SerializedDefinitionStoreId);
-            using (var stream = new MemoryStream(s.Content))
-            {
-                var wd = stream.DeserializeFromXml<WorkflowDefinition>();
-                if (string.IsNullOrWhiteSpace(this.CurrentActivityWebId))
-                    return wd.ActivityCollection.Single(d => d.IsInitiator);
-            }
-
-            return null;
+            if(null == this.WorkflowDefinition)
+                throw new InvalidOperationException("You should have set the WorkflowDefinition " + this.WorkflowDefinitionId + " version " + this.Version + " via SerializedDefinitionStoreId property");
+            return this.WorkflowDefinition.ActivityCollection.SingleOrDefault(d => d.WebId == this.CurrentActivityWebId) ;
         }
 
         public Activity GetNexActivity()
         {
-            return null;
+            if (null == this.WorkflowDefinition)
+                throw new InvalidOperationException("You should have set the WorkflowDefinition " + this.WorkflowDefinitionId + " version " + this.Version + " via SerializedDefinitionStoreId property");
+            var current =  string.IsNullOrWhiteSpace(this.CurrentActivityWebId) ? this.WorkflowDefinition.ActivityCollection.Single(d => d.IsInitiator) : null;
+        
+            if(null == current)return null;
+            if(string.IsNullOrWhiteSpace(current.NextActivityWebId))return null;
+            return this.WorkflowDefinition.ActivityCollection.SingleOrDefault(f => f.WebId == current.NextActivityWebId);
         }
 
         public async virtual Task SaveAsync(string activityId)
         {
-            Console.WriteLine("saving....." + activityId);
+            Debug.WriteLine("Saving....." + activityId);
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
                 session.Attach(this);
                 await session.SubmitChanges(activityId);
+                Debug.WriteLine("Saved...");
             }
         }
 

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
+using Bespoke.Sph.RoslynScriptEngines;
 using Moq;
 using NUnit.Framework;
 
@@ -15,6 +16,7 @@ namespace domain.test.workflows
     public class WorkflowExecutionTest
     {
         private Mock<IBinaryStore> m_store;
+
         [SetUp]
         public void Init()
         {
@@ -49,7 +51,7 @@ namespace domain.test.workflows
                 .Returns(() => Task.Delay(100));
             ObjectBuilder.AddCacheList(ecp.Object);
 
-
+            ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
         }
 
         [Test]
@@ -64,6 +66,7 @@ namespace domain.test.workflows
             var pohon = new ScreenActivity
             {
                 Title = "Pohon",//[A-Z|a-z|.]
+                Name = "Pohon",
                 ViewVirtualPath = "~/Views/Workflows_8_1/pohon.cshtml",
                 WebId = "_A_",
                 IsInitiator = true,
@@ -75,10 +78,30 @@ namespace domain.test.workflows
 
             var decide = new DecisionActivity
             {
+                Name = "Check applicant age group",
                 WebId = "_B_",
                 NextActivityWebId = "_C_"
 
             };
+            decide.DecisionBranchCollection.Add(new DecisionBranch
+            {
+                Name = "Less than 25",
+                Expression = "item.pemohon.Age < 25",
+                NextActivityWebId = "_C_Below25"
+            });
+            decide.DecisionBranchCollection.Add(new DecisionBranch
+            {
+                Name = "25 to 50",
+                Expression = "item.pemohon.Age >= 25 && item.pemohon.Age < 50",
+                NextActivityWebId = "_C_25to50"
+            });
+            decide.DecisionBranchCollection.Add(new DecisionBranch
+            {
+                Name = "all else",
+                Expression = "item.pemohon.Age >= 50",
+                NextActivityWebId = "_C_Above50",
+                IsDefault = true
+            });
             wd.ActivityCollection.Add(decide);
 
             var approval = new ScreenActivity
@@ -89,20 +112,28 @@ namespace domain.test.workflows
                 ViewVirtualPath = "d"
             };
             wd.ActivityCollection.Add(approval);
-            wd.ActivityCollection.Add(new EndActivity { WebId = "_D_"});
+            wd.ActivityCollection.Add(new EndActivity { WebId = "_D_" });
 
             m_store.Setup(x => x.GetContent("wd-storeid"))
                 .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), StoreId = "wd-storeid" });
 
             wd.Version = Directory.GetFiles(".", "workflows.8.*.dll").Length + 1;
-            var dll = wd.Compile(@"D:\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll",
-                @"D:\project\work\sph\source\web\web.sph\bin\web.sph.dll");
+            var options = new CompilerOptions
+            {
+                IsDebug = true,
+                SourceCodeDirectory = @"d:\temp\"
+            };
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll")));
 
-            Assert.IsTrue(File.Exists(dll), "assembly " + dll);
+
+            var result = wd.Compile(options);
+
+            Assert.IsTrue(File.Exists(result.Output), "assembly " + result);
 
 
             // try to instantiate the Workflow
-            var assembly = Assembly.LoadFrom(dll);
+            var assembly = Assembly.LoadFrom(result.Output);
             var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.WorkflowDefinitionId, wd.Version,
                 wd.WorkflowTypeName);
 
@@ -115,12 +146,23 @@ namespace domain.test.workflows
             wf.SerializedDefinitionStoreId = "wd-storeid";
             XmlSerializerService.RegisterKnownTypes(typeof(Workflow), wfType);
 
+            var pemohonProperty = wf.GetType().GetProperty("pemohon");
+            Assert.IsNotNull(pemohonProperty);
+            dynamic pemohon = pemohonProperty.GetValue(wf);
+            pemohon.Age = 28;
+
+            wf.WorkflowDefinition = wd;
             wf.StartAsync().ContinueWith(_ =>
             {
-                var result = _.Result;
-                Console.WriteLine(result.Status);
+                var result0 = _.Result;
+                Console.WriteLine(result0.Status);
 
-                wf.ExecuteAsync().Wait();
+                wf.ExecuteAsync().ContinueWith(r2 =>
+                {
+                    var result2 = r2.Result;
+                    Console.WriteLine(result2);
+                    Assert.AreEqual("_C_25to50", wf.CurrentActivityWebId);
+                }).Wait();
             }).Wait();
 
         }

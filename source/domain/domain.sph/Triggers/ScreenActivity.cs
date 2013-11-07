@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
-                throw new InvalidOperationException("NextActivityWebId is null or empty");
+                throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Title);
 
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);

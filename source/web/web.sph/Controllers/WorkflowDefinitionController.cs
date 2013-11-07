@@ -55,10 +55,11 @@ namespace Bespoke.Sph.Web.Controllers
             await this.Save(wd);
             try
             {
-                var output = wd.Compile(
-                    typeof(Controller).Assembly.Location,
-                    typeof(WorkflowDefinitionController).Assembly.Location);
-                return Json(new { success = true, status = "OK", message = "Your workflow has been successfully compiled  : " + Path.GetFileName(output) });
+                var options = new CompilerOptions();
+                options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
+                options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
+                var result = wd.Compile(options);
+                return Json(new { success = true, status = "OK", message = "Your workflow has been successfully compiled  : " + Path.GetFileName(result.Output) });
 
             }
             catch (Exception e)
@@ -72,18 +73,22 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Publish()
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
-            wd.Version = wd.Version + 1;// publish will increase the version
+            wd.Version += 1;// publish will increase the version
 
             await this.Save(wd);
-            var output = wd.Compile(typeof(Controller).Assembly.Location,
-                typeof(WorkflowDefinitionController).Assembly.Location);
+
+            var options = new CompilerOptions();
+            options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
+            options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
+
+            var result = wd.Compile(options);
             // copy the output to bin
-            System.IO.File.Copy(output, Server.MapPath("~/bin/" + Path.GetFileName(output)), true);
-            var pdb = output.Replace(".dll", ".pdb");
+            System.IO.File.Copy(result.Output, Server.MapPath("~/bin/" + Path.GetFileName(result.Output)), true);
+            var pdb = result.Output.Replace(".dll", ".pdb");
             if (System.IO.File.Exists(pdb))
                 System.IO.File.Copy(pdb, Server.MapPath("~/bin/" + Path.GetFileName(pdb)), true);
 
-            return Json(new { success = true, version = wd.Version, status = "OK", message = "Your workflow has been successfully compiled and published : " + Path.GetFileName(output) });
+            return Json(new { success = true, version = wd.Version, status = "OK", message = "Your workflow has been successfully compiled and published : " + Path.GetFileName(result.Output) });
         }
 
         public async Task<ActionResult> Save()

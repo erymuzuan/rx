@@ -64,6 +64,7 @@ namespace Bespoke.Sph.Domain
         public static string ToJsonString<T>(this T value)
         {
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
             return JsonConvert.SerializeObject(value, setting);
         }
 
