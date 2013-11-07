@@ -1167,6 +1167,17 @@ namespace Bespoke.Sph.Domain
             get { return m_VariableDefinitionCollection; }
         }
 
+        private readonly ObjectCollection<PropertyMapping> m_PropertyMappingCollection = new ObjectCollection<PropertyMapping>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<PropertyMapping> PropertyMappingCollection
+        {
+            get { return m_PropertyMappingCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -2536,6 +2547,73 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_defaultValue;
+            }
+        }
+
+
+
+    }
+
+
+    [XmlType("PropertyMapping", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class PropertyMapping
+    {
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_source;
+        public const string PropertyNameSource = "Source";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private string m_destination;
+        public const string PropertyNameDestination = "Destination";
+
+
+        // public properties members
+
+
+
+        [XmlAttribute]
+        public string Source
+        {
+            set
+            {
+                if (m_source == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSource, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_source = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_source;
+            }
+        }
+
+
+
+        [XmlAttribute]
+        public string Destination
+        {
+            set
+            {
+                if (m_destination == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDestination, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_destination = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_destination;
             }
         }
 

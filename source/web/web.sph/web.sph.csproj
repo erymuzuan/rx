@@ -552,6 +552,9 @@
     <Content Include="App\views\_user.add.html" />
     <Content Include="App\views\_user.change.password.html" />
     <Content Include="App\views\_users.department.html" />
+    <Content Include="App\views\_workflow.definition.activities.html" />
+    <Content Include="App\views\_workflow.definition.propertymapping.html" />
+    <Content Include="App\views\_workflow.definition.variables.html" />
     <Content Include="App\views\_workorder.comment.html" />
     <Content Include="App\views\_workorder.ncr.html" />
     <Content Include="App\views\_workorder.partsandlabor.html" />
