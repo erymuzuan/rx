@@ -1,6 +1,6 @@
 ﻿namespace Bespoke.Sph.Domain
 {
-   public partial class Action : DomainObject
+    public partial class Action : DomainObject
     {
     }
 }

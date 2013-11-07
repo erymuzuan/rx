@@ -7,6 +7,7 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(DecisionActivity))]
     [XmlInclude(typeof(NotificationActivity))]
     [XmlInclude(typeof(EndActivity))]
+    [XmlInclude(typeof(CreateEntityActivity))]
     public partial class Activity : DomainObject
     {
         public string MethodName

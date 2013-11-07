@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
-                throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Title);
+                throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
 
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
@@ -59,28 +59,31 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("               vm.Controller  = this.GetType().Name;");
             code.AppendLinf("               vm.SaveAction  = \"Save{0}\";", this.ActionName);
             code.AppendLinf("               vm.Namespace  = \"{0}\";", wd.CodeNamespace);
-            code.AppendLinf("               var canview = false;");
-            code.AppendLinf("               switch (screen.Performer.UserProperty)");
-            code.AppendLine("               { ");
-            code.AppendLine("                  case \"Username\":");
-            code.AppendLine("                       canview = screen.Performer.Value == profile.Username;");
-            code.AppendLine("                        break;");
-            code.AppendLine("                  case \"Department\":");
-            code.AppendLine("                       canview = screen.Performer.Value == profile.Department;");
-            code.AppendLine("                        break;");
-            code.AppendLine("                  case \"Designation\":");
-            code.AppendLine("                       canview = screen.Performer.Value == profile.Designation;");
-            code.AppendLine("                        break;");
-            code.AppendLine("                  case \"Roles\":");
-            code.AppendLine("                       canview = profile.RoleTypes.Contains(screen.Performer.Value);");
-            code.AppendLine("                        break;");
-            code.AppendLine("                  default:");
-            code.AppendLine("                       canview = false;");
-            code.AppendLine("                        break;");
-            code.AppendLine("               } ");
+            code.AppendLine("               var canview = false;");
+            code.AppendLine("               if(!screen.Performer.IsPublic)");
+            code.AppendLine("               {");
+            code.AppendLine("                   switch (screen.Performer.UserProperty)");
+            code.AppendLine("                   { ");
+            code.AppendLine("                       case \"Username\":");
+            code.AppendLine("                           canview = screen.Performer.Value == profile.Username;");
+            code.AppendLine("                           break;");
+            code.AppendLine("                       case \"Department\":");
+            code.AppendLine("                           canview = screen.Performer.Value == profile.Department;");
+            code.AppendLine("                           break;");
+            code.AppendLine("                       case \"Designation\":");
+            code.AppendLine("                           canview = screen.Performer.Value == profile.Designation;");
+            code.AppendLine("                           break;");
+            code.AppendLine("                       case \"Roles\":");
+            code.AppendLine("                           canview = profile.RoleTypes.Contains(screen.Performer.Value);");
+            code.AppendLine("                           break;");
+            code.AppendLine("                       default:");
+            code.AppendLine("                           canview = false;");
+            code.AppendLine("                           break;");
+            code.AppendLine("                   } ");
+            code.AppendLine("               }");
 
             code.AppendLine("               if(canview) return View(vm);");
-            code.AppendLine("               return RedirectToAction(\"Unauthorised\");");
+            code.AppendLine("               return new HttpUnauthorizedResult();");
 
             code.AppendLine("           }");// end try
             code.AppendLine("           catch(Exception exc){return Content(exc.ToString());}");

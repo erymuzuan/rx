@@ -225,13 +225,6 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="PropertyMappingCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="PropertyMapping" type="PropertyMapping" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
 			</xs:all>
 			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
@@ -374,6 +367,7 @@
 		<xs:complexType>
 			<xs:attribute name="UserProperty" type="xs:string" use="required"/>
 			<xs:attribute name="Value" type="xs:string" use="required"/>
+			<xs:attribute name="IsPublic" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="PropertyMapping">
@@ -391,7 +385,37 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="PropertyMapping">
-					<xs:attribute name="Functoid" type="xs:string" use="required"/>
+					<xs:all>
+						<xs:element name="Functoid" type="Functoid"/>
+					</xs:all>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CreateEntityActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="PropertyMappingCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="PropertyMapping" type="PropertyMapping" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="EntityType" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Functoid"/>
+	<xs:element name="ScriptFunctoid">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Functoid">
+					<xs:attribute name="Expression" type="xs:string"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -67,6 +68,8 @@ namespace Bespoke.Sph.Domain
                 Debug.WriteLine("Saved...");
             }
         }
+
+        public DynamicObject ExecutionBag { get; set; }
 
     }
 }

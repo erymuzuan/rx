@@ -221,7 +221,6 @@ bespoke.sph.domain.WorkflowDefinition = function (webId) {
         Version: ko.observable(0),
         ActivityCollection: ko.observableArray([]),
         VariableDefinitionCollection: ko.observableArray([]),
-        PropertyMappingCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -390,6 +389,7 @@ bespoke.sph.domain.Page = function (webId) {
 bespoke.sph.domain.EndActivity = function (webId) {
 
     var v = new bespoke.sph.domain.Activity(webId);
+
     v.IsTerminating = ko.observable(false);
     v["$type"] = "Bespoke.Sph.Domain.EndActivity, domain.sph";
 
@@ -407,6 +407,7 @@ bespoke.sph.domain.Performer = function (webId) {
         "$type": "Bespoke.Sph.Domain.Performer, domain.sph",
         UserProperty: ko.observable(''),
         Value: ko.observable(''),
+        IsPublic: ko.observable(false),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -414,6 +415,66 @@ bespoke.sph.domain.Performer = function (webId) {
         return _(model).extend(new bespoke.sph.domain.PerformerPartial(model));
     }
     return model;
+};
+
+
+
+bespoke.sph.domain.SimpleMapping = function (webId) {
+
+    var v = new bespoke.sph.domain.PropertyMapping(webId);
+
+    v["$type"] = "Bespoke.Sph.Domain.SimpleMapping, domain.sph";
+
+    if (bespoke.sph.domain.SimpleMappingPartial) {
+        return _(v).extend(new bespoke.sph.domain.SimpleMappingPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.FunctoidMapping = function (webId) {
+
+    var v = new bespoke.sph.domain.PropertyMapping(webId);
+
+    v["$type"] = "Bespoke.Sph.Domain.FunctoidMapping, domain.sph";
+
+    v.Functoid = ko.observable();//type but not nillable
+    if (bespoke.sph.domain.FunctoidMappingPartial) {
+        return _(v).extend(new bespoke.sph.domain.FunctoidMappingPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.CreateEntityActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v.EntityType = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.CreateEntityActivity, domain.sph";
+
+    v.PropertyMappingCollection = ko.observableArray([]);
+    if (bespoke.sph.domain.CreateEntityActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.CreateEntityActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ScriptFunctoid = function (webId) {
+
+    var v = new bespoke.sph.domain.Functoid(webId);
+
+    v.Expression = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.ScriptFunctoid, domain.sph";
+
+    if (bespoke.sph.domain.ScriptFunctoidPartial) {
+        return _(v).extend(new bespoke.sph.domain.ScriptFunctoidPartial(v));
+    }
+    return v;
 };
 
 
@@ -476,6 +537,16 @@ bespoke.sph.domain.PropertyMapping = function (webId) {
         "$type": "Bespoke.Sph.Domain.PropertyMapping, domain.sph",
         Source: ko.observable(''),
         Destination: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+};
+
+
+bespoke.sph.domain.Functoid = function (webId) {
+
+    return {
+        "$type": "Bespoke.Sph.Domain.Functoid, domain.sph",
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

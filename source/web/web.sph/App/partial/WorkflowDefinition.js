@@ -58,7 +58,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                     if (typeof dialog.wd === "function") {
                         dialog.wd(self);
                     }
-                    
+
                     app2.showModal(dialog)
                         .done(function (result) {
                             if (!result) return;
@@ -122,10 +122,12 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                  self.VariableDefinitionCollection.remove(variable);
              };
          },
-        addPropertyMapping = function () {
+        addPropertyMapping = function (type) {
             var self = this;
-            var mapping = new bespoke.sph.domain.PropertyMapping();
-            self.PropertyMappingCollection.push(mapping);
+            return function () {
+                var mapping = new bespoke.sph.domain[type + 'Mapping'](system.guid());
+                self.PropertyMappingCollection.push(mapping);
+            };
         },
         removePropertyMapping = function (mapping) {
             var self = this;

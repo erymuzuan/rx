@@ -1,5 +1,16 @@
 ﻿<form class="form-horizontal" data-bind="with: Performer">
     <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-6">
+            <div class="checkbox">
+                <label>
+                    <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
+                    Is Public
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group">
         <label for="performer-property" class="col-lg-2 control-label">User Property</label>
         <div class="col-lg-6">
             <select class="form-control" id="performer-property" data-bind="value:UserProperty">

@@ -93,7 +93,7 @@ namespace domain.test.workflows
             {
                 Name = "25 to 50",
                 Expression = "item.pemohon.Age >= 25 && item.pemohon.Age < 50",
-                NextActivityWebId = "_C_25to50"
+                NextActivityWebId = "CREATE_BUILDING"
             });
             decide.DecisionBranchCollection.Add(new DecisionBranch
             {
@@ -114,6 +114,10 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(approval);
             wd.ActivityCollection.Add(new EndActivity { WebId = "_D_" });
 
+            var land = new CreateEntityActivity {Name = "Create Building", EntityType ="Building", NextActivityWebId = "_D_", WebId = "CREATE_BUILDING"};
+            land.PropertyMappingCollection.Add(new SimpleMapping{ Source = "Title", Destination = "Name" });
+            wd.ActivityCollection.Add(land);
+
             m_store.Setup(x => x.GetContent("wd-storeid"))
                 .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), StoreId = "wd-storeid" });
 
@@ -121,13 +125,15 @@ namespace domain.test.workflows
             var options = new CompilerOptions
             {
                 IsDebug = true,
-                SourceCodeDirectory = @"d:\temp\"
+                SourceCodeDirectory = @"d:\temp\",
             };
             options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
             options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll")));
 
 
             var result = wd.Compile(options);
+            result.Errors.ForEach(Console.WriteLine);
+            Assert.IsTrue(result.Result);
 
             Assert.IsTrue(File.Exists(result.Output), "assembly " + result);
 

@@ -436,6 +436,7 @@
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\action.email.js" />
     <Content Include="App\viewmodels\action.setter.js" />
+    <Content Include="App\viewmodels\activity.createentity.js" />
     <Content Include="App\viewmodels\activity.end.js" />
     <Content Include="App\viewmodels\activity.decision.js" />
     <Content Include="App\viewmodels\activity.notification.js" />
@@ -501,6 +502,7 @@
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\action.email.html" />
     <Content Include="App\views\action.setter.html" />
+    <Content Include="App\views\activity.createentity.html" />
     <Content Include="App\views\activity.end.html" />
     <Content Include="App\views\activity.decision.html" />
     <Content Include="App\views\activity.notification.html" />
@@ -558,7 +560,6 @@
     <Content Include="App\views\_user.change.password.html" />
     <Content Include="App\views\_users.department.html" />
     <Content Include="App\views\_workflow.definition.activities.html" />
-    <Content Include="App\views\_workflow.definition.propertymapping.html" />
     <Content Include="App\views\_workflow.definition.variables.html" />
     <Content Include="App\views\_workorder.comment.html" />
     <Content Include="App\views\_workorder.ncr.html" />

@@ -42,6 +42,7 @@ namespace Bespoke.Sph.Web.Controllers
                 session.Attach(template);
                 await session.SubmitChanges();
             }
+            
             return Json(new { status = "OK", id = template.ComplaintTemplateId, message = "template was succesfully saved" });
         }
 
