@@ -27,6 +27,12 @@ namespace Bespoke.Sph.Domain
 
                 count++;
             }
+            code.AppendLine("var context = new Bespoke.Sph.Domain.SphDataContext();");
+            code.AppendLine("using (var session = context.OpenSession())");
+            code.AppendLine("{");
+            code.AppendLine("    session.Attach(item);");
+            code.AppendLine("    await session.SubmitChanges();");
+            code.AppendLine("}");
             // set the next activity
             code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);/* webid*/
             code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);

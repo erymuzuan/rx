@@ -98,7 +98,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     {
                         byte[] body = e.Body;
                         var xml = await this.DecompressAsync(body);
-
                         var header = new MessageHeaders(e);
                         var item = XmlSerializerService.DeserializeFromXml<T>(xml.Replace("utf-16", "utf-8"));
                         ProcessMessage(item, header)

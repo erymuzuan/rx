@@ -167,7 +167,7 @@ namespace domain.test.workflows
                 {
                     var result2 = r2.Result;
                     Console.WriteLine(result2);
-                    Assert.AreEqual("_C_25to50", wf.CurrentActivityWebId);
+                    Assert.AreEqual("CREATE_BUILDING", wf.CurrentActivityWebId);
                 }).Wait();
             }).Wait();
 
