@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Visual Flow Designer</title>
+    <link href="~/Content/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/jsplumb/demo.css" rel="stylesheet" />
     <link href="~/Content/jsplumb/demo-all.css" rel="stylesheet" />
 </head>
@@ -17,8 +18,14 @@
         <h1 data-bind="text:Name()"></h1>
         <!-- ko foreach : ActivityCollection() -->
 
-        <div class="activity component window" data-bind="attr : {id:WebId()}">
-            <strong data-bind="text:Name()"></strong>
+        <div class="activity w" data-bind="attr : {id:WebId()}">
+            <!-- ko text : Name() -->
+
+	            
+
+            <!-- /ko -->
+
+            <div class="ep"></div>
         </div>
 
         <!-- /ko -->
@@ -54,8 +61,24 @@
 
             console.log(window.wd);
             $(function () {
-                var vm = {
-                    wd: ko.observable(window.wd)
+                var save = function () {
+                    $('div#container>div.activity').each(function () {
+                        var p = $(this),
+                            act = ko.dataFor(this),
+                            x = parseInt(p.css("left")),
+                            y = parseInt(p.css("top"));
+
+                        act.WorkflowDesigner().X(x);
+                        act.WorkflowDesigner().Y(y);
+
+                    });
+                    window.saved(vm.wd());
+                    window.close();
+
+                },
+                vm = {
+                    wd: ko.observable(window.wd),
+                    save: save
                 };
                 ko.applyBindings(vm);
                 // set the positions
@@ -74,47 +97,66 @@
 
 
                 jsPlumb.ready(function () {
-                    alert('ready..');
                     jsPlumb.init();
                     jsPlumb.Defaults.Container = "container";
                     jsPlumb.draggable($("div.activity"));
-
-                    jsPlumb.Defaults.PaintStyle = {
-                        lineWidth: 13,
-                        strokeStyle: 'rgba(200,0,0,0.5)'
-                    };
-
-                    jsPlumb.Defaults.DragOptions = { cursor: "crosshair" };
-                    jsPlumb.Defaults.Endpoints = [["Dot", 7], ["Dot", 11]];
-                    jsPlumb.Defaults.EndpointStyles = [{ fillStyle: "#225588" }, { fillStyle: "#558822" }];
-
-                    var activitiest = vm.wd().ActivityCollection();
-                    _(activitiest).each(function (v) {
-                        console.log("connecting ", v);
-                        if (v.NextActivityWebId()) {
+                    
+                    // setup some defaults for jsPlumb.	
+                    jsPlumb.importDefaults({
+                        Endpoint: ["Dot", { radius: 2 }],
+                        HoverPaintStyle: { strokeStyle: "#1e8151", lineWidth: 2 },
+                        ConnectionOverlays: [
+                            ["Arrow", {
+                                location: 1,
+                                id: "arrow",
+                                length: 14,
+                                foldback: 0.8
+                            }]
+                        ]
+                    });
+                    
+                    var activitiest = vm.wd().ActivityCollection(),
+                        createConnection = function (source, target, label) {
 
                             jsPlumb.connect({
-                                source: v.WebId(),
-                                target: v.NextActivityWebId(),
+                                source: source,
+                                target: target,
                                 container: 'container',
                                 endpoint: 'Blank',
-                                paintStyle: {
-                                    lineWidth: 4,
-                                    strokeStyle: "#a7b04b",
-                                    outlineWidth: 1,
-                                    outlineColor: "#666"
-                                },
+                                connector: ["StateMachine", { curviness: 0 }],
+                                connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 1, outlineColor: "transparent", outlineWidth: 1 },
                                 anchors: ["Bottom", "TopCenter"],
                                 overlays: [
                                     ["Arrow", {
                                         cssClass: "l1arrow"
-					                    
-                                    }]
+                                        
+                                    }],
+                                    [
+                                        "Label", {
+                                            cssClass : "l1 component label",
+                                            label: label || '',
+                                            location: 0.2,
+                                            id : target + '-label'
+                                        }
+                                    ]
                                 ]
                             });
+                        };
 
-
+                    _(activitiest).each(function (v) {
+                        console.log("connecting ", v);
+                        if (v.NextActivityWebId()) {
+                            createConnection(v.WebId(), v.NextActivityWebId());
                         }
+
+                        if (v.multipleEndPoints) {
+                            _(v.multipleEndPoints()).each(function (d) {
+                                createConnection(v.WebId(), d.NextActivityWebId(), d.Name());
+                                console.log("connecting branches");
+                            });
+                        }
+
+
                     });
 
                 });
@@ -124,6 +166,8 @@
 
         })();
     </script>
-    <div class="btn btn-pri"></div>
+    <div class="navbar-fixed-top">
+        <button class="btn btn-default" data-bind="click : save">Save</button>
+    </div>
 </body>
 </html>
