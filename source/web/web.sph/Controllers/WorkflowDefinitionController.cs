@@ -17,6 +17,14 @@ namespace Bespoke.Sph.Web.Controllers
         public const string APPLICATION_JAVASCRIPT = "application/javascript";
         public const string TEXT_HTML = "text/html";
 
+
+        public ActionResult Visual()
+        {
+            var vm = new WorkflowDefinitionVisualViewModel {};
+            vm.ToolboxElements.Add(new ScreenActivity());
+            return View(vm);
+        }
+
         public ActionResult ScreenHtml()
         {
             var vm = new TemplateFormViewModel { Entity = typeof(Space).Name };
