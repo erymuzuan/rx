@@ -370,16 +370,15 @@
 		<xs:complexType>
 			<xs:attribute name="UserProperty" type="xs:string" use="required"/>
 			<xs:attribute name="Value" type="xs:string" use="required"/>
-			<xs:attribute name="IsPublic" type="xs:boolean" use="required"/>
+			<xs:attribute name="IsPublic" type="xs:boolean" use="optional" default="false"/>
 		</xs:complexType>
 	</xs:element>
-		<xs:element name="WorkflowDesigner">
+	<xs:element name="WorkflowDesigner">
 		<xs:complexType>
 			<xs:attribute name="X" type="xs:int"/>
 			<xs:attribute name="Y" type="xs:int"/>
 		</xs:complexType>
 	</xs:element>
-	
 	<xs:complexType name="PropertyMapping">
 		<xs:attribute name="Source" type="xs:string" use="required"/>
 		<xs:attribute name="Destination" type="xs:string" use="required"/>
