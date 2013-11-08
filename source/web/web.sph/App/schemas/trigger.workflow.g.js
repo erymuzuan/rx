@@ -265,6 +265,7 @@ bespoke.sph.domain.ScreenActivity = function (webId) {
 
     v.FormDesign = ko.observable(new bespoke.sph.domain.FormDesign());
     v.Performer = ko.observable(new bespoke.sph.domain.Performer());
+    v.ConfirmationOptions = ko.observable(new bespoke.sph.domain.ConfirmationOptions());
     if (bespoke.sph.domain.ScreenActivityPartial) {
         return _(v).extend(new bespoke.sph.domain.ScreenActivityPartial(v));
     }
@@ -492,6 +493,23 @@ bespoke.sph.domain.ScriptFunctoid = function (webId) {
         return _(v).extend(new bespoke.sph.domain.ScriptFunctoidPartial(v));
     }
     return v;
+};
+
+
+
+bespoke.sph.domain.ConfirmationOptions = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ConfirmationOptions, domain.sph",
+        Type: ko.observable(''),
+        Value: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.ConfirmationOptionsPartial) {
+        return _(model).extend(new bespoke.sph.domain.ConfirmationOptionsPartial(model));
+    }
+    return model;
 };
 
 

@@ -1493,6 +1493,23 @@
 			}
 			}
 		
+			[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+			private ConfirmationOptions m_confirmationOptions
+					=  new ConfirmationOptions();
+				
+			public const string PropertyNameConfirmationOptions = "ConfirmationOptions";
+			[DebuggerHidden]
+
+			public ConfirmationOptions ConfirmationOptions
+			{
+			get{ return m_confirmationOptions;}
+			set
+			{
+			m_confirmationOptions = value;
+			OnPropertyChanged();
+			}
+			}
+		
 
           }
         
@@ -2154,6 +2171,84 @@
                     m_Expression = value;
                       RaisePropertyChanged();
                     }}
+
+                  
+
+          }
+        
+          ///<summary>
+          /// 
+          ///</summary>
+          [DataObject(true)]
+          [Serializable]
+          [XmlType("ConfirmationOptions",  Namespace=Strings.DEFAULT_NAMESPACE)]
+          public  partial class ConfirmationOptions
+          {
+          
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_type;
+                    public const string PropertyNameType = "Type";
+
+                  
+                    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+                    private  string  m_value;
+                    public const string PropertyNameValue = "Value";
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Type
+                    {
+                    set
+                    {
+                    if( String.Equals( m_type, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameType, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_type= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_type;}
+                    }
+
+                  
+                ///<summary>
+                /// 
+                ///</summary>
+                [XmlAttribute]
+                
+                  [Required]
+                
+                [DebuggerHidden]
+                
+                    public string Value
+                    {
+                    set
+                    {
+                    if( String.Equals( m_value, value, StringComparison.Ordinal)) return;
+                    var arg = new PropertyChangingEventArgs(PropertyNameValue, value);
+                    OnPropertyChanging(arg);
+                    if( !arg.Cancel)
+                    {
+                    m_value= value;
+                    OnPropertyChanged();
+                    }
+                    }
+                    get
+                    {
+                    return m_value;}
+                    }
 
                   
 

@@ -163,6 +163,7 @@
     <Compile Include="Triggers\CompilerMessage.cs" />
     <Compile Include="Triggers\CompilerOptions.cs" />
     <Compile Include="Triggers\ComplexVariable.cs" />
+    <Compile Include="Triggers\ConfirmationOptions.cs" />
     <Compile Include="Triggers\CreateEntityAction.cs" />
     <Compile Include="Triggers\CreateEntityActivity.cs" />
     <Compile Include="Triggers\DecisionActivity.cs" />

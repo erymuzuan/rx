@@ -238,7 +238,6 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element ref="FormConfirmationOptions"/>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
@@ -546,34 +545,6 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="ErrorLocation" type="xs:string" use="required"/>
 			<xs:attribute name="ErrorMessage" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="FormConfirmationOptions">
-		<xs:complexType>
-			<xs:attribute name="Type" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:complexType name="OptionAction">
-		<xs:attribute name="Description" type="xs:string" use="required"/>
-	</xs:complexType>
-	<xs:element name="EmailAction">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="OptionAction">
-					<xs:attribute name="From" type="xs:string" use="required"/>
-					<xs:attribute name="To" type="xs:string" use="required"/>
-					<xs:attribute name="Messages" type="xs:string" use="required"/>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="UrlAction">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="OptionAction">
-					<xs:attribute name="Url" type="xs:string" use="required"/>
-				</xs:extension>
-			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

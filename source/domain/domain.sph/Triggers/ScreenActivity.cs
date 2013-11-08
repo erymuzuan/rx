@@ -111,7 +111,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("               await session.SubmitChanges(\"{0}\");",this.WebId);
             code.AppendLine("           }");
             */
-            code.AppendLine("           return Json(new {sucess = true, status = \"OK\", result = result});");
+            code.AppendLine("           return Json(new {sucess = true, status = \"OK\", result = result,wf);");
             code.AppendLine("       }"); // end SAVE action
 
 
@@ -187,7 +187,7 @@ namespace Bespoke.Sph.Domain
 @section scripts
 {{
     <script type=""text/javascript"">
-        require(['services/datacontext', 'jquery'], function(context) {{
+        require(['services/datacontext', 'jquery','durandal/app'], function(context,jquery,app) {{
 
             
            var instance =context.toObservable(@Html.Raw(JsonConvert.SerializeObject(Model.Instance, setting)),/@Model.Namespace.Replace(""."",""\\."")\.(.*?),/),
@@ -207,6 +207,9 @@ namespace Bespoke.Sph.Domain
                 context.post(data, ""/@Model.Controller.Replace(controllerString, string.Empty)/@Model.SaveAction"")
                     .then(function(result) {{
                         tcs.resolve(result);
+                        var msg = _.template(result.wf.Screen.ConfirmationOptions.Value);
+                        app.showMessage(msg);                       
+
                     }});
                 return tcs.promise();
             }});
