@@ -87,25 +87,12 @@
                     jsPlumb.Defaults.DragOptions = { cursor: "crosshair" };
                     jsPlumb.Defaults.Endpoints = [["Dot", 7], ["Dot", 11]];
                     jsPlumb.Defaults.EndpointStyles = [{ fillStyle: "#225588" }, { fillStyle: "#558822" }];
-                    
-                    /*   jsPlumb.connect({
-                        source: '4122d09e-40cd-4558-93eb-ed18f6309f09',
-                        target: '67dc8853-60bd-45d0-a2b2-57e47bd2d73b',
-                        container: 'container',
-                        endpoint: 'Blank',
-                        paintStyle: {
-                            lineWidth: 4,
-                            strokeStyle: "#a7b04b",
-                            outlineWidth: 1,
-                            outlineColor: "#666"
-                        }
-                    });
-                   */
+
                     var activitiest = vm.wd().ActivityCollection();
                     _(activitiest).each(function (v) {
                         console.log("connecting ", v);
                         if (v.NextActivityWebId()) {
-                            
+
                             jsPlumb.connect({
                                 source: v.WebId(),
                                 target: v.NextActivityWebId(),
@@ -117,33 +104,19 @@
                                     outlineWidth: 1,
                                     outlineColor: "#666"
                                 },
-                                overlays : [
-					["Label", {													   					
-					    cssClass:"l1 component label",
-					    label : "Connection One", 
-					    location:0.7,
-					    id:"label",
-					    events:{
-					        "click":function(label, evt) {
-					            alert("clicked on label for connection " + label.component.id);
-					        }
-					    }
-					}],
-					["Arrow", {
-					    cssClass:"l1arrow",
-					    location:0.5, width:20,length:20,
-					    events:{
-					        "click":function(arrow, evt) {
-					            alert("clicked on arrow for connection " + arrow.component.id);
-					        }
-					    }
-					}]]
+                                anchors: ["Bottom", "TopCenter"],
+                                overlays: [
+                                    ["Arrow", {
+                                        cssClass: "l1arrow"
+					                    
+                                    }]
+                                ]
                             });
-                            
+
 
                         }
                     });
-                   
+
                 });
 
             });
@@ -151,5 +124,6 @@
 
         })();
     </script>
+    <div class="btn btn-pri"></div>
 </body>
 </html>
