@@ -1,0 +1,155 @@
+﻿@model Bespoke.Sph.Web.ViewModels.WorkflowDefinitionVisualViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Visual Flow Designer</title>
+    <link href="~/Content/jsplumb/demo.css" rel="stylesheet" />
+    <link href="~/Content/jsplumb/demo-all.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="container" data-bind="with : wd">
+        <h1 data-bind="text:Name()"></h1>
+        <!-- ko foreach : ActivityCollection() -->
+
+        <div class="activity component window" data-bind="attr : {id:WebId()}">
+            <strong data-bind="text:Name()"></strong>
+        </div>
+
+        <!-- /ko -->
+
+    </div>
+    <script src="~/Scripts/underscore.js"></script>
+    <script src="~/Scripts/jquery-2.0.3.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="~/Scripts/jquery.ui.touch-punch.min.js"></script>
+
+    <script src="~/Scripts/jsPlumb/util.js"></script>
+    <script src="~/Scripts/jsPlumb/dom-adapter.js"></script>
+    <script src="~/Scripts/jsPlumb/jsPlumb.js"></script>
+    <script src="~/Scripts/jsPlumb/endpoint.js"></script>
+    <script src="~/Scripts/jsPlumb/connection.js"></script>
+    <script src="~/Scripts/jsPlumb/anchors.js"></script>
+    <script src="~/Scripts/jsPlumb/defaults.js"></script>
+    <script src="~/Scripts/jsPlumb/connectors-bezier.js"></script>
+    <script src="~/Scripts/jsPlumb/connectors-statemachine.js"></script>
+    <script src="~/Scripts/jsPlumb/connectors-flowchart.js"></script>
+    <script src="~/Scripts/jsPlumb/renderers-svg.js"></script>
+    <script src="~/Scripts/jsPlumb/renderers-canvas.js"></script>
+    <script src="~/Scripts/jsPlumb/renderers-vml.js"></script>
+    <script src="~/Scripts/jsPlumb/jquery.jsPlumb.js"></script>
+    <script src="~/Scripts/jsplumb-geom-0.1.js"></script>
+    <script src="~/Scripts/jsBezier-0.6-min.js"></script>
+
+    <script src="~/Scripts/knockout-3.0.0.js"></script>
+    <script src="~/Scripts/knockout.mapping-latest.js"></script>
+    <script type="text/javascript">
+
+        ; (function () {
+
+            console.log(window.wd);
+            $(function () {
+                var vm = {
+                    wd: ko.observable(window.wd)
+                };
+                ko.applyBindings(vm);
+                // set the positions
+                var count = 1;
+                $('div#container>div.activity').each(function () {
+                    var p = $(this),
+                        act = ko.dataFor(this),
+                        x = act.WorkflowDesigner().X() || 250,
+                        y = act.WorkflowDesigner().Y() || 150 * count;
+
+                    p.css("left", x + "px").css("top", y + "px");
+
+
+                    count++;
+                });
+
+
+                jsPlumb.ready(function () {
+                    alert('ready..');
+                    jsPlumb.init();
+                    jsPlumb.Defaults.Container = "container";
+                    jsPlumb.draggable($("div.activity"));
+
+                    jsPlumb.Defaults.PaintStyle = {
+                        lineWidth: 13,
+                        strokeStyle: 'rgba(200,0,0,0.5)'
+                    };
+
+                    jsPlumb.Defaults.DragOptions = { cursor: "crosshair" };
+                    jsPlumb.Defaults.Endpoints = [["Dot", 7], ["Dot", 11]];
+                    jsPlumb.Defaults.EndpointStyles = [{ fillStyle: "#225588" }, { fillStyle: "#558822" }];
+                    
+                    /*   jsPlumb.connect({
+                        source: '4122d09e-40cd-4558-93eb-ed18f6309f09',
+                        target: '67dc8853-60bd-45d0-a2b2-57e47bd2d73b',
+                        container: 'container',
+                        endpoint: 'Blank',
+                        paintStyle: {
+                            lineWidth: 4,
+                            strokeStyle: "#a7b04b",
+                            outlineWidth: 1,
+                            outlineColor: "#666"
+                        }
+                    });
+                   */
+                    var activitiest = vm.wd().ActivityCollection();
+                    _(activitiest).each(function (v) {
+                        console.log("connecting ", v);
+                        if (v.NextActivityWebId()) {
+                            
+                            jsPlumb.connect({
+                                source: v.WebId(),
+                                target: v.NextActivityWebId(),
+                                container: 'container',
+                                endpoint: 'Blank',
+                                paintStyle: {
+                                    lineWidth: 4,
+                                    strokeStyle: "#a7b04b",
+                                    outlineWidth: 1,
+                                    outlineColor: "#666"
+                                },
+                                overlays : [
+					["Label", {													   					
+					    cssClass:"l1 component label",
+					    label : "Connection One", 
+					    location:0.7,
+					    id:"label",
+					    events:{
+					        "click":function(label, evt) {
+					            alert("clicked on label for connection " + label.component.id);
+					        }
+					    }
+					}],
+					["Arrow", {
+					    cssClass:"l1arrow",
+					    location:0.5, width:20,length:20,
+					    events:{
+					        "click":function(arrow, evt) {
+					            alert("clicked on arrow for connection " + arrow.component.id);
+					        }
+					    }
+					}]]
+                            });
+                            
+
+                        }
+                    });
+                   
+                });
+
+            });
+
+
+        })();
+    </script>
+</body>
+</html>

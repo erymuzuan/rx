@@ -74,11 +74,19 @@ define([objectbuilders.datacontext, objectbuilders.logger],
                         tcs.resolve(result);
                     });
                 return tcs.promise();
+            },
+            openVisualDesigner = function () {
+                var designer = window.open('/workflowdefinition/visual', "_blank");
+                designer.wd = vm.workflowdefinition();
+                designer.saved = function (wd) {
+                    vm.workflowdefinition(wd);
+                };
             };
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
+            openVisualDesigner: openVisualDesigner,
             workflowdefinition: ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
             toolbar: {
                 saveCommand: saveAsync,

@@ -353,6 +353,7 @@
     <Compile Include="ViewModels\TemplateFormViewModel.cs" />
     <Compile Include="ViewModels\TriggerPathPickerHtmlViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
+    <Compile Include="ViewModels\WorkflowDefinitionVisualViewModel.cs" />
     <Compile Include="WorkflowHelpers\ScreenActivityVirtualFile.cs" />
     <Compile Include="WorkflowHelpers\WorkflowScreenActivityPathProvider.cs" />
   </ItemGroup>
@@ -693,6 +694,8 @@
     <Content Include="Content\img\team2.jpg" />
     <Content Include="Content\img\team3.jpg" />
     <Content Include="Content\img\team4.jpg" />
+    <Content Include="Content\jsplumb\demo-all.css" />
+    <Content Include="Content\jsplumb\demo.css" />
     <Content Include="Content\qunit-1.12.0.css" />
     <Content Include="Content\theme.default\complaint.css">
       <DependentUpon>complaint.less</DependentUpon>
@@ -1063,6 +1066,7 @@
     <Content Include="Scripts\jquery.signalR-2.0.0.js" />
     <Content Include="Scripts\jquery.signalR-2.0.0.min.js" />
     <Content Include="Scripts\jquery.tablesorter.min.js" />
+    <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
@@ -1071,6 +1075,28 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jsBezier-0.6-min.js" />
+    <Content Include="Scripts\jsplumb-geom-0.1.js" />
+    <Content Include="Scripts\jsPlumb\anchors.js" />
+    <Content Include="Scripts\jsPlumb\connection.js" />
+    <Content Include="Scripts\jsPlumb\connector-editors.js" />
+    <Content Include="Scripts\jsPlumb\connectors-bezier.js" />
+    <Content Include="Scripts\jsPlumb\connectors-flowchart.js" />
+    <Content Include="Scripts\jsPlumb\connectors-statemachine.js" />
+    <Content Include="Scripts\jsPlumb\defaults.js" />
+    <Content Include="Scripts\jsPlumb\dom-adapter.js" />
+    <Content Include="Scripts\jsPlumb\dom.jsPlumb.js" />
+    <Content Include="Scripts\jsPlumb\drag.js" />
+    <Content Include="Scripts\jsPlumb\endpoint.js" />
+    <Content Include="Scripts\jsPlumb\jquery.jsPlumb.js" />
+    <Content Include="Scripts\jsPlumb\jsPlumb.js" />
+    <Content Include="Scripts\jsPlumb\mootools.jsPlumb.js" />
+    <Content Include="Scripts\jsPlumb\overlays-guidelines.js" />
+    <Content Include="Scripts\jsPlumb\renderers-canvas.js" />
+    <Content Include="Scripts\jsPlumb\renderers-svg.js" />
+    <Content Include="Scripts\jsPlumb\renderers-vml.js" />
+    <Content Include="Scripts\jsPlumb\util.js" />
+    <Content Include="Scripts\jsPlumb\yui.jsPlumb.js" />
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
     <Content Include="Scripts\knockout-3.0.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
@@ -2026,6 +2052,7 @@
     <Content Include="Views\Shared\EditorTemplates\TextBox.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\HtmlElement.cshtml" />
     <Content Include="Views\WorkflowDefinition\_ScreenPerformer.cshtml" />
+    <Content Include="Views\WorkflowDefinition\Visual.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
