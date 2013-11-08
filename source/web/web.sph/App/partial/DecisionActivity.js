@@ -21,9 +21,13 @@ bespoke.sph.domain.DecisionActivityPartial = function () {
             return function() {
                 self.DecisionBranchCollection.remove(branch);
             };
+        },
+        multipleEndPoints = function() {
+            return this.DecisionBranchCollection();
         };
     return {
         addBranch: addBranch,
-        removeBranch: removeBranch
+        removeBranch: removeBranch,
+        multipleEndPoints: multipleEndPoints
     };
 };
