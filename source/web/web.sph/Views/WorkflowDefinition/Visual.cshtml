@@ -16,31 +16,23 @@
     <link href="~/Content/jsplumb/sph.wf.32.css" rel="stylesheet" />
 </head>
 <body>
+    <div>
+        <nav id="toolbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <button class="btn btn-default" data-bind="click : save">Save</button>
+            <button class="btn btn-default" data-bind="click : save">Save &amp; Close</button>
 
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <button class="btn btn-default" data-bind="click : save">Save</button>
-        <button class="btn btn-default" data-bind="click : save">Save &amp; Close</button>
-
-        <strong data-bind="text:wd().Name()"></strong>
-    </nav>
+            <strong data-bind="text:wd().Name()"></strong>
+        </nav>
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-lg-2"></div>
         </div>
         <div class="row">
-            <div class="col-lg-9" id="container" data-bind="with : wd">
-                <!-- ko foreach : ActivityCollection() -->
-                <div class="activity w" data-bind="attr : {id:WebId()}">
-                    <div class="activity32 pull-right"></div>
-                    <!-- ko text : Name() -->
-                    <!-- /ko -->
+            <div class="col-lg-9" id="container">
 
-                    <a href="#" data-bind="click: $parent.editActivity.call($parent,$data)" class="glyphicon glyphicon-edit">edit</a>
-                </div>
-
-                <!-- /ko -->
             </div>
-            <div class="col-lg-3" style="background-color: rgb(245, 245, 245);height: 800px">
+            <div id="toolbox" class="col-lg-3" style="background-color: rgb(245, 245, 245);height: 800px">
                 <h3>Toolbox</h3>
                 <div>
                     <!-- ko foreach : toolboxElements -->
@@ -171,55 +163,29 @@
                             save: save,
                             toolboxElements: ko.observableArray(elements)
                         };
-                    ko.applyBindings(vm);
-                    // set the positions
-                    var count = 1;
-                    $('div#container>div.activity').each(function () {
+                    ko.applyBindings(vm, document.getElementById('toolbox'));
+                    ko.applyBindings(vm, document.getElementById('toolbar'));
 
-                        console.log(ko.dataFor(this));
+                    $('div.toolbox-item').draggable({
+                        helper: 'clone',
+                        stop: function (arg) {
+                            var act = context.toObservable(ko.mapping.toJS(ko.dataFor(this))),
+                                x = arg.clientX,
+                                y = arg.clientY;
+                            act.WorkflowDesigner().X(x);
+                            act.WorkflowDesigner().Y(y);
 
-                        var p = $(this),
-                            act = ko.dataFor(this),
-                            x = act.WorkflowDesigner().X() || 250,
-                            y = act.WorkflowDesigner().Y() || 150 * count,
-                            fullName = typeof act.$type === "function" ? act.$type() : act.$type,
-                            name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1];
-                        console.log(fullName, "Activity type");
-                        console.log(name, "Activity type name");
-                        p.css("left", x + "px").css("top", y + "px").find("div.activity32").addClass("activity32-" + name);
-
-
-                        count++;
+                            vm.wd().ActivityCollection.push(act);
+                        }
                     });
+
 
 
                     jsPlumb.ready(function () {
                         jsPlumb.init();
                         jsPlumb.Defaults.Container = "container";
                         jsPlumb.draggable($("div.activity"));
-                        $('div.toolbox-item').draggable({
-                            helper: 'clone',
-                            stop : function(arg) {
-                                var act = context.toObservable(ko.mapping.toJS(ko.dataFor(this))),
-                                    x = arg.clientX,
-                                    y = arg.clientY,
-                                    fullName = typeof act.$type === "function" ? act.$type() : act.$type,
-                                    name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1];
-                                console.log(act);
-                                var panel = $('<div class="activity w" data-bind="attr : {id:WebId()}">'+
-                    '<div class="activity32 pull-right"></div>'+
-                  '  <!-- ko text : Name() -->'+
-                  '  <!-- /ko -->'+
 
-                  '  <a href="#" data-bind="click: $parent.editActivity.call($parent,$data)" class="glyphicon glyphicon-edit">edit</a>'+
-              '  </div>');
-                                panel.css("left", x + "px").css("top", y + "px").find("div.activity32").addClass("activity32-" + name);
-                                panel.data(act);
-
-                                jsPlumb.draggable(panel);
-                                panel.appendTo('div.container');
-                            }
-                        });
 
                         // setup some defaults for jsPlumb.
                         jsPlumb.importDefaults({
@@ -236,15 +202,42 @@
                             ]
                         });
 
-                        var activitiest = vm.wd().ActivityCollection(),
+
+                        var activities = vm.wd().ActivityCollection(),
+                            count = 1,
+                            activityAdded = function (act) {
+
+                                var p = $('<div class="activity w" id="' + act.WebId() + '">' +
+                                          '     <div class="activity32 pull-right"></div>' +
+                                          '     <!-- ko text : Name() -->' +
+                                          '     <!-- /ko -->' +
+
+                                          '     <a href="#" data-bind2="click: $parent.editActivity.call($parent,$data)" class="glyphicon glyphicon-edit">edit</a>' +
+                                          '  </div>'),
+                                    x = act.WorkflowDesigner().X() || 250,
+                                    y = act.WorkflowDesigner().Y() || 150 * count,
+                                    fullName = typeof act.$type === "function" ? act.$type() : act.$type,
+                                    name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1];
+
+
+                                p.css("left", x + "px")
+                                    .css("top", y + "px")
+                                    .appendTo('div#container')
+                                    .find("div.activity32")
+                                    .addClass("activity32-" + name);
+
+                                ko.applyBindings(act, document.getElementById(act.WebId()));
+                                jsPlumb.draggable(p);
+                                count++;
+                            },
                             createConnection = function (source, target, label) {
 
-                                jsPlumb.connect({
+                                return jsPlumb.connect({
                                     source: source,
                                     target: target,
                                     container: 'container',
-                                    endpoint: ['Dot',{radius:5}],
-                                    connector: ["Flowchart", { cornerRadius: 5,gap:8 }],
+                                    endpoint: ['Dot', { radius: 5 }],
+                                    connector: ["Flowchart", { cornerRadius: 5, gap: 8 }],
                                     connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 1, outlineColor: "transparent", outlineWidth: 1 },
                                     anchors: ["Bottom", "TopCenter"],
                                     overlays: [
@@ -260,12 +253,18 @@
                                 });
                             };
 
-                        _(activitiest).each(function (v) {
-                            console.log("connecting ", v);
+
+                        // create an element to each activity and bind them
+                        _(vm.wd().ActivityCollection()).each(activityAdded);
+                        // add/remove element as activity is added or deleted
+                        vm.wd().ActivityCollection.subscribe(function (changes) {
+                            console.log(changes);
+                        }, null, "arrayChange"),
+
+                        _(activities).each(function (v) {
                             if (v.NextActivityWebId()) {
                                 createConnection(v.WebId(), v.NextActivityWebId());
                             }
-
                             if (v.multipleEndPoints) {
                                 _(v.multipleEndPoints()).each(function (d) {
                                     createConnection(v.WebId(), d.NextActivityWebId(), d.Name());
