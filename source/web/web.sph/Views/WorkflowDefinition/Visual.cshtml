@@ -91,9 +91,9 @@
         define('jquery', function () { return jQuery; });
         //define('knockout-3.0.0',function (){return ko;});
 
-        require(['services/datacontext', 'jquery'],
+        require(['services/datacontext', 'durandal/system', 'jquery', ],
 
-            function (context) {
+            function (context, system) {
 
                 console.log(window.wd);
                 var elements = [
@@ -174,7 +174,7 @@
                                 y = arg.clientY;
                             act.WorkflowDesigner().X(x);
                             act.WorkflowDesigner().Y(y);
-
+                            act.WebId(system.guid());
                             vm.wd().ActivityCollection.push(act);
                         }
                     });
@@ -258,7 +258,8 @@
                         _(vm.wd().ActivityCollection()).each(activityAdded);
                         // add/remove element as activity is added or deleted
                         vm.wd().ActivityCollection.subscribe(function (changes) {
-                            console.log(changes);
+                            // console.log(changes);
+                            activityAdded(changes[0].value);
                         }, null, "arrayChange"),
 
                         _(activities).each(function (v) {
