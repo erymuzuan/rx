@@ -843,9 +843,12 @@
     <Content Include="Images\box-2-white.png" />
     <Content Include="Images\box-3-white.png" />
     <Content Include="Images\building_icon.png" />
+    <Content Include="Images\ComplexVariable.png" />
     <Content Include="Images\constantfield.png" />
     <Content Include="Images\courts.png" />
     <Content Include="Images\CreateEntityActivity.png" />
+    <Content Include="Images\dashboard-Dalam Proses.png" />
+    <Content Include="Images\dashboard-ditutup.png" />
     <Content Include="Images\dashboard-new.png" />
     <Content Include="Images\dashboard-pemeriksaan.png" />
     <Content Include="Images\dashboard-penyenggaraan.png" />
@@ -856,6 +859,8 @@
     <Content Include="Images\edit_icon.png" />
     <Content Include="Images\EmailAction.png" />
     <Content Include="Images\EndActivity.png" />
+    <Content Include="Images\no-image2.png" />
+    <Content Include="Images\NotificationActivity.png" />
     <Content Include="Images\propertychanged.png" />
     <Content Include="Images\functionfield.png" />
     <Content Include="Images\gelanggang.png" />
@@ -882,9 +887,12 @@
     <Content Include="Images\report-layout.2.png" />
     <Content Include="Images\rumah_peranginan.png" />
     <Content Include="Images\save.png" />
+    <Content Include="Images\ScreenActivity.png" />
     <Content Include="Images\search.png" />
     <Content Include="Images\SetterAction.png" />
+    <Content Include="Images\SimpleVariable.png" />
     <Content Include="Images\Slider1-edited.jpg" />
+    <Content Include="Images\star.png" />
     <Content Include="Images\up8.png" />
     <Content Include="Images\warning.png" />
     <Content Include="roles.config.js" />
