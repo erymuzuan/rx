@@ -513,6 +513,114 @@ bespoke.sph.domain.ConfirmationOptions = function (webId) {
 };
 
 
+
+bespoke.sph.domain.ReceiveActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v.PortType = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.ReceiveActivity, domain.sph";
+
+    if (bespoke.sph.domain.ReceiveActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.ReceiveActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.SendActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v.PortType = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.SendActivity, domain.sph";
+
+    if (bespoke.sph.domain.SendActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.SendActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ListenActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v["$type"] = "Bespoke.Sph.Domain.ListenActivity, domain.sph";
+
+    v.ParallelBranchCollection = ko.observableArray([]);
+    if (bespoke.sph.domain.ListenActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.ListenActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ParallelActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v["$type"] = "Bespoke.Sph.Domain.ParallelActivity, domain.sph";
+
+    v.ParallelBranchCollection = ko.observableArray([]);
+    if (bespoke.sph.domain.ParallelActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.ParallelActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.DelayActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v.Expression = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.DelayActivity, domain.sph";
+
+    v.Miliseconds = ko.observable();//type but not nillable
+    v.Seconds = ko.observable();//type but not nillable
+    v.Hour = ko.observable();//type but not nillable
+    v.Days = ko.observable();//type but not nillable
+    if (bespoke.sph.domain.DelayActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.DelayActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ThrowActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v.Message = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.ThrowActivity, domain.sph";
+
+    if (bespoke.sph.domain.ThrowActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.ThrowActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ParallelBranch = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v["$type"] = "Bespoke.Sph.Domain.ParallelBranch, domain.sph";
+
+    if (bespoke.sph.domain.ParallelBranchPartial) {
+        return _(v).extend(new bespoke.sph.domain.ParallelBranchPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sph.domain.Field = function (webId) {
 
     return {

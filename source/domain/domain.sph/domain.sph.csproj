@@ -168,6 +168,7 @@
     <Compile Include="Triggers\CreateEntityActivity.cs" />
     <Compile Include="Triggers\DecisionActivity.cs" />
     <Compile Include="Triggers\DecisionBranch.cs" />
+    <Compile Include="Triggers\DelayActivity.cs" />
     <Compile Include="Triggers\DeleteEntityAction.cs" />
     <Compile Include="Triggers\EndActivity.cs" />
     <Compile Include="Triggers\FunctionField.cs" />
@@ -254,9 +255,12 @@
     <Compile Include="Triggers\Field.cs" />
     <Compile Include="Triggers\Functoid.cs" />
     <Compile Include="Triggers\FunctoidMapping.cs" />
+    <Compile Include="Triggers\ListenActivity.cs" />
     <Compile Include="Triggers\MethodArg.cs" />
     <Compile Include="Triggers\NotificationActivity.cs" />
     <Compile Include="Triggers\Page.cs" />
+    <Compile Include="Triggers\ParallelActivity.cs" />
+    <Compile Include="Triggers\ParallelBranch.cs" />
     <Compile Include="Triggers\Performer.cs" />
     <Compile Include="Triggers\PropertyChangedField.cs" />
     <Compile Include="Triggers\PropertyMapping.cs" />
@@ -265,9 +269,11 @@
     <Compile Include="Triggers\EmailAction.cs" />
     <Compile Include="Triggers\ScreenActivity.cs" />
     <Compile Include="Triggers\ScriptFunctoid.cs" />
+    <Compile Include="Triggers\SendActivity.cs" />
     <Compile Include="Triggers\SetterAction.cs" />
     <Compile Include="Triggers\SimpleMapping.cs" />
     <Compile Include="Triggers\SimpleVariable.cs" />
+    <Compile Include="Triggers\ThrowActivity.cs" />
     <Compile Include="Triggers\Trigger.cs" />
     <Compile Include="Triggers\SetterActionChild.cs" />
     <Compile Include="Business\UserProfile.cs" />

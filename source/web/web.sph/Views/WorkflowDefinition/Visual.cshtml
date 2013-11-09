@@ -16,10 +16,11 @@
     <link href="~/Content/jsplumb/sph.wf.32.css" rel="stylesheet" />
 </head>
 <body>
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <button class="btn btn-default" data-bind="click : save">Save</button>
         <button class="btn btn-default" data-bind="click : save">Save &amp; Close</button>
+
         <strong data-bind="text:wd().Name()"></strong>
     </nav>
     <div class="container">
@@ -35,19 +36,22 @@
                     <!-- /ko -->
 
                     <div class="ep"></div>
+                    <a href="#" data-bind="click: $parent.editActivity.call($parent,$data)" class="glyphicon glyphicon-edit">edit</a>
                 </div>
 
                 <!-- /ko -->
             </div>
-            <div class="col-lg-3" style="background-color: rgb(163, 163, 163);height: 800px">
+            <div class="col-lg-3" style="background-color: rgb(245, 245, 245);height: 800px">
                 <h3>Toolbox</h3>
                 <div>
                     <!-- ko foreach : toolboxElements -->
 
                     <div class="btn btn-default col-lg-12" data-bind="attr : {id:WebId()}">
-                        <div data-bind="attr : {'class':CssClass}" ></div>
+                        <div data-bind="attr : {'class':CssClass}"></div>
                         <strong data-bind="text:Name"></strong>
-                        <p data-bind="text:Note"></p>
+                        <p>
+                            <span data-bind="text:Note"></span>
+                        </p>
 
                     </div>
 
@@ -106,25 +110,46 @@
                     new bespoke.sph.domain.DecisionActivity("@Guid.NewGuid()"),
                     new bespoke.sph.domain.CreateEntityActivity("@Guid.NewGuid()"),
                     new bespoke.sph.domain.NotificationActivity("@Guid.NewGuid()"),
+                    new bespoke.sph.domain.ReceiveActivity("@Guid.NewGuid()"),
+                    new bespoke.sph.domain.SendActivity("@Guid.NewGuid()"),
+                    new bespoke.sph.domain.ListenActivity("@Guid.NewGuid()"),
+                    new bespoke.sph.domain.ParallelActivity("@Guid.NewGuid()"),
+                    new bespoke.sph.domain.DelayActivity("@Guid.NewGuid()"),
+                    // new bespoke.sph.domain.ThrowActivity("@Guid.NewGuid()"),
                     new bespoke.sph.domain.EndActivity("@Guid.NewGuid()")
                 ];
                 elements[0].Name("Screen");
                 elements[1].Name("Decision");
                 elements[2].Name("Create Record");
                 elements[3].Name("Notifify");
-                elements[4].Name("End");
+                elements[4].Name("Receive");
+                elements[5].Name("Send");
+                elements[6].Name("Listen");
+                elements[7].Name("Parallel");
+                elements[8].Name("Delay");
+                elements[9].Name("End");
 
-                elements[0].Note = "Screen";
-                elements[1].Note = "Decision";
-                elements[2].Note = "Create Record";
-                elements[3].Note = "Notify";
-                elements[4].Note = "End";
+                elements[0].Note = "Creates a user interface activity";
+                elements[1].Note = "Decision braches and expression";
+                elements[2].Note = "Create a new record";
+                elements[3].Note = "Notify via email and messages";
+                elements[4].Note = "Receieve a message from another system";
+                elements[5].Note = "Send a message to another system";
+                elements[6].Note = "Creates a race condition, firts one wins";
+                elements[7].Note = "Concurrent running activities";
+                elements[8].Note = "Wait for a certain time";
+                elements[9].Note = "Ends the workflow";
 
                 elements[0].CssClass = "pull-left activity64 activity64-ScreenActivity";
                 elements[1].CssClass = "pull-left activity64 activity64-DecisionActivity";
                 elements[2].CssClass = "pull-left activity64 activity64-CreateEntityActivity";
                 elements[3].CssClass = "pull-left activity64 activity64-NotificationActivity";
-                elements[4].CssClass = "pull-left activity64 activity64-EndActivity";
+                elements[4].CssClass = "pull-left activity64 activity64-ReceiveActivity";
+                elements[5].CssClass = "pull-left activity64 activity64-SendActivity";
+                elements[6].CssClass = "pull-left activity64 activity64-ListenActivity";
+                elements[7].CssClass = "pull-left activity64 activity64-ParallelActivity";
+                elements[8].CssClass = "pull-left activity64 activity64-DelayActivity";
+                elements[9].CssClass = "pull-left activity64 activity64-EndActivity";
 
                 $(function () {
                     var save = function () {
