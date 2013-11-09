@@ -35,7 +35,6 @@
                     <!-- ko text : Name() -->
                     <!-- /ko -->
 
-                    <div class="ep"></div>
                     <a href="#" data-bind="click: $parent.editActivity.call($parent,$data)" class="glyphicon glyphicon-edit">edit</a>
                 </div>
 
@@ -46,7 +45,7 @@
                 <div>
                     <!-- ko foreach : toolboxElements -->
 
-                    <div class="btn btn-default col-lg-12" data-bind="attr : {id:WebId()}">
+                    <div class="btn btn-default col-lg-12 toolbox-item" data-bind="attr : {id:WebId()}">
                         <div data-bind="attr : {'class':CssClass}"></div>
                         <strong data-bind="text:Name"></strong>
                         <p>
@@ -198,6 +197,29 @@
                         jsPlumb.init();
                         jsPlumb.Defaults.Container = "container";
                         jsPlumb.draggable($("div.activity"));
+                        $('div.toolbox-item').draggable({
+                            helper: 'clone',
+                            stop : function(arg) {
+                                var act = context.toObservable(ko.mapping.toJS(ko.dataFor(this))),
+                                    x = arg.clientX,
+                                    y = arg.clientY,
+                                    fullName = typeof act.$type === "function" ? act.$type() : act.$type,
+                                    name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1];
+                                console.log(act);
+                                var panel = $('<div class="activity w" data-bind="attr : {id:WebId()}">'+
+                    '<div class="activity32 pull-right"></div>'+
+                  '  <!-- ko text : Name() -->'+
+                  '  <!-- /ko -->'+
+
+                  '  <a href="#" data-bind="click: $parent.editActivity.call($parent,$data)" class="glyphicon glyphicon-edit">edit</a>'+
+              '  </div>');
+                                panel.css("left", x + "px").css("top", y + "px").find("div.activity32").addClass("activity32-" + name);
+                                panel.data(act);
+
+                                jsPlumb.draggable(panel);
+                                panel.appendTo('div.container');
+                            }
+                        });
 
                         // setup some defaults for jsPlumb.
                         jsPlumb.importDefaults({
@@ -221,14 +243,11 @@
                                     source: source,
                                     target: target,
                                     container: 'container',
-                                    endpoint: 'Blank',
-                                    connector: ["Flowchart", { cornerRadius: 5 }],
+                                    endpoint: ['Dot',{radius:5}],
+                                    connector: ["Flowchart", { cornerRadius: 5,gap:8 }],
                                     connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 1, outlineColor: "transparent", outlineWidth: 1 },
                                     anchors: ["Bottom", "TopCenter"],
                                     overlays: [
-                                        ["Arrow", {
-                                            cssClass: "l1arrow"
-                                        }],
                                         [
                                             "Label", {
                                                 cssClass: "l1 component label",
