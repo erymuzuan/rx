@@ -65,6 +65,7 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Net.Mail.SmtpClient).Assembly.Location);
                 foreach (var ass in options.ReferencedAssemblies)
                 {
                     parameters.ReferencedAssemblies.Add(ass.Location);

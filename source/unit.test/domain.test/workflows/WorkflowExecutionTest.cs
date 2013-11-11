@@ -59,6 +59,7 @@ namespace domain.test.workflows
         {
             var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = "schema-storeid" };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
+            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "email", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
 
@@ -99,15 +100,30 @@ namespace domain.test.workflows
             {
                 Name = "all else",
                 Expression = "item.pemohon.Age >= 50",
-                NextActivityWebId = "_C_Above50",
+                NextActivityWebId = "_EMAIL_",
                 IsDefault = true
             });
+
             wd.ActivityCollection.Add(decide);
+
+            var email = new NotificationActivity
+            {
+                From = "erymuzuan@gmail.com",
+                To = "=@Model.email",
+                Subject = "=Ada permohonan baru @Model.Title",
+                Body = "Permohonan baru di @Model.Title oleh @Model.pemohon.MyKad",
+                WebId = "_EMAIL_",
+                NextActivityWebId = "_C_"
+
+            };
+            wd.ActivityCollection.Add(email);
+
 
             var approval = new ScreenActivity
             {
                 Title = "Kelulusan",
                 WebId = "_C_",
+                Name = "Kelulusan",
                 NextActivityWebId = "_D_",
                 ViewVirtualPath = "d"
             };

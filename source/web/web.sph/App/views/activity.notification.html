@@ -21,7 +21,7 @@
                     <div class="form-group">
                         <label for="notification-next" class="col-lg-2 control-label">Next</label>
                         <div class="col-lg-6">
-                            <select id="notification-next" required
+                            <select id="notification-next"
                                     data-bind="value:NextActivityWebId,
                                         uniqueName:true,
                                         options: $root.wd().ActivityCollection,
@@ -32,9 +32,36 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="activity-notification-from" class="col-lg-2 control-label">From</label>
-                        <div class="col-lg-6">
-                            <input data-bind="value:From" required type="text" class="form-control" id="activity-notification-from" placeholder="From">
+                        <pre>Use "=" at the beginning to use template engine
+variables can be notated as @Model.VariablePath
+</pre>
+                    </div>
+                    <div class="form-group">
+                        <label for="email-from" class="col-lg-2 control-label">From</label>
+                        <div class="col-lg-9">
+                            <input required type="text" data-bind="value: From" class="form-control" id="email-from" placeholder="From email address or template">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email-to" class="col-lg-2 control-label">To</label>
+                        <div class="col-lg-9">
+                            <input required type="text" data-bind="value: To" class="form-control" id="email-to" placeholder="To email address or template">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email-subject" class="col-lg-2 control-label">Subject</label>
+                        <div class="col-lg-9">
+                            <input required type="text" data-bind="value: Subject" class="form-control" id="email-subject" placeholder="Subject template">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="email-body" class="col-lg-2 control-label">Body</label>
+                        <div class="col-lg-9">
+                            <textarea required data-bind="value: Body" class="form-control" id="email-body" placeholder="Email body"></textarea>
                         </div>
                     </div>
                 </form>

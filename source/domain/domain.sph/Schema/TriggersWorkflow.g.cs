@@ -1760,6 +1760,54 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_Subject;
+        [XmlAttribute]
+        public string Subject
+        {
+            get
+            {
+                return m_Subject;
+            }
+            set
+            {
+                m_Subject = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Body;
+        [XmlAttribute]
+        public string Body
+        {
+            get
+            {
+                return m_Body;
+            }
+            set
+            {
+                m_Body = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_To;
+        [XmlAttribute]
+        public string To
+        {
+            get
+            {
+                return m_To;
+            }
+            set
+            {
+                m_To = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 
@@ -2460,6 +2508,34 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_value;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ReceiveActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ReceiveActivity
+    {
+
+        private string m_PortType;
+        [XmlAttribute]
+        public string PortType
+        {
+            get
+            {
+                return m_PortType;
+            }
+            set
+            {
+                m_PortType = value;
+                RaisePropertyChanged();
             }
         }
 
