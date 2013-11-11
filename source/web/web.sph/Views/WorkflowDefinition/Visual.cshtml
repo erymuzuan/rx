@@ -276,17 +276,7 @@
                                 var targetUuid = toId + targetAnchors[j];
                                 jsPlumb.addEndpoint(toId, targetEndpoint, { anchor: targetAnchors[j], uuid: targetUuid });
                             }
-                        },
-                            addSourceEndpoint = function (activity) {
-                                for (var i = 0; i < sourceAnchors.length; i++) {
-                                    var sourceUuid = toId + sourceAnchors[i];
-                                    jsPlumb.addEndpoint(toId, sourceEndpoint, { anchor: sourceAnchors[i], uuid: sourceUuid });
-                                }
-                                for (var j = 0; j < targetAnchors.length; j++) {
-                                    var targetUuid = toId + targetAnchors[j];
-                                    jsPlumb.addEndpoint(toId, targetEndpoint, { anchor: targetAnchors[j], uuid: targetUuid });
-                                }
-                            };
+                        };
 
 
                         var activities = vm.wd().ActivityCollection(),
@@ -321,11 +311,14 @@
                                     var anchors = ["BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle",
                                                     "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle",
                                                     "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle"],
-                                        count1 = -1;
-                                    sourceAnchors = _(act.multipleEndPoints()).map(function (d) {
+                                        count1 = 0;
+                                    _(act.multipleEndPoints()).each(function (d) {
+                                        
+                                        jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: anchors[count1], uuid: d.WebId() + "Source" });
+
                                         count1++;
-                                        return anchors[count1];
                                     });
+                                    sourceAnchors = [];
                                 }
 
                                 if (name == "EndActivity") {
@@ -334,13 +327,15 @@
                                 if (act.IsInitiator()) {
                                     targetAnchors = [];
                                 }
-
-                                addEndpoints(act.WebId(), sourceAnchors, targetAnchors);
+                                if (targetAnchors.length)
+                                    jsPlumb.addEndpoint(act.WebId(), targetEndpoint, { anchor: "TopCenter", uuid: act.WebId() + "Target" });
+                                if (sourceAnchors.length)
+                                    jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: "BottomCenter", uuid: act.WebId() + "Source" });
                                 count++;
                             },
                             createConnection = function (source, target, label) {
                                 jsPlumb.connect({
-                                    uuids: [source + "BottomCenter", target + "TopCenter"],
+                                    uuids: [source + "Source", target + "Target"],
                                     editable: true,
                                     overlays: [
                                         [
@@ -353,26 +348,7 @@
                                         ]
                                     ]
                                 });
-                                /*
-                                return jsPlumb.connect({
-                                    source: source,
-                                    target: target,
-                                    container: 'container',
-                                    endpoint: ['Dot', { radius: 5 }],
-                                    connector: ["Flowchart", { cornerRadius: 5, gap: 8 }],
-                                    connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 1, outlineColor: "transparent", outlineWidth: 1 },
-                                    anchors: ["Bottom", "TopCenter"],
-                                    overlays: [
-                                        [
-                                            "Label", {
-                                                cssClass: "l1 component label",
-                                                label: label || '',
-                                                location: 0.2,
-                                                id: target + '-label'
-                                            }
-                                        ]
-                                    ]
-                                });*/
+                                
                             };
 
 
@@ -390,7 +366,7 @@
                             }
                             if (v.multipleEndPoints) {
                                 _(v.multipleEndPoints()).each(function (d) {
-                                    createConnection(v.WebId(), d.NextActivityWebId(), d.Name());
+                                    createConnection(d.WebId(), d.NextActivityWebId(), d.Name());
                                 });
                             }
 
