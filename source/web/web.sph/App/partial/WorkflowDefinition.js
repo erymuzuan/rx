@@ -121,14 +121,17 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
              return function () {
                  self.VariableDefinitionCollection.remove(variable);
              };
-         };
+         },
+        loadSchema = function (storeId) {
+            var id = storeId || this.SchemaStoreId();
+            $.get("/WorkflowDefinition/GetXsdElementName/" + id)
+                .then(function (result) {
+                    elementNameOptions(result);
+                });
 
-    model.SchemaStoreId.subscribe(function (storeId) {
-        $.get("/WorkflowDefinition/GetXsdElementName/" + storeId)
-            .then(function (result) {
-                elementNameOptions(result);
-            });
-    });
+        };
+
+    model.SchemaStoreId.subscribe(loadSchema);
 
     var vm = {
         removeActivity: removeActivity,
@@ -136,7 +139,9 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         addActivity: addActivity,
         editActivity: editActivity,
         addVariable: addVariable,
-        editVariable: editVariable
+        editVariable: editVariable,
+        loadSchema: loadSchema,
+        xsdElements: elementNameOptions
     };
 
     return vm;

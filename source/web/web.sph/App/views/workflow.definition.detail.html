@@ -28,10 +28,16 @@
             <input class="form-control" data-bind="kendoUpload: SchemaStoreId" id="complex-variable-schema" type="file" name="complex-variable-schema" />
         </div>
     </div>
-    <a href="#" class="btn btn-default" data-bind="click : $root.openVisualDesigner">OPEN Visual Designer</a>
+    <div class="form-group">
+        <ul data-bind="foreach :xsdElements">
+            <li data-bind="text:$data"></li>
+        </ul>
+    </div>
+
 
     <!--ko compose:'_workflow.definition.variables.html' -->
     <!--/ko-->
+    <a href="#" class="btn btn-default" data-bind="click : $root.openVisualDesigner">OPEN Visual Designer</a>
     <!--ko compose:'_workflow.definition.activities.html' -->
     <!--/ko-->
 

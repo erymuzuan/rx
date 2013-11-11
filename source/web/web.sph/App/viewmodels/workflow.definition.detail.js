@@ -23,8 +23,10 @@ define([objectbuilders.datacontext, objectbuilders.logger],
                 var query = String.format("WorkflowDefinitionId eq {0}", id());
                 var tcs = new $.Deferred();
                 context.loadOneAsync("WorkflowDefinition", query)
-                    .done(function (wf) {
-                        vm.workflowdefinition(wf);
+                    .done(function (wd) {
+                        vm.workflowdefinition(wd);
+                        wd.loadSchema();
+
                         tcs.resolve(true);
                     });
                 return tcs.promise();
