@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle minify="true" runOnBuild="true" output="jsplumb.css">
+  <!--The order of the <file> elements determines the order of them when bundled.-->
+  <file>/Content/jsplumb/demo.css</file>
+  <file>/Content/jsplumb/sph.wf.32.css</file>
+  <file>/Content/jsplumb/sph.wf.64.css</file>
+</bundle>

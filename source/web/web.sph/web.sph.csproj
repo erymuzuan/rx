@@ -463,6 +463,7 @@
     <Content Include="App\viewmodels\space.detailpublic.js" />
     <Content Include="App\viewmodels\workflow.definition.detail.js" />
     <Content Include="App\viewmodels\workflow.definition.list.js" />
+    <Content Include="App\viewmodels\workflow.definition.visual.js" />
     <Content Include="App\viewmodels\_contract.facility.js" />
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.list.js" />
@@ -529,6 +530,7 @@
     <Content Include="App\views\rentalapplication.onbehalf.html" />
     <Content Include="App\views\workflow.definition.detail.html" />
     <Content Include="App\views\workflow.definition.list.html" />
+    <Content Include="App\views\workflow.definition.visual.html" />
     <Content Include="App\views\_contract.facility.html" />
     <Content Include="App\views\space.template.form.html" />
     <Content Include="App\views\space.template.list.html" />
@@ -695,6 +697,12 @@
     <Content Include="Content\img\team4.jpg" />
     <Content Include="Content\jsplumb\demo-all.css" />
     <Content Include="Content\jsplumb\demo.css" />
+    <Content Include="Content\jsplumb\jsplumb.css">
+      <DependentUpon>jsplumb.css.bundle</DependentUpon>
+    </Content>
+    <Content Include="Content\jsplumb\jsplumb.min.css">
+      <DependentUpon>jsplumb.css.bundle</DependentUpon>
+    </Content>
     <Content Include="Content\jsplumb\sph.wf.32.css" />
     <Content Include="Content\jsplumb\sph.wf.32.png" />
     <Content Include="Content\jsplumb\sph.wf.64.css" />
@@ -1066,6 +1074,9 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Content\jsplumb\jsplumb.css.bundle">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
@@ -1087,9 +1098,13 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\jsBezier-0.6-min.js" />
-    <Content Include="Scripts\jsplumb-geom-0.1.js" />
     <Content Include="Scripts\jsPlumb\anchors.js" />
+    <Content Include="Scripts\jsPlumb\bundle.js">
+      <DependentUpon>bundle.js.bundle</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jsPlumb\bundle.min.js">
+      <DependentUpon>bundle.js.bundle</DependentUpon>
+    </Content>
     <Content Include="Scripts\jsPlumb\connection.js" />
     <Content Include="Scripts\jsPlumb\connector-editors.js" />
     <Content Include="Scripts\jsPlumb\connectors-bezier.js" />
@@ -1101,6 +1116,8 @@
     <Content Include="Scripts\jsPlumb\drag.js" />
     <Content Include="Scripts\jsPlumb\endpoint.js" />
     <Content Include="Scripts\jsPlumb\jquery.jsPlumb.js" />
+    <Content Include="Scripts\jsPlumb\jsBezier-0.6-min.js" />
+    <Content Include="Scripts\jsPlumb\jsplumb-geom-0.1.js" />
     <Content Include="Scripts\jsPlumb\jsPlumb.js" />
     <Content Include="Scripts\jsPlumb\mootools.jsPlumb.js" />
     <Content Include="Scripts\jsPlumb\overlays-guidelines.js" />
@@ -2065,6 +2082,10 @@
     <Content Include="Views\Shared\EditorTemplates\HtmlElement.cshtml" />
     <Content Include="Views\WorkflowDefinition\_ScreenPerformer.cshtml" />
     <Content Include="Views\WorkflowDefinition\Visual.cshtml" />
+    <None Include="Scripts\jsPlumb\bundle.js.bundle" />
+    <Content Include="Scripts\jsPlumb\bundle.min.js.map">
+      <DependentUpon>bundle.js.bundle</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

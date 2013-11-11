@@ -1,0 +1,44 @@
+﻿<link href="/Content/jsplumb/jsplumb.css" rel="stylesheet" />
+<script src="/Scripts/jsPlumb/bundle.js"></script>
+<div class="row">
+
+    <h1 data-bind="text:wd().Name()"></h1>
+
+</div>
+
+<div class="row">
+    <div class="col-lg-9" id="container-canvas" style="min-height: 900px" data-bind="with : wd">
+        <!-- ko foreach : ActivityCollection -->
+
+        <div class="activity w" data-bind="style : {'left': WorkflowDesigner().X() + 'px','top': WorkflowDesigner().Y() + 'px'}">
+
+            <div class="activity32 pull-right"></div>
+            <!-- ko text : Name -->
+            <!-- /ko -->
+
+            <a href="#" data-bind="click: $parent.editActivity.call($parent,$data)" class="glyphicon glyphicon-edit">edit</a>
+
+        </div>
+
+        <!-- /ko -->
+
+
+    </div>
+    <div id="toolbox" class="col-lg-3">
+        <h3>Toolbox</h3>
+        <div>
+            <!-- ko foreach : toolboxElements -->
+
+            <div class="btn btn-default col-lg-12 toolbox-item" data-bind="attr : {id:WebId()}">
+                <div data-bind="attr : {'class':CssClass}"></div>
+                <strong data-bind="text:Name"></strong>
+                <p>
+                    <span data-bind="text:Note"></span>
+                </p>
+
+            </div>
+
+            <!-- /ko -->
+        </div>
+    </div>
+</div>
