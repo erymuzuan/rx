@@ -1808,6 +1808,22 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_UserName;
+        [XmlAttribute]
+        public string UserName
+        {
+            get
+            {
+                return m_UserName;
+            }
+            set
+            {
+                m_UserName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 

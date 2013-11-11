@@ -314,6 +314,7 @@
 					<xs:attribute name="Subject" type="xs:string" use="required"/>
 					<xs:attribute name="Body" type="xs:string" use="required"/>
 					<xs:attribute name="To" type="xs:string" use="required"/>
+					<xs:attribute name="UserName" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

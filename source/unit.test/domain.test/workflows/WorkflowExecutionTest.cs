@@ -113,7 +113,8 @@ namespace domain.test.workflows
                 Subject = "=Ada permohonan baru @Model.Title",
                 Body = "Permohonan baru di @Model.Title oleh @Model.pemohon.MyKad",
                 WebId = "_EMAIL_",
-                NextActivityWebId = "_C_"
+                NextActivityWebId = "_C_",
+                UserName = "admin"
 
             };
             wd.ActivityCollection.Add(email);

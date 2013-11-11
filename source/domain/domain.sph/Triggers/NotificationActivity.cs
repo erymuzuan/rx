@@ -21,6 +21,22 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       var subject = await this.Transform{0}(\"{1}\");", this.MethodName, this.Subject);
             code.AppendLinf("       var body = await this.Transform{0}(\"{1}\");", this.MethodName, this.Body);
 
+            if (!string.IsNullOrWhiteSpace(this.UserName))
+            {
+                code.AppendLine("       var context = new SphDataContext();");
+                code.AppendLine("       var message = new Message");
+                code.AppendLine("       {");
+                code.AppendLinf("           Subject = subject,");
+                code.AppendLinf("           UserName = \"{0}\",", this.UserName);
+                code.AppendLinf("           Body = body");
+                code.AppendLine("       };");
+                code.AppendLine("       using (var session = context.OpenSession())");
+                code.AppendLine("       {");
+                code.AppendLine("           session.Attach(message);");
+                code.AppendLinf("           await session.SubmitChanges(\"{0}\");", this.Name);
+                code.AppendLine("       }");
+
+            }
             code.AppendLine("       var client = new System.Net.Mail.SmtpClient();");
             code.AppendLine("       await client.SendMailAsync(@from, to, subject,body);");
 
