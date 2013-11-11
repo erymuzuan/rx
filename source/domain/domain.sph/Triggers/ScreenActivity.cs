@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -51,7 +52,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("               var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);");
             code.AppendLinf("               var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"{0}\");", this.WebId);
             code.AppendLinf("               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");");
-            
+
 
             code.AppendLinf("               vm.Screen  = screen;");
             code.AppendLinf("               vm.Instance  = wf as {0};", wd.WorkflowTypeName);
@@ -236,6 +237,70 @@ namespace Bespoke.Sph.Domain
         public override Task<ActivityExecutionResult> ExecuteAsync()
         {
             return null;
+        }
+
+        public async override Task InitiateAsync()
+        {
+            var users = new List<string>();
+            var context = new SphDataContext();
+            var ad = ObjectBuilder.GetObject<IDirectoryService>();
+            switch (this.Performer.UserProperty)
+            {
+                case "Username":
+                    users.Add(this.Performer.Value);
+                    break;
+                case "Department":
+                   var list = await context.GetListAsync<UserProfile, string>(
+                       u => u.Department == this.Performer.Value, 
+                       u => u.Username);
+                    users.AddRange(list);
+                    break;
+                case "Designation":
+                    var list2 = await context.GetListAsync<UserProfile, string>(
+                        u => u.Designation == this.Performer.Value,
+                        u => u.Username);
+                    users.AddRange(list2);
+                    break;
+                case "Roles":
+                    var list3 = await  ad.GetUserInRolesAsync(this.Performer.Value);
+                    users.AddRange(list3);
+                    break;
+                default:
+                    throw new Exception("Whoaaa we cannot send invitation to " + this.Performer.UserProperty + " for " + this.Name);
+                    
+            }
+
+            foreach (var user in users)
+            {
+                string user1 = user;
+                var profile = await context.LoadOneAsync<UserProfile>(p => p.Username == user1);
+                var subject = await this.TransformTemplateAsync(this.InvitationMessageSubject);
+                var body = await this.TransformTemplateAsync(this.InvitationMessageBody);
+
+
+                var message = new Message { Subject = subject, UserName = user, Body = body };
+                using (var session = context.OpenSession())
+                {
+                    session.Attach(message);
+                    await session.SubmitChanges("Initiate " + this.Name);
+                }
+
+                var ns = ObjectBuilder.GetObject<INotificationService>();
+                await ns.SendMessageAsync(message, profile.Email);
+            }
+
+        }
+
+        private async Task<string> TransformTemplateAsync(string template)
+        {
+            if (string.IsNullOrWhiteSpace(template)) return string.Empty;
+            if (template.StartsWith("="))
+            {
+                var engine = ObjectBuilder.GetObject<ITemplateEngine>();
+                var razor = template.Substring(1, template.Length - 1);
+                return await engine.GenerateAsync(razor, this);
+            }
+            return template;
         }
     }
 }

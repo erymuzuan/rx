@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Web.Dependencies
@@ -24,6 +25,16 @@ namespace Bespoke.Sph.Web.Dependencies
                 cc.ToList().ForEach(message.CC.Add);
             var s = new SmtpClient();
             s.Send(message);
+        }
+
+        public Task SendMessageAsync(Message message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SendMessageAsync(Message message, string to)
+        {
+            throw new NotImplementedException();
         }
 
         public IList<INotificationChannel> NotificationChannelCollection { get; private set; }

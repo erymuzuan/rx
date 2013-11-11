@@ -30,6 +30,10 @@ namespace Bespoke.Sph.Domain
         {
             throw new System.NotImplementedException();
         }
+        public virtual Task InitiateAsync()
+        {
+            throw new System.NotImplementedException();
+        }
 
         /// <summary>
         /// Flags to say that this activity listen to event

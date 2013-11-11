@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Scheduler.Sph.Rental
@@ -14,5 +15,20 @@ namespace Bespoke.Scheduler.Sph.Rental
                return string.Empty;
            }
        }
-    }
+
+        public Task<string[]> GetUserInRolesAsync(string role)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<string[]> GetUserRolesAsync(string userName)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<bool> AuthenticateAsync(string userName, string password)
+        {
+            throw new System.NotImplementedException();
+        }
+   }
 }

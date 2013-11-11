@@ -120,16 +120,7 @@
                                 connectToSortable: "#template-form-designer>form"
                             });
                         });
-
-
-                    // get the position
-                    $('#template-form-designer').on('click', 'form>div', function (e) {
-                        e.preventDefault();
-                        var top = $(this).position().top;
-                        $('#form-designer-toolbox').animate({ "margin-top": top - 140 }, 300);
-
-                    });
-
+                    
                     $('section.context-action-panel').on('click', 'buton.close', function() {
                         $(this).parents('div.context-action').hide();
                     });

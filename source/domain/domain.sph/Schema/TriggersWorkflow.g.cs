@@ -1628,6 +1628,38 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_InvitationMessageSubject;
+        [XmlAttribute]
+        public string InvitationMessageSubject
+        {
+            get
+            {
+                return m_InvitationMessageSubject;
+            }
+            set
+            {
+                m_InvitationMessageSubject = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_InvitationMessageBody;
+        [XmlAttribute]
+        public string InvitationMessageBody
+        {
+            get
+            {
+                return m_InvitationMessageBody;
+            }
+            set
+            {
+                m_InvitationMessageBody = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private FormDesign m_formDesign
                 = new FormDesign();

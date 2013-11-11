@@ -54,7 +54,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("           var engine = ObjectBuilder.GetObject<ITemplateEngine>();");
             code.AppendLine("           var razor = template.Substring(1, template.Length - 1);");
 
-            code.AppendLine("           return await engine.GenerateAsync(template, this);");
+            code.AppendLine("           return await engine.GenerateAsync(razor, this);");
             code.AppendLine("       }");
             code.AppendLine("       return template;");
 

@@ -191,6 +191,8 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("               if(act.IsAsync)");
             code.AppendLine("               {");
             code.AppendLine("                   this.State = \"WaitingAsync\";");
+
+            code.AppendLine("                   await act.InitiateAsync();");
             code.AppendLine("                   await this.SaveAsync(act.WebId);");
             code.AppendLine("                   return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};");
             code.AppendLine("               }");
