@@ -1,8 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Security;
 using Bespoke.Sph.Domain;
 
-namespace Bespoke.Sph.Web.Dependencies
+namespace Bespoke.Sph.DirectoryServices
 {
     public class AspNetDirectoryService : IDirectoryService
     {
@@ -18,17 +19,17 @@ namespace Bespoke.Sph.Web.Dependencies
 
         public Task<string[]> GetUserInRolesAsync(string role)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(Roles.GetUsersInRole(role));
         }
 
         public Task<string[]> GetUserRolesAsync(string userName)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(Roles.GetRolesForUser(userName));
         }
 
         public Task<bool> AuthenticateAsync(string userName, string password)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(Membership.ValidateUser(userName,password));
         }
     }
 }

@@ -158,6 +158,7 @@ namespace Bespoke.Sph.Domain
     Layout = ""~/Views/Shared/_Layout.cshtml"";
     const string controllerString = ""Controller"";
     var setting = new JsonSerializerSettings {{TypeNameHandling = TypeNameHandling.All}};
+    var confirmationText = Model.Screen.ConfirmationOptions.Value;
     
 }}
 
@@ -203,13 +204,29 @@ namespace Bespoke.Sph.Domain
 
             $('#save-button').click(function(e) {{
                 e.preventDefault();
-                var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(vm.instance);
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(vm.instance),
+                    button = $(this);
+
+                button.prop('disabled', true);
                 context.post(data, ""/@Model.Controller.Replace(controllerString, string.Empty)/@Model.SaveAction"")
                     .then(function(result) {{
                         tcs.resolve(result);
-                        var msg = _.template(result.wf.Screen.ConfirmationOptions.Value);
-                        app.showMessage(msg);                       
+                        @if(Model.Screen.ConfirmationOptions.Type == ""Message"")
+                        {{
+                            <text>
+                            var msg = _.template("" @confirmationText "")(result.wf);
+                            
+                            console.log(msg);
+                            app.showMessage(msg);
+                            </text>
+                        }}else
+                        {{
+                            <text>
+                            window.location = ""@confirmationText"";
+                            </text>
+                        }}
+                       
 
                     }});
                 return tcs.promise();

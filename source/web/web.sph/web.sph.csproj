@@ -334,7 +334,6 @@
     <Compile Include="Dependencies\DummyChangeListener.cs" />
     <Compile Include="Dependencies\DummyChangeTracker.cs" />
     <Compile Include="Dependencies\DummySearchProvider.cs" />
-    <Compile Include="Dependencies\EmailService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1077,6 +1076,8 @@
     <None Include="Content\jsplumb\jsplumb.css.bundle">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Content\jsplumb\OpenSans.woff" />
+    <Content Include="Content\jsplumb\OpenSans-Regular.ttf" />
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />

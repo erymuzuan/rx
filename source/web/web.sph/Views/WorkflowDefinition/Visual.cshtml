@@ -144,18 +144,18 @@
 
                 $(function () {
                     var save = function () {
-                            $('div#container>div.activity').each(function () {
-                                var p = $(this),
-                                    act = ko.dataFor(this),
-                                    x = parseInt(p.css("left")),
-                                    y = parseInt(p.css("top"));
+                        $('div#container>div.activity').each(function () {
+                            var p = $(this),
+                                act = ko.dataFor(this),
+                                x = parseInt(p.css("left")),
+                                y = parseInt(p.css("top"));
 
-                                act.WorkflowDesigner().X(x);
-                                act.WorkflowDesigner().Y(y);
+                            act.WorkflowDesigner().X(x);
+                            act.WorkflowDesigner().Y(y);
 
-                            });
-                            window.saved(vm.wd());
-                        },
+                        });
+                        window.saved(vm.wd());
+                    },
                         saveAndClose = function () {
                             save();
                             window.close();
@@ -178,6 +178,7 @@
                             act.WorkflowDesigner().X(x);
                             act.WorkflowDesigner().Y(y);
                             act.WebId(system.guid());
+                            act.Name("Activity " + vm.wd().ActivityCollection().length + 1);
                             vm.wd().ActivityCollection.push(act);
                         }
                     });
@@ -266,57 +267,59 @@
                         count = 1,
                         activityAdded = function (act) {
 
-                                var p = $('<div class="activity w" id="' + act.WebId() + '">' +
-                                          '     <div class="activity32 pull-right"></div>' +
-                                          '     <!-- ko text : Name() -->' +
-                                          '     <!-- /ko -->' +
+                            var p = $('<div class="activity w" id="' + act.WebId() + '">' +
+                                      '     <div class="activity32 pull-right"></div>' +
+                                      '     <!-- ko text : Name() -->' +
+                                      '     <!-- /ko -->' +
 
-                                         // '     <a href="#" data-bind2="click: $parent.editActivity.call($parent,$data)" class="glyphicon glyphicon-edit">edit</a>' +
-                                          '  </div>'),
-                                    x = act.WorkflowDesigner().X() || 250,
-                                    y = act.WorkflowDesigner().Y() || 150 * count,
-                                    fullName = typeof act.$type === "function" ? act.$type() : act.$type,
-                                    name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1];
+                                     // '     <a href="#" data-bind2="click: $parent.editActivity.call($parent,$data)" class="glyphicon glyphicon-edit">edit</a>' +
+                                      '  </div>'),
+                                x = act.WorkflowDesigner().X() || 250,
+                                y = act.WorkflowDesigner().Y() || 150 * count,
+                                fullName = typeof act.$type === "function" ? act.$type() : act.$type,
+                                name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1];
 
 
-                                p.css("left", x + "px")
-                                    .css("top", y + "px")
-                                    .appendTo('div#container')
-                                    .find("div.activity32")
-                                    .addClass("activity32-" + name);
+                            p.css("left", x + "px")
+                                .css("top", y + "px")
+                                .appendTo('div#container')
+                                .find("div.activity32")
+                                .addClass("activity32-" + name);
 
-                                ko.applyBindings(act, document.getElementById(act.WebId()));
-                                jsPlumb.draggable(p);
+                            ko.applyBindings(act, document.getElementById(act.WebId()));
+                            jsPlumb.draggable(p);
 
-                                var sourceAnchors = ["BottomCenter"];
-                                var targetAnchors = ["TopCenter"];
-                                if (act.multipleEndPoints) {
-                                    var anchors = ["BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle",
-                                                    "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle",
-                                                    "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle"],
-                                        count1 = 0;
-                                    _(act.multipleEndPoints()).each(function (d) {
+                            var sourceAnchors = ["BottomCenter"];
+                            var targetAnchors = ["TopCenter"];
+                            if (act.multipleEndPoints) {
+                                var anchors = ["BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle",
+                                                "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle",
+                                                "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle"],
+                                    count1 = 0;
+                                _(act.multipleEndPoints()).each(function (d) {
 
-                                        var ep = jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: anchors[count1], uuid: d.WebId() + "Source" , id: d.WebId()});
-                                        d.endPointId = ep.id; // since multiple branches activity will have their own end point
-                                        count1++;
-                                    });
-                                    sourceAnchors = [];
-                                }
+                                    var ep = jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: anchors[count1], uuid: d.WebId() + "Source", id: d.WebId() });
+                                    d.endPointId = ep.id; // since multiple branches activity will have their own end point
+                                    count1++;
+                                });
+                                sourceAnchors = [];
+                            }
 
-                                if (name == "EndActivity") {
-                                    sourceAnchors = [];
-                                }
-                                if (act.IsInitiator()) {
-                                    targetAnchors = [];
-                                }
-                                if (targetAnchors.length)
-                                    jsPlumb.addEndpoint(act.WebId(), targetEndpoint, { anchor: "TopCenter", uuid: act.WebId() + "Target" });
-                                if (sourceAnchors.length)
-                                    jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: "BottomCenter", uuid: act.WebId() + "Source" });
-                                count++;
-                            },
+                            if (name == "EndActivity") {
+                                sourceAnchors = [];
+                            }
+                            if (act.IsInitiator()) {
+                                targetAnchors = [];
+                            }
+                            if (targetAnchors.length)
+                                jsPlumb.addEndpoint(act.WebId(), targetEndpoint, { anchor: "TopCenter", uuid: act.WebId() + "Target" });
+                            if (sourceAnchors.length)
+                                jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: "BottomCenter", uuid: act.WebId() + "Source" });
+                            count++;
+                        },
                         createConnection = function (source, target, label) {
+
+                            try {
                                 var connection = jsPlumb.connect({
                                     uuids: [source + "Source", target + "Target"],
                                     editable: true,
@@ -334,7 +337,11 @@
                                 connection.label = label;
                                 init(connection);
 
-                            };
+                            } catch (e) {
+                                console.log(e);
+                            }
+
+                        };
 
 
                         // create an element to each activity and bind them
@@ -367,7 +374,7 @@
                             }
                         });
 
-                
+
                         jsPlumb.bind("connectionDragStop", function (connection) {
                             var source = ko.dataFor(connection.source);
                             if (source.multipleEndPoints) {
