@@ -439,6 +439,7 @@
     <Content Include="App\viewmodels\action.email.js" />
     <Content Include="App\viewmodels\action.setter.js" />
     <Content Include="App\viewmodels\activity.createentity.js" />
+    <Content Include="App\viewmodels\activity.delay.js" />
     <Content Include="App\viewmodels\activity.end.js" />
     <Content Include="App\viewmodels\activity.decision.js" />
     <Content Include="App\viewmodels\activity.notification.js" />
@@ -506,6 +507,7 @@
     <Content Include="App\views\action.email.html" />
     <Content Include="App\views\action.setter.html" />
     <Content Include="App\views\activity.createentity.html" />
+    <Content Include="App\views\activity.delay.html" />
     <Content Include="App\views\activity.end.html" />
     <Content Include="App\views\activity.decision.html" />
     <Content Include="App\views\activity.notification.html" />
