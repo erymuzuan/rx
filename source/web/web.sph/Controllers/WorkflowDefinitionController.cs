@@ -131,7 +131,7 @@ namespace Bespoke.Sph.Web.Controllers
             var screens = (from s in wd.ActivityCollection.OfType<ScreenActivity>()
                            select new Page
                            {
-                               VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowDefinitionId, wd.Version, s.Title.Replace(" ", string.Empty)),
+                               VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowDefinitionId, wd.Version, s.Name.Replace(" ", string.Empty)),
                                Code = s.GetView(wd),
                                Title = s.Title,
                                IsPartial = false,

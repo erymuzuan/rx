@@ -91,7 +91,7 @@
         define('jquery', function () { return jQuery; });
         //define('knockout-3.0.0',function (){return ko;});
 
-        require(['services/datacontext', 'durandal/system', 'jquery', ],
+        require(['services/datacontext', 'durandal/system', 'jquery'],
 
             function (context, system) {
 
@@ -207,7 +207,6 @@
                             ]
                         });
 
-                        // this is the paint style for the connecting lines..
                         var connectorPaintStyle = {
                             lineWidth: 4,
                             strokeStyle: "#808080",
@@ -215,7 +214,6 @@
                             outlineColor: "#eaedef",
                             outlineWidth: 2
                         },
-                        // .. and this is the hover style.
                         connectorHoverStyle = {
                             lineWidth: 4,
                             strokeStyle: "#5C96BC",
@@ -223,7 +221,6 @@
                             outlineColor: "white"
                         },
                         endpointHoverStyle = { fillStyle: "#5C96BC" },
-                        // the definition of source endpoints (the small blue ones)
                         sourceEndpoint = {
                             endpoint: "Dot",
                             paintStyle: {
@@ -245,9 +242,6 @@
                                 }]
                             ]
                         },
-                        // a source endpoint that sits at BottomCenter
-                        //	bottomSource = jsPlumb.extend( { anchor:"BottomCenter" }, sourceEndpoint),
-                        // the definition of target endpoints (will appear when the user drags a connection)
                         targetEndpoint = {
                             endpoint: "Dot",
                             paintStyle: { fillStyle: "#1e8151", radius: 11 },
@@ -260,28 +254,14 @@
                             ]
                         },
                         init = function (connection) {
-                            connection.getOverlay("label").setLabel(connection.sourceId.substring(6) + "-" + connection.targetId.substring(6));
                             connection.bind("editCompleted", function (o) {
                                 if (typeof console != "undefined")
                                     console.log("connection edited. path is now ", o.path);
                             });
-                        };
-
-                        var addEndpoints = function (toId, sourceAnchors, targetAnchors) {
-                            for (var i = 0; i < sourceAnchors.length; i++) {
-                                var sourceUuid = toId + sourceAnchors[i];
-                                jsPlumb.addEndpoint(toId, sourceEndpoint, { anchor: sourceAnchors[i], uuid: sourceUuid });
-                            }
-                            for (var j = 0; j < targetAnchors.length; j++) {
-                                var targetUuid = toId + targetAnchors[j];
-                                jsPlumb.addEndpoint(toId, targetEndpoint, { anchor: targetAnchors[j], uuid: targetUuid });
-                            }
-                        };
-
-
-                        var activities = vm.wd().ActivityCollection(),
-                            count = 1,
-                            activityAdded = function (act) {
+                        },
+                        activities = vm.wd().ActivityCollection(),
+                        count = 1,
+                        activityAdded = function (act) {
 
                                 var p = $('<div class="activity w" id="' + act.WebId() + '">' +
                                           '     <div class="activity32 pull-right"></div>' +
@@ -313,9 +293,9 @@
                                                     "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle"],
                                         count1 = 0;
                                     _(act.multipleEndPoints()).each(function (d) {
-                                        
-                                        jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: anchors[count1], uuid: d.WebId() + "Source" });
 
+                                        var ep = jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: anchors[count1], uuid: d.WebId() + "Source" , id: d.WebId()});
+                                        d.endPointId = ep.id; // since multiple branches activity will have their own end point
                                         count1++;
                                     });
                                     sourceAnchors = [];
@@ -333,8 +313,8 @@
                                     jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: "BottomCenter", uuid: act.WebId() + "Source" });
                                 count++;
                             },
-                            createConnection = function (source, target, label) {
-                                jsPlumb.connect({
+                        createConnection = function (source, target, label) {
+                                var connection = jsPlumb.connect({
                                     uuids: [source + "Source", target + "Target"],
                                     editable: true,
                                     overlays: [
@@ -348,7 +328,9 @@
                                         ]
                                     ]
                                 });
-                                
+                                connection.label = label;
+                                init(connection);
+
                             };
 
 
@@ -356,10 +338,10 @@
                         _(vm.wd().ActivityCollection()).each(activityAdded);
                         // add/remove element as activity is added or deleted
                         vm.wd().ActivityCollection.subscribe(function (changes) {
-                            // console.log(changes);
                             activityAdded(changes[0].value);
                         }, null, "arrayChange"),
 
+                        // creates connection
                         _(activities).each(function (v) {
                             if (v.NextActivityWebId()) {
                                 createConnection(v.WebId(), v.NextActivityWebId());
@@ -370,8 +352,29 @@
                                 });
                             }
 
-
                         });
+
+
+                        jsPlumb.bind("click", function (conn) {
+                            var source = _(activities).find(function (v) { return conn.sourceId === v.WebId(); });
+                            var target = _(activities).find(function (v) { return conn.targetId === v.WebId(); });
+                            if (confirm("Delete connection from " + source.Name() + " to " + target.Name() + "?")) {
+                                jsPlumb.detach(conn);
+                                source.NextActivityWebId("");
+                            }
+                        });
+
+                
+                        jsPlumb.bind("connectionDragStop", function (connection) {
+                            var source = ko.dataFor(connection.source);
+                            if (source.multipleEndPoints) {
+                                var ep = _(connection.endpoints).find(function (e) { return e.isSource; });
+                                source = _(source.multipleEndPoints()).find(function (v) { return ep.id === v.endPointId; });
+                            }
+                            var target = ko.dataFor(connection.target);
+                            source.NextActivityWebId(target.WebId());
+                        });
+
 
                     });
 

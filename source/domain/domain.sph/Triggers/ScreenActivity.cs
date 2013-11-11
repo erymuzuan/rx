@@ -111,7 +111,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("               await session.SubmitChanges(\"{0}\");",this.WebId);
             code.AppendLine("           }");
             */
-            code.AppendLine("           return Json(new {sucess = true, status = \"OK\", result = result,wf);");
+            code.AppendLine("           return Json(new {sucess = true, status = \"OK\", result = result,wf});");
             code.AppendLine("       }"); // end SAVE action
 
 
@@ -229,7 +229,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return this.Title.Replace(" ", string.Empty);
+                return this.Name.Replace(" ", string.Empty);
             }
         }
 
