@@ -134,7 +134,7 @@ namespace Bespoke.Sph.Domain
                                         }
 
                                         ");
-            code.AppendLinf("           var screen = wd.ActivityCollection.Single(w =>w.WebId ==\"{0}\");", this.WebId);
+            code.AppendLinf("           var screen = wd.ActivityCollection.Single(w =>w.WebId ==\"{0}\") as ScreenActivity;", this.WebId);
             code.AppendLinf("           var script =await  screen.GenerateCustomXsdJavascriptClassAsync(wd);", this.WebId);
             code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
 
@@ -269,15 +269,13 @@ namespace Bespoke.Sph.Domain
     <h1>@Model.Screen.Title</h1>
 </div>
 <div class=""row"">
-    <form class=""form-horizontal"" id=""workflow-start-form"">
-        <!-- ko with :instance -->
+    <form class=""form-horizontal"" id=""workflow-start-form"" data-bind=""with: instance"">
         @foreach (var fe in Model.Screen.FormDesign.FormElementCollection)
         {{
             fe.Path = fe.Path.ConvertJavascriptObjectToFunction();
 
             @Html.EditorFor(f => fe)
         }}
-        <!-- /ko -->
         <div class=""form-group"" >
             <label class=""control-label col-lg-2""></label>
             <div class=""col-lg-2 col-lg-offset-8"">
@@ -321,7 +319,7 @@ namespace Bespoke.Sph.Domain
                             var msg = _.template('@Html.Raw(confirmationText)')(result.wf);
                             
                             console.log(msg);
-                            app.showMessage(msg);
+                            alert(msg);
                             </text>
                         }}else
                         {{

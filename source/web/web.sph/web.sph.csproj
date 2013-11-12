@@ -2090,6 +2090,16 @@
       <DependentUpon>bundle.js.bundle</DependentUpon>
     </Content>
     <Content Include="Views\WorkflowDefinition\DisplayTemplates\CustomListDefinitionElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SectionFormElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CheckBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ComboBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CustomListDefinitionElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DatePicker.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\EmailFormElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\FormElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\NumberTextBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TextAreaElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\WebsiteFormElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

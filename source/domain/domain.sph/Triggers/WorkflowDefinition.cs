@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using Microsoft.CSharp;
 using Newtonsoft.Json;
@@ -66,6 +67,8 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Net.Mail.SmtpClient).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(XElement).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
                 foreach (var ass in options.ReferencedAssemblies)
                 {
                     parameters.ReferencedAssemblies.Add(ass.Location);
