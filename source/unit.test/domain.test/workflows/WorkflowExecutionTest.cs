@@ -85,7 +85,7 @@ namespace domain.test.workflows
             };
             screen.InitiateAsync(wf).ContinueWith(_ =>
             {
-                var exc = _.Exception as AggregateException;
+                var exc = _.Exception;
                 if (null != exc)
                 {
                     foreach (var e in exc.InnerExceptions)
