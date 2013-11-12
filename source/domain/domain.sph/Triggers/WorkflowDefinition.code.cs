@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Domain
     {
         private XElement m_customSchema;
 
-        private string GenerateXsdElementClass(XElement e, int level = 0)
+        public string GenerateXsdElementCsharpClass(XElement e, int level = 0)
         {
             var properties = new List<string>();
 
@@ -24,14 +24,11 @@ namespace Bespoke.Sph.Domain
             var xsd = this.GetCustomSchema();
             var ns = xsd.Attribute("targetNamespace");
 
-            code.AppendLinf("    [XmlType(\"{0}\",  Namespace=\"{1}\")]", name, ns != null ? ns.Value : "");
-            code.AppendLinf("    public partial class {0} : DomainObject", name);
+            code.AppendLinf("   [XmlType(\"{0}\",  Namespace=\"{1}\")]", name, ns != null ? ns.Value : "");
+            code.AppendLinf("   public partial class {0} : DomainObject", name);
             code.AppendLine("   {");
 
-
-
-
-
+            
             var ct = e.Element(x + "complexType");
             if (null == ct) return code.ToString();
 
@@ -47,24 +44,27 @@ namespace Bespoke.Sph.Domain
                 //Console.WriteLine(ct.Elements(x + "element").Count());
                 var allElements = from at in all.Elements(x + "element")
                                   where at.Attribute("name") != null
+                                  && at.Attribute("type") != null
                                   select string.Format("      public {1} {0} {{get;set;}}", at.Attribute("name").Value, this.GetClrDataType(at));
                 properties.AddRange(allElements);
 
+                var collectionElements = from at in all.Elements(x + "element")
+                                         where at.Attribute("name") != null
+                                         && at.Attribute("type") == null
+                                         let refElement = at.Descendants(x + "element").First()
+                                         select string.Format("         private readonly ObjectCollection<{1}> m_{0} = new ObjectCollection<{1}>();\r\n" +
+                                                              "         public ObjectCollection<{1}> {0} {{get {{ return m_{0};}} }}", at.Attribute("name").Value, refElement.Attribute("ref").Value);
+                properties.AddRange(collectionElements);
+
                 var refElements = from at in all.Elements(x + "element")
                                   where at.Attribute("ref") != null
-                                  select "      public " + at.Attribute("ref").Value + " " + at.Attribute("ref").Value + " {get;set;}";
+                                  let refa = at.Attribute("ref")
+                                  select string.Format("      private  {0} m_{0} = new {0}();\r\n" +
+                                    "      public {0} {0}{{get{{ return m_{0};}} set{{ m_{0} = value;}} }}",refa.Value);
                 properties.AddRange(refElements);
 
 
 
-                var refInitializers = from at in all.Elements(x + "element")
-                                      where at.Attribute("ref") != null
-                                      select "      this." + at.Attribute("ref").Value + " = new " + at.Attribute("ref").Value + "();";
-                // contructor should be created for ref
-                code.AppendLinf("       public {0}()", name);
-                code.AppendLine("           {");
-                refInitializers.ToList().ForEach(c => code.AppendLine(c));
-                code.AppendLine("           }");
 
             }
 
@@ -77,8 +77,101 @@ namespace Bespoke.Sph.Domain
 
         }
 
+        public string GenerateXsdElementJavascript(XElement e, int level = 0)
+        {
+            var properties = new List<string>();
+
+            XNamespace x = "http://www.w3.org/2001/XMLSchema";
+            var code = new StringBuilder();
+            var name = e.Attribute("name").Value;
+            var xsd = this.GetCustomSchema();
+            var ns = xsd.Attribute("targetNamespace");
+
+            /*
+             * 
+
+bespoke.sph.domain.Workflow = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Workflow, domain.sph",
+        WorkflowId: ko.observable(0),
+        WorkflowDefinitionId: ko.observable(0),
+        Name: ko.observable(''),
+        State: ko.observable(''),
+        IsActive: ko.observable(false),
+        Version: ko.observable(0),
+        VariableValueCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.WorkflowPartial) {
+        return _(model).extend(new bespoke.sph.domain.WorkflowPartial(model));
+    }
+    return model;
+};
+
+             * */
+            code.AppendLinf("bespoke.sph.{0}.{1} = function(webid){{", this.CodeNamespace, name);
+            code.AppendLine("   var model = {");
+            properties.Add(string.Format("         \"$type\" :\"{0}.{1}, workflows.{2}.{3}\"", this.CodeNamespace, name, this.WorkflowDefinitionId, this.Version));
+            properties.Add("        \"WebId\": ko.observable(webid)");
+
+            
+            var ct = e.Element(x + "complexType");
+            if (null == ct) return code.ToString();
+
+            var attributes = from at in ct.Elements(x + "attribute")
+                             let n = at.Attribute("name").Value
+                             select string.Format("         \"{0}\" : ko.observable()", n);
+            properties.AddRange(attributes);
+
+            var all = ct.Element(x + "all");
+            if (null != all)
+            {
+                //Console.WriteLine(ct.Elements(x + "element").Count());
+                var allElements = from at in all.Elements(x + "element")
+                                  where at.Attribute("name") != null
+                                  && at.Attribute("type") != null
+                                  select string.Format("            \"{0}\" : ko.observable()", at.Attribute("name").Value);
+                properties.AddRange(allElements);
+
+                var collectionElements = from at in all.Elements(x + "element")
+                                         where at.Attribute("name") != null
+                                         && at.Attribute("type") == null
+                                         let refElement = at.Descendants(x + "element").First()
+                                         select string.Format("         \"{0}\" : ko.observableArray()", at.Attribute("name").Value);
+                properties.AddRange(collectionElements);
+
+                var refElements = from at in all.Elements(x + "element")
+                                  where at.Attribute("ref") != null
+                                  let refa = at.Attribute("ref")
+                                  select string.Format("            \"{0}\" : ko.observable(new bespoke.sph.{1}.{0}())", refa.Value, this.CodeNamespace);
+                properties.AddRange(refElements);
+
+
+
+
+            }
+
+
+            code.AppendLine(string.Join(",\r\n", properties));
+
+            code.AppendLine("       };");
+            code.AppendLinf(@"
+    if (bespoke.sph.{0}.{1}Partial) {{
+        return _(model).extend(new bespoke.sph.{0}.{1}Partial(model));
+    }}       
+return model;", this.CodeNamespace, name);
+            code.AppendLine("   };");
+            return code.ToString();
+
+
+
+        }
+
         private string GetClrDataType(XElement element)
         {
+
             var typeAttribute = element.Attribute("type");
             var nillableAttribute = element.Attribute("nillable");
 
@@ -135,6 +228,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("using " + typeof(Task<>).Namespace + ";");
             code.AppendLine("using " + typeof(Enumerable).Namespace + ";");
             code.AppendLine("using " + typeof(XmlAttributeAttribute).Namespace + ";");
+            code.AppendLine();
 
             code.AppendLine("namespace " + this.CodeNamespace);
             code.AppendLine("{");
@@ -192,7 +286,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("               {");
             code.AppendLine("                   this.State = \"WaitingAsync\";");
 
-            code.AppendLine("                   await act.InitiateAsync();");
+            code.AppendLine("                   await act.InitiateAsync(this);");
             code.AppendLine("                   await this.SaveAsync(act.WebId);");
             code.AppendLine("                   return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};");
             code.AppendLine("               }");
@@ -243,7 +337,7 @@ namespace Bespoke.Sph.Domain
             var xsd = this.GetCustomSchema();
 
             var elements = xsd.Elements(x + "element").ToList();
-            var customSchemaCode = elements.Select(this.GenerateXsdElementClass).ToList();
+            var customSchemaCode = elements.Select(this.GenerateXsdElementCsharpClass).ToList();
             customSchemaCode.ForEach(c => code.AppendLine(c));
 
 

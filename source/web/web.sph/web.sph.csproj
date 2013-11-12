@@ -2089,6 +2089,7 @@
     <Content Include="Scripts\jsPlumb\bundle.min.js.map">
       <DependentUpon>bundle.js.bundle</DependentUpon>
     </Content>
+    <Content Include="Views\WorkflowDefinition\DisplayTemplates\CustomListDefinitionElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

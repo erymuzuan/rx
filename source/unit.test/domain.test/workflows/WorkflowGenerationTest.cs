@@ -26,6 +26,34 @@ namespace domain.test.workflows
         }
 
         [Test]
+        public void GetXsdCodeForCollection()
+        {
+            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = m_schemaStoreId };
+            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
+            var screen = new ScreenActivity{Name = "Test", WebId = "A", IsInitiator = true, NextActivityWebId = "B"};
+            wd.ActivityCollection.Add(screen);
+            wd.ActivityCollection.Add(new EndActivity{Name = "Habis test", WebId = "B"});
+
+            var options = new CompilerOptions {IsDebug = true,IsVerbose = false};
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll")));
+
+            screen.GenerateCustomXsdJavascriptClassAsync(wd)
+                .ContinueWith(_ =>
+                {
+                    var script = _.Result;
+                    Console.WriteLine(script);
+                    //Console.WriteLine(script);
+                    Assert.IsNotNull(script);
+                })
+                .Wait();
+            //var result = wd.Compile(options);
+           // Assert.IsNotNull(result);
+        }
+
+        [Test]
         public void Compile()
         {
 

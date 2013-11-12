@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -98,11 +100,48 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
+        public Task<string> GenerateCustomXsdJavascriptClassAsync(WorkflowDefinition wd)
+        {
+            var script = new StringBuilder();
+            //var store = ObjectBuilder.GetObject<IBinaryStore>();
+            //var doc = await store.GetContentAsync(wd.SchemaStoreId);
+            XNamespace x = "http://www.w3.org/2001/XMLSchema";
+            var xsd = wd.GetCustomSchema();
+
+            var elements = xsd.Elements(x + "element").ToList();
+            var customSchemaCode = elements.Select(wd.GenerateXsdElementJavascript).ToList();
+            customSchemaCode.ForEach(c => script.AppendLine(c));
+
+
+            return Task.FromResult(script.ToString());
+        }
+
         public override string GeneratedCustomTypeCode(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
             code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", wd.WorkflowDefinitionId, wd.Version);
             code.AppendLine("{");
+
+            // custom schema
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Schemas{0}()", this.ActionName);
+            code.AppendLine("       {");
+            code.AppendLine("           var store = ObjectBuilder.GetObject<IBinaryStore>();");
+            code.AppendLinf("           var doc = await store.GetContentAsync(\"wd.{0}.{1}\");", wd.WorkflowDefinitionId, wd.Version);
+            code.AppendLine(@"          WorkflowDefinition wd;
+                                        using (var stream = new System.IO.MemoryStream(doc.Content))
+                                        {
+                                            wd = stream.DeserializeFromXml<WorkflowDefinition>();
+                                        }
+
+                                        ");
+            code.AppendLinf("           var screen = wd.ActivityCollection.Single(w =>w.WebId ==\"{0}\");", this.WebId);
+            code.AppendLinf("           var script =await  screen.GenerateCustomXsdJavascriptClassAsync(wd);", this.WebId);
+            code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
+
+            code.AppendLine("           return Content(script);");
+            code.AppendLine("       }");
+
+            // GET Action
             code.AppendLine("       public async Task<System.Web.Mvc.ActionResult> " + this.ActionName + "(int id = 0)");
             code.AppendLine("       {");
 
@@ -202,7 +241,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return String.Format(this.Title.Replace(" ", string.Empty) + "ViewModel");
+                return String.Format(this.Name.Replace(" ", string.Empty) + "ViewModel");
             }
         }
 

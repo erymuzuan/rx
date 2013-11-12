@@ -36,7 +36,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var vm = new TemplateFormViewModel { Entity = typeof(Space).Name };
             vm.FormElements.RemoveAll(
-                f => f.GetType() == typeof(FormElement) || f.GetType() == typeof(CustomListDefinitionElement));
+                f => f.GetType() == typeof(FormElement));
             this.Response.ContentType = APPLICATION_JAVASCRIPT;
             var script = this.RenderRazorViewToJs("ScreenJs", vm);
             return Content(script);
@@ -100,7 +100,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             var options = new CompilerOptions
             {
-                SourceCodeDirectory = ConfigurationManager.AppSettings["sph:WorkflowSourceDirectory"] ?? string.Empty;
+                SourceCodeDirectory = ConfigurationManager.AppSettings["sph:WorkflowSourceDirectory"] ?? string.Empty
             };
             options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
             options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);

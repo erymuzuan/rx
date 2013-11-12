@@ -19,6 +19,20 @@
 				<xs:element name="Age" type="xs:int" nillable="true"/>
 				<xs:element ref="Contact"/>
 				<xs:element name="Dob" type="xs:dateTime" nillable="true"/>
+				<xs:element name="Cars">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Kereta" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Taxis">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Kereta" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="MyKad" type="xs:string" use="required"/>
