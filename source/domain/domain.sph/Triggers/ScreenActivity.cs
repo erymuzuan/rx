@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -9,6 +10,69 @@ namespace Bespoke.Sph.Domain
 {
     public partial class ScreenActivity : Activity
     {
+
+        public async override Task InitiateAsync(Workflow wf)
+        {
+            var baseUrl = ConfigurationManager.AppSettings["sph:BaseUrl"] ?? "http://localhost:4436";
+            var imb = this.InvitationMessageBody ?? "= @Model.Screen.Name task is assigned to you go here @string.Format(\"" +
+                baseUrl+
+                      "/Workflow_{0}_{1}/{2}/{3}\",@Model.Item.WorkflowDefinitionId, @Model.Item.Version,\"" + this.ActionName + "\", @Model.Item.WorkflowId)";
+            var ims = this.InvitationMessageSubject ?? "= [Sph] @Model.Screen.Name  task is assigned to you";
+
+            var users = new List<string>();
+            var context = new SphDataContext();
+            var ad = ObjectBuilder.GetObject<IDirectoryService>();
+
+
+            var model = new { Screen = this, Item = wf };
+
+            switch (this.Performer.UserProperty)
+            {
+                case "Username":
+                    users.Add(this.Performer.Value);
+                    break;
+                case "Department":
+                    var list = await context.GetListAsync<UserProfile, string>(
+                        u => u.Department == this.Performer.Value,
+                        u => u.Username);
+                    users.AddRange(list);
+                    break;
+                case "Designation":
+                    var list2 = await context.GetListAsync<UserProfile, string>(
+                        u => u.Designation == this.Performer.Value,
+                        u => u.Username);
+                    users.AddRange(list2);
+                    break;
+                case "Roles":
+                    var list3 = await ad.GetUserInRolesAsync(this.Performer.Value);
+                    users.AddRange(list3);
+                    break;
+                default:
+                    throw new Exception("Whoaaa we cannot send invitation to " + this.Performer.UserProperty + " for " + this.Name);
+
+            }
+
+            foreach (var user in users)
+            {
+                string user1 = user;
+                var profile = await context.LoadOneAsync<UserProfile>(p => p.Username == user1);
+                var subject = await this.TransformTemplateAsync(ims, model);
+                var body = await this.TransformTemplateAsync(imb, model);
+
+
+                var message = new Message { Subject = subject, UserName = user, Body = body };
+                using (var session = context.OpenSession())
+                {
+                    session.Attach(message);
+                    await session.SubmitChanges("Initiate " + this.Name);
+                }
+
+                var ns = ObjectBuilder.GetObject<INotificationService>();
+                await ns.SendMessageAsync(message, profile.Email);
+            }
+
+        }
+
         public override bool IsAsync
         {
             get { return true; }
@@ -256,68 +320,18 @@ namespace Bespoke.Sph.Domain
             return null;
         }
 
-        public async override Task InitiateAsync()
-        {
-            var users = new List<string>();
-            var context = new SphDataContext();
-            var ad = ObjectBuilder.GetObject<IDirectoryService>();
-            switch (this.Performer.UserProperty)
-            {
-                case "Username":
-                    users.Add(this.Performer.Value);
-                    break;
-                case "Department":
-                   var list = await context.GetListAsync<UserProfile, string>(
-                       u => u.Department == this.Performer.Value, 
-                       u => u.Username);
-                    users.AddRange(list);
-                    break;
-                case "Designation":
-                    var list2 = await context.GetListAsync<UserProfile, string>(
-                        u => u.Designation == this.Performer.Value,
-                        u => u.Username);
-                    users.AddRange(list2);
-                    break;
-                case "Roles":
-                    var list3 = await  ad.GetUserInRolesAsync(this.Performer.Value);
-                    users.AddRange(list3);
-                    break;
-                default:
-                    throw new Exception("Whoaaa we cannot send invitation to " + this.Performer.UserProperty + " for " + this.Name);
-                    
-            }
 
-            foreach (var user in users)
-            {
-                string user1 = user;
-                var profile = await context.LoadOneAsync<UserProfile>(p => p.Username == user1);
-                var subject = await this.TransformTemplateAsync(this.InvitationMessageSubject);
-                var body = await this.TransformTemplateAsync(this.InvitationMessageBody);
-
-
-                var message = new Message { Subject = subject, UserName = user, Body = body };
-                using (var session = context.OpenSession())
-                {
-                    session.Attach(message);
-                    await session.SubmitChanges("Initiate " + this.Name);
-                }
-
-                var ns = ObjectBuilder.GetObject<INotificationService>();
-                await ns.SendMessageAsync(message, profile.Email);
-            }
-
-        }
-
-        private async Task<string> TransformTemplateAsync(string template)
+        private async Task<string> TransformTemplateAsync(string template, object model)
         {
             if (string.IsNullOrWhiteSpace(template)) return string.Empty;
             if (template.StartsWith("="))
             {
                 var engine = ObjectBuilder.GetObject<ITemplateEngine>();
                 var razor = template.Substring(1, template.Length - 1);
-                return await engine.GenerateAsync(razor, this);
+                return await engine.GenerateAsync(razor, model);
             }
             return template;
         }
+
     }
 }

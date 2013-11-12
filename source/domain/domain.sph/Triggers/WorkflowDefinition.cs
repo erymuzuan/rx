@@ -98,7 +98,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return this.Name.Replace(" ", string.Empty);
+                return string.Format("{0}_{1}_{2}", this.Name.Replace(" ", string.Empty), this.WorkflowDefinitionId, this.Version);
             }
         }
         [XmlIgnore]

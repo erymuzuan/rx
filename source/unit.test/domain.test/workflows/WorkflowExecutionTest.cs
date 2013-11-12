@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
+using Bespoke.Sph.Templating;
 using Moq;
 using NUnit.Framework;
 
@@ -52,6 +54,47 @@ namespace domain.test.workflows
             ObjectBuilder.AddCacheList(ecp.Object);
 
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
+
+
+            var usersRepos = new Mock<IRepository<UserProfile>>(MockBehavior.Strict);
+            usersRepos.Setup(x => x.LoadOneAsync(It.IsAny<IQueryable<UserProfile>>()))
+                .Returns(Task.FromResult(new UserProfile{ Username = "admin", Email = "admin@bespoke.com.my"}));
+            ObjectBuilder.AddCacheList(usersRepos.Object);
+            ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
+
+            var email = new Mock<INotificationService>(MockBehavior.Strict);
+            email.Setup(x => x.SendMessageAsync(It.IsAny<Message>(), It.IsAny<string>()))
+                .Returns(Task.Delay(500))
+                .Callback((Message m, string e) => Console.WriteLine("sending email to {0} body is {2}-{1}",e,m.Body, m.Subject));
+            ObjectBuilder.AddCacheList(email.Object);
+
+        }
+
+        [Test]
+        public void InitiateAsyncMessage()
+        {
+            var wf = new Workflow {WorkflowDefinitionId = 10, Version = 25,WebId = "A",WorkflowId = 35};
+            var screen = new ScreenActivity
+            {
+                Name = "Approve User", WebId = "B",NextActivityWebId = "C",
+                Performer = new Performer
+                {
+                    UserProperty = "Username",
+                    Value = "admin"
+                }
+            };
+            screen.InitiateAsync(wf).ContinueWith(_ =>
+            {
+                var exc = _.Exception as AggregateException;
+                if (null != exc)
+                {
+                    foreach (var e in exc.InnerExceptions)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+                Console.WriteLine(exc);
+            }).Wait();
         }
 
         [Test]

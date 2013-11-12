@@ -93,6 +93,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\dependencies\razor.template\razor.template.csproj">
+      <Project>{2072379B-B40A-4D0E-A2E7-8FA8BF40C0AB}</Project>
+      <Name>razor.template</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\dependencies\report.sqldatasource\report.sqldatasource.csproj">
       <Project>{437B3E80-3801-40D5-B81A-AC85166CE619}</Project>
       <Name>report.sqldatasource</Name>

@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Domain
         {
             throw new System.NotImplementedException();
         }
-        public virtual Task InitiateAsync()
+        public virtual Task InitiateAsync(Workflow wf)
         {
             throw new System.NotImplementedException();
         }
