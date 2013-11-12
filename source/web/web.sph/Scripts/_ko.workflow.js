@@ -15,8 +15,9 @@ ko.bindingHandlers.activityPopover = {
 
         var div = $(element),
             act = ko.unwrap(valueAccessor()),
-        fullName = typeof act.$type === "function" ? act.$type() : act.$type,
-        name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1];
+            fullName = typeof act.$type === "function" ? act.$type() : act.$type,
+            name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1],
+            wd = ko.dataFor(div.parent()[0]).wd();
 
 
         div.popover({
@@ -24,12 +25,13 @@ ko.bindingHandlers.activityPopover = {
             html: true,
             content: function () {
                 $('a.edit-activity').popover('hide');
+                div.find("a.edit-activity").addClass(act.WebId());
                 return div.find("div.context-menu").html();
             } 
         });
-        $(document).on('click', 'a.edit-activity', function (e) {
+        $(document).on('click', 'a.' + act.WebId(), function (e) {
             e.preventDefault();
-            console.log(act);
+            wd.editActivity(act)();
         });
     }
 };
