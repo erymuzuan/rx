@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -99,7 +100,7 @@ namespace Bespoke.Sph.Web.Controllers
 
             var options = new CompilerOptions
             {
-                SourceCodeDirectory = @"d:\temp\"
+                SourceCodeDirectory = ConfigurationManager.AppSettings["sph:WorkflowSourceDirectory"] ?? string.Empty;
             };
             options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
             options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
