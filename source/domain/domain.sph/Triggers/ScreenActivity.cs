@@ -279,7 +279,7 @@ namespace Bespoke.Sph.Domain
                         @if(Model.Screen.ConfirmationOptions.Type == ""Message"")
                         {{
                             <text>
-                            var msg = _.template("" @confirmationText "")(result.wf);
+                            var msg = _.template('@Html.Raw(confirmationText)')(result.wf);
                             
                             console.log(msg);
                             app.showMessage(msg);

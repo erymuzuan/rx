@@ -261,6 +261,8 @@ bespoke.sph.domain.ScreenActivity = function (webId) {
     v.Title = ko.observable('');
     v.ViewVirtualPath = ko.observable('');
     v.WorkflowDefinitionId = ko.observable(0);
+    v.InvitationMessageSubject = ko.observable('');
+    v.InvitationMessageBody = ko.observable('');
     v["$type"] = "Bespoke.Sph.Domain.ScreenActivity, domain.sph";
 
     v.FormDesign = ko.observable(new bespoke.sph.domain.FormDesign());
@@ -310,6 +312,10 @@ bespoke.sph.domain.NotificationActivity = function (webId) {
     var v = new bespoke.sph.domain.Activity(webId);
 
     v.From = ko.observable('');
+    v.Subject = ko.observable('');
+    v.Body = ko.observable('');
+    v.To = ko.observable('');
+    v.UserName = ko.observable('');
     v["$type"] = "Bespoke.Sph.Domain.NotificationActivity, domain.sph";
 
     if (bespoke.sph.domain.NotificationActivityPartial) {

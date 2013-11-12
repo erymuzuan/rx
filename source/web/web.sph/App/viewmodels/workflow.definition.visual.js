@@ -9,10 +9,11 @@
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../../Scripts/jsPlumb/jquery.jsPlumb.js" />
 /// <reference path="../../Scripts/jsPlumb/jsPlumb.js" />
+/// <reference path="../../Scripts/_task.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', objectbuilders.system, objectbuilders.app],
-    function (context, logger, router, system, app) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router', objectbuilders.system, objectbuilders.app, objectbuilders.eximp],
+    function (context, logger, router, system, app, eximp) {
 
         var isBusy = ko.observable(false),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
@@ -67,22 +68,37 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             },
             activate = function (routeData) {
                 isBusy(true);
-                var id = routeData.id,
+                var id = parseInt(routeData.id),
                     query = String.format("WorkflowDefinitionId eq {0}", id),
                     tcs = new $.Deferred();
-                context.loadOneAsync("WorkflowDefinition", query)
-                    .done(function (b) {
-                        vm.wd(b);
-                        tcs.resolve(true);
 
-                        var timer = setInterval(function () {
-                            if (isJsPlumbReady) {
-                                clearInterval(timer);
-                                wdChanged(b);
-                            }
-                        }, 500);
+                if (id) {
+                    context.loadOneAsync("WorkflowDefinition", query)
+                        .done(function (b) {
+                            vm.wd(b);
+                            tcs.resolve(true);
 
-                    });
+                            var timer = setInterval(function () {
+                                if (isJsPlumbReady) {
+                                    clearInterval(timer);
+                                    wdChanged(b);
+                                }
+                            }, 500);
+
+                        });
+
+                } else {
+                    wd(new bespoke.sph.domain.WorkflowDefinition(system.guid()));
+
+                    var timer2 = setInterval(function () {
+                        if (isJsPlumbReady) {
+                            clearInterval(timer2);
+                            wdChanged(wd());
+                        }
+                    }, 500);
+                    return Task.fromResult(true);
+
+                }
 
                 return tcs.promise();
 
@@ -134,41 +150,45 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     ["Label", { location: [0.5, -0.5], cssClass: "endpointTargetLabel" }]
                 ]
             },
+            initializeActivity = function (act) {
+
+                var sourceAnchors = ["BottomCenter"],
+                    targetAnchors = ["TopCenter"],
+                    fullName = typeof act.$type === "function" ? act.$type() : act.$type,
+                    name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1],
+                    sourceAnchorOptions = ["BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle",
+                                            "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle",
+                                            "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle"],
+                    count1 = 0;
+
+
+                if (act.multipleEndPoints) {
+                    _(act.multipleEndPoints()).each(function (d) {
+
+                        var ep = jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: sourceAnchorOptions[count1], uuid: d.WebId() + "Source", id: d.WebId() });
+                        d.endPointId = ep.id; // since multiple branches activity will have their own end point
+                        count1++;
+                    });
+                    sourceAnchors = [];
+                }
+
+                if (name == "EndActivity") {
+                    sourceAnchors = [];
+                }
+                if (act.IsInitiator()) {
+                    targetAnchors = [];
+                }
+                if (targetAnchors.length)
+                    jsPlumb.addEndpoint(act.WebId(), targetEndpoint, { anchor: "TopCenter", uuid: act.WebId() + "Target" });
+                if (sourceAnchors.length)
+                    jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: "BottomCenter", uuid: act.WebId() + "Source" });
+
+
+
+            },
             wdChanged = function (wd0) {
                 var activities = _(wd0.ActivityCollection());
-                activities.each(function (act) {
-                    var sourceAnchors = ["BottomCenter"],
-                        targetAnchors = ["TopCenter"],
-                        fullName = typeof act.$type === "function" ? act.$type() : act.$type,
-                        name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1],
-                        sourceAnchorOptions = ["BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle",
-                                                "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle",
-                                                "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle"],
-                        count1 = 0;
-                    
-
-                    if (act.multipleEndPoints) {
-                        _(act.multipleEndPoints()).each(function (d) {
-
-                            var ep = jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: sourceAnchorOptions[count1], uuid: d.WebId() + "Source", id: d.WebId() });
-                            d.endPointId = ep.id; // since multiple branches activity will have their own end point
-                            count1++;
-                        });
-                        sourceAnchors = [];
-                    }
-
-                    if (name == "EndActivity") {
-                        sourceAnchors = [];
-                    }
-                    if (act.IsInitiator()) {
-                        targetAnchors = [];
-                    }
-                    if (targetAnchors.length)
-                        jsPlumb.addEndpoint(act.WebId(), targetEndpoint, { anchor: "TopCenter", uuid: act.WebId() + "Target" });
-                    if (sourceAnchors.length)
-                        jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: "BottomCenter", uuid: act.WebId() + "Source" });
-
-                });
+                activities.each(initializeActivity);
 
                 activities.each(function (v) {
                     if (v.NextActivityWebId()) {
@@ -182,6 +202,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
 
                 });
 
+                jsPlumb.draggable($("div.activity"));
                 isBusy(false);
             },
             createConnection = function (source, target, label) {
@@ -263,6 +284,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 act.WorkflowDesigner().Y(y);
                 act.WebId(system.guid());
                 wd().ActivityCollection.push(act);
+                initializeActivity(act);
             },
             viewAttached = function () {
                 var script = $('<script type="text/javascript" src="/Scripts/jsPlumb/bundle.js"></script>').appendTo('body'),
@@ -313,13 +335,60 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 return tcs.promise();
             },
             compileAsync = function () {
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(wd);
 
+                context.post(data, "/WorkflowDefinition/Compile")
+                    .then(function (result) {
+                        if (result.success) {
+                            logger.info(result.message);
+                        } else {
+                            logger.error(result);
+                        }
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
             },
             publishAsync = function () {
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(wd);
+
+                context.post(data, "/WorkflowDefinition/Publish")
+                    .then(function (result) {
+                        if (result.success) {
+                            logger.info(result.message);
+                            wd().Version(result.version);
+                        } else {
+                            logger.error(result);
+                        }
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
 
             },
             importAsync = function () {
+                return eximp.importJson()
+                .done(function (json) {
+                    try {
 
+                        var obj = JSON.parse(json),
+                            clone = context.toObservable(obj);
+
+                        clone.WorkflowDefinitionId(0);
+                        wd(clone);
+                        wdChanged(clone);
+
+                    } catch (error) {
+                        logger.logError('Workflow definition is not valid', error, this, true);
+                    }
+                });
+            },
+            exportWd = function () {
+                return eximp.exportJson("workflow.definition." + wd().WorkflowDefinitionId() + ".json", ko.mapping.toJSON(wd));
+
+            },
+            itemAdded = function (element) {
+                jsPlumb.draggable($(element));
             };
 
         var vm = {
@@ -328,9 +397,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             viewAttached: viewAttached,
             toolboxElements: ko.observableArray(),
             wd: wd,
+            itemAdded: itemAdded,
             toolbar: {
                 saveCommand: saveAsync,
-                exportCommand: saveAsync,
+                exportCommand: exportWd,
                 importCommand: importAsync,
                 commands: ko.observableArray([
                     {
