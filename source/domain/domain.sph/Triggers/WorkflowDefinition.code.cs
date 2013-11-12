@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -84,33 +83,7 @@ namespace Bespoke.Sph.Domain
             XNamespace x = "http://www.w3.org/2001/XMLSchema";
             var code = new StringBuilder();
             var name = e.Attribute("name").Value;
-            var xsd = this.GetCustomSchema();
-            var ns = xsd.Attribute("targetNamespace");
 
-            /*
-             * 
-
-bespoke.sph.domain.Workflow = function (webId) {
-
-    var model = {
-        "$type": "Bespoke.Sph.Domain.Workflow, domain.sph",
-        WorkflowId: ko.observable(0),
-        WorkflowDefinitionId: ko.observable(0),
-        Name: ko.observable(''),
-        State: ko.observable(''),
-        IsActive: ko.observable(false),
-        Version: ko.observable(0),
-        VariableValueCollection: ko.observableArray([]),
-        isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
-    };
-    if (bespoke.sph.domain.WorkflowPartial) {
-        return _(model).extend(new bespoke.sph.domain.WorkflowPartial(model));
-    }
-    return model;
-};
-
-             * */
             code.AppendLinf("bespoke.sph.{0}.{1} = function(webid){{", this.CodeNamespace, name);
             code.AppendLine("   var model = {");
             properties.Add(string.Format("         \"$type\" :\"{0}.{1}, workflows.{2}.{3}\"", this.CodeNamespace, name, this.WorkflowDefinitionId, this.Version));
