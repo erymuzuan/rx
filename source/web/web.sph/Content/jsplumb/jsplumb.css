@@ -1,7 +1,11 @@
-﻿#demo {
-	margin-top:5em;
+﻿.conn-label {
+    padding: 5px;
+    border: 1px solid #676767;
+    border-radius: 5px;
+    z-index: 1049;
+    background-color: white;
+    margin: 2px;
 }
-
 .toolbox-item {
     margin-bottom: 5px;
 }
@@ -129,66 +133,16 @@ path { cursor:pointer; }
     background-repeat: no-repeat;
     list-style: none outside none;
 }
-
-.activity32-CreateEntityActivity {
-    background-position: 0px 0px;
-    width: 32px;
-    height: 32px;
-}
-
-.activity32-NotificationActivity {
-    background-position: -42px 0px;
-    width: 32px;
-    height: 32px;
-}
-
-.activity32-ScreenActivity {
-    background-position: -84px 0px;
-    width: 32px;
-    height: 32px;
-}
-
-.activity32-DecisionActivity {
-    background-position: -126px 0px;
-    width: 32px;
-    height: 32px;
-}
-
-.activity32-ListenActivity {
-    background-position: -168px 0px;
-    width: 32px;
-    height: 32px;
-}
-
-.activity32-ParallelActivity {
-    background-position: -210px 0px;
-    width: 32px;
-    height: 32px;
-}
-
-.activity32-EndActivity {
-    background-position: -252px 0px;
-    width: 32px;
-    height: 32px;
-}
-
-.activity32-SendActivity {
-    background-position: -294px 0px;
-    width: 32px;
-    height: 32px;
-}
-
-.activity32-ReceiveActivity {
-    background-position: -336px 0px;
-    width: 32px;
-    height: 32px;
-}
-
-.activity32-DelayActivity {
-    background-position: -378px 0px;
-    width: 32px;
-    height: 32px;
-}
+.activity32-CreateEntityActivity{background-position:0px 0px ; width: 32px ; height: 32px; }
+.activity32-NotificationActivity{background-position:-42px 0px ; width: 32px ; height: 32px; }
+.activity32-ScreenActivity{background-position:-84px 0px ; width: 32px ; height: 32px; }
+.activity32-DecisionActivity{background-position:-126px 0px ; width: 32px ; height: 32px; }
+.activity32-ListenActivity{background-position:-168px 0px ; width: 32px ; height: 32px; }
+.activity32-ParallelActivity{background-position:-210px 0px ; width: 32px ; height: 32px; }
+.activity32-EndActivity{background-position:-252px 0px ; width: 32px ; height: 32px; }
+.activity32-SendActivity{background-position:-294px 0px ; width: 32px ; height: 32px; }
+.activity32-ReceiveActivity{background-position:-336px 0px ; width: 32px ; height: 32px; }
+.activity32-DelayActivity{background-position:-378px 0px ; width: 32px ; height: 32px; }
 
 .activity64 {
 background-image: url("sph.wf.64.png");

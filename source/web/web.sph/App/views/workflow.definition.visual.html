@@ -10,13 +10,17 @@
     <div class="col-lg-9" id="container-canvas" style="min-height: 900px" data-bind="with : wd">
         <!-- ko foreach : ActivityCollection -->
 
-        <div class="activity w" data-bind="style : {'left': WorkflowDesigner().X() + 'px','top': WorkflowDesigner().Y() + 'px'}">
+        <div class="activity w" data-bind="style : {'left': WorkflowDesigner().X() + 'px','top': WorkflowDesigner().Y() + 'px'},
+                attr : {id : WebId},
+                activityPopover : $data">
+            <div class="pull-right activity32" data-bind="activityClass : $data"></div>
+            <h6 data-bind="text:Name"></h6>
 
-            <div class="activity32 pull-right"></div>
-            <!-- ko text : Name -->
-            <!-- /ko -->
-
-            <a href="#" data-bind="click: $parent.editActivity.call($parent,$data)" class="glyphicon glyphicon-edit">edit</a>
+            <div style="display: none" class="context-menu">
+                <a class="edit-activity" href="#" data-bind="click: $parent.editActivity.call($parent,$data)">
+                    <i class="fa fa-edit fa-2x"></i>
+                </a>
+            </div>
 
         </div>
 
@@ -42,3 +46,5 @@
         </div>
     </div>
 </div>
+<img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
+

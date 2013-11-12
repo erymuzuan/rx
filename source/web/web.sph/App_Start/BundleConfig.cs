@@ -38,6 +38,7 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/scripts/_theme.js")
                 .Include("~/scripts/_ko.bootstrap.js")
                 .Include("~/scripts/_ko.kendo.js")
+                .Include("~/scripts/_ko.workflow.js")
                 .Include("~/scripts/_uiready.js")
                 .Include("~/scripts/_function.prototypes.js")
                 .Include("~/scripts/_task.js")

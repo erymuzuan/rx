@@ -1,7 +1,11 @@
-#demo {
-	margin-top:5em;
+.conn-label {
+    padding: 5px;
+    border: 1px solid #676767;
+    border-radius: 5px;
+    z-index: 1049;
+    background-color: white;
+    margin: 2px;
 }
-
 .toolbox-item {
     margin-bottom: 5px;
 }

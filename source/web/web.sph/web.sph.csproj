@@ -330,7 +330,6 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Dependencies\AspNetDirectoryService.cs" />
     <Compile Include="Dependencies\DummyChangeListener.cs" />
     <Compile Include="Dependencies\DummyChangeTracker.cs" />
     <Compile Include="Dependencies\DummySearchProvider.cs" />
@@ -1421,6 +1420,7 @@
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_constants.js" />
     <Content Include="Scripts\_function.prototypes.js" />
+    <Content Include="Scripts\_ko.workflow.js" />
     <Content Include="Scripts\_ko.kendo.js" />
     <Content Include="Scripts\_ko.bootstrap.js" />
     <Content Include="Scripts\_references.js" />

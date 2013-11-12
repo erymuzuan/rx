@@ -11,8 +11,8 @@
 /// <reference path="../../Scripts/jsPlumb/jsPlumb.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', objectbuilders.system],
-    function (context, logger, router, system) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router', objectbuilders.system, objectbuilders.app],
+    function (context, logger, router, system, app) {
 
         var isBusy = ko.observable(false),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
@@ -66,6 +66,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 vm.toolboxElements(elements);
             },
             activate = function (routeData) {
+                isBusy(true);
                 var id = routeData.id,
                     query = String.format("WorkflowDefinitionId eq {0}", id),
                     tcs = new $.Deferred();
@@ -73,16 +74,166 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     .done(function (b) {
                         vm.wd(b);
                         tcs.resolve(true);
+
+                        var timer = setInterval(function () {
+                            if (isJsPlumbReady) {
+                                clearInterval(timer);
+                                wdChanged(b);
+                            }
+                        }, 500);
+
                     });
 
                 return tcs.promise();
 
             },
+            isJsPlumbReady = false,
+            connectorPaintStyle = {
+                lineWidth: 4,
+                strokeStyle: "#808080",
+                joinstyle: "round",
+                outlineColor: "#eaedef",
+                outlineWidth: 2
+            },
+            connectorHoverStyle = {
+                lineWidth: 4,
+                strokeStyle: "#5C96BC",
+                outlineWidth: 2,
+                outlineColor: "white"
+            },
+            endpointHoverStyle = { fillStyle: "#5C96BC" },
+            sourceEndpoint = {
+                endpoint: "Dot",
+                paintStyle: {
+                    strokeStyle: "#1e8151",
+                    fillStyle: "transparent",
+                    radius: 7,
+                    lineWidth: 2
+                },
+                isSource: true,
+                connector: ["Flowchart", { stub: [40, 60], gap: 10, cornerRadius: 5, alwaysRespectStubs: true }],
+                connectorStyle: connectorPaintStyle,
+                hoverPaintStyle: endpointHoverStyle,
+                connectorHoverStyle: connectorHoverStyle,
+                dragOptions: {},
+                overlays: [
+                    ["Label", {
+                        location: [0.5, 1.5],
+                        cssClass: "endpointSourceLabel"
+                    }]
+                ]
+            },
+            targetEndpoint = {
+                endpoint: "Dot",
+                paintStyle: { fillStyle: "#1e8151", radius: 11 },
+                hoverPaintStyle: endpointHoverStyle,
+                maxConnections: -1,
+                dropOptions: { hoverClass: "hover", activeClass: "active" },
+                isTarget: true,
+                overlays: [
+                    ["Label", { location: [0.5, -0.5], cssClass: "endpointTargetLabel" }]
+                ]
+            },
+            wdChanged = function (wd0) {
+                var activities = _(wd0.ActivityCollection());
+                activities.each(function (act) {
+                    var sourceAnchors = ["BottomCenter"],
+                        targetAnchors = ["TopCenter"],
+                        fullName = typeof act.$type === "function" ? act.$type() : act.$type,
+                        name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1],
+                        sourceAnchorOptions = ["BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle",
+                                                "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle",
+                                                "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle"],
+                        count1 = 0;
+                    
+
+                    if (act.multipleEndPoints) {
+                        _(act.multipleEndPoints()).each(function (d) {
+
+                            var ep = jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: sourceAnchorOptions[count1], uuid: d.WebId() + "Source", id: d.WebId() });
+                            d.endPointId = ep.id; // since multiple branches activity will have their own end point
+                            count1++;
+                        });
+                        sourceAnchors = [];
+                    }
+
+                    if (name == "EndActivity") {
+                        sourceAnchors = [];
+                    }
+                    if (act.IsInitiator()) {
+                        targetAnchors = [];
+                    }
+                    if (targetAnchors.length)
+                        jsPlumb.addEndpoint(act.WebId(), targetEndpoint, { anchor: "TopCenter", uuid: act.WebId() + "Target" });
+                    if (sourceAnchors.length)
+                        jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: "BottomCenter", uuid: act.WebId() + "Source" });
+
+                });
+
+                activities.each(function (v) {
+                    if (v.NextActivityWebId()) {
+                        createConnection(v.WebId(), v.NextActivityWebId());
+                    }
+                    if (v.multipleEndPoints) {
+                        _(v.multipleEndPoints()).each(function (d) {
+                            createConnection(d.WebId(), d.NextActivityWebId(), d.Name());
+                        });
+                    }
+
+                });
+
+                isBusy(false);
+            },
+            createConnection = function (source, target, label) {
+
+                var connection = jsPlumb.connect({
+                    uuids: [source + "Source", target + "Target"],
+                    editable: true,
+                    overlays: [
+                        [
+                            "Label", {
+                                cssClass: "l1 component conn-label",
+                                label: label || '',
+                                location: 0.2,
+                                id: target + '-label'
+                            }
+                        ]
+                    ]
+                });
+                connection.setParameter({ label: label });
+
+
+
+            },
+            connectionClicked = function (conn) {
+                var activities = _(vm.wd().ActivityCollection()),
+                    source = activities.find(function (v) { return conn.sourceId === v.WebId(); }),
+                    target = activities.find(function (v) { return conn.targetId === v.WebId(); }),
+                    message = "Delete connection from " + source.Name() + " to " + target.Name() + "?";
+
+                app.showMessage(message, "Delete Connection", ["Yes", "No"])
+                    .done(function (result) {
+                        if (result === "Yes") {
+                            jsPlumb.detach(conn);
+                            source.NextActivityWebId("");
+                        }
+                    });
+
+            },
+            connectionDragStop = function (connection) {
+                var source = ko.dataFor(connection.source);
+                if (source.multipleEndPoints) {
+                    var ep = _(connection.endpoints).find(function (e) { return e.isSource; });
+                    source = _(source.multipleEndPoints()).find(function (v) { return ep.id === v.endPointId; });
+                }
+                var target = ko.dataFor(connection.target);
+                source.NextActivityWebId(target.WebId());
+            },
             jsPlumbReady = function () {
+                isJsPlumbReady = true;
                 jsPlumb.draggable($("div.activity"));
                 jsPlumb.init();
                 jsPlumb.Defaults.Container = "container-canvas";
-
 
                 // setup some defaults for jsPlumb.
                 jsPlumb.importDefaults({
@@ -98,6 +249,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                         }]
                     ]
                 });
+
+
+                jsPlumb.bind("click", connectionClicked);
+                jsPlumb.bind("connectionDragStop", connectionDragStop);
             },
             toolboxItemDraggedStop = function (arg) {
                 var act = context.toObservable(ko.mapping.toJS(ko.dataFor(this))),
@@ -112,17 +267,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             viewAttached = function () {
                 var script = $('<script type="text/javascript" src="/Scripts/jsPlumb/bundle.js"></script>').appendTo('body'),
                     timer = setInterval(function () {
-                          if (window.jsPlumb !== undefined) {
-                              clearInterval(timer);
-                              script.remove();
+                        if (window.jsPlumb !== undefined) {
+                            clearInterval(timer);
+                            script.remove();
 
-                              //jsPlumb.ready(jsPlumbReady);
-                              setTimeout(
-                              jsPlumbReady,2500);
-                          }
-                      }, 2500),
-                    count = 1,
-                    activities = wd().ActivityCollection();
+                            jsPlumb.ready(jsPlumbReady);
+                        }
+                    }, 2500);
 
 
                 populateToolbox();
@@ -134,25 +285,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     });
                 });
 
-
-                // set the default position and add class
-                $('div#container-canvas>div.activity').each(function () {
-                    var p = $(this),
-                        act = ko.dataFor(this),
-                        x = act.WorkflowDesigner().X() || 250,
-                        y = act.WorkflowDesigner().Y() || 150 * count,
-                        fullName = typeof act.$type === "function" ? act.$type() : act.$type,
-                        name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1];
-
-
-                    p.css("left", x + "px")
-                        .css("top", y + "px")
-                        .find("div.activity32")
-                        .addClass("activity32-" + name);
-
-                    count++;
-
-                });
 
             },
             saveAsync = function () {
@@ -179,6 +311,15 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                         tcs.resolve(result);
                     });
                 return tcs.promise();
+            },
+            compileAsync = function () {
+
+            },
+            publishAsync = function () {
+
+            },
+            importAsync = function () {
+
             };
 
         var vm = {
@@ -187,7 +328,22 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             viewAttached: viewAttached,
             toolboxElements: ko.observableArray(),
             wd: wd,
-            saveCommand: saveAsync
+            toolbar: {
+                saveCommand: saveAsync,
+                exportCommand: saveAsync,
+                importCommand: importAsync,
+                commands: ko.observableArray([
+                    {
+                        command: compileAsync,
+                        caption: 'Build',
+                        icon: "fa fa-gear"
+                    },
+                    {
+                        command: publishAsync,
+                        caption: 'Publish',
+                        icon: "fa fa-sign-out"
+                    }])
+            }
         };
 
         return vm;
