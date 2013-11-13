@@ -61,6 +61,10 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Compile()
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
+            var buildValidation = wd.ValidateBuild();
+            if (!buildValidation.Result)
+                return Json("whoaaaaaaaaaaaaaa #1050");
+
             await this.Save(wd);
             try
             {
