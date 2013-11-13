@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         public ActionResult Visual()
         {
-            var vm = new WorkflowDefinitionVisualViewModel {};
+            var vm = new WorkflowDefinitionVisualViewModel();
             vm.ToolboxElements.Add(new ScreenActivity());
             return View(vm);
         }
@@ -88,20 +89,7 @@ namespace Bespoke.Sph.Web.Controllers
             var wd = this.GetRequestJson<WorkflowDefinition>();
             wd.Version += 1;// publish will increase the version
 
-            //archive the WD
-            var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var archived = new BinaryStore
-            {
-                StoreId = string.Format("wd.{0}.{1}", wd.WorkflowDefinitionId, wd.Version),
-                Content = Encoding.Unicode.GetBytes(wd.ToXmlString()),
-                Extension = ".xml",
-                FileName = string.Format("wd.{0}.{1}.xml", wd.WorkflowDefinitionId, wd.Version)
-               
-            };
-            await store.AddAsync(archived);
-
-            await this.Save(wd);
-
+            // compile , then save
             var options = new CompilerOptions
             {
                 SourceCodeDirectory = ConfigurationManager.AppSettings["sph:WorkflowSourceDirectory"] ?? string.Empty
@@ -110,11 +98,28 @@ namespace Bespoke.Sph.Web.Controllers
             options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
 
             var result = wd.Compile(options);
-            if (!result.Result|| !System.IO.File.Exists(result.Output))
+            if (!result.Result || !System.IO.File.Exists(result.Output))
             {
                 return Json(new { success = false, version = wd.Version, status = "ERROR", messages = result.Errors });
             }
-            // copy the output to bin
+
+            // save
+            var pages = await GetPublishPagesAsync(wd);
+            //archive the WD
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var archived = new BinaryStore
+            {
+                StoreId = string.Format("wd.{0}.{1}", wd.WorkflowDefinitionId, wd.Version),
+                Content = Encoding.Unicode.GetBytes(wd.ToXmlString()),
+                Extension = ".xml",
+                FileName = string.Format("wd.{0}.{1}.xml", wd.WorkflowDefinitionId, wd.Version)
+
+            };
+            await store.AddAsync(archived);
+            await this.Save(wd, pages.Cast<Entity>().ToArray());
+
+
+            // Deploy
             System.IO.File.Copy(result.Output, Server.MapPath("~/bin/" + Path.GetFileName(result.Output)), true);
             var pdb = result.Output.Replace(".dll", ".pdb");
             if (System.IO.File.Exists(pdb))
@@ -129,37 +134,54 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(id);
         }
 
-        private async Task<int> Save(WorkflowDefinition wd)
+        private async Task<IEnumerable<Page>> GetPublishPagesAsync(WorkflowDefinition wd)
         {
             var context = new SphDataContext();
             if (null == wd) throw new ArgumentNullException("wd");
-            var screens = (from s in wd.ActivityCollection.OfType<ScreenActivity>()
-                           select new Page
-                           {
-                               VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowDefinitionId, wd.Version, s.Name.Replace(" ", string.Empty)),
-                               Code = s.GetView(wd),
-                               Title = s.Title,
-                               IsPartial = false,
-                               IsRazor = true,
-                               WebId = Guid.NewGuid().ToString()
-                           })
-                              .ToArray();
-            var paths = screens.Select(s => s.VirtualPath).ToArray();
+            var screens = wd.ActivityCollection.OfType<ScreenActivity>();
+            var pages = new List<Page>();
+            foreach (var scr in screens)
+            {
+                // copy the previous version pages if there's any
+                var scr1 = scr;
+                var tag = string.Format("wf_{0}_{1}", wd.WorkflowDefinitionId, scr1.WebId);
+                var version = await context.GetMaxAsync<Page, int>(p => p.Tag == tag, p => p.Version);
+                var previousPage = await context.LoadOneAsync<Page>(p => p.Tag == tag && p.Version == version);
+                var code = previousPage != null ? previousPage.Code : scr1.GetView(wd);
+                var page = new Page
+                {
+                    Code = code,
+                    Title = scr1.Name,
+                    IsPartial = false,
+                    IsRazor = true,
+                    Tag = tag,
+                    Version = wd.Version,
+                    WebId = Guid.NewGuid().ToString(),
+                    VirtualPath = string.Format("~/Views/Workflow_{0}_{1}/{2}.cshtml", wd.WorkflowDefinitionId,
+                        wd.Version, scr1.ActionName)
+                };
+
+                pages.Add(page);
+
+            }
+
+
+            return pages;
+
+        }
+
+        private async Task<int> Save(WorkflowDefinition wd, params Entity[] entities)
+        {
+            var context = new SphDataContext();
+            if (null == wd) throw new ArgumentNullException("wd");
+
 
             using (var session = context.OpenSession())
             {
+                if (entities.Any())
+                    session.Attach(entities);
+
                 session.Attach(wd);
-                session.Attach(screens.Cast<Entity>().ToArray());
-
-
-                if (paths.Any())
-                {
-                    var existingPages = await context.LoadAsync(context.Pages.Where(p => paths.Contains(p.VirtualPath)));
-                    if (existingPages.ItemCollection.Any())
-                        session.Delete(existingPages.ItemCollection.Cast<Entity>().ToArray());
-
-                }
-
                 await session.SubmitChanges();
             }
             return wd.WorkflowDefinitionId;

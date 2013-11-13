@@ -1999,6 +1999,16 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_tag;
+        public const string PropertyNameTag = "Tag";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_version;
+        public const string PropertyNameVersion = "Version";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_code;
         public const string PropertyNameCode = "Code";
 
@@ -2145,6 +2155,64 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_virtualPath;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Tag
+        {
+            set
+            {
+                if (String.Equals(m_tag, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTag, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_tag = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_tag;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int Version
+        {
+            set
+            {
+                if (m_version == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameVersion, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_version = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_version;
             }
         }
 

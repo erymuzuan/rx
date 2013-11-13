@@ -11,6 +11,8 @@ GO
 (
 	 [PageId] INT PRIMARY KEY IDENTITY(1,1)
 	,[Title] VARCHAR(255) NOT NULL
+	,[Tag] VARCHAR(255) NULL
+	,[Version] INT NULL
 	,[IsPartial] BIT NOT NULL
 	,[IsRazor] BIT NOT NULL
 	,[VirtualPath] VARCHAR(4000) NULL
