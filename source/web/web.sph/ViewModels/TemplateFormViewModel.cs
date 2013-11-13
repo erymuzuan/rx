@@ -10,7 +10,7 @@ namespace Bespoke.Sph.Web.ViewModels
             this.FormElements.Add(new SectionFormElement { Name = "HTML Section", CssClass = "fa fa-reorder" });
             this.FormElements.Add(new HtmlElement { Name = "HTML rich", CssClass = "fa fa-html5" });
             this.FormElements.Add(new TextBox { Name = "Single Line Text", CssClass = "fa fa-text-width" });
-            this.FormElements.Add(new ComboBox { Name = "Paragrapah text", CssClass = "fa fa-chevron-down" });
+            this.FormElements.Add(new ComboBox { Name = "Select List", CssClass = "fa fa-chevron-down" });
             this.FormElements.Add(new WebsiteFormElement { Name = "Url", CssClass = "fa fa-link" });
             this.FormElements.Add(new EmailFormElement { Name = "Email", CssClass = "fa fa-envelope" });
             this.FormElements.Add(new NumberTextBox { Name = "Number", CssClass = "fa fa-xing" });

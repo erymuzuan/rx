@@ -11,6 +11,11 @@ namespace Bespoke.Sph.Domain
             return string.Format("public {0} {1}{{get;set;}}", this.Type.FullName, this.Name);
         }
 
+        public override BuildValidationResult ValidateBuild()
+        {
+            throw new Exception("//TODO #1050");
+        }
+
         [XmlIgnore]
         [JsonIgnore]
         public Type Type

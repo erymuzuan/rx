@@ -38,6 +38,17 @@ namespace Bespoke.Sph.Domain
             return this.ActivityCollection.Single(p => p.IsInitiator) as ScreenActivity;
         }
 
+        public BuildValidationResult ValidateBuild()
+        {
+            var result = new BuildValidationResult();
+            // TODO , #1050
+            foreach (var variable in this.VariableDefinitionCollection)
+            {
+                var result1 = variable.ValidateBuild();
+            }
+            return result;
+        }
+
         public WorkflowCompilerResult Compile(CompilerOptions options)
         {
             var code = this.GenerateCode();
@@ -114,5 +125,22 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+    }
+
+    public class BuildValidationResult
+    {
+        public bool Result { get; set; }
+        private readonly ObjectCollection<BuildError> m_errors = new ObjectCollection<BuildError>();
+
+        public ObjectCollection<BuildError> Errors
+        {
+            get { return m_errors; }
+        } 
+       // prop
+    }
+
+    public class BuildError
+    {
+        public string Message { get; set; }
     }
 }

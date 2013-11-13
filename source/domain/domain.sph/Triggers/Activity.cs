@@ -10,6 +10,11 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(CreateEntityActivity))]
     public partial class Activity : DomainObject
     {
+        public virtual BuildValidationResult ValidateBuild(WorkflowDefinition wd)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string MethodName
         {
             get

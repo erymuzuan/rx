@@ -7,6 +7,10 @@ namespace Bespoke.Sph.Domain
 {
     public partial class DecisionActivity : Activity
     {
+        public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
+        {
+            return null;
+        }
 
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {

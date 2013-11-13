@@ -11,5 +11,9 @@ namespace Bespoke.Sph.Domain
             throw new System.NotImplementedException();
         }
 
+        public virtual BuildValidationResult ValidateBuild()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -12,6 +12,19 @@ namespace Bespoke.Sph.Domain
 {
     public partial class ScreenActivity : Activity
     {
+        public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
+        {
+            var errors = from f in this.FormDesign.FormElementCollection
+                where string.IsNullOrWhiteSpace(f.Path)
+                select new BuildError
+                {
+                    Message = string.Format("{0} does not have path", f.Label)
+                };
+            var result = new BuildValidationResult();
+            result.Errors.AddRange(errors);
+
+            return base.ValidateBuild(wd);
+        }
 
         public async override Task InitiateAsync(Workflow wf)
         {
@@ -119,7 +132,8 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedCustomTypeCode(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
-            code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", wd.WorkflowDefinitionId, wd.Version);
+            var controller = string.Format("Workflow_{0}_{1}", wd.WorkflowDefinitionId, wd.Version);
+            code.AppendLinf("public partial class {0}Controller : System.Web.Mvc.Controller", controller);
             code.AppendLine("{");
 
             // custom schema
@@ -248,6 +262,7 @@ namespace Bespoke.Sph.Domain
         public string GetView(WorkflowDefinition wd)
         {
 
+            var controller = string.Format("Workflow_{0}_{1}", wd.WorkflowDefinitionId, wd.Version);
             var code = new StringBuilder();
             // code.AppendLinf("@inherits System.Web.Mvc.WebViewPage<{0}>", this.ViewModelType);
             code.AppendLine("@using System.Web.Mvc.Html");
@@ -289,6 +304,7 @@ namespace Bespoke.Sph.Domain
 
 @section scripts
 {{
+    <script type=""text/javascript"" src=""/{0}/Schemas{1}"">
     <script type=""text/javascript"">
         require(['services/datacontext', 'jquery','durandal/app'], function(context,jquery,app) {{
 
@@ -336,7 +352,7 @@ namespace Bespoke.Sph.Domain
         }});
 
     </script>
-}}");
+}}",controller,this.ActionName);
 
 
             return code.ToString();

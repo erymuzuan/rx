@@ -65,8 +65,26 @@ namespace domain.test.workflows
             var email = new Mock<INotificationService>(MockBehavior.Strict);
             email.Setup(x => x.SendMessageAsync(It.IsAny<Message>(), It.IsAny<string>()))
                 .Returns(Task.Delay(500))
-                .Callback((Message m, string e) => Console.WriteLine("sending email to {0} body is {2}-{1}",e,m.Body, m.Subject));
+                .Callback<Message,string>((m, e) => Console.WriteLine("sending email to {0} body is {2}-{1}",e,m.Body, m.Subject));
             ObjectBuilder.AddCacheList(email.Object);
+
+        }
+
+
+        [Test]
+        public void BuildValidation()
+        {
+            var wd = new WorkflowDefinition {Name = "3 Is Three"};
+            var screen = new ScreenActivity {Name = "Pohon", IsInitiator = true};
+            screen.FormDesign.FormElementCollection.Add(new TextBox{Label = "Nama", Path = string.Empty});
+            wd.ActivityCollection.Add(screen);
+
+
+            var result = wd.ValidateBuild();
+            Assert.IsFalse(result.Result);
+            Assert.AreEqual(2, result.Errors.Count);
+            Assert.AreEqual("Name not valid identifier", result.Errors[0]);
+            Assert.AreEqual("TextBox \"Nama\" does not have valid path", result.Errors[2]);
 
         }
 
