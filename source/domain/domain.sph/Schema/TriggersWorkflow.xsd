@@ -362,6 +362,8 @@
 			<xs:attribute name="IsRazor" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsPartial" type="xs:boolean" use="required"/>
 			<xs:attribute name="VirtualPath" type="xs:string" use="required"/>
+			<xs:attribute name="Tag" type="xs:string" use="required"/>
+			<xs:attribute name="Version" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EndActivity">

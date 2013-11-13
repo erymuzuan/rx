@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://tempuri.org/FormDesigner.xsd" xmlns:mstns="http://tempuri.org/FormDesigner.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/TriggersWorkflow.xsd" targetNamespace="http://tempuri.org/FormDesigner.xsd" elementFormDefault="qualified" id="FormDesigner">
-	<xs:import namespace="http://tempuri.org/TriggersWorkflow.xsd" schemaLocation="D:\project\work\sph\source\domain\domain.sph\Schema\TriggersWorkflow.xsd"/>
 	<xs:element name="CustomField">
 		<xs:complexType>
 			<xs:all>
@@ -536,7 +535,7 @@
 				<xs:element name="RuleCollection">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="ns1:Rule" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="Rule" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -545,6 +544,20 @@
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="ErrorLocation" type="xs:string" use="required"/>
 			<xs:attribute name="ErrorMessage" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Rule">
+		<xs:annotation>
+			<xs:documentation>Placeholder</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="FileUploadElement">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:attribute name="AllowedExtensions" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

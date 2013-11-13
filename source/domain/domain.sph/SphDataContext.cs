@@ -300,6 +300,15 @@ namespace Bespoke.Sph.Domain
             return await repos.GetAverageAsync(query, selector).ConfigureAwait(false);
         }
 
+        public async Task<TResult> GetMaxAsync<T, TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector)
+            where T : Entity
+            where TResult : struct
+        {
+            var query = Translate(predicate);
+            var repos = ObjectBuilder.GetObject<IRepository<T>>();
+            return await repos.GetMaxAsync(query, selector);
+        }
+
         public async Task<TResult> GetMaxAsync<T, TResult>(IQueryable<T> query, Expression<Func<T, TResult>> selector)
             where T : Entity
             where TResult : struct

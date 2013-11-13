@@ -2100,6 +2100,8 @@
     <Content Include="Views\Shared\EditorTemplates\NumberTextBox.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TextAreaElement.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Views\WorkflowDefinition\DisplayTemplates\FileUploadElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\FileUploadElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
