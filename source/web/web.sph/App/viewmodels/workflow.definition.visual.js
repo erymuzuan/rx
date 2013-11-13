@@ -156,18 +156,18 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     targetAnchors = ["TopCenter"],
                     fullName = typeof act.$type === "function" ? act.$type() : act.$type,
                     name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1],
-                    sourceAnchorOptions = ["BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle",
-                                            "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle",
-                                            "BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle"],
-                    count1 = 0;
+                    sourceAnchorOptions = ["BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle"],
+                    branchesCount = 0;
 
 
                 if (act.multipleEndPoints) {
                     _(act.multipleEndPoints()).each(function (d) {
 
-                        var ep = jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: sourceAnchorOptions[count1], uuid: d.WebId() + "Source", id: d.WebId() });
+                        var idx = branchesCount % sourceAnchorOptions.length,
+                            ep = jsPlumb.addEndpoint(act.WebId(), sourceEndpoint, { anchor: sourceAnchorOptions[idx], uuid: d.WebId() + "Source", id: d.WebId() });
+
                         d.endPointId = ep.id; // since multiple branches activity will have their own end point
-                        count1++;
+                        branchesCount++;
                     });
                     sourceAnchors = [];
                 }
