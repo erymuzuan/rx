@@ -34,7 +34,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 elements[0].Name("Screen");
                 elements[1].Name("Decision");
                 elements[2].Name("Create Record");
-                elements[3].Name("Notifify");
+                elements[3].Name("Notify");
                 elements[4].Name("Receive");
                 elements[5].Name("Send");
                 elements[6].Name("Listen");
@@ -43,12 +43,12 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 elements[9].Name("End");
 
                 elements[0].Note = "Creates a user interface activity";
-                elements[1].Note = "Decision braches and expression";
+                elements[1].Note = "Decision branches and expression";
                 elements[2].Note = "Create a new record";
                 elements[3].Note = "Notify via email and messages";
-                elements[4].Note = "Receieve a message from another system";
+                elements[4].Note = "Receive a message from another system";
                 elements[5].Note = "Send a message to another system";
-                elements[6].Note = "Creates a race condition, firts one wins";
+                elements[6].Note = "Creates a race condition, first one wins";
                 elements[7].Note = "Concurrent running activities";
                 elements[8].Note = "Wait for a certain time";
                 elements[9].Note = "Ends the workflow";

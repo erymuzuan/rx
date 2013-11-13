@@ -39,11 +39,11 @@ function (logger, system, ko2) {
             for (var name in item) {
                 (function (prop) {
 
-                    var propval = _(item[prop]);
+                    var _propertyValue = _(item[prop]);
 
-                    if (propval.isArray()) {
+                    if (_propertyValue.isArray()) {
 
-                        var children = propval.map(function (x) {
+                        var children = _propertyValue.map(function (x) {
                             return toObservable(x, pattern);
                         });
 
@@ -51,17 +51,17 @@ function (logger, system, ko2) {
                         return;
                     }
 
-                    if (propval.isNumber()
-                        || propval.isNull()
-                        || propval.isNaN()
-                        || propval.isDate()
-                        || propval.isBoolean()
-                        || propval.isString()) {
+                    if (_propertyValue.isNumber()
+                        || _propertyValue.isNull()
+                        || _propertyValue.isNaN()
+                        || _propertyValue.isDate()
+                        || _propertyValue.isBoolean()
+                        || _propertyValue.isString()) {
                         item[prop] = ko.observable(item[prop]);
                         return;
                     }
 
-                    if (propval.isObject()) {
+                    if (_propertyValue.isObject()) {
                         var $typeFieldValue2 = item[prop].$type;
 
                         if ($typeFieldValue2 && arrayTypeNamePattern.exec($typeFieldValue2)) {
@@ -97,7 +97,7 @@ function (logger, system, ko2) {
             }
 
             // if there are new fields added, chances are it will not be present in the json,
-            // even it is, it would be nice to add Webid for those whos still missing one
+            // even it is, it would be nice to add WebId for those that are still missing one
 
             if (bespoke.sph.domain[type]) {
                 var ent = new bespoke.sph.domain[type](system.guid());
@@ -191,8 +191,7 @@ function (logger, system, ko2) {
             error: tcs.reject,
             success: function (msg) {
                 var rows = _(msg.results).map(function (v) {
-                    var observable = toObservable(v);
-                    return observable;
+                    return toObservable(v);
                 });
                 var lo = new LoadOperation();
                 lo.itemCollection = rows;
@@ -213,7 +212,7 @@ function (logger, system, ko2) {
 
     function searchAsync(entityOrOptions, query) {
 
-        if (!entityOrOptions) throw "This cannot be happending, you have to have entity or option";
+        if (!entityOrOptions) throw "This cannot be happening, you have to have entity or option";
 
         var entity = entityOrOptions,
            size = 20,
