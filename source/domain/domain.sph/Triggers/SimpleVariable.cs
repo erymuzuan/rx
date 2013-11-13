@@ -13,7 +13,14 @@ namespace Bespoke.Sph.Domain
 
         public override BuildValidationResult ValidateBuild()
         {
-            throw new Exception("//TODO #1050");
+            var result = new BuildValidationResult();
+            if (this.Name.Contains(" "))
+            {
+                result.Result = false;
+                result.Errors.Add(new BuildError{Message = "Variable can't contains space"});
+            }
+
+            return result;
         }
 
         [XmlIgnore]

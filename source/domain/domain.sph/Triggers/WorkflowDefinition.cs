@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -40,12 +41,18 @@ namespace Bespoke.Sph.Domain
 
         public BuildValidationResult ValidateBuild()
         {
+            Regex.IsMatch(this.Name, @"^[a-zA-Z]+$");
+
             var result = new BuildValidationResult();
-            // TODO , #1050
             foreach (var variable in this.VariableDefinitionCollection)
             {
-                var result1 = variable.ValidateBuild();
+                var v = variable.ValidateBuild();
+                foreach (var message in v.Errors)
+                {
+                    result.Errors.Add(message);
+                }
             }
+            
             return result;
         }
 

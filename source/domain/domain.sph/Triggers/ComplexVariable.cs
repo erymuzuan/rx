@@ -11,6 +11,18 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
+        public override BuildValidationResult ValidateBuild()
+        {
+            var result = new BuildValidationResult();
+            if (this.Name.Contains(" "))
+            {
+                result.Result = false;
+                result.Errors.Add(new BuildError { Message = string.Format("Variable {0} can't contains space ", this.Name) });
+            }
+
+            return result;
+        }
+
         
     }
 }
