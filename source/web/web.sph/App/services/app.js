@@ -32,11 +32,13 @@
                 title: title,
                 options: options,
                 selectOption: function (result) {
-                    dialog.modal('hide');
                     tcs.resolve(result);
+                    dialog.modal('hide');
+                    setTimeout(function() { dialog.remove(); }, 500);
                 },
                 cancelClick : function() {
                     tcs.resolve(false);
+                    setTimeout(function () { dialog.remove(); }, 500);
                 }
             };
             ko.applyBindings(vm, document.getElementById(id));
