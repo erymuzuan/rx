@@ -63,24 +63,17 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
             var buildValidation = wd.ValidateBuild();
+
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
             await this.Save(wd);
-            try
-            {
-                var options = new CompilerOptions();
-                options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
-                options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
-                var result = wd.Compile(options);
-                return Json(new { success = true, status = "OK", message = "Your workflow has been successfully compiled  : " + Path.GetFileName(result.Output) });
 
-            }
-            catch (Exception e)
-            {
-                return Json(new { success = true, status = "OK", message = e.Message });
-
-            }
+            var options = new CompilerOptions();
+            options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
+            options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
+            var result = wd.Compile(options);
+            return Json(new { success = true, status = "OK", message = "Your workflow has been successfully compiled  : " + Path.GetFileName(result.Output) });
 
         }
 

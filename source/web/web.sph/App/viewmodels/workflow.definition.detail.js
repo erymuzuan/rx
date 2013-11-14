@@ -48,12 +48,13 @@ define([objectbuilders.datacontext, objectbuilders.logger],
                         if (result.success) {
                             logger.info(result.message);
                         } else {
-                            logger.error(result);
+                            vm.errors(result);
                         }
                         tcs.resolve(result);
                     });
                 return tcs.promise();
             },
+            
             publishAsync = function () {
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(vm.workflowdefinition());
@@ -97,6 +98,7 @@ define([objectbuilders.datacontext, objectbuilders.logger],
             activate: activate,
             viewAttached: viewAttached,
             openVisualDesigner: openVisualDesigner,
+            errors : ko.observableArray(),
             workflowdefinition: ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
             toolbar: {
                 saveCommand: saveAsync,

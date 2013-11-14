@@ -41,20 +41,28 @@ namespace Bespoke.Sph.Domain
 
         public BuildValidationResult ValidateBuild()
         {
-            Regex.IsMatch(this.Name, @"^[a-zA-Z]+$");
-
             var result = new BuildValidationResult();
+
+            var validName = new Regex(@"^[A-Za-z][A-Za-z0-9 -]*$");
+            if (!validName.Match(this.Name).Success)
+                result.Errors.Add(new BuildError { Message = "Name must be started with letter.You cannot use symbol or number as first character" });
+
             foreach (var variable in this.VariableDefinitionCollection)
             {
                 var v = variable.ValidateBuild();
-                foreach (var message in v.Errors)
-                {
-                    result.Errors.Add(message);
-                }
+                result.Errors.AddRange(v.Errors);
             }
-            
+
+            foreach (var activity in this.ActivityCollection)
+            {
+                var a = activity.ValidateBuild(this);
+                if (null == a)continue;
+                result.Errors.AddRange(a.Errors);
+            }
+            result.Result = !result.Errors.Any();
             return result;
         }
+
 
         public WorkflowCompilerResult Compile(CompilerOptions options)
         {
@@ -91,7 +99,7 @@ namespace Bespoke.Sph.Domain
                 {
                     parameters.ReferencedAssemblies.Add(ass.Location);
                 }
-                var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile) 
+                var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile)
                     : provider.CompileAssemblyFromSource(parameters, code);
                 var cr = new WorkflowCompilerResult
                 {
@@ -142,8 +150,8 @@ namespace Bespoke.Sph.Domain
         public ObjectCollection<BuildError> Errors
         {
             get { return m_errors; }
-        } 
-       // prop
+        }
+        // prop
     }
 
     public class BuildError

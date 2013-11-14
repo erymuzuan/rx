@@ -15,22 +15,23 @@ namespace Bespoke.Sph.Domain
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
             var errors = from f in this.FormDesign.FormElementCollection
-                where string.IsNullOrWhiteSpace(f.Path)
-                select new BuildError
-                {
-                    Message = string.Format("{0} does not have path", f.Label)
-                };
+                         where string.IsNullOrWhiteSpace(f.Path) && (f.Name != "HTML Section")
+
+                         select new BuildError
+                         {
+                             Message = string.Format("{0} does not have path", f.Label)
+                         };
             var result = new BuildValidationResult();
             result.Errors.AddRange(errors);
 
-            return base.ValidateBuild(wd);
+            return result;
         }
 
         public async override Task InitiateAsync(Workflow wf)
         {
             var baseUrl = ConfigurationManager.AppSettings["sph:BaseUrl"] ?? "http://localhost:4436";
             var imb = this.InvitationMessageBody ?? "= @Model.Screen.Name task is assigned to you go here @string.Format(\"" +
-                baseUrl+
+                baseUrl +
                       "/Workflow_{0}_{1}/{2}/{3}\",@Model.Item.WorkflowDefinitionId, @Model.Item.Version,\"" + this.ActionName + "\", @Model.Item.WorkflowId)";
             var ims = this.InvitationMessageSubject ?? "= [Sph] @Model.Screen.Name  task is assigned to you";
 
@@ -355,7 +356,7 @@ namespace Bespoke.Sph.Domain
         }});
 
     </script>
-}}",controller,this.ActionName);
+}}", controller, this.ActionName);
 
 
             return code.ToString();
