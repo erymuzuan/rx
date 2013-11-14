@@ -31,7 +31,8 @@
                 message: message,
                 title: title,
                 options: options,
-                selectOption : function(result) {
+                selectOption: function (result) {
+                    dialog.modal('hide');
                     tcs.resolve(result);
                 },
                 cancelClick : function() {

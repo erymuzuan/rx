@@ -118,7 +118,7 @@ namespace Bespoke.Sph.Domain
                 var refElements = from at in all.Elements(x + "element")
                                   where at.Attribute("ref") != null
                                   let refa = at.Attribute("ref")
-                                  select string.Format("            \"{0}\" : ko.observable(new bespoke.sph.{1}.{0}())", refa.Value, this.CodeNamespace);
+                                  select string.Format("            \"{0}\" : ko.observable(new bespoke.sph.w_{1}_{2}.{0}())", refa.Value, this.WorkflowDefinitionId,this.Version);
                 properties.AddRange(refElements);
 
 
@@ -131,10 +131,10 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("       };");
             code.AppendLinf(@"
-    if (bespoke.sph.{0}.{1}Partial) {{
-        return _(model).extend(new bespoke.sph.{0}.{1}Partial(model));
+    if (bespoke.sph.w_{0}_{1}.{2}Partial) {{
+        return _(model).extend(new bespoke.sph.w_{0}_{1}.{2}Partial(model));
     }}       
-return model;", this.CodeNamespace, name);
+return model;", this.WorkflowDefinitionId, this.Version, name);
             code.AppendLine("   };");
             return code.ToString();
 
