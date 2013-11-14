@@ -18,14 +18,27 @@ namespace Bespoke.Sph.Web.WorkflowHelpers
             m_virtualPath = vp;
             listener.Changed += ListenerChanged;
             this.SetUtcLastModified(DateTime.Today);
-           
+
+        }
+
+        public override string GetUniqueID()
+        {
+            return m_virtualPath;
         }
 
         void ListenerChanged(object sender, EntityChangedEventArgs<Page> e)
         {
-            Console.WriteLine("{0} - {1}", m_virtualPath, e.Item.VirtualPath);
-            this.SetUtcLastModified(DateTime.Now);
-            this.NotifyDependencyChanged(this, EventArgs.Empty);
+            this.ResetDependency();
+
+        }
+
+        private void ResetDependency()
+        {
+            if (!this.HasChanged)
+            {
+                this.SetUtcLastModified(DateTime.Now);
+                this.NotifyDependencyChanged(this, EventArgs.Empty);
+            }
 
         }
     }

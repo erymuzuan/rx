@@ -25,21 +25,28 @@ namespace Bespoke.Sph.Web.WorkflowHelpers
 
         public override CacheDependency GetCacheDependency(string virtualPath, IEnumerable virtualPathDependencies, DateTime utcStart)
         {
-            if (IsPathVirtual(virtualPath) && null == m_listener)
+            if ( null == m_listener)
             {
                 m_listener = ObjectBuilder.GetObject<IEntityChangedListener<Page>>();
                 m_listener.Run();
 
             }
-            if (IsPathVirtual(virtualPath))
-            {
-                var cache = new WorklowPageCacheDependency(virtualPath, m_listener);
-                return cache;
-            }
-            return base.GetCacheDependency(virtualPath, virtualPathDependencies, utcStart);
+
+            var cache = new WorklowPageCacheDependency(virtualPath, m_listener);
+            return cache;
 
         }
 
+
+        public override string GetFileHash(String virtualPath, IEnumerable virtualPathDependencies)
+        {
+            if (IsPathVirtual(virtualPath))
+            {
+                return Guid.NewGuid().ToString();
+            }
+
+            return Previous.GetFileHash(virtualPath, virtualPathDependencies);
+        }
         private bool IsPathVirtual(string virtualPath)
         {
             if (string.IsNullOrWhiteSpace(virtualPath)) return false;
