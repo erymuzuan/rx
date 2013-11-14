@@ -20,7 +20,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 
             },
             editPage = function (page) {
-                var w = window.open("/editor/ace?mode=html", '_blank', 'height=max,width=max,toolbar=0,location=0');
+                var w = window.open("/editor/ace?mode=html", '_blank', 'height=800,width=800,toolbar=0,location=0');
                 w.code = page.Code();
                 w.saved = function (code) {
                     page.Code(code);
