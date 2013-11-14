@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Domain
 
                          select new BuildError
                          {
-                             Message = string.Format("{0} does not have path", f.Label)
+                             Message = string.Format("{0} => '{1}' does not have path",this.Name, f.Label)
                          };
             var result = new BuildValidationResult();
             result.Errors.AddRange(errors);

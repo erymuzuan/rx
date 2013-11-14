@@ -14,6 +14,7 @@ define([objectbuilders.datacontext, objectbuilders.logger],
     function (context, logger) {
         var isBusy = ko.observable(false),
             id = ko.observable(),
+            state = ko.observable(false),
             activate = function (routeData) {
                 id(parseFloat(routeData.definitionId));
                 if (!id()) {
@@ -47,12 +48,15 @@ define([objectbuilders.datacontext, objectbuilders.logger],
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
+                            state(true);
                         } else {
                             vm.errors(result);
+                            state(false);
                         }
                         tcs.resolve(result);
                     });
                 return tcs.promise();
+                
             },
             
             publishAsync = function () {
@@ -64,6 +68,7 @@ define([objectbuilders.datacontext, objectbuilders.logger],
                         if (result.success) {
                             logger.info(result.message);
                             vm.workflowdefinition().Version(result.version);
+                            //state(true);
                         } else {
                             logger.error(result);
                         }
@@ -95,6 +100,7 @@ define([objectbuilders.datacontext, objectbuilders.logger],
 
         var vm = {
             isBusy: isBusy,
+            state : state,
             activate: activate,
             viewAttached: viewAttached,
             openVisualDesigner: openVisualDesigner,
@@ -110,6 +116,7 @@ define([objectbuilders.datacontext, objectbuilders.logger],
                     },
                     {
                         command: publishAsync,
+                        visible: state,
                         caption: 'publish',
                         icon: "fa fa-sign-out"
                     }])
