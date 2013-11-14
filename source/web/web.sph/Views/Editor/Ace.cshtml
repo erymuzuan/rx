@@ -68,9 +68,12 @@
     <script>
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/crimson_editor");
-        editor.getSession().setMode("ace/mode/csharp");
+        @{
+            var mode = this.Request.QueryString["mode"] ?? "csharp";
+        }
+        editor.getSession().setMode("ace/mode/@mode");
 
-        editor.setValue(field.Script());
+        editor.setValue(window.code);
 
         $('#save-button').click(function () {
             if (window.saved)

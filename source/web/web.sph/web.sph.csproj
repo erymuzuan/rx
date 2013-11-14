@@ -279,6 +279,7 @@
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\EditorController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\SpaceController.cs" />
     <Compile Include="Controllers\ComplaintController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
@@ -354,6 +355,7 @@
     <Compile Include="ViewModels\WorkflowDefinitionVisualViewModel.cs" />
     <Compile Include="WorkflowHelpers\ScreenActivityVirtualFile.cs" />
     <Compile Include="WorkflowHelpers\WorkflowScreenActivityPathProvider.cs" />
+    <Compile Include="WorkflowHelpers\WorklowPageCacheDependency.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\async.js" />
@@ -449,6 +451,7 @@
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
     <Content Include="App\viewmodels\field.assembly.js" />
+    <Content Include="App\viewmodels\page.list.js" />
     <Content Include="App\viewmodels\variable.complex.js" />
     <Content Include="App\viewmodels\variable.simple.js" />
     <Content Include="App\viewmodels\field.constant.js" />
@@ -519,6 +522,7 @@
     <Content Include="App\views\chats.html" />
     <Content Include="App\views\error.message.html" />
     <Content Include="App\views\field.assembly.html" />
+    <Content Include="App\views\page.list.html" />
     <Content Include="App\views\variable.complex.html" />
     <Content Include="App\views\variable.simple.html" />
     <Content Include="App\views\field.function.html" />
@@ -1432,6 +1436,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
     <Folder Include="Scripts\schemas\" />
+    <Folder Include="Views\Page\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\schemas\_object.xslt">

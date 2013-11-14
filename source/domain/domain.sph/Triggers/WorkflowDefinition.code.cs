@@ -84,7 +84,7 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             var name = e.Attribute("name").Value;
 
-            code.AppendLinf("bespoke.sph.{0}.{1} = function(webid){{", this.CodeNamespace, name);
+            code.AppendLinf("bespoke.sph.w_{1}_{2}.{0} = function(webid){{",  name, this.WorkflowDefinitionId, this.Version);
             code.AppendLine("   var model = {");
             properties.Add(string.Format("         \"$type\" :\"{0}.{1}, workflows.{2}.{3}\"", this.CodeNamespace, name, this.WorkflowDefinitionId, this.Version));
             properties.Add("        \"WebId\": ko.observable(webid)");

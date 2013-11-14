@@ -923,5 +923,18 @@
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": "can_edit_workflow",
+    "groupName": null,
+    "url": "page.list",
+    "moduleId": "viewmodels/page.list",
+    "name": "Page list",
+    "visible": true,
+    "icon": "fa-paper-clip",
+    "caption": "Pages",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
   }
 ]

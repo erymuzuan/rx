@@ -116,6 +116,9 @@ namespace Bespoke.Sph.Domain
         public Task<string> GenerateCustomXsdJavascriptClassAsync(WorkflowDefinition wd)
         {
             var script = new StringBuilder();
+            script.AppendLine("var bespoke = bespoke ||{};");
+            script.AppendLine("var bespoke.sph = bespoke.sph ||{};");
+            script.AppendLinf("var bespoke.sph.w_{0}_{1} = bespoke.sph.w_{0}_{1} ||{{}};", wd.WorkflowDefinitionId, wd.Version);
             //var store = ObjectBuilder.GetObject<IBinaryStore>();
             //var doc = await store.GetContentAsync(wd.SchemaStoreId);
             XNamespace x = "http://www.w3.org/2001/XMLSchema";

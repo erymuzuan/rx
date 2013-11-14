@@ -1,0 +1,29 @@
+﻿<div class="row">
+    <table id="building-list-table" class="table table-striped" data-bind="filter: { path: 'tbody>tr' },
+            serverPaging :
+            {
+                query : 'PageId gt 0',
+                list: pages,
+                entity: 'Page'
+            }">
+        <thead>
+            <tr>
+                <th>Edit</th>
+                <th>Title</th>
+                <th>Virtual Path</th>
+                <th>Version</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: pages">
+            <tr>
+                <td>
+                    <a href="#" data-bind="click: $parent.editPage">Code</a>
+                </td>
+                <td data-bind="text: Title, attr: {title : Tag}"></td>
+                <td data-bind="text: VirtualPath"></td>
+                <td data-bind="text: Version"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
