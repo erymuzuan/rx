@@ -15,7 +15,7 @@ bespoke.sph.domain = bespoke.sph.domain || {};
 bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
     var system = require('durandal/system'),
-         context = require(objectbuilders.datacontext),
+        context = require(objectbuilders.datacontext),
         elementNameOptions = ko.observableArray(),
         removeActivity = function (activity) {
             var self = this;
@@ -65,8 +65,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                             if (!result) return;
                             if (result === "OK") {
                                 //self.ActivityCollection.replace(activity, clone);
-                                for(var g in activity)
-                                {
+                                for (var g in activity) {
                                     if (typeof activity[g] === "function" && activity[g].name === "observable") {
                                         activity[g](ko.unwrap(clone[g]));
                                     } else {

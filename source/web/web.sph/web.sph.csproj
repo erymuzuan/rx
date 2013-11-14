@@ -417,6 +417,7 @@
     <Content Include="App\schemas\report.builder.g.js" />
     <Content Include="App\schemas\sph.domain.g.js" />
     <Content Include="App\schemas\trigger.workflow.g.js" />
+    <Content Include="App\services\app.js" />
     <Content Include="App\services\cultures.my.js" />
     <Content Include="App\services\datacontext.js" />
     <Content Include="App\partial\Deposit.js" />
