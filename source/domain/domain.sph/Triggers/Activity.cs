@@ -12,7 +12,8 @@ namespace Bespoke.Sph.Domain
     {
         public virtual BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
-            throw new System.NotImplementedException();
+            var result = new BuildValidationResult {Result = true};
+            return result;
         }
 
         public string MethodName

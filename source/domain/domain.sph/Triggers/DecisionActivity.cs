@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Domain
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
-            return null;
+            return new BuildValidationResult { Result = true };
         }
 
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)

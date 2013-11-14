@@ -1,9 +1,15 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class EndActivity : Activity
     {
+        public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
+        {
+            return new BuildValidationResult { Result = true };
+        }
+
         public override string GeneratedCustomTypeCode(WorkflowDefinition workflowDefinition)
         {
             return string.Empty;
