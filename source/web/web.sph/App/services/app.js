@@ -5,25 +5,53 @@
             return v.toString(16);
         });
     },
+        showModal = function (dialog) {
+
+            // get the view
+            var moduleId = dialog.__moduleId__,
+                tcs = new $.Deferred();
+
+            if (dialog.__view__) {
+                dialog.__view__.modal();
+            } else {
+                $.get(moduleId.replace('viewmodels', '/app/views') + '.html')
+                    .done(function (html) {
+                        var panel = $(html).appendTo('body');
+                        panel.modal();
+                        dialog.__view__ = panel;
+                        dialog.modal = {
+                            close : function(result) {
+                                tcs.resolve(result);
+                            }
+                        };
+
+
+                        ko.applyBindings(dialog, panel[0]);
+                    });
+            }
+
+
+            return tcs.promise();
+        },
         showMessage = function (message, title, options) {
             var id = guid(),
                 tcs = new $.Deferred(),
                 dialog = $(
                     '<div class="modal fade" id="' + id + '">' +
-                    '   <div class="modal-dialog">'+
-                    '       <div class="modal-content">'+
+                    '   <div class="modal-dialog">' +
+                    '       <div class="modal-content">' +
                     '           <div class="modal-header">' +
                     '               <button type="button" data-bind="click: cancelClick" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
-                    '               <h4 class="modal-title" data-bind="html: title"></h3>'+
+                    '               <h4 class="modal-title" data-bind="html: title"></h3>' +
                     '           </div>' +
                     '           <div class="modal-body">' +
                     '               <p class="message" data-bind="html: message"></p>' +
                     '           </div>' +
-                    '           <div class="modal-footer" data-bind="foreach: options">'+
-                    '               <button class="btn btn-default" data-bind="click: function () { $parent.selectOption($data); }, html: $data, css: { autofocus: $index() == 0 }"></button>'+
-                    '           </div>'+
-                    '       </div>'+
-                    '   </div>'+
+                    '           <div class="modal-footer" data-bind="foreach: options">' +
+                    '               <button class="btn btn-default" data-bind="click: function () { $parent.selectOption($data); }, html: $data, css: { autofocus: $index() == 0 }"></button>' +
+                    '           </div>' +
+                    '       </div>' +
+                    '   </div>' +
                     '</div>');
 
             dialog.appendTo('body');
@@ -34,21 +62,22 @@
                 selectOption: function (result) {
                     tcs.resolve(result);
                     dialog.modal('hide');
-                    setTimeout(function() { dialog.remove(); }, 500);
+                    setTimeout(function () { dialog.remove(); }, 500);
                 },
-                cancelClick : function() {
+                cancelClick: function () {
                     tcs.resolve(false);
                     setTimeout(function () { dialog.remove(); }, 500);
                 }
             };
             ko.applyBindings(vm, document.getElementById(id));
-            dialog.modal({keyboard: true});
-            
+            dialog.modal({ keyboard: true });
+
             return tcs.promise();
 
         };
     var app = {
         guid: guid,
+        showModal: showModal,
         showMessage: showMessage
     };
     return app;
