@@ -105,10 +105,10 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   {");
             code.AppendLine("       this.State = \"Ready\";");
             // set the next activity
-            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);/* webid*/
+            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);
             code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
-            //code.AppendLine("   result.NextActivity = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
+
             code.AppendLine("       return result;");
             code.AppendLine("   }");
 
@@ -121,14 +121,18 @@ namespace Bespoke.Sph.Domain
             script.AppendLine("var bespoke = bespoke ||{};");
             script.AppendLine("bespoke.sph = bespoke.sph ||{};");
             script.AppendLinf("bespoke.sph.w_{0}_{1} = bespoke.sph.w_{0}_{1} ||{{}};", wd.WorkflowDefinitionId, wd.Version);
-            //var store = ObjectBuilder.GetObject<IBinaryStore>();
-            //var doc = await store.GetContentAsync(wd.SchemaStoreId);
+
             XNamespace x = "http://www.w3.org/2001/XMLSchema";
             var xsd = wd.GetCustomSchema();
 
+            var complexTypesElement = xsd.Elements(x + "complexType").ToList();
+            var complexTypeClasses = complexTypesElement.Select(wd.GenerateXsdComplexTypeJavascript).ToList();
+            complexTypeClasses.ForEach(c => script.AppendLine(c));
+
             var elements = xsd.Elements(x + "element").ToList();
-            var customSchemaCode = elements.Select(wd.GenerateXsdElementJavascript).ToList();
-            customSchemaCode.ForEach(c => script.AppendLine(c));
+            var elementClasses = elements.Select(e => wd.GenerateXsdElementJavascript(e,0, s => complexTypesElement.Single(f => f.Attribute("name").Value == s))).ToList();
+            elementClasses.ForEach(c => script.AppendLine(c));
+
 
 
             return Task.FromResult(script.ToString());

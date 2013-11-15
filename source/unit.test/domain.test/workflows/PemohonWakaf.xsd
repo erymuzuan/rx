@@ -19,17 +19,18 @@
 				<xs:element name="Age" type="xs:int" nillable="true"/>
 				<xs:element ref="Contact"/>
 				<xs:element name="Dob" type="xs:dateTime" nillable="true"/>
-				<xs:element name="Cars">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Kereta" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
 				<xs:element name="Taxis">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="Kereta" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="Car" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Ride" type="Vehicle"/>
+				<xs:element name="PastVehicles">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Vehicle" type="Vehicle" minOccurs="0" maxOccurs="unbounded"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
@@ -47,10 +48,27 @@
 			<xs:attribute name="Telephone" type="xs:string"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Kereta">
+	<xs:complexType name="Vehicle">
+		<xs:attribute name="Power" type="xs:int" use="required"/>
+		<xs:attribute name="Cost" type="xs:decimal" use="required"/>
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:element name="Car">
 		<xs:complexType>
-			<xs:attribute name="Model" type="xs:string" use="required"/>
-			<xs:attribute name="Cc" type="xs:int" use="required"/>
+			<xs:complexContent>
+				<xs:extension base="Vehicle">
+					<xs:attribute name="Seating" type="xs:int" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Bike">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Vehicle">
+					<xs:attribute name="IsLegal" type="xs:boolean" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

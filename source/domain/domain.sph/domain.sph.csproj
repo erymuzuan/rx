@@ -167,6 +167,7 @@
     <Compile Include="Triggers\ConfirmationOptions.cs" />
     <Compile Include="Triggers\CreateEntityAction.cs" />
     <Compile Include="Triggers\CreateEntityActivity.cs" />
+    <Compile Include="Triggers\CsharpCodeGenerator.cs" />
     <Compile Include="Triggers\DecisionActivity.cs" />
     <Compile Include="Triggers\DecisionBranch.cs" />
     <Compile Include="Triggers\DelayActivity.cs" />
@@ -323,6 +324,12 @@
       <DependentUpon>WorkflowDefinition.cs</DependentUpon>
     </Compile>
     <Compile Include="Triggers\WorkflowDefinition.cs" />
+    <Compile Include="Triggers\WorkflowDefinition.xsd.csharp.cs">
+      <DependentUpon>WorkflowDefinition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Triggers\WorkflowDefinition.xsd.js.cs">
+      <DependentUpon>WorkflowDefinition.cs</DependentUpon>
+    </Compile>
     <Compile Include="Triggers\WorkflowDesigner.cs" />
     <Compile Include="Triggers\WorkflowInitiatorAction.cs" />
   </ItemGroup>
