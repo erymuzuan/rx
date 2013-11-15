@@ -18,7 +18,7 @@ define([objectbuilders.datacontext, objectbuilders.cultures],
             definitions: ko.observableArray(),
             toolbar: {
                 addNew: {
-                    location: '/#/workflow.definition.detail/0',
+                    location: '/#/workflow.definition.visual/0',
                     caption: 'New Workflow Definition'
                 }
             },
