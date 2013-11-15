@@ -28,8 +28,11 @@
             <h6 data-bind="text:Name"></h6>
 
             <div style="display: none" class="context-menu">
-                <a class="edit-activity" href="#" data-bind="click: $parent.editActivity.call($parent,$data)">
+                <a class="edit-activity" title="edit acitivity" href="#" data-bind="click: $parent.editActivity.call($parent,$data)">
                     <i class="fa fa-edit fa-2x"></i>
+                </a>
+                <a class="delete-activity" href="#" title="remove activity" data-bind="click: $parent.removeActivity.call($parent,$data)">
+                    <i class="fa fa-times-circle fa-2x"></i>
                 </a>
             </div>
 
