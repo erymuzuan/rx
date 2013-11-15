@@ -309,7 +309,7 @@ namespace Bespoke.Sph.Domain
 
 @section scripts
 {{
-    <script type=""text/javascript"" src=""/{0}/Schemas{1}"">
+    <script type=""text/javascript"" src=""/{0}/Schemas{1}""></script>
     <script type=""text/javascript"">
         require(['services/datacontext', 'jquery','durandal/app'], function(context,jquery,app) {{
 
