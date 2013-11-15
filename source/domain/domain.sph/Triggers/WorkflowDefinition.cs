@@ -49,7 +49,7 @@ namespace Bespoke.Sph.Domain
 
             foreach (var variable in this.VariableDefinitionCollection)
             {
-                var v = variable.ValidateBuild();
+                var v = variable.ValidateBuild(this);
                 result.Errors.AddRange(v.Errors);
             }
 

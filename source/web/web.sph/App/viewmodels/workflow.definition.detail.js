@@ -35,6 +35,7 @@ define([objectbuilders.datacontext, objectbuilders.logger],
             },
             viewAttached = function () {
                 $('table#activities-table').on('mouseenter', 'tr', function (e) {
+                    e.preventDefault();
                     var act = ko.dataFor(this),
                         wid = ko.unwrap(act.WebId);
                     console.log(wid);
@@ -50,7 +51,7 @@ define([objectbuilders.datacontext, objectbuilders.logger],
                             logger.info(result.message);
                             state(true);
                         } else {
-                            vm.errors(result);
+                            vm.errors(result.Errors);
                             state(false);
                         }
                         tcs.resolve(result);

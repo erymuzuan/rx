@@ -11,13 +11,13 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
-        public override BuildValidationResult ValidateBuild()
+        public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
-            var result = new BuildValidationResult();
-            if (this.Name.Contains(" "))
+            var result = base.ValidateBuild(wd);
+            if (string.IsNullOrWhiteSpace(this.TypeName))
             {
                 result.Result = false;
-                result.Errors.Add(new BuildError { Message = string.Format("Variable {0} cannot contains space ", this.Name) });
+                result.Errors.Add(new BuildError { Message = string.Format("[Variable] \"{0}\" does not have a valid type", this.Name) });
             }
 
             return result;

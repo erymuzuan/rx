@@ -14,5 +14,10 @@
 
             return null;
         }
+
+        public override bool IsPathIsRequired
+        {
+            get { return false; }
+        }
     }
 }

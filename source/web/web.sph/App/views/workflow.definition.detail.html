@@ -1,59 +1,72 @@
 ﻿<link href="/Content/jsplumb/jsplumb.css" rel="stylesheet" />
 <h1>Workflow Definition Detail</h1>
 
-<form class="form-horizontal" id="CompilationError" data-bind="visible :errors().Errors">
-    <h3 class="alert alert-danger">Compilation failed.Please check and fix below error before you can publish your workflow</h3>
-    <div class="form-group">
-        <ul data-bind="foreach :errors().Errors">
-            <li data-bind="text: Message"></li>
-        </ul>
-    </div>
-</form>
+<div class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
 
-<form class="form-horizontal col-lg-8" id="workflow-definition-detail" data-bind="with: workflowdefinition, visible :!errors().Errors">
-    <div class="form-group">
-        <label for="Name" class="col-lg-2 control-label">Name</label>
-        <div class="col-lg-6">
-            <input type="text" data-bind="value:Name" class="form-control" id="Name" placeholder="Workflow name......">
-        </div>
+    <div class="col-lg-8 col-lg-offset-2 alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong data-bind="text :Message"></strong>
     </div>
-    <div class="form-group">
-        <label for="Note" class="col-lg-2 control-label">Note</label>
-        <div class="col-lg-6">
-            <textarea cols="4" rows="5" data-bind="value:Note" class="form-control" id="Note" placeholder="Note....." />
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-lg-offset-2 col-lg-6">
-            <div class="checkbox">
-                <label>
-                    <input data-bind="checked: IsActive" id="IsActive" type="checkbox" name="IsActive" />
-                    Is Active
-                </label>
+    <div class="col-lg-2"></div>
+    <!-- /ko-->
+</div>
+
+<div class="row">
+
+
+    <form class="form-horizontal col-lg-8" id="workflow-definition-detail" data-bind="with: workflowdefinition">
+        <div class="form-group">
+            <label for="Name" class="col-lg-2 control-label">Name</label>
+            <div class="col-lg-6">
+                <input type="text" data-bind="value:Name" class="form-control" id="Name" placeholder="Workflow name......">
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label for="complex-variable-schema" class="control-label">Schema</label>
-        <div class="controls">
-            <input class="form-control" data-bind="kendoUpload: SchemaStoreId" id="complex-variable-schema" type="file" name="complex-variable-schema" />
+        <div class="form-group">
+            <label for="wd-version" class="col-lg-2 control-label">Version</label>
+            <div class="col-lg-6">
+                <input required type="number" data-bind="value: Version" class="form-control" id="wd-version" placeholder="The version number is used for compilation">
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <ul data-bind="foreach :xsdElements">
-            <li data-bind="text:$data"></li>
-        </ul>
-    </div>
-    
-    <!--ko compose:'_workflow.definition.variables.html' -->
-    <!--/ko-->
-    <a href="#" class="btn btn-default" data-bind="click : $root.openVisualDesigner">OPEN Visual Designer</a>
-    <a class="btn btn-default" data-bind="attr :{'href':'/#/workflow.definition.visual/ ' + WorkflowDefinitionId()}">OPEN Visual Designer</a>
-    <!--ko compose:'_workflow.definition.activities.html' -->
-    <!--/ko-->
-    
-</form>
+        <div class="form-group">
+            <label for="Note" class="col-lg-2 control-label">Note</label>
+            <div class="col-lg-6">
+                <textarea cols="4" rows="5" data-bind="value:Note" class="form-control" id="Note" placeholder="Note....." />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-6">
+                <div class="checkbox">
+                    <label>
+                        <input data-bind="checked: IsActive" id="IsActive" type="checkbox" name="IsActive" />
+                        Is Active
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="complex-variable-schema" class="control-label">Schema</label>
+            <div class="controls">
+                <input class="form-control" data-bind="kendoUpload: SchemaStoreId" id="complex-variable-schema" type="file" name="complex-variable-schema" />
+            </div>
+        </div>
+        <div class="form-group">
+            <ul data-bind="foreach :xsdElements">
+                <li data-bind="text:$data"></li>
+            </ul>
+        </div>
+
+        <!--ko compose:'_workflow.definition.variables.html' -->
+        <!--/ko-->
+        <a class="btn btn-default" data-bind="attr :{'href':'/#/workflow.definition.visual/ ' + WorkflowDefinitionId()}">OPEN Visual Designer</a>
+        <!--ko compose:'_workflow.definition.activities.html' -->
+        <!--/ko-->
+
+    </form>
 
 
 
+
+</div>

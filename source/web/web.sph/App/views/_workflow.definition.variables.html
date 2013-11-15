@@ -35,8 +35,11 @@
             <tr>
                 <td>
                     <a type="button" class="btn btn-link" data-bind="click : $parent.editVariable.call($parent,$data)" href="#">
+                        
+                        <i class="fa fa-sitemap" data-bind="visible : ko.unwrap($type) == 'Bespoke.Sph.Domain.ComplexVariable, domain.sph'"></i>
+                        <i class="fa fa-code" data-bind="visible : ko.unwrap($type) == 'Bespoke.Sph.Domain.SimpleVariable, domain.sph'"></i>
+                       
 
-                        <img data-bind="fieldImage : $type" class="pull-left" alt="." />
                         &nbsp;
                         <!-- ko text : Name -->
                         <!-- /ko -->

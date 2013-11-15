@@ -343,7 +343,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                         if (result.success) {
                             logger.info(result.message);
                         } else {
-                            logger.error(result);
+
+                            vm.errors(result.Errors);
+                            logger.error("There are errors in your Workflow, please fix them all");
                         }
                         tcs.resolve(result);
                     });
@@ -359,7 +361,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                             logger.info(result.message);
                             wd().Version(result.version);
                         } else {
-                            logger.error(result);
+                            vm.errors(result.Errors);
+                            logger.error("There are errors in your Workflow, please fix them all");
                         }
                         tcs.resolve(result);
                     });
@@ -398,6 +401,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             toolboxElements: ko.observableArray(),
             wd: wd,
             itemAdded: itemAdded,
+            errors: ko.observableArray(),
             toolbar: {
                 saveCommand: saveAsync,
                 exportCommand: exportWd,

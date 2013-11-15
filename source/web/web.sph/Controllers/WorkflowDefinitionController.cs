@@ -80,7 +80,11 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Publish()
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
-            wd.Version += 1;// publish will increase the version
+            var buildValidation = wd.ValidateBuild();
+
+            if (!buildValidation.Result)
+                return Json(buildValidation);
+
 
             // compile , then save
             var options = new CompilerOptions

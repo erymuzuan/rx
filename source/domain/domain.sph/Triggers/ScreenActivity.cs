@@ -15,11 +15,12 @@ namespace Bespoke.Sph.Domain
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
             var errors = from f in this.FormDesign.FormElementCollection
-                         where string.IsNullOrWhiteSpace(f.Path) && (f.Name != "HTML Section")
+                         where f.IsPathIsRequired
+                             && string.IsNullOrWhiteSpace(f.Path) && (f.Name != "HTML Section")
 
                          select new BuildError
                          {
-                             Message = string.Format("{0} => '{1}' does not have path",this.Name, f.Label)
+                             Message = string.Format("[ScreenActivity] : {0} => '{1}' does not have path",this.Name, f.Label)
                          };
             var result = new BuildValidationResult();
             result.Errors.AddRange(errors);
