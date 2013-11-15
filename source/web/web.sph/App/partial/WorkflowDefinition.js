@@ -64,7 +64,6 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                         .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {
-                                //self.ActivityCollection.replace(activity, clone);
                                 for (var g in activity) {
                                     if (typeof activity[g] === "function" && activity[g].name === "observable") {
                                         activity[g](ko.unwrap(clone[g]));
@@ -86,8 +85,8 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
                 require(['viewmodels/variable.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.variable(variable);
-                    if (typeof dialog.elementNameOptions === "function") {
-                        dialog.elementNameOptions(elementNameOptions());
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(self);
                     }
                     app2.showModal(dialog)
                         .done(function (result) {
@@ -111,12 +110,21 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
 
                 require(['viewmodels/variable.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.variable(clone);
+                    if (typeof dialog.wd === "function") {
+                        dialog.wd(self);
+                    }
 
                     app2.showModal(dialog)
                         .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {
-                                self.VariableDefinitionCollection.replace(variable, clone);
+                                for (var g in variable) {
+                                    if (typeof variable[g] === "function" && variable[g].name === "observable") {
+                                        variable[g](ko.unwrap(clone[g]));
+                                    } else {
+                                        variable[g] = clone[g];
+                                    }
+                                }
                             }
                         });
 

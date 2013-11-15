@@ -15,11 +15,12 @@ define([],
         },
             cancelClick = function () {
                 this.modal.close("Cancel");
-            };
+            },
+            wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition());
 
         var vm = {
             variable: ko.observable(new bespoke.sph.domain.ComplexVariable()),
-            elementNameOptions : ko.observableArray(),
+            wd : wd,
             okClick: okClick,
             cancelClick: cancelClick
         };
