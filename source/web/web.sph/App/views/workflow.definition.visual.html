@@ -39,21 +39,86 @@
 
 
     </div>
-    <div id="toolbox" class="col-lg-3">
-        <h3>Toolbox</h3>
-        <div>
-            <!-- ko foreach : toolboxElements -->
 
-            <div class="btn btn-default col-lg-12 toolbox-item" data-bind="attr : {id:WebId()}">
-                <div data-bind="attr : {'class':CssClass}"></div>
-                <strong data-bind="text:Name"></strong>
-                <p>
-                    <span data-bind="text:Note"></span>
-                </p>
+    <div class="col-lg-3">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#toolbox" data-toggle="tab">Toolbox</a>
+            </li>
+            <li>
+                <a href="#variables" data-toggle="tab">Variables</a>
+            </li>
+            <li>
+                <a href="#schemas" data-toggle="tab">Schemas</a>
+            </li>
+            <li>
+                <a href="#properties" data-toggle="tab">Properties</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="toolbox" class="tab-pane active">
+                <!-- ko foreach : toolboxElements -->
+
+                <div class="btn btn-default col-lg-12 toolbox-item" data-bind="attr : {id:WebId()}, visible : IsEnabled">
+                    <div data-bind="attr : {'class':CssClass}"></div>
+                    <strong data-bind="text:Name"></strong>
+                    <p>
+                        <span data-bind="text:Note"></span>
+                    </p>
+
+                </div>
+
+                <!-- /ko -->
+            </div>
+            <div id="variables" class="tab-pane" data-bind="with : wd">
+
+                <!--ko compose:'_workflow.definition.variables.html' -->
+                <!--/ko-->
+            </div>
+            <div id="schemas" class="tab-pane" data-bind="with:wd">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="complex-variable-schema">Schema</label>
+                        <input class="form-control" data-bind="kendoUpload: SchemaStoreId" id="complex-variable-schema" type="file" name="complex-variable-schema" />
+                    </div>
+                    <div class="form-group">
+                        <ul data-bind="foreach :xsdElements">
+                            <li data-bind="text:$data"></li>
+                        </ul>
+                    </div>
+
+                </form>
 
             </div>
+            <div id="properties" class="tab-pane">
 
-            <!-- /ko -->
+                <form role="form" id="workflow-definition-detail" data-bind="with: wd">
+                    <div class="form-group">
+                        <label for="Name">Name</label>
+                        <input type="text" data-bind="value:Name" class="form-control" id="Name" placeholder="Workflow name......">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="wd-version">Version</label>
+                        <input required type="number" data-bind="value: Version" class="form-control" id="wd-version" placeholder="The version number is used for compilation">
+                    </div>
+                    <div class="form-group">
+                        <label for="Note">Note</label>
+                        <textarea cols="4" rows="5" data-bind="value:Note" class="form-control" id="Note" placeholder="Note....." />
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input data-bind="checked: IsActive" id="IsActive" type="checkbox" name="IsActive" />
+                                    Is Active
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>

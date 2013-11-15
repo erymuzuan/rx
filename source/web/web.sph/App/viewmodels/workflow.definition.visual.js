@@ -28,9 +28,19 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     new bespoke.sph.domain.ListenActivity("@Guid.NewGuid()"),
                     new bespoke.sph.domain.ParallelActivity("@Guid.NewGuid()"),
                     new bespoke.sph.domain.DelayActivity("@Guid.NewGuid()"),
-                    // new bespoke.sph.domain.ThrowActivity("@Guid.NewGuid()"),
                     new bespoke.sph.domain.EndActivity("@Guid.NewGuid()")
                 ];
+                elements[0].IsEnabled = ko.observable(true);
+                elements[1].IsEnabled = ko.observable(true);
+                elements[2].IsEnabled = ko.observable(true);
+                elements[3].IsEnabled = ko.observable(true);
+                elements[4].IsEnabled = ko.observable(false);
+                elements[5].IsEnabled = ko.observable(false);
+                elements[6].IsEnabled = ko.observable(false);
+                elements[7].IsEnabled = ko.observable(false);
+                elements[8].IsEnabled = ko.observable(false);
+                elements[9].IsEnabled = ko.observable(true);
+                
                 elements[0].Name("Screen");
                 elements[1].Name("Decision");
                 elements[2].Name("Create Record");
@@ -77,6 +87,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                         .done(function (b) {
                             vm.wd(b);
                             tcs.resolve(true);
+                            b.loadSchema();
 
                             var timer = setInterval(function () {
                                 if (isJsPlumbReady) {

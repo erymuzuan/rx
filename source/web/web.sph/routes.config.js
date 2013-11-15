@@ -901,19 +901,6 @@
   {
     "role": "can_edit_workflow",
     "groupName": "",
-    "url": "workflow.definition.detail/:definitionId",
-    "moduleId": "viewmodels/workflow.definition.detail",
-    "name": "Workflow Definition",
-    "visible": false,
-    "icon": null,
-    "caption": "Workflow Definition",
-    "settings": null,
-    "showWhenLoggedIn": false,
-    "error": ""
-  },
-  {
-    "role": "can_edit_workflow",
-    "groupName": "",
     "url": "workflow.definition.visual/:id",
     "moduleId": "viewmodels/workflow.definition.visual",
     "name": "Workflow Visual Designer",
