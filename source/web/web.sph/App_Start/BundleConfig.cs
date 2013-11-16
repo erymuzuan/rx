@@ -42,6 +42,7 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/scripts/_uiready.js")
                 .Include("~/scripts/_function.prototypes.js")
                 .Include("~/scripts/_task.js")
+                .Include("~/scripts/_utils.js")
                 .Include("~/scripts/_constants.js")
               );
             bundles.Add(

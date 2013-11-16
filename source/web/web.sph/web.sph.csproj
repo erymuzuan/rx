@@ -302,6 +302,11 @@
     <Compile Include="Controllers\WorkflowDefinitionController.cs" />
     <Compile Include="Controllers\WorkflowController.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\CreateMapModel.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
@@ -1084,6 +1089,10 @@
     </None>
     <Content Include="Content\jsplumb\OpenSans.woff" />
     <Content Include="Content\jsplumb\OpenSans-Regular.ttf" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />

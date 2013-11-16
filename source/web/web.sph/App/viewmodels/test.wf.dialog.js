@@ -14,7 +14,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
     function(context, logger, router) {
 
         var okClick = function(data, ev) {
-            if (ev.target.form.checkValidity()) {
+            if (bespoke.utils.form.checkValidity(ev.target)) {
                 this.modal.close("OK");
             }
 

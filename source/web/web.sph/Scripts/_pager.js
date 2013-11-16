@@ -1,6 +1,7 @@
 ﻿/// <reference path="toastr.js" />
-/// <reference path="kendo.web.min.js" />
+/// <reference path="_ko.kendo.js" />
 /// <reference path="../kendo/js/kendo.pager.js" />
+/// <reference path="../kendo/js/kendo.all.js" />
 
 
 

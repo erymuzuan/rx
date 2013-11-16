@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <label for="ce-name" class="col-lg-2 control-label">Name</label>
                         <div class="col-lg-6">
-                            <input type="text" data-bind="value:Name" class="form-control" id="ce-name" placeholder="name">
+                            <input required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$" type="text" data-bind="value:Name" class="form-control" id="ce-name" placeholder="name">
                         </div>
                     </div>
                     <div class="form-group">

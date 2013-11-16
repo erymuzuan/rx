@@ -14,7 +14,7 @@
                     <div class="form-group">
                         <label for="notification-activity-name" class="col-lg-2 control-label">Name</label>
                         <div class="col-lg-6">
-                            <input required type="text" data-bind="value: Name" class="form-control" id="notification-activity-name" placeholder="Name">
+                            <input pattern="^[A-Za-z_][A-Za-z0-9_ ]*$" required type="text" data-bind="value: Name" class="form-control" id="notification-activity-name" placeholder="Name">
                         </div>
                     </div>
 

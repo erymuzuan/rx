@@ -1,16 +1,15 @@
-﻿@model Bespoke.Sph.Domain.DatePicker
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Domain.DatePicker
 
 
 <!--ko if:$data['$type']() === "Bespoke.Sph.Domain.DatePicker, domain.sph" -->
 <div class="form-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
     @Html.Partial("_DesignerContextAction")
     <label data-bind="text: Label" class="control-label col-lg-2"></label>
-    <div class="col-lg-4">
-        <div class="input-append">
-            <input type="text" data-bind="attr: { 'title': Tooltip, 'class': CssClass() + ' ' + Size() }" />
-            <i class="add-on icon-calendar"></i>
-        </div>
-        <span data-bind="text: HelpText" class="help-block"></span>
+    <div class="col-lg-4 input-group">
+            <input type="text" data-bind="attr: { 'title': Tooltip, 'class': CssClass() + ' form-control ' + Size() }" />
+            <span class="input-group-addon glyphicon glyphicon-calendar"></span>
     </div>
+    <span data-bind="text: HelpText" class="help-block"></span>
 </div>
 <!--/ko-->

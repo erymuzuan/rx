@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Web.Caching;
 using System.Web.Hosting;
 using Bespoke.Sph.Domain;
@@ -25,6 +26,14 @@ namespace Bespoke.Sph.Web.WorkflowHelpers
 
         public override CacheDependency GetCacheDependency(string virtualPath, IEnumerable virtualPathDependencies, DateTime utcStart)
         {
+            bool enabled;
+            if (bool.TryParse(ConfigurationManager.AppSettings["sph:EnableWorkflowGetCacheDependency"], out enabled))
+            {
+            }
+            if (!enabled && IsPathVirtual(virtualPath)) return null;
+            if (!enabled) return base.GetCacheDependency(virtualPath, virtualPathDependencies, utcStart);
+            
+            
             if ( null == m_listener)
             {
                 m_listener = ObjectBuilder.GetObject<IEntityChangedListener<Page>>();

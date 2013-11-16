@@ -126,7 +126,7 @@
                     });
                 },
             okClick = function (data, ev) {
-                if (ev.target.form.checkValidity()) {
+                if (bespoke.utils.form.checkValidity(ev.target)) {
                     
                     var fd = ko.unwrap(vm.activity().FormDesign);
                     // get the sorted element

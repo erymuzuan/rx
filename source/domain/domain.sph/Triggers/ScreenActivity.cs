@@ -273,7 +273,7 @@ namespace Bespoke.Sph.Domain
 
             var controller = string.Format("Workflow_{0}_{1}", wd.WorkflowDefinitionId, wd.Version);
             var code = new StringBuilder();
-            // code.AppendLinf("@inherits System.Web.Mvc.WebViewPage<{0}>", this.ViewModelType);
+
             code.AppendLine("@using System.Web.Mvc.Html");
             code.AppendLine("@using Bespoke.Sph.Domain");
             code.AppendLine("@using Newtonsoft.Json");
@@ -315,7 +315,7 @@ namespace Bespoke.Sph.Domain
 {{
     <script type=""text/javascript"" src=""/{0}/Schemas{1}""></script>
     <script type=""text/javascript"">
-        require(['services/datacontext', 'jquery','durandal/app'], function(context,jquery,app) {{
+        require(['services/datacontext', 'jquery','services/app', 'services/system'], function(context,jquery,app, system) {{
 
             
            var instance =context.toObservable(@Html.Raw(JsonConvert.SerializeObject(Model.Instance, setting)),/@Model.Namespace.Replace(""."",""\\."")\.(.*?),/),
@@ -326,7 +326,8 @@ namespace Bespoke.Sph.Domain
                 screen : ko.observable(screen),
                 isBusy : ko.observable()
             }};
-            ko.applyBindings(vm);
+            ko.applyBindings(vm, document.getElementById('body'));
+            @*  the div#body is defined in _Layout.cshtml, if you use different Layout then this has got to changed accordingly *@
 
             $('#save-button').click(function(e) {{
                 e.preventDefault();
@@ -342,9 +343,10 @@ namespace Bespoke.Sph.Domain
                         {{
                             <text>
                             var msg = _.template('@Html.Raw(confirmationText)')(result.wf);
-                            
-                            console.log(msg);
-                            alert(msg);
+                            app.showMessage(msg, '@Model.Screen.Name', ['OK'])
+                                .done(function(dr){{
+                                    console.log(dr);
+                                }});
                             </text>
                         }}else
                         {{

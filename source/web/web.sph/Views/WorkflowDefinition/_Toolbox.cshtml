@@ -31,61 +31,46 @@
         </div>
 
         <div id="fields-settings" class="tab-pane" data-bind="with: selectedFormElement">
-            <form class="form-horizontal">
+            <form role="form">
                 <div class="form-group">
-                    <label for="form-element-label" class="control-label col-lg-2">Label</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" data-bind="value: Label, valueUpdate: 'keyup'" id="form-element-label" type="text" name="Label" />
-                    </div>
+                    <label for="form-element-label">Label</label>
+                    <input class="form-control" data-bind="value: Label, valueUpdate: 'keyup'" id="form-element-label" type="text" name="Label" />
                 </div>
 
                 <div class="form-group">
-                    <label for="form-element-path" class="control-label col-lg-2">Path</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" data-bind="value: Path" id="form-element-path" type="text" name="Path" />
-                    </div>
-                   
+                    <label for="form-element-path">Path</label>
+                    <input class="form-control" data-bind="value: Path" id="form-element-path" type="text" name="Path" />
                 </div>
 
                 <div class="form-group">
-                    <label for="form-element-tooltip" class="control-label">Tooltip</label>
-                    <div class="controls">
-                        <input class="form-control" data-bind="value: Tooltip" id="form-element-tooltip" type="text" name="Tooltip" />
-                    </div>
+                    <label for="form-element-tooltip">Tooltip</label>
+                    <input class="form-control" data-bind="value: Tooltip" id="form-element-tooltip" type="text" name="Tooltip" />
                 </div>
 
                 <div class="form-group">
-                    <label for="form-element-help-text" class="control-label">Help</label>
-                    <div class="controls">
-                        <input class="form-control" data-bind="value: HelpText, valueUpdate: 'keyup'" id="form-element-help-text" type="text" name="HelpText" />
-                    </div>
+                    <label for="form-element-help-text">Help</label>
+                    <input class="form-control" data-bind="value: HelpText, valueUpdate: 'keyup'" id="form-element-help-text" type="text" name="HelpText" />
                 </div>
 
-            
+
                 <div class="form-group">
-                    <label for="form-element-css-class" class="control-label">Css class</label>
-                    <div class="controls">
-                        <input data-bind="cssAutoComplete: CssClass" id="form-element-css-class" type="text" name="CssClass" />
-                    </div>
+                    <label for="form-element-css-class">Css class</label>
+                    <input data-bind="cssAutoComplete: CssClass" id="form-element-css-class" type="text" name="CssClass" />
                 </div>
 
                 <div class="form-group">
-                    <label for="form-element-visible" class="control-label">Visible</label>
-                    <div class="controls">
-                        <input class="form-control" data-bind="value: Visible, valueUpdate : 'keyup'" id="form-element-visible" type="text" name="Visible" />
-                    </div>
+                    <label for="form-element-visible">Visible</label>
+                    <input class="form-control" data-bind="value: Visible, valueUpdate : 'keyup'" id="form-element-visible" type="text" name="Visible" />
                 </div>
-              
+
 
                 <div class="form-group">
-                    <label for="form-element-elementId" class="control-label">Id</label>
-                    <div class="controls">
-                        <input class="form-control" data-bind="value: ElementId" id="form-element-elementId" type="text" name="ElementId" />
-                    </div>
+                    <label for="form-element-elementId">Id</label>
+                    <input class="form-control" data-bind="value: ElementId" id="form-element-elementId" type="text" name="ElementId" />
                 </div>
 
 
-              
+
 
                 <button data-bind="click: $root.removeFormElement" class="btn btn-warning" title="remove this element">Remove</button>
                 <!-- END OF EDITOR TOOLBOX -->

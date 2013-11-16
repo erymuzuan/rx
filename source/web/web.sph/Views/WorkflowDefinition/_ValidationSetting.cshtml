@@ -1,53 +1,40 @@
-﻿<form class="form-horizontal" data-bind2="with : FieldValidation">
-    <div class="form-group">
-        <div class="col-lg-offset-2 col-lg-6">
-            <div class="checkbox">
-                <label>
-                    <input data-bind2="checked: IsRequired" id="validation-isrequired" type="checkbox" name="IsRequired" />
-                    Is required
-                </label>
-            </div>
-        </div>
+﻿<form class="form-horizontal" data-bind2="with : FieldValidation" role="form">
+
+    <div class="checkbox">
+        <label>
+            <input data-bind2="checked: IsRequired" id="validation-isrequired" type="checkbox" name="IsRequired" />
+            Is required
+        </label>
     </div>
-    
+
     <div class="form-group">
-        <label for="validation-pattern" class="col-lg-2 control-label">Pattern</label>
-        <div class="col-lg-6">
-            <input data-bind2="value:Pattern" type="text" class="form-control" id="validation-pattern" placeholder="regex pattern">
-        </div>
+        <label for="validation-pattern">Pattern</label>
+        <input data-bind2="value:Pattern" type="text" class="form-control" id="validation-pattern" placeholder="regex pattern">
     </div>
     <div class="form-group">
-        <label for="validation-minlength" class="col-lg-2 control-label">Min Length</label>
-        <div class="col-lg-6">
-            <input data-bind2="value:MinLength" type="number" class="form-control" id="validation-minlength" >
-        </div>
+        <label for="validation-minlength">Min Length</label>
+        <input data-bind2="value:MinLength" type="number" class="form-control" id="validation-minlength">
     </div>
-    
+
     <div class="form-group">
-        <label for="validation-maxlength" class="col-lg-2 control-label">Max Length</label>
-        <div class="col-lg-6">
-            <input data-bind2="value:MaxLength" type="number" class="form-control" id="validation-maxlength">
-        </div>
+        <label for="validation-maxlength">Max Length</label>
+        <input data-bind2="value:MaxLength" type="number" class="form-control" id="validation-maxlength">
     </div>
-    
+
     <div class="form-group">
-        <label for="validation-mode" class="col-lg-2 control-label">Mode</label>
-        <div class="col-lg-6">
-            <select class="form-control" id="validation-mode" data-bind2="value:Mode">
-                <option value="">Text</option>
-                <option value="email">Email</option>
-                <option value="url">Url</option>
-                <option value="digit">Digit</option>
-                <option value="number">Number</option>
-                <option value="date">Date</option>
-            </select>
-        </div>
+        <label for="validation-mode">Mode</label>
+        <select class="form-control" id="validation-mode" data-bind2="value:Mode">
+            <option value="">Text</option>
+            <option value="email">Email</option>
+            <option value="url">Url</option>
+            <option value="digit">Digit</option>
+            <option value="number">Number</option>
+            <option value="date">Date</option>
+        </select>
     </div>
-    
+
     <div class="form-group">
-        <label for="validation-message" class="col-lg-2 control-label">Message</label>
-        <div class="col-lg-6">
-            <input data-bind2="value:Message" type="text" class="form-control" id="validation-message" placeholder="Error message">
-        </div>
+        <label for="validation-message">Message</label>
+        <input data-bind2="value:Message" type="text" class="form-control" id="validation-message" placeholder="Error message">
     </div>
 </form>

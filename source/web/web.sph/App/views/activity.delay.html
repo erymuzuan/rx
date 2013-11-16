@@ -9,7 +9,14 @@
             </div>
             <div class="modal-body" data-bind="with: activity">
 
-                <form class="form-horizontal" id="delay-dialog-form"></form>
+                <form class="form-horizontal" id="delay-dialog-form">
+                    <div class="form-group">
+                        <label for="delay-name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-6">
+                            <input pattern="^[A-Za-z_][A-Za-z0-9_ ]*$" required type="text" data-bind="value: Name" class="form-control" id="delay-name" placeholder="Name">
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <input form="delay-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
