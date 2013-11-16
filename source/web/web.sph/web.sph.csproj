@@ -387,6 +387,7 @@
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
+    <Content Include="App\partial\UpdateEntityActivity.js" />
     <Content Include="App\partial\CreateEntityActivity.js" />
     <Content Include="App\partial\WorkflowDesigner.js" />
     <Content Include="App\partial\DecisionActivity.js" />
@@ -445,6 +446,8 @@
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\action.email.js" />
     <Content Include="App\viewmodels\action.setter.js" />
+    <Content Include="App\viewmodels\activity.updateentity.js" />
+    <Content Include="App\viewmodels\activity.deleteentity.js" />
     <Content Include="App\viewmodels\activity.createentity.js" />
     <Content Include="App\viewmodels\activity.delay.js" />
     <Content Include="App\viewmodels\activity.end.js" />
@@ -515,6 +518,8 @@
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\action.email.html" />
     <Content Include="App\views\action.setter.html" />
+    <Content Include="App\views\activity.deleteentity.html" />
+    <Content Include="App\views\activity.updateentity.html" />
     <Content Include="App\views\activity.createentity.html" />
     <Content Include="App\views\activity.delay.html" />
     <Content Include="App\views\activity.end.html" />
