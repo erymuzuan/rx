@@ -172,7 +172,9 @@
     <Compile Include="Triggers\DecisionBranch.cs" />
     <Compile Include="Triggers\DelayActivity.cs" />
     <Compile Include="Triggers\DeleteEntityAction.cs" />
+    <Compile Include="Triggers\DeleteEntityActivity.cs" />
     <Compile Include="Triggers\EndActivity.cs" />
+    <Compile Include="Triggers\ExpressionActivity.cs" />
     <Compile Include="Triggers\FunctionField.cs" />
     <Compile Include="IBinaryStore.cs" />
     <Compile Include="IComputable.cs" />
@@ -316,6 +318,7 @@
     <Compile Include="Business\Watcher.cs" />
     <Compile Include="Business\WorkOrder.cs" />
     <Compile Include="Triggers\UpdateEntityAction.cs" />
+    <Compile Include="Triggers\UpdateEntityActivity.cs" />
     <Compile Include="Triggers\Variable.cs" />
     <Compile Include="Triggers\VariableValue.cs" />
     <Compile Include="Triggers\Workflow.cs" />

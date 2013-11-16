@@ -381,6 +381,8 @@ bespoke.sph.domain.Page = function (webId) {
         IsRazor: ko.observable(false),
         IsPartial: ko.observable(false),
         VirtualPath: ko.observable(''),
+        Tag: ko.observable(''),
+        Version: ko.observable(0),
         Code: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -477,11 +479,60 @@ bespoke.sph.domain.CreateEntityActivity = function (webId) {
     var v = new bespoke.sph.domain.Activity(webId);
 
     v.EntityType = ko.observable('');
+    v.ReturnValuePath = ko.observable('');
     v["$type"] = "Bespoke.Sph.Domain.CreateEntityActivity, domain.sph";
 
     v.PropertyMappingCollection = ko.observableArray([]);
     if (bespoke.sph.domain.CreateEntityActivityPartial) {
         return _(v).extend(new bespoke.sph.domain.CreateEntityActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ExpressionActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v["$type"] = "Bespoke.Sph.Domain.ExpressionActivity, domain.sph";
+
+    v.Expression = ko.observable();//type but not nillable
+    if (bespoke.sph.domain.ExpressionActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.ExpressionActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.DeleteEntityActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v.EntityType = ko.observable('');
+    v.EntityIdPath = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.DeleteEntityActivity, domain.sph";
+
+    if (bespoke.sph.domain.DeleteEntityActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.DeleteEntityActivityPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.UpdateEntityActivity = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v.EntityType = ko.observable('');
+    v.EntityIdPath = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.UpdateEntityActivity, domain.sph";
+
+    v.PropertyMappingCollection = ko.observableArray([]);
+    if (bespoke.sph.domain.UpdateEntityActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.UpdateEntityActivityPartial(v));
     }
     return v;
 };

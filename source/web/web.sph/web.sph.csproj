@@ -449,6 +449,7 @@
     <Content Include="App\viewmodels\activity.delay.js" />
     <Content Include="App\viewmodels\activity.end.js" />
     <Content Include="App\viewmodels\activity.decision.js" />
+    <Content Include="App\viewmodels\activity.expression.js" />
     <Content Include="App\viewmodels\activity.notification.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\block.floormap.dialog.js" />
@@ -518,6 +519,7 @@
     <Content Include="App\views\activity.delay.html" />
     <Content Include="App\views\activity.end.html" />
     <Content Include="App\views\activity.decision.html" />
+    <Content Include="App\views\activity.expression.html" />
     <Content Include="App\views\activity.notification.html" />
     <Content Include="App\views\application.template.list.html" />
     <Content Include="App\views\block.dialog.html" />

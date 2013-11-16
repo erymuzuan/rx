@@ -2509,6 +2509,135 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_ReturnValuePath;
+        [XmlAttribute]
+        public string ReturnValuePath
+        {
+            get
+            {
+                return m_ReturnValuePath;
+            }
+            set
+            {
+                m_ReturnValuePath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private readonly ObjectCollection<PropertyMapping> m_PropertyMappingCollection = new ObjectCollection<PropertyMapping>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<PropertyMapping> PropertyMappingCollection
+        {
+            get { return m_PropertyMappingCollection; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ExpressionActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ExpressionActivity
+    {
+
+        public string Expression { get; set; }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("DeleteEntityActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class DeleteEntityActivity
+    {
+
+        private string m_EntityType;
+        [XmlAttribute]
+        public string EntityType
+        {
+            get
+            {
+                return m_EntityType;
+            }
+            set
+            {
+                m_EntityType = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_EntityIdPath;
+        [XmlAttribute]
+        public string EntityIdPath
+        {
+            get
+            {
+                return m_EntityIdPath;
+            }
+            set
+            {
+                m_EntityIdPath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("UpdateEntityActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class UpdateEntityActivity
+    {
+
+        private string m_EntityType;
+        [XmlAttribute]
+        public string EntityType
+        {
+            get
+            {
+                return m_EntityType;
+            }
+            set
+            {
+                m_EntityType = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_EntityIdPath;
+        [XmlAttribute]
+        public string EntityIdPath
+        {
+            get
+            {
+                return m_EntityIdPath;
+            }
+            set
+            {
+                m_EntityIdPath = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         private readonly ObjectCollection<PropertyMapping> m_PropertyMappingCollection = new ObjectCollection<PropertyMapping>();
 
         ///<summary>

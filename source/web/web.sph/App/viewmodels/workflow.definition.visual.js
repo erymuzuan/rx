@@ -18,61 +18,102 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
         var isBusy = ko.observable(false),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
             populateToolbox = function () {
-                var elements = [
-                    new bespoke.sph.domain.ScreenActivity("@Guid.NewGuid()"),
-                    new bespoke.sph.domain.DecisionActivity("@Guid.NewGuid()"),
-                    new bespoke.sph.domain.CreateEntityActivity("@Guid.NewGuid()"),
-                    new bespoke.sph.domain.NotificationActivity("@Guid.NewGuid()"),
-                    new bespoke.sph.domain.ReceiveActivity("@Guid.NewGuid()"),
-                    new bespoke.sph.domain.SendActivity("@Guid.NewGuid()"),
-                    new bespoke.sph.domain.ListenActivity("@Guid.NewGuid()"),
-                    new bespoke.sph.domain.ParallelActivity("@Guid.NewGuid()"),
-                    new bespoke.sph.domain.DelayActivity("@Guid.NewGuid()"),
-                    new bespoke.sph.domain.EndActivity("@Guid.NewGuid()")
-                ];
-                elements[0].IsEnabled = ko.observable(true);
-                elements[1].IsEnabled = ko.observable(true);
-                elements[2].IsEnabled = ko.observable(true);
-                elements[3].IsEnabled = ko.observable(true);
-                elements[4].IsEnabled = ko.observable(false);
-                elements[5].IsEnabled = ko.observable(false);
-                elements[6].IsEnabled = ko.observable(false);
-                elements[7].IsEnabled = ko.observable(false);
-                elements[8].IsEnabled = ko.observable(false);
-                elements[9].IsEnabled = ko.observable(true);
+                var elements = [],
+                    screen = new bespoke.sph.domain.ScreenActivity("@Guid.NewGuid()"),
+                    expr = new bespoke.sph.domain.ExpressionActivity("@Guid.NewGuid()"),
+                    decision = new bespoke.sph.domain.DecisionActivity("@Guid.NewGuid()"),
+                    ce = new bespoke.sph.domain.CreateEntityActivity("@Guid.NewGuid()"),
+                    ue = new bespoke.sph.domain.UpdateEntityActivity("@Guid.NewGuid()"),
+                    de = new bespoke.sph.domain.DeleteEntityActivity("@Guid.NewGuid()"),
+                    notification = new bespoke.sph.domain.NotificationActivity("@Guid.NewGuid()"),
+                    receive = new bespoke.sph.domain.ReceiveActivity("@Guid.NewGuid()"),
+                    send = new bespoke.sph.domain.SendActivity("@Guid.NewGuid()"),
+                    listen = new bespoke.sph.domain.ListenActivity("@Guid.NewGuid()"),
+                    parallel = new bespoke.sph.domain.ParallelActivity("@Guid.NewGuid()"),
+                    delay = new bespoke.sph.domain.DelayActivity("@Guid.NewGuid()"),
+                    end = new bespoke.sph.domain.EndActivity("@Guid.NewGuid()");
                 
-                elements[0].Name("Screen");
-                elements[1].Name("Decision");
-                elements[2].Name("Create Record");
-                elements[3].Name("Notify");
-                elements[4].Name("Receive");
-                elements[5].Name("Send");
-                elements[6].Name("Listen");
-                elements[7].Name("Parallel");
-                elements[8].Name("Delay");
-                elements[9].Name("End");
+                screen.IsEnabled = ko.observable(true);
+                screen.Name("Screen");
+                screen.Note = "Creates a user interface activity";
+                screen.CssClass = "pull-left activity32 activity32-ScreenActivity";
+                elements.push(screen);
+                
 
-                elements[0].Note = "Creates a user interface activity";
-                elements[1].Note = "Decision branches and expression";
-                elements[2].Note = "Create a new record";
-                elements[3].Note = "Notify via email and messages";
-                elements[4].Note = "Receive a message from another system";
-                elements[5].Note = "Send a message to another system";
-                elements[6].Note = "Creates a race condition, first one wins";
-                elements[7].Note = "Concurrent running activities";
-                elements[8].Note = "Wait for a certain time";
-                elements[9].Note = "Ends the workflow";
+                expr.IsEnabled = ko.observable(true);
+                expr.Name("Expression");
+                expr.Note = "Custom expression";
+                expr.CssClass = "pull-left activity32 activity32-ExpressionActivity";
+                elements.push(expr);
 
-                elements[0].CssClass = "pull-left activity64 activity64-ScreenActivity";
-                elements[1].CssClass = "pull-left activity64 activity64-DecisionActivity";
-                elements[2].CssClass = "pull-left activity64 activity64-CreateEntityActivity";
-                elements[3].CssClass = "pull-left activity64 activity64-NotificationActivity";
-                elements[4].CssClass = "pull-left activity64 activity64-ReceiveActivity";
-                elements[5].CssClass = "pull-left activity64 activity64-SendActivity";
-                elements[6].CssClass = "pull-left activity64 activity64-ListenActivity";
-                elements[7].CssClass = "pull-left activity64 activity64-ParallelActivity";
-                elements[8].CssClass = "pull-left activity64 activity64-DelayActivity";
-                elements[9].CssClass = "pull-left activity64 activity64-EndActivity";
+                decision.IsEnabled = ko.observable(true);
+                decision.Name("Decision");
+                decision.Note = "Decision branches and expression";
+                decision.CssClass = "pull-left activity32 activity32-DecisionActivity";
+                elements.push(decision);
+
+                ce.IsEnabled = ko.observable(true);
+                ce.Name("Create Record");
+                ce.Note = "Create a new record";
+                ce.CssClass = "pull-left activity32 activity32-CreateEntityActivity";
+                elements.push(ce);
+                
+
+                ue.IsEnabled = ko.observable(true);
+                ue.Name("Update Record");
+                ue.Note = "Update a record";
+                ue.CssClass = "pull-left activity32 activity32-UpdateEntityActivity";
+                elements.push(ue);
+                
+
+                de.IsEnabled = ko.observable(true);
+                de.Name("Delete Record");
+                de.Note = "Delete a record";
+                de.CssClass = "pull-left activity32 activity32-DeleteEntityActivity";
+                elements.push(de);
+                
+                notification.IsEnabled = ko.observable(true);
+                notification.Name("Notify");
+                notification.Note = "Notify via email and messages";
+                notification.CssClass = "pull-left activity32 activity32-NotificationActivity";
+                elements.push(notification);
+                
+                receive.IsEnabled = ko.observable(false);
+                receive.Name("Receive");
+                receive.Note = "Receive a message from another system";
+                receive.CssClass = "pull-left activity32 activity32-ReceiveActivity";
+                elements.push(receive);
+                
+                send.IsEnabled = ko.observable(false);
+                send.Name("Send");
+                send.Note = "Send a message to another system";
+                send.CssClass = "pull-left activity32 activity32-SendActivity";
+                elements.push(send);
+                
+                listen.IsEnabled = ko.observable(false);
+                listen.Name("Listen");
+                listen.Note = "Creates a race condition, first one wins";
+                listen.CssClass = "pull-left activity32 activity32-ListenActivity";
+                elements.push(listen);
+                
+                parallel.IsEnabled = ko.observable(false);
+                parallel.Name("Parallel");
+                parallel.Note = "Concurrent running activities";
+                parallel.CssClass = "pull-left activity32 activity32-ParallelActivity";
+                elements.push(parallel);
+                
+                
+                delay.Name("Delay");
+                delay.IsEnabled = ko.observable(false);
+                delay.Note = "Wait for a certain time";
+                delay.CssClass = "pull-left activity32 activity32-DelayActivity";
+                elements.push(delay);
+                
+                end.Name("End");
+                end.IsEnabled = ko.observable(true);
+                end.Note = "Ends the workflow";
+                end.CssClass = "pull-left activity32 activity32-EndActivity";
+                elements.push(end);
 
                 vm.toolboxElements(elements);
             },

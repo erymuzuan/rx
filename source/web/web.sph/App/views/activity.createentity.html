@@ -28,6 +28,15 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="ce-retval" class="col-lg-2 control-label">Return Id Path</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: ReturnValuePath"
+                                   pattern="^[A-Za-z_][A-Za-z0-9_.]*$"
+                                   placeholder="Variable path where to store the returned id for the entity created"
+                                   class="form-control" id="ce-retval">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="ce-next" class="col-lg-2 control-label">Next</label>
                         <div class="col-lg-6">
                             <select id="ce-next" required
@@ -72,8 +81,8 @@
                         </thead>
                         <tbody data-bind="foreach :PropertyMappingCollection">
                             <tr>
-                                <td><input type="text" data-bind="value:Source" /></td>
-                                <td><input type="text" data-bind="value:Destination" /></td>
+                                <td><input type="text" required pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value:Source, uniqueName:true" class="form-control" /></td>
+                                <td><input type="text" required pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value:Destination, uniqueName:true" class="form-control" /></td>
                                 <td>
                                     <!-- ko if : $data.hasOwnProperty("Functoid") -->
                                         <input type="text" data-bind="value:Functoid" />

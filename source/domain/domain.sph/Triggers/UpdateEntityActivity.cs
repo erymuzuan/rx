@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class CreateEntityActivity : Activity
+    public partial class UpdateEntityActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
@@ -36,8 +36,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("      {");
             code.AppendLine("          session.Attach(item);");
             code.AppendLine("          await session.SubmitChanges();");
-            if (!string.IsNullOrWhiteSpace(this.ReturnValuePath))
-                code.AppendLinf("          this.{0} = item.{1}Id;", this.ReturnValuePath, this.EntityType);
+
             code.AppendLine("      }");
             // set the next activity
             code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);/* webid*/
