@@ -27,6 +27,7 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(MaintenanceOfficerElement))]
     [XmlInclude(typeof(BuildingBlocksElement))]
     [XmlInclude(typeof(SpaceFeaturesElement))]
+    [XmlInclude(typeof(FileUploadElement))]
     public partial class FormElement : DomainObject
     {
         public virtual CustomField GenerateCustomField()
@@ -82,6 +83,10 @@ namespace Bespoke.Sph.Domain
                 return string.Format("col-lg-{0}", this.InputColumnSpan);
             }
         }
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public virtual bool IsPathIsRequired { get { return true; } }
 
 
         public virtual string GenerateMarkup()

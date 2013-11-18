@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Web.Caching;
 using System.Web.Hosting;
 using Bespoke.Sph.Domain;
@@ -9,7 +10,7 @@ namespace Bespoke.Sph.Web.WorkflowHelpers
 {
     public class WorkflowScreenActivityPathProvider : VirtualPathProvider
     {
-        private readonly Dictionary<string, Page> m_screens = new Dictionary<string, Page>(); 
+        private readonly Dictionary<string, Page> m_screens = new Dictionary<string, Page>();
 
         public override bool FileExists(string virtualPath)
         {
@@ -21,13 +22,40 @@ namespace Bespoke.Sph.Web.WorkflowHelpers
             return true;
         }
 
+        private IEntityChangedListener<Page> m_listener;
+
         public override CacheDependency GetCacheDependency(string virtualPath, IEnumerable virtualPathDependencies, DateTime utcStart)
         {
+            bool enabled;
+            if (bool.TryParse(ConfigurationManager.AppSettings["sph:EnableWorkflowGetCacheDependency"], out enabled))
+            {
+            }
+            if (!enabled && IsPathVirtual(virtualPath)) return null;
+            if (!enabled) return base.GetCacheDependency(virtualPath, virtualPathDependencies, utcStart);
+            
+            
+            if ( null == m_listener)
+            {
+                m_listener = ObjectBuilder.GetObject<IEntityChangedListener<Page>>();
+                m_listener.Run();
 
-            return IsPathVirtual(virtualPath) ? null : base.GetCacheDependency(virtualPath, virtualPathDependencies, utcStart);
+            }
+
+            var cache = new WorklowPageCacheDependency(virtualPath, m_listener);
+            return cache;
 
         }
 
+
+        public override string GetFileHash(String virtualPath, IEnumerable virtualPathDependencies)
+        {
+            if (IsPathVirtual(virtualPath))
+            {
+                return Guid.NewGuid().ToString();
+            }
+
+            return Previous.GetFileHash(virtualPath, virtualPathDependencies);
+        }
         private bool IsPathVirtual(string virtualPath)
         {
             if (string.IsNullOrWhiteSpace(virtualPath)) return false;
@@ -37,6 +65,8 @@ namespace Bespoke.Sph.Web.WorkflowHelpers
 
         public override VirtualFile GetFile(string virtualPath)
         {
+            if (!IsPathVirtual(virtualPath)) return base.GetFile(virtualPath);
+
             var vp = virtualPath;
             if (!virtualPath.StartsWith("~"))
                 vp = "~" + virtualPath;
@@ -56,12 +86,12 @@ namespace Bespoke.Sph.Web.WorkflowHelpers
                 vp = "~" + virtualPath;
 
             if (m_screens.ContainsKey(virtualPath)) return m_screens[vp];
-            
+
             var context = new SphDataContext();
             var page = context.LoadOne<Page>(p => p.VirtualPath == vp);
             if (null != page)
             {
-                m_screens.Add(virtualPath,page);
+                m_screens.Add(virtualPath, page);
                 return page;
 
             }

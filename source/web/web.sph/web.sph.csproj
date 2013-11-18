@@ -279,6 +279,7 @@
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\EditorController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\SpaceController.cs" />
     <Compile Include="Controllers\ComplaintController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
@@ -301,6 +302,11 @@
     <Compile Include="Controllers\WorkflowDefinitionController.cs" />
     <Compile Include="Controllers\WorkflowController.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\CreateMapModel.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
@@ -330,11 +336,9 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Dependencies\AspNetDirectoryService.cs" />
     <Compile Include="Dependencies\DummyChangeListener.cs" />
     <Compile Include="Dependencies\DummyChangeTracker.cs" />
     <Compile Include="Dependencies\DummySearchProvider.cs" />
-    <Compile Include="Dependencies\EmailService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -356,6 +360,7 @@
     <Compile Include="ViewModels\WorkflowDefinitionVisualViewModel.cs" />
     <Compile Include="WorkflowHelpers\ScreenActivityVirtualFile.cs" />
     <Compile Include="WorkflowHelpers\WorkflowScreenActivityPathProvider.cs" />
+    <Compile Include="WorkflowHelpers\WorklowPageCacheDependency.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\async.js" />
@@ -382,6 +387,7 @@
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
+    <Content Include="App\partial\UpdateEntityActivity.js" />
     <Content Include="App\partial\CreateEntityActivity.js" />
     <Content Include="App\partial\WorkflowDesigner.js" />
     <Content Include="App\partial\DecisionActivity.js" />
@@ -397,7 +403,6 @@
     <Content Include="App\partial\SetterActionChild.js" />
     <Content Include="App\partial\SetterAction.js" />
     <Content Include="App\partial\BuildingTemplate.js" />
-    <Content Include="App\partial\trigger.workflow.g.js" />
     <Content Include="App\partial\WorkflowDefinition.js" />
     <Content Include="App\partial\Trigger.js" />
     <Content Include="App\partial\Rule.js" />
@@ -418,6 +423,7 @@
     <Content Include="App\schemas\report.builder.g.js" />
     <Content Include="App\schemas\sph.domain.g.js" />
     <Content Include="App\schemas\trigger.workflow.g.js" />
+    <Content Include="App\services\app.js" />
     <Content Include="App\services\cultures.my.js" />
     <Content Include="App\services\datacontext.js" />
     <Content Include="App\partial\Deposit.js" />
@@ -440,9 +446,13 @@
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\action.email.js" />
     <Content Include="App\viewmodels\action.setter.js" />
+    <Content Include="App\viewmodels\activity.updateentity.js" />
+    <Content Include="App\viewmodels\activity.deleteentity.js" />
     <Content Include="App\viewmodels\activity.createentity.js" />
+    <Content Include="App\viewmodels\activity.delay.js" />
     <Content Include="App\viewmodels\activity.end.js" />
     <Content Include="App\viewmodels\activity.decision.js" />
+    <Content Include="App\viewmodels\activity.expression.js" />
     <Content Include="App\viewmodels\activity.notification.js" />
     <Content Include="App\viewmodels\application.template.list.js" />
     <Content Include="App\viewmodels\block.floormap.dialog.js" />
@@ -451,6 +461,8 @@
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
     <Content Include="App\viewmodels\field.assembly.js" />
+    <Content Include="App\viewmodels\page.list.js" />
+    <Content Include="App\viewmodels\test.wf.dialog.js" />
     <Content Include="App\viewmodels\variable.complex.js" />
     <Content Include="App\viewmodels\variable.simple.js" />
     <Content Include="App\viewmodels\field.constant.js" />
@@ -462,8 +474,8 @@
     <Content Include="App\viewmodels\public.check.application.js" />
     <Content Include="App\viewmodels\rentalapplication.onbehalf.js" />
     <Content Include="App\viewmodels\space.detailpublic.js" />
-    <Content Include="App\viewmodels\workflow.definition.detail.js" />
     <Content Include="App\viewmodels\workflow.definition.list.js" />
+    <Content Include="App\viewmodels\workflow.definition.visual.js" />
     <Content Include="App\viewmodels\_contract.facility.js" />
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.list.js" />
@@ -506,9 +518,13 @@
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\action.email.html" />
     <Content Include="App\views\action.setter.html" />
+    <Content Include="App\views\activity.deleteentity.html" />
+    <Content Include="App\views\activity.updateentity.html" />
     <Content Include="App\views\activity.createentity.html" />
+    <Content Include="App\views\activity.delay.html" />
     <Content Include="App\views\activity.end.html" />
     <Content Include="App\views\activity.decision.html" />
+    <Content Include="App\views\activity.expression.html" />
     <Content Include="App\views\activity.notification.html" />
     <Content Include="App\views\application.template.list.html" />
     <Content Include="App\views\block.dialog.html" />
@@ -519,6 +535,8 @@
     <Content Include="App\views\chats.html" />
     <Content Include="App\views\error.message.html" />
     <Content Include="App\views\field.assembly.html" />
+    <Content Include="App\views\page.list.html" />
+    <Content Include="App\views\test.wf.dialog.html" />
     <Content Include="App\views\variable.complex.html" />
     <Content Include="App\views\variable.simple.html" />
     <Content Include="App\views\field.function.html" />
@@ -528,8 +546,8 @@
     <Content Include="App\views\maintenance.officer.dashboard.html" />
     <Content Include="App\views\public.check.application.html" />
     <Content Include="App\views\rentalapplication.onbehalf.html" />
-    <Content Include="App\views\workflow.definition.detail.html" />
     <Content Include="App\views\workflow.definition.list.html" />
+    <Content Include="App\views\workflow.definition.visual.html" />
     <Content Include="App\views\_contract.facility.html" />
     <Content Include="App\views\space.template.form.html" />
     <Content Include="App\views\space.template.list.html" />
@@ -696,6 +714,16 @@
     <Content Include="Content\img\team4.jpg" />
     <Content Include="Content\jsplumb\demo-all.css" />
     <Content Include="Content\jsplumb\demo.css" />
+    <Content Include="Content\jsplumb\jsplumb.css">
+      <DependentUpon>jsplumb.css.bundle</DependentUpon>
+    </Content>
+    <Content Include="Content\jsplumb\jsplumb.min.css">
+      <DependentUpon>jsplumb.css.bundle</DependentUpon>
+    </Content>
+    <Content Include="Content\jsplumb\sph.wf.32.css" />
+    <Content Include="Content\jsplumb\sph.wf.32.png" />
+    <Content Include="Content\jsplumb\sph.wf.64.css" />
+    <Content Include="Content\jsplumb\sph.wf.64.png" />
     <Content Include="Content\qunit-1.12.0.css" />
     <Content Include="Content\theme.default\complaint.css">
       <DependentUpon>complaint.less</DependentUpon>
@@ -840,8 +868,12 @@
     <Content Include="Images\box-2-white.png" />
     <Content Include="Images\box-3-white.png" />
     <Content Include="Images\building_icon.png" />
+    <Content Include="Images\ComplexVariable.png" />
     <Content Include="Images\constantfield.png" />
     <Content Include="Images\courts.png" />
+    <Content Include="Images\CreateEntityActivity.png" />
+    <Content Include="Images\dashboard-Dalam Proses.png" />
+    <Content Include="Images\dashboard-ditutup.png" />
     <Content Include="Images\dashboard-new.png" />
     <Content Include="Images\dashboard-pemeriksaan.png" />
     <Content Include="Images\dashboard-penyenggaraan.png" />
@@ -852,6 +884,8 @@
     <Content Include="Images\edit_icon.png" />
     <Content Include="Images\EmailAction.png" />
     <Content Include="Images\EndActivity.png" />
+    <Content Include="Images\no-image2.png" />
+    <Content Include="Images\NotificationActivity.png" />
     <Content Include="Images\propertychanged.png" />
     <Content Include="Images\functionfield.png" />
     <Content Include="Images\gelanggang.png" />
@@ -878,9 +912,12 @@
     <Content Include="Images\report-layout.2.png" />
     <Content Include="Images\rumah_peranginan.png" />
     <Content Include="Images\save.png" />
+    <Content Include="Images\ScreenActivity.png" />
     <Content Include="Images\search.png" />
     <Content Include="Images\SetterAction.png" />
+    <Content Include="Images\SimpleVariable.png" />
     <Content Include="Images\Slider1-edited.jpg" />
+    <Content Include="Images\star.png" />
     <Content Include="Images\up8.png" />
     <Content Include="Images\warning.png" />
     <Content Include="roles.config.js" />
@@ -1054,6 +1091,15 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Content\jsplumb\jsplumb.css.bundle">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Content\jsplumb\OpenSans.woff" />
+    <Content Include="Content\jsplumb\OpenSans-Regular.ttf" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
@@ -1075,9 +1121,13 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\jsBezier-0.6-min.js" />
-    <Content Include="Scripts\jsplumb-geom-0.1.js" />
     <Content Include="Scripts\jsPlumb\anchors.js" />
+    <Content Include="Scripts\jsPlumb\bundle.js">
+      <DependentUpon>bundle.js.bundle</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jsPlumb\bundle.min.js">
+      <DependentUpon>bundle.js.bundle</DependentUpon>
+    </Content>
     <Content Include="Scripts\jsPlumb\connection.js" />
     <Content Include="Scripts\jsPlumb\connector-editors.js" />
     <Content Include="Scripts\jsPlumb\connectors-bezier.js" />
@@ -1089,6 +1139,8 @@
     <Content Include="Scripts\jsPlumb\drag.js" />
     <Content Include="Scripts\jsPlumb\endpoint.js" />
     <Content Include="Scripts\jsPlumb\jquery.jsPlumb.js" />
+    <Content Include="Scripts\jsPlumb\jsBezier-0.6-min.js" />
+    <Content Include="Scripts\jsPlumb\jsplumb-geom-0.1.js" />
     <Content Include="Scripts\jsPlumb\jsPlumb.js" />
     <Content Include="Scripts\jsPlumb\mootools.jsPlumb.js" />
     <Content Include="Scripts\jsPlumb\overlays-guidelines.js" />
@@ -1389,6 +1441,7 @@
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_constants.js" />
     <Content Include="Scripts\_function.prototypes.js" />
+    <Content Include="Scripts\_ko.workflow.js" />
     <Content Include="Scripts\_ko.kendo.js" />
     <Content Include="Scripts\_ko.bootstrap.js" />
     <Content Include="Scripts\_references.js" />
@@ -1400,6 +1453,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
     <Folder Include="Scripts\schemas\" />
+    <Folder Include="Views\Page\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\schemas\_object.xslt">
@@ -2053,6 +2107,23 @@
     <Content Include="Views\Shared\EditorTemplates\HtmlElement.cshtml" />
     <Content Include="Views\WorkflowDefinition\_ScreenPerformer.cshtml" />
     <Content Include="Views\WorkflowDefinition\Visual.cshtml" />
+    <None Include="Scripts\jsPlumb\bundle.js.bundle" />
+    <Content Include="Scripts\jsPlumb\bundle.min.js.map">
+      <DependentUpon>bundle.js.bundle</DependentUpon>
+    </Content>
+    <Content Include="Views\WorkflowDefinition\DisplayTemplates\CustomListDefinitionElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SectionFormElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CheckBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ComboBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\CustomListDefinitionElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DatePicker.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\EmailFormElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\FormElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\NumberTextBox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\TextAreaElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Views\WorkflowDefinition\DisplayTemplates\FileUploadElement.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\FileUploadElement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

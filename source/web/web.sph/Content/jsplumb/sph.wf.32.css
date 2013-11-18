@@ -1,0 +1,18 @@
+.activity32 {
+    background-image: url("sph.wf.32.png");
+    background-repeat: no-repeat;
+    list-style: none outside none;
+}
+.activity32-ExpressionActivity{background-position:0px 0px ; width: 32px ; height: 32px; }
+.activity32-CreateEntityActivity{background-position:-42px 0px ; width: 32px ; height: 32px; }
+.activity32-NotificationActivity{background-position:-84px 0px ; width: 32px ; height: 32px; }
+.activity32-ScreenActivity{background-position:-126px 0px ; width: 32px ; height: 32px; }
+.activity32-DecisionActivity{background-position:-168px 0px ; width: 32px ; height: 32px; }
+.activity32-ListenActivity{background-position:-210px 0px ; width: 32px ; height: 32px; }
+.activity32-ParallelActivity{background-position:-252px 0px ; width: 32px ; height: 32px; }
+.activity32-EndActivity{background-position:-294px 0px ; width: 32px ; height: 32px; }
+.activity32-SendActivity{background-position:-336px 0px ; width: 32px ; height: 32px; }
+.activity32-ReceiveActivity{background-position:-378px 0px ; width: 32px ; height: 32px; }
+.activity32-DelayActivity{background-position:-420px 0px ; width: 32px ; height: 32px; }
+.activity32-UpdateEntityActivity{background-position:-462px 0px ; width: 32px ; height: 32px; }
+.activity32-DeleteEntityActivity{background-position:-504px 0px ; width: 32px ; height: 32px; }

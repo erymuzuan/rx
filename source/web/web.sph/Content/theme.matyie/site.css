@@ -13,6 +13,9 @@ a.dropdown {
 a.dropdown > span.caret {
   margin-top: 8px;
 }
+div.datepicker div {
+  margin-left: -223px;
+}
 span.k-datepicker {
   border: none;
   width: 200px;

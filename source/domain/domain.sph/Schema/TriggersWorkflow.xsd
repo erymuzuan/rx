@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by NorAzmi Shaparuddin (SPK Healthline Sdn Bhd) -->
 <xs:schema xmlns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:mstns="http://tempuri.org/TriggersWorkflow.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://tempuri.org/ReportManagerSchema.xsd" xmlns:ns2="http://tempuri.org/FormDesigner.xsd" targetNamespace="http://tempuri.org/TriggersWorkflow.xsd" elementFormDefault="qualified" id="TriggersWorkflow">
 	<xs:element name="Trigger">
 		<xs:complexType>
@@ -268,10 +268,13 @@
 					<xs:all>
 						<xs:element ref="FormDesign"/>
 						<xs:element ref="Performer"/>
+						<xs:element ref="ConfirmationOptions"/>
 					</xs:all>
 					<xs:attribute name="Title" type="xs:string" use="required"/>
 					<xs:attribute name="ViewVirtualPath" type="xs:string" use="required"/>
 					<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
+					<xs:attribute name="InvitationMessageSubject" type="xs:string" use="required"/>
+					<xs:attribute name="InvitationMessageBody" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -310,6 +313,10 @@
 			<xs:complexContent>
 				<xs:extension base="Activity">
 					<xs:attribute name="From" type="xs:string" use="required"/>
+					<xs:attribute name="Subject" type="xs:string" use="required"/>
+					<xs:attribute name="Body" type="xs:string" use="required"/>
+					<xs:attribute name="To" type="xs:string" use="required"/>
+					<xs:attribute name="UserName" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -355,6 +362,8 @@
 			<xs:attribute name="IsRazor" type="xs:boolean" use="required"/>
 			<xs:attribute name="IsPartial" type="xs:boolean" use="required"/>
 			<xs:attribute name="VirtualPath" type="xs:string" use="required"/>
+			<xs:attribute name="Tag" type="xs:string" use="required"/>
+			<xs:attribute name="Version" type="xs:int" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EndActivity">
@@ -415,6 +424,47 @@
 						</xs:element>
 					</xs:all>
 					<xs:attribute name="EntityType" type="xs:string" use="required"/>
+					<xs:attribute name="ReturnValuePath" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ExpressionActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="Expression" type="xs:string"/>
+					</xs:all>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DeleteEntityActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:attribute name="EntityType" type="xs:string" use="required"/>
+					<xs:attribute name="EntityIdPath" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UpdateEntityActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="PropertyMappingCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="PropertyMapping" type="PropertyMapping" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="EntityType" type="xs:string" use="required"/>
+					<xs:attribute name="EntityIdPath" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -426,6 +476,95 @@
 				<xs:extension base="Functoid">
 					<xs:attribute name="Expression" type="xs:string"/>
 				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ConfirmationOptions">
+		<xs:complexType>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="Value" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReceiveActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:attribute name="PortType" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SendActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:attribute name="PortType" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ListenActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="ParallelBranchCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ParallelBranch" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ParallelActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="ParallelBranchCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ParallelBranch" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DelayActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="Miliseconds" type="xs:long"/>
+						<xs:element name="Seconds" type="xs:int"/>
+						<xs:element name="Hour" type="xs:int"/>
+						<xs:element name="Days" type="xs:int"/>
+					</xs:all>
+					<xs:attribute name="Expression" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ThrowActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:attribute name="Message" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ParallelBranch">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity"/>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>

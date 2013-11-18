@@ -65,7 +65,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 $('#unit-dialog').modal();
                 $('#ok-unit-dialog-btn').one('click',function (ev) {
                     ev.preventDefault();
-                    if (ev.target.form.checkValidity()) {
+                    if (bespoke.utils.form.checkValidity(ev.target)) {
                         vm.unit().BlockNo(vm.blockNo().Name());
                         vm.unit().FloorNo(vm.floorNo().Name());
                         vm.list.push(vm.unit());
@@ -83,7 +83,7 @@ define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router
                 $('#unit-dialog').modal({});
                 $('#ok-unit-dialog-btn').one('click', function (ev) {
                     ev.preventDefault();
-                    if (ev.target.form.checkValidity()) {
+                    if (bespoke.utils.form.checkValidity(ev.target)) {
                         vm.unit().BlockNo(vm.blockNo().Name());
                         vm.unit().FloorNo(vm.floorNo().Name());
                         vm.list.push(vm.unit());

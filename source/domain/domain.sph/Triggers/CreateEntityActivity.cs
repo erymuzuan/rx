@@ -5,6 +5,10 @@ namespace Bespoke.Sph.Domain
 {
     public partial class CreateEntityActivity : Activity
     {
+        public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
+        {
+            return new BuildValidationResult { Result = true };
+        }
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
             if (string.IsNullOrWhiteSpace(this.NextActivityWebId))
@@ -13,7 +17,7 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
-            code.AppendLinf("        var item = new {0}();",this.EntityType);
+            code.AppendLinf("        var item = new {0}();", this.EntityType);
             code.AppendLinf("        var self = this.WorkflowDefinition.ActivityCollection.OfType<CreateEntityActivity>().Single(a => a.WebId == \"{0}\");", this.WebId);
 
             var count = 1;
@@ -27,12 +31,14 @@ namespace Bespoke.Sph.Domain
 
                 count++;
             }
-            code.AppendLine("           var context = new Bespoke.Sph.Domain.SphDataContext();");
-            code.AppendLine("           using (var session = context.OpenSession())");
-            code.AppendLine("           {");
-            code.AppendLine("               session.Attach(item);");
-            code.AppendLine("               await session.SubmitChanges();");
-            code.AppendLine("           }");
+            code.AppendLine("      var context = new Bespoke.Sph.Domain.SphDataContext();");
+            code.AppendLine("      using (var session = context.OpenSession())");
+            code.AppendLine("      {");
+            code.AppendLine("          session.Attach(item);");
+            code.AppendLine("          await session.SubmitChanges();");
+            if (!string.IsNullOrWhiteSpace(this.ReturnValuePath))
+                code.AppendLinf("          this.{0} = item.{1}Id;", this.ReturnValuePath, this.EntityType);
+            code.AppendLine("      }");
             // set the next activity
             code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);/* webid*/
             code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);

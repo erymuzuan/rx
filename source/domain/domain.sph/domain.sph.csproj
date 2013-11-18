@@ -91,6 +91,7 @@
     <Compile Include="Business\Space.cs" />
     <Compile Include="FormTemplates\DefaultValue.cs" />
     <Compile Include="FormTemplates\FieldValidation.cs" />
+    <Compile Include="FormTemplates\FileUploadElement.cs" />
     <Compile Include="FormTemplates\SpaceFeaturesElement.cs" />
     <Compile Include="FormTemplates\SpaceTemplate.cs" />
     <Compile Include="Business\Complaint.cs" />
@@ -163,12 +164,17 @@
     <Compile Include="Triggers\CompilerMessage.cs" />
     <Compile Include="Triggers\CompilerOptions.cs" />
     <Compile Include="Triggers\ComplexVariable.cs" />
+    <Compile Include="Triggers\ConfirmationOptions.cs" />
     <Compile Include="Triggers\CreateEntityAction.cs" />
     <Compile Include="Triggers\CreateEntityActivity.cs" />
+    <Compile Include="Triggers\CsharpCodeGenerator.cs" />
     <Compile Include="Triggers\DecisionActivity.cs" />
     <Compile Include="Triggers\DecisionBranch.cs" />
+    <Compile Include="Triggers\DelayActivity.cs" />
     <Compile Include="Triggers\DeleteEntityAction.cs" />
+    <Compile Include="Triggers\DeleteEntityActivity.cs" />
     <Compile Include="Triggers\EndActivity.cs" />
+    <Compile Include="Triggers\ExpressionActivity.cs" />
     <Compile Include="Triggers\FunctionField.cs" />
     <Compile Include="IBinaryStore.cs" />
     <Compile Include="IComputable.cs" />
@@ -253,20 +259,26 @@
     <Compile Include="Triggers\Field.cs" />
     <Compile Include="Triggers\Functoid.cs" />
     <Compile Include="Triggers\FunctoidMapping.cs" />
+    <Compile Include="Triggers\ListenActivity.cs" />
     <Compile Include="Triggers\MethodArg.cs" />
     <Compile Include="Triggers\NotificationActivity.cs" />
     <Compile Include="Triggers\Page.cs" />
+    <Compile Include="Triggers\ParallelActivity.cs" />
+    <Compile Include="Triggers\ParallelBranch.cs" />
     <Compile Include="Triggers\Performer.cs" />
     <Compile Include="Triggers\PropertyChangedField.cs" />
     <Compile Include="Triggers\PropertyMapping.cs" />
+    <Compile Include="Triggers\ReceiveActivity.cs" />
     <Compile Include="Triggers\Rule.cs" />
     <Compile Include="Triggers\CustomAction.cs" />
     <Compile Include="Triggers\EmailAction.cs" />
     <Compile Include="Triggers\ScreenActivity.cs" />
     <Compile Include="Triggers\ScriptFunctoid.cs" />
+    <Compile Include="Triggers\SendActivity.cs" />
     <Compile Include="Triggers\SetterAction.cs" />
     <Compile Include="Triggers\SimpleMapping.cs" />
     <Compile Include="Triggers\SimpleVariable.cs" />
+    <Compile Include="Triggers\ThrowActivity.cs" />
     <Compile Include="Triggers\Trigger.cs" />
     <Compile Include="Triggers\SetterActionChild.cs" />
     <Compile Include="Business\UserProfile.cs" />
@@ -306,6 +318,7 @@
     <Compile Include="Business\Watcher.cs" />
     <Compile Include="Business\WorkOrder.cs" />
     <Compile Include="Triggers\UpdateEntityAction.cs" />
+    <Compile Include="Triggers\UpdateEntityActivity.cs" />
     <Compile Include="Triggers\Variable.cs" />
     <Compile Include="Triggers\VariableValue.cs" />
     <Compile Include="Triggers\Workflow.cs" />
@@ -314,6 +327,12 @@
       <DependentUpon>WorkflowDefinition.cs</DependentUpon>
     </Compile>
     <Compile Include="Triggers\WorkflowDefinition.cs" />
+    <Compile Include="Triggers\WorkflowDefinition.xsd.csharp.cs">
+      <DependentUpon>WorkflowDefinition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Triggers\WorkflowDefinition.xsd.js.cs">
+      <DependentUpon>WorkflowDefinition.cs</DependentUpon>
+    </Compile>
     <Compile Include="Triggers\WorkflowDesigner.cs" />
     <Compile Include="Triggers\WorkflowInitiatorAction.cs" />
   </ItemGroup>

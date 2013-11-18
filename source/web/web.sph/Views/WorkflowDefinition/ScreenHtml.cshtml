@@ -27,13 +27,13 @@
                                     <div class="form-group">
                                         <label for="screen-vpath" class="col-lg-2 control-label">Name</label>
                                         <div class="col-lg-6">
-                                            <input required type="text" data-bind="value: Name" class="form-control" id="screen-vpath" placeholder="Name">
+                                            <input pattern="^[A-Za-z_][A-Za-z0-9_ ]*$" required type="text" data-bind="value: Name" class="form-control" id="screen-vpath" placeholder="Name">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="screen-next" class="col-lg-2 control-label">Next</label>
                                         <div class="col-lg-6">
-                                            <select id="screen-next" required
+                                            <select id="screen-next"
                                                     data-bind="value:NextActivityWebId,
                                                     uniqueName:true,
                                                     options: $root.wd().ActivityCollection,
@@ -41,13 +41,29 @@
                                                     optionsValue:'WebId',
                                                     optionsCaption:'Please select next activity'"
                                                     class="form-control"></select>
-
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3>Screen Confirmation Options</h3>
+                                <div id="form-confirmation-options" class="row" data-bind="with : ConfirmationOptions">
+                                    <div class="form-group">
+                                        <label for="confirmation-type" class="col-lg-2 control-label">Type</label>
+                                        <div class="col-lg-6">
+                                            <select class="form-control" id="confirmation-type" data-bind="value:Type">
+                                                <option value="Message">Show Message</option>
+                                                <option value="Website">Redirect To Website</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Value" class="col-lg-2 control-label">Value</label>
+                                        <div class="col-lg-9">
+                                            <textarea data-bind="value:Value" class="form-control" id="Value" placeholder="Message / Url...."></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
-                       
                     </div>
                     <div id="form-designer" class="tab-pane">
                         <div class="row">

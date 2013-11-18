@@ -1,0 +1,15 @@
+.activity64 {
+background-image: url("sph.wf.64.png");
+    background-repeat: no-repeat;   
+    list-style: none outside none;
+}	
+.activity64-CreateEntityActivity{background-position:0px 0px ; width: 64px ; height: 64px; }
+.activity64-NotificationActivity{background-position:-74px 0px ; width: 64px ; height: 64px; }
+.activity64-ScreenActivity{background-position:-148px 0px ; width: 64px ; height: 64px; }
+.activity64-DecisionActivity{background-position:-222px 0px ; width: 64px ; height: 64px; }
+.activity64-ListenActivity{background-position:-296px 0px ; width: 64px ; height: 64px; }
+.activity64-ParallelActivity{background-position:-370px 0px ; width: 64px ; height: 64px; }
+.activity64-EndActivity{background-position:-444px 0px ; width: 64px ; height: 64px; }
+.activity64-SendActivity{background-position:-518px 0px ; width: 64px ; height: 64px; }
+.activity64-ReceiveActivity{background-position:-592px 0px ; width: 64px ; height: 64px; }
+.activity64-DelayActivity{background-position:-666px 0px ; width: 64px ; height: 64px; }

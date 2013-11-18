@@ -1,7 +1,10 @@
-﻿@model dynamic
+﻿@using System.Configuration
+@model dynamic
 
 @{
     Layout = null;
+    var theme = ConfigurationManager.AppSettings["sph:AceTheme"] ?? "crimson_editor";
+    var fontSize = ConfigurationManager.AppSettings["sph:AceFontSize"] ?? "18";
 }
 
 <!DOCTYPE html>
@@ -23,7 +26,7 @@
             bottom: 60px;
             left: 0;
             right: 0;
-            font-size: 14px;
+            font-size: @(fontSize)px;
         }
     </style>
 </head>
@@ -59,29 +62,40 @@
             <div class="form-group">
                 <button id="save-button" class="btn btn-primary pull-right">SAVE</button>
             </div>
-      
+
         </form>
     </div>
 
     <script src="~/Scripts/ace/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
     <script>
-        var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/crimson_editor");
-        editor.getSession().setMode("ace/mode/csharp");
 
-        editor.setValue(field.Script());
+        $(function () {
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/@theme");
+            @{
+        var mode = this.Request.QueryString["mode"] ?? "csharp";
+    }
+            editor.getSession().setMode("ace/mode/@mode");
 
-        $('#save-button').click(function () {
-            if (window.saved)
-                window.saved(editor.getValue());
-        });
+            editor.setValue(window.code);
 
-        $('#theme').change(function () {
-            editor.setTheme("ace/theme/" + $(this).val());
-        });
-        $('#font-size').change(function () {
-            $('#editor').css("font-size", $(this).val() + "px");
+            $('#save-button').click(function () {
+
+                if (window.saved)
+                    window.saved(editor.getValue());
+            });
+
+            $('#theme').change(function () {
+                editor.setTheme("ace/theme/" + $(this).val());
+                $.post('/Editor/SaveSetting', { 'ace-theme': $(this).val() });
+            });
+            $('#font-size').change(function () {
+                $('#editor').css("font-size", $(this).val() + "px");
+                $.post('/Editor/SaveSetting', { 'ace-font-size': $(this).val() });
+            });
+
+
         });
     </script>
 

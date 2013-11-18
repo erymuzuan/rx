@@ -1,0 +1,36 @@
+﻿
+<section class="view-model-modal" id="act-expr-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Custom Expression</h3>
+            </div>
+            <div class="modal-body" data-bind="with: activity">
+
+                <form id="act-expr-dialog-form" role="form" class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="expr-name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: Name"
+                                   required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Name"
+                                   class="form-control" id="expr-name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <pre id="expr-expr" data-bind="text: Expression"></pre>
+                        <a href="#" data-bind="click: $root.edit">Edit</a>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="act-expr-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

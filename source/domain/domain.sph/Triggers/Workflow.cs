@@ -34,6 +34,11 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(new ActivityExecutionResult { Status = ActivityExecutionStatus.None });
         }
 
+        public virtual Task<ActivityExecutionResult> ExecuteAsync(string activityId)
+        {
+            return Task.FromResult(new ActivityExecutionResult { Status = ActivityExecutionStatus.None });
+        }
+
         public virtual Task<ActivityExecutionResult> ExecuteAsync()
         {
             return Task.FromResult(new ActivityExecutionResult { Status = ActivityExecutionStatus.None });

@@ -1,5 +1,5 @@
 ﻿
-/// <reference path="~/scripts/knockout-2.3.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.0.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 
@@ -612,6 +612,7 @@ bespoke.sph.domain.FieldValidation = function (webId) {
 };
 
 
+// placeholder for Performer
 
 bespoke.sph.domain.BusinessRule = function (webId) {
 
@@ -629,6 +630,22 @@ bespoke.sph.domain.BusinessRule = function (webId) {
         return _(model).extend(new bespoke.sph.domain.BusinessRulePartial(model));
     }
     return model;
+};
+
+
+// placeholder for Rule
+
+bespoke.sph.domain.FileUploadElement = function (webId) {
+
+    var v = new bespoke.sph.domain.FormElement(webId);
+
+    v.AllowedExtensions = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.FileUploadElement, domain.sph";
+
+    if (bespoke.sph.domain.FileUploadElementPartial) {
+        return _(v).extend(new bespoke.sph.domain.FileUploadElementPartial(v));
+    }
+    return v;
 };
 
 

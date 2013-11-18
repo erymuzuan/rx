@@ -1,5 +1,5 @@
 ﻿
-/// <reference path="~/scripts/knockout-2.3.0.debug.js" />
+/// <reference path="~/scripts/knockout-3.0.0.debug.js" />
 /// <reference path="~/Scripts/underscore.js" />
 /// <reference path="~/Scripts/moment.js" />
 

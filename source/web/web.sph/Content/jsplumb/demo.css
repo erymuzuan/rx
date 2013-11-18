@@ -1,5 +1,32 @@
-#demo {
-	margin-top:5em;
+.conn-label {
+    padding: 5px;
+    border: 1px solid #676767;
+    border-radius: 5px;
+    z-index: 1049;
+    background-color: white;
+    margin: 2px;
+}
+.toolbox-item {
+    margin-bottom: 5px;
+}
+.ScreenActivity {
+    background: no-repeat right top url('/images/ScreenActivity.png');
+}
+
+
+.DecisionActivity {
+    background: no-repeat right top url('/images/DecisionActivity.png');
+}
+.EndActivity {
+    background: no-repeat right top url('/images/EndActivity.png');
+}
+
+.CreateEntityActivity {
+    background: no-repeat right top url('/images/CreateEntityActivity.png');
+}
+
+.NotificationActivity {
+    background: no-repeat right top url('/images/NotificationActivity.png');
 }
 
 .w { 
@@ -9,7 +36,7 @@
 	border: 1px solid black;
 	z-index:4;
 	border-radius:1em;
-	border:1px solid #2e6f9a;
+	border:1px solid #aaa;
 	box-shadow: 2px 2px 19px #e0e0e0;
 	-o-box-shadow: 2px 2px 19px #e0e0e0;
 	-webkit-box-shadow: 2px 2px 19px #e0e0e0;
@@ -23,7 +50,9 @@
 	font-size:11px;
 	-webkit-transition:background-color 0.25s ease-in;
 	-moz-transition:background-color 0.25s ease-in;
-	transition:background-color 0.25s ease-in;	
+	transition:background-color 0.25s ease-in;
+    min-width: 120px;
+    min-height: 80px;
 }
 
 .w:hover {

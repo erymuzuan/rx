@@ -1,4 +1,5 @@
-﻿@model Bespoke.Sph.Domain.ComboBox
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Domain.ComboBox
 
 <!--ko if:$data['$type']() === "Bespoke.Sph.Domain.ComboBox, domain.sph" -->
 <div class="form-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">

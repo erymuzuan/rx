@@ -1,0 +1,47 @@
+﻿@using System.Web.Mvc.Html
+@using Bespoke.Sph.Domain
+@model CustomListDefinitionElement
+
+
+<!--ko if:$data['$type']() === "Bespoke.Sph.Domain.CustomListDefinitionElement, domain.sph" -->
+<div data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+    @Html.Partial("_DesignerContextAction")
+    <input type="button" class="btn pull-right" data-bind="value: Label" />
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr data-bind="foreach: CustomFieldCollection">
+                <th data-bind="text: Name"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < 5; i++)
+            {
+            <tr data-bind="foreach: CustomFieldCollection">
+                <td>
+                    <!-- ko if: Type() === '@typeof(string).GetShortAssemblyQualifiedName()'-->
+                    <input class="form-control" type="text" value="sample data" />
+                    <!--/ko-->
+                    <!-- ko if: Type() === '@typeof(bool).GetShortAssemblyQualifiedName()'-->
+                    <input class="form-control" type="checkbox" value="" checked="@(i % 2 ==0? "checked": "")" />
+                    <!--/ko-->
+                    <!-- ko if: Type() === '@typeof(DateTime).GetShortAssemblyQualifiedName()'-->
+                    <div class="input-append">
+                        <input class="form-control" type="text" value="@DateTime.Today.ToShortDateString()" />
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <!--/ko-->
+                    <!-- ko if: Type() === '@typeof(int).GetShortAssemblyQualifiedName()'-->
+                    <input class="form-control" type="number" value="@i" />
+                    <!--/ko-->
+                    <!-- ko if: Type() === '@typeof(decimal).GetShortAssemblyQualifiedName()'-->
+                    <input class="form-control" type="number" value="@(i).00" />
+                    <!--/ko-->
+                </td>
+
+            </tr>
+  
+            }
+        </tbody>
+    </table>
+</div>
+<!--/ko-->

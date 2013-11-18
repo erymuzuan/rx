@@ -45,6 +45,10 @@ namespace Bespoke.Sph.Web.Api
         {
             return await ExecuteAsync<RentalApplication>(filter, page, size, includeTotal);
         }
+        public async Task<ActionResult> Page(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Page>(filter, page, size, includeTotal);
+        }
 
         public async Task<ActionResult> ReportDelivery(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
+using Bespoke.Sph.Templating;
 using Moq;
 using NUnit.Framework;
 
@@ -52,6 +54,65 @@ namespace domain.test.workflows
             ObjectBuilder.AddCacheList(ecp.Object);
 
             ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
+
+
+            var usersRepos = new Mock<IRepository<UserProfile>>(MockBehavior.Strict);
+            usersRepos.Setup(x => x.LoadOneAsync(It.IsAny<IQueryable<UserProfile>>()))
+                .Returns(Task.FromResult(new UserProfile{ Username = "admin", Email = "admin@bespoke.com.my"}));
+            ObjectBuilder.AddCacheList(usersRepos.Object);
+            ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
+
+            var email = new Mock<INotificationService>(MockBehavior.Strict);
+            email.Setup(x => x.SendMessageAsync(It.IsAny<Message>(), It.IsAny<string>()))
+                .Returns(Task.Delay(500))
+                .Callback<Message,string>((m, e) => Console.WriteLine("sending email to {0} body is {2}-{1}",e,m.Body, m.Subject));
+            ObjectBuilder.AddCacheList(email.Object);
+
+        }
+
+
+        [Test]
+        public void BuildValidation()
+        {
+            var wd = new WorkflowDefinition {Name = "3 Is Three"};
+            var screen = new ScreenActivity {Name = "Pohon", IsInitiator = true};
+            screen.FormDesign.FormElementCollection.Add(new TextBox{Label = "Nama", Path = string.Empty});
+            wd.ActivityCollection.Add(screen);
+
+
+            var result = wd.ValidateBuild();
+            Assert.IsFalse(result.Result);
+            Assert.AreEqual(2, result.Errors.Count);
+            Assert.AreEqual("Name not valid identifier", result.Errors[0]);
+            Assert.AreEqual("TextBox \"Nama\" does not have valid path", result.Errors[2]);
+
+        }
+
+        [Test]
+        public void InitiateAsyncMessage()
+        {
+            var wf = new Workflow {WorkflowDefinitionId = 10, Version = 25,WebId = "A",WorkflowId = 35};
+            var screen = new ScreenActivity
+            {
+                Name = "Approve User", WebId = "B",NextActivityWebId = "C",
+                Performer = new Performer
+                {
+                    UserProperty = "Username",
+                    Value = "admin"
+                }
+            };
+            screen.InitiateAsync(wf).ContinueWith(_ =>
+            {
+                var exc = _.Exception;
+                if (null != exc)
+                {
+                    foreach (var e in exc.InnerExceptions)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+                Console.WriteLine(exc);
+            }).Wait();
         }
 
         [Test]
@@ -59,6 +120,7 @@ namespace domain.test.workflows
         {
             var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = "schema-storeid" };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
+            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "email", Type = typeof(string) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
 
@@ -99,15 +161,31 @@ namespace domain.test.workflows
             {
                 Name = "all else",
                 Expression = "item.pemohon.Age >= 50",
-                NextActivityWebId = "_C_Above50",
+                NextActivityWebId = "_EMAIL_",
                 IsDefault = true
             });
+
             wd.ActivityCollection.Add(decide);
+
+            var email = new NotificationActivity
+            {
+                From = "erymuzuan@gmail.com",
+                To = "=@Model.email",
+                Subject = "=Ada permohonan baru @Model.Title",
+                Body = "Permohonan baru di @Model.Title oleh @Model.pemohon.MyKad",
+                WebId = "_EMAIL_",
+                NextActivityWebId = "_C_",
+                UserName = "admin"
+
+            };
+            wd.ActivityCollection.Add(email);
+
 
             var approval = new ScreenActivity
             {
                 Title = "Kelulusan",
                 WebId = "_C_",
+                Name = "Kelulusan",
                 NextActivityWebId = "_D_",
                 ViewVirtualPath = "d"
             };

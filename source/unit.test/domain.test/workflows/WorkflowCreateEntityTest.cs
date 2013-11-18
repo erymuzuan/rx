@@ -28,9 +28,10 @@ namespace domain.test.workflows
         [Test]
         public void Compile()
         {
-            
+
             var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = m_schemaStoreId };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
+            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "BuidlingId", Type = typeof(int) });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
 
@@ -39,14 +40,15 @@ namespace domain.test.workflows
                 Name = "Create Building",
                 EntityType = "Building",
                 NextActivityWebId = "B",
-                IsInitiator = false
+                IsInitiator = false,
+                ReturnValuePath = "BuildingId",
+                WebId = "A"
             };
-            create.PropertyMappingCollection.Add(new SimpleMapping{Source = "Title",Destination = "TemplateName"});
-            create.PropertyMappingCollection.Add(new SimpleMapping{Source = "pemohon.Name",Destination = "Name"});
+            create.PropertyMappingCollection.Add(new SimpleMapping { Source = "Title", Destination = "TemplateName" });
+            create.PropertyMappingCollection.Add(new SimpleMapping { Source = "pemohon.Name", Destination = "Name" });
             wd.ActivityCollection.Add(create);
 
-           var code = create.GeneratedExecutionMethodCode(wd);
-
+            var code = create.GeneratedExecutionMethodCode(wd);
             Console.WriteLine(code);
         }
     }

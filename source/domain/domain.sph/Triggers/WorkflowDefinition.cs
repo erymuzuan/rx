@@ -6,7 +6,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using Microsoft.CSharp;
 using Newtonsoft.Json;
@@ -37,6 +39,31 @@ namespace Bespoke.Sph.Domain
             return this.ActivityCollection.Single(p => p.IsInitiator) as ScreenActivity;
         }
 
+        public BuildValidationResult ValidateBuild()
+        {
+            var result = new BuildValidationResult();
+
+            var validName = new Regex(@"^[A-Za-z][A-Za-z0-9 -]*$");
+            if (!validName.Match(this.Name).Success)
+                result.Errors.Add(new BuildError { Message = "Name must be started with letter.You cannot use symbol or number as first character" });
+
+            foreach (var variable in this.VariableDefinitionCollection)
+            {
+                var v = variable.ValidateBuild(this);
+                result.Errors.AddRange(v.Errors);
+            }
+
+            foreach (var activity in this.ActivityCollection)
+            {
+                var a = activity.ValidateBuild(this);
+                if (null == a)continue;
+                result.Errors.AddRange(a.Errors);
+            }
+            result.Result = !result.Errors.Any();
+            return result;
+        }
+
+
         public WorkflowCompilerResult Compile(CompilerOptions options)
         {
             var code = this.GenerateCode();
@@ -65,11 +92,14 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(INotifyPropertyChanged).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Net.Mail.SmtpClient).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(XElement).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
                 foreach (var ass in options.ReferencedAssemblies)
                 {
                     parameters.ReferencedAssemblies.Add(ass.Location);
                 }
-                var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile) 
+                var result = !string.IsNullOrWhiteSpace(sourceFile) ? provider.CompileAssemblyFromFile(parameters, sourceFile)
                     : provider.CompileAssemblyFromSource(parameters, code);
                 var cr = new WorkflowCompilerResult
                 {
@@ -97,7 +127,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return this.Name.Replace(" ", string.Empty);
+                return string.Format("{0}_{1}_{2}", this.Name.Replace(" ", string.Empty), this.WorkflowDefinitionId, this.Version);
             }
         }
         [XmlIgnore]
@@ -110,5 +140,22 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+    }
+
+    public class BuildValidationResult
+    {
+        public bool Result { get; set; }
+        private readonly ObjectCollection<BuildError> m_errors = new ObjectCollection<BuildError>();
+
+        public ObjectCollection<BuildError> Errors
+        {
+            get { return m_errors; }
+        }
+        // prop
+    }
+
+    public class BuildError
+    {
+        public string Message { get; set; }
     }
 }
