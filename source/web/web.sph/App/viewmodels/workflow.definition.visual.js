@@ -32,13 +32,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     parallel = new bespoke.sph.domain.ParallelActivity("@Guid.NewGuid()"),
                     delay = new bespoke.sph.domain.DelayActivity("@Guid.NewGuid()"),
                     end = new bespoke.sph.domain.EndActivity("@Guid.NewGuid()");
-                
+
                 screen.IsEnabled = ko.observable(true);
                 screen.Name("Screen");
                 screen.Note = "Creates a user interface activity";
                 screen.CssClass = "pull-left activity32 activity32-ScreenActivity";
                 elements.push(screen);
-                
+
 
                 expr.IsEnabled = ko.observable(true);
                 expr.Name("Expression");
@@ -57,58 +57,58 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 ce.Note = "Create a new record";
                 ce.CssClass = "pull-left activity32 activity32-CreateEntityActivity";
                 elements.push(ce);
-                
+
 
                 ue.IsEnabled = ko.observable(true);
                 ue.Name("Update Record");
                 ue.Note = "Update a record";
                 ue.CssClass = "pull-left activity32 activity32-UpdateEntityActivity";
                 elements.push(ue);
-                
+
 
                 de.IsEnabled = ko.observable(true);
                 de.Name("Delete Record");
                 de.Note = "Delete a record";
                 de.CssClass = "pull-left activity32 activity32-DeleteEntityActivity";
                 elements.push(de);
-                
+
                 notification.IsEnabled = ko.observable(true);
                 notification.Name("Notify");
                 notification.Note = "Notify via email and messages";
                 notification.CssClass = "pull-left activity32 activity32-NotificationActivity";
                 elements.push(notification);
-                
+
                 receive.IsEnabled = ko.observable(false);
                 receive.Name("Receive");
                 receive.Note = "Receive a message from another system";
                 receive.CssClass = "pull-left activity32 activity32-ReceiveActivity";
                 elements.push(receive);
-                
+
                 send.IsEnabled = ko.observable(false);
                 send.Name("Send");
                 send.Note = "Send a message to another system";
                 send.CssClass = "pull-left activity32 activity32-SendActivity";
                 elements.push(send);
-                
+
                 listen.IsEnabled = ko.observable(false);
                 listen.Name("Listen");
                 listen.Note = "Creates a race condition, first one wins";
                 listen.CssClass = "pull-left activity32 activity32-ListenActivity";
                 elements.push(listen);
-                
+
                 parallel.IsEnabled = ko.observable(false);
                 parallel.Name("Parallel");
                 parallel.Note = "Concurrent running activities";
                 parallel.CssClass = "pull-left activity32 activity32-ParallelActivity";
                 elements.push(parallel);
-                
-                
+
+
                 delay.Name("Delay");
                 delay.IsEnabled = ko.observable(true);
                 delay.Note = "Wait for a certain time";
                 delay.CssClass = "pull-left activity32 activity32-DelayActivity";
                 elements.push(delay);
-                
+
                 end.Name("End");
                 end.IsEnabled = ko.observable(true);
                 end.Note = "Ends the workflow";
@@ -157,16 +157,16 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             },
             isJsPlumbReady = false,
             connectorPaintStyle = {
-                lineWidth: 4,
+                lineWidth: 2,
                 strokeStyle: "#808080",
                 joinstyle: "round",
                 outlineColor: "#eaedef",
-                outlineWidth: 2
+                outlineWidth: 1
             },
             connectorHoverStyle = {
-                lineWidth: 4,
+                lineWidth: 2,
                 strokeStyle: "#5C96BC",
-                outlineWidth: 2,
+                outlineWidth: 1,
                 outlineColor: "white"
             },
             endpointHoverStyle = { fillStyle: "#5C96BC" },
@@ -179,7 +179,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     lineWidth: 2
                 },
                 isSource: true,
-                connector: ["Flowchart", { stub: [40, 60], gap: 10, cornerRadius: 5, alwaysRespectStubs: true }],
+                connector: ["Flowchart", { stub: [10, 15], gap: 10, cornerRadius: 5, alwaysRespectStubs: true }],
                 connectorStyle: connectorPaintStyle,
                 hoverPaintStyle: endpointHoverStyle,
                 connectorHoverStyle: connectorHoverStyle,
@@ -259,20 +259,22 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             },
             createConnection = function (source, target, label) {
 
-                var connection = jsPlumb.connect({
+                var option = {
                     uuids: [source + "Source", target + "Target"],
-                    editable: true,
-                    overlays: [
+                    editable: true
+                };
+                if (label)
+                    option.overlays = [
                         [
                             "Label", {
                                 cssClass: "l1 component conn-label",
-                                label: label || '',
+                                label: label,
                                 location: 0.2,
                                 id: target + '-label'
                             }
                         ]
-                    ]
-                });
+                    ];
+                var connection = jsPlumb.connect(option);
                 connection.setParameter({ label: label });
 
 
