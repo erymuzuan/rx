@@ -1,6 +1,6 @@
 ﻿namespace Bespoke.Sph.Domain
 {
-    public partial class WorkflowInitiatorAction : CustomAction
+    public partial class StartWorkflowAction : CustomAction
     {
     }
 }

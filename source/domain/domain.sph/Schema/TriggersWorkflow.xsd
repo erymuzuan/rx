@@ -203,10 +203,16 @@
 			<xs:attribute name="TypeName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="DeleteEntityAction" type="CustomAction"/>
-	<xs:element name="CreateEntityAction" type="CustomAction"/>
-	<xs:element name="UpdateEntityAction" type="CustomAction"/>
-	<xs:element name="WorkflowInitiatorAction" type="CustomAction"/>
+	<xs:element name="StartWorkflowAction">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="CustomAction">
+					<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
+					<xs:attribute name="Name" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="AssemblyAction" type="CustomAction"/>
 	<xs:element name="WorkflowDefinition">
 		<xs:complexType>

@@ -1111,6 +1111,50 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    [XmlType("StartWorkflowAction", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class StartWorkflowAction
+    {
+
+        private int m_WorkflowDefinitionId;
+        [XmlAttribute]
+        public int WorkflowDefinitionId
+        {
+            get
+            {
+                return m_WorkflowDefinitionId;
+            }
+            set
+            {
+                m_WorkflowDefinitionId = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Name;
+        [XmlAttribute]
+        public string Name
+        {
+            get
+            {
+                return m_Name;
+            }
+            set
+            {
+                m_Name = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     [XmlType("WorkflowDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class WorkflowDefinition
     {

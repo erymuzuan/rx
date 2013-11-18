@@ -259,6 +259,7 @@
     <Compile Include="Triggers\Field.cs" />
     <Compile Include="Triggers\Functoid.cs" />
     <Compile Include="Triggers\FunctoidMapping.cs" />
+    <Compile Include="Triggers\ITaskScheduler.cs" />
     <Compile Include="Triggers\ListenActivity.cs" />
     <Compile Include="Triggers\MethodArg.cs" />
     <Compile Include="Triggers\NotificationActivity.cs" />
@@ -272,6 +273,7 @@
     <Compile Include="Triggers\Rule.cs" />
     <Compile Include="Triggers\CustomAction.cs" />
     <Compile Include="Triggers\EmailAction.cs" />
+    <Compile Include="Triggers\ScheduledActivityExecution.cs" />
     <Compile Include="Triggers\ScreenActivity.cs" />
     <Compile Include="Triggers\ScriptFunctoid.cs" />
     <Compile Include="Triggers\SendActivity.cs" />

@@ -58,14 +58,14 @@ namespace domain.test.workflows
 
             var usersRepos = new Mock<IRepository<UserProfile>>(MockBehavior.Strict);
             usersRepos.Setup(x => x.LoadOneAsync(It.IsAny<IQueryable<UserProfile>>()))
-                .Returns(Task.FromResult(new UserProfile{ Username = "admin", Email = "admin@bespoke.com.my"}));
+                .Returns(Task.FromResult(new UserProfile { Username = "admin", Email = "admin@bespoke.com.my" }));
             ObjectBuilder.AddCacheList(usersRepos.Object);
             ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
 
             var email = new Mock<INotificationService>(MockBehavior.Strict);
             email.Setup(x => x.SendMessageAsync(It.IsAny<Message>(), It.IsAny<string>()))
                 .Returns(Task.Delay(500))
-                .Callback<Message,string>((m, e) => Console.WriteLine("sending email to {0} body is {2}-{1}",e,m.Body, m.Subject));
+                .Callback<Message, string>((m, e) => Console.WriteLine("sending email to {0} body is {2}-{1}", e, m.Body, m.Subject));
             ObjectBuilder.AddCacheList(email.Object);
 
         }
@@ -74,9 +74,9 @@ namespace domain.test.workflows
         [Test]
         public void BuildValidation()
         {
-            var wd = new WorkflowDefinition {Name = "3 Is Three"};
-            var screen = new ScreenActivity {Name = "Pohon", IsInitiator = true};
-            screen.FormDesign.FormElementCollection.Add(new TextBox{Label = "Nama", Path = string.Empty});
+            var wd = new WorkflowDefinition { Name = "3 Is Three" };
+            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true };
+            screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = string.Empty });
             wd.ActivityCollection.Add(screen);
 
 
@@ -91,10 +91,12 @@ namespace domain.test.workflows
         [Test]
         public void InitiateAsyncMessage()
         {
-            var wf = new Workflow {WorkflowDefinitionId = 10, Version = 25,WebId = "A",WorkflowId = 35};
+            var wf = new Workflow { WorkflowDefinitionId = 10, Version = 25, WebId = "A", WorkflowId = 35 };
             var screen = new ScreenActivity
             {
-                Name = "Approve User", WebId = "B",NextActivityWebId = "C",
+                Name = "Approve User",
+                WebId = "B",
+                NextActivityWebId = "C",
                 Performer = new Performer
                 {
                     UserProperty = "Username",
@@ -186,15 +188,20 @@ namespace domain.test.workflows
                 Title = "Kelulusan",
                 WebId = "_C_",
                 Name = "Kelulusan",
-                NextActivityWebId = "_D_",
+                NextActivityWebId = "_WA_",
                 ViewVirtualPath = "d"
             };
             wd.ActivityCollection.Add(approval);
+
+            wd.ActivityCollection.Add(new DelayActivity { Name = "Wait a second", Seconds = 1 , WebId = "_WA_", NextActivityWebId = "_D_"});
+
             wd.ActivityCollection.Add(new EndActivity { WebId = "_D_" });
 
-            var land = new CreateEntityActivity {Name = "Create Building", EntityType ="Building", NextActivityWebId = "_D_", WebId = "CREATE_BUILDING"};
-            land.PropertyMappingCollection.Add(new SimpleMapping{ Source = "Title", Destination = "Name" });
+            var land = new CreateEntityActivity { Name = "Create Building", EntityType = "Building", NextActivityWebId = "_D_", WebId = "CREATE_BUILDING" };
+            land.PropertyMappingCollection.Add(new SimpleMapping { Source = "Title", Destination = "Name" });
             wd.ActivityCollection.Add(land);
+
+
 
             m_store.Setup(x => x.GetContent("wd-storeid"))
                 .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), StoreId = "wd-storeid" });
