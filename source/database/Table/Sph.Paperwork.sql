@@ -1,0 +1,20 @@
+USE [Sph]
+GO
+IF OBJECT_ID('Sph.Paperwork', 'U') IS NOT NULL
+  DROP TABLE Sph.Paperwork
+GO
+
+CREATE TABLE Sph.Paperwork
+(
+	 [PaperworkId] INT PRIMARY KEY IDENTITY(1,1)	
+	,[StaffId] VARCHAR(255) NULL
+	,[StaffName] VARCHAR(255) NULL
+	,[Department] VARCHAR(255) NULL
+	,[Category] VARCHAR(255) NULL	
+	,[Data] XML NOT NULL
+	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
+	,[CreatedBy] VARCHAR(255) NULL
+	,[ChangedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
+	,[ChangedBy] VARCHAR(255) NULL
+)
+GO 
