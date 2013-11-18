@@ -441,7 +441,14 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 });
             },
             exportWd = function () {
-                return eximp.exportJson("workflow.definition." + wd().WorkflowDefinitionId() + ".json", ko.mapping.toJSON(wd));
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(wd);
+                context.post(data, "/WorkflowDefinition/Export")
+                    .then(function(result) {
+                        tcs.resolve(result);
+                        window.location = result.url;
+                    });
+                return tcs.promise();
 
             },
             itemAdded = function (element) {
