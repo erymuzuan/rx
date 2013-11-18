@@ -1,6 +1,6 @@
 ﻿<section>
     <h3>Maklumat Penyewa</h3>
-    <div class="tabbable">
+    <div class="tab-content">
         <ul class="nav nav-tabs">
             <li class="active">
                 <a href="#general-tab" data-toggle="tab">AM</a>
@@ -25,37 +25,37 @@
         <div class="tab-content">
             <div id="general-tab" class="tab-pane active">
                 <form class="form-horizontal">
-                    <div class="control-group">
-                        <span class="control-label">Nama : </span>
+                    <div class="form-group">
+                        <span class="k-label">Nama : </span>
                         <span data-bind="text: tenant().Name" id="tenant.Name" />
                     </div>
-                    <div class="control-group">
-                        <span class="control-label">Id / SSM No : </span>
+                    <div class="form-group">
+                        <span class="k-label">Id / SSM No : </span>
                         <span data-bind="text: tenant().IdSsmNo" id="tenant().IdSssmNo" />
                     </div>
-                     <div class="control-group">
-                        <span class="control-label">Bisnes : </span>
+                    <div class="form-group">
+                        <span class="k-label">Bisnes : </span>
                         <span data-bind="text: tenant().BussinessType" id="tenant.BussinessType" />
                     </div>
-                    <div class="control-group">
-                        <span class="control-label">No. Telefon : </span>
+                    <div class="form-group">
+                        <span class="k-label">No. Telefon : </span>
                         <span data-bind="text: tenant().PhoneNo" id="tenant().PhoneNo" />
                     </div>
-                    <div class="control-group">
-                        <span class="control-label">No. Telefon Bimbit : </span>
+                    <div class="form-group">
+                        <span class="k-label">No. Telefon Bimbit : </span>
                         <span data-bind="text: tenant().MobilePhoneNo" id="tenant().MobilePhoneNo" />
                     </div>
-                    <div class="control-group">
-                        <span class="control-label">No. Faks : </span>
+                    <div class="form-group">
+                        <span class="k-label">No. Faks : </span>
                         <span data-bind="text: tenant().FaksNo" id="tenant().FaksNo" />
                     </div>
-                    <div class="control-group">
-                        <span class="control-label">Emel : </span>
+                    <div class="form-group">
+                        <span class="k-label">Emel : </span>
                         <span data-bind="text: tenant().Email" id="tenant().Email" />
                     </div>
                     <section data-bind="with: tenant().Address">
-                        <div>
-                            <span>Alamat : </span>
+                        <div class="form-group">
+                            <span class="k-label">Alamat : </span>
                             <span data-bind="text : Street"></span>, 
                             <span data-bind="text : City"></span>,
                             <span data-bind="text : Postcode"></span>,
