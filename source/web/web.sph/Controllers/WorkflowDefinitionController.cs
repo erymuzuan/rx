@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using Bespoke.Sph.Domain;
@@ -32,33 +31,45 @@ namespace Bespoke.Sph.Web.Controllers
 
         public async Task<ActionResult> Export()
         {
-
             var wd = this.GetRequestJson<WorkflowDefinition>();
-            var path = Directory.CreateDirectory(Path.GetTempPath() + @"/wd" + wd.WorkflowDefinitionId);
-            var zip = path.FullName + ".zip";
+            var path = Path.GetTempPath() + @"/wd" + wd.WorkflowDefinitionId;
+            if (Directory.Exists(path)) Directory.Delete(path, true);
+            Directory.CreateDirectory(path);
+            var zip = path + ".zip";
             var context = new SphDataContext();
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
 
             var schema = await store.GetContentAsync(wd.SchemaStoreId);
-            System.IO.File.WriteAllBytes(Path.Combine(path.FullName, wd.SchemaStoreId + ".xml"), schema.Content);
-            System.IO.File.WriteAllBytes(Path.Combine(path.FullName, wd + ".json"), Encoding.UTF8.GetBytes(wd.ToJsonString()));
+            System.IO.File.WriteAllBytes(Path.Combine(path, wd.SchemaStoreId + ".xsd"), schema.Content);
+            System.IO.File.WriteAllBytes(Path.Combine(path, "wd_" + wd.WorkflowDefinitionId + ".json"), Encoding.UTF8.GetBytes(wd.ToJsonString()));
             // get the screen view
             foreach (var screen in wd.ActivityCollection.OfType<ScreenActivity>())
             {
-                ScreenActivity screen1 = screen;
+                var screen1 = screen;
                 var page =
                     await
                         context.LoadOneAsync<Page>(
                             p => p.Version == wd.Version && p.Tag == string.Format("wf_{0}_{1}", wd.WorkflowDefinitionId, screen1.WebId));
                 if (null != page)
                 {
-                    System.IO.File.WriteAllBytes(Path.Combine(path.FullName, "page." + page.PageId + ".json"), Encoding.UTF8.GetBytes(page.ToJsonString()));
+                    System.IO.File.WriteAllBytes(Path.Combine(path, "page." + page.PageId + ".json"), Encoding.UTF8.GetBytes(page.ToJsonString()));
 
                 }
             }
-            ZipFile.CreateFromDirectory(path.FullName, zip);
-            return File(System.IO.File.ReadAllBytes(zip), MimeMapping.GetMimeMapping(zip));
+            if (System.IO.File.Exists(zip))
+                System.IO.File.Delete(zip);
+            ZipFile.CreateFromDirectory(path, zip);
+            var zd = new BinaryStore
+            {
+                StoreId = Guid.NewGuid().ToString(),
+                Content = System.IO.File.ReadAllBytes(zip),
+                Extension = ".zip",
+                FileName = string.Format("wd_{0}_{1}.zip", wd.WorkflowDefinitionId, wd.Version),
+                WebId = Guid.NewGuid().ToString()
+            };
+            await store.AddAsync(zd);
+            return Json(new { success = true, status = "OK", url = this.Url.Action("Get", "BinaryStore", new { id = zd.StoreId }) });
         }
 
         public ActionResult ScreenHtml()
