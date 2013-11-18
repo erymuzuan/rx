@@ -53,8 +53,27 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       {");
             code.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.WorkflowDefinitionId, this.Version);
             code.AppendLinf("           return this.{0}();", this.GetInititorScreen().MethodName);
-
             code.AppendLine("       }");
+
+            // execute
+            code.AppendLine("       public override async Task<ActivityExecutionResult> ExecuteAsync(string activityId)");
+            code.AppendLine("       {");
+            code.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.WorkflowDefinitionId, this.Version);
+            code.AppendLine("               ActivityExecutionResult result = null;");
+            code.AppendLine("               switch(activityId)");
+            code.AppendLine("               {");
+
+            foreach (var activity in this.ActivityCollection.Where(a => a.IsAsync))
+            {
+                code.AppendLinf("                   case \"{0}\" : ", activity.WebId);
+                code.AppendLinf("                       result = await this.{0}();", activity.MethodName);
+                code.AppendLine("                       break;");
+            }
+            code.AppendLine("               }");// end switch
+            code.AppendLinf("           return result;");
+            code.AppendLine("       }");
+
+
             // execute
             code.AppendLine("       public async override Task<ActivityExecutionResult> ExecuteAsync()");
             code.AppendLine("       {");

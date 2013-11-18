@@ -104,7 +104,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 
                 
                 delay.Name("Delay");
-                delay.IsEnabled = ko.observable(false);
+                delay.IsEnabled = ko.observable(true);
                 delay.Note = "Wait for a certain time";
                 delay.CssClass = "pull-left activity32 activity32-DelayActivity";
                 elements.push(delay);
