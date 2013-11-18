@@ -1,33 +1,26 @@
-﻿<form class="form-horizontal" data-bind="with: Performer">
-    <div class="form-group">
-        <div class="col-lg-offset-2 col-lg-6">
-            <div class="checkbox">
-                <label>
-                    <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
-                    Is Public
-                </label>
-            </div>
-        </div>
+﻿<form role="form" data-bind="with: Performer">
+
+    <div class="checkbox">
+        <label>
+            <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
+            Is Public
+        </label>
     </div>
-    
+
     <div class="form-group">
-        <label for="performer-property" class="col-lg-2 control-label">User Property</label>
-        <div class="col-lg-9">
-            <select class="form-control" id="performer-property" data-bind="value:UserProperty">
-                <option value="">[Sila Pilih]</option>
-                <option value="Roles">Roles</option>
-                <option value="Username">Username</option>
-                <option value="Department">Department</option>
-                <option value="Designation">Designation</option>
-            </select>
-        </div>
+        <label for="performer-property">User Property</label>
+        <select class="form-control" id="performer-property" data-bind="value:UserProperty">
+            <option value="">[Sila Pilih]</option>
+            <option value="Roles">Roles</option>
+            <option value="Username">Username</option>
+            <option value="Department">Department</option>
+            <option value="Designation">Designation</option>
+        </select>
     </div>
-    
+
     <div class="form-group">
-        <label for="performer-value" class="col-lg-2 control-label">Value</label>
-        <div class="col-lg-9">
-            <input type="text" class="form-control" id="performer-value" data-bind="value:Value" />
-        </div>
+        <label for="performer-value">Value</label>
+        <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value" />
     </div>
-   
+
 </form>

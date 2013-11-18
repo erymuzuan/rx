@@ -886,6 +886,7 @@
     <Content Include="Images\edit_icon.png" />
     <Content Include="Images\EmailAction.png" />
     <Content Include="Images\EndActivity.png" />
+    <Content Include="Images\expression.png" />
     <Content Include="Images\no-image2.png" />
     <Content Include="Images\NotificationActivity.png" />
     <Content Include="Images\propertychanged.png" />
