@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
@@ -117,8 +118,8 @@ namespace domain.test.workflows
             }).Wait();
         }
 
-        [Test]
-        public void CompileAndRun()
+
+        private WorkflowDefinition Create()
         {
             var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = 8, SchemaStoreId = "schema-storeid" };
             wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
@@ -126,6 +127,79 @@ namespace domain.test.workflows
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
             wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
 
+            return wd;
+        }
+
+        private WorkflowCompilerResult Compile(WorkflowDefinition wd)
+        {
+            m_store.Setup(x => x.GetContent("wd-storeid"))
+               .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), StoreId = "wd-storeid" });
+
+            wd.Version = Directory.GetFiles(".", "workflows.8.*.dll").Length + 1;
+            var options = new CompilerOptions
+            {
+                IsDebug = true,
+                SourceCodeDirectory = @"d:\temp\",
+            };
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll")));
+
+
+            var result = wd.Compile(options);
+            result.Errors.ForEach(Console.WriteLine);
+            Assert.IsTrue(result.Result);
+
+            Assert.IsTrue(File.Exists(result.Output), "assembly " + result);
+
+            return result;
+        }
+
+        private void Run(WorkflowDefinition wd, string dll, Action<Task<ActivityExecutionResult>> continuationAction)
+        {
+            // try to instantiate the Workflow
+            var assembly = Assembly.LoadFrom(dll);
+            var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.WorkflowDefinitionId, wd.Version,
+                wd.WorkflowTypeName);
+
+            var wfType = assembly.GetType(wfTypeName);
+            Assert.IsNotNull(wfType, wfTypeName + " is null");
+
+            var wf = Activator.CreateInstance(wfType) as Workflow;
+            Assert.IsNotNull(wf);
+
+            wf.SerializedDefinitionStoreId = "wd-storeid";
+            XmlSerializerService.RegisterKnownTypes(typeof(Workflow), wfType);
+
+            var pemohonProperty = wf.GetType().GetProperty("pemohon");
+            Assert.IsNotNull(pemohonProperty);
+            dynamic pemohon = pemohonProperty.GetValue(wf);
+            pemohon.Age = 28;
+
+            wf.WorkflowDefinition = wd;
+            wf.StartAsync().ContinueWith(_ =>
+            {
+                var result0 = _.Result;
+                Console.WriteLine(result0.Status);
+
+                wf.ExecuteAsync().ContinueWith(continuationAction).Wait();
+            }).Wait();
+        }
+
+
+        [Test]
+        public void Delay()
+        {
+            var wd = this.Create();
+            wd.ActivityCollection.Add(new DelayActivity { Name = "Wait a second", Seconds = 1, WebId = "_WA_", NextActivityWebId = "_D_" });
+            wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
+            var result = this.Compile(wd);
+            this.Run(wd, result.Output, Console.WriteLine);
+        }
+
+        [Test]
+        public void CompileAndRun()
+        {
+            var wd = this.Create();
 
             var pohon = new ScreenActivity
             {
@@ -193,7 +267,6 @@ namespace domain.test.workflows
             };
             wd.ActivityCollection.Add(approval);
 
-            wd.ActivityCollection.Add(new DelayActivity { Name = "Wait a second", Seconds = 1 , WebId = "_WA_", NextActivityWebId = "_D_"});
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_D_" });
 
@@ -203,58 +276,14 @@ namespace domain.test.workflows
 
 
 
-            m_store.Setup(x => x.GetContent("wd-storeid"))
-                .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), StoreId = "wd-storeid" });
-
-            wd.Version = Directory.GetFiles(".", "workflows.8.*.dll").Length + 1;
-            var options = new CompilerOptions
+            var result = this.Compile(wd);
+            this.Run(wd, result.Output, r2 =>
             {
-                IsDebug = true,
-                SourceCodeDirectory = @"d:\temp\",
-            };
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll")));
+                var result2 = r2.Result;
+                Console.WriteLine(result2);
+                Assert.AreEqual("CREATE_BUILDING", result2.NextActivity);
+            });
 
-
-            var result = wd.Compile(options);
-            result.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(result.Result);
-
-            Assert.IsTrue(File.Exists(result.Output), "assembly " + result);
-
-
-            // try to instantiate the Workflow
-            var assembly = Assembly.LoadFrom(result.Output);
-            var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.WorkflowDefinitionId, wd.Version,
-                wd.WorkflowTypeName);
-
-            var wfType = assembly.GetType(wfTypeName);
-            Assert.IsNotNull(wfType, wfTypeName + " is null");
-
-            var wf = Activator.CreateInstance(wfType) as Workflow;
-            Assert.IsNotNull(wf);
-
-            wf.SerializedDefinitionStoreId = "wd-storeid";
-            XmlSerializerService.RegisterKnownTypes(typeof(Workflow), wfType);
-
-            var pemohonProperty = wf.GetType().GetProperty("pemohon");
-            Assert.IsNotNull(pemohonProperty);
-            dynamic pemohon = pemohonProperty.GetValue(wf);
-            pemohon.Age = 28;
-
-            wf.WorkflowDefinition = wd;
-            wf.StartAsync().ContinueWith(_ =>
-            {
-                var result0 = _.Result;
-                Console.WriteLine(result0.Status);
-
-                wf.ExecuteAsync().ContinueWith(r2 =>
-                {
-                    var result2 = r2.Result;
-                    Console.WriteLine(result2);
-                    Assert.AreEqual("CREATE_BUILDING", wf.CurrentActivityWebId);
-                }).Wait();
-            }).Wait();
 
         }
     }
