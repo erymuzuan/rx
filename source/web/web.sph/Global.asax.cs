@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -14,6 +17,7 @@ namespace Bespoke.Sph.Web
     {
         protected void Application_Start()
         {
+            WorkflowConfig.PreStart(Server);
             AreaRegistration.RegisterAllAreas();
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -25,5 +29,7 @@ namespace Bespoke.Sph.Web
 
             ModelBinders.Binders.Add(typeof(IEnumerable<Rule>), new RuleModelBinder());
         }
+
+
     }
 }

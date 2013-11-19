@@ -31,10 +31,10 @@ namespace Bespoke.Sph.Domain
         public async override Task InitiateAsync(Workflow wf)
         {
             var baseUrl = ConfigurationManager.AppSettings["sph:BaseUrl"] ?? "http://localhost:4436";
-            var imb = this.InvitationMessageBody ?? "= @Model.Screen.Name task is assigned to you go here @string.Format(\"" +
+            var imb = this.InvitationMessageBody ?? "@Model.Screen.Name task is assigned to you go here @string.Format(\"" +
                 baseUrl +
                       "/Workflow_{0}_{1}/{2}/{3}\",@Model.Item.WorkflowDefinitionId, @Model.Item.Version,\"" + this.ActionName + "\", @Model.Item.WorkflowId)";
-            var ims = this.InvitationMessageSubject ?? "= [Sph] @Model.Screen.Name  task is assigned to you";
+            var ims = this.InvitationMessageSubject ?? "[Sph] @Model.Screen.Name  task is assigned to you";
 
             var users = new List<string>();
             var context = new SphDataContext();
@@ -392,13 +392,11 @@ namespace Bespoke.Sph.Domain
         private async Task<string> TransformTemplateAsync(string template, object model)
         {
             if (string.IsNullOrWhiteSpace(template)) return string.Empty;
-            if (template.StartsWith("="))
-            {
-                var engine = ObjectBuilder.GetObject<ITemplateEngine>();
-                var razor = template.Substring(1, template.Length - 1);
-                return await engine.GenerateAsync(razor, model);
-            }
-            return template;
+
+            var engine = ObjectBuilder.GetObject<ITemplateEngine>();
+            var razor = template.Substring(1, template.Length - 1);
+            return await engine.GenerateAsync(razor, model);
+
         }
 
     }
