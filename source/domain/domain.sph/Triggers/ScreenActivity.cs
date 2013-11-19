@@ -20,7 +20,7 @@ namespace Bespoke.Sph.Domain
 
                          select new BuildError
                          {
-                             Message = string.Format("[ScreenActivity] : {0} => '{1}' does not have path",this.Name, f.Label)
+                             Message = string.Format("[ScreenActivity] : {0} => '{1}' does not have path", this.Name, f.Label)
                          };
             var result = new BuildValidationResult();
             result.Errors.AddRange(errors);
@@ -39,29 +39,33 @@ namespace Bespoke.Sph.Domain
             var users = new List<string>();
             var context = new SphDataContext();
             var ad = ObjectBuilder.GetObject<IDirectoryService>();
+            var script = ObjectBuilder.GetObject<IScriptEngine>();
 
 
             var model = new { Screen = this, Item = wf };
+            var unwrapValue = this.Performer.Value;
+            if (!string.IsNullOrWhiteSpace(unwrapValue) && unwrapValue.StartsWith("="))
+                unwrapValue = script.Evaluate<string, Workflow>(unwrapValue.Remove(0, 1), wf);
 
             switch (this.Performer.UserProperty)
             {
                 case "Username":
-                    users.Add(this.Performer.Value);
+                    users.Add(unwrapValue);
                     break;
                 case "Department":
                     var list = await context.GetListAsync<UserProfile, string>(
-                        u => u.Department == this.Performer.Value,
+                        u => u.Department == unwrapValue,
                         u => u.Username);
                     users.AddRange(list);
                     break;
                 case "Designation":
                     var list2 = await context.GetListAsync<UserProfile, string>(
-                        u => u.Designation == this.Performer.Value,
+                        u => u.Designation == unwrapValue,
                         u => u.Username);
                     users.AddRange(list2);
                     break;
                 case "Roles":
-                    var list3 = await ad.GetUserInRolesAsync(this.Performer.Value);
+                    var list3 = await ad.GetUserInRolesAsync(unwrapValue);
                     users.AddRange(list3);
                     break;
                 default:
@@ -130,7 +134,7 @@ namespace Bespoke.Sph.Domain
             complexTypeClasses.ForEach(c => script.AppendLine(c));
 
             var elements = xsd.Elements(x + "element").ToList();
-            var elementClasses = elements.Select(e => wd.GenerateXsdElementJavascript(e,0, s => complexTypesElement.Single(f => f.Attribute("name").Value == s))).ToList();
+            var elementClasses = elements.Select(e => wd.GenerateXsdElementJavascript(e, 0, s => complexTypesElement.Single(f => f.Attribute("name").Value == s))).ToList();
             elementClasses.ForEach(c => script.AppendLine(c));
 
 

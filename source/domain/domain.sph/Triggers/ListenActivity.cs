@@ -1,4 +1,7 @@
 ﻿namespace Bespoke.Sph.Domain
 {
-    public partial class ListenActivity : Activity { }
+    public partial class ListenActivity : Activity
+    {
+        
+    }
 }

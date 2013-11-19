@@ -166,13 +166,11 @@
     <Compile Include="Triggers\CompilerOptions.cs" />
     <Compile Include="Triggers\ComplexVariable.cs" />
     <Compile Include="Triggers\ConfirmationOptions.cs" />
-    <Compile Include="Triggers\CreateEntityAction.cs" />
     <Compile Include="Triggers\CreateEntityActivity.cs" />
     <Compile Include="Triggers\CsharpCodeGenerator.cs" />
     <Compile Include="Triggers\DecisionActivity.cs" />
     <Compile Include="Triggers\DecisionBranch.cs" />
     <Compile Include="Triggers\DelayActivity.cs" />
-    <Compile Include="Triggers\DeleteEntityAction.cs" />
     <Compile Include="Triggers\DeleteEntityActivity.cs" />
     <Compile Include="Triggers\EndActivity.cs" />
     <Compile Include="Triggers\ExpressionActivity.cs" />
@@ -260,6 +258,7 @@
     <Compile Include="Triggers\Field.cs" />
     <Compile Include="Triggers\Functoid.cs" />
     <Compile Include="Triggers\FunctoidMapping.cs" />
+    <Compile Include="Triggers\ITaskScheduler.cs" />
     <Compile Include="Triggers\ListenActivity.cs" />
     <Compile Include="Triggers\MethodArg.cs" />
     <Compile Include="Triggers\NotificationActivity.cs" />
@@ -273,6 +272,7 @@
     <Compile Include="Triggers\Rule.cs" />
     <Compile Include="Triggers\CustomAction.cs" />
     <Compile Include="Triggers\EmailAction.cs" />
+    <Compile Include="Triggers\ScheduledActivityExecution.cs" />
     <Compile Include="Triggers\ScreenActivity.cs" />
     <Compile Include="Triggers\ScriptFunctoid.cs" />
     <Compile Include="Triggers\SendActivity.cs" />
@@ -318,7 +318,6 @@
     <Compile Include="Business\Warranty.cs" />
     <Compile Include="Business\Watcher.cs" />
     <Compile Include="Business\WorkOrder.cs" />
-    <Compile Include="Triggers\UpdateEntityAction.cs" />
     <Compile Include="Triggers\UpdateEntityActivity.cs" />
     <Compile Include="Triggers\Variable.cs" />
     <Compile Include="Triggers\VariableValue.cs" />

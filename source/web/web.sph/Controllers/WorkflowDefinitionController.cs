@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -25,6 +26,50 @@ namespace Bespoke.Sph.Web.Controllers
             var vm = new WorkflowDefinitionVisualViewModel();
             vm.ToolboxElements.Add(new ScreenActivity());
             return View(vm);
+        }
+
+
+        public async Task<ActionResult> Export()
+        {
+            var wd = this.GetRequestJson<WorkflowDefinition>();
+            var path = Path.GetTempPath() + @"/wd" + wd.WorkflowDefinitionId;
+            if (Directory.Exists(path)) Directory.Delete(path, true);
+            Directory.CreateDirectory(path);
+            var zip = path + ".zip";
+            var context = new SphDataContext();
+
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+
+            var schema = await store.GetContentAsync(wd.SchemaStoreId);
+            System.IO.File.WriteAllBytes(Path.Combine(path, wd.SchemaStoreId + ".xsd"), schema.Content);
+            System.IO.File.WriteAllBytes(Path.Combine(path, "wd_" + wd.WorkflowDefinitionId + ".json"), Encoding.UTF8.GetBytes(wd.ToJsonString()));
+            // get the screen view
+            foreach (var screen in wd.ActivityCollection.OfType<ScreenActivity>())
+            {
+                var screen1 = screen;
+                var page =
+                    await
+                        context.LoadOneAsync<Page>(
+                            p => p.Version == wd.Version && p.Tag == string.Format("wf_{0}_{1}", wd.WorkflowDefinitionId, screen1.WebId));
+                if (null != page)
+                {
+                    System.IO.File.WriteAllBytes(Path.Combine(path, "page." + page.PageId + ".json"), Encoding.UTF8.GetBytes(page.ToJsonString()));
+
+                }
+            }
+            if (System.IO.File.Exists(zip))
+                System.IO.File.Delete(zip);
+            ZipFile.CreateFromDirectory(path, zip);
+            var zd = new BinaryStore
+            {
+                StoreId = Guid.NewGuid().ToString(),
+                Content = System.IO.File.ReadAllBytes(zip),
+                Extension = ".zip",
+                FileName = string.Format("wd_{0}_{1}.zip", wd.WorkflowDefinitionId, wd.Version),
+                WebId = Guid.NewGuid().ToString()
+            };
+            await store.AddAsync(zd);
+            return Json(new { success = true, status = "OK", url = this.Url.Action("Get", "BinaryStore", new { id = zd.StoreId }) });
         }
 
         public ActionResult ScreenHtml()
@@ -146,7 +191,7 @@ namespace Bespoke.Sph.Web.Controllers
                             p =>
                                 p.Version == wd.Version &&
                                 p.Tag == string.Format("wf_{0}_{1}", wd.WorkflowDefinitionId, act1.WebId));
-                if(null != page)
+                if (null != page)
                     pages.Add(page);
             }
             using (var session = context.OpenSession())

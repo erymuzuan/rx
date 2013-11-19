@@ -20,44 +20,48 @@
         </tbody>
     </table>
 </div>
-<section id="rebate-modal" class="modal hide fade">
-    <div class="modal-header">
-        <a class="btn btn-mini pull-right" data-dismiss="modal">x</a>
+<div class="modal fade" id="rebate-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="btn btn-mini pull-right" data-dismiss="modal">x</a>
+            </div>
+            <div class="modal-body" data-bind="with : rebate">
+                <div class="control-group">
+                    <label for="rebate-ContractNo" class="control-label">No. Kontrak :</label>
+                    <div class="controls">
+                        <select data-bind="value: ContractNo,options:$parent.contracts,optionsText:'Item1',optionsValue:'Item2',optionsCaption:'[Sila Pilih]'" id="rebate-ContractNo" name="rebate-ContractNo" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Tajuk Kontrak :</label>
+                    <div class="controls">
+                        <span data-bind="text: $parent.contractTitle" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="rebate-Amount" class="control-label">Amaun :</label>
+                    <div class="controls">
+                        <input data-bind="value: Amount" id="rebate-Amount" type="text" name="rebate-Amount" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="rebate-StartDate" class="control-label">Tarikh Mula :</label>
+                    <div class="controls">
+                        <input data-bind="kendoDate: StartDate" id="rebate-StartDate" type="text" name="rebate-StartDate" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="rebate-EndDate" class="control-label">Tarikh Akhir : </label>
+                    <div class="controls">
+                        <input data-bind="kendoDate: EndDate" id="rebate-EndDate" type="text" name="rebate-EndDate" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel-rebate" data-dismiss="modal">Batal</button>
+                <button class="btn-save-rebate" data-bind="click:saveCommand" data-dismiss="modal">Simpan</button>
+            </div>
+        </div>
     </div>
-    <div class="modal-body" data-bind="with : rebate">
-        <div class="control-group">
-            <label for="rebate-ContractNo" class="control-label">No. Kontrak :</label>
-            <div class="controls">
-                <select data-bind="value: ContractNo,options:$parent.contracts,optionsText:'Item1',optionsValue:'Item2',optionsCaption:'[Sila Pilih]'" id="rebate-ContractNo" name="rebate-ContractNo" />
-            </div>
-        </div>
-         <div class="control-group">
-            <label class="control-label">Tajuk Kontrak :</label>
-            <div class="controls">
-                <span data-bind="text: $parent.contractTitle"/>
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="rebate-Amount" class="control-label">Amaun :</label>
-            <div class="controls">
-                <input data-bind="value: Amount" id="rebate-Amount" type="text" name="rebate-Amount" />
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="rebate-StartDate" class="control-label">Tarikh Mula :</label>
-            <div class="controls">
-                <input data-bind="kendoDate: StartDate" id="rebate-StartDate" type="text" name="rebate-StartDate" />
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="rebate-EndDate" class="control-label">Tarikh Akhir : </label>
-            <div class="controls">
-                <input data-bind="kendoDate: EndDate" id="rebate-EndDate" type="text" name="rebate-EndDate" />
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn-cancel-rebate" data-dismiss="modal">Batal</button>
-        <button class="btn-save-rebate" data-bind="click:saveCommand" data-dismiss="modal">Simpan</button>
-    </div>
-</section>
+</div>
