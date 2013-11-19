@@ -21,9 +21,10 @@
 
         #editor {
             margin: 0;
+            margin-top: 50px;
             position: absolute;
             top: 0;
-            bottom: 60px;
+            bottom: 20px;
             left: 0;
             right: 0;
             font-size: @(fontSize)px;
@@ -32,39 +33,72 @@
 </head>
 <body>
 
+    <nav class="navbar navbar-default">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Code Editor</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+         
+            <form class="navbar-form navbar-left" role="search">
+                <button id="save-button" class="btn btn-default">Save</button>
+                <button id="save-close-button" class="btn btn-default">Save &amp; Close</button>
+                <div class="form-group">
+                    <label class="sr-only">Theme</label>
+                    <select style="width: 200px" class="form-control" id="theme">
+                        <optgroup label="Light">
+                            <option value="textmate">Textmate</option>
+                            <option value="crimson_editor">Crimson</option>
+                        </optgroup>
+                        <optgroup label="Dark">
+                            <option value="monokai">Monokai</option>
+                            <option value="twilight">Twilight</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only">Font size</label>
+                    <select style="width: 100px" id="font-size" class="form-control">
+                        @for (int i = 10; i < 21; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Help</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+
+
+        <form class="form-inline">
+            <div class="form-group">
+            </div>
+          
+
+        </form>
+    </nav>
     <pre id="editor">
 // PLEASE WAIT WHILE YOUR SCRIPT IS LOADING
 </pre>
-    <div class="navbar-fixed-bottom row">
-        <form class="form-inline">
-            <div class="form-group pull-left">
-                <label class="sr-only">Theme</label>
-                <select style="width: 200px" class="form-control" id="theme">
-                    <optgroup label="Light">
-                        <option value="textmate">Textmate</option>
-                        <option value="crimson_editor">Crimson</option>
-                    </optgroup>
-                    <optgroup label="Dark">
-                        <option value="monokai">Monokai</option>
-                        <option value="twilight">Twilight</option>
-                    </optgroup>
-                </select>
-            </div>
-            <div class="form-group pull-left">
-                <label class="sr-only">Font size</label>
-                <select style="width: 100px" id="font-size" class="form-control">
-                    @for (int i = 10; i < 21; i++)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <button id="save-button" class="btn btn-primary pull-right">SAVE</button>
-            </div>
-
-        </form>
-    </div>
 
     <script src="~/Scripts/ace/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
@@ -80,10 +114,15 @@
 
             editor.setValue(window.code);
 
-            $('#save-button').click(function () {
-
+            $('#save-button').click(function (e) {
+                e.preventDefault();
                 if (window.saved)
                     window.saved(editor.getValue());
+            });
+            $('#save-close-button').click(function (e) {
+                e.preventDefault();
+                if (window.saved)
+                    window.saved(editor.getValue(), true);
             });
 
             $('#theme').change(function () {

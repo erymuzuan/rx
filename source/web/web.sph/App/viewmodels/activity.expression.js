@@ -21,12 +21,13 @@ define([],
             cancelClick = function () {
                 this.modal.close("Cancel");
             }, edit = function () {
-                var w = window.open("/editor/ace?mode=csharp", '_blank', 'height=800,width=800,toolbar=0,location=0');
+                var w = window.open("/editor/ace?mode=csharp", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes');
                 w.code = vm.activity().Expression();
-                w.saved = function (code) {
+                w.saved = function (code, close) {
                     vm.activity().Expression(code);
-                    w.close();
-
+                    if (close) {
+                        w.close();
+                    }
                 };
             };
 
