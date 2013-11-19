@@ -56,12 +56,11 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("       if (template.StartsWith(\"=\"))");
             code.AppendLine("       {");
-            code.AppendLine("           var engine = ObjectBuilder.GetObject<ITemplateEngine>();");
-            code.AppendLine("           var razor = template.Substring(1, template.Length - 1);");
-
-            code.AppendLine("           return await engine.GenerateAsync(razor, this);");
+            code.AppendLine("           var script = ObjectBuilder.GetObject<IScriptEngine>();");
+            code.AppendLine("           return script.Evaluate<string, Workflow>(template.Remove(0,1), this);");
             code.AppendLine("       }");
-            code.AppendLine("       return template;");
+            code.AppendLine("       var razor = ObjectBuilder.GetObject<ITemplateEngine>();");
+            code.AppendLine("       return await razor.GenerateAsync(template, this);");
 
             code.AppendLine("   }");
 

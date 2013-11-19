@@ -22,3 +22,13 @@
     background-repeat: no-repeat;
     background-position: right center;
 }
+
+.razor-field {
+    background-image: url('/Images/expression_razor.png') !important;
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+.razor-field :after {
+    content: "<img src='/images/expression_razor.png'/>";
+}

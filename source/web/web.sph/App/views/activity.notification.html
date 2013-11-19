@@ -32,28 +32,29 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <pre>Use "=" at the beginning to use template engine
+                        <pre>Use "=" at the beginning to use Script engine, 
+fields also support razor template by default
 variables can be notated as @Model.VariablePath
 </pre>
                     </div>
                     <div class="form-group">
                         <label for="email-from" class="col-lg-2 control-label">From</label>
                         <div class="col-lg-9">
-                            <input required type="text" data-bind="value: From" class="form-control" id="email-from" placeholder="From email address or template">
+                            <input required type="text" data-bind="value: From" class="form-control expression-field razor-field" id="email-from" placeholder="From email address or template">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="email-to" class="col-lg-2 control-label">To</label>
                         <div class="col-lg-9">
-                            <input required type="text" data-bind="value: To" class="form-control" id="email-to" placeholder="To email address or template">
+                            <input required type="text" data-bind="value: To" class="form-control expression-field razor-field" id="email-to" placeholder="To email address or template">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="email-subject" class="col-lg-2 control-label">Subject</label>
                         <div class="col-lg-9">
-                            <input required type="text" data-bind="value: Subject" class="form-control" id="email-subject" placeholder="Subject template">
+                            <input required type="text" data-bind="value: Subject" class="form-control expression-field razor-field" id="email-subject" placeholder="Subject template">
                         </div>
                     </div>
 
@@ -61,7 +62,7 @@ variables can be notated as @Model.VariablePath
                     <div class="form-group">
                         <label for="email-body" class="col-lg-2 control-label">Body</label>
                         <div class="col-lg-9">
-                            <textarea required data-bind="value: Body" class="form-control" id="email-body" placeholder="Email body"></textarea>
+                            <textarea required data-bind="value: Body" class="form-control expression-field razor-field" id="email-body" placeholder="Email body"></textarea>
                         </div>
                     </div>
                 </form>

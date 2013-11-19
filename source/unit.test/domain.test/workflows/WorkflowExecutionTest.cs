@@ -172,8 +172,8 @@ namespace domain.test.workflows
             var email = new NotificationActivity
             {
                 From = "erymuzuan@gmail.com",
-                To = "=@Model.email",
-                Subject = "=Ada permohonan baru @Model.Title",
+                To = "=item.email",
+                Subject = "Ada permohonan baru @Model.Title",
                 Body = "Permohonan baru di @Model.Title oleh @Model.pemohon.MyKad",
                 WebId = "_EMAIL_",
                 NextActivityWebId = "_C_",
