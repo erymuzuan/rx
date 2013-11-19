@@ -1,5 +1,6 @@
 ﻿(function (window, $) {
     window.bespoke = window.bespoke || {};
+    bespoke.utils = bespoke.utils || {};
     bespoke.utils.form = bespoke.utils.form || {};
     bespoke.utils.form.checkValidity = function (button) {
         if (button.form)

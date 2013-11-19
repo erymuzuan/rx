@@ -1,0 +1,31 @@
+﻿
+<section class="view-model-modal" id="ace-goto-line-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Goto</h3>
+            </div>
+            <div class="modal-body">
+
+                <form class="form-horizontal" id="ace-goto-line-form">
+                    <div class="form-group">
+                        <label for="line" class="col-lg-2 control-label">Line</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: line"
+                                   required pattern="[0-9]{1,4}"
+                                   placeholder="line"
+                                   class="form-control" id="line">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="ace-goto-line-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>
