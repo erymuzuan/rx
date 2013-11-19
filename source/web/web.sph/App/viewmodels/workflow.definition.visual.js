@@ -340,7 +340,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 wd().ActivityCollection.push(act);
                 initializeActivity(act);
             },
-            viewAttached = function () {
+            viewAttached = function (view) {
                 var script = $('<script type="text/javascript" src="/Scripts/jsPlumb/bundle.js"></script>').appendTo('body'),
                     timer = setInterval(function () {
                         if (window.jsPlumb !== undefined) {
@@ -359,6 +359,50 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                         helper: 'clone',
                         stop: toolboxItemDraggedStop
                     });
+                });
+
+                $(view).on('mouseenter', 'div.activity', function () {
+                    var act = ko.dataFor(this),
+                        cps = _.clone(connectorPaintStyle),
+                        cps2 = _.clone(connectorPaintStyle);
+                    cps.strokeStyle = "#007aff";
+                    cps2.strokeStyle = "red";
+                    
+                    jsPlumb.select()
+                        .setPaintStyle(connectorPaintStyle);
+                    jsPlumb.select({ source: act.WebId() })
+                        .setPaintStyle(cps);
+                    //jsPlumb.select({ target: act.NextActivityWebId() })
+                    //    .setPaintStyle(cps2);
+                    
+
+                    $('div.activity').each(function () {
+                        var div2 = $(this),
+                            act2 = ko.dataFor(this);
+                        if (act.WebId() === act2.NextActivityWebId()) {
+                            div2.addClass("source-activity");
+                        } else {
+                            div2.removeClass("source-activity");
+                        }
+
+                        if (act2.WebId() === act.NextActivityWebId()) {
+                            div2.addClass("target-activity");
+                        } else {
+                            div2.removeClass("target-activity");
+                        }
+
+
+                    });
+
+                });
+
+                $(view).on('mouseleave', 'div.activity', function () {
+                    $('div.activity').each(function () {
+                        var div2 = $(this);
+                        div2.removeClass("source-activity")
+                            .removeClass("target-activity");
+                    });
+
                 });
 
 
@@ -444,7 +488,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 var tcs = new $.Deferred();
                 var data = ko.mapping.toJSON(wd);
                 context.post(data, "/WorkflowDefinition/Export")
-                    .then(function(result) {
+                    .then(function (result) {
                         tcs.resolve(result);
                         window.location = result.url;
                     });

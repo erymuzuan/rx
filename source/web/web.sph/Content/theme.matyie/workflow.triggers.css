@@ -32,3 +32,16 @@
 .razor-field :after {
     content: "<img src='/images/expression_razor.png'/>";
 }
+
+div.source-activity {
+    border: 2px solid #007aff;
+}
+
+.source-connector {
+    stroke: #007aff;
+    color: #007aff;
+}
+
+div.target-activity {
+    border: 2px solid #1f872c;
+}
