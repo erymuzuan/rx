@@ -26,13 +26,6 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   public class " + this.WorkflowTypeName + " : " + typeof(Workflow).FullName);
             code.AppendLine("   {");
 
-            // static ctor
-            code.AppendLinf("       static {0}()", this.WorkflowTypeName);
-            code.AppendLine("       {");  // register type for the XML serializer
-            code.AppendLinf("           XmlSerializerService.RegisterKnownTypes(typeof({0}),typeof({1}));", typeof(Workflow).Name, this.WorkflowTypeName);
-
-            code.AppendLine("       }");
-
             // contructor
             code.AppendLine("       public " + this.WorkflowTypeName + "()");
             code.AppendLine("       {");
