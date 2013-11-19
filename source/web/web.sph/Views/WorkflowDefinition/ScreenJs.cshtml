@@ -29,6 +29,11 @@
             },
                 viewAttached = function(view) {
 
+                    if (!vm.activity().InvitationMessageBody())
+                        vm.activity().InvitationMessageBody("@@Model.Screen.Name task is assigned to you go here @@Model.Url");
+                    if (!vm.activity().InvitationMessageSubject())
+                        vm.activity().InvitationMessageSubject("[Sph] @@Model.Screen.Name  task is assigned to you");
+
                     var fd = ko.unwrap(vm.activity().FormDesign);
 
                     var dropDown = function (e) {
@@ -120,14 +125,14 @@
                                 connectToSortable: "#template-form-designer>form"
                             });
                         });
-                    
+
                     $('section.context-action-panel').on('click', 'buton.close', function() {
                         $(this).parents('div.context-action').hide();
                     });
                 },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
-                    
+
                     var fd = ko.unwrap(vm.activity().FormDesign);
                     // get the sorted element
                     var elements = _($('#template-form-designer>form>div')).map(function (div) {
@@ -143,7 +148,7 @@
                     this.modal.close("Cancel");
                 },
             selectFormElement = function (fe) {
-                
+
                 var fd = ko.unwrap(vm.activity().FormDesign);
                 _(fd.FormElementCollection()).each(function (f) {
                     f.isSelected(false);

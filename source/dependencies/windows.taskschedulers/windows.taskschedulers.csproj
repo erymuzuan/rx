@@ -61,21 +61,23 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
- 
+
   <ItemGroup>
     <OutputFile Include="$(OutputPath)*.*">
       <Visible>false</Visible>
     </OutputFile>
   </ItemGroup>
-    <Target Name="CopyOutputDirClientAndWeb">
+  <Target Name="CopyOutputDirClientAndWeb">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\subscribers\workers.console.runner\bin\Debug" />
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\subscribers\workers.windowsservice.runner\bin\Debug" />
+
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\scheduler\scheduler.delayactivity\bin\Debug" />
   </Target>
   <PropertyGroup>
     <BuildDependsOn>
       $(BuildDependsOn);CopyOutputDirClientAndWeb
     </BuildDependsOn>
   </PropertyGroup>
-  
+
 </Project>

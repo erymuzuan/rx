@@ -31,10 +31,9 @@ namespace Bespoke.Sph.Domain
         public async override Task InitiateAsync(Workflow wf)
         {
             var baseUrl = ConfigurationManager.AppSettings["sph:BaseUrl"] ?? "http://localhost:4436";
-            var imb = this.InvitationMessageBody ?? "= @Model.Screen.Name task is assigned to you go here @string.Format(\"" +
-                baseUrl +
-                      "/Workflow_{0}_{1}/{2}/{3}\",@Model.Item.WorkflowDefinitionId, @Model.Item.Version,\"" + this.ActionName + "\", @Model.Item.WorkflowId)";
-            var ims = this.InvitationMessageSubject ?? "= [Sph] @Model.Screen.Name  task is assigned to you";
+            var url = string.Format("{0}/Workflow_{1}_{2}/{3}/{4}", baseUrl, wf.WorkflowDefinitionId, wf.Version, this.ActionName, wf.WorkflowId);
+            var imb = this.InvitationMessageBody ?? "@Model.Screen.Name task is assigned to you go here @Model.Url";
+            var ims = this.InvitationMessageSubject ?? "[Sph] @Model.Screen.Name  task is assigned to you";
 
             var users = new List<string>();
             var context = new SphDataContext();
@@ -42,7 +41,7 @@ namespace Bespoke.Sph.Domain
             var script = ObjectBuilder.GetObject<IScriptEngine>();
 
 
-            var model = new { Screen = this, Item = wf };
+            var model = new { Screen = this, Item = wf , BaseUrl = baseUrl, Url = url};
             var unwrapValue = this.Performer.Value;
             if (!string.IsNullOrWhiteSpace(unwrapValue) && unwrapValue.StartsWith("="))
                 unwrapValue = script.Evaluate<string, Workflow>(unwrapValue.Remove(0, 1), wf);
