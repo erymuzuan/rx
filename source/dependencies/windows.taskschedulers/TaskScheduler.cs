@@ -6,6 +6,10 @@ namespace Bespoke.Sph.WindowsTaskScheduler
 {
     public class TaskScheduler : ITaskScheduler
     {
+        public TaskScheduler(string executable)
+        {
+            this.Executable = executable;
+        }
         public string Executable { get; set; }
 
         public async System.Threading.Tasks.Task AddTaskAsync(DateTime dateTime, ScheduledActivityExecution info)

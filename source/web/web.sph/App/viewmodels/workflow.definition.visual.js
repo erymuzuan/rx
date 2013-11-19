@@ -365,16 +365,18 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     var act = ko.dataFor(this),
                         cps = _.clone(connectorPaintStyle),
                         cps2 = _.clone(connectorPaintStyle);
-                    cps.strokeStyle = "#007aff";
-                    cps2.strokeStyle = "red";
-                    
-                    jsPlumb.select()
-                        .setPaintStyle(connectorPaintStyle);
+                    cps.strokeStyle = "#007aff";// blue
+                    cps2.strokeStyle = "#ff6a00";// orange
+
+
                     jsPlumb.select({ source: act.WebId() })
+                        .setPaintStyle(cps2);
+
+
+                    jsPlumb.select({ target: act.WebId() })
                         .setPaintStyle(cps);
-                    //jsPlumb.select({ target: act.NextActivityWebId() })
-                    //    .setPaintStyle(cps2);
-                    
+
+
 
                     $('div.activity').each(function () {
                         var div2 = $(this),
@@ -384,7 +386,6 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                         } else {
                             div2.removeClass("source-activity");
                         }
-
                         if (act2.WebId() === act.NextActivityWebId()) {
                             div2.addClass("target-activity");
                         } else {
@@ -401,6 +402,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                         var div2 = $(this);
                         div2.removeClass("source-activity")
                             .removeClass("target-activity");
+
+                        // reset
+                        jsPlumb.select()
+                            .setPaintStyle(connectorPaintStyle);
                     });
 
                 });

@@ -23,7 +23,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
-            code.AppendLine("       var script = ObjectBuilder.GetObject<IScriptEngine>();");
+            code.AppendLine("       var item = this;");
 
 
             code.AppendLine("       " + this.Expression);
