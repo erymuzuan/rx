@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   [EntityType(typeof(Workflow))]");
             code.AppendLine("   public class " + this.WorkflowTypeName + " : " + typeof(Workflow).FullName);
             code.AppendLine("   {");
-            
+
             // contructor
             code.AppendLine("       public " + this.WorkflowTypeName + "()");
             code.AppendLine("       {");

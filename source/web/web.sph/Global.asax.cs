@@ -20,6 +20,7 @@ namespace Bespoke.Sph.Web
             WorkflowConfig.PreStart(Server);
             AreaRegistration.RegisterAllAreas();
 
+            WorkflowConfig.Register(Server);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
