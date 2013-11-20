@@ -514,10 +514,10 @@
 			<xs:complexContent>
 				<xs:extension base="Activity">
 					<xs:all>
-						<xs:element name="ParallelBranchCollection">
+						<xs:element name="ListenBranchCollection">
 							<xs:complexType>
 								<xs:sequence>
-									<xs:element ref="ParallelBranch" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element ref="ListenBranch" minOccurs="0" maxOccurs="unbounded"/>
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
@@ -570,7 +570,35 @@
 	<xs:element name="ParallelBranch">
 		<xs:complexType>
 			<xs:complexContent>
-				<xs:extension base="Activity"/>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="ActivityCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Activity" type="Activity" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ListenBranch">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="ActivityCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Activity" type="Activity" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Trigger" type="Activity"/>
+					</xs:all>
+				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>

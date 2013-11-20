@@ -130,7 +130,7 @@ namespace domain.test.workflows
             return wd;
         }
 
-        private WorkflowCompilerResult Compile(WorkflowDefinition wd)
+        private WorkflowCompilerResult Compile(WorkflowDefinition wd, bool verbose = false)
         {
             m_store.Setup(x => x.GetContent("wd-storeid"))
                .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), StoreId = "wd-storeid" });
@@ -140,6 +140,7 @@ namespace domain.test.workflows
             {
                 IsDebug = true,
                 SourceCodeDirectory = @"d:\temp\",
+                IsVerbose = verbose
             };
             options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
             options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll")));
@@ -195,6 +196,48 @@ namespace domain.test.workflows
             var result = this.Compile(wd);
             this.Run(wd, result.Output, Console.WriteLine);
         }
+
+
+
+
+        [Test]
+        public void Listen()
+        {
+            var wd = this.Create();
+            wd.ActivityCollection.Add(new ScreenActivity { Name = "Starts", IsInitiator = true, WebId = "_A_", NextActivityWebId = "_B_" });
+
+            var listen = new ListenActivity
+            {
+                WebId = "_B_",
+                Name = "Listen"
+            };
+            var verify = new ListenBranch
+            {
+                Name = "Wait for verification",
+                WebId = "_B1_",
+                Trigger = new ScreenActivity { Name = "Verify", WebId = "_B10_" }
+            };
+            var lapsed = new ListenBranch
+            {
+                Name = "Lapsed for verification",
+                WebId = "_B2_",
+                Trigger = new DelayActivity { Name = "VerifyLapse", WebId = "_B20_", Seconds = 10 }
+            };
+
+            listen.ListenBranchCollection.Add(verify);
+            listen.ListenBranchCollection.Add(lapsed);
+
+            wd.ActivityCollection.Add(listen);
+            wd.ActivityCollection.Add(new DelayActivity { Name = "Wait a second", Seconds = 1, WebId = "_WA_", NextActivityWebId = "_D_" });
+            wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
+            var result = this.Compile(wd, true);
+            this.Run(wd, result.Output, Console.WriteLine);
+        }
+
+
+
+
+
 
         [Test]
         public void CompileAndRun()

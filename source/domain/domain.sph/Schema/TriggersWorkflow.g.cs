@@ -2869,15 +2869,15 @@ namespace Bespoke.Sph.Domain
     public partial class ListenActivity
     {
 
-        private readonly ObjectCollection<ParallelBranch> m_ParallelBranchCollection = new ObjectCollection<ParallelBranch>();
+        private readonly ObjectCollection<ListenBranch> m_ListenBranchCollection = new ObjectCollection<ListenBranch>();
 
         ///<summary>
         /// 
         ///</summary>
-        [XmlArrayItem("ParallelBranch", IsNullable = false)]
-        public ObjectCollection<ParallelBranch> ParallelBranchCollection
+        [XmlArrayItem("ListenBranch", IsNullable = false)]
+        public ObjectCollection<ListenBranch> ListenBranchCollection
         {
-            get { return m_ParallelBranchCollection; }
+            get { return m_ListenBranchCollection; }
         }
 
 
@@ -2978,6 +2978,42 @@ namespace Bespoke.Sph.Domain
     [XmlType("ParallelBranch", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ParallelBranch
     {
+
+        private readonly ObjectCollection<Activity> m_ActivityCollection = new ObjectCollection<Activity>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<Activity> ActivityCollection
+        {
+            get { return m_ActivityCollection; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ListenBranch", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ListenBranch
+    {
+
+        public Activity Trigger { get; set; }
+
+        private readonly ObjectCollection<Activity> m_ActivityCollection = new ObjectCollection<Activity>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<Activity> ActivityCollection
+        {
+            get { return m_ActivityCollection; }
+        }
 
 
     }

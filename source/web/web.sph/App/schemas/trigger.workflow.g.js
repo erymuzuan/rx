@@ -209,6 +209,22 @@ bespoke.sph.domain.MethodArg = function (webId) {
 
 
 
+bespoke.sph.domain.StartWorkflowAction = function (webId) {
+
+    var v = new bespoke.sph.domain.CustomAction(webId);
+
+    v.WorkflowDefinitionId = ko.observable(0);
+    v.Name = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.StartWorkflowAction, domain.sph";
+
+    if (bespoke.sph.domain.StartWorkflowActionPartial) {
+        return _(v).extend(new bespoke.sph.domain.StartWorkflowActionPartial(v));
+    }
+    return v;
+};
+
+
+
 bespoke.sph.domain.WorkflowDefinition = function (webId) {
 
     var model = {
@@ -607,7 +623,7 @@ bespoke.sph.domain.ListenActivity = function (webId) {
 
     v["$type"] = "Bespoke.Sph.Domain.ListenActivity, domain.sph";
 
-    v.ParallelBranchCollection = ko.observableArray([]);
+    v.ListenBranchCollection = ko.observableArray([]);
     if (bespoke.sph.domain.ListenActivityPartial) {
         return _(v).extend(new bespoke.sph.domain.ListenActivityPartial(v));
     }
@@ -671,8 +687,25 @@ bespoke.sph.domain.ParallelBranch = function (webId) {
 
     v["$type"] = "Bespoke.Sph.Domain.ParallelBranch, domain.sph";
 
+    v.ActivityCollection = ko.observableArray([]);
     if (bespoke.sph.domain.ParallelBranchPartial) {
         return _(v).extend(new bespoke.sph.domain.ParallelBranchPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ListenBranch = function (webId) {
+
+    var v = new bespoke.sph.domain.Activity(webId);
+
+    v["$type"] = "Bespoke.Sph.Domain.ListenBranch, domain.sph";
+
+    v.ActivityCollection = ko.observableArray([]);
+    v.Trigger = ko.observable();//type but not nillable
+    if (bespoke.sph.domain.ListenBranchPartial) {
+        return _(v).extend(new bespoke.sph.domain.ListenBranchPartial(v));
     }
     return v;
 };
