@@ -208,7 +208,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     targetAnchors = ["TopCenter"],
                     fullName = typeof act.$type === "function" ? act.$type() : act.$type,
                     name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1],
-                    sourceAnchorOptions = ["BottomCenter","BottomRight",  "BottomLeft", "LeftMiddle", "RightMiddle"],
+                    sourceAnchorOptions = ["BottomCenter", "BottomRight", "BottomLeft", "LeftMiddle", "RightMiddle"],
                     branchesCount = 0;
 
 
@@ -304,13 +304,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 var target = ko.dataFor(connection.target);
                 source.NextActivityWebId(target.WebId());
             },
-            activitiesChanged = function(changes) {
+            activitiesChanged = function (changes) {
                 console.log(changes);
                 if (_.isArray(changes)) {
                     var chg = changes[0];
                     if (chg.status === "deleted") {
                         // remove the associated endpoint
-                        jsPlumb.selectEndpoints({source: chg.value.WebId()}).setVisible(false).detachAll();
+                        jsPlumb.selectEndpoints({ source: chg.value.WebId() }).setVisible(false).detachAll();
                     }
                 }
             },
@@ -367,12 +367,14 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
 
                 $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js', function () {
                     $('div.toolbox-item').draggable({
-                        helper: function() {
+                        helper: function () {
                             return $("<div></div>").addClass("dragHoverToolbox").append($(this).find('.activity32').clone());
                         },
                         stop: toolboxItemDraggedStop
                     });
                 });
+
+                var paintedConnectors = [];
 
                 $(view).on('mouseenter', 'div.activity', function () {
                     var act = ko.dataFor(this),
@@ -383,15 +385,17 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     cps2.strokeStyle = "#ff6a00";// orange
 
 
-                    jsPlumb.select({ source: act.WebId() })
-                        .setPaintStyle(cps2);
+                    var cs = jsPlumb.select({ source: act.WebId() })
+                         .setPaintStyle(cps2);
+                    paintedConnectors.push(cs);
 
 
-                    jsPlumb.select({ target: act.WebId() })
-                        .setPaintStyle(cps);
+                    var cs2 = jsPlumb.select({ target: act.WebId() })
+                         .setPaintStyle(cps);
+                    paintedConnectors.push(cs2);
 
                     if (act.multipleEndPoints) {
-                         targets = _(act.multipleEndPoints()).map(function (v) { return v.NextActivityWebId(); });
+                        targets = _(act.multipleEndPoints()).map(function (v) { return v.NextActivityWebId(); });
                     }
 
 
@@ -419,8 +423,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                             .removeClass("target-activity");
 
                         // reset
-                        jsPlumb.select()
-                            .setPaintStyle(connectorPaintStyle);
+                        _(paintedConnectors).each(function (c) { c.setPaintStyle(connectorPaintStyle); });
+                        paintedConnectors = [];
+
                     });
 
                 });
