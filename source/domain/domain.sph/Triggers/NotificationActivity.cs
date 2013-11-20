@@ -10,6 +10,21 @@ namespace Bespoke.Sph.Domain
             return new BuildValidationResult { Result = true };
         }
 
+
+        public async Task<string> Transform(string template, Workflow wf)
+        {
+            if (string.IsNullOrWhiteSpace(template)) return string.Empty;
+
+            if (template.StartsWith("="))
+            {
+                var script = ObjectBuilder.GetObject<IScriptEngine>();
+                return script.Evaluate<string, Workflow>(template.Remove(0, 1), wf);
+            }
+            var razor = ObjectBuilder.GetObject<ITemplateEngine>();
+            return await razor.GenerateAsync(template, this);
+
+        }
+
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
 
@@ -17,15 +32,16 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLine("       var result = new ActivityExecutionResult();");
+            code.AppendLinf("       var act = this.GetActivity<NotificationActivity>(\"{0}\");", this.WebId);
             code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);
-            code.AppendLinf("       System.Console.WriteLine(\"Sending email to : {0}\");", this.To);
 
 
-            code.AppendLinf("       var @from = await this.Transform{0}(\"{1}\");", this.MethodName, this.From);
-            code.AppendLinf("       var to = await this.Transform{0}(\"{1}\");", this.MethodName, this.To);
-            code.AppendLinf("       var subject = await this.Transform{0}(\"{1}\");", this.MethodName, this.Subject);
-            code.AppendLinf("       var body = await this.Transform{0}(\"{1}\");", this.MethodName, this.Body);
+            code.AppendLine("       var @from = await act.Transform(act.From, this);");
+            code.AppendLine("       var to = await act.Transform(act.To, this);");
+            code.AppendLine("       var subject = await act.Transform(act.Subject, this);");
+            code.AppendLine("       var body = await act.Transform(act.Body, this);");
 
+            code.AppendLine("       System.Console.WriteLine(\"Sending email to : {0}\", to);");
             if (!string.IsNullOrWhiteSpace(this.UserName))
             {
                 code.AppendLine("       var context = new SphDataContext();");
@@ -50,19 +66,6 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   }");
             code.AppendLine();
 
-            code.AppendLinf("   private async Task<string> Transform{0}(string template)", this.MethodName);
-            code.AppendLine("   {");
-            code.AppendLine("       if (string.IsNullOrWhiteSpace(template)) return string.Empty;");
-
-            code.AppendLine("       if (template.StartsWith(\"=\"))");
-            code.AppendLine("       {");
-            code.AppendLine("           var script = ObjectBuilder.GetObject<IScriptEngine>();");
-            code.AppendLine("           return script.Evaluate<string, Workflow>(template.Remove(0,1), this);");
-            code.AppendLine("       }");
-            code.AppendLine("       var razor = ObjectBuilder.GetObject<ITemplateEngine>();");
-            code.AppendLine("       return await razor.GenerateAsync(template, this);");
-
-            code.AppendLine("   }");
 
 
 
