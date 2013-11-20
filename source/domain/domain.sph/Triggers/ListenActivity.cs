@@ -3,10 +3,6 @@ using System.Linq;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class ListenBranch : Activity
-    {
-
-    }
     public partial class ListenActivity : Activity
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)

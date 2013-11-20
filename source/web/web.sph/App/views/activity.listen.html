@@ -18,7 +18,26 @@
                         </div>
                     </div>
 
-                    <a href="#" data-bind="click : addBranch">+ Branch</a>
+                    <div class="btn-group">
+                        <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
+                            Add Branch &nbsp;<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="btn btn-link" data-bind="click: addBranch('Screen')">
+                                    <i class="fa fa-code"></i>
+                                    Screen
+                                </a>
+                            </li>
+                            <li>
+                                <a class="btn btn-link" data-bind="click: addBranch('Delay')">
+                                    <i class="fa fa-sitemap"></i>
+                                    Delay
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
                     <table class="table">
 
                         <thead>

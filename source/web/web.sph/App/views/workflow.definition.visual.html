@@ -35,8 +35,29 @@
                     <i class="fa fa-times-circle fa-2x"></i>
                 </a>
             </div>
-
         </div>
+        <!-- ko if : typeof ListenBranchCollection === "function" -->
+        <!-- ko foreach : ListenBranchCollection -->
+        <!-- ko with : Trigger -->
+
+        <div class="activity w" data-bind="style : {'left': WorkflowDesigner().X() + 'px','top': WorkflowDesigner().Y() + 'px'},
+                attr : {id : WebId},
+                activityPopover : $data">
+            <div class="pull-right activity32" data-bind="activityClass : $data"></div>
+            <span data-bind="text:Name"></span>
+
+            <div style="display: none" class="context-menu">
+                <a class="edit-activity" title="edit acitivity" href="#" data-bind="click: $parent.editActivity.call($parent,$data)">
+                    <i class="fa fa-edit fa-2x"></i>
+                </a>
+                <a class="delete-activity" href="#" title="remove activity" data-bind="click: $parent.removeActivity.call($parent,$data)">
+                    <i class="fa fa-times-circle fa-2x"></i>
+                </a>
+            </div>
+        </div>
+        <!-- /ko -->
+        <!-- /ko -->
+        <!-- /ko -->
 
         <!-- /ko -->
 
