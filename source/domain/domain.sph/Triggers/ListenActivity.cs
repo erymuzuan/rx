@@ -26,7 +26,7 @@ namespace Bespoke.Sph.Domain
 
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
-
+            const string r = "\r\n";
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
@@ -44,7 +44,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine();
                 count++;
             }
-            // set it to still waiting for one of branch to fire
+            // set it to -> waiting for one of branch to fire
             code.AppendLine("       this.State = \"WaitingAsync\";");
             code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);
             code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
@@ -55,15 +55,44 @@ namespace Bespoke.Sph.Domain
             // creates method for each trigger
             // TODO: we should inject a piece of code in these branch to invoke wf on this branch and kill other branches
             var triggers = from a in this.ListenBranchCollection.Select(lb => lb.Trigger)
-                     select a.GeneratedExecutionMethodCode(wd);
-            triggers.ToList().ForEach(m =>code.AppendLine(m));
+                           let mc = a.GeneratedExecutionMethodCode(wd)
+                           let otherBranchesActivities = this.ListenBranchCollection.Where(b => b.Trigger.WebId != a.WebId).SelectMany(b =>b.ActivityCollection).Select(b => "\"" + b.WebId + "\"")
+                           let stub = string.Format("   public Task<ActivityExecutionResult> {0}()" + r, a.MethodName) +
+                           "    {" + r +
+                           string.Format("      this.ValidExecutableSteps.Add(\"{0}\");" + r, a.NextActivityWebId) +
+                           string.Format("      this.ValidExecutableSteps.Remove(\"{0}\");" + r, this.WebId) +
+                           string.Format("      this.ForbiddenSteps.AddRange(new []{{{0}}});" + r, string.Join(",",otherBranchesActivities)) +
+                           string.Format("      return {0}_Trigger();" + r, a.MethodName) +
+                           "    }" + r
+                           select stub + mc.Replace(a.MethodName, a.MethodName + "_Trigger");
+            triggers.ToList().ForEach(m => code.AppendLine(m));
 
             // creates method for each branch
             var ms = from a in this.ListenBranchCollection.SelectMany(lb => lb.ActivityCollection)
                      select a.GeneratedExecutionMethodCode(wd);
-            ms.ToList().ForEach(m =>code.AppendLine(m));
+            ms.ToList().ForEach(m => code.AppendLine(m));
 
             return code.ToString();
         }
+
+
+        public override string GeneratedCustomTypeCode(WorkflowDefinition wd)
+        {
+            var code = new StringBuilder();
+            var triggers = from t in this.ListenBranchCollection
+                           select t.Trigger.GeneratedCustomTypeCode(wd);
+
+            triggers.ToList().ForEach(m => code.AppendLine(m));
+
+
+
+            var ms = from a in this.ListenBranchCollection.SelectMany(lb => lb.ActivityCollection)
+                     select a.GeneratedCustomTypeCode(wd);
+            ms.ToList().ForEach(m => code.AppendLine(m));
+
+
+            return code.ToString();
+        }
+
     }
 }
