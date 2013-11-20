@@ -3002,18 +3002,37 @@ namespace Bespoke.Sph.Domain
     public partial class ListenBranch
     {
 
-        public Activity Trigger { get; set; }
-
-        private readonly ObjectCollection<Activity> m_ActivityCollection = new ObjectCollection<Activity>();
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlArrayItem("", IsNullable = false)]
-        public ObjectCollection<Activity> ActivityCollection
+        private bool m_IsWaitingAsync;
+        [XmlAttribute]
+        public bool IsWaitingAsync
         {
-            get { return m_ActivityCollection; }
+            get
+            {
+                return m_IsWaitingAsync;
+            }
+            set
+            {
+                m_IsWaitingAsync = value;
+                RaisePropertyChanged();
+            }
         }
+
+
+        private bool m_IsDestroyed;
+        [XmlAttribute]
+        public bool IsDestroyed
+        {
+            get
+            {
+                return m_IsDestroyed;
+            }
+            set
+            {
+                m_IsDestroyed = value;
+                RaisePropertyChanged();
+            }
+        }
+
 
 
     }

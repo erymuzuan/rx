@@ -13,18 +13,11 @@ bespoke.sph.domain = bespoke.sph.domain || {};
 
 bespoke.sph.domain.ListenActivityPartial = function () {
     var system = require('durandal/system'),
-        addBranch = function (waitActivity) {
+        addBranch = function () {
             var self = this;
-            return function () {
-                var branch = new bespoke.sph.domain.ListenBranch(self.WebId()),
-                    trigger = new bespoke.sph.domain[waitActivity + 'Activity'](system.guid()),
-                    point = ko.unwrap(self.WorkflowDesigner);
-                trigger.WorkflowDesigner().Y(point.Y() + 50);
-                trigger.WorkflowDesigner().X(point.X() + (50) * (self.ListenBranchCollection().length - 2));
-                branch.Trigger(trigger);
-                branch.NextActivityWebId(trigger.WebId());
-                self.ListenBranchCollection.push(branch);
-            };
+            var branch = new bespoke.sph.domain.ListenBranch(system.guid());
+            self.ListenBranchCollection.push(branch);
+
         },
         removeBranch = function (branch) {
             var self = this;

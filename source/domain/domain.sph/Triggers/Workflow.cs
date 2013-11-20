@@ -51,6 +51,12 @@ namespace Bespoke.Sph.Domain
             return this.WorkflowDefinition.ActivityCollection.SingleOrDefault(d => d.WebId == this.CurrentActivityWebId);
         }
 
+        public T GetActivity<T>(string webId) where T : Activity
+        {
+            return this.WorkflowDefinition.ActivityCollection.OfType<T>().Single(w => w.WebId == webId);
+        }
+
+
         public Activity GetNexActivity()
         {
             if (null == this.WorkflowDefinition)

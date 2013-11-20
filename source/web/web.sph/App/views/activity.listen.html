@@ -18,38 +18,33 @@
                         </div>
                     </div>
 
-                    <div class="btn-group">
-                        <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
-                            Add Branch &nbsp;<span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="btn btn-link" data-bind="click: addBranch('Screen')">
-                                    <i class="fa fa-code"></i>
-                                    Screen
-                                </a>
-                            </li>
-                            <li>
-                                <a class="btn btn-link" data-bind="click: addBranch('Delay')">
-                                    <i class="fa fa-sitemap"></i>
-                                    Delay
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
 
+                    <a href="#" data-bind="click : addBranch">+ Branch</a>
                     <table class="table">
 
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Next</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody data-bind="foreach :ListenBranchCollection">
                             <tr>
+                                
                                 <td>
-                                    <input pattern="^[A-Za-z_][A-Za-z0-9_ ]*$" type="text" required data-bind="value:Name, uniqueName:true" class="form-control" />
+                                    <input type="text" required data-bind="value:Name, uniqueName:true" class="form-control" />
+                                </td>
+
+                                <td>
+                                    <select required
+                                            data-bind="value:NextActivityWebId,
+                                                uniqueName:true,
+                                                options: $root.asyncActivities,
+                                                optionsText:'Name',
+                                                optionsValue:'WebId',
+                                                optionsCaption:'Please select next activity'"
+                                            class="form-control"></select>
                                 </td>
                                 <td>
                                     <a href="#" data-bind="click : $parent.removeBranch.call($parent,$data)">Buang</a>
