@@ -388,8 +388,10 @@
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
+    <Content Include="App\partial\DelayActivity.js" />
     <Content Include="App\partial\ListenActivity.js" />
     <Content Include="App\partial\ParallelActivity.js" />
+    <Content Include="App\partial\ScreenActivity.js" />
     <Content Include="App\partial\UpdateEntityActivity.js" />
     <Content Include="App\partial\CreateEntityActivity.js" />
     <Content Include="App\partial\WorkflowDesigner.js" />

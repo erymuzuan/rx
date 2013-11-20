@@ -700,10 +700,10 @@ bespoke.sph.domain.ListenBranch = function (webId) {
 
     var v = new bespoke.sph.domain.Activity(webId);
 
+    v.IsWaitingAsync = ko.observable(false);
+    v.IsDestroyed = ko.observable(false);
     v["$type"] = "Bespoke.Sph.Domain.ListenBranch, domain.sph";
 
-    v.ActivityCollection = ko.observableArray([]);
-    v.Trigger = ko.observable();//type but not nillable
     if (bespoke.sph.domain.ListenBranchPartial) {
         return _(v).extend(new bespoke.sph.domain.ListenBranchPartial(v));
     }

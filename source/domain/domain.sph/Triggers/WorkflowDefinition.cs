@@ -17,6 +17,11 @@ namespace Bespoke.Sph.Domain
 {
     public partial class WorkflowDefinition : Entity
     {
+        public T GetActivity<T>(string webId) where T : Activity
+        {
+            return this.ActivityCollection.OfType<T>().Single(w => w.WebId == webId);
+        }
+
         public Task<Workflow> InitiateAsync(IEnumerable<VariableValue> values = null, ScreenActivity screen = null)
         {
             var wf = new Workflow
@@ -56,7 +61,7 @@ namespace Bespoke.Sph.Domain
             foreach (var activity in this.ActivityCollection)
             {
                 var a = activity.ValidateBuild(this);
-                if (null == a)continue;
+                if (null == a) continue;
                 result.Errors.AddRange(a.Errors);
             }
             result.Result = !result.Errors.Any();

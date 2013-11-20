@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
@@ -215,17 +214,14 @@ namespace domain.test.workflows
             {
                 Name = "Wait for verification",
                 WebId = "_B1_",
-                Trigger = new ScreenActivity { Name = "Verify", WebId = "_B10_", NextActivityWebId = "_B11_"}
+                NextActivityWebId = "_B11_"
             };
             var lapsed = new ListenBranch
             {
                 Name = "Lapsed for verification",
                 WebId = "_B2_",
-                Trigger = new DelayActivity { Name = "VerifyLapse", WebId = "_B20_", Seconds = 10, NextActivityWebId = "_B21_"}
+                NextActivityWebId = "_B21_"
             };
-            verify.ActivityCollection.Add(new EndActivity{WebId = "_B11_", Name = "Habis approved"});
-            lapsed.ActivityCollection.Add(new NotificationActivity{WebId = "_B21_", Name = "Email admin tak approved"});
-            lapsed.ActivityCollection.Add(new EndActivity{WebId = "_B22_", Name = "Tak approved"});
 
             listen.ListenBranchCollection.Add(verify);
             listen.ListenBranchCollection.Add(lapsed);
