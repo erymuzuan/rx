@@ -1,16 +1,612 @@
-﻿///#source 1 1 /Scripts/jquery.ui.touch-punch.min.js
-/*
- * jQuery UI Touch Punch 0.2.2
+/**
+* jsBezier-0.6
+*
+* Copyright (c) 2010 - 2013 Simon Porritt (simon.porritt@gmail.com)
+*
+* licensed under the MIT license.
+* 
+* a set of Bezier curve functions that deal with Beziers, used by jsPlumb, and perhaps useful for other people.  These functions work with Bezier
+* curves of arbitrary degree.
+*
+* - functions are all in the 'jsBezier' namespace.  
+* 
+* - all input points should be in the format {x:.., y:..}. all output points are in this format too.
+* 
+* - all input curves should be in the format [ {x:.., y:..}, {x:.., y:..}, {x:.., y:..}, {x:.., y:..} ]
+* 
+* - 'location' as used as an input here refers to a decimal in the range 0-1 inclusive, which indicates a point some proportion along the length
+* of the curve.  location as output has the same format and meaning.
+* 
+* 
+* Function List:
+* --------------
+* 
+* distanceFromCurve(point, curve)
+* 
+* 	Calculates the distance that the given point lies from the given Bezier.  Note that it is computed relative to the center of the Bezier,
+* so if you have stroked the curve with a wide pen you may wish to take that into account!  The distance returned is relative to the values 
+* of the curve and the point - it will most likely be pixels.
+* 
+* gradientAtPoint(curve, location)
+* 
+* 	Calculates the gradient to the curve at the given location, as a decimal between 0 and 1 inclusive.
+*
+* gradientAtPointAlongCurveFrom (curve, location)
+*
+*	Calculates the gradient at the point on the given curve that is 'distance' units from location. 
+* 
+* nearestPointOnCurve(point, curve) 
+* 
+*	Calculates the nearest point to the given point on the given curve.  The return value of this is a JS object literal, containing both the
+*point's coordinates and also the 'location' of the point (see above), for example:  { point:{x:551,y:150}, location:0.263365 }.
+* 
+* pointOnCurve(curve, location)
+* 
+* 	Calculates the coordinates of the point on the given Bezier curve at the given location.  
+* 		
+* pointAlongCurveFrom(curve, location, distance)
+* 
+* 	Calculates the coordinates of the point on the given curve that is 'distance' units from location.  'distance' should be in the same coordinate
+* space as that used to construct the Bezier curve.  For an HTML Canvas usage, for example, distance would be a measure of pixels.
+*
+* locationAlongCurveFrom(curve, location, distance)
+* 
+* 	Calculates the location on the given curve that is 'distance' units from location.  'distance' should be in the same coordinate
+* space as that used to construct the Bezier curve.  For an HTML Canvas usage, for example, distance would be a measure of pixels.
+* 
+* perpendicularToCurveAt(curve, location, length, distance)
+* 
+* 	Calculates the perpendicular to the given curve at the given location.  length is the length of the line you wish for (it will be centered
+* on the point at 'location'). distance is optional, and allows you to specify a point along the path from the given location as the center of
+* the perpendicular returned.  The return value of this is an array of two points: [ {x:...,y:...}, {x:...,y:...} ].  
+*  
+* 
+*/
+
+(function() {
+	
+	if(typeof Math.sgn == "undefined") {
+		Math.sgn = function(x) { return x == 0 ? 0 : x > 0 ? 1 :-1; };
+	}
+	
+	var Vectors = {
+			subtract 	: 	function(v1, v2) { return {x:v1.x - v2.x, y:v1.y - v2.y }; },
+			dotProduct	: 	function(v1, v2) { return (v1.x * v2.x)  + (v1.y * v2.y); },
+			square		:	function(v) { return Math.sqrt((v.x * v.x) + (v.y * v.y)); },
+			scale		:	function(v, s) { return {x:v.x * s, y:v.y * s }; }
+		},
+		
+		maxRecursion = 64, 
+		flatnessTolerance = Math.pow(2.0,-maxRecursion-1);
+
+	/**
+	 * Calculates the distance that the point lies from the curve.
+	 * 
+	 * @param point a point in the form {x:567, y:3342}
+	 * @param curve a Bezier curve in the form [{x:..., y:...}, {x:..., y:...}, {x:..., y:...}, {x:..., y:...}].  note that this is currently
+	 * hardcoded to assume cubiz beziers, but would be better off supporting any degree. 
+	 * @return a JS object literal containing location and distance, for example: {location:0.35, distance:10}.  Location is analogous to the location
+	 * argument you pass to the pointOnPath function: it is a ratio of distance travelled along the curve.  Distance is the distance in pixels from
+	 * the point to the curve. 
+	 */
+	var _distanceFromCurve = function(point, curve) {
+		var candidates = [],     
+	    	w = _convertToBezier(point, curve),
+	    	degree = curve.length - 1, higherDegree = (2 * degree) - 1,
+	    	numSolutions = _findRoots(w, higherDegree, candidates, 0),
+			v = Vectors.subtract(point, curve[0]), dist = Vectors.square(v), t = 0.0;
+
+	    for (var i = 0; i < numSolutions; i++) {
+			v = Vectors.subtract(point, _bezier(curve, degree, candidates[i], null, null));
+	    	var newDist = Vectors.square(v);
+	    	if (newDist < dist) {
+	            dist = newDist;
+	        	t = candidates[i];
+		    }
+	    }
+	    v = Vectors.subtract(point, curve[degree]);
+		newDist = Vectors.square(v);
+	    if (newDist < dist) {
+	        dist = newDist;
+	    	t = 1.0;
+	    }
+		return {location:t, distance:dist};
+	};
+	/**
+	 * finds the nearest point on the curve to the given point.
+	 */
+	var _nearestPointOnCurve = function(point, curve) {    
+		var td = _distanceFromCurve(point, curve);
+	    return {point:_bezier(curve, curve.length - 1, td.location, null, null), location:td.location};
+	};
+	var _convertToBezier = function(point, curve) {
+		var degree = curve.length - 1, higherDegree = (2 * degree) - 1,
+	    	c = [], d = [], cdTable = [], w = [],
+	    	z = [ [1.0, 0.6, 0.3, 0.1], [0.4, 0.6, 0.6, 0.4], [0.1, 0.3, 0.6, 1.0] ];	
+	    	
+	    for (var i = 0; i <= degree; i++) c[i] = Vectors.subtract(curve[i], point);
+	    for (var i = 0; i <= degree - 1; i++) { 
+			d[i] = Vectors.subtract(curve[i+1], curve[i]);
+			d[i] = Vectors.scale(d[i], 3.0);
+	    }
+	    for (var row = 0; row <= degree - 1; row++) {
+			for (var column = 0; column <= degree; column++) {
+				if (!cdTable[row]) cdTable[row] = [];
+		    	cdTable[row][column] = Vectors.dotProduct(d[row], c[column]);
+			}
+	    }
+	    for (i = 0; i <= higherDegree; i++) {
+			if (!w[i]) w[i] = [];
+			w[i].y = 0.0;
+			w[i].x = parseFloat(i) / higherDegree;
+	    }
+	    var n = degree, m = degree-1;
+	    for (var k = 0; k <= n + m; k++) {
+			var lb = Math.max(0, k - m),
+				ub = Math.min(k, n);
+			for (i = lb; i <= ub; i++) {
+		    	j = k - i;
+		    	w[i+j].y += cdTable[j][i] * z[j][i];
+			}
+	    }
+	    return w;
+	};
+	/**
+	 * counts how many roots there are.
+	 */
+	var _findRoots = function(w, degree, t, depth) {  
+	    var left = [], right = [],	
+	    	left_count, right_count,	
+	    	left_t = [], right_t = [];
+	    	
+	    switch (_getCrossingCount(w, degree)) {
+	       	case 0 : {	
+	       		return 0;	
+	       	}
+	       	case 1 : {	
+	       		if (depth >= maxRecursion) {
+	       			t[0] = (w[0].x + w[degree].x) / 2.0;
+	       			return 1;
+	       		}
+	       		if (_isFlatEnough(w, degree)) {
+	       			t[0] = _computeXIntercept(w, degree);
+	       			return 1;
+	       		}
+	       		break;
+	       	}
+	    }
+	    _bezier(w, degree, 0.5, left, right);
+	    left_count  = _findRoots(left,  degree, left_t, depth+1);
+	    right_count = _findRoots(right, degree, right_t, depth+1);
+	    for (var i = 0; i < left_count; i++) t[i] = left_t[i];
+	    for (var i = 0; i < right_count; i++) t[i+left_count] = right_t[i];    
+		return (left_count+right_count);
+	};
+	var _getCrossingCount = function(curve, degree) {
+	    var n_crossings = 0, sign, old_sign;		    	
+	    sign = old_sign = Math.sgn(curve[0].y);
+	    for (var i = 1; i <= degree; i++) {
+			sign = Math.sgn(curve[i].y);
+			if (sign != old_sign) n_crossings++;
+			old_sign = sign;
+	    }
+	    return n_crossings;
+	};
+	var _isFlatEnough = function(curve, degree) {
+	    var  error,
+	    	intercept_1, intercept_2, left_intercept, right_intercept,
+	    	a, b, c, det, dInv, a1, b1, c1, a2, b2, c2;
+	    a = curve[0].y - curve[degree].y;
+	    b = curve[degree].x - curve[0].x;
+	    c = curve[0].x * curve[degree].y - curve[degree].x * curve[0].y;
+	
+	    var max_distance_above = max_distance_below = 0.0;
+	    
+	    for (var i = 1; i < degree; i++) {
+	        var value = a * curve[i].x + b * curve[i].y + c;       
+	        if (value > max_distance_above)
+	            max_distance_above = value;
+	        else if (value < max_distance_below)
+	        	max_distance_below = value;
+	    }
+	    
+	    a1 = 0.0; b1 = 1.0; c1 = 0.0; a2 = a; b2 = b;
+	    c2 = c - max_distance_above;
+	    det = a1 * b2 - a2 * b1;
+	    dInv = 1.0/det;
+	    intercept_1 = (b1 * c2 - b2 * c1) * dInv;
+	    a2 = a; b2 = b; c2 = c - max_distance_below;
+	    det = a1 * b2 - a2 * b1;
+	    dInv = 1.0/det;
+	    intercept_2 = (b1 * c2 - b2 * c1) * dInv;
+	    left_intercept = Math.min(intercept_1, intercept_2);
+	    right_intercept = Math.max(intercept_1, intercept_2);
+	    error = right_intercept - left_intercept;
+	    return (error < flatnessTolerance)? 1 : 0;
+	};
+	var _computeXIntercept = function(curve, degree) {
+	    var XLK = 1.0, YLK = 0.0,
+	    	XNM = curve[degree].x - curve[0].x, YNM = curve[degree].y - curve[0].y,
+	    	XMK = curve[0].x - 0.0, YMK = curve[0].y - 0.0,
+	    	det = XNM*YLK - YNM*XLK, detInv = 1.0/det,
+	    	S = (XNM*YMK - YNM*XMK) * detInv; 
+	    return 0.0 + XLK * S;
+	};
+	var _bezier = function(curve, degree, t, left, right) {
+	    var temp = [[]];
+	    for (var j =0; j <= degree; j++) temp[0][j] = curve[j];
+	    for (var i = 1; i <= degree; i++) {	
+			for (var j =0 ; j <= degree - i; j++) {
+				if (!temp[i]) temp[i] = [];
+				if (!temp[i][j]) temp[i][j] = {};
+		    	temp[i][j].x = (1.0 - t) * temp[i-1][j].x + t * temp[i-1][j+1].x;
+		    	temp[i][j].y = (1.0 - t) * temp[i-1][j].y + t * temp[i-1][j+1].y;
+			}
+	    }    
+	    if (left != null) 
+	    	for (j = 0; j <= degree; j++) left[j]  = temp[j][0];
+	    if (right != null)
+			for (j = 0; j <= degree; j++) right[j] = temp[degree-j][j];
+	    
+	    return (temp[degree][0]);
+	};
+	
+	var _curveFunctionCache = {};
+	var _getCurveFunctions = function(order) {
+		var fns = _curveFunctionCache[order];
+		if (!fns) {
+			fns = [];			
+			var f_term = function() { return function(t) { return Math.pow(t, order); }; },
+				l_term = function() { return function(t) { return Math.pow((1-t), order); }; },
+				c_term = function(c) { return function(t) { return c; }; },
+				t_term = function() { return function(t) { return t; }; },
+				one_minus_t_term = function() { return function(t) { return 1-t; }; },
+				_termFunc = function(terms) {
+					return function(t) {
+						var p = 1;
+						for (var i = 0; i < terms.length; i++) p = p * terms[i](t);
+						return p;
+					};
+				};
+			
+			fns.push(new f_term());  // first is t to the power of the curve order		
+			for (var i = 1; i < order; i++) {
+				var terms = [new c_term(order)];
+				for (var j = 0 ; j < (order - i); j++) terms.push(new t_term());
+				for (var j = 0 ; j < i; j++) terms.push(new one_minus_t_term());
+				fns.push(new _termFunc(terms));
+			}
+			fns.push(new l_term());  // last is (1-t) to the power of the curve order
+		
+			_curveFunctionCache[order] = fns;
+		}
+			
+		return fns;
+	};
+	
+	
+	/**
+	 * calculates a point on the curve, for a Bezier of arbitrary order.
+	 * @param curve an array of control points, eg [{x:10,y:20}, {x:50,y:50}, {x:100,y:100}, {x:120,y:100}].  For a cubic bezier this should have four points.
+	 * @param location a decimal indicating the distance along the curve the point should be located at.  this is the distance along the curve as it travels, taking the way it bends into account.  should be a number from 0 to 1, inclusive.
+	 */
+	var _pointOnPath = function(curve, location) {		
+		var cc = _getCurveFunctions(curve.length - 1),
+			_x = 0, _y = 0;
+		for (var i = 0; i < curve.length ; i++) {
+			_x = _x + (curve[i].x * cc[i](location));
+			_y = _y + (curve[i].y * cc[i](location));
+		}
+		
+		return {x:_x, y:_y};
+	};
+	
+	var _dist = function(p1,p2) {
+		return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+	};
+
+	var _isPoint = function(curve) {
+		return curve[0].x == curve[1].x && curve[0].y == curve[1].y;
+	};
+	
+	/**
+	 * finds the point that is 'distance' along the path from 'location'.  this method returns both the x,y location of the point and also
+	 * its 'location' (proportion of travel along the path); the method below - _pointAlongPathFrom - calls this method and just returns the
+	 * point.
+	 */
+	var _pointAlongPath = function(curve, location, distance) {
+
+		if (_isPoint(curve)) {
+			return {
+				point:curve[0],
+				location:location
+			};
+		}
+
+		var prev = _pointOnPath(curve, location), 
+			tally = 0, 
+			curLoc = location, 
+			direction = distance > 0 ? 1 : -1, 
+			cur = null;
+			
+		while (tally < Math.abs(distance)) {
+			curLoc += (0.005 * direction);
+			cur = _pointOnPath(curve, curLoc);
+			tally += _dist(cur, prev);	
+			prev = cur;
+		}
+		return {point:cur, location:curLoc};        	
+	};
+	
+	var _length = function(curve) {
+		if (_isPoint(curve)) return 0;
+
+		var prev = _pointOnPath(curve, 0),
+			tally = 0,
+			curLoc = 0,
+			direction = 1,
+			cur = null;
+			
+		while (curLoc < 1) {
+			curLoc += (0.005 * direction);
+			cur = _pointOnPath(curve, curLoc);
+			tally += _dist(cur, prev);	
+			prev = cur;
+		}
+		return tally;
+	};
+	
+	/**
+	 * finds the point that is 'distance' along the path from 'location'.  
+	 */
+	var _pointAlongPathFrom = function(curve, location, distance) {
+		return _pointAlongPath(curve, location, distance).point;
+	};
+
+	/**
+	 * finds the location that is 'distance' along the path from 'location'.  
+	 */
+	var _locationAlongPathFrom = function(curve, location, distance) {
+		return _pointAlongPath(curve, location, distance).location;
+	};
+	
+	/**
+	 * returns the gradient of the curve at the given location, which is a decimal between 0 and 1 inclusive.
+	 * 
+	 * thanks // http://bimixual.org/AnimationLibrary/beziertangents.html
+	 */
+	var _gradientAtPoint = function(curve, location) {
+		var p1 = _pointOnPath(curve, location),	
+			p2 = _pointOnPath(curve.slice(0, curve.length - 1), location),
+			dy = p2.y - p1.y, dx = p2.x - p1.x;
+		return dy == 0 ? Infinity : Math.atan(dy / dx);		
+	};
+	
+	/**
+	returns the gradient of the curve at the point which is 'distance' from the given location.
+	if this point is greater than location 1, the gradient at location 1 is returned.
+	if this point is less than location 0, the gradient at location 0 is returned.
+	*/
+	var _gradientAtPointAlongPathFrom = function(curve, location, distance) {
+		var p = _pointAlongPath(curve, location, distance);
+		if (p.location > 1) p.location = 1;
+		if (p.location < 0) p.location = 0;		
+		return _gradientAtPoint(curve, p.location);		
+	};
+
+	/**
+	 * calculates a line that is 'length' pixels long, perpendicular to, and centered on, the path at 'distance' pixels from the given location.
+	 * if distance is not supplied, the perpendicular for the given location is computed (ie. we set distance to zero).
+	 */
+	var _perpendicularToPathAt = function(curve, location, length, distance) {
+		distance = distance == null ? 0 : distance;
+		var p = _pointAlongPath(curve, location, distance),
+			m = _gradientAtPoint(curve, p.location),
+			_theta2 = Math.atan(-1 / m),
+			y =  length / 2 * Math.sin(_theta2),
+			x =  length / 2 * Math.cos(_theta2);
+		return [{x:p.point.x + x, y:p.point.y + y}, {x:p.point.x - x, y:p.point.y - y}];
+	};
+	
+	var jsBezier = window.jsBezier = {
+		distanceFromCurve : _distanceFromCurve,
+		gradientAtPoint : _gradientAtPoint,
+		gradientAtPointAlongCurveFrom : _gradientAtPointAlongPathFrom,
+		nearestPointOnCurve : _nearestPointOnCurve,
+		pointOnCurve : _pointOnPath,		
+		pointAlongCurveFrom : _pointAlongPathFrom,
+		perpendicularToCurveAt : _perpendicularToPathAt,
+		locationAlongCurveFrom:_locationAlongPathFrom,
+		getLength:_length
+	};
+})();
+
+/**
+ * jsPlumbGeom v0.1
  *
- * Copyright 2011, Dave Furfero
- * Dual licensed under the MIT or GPL Version 2 licenses.
+ * Various geometry functions written as part of jsPlumb and perhaps useful for others.
  *
- * Depends:
- *  jquery.ui.widget.js
- *  jquery.ui.mouse.js
+ * Copyright (c) 2013 Simon Porritt
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
  */
-(function(b){b.support.touch="ontouchend" in document;if(!b.support.touch){return;}var c=b.ui.mouse.prototype,e=c._mouseInit,a;function d(g,h){if(g.originalEvent.touches.length>1){return;}g.preventDefault();var i=g.originalEvent.changedTouches[0],f=document.createEvent("MouseEvents");f.initMouseEvent(h,true,true,window,1,i.screenX,i.screenY,i.clientX,i.clientY,false,false,false,false,0,null);g.target.dispatchEvent(f);}c._touchStart=function(g){var f=this;if(a||!f._mouseCapture(g.originalEvent.changedTouches[0])){return;}a=true;f._touchMoved=false;d(g,"mouseover");d(g,"mousemove");d(g,"mousedown");};c._touchMove=function(f){if(!a){return;}this._touchMoved=true;d(f,"mousemove");};c._touchEnd=function(f){if(!a){return;}d(f,"mouseup");d(f,"mouseout");if(!this._touchMoved){d(f,"click");}a=false;};c._mouseInit=function(){var f=this;f.element.bind("touchstart",b.proxy(f,"_touchStart")).bind("touchmove",b.proxy(f,"_touchMove")).bind("touchend",b.proxy(f,"_touchEnd"));e.call(f);};})(jQuery);
-///#source 1 1 /Scripts/jsPlumb/util.js
+;(function() {
+
+	
+	"use strict";
+
+	// Establish the root object, `window` in the browser, or `global` on the server.
+	var root = this;
+	var jsPlumbGeom;
+	if (typeof exports !== 'undefined') {
+		jsPlumbGeom = exports;
+	} else {
+		jsPlumbGeom = root.jsPlumbGeom = {};
+	}
+
+	var _isa = function(a) { return Object.prototype.toString.call(a) === "[object Array]"; },
+		_pointHelper = function(p1, p2, fn) {
+		    p1 = _isa(p1) ? p1 : [p1.x, p1.y];
+		    p2 = _isa(p2) ? p2 : [p2.x, p2.y];    
+		    return fn(p1, p2);
+		},
+		/**
+		* @name jsPlumbGeom.gradient
+		* @function
+		* @desc Calculates the gradient of a line between the two points.
+		* @param {Point} p1 First point, either as a 2 entry array or object with `left` and `top` properties.
+		* @param {Point} p2 Second point, either as a 2 entry array or object with `left` and `top` properties.
+		* @return {Float} The gradient of a line between the two points.
+		*/
+		_gradient = jsPlumbGeom.gradient = function(p1, p2) {
+		    return _pointHelper(p1, p2, function(_p1, _p2) { 
+		        if (_p2[0] == _p1[0])
+		            return _p2[1] > _p1[1] ? Infinity : -Infinity;
+		        else if (_p2[1] == _p1[1]) 
+		            return _p2[0] > _p1[0] ? 0 : -0;
+		        else 
+		            return (_p2[1] - _p1[1]) / (_p2[0] - _p1[0]); 
+		    });		
+		},
+		/**
+		* @name jsPlumbGeom.normal
+		* @function
+		* @desc Calculates the gradient of a normal to a line between the two points.
+		* @param {Point} p1 First point, either as a 2 entry array or object with `left` and `top` properties.
+		* @param {Point} p2 Second point, either as a 2 entry array or object with `left` and `top` properties.
+		* @return {Float} The gradient of a normal to a line between the two points.
+		*/
+		_normal = jsPlumbGeom.normal = function(p1, p2) {
+		    return -1 / _gradient(p1, p2);
+		},
+		/**
+		* @name jsPlumbGeom.lineLength
+		* @function
+		* @desc Calculates the length of a line between the two points.
+		* @param {Point} p1 First point, either as a 2 entry array or object with `left` and `top` properties.
+		* @param {Point} p2 Second point, either as a 2 entry array or object with `left` and `top` properties.
+		* @return {Float} The length of a line between the two points.
+		*/
+		_lineLength = jsPlumbGeom.lineLength = function(p1, p2) {
+		    return _pointHelper(p1, p2, function(_p1, _p2) {
+		        return Math.sqrt(Math.pow(_p2[1] - _p1[1], 2) + Math.pow(_p2[0] - _p1[0], 2));			
+		    });
+		},
+		/**
+		* @name jsPlumbGeom.quadrant
+		* @function
+		* @desc Calculates the quadrant in which the angle between the two points lies. 
+		* @param {Point} p1 First point, either as a 2 entry array or object with `left` and `top` properties.
+		* @param {Point} p2 Second point, either as a 2 entry array or object with `left` and `top` properties.
+		* @return {Integer} The quadrant - 1 for upper right, 2 for lower right, 3 for lower left, 4 for upper left.
+		*/
+		_quadrant = jsPlumbGeom.quadrant = function(p1, p2) {
+		    return _pointHelper(p1, p2, function(_p1, _p2) {
+		        if (_p2[0] > _p1[0]) {
+		            return (_p2[1] > _p1[1]) ? 2 : 1;
+		        }
+		        else if (_p2[0] == _p1[0]) {
+		            return _p2[1] > _p1[1] ? 2 : 1;    
+		        }
+		        else {
+		            return (_p2[1] > _p1[1]) ? 3 : 4;
+		        }
+		    });
+		},
+		/**
+		* @name jsPlumbGeom.theta
+		* @function
+		* @desc Calculates the angle between the two points. 
+		* @param {Point} p1 First point, either as a 2 entry array or object with `left` and `top` properties.
+		* @param {Point} p2 Second point, either as a 2 entry array or object with `left` and `top` properties.
+		* @return {Float} The angle between the two points.
+		*/
+		_theta = jsPlumbGeom.theta = function(p1, p2) {
+		    return _pointHelper(p1, p2, function(_p1, _p2) {
+		        var m = _gradient(_p1, _p2),
+		            t = Math.atan(m),
+		            s = _quadrant(_p1, _p2);
+		        if ((s == 4 || s== 3)) t += Math.PI;
+		        if (t < 0) t += (2 * Math.PI);
+		    
+		        return t;
+		    });
+		},
+		/**
+		* @name jsPlumbGeom.intersects
+		* @function
+		* @desc Calculates whether or not the two rectangles intersect.
+		* @param {Rectangle} r1 First rectangle, as a js object in the form `{x:.., y:.., w:.., h:..}`
+		* @param {Rectangle} r2 Second rectangle, as a js object in the form `{x:.., y:.., w:.., h:..}`
+		* @return {Boolean} True if the rectangles intersect, false otherwise.
+		*/
+		_intersects = jsPlumbGeom.intersects = function(r1, r2) {
+		    var x1 = r1.x, x2 = r1.x + r1.w, y1 = r1.y, y2 = r1.y + r1.h,
+		        a1 = r2.x, a2 = r2.x + r2.w, b1 = r2.y, b2 = r2.y + r2.h;
+		
+			return  ( (x1 <= a1 && a1 <= x2) && (y1 <= b1 && b1 <= y2) ) ||
+			        ( (x1 <= a2 && a2 <= x2) && (y1 <= b1 && b1 <= y2) ) ||
+			        ( (x1 <= a1 && a1 <= x2) && (y1 <= b2 && b2 <= y2) ) ||
+			        ( (x1 <= a2 && a1 <= x2) && (y1 <= b2 && b2 <= y2) ) ||	
+			        ( (a1 <= x1 && x1 <= a2) && (b1 <= y1 && y1 <= b2) ) ||
+			        ( (a1 <= x2 && x2 <= a2) && (b1 <= y1 && y1 <= b2) ) ||
+			        ( (a1 <= x1 && x1 <= a2) && (b1 <= y2 && y2 <= b2) ) ||
+			        ( (a1 <= x2 && x1 <= a2) && (b1 <= y2 && y2 <= b2) );
+		},
+		_segmentMultipliers = [null, [1, -1], [1, 1], [-1, 1], [-1, -1] ],
+		_inverseSegmentMultipliers = [null, [-1, -1], [-1, 1], [1, 1], [1, -1] ],
+		/**
+		* @name jsPlumbGeom.pointOnLine
+		* @function
+		* @desc Calculates a point on the line from `fromPoint` to `toPoint` that is `distance` units along the length of the line.
+		* @param {Point} p1 First point, either as a 2 entry array or object with `left` and `top` properties.
+		* @param {Point} p2 Second point, either as a 2 entry array or object with `left` and `top` properties.
+		* @return {Point} Point on the line, in the form `{ x:..., y:... }`.
+		*/
+		_pointOnLine = jsPlumbGeom.pointOnLine = function(fromPoint, toPoint, distance) {
+		    var m = _gradient(fromPoint, toPoint),
+		        s = _quadrant(fromPoint, toPoint),
+		        segmentMultiplier = distance > 0 ? _segmentMultipliers[s] : _inverseSegmentMultipliers[s],
+		        theta = Math.atan(m),
+		        y = Math.abs(distance * Math.sin(theta)) * segmentMultiplier[1],
+		        x =  Math.abs(distance * Math.cos(theta)) * segmentMultiplier[0];
+		    return { x:fromPoint.x + x, y:fromPoint.y + y };
+		},
+		/**
+		* @name jsPlumbGeom.perpendicularLineTo
+		* @function
+		* @desc Calculates a line of length `length` that is perpendicular to the line from `fromPoint` to `toPoint` and passes through `toPoint`.
+		* @param {Point} p1 First point, either as a 2 entry array or object with `left` and `top` properties.
+		* @param {Point} p2 Second point, either as a 2 entry array or object with `left` and `top` properties.
+		* @return {Line} Perpendicular line, in the form `[ { x:..., y:... }, { x:..., y:... } ]`.
+		*/        
+		_perpendicularLineTo = jsPlumbGeom.perpendicularLineTo = function(fromPoint, toPoint, length) {
+		    var m = _gradient(fromPoint, toPoint),
+		        theta2 = Math.atan(-1 / m),
+		        y =  length / 2 * Math.sin(theta2),
+		        x =  length / 2 * Math.cos(theta2);
+		    return [{x:toPoint.x + x, y:toPoint.y + y}, {x:toPoint.x - x, y:toPoint.y - y}];
+		};	
+}).call(this);
 /*
  * jsPlumb
  * 
@@ -450,7 +1046,6 @@
     }
 
 })();
-///#source 1 1 /Scripts/jsPlumb/dom-adapter.js
 /*
  * jsPlumb
  * 
@@ -752,7 +1347,6 @@
 */
 
 })();
-///#source 1 1 /Scripts/jsPlumb/jsPlumb.js
 /**
  * @module jsPlumb
  * @description Provides a way to visually connect elements on an HTML page, using either SVG, Canvas
@@ -3751,7 +4345,6 @@
 	
 })();
 
-///#source 1 1 /Scripts/jsPlumb/endpoint.js
 
 ;(function() {
         
@@ -4749,7 +5342,6 @@
         }
     });
 })();
-///#source 1 1 /Scripts/jsPlumb/connection.js
 ;(function() {
 
     var makeConnector = function(_jsPlumb, renderMode, connectorName, connectorArgs) {
@@ -5253,7 +5845,6 @@
         
     }); // END Connection class            
 })();
-///#source 1 1 /Scripts/jsPlumb/anchors.js
 /*
  * jsPlumb
  * 
@@ -6327,7 +6918,6 @@
 		return a;
 	};
 })();
-///#source 1 1 /Scripts/jsPlumb/defaults.js
 /*
  * jsPlumb
  * 
@@ -7837,7 +8427,6 @@
  // ********************************* END OF OVERLAY DEFINITIONS ***********************************************************************
     
 })();
-///#source 1 1 /Scripts/jsPlumb/connectors-flowchart.js
 /*
  * jsPlumb
  * 
@@ -8200,7 +8789,341 @@
     jsPlumbUtil.extend(Flowchart, jsPlumb.Connectors.AbstractConnector);
     jsPlumb.registerConnectorType(Flowchart, "Flowchart");
 })();
-///#source 1 1 /Scripts/jsPlumb/renderers-canvas.js
+/*
+ * jsPlumb
+ *
+ * Title:jsPlumb 1.5.4
+ *
+ * Provides a way to visually connect elements on an HTML page, using either SVG, Canvas
+ * elements, or VML.
+ *
+ * This file contains the state machine connectors.
+ *
+ * Thanks to Brainstorm Mobile Solutions for supporting the development of these.
+ *
+ * Copyright (c) 2010 - 2013 Simon Porritt (simon.porritt@gmail.com)
+ *
+ * http://jsplumb.org
+ * http://github.com/sporritt/jsplumb
+ * http://code.google.com/p/jsplumb
+ *
+ * Dual licensed under the MIT and GPL2 licenses.
+ */
+
+;(function() {
+
+	var Line = function(x1, y1, x2, y2) {
+
+		this.m = (y2 - y1) / (x2 - x1);
+		this.b = -1 * ((this.m * x1) - y1);
+	
+		this.rectIntersect = function(x,y,w,h) {
+			var results = [], xInt, yInt;
+		
+			// 	try top face
+			// 	the equation of the top face is y = (0 * x) + b; y = b.
+			xInt = (y - this.b) / this.m;
+			// test that the X value is in the line's range.
+			if (xInt >= x && xInt <= (x + w)) results.push([ xInt, (this.m * xInt) + this.b ]);
+		
+			// try right face
+			yInt = (this.m * (x + w)) + this.b;
+			if (yInt >= y && yInt <= (y + h)) results.push([ (yInt - this.b) / this.m, yInt ]);
+		
+			// 	bottom face
+			xInt = ((y + h) - this.b) / this.m;
+			// test that the X value is in the line's range.
+			if (xInt >= x && xInt <= (x + w)) results.push([ xInt, (this.m * xInt) + this.b ]);
+		
+			// try left face
+			yInt = (this.m * x) + this.b;
+			if (yInt >= y && yInt <= (y + h)) results.push([ (yInt - this.b) / this.m, yInt ]);
+
+			if (results.length == 2) {
+				var midx = (results[0][0] + results[1][0]) / 2, midy = (results[0][1] + results[1][1]) / 2;
+				results.push([ midx,midy ]);
+				// now calculate the segment inside the rectangle where the midpoint lies.
+				var xseg = midx <= x + (w / 2) ? -1 : 1,
+					yseg = midy <= y + (h / 2) ? -1 : 1;
+				results.push([xseg, yseg]);
+				return results;
+			}
+		
+			return null;
+
+		};
+	},
+	_segment = function(x1, y1, x2, y2) {
+		if (x1 <= x2 && y2 <= y1) return 1;
+		else if (x1 <= x2 && y1 <= y2) return 2;
+		else if (x2 <= x1 && y2 >= y1) return 3;
+		return 4;
+	},
+		
+		// the control point we will use depends on the faces to which each end of the connection is assigned, specifically whether or not the
+		// two faces are parallel or perpendicular.  if they are parallel then the control point lies on the midpoint of the axis in which they
+		// are parellel and varies only in the other axis; this variation is proportional to the distance that the anchor points lie from the
+		// center of that face.  if the two faces are perpendicular then the control point is at some distance from both the midpoints; the amount and
+		// direction are dependent on the orientation of the two elements. 'seg', passed in to this method, tells you which segment the target element
+		// lies in with respect to the source: 1 is top right, 2 is bottom right, 3 is bottom left, 4 is top left.
+		//
+		// sourcePos and targetPos are arrays of info about where on the source and target each anchor is located.  their contents are:
+		//
+		// 0 - absolute x
+		// 1 - absolute y
+		// 2 - proportional x in element (0 is left edge, 1 is right edge)
+		// 3 - proportional y in element (0 is top edge, 1 is bottom edge)
+		// 	
+	_findControlPoint = function(midx, midy, segment, sourceEdge, targetEdge, dx, dy, distance, proximityLimit) {
+        // TODO (maybe)
+        // - if anchor pos is 0.5, make the control point take into account the relative position of the elements.
+        if (distance <= proximityLimit) return [midx, midy];
+
+        if (segment === 1) {
+            if (sourceEdge[3] <= 0 && targetEdge[3] >= 1) return [ midx + (sourceEdge[2] < 0.5 ? -1 * dx : dx), midy ];
+            else if (sourceEdge[2] >= 1 && targetEdge[2] <= 0) return [ midx, midy + (sourceEdge[3] < 0.5 ? -1 * dy : dy) ];
+            else return [ midx + (-1 * dx) , midy + (-1 * dy) ];
+        }
+        else if (segment === 2) {
+            if (sourceEdge[3] >= 1 && targetEdge[3] <= 0) return [ midx + (sourceEdge[2] < 0.5 ? -1 * dx : dx), midy ];
+            else if (sourceEdge[2] >= 1 && targetEdge[2] <= 0) return [ midx, midy + (sourceEdge[3] < 0.5 ? -1 * dy : dy) ];
+            else return [ midx + (1 * dx) , midy + (-1 * dy) ];
+        }
+        else if (segment === 3) {
+            if (sourceEdge[3] >= 1 && targetEdge[3] <= 0) return [ midx + (sourceEdge[2] < 0.5 ? -1 * dx : dx), midy ];
+            else if (sourceEdge[2] <= 0 && targetEdge[2] >= 1) return [ midx, midy + (sourceEdge[3] < 0.5 ? -1 * dy : dy) ];
+            else return [ midx + (-1 * dx) , midy + (-1 * dy) ];
+        }
+        else if (segment === 4) {
+            if (sourceEdge[3] <= 0 && targetEdge[3] >= 1) return [ midx + (sourceEdge[2] < 0.5 ? -1 * dx : dx), midy ];
+            else if (sourceEdge[2] <= 0 && targetEdge[2] >= 1) return [ midx, midy + (sourceEdge[3] < 0.5 ? -1 * dy : dy) ];
+            else return [ midx + (1 * dx) , midy + (-1 * dy) ];
+        }
+
+	};	
+	
+	/**
+     * Class: Connectors.StateMachine
+     * Provides 'state machine' connectors.
+     */
+	/*
+	 * Function: Constructor
+	 * 
+	 * Parameters:
+	 * curviness -	measure of how "curvy" the connectors will be.  this is translated as the distance that the
+     *                Bezier curve's control point is from the midpoint of the straight line connecting the two
+     *              endpoints, and does not mean that the connector is this wide.  The Bezier curve never reaches
+     *              its control points; they act as gravitational masses. defaults to 10.
+	 * margin	-	distance from element to start and end connectors, in pixels.  defaults to 5.
+	 * proximityLimit  -   sets the distance beneath which the elements are consider too close together to bother
+	 *						with fancy curves. by default this is 80 pixels.
+	 * loopbackRadius	-	the radius of a loopback connector.  optional; defaults to 25.
+	 * showLoopback   -   If set to false this tells the connector that it is ok to paint connections whose source and target is the same element with a connector running through the element. The default value for this is true; the connector always makes a loopback connection loop around the element rather than passing through it.
+	*/
+	var StateMachine = function(params) {
+		params = params || {};
+		this.type = "StateMachine";
+
+		var self = this,
+			_super =  jsPlumb.Connectors.AbstractConnector.apply(this, arguments),
+			curviness = params.curviness || 10,
+			margin = params.margin || 5,
+			proximityLimit = params.proximityLimit || 80,
+			clockwise = params.orientation && params.orientation === "clockwise",
+			loopbackRadius = params.loopbackRadius || 25,
+			showLoopback = params.showLoopback !== false;
+		
+		this._compute = function(paintInfo, params) {
+			var w = Math.abs(params.sourcePos[0] - params.targetPos[0]),
+				h = Math.abs(params.sourcePos[1] - params.targetPos[1]),
+				x = Math.min(params.sourcePos[0], params.targetPos[0]),
+				y = Math.min(params.sourcePos[1], params.targetPos[1]);				
+		
+			if (!showLoopback || (params.sourceEndpoint.elementId !== params.targetEndpoint.elementId)) {                            
+				var _sx = params.sourcePos[0] < params.targetPos[0] ? 0  : w,
+					_sy = params.sourcePos[1] < params.targetPos[1] ? 0:h,
+					_tx = params.sourcePos[0] < params.targetPos[0] ? w : 0,
+					_ty = params.sourcePos[1] < params.targetPos[1] ? h : 0;
+            
+				// now adjust for the margin
+				if (params.sourcePos[2] === 0) _sx -= margin;
+            	if (params.sourcePos[2] === 1) _sx += margin;
+            	if (params.sourcePos[3] === 0) _sy -= margin;
+            	if (params.sourcePos[3] === 1) _sy += margin;
+            	if (params.targetPos[2] === 0) _tx -= margin;
+            	if (params.targetPos[2] === 1) _tx += margin;
+            	if (params.targetPos[3] === 0) _ty -= margin;
+            	if (params.targetPos[3] === 1) _ty += margin;
+
+            	//
+	            // these connectors are quadratic bezier curves, having a single control point. if both anchors 
+    	        // are located at 0.5 on their respective faces, the control point is set to the midpoint and you
+        	    // get a straight line.  this is also the case if the two anchors are within 'proximityLimit', since
+           	 	// it seems to make good aesthetic sense to do that. outside of that, the control point is positioned 
+           	 	// at 'curviness' pixels away along the normal to the straight line connecting the two anchors.
+	            // 
+   	        	// there may be two improvements to this.  firstly, we might actually support the notion of avoiding nodes
+            	// in the UI, or at least making a good effort at doing so.  if a connection would pass underneath some node,
+            	// for example, we might increase the distance the control point is away from the midpoint in a bid to
+            	// steer it around that node.  this will work within limits, but i think those limits would also be the likely
+            	// limits for, once again, aesthetic good sense in the layout of a chart using these connectors.
+            	//
+            	// the second possible change is actually two possible changes: firstly, it is possible we should gradually
+            	// decrease the 'curviness' as the distance between the anchors decreases; start tailing it off to 0 at some
+            	// point (which should be configurable).  secondly, we might slightly increase the 'curviness' for connectors
+            	// with respect to how far their anchor is from the center of its respective face. this could either look cool,
+            	// or stupid, and may indeed work only in a way that is so subtle as to have been a waste of time.
+            	//
+
+				var _midx = (_sx + _tx) / 2, _midy = (_sy + _ty) / 2, 
+            	    m2 = (-1 * _midx) / _midy, theta2 = Math.atan(m2),
+            	    dy =  (m2 == Infinity || m2 == -Infinity) ? 0 : Math.abs(curviness / 2 * Math.sin(theta2)),
+				    dx =  (m2 == Infinity || m2 == -Infinity) ? 0 : Math.abs(curviness / 2 * Math.cos(theta2)),
+				    segment = _segment(_sx, _sy, _tx, _ty),
+				    distance = Math.sqrt(Math.pow(_tx - _sx, 2) + Math.pow(_ty - _sy, 2)),			
+	            	// calculate the control point.  this code will be where we'll put in a rudimentary element avoidance scheme; it
+	            	// will work by extending the control point to force the curve to be, um, curvier.
+					_controlPoint = _findControlPoint(_midx,
+                                                  _midy,
+                                                  segment,
+                                                  params.sourcePos,
+                                                  params.targetPos,
+                                                  curviness, curviness,
+                                                  distance,
+                                                  proximityLimit);
+
+				_super.addSegment(this, "Bezier", {
+					x1:_tx, y1:_ty, x2:_sx, y2:_sy,
+					cp1x:_controlPoint[0], cp1y:_controlPoint[1],
+					cp2x:_controlPoint[0], cp2y:_controlPoint[1]
+				});				
+            }
+            else {
+            	// a loopback connector.  draw an arc from one anchor to the other.            	
+        		var x1 = params.sourcePos[0], x2 = params.sourcePos[0], y1 = params.sourcePos[1] - margin, y2 = params.sourcePos[1] - margin, 				
+					cx = x1, cy = y1 - loopbackRadius,				
+					// canvas sizing stuff, to ensure the whole painted area is visible.
+					_w = 2 * loopbackRadius, 
+					_h = 2 * loopbackRadius,
+					_x = cx - loopbackRadius, 
+					_y = cy - loopbackRadius;
+
+				paintInfo.points[0] = _x;
+				paintInfo.points[1] = _y;
+				paintInfo.points[2] = _w;
+				paintInfo.points[3] = _h;
+				
+				// ADD AN ARC SEGMENT.
+				_super.addSegment(this, "Arc", {
+					loopback:true,
+					x1:(x1 - _x) + 4,
+					y1:y1 - _y,
+					startAngle:0,
+					endAngle: 2 * Math.PI,
+					r:loopbackRadius,
+					ac:!clockwise,
+					x2:(x1 - _x) - 4,
+					y2:y1 - _y,
+					cx:cx - _x,
+					cy:cy - _y
+				});
+            }                           
+        };                        
+	};
+	jsPlumb.registerConnectorType(StateMachine, "StateMachine");
+})();
+
+/*
+    	// a possible rudimentary avoidance scheme, old now, perhaps not useful.
+        //      if (avoidSelector) {
+		//		    var testLine = new Line(sourcePos[0] + _sx,sourcePos[1] + _sy,sourcePos[0] + _tx,sourcePos[1] + _ty);
+		//		    var sel = jsPlumb.getSelector(avoidSelector);
+		//		    for (var i = 0; i < sel.length; i++) {
+		//			    var id = jsPlumb.getId(sel[i]);
+		//			    if (id != sourceEndpoint.elementId && id != targetEndpoint.elementId) {
+		//				    o = jsPlumb.getOffset(id), s = jsPlumb.getSize(id);
+//
+//						    if (o && s) {
+//							    var collision = testLine.rectIntersect(o.left,o.top,s[0],s[1]);
+//							    if (collision) {
+								    // set the control point to be a certain distance from the midpoint of the two points that
+								    // the line crosses on the rectangle.
+								    // TODO where will this 75 number come from?
+					//			    _controlX = collision[2][0] + (75 * collision[3][0]);
+				//	/			    _controlY = collision[2][1] + (75 * collision[3][1]);
+//							    }
+//						    }
+					//  }
+	//			    }
+              //}
+    */
+
+;(function() {
+
+	var Bezier = function(params) {
+        params = params || {};
+
+    	var self = this,
+			_super =  jsPlumb.Connectors.AbstractConnector.apply(this, arguments),
+            stub = params.stub || 50,
+            majorAnchor = params.curviness || 150,
+            minorAnchor = 10;            
+
+        this.type = "Bezier";	
+        this.getCurviness = function() { return majorAnchor; };	
+        
+        this._findControlPoint = function(point, sourceAnchorPosition, targetAnchorPosition, sourceEndpoint, targetEndpoint) {
+        	// determine if the two anchors are perpendicular to each other in their orientation.  we swap the control 
+        	// points around if so (code could be tightened up)
+        	var soo = sourceEndpoint.anchor.getOrientation(sourceEndpoint), 
+        		too = targetEndpoint.anchor.getOrientation(targetEndpoint),
+        		perpendicular = soo[0] != too[0] || soo[1] == too[1],
+            	p = [];                
+            	
+            if (!perpendicular) {
+                if (soo[0] === 0) // X
+                    p.push(sourceAnchorPosition[0] < targetAnchorPosition[0] ? point[0] + minorAnchor : point[0] - minorAnchor);
+                else p.push(point[0] - (majorAnchor * soo[0]));
+                                 
+                if (soo[1] === 0) // Y
+                	p.push(sourceAnchorPosition[1] < targetAnchorPosition[1] ? point[1] + minorAnchor : point[1] - minorAnchor);
+                else p.push(point[1] + (majorAnchor * too[1]));
+            }
+             else {
+                if (too[0] === 0) // X
+                	p.push(targetAnchorPosition[0] < sourceAnchorPosition[0] ? point[0] + minorAnchor : point[0] - minorAnchor);
+                else p.push(point[0] + (majorAnchor * too[0]));
+                
+                if (too[1] === 0) // Y
+                	p.push(targetAnchorPosition[1] < sourceAnchorPosition[1] ? point[1] + minorAnchor : point[1] - minorAnchor);
+                else p.push(point[1] + (majorAnchor * soo[1]));
+             }
+
+            return p;                
+        };        
+
+        this._compute = function(paintInfo, p) {                                
+			var sp = p.sourcePos,
+				tp = p.targetPos,				
+                _w = Math.abs(sp[0] - tp[0]),
+                _h = Math.abs(sp[1] - tp[1]),            
+                _sx = sp[0] < tp[0] ? _w : 0,
+                _sy = sp[1] < tp[1] ? _h : 0,
+                _tx = sp[0] < tp[0] ? 0 : _w,
+                _ty = sp[1] < tp[1] ? 0 : _h,
+                _CP = self._findControlPoint([_sx, _sy], sp, tp, p.sourceEndpoint, p.targetEndpoint),
+                _CP2 = self._findControlPoint([_tx, _ty], tp, sp, p.targetEndpoint, p.sourceEndpoint);
+
+			_super.addSegment(this, "Bezier", {
+				x1:_sx, y1:_sy, x2:_tx, y2:_ty,
+				cp1x:_CP[0], cp1y:_CP[1], cp2x:_CP2[0], cp2y:_CP2[1]
+			});                    
+        }; 
+	};
+
+	jsPlumb.registerConnectorType(Bezier, "Bezier");
+
+})();
 /*
  * jsPlumb
  * 
@@ -8736,7 +9659,6 @@
     };		
     jsPlumbUtil.extend(jsPlumb.Overlays.canvas.Diamond, [ jsPlumb.Overlays.Diamond, CanvasOverlay ] );
 })();
-///#source 1 1 /Scripts/jsPlumb/renderers-svg.js
 /*
  * jsPlumb
  * 
@@ -9365,7 +10287,6 @@
     };
     jsPlumbUtil.extend(jsPlumb.Overlays.svg.GuideLines, jsPlumb.Overlays.GuideLines);
 })();
-///#source 1 1 /Scripts/jsPlumb/renderers-vml.js
 /*
  * jsPlumb
  * 
@@ -9895,7 +10816,6 @@
 // ******************************* /vml overlays *****************************************************    
     
 })();
-///#source 1 1 /Scripts/jsPlumb/jquery.jsPlumb.js
 /*
  * jsPlumb
  * 
@@ -10286,200 +11206,3 @@ TODO: REMOVE!
 	
 })(jQuery);
 
-
-///#source 1 1 /Scripts/jsPlumb/jsplumb-geom-0.1.js
-/**
- * jsPlumbGeom v0.1
- *
- * Various geometry functions written as part of jsPlumb and perhaps useful for others.
- *
- * Copyright (c) 2013 Simon Porritt
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- */
-;(function() {
-
-	
-	"use strict";
-
-	// Establish the root object, `window` in the browser, or `global` on the server.
-	var root = this;
-	var jsPlumbGeom;
-	if (typeof exports !== 'undefined') {
-		jsPlumbGeom = exports;
-	} else {
-		jsPlumbGeom = root.jsPlumbGeom = {};
-	}
-
-	var _isa = function(a) { return Object.prototype.toString.call(a) === "[object Array]"; },
-		_pointHelper = function(p1, p2, fn) {
-		    p1 = _isa(p1) ? p1 : [p1.x, p1.y];
-		    p2 = _isa(p2) ? p2 : [p2.x, p2.y];    
-		    return fn(p1, p2);
-		},
-		/**
-		* @name jsPlumbGeom.gradient
-		* @function
-		* @desc Calculates the gradient of a line between the two points.
-		* @param {Point} p1 First point, either as a 2 entry array or object with `left` and `top` properties.
-		* @param {Point} p2 Second point, either as a 2 entry array or object with `left` and `top` properties.
-		* @return {Float} The gradient of a line between the two points.
-		*/
-		_gradient = jsPlumbGeom.gradient = function(p1, p2) {
-		    return _pointHelper(p1, p2, function(_p1, _p2) { 
-		        if (_p2[0] == _p1[0])
-		            return _p2[1] > _p1[1] ? Infinity : -Infinity;
-		        else if (_p2[1] == _p1[1]) 
-		            return _p2[0] > _p1[0] ? 0 : -0;
-		        else 
-		            return (_p2[1] - _p1[1]) / (_p2[0] - _p1[0]); 
-		    });		
-		},
-		/**
-		* @name jsPlumbGeom.normal
-		* @function
-		* @desc Calculates the gradient of a normal to a line between the two points.
-		* @param {Point} p1 First point, either as a 2 entry array or object with `left` and `top` properties.
-		* @param {Point} p2 Second point, either as a 2 entry array or object with `left` and `top` properties.
-		* @return {Float} The gradient of a normal to a line between the two points.
-		*/
-		_normal = jsPlumbGeom.normal = function(p1, p2) {
-		    return -1 / _gradient(p1, p2);
-		},
-		/**
-		* @name jsPlumbGeom.lineLength
-		* @function
-		* @desc Calculates the length of a line between the two points.
-		* @param {Point} p1 First point, either as a 2 entry array or object with `left` and `top` properties.
-		* @param {Point} p2 Second point, either as a 2 entry array or object with `left` and `top` properties.
-		* @return {Float} The length of a line between the two points.
-		*/
-		_lineLength = jsPlumbGeom.lineLength = function(p1, p2) {
-		    return _pointHelper(p1, p2, function(_p1, _p2) {
-		        return Math.sqrt(Math.pow(_p2[1] - _p1[1], 2) + Math.pow(_p2[0] - _p1[0], 2));			
-		    });
-		},
-		/**
-		* @name jsPlumbGeom.quadrant
-		* @function
-		* @desc Calculates the quadrant in which the angle between the two points lies. 
-		* @param {Point} p1 First point, either as a 2 entry array or object with `left` and `top` properties.
-		* @param {Point} p2 Second point, either as a 2 entry array or object with `left` and `top` properties.
-		* @return {Integer} The quadrant - 1 for upper right, 2 for lower right, 3 for lower left, 4 for upper left.
-		*/
-		_quadrant = jsPlumbGeom.quadrant = function(p1, p2) {
-		    return _pointHelper(p1, p2, function(_p1, _p2) {
-		        if (_p2[0] > _p1[0]) {
-		            return (_p2[1] > _p1[1]) ? 2 : 1;
-		        }
-		        else if (_p2[0] == _p1[0]) {
-		            return _p2[1] > _p1[1] ? 2 : 1;    
-		        }
-		        else {
-		            return (_p2[1] > _p1[1]) ? 3 : 4;
-		        }
-		    });
-		},
-		/**
-		* @name jsPlumbGeom.theta
-		* @function
-		* @desc Calculates the angle between the two points. 
-		* @param {Point} p1 First point, either as a 2 entry array or object with `left` and `top` properties.
-		* @param {Point} p2 Second point, either as a 2 entry array or object with `left` and `top` properties.
-		* @return {Float} The angle between the two points.
-		*/
-		_theta = jsPlumbGeom.theta = function(p1, p2) {
-		    return _pointHelper(p1, p2, function(_p1, _p2) {
-		        var m = _gradient(_p1, _p2),
-		            t = Math.atan(m),
-		            s = _quadrant(_p1, _p2);
-		        if ((s == 4 || s== 3)) t += Math.PI;
-		        if (t < 0) t += (2 * Math.PI);
-		    
-		        return t;
-		    });
-		},
-		/**
-		* @name jsPlumbGeom.intersects
-		* @function
-		* @desc Calculates whether or not the two rectangles intersect.
-		* @param {Rectangle} r1 First rectangle, as a js object in the form `{x:.., y:.., w:.., h:..}`
-		* @param {Rectangle} r2 Second rectangle, as a js object in the form `{x:.., y:.., w:.., h:..}`
-		* @return {Boolean} True if the rectangles intersect, false otherwise.
-		*/
-		_intersects = jsPlumbGeom.intersects = function(r1, r2) {
-		    var x1 = r1.x, x2 = r1.x + r1.w, y1 = r1.y, y2 = r1.y + r1.h,
-		        a1 = r2.x, a2 = r2.x + r2.w, b1 = r2.y, b2 = r2.y + r2.h;
-		
-			return  ( (x1 <= a1 && a1 <= x2) && (y1 <= b1 && b1 <= y2) ) ||
-			        ( (x1 <= a2 && a2 <= x2) && (y1 <= b1 && b1 <= y2) ) ||
-			        ( (x1 <= a1 && a1 <= x2) && (y1 <= b2 && b2 <= y2) ) ||
-			        ( (x1 <= a2 && a1 <= x2) && (y1 <= b2 && b2 <= y2) ) ||	
-			        ( (a1 <= x1 && x1 <= a2) && (b1 <= y1 && y1 <= b2) ) ||
-			        ( (a1 <= x2 && x2 <= a2) && (b1 <= y1 && y1 <= b2) ) ||
-			        ( (a1 <= x1 && x1 <= a2) && (b1 <= y2 && y2 <= b2) ) ||
-			        ( (a1 <= x2 && x1 <= a2) && (b1 <= y2 && y2 <= b2) );
-		},
-		_segmentMultipliers = [null, [1, -1], [1, 1], [-1, 1], [-1, -1] ],
-		_inverseSegmentMultipliers = [null, [-1, -1], [-1, 1], [1, 1], [1, -1] ],
-		/**
-		* @name jsPlumbGeom.pointOnLine
-		* @function
-		* @desc Calculates a point on the line from `fromPoint` to `toPoint` that is `distance` units along the length of the line.
-		* @param {Point} p1 First point, either as a 2 entry array or object with `left` and `top` properties.
-		* @param {Point} p2 Second point, either as a 2 entry array or object with `left` and `top` properties.
-		* @return {Point} Point on the line, in the form `{ x:..., y:... }`.
-		*/
-		_pointOnLine = jsPlumbGeom.pointOnLine = function(fromPoint, toPoint, distance) {
-		    var m = _gradient(fromPoint, toPoint),
-		        s = _quadrant(fromPoint, toPoint),
-		        segmentMultiplier = distance > 0 ? _segmentMultipliers[s] : _inverseSegmentMultipliers[s],
-		        theta = Math.atan(m),
-		        y = Math.abs(distance * Math.sin(theta)) * segmentMultiplier[1],
-		        x =  Math.abs(distance * Math.cos(theta)) * segmentMultiplier[0];
-		    return { x:fromPoint.x + x, y:fromPoint.y + y };
-		},
-		/**
-		* @name jsPlumbGeom.perpendicularLineTo
-		* @function
-		* @desc Calculates a line of length `length` that is perpendicular to the line from `fromPoint` to `toPoint` and passes through `toPoint`.
-		* @param {Point} p1 First point, either as a 2 entry array or object with `left` and `top` properties.
-		* @param {Point} p2 Second point, either as a 2 entry array or object with `left` and `top` properties.
-		* @return {Line} Perpendicular line, in the form `[ { x:..., y:... }, { x:..., y:... } ]`.
-		*/        
-		_perpendicularLineTo = jsPlumbGeom.perpendicularLineTo = function(fromPoint, toPoint, length) {
-		    var m = _gradient(fromPoint, toPoint),
-		        theta2 = Math.atan(-1 / m),
-		        y =  length / 2 * Math.sin(theta2),
-		        x =  length / 2 * Math.cos(theta2);
-		    return [{x:toPoint.x + x, y:toPoint.y + y}, {x:toPoint.x - x, y:toPoint.y - y}];
-		};	
-}).call(this);
-///#source 1 1 /Scripts/jsPlumb/jsBezier-0.6-min.js
-(function(){"undefined"==typeof Math.sgn&&(Math.sgn=function(a){return 0==a?0:0<a?1:-1});var q={subtract:function(a,b){return{x:a.x-b.x,y:a.y-b.y}},dotProduct:function(a,b){return a.x*b.x+a.y*b.y},square:function(a){return Math.sqrt(a.x*a.x+a.y*a.y)},scale:function(a,b){return{x:a.x*b,y:a.y*b}}},B=Math.pow(2,-65),x=function(a,b){for(var f=[],d=b.length-1,g=2*d-1,h=[],e=[],m=[],k=[],l=[[1,0.6,0.3,0.1],[0.4,0.6,0.6,0.4],[0.1,0.3,0.6,1]],c=0;c<=d;c++)h[c]=q.subtract(b[c],a);for(c=0;c<=d-1;c++)e[c]=q.subtract(b[c+
-1],b[c]),e[c]=q.scale(e[c],3);for(c=0;c<=d-1;c++)for(var n=0;n<=d;n++)m[c]||(m[c]=[]),m[c][n]=q.dotProduct(e[c],h[n]);for(c=0;c<=g;c++)k[c]||(k[c]=[]),k[c].y=0,k[c].x=parseFloat(c)/g;g=d-1;for(h=0;h<=d+g;h++){c=Math.max(0,h-g);for(e=Math.min(h,d);c<=e;c++)j=h-c,k[c+j].y+=m[j][c]*l[j][c]}d=b.length-1;k=u(k,2*d-1,f,0);g=q.subtract(a,b[0]);m=q.square(g);for(c=l=0;c<k;c++)g=q.subtract(a,v(b,d,f[c],null,null)),g=q.square(g),g<m&&(m=g,l=f[c]);g=q.subtract(a,b[d]);g=q.square(g);g<m&&(m=g,l=1);return{location:l,
-distance:m}},u=function(a,b,f,d){var g=[],h=[],e=[],m=[],k=0,l,c;c=Math.sgn(a[0].y);for(var n=1;n<=b;n++)l=Math.sgn(a[n].y),l!=c&&k++,c=l;switch(k){case 0:return 0;case 1:if(64<=d)return f[0]=(a[0].x+a[b].x)/2,1;var r,p,k=a[0].y-a[b].y;c=a[b].x-a[0].x;n=a[0].x*a[b].y-a[b].x*a[0].y;l=max_distance_below=0;for(r=1;r<b;r++)p=k*a[r].x+c*a[r].y+n,p>l?l=p:p<max_distance_below&&(max_distance_below=p);p=c;r=0*p-1*k;l=(1*(n-l)-0*p)*(1/r);p=c;c=n-max_distance_below;r=0*p-1*k;k=(1*c-0*p)*(1/r);c=Math.min(l,k);
-if(Math.max(l,k)-c<B)return e=a[b].x-a[0].x,m=a[b].y-a[0].y,f[0]=0+1*(e*(a[0].y-0)-m*(a[0].x-0))*(1/(0*e-1*m)),1}v(a,b,0.5,g,h);a=u(g,b,e,d+1);b=u(h,b,m,d+1);for(d=0;d<a;d++)f[d]=e[d];for(d=0;d<b;d++)f[d+a]=m[d];return a+b},v=function(a,b,f,d,g){for(var h=[[]],e=0;e<=b;e++)h[0][e]=a[e];for(a=1;a<=b;a++)for(e=0;e<=b-a;e++)h[a]||(h[a]=[]),h[a][e]||(h[a][e]={}),h[a][e].x=(1-f)*h[a-1][e].x+f*h[a-1][e+1].x,h[a][e].y=(1-f)*h[a-1][e].y+f*h[a-1][e+1].y;if(null!=d)for(e=0;e<=b;e++)d[e]=h[e][0];if(null!=g)for(e=
-0;e<=b;e++)g[e]=h[b-e][e];return h[b][0]},y={},s=function(a,b){var f,d=a.length-1;f=y[d];if(!f){f=[];var g=function(a){return function(){return a}},h=function(){return function(a){return a}},e=function(){return function(a){return 1-a}},m=function(a){return function(b){for(var c=1,d=0;d<a.length;d++)c*=a[d](b);return c}};f.push(new function(){return function(a){return Math.pow(a,d)}});for(var k=1;k<d;k++){for(var l=[new g(d)],c=0;c<d-k;c++)l.push(new h);for(c=0;c<k;c++)l.push(new e);f.push(new m(l))}f.push(new function(){return function(a){return Math.pow(1-
-a,d)}});y[d]=f}for(e=h=g=0;e<a.length;e++)g+=a[e].x*f[e](b),h+=a[e].y*f[e](b);return{x:g,y:h}},z=function(a,b){return Math.sqrt(Math.pow(a.x-b.x,2)+Math.pow(a.y-b.y,2))},A=function(a){return a[0].x==a[1].x&&a[0].y==a[1].y},t=function(a,b,f){if(A(a))return{point:a[0],location:b};for(var d=s(a,b),g=0,h=0<f?1:-1,e=null;g<Math.abs(f);)b+=0.005*h,e=s(a,b),g+=z(e,d),d=e;return{point:e,location:b}},w=function(a,b){var f=s(a,b),d=s(a.slice(0,a.length-1),b),g=d.y-f.y,f=d.x-f.x;return 0==g?Infinity:Math.atan(g/
-f)};window.jsBezier={distanceFromCurve:x,gradientAtPoint:w,gradientAtPointAlongCurveFrom:function(a,b,f){b=t(a,b,f);1<b.location&&(b.location=1);0>b.location&&(b.location=0);return w(a,b.location)},nearestPointOnCurve:function(a,b){var f=x(a,b);return{point:v(b,b.length-1,f.location,null,null),location:f.location}},pointOnCurve:s,pointAlongCurveFrom:function(a,b,f){return t(a,b,f).point},perpendicularToCurveAt:function(a,b,f,d){b=t(a,b,null==d?0:d);a=w(a,b.location);d=Math.atan(-1/a);a=f/2*Math.sin(d);
-f=f/2*Math.cos(d);return[{x:b.point.x+f,y:b.point.y+a},{x:b.point.x-f,y:b.point.y-a}]},locationAlongCurveFrom:function(a,b,f){return t(a,b,f).location},getLength:function(a){if(A(a))return 0;for(var b=s(a,0),f=0,d=0,g=null;1>d;)d+=0.005,g=s(a,d),f+=z(g,b),b=g;return f}}})();

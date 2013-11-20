@@ -46,19 +46,19 @@ namespace Bespoke.Sph.Domain
 
         public Activity GetCurrentActivity()
         {
-            if(null == this.WorkflowDefinition)
+            if (null == this.WorkflowDefinition)
                 throw new InvalidOperationException("You should have set the WorkflowDefinition " + this.WorkflowDefinitionId + " version " + this.Version + " via SerializedDefinitionStoreId property");
-            return this.WorkflowDefinition.ActivityCollection.SingleOrDefault(d => d.WebId == this.CurrentActivityWebId) ;
+            return this.WorkflowDefinition.ActivityCollection.SingleOrDefault(d => d.WebId == this.CurrentActivityWebId);
         }
 
         public Activity GetNexActivity()
         {
             if (null == this.WorkflowDefinition)
                 throw new InvalidOperationException("You should have set the WorkflowDefinition " + this.WorkflowDefinitionId + " version " + this.Version + " via SerializedDefinitionStoreId property");
-            var current =  string.IsNullOrWhiteSpace(this.CurrentActivityWebId) ? this.WorkflowDefinition.ActivityCollection.Single(d => d.IsInitiator) : null;
-        
-            if(null == current)return null;
-            if(string.IsNullOrWhiteSpace(current.NextActivityWebId))return null;
+            var current = string.IsNullOrWhiteSpace(this.CurrentActivityWebId) ? this.WorkflowDefinition.ActivityCollection.Single(d => d.IsInitiator) : null;
+
+            if (null == current) return null;
+            if (string.IsNullOrWhiteSpace(current.NextActivityWebId)) return null;
             return this.WorkflowDefinition.ActivityCollection.SingleOrDefault(f => f.WebId == current.NextActivityWebId);
         }
 
@@ -76,5 +76,17 @@ namespace Bespoke.Sph.Domain
 
         public DynamicObject ExecutionBag { get; set; }
 
+
+        private readonly ObjectCollection<string> m_validExecutableStepsCollection = new ObjectCollection<string>();
+        public ObjectCollection<string> ValidExecutableSteps
+        {
+            get { return m_validExecutableStepsCollection; }
+        }
+
+        private readonly ObjectCollection<string> m_forbiddenStepsCollection = new ObjectCollection<string>();
+        public ObjectCollection<string> ForbiddenSteps
+        {
+            get { return m_forbiddenStepsCollection; }
+        }
     }
 }

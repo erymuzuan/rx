@@ -126,5 +126,8 @@
 	top:35em;
 }
 .dragHover { border:2px solid orange; }
+.dragHoverToolbox { border:2px solid orange;
+    padding: 10px;
+}
 
 path { cursor:pointer; }

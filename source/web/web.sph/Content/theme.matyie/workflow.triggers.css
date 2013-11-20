@@ -34,7 +34,7 @@
 }
 
 div.source-activity {
-    border: 2px solid #007aff;
+    border: 4px solid #007aff;
 }
 
 .source-connector {
@@ -43,5 +43,5 @@ div.source-activity {
 }
 
 div.target-activity {
-    border: 2px solid #ff6a00;
+    border: 4px solid #ff6a00;
 }

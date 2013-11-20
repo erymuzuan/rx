@@ -208,7 +208,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     targetAnchors = ["TopCenter"],
                     fullName = typeof act.$type === "function" ? act.$type() : act.$type,
                     name = /Bespoke\.Sph\.Domain\.(.*?),/.exec(fullName)[1],
-                    sourceAnchorOptions = ["BottomCenter", "BottomLeft", "BottomRight", "LeftMiddle", "RightMiddle"],
+                    sourceAnchorOptions = ["BottomCenter","BottomRight",  "BottomLeft", "LeftMiddle", "RightMiddle"],
                     branchesCount = 0;
 
 
@@ -304,6 +304,16 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 var target = ko.dataFor(connection.target);
                 source.NextActivityWebId(target.WebId());
             },
+            activitiesChanged = function(changes) {
+                console.log(changes);
+                if (_.isArray(changes)) {
+                    var chg = changes[0];
+                    if (chg.status === "deleted") {
+                        // remove the associated endpoint
+                        jsPlumb.selectEndpoints({source: chg.value.WebId()}).setVisible(false).detachAll();
+                    }
+                }
+            },
             jsPlumbReady = function () {
                 isJsPlumbReady = true;
                 jsPlumb.draggable($("div.activity"));
@@ -328,6 +338,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
 
                 jsPlumb.bind("click", connectionClicked);
                 jsPlumb.bind("connectionDragStop", connectionDragStop);
+                wd().ActivityCollection.subscribe(activitiesChanged, null, "arrayChange");
             },
             toolboxItemDraggedStop = function (arg) {
                 var act = context.toObservable(ko.mapping.toJS(ko.dataFor(this))),
@@ -335,7 +346,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     y = arg.clientY;
 
                 act.WorkflowDesigner().X(x);
-                act.WorkflowDesigner().Y(y);
+                act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top);
                 act.WebId(system.guid());
                 wd().ActivityCollection.push(act);
                 initializeActivity(act);
@@ -356,7 +367,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
 
                 $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js', function () {
                     $('div.toolbox-item').draggable({
-                        helper: 'clone',
+                        helper: function() {
+                            return $("<div></div>").addClass("dragHoverToolbox").append($(this).find('.activity32').clone());
+                        },
                         stop: toolboxItemDraggedStop
                     });
                 });
@@ -364,7 +377,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 $(view).on('mouseenter', 'div.activity', function () {
                     var act = ko.dataFor(this),
                         cps = _.clone(connectorPaintStyle),
-                        cps2 = _.clone(connectorPaintStyle);
+                        cps2 = _.clone(connectorPaintStyle),
+                        targets = [act.NextActivityWebId()];
                     cps.strokeStyle = "#007aff";// blue
                     cps2.strokeStyle = "#ff6a00";// orange
 
@@ -376,6 +390,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     jsPlumb.select({ target: act.WebId() })
                         .setPaintStyle(cps);
 
+                    if (act.multipleEndPoints) {
+                         targets = _(act.multipleEndPoints()).map(function (v) { return v.NextActivityWebId(); });
+                    }
 
 
                     $('div.activity').each(function () {
@@ -386,13 +403,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                         } else {
                             div2.removeClass("source-activity");
                         }
-                        if (act2.WebId() === act.NextActivityWebId()) {
+                        if (targets.indexOf(act2.WebId()) > -1) {
                             div2.addClass("target-activity");
                         } else {
                             div2.removeClass("target-activity");
                         }
-
-
                     });
 
                 });

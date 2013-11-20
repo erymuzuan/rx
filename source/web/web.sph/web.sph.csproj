@@ -1148,6 +1148,7 @@
     <Content Include="Scripts\jsPlumb\dom.jsPlumb.js" />
     <Content Include="Scripts\jsPlumb\drag.js" />
     <Content Include="Scripts\jsPlumb\endpoint.js" />
+    <Content Include="Scripts\jsPlumb\jquery.jsPlumb-1.5.4.js" />
     <Content Include="Scripts\jsPlumb\jquery.jsPlumb.js" />
     <Content Include="Scripts\jsPlumb\jsBezier-0.6-min.js" />
     <Content Include="Scripts\jsPlumb\jsplumb-geom-0.1.js" />
