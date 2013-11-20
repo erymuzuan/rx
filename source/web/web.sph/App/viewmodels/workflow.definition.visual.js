@@ -90,7 +90,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 send.CssClass = "pull-left activity32 activity32-SendActivity";
                 elements.push(send);
 
-                listen.IsEnabled = ko.observable(false);
+                listen.IsEnabled = ko.observable(true);
                 listen.Name("Listen");
                 listen.Note = "Creates a race condition, first one wins";
                 listen.CssClass = "pull-left activity32 activity32-ListenActivity";
