@@ -215,20 +215,22 @@ namespace domain.test.workflows
             {
                 Name = "Wait for verification",
                 WebId = "_B1_",
-                Trigger = new ScreenActivity { Name = "Verify", WebId = "_B10_" }
+                Trigger = new ScreenActivity { Name = "Verify", WebId = "_B10_", NextActivityWebId = "_B11_"}
             };
             var lapsed = new ListenBranch
             {
                 Name = "Lapsed for verification",
                 WebId = "_B2_",
-                Trigger = new DelayActivity { Name = "VerifyLapse", WebId = "_B20_", Seconds = 10 }
+                Trigger = new DelayActivity { Name = "VerifyLapse", WebId = "_B20_", Seconds = 10, NextActivityWebId = "_B21_"}
             };
+            verify.ActivityCollection.Add(new EndActivity{WebId = "_B11_", Name = "Habis approved"});
+            lapsed.ActivityCollection.Add(new NotificationActivity{WebId = "_B21_", Name = "Email admin tak approved"});
+            lapsed.ActivityCollection.Add(new EndActivity{WebId = "_B22_", Name = "Tak approved"});
 
             listen.ListenBranchCollection.Add(verify);
             listen.ListenBranchCollection.Add(lapsed);
 
             wd.ActivityCollection.Add(listen);
-            wd.ActivityCollection.Add(new DelayActivity { Name = "Wait a second", Seconds = 1, WebId = "_WA_", NextActivityWebId = "_D_" });
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
             var result = this.Compile(wd, true);
             this.Run(wd, result.Output, Console.WriteLine);

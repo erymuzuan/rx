@@ -27,7 +27,6 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
 
-
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
@@ -53,17 +52,16 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("   }");
 
+            // creates method for each trigger
+            // TODO: we should inject a piece of code in these branch to invoke wf on this branch and kill other branches
+            var triggers = from a in this.ListenBranchCollection.Select(lb => lb.Trigger)
+                     select a.GeneratedExecutionMethodCode(wd);
+            triggers.ToList().ForEach(m =>code.AppendLine(m));
+
             // creates method for each branch
-            count = 1;
-            foreach (var branch in this.ListenBranchCollection)
-            {
-                //code.AppendLinf("   private bool {0}()", this.GetBranchMethodName(branch));
-                //code.AppendLine("   {");
-                //code.AppendLine("       var item = this;");
-                //code.AppendLinf("       return {0};", branch.Expression);
-                //code.AppendLine("   }");
-                count++;
-            }
+            var ms = from a in this.ListenBranchCollection.SelectMany(lb => lb.ActivityCollection)
+                     select a.GeneratedExecutionMethodCode(wd);
+            ms.ToList().ForEach(m =>code.AppendLine(m));
 
             return code.ToString();
         }
