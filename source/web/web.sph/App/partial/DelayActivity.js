@@ -8,6 +8,6 @@
 bespoke.sph.domain.DelayActivityPartial = function () {
 
     return {
-        IsAsync: ko.observable(true)
+        isAsync:true
     };
 };

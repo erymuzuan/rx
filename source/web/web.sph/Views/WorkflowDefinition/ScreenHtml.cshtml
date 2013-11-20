@@ -114,6 +114,25 @@
                                               class="form-control razor-field" id="scr-imb"></textarea>
                                 </div>
                             </div>
+                            <h4>Cancellation message</h4>
+                            <div class="form-group">
+                                <label for="scr-cms" class="col-lg-2 control-label">Subject</label>
+                                <div class="col-lg-9">
+                                    <input type="text" data-bind="value: CancelMessageSubject" 
+                                           required 
+                                           placeholder="Invitation message subject"
+                                           class="form-control razor-field" id="scr-cms">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="scr-cmb" class="col-lg-2 control-label">Body</label>
+                                <div class="col-lg-9">
+                                    <textarea data-bind="value: CancelMessageBody" 
+                                              required 
+                                              placeholder="Invitation message body"
+                                              class="form-control razor-field" id="scr-cmb"></textarea>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

@@ -28,6 +28,20 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
+        public async override Task CancelAsync(Workflow wf)
+        {
+            // email the guy that his task is now cancelled, should be made unreacheable
+            var baseUrl = ConfigurationManager.AppSettings["sph:BaseUrl"] ?? "http://localhost:4436";
+            var url = string.Format("{0}/Workflow_{1}_{2}/{3}/{4}", baseUrl, wf.WorkflowDefinitionId, wf.Version, this.ActionName, wf.WorkflowId);
+            var cmb = this.CancelMessageBody ?? "@Model.Screen.Name task assigned to has been cancelled";
+            var cms = this.CancelMessageSubject ?? "[Sph] @Model.Screen.Name  task is cancelled";
+
+            wf.ForbiddenSteps.Add(this.WebId);
+            await wf.SaveAsync("CancelAsync");
+
+            await SendNotificationToPerformers(wf, baseUrl, url, cms, cmb);
+        }
+
         public async override Task InitiateAsync(Workflow wf)
         {
             var baseUrl = ConfigurationManager.AppSettings["sph:BaseUrl"] ?? "http://localhost:4436";
@@ -35,13 +49,18 @@ namespace Bespoke.Sph.Domain
             var imb = this.InvitationMessageBody ?? "@Model.Screen.Name task is assigned to you go here @Model.Url";
             var ims = this.InvitationMessageSubject ?? "[Sph] @Model.Screen.Name  task is assigned to you";
 
+            await SendNotificationToPerformers(wf, baseUrl, url, ims, imb);
+        }
+
+        private async Task SendNotificationToPerformers(Workflow wf, string baseUrl, string url, string subjectTemplate, string bodyTemplate)
+        {
             var users = new List<string>();
             var context = new SphDataContext();
             var ad = ObjectBuilder.GetObject<IDirectoryService>();
             var script = ObjectBuilder.GetObject<IScriptEngine>();
 
 
-            var model = new { Screen = this, Item = wf, BaseUrl = baseUrl, Url = url };
+            var model = new {Screen = this, Item = wf, BaseUrl = baseUrl, Url = url};
             var unwrapValue = this.Performer.Value;
             if (!string.IsNullOrWhiteSpace(unwrapValue) && unwrapValue.StartsWith("="))
                 unwrapValue = script.Evaluate<string, Workflow>(unwrapValue.Remove(0, 1), wf);
@@ -68,19 +87,19 @@ namespace Bespoke.Sph.Domain
                     users.AddRange(list3);
                     break;
                 default:
-                    throw new Exception("Whoaaa we cannot send invitation to " + this.Performer.UserProperty + " for " + this.Name);
-
+                    throw new Exception("Whoaaa we cannot send invitation to " + this.Performer.UserProperty + " for " +
+                                        this.Name);
             }
 
             foreach (var user in users)
             {
                 string user1 = user;
                 var profile = await context.LoadOneAsync<UserProfile>(p => p.Username == user1);
-                var subject = await this.TransformTemplateAsync(ims, model);
-                var body = await this.TransformTemplateAsync(imb, model);
+                var subject = await this.TransformTemplateAsync(subjectTemplate, model);
+                var body = await this.TransformTemplateAsync(bodyTemplate, model);
 
 
-                var message = new Message { Subject = subject, UserName = user, Body = body };
+                var message = new Message {Subject = subject, UserName = user, Body = body};
                 using (var session = context.OpenSession())
                 {
                     session.Attach(message);
@@ -90,7 +109,6 @@ namespace Bespoke.Sph.Domain
                 var ns = ObjectBuilder.GetObject<INotificationService>();
                 await ns.SendMessageAsync(message, profile.Email);
             }
-
         }
 
         public override bool IsAsync

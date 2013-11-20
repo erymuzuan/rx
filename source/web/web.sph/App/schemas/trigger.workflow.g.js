@@ -277,7 +277,9 @@ bespoke.sph.domain.ScreenActivity = function (webId) {
     v.Title = ko.observable('');
     v.ViewVirtualPath = ko.observable('');
     v.WorkflowDefinitionId = ko.observable(0);
+    v.CancelMessageSubject = ko.observable('');
     v.InvitationMessageSubject = ko.observable('');
+    v.CancelMessageBody = ko.observable('');
     v.InvitationMessageBody = ko.observable('');
     v["$type"] = "Bespoke.Sph.Domain.ScreenActivity, domain.sph";
 

@@ -1672,6 +1672,22 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_CancelMessageSubject;
+        [XmlAttribute]
+        public string CancelMessageSubject
+        {
+            get
+            {
+                return m_CancelMessageSubject;
+            }
+            set
+            {
+                m_CancelMessageSubject = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         private string m_InvitationMessageSubject;
         [XmlAttribute]
         public string InvitationMessageSubject
@@ -1683,6 +1699,22 @@ namespace Bespoke.Sph.Domain
             set
             {
                 m_InvitationMessageSubject = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_CancelMessageBody;
+        [XmlAttribute]
+        public string CancelMessageBody
+        {
+            get
+            {
+                return m_CancelMessageBody;
+            }
+            set
+            {
+                m_CancelMessageBody = value;
                 RaisePropertyChanged();
             }
         }

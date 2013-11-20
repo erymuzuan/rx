@@ -13,6 +13,7 @@ bespoke.sph.domain.ScreenActivityPartial = function() {
 
 
     return {
-        IsAsync: ko.observable(true)
+        isAsync: true,
+        canStart: true
     };
 };

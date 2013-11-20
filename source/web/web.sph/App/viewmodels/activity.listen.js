@@ -24,9 +24,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             },
             viewAttached = function () {
                 var asyncs = _(vm.wd().ActivityCollection()).filter(function (v) {
-                    if (typeof v.IsAsync === "function")
-                        return v.IsAsync();
-                    return false;
+                    return v.isAsync;
                 });
                 vm.asyncActivities(asyncs);
             };

@@ -279,7 +279,9 @@
 					<xs:attribute name="Title" type="xs:string" use="required"/>
 					<xs:attribute name="ViewVirtualPath" type="xs:string" use="required"/>
 					<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
+					<xs:attribute name="CancelMessageSubject" type="xs:string" use="required"/>
 					<xs:attribute name="InvitationMessageSubject" type="xs:string" use="required"/>
+					<xs:attribute name="CancelMessageBody" type="xs:string" use="required"/>
 					<xs:attribute name="InvitationMessageBody" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
