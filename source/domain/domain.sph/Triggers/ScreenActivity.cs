@@ -41,7 +41,7 @@ namespace Bespoke.Sph.Domain
             var script = ObjectBuilder.GetObject<IScriptEngine>();
 
 
-            var model = new { Screen = this, Item = wf , BaseUrl = baseUrl, Url = url};
+            var model = new { Screen = this, Item = wf, BaseUrl = baseUrl, Url = url };
             var unwrapValue = this.Performer.Value;
             if (!string.IsNullOrWhiteSpace(unwrapValue) && unwrapValue.StartsWith("="))
                 unwrapValue = script.Evaluate<string, Workflow>(unwrapValue.Remove(0, 1), wf);
@@ -393,11 +393,11 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(template)) return string.Empty;
             if (template.StartsWith("="))
             {
-                var engine = ObjectBuilder.GetObject<ITemplateEngine>();
-                var razor = template.Substring(1, template.Length - 1);
-                return await engine.GenerateAsync(razor, model);
+                var script = ObjectBuilder.GetObject<IScriptEngine>();
+                return script.Evaluate<string, object>(template.Remove(0, 1), model);
             }
-            return template;
+            var razor = ObjectBuilder.GetObject<ITemplateEngine>();
+            return await razor.GenerateAsync(template, model);
         }
 
     }

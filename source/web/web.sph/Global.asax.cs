@@ -17,7 +17,6 @@ namespace Bespoke.Sph.Web
     {
         protected void Application_Start()
         {
-            WorkflowConfig.PreStart(Server);
             AreaRegistration.RegisterAllAreas();
 
             WorkflowConfig.Register(Server);

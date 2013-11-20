@@ -159,5 +159,12 @@
     "Role": "can_edit_workflow",
     "Description": "Menambah dan mengemaskini workflow definition",
     "IsActive": true
+  },
+  {
+    "Group": "land",
+    "Name": "PSU",
+    "Role": "can_approve_wakaf",
+    "Description": "Mengesah permohonan wakaf",
+    "IsActive": true
   }
 ]
