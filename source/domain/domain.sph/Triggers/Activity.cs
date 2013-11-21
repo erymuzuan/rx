@@ -1,6 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System.Linq;
+using Humanizer;
 
 namespace Bespoke.Sph.Domain
 {
@@ -21,11 +23,15 @@ namespace Bespoke.Sph.Domain
         {
             const string pattern = "^[A-Za-z][A-Za-z0-9_ ]*$";
             var result = new BuildValidationResult();
-            var message = string.Format("[Variable] \"{0}\" is not valid identifier", this.Name);
+            var message = string.Format("[{1}] \"{0}\" is not valid identifier", this.Name, this.GetType().Name);
             var validName = new Regex(pattern);
             if (!validName.Match(this.Name).Success)
                 result.Errors.Add(new BuildError { Message = message });
 
+            if (string.IsNullOrWhiteSpace(this.WebId))
+                result.Errors.Add(new BuildError { Message = string.Format("[{0}] \"{1}\" Missing webid ", this.GetType().Name, this.Name) });
+            if (wd.ActivityCollection.Count(a => a.WebId == this.WebId) > 1)
+                result.Errors.Add(new BuildError { Message = string.Format("[{0}] \"{1}\" Duplicate webid ", this.GetType().Name, this.Name) });
 
             return result;
         }
@@ -34,7 +40,9 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return string.Format("Exec{0}{1}Async", this.GetType().Name, this.WebId.Replace("-", "_"));
+                var length = this.WebId.Length > 4 ? 4 : this.WebId.Length;
+                var unique = this.WebId.Replace("-", "_").Substring(0, length);
+                return string.Format("Exec{0}{1}_{2}Async", this.GetType().Name, this.Name.Dehumanize(), unique);
             }
         }
         public virtual string GeneratedCustomTypeCode(WorkflowDefinition workflowDefinition)
@@ -73,7 +81,7 @@ namespace Bespoke.Sph.Domain
 
         public virtual void BeforeGenerate(WorkflowDefinition wd)
         {
-            
+
         }
         public string AfterExcuteCode { get; set; }
         public string BeforeExcuteCode { get; set; }

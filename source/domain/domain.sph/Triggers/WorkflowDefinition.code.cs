@@ -119,6 +119,7 @@ namespace Bespoke.Sph.Domain
             // properties for each Variables
             foreach (var variable in this.VariableDefinitionCollection)
             {
+                code.AppendLinf("//variable:{0}", variable.Name);
                 code.AppendLine("       " + variable.GeneratedCode(this));
             }
 
@@ -131,6 +132,7 @@ namespace Bespoke.Sph.Domain
             foreach (var activity in this.ActivityCollection)
             {
                 code.AppendLine();
+                code.AppendLine("//exec:"+ activity.WebId);
                 code.AppendLine(activity.GeneratedExecutionMethodCode(this));
             }
 

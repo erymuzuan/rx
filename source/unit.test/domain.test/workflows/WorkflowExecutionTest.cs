@@ -75,16 +75,54 @@ namespace domain.test.workflows
         public void BuildValidation()
         {
             var wd = new WorkflowDefinition { Name = "3 Is Three" };
-            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true };
+            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = Guid.NewGuid().ToString() };
             screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = string.Empty });
             wd.ActivityCollection.Add(screen);
 
 
             var result = wd.ValidateBuild();
+            Console.WriteLine(result.ToJsonString());
             Assert.IsFalse(result.Result);
             Assert.AreEqual(2, result.Errors.Count);
-            Assert.AreEqual("Name not valid identifier", result.Errors[0]);
-            Assert.AreEqual("TextBox \"Nama\" does not have valid path", result.Errors[2]);
+            Assert.AreEqual("Name must be started with letter.You cannot use symbol or number as first character", result.Errors[0].ToString());
+            Assert.AreEqual("[ScreenActivity] : Pohon => 'Nama' does not have path", result.Errors[1].ToString());
+
+        }
+
+        [Test]
+        public void BuildValidationMissingWebId()
+        {
+            var wd = new WorkflowDefinition { Name = "Test Workflow" };
+            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true };
+            screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = "Nama" });
+            wd.ActivityCollection.Add(screen);
+
+
+            var result = wd.ValidateBuild();
+            Console.WriteLine(result.ToJsonString());
+            Assert.IsFalse(result.Result);
+            Assert.AreEqual(1, result.Errors.Count);
+            StringAssert.Contains("Missing webid", result.Errors[0].ToString());
+
+        }
+
+
+        [Test]
+        public void BuildValidationDuplicateWebId()
+        {
+            var wd = new WorkflowDefinition { Name = "Test Workflow" };
+            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A" };
+            var screen2 = new ScreenActivity { Name = "Pohon 2", IsInitiator = false, WebId = "A" };
+            screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = "Nama" });
+            wd.ActivityCollection.Add(screen);
+            wd.ActivityCollection.Add(screen2);
+
+
+            var result = wd.ValidateBuild();
+            Console.WriteLine(result.ToJsonString());
+            Assert.IsFalse(result.Result);
+            Assert.AreEqual(2, result.Errors.Count);
+            StringAssert.Contains("Duplicate webid", result.Errors[0].ToString());
 
         }
 
@@ -190,6 +228,7 @@ namespace domain.test.workflows
         public void Delay()
         {
             var wd = this.Create();
+            wd.ActivityCollection.Add(new ScreenActivity { Name = "Start isi borang", IsInitiator = true, WebId = "_A_", NextActivityWebId = "_WA_" });
             wd.ActivityCollection.Add(new DelayActivity { Name = "Wait a second", Seconds = 1, WebId = "_WA_", NextActivityWebId = "_D_" });
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
             var result = this.Compile(wd);
@@ -227,10 +266,10 @@ namespace domain.test.workflows
             listen.ListenBranchCollection.Add(lapsed);
             wd.ActivityCollection.Add(listen);
 
-            var delay = new DelayActivity {WebId = "_B21_",NextActivityWebId = "_C_", Name = "Lapse"};
+            var delay = new DelayActivity { WebId = "_B21_", NextActivityWebId = "_C_", Name = "Lapse" };
             wd.ActivityCollection.Add(delay);
 
-            var scree2 = new ScreenActivity {WebId = "_B11_",NextActivityWebId = "_C_",Name = "Screen 2"};
+            var scree2 = new ScreenActivity { WebId = "_B11_", NextActivityWebId = "_C_", Name = "Screen 2" };
             wd.ActivityCollection.Add(scree2);
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });

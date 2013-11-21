@@ -171,6 +171,8 @@
     <Compile Include="Triggers\ActivityExecutionResult.cs" />
     <Compile Include="Triggers\AssemblyAction.cs" />
     <Compile Include="Triggers\AssemblyField.cs" />
+    <Compile Include="Triggers\BuildError.cs" />
+    <Compile Include="Triggers\BuildValidationResult.cs" />
     <Compile Include="Triggers\CompilerMessage.cs" />
     <Compile Include="Triggers\CompilerOptions.cs" />
     <Compile Include="Triggers\ComplexVariable.cs" />

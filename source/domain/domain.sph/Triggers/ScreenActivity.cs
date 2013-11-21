@@ -22,7 +22,7 @@ namespace Bespoke.Sph.Domain
                          {
                              Message = string.Format("[ScreenActivity] : {0} => '{1}' does not have path", this.Name, f.Label)
                          };
-            var result = new BuildValidationResult();
+            var result = base.ValidateBuild(wd);
             result.Errors.AddRange(errors);
 
             return result;
