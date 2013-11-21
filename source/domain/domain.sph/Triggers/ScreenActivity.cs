@@ -30,14 +30,12 @@ namespace Bespoke.Sph.Domain
 
         public async override Task CancelAsync(Workflow wf)
         {
-            // email the guy that his task is now cancelled, should be made unreacheable
             var baseUrl = ConfigurationManager.AppSettings["sph:BaseUrl"] ?? "http://localhost:4436";
             var url = string.Format("{0}/Workflow_{1}_{2}/{3}/{4}", baseUrl, wf.WorkflowDefinitionId, wf.Version, this.ActionName, wf.WorkflowId);
             var cmb = this.CancelMessageBody ?? "@Model.Screen.Name task assigned to has been cancelled";
             var cms = this.CancelMessageSubject ?? "[Sph] @Model.Screen.Name  task is cancelled";
 
-            wf.ForbiddenSteps.Add(this.WebId);
-            await wf.SaveAsync("CancelAsync");
+            // TODO : Activity is now cancelled, should not be made available anymore
 
             await SendNotificationToPerformers(wf, baseUrl, url, cms, cmb);
         }

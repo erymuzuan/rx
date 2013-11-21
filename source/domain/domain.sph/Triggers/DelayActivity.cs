@@ -43,6 +43,17 @@ namespace Bespoke.Sph.Domain
             await ts.AddTaskAsync(dateTime, task);
         }
 
+        public async override Task CancelAsync(Workflow wf)
+        {
+            var ts = ObjectBuilder.GetObject<ITaskScheduler>();
+            var task = new ScheduledActivityExecution
+            {
+                InstanceId = wf.WorkflowId,
+                ActivityId = this.WebId
+            };
+            await ts.DeleteAsync(task);
+        }
+
         public override bool IsAsync
         {
             get { return true; }
