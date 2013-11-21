@@ -22,9 +22,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             editPage = function (page) {
                 var w = window.open("/editor/ace?mode=html", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes');
                 w.code = page.Code();
-                w.saved = function (code) {
+                w.saved = function (code, close) {
                     page.Code(code);
-                    w.close();
+                    if (close) {
+                        w.close();
+                    }
                     var tcs = new $.Deferred();
                     var data = ko.mapping.toJSON(page);
 
