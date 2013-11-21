@@ -81,7 +81,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true);
 
                 channel.ExchangeDeclare(deadLetterExchange, ExchangeType.Topic, true);
-                var args = new Dictionary<string, string> { { "x-dead-letter-exchange", deadLetterExchange } };
+                var args = new Dictionary<string, object> { { "x-dead-letter-exchange", deadLetterExchange } };
                 channel.QueueDeclare(this.QueueName, true, false, false, args);
                 channel.QueueDeclare(deadLetterQueue, true, false, false, args);
                 channel.QueueBind(deadLetterQueue, deadLetterExchange, "#", null);
