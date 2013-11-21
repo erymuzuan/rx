@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -79,15 +80,21 @@ namespace Bespoke.Sph.Domain
             var count = 1;
             code.AppendLinf("       var listen = this.GetActivity<ListenActivity>(\"{0}\");", this.WebId);
             code.AppendLine();
-            // call initiate async for both
+            // call initiate for all the branches for both
+            var initiateTasks = new List<string>();
             foreach (var branch in this.ListenBranchCollection)
             {
                 code.AppendLinf("       var branch{0} = listen.ListenBranchCollection.Single(a => a.WebId == \"{1}\");", count, branch.WebId);
                 code.AppendLinf("       var trigger{0} =  this.GetActivity<Activity>(\"{1}\");", count, branch.NextActivityWebId);
-                code.AppendLinf("       await trigger{0}.InitiateAsync(this);", count, branch.WebId);
+                code.AppendLinf("       var initiateTask{0} = trigger{0}.InitiateAsync(this);", count, branch.WebId);
                 code.AppendLine();
+
+                initiateTasks.Add("initiateTask" + count);
+
                 count++;
             }
+            code.AppendLinf("       await Task.WhenAll({0});", string.Join(",", initiateTasks));
+
             // set it to -> waiting for one of branch to fire
             code.AppendLine("       this.State = \"WaitingAsync\";");
             code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.WebId); // set it to this activity
