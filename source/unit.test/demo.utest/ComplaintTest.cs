@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using System.Xml.Linq;
 using NUnit.Framework;
-using FluentDate;
+using Humanizer;
 
 namespace web.test
 {

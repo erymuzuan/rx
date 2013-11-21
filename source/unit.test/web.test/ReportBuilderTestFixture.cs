@@ -1,6 +1,6 @@
 ﻿using System.Data.SqlClient;
 using System.Globalization;
-using FluentDate;
+using Humanizer;
 using NUnit.Framework;
 
 // ReSharper disable InconsistentNaming

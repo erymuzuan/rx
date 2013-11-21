@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Globalization;
-using FluentDate;
+using Humanizer;
 using NUnit.Framework;
 
 namespace web.test.Space

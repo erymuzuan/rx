@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using NUnit.Framework;
-using FluentDate;
+using Humanizer;
 
 namespace web.test
 {

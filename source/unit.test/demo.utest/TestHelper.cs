@@ -1,5 +1,5 @@
 ﻿using System;
-using FluentDate;
+using Humanizer;
 using OpenQA.Selenium;
 
 namespace web.test

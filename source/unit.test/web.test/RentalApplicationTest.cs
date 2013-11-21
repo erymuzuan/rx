@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
-using FluentDate;
+using Humanizer;
 using NUnit.Framework;
 
 namespace web.test
