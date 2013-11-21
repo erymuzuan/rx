@@ -345,6 +345,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     x = arg.clientX,
                     y = arg.clientY;
 
+                act.Name(act.Name() + wd().ActivityCollection().length);
                 act.WorkflowDesigner().X(x);
                 act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top);
                 act.WebId(system.guid());
@@ -465,10 +466,21 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     .then(function (result) {
                         if (result.success) {
                             logger.info(result.message);
+
+                            _(wd().ActivityCollection()).each(function (v) {
+                                v.hasError(false);
+                            });
+
+                            vm.errors.removeAll();
                         } else {
 
                             vm.errors(result.Errors);
                             logger.error("There are errors in your Workflow, please fix them all");
+                            //
+                            _(wd().ActivityCollection()).each(function (v) {
+                                var hasError =typeof  _(result.Errors).find(function(k) { return v.WebId() === k.ActivityWebId; }) !== "undefined";
+                                v.hasError(hasError);
+                            });
                         }
                         tcs.resolve(result);
                     });

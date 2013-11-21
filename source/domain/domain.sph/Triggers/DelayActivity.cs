@@ -12,12 +12,13 @@ namespace Bespoke.Sph.Domain
             var result = base.ValidateBuild(wd);
             if (this.Miliseconds + this.Seconds + this.Hour + this.Days == 0 && string.IsNullOrWhiteSpace(this.Expression))
             {
-                result.Errors.Add(new BuildError { Message = string.Format("[DelayActivity] -\"{0}\" Set the wait time or expression", this.Name) });
+                result.Errors.Add(new BuildError(this.WebId, 
+                    string.Format("[DelayActivity] -\"{0}\" Set the wait time or expression", this.Name) ));
             }
 
             if (this.Miliseconds + this.Seconds + this.Hour + this.Days > 0 && !string.IsNullOrWhiteSpace(this.Expression))
             {
-                result.Errors.Add(new BuildError { Message = string.Format("[DelayActivity] -\"{0}\" Set the wait time OR expression ONLY not both", this.Name) });
+                result.Errors.Add(new BuildError(this.WebId,string.Format("[DelayActivity] -\"{0}\" Set the wait time OR expression ONLY not both", this.Name) ));
             }
             // TODO : validate it's a valid C# expression
             return result;

@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.Linq;
@@ -26,12 +27,20 @@ namespace Bespoke.Sph.Domain
             var message = string.Format("[{1}] \"{0}\" is not valid identifier", this.Name, this.GetType().Name);
             var validName = new Regex(pattern);
             if (!validName.Match(this.Name).Success)
-                result.Errors.Add(new BuildError { Message = message });
+                result.Errors.Add(new BuildError { Message = message, ActivityWebId = this.WebId});
 
             if (string.IsNullOrWhiteSpace(this.WebId))
-                result.Errors.Add(new BuildError { Message = string.Format("[{0}] \"{1}\" Missing webid ", this.GetType().Name, this.Name) });
+                result.Errors.Add(new BuildError
+                {
+                    Message = string.Format("[{0}] \"{1}\" Missing webid ", this.GetType().Name, this.Name),
+                    ActivityWebId = this.WebId
+                });
             if (wd.ActivityCollection.Count(a => a.WebId == this.WebId) > 1)
-                result.Errors.Add(new BuildError { Message = string.Format("[{0}] \"{1}\" Duplicate webid ", this.GetType().Name, this.Name) });
+                result.Errors.Add(new BuildError
+                {
+                    Message = string.Format("[{0}] \"{1}\" Duplicate webid ", this.GetType().Name, this.Name),
+                    ActivityWebId = this.WebId
+                });
 
             return result;
         }
@@ -40,6 +49,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
+                if (string.IsNullOrWhiteSpace(this.Name)) throw new InvalidOperationException("Name is empty for [" + this.GetType().Name + "]");
                 var length = this.WebId.Length > 4 ? 4 : this.WebId.Length;
                 var unique = this.WebId.Replace("-", "_").Substring(0, length);
                 return string.Format("Exec{0}{1}_{2}Async", this.GetType().Name, this.Name.Dehumanize(), unique);

@@ -715,19 +715,24 @@ bespoke.sph.domain.ListenBranch = function (webId) {
 
 bespoke.sph.domain.Field = function (webId) {
 
-    return {
+    var model = {
         "$type": "Bespoke.Sph.Domain.Field, domain.sph",
         Name: ko.observable(''),
         Note: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
+
+    if (bespoke.sph.domain.FieldPartial) {
+        return _(model).extend(new bespoke.sph.domain.FieldPartial(model));
+    }
+    return model;
 };
 
 
 bespoke.sph.domain.CustomAction = function (webId) {
 
-    return {
+    var model = {
         "$type": "Bespoke.Sph.Domain.CustomAction, domain.sph",
         Title: ko.observable(''),
         IsActive: ko.observable(false),
@@ -737,12 +742,17 @@ bespoke.sph.domain.CustomAction = function (webId) {
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
+
+    if (bespoke.sph.domain.CustomActionPartial) {
+        return _(model).extend(new bespoke.sph.domain.CustomActionPartial(model));
+    }
+    return model;
 };
 
 
 bespoke.sph.domain.Activity = function (webId) {
 
-    return {
+    var model = {
         "$type": "Bespoke.Sph.Domain.Activity, domain.sph",
         IsInitiator: ko.observable(false),
         NextActivityWebId: ko.observable(''),
@@ -751,12 +761,17 @@ bespoke.sph.domain.Activity = function (webId) {
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
+
+    if (bespoke.sph.domain.ActivityPartial) {
+        return _(model).extend(new bespoke.sph.domain.ActivityPartial(model));
+    }
+    return model;
 };
 
 
 bespoke.sph.domain.Variable = function (webId) {
 
-    return {
+    var model = {
         "$type": "Bespoke.Sph.Domain.Variable, domain.sph",
         Name: ko.observable(''),
         TypeName: ko.observable(''),
@@ -764,28 +779,43 @@ bespoke.sph.domain.Variable = function (webId) {
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
+
+    if (bespoke.sph.domain.VariablePartial) {
+        return _(model).extend(new bespoke.sph.domain.VariablePartial(model));
+    }
+    return model;
 };
 
 
 bespoke.sph.domain.PropertyMapping = function (webId) {
 
-    return {
+    var model = {
         "$type": "Bespoke.Sph.Domain.PropertyMapping, domain.sph",
         Source: ko.observable(''),
         Destination: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
+
+    if (bespoke.sph.domain.PropertyMappingPartial) {
+        return _(model).extend(new bespoke.sph.domain.PropertyMappingPartial(model));
+    }
+    return model;
 };
 
 
 bespoke.sph.domain.Functoid = function (webId) {
 
-    return {
+    var model = {
         "$type": "Bespoke.Sph.Domain.Functoid, domain.sph",
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
+
+    if (bespoke.sph.domain.FunctoidPartial) {
+        return _(model).extend(new bespoke.sph.domain.FunctoidPartial(model));
+    }
+    return model;
 };
 
 

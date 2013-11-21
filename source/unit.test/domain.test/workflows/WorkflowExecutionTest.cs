@@ -338,6 +338,7 @@ namespace domain.test.workflows
                 WebId = "_EMAIL_",
                 NextActivityWebId = "_C_",
                 UserName = "admin"
+                ,Name = "Email me"
 
             };
             wd.ActivityCollection.Add(email);
@@ -354,7 +355,7 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(approval);
 
 
-            wd.ActivityCollection.Add(new EndActivity { WebId = "_D_" });
+            wd.ActivityCollection.Add(new EndActivity { WebId = "_D_",Name="habis" });
 
             var land = new CreateEntityActivity { Name = "Create Building", EntityType = "Building", NextActivityWebId = "_D_", WebId = "CREATE_BUILDING" };
             land.PropertyMappingCollection.Add(new SimpleMapping { Source = "Title", Destination = "Name" });

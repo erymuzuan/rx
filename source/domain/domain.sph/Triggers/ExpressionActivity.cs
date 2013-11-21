@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Domain
             var result = base.ValidateBuild(wd);
             if (string.IsNullOrWhiteSpace(this.Expression))
             {
-                result.Errors.Add(new BuildError { Message = string.Format("[ExpressionActivity] -\"{0}\" Expression no code", this.Name) });
+                result.Errors.Add(new BuildError(this.WebId,string.Format("[ExpressionActivity] -\"{0}\" Expression no code", this.Name)));
             }
             // TODO : validate it's a valid C# expression
             return result;

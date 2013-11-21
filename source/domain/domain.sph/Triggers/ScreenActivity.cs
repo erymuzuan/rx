@@ -19,9 +19,10 @@ namespace Bespoke.Sph.Domain
                              && string.IsNullOrWhiteSpace(f.Path) && (f.Name != "HTML Section")
 
                          select new BuildError
-                         {
-                             Message = string.Format("[ScreenActivity] : {0} => '{1}' does not have path", this.Name, f.Label)
-                         };
+                         (
+                             this.WebId,
+                             string.Format("[ScreenActivity] : {0} => '{1}' does not have path", this.Name, f.Label)
+                         );
             var result = base.ValidateBuild(wd);
             result.Errors.AddRange(errors);
 
@@ -58,7 +59,7 @@ namespace Bespoke.Sph.Domain
             var script = ObjectBuilder.GetObject<IScriptEngine>();
 
 
-            var model = new {Screen = this, Item = wf, BaseUrl = baseUrl, Url = url};
+            var model = new { Screen = this, Item = wf, BaseUrl = baseUrl, Url = url };
             var unwrapValue = this.Performer.Value;
             if (!string.IsNullOrWhiteSpace(unwrapValue) && unwrapValue.StartsWith("="))
                 unwrapValue = script.Evaluate<string, Workflow>(unwrapValue.Remove(0, 1), wf);
@@ -97,7 +98,7 @@ namespace Bespoke.Sph.Domain
                 var body = await this.TransformTemplateAsync(bodyTemplate, model);
 
 
-                var message = new Message {Subject = subject, UserName = user, Body = body};
+                var message = new Message { Subject = subject, UserName = user, Body = body };
                 using (var session = context.OpenSession())
                 {
                     session.Attach(message);
