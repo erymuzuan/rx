@@ -14,8 +14,7 @@ namespace Bespoke.Sph.WindowsTaskScheduler
 
         public async System.Threading.Tasks.Task AddTaskAsync(DateTime dateTime, ScheduledActivityExecution info)
         {
-            var guid = info.Name + "_" + info.ActivityId + "_" + info.InstanceId;
-            var path = @"Bespoke\" + guid;
+            var path = this.GetPath(info);
             using (var ts = new TaskService())
             {
                 var td = ts.NewTask();
@@ -23,8 +22,11 @@ namespace Bespoke.Sph.WindowsTaskScheduler
 
                 // one time trigger
                 td.Triggers.Add(new TimeTrigger(dateTime));
-
-                td.Actions.Add(new ExecAction(this.Executable, string.Format("{0} {1}", info.ActivityId, info.InstanceId)));
+                var action = new ExecAction(this.Executable, string.Format("{0} {1}", info.ActivityId, info.InstanceId))
+                {
+                    WorkingDirectory = System.IO.Path.GetDirectoryName(this.Executable)
+                };
+                td.Actions.Add(action);
 
                 ts.RootFolder.RegisterTaskDefinition(path, td);
             }
@@ -33,13 +35,20 @@ namespace Bespoke.Sph.WindowsTaskScheduler
         }
         public async System.Threading.Tasks.Task DeleteAsync(ScheduledActivityExecution info)
         {
-            var guid = info.Name + "_" + info.ActivityId + "_" + info.InstanceId;
-            var path = @"Bespoke\-" + guid;
+            var path = this.GetPath(info);
             using (var ts = new TaskService())
             {
                 ts.RootFolder.DeleteTask(path);
             }
             await System.Threading.Tasks.Task.Delay(100);
+        }
+
+        private string GetPath(ScheduledActivityExecution info)
+        {
+
+            var guid = info.Name + "_" + info.ActivityId + "_" + info.InstanceId;
+            var path = @"Bespoke\" + guid;
+            return path;
         }
     }
 }

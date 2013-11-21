@@ -23,7 +23,8 @@
 
         <div class="activity w" data-bind="style : {'left': WorkflowDesigner().X() + 'px','top': WorkflowDesigner().Y() + 'px'},
                 attr : {id : WebId},
-                activityPopover : $data">
+                activityPopover : $data,
+                css : {'start-actvity2': IsInitiator() }">
             <div class="pull-right activity32" data-bind="activityClass : $data"></div>
             <span data-bind="text:Name"></span>
 
@@ -33,6 +34,9 @@
                 </a>
                 <a class="delete-activity" href="#" title="remove activity" data-bind="click: $parent.removeActivity.call($parent,$data)">
                     <i class="fa fa-times-circle fa-2x"></i>
+                </a>
+                <a class="start-activity" href="#" title="Set as start activity" data-bind="click: $parent.setStartActivity.call($parent,$data)">
+                    <i class="fa fa-power-off fa-2x"></i>
                 </a>
             </div>
         </div>

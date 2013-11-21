@@ -23,6 +23,16 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                 self.ActivityCollection.remove(activity);
             };
         },
+        setStartActivity = function (act) {
+            var self = this;
+            return function () {
+                _(self.ActivityCollection()).each(function (v) {
+                    v.IsInitiator(false);
+                });
+                act.IsInitiator(true);
+
+            };
+        },
         addActivity = function (type) {
             var self = this;
             return function () {
@@ -157,7 +167,8 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
         addVariable: addVariable,
         editVariable: editVariable,
         loadSchema: loadSchema,
-        xsdElements: elementNameOptions
+        xsdElements: elementNameOptions,
+        setStartActivity: setStartActivity
     };
 
     return vm;

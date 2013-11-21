@@ -1,10 +1,21 @@
 ﻿using System.Text;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
 {
     public partial class ListenActivity : Activity
     {
+        public override bool IsAsync
+        {
+            get { return true; }
+        }
+
+        public async override Task InitiateAsync(Workflow wf)
+        {
+            await wf.ExecuteAsync(this.WebId);
+        }
+
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
             var result = base.ValidateBuild(wd);
@@ -50,12 +61,11 @@ namespace Bespoke.Sph.Domain
             }
             // set it to -> waiting for one of branch to fire
             code.AppendLine("       this.State = \"WaitingAsync\";");
-            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);
+            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.WebId); // set it to this activity
             code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
             code.AppendLine("       return result;");
 
             code.AppendLine("   }");
-
 
 
             return code.ToString();
