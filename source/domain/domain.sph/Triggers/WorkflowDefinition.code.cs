@@ -125,6 +125,11 @@ namespace Bespoke.Sph.Domain
             // activities method
             foreach (var activity in this.ActivityCollection)
             {
+                activity.BeforeGenerate(this);
+            }
+
+            foreach (var activity in this.ActivityCollection)
+            {
                 code.AppendLine();
                 code.AppendLine(activity.GeneratedExecutionMethodCode(this));
             }

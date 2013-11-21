@@ -134,7 +134,7 @@ namespace domain.test.workflows
             m_store.Setup(x => x.GetContent("wd-storeid"))
                .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), StoreId = "wd-storeid" });
 
-            wd.Version = Directory.GetFiles(".", "workflows.8.*.dll").Length + 1;
+            wd.Version = 25;
             var options = new CompilerOptions
             {
                 IsDebug = true,
@@ -225,8 +225,14 @@ namespace domain.test.workflows
 
             listen.ListenBranchCollection.Add(verify);
             listen.ListenBranchCollection.Add(lapsed);
-
             wd.ActivityCollection.Add(listen);
+
+            var delay = new DelayActivity {WebId = "_B21_",NextActivityWebId = "_C_", Name = "Lapse"};
+            wd.ActivityCollection.Add(delay);
+
+            var scree2 = new ScreenActivity {WebId = "_B11_",NextActivityWebId = "_C_",Name = "Screen 2"};
+            wd.ActivityCollection.Add(scree2);
+
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
             var result = this.Compile(wd, true);
             this.Run(wd, result.Output, Console.WriteLine);

@@ -33,6 +33,11 @@
                         vm.activity().InvitationMessageBody("@@Model.Screen.Name task is assigned to you go here @@Model.Url");
                     if (!vm.activity().InvitationMessageSubject())
                         vm.activity().InvitationMessageSubject("[Sph] @@Model.Screen.Name  task is assigned to you");
+                    
+                    if (!vm.activity().CancelMessageBody())
+                        vm.activity().CancelMessageBody("@@Model.Screen.Name task was cancelled this url is not longer valid @@Model.Url");
+                    if (!vm.activity().CancelMessageSubject())
+                        vm.activity().CancelMessageSubject("[Sph] @@Model.Screen.Name was cancelled");
 
                     var fd = ko.unwrap(vm.activity().FormDesign);
 

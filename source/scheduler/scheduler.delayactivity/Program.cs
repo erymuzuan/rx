@@ -41,6 +41,14 @@ namespace scheduler.delayactivity
         {
             var context = new SphDataContext();
             var wf = await context.LoadOneAsync<Workflow>(w => w.WorkflowId == instanceId);
+
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", wf.WorkflowDefinitionId, wf.Version));
+            using (var stream = new MemoryStream(doc.Content))
+            {
+                wf.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();
+            }
+
             var result = await wf.ExecuteAsync(webId);
             return result;
         }

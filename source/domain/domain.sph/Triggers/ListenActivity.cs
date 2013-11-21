@@ -11,6 +11,16 @@ namespace Bespoke.Sph.Domain
             get { return true; }
         }
 
+        public override void BeforeGenerate(WorkflowDefinition wd)
+        {
+            var triggersId = this.ListenBranchCollection.Select(a => a.NextActivityWebId).ToArray();
+            var triggers = wd.ActivityCollection.Where(a => triggersId.Contains(a.WebId));
+            foreach (var t in triggers)
+            {
+                t.AfterExcuteCode = string.Format("     await this.FireListenTrigger{1}(\"{0}\");", t.WebId, this.MethodName);
+            }
+        }
+
         public async override Task InitiateAsync(Workflow wf)
         {
             await wf.ExecuteAsync(this.WebId);
@@ -43,6 +53,25 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
+
+            // triggered fires
+            code.AppendLinf("   public async Task FireListenTrigger{0}(string webId)", this.MethodName);
+            code.AppendLine("   {");
+            code.AppendLinf("       var self = this.GetActivity<ListenActivity>(\"{0}\");", this.WebId);
+            code.AppendLinf("       var triggersId = self.ListenBranchCollection" +
+                            ".Where(a =>a.NextActivityWebId != webId)" +
+                            ".Select(a => a.NextActivityWebId).ToArray();");
+            code.AppendLinf("       var fired = this.GetActivity<Activity>(webId);");
+            code.AppendLinf("       foreach(var t in triggersId)");
+            code.AppendLine("       {");
+            code.AppendLine("               var t1 = t;");
+            code.AppendLine("               var act = this.GetActivity<Activity>(t1);");
+            code.AppendLine("               await act.CancelAsync(this);");
+            code.AppendLine("       }");
+            code.AppendLine("   }");
+
+
+
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");

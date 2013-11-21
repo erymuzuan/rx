@@ -47,7 +47,7 @@ namespace Bespoke.Sph.Domain
             var baseUrl = ConfigurationManager.AppSettings["sph:BaseUrl"] ?? "http://localhost:4436";
             var url = string.Format("{0}/Workflow_{1}_{2}/{3}/{4}", baseUrl, wf.WorkflowDefinitionId, wf.Version, this.ActionName, wf.WorkflowId);
             var imb = this.InvitationMessageBody ?? "@Model.Screen.Name task is assigned to you go here @Model.Url";
-            var ims = this.InvitationMessageSubject ?? "[Sph] @Model.Screen.Name  task is assigned to you";
+            var ims = this.InvitationMessageSubject ?? "[Sph] @Model.Screen.Name task is assigned to you";
 
             await SendNotificationToPerformers(wf, baseUrl, url, ims, imb);
         }
@@ -124,12 +124,14 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
+            code.AppendLine(this.BeforeExcuteCode);
             code.AppendLine("       this.State = \"Ready\";");
             // set the next activity
             code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);
             code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
 
+            code.AppendLine(this.AfterExcuteCode);
             code.AppendLine("       return result;");
             code.AppendLine("   }");
 
