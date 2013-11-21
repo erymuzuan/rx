@@ -25,6 +25,7 @@ ko.bindingHandlers.activityPopover = {
                     $('a.edit-activity').popover('hide');
                     div.find("a.edit-activity").addClass(act.WebId());
                     div.find("a.delete-activity").addClass(act.WebId());
+                    div.find("a.start-activity").addClass(act.WebId());
                     return div.find("div.context-menu").html();
                 }
             });
@@ -47,8 +48,10 @@ ko.bindingHandlers.activityPopover = {
                     });
             }
             if (link.hasClass("edit-activity")) {
-
                 wd.editActivity(act)();
+            }
+            if (link.hasClass("start-activity")) {
+                wd.setStartActivity(act)();
             }
         });
     }

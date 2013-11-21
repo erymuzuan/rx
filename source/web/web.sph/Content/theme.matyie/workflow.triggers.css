@@ -45,3 +45,21 @@ div.source-activity {
 div.target-activity {
     border: 4px solid #ff6a00;
 }
+
+.start-activity {
+    color: #25692e;
+    border-top: 4px solid #25692e;
+}
+
+.start-activity :before {
+    content: "\f011";
+}
+
+.start-activity2 {
+    color: #25692e;
+    border-top: 4px solid #25692e;
+}
+
+.start-activity2 :before {
+    content: "\f011";
+}

@@ -1,4 +1,6 @@
-﻿#function-panel-modal {
+﻿@green:#25692e;
+
+#function-panel-modal {
     div.modal-content {
         width: 800px;
     }
@@ -21,13 +23,14 @@
 }
 
 .expression-field {
-  background-image: url('/Images/expression.png') !important;
-  background-repeat: no-repeat;
-  background-position: right center;
+    background-image: url('/Images/expression.png') !important;
+    background-repeat: no-repeat;
+    background-position: right center;
 }
+
 .razor-field {
     :after {
-        content : "<img src='/images/expression_razor.png'/>"
+        content: "<img src='/images/expression_razor.png'/>";
     }
 
     background-image: url('/Images/expression_razor.png') !important;
@@ -38,10 +41,30 @@
 div.source-activity {
     border: 4px solid #007aff;
 }
-.source-connector{
+
+.source-connector {
     stroke: #007aff;
     color: #007aff;
 }
+
 div.target-activity {
-    border : 4px solid #ff6a00;
+    border: 4px solid #ff6a00;
+}
+
+.start-activity {
+    color: @green;
+
+    :before {
+        content: "\f011";
+    }
+
+    border-top: 4px solid @green;
+}
+.start-activity2 {
+    color: @green;
+
+    :before {
+        content: "\f011";
+    }
+    border-top: 4px solid @green;
 }

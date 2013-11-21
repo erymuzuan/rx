@@ -70,5 +70,12 @@ namespace Bespoke.Sph.Domain
                 return false;
             }
         }
+
+        public virtual void BeforeGenerate(WorkflowDefinition wd)
+        {
+            
+        }
+        public string AfterExcuteCode { get; set; }
+        public string BeforeExcuteCode { get; set; }
     }
 }
