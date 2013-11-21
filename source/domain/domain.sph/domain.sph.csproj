@@ -65,6 +65,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\AggrementPronouncement.cs" />
+    <Compile Include="Business\PresenterParty.cs" />
+    <Compile Include="Business\Investigator.cs" />
+    <Compile Include="Business\Investigation.cs" />
+    <Compile Include="Business\RegistrationOfficer.cs" />
+    <Compile Include="Business\Witness.cs" />
+    <Compile Include="Business\PropertyScheduleAndInterest.cs" />
+    <Compile Include="Business\RealProperty.cs" />
+    <Compile Include="Business\AssetProperty.cs" />
     <Compile Include="Business\Address.cs" />
     <Compile Include="Business\AdhocInvoice.cs" />
     <Compile Include="Business\Block.cs" />

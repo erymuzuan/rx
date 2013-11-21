@@ -56,6 +56,202 @@ bespoke.sph.domain.Tenant = function (webId) {
 
 
 
+bespoke.sph.domain.PropertyScheduleAndInterest = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.PropertyScheduleAndInterest, domain.sph",
+        Mukim: ko.observable(''),
+        LotNo: ko.observable(''),
+        TypeAndOwnershipNo: ko.observable(''),
+        LandShare: ko.observable(''),
+        LeasingRegistrationNo: ko.observable(''),
+        MortgageRegistrationNo: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.PropertyScheduleAndInterestPartial) {
+        return _(model).extend(new bespoke.sph.domain.PropertyScheduleAndInterestPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.RealProperty = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.RealProperty, domain.sph",
+        LandId: ko.observable(0),
+        Size: ko.observable(0.00),
+        Mukim: ko.observable(''),
+        LotNo: ko.observable(''),
+        TypeAndOwnershipNo: ko.observable(''),
+        District: ko.observable(''),
+        WakafSize: ko.observable(''),
+        WakafType: ko.observable(''),
+        WakafPurposed: ko.observable(''),
+        Address: ko.observable(new bespoke.sph.domain.Address()),
+        Contact: ko.observable(new bespoke.sph.domain.Contact()),
+        PropertyScheduleAndInterestCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.RealPropertyPartial) {
+        return _(model).extend(new bespoke.sph.domain.RealPropertyPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.AssetProperty = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.AssetProperty, domain.sph",
+        LandId: ko.observable(0),
+        PropertyType: ko.observable(''),
+        Location: ko.observable(''),
+        WakafType: ko.observable(''),
+        WakafPurposed: ko.observable(''),
+        Model: ko.observable(''),
+        Address: ko.observable(new bespoke.sph.domain.Address()),
+        Contact: ko.observable(new bespoke.sph.domain.Contact()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.AssetPropertyPartial) {
+        return _(model).extend(new bespoke.sph.domain.AssetPropertyPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.Witness = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Witness, domain.sph",
+        Contact: ko.observable(new bespoke.sph.domain.Contact()),
+        FirstWitnessSignature: ko.observable(),
+        SecondWitnessSignature: ko.observable(),
+        Address: ko.observable(new bespoke.sph.domain.Address()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.WitnessPartial) {
+        return _(model).extend(new bespoke.sph.domain.WitnessPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.RegistrationOfficer = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.RegistrationOfficer, domain.sph",
+        Name: ko.observable(''),
+        IcNo: ko.observable(''),
+        ApplicationReceiveDate: ko.observable(moment().format('DD/MM/YYYY')),
+        IsApplicationTrue: ko.observable(false),
+        Note: ko.observable(''),
+        Signature: ko.observable(''),
+        SignatureDate: ko.observable(moment().format('DD/MM/YYYY')),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.RegistrationOfficerPartial) {
+        return _(model).extend(new bespoke.sph.domain.RegistrationOfficerPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.Investigation = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Investigation, domain.sph",
+        InvestigationDate: ko.observable(moment().format('DD/MM/YYYY')),
+        Time: ko.observable(''),
+        Purposed: ko.observable(''),
+        InvestigationReport: ko.observable(''),
+        ReportDate: ko.observable(moment().format('DD/MM/YYYY')),
+        PreparedBy: ko.observable(''),
+        HeadUnitReview: ko.observable(''),
+        HeadUnitReviewDate: ko.observable(moment().format('DD/MM/YYYY')),
+        PsuReview: ko.observable(''),
+        PsuReviewDate: ko.observable(moment().format('DD/MM/YYYY')),
+        InvestigatorCollection: ko.observableArray([]),
+        PresenterPartyCollection: ko.observableArray([]),
+        PhotoCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.InvestigationPartial) {
+        return _(model).extend(new bespoke.sph.domain.InvestigationPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.Investigator = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Investigator, domain.sph",
+        Name: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.InvestigatorPartial) {
+        return _(model).extend(new bespoke.sph.domain.InvestigatorPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.PresenterParty = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.PresenterParty, domain.sph",
+        Name: ko.observable(''),
+        Designation: ko.observable(''),
+        TelephoneNo: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.PresenterPartyPartial) {
+        return _(model).extend(new bespoke.sph.domain.PresenterPartyPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.AggrementPronouncement = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.AggrementPronouncement, domain.sph",
+        ApplicantName: ko.observable(''),
+        ApplicantIcNo: ko.observable(''),
+        ReceiverName: ko.observable(''),
+        PronouncementDate: ko.observable(moment().format('DD/MM/YYYY')),
+        Signature: ko.observable(''),
+        Purpose: ko.observable(''),
+        Address: ko.observable(new bespoke.sph.domain.Address()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.AggrementPronouncementPartial) {
+        return _(model).extend(new bespoke.sph.domain.AggrementPronouncementPartial(model));
+    }
+    return model;
+};
+
+
+
 bespoke.sph.domain.Land = function (webId) {
 
     var model = {
@@ -84,6 +280,13 @@ bespoke.sph.domain.Land = function (webId) {
         ApprovedDateTime: ko.observable(),
         ApprovedBy: ko.observable(),
         PhotoCollection: ko.observableArray([]),
+        AssetProperty: ko.observable(new bespoke.sph.domain.AssetProperty()),
+        RealProperty: ko.observable(new bespoke.sph.domain.RealProperty()),
+        AttachmentCollection: ko.observableArray([]),
+        Witness: ko.observable(new bespoke.sph.domain.Witness()),
+        RegistrationOfficer: ko.observable(new bespoke.sph.domain.RegistrationOfficer()),
+        Investigation: ko.observable(new bespoke.sph.domain.Investigation()),
+        AggrementPronouncement: ko.observable(new bespoke.sph.domain.AggrementPronouncement()),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
