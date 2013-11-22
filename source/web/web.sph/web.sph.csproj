@@ -302,6 +302,7 @@
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\WorkflowDefinitionController.cs" />
     <Compile Include="Controllers\WorkflowController.cs" />
+    <Compile Include="Controllers\AppController.screen.workflow.draft.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -600,6 +601,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\bootstrap-theme.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\doc.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\shCore.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\shThemeDataTables.css" />
@@ -860,6 +862,34 @@
     <Content Include="Content\theme.matyie\workflow.triggers.min.css">
       <DependentUpon>workflow.triggers.less</DependentUpon>
     </Content>
+    <Content Include="Content\theme.zaza\building.css" />
+    <Content Include="Content\theme.zaza\building.min.css" />
+    <Content Include="Content\theme.zaza\dashboard.css" />
+    <Content Include="Content\theme.zaza\dashboard.min.css" />
+    <Content Include="Content\theme.zaza\header.css" />
+    <Content Include="Content\theme.zaza\header.min.css" />
+    <Content Include="Content\theme.zaza\nav.css" />
+    <Content Include="Content\theme.zaza\nav.min.css" />
+    <Content Include="Content\theme.zaza\public.index.css" />
+    <Content Include="Content\theme.zaza\public.index.min.css" />
+    <Content Include="Content\theme.zaza\rentalapplication.css" />
+    <Content Include="Content\theme.zaza\rentalapplication.min.css" />
+    <Content Include="Content\theme.zaza\report.css" />
+    <Content Include="Content\theme.zaza\report.min.css" />
+    <Content Include="Content\theme.zaza\site.css" />
+    <Content Include="Content\theme.zaza\site.min.css" />
+    <Content Include="Content\theme.zaza\space.css" />
+    <Content Include="Content\theme.zaza\space.min.css" />
+    <Content Include="Content\theme.zaza\style.css" />
+    <Content Include="Content\theme.zaza\theme.js" />
+    <Content Include="Content\theme.zaza\theme.min.js" />
+    <Content Include="Content\theme.zaza\user.css" />
+    <Content Include="Content\theme.zaza\user.min.css" />
+    <Content Include="Content\theme.zaza\variables.css" />
+    <Content Include="Content\theme.zaza\variables.min.css" />
+    <Content Include="Content\theme.zaza\widgets.css" />
+    <Content Include="Content\theme.zaza\workflow.triggers.css" />
+    <Content Include="Content\theme.zaza\workflow.triggers.min.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\_semantic.home.css" />
     <Content Include="Content\_semantic.workflow.triggers.css" />
@@ -1108,6 +1138,19 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="Content\theme.zaza\building.less" />
+    <Content Include="Content\theme.zaza\dashboard.less" />
+    <Content Include="Content\theme.zaza\header.less" />
+    <Content Include="Content\theme.zaza\nav.less" />
+    <Content Include="Content\theme.zaza\public.index.less" />
+    <Content Include="Content\theme.zaza\rentalapplication.less" />
+    <Content Include="Content\theme.zaza\report.less" />
+    <Content Include="Content\theme.zaza\site.less" />
+    <Content Include="Content\theme.zaza\space.less" />
+    <Content Include="Content\theme.zaza\theme.min.js.map" />
+    <Content Include="Content\theme.zaza\user.less" />
+    <Content Include="Content\theme.zaza\variables.less" />
+    <Content Include="Content\theme.zaza\workflow.triggers.less" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -1464,7 +1507,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\bootstrap\" />
     <Folder Include="Filters\" />
     <Folder Include="Scripts\schemas\" />
     <Folder Include="Views\Page\" />
@@ -2138,6 +2180,8 @@
     <Content Include="Views\Shared\EditorTemplates\WebsiteFormElement.cshtml" />
     <Content Include="Views\WorkflowDefinition\DisplayTemplates\FileUploadElement.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\FileUploadElement.cshtml" />
+    <Content Include="Views\App\ScreenWorkflowDraftJs.cshtml" />
+    <Content Include="Views\App\ScreenWorkflowDraftHtml.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

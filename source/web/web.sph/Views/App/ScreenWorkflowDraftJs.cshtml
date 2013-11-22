@@ -1,0 +1,33 @@
+﻿@{
+    Layout = null;
+    var username = @User.Identity.Name;
+}
+
+<script type="text/javascript" data-script="true">
+    define(['services/datacontext'], function (context) {
+        var isBusy = ko.observable(false),
+            investigator = ko.observable(),
+            activate = function () {
+                investigator('@Html.Raw(username)');
+                var query = String.format("CreatedBy eq '{0}' ", investigator());
+                var tcs = new $.Deferred();
+                context.loadAsync("Workflow", query)
+                    .then(function (lo) {
+                        isBusy(false);
+                        vm.workflow(lo.itemCollection);
+                        tcs.resolve(true);
+                    });
+                return tcs.promise();
+            };
+
+        var vm = {
+            activate: activate,
+            workflow: ko.observableArray(),
+            investigator: investigator
+
+        };
+
+        return vm;
+    });
+</script>
+

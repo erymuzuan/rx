@@ -1,6 +1,6 @@
 [
   {
-    "role": "can_edit_maintenance_template",
+    "role": "admin_dashboard",
     "groupName": null,
     "url": "template.maintenance-id.0/:id",
     "moduleId": "viewmodels/template.maintenance-id.0",
@@ -920,6 +920,19 @@
     "visible": true,
     "icon": "fa-paper-clip",
     "caption": "Pages",
+    "settings": null,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_investigate",
+    "groupName": null,
+    "url": "screen.workflow.draft",
+    "moduleId": "viewmodels/screen.workflow.draft",
+    "name": "Draft Workflow",
+    "visible": true,
+    "icon": "fa-edit",
+    "caption": "Workflow Draft",
     "settings": null,
     "showWhenLoggedIn": false,
     "error": ""
