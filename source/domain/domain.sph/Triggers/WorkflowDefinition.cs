@@ -50,7 +50,7 @@ namespace Bespoke.Sph.Domain
 
             var validName = new Regex(@"^[A-Za-z][A-Za-z0-9 -]*$");
             if (!validName.Match(this.Name).Success)
-                result.Errors.Add(new BuildError { Message = "Name must be started with letter.You cannot use symbol or number as first character" });
+                result.Errors.Add(new BuildError(this.WebId) { Message = "Name must be started with letter.You cannot use symbol or number as first character" });
 
             foreach (var variable in this.VariableDefinitionCollection)
             {

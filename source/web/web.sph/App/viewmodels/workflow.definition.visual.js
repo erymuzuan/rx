@@ -464,23 +464,28 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
 
                 context.post(data, "/WorkflowDefinition/Compile")
                     .then(function (result) {
+
+                        var clearItemHasError = function (v) {
+                            v.hasError(false);
+                        },
+                            setItemHasError = function (v) {
+                                var hasError = typeof _(result.Errors).find(function (k) { return v.WebId() === k.ItemWebId; }) !== "undefined";
+                                v.hasError(hasError);
+                            };
+
                         if (result.success) {
                             logger.info(result.message);
 
-                            _(wd().ActivityCollection()).each(function (v) {
-                                v.hasError(false);
-                            });
-
+                            _(wd().ActivityCollection()).each(clearItemHasError);
+                            _(wd().VariableDefinitionCollection()).each(clearItemHasError);
                             vm.errors.removeAll();
                         } else {
 
                             vm.errors(result.Errors);
                             logger.error("There are errors in your Workflow, please fix them all");
                             //
-                            _(wd().ActivityCollection()).each(function (v) {
-                                var hasError =typeof  _(result.Errors).find(function(k) { return v.WebId() === k.ActivityWebId; }) !== "undefined";
-                                v.hasError(hasError);
-                            });
+                            _(wd().ActivityCollection()).each(setItemHasError);
+                            _(wd().VariableDefinitionCollection()).each(setItemHasError);
                         }
                         tcs.resolve(result);
                     });

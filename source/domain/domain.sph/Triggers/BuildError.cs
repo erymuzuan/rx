@@ -6,14 +6,18 @@
         {
             
         }
+        public BuildError(string webid)
+        {
+            this.ItemWebId = webid;
+        }
         public BuildError(string webid, string message)
         {
-            this.ActivityWebId = webid;
+            this.ItemWebId = webid;
             this.Message = message;
         }
         public string Message { get; set; }
         public int Line { get; set; }
-        public string ActivityWebId { get; set; }
+        public string ItemWebId { get; set; }
 
         public override string ToString()
         {

@@ -26,6 +26,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th></th>
                 <th>Name</th>
                 <th>Type Name</th>
                 <th></th>
@@ -34,11 +35,16 @@
         <tbody data-bind="foreach: VariableDefinitionCollection">
             <tr>
                 <td>
+                    <div class="error" data-bind="visible:hasError">
+                        <i class="fa fa-exclamation-triangle"></i>
+                    </div>
+                </td>
+                <td>
                     <a type="button" class="btn btn-link" data-bind="click : $parent.editVariable.call($parent,$data)" href="#">
-                        
+
                         <i class="fa fa-sitemap" data-bind="visible : ko.unwrap($type) == 'Bespoke.Sph.Domain.ComplexVariable, domain.sph'"></i>
                         <i class="fa fa-code" data-bind="visible : ko.unwrap($type) == 'Bespoke.Sph.Domain.SimpleVariable, domain.sph'"></i>
-                       
+
 
                         &nbsp;
                         <!-- ko text : Name -->

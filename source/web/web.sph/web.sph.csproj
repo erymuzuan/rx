@@ -388,6 +388,7 @@
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
+    <Content Include="App\partial\Variable.js" />
     <Content Include="App\partial\Activity.js" />
     <Content Include="App\partial\DelayActivity.js" />
     <Content Include="App\partial\ListenActivity.js" />

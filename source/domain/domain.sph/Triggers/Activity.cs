@@ -27,19 +27,17 @@ namespace Bespoke.Sph.Domain
             var message = string.Format("[{1}] \"{0}\" is not valid identifier", this.Name, this.GetType().Name);
             var validName = new Regex(pattern);
             if (!validName.Match(this.Name).Success)
-                result.Errors.Add(new BuildError { Message = message, ActivityWebId = this.WebId});
+                result.Errors.Add(new BuildError(this.WebId) { Message = message});
 
             if (string.IsNullOrWhiteSpace(this.WebId))
-                result.Errors.Add(new BuildError
+                result.Errors.Add(new BuildError(this.WebId)
                 {
-                    Message = string.Format("[{0}] \"{1}\" Missing webid ", this.GetType().Name, this.Name),
-                    ActivityWebId = this.WebId
+                    Message = string.Format("[{0}] \"{1}\" Missing webid ", this.GetType().Name, this.Name)
                 });
             if (wd.ActivityCollection.Count(a => a.WebId == this.WebId) > 1)
-                result.Errors.Add(new BuildError
+                result.Errors.Add(new BuildError(this.WebId)
                 {
-                    Message = string.Format("[{0}] \"{1}\" Duplicate webid ", this.GetType().Name, this.Name),
-                    ActivityWebId = this.WebId
+                    Message = string.Format("[{0}] \"{1}\" Duplicate webid ", this.GetType().Name, this.Name)
                 });
 
             return result;
@@ -61,21 +59,21 @@ namespace Bespoke.Sph.Domain
         }
         public virtual string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public virtual Task<ActivityExecutionResult> ExecuteAsync()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public virtual Task InitiateAsync(Workflow wf)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
         public virtual Task CancelAsync(Workflow wf)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
