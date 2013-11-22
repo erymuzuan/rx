@@ -94,13 +94,14 @@
                             <!-- /ko -->
                         </div>
                     </div>
-                    <div id="invite-message" class="tab-pane">
-                        <form class="form-horizontal" role="form" data-bind="with : activity">
+                    <div id="invite-message" class="tab-pane" data-bind="with : activity">
+                        @Html.Partial("_ScreenPerformer")
+                        <form class="form-horizontal" role="form">
                             <div class="form-group">
                                 <label for="scr-ims" class="col-lg-2 control-label">Subject</label>
                                 <div class="col-lg-9">
-                                    <input type="text" data-bind="value: InvitationMessageSubject" 
-                                           required 
+                                    <input type="text" data-bind="value: InvitationMessageSubject"
+                                           required
                                            placeholder="Invitation message subject"
                                            class="form-control razor-field" id="scr-ims">
                                 </div>
@@ -108,8 +109,8 @@
                             <div class="form-group">
                                 <label for="scr-imb" class="col-lg-2 control-label">Body</label>
                                 <div class="col-lg-9">
-                                    <textarea data-bind="value: InvitationMessageBody" 
-                                              required 
+                                    <textarea data-bind="value: InvitationMessageBody"
+                                              required
                                               placeholder="Invitation message body"
                                               class="form-control razor-field" id="scr-imb"></textarea>
                                 </div>
@@ -118,8 +119,8 @@
                             <div class="form-group">
                                 <label for="scr-cms" class="col-lg-2 control-label">Subject</label>
                                 <div class="col-lg-9">
-                                    <input type="text" data-bind="value: CancelMessageSubject" 
-                                           required 
+                                    <input type="text" data-bind="value: CancelMessageSubject"
+                                           required
                                            placeholder="Invitation message subject"
                                            class="form-control razor-field" id="scr-cms">
                                 </div>
@@ -127,8 +128,8 @@
                             <div class="form-group">
                                 <label for="scr-cmb" class="col-lg-2 control-label">Body</label>
                                 <div class="col-lg-9">
-                                    <textarea data-bind="value: CancelMessageBody" 
-                                              required 
+                                    <textarea data-bind="value: CancelMessageBody"
+                                              required
                                               placeholder="Invitation message body"
                                               class="form-control razor-field" id="scr-cmb"></textarea>
                                 </div>

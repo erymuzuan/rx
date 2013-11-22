@@ -25,8 +25,14 @@
                 attr : {id : WebId},
                 activityPopover : $data,
                 css : {'start-actvity2': IsInitiator() }">
+            <div data-bind="visible:hasError" class="error">
+                <i class="fa fa-exclamation-circle fa-2x"></i>
+            </div>
             <div class="pull-right activity32" data-bind="activityClass : $data"></div>
             <span data-bind="text:Name"></span>
+            <div data-bind="visible:IsInitiator" class="start-activity">
+                <i class="fa fa-power-off fa-2x"></i>
+            </div>
 
             <div style="display: none" class="context-menu">
                 <a class="edit-activity" title="edit acitivity" href="#" data-bind="click: $parent.editActivity.call($parent,$data)">

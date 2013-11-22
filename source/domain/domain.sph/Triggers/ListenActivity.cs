@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Domain
             var result = base.ValidateBuild(wd);
             var errors = from a in this.ListenBranchCollection
                          where string.IsNullOrWhiteSpace(a.NextActivityWebId)
-                         select new BuildError
+                         select new BuildError(this.WebId)
                          {
                              Message = string.Format("[ListenActivity] -> Branch \"{0}\" is missing next activity", a.Name)
                          };
@@ -40,7 +40,7 @@ namespace Bespoke.Sph.Domain
                           where !string.IsNullOrWhiteSpace(a.NextActivityWebId)
                           let next = wd.ActivityCollection.SingleOrDefault(t => t.WebId == a.NextActivityWebId)
                           where !next.IsAsync
-                          select new BuildError
+                          select new BuildError(this.WebId)
                           {
                               Message = string.Format("[ListenActivity] -> Branch \"{0}\" is not an async activity", a.Name)
                           };

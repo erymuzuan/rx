@@ -345,6 +345,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     x = arg.clientX,
                     y = arg.clientY;
 
+                act.Name(act.Name() + wd().ActivityCollection().length);
                 act.WorkflowDesigner().X(x);
                 act.WorkflowDesigner().Y(y - $('#container-canvas').offset().top);
                 act.WebId(system.guid());
@@ -463,12 +464,28 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
 
                 context.post(data, "/WorkflowDefinition/Compile")
                     .then(function (result) {
+
+                        var clearItemHasError = function (v) {
+                            v.hasError(false);
+                        },
+                            setItemHasError = function (v) {
+                                var hasError = typeof _(result.Errors).find(function (k) { return v.WebId() === k.ItemWebId; }) !== "undefined";
+                                v.hasError(hasError);
+                            };
+
                         if (result.success) {
                             logger.info(result.message);
+
+                            _(wd().ActivityCollection()).each(clearItemHasError);
+                            _(wd().VariableDefinitionCollection()).each(clearItemHasError);
+                            vm.errors.removeAll();
                         } else {
 
                             vm.errors(result.Errors);
                             logger.error("There are errors in your Workflow, please fix them all");
+                            //
+                            _(wd().ActivityCollection()).each(setItemHasError);
+                            _(wd().VariableDefinitionCollection()).each(setItemHasError);
                         }
                         tcs.resolve(result);
                     });

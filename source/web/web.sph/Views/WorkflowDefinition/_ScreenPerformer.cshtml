@@ -1,26 +1,33 @@
-﻿<form role="form" data-bind="with: Performer">
-
-    <div class="checkbox">
-        <label>
-            <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
-            Is Public
-        </label>
+﻿<form role="form" data-bind="with: Performer" class="form-horizontal">
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+                <label>
+                    <input data-bind="checked: IsPublic" id="performer-ispublic" type="checkbox" name="IsPublic" />
+                    Is Public
+                </label>
+            </div>
+        </div>
     </div>
 
     <div class="form-group">
-        <label for="performer-property">User Property</label>
-        <select class="form-control" id="performer-property" data-bind="value:UserProperty">
-            <option value="">[Sila Pilih]</option>
-            <option value="Roles">Roles</option>
-            <option value="Username">Username</option>
-            <option value="Department">Department</option>
-            <option value="Designation">Designation</option>
-        </select>
+        <label for="performer-property" class="col-sm-2 control-label">User Property</label>
+        <div class="col-sm-10 col-lg-9">
+            <select class="form-control" id="performer-property" data-bind="value:UserProperty">
+                <option value="">[Sila Pilih]</option>
+                <option value="Roles">Roles</option>
+                <option value="Username">Username</option>
+                <option value="Department">Department</option>
+                <option value="Designation">Designation</option>
+            </select>
+        </div>
     </div>
 
     <div class="form-group">
-        <label for="performer-value">Value</label>
-        <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value" />
+        <label for="performer-value" class="col-sm-2 control-label">Value</label>
+        <div class="col-sm-10 col-lg-9">
+            <input type="text" class="form-control expression-field" id="performer-value" data-bind="value:Value" />
+        </div>
     </div>
 
 </form>

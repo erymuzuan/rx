@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Domain
             var message = string.Format("[Variable] \"{0}\" is not valid identifier", this.Name);
             var validName = new Regex(pattern);
             if (!validName.Match(this.Name).Success)
-                result.Errors.Add(new BuildError { Message = message });
+                result.Errors.Add(new BuildError(this.WebId) { Message = message });
 
 
             return result;

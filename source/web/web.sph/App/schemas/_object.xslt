@@ -67,17 +67,22 @@
     <xsl:for-each select="xs:complexType">
       bespoke.sph.domain.<xsl:value-of select="@name"/> = function(webId) {
       <!-- attribute-->
-      return {
+      var model =  {
 		"$type" : "Bespoke.Sph.Domain.<xsl:value-of select="@name"/>, domain.sph",
       <xsl:for-each select="xs:attribute">
         <xsl:value-of select="@name"/> : ko.observable(<xsl:value-of select="bspk:GetJsDefaultValue(@type, @nillable)"/>),
       </xsl:for-each>
       <xsl:apply-templates select="xs:all/xs:element"/>isBusy : ko.observable(false),
-		WebId : ko.observable(webId)
-		};
-		};
+      WebId : ko.observable(webId)
+      };
 
-	</xsl:for-each>
+      if(bespoke.sph.domain.<xsl:value-of select="@name"/>Partial){
+      return _(model).extend(new bespoke.sph.domain.<xsl:value-of select="@name"/>Partial(model));
+      }
+      return model;
+      };
+
+    </xsl:for-each>
     <!-- enum -->
     <xsl:for-each select="xs:simpleType">
       bespoke.sph.domain.<xsl:value-of select="@name"/> = function()

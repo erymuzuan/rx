@@ -12,9 +12,7 @@
         <li>
             <a href="#fields-validation" data-toggle="tab">Validations</a>
         </li>
-        <li>
-            <a href="#screen-performer" data-toggle="tab">Performer</a>
-        </li>
+
     </ul>
     <div class="tab-content">
 
@@ -39,7 +37,7 @@
 
                 <div class="form-group">
                     <label for="form-element-path">Path</label>
-                    <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path" id="form-element-path" type="text" name="Path" />
+                    <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path,typeahead : $root.wd().WorkflowDefinitionId()" id="form-element-path" type="text" name="Path" />
                 </div>
 
                 <div class="form-group">
@@ -81,8 +79,6 @@
         <div id="fields-validation" class="tab-pane" data-bind="with : selectedFormElement">
             @Html.Partial("_ValidationSetting")
         </div>
-        <div id="screen-performer" class="tab-pane" data-bind="with : activity">
-            @Html.Partial("_ScreenPerformer")
-        </div>
+
     </div>
 </div>

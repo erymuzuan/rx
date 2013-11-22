@@ -389,6 +389,8 @@
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
+    <Content Include="App\partial\Variable.js" />
+    <Content Include="App\partial\Activity.js" />
     <Content Include="App\partial\DelayActivity.js" />
     <Content Include="App\partial\ListenActivity.js" />
     <Content Include="App\partial\ParallelActivity.js" />
@@ -891,6 +893,7 @@
     <Content Include="Content\theme.zaza\workflow.triggers.css" />
     <Content Include="Content\theme.zaza\workflow.triggers.min.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Content\typeahead.js-bootstrap.css" />
     <Content Include="Content\_semantic.home.css" />
     <Content Include="Content\_semantic.workflow.triggers.css" />
     <Content Include="favicon.ico" />
@@ -1493,6 +1496,8 @@
     <Content Include="Scripts\string.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\typeahead.js" />
+    <Content Include="Scripts\typeahead.min.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_constants.js" />

@@ -17,7 +17,7 @@ namespace Bespoke.Sph.Domain
             if (string.IsNullOrWhiteSpace(this.TypeName))
             {
                 result.Result = false;
-                result.Errors.Add(new BuildError { Message = string.Format("[Variable] \"{0}\" does not have a valid type", this.Name) });
+                result.Errors.Add(new BuildError(this.WebId, string.Format("[Variable] \"{0}\" does not have a valid type", this.Name) ));
             }
 
             return result;

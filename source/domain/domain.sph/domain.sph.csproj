@@ -347,6 +347,7 @@
     </Compile>
     <Compile Include="Triggers\WorkflowDesigner.cs" />
     <Compile Include="Triggers\WorkflowInitiatorAction.cs" />
+    <Compile Include="Triggers\XsdMetadata.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Schema\_object.xslt">
