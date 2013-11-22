@@ -29,6 +29,7 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/scripts/underscore.js")
                 .Include("~/kendo/js/kendo.all.js")
                 .Include("~/scripts/nprogress.js")
+                .Include("~/scripts/typeahead.min.js")
               );
             bundles.Add(
               new ScriptBundle("~/scripts/core")
@@ -75,6 +76,7 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/Content/font-awesome.css")
                 .Include("~/Content/toastr.css")
                 .Include("~/Content/blueimp-gallery.css")
+                .Include("~/Content/typeahead.js-bootstrap.css")
                 .Include("~/Content/theme." + theme + "/style.css")
                 .Include("~/Content/theme." + theme + "/space.css")
                 .Include("~/Content/theme." + theme + "/site.css")

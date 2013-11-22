@@ -83,7 +83,6 @@ namespace Bespoke.Sph.Domain
             using (var stream = new MemoryStream(content.Content))
             {
                 m_customSchema = XElement.Load(stream);
-
                 return m_customSchema;
             }
         }
@@ -91,7 +90,6 @@ namespace Bespoke.Sph.Domain
         public List<string> GetCustomSchemaElementNames(string name)
         {
             var xsd = this.GetCustomSchema();
-
             var elements = xsd.Elements(x + "element").Select(e => e.Attribute("name").Value).ToList();
             return elements;
         }

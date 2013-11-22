@@ -178,6 +178,22 @@ namespace Bespoke.Sph.Web.Controllers
             return Json(id);
         }
 
+        public async Task<ActionResult> GetVariablePath(int id)
+        {
+            var context = new SphDataContext();
+            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == id);
+            var list = wd.VariableDefinitionCollection.Select(v => v.Name).ToList();
+            var schema = wd.GetCustomSchema();
+            var xsd = new XsdMetadata(schema);
+            foreach (var v in wd.VariableDefinitionCollection.OfType<ComplexVariable>())
+            {
+                list.AddRange(xsd.GetMembersPath(v.TypeName).Select(x => v.Name + "." + x));
+            }
+
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+
         private async Task DeletePreviousPagesAsync(WorkflowDefinition wd)
         {
             var context = new SphDataContext();

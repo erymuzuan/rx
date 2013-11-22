@@ -1,4 +1,9 @@
-﻿ko.bindingHandlers.activityClass = {
+﻿/// <reference path="typeahead.js" />
+/// <reference path="knockout-3.0.0.debug.js" />
+/// <reference path="knockout.mapping-latest.debug.js" />
+/// <reference path="jquery-2.0.3.intellisense.js" />
+
+ko.bindingHandlers.activityClass = {
     init: function (element, valueAccessor) {
 
         var div = $(element),
@@ -9,6 +14,24 @@
         div.addClass("activity32").addClass("activity32-" + name);
     }
 };
+
+ko.bindingHandlers.typeahead = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var id = ko.unwrap(valueAccessor()),
+        allBindings = allBindingsAccessor();
+        $(element).typeahead({
+            name: 'schema_paths' + id,
+            prefetch: {
+                url: '/WorkflowDefinition/GetVariablePath/' + id,
+                ttl: 1000 * 60
+            }
+        })
+            .on('typeahead:closed', function () {
+                allBindings.value($(this).val());
+            });
+    }
+};
+
 
 ko.bindingHandlers.activityPopover = {
     init: function (element, valueAccessor) {
