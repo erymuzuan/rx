@@ -106,19 +106,40 @@ namespace domain.test.workflows
 
         }
 
+        [Test]
+        public void CompileError()
+        {
+            var wd = new WorkflowDefinition { Name = "Test Workflow",SchemaStoreId = "schema-storeid"};
+            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A",NextActivityWebId = "B"};
+            screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = "Nama" });
+            wd.ActivityCollection.Add(screen);
+
+            var exp = new ExpressionActivity { WebId = "B", Name = "Expression B", Expression = "tet test-----", NextActivityWebId = "C" };
+            wd.ActivityCollection.Add(exp);
+            wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });
+           
+            var result = this.Compile(wd, true);
+
+            Assert.IsFalse(result.Result);
+            Assert.AreEqual(1, result.Errors.Count);
+            Assert.AreEqual(exp.WebId, result.Errors[0].ItemWebId);
+            StringAssert.Contains(exp.Expression, result.Errors[0].Code);
+            StringAssert.Contains("; expected", result.Errors[0].Message);
+
+        }
+
 
         [Test]
         public void BuildValidationDuplicateWebId()
         {
             var wd = new WorkflowDefinition { Name = "Test Workflow" };
             var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A" };
-            var screen2 = new ScreenActivity { Name = "Pohon 2", IsInitiator = false, WebId = "A" };
+            var screen2 = new ScreenActivity { Name = "Pohon 2", IsInitiator = false, WebId = "A" ,NextActivityWebId = "B"};
             screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = "Nama" });
             wd.ActivityCollection.Add(screen);
             wd.ActivityCollection.Add(screen2);
 
-
-            var result = wd.ValidateBuild();
+            var result = this.Compile(wd, true);
             Console.WriteLine(result.ToJsonString());
             Assert.IsFalse(result.Result);
             Assert.AreEqual(2, result.Errors.Count);
@@ -176,7 +197,7 @@ namespace domain.test.workflows
             var options = new CompilerOptions
             {
                 IsDebug = true,
-                SourceCodeDirectory = @"d:\temp\",
+               // SourceCodeDirectory = @"d:\temp\",
                 IsVerbose = verbose
             };
             options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
@@ -185,9 +206,6 @@ namespace domain.test.workflows
 
             var result = wd.Compile(options);
             result.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(result.Result);
-
-            Assert.IsTrue(File.Exists(result.Output), "assembly " + result);
 
             return result;
         }
@@ -338,7 +356,8 @@ namespace domain.test.workflows
                 WebId = "_EMAIL_",
                 NextActivityWebId = "_C_",
                 UserName = "admin"
-                ,Name = "Email me"
+                ,
+                Name = "Email me"
 
             };
             wd.ActivityCollection.Add(email);
@@ -355,7 +374,7 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(approval);
 
 
-            wd.ActivityCollection.Add(new EndActivity { WebId = "_D_",Name="habis" });
+            wd.ActivityCollection.Add(new EndActivity { WebId = "_D_", Name = "habis" });
 
             var land = new CreateEntityActivity { Name = "Create Building", EntityType = "Building", NextActivityWebId = "_D_", WebId = "CREATE_BUILDING" };
             land.PropertyMappingCollection.Add(new SimpleMapping { Source = "Title", Destination = "Name" });

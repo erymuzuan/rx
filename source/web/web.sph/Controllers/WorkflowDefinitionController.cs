@@ -118,6 +118,12 @@ namespace Bespoke.Sph.Web.Controllers
             options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
             options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
             var result = wd.Compile(options);
+
+            if (!result.Result || !System.IO.File.Exists(result.Output))
+            {
+                return Json(new { success = false, version = wd.Version, status = "ERROR", result.Errors });
+            }
+
             return Json(new { success = true, status = "OK", message = "Your workflow has been successfully compiled  : " + Path.GetFileName(result.Output) });
 
         }
@@ -142,7 +148,7 @@ namespace Bespoke.Sph.Web.Controllers
             var result = wd.Compile(options);
             if (!result.Result || !System.IO.File.Exists(result.Output))
             {
-                return Json(new { success = false, version = wd.Version, status = "ERROR", messages = result.Errors });
+                return Json(new { success = false, version = wd.Version, status = "ERROR", result.Errors });
             }
 
             // save

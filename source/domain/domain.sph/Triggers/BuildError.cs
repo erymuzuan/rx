@@ -16,6 +16,7 @@
             this.Message = message;
         }
         public string Message { get; set; }
+        public string Code { get; set; }
         public int Line { get; set; }
         public string ItemWebId { get; set; }
 

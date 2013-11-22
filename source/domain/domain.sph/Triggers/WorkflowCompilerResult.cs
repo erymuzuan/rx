@@ -2,9 +2,9 @@
 {
     public class WorkflowCompilerResult
     {
-        private readonly ObjectCollection<CompilerMessage> m_errorsCollection = new ObjectCollection<CompilerMessage>();
+        private readonly ObjectCollection<BuildError> m_errorsCollection = new ObjectCollection<BuildError>();
         public bool Result { get; set; }
-        public ObjectCollection<CompilerMessage> Errors
+        public ObjectCollection<BuildError> Errors
 
         {
             get { return m_errorsCollection; }

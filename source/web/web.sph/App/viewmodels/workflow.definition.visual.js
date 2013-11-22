@@ -458,35 +458,38 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     });
                 return tcs.promise();
             },
+            compileCompleted = function (result) {
+
+                var clearItemHasError = function (v) {
+                    v.hasError(false);
+                },
+                    setItemHasError = function (v) {
+                        var hasError = typeof _(result.Errors).find(function (k) { return v.WebId() === k.ItemWebId; }) !== "undefined";
+                        v.hasError(hasError);
+                    };
+
+                if (result.success) {
+                    logger.info(result.message);
+
+                    _(wd().ActivityCollection()).each(clearItemHasError);
+                    _(wd().VariableDefinitionCollection()).each(clearItemHasError);
+                    vm.errors.removeAll();
+                } else {
+
+                    vm.errors(result.Errors);
+                    logger.error("There are errors in your Workflow, please fix them all");
+                    //
+                    _(wd().ActivityCollection()).each(setItemHasError);
+                    _(wd().VariableDefinitionCollection()).each(setItemHasError);
+                }
+            },
             compileAsync = function () {
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(wd);
 
                 context.post(data, "/WorkflowDefinition/Compile")
                     .then(function (result) {
-
-                        var clearItemHasError = function (v) {
-                            v.hasError(false);
-                        },
-                            setItemHasError = function (v) {
-                                var hasError = typeof _(result.Errors).find(function (k) { return v.WebId() === k.ItemWebId; }) !== "undefined";
-                                v.hasError(hasError);
-                            };
-
-                        if (result.success) {
-                            logger.info(result.message);
-
-                            _(wd().ActivityCollection()).each(clearItemHasError);
-                            _(wd().VariableDefinitionCollection()).each(clearItemHasError);
-                            vm.errors.removeAll();
-                        } else {
-
-                            vm.errors(result.Errors);
-                            logger.error("There are errors in your Workflow, please fix them all");
-                            //
-                            _(wd().ActivityCollection()).each(setItemHasError);
-                            _(wd().VariableDefinitionCollection()).each(setItemHasError);
-                        }
+                        compileCompleted(result);
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -497,12 +500,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
 
                 context.post(data, "/WorkflowDefinition/Publish")
                     .then(function (result) {
+                        compileCompleted(result);
                         if (result.success) {
-                            logger.info(result.message);
                             wd().Version(result.version);
-                        } else {
-                            vm.errors(result.Errors);
-                            logger.error("There are errors in your Workflow, please fix them all");
                         }
                         tcs.resolve(result);
                     });

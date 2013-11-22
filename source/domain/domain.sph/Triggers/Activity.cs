@@ -50,7 +50,8 @@ namespace Bespoke.Sph.Domain
                 if (string.IsNullOrWhiteSpace(this.Name)) throw new InvalidOperationException("Name is empty for [" + this.GetType().Name + "]");
                 var length = this.WebId.Length > 4 ? 4 : this.WebId.Length;
                 var unique = this.WebId.Replace("-", "_").Substring(0, length);
-                return string.Format("Exec{0}{1}_{2}Async", this.GetType().Name, this.Name.Dehumanize(), unique);
+                string name = this.Name.Dehumanize().Replace(" ", string.Empty);
+                return string.Format("Exec{0}{1}_{2}Async", this.GetType().Name, name, unique);
             }
         }
         public virtual string GeneratedCustomTypeCode(WorkflowDefinition workflowDefinition)

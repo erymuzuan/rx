@@ -111,20 +111,48 @@ namespace Bespoke.Sph.Domain
                     Result = true,
                     Output = Path.GetFullPath(parameters.OutputAssembly)
                 };
-                foreach (var er in result.Errors)
-                {
-                    cr.Errors.Add(new CompilerMessage
-                    {
-                        IsError = true,
-                        Error = er
-                    });
-                }
-
+                cr.Result = result.Errors.Count == 0;
+                cr.Errors.AddRange(this.GetCompileErrors(result,code));
 
                 return cr;
             }
         }
 
+        private IEnumerable<BuildError> GetCompileErrors(CompilerResults result, string code)
+        {
+
+            var list = (from object er in result.Errors.OfType<CompilerError>()
+                        select this.GetSourceError(er as CompilerError, code));
+
+            return list;
+        }
+
+        private BuildError GetSourceError(CompilerError er, string code)
+        {
+            var lineString = Strings.RegexSingleValue(er.ToString(), "((?<line>[0-9]{1,4}),[0-9]{1,4})", "line");
+            var compilerMessage = Strings.RegexSingleValue(er.ToString(), @".*?\([0-9]{1,4},[0-9]{1,4}\) : (?<err>.*)",
+                "err");
+            int line;
+            if (int.TryParse(lineString, out line))
+            {
+                var sources = code.Split(new[] { "\r\n" }, StringSplitOptions.None);
+                var member = string.Empty;
+                for (int i = 0; i < line; i++)
+                {
+                    if (sources[i].StartsWith("//exec:"))
+                        member = sources[i].Replace("//exec:", string.Empty);
+                }
+                return new BuildError(member)
+                {
+                    Message = compilerMessage,
+                    Code = sources[line - 1],
+                    Line = line
+                };
+
+
+            }
+            return new BuildError { Message = er.ToString() };
+        }
 
         [XmlIgnore]
         [JsonIgnore]
