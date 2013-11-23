@@ -539,6 +539,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             },
             itemAdded = function (element) {
                 jsPlumb.draggable($(element));
+            },
+            showError = function (error) {
+                console.log(error);
+                wd().editActivity(_(wd().ActivityCollection()).find(function(v) { return v.WebId() == error.ItemWebId; }))();
             };
 
         var vm = {
@@ -549,6 +553,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             wd: wd,
             itemAdded: itemAdded,
             errors: ko.observableArray(),
+            showError : showError,
             toolbar: {
                 saveCommand: saveAsync,
                 exportCommand: exportWd,

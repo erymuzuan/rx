@@ -112,7 +112,7 @@ namespace Bespoke.Sph.Domain
                     Output = Path.GetFullPath(parameters.OutputAssembly)
                 };
                 cr.Result = result.Errors.Count == 0;
-                cr.Errors.AddRange(this.GetCompileErrors(result,code));
+                cr.Errors.AddRange(this.GetCompileErrors(result, code));
 
                 return cr;
             }
@@ -121,37 +121,35 @@ namespace Bespoke.Sph.Domain
         private IEnumerable<BuildError> GetCompileErrors(CompilerResults result, string code)
         {
 
+            var temp = Path.GetTempFileName() + ".cs";
+            File.WriteAllText(temp, code);
+            var sources = File.ReadAllLines(temp);
             var list = (from object er in result.Errors.OfType<CompilerError>()
-                        select this.GetSourceError(er as CompilerError, code));
+                        select this.GetSourceError(er as CompilerError, sources));
+            File.Delete(temp);
 
             return list;
         }
 
-        private BuildError GetSourceError(CompilerError er, string code)
+        private BuildError GetSourceError(CompilerError er, string[] sources)
         {
-            var lineString = Strings.RegexSingleValue(er.ToString(), "((?<line>[0-9]{1,4}),[0-9]{1,4})", "line");
-            var compilerMessage = Strings.RegexSingleValue(er.ToString(), @".*?\([0-9]{1,4},[0-9]{1,4}\) : (?<err>.*)",
-                "err");
-            int line;
-            if (int.TryParse(lineString, out line))
+            var member = string.Empty;
+            for (int i = 0; i < er.Line; i++)
             {
-                var sources = code.Split(new[] { "\r\n" }, StringSplitOptions.None);
-                var member = string.Empty;
-                for (int i = 0; i < line; i++)
-                {
-                    if (sources[i].StartsWith("//exec:"))
-                        member = sources[i].Replace("//exec:", string.Empty);
-                }
-                return new BuildError(member)
-                {
-                    Message = compilerMessage,
-                    Code = sources[line - 1],
-                    Line = line
-                };
-
-
+                if (sources[i].StartsWith("//exec:"))
+                    member = sources[i].Replace("//exec:", string.Empty);
             }
-            return new BuildError { Message = er.ToString() };
+            var act = this.GetActivity<Activity>(member);
+            var message = er.ErrorText;
+            if (null != act)
+                message = string.Format("[{0}] -< {1} : {2}", act.GetType().Name, act.Name, er.ErrorText);
+            return new BuildError(member,message)
+            {
+                Code = sources[er.Line - 1],
+                Line = er.Line
+            };
+
+
         }
 
         [XmlIgnore]

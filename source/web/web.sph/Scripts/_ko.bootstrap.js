@@ -25,3 +25,16 @@
         $(element).click(dropDown);
     }
 };
+
+ko.bindingHandlers.bootstrapPopover= {
+    init: function (element, valueAccesor) {
+        var text = ko.unwrap(valueAccesor());
+        $(element).popover({content:'<pre>' +  text + '</pre>', html:true});
+    }
+};
+ko.bindingHandlers.bootstrapTooltip= {
+    init: function (element, valueAccesor) {
+        var text = ko.unwrap(valueAccesor());
+        $(element).tooltip({ title: text });
+    }
+};

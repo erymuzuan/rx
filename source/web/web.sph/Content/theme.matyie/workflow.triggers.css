@@ -1,4 +1,8 @@
-﻿#function-panel-modal div.modal-content {
+﻿#decision-activity-dialog div.modal-content {
+    width: 800px;
+}
+
+#function-panel-modal div.modal-content {
     width: 800px;
 }
 
@@ -58,4 +62,13 @@ div.target-activity {
 
 div.error {
     color: red;
+}
+
+div#error-list div.popover {
+    max-width: 700px;
+    width: 700px;
+}
+
+div#error-list strong.icon-read-more {
+    cursor: pointer;
 }
