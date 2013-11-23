@@ -19,7 +19,12 @@
                 <td>
                     <a href="#" data-bind="click: $parent.editPage">Code</a>
                 </td>
-                <td data-bind="text: Title, attr: {title : Tag}"></td>
+                <td>
+                    <a href="#" data-bind="attr: {title : Tag},click: $parent.editDetail">
+                        <i class="fa fa-desktop"></i>
+                        <span data-bind="text: Title"></span>
+                    </a>
+                </td>
                 <td data-bind="text: VirtualPath"></td>
                 <td data-bind="text: Version"></td>
             </tr>

@@ -1,0 +1,240 @@
+﻿@using System.Configuration
+@model Bespoke.Sph.Web.Controllers.EditorPageViewModel
+
+    @{
+        Layout = null;
+        var theme = ConfigurationManager.AppSettings["sph:AceTheme"] ?? "crimson_editor";
+        var fontSize = ConfigurationManager.AppSettings["sph:AceFontSize"] ?? "18";
+    }
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Editor</title>
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+        <style type="text/css" media="screen">
+        body {
+            overflow: hidden;
+        }
+
+        #editor {
+            margin: 0;
+            margin-top: 50px;
+            position: absolute;
+            top: 0;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            font-size: @(fontSize)px;
+        }
+        </style>
+    </head>
+    <body>
+
+        <nav id="header-navbar" class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Code Editor</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <form class="navbar-form navbar-left" role="search">
+                    <button data-bind="click : save" class="btn btn-default"><i class="fa fa-save"></i>Save</button>
+                    <button data-bind="click : saveAndClose" class="btn btn-default"><i class="fa fa-arrow-circle-down"></i>Save &amp; Close</button>
+                    <button data-bind="click : copy" class="btn btn-default"><i class="fa fa-copy"></i>Copy               </button>
+                    <button data-bind="click : paste" class="btn btn-default"><i class="fa fa-paste"></i>Paste</button>
+                    <input data-bind="value : searchText" type="search" class="form-control" style="width: 100px" />
+                    <button data-bind="click : search" class="btn btn-default"><i class="fa fa-search"></i>Search</button>
+                    <button data-bind="click : logs" class="btn btn-default"><i class="fa fa-clock-o"></i>Logs</button>
+                    <div class="form-group">
+                        <label class="sr-only">Theme</label>
+                        <select style="width: 200px" class="form-control" id="theme">
+                            <optgroup label="Light">
+                                <option value="textmate">Textmate</option>
+                                <option value="crimson_editor">Crimson</option>
+                            </optgroup>
+                            <optgroup label="Dark">
+                                <option value="monokai">Monokai</option>
+                                <option value="twilight">Twilight</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only">Font size</label>
+                        <select style="width: 100px" id="font-size" class="form-control">
+                            @for (int i = 10; i < 21; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Help</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+
+
+            <form class="form-inline">
+                <div class="form-group">
+                </div>
+
+
+            </form>
+        </nav>
+        <pre id="editor">
+// PLEASE WAIT WHILE YOUR SCRIPT IS LOADING
+</pre>
+
+
+        <div class="modalBlockout" style="z-index: 1051; opacity: 0.4;" data-bind="visible: isBusy"></div>
+        <img src="~/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
+
+        <script src="~/Scripts/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="~/Scripts/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="~/Scripts/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="~/Scripts/knockout-3.0.0.js" type="text/javascript" charset="utf-8"></script>
+        <script src="~/Scripts/underscore.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="~/Scripts/moment.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="~/Scripts/_function.prototypes.js" type="text/javascript" charset="utf-8"></script>
+        <script src="~/Scripts/_utils.js" type="text/javascript" charset="utf-8"></script>
+        <script src="~/Scripts/_ko.kendo.js" type="text/javascript" charset="utf-8"></script>
+        <script src="~/App/objectbuilders.js" type="text/javascript"></script>
+        <script src="~/App/durandal/amd/require.js" type="text/javascript"></script>
+        <script src="~/App/schemas/trigger.workflow.g.js" type="text/javascript"></script>
+        <script type="text/javascript">
+
+            var bespoke = bespoke || {};
+            bespoke.sph = bespoke.sph || {};
+            bespoke.sph.domain = bespoke.sph.domain || {};
+
+
+            require.config({
+                baseUrl: "/App",
+                waitSeconds: 15
+            });
+            define('jquery', function () { return jQuery; });
+            define('knockout', ko);
+        </script>
+
+        <script>
+
+            require(['services/datacontext', 'jquery', 'services/app', 'services/system'], function (context, jquery, app, system) {
+
+                var editor = ace.edit("editor");
+                editor.setTheme("ace/theme/@theme");
+                @{
+            var mode = this.Request.QueryString["mode"] ?? "csharp";
+        }
+                editor.getSession().setMode("ace/mode/@mode");
+                editor.setValue(window.code);
+                editor.gotoLine(1);
+
+                editor.commands.addCommand({
+                    name: 'GotoLine',
+                    bindKey: { win: 'Ctrl-G', mac: 'Command-G' },
+                    exec: function () {
+                        require(['viewmodels/ace.goto.line'], function (dialog) {
+                            app.showModal(dialog)
+                                .done(function (result) {
+                                    if (result === "OK") {
+                                        editor.gotoLine(dialog.line());
+                                    }
+                                });
+                        });
+                    },
+                    readOnly: true
+                });
+
+                var isBusy = ko.observable(),
+                    save = function () {
+                        if (window.saved)
+                            window.saved(editor.getValue());
+
+                    },
+                    saveAndClose = function () {
+                        if (window.saved)
+                            window.saved(editor.getValue(), true);
+
+                    },
+                    copy = function () {
+
+                    },
+                    paste = function () {
+
+                    }, search = function () {
+
+                    },
+                    gotoLine = function (number) {
+
+                    },
+                    logs = function () {
+
+                        require(['viewmodels/page.logs', 'services/app'], function (dialog, app2) {
+                            var query = "Type eq 'Page' and EntityId = @Model.Page.PageId";
+                            context.loadAsync("AuditTrail", query)
+                                .done(function (lo) {
+                                    dialog.logs(lo.itemCollection);
+                                    app2.showModal(dialog)
+                                        .done(function (result) {
+                                            if (result === "OK") {
+                                                editor.setValue(dialog.code());
+                                            }
+                                        });
+
+                                });
+
+                        });
+                    },
+                    vm = {
+                        paste: paste,
+                        searchText: ko.observable(),
+                        copy: copy,
+                        save: save,
+                        search: search,
+                        saveAndClose: saveAndClose,
+                        gotoLine: gotoLine,
+                        logs: logs,
+                        isBusy: isBusy
+
+                    };
+                ko.applyBindings(vm, document.getElementById('header-navbar'));
+
+
+
+
+                $('#theme').change(function () {
+                    editor.setTheme("ace/theme/" + $(this).val());
+                    $.post('/Editor/SaveSetting', { 'ace-theme': $(this).val() });
+                });
+                $('#font-size').change(function () {
+                    $('#editor').css("font-size", $(this).val() + "px");
+                    $.post('/Editor/SaveSetting', { 'ace-font-size': $(this).val() });
+                });
+
+
+            });
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,49 @@
+﻿
+<section class="view-model-modal" id="page-logs">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Logs</h3>
+            </div>
+            <div class="modal-body">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date Time</th>
+                            <th>Use this</th>
+                            <th>Download</th>
+                            <th>Compare</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach :logs">
+                        <tr>
+                            <td data-bind="date :{value :DateTime, format:'DD/MM/YYYY HH:mm'}"></td>
+                            <td>
+                                <a data-bind="click : $root.viewCode" href="/#" title="Copy this code to the editor">
+                                    <i class="fa fa-keyboard-o"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a download title="Download to your local disk" data-bind="attr : {'href':'/Page/DownloadLog/' + AuditTrailId()}">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a target="_blank" title="compare with current code" data-bind="attr : {'href':'/Page/Compare/' + AuditTrailId()}">
+                                    <i class="fa fa-pencil-square"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <input form="page-logs-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

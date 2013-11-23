@@ -372,6 +372,8 @@
 			<xs:attribute name="VirtualPath" type="xs:string" use="required"/>
 			<xs:attribute name="Tag" type="xs:string" use="required"/>
 			<xs:attribute name="Version" type="xs:int" use="required"/>
+			<xs:attribute name="Mode" type="xs:string" use="required"/>
+			<xs:attribute name="Extension" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EndActivity">

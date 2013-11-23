@@ -154,6 +154,13 @@ namespace Bespoke.Sph.Domain
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
                 }
+                if (type == typeof(Page))
+                {
+                    Expression<Func<Page, bool>> predicate = t => t.PageId == o1.GetId();
+                    var query = new Query<Page>(provider).Where(predicate);
+                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
+                    list.Add(p);
+                }
             }
             return list;
         }

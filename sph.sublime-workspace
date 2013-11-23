@@ -24,88 +24,42 @@
 	"buffers":
 	[
 		{
-			"file": "source/web/web.sph/Views/Workflow/EditorTemplates/TextBox.cshtml",
+			"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Diff.cshtml",
 			"settings":
 			{
-				"buffer_size": 697,
+				"buffer_size": 757,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "using Bespoke.Sph.Domain;\nusing System;\nusing System.Threading.Tasks;\nusing System.Linq;\nusing System.Xml.Serialization;\nnamespace Bespoke.Sph.Workflows_8_40\n{\n   public class PermohonanTanahWakaf : Bespoke.Sph.Domain.Workflow\n   {\n       public System.String Title{get;set;}\n       public Applicant test {get;set;}\n       public Address alamat {get;set;}\n   }\n    [XmlType(\"Address\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Address : DomainObject\n   {\n     [XmlAttribute]\n     public string Street {get;set;}\n     [XmlAttribute]\n     public string Postcode {get;set;}\n     [XmlAttribute]\n     public string State {get;set;}\n     [XmlAttribute]\n     public string City {get;set;}\n   }\n\n    [XmlType(\"Applicant\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Applicant : DomainObject\n   {\n     [XmlAttribute]\n     public string Name {get;set;}\n     [XmlAttribute]\n     public string MyKad {get;set;}\n     [XmlAttribute]\n     public DateTime RegisteredDate {get;set;}\n      public int? Age {get;set;}\n      public DateTime? Dob {get;set;}\n      public Address Address {get;set;}\n      public Contact Contact {get;set;}\n   }\n\n    [XmlType(\"Contact\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Contact : DomainObject\n   {\n     [XmlAttribute]\n     public string Telephone {get;set;}\n      public Address Address {get;set;}\n   }\n\n       public partial class Workflow_8_40Controller : System.Web.Mvc.Controller   {\n       public async Task<System.Web.Mvc.ActionResult> Pohon(int id)\n       {\n              var vm = new PohonViewModel();\n           var context = new SphDataContext();\n           var wf = await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id);\n           var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == 8);\n           var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"2393eb78-4f12-4278-92a0-ad6a04d2e6ea\");\n           if(screen.IsInitiator) wf = new PermohonanTanahWakaf();\n         vm.Screen  = screen;\n         vm.Instance  = wf as PermohonanTanahWakaf;\n         vm.WorkflowDefinition  = wd;\n               return View(\"~/Views/Workflows_8_1/pohon.cshtml\",vm);\n       }\n   }\n   public class PohonViewModel\n   {\n     public PermohonanTanahWakaf Instance {get;set;}\n     public WorkflowDefinition WorkflowDefinition {get;set;}\n     public ScreenActivity Screen {get;set;}\n   }\n\n}",
+			"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Controllers/DiffController.cs",
 			"settings":
 			{
-				"buffer_size": 2456,
-				"line_ending": "Windows",
-				"name": "using Bespoke.Sph.Domain;"
-			}
-		},
-		{
-			"contents": "@inherits System.Web.Mvc.WebViewPage<PohonViewModel>\n@using System.Web.Mvc.Html\n@using Bespoke.Sph.Domain\n@model namespace Bespoke.Sph.Workflows_8_40.PohonViewModel\n\n@{\n    ViewBag.Title = Model.WorkflowDefinition.Name;\n    Layout = \"~/Views/Shared/_Layout.cshtml\";\n}\n\n<div class=\"row\">\n    <h1>@Model.Screen.Title</h1>\n</div>\n<div class=\"row\">\n    <form class=\"form-horizontal\" id=\"workflow-start-form\">\n        @foreach (var fe in Model.Screen.FormDesign.FormElementCollection)\n        {\n            fe.Path = fe.Path.ConvertJavascriptObjectToFunction();\n\n            @Html.EditorFor(f => fe)\n        }\n        <div class=\"form-group\" >\n            <label class=\"control-label col-lg-2\"></label>\n            <div class=\"col-lg-2 col-lg-offset-8\">\n                <button id=\"save-button\" type=\"submit\" class=\"btn btn-default\">Save</button>\n            </div>\n        </div>\n    </form>\n\n</div>\n\n\n@section scripts\n{\n    <script type=\"text/javascript\">\n        require(['services/datacontext', 'jquery'], function(context) {\n           var vm = {\n                $type : \"Bespoke.Sph.Domain.ScreenActivityViewModel,custom.workflow\",\n                id : @Model.WorkflowDefinition.WorkflowDefinitionId,\n                @foreach (var v in Model.WorkflowDefinition.VariableDefinitionCollection)\n                {\n                    <text>\n                @v.Name : @Html.Raw(v.GetEmptyJson(Model.WorkflowDefinition)),\n\n                </text>\n                }\n\n                isBusy : ko.observable()\n            };\n            var ovm = context.toObservable(vm);\n            ko.applyBindings(ovm);\n\n            $('#save-button').click(function(e) {\n                e.preventDefault();\n                var tcs = new $.Deferred();\n                var data = ko.mapping.toJSON(ovm);\n                context.post(data, \"/Workflow/StartWorkflow\")\n                    .then(function(result) {\n                        tcs.resolve(result);\n                    });\n                return tcs.promise();\n            });\n\n        });\n\n    </script>\n}",
-			"settings":
-			{
-				"buffer_size": 2040,
-				"line_ending": "Windows",
-				"name": "@inherits System.Web.Mvc.WebViewPage<PohonViewMode"
-			}
-		},
-		{
-			"contents": "~/Views/Workflow1/Permohonan",
-			"file": "/C/Users/itpro/AppData/Local/Temp/ipuuso0s.0.cs",
-			"file_size": -1,
-			"file_write_time": -1,
-			"settings":
-			{
-				"buffer_size": 28,
+				"buffer_size": 2805,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
+			"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffLine.cshtml",
 			"settings":
 			{
-				"buffer_size": 8001,
+				"buffer_size": 722,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "using Bespoke.Sph.Domain;\nusing System;\nusing System.Threading.Tasks;\nusing System.Linq;\nusing System.Xml.Serialization;\nnamespace Bespoke.Sph.Workflows_8_80\n{\n   [EntityType(typeof(Workflow))]\n   public class PermohonanTanahWakaf : Bespoke.Sph.Domain.Workflow\n   {\n       static PermohonanTanahWakaf()\n       {\n           XmlSerializerService.RegisterKnownTypes(typeof(Workflow),typeof(PermohonanTanahWakaf));\n       }\n       public PermohonanTanahWakaf()\n       {\n           this.Name = \"Permohonan Tanah Wakaf\";\n           this.Version = 80;\n           this.WorkflowDefinitionId = 8;\n           this.pemohon = new Applicant();\n           this.alamat = new Address();\n       }\n       public async override Task<ActivityExecutionResult> ExecuteAsync()\n       {\n               var act = this.GetCurrentActivity();\n               if(null == act)\n                   throw new InvalidOperationException(\"No current activity\");\n               if(act.IsAsync)\n               {\n                   this.State = \"WaitingAsync\";\n                   await this.SaveAsync(act.WebId);\n                   return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};\n               }\n\n               ActivityExecutionResult result = null;\n               switch(act.WebId)\n               {\n                   case \"_A_\" : \n                       result = await this.ExecScreenActivity_A_Async();\n                       break;\n                   case \"_B_\" : \n                       result = await this.ExecDecisionActivity_B_Async();\n                       break;\n                   case \"_C_\" : \n                       result = await this.ExecScreenActivity_C_Async();\n                       break;\n                   case \"_D_\" : \n                       result = await this.ExecEndActivity_D_Async();\n                       break;\n               }\n               if(null == result)\n                   throw new Exception(\"what ever\");\n               if(null != result.NextActivity)\n               {\n                   this.CurrentActivityWebId = result.NextActivity.WebId;\n                   await this.SaveAsync(act.WebId);\n               }\n                return result;\n       }\n       public System.String Title{get;set;}\n       public Applicant pemohon {get;set;}\n       public Address alamat {get;set;}\n\n   public async Task<ActivityExecutionResult> ExecScreenActivity_A_Async()\n   {\n       this.State = \"Ready\";\n       this.CurrentActivityWebId = \"_B_\";\n       await this.SaveAsync(\"_A_\");\n       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};\n       return result;\n   }\n\n\n   public Task<ActivityExecutionResult> ExecDecisionActivity_B_Async()\n   {\n       var result = new ActivityExecutionResult();\n       return Task.FromResult(result);\n   }\n\n\n   public async Task<ActivityExecutionResult> ExecScreenActivity_C_Async()\n   {\n       this.State = \"Ready\";\n       this.CurrentActivityWebId = \"_D_\";\n       await this.SaveAsync(\"_C_\");\n       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};\n       return result;\n   }\n\n\n   public Task<ActivityExecutionResult> ExecEndActivity_D_Async()\n   {\n       var result = new ActivityExecutionResult();\n       return Task.FromResult(result);\n   }\n\n   }\n    [XmlType(\"Address\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Address : DomainObject\n   {\n     [XmlAttribute]\n     public string Street {get;set;}\n     [XmlAttribute]\n     public string Postcode {get;set;}\n     [XmlAttribute]\n     public string State {get;set;}\n     [XmlAttribute]\n     public string City {get;set;}\n   }\n\n    [XmlType(\"Applicant\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Applicant : DomainObject\n   {\n       public Applicant()\n           {\n      this.Address = new Address();\n      this.Contact = new Contact();\n           }\n     [XmlAttribute]\n     public string Name {get;set;}\n     [XmlAttribute]\n     public string MyKad {get;set;}\n     [XmlAttribute]\n     public DateTime RegisteredDate {get;set;}\n      public int? Age {get;set;}\n      public DateTime? Dob {get;set;}\n      public Address Address {get;set;}\n      public Contact Contact {get;set;}\n   }\n\n    [XmlType(\"Contact\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Contact : DomainObject\n   {\n       public Contact()\n           {\n      this.Address = new Address();\n           }\n     [XmlAttribute]\n     public string Telephone {get;set;}\n      public Address Address {get;set;}\n   }\n\n   public partial class Workflow_8_80Controller : System.Web.Mvc.Controller\n{\n       public async Task<System.Web.Mvc.ActionResult> Pohon(int id = 0)\n       {\n           try{\n               var vm = new PohonViewModel();\n               var context = new SphDataContext();\n               var wf = id == 0 ? new  PermohonanTanahWakaf() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));\n               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == 8);\n               var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"_A_\");\n               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");\n               vm.Screen  = screen;\n               vm.Instance  = wf as PermohonanTanahWakaf;\n               vm.WorkflowDefinition  = wd;\n               vm.Controller  = this.GetType().Name;\n               vm.SaveAction  = \"SavePohon\";\n               vm.Namespace  = \"Bespoke.Sph.Workflows_8_80\";\n               return View(vm);\n           }\n           catch(Exception exc){return Content(exc.ToString());}\n       }\n\n       [System.Web.Mvc.HttpPost]\n       public async Task<System.Web.Mvc.ActionResult> SavePohon()\n       {\n           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<PermohonanTanahWakaf>(this);\n           var result = await wf.ExecScreenActivity_A_Async();\n           return Json(new {sucess = true, status = \"OK\", result = result});\n       }\n   }\n   public class PohonViewModel\n   {\n       public PermohonanTanahWakaf Instance {get;set;}\n       public WorkflowDefinition WorkflowDefinition {get;set;}\n       public ScreenActivity Screen {get;set;}\n       public string Controller {get;set;}\n       public string Namespace {get;set;}\n       public string SaveAction {get;set;}\n   }\n\n   \n   public partial class Workflow_8_80Controller : System.Web.Mvc.Controller\n{\n       public async Task<System.Web.Mvc.ActionResult> Kelulusan(int id = 0)\n       {\n           try{\n               var vm = new KelulusanViewModel();\n               var context = new SphDataContext();\n               var wf = id == 0 ? new  PermohonanTanahWakaf() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));\n               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == 8);\n               var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"_C_\");\n               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");\n               vm.Screen  = screen;\n               vm.Instance  = wf as PermohonanTanahWakaf;\n               vm.WorkflowDefinition  = wd;\n               vm.Controller  = this.GetType().Name;\n               vm.SaveAction  = \"SaveKelulusan\";\n               vm.Namespace  = \"Bespoke.Sph.Workflows_8_80\";\n               return View(vm);\n           }\n           catch(Exception exc){return Content(exc.ToString());}\n       }\n\n       [System.Web.Mvc.HttpPost]\n       public async Task<System.Web.Mvc.ActionResult> SaveKelulusan()\n       {\n           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<PermohonanTanahWakaf>(this);\n           var result = await wf.ExecScreenActivity_C_Async();\n           return Json(new {sucess = true, status = \"OK\", result = result});\n       }\n   }\n   public class KelulusanViewModel\n   {\n       public PermohonanTanahWakaf Instance {get;set;}\n       public WorkflowDefinition WorkflowDefinition {get;set;}\n       public ScreenActivity Screen {get;set;}\n       public string Controller {get;set;}\n       public string Namespace {get;set;}\n       public string SaveAction {get;set;}\n   }\n\n   \n}\n",
+			"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffPane.cshtml",
 			"settings":
 			{
-				"buffer_size": 8280,
+				"buffer_size": 586,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "using Bespoke.Sph.Domain;\nusing System;\nusing System.Threading.Tasks;\nusing System.Linq;\nusing System.Xml.Serialization;\nnamespace Bespoke.Sph.Workflows_1_5\n{\n   [EntityType(typeof(Workflow))]\n   public class PermohonanWakaf : Bespoke.Sph.Domain.Workflow\n   {\n       static PermohonanWakaf()\n       {\n           XmlSerializerService.RegisterKnownTypes(typeof(Workflow),typeof(PermohonanWakaf));\n       }\n       public PermohonanWakaf()\n       {\n           this.Name = \"Permohonan Wakaf\";\n           this.Version = 5;\n           this.WorkflowDefinitionId = 1;\n           this.pemohon = new Applicant();\n       }\n       public override Task<ActivityExecutionResult> StartAsync()\n       {\n           return this.ExecScreenActivity4122d09e_40cd_4558_93eb_ed18f6309f09Async();\n       }\n       public async override Task<ActivityExecutionResult> ExecuteAsync()\n       {\n               var act = this.GetCurrentActivity();\n               if(null == act)\n                   throw new InvalidOperationException(\"No current activity\");\n               if(act.IsAsync)\n               {\n                   this.State = \"WaitingAsync\";\n                   await this.SaveAsync(act.WebId);\n                   return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};\n               }\n\n               ActivityExecutionResult result = null;\n               switch(act.WebId)\n               {\n                   case \"4122d09e-40cd-4558-93eb-ed18f6309f09\" : \n                       result = await this.ExecScreenActivity4122d09e_40cd_4558_93eb_ed18f6309f09Async();\n                       break;\n                   case \"420ec1fc-f325-4207-84db-4c72b9e1e06f\" : \n                       result = await this.ExecScreenActivity420ec1fc_f325_4207_84db_4c72b9e1e06fAsync();\n                       break;\n                   case \"67dc8853-60bd-45d0-a2b2-57e47bd2d73b\" : \n                       result = await this.ExecDecisionActivity67dc8853_60bd_45d0_a2b2_57e47bd2d73bAsync();\n                       break;\n                   case \"625cbb65-a782-49ac-a149-e7c6e828e3e3\" : \n                       result = await this.ExecNotificationActivity625cbb65_a782_49ac_a149_e7c6e828e3e3Async();\n                       break;\n                   case \"d6f9991e-d25d-4f69-9bb3-6720a3ff7696\" : \n                       result = await this.ExecEndActivityd6f9991e_d25d_4f69_9bb3_6720a3ff7696Async();\n                       break;\n                   case \"79da55f5-eb8a-470d-a35e-e68d223a108d\" : \n                       result = await this.ExecNotificationActivity79da55f5_eb8a_470d_a35e_e68d223a108dAsync();\n                       break;\n               }\n               if(null == result)\n                   throw new Exception(\"what ever\");\n               if(null != result.NextActivity)\n               {\n                   this.CurrentActivityWebId = result.NextActivity.WebId;\n                   await this.SaveAsync(act.WebId);\n               }\n                return result;\n       }\n       public System.String nama{get;set;}\n       public Applicant pemohon {get;set;}\n       public System.String Status{get;set;}\n\n   public async Task<ActivityExecutionResult> ExecScreenActivity4122d09e_40cd_4558_93eb_ed18f6309f09Async()\n   {\n       this.State = \"Ready\";\n       this.CurrentActivityWebId = \"67dc8853-60bd-45d0-a2b2-57e47bd2d73b\";\n       await this.SaveAsync(\"4122d09e-40cd-4558-93eb-ed18f6309f09\");\n       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};\n       return result;\n   }\n\n\n   public async Task<ActivityExecutionResult> ExecScreenActivity420ec1fc_f325_4207_84db_4c72b9e1e06fAsync()\n   {\n       this.State = \"Ready\";\n       this.CurrentActivityWebId = \"d6f9991e-d25d-4f69-9bb3-6720a3ff7696\";\n       await this.SaveAsync(\"420ec1fc-f325-4207-84db-4c72b9e1e06f\");\n       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};\n       return result;\n   }\n\n\n   public async Task<ActivityExecutionResult> ExecDecisionActivity67dc8853_60bd_45d0_a2b2_57e47bd2d73bAsync()\n   {\n       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};\n       var script = ObjectBuilder.GetObject<IScriptEngine>();\n       var branch1 = this.CheckLandStatusReserved();\n       if(branch1)\n       {\n           this.CurrentActivityWebId = \"79da55f5-eb8a-470d-a35e-e68d223a108d\";\n           await this.SaveAsync(\"67dc8853-60bd-45d0-a2b2-57e47bd2d73b\");\n           return result;\n       }\n       var branch2 = this.CheckLandStatusCommercial();\n       if(branch2)\n       {\n           this.CurrentActivityWebId = \"420ec1fc-f325-4207-84db-4c72b9e1e06f\";\n           await this.SaveAsync(\"67dc8853-60bd-45d0-a2b2-57e47bd2d73b\");\n           return result;\n       }\n       this.CurrentActivityWebId = \"625cbb65-a782-49ac-a149-e7c6e828e3e3\";\n       return result;\n   }\n   private bool CheckLandStatusReserved()\n   {\n       var item = this;\n       return item.Status == \"Reserved\";\n   }\n   private bool CheckLandStatusCommercial()\n   {\n       var item = this;\n       return item,Status == \"Commercial\";\n   }\n\n\n   public Task<ActivityExecutionResult> ExecNotificationActivity625cbb65_a782_49ac_a149_e7c6e828e3e3Async()\n   {\n       var result = new ActivityExecutionResult();\n       System.Console.WriteLine(\"sending notification from me\");\n       return Task.FromResult(result);\n   }\n\n\n   public Task<ActivityExecutionResult> ExecEndActivityd6f9991e_d25d_4f69_9bb3_6720a3ff7696Async()\n   {\n       var result = new ActivityExecutionResult();\n       return Task.FromResult(result);\n   }\n\n\n   public Task<ActivityExecutionResult> ExecNotificationActivity79da55f5_eb8a_470d_a35e_e68d223a108dAsync()\n   {\n       var result = new ActivityExecutionResult();\n       System.Console.WriteLine(\"sending notification from agg\");\n       return Task.FromResult(result);\n   }\n\n   }\n    [XmlType(\"Address\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Address : DomainObject\n   {\n     [XmlAttribute]\n     public string Street {get;set;}\n     [XmlAttribute]\n     public string Postcode {get;set;}\n     [XmlAttribute]\n     public string State {get;set;}\n     [XmlAttribute]\n     public string City {get;set;}\n   }\n\n    [XmlType(\"Applicant\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Applicant : DomainObject\n   {\n       public Applicant()\n           {\n      this.Address = new Address();\n      this.Contact = new Contact();\n           }\n     [XmlAttribute]\n     public string Name {get;set;}\n     [XmlAttribute]\n     public string MyKad {get;set;}\n     [XmlAttribute]\n     public DateTime RegisteredDate {get;set;}\n      public int? Age {get;set;}\n      public DateTime? Dob {get;set;}\n      public Address Address {get;set;}\n      public Contact Contact {get;set;}\n   }\n\n    [XmlType(\"Contact\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Contact : DomainObject\n   {\n       public Contact()\n           {\n      this.Address = new Address();\n           }\n     [XmlAttribute]\n     public string Telephone {get;set;}\n      public Address Address {get;set;}\n   }\n\n   public partial class Workflow_1_5Controller : System.Web.Mvc.Controller\n{\n       public async Task<System.Web.Mvc.ActionResult> Apply(int id = 0)\n       {\n           try{\n               var vm = new ApplyViewModel();\n               var context = new SphDataContext();\n               var wf = id == 0 ? new  PermohonanWakaf() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));\n               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == 1);\n               var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);\n               var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"4122d09e-40cd-4558-93eb-ed18f6309f09\");\n               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");\n               vm.Screen  = screen;\n               vm.Instance  = wf as PermohonanWakaf;\n               vm.WorkflowDefinition  = wd;\n               vm.Controller  = this.GetType().Name;\n               vm.SaveAction  = \"SaveApply\";\n               vm.Namespace  = \"Bespoke.Sph.Workflows_1_5\";\n               var canview = false;\n               switch (screen.Performer.UserProperty)\n               { \n                  case \"Username\":\n                       canview = screen.Performer.Value == profile.Username;\n                        break;\n                  case \"Department\":\n                       canview = screen.Performer.Value == profile.Department;\n                        break;\n                  case \"Designation\":\n                       canview = screen.Performer.Value == profile.Designation;\n                        break;\n                  case \"Roles\":\n                       canview = profile.RoleTypes.Contains(screen.Performer.Value);\n                        break;\n                  default:\n                       canview = false;\n                        break;\n               } \n               if(canview) return View(vm);\n               return RedirectToAction(\"Unauthorised\");\n           }\n           catch(Exception exc){return Content(exc.ToString());}\n       }\n\n       [System.Web.Mvc.HttpPost]\n       public async Task<System.Web.Mvc.ActionResult> SaveApply()\n       {\n           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<PermohonanWakaf>(this);\n           var result = await wf.ExecScreenActivity4122d09e_40cd_4558_93eb_ed18f6309f09Async();\n           return Json(new {sucess = true, status = \"OK\", result = result});\n       }\n   }\n   public class ApplyViewModel\n   {\n       public PermohonanWakaf Instance {get;set;}\n       public WorkflowDefinition WorkflowDefinition {get;set;}\n       public ScreenActivity Screen {get;set;}\n       public string Controller {get;set;}\n       public string Namespace {get;set;}\n       public string SaveAction {get;set;}\n   }\n\n   public partial class Workflow_1_5Controller : System.Web.Mvc.Controller\n{\n       public async Task<System.Web.Mvc.ActionResult> Approval(int id = 0)\n       {\n           try{\n               var vm = new ApprovalViewModel();\n               var context = new SphDataContext();\n               var wf = id == 0 ? new  PermohonanWakaf() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));\n               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == 1);\n               var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);\n               var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"420ec1fc-f325-4207-84db-4c72b9e1e06f\");\n               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");\n               vm.Screen  = screen;\n               vm.Instance  = wf as PermohonanWakaf;\n               vm.WorkflowDefinition  = wd;\n               vm.Controller  = this.GetType().Name;\n               vm.SaveAction  = \"SaveApproval\";\n               vm.Namespace  = \"Bespoke.Sph.Workflows_1_5\";\n               var canview = false;\n               switch (screen.Performer.UserProperty)\n               { \n                  case \"Username\":\n                       canview = screen.Performer.Value == profile.Username;\n                        break;\n                  case \"Department\":\n                       canview = screen.Performer.Value == profile.Department;\n                        break;\n                  case \"Designation\":\n                       canview = screen.Performer.Value == profile.Designation;\n                        break;\n                  case \"Roles\":\n                       canview = profile.RoleTypes.Contains(screen.Performer.Value);\n                        break;\n                  default:\n                       canview = false;\n                        break;\n               } \n               if(canview) return View(vm);\n               return RedirectToAction(\"Unauthorised\");\n           }\n           catch(Exception exc){return Content(exc.ToString());}\n       }\n\n       [System.Web.Mvc.HttpPost]\n       public async Task<System.Web.Mvc.ActionResult> SaveApproval()\n       {\n           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<PermohonanWakaf>(this);\n           var result = await wf.ExecScreenActivity420ec1fc_f325_4207_84db_4c72b9e1e06fAsync();\n           return Json(new {sucess = true, status = \"OK\", result = result});\n       }\n   }\n   public class ApprovalViewModel\n   {\n       public PermohonanWakaf Instance {get;set;}\n       public WorkflowDefinition WorkflowDefinition {get;set;}\n       public ScreenActivity Screen {get;set;}\n       public string Controller {get;set;}\n       public string Namespace {get;set;}\n       public string SaveAction {get;set;}\n   }\n\n   \n   \n   \n   \n}\n",
-			"file": "/D/temp/Workflow_1_5.cs",
-			"file_size": 13211,
-			"file_write_time": 130282763670017925,
+			"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Index.cshtml",
 			"settings":
 			{
-				"buffer_size": 12891,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "using Bespoke.Sph.Domain;\nusing System;\nusing System.Threading.Tasks;\nusing System.Linq;\nusing System.Xml.Serialization;\nnamespace Bespoke.Sph.Workflows_1_8\n{\n   [EntityType(typeof(Workflow))]\n   public class PermohonanWakaf : Bespoke.Sph.Domain.Workflow\n   {\n       static PermohonanWakaf()\n       {\n           XmlSerializerService.RegisterKnownTypes(typeof(Workflow),typeof(PermohonanWakaf));\n       }\n       public PermohonanWakaf()\n       {\n           this.Name = \"Permohonan Wakaf\";\n           this.Version = 8;\n           this.WorkflowDefinitionId = 1;\n           this.pemohon = new Applicant();\n       }\n       public override Task<ActivityExecutionResult> StartAsync()\n       {\n           this.SerializedDefinitionStoreId = \"wd.1.8\";\n           return this.ExecScreenActivity4122d09e_40cd_4558_93eb_ed18f6309f09Async();\n       }\n       public async override Task<ActivityExecutionResult> ExecuteAsync()\n       {\n               var act = this.GetCurrentActivity();\n               if(null == act)\n                   throw new InvalidOperationException(\"No current activity\");\n               if(act.IsAsync)\n               {\n                   this.State = \"WaitingAsync\";\n                   await this.SaveAsync(act.WebId);\n                   return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};\n               }\n\n               ActivityExecutionResult result = null;\n               switch(act.WebId)\n               {\n                   case \"4122d09e-40cd-4558-93eb-ed18f6309f09\" : \n                       result = await this.ExecScreenActivity4122d09e_40cd_4558_93eb_ed18f6309f09Async();\n                       break;\n                   case \"420ec1fc-f325-4207-84db-4c72b9e1e06f\" : \n                       result = await this.ExecScreenActivity420ec1fc_f325_4207_84db_4c72b9e1e06fAsync();\n                       break;\n                   case \"67dc8853-60bd-45d0-a2b2-57e47bd2d73b\" : \n                       result = await this.ExecDecisionActivity67dc8853_60bd_45d0_a2b2_57e47bd2d73bAsync();\n                       break;\n                   case \"625cbb65-a782-49ac-a149-e7c6e828e3e3\" : \n                       result = await this.ExecNotificationActivity625cbb65_a782_49ac_a149_e7c6e828e3e3Async();\n                       break;\n                   case \"d6f9991e-d25d-4f69-9bb3-6720a3ff7696\" : \n                       result = await this.ExecEndActivityd6f9991e_d25d_4f69_9bb3_6720a3ff7696Async();\n                       break;\n                   case \"79da55f5-eb8a-470d-a35e-e68d223a108d\" : \n                       result = await this.ExecNotificationActivity79da55f5_eb8a_470d_a35e_e68d223a108dAsync();\n                       break;\n               }\n               if(null == result)\n                   throw new Exception(\"what ever\");\n               if(null != result.NextActivity)\n               {\n                   this.CurrentActivityWebId = result.NextActivity.WebId;\n                   await this.SaveAsync(act.WebId);\n               }\n                return result;\n       }\n       public System.String nama{get;set;}\n       public Applicant pemohon {get;set;}\n       public System.String Status{get;set;}\n\n   public async Task<ActivityExecutionResult> ExecScreenActivity4122d09e_40cd_4558_93eb_ed18f6309f09Async()\n   {\n       this.State = \"Ready\";\n       this.CurrentActivityWebId = \"67dc8853-60bd-45d0-a2b2-57e47bd2d73b\";\n       await this.SaveAsync(\"4122d09e-40cd-4558-93eb-ed18f6309f09\");\n       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};\n       return result;\n   }\n\n\n   public async Task<ActivityExecutionResult> ExecScreenActivity420ec1fc_f325_4207_84db_4c72b9e1e06fAsync()\n   {\n       this.State = \"Ready\";\n       this.CurrentActivityWebId = \"d6f9991e-d25d-4f69-9bb3-6720a3ff7696\";\n       await this.SaveAsync(\"420ec1fc-f325-4207-84db-4c72b9e1e06f\");\n       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};\n       return result;\n   }\n\n\n   public async Task<ActivityExecutionResult> ExecDecisionActivity67dc8853_60bd_45d0_a2b2_57e47bd2d73bAsync()\n   {\n       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};\n       var script = ObjectBuilder.GetObject<IScriptEngine>();\n       var branch1 = this.CheckLandStatusReserved();\n       if(branch1)\n       {\n           this.CurrentActivityWebId = \"79da55f5-eb8a-470d-a35e-e68d223a108d\";\n           await this.SaveAsync(\"67dc8853-60bd-45d0-a2b2-57e47bd2d73b\");\n           return result;\n       }\n       var branch2 = this.CheckLandStatusCommercial();\n       if(branch2)\n       {\n           this.CurrentActivityWebId = \"420ec1fc-f325-4207-84db-4c72b9e1e06f\";\n           await this.SaveAsync(\"67dc8853-60bd-45d0-a2b2-57e47bd2d73b\");\n           return result;\n       }\n       this.CurrentActivityWebId = \"625cbb65-a782-49ac-a149-e7c6e828e3e3\";\n       return result;\n   }\n   private bool CheckLandStatusReserved()\n   {\n       var item = this;\n       return item.Status == \"Reserved\";\n   }\n   private bool CheckLandStatusCommercial()\n   {\n       var item = this;\n       return item.Status == \"Commercial\";\n   }\n\n\n   public Task<ActivityExecutionResult> ExecNotificationActivity625cbb65_a782_49ac_a149_e7c6e828e3e3Async()\n   {\n       var result = new ActivityExecutionResult();\n       System.Console.WriteLine(\"sending notification from me\");\n       return Task.FromResult(result);\n   }\n\n\n   public Task<ActivityExecutionResult> ExecEndActivityd6f9991e_d25d_4f69_9bb3_6720a3ff7696Async()\n   {\n       var result = new ActivityExecutionResult();\n       return Task.FromResult(result);\n   }\n\n\n   public Task<ActivityExecutionResult> ExecNotificationActivity79da55f5_eb8a_470d_a35e_e68d223a108dAsync()\n   {\n       var result = new ActivityExecutionResult();\n       System.Console.WriteLine(\"sending notification from agg\");\n       return Task.FromResult(result);\n   }\n\n   }\n    [XmlType(\"Address\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Address : DomainObject\n   {\n     [XmlAttribute]\n     public string Street {get;set;}\n     [XmlAttribute]\n     public string Postcode {get;set;}\n     [XmlAttribute]\n     public string State {get;set;}\n     [XmlAttribute]\n     public string City {get;set;}\n   }\n\n    [XmlType(\"Applicant\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Applicant : DomainObject\n   {\n       public Applicant()\n           {\n      this.Address = new Address();\n      this.Contact = new Contact();\n           }\n     [XmlAttribute]\n     public string Name {get;set;}\n     [XmlAttribute]\n     public string MyKad {get;set;}\n     [XmlAttribute]\n     public DateTime RegisteredDate {get;set;}\n      public int? Age {get;set;}\n      public DateTime? Dob {get;set;}\n      public Address Address {get;set;}\n      public Contact Contact {get;set;}\n   }\n\n    [XmlType(\"Contact\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Contact : DomainObject\n   {\n       public Contact()\n           {\n      this.Address = new Address();\n           }\n     [XmlAttribute]\n     public string Telephone {get;set;}\n      public Address Address {get;set;}\n   }\n\n   public partial class Workflow_1_8Controller : System.Web.Mvc.Controller\n{\n       public async Task<System.Web.Mvc.ActionResult> Apply(int id = 0)\n       {\n           try{\n               var vm = new ApplyViewModel();\n               var context = new SphDataContext();\n               var wf = id == 0 ? new  PermohonanWakaf() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));\n               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == 1);\n               var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);\n               var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"4122d09e-40cd-4558-93eb-ed18f6309f09\");\n               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");\n               vm.Screen  = screen;\n               vm.Instance  = wf as PermohonanWakaf;\n               vm.WorkflowDefinition  = wd;\n               vm.Controller  = this.GetType().Name;\n               vm.SaveAction  = \"SaveApply\";\n               vm.Namespace  = \"Bespoke.Sph.Workflows_1_8\";\n               var canview = screen.Performer.IsPublic;\n               if(!screen.Performer.IsPublic)\n               {\n                   switch (screen.Performer.UserProperty)\n                   { \n                       case \"Username\":\n                           canview = screen.Performer.Value == profile.Username;\n                           break;\n                       case \"Department\":\n                           canview = screen.Performer.Value == profile.Department;\n                           break;\n                       case \"Designation\":\n                           canview = screen.Performer.Value == profile.Designation;\n                           break;\n                       case \"Roles\":\n                           canview = profile.RoleTypes.Contains(screen.Performer.Value);\n                           break;\n                       default:\n                           canview = false;\n                           break;\n                   } \n               }\n               if(canview) return View(vm);\n               return new System.Web.Mvc.HttpUnauthorizedResult();\n           }\n           catch(Exception exc){return Content(exc.ToString());}\n       }\n\n       [System.Web.Mvc.HttpPost]\n       public async Task<System.Web.Mvc.ActionResult> SaveApply()\n       {\n           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<PermohonanWakaf>(this);\n           var result = await wf.ExecScreenActivity4122d09e_40cd_4558_93eb_ed18f6309f09Async();\n           return Json(new {sucess = true, status = \"OK\", result = result});\n       }\n   }\n   public class ApplyViewModel\n   {\n       public PermohonanWakaf Instance {get;set;}\n       public WorkflowDefinition WorkflowDefinition {get;set;}\n       public ScreenActivity Screen {get;set;}\n       public string Controller {get;set;}\n       public string Namespace {get;set;}\n       public string SaveAction {get;set;}\n   }\n\n   public partial class Workflow_1_8Controller : System.Web.Mvc.Controller\n{\n       public async Task<System.Web.Mvc.ActionResult> Approval(int id = 0)\n       {\n           try{\n               var vm = new ApprovalViewModel();\n               var context = new SphDataContext();\n               var wf = id == 0 ? new  PermohonanWakaf() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));\n               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == 1);\n               var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);\n               var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"420ec1fc-f325-4207-84db-4c72b9e1e06f\");\n               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");\n               vm.Screen  = screen;\n               vm.Instance  = wf as PermohonanWakaf;\n               vm.WorkflowDefinition  = wd;\n               vm.Controller  = this.GetType().Name;\n               vm.SaveAction  = \"SaveApproval\";\n               vm.Namespace  = \"Bespoke.Sph.Workflows_1_8\";\n               var canview = screen.Performer.IsPublic;\n               if(!screen.Performer.IsPublic)\n               {\n                   switch (screen.Performer.UserProperty)\n                   { \n                       case \"Username\":\n                           canview = screen.Performer.Value == profile.Username;\n                           break;\n                       case \"Department\":\n                           canview = screen.Performer.Value == profile.Department;\n                           break;\n                       case \"Designation\":\n                           canview = screen.Performer.Value == profile.Designation;\n                           break;\n                       case \"Roles\":\n                           canview = profile.RoleTypes.Contains(screen.Performer.Value);\n                           break;\n                       default:\n                           canview = false;\n                           break;\n                   } \n               }\n               if(canview) return View(vm);\n               return new System.Web.Mvc.HttpUnauthorizedResult();\n           }\n           catch(Exception exc){return Content(exc.ToString());}\n       }\n\n       [System.Web.Mvc.HttpPost]\n       public async Task<System.Web.Mvc.ActionResult> SaveApproval()\n       {\n           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<PermohonanWakaf>(this);\n           var result = await wf.ExecScreenActivity420ec1fc_f325_4207_84db_4c72b9e1e06fAsync();\n           return Json(new {sucess = true, status = \"OK\", result = result});\n       }\n   }\n   public class ApprovalViewModel\n   {\n       public PermohonanWakaf Instance {get;set;}\n       public WorkflowDefinition WorkflowDefinition {get;set;}\n       public ScreenActivity Screen {get;set;}\n       public string Controller {get;set;}\n       public string Namespace {get;set;}\n       public string SaveAction {get;set;}\n   }\n\n   \n   \n   \n   \n}\n",
-			"file": "/D/temp/Workflow_1_8.cs",
-			"file_size": 13640,
-			"file_write_time": 130282791037289759,
-			"settings":
-			{
-				"buffer_size": 13313,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "using Bespoke.Sph.Domain;\nusing System;\nusing System.Threading.Tasks;\nusing System.Linq;\nusing System.Xml.Serialization;\nnamespace Bespoke.Sph.Workflows_1_13\n{\n   [EntityType(typeof(Workflow))]\n   public class PermohonanWakaf : Bespoke.Sph.Domain.Workflow\n   {\n       static PermohonanWakaf()\n       {\n           XmlSerializerService.RegisterKnownTypes(typeof(Workflow),typeof(PermohonanWakaf));\n       }\n       public PermohonanWakaf()\n       {\n           this.Name = \"Permohonan Wakaf\";\n           this.Version = 13;\n           this.WorkflowDefinitionId = 1;\n           this.pemohon = new Applicant();\n       }\n       public override Task<ActivityExecutionResult> StartAsync()\n       {\n           this.SerializedDefinitionStoreId = \"wd.1.13\";\n           return this.ExecScreenActivity4122d09e_40cd_4558_93eb_ed18f6309f09Async();\n       }\n       public async override Task<ActivityExecutionResult> ExecuteAsync()\n       {\n               var act = this.GetCurrentActivity();\n               if(null == act)\n                   throw new InvalidOperationException(\"No current activity\");\n              if(act.IsAsync && this.State == \"WaitingAsync\")\n              {\n                  return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};\n\n              }\n               if(act.IsAsync)\n               {\n                   this.State = \"WaitingAsync\";\n                   await this.SaveAsync(act.WebId);\n                   return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};\n               }\n\n               ActivityExecutionResult result = null;\n               switch(act.WebId)\n               {\n                   case \"4122d09e-40cd-4558-93eb-ed18f6309f09\" : \n                       result = await this.ExecScreenActivity4122d09e_40cd_4558_93eb_ed18f6309f09Async();\n                       break;\n                   case \"420ec1fc-f325-4207-84db-4c72b9e1e06f\" : \n                       result = await this.ExecScreenActivity420ec1fc_f325_4207_84db_4c72b9e1e06fAsync();\n                       break;\n                   case \"67dc8853-60bd-45d0-a2b2-57e47bd2d73b\" : \n                       result = await this.ExecDecisionActivity67dc8853_60bd_45d0_a2b2_57e47bd2d73bAsync();\n                       break;\n                   case \"625cbb65-a782-49ac-a149-e7c6e828e3e3\" : \n                       result = await this.ExecNotificationActivity625cbb65_a782_49ac_a149_e7c6e828e3e3Async();\n                       break;\n                   case \"d6f9991e-d25d-4f69-9bb3-6720a3ff7696\" : \n                       result = await this.ExecEndActivityd6f9991e_d25d_4f69_9bb3_6720a3ff7696Async();\n                       break;\n                   case \"79da55f5-eb8a-470d-a35e-e68d223a108d\" : \n                       result = await this.ExecNotificationActivity79da55f5_eb8a_470d_a35e_e68d223a108dAsync();\n                       break;\n               }\n               if(null == result)\n                   throw new Exception(\"what ever\");\n               if(null != result.NextActivity)\n               {\n                   this.CurrentActivityWebId = result.NextActivity.WebId;\n                   await this.SaveAsync(act.WebId);\n               }\n                return result;\n       }\n       public System.String nama{get;set;}\n       public Applicant pemohon {get;set;}\n       public System.String Status{get;set;}\n\n   public async Task<ActivityExecutionResult> ExecScreenActivity4122d09e_40cd_4558_93eb_ed18f6309f09Async()\n   {\n       this.State = \"Ready\";\n       this.CurrentActivityWebId = \"67dc8853-60bd-45d0-a2b2-57e47bd2d73b\";\n       await this.SaveAsync(\"4122d09e-40cd-4558-93eb-ed18f6309f09\");\n       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};\n       return result;\n   }\n\n\n   public async Task<ActivityExecutionResult> ExecScreenActivity420ec1fc_f325_4207_84db_4c72b9e1e06fAsync()\n   {\n       this.State = \"Ready\";\n       this.CurrentActivityWebId = \"d6f9991e-d25d-4f69-9bb3-6720a3ff7696\";\n       await this.SaveAsync(\"420ec1fc-f325-4207-84db-4c72b9e1e06f\");\n       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};\n       return result;\n   }\n\n\n   public async Task<ActivityExecutionResult> ExecDecisionActivity67dc8853_60bd_45d0_a2b2_57e47bd2d73bAsync()\n   {\n       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};\n       var script = ObjectBuilder.GetObject<IScriptEngine>();\n       var branch1 = this.CheckLandStatusReserved();\n       if(branch1)\n       {\n           this.CurrentActivityWebId = \"79da55f5-eb8a-470d-a35e-e68d223a108d\";\n           await this.SaveAsync(\"67dc8853-60bd-45d0-a2b2-57e47bd2d73b\");\n           return result;\n       }\n       var branch2 = this.CheckLandStatusCommercial();\n       if(branch2)\n       {\n           this.CurrentActivityWebId = \"420ec1fc-f325-4207-84db-4c72b9e1e06f\";\n           await this.SaveAsync(\"67dc8853-60bd-45d0-a2b2-57e47bd2d73b\");\n           return result;\n       }\n       this.CurrentActivityWebId = \"625cbb65-a782-49ac-a149-e7c6e828e3e3\";\n       await this.SaveAsync(\"67dc8853-60bd-45d0-a2b2-57e47bd2d73b\");\n       return result;\n   }\n   private bool CheckLandStatusReserved()\n   {\n       var item = this;\n       return item.Status == \"Reserved\";\n   }\n   private bool CheckLandStatusCommercial()\n   {\n       var item = this;\n       return item.Status == \"Commercial\";\n   }\n\n\n   public async Task<ActivityExecutionResult> ExecNotificationActivity625cbb65_a782_49ac_a149_e7c6e828e3e3Async()\n   {\n       var result = new ActivityExecutionResult();\n       this.CurrentActivityWebId = \"d6f9991e-d25d-4f69-9bb3-6720a3ff7696\";\n       System.Console.WriteLine(\"Sending email : Send Email Cannot Accept Status\");\n       await this.SaveAsync(\"625cbb65-a782-49ac-a149-e7c6e828e3e3\");\n       return result;\n   }\n\n\n   public Task<ActivityExecutionResult> ExecEndActivityd6f9991e_d25d_4f69_9bb3_6720a3ff7696Async()\n   {\n       var result = new ActivityExecutionResult();\n       return Task.FromResult(result);\n   }\n\n\n   public async Task<ActivityExecutionResult> ExecNotificationActivity79da55f5_eb8a_470d_a35e_e68d223a108dAsync()\n   {\n       var result = new ActivityExecutionResult();\n       this.CurrentActivityWebId = \"420ec1fc-f325-4207-84db-4c72b9e1e06f\";\n       System.Console.WriteLine(\"Sending email : Send mail for reserved\");\n       await this.SaveAsync(\"79da55f5-eb8a-470d-a35e-e68d223a108d\");\n       return result;\n   }\n\n   }\n    [XmlType(\"Address\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Address : DomainObject\n   {\n     [XmlAttribute]\n     public string Street {get;set;}\n     [XmlAttribute]\n     public string Postcode {get;set;}\n     [XmlAttribute]\n     public string State {get;set;}\n     [XmlAttribute]\n     public string City {get;set;}\n   }\n\n    [XmlType(\"Applicant\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Applicant : DomainObject\n   {\n       public Applicant()\n           {\n      this.Address = new Address();\n      this.Contact = new Contact();\n           }\n     [XmlAttribute]\n     public string Name {get;set;}\n     [XmlAttribute]\n     public string MyKad {get;set;}\n     [XmlAttribute]\n     public DateTime RegisteredDate {get;set;}\n      public int? Age {get;set;}\n      public DateTime? Dob {get;set;}\n      public Address Address {get;set;}\n      public Contact Contact {get;set;}\n   }\n\n    [XmlType(\"Contact\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n    public partial class Contact : DomainObject\n   {\n       public Contact()\n           {\n      this.Address = new Address();\n           }\n     [XmlAttribute]\n     public string Telephone {get;set;}\n      public Address Address {get;set;}\n   }\n\n   public partial class Workflow_1_13Controller : System.Web.Mvc.Controller\n{\n       public async Task<System.Web.Mvc.ActionResult> Apply(int id = 0)\n       {\n           try{\n               var vm = new ApplyViewModel();\n               var context = new SphDataContext();\n               var wf = id == 0 ? new  PermohonanWakaf() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));\n               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == 1);\n               var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);\n               var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"4122d09e-40cd-4558-93eb-ed18f6309f09\");\n               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");\n               \n               if(wf.CurrentActivityWebId != \"4122d09e_40cd_4558_93eb_ed18f6309f09\" && wf.State != \"WaitingAsync\")\n                return HttpUnauthorizedResult();\n\n               vm.Screen  = screen;\n               vm.Instance  = wf as PermohonanWakaf;\n               vm.WorkflowDefinition  = wd;\n               vm.Controller  = this.GetType().Name;\n               vm.SaveAction  = \"SaveApply\";\n               vm.Namespace  = \"Bespoke.Sph.Workflows_1_13\";\n               var canview = screen.Performer.IsPublic;\n               if(!screen.Performer.IsPublic)\n               {\n                   switch (screen.Performer.UserProperty)\n                   { \n                       case \"Username\":\n                           canview = screen.Performer.Value == profile.Username;\n                           break;\n                       case \"Department\":\n                           canview = screen.Performer.Value == profile.Department;\n                           break;\n                       case \"Designation\":\n                           canview = screen.Performer.Value == profile.Designation;\n                           break;\n                       case \"Roles\":\n                           canview = profile.RoleTypes.Contains(screen.Performer.Value);\n                           break;\n                       default:\n                           canview = false;\n                           break;\n                   } \n               }\n               if(canview) return View(vm);\n               return new System.Web.Mvc.HttpUnauthorizedResult();\n           }\n           catch(Exception exc){return Content(exc.ToString());}\n       }\n\n       [System.Web.Mvc.HttpPost]\n       public async Task<System.Web.Mvc.ActionResult> SaveApply()\n       {\n           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<PermohonanWakaf>(this);\n           var result = await wf.ExecScreenActivity4122d09e_40cd_4558_93eb_ed18f6309f09Async();\n           return Json(new {sucess = true, status = \"OK\", result = result});\n       }\n   }\n   public class ApplyViewModel\n   {\n       public PermohonanWakaf Instance {get;set;}\n       public WorkflowDefinition WorkflowDefinition {get;set;}\n       public ScreenActivity Screen {get;set;}\n       public string Controller {get;set;}\n       public string Namespace {get;set;}\n       public string SaveAction {get;set;}\n   }\n\n   public partial class Workflow_1_13Controller : System.Web.Mvc.Controller\n{\n       public async Task<System.Web.Mvc.ActionResult> Approval(int id = 0)\n       {\n           try{\n               var vm = new ApprovalViewModel();\n               var context = new SphDataContext();\n               var wf = id == 0 ? new  PermohonanWakaf() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));\n               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == 1);\n               var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);\n               var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"420ec1fc-f325-4207-84db-4c72b9e1e06f\");\n               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");\n               vm.Screen  = screen;\n               vm.Instance  = wf as PermohonanWakaf;\n               vm.WorkflowDefinition  = wd;\n               vm.Controller  = this.GetType().Name;\n               vm.SaveAction  = \"SaveApproval\";\n               vm.Namespace  = \"Bespoke.Sph.Workflows_1_13\";\n               var canview = screen.Performer.IsPublic;\n               if(!screen.Performer.IsPublic)\n               {\n                   switch (screen.Performer.UserProperty)\n                   { \n                       case \"Username\":\n                           canview = screen.Performer.Value == profile.Username;\n                           break;\n                       case \"Department\":\n                           canview = screen.Performer.Value == profile.Department;\n                           break;\n                       case \"Designation\":\n                           canview = screen.Performer.Value == profile.Designation;\n                           break;\n                       case \"Roles\":\n                           canview = profile.RoleTypes.Contains(screen.Performer.Value);\n                           break;\n                       default:\n                           canview = false;\n                           break;\n                   } \n               }\n               if(canview) return View(vm);\n               return new System.Web.Mvc.HttpUnauthorizedResult();\n           }\n           catch(Exception exc){return Content(exc.ToString());}\n       }\n\n       [System.Web.Mvc.HttpPost]\n       public async Task<System.Web.Mvc.ActionResult> SaveApproval()\n       {\n           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<PermohonanWakaf>(this);\n           var result = await wf.ExecScreenActivity420ec1fc_f325_4207_84db_4c72b9e1e06fAsync();\n           return Json(new {sucess = true, status = \"OK\", result = result});\n       }\n   }\n   public class ApprovalViewModel\n   {\n       public PermohonanWakaf Instance {get;set;}\n       public WorkflowDefinition WorkflowDefinition {get;set;}\n       public ScreenActivity Screen {get;set;}\n       public string Controller {get;set;}\n       public string Namespace {get;set;}\n       public string SaveAction {get;set;}\n   }\n\n   \n   \n   \n   \n}\n",
-			"file": "/D/temp/Workflow_1_13.cs",
-			"file_size": 14015,
-			"file_write_time": 130282819952954381,
-			"settings":
-			{
-				"buffer_size": 14060,
+				"buffer_size": 729,
 				"line_ending": "Windows"
 			}
 		}
@@ -121,10 +75,7 @@
 	},
 	"console":
 	{
-		"height": 0.0,
-		"history":
-		[
-		]
+		"height": 0.0
 	},
 	"distraction_free":
 	{
@@ -137,6 +88,21 @@
 	},
 	"file_history":
 	[
+		"/H/Downloads/3003",
+		"/H/Downloads/tengok.cshtml",
+		"/D/temp/sph/Workflow_4004_5.cs",
+		"/D/project/work/_archived/cpd/source/web/cpd/Controllers/CourseController.cs",
+		"/C/project/work/sph/sph.sublime-project",
+		"/C/project/work/sph/SQLQuery1.sql",
+		"/C/project/work/sph/source/domain/domain.sph/Triggers/WorkflowDefinition.code.cs",
+		"/D/temp/Workflow_8_25.cs",
+		"/D/temp/Workflow_0_25.cs",
+		"/C/project/work/sph/source/web/web.sph/Views/Workflow/EditorTemplates/TextBox.cshtml",
+		"/C/Users/itpro/AppData/Local/Temp/ipuuso0s.0.cs",
+		"/C/project/work/sph/source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
+		"/D/temp/Workflow_1_5.cs",
+		"/D/temp/Workflow_1_8.cs",
+		"/D/temp/Workflow_1_13.cs",
 		"/C/project/work/sph/source/web/web.sph/App/partial/WorkflowDefinition.js",
 		"/C/project/work/sph/source/web/web.sph/Views/Workflow/Start.cshtml"
 	],
@@ -156,6 +122,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"diffB",
+			"Change",
 			"<input.*class=\".*(form-control).*\"",
 			"<input.*class=\".*^(?!.*?form-control).*\"",
 			"<input.*class=\".*^(form-control).*\"",
@@ -184,30 +152,29 @@
 	"groups":
 	[
 		{
-			"selected": 8,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "source/web/web.sph/Views/Workflow/EditorTemplates/TextBox.cshtml",
-					"semi_transient": false,
+					"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Diff.cshtml",
 					"settings":
 					{
-						"buffer_size": 697,
+						"buffer_size": 757,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								684,
-								684
+								757,
+								757
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 2,
+							"syntax": "Packages/ASP/HTML-ASP.tmLanguage",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -218,25 +185,52 @@
 				},
 				{
 					"buffer": 1,
-					"semi_transient": false,
+					"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Controllers/DiffController.cs",
 					"settings":
 					{
-						"buffer_size": 2456,
+						"buffer_size": 2805,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1769,
-								1769
+								1916,
+								1918
 							]
 						],
 						"settings":
 						{
-							"auto_name": "using Bespoke.Sph.Domain;",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 2,
+							"syntax": "Packages/C#/C#.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 34.0,
+						"translation.y": 792.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffLine.cshtml",
+					"settings":
+					{
+						"buffer_size": 722,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								721,
+								721
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ASP/HTML-ASP.tmLanguage",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -246,55 +240,25 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2040,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1513,
-								1513
-							]
-						],
-						"settings":
-						{
-							"auto_name": "@inherits System.Web.Mvc.WebViewPage<PohonViewMode",
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 540.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
 					"buffer": 3,
-					"file": "/C/Users/itpro/AppData/Local/Temp/ipuuso0s.0.cs",
-					"semi_transient": false,
+					"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffPane.cshtml",
 					"settings":
 					{
-						"buffer_size": 28,
+						"buffer_size": 586,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								28,
-								0
+								256,
+								256
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C#/C#.tmLanguage",
-							"tab_size": 2,
+							"syntax": "Packages/ASP/HTML-ASP.tmLanguage",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -305,140 +269,24 @@
 				},
 				{
 					"buffer": 4,
-					"file": "source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
-					"semi_transient": false,
+					"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Index.cshtml",
 					"settings":
 					{
-						"buffer_size": 8001,
+						"buffer_size": 729,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								221,
+								221
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C#/C#.tmLanguage",
+							"syntax": "Packages/ASP/HTML-ASP.tmLanguage",
 							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1150.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8280,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6525,
-								6534
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C#/C#.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3622.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/D/temp/Workflow_1_5.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12891,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5177,
-								5177
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C#/C#.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2474.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/D/temp/Workflow_1_8.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 13313,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2115,
-								2115
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C#/C#.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 758.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "/D/temp/Workflow_1_13.cs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 14060,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								518,
-								518
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C#/C#.tmLanguage",
-							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -481,7 +329,6 @@
 		]
 	},
 	"menu_visible": true,
-	"project": "sph.sublime-project",
 	"replace":
 	{
 		"height": 0.0
@@ -492,6 +339,10 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"worde.co",
+				"source/domain/domain.sph/Triggers/WorkflowDefinition.code.cs"
+			],
 			[
 				"worde.js",
 				"web/web.sph/App/partial/WorkflowDefinition.js"
@@ -515,24 +366,10 @@
 		],
 		"width": 0.0
 	},
-	"select_symbol":
-	{
-		"height": 0.0,
-		"selected_items":
-		[
-		],
-		"width": 0.0
-	},
-	"settings":
-	{
-	},
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 308.0,
-	"status_bar_visible": true,
-	"template_settings":
-	{
-	}
+	"status_bar_visible": true
 }

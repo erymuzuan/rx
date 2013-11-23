@@ -1,0 +1,36 @@
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Web.Controllers.PageCompareViewModel
+    @{
+        ViewBag.Title = "Diff";
+        Layout = null;
+    }
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <link href="@Url.Content("~/Content/Diff.css")" rel="stylesheet" type="text/css" />
+
+
+    </head>
+        <body>
+            <div class="container">
+                <div id="diffBox" class="row">
+                    <div id="leftPane">
+                        <div class="diffHeader">Old Text</div>
+                        @{
+                            Html.RenderPartial("DiffPane", Model.Diff.OldText);
+                        }
+                    </div>
+                    <div id="rightPane">
+                        <div class="diffHeader">New Text</div>
+                        @{
+                            Html.RenderPartial("DiffPane", Model.Diff.NewText);
+                        }
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+                
+            </div>
+
+        </body>
+</html>

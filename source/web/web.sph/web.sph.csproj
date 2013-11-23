@@ -52,6 +52,9 @@
     <Reference Include="Common.Logging">
       <HintPath>..\..\..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
+    <Reference Include="DiffPlex">
+      <HintPath>..\..\..\packages\DiffPlex.1.2.0\lib\Net40\DiffPlex.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetOpenAuth.AspNet, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\DotNetOpenAuth.AspNet.4.3.3.13295\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
@@ -471,7 +474,9 @@
     <Content Include="App\viewmodels\complaint.checkstatus.js" />
     <Content Include="App\viewmodels\complaint.dashboard.js" />
     <Content Include="App\viewmodels\field.assembly.js" />
+    <Content Include="App\viewmodels\page.detail.dialog.js" />
     <Content Include="App\viewmodels\page.list.js" />
+    <Content Include="App\viewmodels\page.logs.js" />
     <Content Include="App\viewmodels\test.wf.dialog.js" />
     <Content Include="App\viewmodels\variable.complex.js" />
     <Content Include="App\viewmodels\variable.simple.js" />
@@ -547,7 +552,9 @@
     <Content Include="App\views\chats.html" />
     <Content Include="App\views\error.message.html" />
     <Content Include="App\views\field.assembly.html" />
+    <Content Include="App\views\page.detail.dialog.html" />
     <Content Include="App\views\page.list.html" />
+    <Content Include="App\views\page.logs.html" />
     <Content Include="App\views\test.wf.dialog.html" />
     <Content Include="App\views\variable.complex.html" />
     <Content Include="App\views\variable.simple.html" />
@@ -683,6 +690,7 @@
     <Content Include="Content\DataTables-1.9.4\media\images\sort_both.png" />
     <Content Include="Content\DataTables-1.9.4\media\images\sort_desc.png" />
     <Content Include="Content\DataTables-1.9.4\media\images\sort_desc_disabled.png" />
+    <Content Include="Content\Diff.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\img\1.png" />
@@ -1514,7 +1522,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
     <Folder Include="Scripts\schemas\" />
-    <Folder Include="Views\Page\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\schemas\_object.xslt">
@@ -2187,6 +2194,11 @@
     <Content Include="Views\Shared\EditorTemplates\FileUploadElement.cshtml" />
     <Content Include="Views\App\ScreenWorkflowDraftJs.cshtml" />
     <Content Include="Views\App\ScreenWorkflowDraftHtml.cshtml" />
+    <Content Include="Views\Editor\Page.cshtml" />
+    <Content Include="Views\Page\Compare.cshtml" />
+    <Content Include="Views\Page\DiffLine.cshtml" />
+    <Content Include="Views\Page\DiffPane.cshtml" />
+    <Content Include="Views\Page\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

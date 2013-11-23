@@ -6,6 +6,7 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
+/// <reference path="../durandal/re" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
@@ -20,7 +21,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 
             },
             editPage = function (page) {
-                var w = window.open("/editor/ace?mode=html", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes');
+                var w = window.open("/editor/page/" + page.PageId() + "?mode=html", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes');
                 w.code = page.Code();
                 w.saved = function (code, close) {
                     page.Code(code);
@@ -34,6 +35,28 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                         .then(tcs.resolve);
                     return tcs.promise();
                 };
+            },
+            editDetail = function (page) {
+
+                var tcs = new $.Deferred();
+                require(['viewmodels/page.detail.dialog', 'durandal/app'], function (dialog, app2) {
+                    dialog.page(page);
+
+                    app2.showModal(dialog)
+                        .done(function (result) {
+                            if (!result) return;
+                            if (result === "OK") {
+
+                                var data = ko.mapping.toJSON(page);
+
+                                context.post(data, "/Page/Save")
+                                    .then(tcs.resolve);
+
+                            }
+                        });
+
+                });
+                return tcs.promise();
             };
 
         var vm = {
@@ -41,7 +64,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             activate: activate,
             viewAttached: viewAttached,
             pages: ko.observableArray(),
-            editPage: editPage
+            editPage: editPage,
+            editDetail: editDetail
         };
 
         return vm;
