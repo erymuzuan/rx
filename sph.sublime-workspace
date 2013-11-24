@@ -24,14 +24,6 @@
 	"buffers":
 	[
 		{
-			"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Diff.cshtml",
-			"settings":
-			{
-				"buffer_size": 757,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Controllers/DiffController.cs",
 			"settings":
 			{
@@ -88,6 +80,7 @@
 	},
 	"file_history":
 	[
+		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Diff.cshtml",
 		"/H/Downloads/3003",
 		"/H/Downloads/tengok.cshtml",
 		"/D/temp/sph/Workflow_4004_5.cs",
@@ -152,39 +145,11 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Diff.cshtml",
-					"settings":
-					{
-						"buffer_size": 757,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								757,
-								757
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ASP/HTML-ASP.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Controllers/DiffController.cs",
 					"settings":
 					{
@@ -205,14 +170,14 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 34.0,
+						"translation.x": 0.0,
 						"translation.y": 792.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 1,
 					"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffLine.cshtml",
 					"settings":
 					{
@@ -240,7 +205,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 2,
 					"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffPane.cshtml",
 					"settings":
 					{
@@ -268,7 +233,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 3,
 					"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Index.cshtml",
 					"settings":
 					{

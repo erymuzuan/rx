@@ -1,11 +1,15 @@
 ﻿<div data-bind="with: $root">
+    <div class="alert alert-info alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-question-circle fa-2x" style="margin-right: 10px"></i>
+        Check the field to add to the report columns, to remove use the Columns Properties Tab
+    </div>
     <ul id="entity-columns" data-bind="foreach: entityColumns,filter: { path: 'li>label' }">
         <li>
             <label class="checkbox">
                 <input type="checkbox" data-bind="checked: IsSelected" />
                 <!-- ko text:Name-->
                 <!--/ko-->
-                
                 <!-- ko if :IsCustomField -->*
                 <!-- /ko -->
             </label>

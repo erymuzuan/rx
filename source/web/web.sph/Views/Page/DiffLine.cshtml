@@ -4,7 +4,7 @@
 {
     const string spaceValue = "\u00B7";
     const string tabValue = "\u00B7\u00B7";
-    if (Model.Type == ChangeType.Deleted || Model.Type == ChangeType.Inserted )
+    if (Model.Type == ChangeType.Deleted || Model.Type == ChangeType.Inserted)
     {
         @Html.Encode(Model.Text).Replace(" ", spaceValue).Replace("\t", tabValue)
     }
@@ -16,9 +16,15 @@
             {
                 continue;
             }
-    <span class="@string.Format("{0}Character",character.Type)">@Html.Raw(character.Text.Replace(" ", spaceValue))
-    </span>
+            <span class="@string.Format("{0}Character",character.Type)">
+                @Html.Raw(character.Text.Replace(" ", spaceValue))
+        </span>
         }
+    }
+    else
+    {
+        
+        @Model.Text.Replace(" ", spaceValue).Replace("\t", tabValue)
     }
 
 }
