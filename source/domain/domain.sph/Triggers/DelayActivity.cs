@@ -12,13 +12,13 @@ namespace Bespoke.Sph.Domain
             var result = base.ValidateBuild(wd);
             if (this.Miliseconds + this.Seconds + this.Hour + this.Days == 0 && string.IsNullOrWhiteSpace(this.Expression))
             {
-                result.Errors.Add(new BuildError(this.WebId, 
-                    string.Format("[DelayActivity] -\"{0}\" Set the wait time or expression", this.Name) ));
+                result.Errors.Add(new BuildError(this.WebId,
+                    string.Format("[DelayActivity] -\"{0}\" Set the wait time or expression", this.Name)));
             }
 
             if (this.Miliseconds + this.Seconds + this.Hour + this.Days > 0 && !string.IsNullOrWhiteSpace(this.Expression))
             {
-                result.Errors.Add(new BuildError(this.WebId,string.Format("[DelayActivity] -\"{0}\" Set the wait time OR expression ONLY not both", this.Name) ));
+                result.Errors.Add(new BuildError(this.WebId, string.Format("[DelayActivity] -\"{0}\" Set the wait time OR expression ONLY not both", this.Name)));
             }
             // TODO : validate it's a valid C# expression
             return result;
@@ -27,19 +27,23 @@ namespace Bespoke.Sph.Domain
         public async override Task InitiateAsync(Workflow wf)
         {
             var ts = ObjectBuilder.GetObject<ITaskScheduler>();
-            var script = ObjectBuilder.GetObject<IScriptEngine>();
             var dateTime = DateTime.Now.AddDays(this.Days)
                 .AddHours(this.Hour)
                 .AddSeconds(this.Seconds)
                 .AddMilliseconds(this.Miliseconds);
             if (!string.IsNullOrWhiteSpace(this.Expression))
-                dateTime = script.Evaluate<DateTime, Workflow>(this.Expression, wf);
+            {
+                var name = "EvaluateExpression" + this.MethodName;
+                var method = wf.GetType().GetMethod(name);
+                dateTime = (DateTime)method.Invoke(wf, null);
+            }
 
 
             var task = new ScheduledActivityExecution
             {
                 InstanceId = wf.WorkflowId,
-                ActivityId = this.WebId
+                ActivityId = this.WebId,
+                Name = this.Name
             };
             await ts.AddTaskAsync(dateTime, task);
         }
@@ -50,7 +54,8 @@ namespace Bespoke.Sph.Domain
             var task = new ScheduledActivityExecution
             {
                 InstanceId = wf.WorkflowId,
-                ActivityId = this.WebId
+                ActivityId = this.WebId,
+                Name = this.Name
             };
             await ts.DeleteAsync(task);
         }
@@ -75,6 +80,16 @@ namespace Bespoke.Sph.Domain
             code.AppendLine(this.AfterExcuteCode);
             code.AppendLine("       return result;");
             code.AppendLine("   }");
+
+            if (!string.IsNullOrWhiteSpace(this.Expression))
+            {
+                code.AppendLinf("   public System.DateTime EvaluateExpression{0}()", this.MethodName);
+                code.AppendLine("   {");
+                code.AppendLine("       var item = this;");
+                code.AppendLinf(this.Expression.Trim().EndsWith(";") ? "       {0}" : "       return {0};", this.Expression);
+                code.AppendLine("   }");
+
+            }
 
             return code.ToString();
         }
