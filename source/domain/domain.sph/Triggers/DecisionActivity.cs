@@ -9,7 +9,10 @@ namespace Bespoke.Sph.Domain
     {
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
-            return new BuildValidationResult { Result = true };
+            var result = base.ValidateBuild(wd);
+            if (this.DecisionBranchCollection.Count(b => b.IsDefault) != 1)
+                result.Errors.Add(new BuildError(this.WebId, "You should have one default branch in \"" + this.Name + "\""));
+            return result;
         }
 
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)

@@ -37,7 +37,7 @@
         @Html.Partial("_splash")
     </div>
     
-    <script src="@BundleTable.Bundles.ResolveBundleUrl("~/scripts/vendor")"></script>
+    @Scripts.Render("~/scripts/vendor")
     @Scripts.Render("~/scripts/core")
     @Scripts.Render("~/scripts/domain.schema")
     @Scripts.Render("~/scripts/domain.prototypes")

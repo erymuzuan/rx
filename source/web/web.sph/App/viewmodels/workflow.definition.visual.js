@@ -439,7 +439,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                         act = ko.dataFor(this),
                         x = parseInt(p.css("left")),
                         y = parseInt(p.css("top"));
-
+                    if (typeof act.WorkflowDesigner !== "function") {
+                        act.WorkflowDesigner = ko.observable(new bespoke.sph.domain.WorkflowDesigner(system.guid()));
+                    }
                     act.WorkflowDesigner().X(x);
                     act.WorkflowDesigner().Y(y);
 
