@@ -32,71 +32,22 @@ namespace Bespoke.Sph.Web.Controllers
 
         public async Task<ActionResult> Import(IEnumerable<HttpPostedFileBase> files)
         {
-
-            var context = new SphDataContext();
-            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-
-            foreach (var zip in files)
+            foreach (var postedFile in files)
             {
 
-                var fileName = Path.GetFileName(zip.FileName);
-                var stream = zip.InputStream;  //initialise new stream
+                var stream = postedFile.InputStream;  //initialise new stream
                 var content = new byte[stream.Length];
                 stream.Read(content, 0, content.Length); // read from stream to byte array
 
-                var temp = Path.GetTempFileName() + ".zip";
-                System.IO.File.WriteAllBytes(temp, content);
+                var zip = Path.Combine(Path.GetTempPath() , Path.GetFileName(postedFile.FileName));
+                System.IO.File.WriteAllBytes(zip, content);
 
-                var folder = Directory.CreateDirectory(Path.GetTempFileName() + "extract").FullName;
-                ZipFile.ExtractToDirectory(temp, folder);
+                var packager = new WorkflowDefinitionPackage();
+                var wd = await packager.UnpackAsync(zip);
 
-                var store = ObjectBuilder.GetObject<IBinaryStore>();
-                var id = Strings.RegexSingleValue(fileName, "wd_(?<id>[0-9]{1,4})_.*?", "id");
-
-                var wdFile = Path.Combine(folder, string.Format("wd_{0}.json", id));
-                var wdJson = System.IO.File.ReadAllText(wdFile);
-                var wd = JsonConvert.DeserializeObject<WorkflowDefinition>(wdJson, setting);
-
-                if (!string.IsNullOrWhiteSpace(wd.SchemaStoreId))
-                {
-                    var xsdFile = Path.Combine(folder, wd.SchemaStoreId + ".xsd");
-                    var xsd = new BinaryStore
-                    {
-                        Content = System.IO.File.ReadAllBytes(xsdFile),
-                        Extension = ".xsd",
-                        StoreId = wd.SchemaStoreId,
-                        WebId = wd.SchemaStoreId,
-                        FileName = "schema.xsd"
-                    };
-                    await store.AddAsync(xsd);
-                }
-
-                // get the pages
-                using (var session = context.OpenSession())
-                {
-                    wd.WorkflowDefinitionId = 0;
-                    session.Attach(wd);
-                    await session.SubmitChanges("Import");
-                }
-                using (var session = context.OpenSession())
-                {
-                    foreach (var pf in Directory.GetFiles(folder, "page.*.json"))
-                    {
-                        var pageJson = System.IO.File.ReadAllText(pf)
-                            .Replace("Workflows_" + id, "Workflows_" + wd.WorkflowDefinitionId);
-                        var page = JsonConvert.DeserializeObject<Page>(pageJson, setting);
-                        page.PageId = 0;
-                        page.Tag = page.Tag.Replace("wf_" + id, "wf_" + wd.WorkflowDefinitionId);
-                        page.VirtualPath = page.VirtualPath.Replace("Workflow_" + id, "Workflow_" + wd.WorkflowDefinitionId);
-
-                        session.Attach(page);
-                    }
-                    await session.SubmitChanges("Import");
-                }
-
-
-                return Json(new { success = true, wd });
+                this.Response.ContentType = APPLICATION_JAVASCRIPT;
+                var result = new {success = true, wd};
+                return Content(result.ToJsonString());
 
             }
             return Json(new { success = false });
@@ -108,43 +59,8 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Export()
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
-            var path = Path.GetTempPath() + @"/wd" + wd.WorkflowDefinitionId;
-            if (Directory.Exists(path)) Directory.Delete(path, true);
-            Directory.CreateDirectory(path);
-            var zip = path + ".zip";
-            var context = new SphDataContext();
-
-            var store = ObjectBuilder.GetObject<IBinaryStore>();
-
-            var schema = await store.GetContentAsync(wd.SchemaStoreId);
-            System.IO.File.WriteAllBytes(Path.Combine(path, wd.SchemaStoreId + ".xsd"), schema.Content);
-            System.IO.File.WriteAllBytes(Path.Combine(path, "wd_" + wd.WorkflowDefinitionId + ".json"), Encoding.UTF8.GetBytes(wd.ToJsonString()));
-            // get the screen view
-            foreach (var screen in wd.ActivityCollection.OfType<ScreenActivity>())
-            {
-                var screen1 = screen;
-                var page =
-                    await
-                        context.LoadOneAsync<Page>(
-                            p => p.Version == wd.Version && p.Tag == string.Format("wf_{0}_{1}", wd.WorkflowDefinitionId, screen1.WebId));
-                if (null != page)
-                {
-                    System.IO.File.WriteAllBytes(Path.Combine(path, "page." + page.PageId + ".json"), Encoding.UTF8.GetBytes(page.ToJsonString()));
-
-                }
-            }
-            if (System.IO.File.Exists(zip))
-                System.IO.File.Delete(zip);
-            ZipFile.CreateFromDirectory(path, zip);
-            var zd = new BinaryStore
-            {
-                StoreId = Guid.NewGuid().ToString(),
-                Content = System.IO.File.ReadAllBytes(zip),
-                Extension = ".zip",
-                FileName = string.Format("wd_{0}_{1}.zip", wd.WorkflowDefinitionId, wd.Version),
-                WebId = Guid.NewGuid().ToString()
-            };
-            await store.AddAsync(zd);
+            var package = new WorkflowDefinitionPackage();
+            var zd = await package.PackAsync(wd);
             return Json(new { success = true, status = "OK", url = this.Url.Action("Get", "BinaryStore", new { id = zd.StoreId }) });
         }
 

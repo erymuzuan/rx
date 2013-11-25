@@ -54,6 +54,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
@@ -344,6 +345,7 @@
     <Compile Include="Triggers\WorkflowDefinition.xsd.js.cs">
       <DependentUpon>WorkflowDefinition.cs</DependentUpon>
     </Compile>
+    <Compile Include="Triggers\WorkflowDefinitionPackage.cs" />
     <Compile Include="Triggers\WorkflowDesigner.cs" />
     <Compile Include="Triggers\WorkflowInitiatorAction.cs" />
     <Compile Include="Triggers\XsdMetadata.cs" />
