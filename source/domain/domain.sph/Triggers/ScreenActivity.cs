@@ -246,7 +246,12 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       {");
 
             code.AppendLinf("           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<{0}>(this);", wd.WorkflowTypeName);// this is extension method
-
+            code.AppendLine(@"          var store = ObjectBuilder.GetObject<IBinaryStore>();
+                                        var doc = await store.GetContentAsync(string.Format(""wd.{0}.{1}"", wf.WorkflowDefinitionId, wf.Version));
+                                        using (var stream = new System.IO.MemoryStream(doc.Content))
+                                        {
+                                            wf.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();
+                                        }  ");
             code.AppendLinf("           var result = await wf.{0}();", this.MethodName);
 
             // any business rules?
