@@ -430,6 +430,16 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     });
 
                 });
+                $('#open-close-toolbox-button').on('click', function(e) {
+                    e.preventDefault();
+                    $('#toolbox-panel').hide();
+                    return false;
+                });
+                $(document).on('keyup', function (e) {
+                    if (e.ctrlKey && e.altKey && e.keyCode === 88) {
+                        $('#toolbox-panel').show();
+                    }
+                });
 
 
             },

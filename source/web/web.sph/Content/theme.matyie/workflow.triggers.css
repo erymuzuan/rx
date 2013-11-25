@@ -72,3 +72,10 @@ div#error-list div.popover {
 div#error-list strong.icon-read-more {
     cursor: pointer;
 }
+
+div#toolbox-panel {
+    z-index: 1006;
+    background-color: #FFF;
+    padding: 10px;
+    border: 1px solid #808080;
+}

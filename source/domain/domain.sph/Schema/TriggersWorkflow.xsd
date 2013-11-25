@@ -598,4 +598,14 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="ClrTypeVariable">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Variable">
+					<xs:attribute name="Assembly" type="xs:string" use="required"/>
+					<xs:attribute name="CanInitiateWithDefaultConstructor" type="xs:boolean" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

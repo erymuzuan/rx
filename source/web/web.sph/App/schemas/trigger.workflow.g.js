@@ -401,6 +401,8 @@ bespoke.sph.domain.Page = function (webId) {
         VirtualPath: ko.observable(''),
         Tag: ko.observable(''),
         Version: ko.observable(0),
+        Mode: ko.observable(''),
+        Extension: ko.observable(''),
         Code: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
@@ -708,6 +710,22 @@ bespoke.sph.domain.ListenBranch = function (webId) {
 
     if (bespoke.sph.domain.ListenBranchPartial) {
         return _(v).extend(new bespoke.sph.domain.ListenBranchPartial(v));
+    }
+    return v;
+};
+
+
+
+bespoke.sph.domain.ClrTypeVariable = function (webId) {
+
+    var v = new bespoke.sph.domain.Variable(webId);
+
+    v.Assembly = ko.observable('');
+    v.CanInitiateWithDefaultConstructor = ko.observable(false);
+    v["$type"] = "Bespoke.Sph.Domain.ClrTypeVariable, domain.sph";
+
+    if (bespoke.sph.domain.ClrTypeVariablePartial) {
+        return _(v).extend(new bespoke.sph.domain.ClrTypeVariablePartial(v));
     }
     return v;
 };

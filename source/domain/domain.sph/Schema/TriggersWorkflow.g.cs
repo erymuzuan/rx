@@ -2085,6 +2085,16 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_mode;
+        public const string PropertyNameMode = "Mode";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_extension;
+        public const string PropertyNameExtension = "Extension";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_code;
         public const string PropertyNameCode = "Code";
 
@@ -2289,6 +2299,64 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_version;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Mode
+        {
+            set
+            {
+                if (String.Equals(m_mode, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMode, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_mode = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_mode;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Extension
+        {
+            set
+            {
+                if (String.Equals(m_extension, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameExtension, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_extension = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_extension;
             }
         }
 
@@ -3061,6 +3129,50 @@ namespace Bespoke.Sph.Domain
             set
             {
                 m_IsDestroyed = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ClrTypeVariable", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ClrTypeVariable
+    {
+
+        private string m_Assembly;
+        [XmlAttribute]
+        public string Assembly
+        {
+            get
+            {
+                return m_Assembly;
+            }
+            set
+            {
+                m_Assembly = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_CanInitiateWithDefaultConstructor;
+        [XmlAttribute]
+        public bool CanInitiateWithDefaultConstructor
+        {
+            get
+            {
+                return m_CanInitiateWithDefaultConstructor;
+            }
+            set
+            {
+                m_CanInitiateWithDefaultConstructor = value;
                 RaisePropertyChanged();
             }
         }
