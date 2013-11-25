@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using Bespoke.Sph.Domain;
@@ -26,6 +27,38 @@ namespace Bespoke.Sph.Web.Controllers
             var vm = new WorkflowDefinitionVisualViewModel();
             vm.ToolboxElements.Add(new ScreenActivity());
             return View(vm);
+        }
+
+        public async Task<ActionResult> Import(IEnumerable<HttpPostedFileBase> files)
+        {
+
+            var storeId = Guid.NewGuid().ToString();
+
+            foreach (var zip in files)
+            {
+                var stream = zip.InputStream;  //initialise new stream
+                var content = new byte[stream.Length];
+                stream.Read(content, 0, content.Length); // read from stream to byte array
+
+                var temp = Path.GetTempFileName() + ".zip";
+                System.IO.File.WriteAllBytes(temp,content);
+
+                var folder = Directory.CreateDirectory(Path.GetTempFileName()).FullName;
+                ZipFile.ExtractToDirectory(temp,folder);
+
+                var context = new SphDataContext();
+                var store = ObjectBuilder.GetObject<IBinaryStore>();
+
+                using (var session = context.OpenSession())
+                {
+                    //session.Attach(wd);
+                    await session.SubmitChanges("Import");
+                }
+
+            }
+
+            return Json(new { storeId });
+
         }
 
 
@@ -71,6 +104,8 @@ namespace Bespoke.Sph.Web.Controllers
             await store.AddAsync(zd);
             return Json(new { success = true, status = "OK", url = this.Url.Action("Get", "BinaryStore", new { id = zd.StoreId }) });
         }
+
+
 
         public ActionResult ScreenHtml()
         {

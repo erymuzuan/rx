@@ -51,7 +51,7 @@
                 <button data-bind="click : save" class="btn btn-default"><i class="fa fa-save"></i>Save</button>
                 <button data-bind="click : saveAndClose" class="btn btn-default"><i class="fa fa-arrow-circle-down"></i>Save &amp; Close</button>
                 <button data-bind="click : copy" class="btn btn-default"><i class="fa fa-copy"></i>Copy               </button>
-                <button data-bind="click : paster" class="btn btn-default"><i class="fa fa-paste"></i>Paste</button>
+                <button data-bind="click : paste" class="btn btn-default"><i class="fa fa-paste"></i>Paste</button>
                 <input data-bind="value : searchText" type="search" class="form-control" style="width: 100px" />
                 <button data-bind="click : search" class="btn btn-default"><i class="fa fa-search"></i>Search</button>
                 <div class="form-group">
@@ -138,7 +138,6 @@
             var mode = this.Request.QueryString["mode"] ?? "csharp";
         }
             editor.getSession().setMode("ace/mode/@mode");
-            editor.setValue(window.code);
             editor.gotoLine(1);
 
             editor.commands.addCommand({
@@ -192,7 +191,6 @@
 
 
 
-
             $('#theme').change(function () {
                 editor.setTheme("ace/theme/" + $(this).val());
                 $.post('/Editor/SaveSetting', { 'ace-theme': $(this).val() });
@@ -201,6 +199,11 @@
                 $('#editor').css("font-size", $(this).val() + "px");
                 $.post('/Editor/SaveSetting', { 'ace-font-size': $(this).val() });
             });
+
+            // let it run
+            setTimeout(function () {
+                editor.setValue(window.code);
+            }, 500);
 
 
         });

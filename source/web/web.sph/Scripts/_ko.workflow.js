@@ -21,6 +21,7 @@ ko.bindingHandlers.typeahead = {
         allBindings = allBindingsAccessor();
         $(element).typeahead({
             name: 'schema_paths' + id,
+            limit : 10,
             prefetch: {
                 url: '/WorkflowDefinition/GetVariablePath/' + id,
                 ttl: 1000 * 60

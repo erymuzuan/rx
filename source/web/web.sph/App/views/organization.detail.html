@@ -1,59 +1,63 @@
 ﻿<h1>Maklumat Organisasi</h1>
-<form class="form-horizontal" id="organization-detail" data-bind="with: organization">
-    <div class="form-group">
-        <label for="organization.Name" class="k-label">Nama Syarikat</label>
-        <div class="k-controls">
-            <input class="col-lg-2" data-bind="value: Name" id="organization.Name" type="text" name="Name" />
+<div class="row">
+    <form class="form-horizontal" id="organization-detail" data-bind="with: organization">
+        <div class="form-group">
+            <label for="organization.Name" class="col-lg-2">Nama Syarikat</label>
+            <div class="col-lg-8">
+                <input class="form-control"  data-bind="value: Name" id="organization.Name" type="text" name="Name" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="organization.RegistrationNo" class="k-label">No Pendaftaran :</label>
-        <div class="k-controls">
-            <input class="col-lg-2" data-bind="value: RegistrationNo" id="organization.RegistrationNo" type="text" name="RegistrationNo" />
+        <div class="form-group">
+            <label for="organization.RegistrationNo" class="col-lg-2">No Pendaftaran :</label>
+            <div class="col-lg-8">
+                <input class="form-control"  data-bind="value: RegistrationNo" id="organization.RegistrationNo" type="text" name="RegistrationNo" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="organization.Email" class="k-label">Emel : </label>
-        <div class="k-controls">
-            <input class="col-lg-2" data-bind="value: Email" id="organization.Email" type="email" name="Email" />
+        <div class="form-group">
+            <label for="organization.Email" class="col-lg-2">Emel : </label>
+            <div class="col-lg-8">
+                <input class="form-control"  data-bind="value: Email" id="organization.Email" type="email" name="Email" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="organization.OfficeNo" class="k-label">No. Telefon :</label>
-        <div class="k-controls">
-            <input class="col-lg-2" data-bind="value: OfficeNo" id="organization.OfficeNo" type="text" name="OfficeNo" />
+        <div class="form-group">
+            <label for="organization.OfficeNo" class="col-lg-2">No. Telefon :</label>
+            <div class="col-lg-8">
+                <input class="form-control"  data-bind="value: OfficeNo" id="organization.OfficeNo" type="text" name="OfficeNo" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="organization.FaxNo" class="k-label">No. Faks :</label>
-        <div class="k-controls">
-            <input class="col-lg-2" data-bind="value: FaxNo" id="organization.FaxNo" type="text" name="FaxNo" />
+        <div class="form-group">
+            <label for="organization.FaxNo" class="col-lg-2">No. Faks :</label>
+            <div class="col-lg-8">
+                <input class="form-control"  data-bind="value: FaxNo" id="organization.FaxNo" type="text" name="FaxNo" />
+            </div>
         </div>
-    </div>
 
-    <h3>Alamat : </h3>
-    <div class="form-group">
-        <label for="organization.Address.Street" class="k-label">Jalan</label>
-        <div class="k-controls">
-            <input class="col-lg-5" data-bind="value: Address.Street" id="organization.Address.Street" type="text" name="organization.Address.StreetAddress.StreetAddress.Street" />
+        <h3>Alamat : </h3>
+        <div class="form-group">
+            <label for="organization.Address.Street" class="col-lg-2">Jalan</label>
+            <div class="col-lg-8">
+                <input class="form-control"  data-bind="value: Address.Street" id="organization.Address.Street" type="text" name="organization.Address.StreetAddress.StreetAddress.Street" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="organization.Address.City" class="k-label">Bandar</label>
-        <div class="k-controls">
-            <input class="col-lg-2" data-bind="value: Address.City" id="organization.Address.City" type="text" name="organization.Address.City" />
+        <div class="form-group">
+            <label for="organization.Address.City" class="col-lg-2">Bandar</label>
+            <div class="col-lg-8">
+                <input class="form-control"  data-bind="value: Address.City" id="organization.Address.City" type="text" name="organization.Address.City" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="organization.Address.Postcode" class="k-label">Poskod</label>
-        <div class="k-controls">
-            <input class="col-lg-2" placeholder="Poskod" data-bind="value: Address.Postcode" maxlength="5" id="organization.Address.Postcode" type="text" name="organization.Address.Postcode" />
+        <div class="form-group">
+            <label for="organization.Address.Postcode" class="col-lg-2">Poskod</label>
+            <div class="col-lg-8">
+                <input class="form-control"  placeholder="Poskod" data-bind="value: Address.Postcode" maxlength="5" id="organization.Address.Postcode" type="text" name="organization.Address.Postcode" />
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="address.State" class="k-label">Negeri</label>
-        <div class="k-controls">
-            <select name="address.State" id="address.State" data-bind="value: Address.State, options: $root.stateOptions, optionsText: 'Name', optionsValue: 'Name', optionsCaption: '[Sila Pilih]'"></select>
+        <div class="form-group">
+            <label for="address.State" class="col-lg-2">Negeri</label>
+            <div class="col-lg-8">
+                <select class="form-control" name="address.State" id="address.State" data-bind="value: Address.State, options: $root.stateOptions, optionsText: 'Name', optionsValue: 'Name', optionsCaption: '[Sila Pilih]'"></select>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
+
+
+</div>
