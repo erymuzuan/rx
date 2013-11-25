@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
+using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -32,32 +33,74 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Import(IEnumerable<HttpPostedFileBase> files)
         {
 
-            var storeId = Guid.NewGuid().ToString();
+            var context = new SphDataContext();
+            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
 
             foreach (var zip in files)
             {
+
+                var fileName = Path.GetFileName(zip.FileName);
                 var stream = zip.InputStream;  //initialise new stream
                 var content = new byte[stream.Length];
                 stream.Read(content, 0, content.Length); // read from stream to byte array
 
                 var temp = Path.GetTempFileName() + ".zip";
-                System.IO.File.WriteAllBytes(temp,content);
+                System.IO.File.WriteAllBytes(temp, content);
 
-                var folder = Directory.CreateDirectory(Path.GetTempFileName()).FullName;
-                ZipFile.ExtractToDirectory(temp,folder);
+                var folder = Directory.CreateDirectory(Path.GetTempFileName() + "extract").FullName;
+                ZipFile.ExtractToDirectory(temp, folder);
 
-                var context = new SphDataContext();
                 var store = ObjectBuilder.GetObject<IBinaryStore>();
+                var id = Strings.RegexSingleValue(fileName, "wd_(?<id>[0-9]{1,4})_.*?", "id");
 
+                var wdFile = Path.Combine(folder, string.Format("wd_{0}.json", id));
+                var wdJson = System.IO.File.ReadAllText(wdFile);
+                var wd = JsonConvert.DeserializeObject<WorkflowDefinition>(wdJson, setting);
+
+                if (!string.IsNullOrWhiteSpace(wd.SchemaStoreId))
+                {
+                    var xsdFile = Path.Combine(folder, wd.SchemaStoreId + ".xsd");
+                    var xsd = new BinaryStore
+                    {
+                        Content = System.IO.File.ReadAllBytes(xsdFile),
+                        Extension = ".xsd",
+                        StoreId = wd.SchemaStoreId,
+                        WebId = wd.SchemaStoreId,
+                        FileName = "schema.xsd"
+                    };
+                    await store.AddAsync(xsd);
+                }
+
+                // get the pages
                 using (var session = context.OpenSession())
                 {
-                    //session.Attach(wd);
+                    wd.WorkflowDefinitionId = 0;
+                    session.Attach(wd);
+                    await session.SubmitChanges("Import");
+                }
+                using (var session = context.OpenSession())
+                {
+                    foreach (var pf in Directory.GetFiles(folder, "page.*.json"))
+                    {
+                        var pageJson = System.IO.File.ReadAllText(pf)
+                            .Replace("Workflows_" + id, "Workflows_" + wd.WorkflowDefinitionId);
+                        var page = JsonConvert.DeserializeObject<Page>(pageJson, setting);
+                        page.PageId = 0;
+                        page.Tag = page.Tag.Replace("wf_" + id, "wf_" + wd.WorkflowDefinitionId);
+                        page.VirtualPath = page.VirtualPath.Replace("Workflow_" + id, "Workflow_" + wd.WorkflowDefinitionId);
+
+                        session.Attach(page);
+                    }
                     await session.SubmitChanges("Import");
                 }
 
-            }
 
-            return Json(new { storeId });
+                return Json(new { success = true, wd });
+
+            }
+            return Json(new { success = false });
+
 
         }
 
