@@ -20,16 +20,10 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("        var item = new {0}();", this.EntityType);
             code.AppendLinf("        var self = this.WorkflowDefinition.ActivityCollection.OfType<CreateEntityActivity>().Single(a => a.WebId == \"{0}\");", this.WebId);
 
-            var count = 1;
             foreach (var mapping in this.PropertyMappingCollection)
             {
-                code.AppendLinf("       var functoid{1} =  self.PropertyMappingCollection.SingleOrDefault(m => m.WebId == \"{0}\") as FunctoidMapping;", mapping.WebId, count);
-                code.AppendLinf("       if(null != functoid{0})", count);
-                code.AppendLinf("           item.{0} = functoid{2}.Functoid.Convert<string,string>(this.{1});", mapping.Destination, mapping.Source, count);
-                code.AppendLine("       else");
                 code.AppendLinf("           item.{0} = this.{1};", mapping.Destination, mapping.Source);
 
-                count++;
             }
             code.AppendLine("      var context = new Bespoke.Sph.Domain.SphDataContext();");
             code.AppendLine("      using (var session = context.OpenSession())");
