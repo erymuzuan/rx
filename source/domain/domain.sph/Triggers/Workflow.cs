@@ -30,7 +30,6 @@ namespace Bespoke.Sph.Domain
         public virtual Task<ActivityExecutionResult> StartAsync()
         {
             // run the first one and save
-
             return Task.FromResult(new ActivityExecutionResult { Status = ActivityExecutionStatus.None });
         }
 
@@ -53,6 +52,7 @@ namespace Bespoke.Sph.Domain
 
         public T GetActivity<T>(string webId) where T : Activity
         {
+            if (null == this.WorkflowDefinition) throw new InvalidOperationException("You have to load the WorkflowDefinition before calling GetActivity");
             return this.WorkflowDefinition.ActivityCollection.OfType<T>().Single(w => w.WebId == webId);
         }
 
@@ -81,15 +81,13 @@ namespace Bespoke.Sph.Domain
         }
 
         public DynamicObject ExecutionBag { get; set; }
-
-
         private readonly ObjectCollection<string> m_validExecutableStepsCollection = new ObjectCollection<string>();
+        private readonly ObjectCollection<string> m_forbiddenStepsCollection = new ObjectCollection<string>();
         public ObjectCollection<string> ValidExecutableSteps
         {
             get { return m_validExecutableStepsCollection; }
         }
 
-        private readonly ObjectCollection<string> m_forbiddenStepsCollection = new ObjectCollection<string>();
         public ObjectCollection<string> ForbiddenSteps
         {
             get { return m_forbiddenStepsCollection; }

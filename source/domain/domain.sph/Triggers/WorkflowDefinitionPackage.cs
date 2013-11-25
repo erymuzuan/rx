@@ -52,12 +52,9 @@ namespace Bespoke.Sph.Domain
             {
                 foreach (var pf in Directory.GetFiles(folder, "page.*.json"))
                 {
-                    var pageJson = File.ReadAllText(pf)
-                        .Replace("Workflows_" + id, "Workflows_" + wd.WorkflowDefinitionId);
+                    var pageJson = File.ReadAllText(pf);
                     var page = JsonConvert.DeserializeObject<Page>(pageJson, setting);
-                    page.PageId = 0;
-                    page.Tag = page.Tag.Replace("wf_" + id, "wf_" + wd.WorkflowDefinitionId);
-                    page.VirtualPath = page.VirtualPath.Replace("Workflow_" + id, "Workflow_" + wd.WorkflowDefinitionId);
+                    page.ChangeWorkflowDefinitionVersion(int.Parse(id), wd.WorkflowDefinitionId);
 
                     session.Attach(page);
                 }

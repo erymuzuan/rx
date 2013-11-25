@@ -454,8 +454,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 context.post(data, "/WorkflowDefinition/Save")
                     .then(function (result) {
                         isBusy(false);
-                        logger.info("Data have been succesfully save");
-
+                        if (result.success) {
+                            logger.info("Data have been succesfully save");
+                            wd().WorkflowDefinitionId(result.id);
+                        }
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -544,7 +546,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             },
             showError = function (error) {
                 console.log(error);
-                wd().editActivity(_(wd().ActivityCollection()).find(function(v) { return v.WebId() == error.ItemWebId; }))();
+                wd().editActivity(_(wd().ActivityCollection()).find(function (v) { return v.WebId() == error.ItemWebId; }))();
             };
 
         var vm = {
@@ -555,7 +557,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             wd: wd,
             itemAdded: itemAdded,
             errors: ko.observableArray(),
-            showError : showError,
+            showError: showError,
             toolbar: {
                 saveCommand: saveAsync,
                 exportCommand: exportWd,

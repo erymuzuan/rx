@@ -280,6 +280,7 @@
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AppController.workflow.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\EditorController.cs" />
@@ -1522,6 +1523,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
     <Folder Include="Scripts\schemas\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\schemas\_object.xslt">

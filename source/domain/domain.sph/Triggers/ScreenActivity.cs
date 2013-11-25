@@ -180,7 +180,7 @@ namespace Bespoke.Sph.Domain
 
                                         ");
             code.AppendLinf("           var screen = wd.ActivityCollection.Single(w =>w.WebId ==\"{0}\") as ScreenActivity;", this.WebId);
-            code.AppendLinf("           var script =await  screen.GenerateCustomXsdJavascriptClassAsync(wd);", this.WebId);
+            code.AppendLinf("           var script = await screen.GenerateCustomXsdJavascriptClassAsync(wd);", this.WebId);
             code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
 
             code.AppendLine("           return Content(script);");
@@ -253,18 +253,7 @@ namespace Bespoke.Sph.Domain
                                             wf.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();
                                         }  ");
             code.AppendLinf("           var result = await wf.{0}();", this.MethodName);
-
-            // any business rules?
-
-
-            /*   
-            code.AppendLine("           var context = new SphDataContext();");
-            code.AppendLine("           using(var session = context.OpenSession())");
-            code.AppendLine("           {");
-            code.AppendLine("               session.Attach(wf);");
-            code.AppendLinf("               await session.SubmitChanges(\"{0}\");",this.WebId);
-            code.AppendLine("           }");
-            */
+            // any business rules?            
             code.AppendLine("           return Json(new {sucess = true, status = \"OK\", result = result,wf});");
             code.AppendLine("       }"); // end SAVE action
 

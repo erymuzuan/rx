@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -84,9 +85,10 @@ namespace Bespoke.Sph.Domain
 
             using (var provider = new CSharpCodeProvider())
             {
+                var outputPath = ConfigurationManager.AppSettings["sph:OutputPath"] ?? AppDomain.CurrentDomain.BaseDirectory;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = string.Format("workflows.{0}.{1}.dll", this.WorkflowDefinitionId, this.Version),
+                    OutputAssembly = Path.Combine(outputPath, string.Format("workflows.{0}.{1}.dll", this.WorkflowDefinitionId, this.Version)),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
 
@@ -120,7 +122,6 @@ namespace Bespoke.Sph.Domain
 
         private IEnumerable<BuildError> GetCompileErrors(CompilerResults result, string code)
         {
-
             var temp = Path.GetTempFileName() + ".cs";
             File.WriteAllText(temp, code);
             var sources = File.ReadAllLines(temp);
@@ -134,7 +135,7 @@ namespace Bespoke.Sph.Domain
         private BuildError GetSourceError(CompilerError er, string[] sources)
         {
             var member = string.Empty;
-            for (int i = 0; i < er.Line; i++)
+            for (var i = 0; i < er.Line; i++)
             {
                 if (sources[i].StartsWith("//exec:"))
                     member = sources[i].Replace("//exec:", string.Empty);
@@ -148,7 +149,6 @@ namespace Bespoke.Sph.Domain
                 Code = sources[er.Line - 1],
                 Line = er.Line
             };
-
 
         }
 

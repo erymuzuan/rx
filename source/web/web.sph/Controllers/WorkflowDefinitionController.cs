@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -13,15 +11,11 @@ using System.Xml.Linq;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 using Bespoke.Sph.Web.ViewModels;
-using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
 {
-    public class WorkflowDefinitionController : Controller
+    public class WorkflowDefinitionController : BaseController
     {
-        public const string APPLICATION_JAVASCRIPT = "application/javascript";
-        public const string TEXT_HTML = "text/html";
-
 
         public ActionResult Visual()
         {
@@ -34,19 +28,17 @@ namespace Bespoke.Sph.Web.Controllers
         {
             foreach (var postedFile in files)
             {
+                var fileName = Path.GetFileName(postedFile.FileName);
+                if (string.IsNullOrWhiteSpace(fileName)) throw new Exception("Filename is empty or null");
 
-                var stream = postedFile.InputStream;  //initialise new stream
-                var content = new byte[stream.Length];
-                stream.Read(content, 0, content.Length); // read from stream to byte array
-
-                var zip = Path.Combine(Path.GetTempPath() , Path.GetFileName(postedFile.FileName));
-                System.IO.File.WriteAllBytes(zip, content);
+                var zip = Path.Combine(Path.GetTempPath(), fileName);
+                postedFile.SaveAs(zip);
 
                 var packager = new WorkflowDefinitionPackage();
                 var wd = await packager.UnpackAsync(zip);
 
                 this.Response.ContentType = APPLICATION_JAVASCRIPT;
-                var result = new {success = true, wd};
+                var result = new { success = true, wd };
                 return Content(result.ToJsonString());
 
             }
@@ -175,7 +167,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
             var id = await this.Save(wd);
-            return Json(id);
+            return Json(new {success = id> 0, id, status = "OK"});
         }
 
         public async Task<ActionResult> GetVariablePath(int id)
@@ -201,10 +193,7 @@ namespace Bespoke.Sph.Web.Controllers
             foreach (var act in wd.ActivityCollection.OfType<ScreenActivity>())
             {
                 var act1 = act;
-                var page =
-                    await
-                        context.LoadOneAsync<Page>(
-                            p =>
+                var page = await context.LoadOneAsync<Page>(p =>
                                 p.Version == wd.Version &&
                                 p.Tag == string.Format("wf_{0}_{1}", wd.WorkflowDefinitionId, act1.WebId));
                 if (null != page)
@@ -244,6 +233,7 @@ namespace Bespoke.Sph.Web.Controllers
                         wd.Version, scr1.ActionName)
                 };
 
+
                 pages.Add(page);
 
             }
@@ -271,43 +261,5 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
 
-
-        private static string ExtractScriptFromHtml(string html)
-        {
-            const RegexOptions option = RegexOptions.IgnoreCase | RegexOptions.Singleline;
-
-            var matches = Regex.Matches(html,
-                @"<script type=\""text/javascript\"" data-script=\""true\"">(?<script>.*?)</script>", option);
-            if (matches.Count == 1)
-                return matches[0].Groups["script"].Value;
-            if (matches.Count == 0)
-                return string.Empty;
-
-            var scripts = new StringBuilder();
-            foreach (Match m in matches)
-            {
-                scripts.AppendLine(m.Groups["script"].Value);
-                scripts.AppendLine();
-            }
-
-            return scripts.ToString();
-        }
-        public string RenderRazorViewToJs(string viewName, object model)
-        {
-            var html = this.RenderRazorViewToHtml(viewName, model);
-            return ExtractScriptFromHtml(html);
-        }
-        public string RenderRazorViewToHtml(string viewName, object model)
-        {
-            ViewData.Model = model;
-            using (var sw = new StringWriter())
-            {
-                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
-                var viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
-                viewResult.View.Render(viewContext, sw);
-                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
-                return sw.GetStringBuilder().ToString();
-            }
-        }
     }
 }
