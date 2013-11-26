@@ -7,7 +7,7 @@
             }
         },
         "public-index":function(element) {
-            $(element).find("div.col-lg-6>div").first().after('<div><div><a class="box-label" href="/workflow_1_21/ApplyScreen">Permohonan Wakaf Baru</a></div></div>');
+            $(element).find("div.col-lg-6>div").first().after('<div><div><a class="box-label" href="/workflow_3_2/SkrinBorangPermohonan">Permohonan Wakaf Baru</a></div></div>');
         }
         //,
         //"admindashboard": function (element) {
