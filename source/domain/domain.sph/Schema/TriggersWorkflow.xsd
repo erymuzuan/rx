@@ -207,10 +207,28 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="CustomAction">
+					<xs:all>
+						<xs:element name="WorkflowTriggerMapCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="WorkflowTriggerMap" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
 					<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
 					<xs:attribute name="Name" type="xs:string" use="required"/>
+					<xs:attribute name="Version" type="xs:int" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WorkflowTriggerMap">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Field" type="Field"/>
+			</xs:all>
+			<xs:attribute name="VariablePath" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="AssemblyAction" type="CustomAction"/>
@@ -357,7 +375,7 @@
 	<xs:element name="VariableValue">
 		<xs:complexType>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="Value" type="xs:string" use="required"/>
+			<xs:attribute name="Value" type="xs:anySimpleType" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Page">

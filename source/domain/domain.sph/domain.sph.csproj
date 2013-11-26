@@ -292,6 +292,7 @@
     <Compile Include="Triggers\SetterAction.cs" />
     <Compile Include="Triggers\SimpleMapping.cs" />
     <Compile Include="Triggers\SimpleVariable.cs" />
+    <Compile Include="Triggers\StartWorkflowAction.cs" />
     <Compile Include="Triggers\ThrowActivity.cs" />
     <Compile Include="Triggers\Trigger.cs" />
     <Compile Include="Triggers\SetterActionChild.cs" />
@@ -348,7 +349,7 @@
     </Compile>
     <Compile Include="Triggers\WorkflowDefinitionPackage.cs" />
     <Compile Include="Triggers\WorkflowDesigner.cs" />
-    <Compile Include="Triggers\WorkflowInitiatorAction.cs" />
+    <Compile Include="Triggers\WorkflowTriggerMap.cs" />
     <Compile Include="Triggers\XsdMetadata.cs" />
   </ItemGroup>
   <ItemGroup>

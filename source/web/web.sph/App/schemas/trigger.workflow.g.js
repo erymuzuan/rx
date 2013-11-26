@@ -215,12 +215,31 @@ bespoke.sph.domain.StartWorkflowAction = function (webId) {
 
     v.WorkflowDefinitionId = ko.observable(0);
     v.Name = ko.observable('');
+    v.Version = ko.observable(0);
     v["$type"] = "Bespoke.Sph.Domain.StartWorkflowAction, domain.sph";
 
+    v.WorkflowTriggerMapCollection = ko.observableArray([]);
     if (bespoke.sph.domain.StartWorkflowActionPartial) {
         return _(v).extend(new bespoke.sph.domain.StartWorkflowActionPartial(v));
     }
     return v;
+};
+
+
+
+bespoke.sph.domain.WorkflowTriggerMap = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.WorkflowTriggerMap, domain.sph",
+        VariablePath: ko.observable(''),
+        Field: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.WorkflowTriggerMapPartial) {
+        return _(model).extend(new bespoke.sph.domain.WorkflowTriggerMapPartial(model));
+    }
+    return model;
 };
 
 
@@ -378,7 +397,7 @@ bespoke.sph.domain.VariableValue = function (webId) {
     var model = {
         "$type": "Bespoke.Sph.Domain.VariableValue, domain.sph",
         Name: ko.observable(''),
-        Value: ko.observable(''),
+        Value: ko.observable('xs:anySimpleType'),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };

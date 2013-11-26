@@ -25,13 +25,17 @@ namespace Bespoke.Sph.Domain
 
         public Task<Workflow> InitiateAsync(IEnumerable<VariableValue> values = null, ScreenActivity screen = null)
         {
-            var wf = new Workflow
-            {
-                Name = this.Name,
-                WorkflowDefinitionId = this.WorkflowDefinitionId,
-                State = "Active"
+            var typeName = string.Format("{0},workflows.{1}.{2}", this.WorkflowTypeName, this.WorkflowDefinitionId, this.Version);
+            // TODO : load the type and instantiate it
+            var type = Type.GetType(typeName);
+            if (null == type) throw new InvalidOperationException("Cannot instantiate  " + typeName);
 
-            };
+            dynamic wf = Activator.CreateInstance(type);
+            wf.Name = this.Name;
+            wf.WorkflowDefinitionId = this.WorkflowDefinitionId;
+            wf.State = "Active";
+
+
             if (null != screen)
             {
                 wf.VariableValueCollection.ClearAndAddRange(values);
@@ -144,7 +148,7 @@ namespace Bespoke.Sph.Domain
             var message = er.ErrorText;
             if (null != act)
                 message = string.Format("[{0}] -< {1} : {2}", act.GetType().Name, act.Name, er.ErrorText);
-            return new BuildError(member,message)
+            return new BuildError(member, message)
             {
                 Code = sources[er.Line - 1],
                 Line = er.Line

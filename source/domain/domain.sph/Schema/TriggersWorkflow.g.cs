@@ -1147,6 +1147,107 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private int m_Version;
+        [XmlAttribute]
+        public int Version
+        {
+            get
+            {
+                return m_Version;
+            }
+            set
+            {
+                m_Version = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private readonly ObjectCollection<WorkflowTriggerMap> m_WorkflowTriggerMapCollection = new ObjectCollection<WorkflowTriggerMap>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("WorkflowTriggerMap", IsNullable = false)]
+        public ObjectCollection<WorkflowTriggerMap> WorkflowTriggerMapCollection
+        {
+            get { return m_WorkflowTriggerMapCollection; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("WorkflowTriggerMap", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class WorkflowTriggerMap
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_variablePath;
+        public const string PropertyNameVariablePath = "VariablePath";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Field m_field;
+        public const string PropertyNameField = "Field";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string VariablePath
+        {
+            set
+            {
+                if (String.Equals(m_variablePath, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameVariablePath, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_variablePath = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_variablePath;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public Field Field
+        {
+            set
+            {
+                if (m_field == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameField, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_field = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_field; }
+        }
+
 
     }
 
@@ -1975,7 +2076,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_value;
+        private object m_value;
         public const string PropertyNameValue = "Value";
 
 
@@ -2017,11 +2118,11 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public string Value
+        public object Value
         {
             set
             {
-                if (String.Equals(m_value, value, StringComparison.Ordinal)) return;
+                if (m_value == value) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameValue, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
