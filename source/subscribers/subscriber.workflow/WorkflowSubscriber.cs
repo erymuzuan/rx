@@ -59,8 +59,6 @@ namespace Bespoke.Sph.WorkflowsExecution
             var result = await item.ExecuteAsync();
             this.WriteMessage(result);
 
-
-
         }
 
     }

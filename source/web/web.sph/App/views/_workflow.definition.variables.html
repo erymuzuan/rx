@@ -9,13 +9,19 @@
                 <li>
                     <a class="btn btn-link" data-bind="click: addVariable('Simple')">
                         <i class="fa fa-code"></i>
-                        Simple Variable
+                        Simple
                     </a>
                 </li>
                 <li>
                     <a class="btn btn-link" data-bind="click: addVariable('Complex')">
                         <i class="fa fa-sitemap"></i>
-                        Complex Variable
+                        Complex XSD
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-link" data-bind="click: addVariable('ClrType')">
+                        <i class="fa fa-sitemap"></i>
+                        Complex CLR Type
                     </a>
                 </li>
             </ul>
@@ -26,7 +32,6 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th></th>
                 <th>Name</th>
                 <th>Type Name</th>
                 <th></th>
@@ -34,16 +39,14 @@
         </thead>
         <tbody data-bind="foreach: VariableDefinitionCollection">
             <tr>
-                <td>
-                    <div class="error" data-bind="visible:hasError">
-                        <i class="fa fa-exclamation-triangle"></i>
-                    </div>
-                </td>
+                
                 <td>
                     <a type="button" class="btn btn-link" data-bind="click : $parent.editVariable.call($parent,$data)" href="#">
 
+                        <i class="fa fa-exclamation-triangle error" data-bind="visible:hasError"></i>
                         <i class="fa fa-sitemap" data-bind="visible : ko.unwrap($type) == 'Bespoke.Sph.Domain.ComplexVariable, domain.sph'"></i>
                         <i class="fa fa-code" data-bind="visible : ko.unwrap($type) == 'Bespoke.Sph.Domain.SimpleVariable, domain.sph'"></i>
+                        <i class="fa fa-gear" data-bind="visible : ko.unwrap($type) == 'Bespoke.Sph.Domain.ClrTypeVariable, domain.sph'"></i>
 
 
                         &nbsp;

@@ -1,5 +1,6 @@
 ﻿/// <reference path="../objectbuilders.js" />
 /// <reference path="../services/cultures.my.js" />
+/// <reference path="../services/datacontext.js" />
 /// <reference path="/Scripts/jquery-2.0.3.intellisense.js" />
 /// <reference path="/Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="/Scripts/string.js" />
@@ -11,23 +12,22 @@ define([objectbuilders.datacontext, objectbuilders.cultures],
             activate = function () {
                 return true;
             },
-            viewAttached = function() {
+            viewAttached = function () {
                 $("#import").kendoUpload({
                     async: {
                         saveUrl: "/WorkflowDefinition/Import",
                         autoUpload: true
                     },
                     multiple: false,
-                    error: function(e) {
+                    error: function (e) {
                         logger.logError(e, e, this, true);
                     },
-                    success: function(e) {
-                        console.log(e.response);
-                        var wd = e.response.wd;
-                        console.log(wd);
+                    success: function (e) {
                         var uploaded = e.operation === "upload";
                         if (uploaded) {
-                            vm.definitions.push(context.toObservable(wd));
+                            var wd = e.response.wd,
+                                o = context.toObservable(wd);
+                            vm.definitions.push(o);
                         }
                     }
                 });

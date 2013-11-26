@@ -54,6 +54,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
@@ -173,6 +174,7 @@
     <Compile Include="Triggers\AssemblyField.cs" />
     <Compile Include="Triggers\BuildError.cs" />
     <Compile Include="Triggers\BuildValidationResult.cs" />
+    <Compile Include="Triggers\ClrTypeVariable.cs" />
     <Compile Include="Triggers\CompilerOptions.cs" />
     <Compile Include="Triggers\ComplexVariable.cs" />
     <Compile Include="Triggers\ConfirmationOptions.cs" />
@@ -290,6 +292,7 @@
     <Compile Include="Triggers\SetterAction.cs" />
     <Compile Include="Triggers\SimpleMapping.cs" />
     <Compile Include="Triggers\SimpleVariable.cs" />
+    <Compile Include="Triggers\StartWorkflowAction.cs" />
     <Compile Include="Triggers\ThrowActivity.cs" />
     <Compile Include="Triggers\Trigger.cs" />
     <Compile Include="Triggers\SetterActionChild.cs" />
@@ -344,8 +347,9 @@
     <Compile Include="Triggers\WorkflowDefinition.xsd.js.cs">
       <DependentUpon>WorkflowDefinition.cs</DependentUpon>
     </Compile>
+    <Compile Include="Triggers\WorkflowDefinitionPackage.cs" />
     <Compile Include="Triggers\WorkflowDesigner.cs" />
-    <Compile Include="Triggers\WorkflowInitiatorAction.cs" />
+    <Compile Include="Triggers\WorkflowTriggerMap.cs" />
     <Compile Include="Triggers\XsdMetadata.cs" />
   </ItemGroup>
   <ItemGroup>

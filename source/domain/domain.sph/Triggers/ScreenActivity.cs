@@ -180,7 +180,7 @@ namespace Bespoke.Sph.Domain
 
                                         ");
             code.AppendLinf("           var screen = wd.ActivityCollection.Single(w =>w.WebId ==\"{0}\") as ScreenActivity;", this.WebId);
-            code.AppendLinf("           var script =await  screen.GenerateCustomXsdJavascriptClassAsync(wd);", this.WebId);
+            code.AppendLinf("           var script = await screen.GenerateCustomXsdJavascriptClassAsync(wd);", this.WebId);
             code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
 
             code.AppendLine("           return Content(script);");
@@ -246,20 +246,14 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       {");
 
             code.AppendLinf("           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<{0}>(this);", wd.WorkflowTypeName);// this is extension method
-
+            code.AppendLine(@"          var store = ObjectBuilder.GetObject<IBinaryStore>();
+                                        var doc = await store.GetContentAsync(string.Format(""wd.{0}.{1}"", wf.WorkflowDefinitionId, wf.Version));
+                                        using (var stream = new System.IO.MemoryStream(doc.Content))
+                                        {
+                                            wf.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();
+                                        }  ");
             code.AppendLinf("           var result = await wf.{0}();", this.MethodName);
-
-            // any business rules?
-
-
-            /*   
-            code.AppendLine("           var context = new SphDataContext();");
-            code.AppendLine("           using(var session = context.OpenSession())");
-            code.AppendLine("           {");
-            code.AppendLine("               session.Attach(wf);");
-            code.AppendLinf("               await session.SubmitChanges(\"{0}\");",this.WebId);
-            code.AppendLine("           }");
-            */
+            // any business rules?            
             code.AppendLine("           return Json(new {sucess = true, status = \"OK\", result = result,wf});");
             code.AppendLine("       }"); // end SAVE action
 

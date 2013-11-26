@@ -5,6 +5,7 @@ namespace Bespoke.Sph.Domain
 {
     [XmlInclude(typeof(SimpleVariable))]
     [XmlInclude(typeof(ComplexVariable))]
+    [XmlInclude(typeof(ClrTypeVariable))]
     public partial class Variable : DomainObject
     {
         public virtual string GeneratedCode(WorkflowDefinition workflowDefinition)

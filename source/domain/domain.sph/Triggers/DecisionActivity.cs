@@ -56,6 +56,7 @@ namespace Bespoke.Sph.Domain
             count = 1;
             foreach (var branch in this.DecisionBranchCollection.Where(b => !b.IsDefault))
             {
+                code.AppendLinf("   [System.Diagnostics.Contracts.PureAttribute]");
                 code.AppendLinf("   private bool {0}()", this.GetBranchMethodName(branch));
                 code.AppendLine("   {");
                 code.AppendLine("       var item = this;");

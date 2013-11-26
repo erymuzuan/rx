@@ -1147,6 +1147,107 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private int m_Version;
+        [XmlAttribute]
+        public int Version
+        {
+            get
+            {
+                return m_Version;
+            }
+            set
+            {
+                m_Version = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private readonly ObjectCollection<WorkflowTriggerMap> m_WorkflowTriggerMapCollection = new ObjectCollection<WorkflowTriggerMap>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("WorkflowTriggerMap", IsNullable = false)]
+        public ObjectCollection<WorkflowTriggerMap> WorkflowTriggerMapCollection
+        {
+            get { return m_WorkflowTriggerMapCollection; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("WorkflowTriggerMap", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class WorkflowTriggerMap
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_variablePath;
+        public const string PropertyNameVariablePath = "VariablePath";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Field m_field;
+        public const string PropertyNameField = "Field";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string VariablePath
+        {
+            set
+            {
+                if (String.Equals(m_variablePath, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameVariablePath, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_variablePath = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_variablePath;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public Field Field
+        {
+            set
+            {
+                if (m_field == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameField, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_field = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_field; }
+        }
+
 
     }
 
@@ -1975,7 +2076,7 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_value;
+        private object m_value;
         public const string PropertyNameValue = "Value";
 
 
@@ -2017,11 +2118,11 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public string Value
+        public object Value
         {
             set
             {
-                if (String.Equals(m_value, value, StringComparison.Ordinal)) return;
+                if (m_value == value) return;
                 var arg = new PropertyChangingEventArgs(PropertyNameValue, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
@@ -2082,6 +2183,16 @@ namespace Bespoke.Sph.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int m_version;
         public const string PropertyNameVersion = "Version";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_mode;
+        public const string PropertyNameMode = "Mode";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_extension;
+        public const string PropertyNameExtension = "Extension";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2289,6 +2400,64 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_version;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Mode
+        {
+            set
+            {
+                if (String.Equals(m_mode, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMode, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_mode = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_mode;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Extension
+        {
+            set
+            {
+                if (String.Equals(m_extension, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameExtension, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_extension = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_extension;
             }
         }
 
@@ -3061,6 +3230,50 @@ namespace Bespoke.Sph.Domain
             set
             {
                 m_IsDestroyed = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ClrTypeVariable", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ClrTypeVariable
+    {
+
+        private string m_Assembly;
+        [XmlAttribute]
+        public string Assembly
+        {
+            get
+            {
+                return m_Assembly;
+            }
+            set
+            {
+                m_Assembly = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_CanInitiateWithDefaultConstructor;
+        [XmlAttribute]
+        public bool CanInitiateWithDefaultConstructor
+        {
+            get
+            {
+                return m_CanInitiateWithDefaultConstructor;
+            }
+            set
+            {
+                m_CanInitiateWithDefaultConstructor = value;
                 RaisePropertyChanged();
             }
         }

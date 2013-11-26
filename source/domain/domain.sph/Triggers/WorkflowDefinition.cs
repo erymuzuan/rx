@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -24,13 +25,17 @@ namespace Bespoke.Sph.Domain
 
         public Task<Workflow> InitiateAsync(IEnumerable<VariableValue> values = null, ScreenActivity screen = null)
         {
-            var wf = new Workflow
-            {
-                Name = this.Name,
-                WorkflowDefinitionId = this.WorkflowDefinitionId,
-                State = "Active"
+            var typeName = string.Format("{0},workflows.{1}.{2}", this.WorkflowTypeName, this.WorkflowDefinitionId, this.Version);
+            // TODO : load the type and instantiate it
+            var type = Type.GetType(typeName);
+            if (null == type) throw new InvalidOperationException("Cannot instantiate  " + typeName);
 
-            };
+            dynamic wf = Activator.CreateInstance(type);
+            wf.Name = this.Name;
+            wf.WorkflowDefinitionId = this.WorkflowDefinitionId;
+            wf.State = "Active";
+
+
             if (null != screen)
             {
                 wf.VariableValueCollection.ClearAndAddRange(values);
@@ -84,9 +89,10 @@ namespace Bespoke.Sph.Domain
 
             using (var provider = new CSharpCodeProvider())
             {
+                var outputPath = ConfigurationManager.AppSettings["sph:OutputPath"] ?? AppDomain.CurrentDomain.BaseDirectory;
                 var parameters = new CompilerParameters
                 {
-                    OutputAssembly = string.Format("workflows.{0}.{1}.dll", this.WorkflowDefinitionId, this.Version),
+                    OutputAssembly = Path.Combine(outputPath, string.Format("workflows.{0}.{1}.dll", this.WorkflowDefinitionId, this.Version)),
                     GenerateExecutable = false,
                     IncludeDebugInformation = true
 
@@ -120,7 +126,6 @@ namespace Bespoke.Sph.Domain
 
         private IEnumerable<BuildError> GetCompileErrors(CompilerResults result, string code)
         {
-
             var temp = Path.GetTempFileName() + ".cs";
             File.WriteAllText(temp, code);
             var sources = File.ReadAllLines(temp);
@@ -134,7 +139,7 @@ namespace Bespoke.Sph.Domain
         private BuildError GetSourceError(CompilerError er, string[] sources)
         {
             var member = string.Empty;
-            for (int i = 0; i < er.Line; i++)
+            for (var i = 0; i < er.Line; i++)
             {
                 if (sources[i].StartsWith("//exec:"))
                     member = sources[i].Replace("//exec:", string.Empty);
@@ -143,12 +148,11 @@ namespace Bespoke.Sph.Domain
             var message = er.ErrorText;
             if (null != act)
                 message = string.Format("[{0}] -< {1} : {2}", act.GetType().Name, act.Name, er.ErrorText);
-            return new BuildError(member,message)
+            return new BuildError(member, message)
             {
                 Code = sources[er.Line - 1],
                 Line = er.Line
             };
-
 
         }
 
