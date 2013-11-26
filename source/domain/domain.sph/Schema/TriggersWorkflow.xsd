@@ -375,7 +375,6 @@
 	<xs:element name="VariableValue">
 		<xs:complexType>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="Value" type="xs:anySimpleType" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Page">
