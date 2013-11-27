@@ -13,8 +13,8 @@ bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
 
 bespoke.sph.domain.WorkflowTriggerMapPartial = function () {
-    var vm = {};
-    return vm;
+    var self = this;
+    return self;
 };
 
-bespoke.sph.domain.WorkflowTriggerMap.prototype = new bespoke.sph.domain.FieldContainer();
+bespoke.sph.domain.WorkflowTriggerMapPartial.prototype = new bespoke.sph.domain.FieldContainer();
