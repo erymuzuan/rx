@@ -393,6 +393,8 @@
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
+    <Content Include="App\partial\WorkflowTriggerMap.js" />
+    <Content Include="App\partial\StartWorkflowAction.js" />
     <Content Include="App\partial\Variable.js" />
     <Content Include="App\partial\Activity.js" />
     <Content Include="App\partial\DelayActivity.js" />
@@ -432,6 +434,7 @@
     <Content Include="App\partial\CustomListDefinitionElement.js" />
     <Content Include="App\partial\report.js" />
     <Content Include="App\partial\SpaceTemplate.js" />
+    <Content Include="App\prototypes\FieldContainer.js" />
     <Content Include="App\schemas\report.builder.g.js" />
     <Content Include="App\schemas\sph.domain.g.js" />
     <Content Include="App\schemas\trigger.workflow.g.js" />
@@ -2226,7 +2229,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>4216</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

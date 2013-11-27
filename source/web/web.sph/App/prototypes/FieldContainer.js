@@ -12,10 +12,9 @@ var bespoke = bespoke || {};
 bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
 
-bespoke.sph.domain.SetterActionChildPartial = function () {
+bespoke.sph.domain.FieldContainer = function () {
 
-    var system = require('durandal/system'),
-        showFieldDialog = function (accessor, field, path) {
+    var showFieldDialog = function (accessor, field, path) {
             require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
                 dialog.field(field);
 
@@ -30,7 +29,8 @@ bespoke.sph.domain.SetterActionChildPartial = function () {
             });
         },
         addField = function (accessor, type) {
-            var field = new bespoke.sph.domain[type + 'Field'](system.guid());
+            var system = require('durandal/system'),
+                field = new bespoke.sph.domain[type + 'Field'](system.guid());
             showFieldDialog(accessor, field, 'field.' + type.toLowerCase());
         },
         editField = function (field) {

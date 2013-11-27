@@ -167,7 +167,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
             var id = await this.Save(wd);
-            return Json(new {success = id> 0, id, status = "OK"});
+            return Json(new { success = id > 0, id, status = "OK" });
         }
 
         public async Task<ActionResult> GetVariablePath(int id)
@@ -176,11 +176,15 @@ namespace Bespoke.Sph.Web.Controllers
             var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == id);
             var list = wd.VariableDefinitionCollection.Select(v => v.Name).ToList();
             var schema = wd.GetCustomSchema();
-            var xsd = new XsdMetadata(schema);
-            foreach (var v in wd.VariableDefinitionCollection.OfType<ComplexVariable>())
+            if (null != schema)
             {
-                list.AddRange(xsd.GetMembersPath(v.TypeName).Select(x => v.Name + "." + x));
+                var xsd = new XsdMetadata(schema);
+                foreach (var v in wd.VariableDefinitionCollection.OfType<ComplexVariable>())
+                {
+                    list.AddRange(xsd.GetMembersPath(v.TypeName).Select(x => v.Name + "." + x));
+                }
             }
+            // TODO : get the CLR type info too
 
             return Json(list, JsonRequestBehavior.AllowGet);
         }
