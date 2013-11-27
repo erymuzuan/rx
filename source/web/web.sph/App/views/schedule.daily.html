@@ -1,0 +1,91 @@
+﻿
+<section class="view-model-modal" id="daily-schedule-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Daily Schedule</h3>
+            </div>
+            <div class="modal-body" data-bind="with: schedule">
+
+                <form class="form-horizontal" id="daily-schedule-dialog-form">
+                    <div class="form-group">
+                        <label for="daily-hour" class="control-label">Hour</label>
+                        <div class="controls">
+                            <input class="form-control col-lg-2" data-bind="value: Hour" id="daily-hour" type="number" min="0" max="23" name="sche-start-hour" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="daily-minute" class="control-label">Minute</label>
+                        <div class="controls">
+                            <input class="form-control col-lg-2" data-bind="value: Minute" id="daily-minute" type="number" min="0" max="59" name="daily-minute" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input data-bind="checked: IsMonday" id="daily-monday" type="checkbox" name="IsMonday" />
+                                Monday
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input data-bind="checked: IsTuesday" id="daily-tuesday" type="checkbox" name="IsTuesday" />
+                                Tuesday
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input data-bind="checked: IsWednesday" id="daily-wednesday" type="checkbox" name="IsWednesday" />
+                                Wednesday
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input data-bind="checked: IsThursday" id="daily-thursday" type="checkbox" name="IsThursday" />
+                                Thursday
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input data-bind="checked: IsFriday" id="daily-friday" type="checkbox" name="IsFriday" />
+                                Friday
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input data-bind="checked: IsSaturday" id="daily-saturday" type="checkbox" name="IsSaturday" />
+                                Saturday
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input data-bind="checked: IsSunday" id="d-sunday" type="checkbox" name="IsSunday" />
+                                Sunday
+                            </label>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="daily-schedule-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

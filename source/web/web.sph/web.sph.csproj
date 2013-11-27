@@ -482,6 +482,10 @@
     <Content Include="App\viewmodels\page.detail.dialog.js" />
     <Content Include="App\viewmodels\page.list.js" />
     <Content Include="App\viewmodels\page.logs.js" />
+    <Content Include="App\viewmodels\schedule.daily.js" />
+    <Content Include="App\viewmodels\schedule.hourly.js" />
+    <Content Include="App\viewmodels\schedule.monthly.js" />
+    <Content Include="App\viewmodels\schedule.weekly.js" />
     <Content Include="App\viewmodels\test.wf.dialog.js" />
     <Content Include="App\viewmodels\variable.clrtype.js" />
     <Content Include="App\viewmodels\variable.complex.js" />
@@ -562,6 +566,10 @@
     <Content Include="App\views\page.detail.dialog.html" />
     <Content Include="App\views\page.list.html" />
     <Content Include="App\views\page.logs.html" />
+    <Content Include="App\views\schedule.daily.html" />
+    <Content Include="App\views\schedule.hourly.html" />
+    <Content Include="App\views\schedule.monthly.html" />
+    <Content Include="App\views\schedule.weekly.html" />
     <Content Include="App\views\test.wf.dialog.html" />
     <Content Include="App\views\variable.clrtype.html" />
     <Content Include="App\views\variable.complex.html" />

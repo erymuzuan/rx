@@ -625,4 +625,20 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="ScheduledTriggerActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element ref="IntervalSchedule"/>
+					</xs:all>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="IntervalSchedule">
+		<xs:annotation>
+			<xs:documentation>Placeholder</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 </xs:schema>
