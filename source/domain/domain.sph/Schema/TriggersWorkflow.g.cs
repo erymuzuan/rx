@@ -2075,11 +2075,6 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameName = "Name";
 
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private object m_value;
-        public const string PropertyNameValue = "Value";
-
-
         ///<summary>
         /// 
         ///</summary>
@@ -2105,35 +2100,6 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_name;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public object Value
-        {
-            set
-            {
-                if (m_value == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameValue, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_value = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_value;
             }
         }
 
