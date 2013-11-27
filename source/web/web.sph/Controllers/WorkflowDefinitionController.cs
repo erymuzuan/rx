@@ -130,6 +130,7 @@ namespace Bespoke.Sph.Web.Controllers
             };
             options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
             options.ReferencedAssemblies.Add(typeof(WorkflowDefinitionController).Assembly);
+            options.ReferencedAssemblies.Add(typeof(Newtonsoft.Json.JsonConvert).Assembly);
 
             var result = wd.Compile(options);
             if (!result.Result || !System.IO.File.Exists(result.Output))

@@ -246,6 +246,9 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="IntervalSchedule">
+		<xs:all>
+			<xs:element name="Expires" type="xs:dateTime" nillable="true"/>
+		</xs:all>
 		<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
 	</xs:complexType>
 	<xs:element name="DailySchedule">

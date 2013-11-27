@@ -53,7 +53,7 @@ namespace domain.test.workflows
                 new VariableValue{Name = "MyKad", Value = "999999"},
                 new VariableValue{Name = "LandCategory", Value = "999999"}
             };
-            wd.InitiateAsync(values, screen)
+            wd.InitiateAsync(values.ToArray(), screen)
                 .ContinueWith(_ =>
                 {
                     var wf = _.Result;

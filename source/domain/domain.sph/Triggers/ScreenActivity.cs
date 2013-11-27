@@ -254,7 +254,9 @@ namespace Bespoke.Sph.Domain
                                         }  ");
             code.AppendLinf("           var result = await wf.{0}();", this.MethodName);
             // any business rules?            
-            code.AppendLine("           return Json(new {sucess = true, status = \"OK\", result = result,wf});");
+            code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
+            code.AppendLine("           var retVal = new {sucess = true, status = \"OK\", result = result,wf};");
+            code.AppendLine("           return Content(Newtonsoft.Json.JsonConvert.SerializeObject(retVal));");
             code.AppendLine("       }"); // end SAVE action
 
 
