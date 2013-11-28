@@ -927,8 +927,8 @@
   {
     "role": "can_investigate",
     "groupName": null,
-    "url": "screen.workflow.draft",
-    "moduleId": "viewmodels/screen.workflow.draft",
+    "url": "workflow.draft",
+    "moduleId": "viewmodels/workflow.draft",
     "name": "Draft Workflow",
     "visible": true,
     "icon": "fa-edit",

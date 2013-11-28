@@ -4,12 +4,12 @@ namespace Bespoke.Sph.Web.Controllers
 {
     public partial class AppController
     {
-        public ActionResult ScreenWorkflowDraftJs()
+        public ActionResult WorkflowDraftJs()
         {
             return View();
         }
 
-        public ActionResult ScreenWorkflowDraftHtml()
+        public ActionResult WorkflowDraftHtml()
         {
             return View();
         }

@@ -203,6 +203,20 @@
 				<xs:element ref="RegistrationOfficer"/>
 				<xs:element ref="Investigation"/>
 				<xs:element ref="AggrementPronouncement"/>
+				<xs:element name="OwnershipCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Ownership" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MarketEvaluationCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="MarketEvaluation" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="LandId" type="xs:int" use="required"/>
 			<xs:attribute name="Unit" type="xs:string" use="required"/>
@@ -210,7 +224,6 @@
 			<xs:attribute name="Location" type="xs:string" use="required"/>
 			<xs:attribute name="Size" type="xs:double" use="required"/>
 			<xs:attribute name="SizeUnit" type="xs:string" use="required"/>
-			<xs:attribute name="CurrentMarketValue" type="xs:decimal" use="required"/>
 			<xs:attribute name="RezabNo" type="xs:string"/>
 			<xs:attribute name="SheetNo" type="xs:string" use="required"/>
 			<xs:attribute name="ApprovedPlanNo" type="xs:string" use="required"/>
@@ -221,6 +234,13 @@
 			<xs:attribute name="PlanNo" type="xs:string" use="required"/>
 			<xs:attribute name="Status" type="xs:string" use="required"/>
 			<xs:attribute name="IsApproved" type="xs:boolean" use="required"/>
+			<xs:attribute name="District" type="xs:string" use="required"/>
+			<xs:attribute name="Mukim" type="xs:string" use="required"/>
+			<xs:attribute name="LotNo" type="xs:string" use="required"/>
+			<xs:attribute name="StaticTerm" type="xs:string" use="required"/>
+			<xs:attribute name="FileNo" type="xs:string" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
+			<xs:attribute name="PropertyValue" type="xs:double" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Building">
@@ -527,6 +547,8 @@
 			<xs:attribute name="IcNo" type="xs:string" use="required"/>
 			<xs:attribute name="Title" type="xs:string" use="required"/>
 			<xs:attribute name="Designation" type="xs:string" use="required"/>
+			<xs:attribute name="Age" type="xs:int" use="required"/>
+			<xs:attribute name="Job" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ContractTemplate">
@@ -1287,6 +1309,12 @@
 			<xs:attribute name="Occurence" type="xs:int" use="required"/>
 			<xs:attribute name="OccurenceTimeSpan" type="xs:string" use="required"/>
 			<xs:attribute name="AvailableQuantity" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Ownership">
+		<xs:complexType>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="OwnershipNo" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

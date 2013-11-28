@@ -306,7 +306,7 @@
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\WorkflowDefinitionController.cs" />
     <Compile Include="Controllers\WorkflowController.cs" />
-    <Compile Include="Controllers\AppController.screen.workflow.draft.cs" />
+    <Compile Include="Controllers\AppController.workflow.draft.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -1163,7 +1163,9 @@
     <Content Include="Content\theme.zaza\report.less" />
     <Content Include="Content\theme.zaza\site.less" />
     <Content Include="Content\theme.zaza\space.less" />
-    <Content Include="Content\theme.zaza\theme.min.js.map" />
+    <Content Include="Content\theme.zaza\theme.min.js.map">
+      <DependentUpon>theme.js</DependentUpon>
+    </Content>
     <Content Include="Content\theme.zaza\user.less" />
     <Content Include="Content\theme.zaza\variables.less" />
     <Content Include="Content\theme.zaza\workflow.triggers.less" />
@@ -2198,8 +2200,8 @@
     <Content Include="Views\Shared\EditorTemplates\WebsiteFormElement.cshtml" />
     <Content Include="Views\WorkflowDefinition\DisplayTemplates\FileUploadElement.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\FileUploadElement.cshtml" />
-    <Content Include="Views\App\ScreenWorkflowDraftJs.cshtml" />
-    <Content Include="Views\App\ScreenWorkflowDraftHtml.cshtml" />
+    <Content Include="Views\App\WorkflowDraftJs.cshtml" />
+    <Content Include="Views\App\WorkflowDraftHtml.cshtml" />
     <Content Include="Views\Editor\Page.cshtml" />
     <Content Include="Views\Page\Compare.cshtml" />
     <Content Include="Views\Page\DiffLine.cshtml" />

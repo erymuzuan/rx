@@ -262,7 +262,6 @@ bespoke.sph.domain.Land = function (webId) {
         Location: ko.observable(''),
         Size: ko.observable(0.00),
         SizeUnit: ko.observable(''),
-        CurrentMarketValue: ko.observable(0.00),
         RezabNo: ko.observable(''),
         SheetNo: ko.observable(''),
         ApprovedPlanNo: ko.observable(''),
@@ -273,6 +272,13 @@ bespoke.sph.domain.Land = function (webId) {
         PlanNo: ko.observable(''),
         Status: ko.observable(''),
         IsApproved: ko.observable(false),
+        District: ko.observable(''),
+        Mukim: ko.observable(''),
+        LotNo: ko.observable(''),
+        StaticTerm: ko.observable(''),
+        FileNo: ko.observable(''),
+        Type: ko.observable(''),
+        PropertyValue: ko.observable(0.00),
         Owner: ko.observable(new bespoke.sph.domain.Owner()),
         Address: ko.observable(new bespoke.sph.domain.Address()),
         LeaseExpiryDate: ko.observable(),
@@ -287,6 +293,8 @@ bespoke.sph.domain.Land = function (webId) {
         RegistrationOfficer: ko.observable(new bespoke.sph.domain.RegistrationOfficer()),
         Investigation: ko.observable(new bespoke.sph.domain.Investigation()),
         AggrementPronouncement: ko.observable(new bespoke.sph.domain.AggrementPronouncement()),
+        OwnershipCollection: ko.observableArray([]),
+        MarketEvaluationCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -592,6 +600,8 @@ bespoke.sph.domain.Contact = function (webId) {
         IcNo: ko.observable(''),
         Title: ko.observable(''),
         Designation: ko.observable(''),
+        Age: ko.observable(0),
+        Job: ko.observable(''),
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
@@ -1625,9 +1635,26 @@ bespoke.sph.domain.FeatureDefinition = function (webId) {
 };
 
 
+
+bespoke.sph.domain.Ownership = function (webId) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Ownership, domain.sph",
+        Description: ko.observable(''),
+        OwnershipNo: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable(webId)
+    };
+    if (bespoke.sph.domain.OwnershipPartial) {
+        return _(model).extend(new bespoke.sph.domain.OwnershipPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.Invoice = function (webId) {
 
-    return {
+    var model = {
         "$type": "Bespoke.Sph.Domain.Invoice, domain.sph",
         InvoiceId: ko.observable(0),
         Date: ko.observable(moment().format('DD/MM/YYYY')),
@@ -1639,6 +1666,11 @@ bespoke.sph.domain.Invoice = function (webId) {
         isBusy: ko.observable(false),
         WebId: ko.observable(webId)
     };
+
+    if (bespoke.sph.domain.InvoicePartial) {
+        return _(model).extend(new bespoke.sph.domain.InvoicePartial(model));
+    }
+    return model;
 };
 
 

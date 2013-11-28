@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Ownership.cs" />
     <Compile Include="Business\AggrementPronouncement.cs" />
     <Compile Include="Business\PresenterParty.cs" />
     <Compile Include="Business\Investigator.cs" />
