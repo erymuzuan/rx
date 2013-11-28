@@ -286,6 +286,7 @@
     <Compile Include="Triggers\CustomAction.cs" />
     <Compile Include="Triggers\EmailAction.cs" />
     <Compile Include="Triggers\ScheduledActivityExecution.cs" />
+    <Compile Include="Triggers\ScheduledTriggerActivity.cs" />
     <Compile Include="Triggers\ScreenActivity.cs" />
     <Compile Include="Triggers\ScriptFunctoid.cs" />
     <Compile Include="Triggers\SendActivity.cs" />

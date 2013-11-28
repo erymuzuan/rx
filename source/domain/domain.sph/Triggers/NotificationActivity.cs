@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Bespoke.Sph.Domain
@@ -11,19 +13,6 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public async Task<string> Transform(string template, Workflow wf)
-        {
-            if (string.IsNullOrWhiteSpace(template)) return string.Empty;
-
-            if (template.StartsWith("="))
-            {
-                var script = ObjectBuilder.GetObject<IScriptEngine>();
-                return script.Evaluate<string, Workflow>(template.Remove(0, 1), wf);
-            }
-            var razor = ObjectBuilder.GetObject<ITemplateEngine>();
-            return await razor.GenerateAsync(template, this);
-
-        }
 
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
@@ -36,10 +25,10 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);
 
 
-            code.AppendLine("       var @from = await act.Transform(act.From, this);");
-            code.AppendLine("       var to = await act.Transform(act.To, this);");
-            code.AppendLine("       var subject = await act.Transform(act.Subject, this);");
-            code.AppendLine("       var body = await act.Transform(act.Body, this);");
+            code.AppendLinf("       var @from = await this.TransformFrom{0}(act.From);", this.MethodName);
+            code.AppendLinf("       var to = await this.TransformTo{0}(act.To);", this.MethodName);
+            code.AppendLinf("       var subject = await this.TransformSubject{0}(act.Subject);", this.MethodName);
+            code.AppendLinf("       var body = await this.TransformBody{0}(act.Body);", this.MethodName);
 
             code.AppendLine("       System.Console.WriteLine(\"Sending email to : {0}\", to);");
             if (!string.IsNullOrWhiteSpace(this.UserName))
@@ -66,10 +55,45 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   }");
             code.AppendLine();
 
+            code.AppendLine(this.GenerateTranformCode(x => x.From));
+            code.AppendLine(this.GenerateTranformCode(x => x.To));
+            code.AppendLine(this.GenerateTranformCode(x => x.Subject));
+            code.AppendLine(this.GenerateTranformCode(x => x.Body));
 
 
 
             return code.ToString();
+        }
+
+        private string GenerateTranformCode(Expression<Func<NotificationActivity, string>>  field)
+        {
+            var code = new StringBuilder();
+            var func = field.Compile();
+            var template = func(this);
+            dynamic fdyn = field.Body;
+            string fieldName = fdyn.Member.Name;
+            // tranform
+            code.AppendLinf("   public async Task<string> Transform{1}{0}(string template)", this.MethodName, fieldName);
+            code.AppendLine("   {");
+
+            code.AppendLine("        if (string.IsNullOrWhiteSpace(template)) return string.Empty;");
+            if (template.StartsWith("="))
+            {
+                code.AppendLinf(@"
+                await Task.Delay(100);
+                var item = this;
+                return {0};", template.Remove(0, 1));
+            }
+            else
+            {
+                code.AppendLine(@"
+            var razor = ObjectBuilder.GetObject<ITemplateEngine>();
+            return await razor.GenerateAsync(template, this);");
+            }
+            code.AppendLine("   }");
+
+            return code.ToString();
+
         }
 
 

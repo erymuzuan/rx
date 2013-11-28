@@ -394,5 +394,52 @@ namespace domain.test.workflows
 
 
         }
+
+        [Test]
+        public void EmailFieldExpression()
+        {
+            var wd = this.Create();
+
+            var pohon = new ScreenActivity
+            {
+                Title = "Pohon",//[A-Z|a-z|.]
+                Name = "Pohon",
+                ViewVirtualPath = "~/Views/Workflows_8_1/pohon.cshtml",
+                WebId = "_A_",
+                IsInitiator = true,
+                NextActivityWebId = "_EMAIL_"
+            };
+            pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Nama", Label = "Test" });
+            pohon.FormDesign.FormElementCollection.Add(new TextBox { Path = "Title", Label = "Tajuk" });
+            wd.ActivityCollection.Add(pohon);
+
+
+            var email = new NotificationActivity
+            {
+                From = "=\"erymuzuan@gmail.com\"",
+                To = "=item.email",
+                Subject = "Ada permohonan baru @Model.Title",
+                Body = "Permohonan baru di @Model.Title oleh @Model.pemohon.MyKad",
+                WebId = "_EMAIL_",
+                NextActivityWebId = "_END_",
+                UserName = "admin",
+                Name = "Email me"
+
+            };
+            wd.ActivityCollection.Add(email);
+
+
+            wd.ActivityCollection.Add(new EndActivity { WebId = "_END_", Name = "habis" });
+
+            var result = this.Compile(wd,true);
+            this.Run(wd, result.Output, r2 =>
+            {
+                var result2 = r2.Result;
+                Console.WriteLine(result2);
+                Assert.AreEqual("CREATE_BUILDING", result2.NextActivity);
+            });
+
+
+        }
     }
 }
