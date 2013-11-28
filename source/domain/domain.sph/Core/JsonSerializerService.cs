@@ -63,7 +63,7 @@ namespace Bespoke.Sph.Domain
         /// <returns></returns>
         public static string ToJsonString<T>(this T value)
         {
-            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, ReferenceLoopHandling = ReferenceLoopHandling.Ignore};
             setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
             return JsonConvert.SerializeObject(value, setting);
         }

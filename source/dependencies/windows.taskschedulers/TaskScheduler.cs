@@ -12,7 +12,7 @@ namespace Bespoke.Sph.WindowsTaskScheduler
         }
         public string Executable { get; set; }
 
-        public async System.Threading.Tasks.Task AddTaskAsync(DateTime dateTime, ScheduledActivityExecution info)
+        public System.Threading.Tasks.Task AddTaskAsync(DateTime dateTime, ScheduledActivityExecution info)
         {
             var path = this.GetPath(info);
             using (var ts = new TaskService())
@@ -30,17 +30,18 @@ namespace Bespoke.Sph.WindowsTaskScheduler
 
                 ts.RootFolder.RegisterTaskDefinition(path, td);
             }
-            await System.Threading.Tasks.Task.Delay(100);
+            return System.Threading.Tasks.Task.FromResult(0);
 
         }
-        public async System.Threading.Tasks.Task DeleteAsync(ScheduledActivityExecution info)
+        public System.Threading.Tasks.Task DeleteAsync(ScheduledActivityExecution info)
         {
             var path = this.GetPath(info);
             using (var ts = new TaskService())
             {
                 ts.RootFolder.DeleteTask(path);
             }
-            await System.Threading.Tasks.Task.Delay(100);
+
+            return System.Threading.Tasks.Task.FromResult(0);
         }
 
         private string GetPath(ScheduledActivityExecution info)

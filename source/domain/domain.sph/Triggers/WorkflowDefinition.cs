@@ -23,7 +23,7 @@ namespace Bespoke.Sph.Domain
             return this.ActivityCollection.OfType<T>().Single(w => w.WebId == webId);
         }
 
-        public Task<Workflow> InitiateAsync(IEnumerable<VariableValue> values = null, ScreenActivity screen = null)
+        public Task<Workflow> InitiateAsync(VariableValue[] values = null, ScreenActivity screen = null)
         {
             var typeName = string.Format("{0},workflows.{1}.{2}", this.WorkflowTypeName, this.WorkflowDefinitionId, this.Version);
             // TODO : load the type and instantiate it
@@ -35,6 +35,13 @@ namespace Bespoke.Sph.Domain
             wf.WorkflowDefinitionId = this.WorkflowDefinitionId;
             wf.State = "Active";
 
+            // set the initial variable's value
+            if (null != values)
+                foreach (var vv in values)
+                {
+                    this.SetVariableValue(vv, wf, type);
+                }
+
 
             if (null != screen)
             {
@@ -42,6 +49,29 @@ namespace Bespoke.Sph.Domain
             }
 
             return Task.FromResult(wf);
+        }
+
+        private void SetVariableValue(VariableValue vv, Workflow wf, Type type)
+        {
+            var path = vv.Name.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+            
+            var prop = type.GetProperty(path[0]);
+            if (path.Length == 1)
+            {
+                prop.SetValue(wf, vv.Value);
+                return;
+            }
+
+            object dd =wf;
+            for (int i = 0; i < path.Length -1; i++)
+            {
+                var pname = path[i];
+                prop = dd.GetType().GetProperty(pname);
+                dd = prop.GetValue(dd);
+            }
+            prop = dd.GetType().GetProperty(path.Last());
+            prop.SetValue(dd,vv.Value);
+
         }
 
         public ScreenActivity GetInititorScreen()

@@ -16,7 +16,7 @@ namespace Bespoke.Sph.Domain
                                 Value = map.Field.GetValue(ruleContext)
                             };
 
-            var wf = await wd.InitiateAsync(variables);
+            var wf = await wd.InitiateAsync(variables.ToArray());
             await wf.StartAsync();
         }
 

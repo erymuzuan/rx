@@ -80,6 +80,7 @@ namespace Bespoke.Sph.Domain
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var content = store.GetContent(id ?? this.SchemaStoreId);
+            if (null == content) return null;
             using (var stream = new MemoryStream(content.Content))
             {
                 m_customSchema = XElement.Load(stream);

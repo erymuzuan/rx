@@ -27,7 +27,7 @@
                                    class="form-control" id="wf-version">
                         </div>
                     </div>
-                    <a href="#">+ Mapping</a>
+                    <a href="#" data-bind="click : addMapping">+ Mapping</a>
                     <table class="table">
                         <thead>
                             <tr>
@@ -41,7 +41,30 @@
                                 <td>
                                     <input type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$"  data-bind="value:VariablePath, uniqueName:true" />
                                 </td>
-                                <td></td>
+                                <td>
+
+                                    <div class="btn-group">
+                                        <a data-bind="with : Field, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                                            <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                                            <!-- ko text : Name -->
+                                            <!-- /ko -->
+                                            <span class="caret"></span>
+                                        </a>
+
+                                        <ul class="dropdown-menu">
+                                        
+                                            <li>
+                                                <a class="btn-add-document-setter-field" data-bind="unwrapClick: addField,field : 'Document', accessor : $data.Field" href="#">+ Document Field</a>
+                                            </li>
+                                            <li>
+                                                <a class="btn-add-constant-setter-field" data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.Field" href="#">+ Constant Field</a>
+                                            </li>
+                                            <li>
+                                                <a class="btn-add-function-setter-field" data-bind="unwrapClick: addField,field : 'Function', accessor : $data.Field" href="#">+ Function Field</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
                                 <td>
                                     <a href="#">Buang</a>
                                 </td>
