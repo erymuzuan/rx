@@ -393,6 +393,8 @@
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
+    <Content Include="App\partial\HourlySchedule.js" />
+    <Content Include="App\partial\ScheduledTriggerActivity.js" />
     <Content Include="App\partial\WorkflowTriggerMap.js" />
     <Content Include="App\partial\StartWorkflowAction.js" />
     <Content Include="App\partial\Variable.js" />
@@ -464,6 +466,7 @@
     <Content Include="App\viewmodels\action.setter.js" />
     <Content Include="App\viewmodels\action.startworkflow.js" />
     <Content Include="App\viewmodels\activity.listen.js" />
+    <Content Include="App\viewmodels\activity.scheduledtrigger.js" />
     <Content Include="App\viewmodels\activity.updateentity.js" />
     <Content Include="App\viewmodels\activity.deleteentity.js" />
     <Content Include="App\viewmodels\activity.createentity.js" />
@@ -547,6 +550,7 @@
     <Content Include="App\views\action.startworkflow.html" />
     <Content Include="App\views\activity.deleteentity.html" />
     <Content Include="App\views\activity.listen.html" />
+    <Content Include="App\views\activity.scheduledtrigger.html" />
     <Content Include="App\views\activity.updateentity.html" />
     <Content Include="App\views\activity.createentity.html" />
     <Content Include="App\views\activity.delay.html" />

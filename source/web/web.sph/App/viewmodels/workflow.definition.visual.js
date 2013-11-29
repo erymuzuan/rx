@@ -31,7 +31,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     listen = new bespoke.sph.domain.ListenActivity("@Guid.NewGuid()"),
                     parallel = new bespoke.sph.domain.ParallelActivity("@Guid.NewGuid()"),
                     delay = new bespoke.sph.domain.DelayActivity("@Guid.NewGuid()"),
-                    end = new bespoke.sph.domain.EndActivity("@Guid.NewGuid()");
+                    end = new bespoke.sph.domain.EndActivity("@Guid.NewGuid()"),
+                    scheduled = new bespoke.sph.domain.ScheduledTriggerActivity({
+                        WebId: system.guid(),
+                        Name: 'Scheduled Trigger',
+                        Note: 'A workflow could be start on schedule'
+                    });
+
 
                 screen.IsEnabled = ko.observable(true);
                 screen.Name("Screen");
@@ -39,6 +45,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 screen.CssClass = "pull-left activity32 activity32-ScreenActivity";
                 elements.push(screen);
 
+                scheduled.IsEnabled = ko.observable(true);
+                scheduled.CssClass = "pull-left activity32 activity32-ScheduledTriggerActivity";
+                scheduled.Note = 'A workflow could be start on schedule';
+                elements.push(scheduled);
 
                 expr.IsEnabled = ko.observable(true);
                 expr.Name("Expression");
@@ -430,7 +440,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     });
 
                 });
-                $('#open-close-toolbox-button').on('click', function(e) {
+                $('#open-close-toolbox-button').on('click', function (e) {
                     e.preventDefault();
                     $('#toolbox-panel').hide();
                     return false;

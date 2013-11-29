@@ -1,0 +1,72 @@
+﻿
+<section class="view-model-modal" id="sch-act-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Scheduled Trigger</h3>
+            </div>
+            <div class="modal-body" data-bind="with: activity">
+
+                <form class="form-horizontal" id="sch-act-dialog-form">
+                    <div class="form-group">
+                        <label for="sch-name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: Name"
+                                   required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                                   placeholder="Name"
+                                   class="form-control" id="sch-name">
+                        </div>
+                    </div>
+
+                    <h3>Schedule</h3>
+                    <div id="action-panel" class="pull-right">
+                        <div class="btn-group">
+                            <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
+                                Add Action &nbsp;<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="btn btn-link" data-bind="click: addSchedule('Hourly')">
+                                        <i class="fa fa-clock-o"></i>
+                                        Hourly
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn btn-link" data-bind="click: addSchedule('Daily')">
+                                        <i class="fa fa-dashboard"></i>
+                                        Daily
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn btn-link" data-bind="click: addSchedule('Weekly')">
+                                        <i class="fa fa-weibo"></i>
+                                        Weekly
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="btn btn-link" data-bind="click: addSchedule('Monthly')">
+                                        <i class="fa fa-calendar"></i>
+                                        Monthly
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <span data-bind="text:IntervalSchedule"></span>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="sch-act-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

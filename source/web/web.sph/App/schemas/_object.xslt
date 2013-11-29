@@ -26,15 +26,28 @@
         <!-- ELEMENT -->
         <xsl:otherwise>
 
-          bespoke.sph.domain.<xsl:value-of select="@name"/> = function(webId) {
+          bespoke.sph.domain.<xsl:value-of select="@name"/> = function(optionOrWebid) {
           <xsl:choose>
             <xsl:when test="xs:complexType/xs:complexContent/xs:extension">
-              var v = new bespoke.sph.domain.<xsl:value-of select="xs:complexType/xs:complexContent/xs:extension/@base"/>(webId);
+              var v = new bespoke.sph.domain.<xsl:value-of select="xs:complexType/xs:complexContent/xs:extension/@base"/>(optionOrWebid);
               <xsl:for-each select="xs:complexType/xs:complexContent/xs:extension/xs:attribute">
                 <xsl:if test="@type">
                   v.<xsl:value-of select="@name"/> = ko.observable(<xsl:value-of select="bspk:GetJsDefaultValue(@type, @nillable)"/>);</xsl:if>
               </xsl:for-each>
               <xsl:apply-templates select="xs:complexType/xs:complexContent/xs:extension"/>
+
+              if (optionOrWebid &amp;&amp; typeof optionOrWebid === "object") {
+              for (var n in optionOrWebid) {
+              if (typeof v[n] === "function") {
+              v[n](optionOrWebid[n]);
+              }
+              }
+              }
+              if (optionOrWebid &amp;&amp; typeof optionOrWebid === "string") {
+              v.WebId(optionOrWebid);
+              }
+
+
               if(bespoke.sph.domain.<xsl:value-of select="@name"/>Partial){
               return _(v).extend(new bespoke.sph.domain.<xsl:value-of select="@name"/>Partial(v));
               }
@@ -51,8 +64,20 @@
               </xsl:for-each>
               <!-- Element -->
               <xsl:apply-templates select="xs:complexType/xs:all/xs:element"/>isBusy : ko.observable(false),
-				WebId : ko.observable(webId)
+              WebId : ko.observable()
               };
+              if (optionOrWebid &amp;&amp; typeof optionOrWebid === "object") {
+              for (var n in optionOrWebid) {
+              if (typeof model[n] === "function") {
+              model[n](optionOrWebid[n]);
+              }
+              }
+              }
+              if (optionOrWebid &amp;&amp; typeof optionOrWebid === "string") {
+              model.WebId(optionOrWebid);
+              }
+
+
               if(bespoke.sph.domain.<xsl:value-of select="@name"/>Partial){
               return _(model).extend(new bespoke.sph.domain.<xsl:value-of select="@name"/>Partial(model));
               }
@@ -65,7 +90,7 @@
     </xsl:for-each>
     <!-- COMPLEX TYPE -->
     <xsl:for-each select="xs:complexType">
-      bespoke.sph.domain.<xsl:value-of select="@name"/> = function(webId) {
+      bespoke.sph.domain.<xsl:value-of select="@name"/> = function(optionOrWebid) {
       <!-- attribute-->
       var model =  {
 		"$type" : "Bespoke.Sph.Domain.<xsl:value-of select="@name"/>, domain.sph",
@@ -73,8 +98,18 @@
         <xsl:value-of select="@name"/> : ko.observable(<xsl:value-of select="bspk:GetJsDefaultValue(@type, @nillable)"/>),
       </xsl:for-each>
       <xsl:apply-templates select="xs:all/xs:element"/>isBusy : ko.observable(false),
-      WebId : ko.observable(webId)
+      WebId : ko.observable()
       };
+      if (optionOrWebid &amp;&amp; typeof optionOrWebid === "object") {
+      for (var n in optionOrWebid) {
+      if (typeof model[n] === "function") {
+      model[n](optionOrWebid[n]);
+      }
+      }
+      }
+      if (optionOrWebid &amp;&amp; typeof optionOrWebid === "string") {
+      model.WebId(optionOrWebid);
+      }
 
       if(bespoke.sph.domain.<xsl:value-of select="@name"/>Partial){
       return _(model).extend(new bespoke.sph.domain.<xsl:value-of select="@name"/>Partial(model));

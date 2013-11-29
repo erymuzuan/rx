@@ -24,34 +24,34 @@
 	"buffers":
 	[
 		{
-			"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Controllers/DiffController.cs",
+			"file": "source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
 			"settings":
 			{
-				"buffer_size": 2805,
+				"buffer_size": 11796,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffLine.cshtml",
+			"file": "source/subscribers/subscriber.workflow/WorkflowSubscriber.cs",
 			"settings":
 			{
-				"buffer_size": 722,
+				"buffer_size": 2156,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffPane.cshtml",
+			"file": "source/domain/domain.sph/Triggers/ScreenActivity.cs",
 			"settings":
 			{
-				"buffer_size": 586,
+				"buffer_size": 19861,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Index.cshtml",
+			"file": "/D/temp/sph/Workflow_4004_5.cs",
 			"settings":
 			{
-				"buffer_size": 729,
+				"buffer_size": 31173,
 				"line_ending": "Windows"
 			}
 		}
@@ -80,7 +80,11 @@
 	},
 	"file_history":
 	[
+		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Index.cshtml",
+		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffPane.cshtml",
+		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffLine.cshtml",
 		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Diff.cshtml",
+		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Controllers/DiffController.cs",
 		"/H/Downloads/3003",
 		"/H/Downloads/tengok.cshtml",
 		"/D/temp/sph/Workflow_4004_5.cs",
@@ -115,6 +119,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"buil",
+			"bu",
 			"diffB",
 			"Change",
 			"<input.*class=\".*(form-control).*\"",
@@ -145,23 +151,23 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Controllers/DiffController.cs",
+					"file": "source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
 					"settings":
 					{
-						"buffer_size": 2805,
+						"buffer_size": 11796,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1916,
-								1918
+								1781,
+								1781
 							]
 						],
 						"settings":
@@ -171,30 +177,30 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 792.0,
+						"translation.y": 957.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffLine.cshtml",
+					"file": "source/subscribers/subscriber.workflow/WorkflowSubscriber.cs",
 					"settings":
 					{
-						"buffer_size": 722,
+						"buffer_size": 2156,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								721,
-								721
+								498,
+								498
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/ASP/HTML-ASP.tmLanguage",
+							"syntax": "Packages/C#/C#.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
@@ -206,56 +212,56 @@
 				},
 				{
 					"buffer": 2,
-					"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffPane.cshtml",
+					"file": "source/domain/domain.sph/Triggers/ScreenActivity.cs",
 					"settings":
 					{
-						"buffer_size": 586,
+						"buffer_size": 19861,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								256,
-								256
+								19348,
+								19348
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/ASP/HTML-ASP.tmLanguage",
+							"syntax": "Packages/C#/C#.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 8448.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Index.cshtml",
+					"file": "/D/temp/sph/Workflow_4004_5.cs",
 					"settings":
 					{
-						"buffer_size": 729,
+						"buffer_size": 31173,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								221,
-								221
+								5890,
+								5890
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/ASP/HTML-ASP.tmLanguage",
-							"tab_size": 4,
+							"syntax": "Packages/C#/C#.tmLanguage",
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2168.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -304,6 +310,14 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"scree",
+				"source/domain/domain.sph/Triggers/ScreenActivity.cs"
+			],
+			[
+				"wordefc",
+				"source/web/web.sph/Controllers/WorkflowDefinitionController.cs"
+			],
 			[
 				"worde.co",
 				"source/domain/domain.sph/Triggers/WorkflowDefinition.code.cs"
