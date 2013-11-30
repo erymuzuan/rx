@@ -1,4 +1,5 @@
 ﻿/// <reference path="../schemas/report.builder.g.js" />
+/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
 
@@ -12,7 +13,7 @@ bespoke.sph.domain.HourlySchedulePartial = function () {
 
     return {
         name: ko.observable("Hourly Schedule"),
-        icon: ko.observable("fa fa-time")
+        icon: ko.observable("fa fa-clock-o")
     };
 };
 
@@ -34,7 +35,7 @@ bespoke.sph.domain.MonthlySchedulePartial = function () {
 
     return {
         name: ko.observable("Monthly Schedule"),
-        icon: ko.observable("fa fa-calendar-empty")
+        icon: ko.observable("fa fa-calendar-o")
     };
 };
 

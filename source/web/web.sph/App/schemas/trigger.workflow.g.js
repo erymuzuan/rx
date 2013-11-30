@@ -1303,7 +1303,7 @@ bespoke.sph.domain.ScheduledTriggerActivity = function (optionOrWebid) {
 
     v["$type"] = "Bespoke.Sph.Domain.ScheduledTriggerActivity, domain.sph";
 
-    v.IntervalSchedule = ko.observable(new bespoke.sph.domain.IntervalSchedule());
+    v.IntervalScheduleCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {

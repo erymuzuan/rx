@@ -630,7 +630,13 @@
 			<xs:complexContent>
 				<xs:extension base="Activity">
 					<xs:all>
-						<xs:element ref="IntervalSchedule"/>
+						<xs:element name="IntervalScheduleCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="IntervalSchedule" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
 					</xs:all>
 				</xs:extension>
 			</xs:complexContent>

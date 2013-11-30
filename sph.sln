@@ -98,6 +98,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scheduler.delayactivity", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "active.directory.service", "source\dependencies\active.directory.services\active.directory.service\active.directory.service.csproj", "{FD6ADFF1-2EC3-45F7-AE03-B379E7D9FF05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.workflowscheduler", "source\subscribers\subscriber.workflowscheduler\subscriber.workflowscheduler.csproj", "{60EB3DC3-0AB1-4B19-B2B5-2A5FD7BF2C5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scheduler.workflow.scheduler.trigger", "source\scheduler\scheduler.workflow.scheduler.trigger\scheduler.workflow.scheduler.trigger.csproj", "{A6439B8B-A87A-46EB-A810-F0A4003D0CF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -244,6 +248,14 @@ Global
 		{FD6ADFF1-2EC3-45F7-AE03-B379E7D9FF05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD6ADFF1-2EC3-45F7-AE03-B379E7D9FF05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD6ADFF1-2EC3-45F7-AE03-B379E7D9FF05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60EB3DC3-0AB1-4B19-B2B5-2A5FD7BF2C5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60EB3DC3-0AB1-4B19-B2B5-2A5FD7BF2C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60EB3DC3-0AB1-4B19-B2B5-2A5FD7BF2C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60EB3DC3-0AB1-4B19-B2B5-2A5FD7BF2C5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6439B8B-A87A-46EB-A810-F0A4003D0CF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6439B8B-A87A-46EB-A810-F0A4003D0CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6439B8B-A87A-46EB-A810-F0A4003D0CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6439B8B-A87A-46EB-A810-F0A4003D0CF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -279,10 +291,12 @@ Global
 		{F63B8AF9-E4AE-45D4-BADF-47C217FEFABA} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{F82F88BA-3A8B-489F-9119-2A97C96B9DAE} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{DED2389A-20EE-48B2-B43B-04D6460969BD} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
+		{60EB3DC3-0AB1-4B19-B2B5-2A5FD7BF2C5A} = {A179698A-C1A1-4F6D-8662-EFDCA0BAA982}
 		{4DC05B0D-B33A-4DBC-BF29-FF6FDEAA7C17} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{713F54A8-3F06-43C5-9312-E7BBC825A88C} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{9D9FD4B6-7475-41CF-8D65-CA3789DF93EF} = {DB65484E-BE1F-4944-B216-4A57026360EB}
 		{BDD77B07-E174-44E5-8FD8-79AD94506693} = {3AE34720-8DD6-4332-9DF7-9E16A79B94A1}
 		{38481343-B6BC-4343-9224-94869AE622C3} = {3AE34720-8DD6-4332-9DF7-9E16A79B94A1}
+		{A6439B8B-A87A-46EB-A810-F0A4003D0CF4} = {3AE34720-8DD6-4332-9DF7-9E16A79B94A1}
 	EndGlobalSection
 EndGlobal

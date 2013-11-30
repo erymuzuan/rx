@@ -247,11 +247,30 @@
 	</xs:element>
 	<xs:complexType name="IntervalSchedule">
 		<xs:all>
-			<xs:element name="Expires" type="xs:dateTime" nillable="true"/>
+			<xs:element name="Expire" type="xs:dateTime" nillable="true"/>
+			<xs:element name="Delay" type="xs:int" nillable="true"/>
+			<xs:element name="Repeat" type="xs:int" nillable="true"/>
+			<xs:element name="Duration" type="xs:int" nillable="true"/>
 		</xs:all>
-		<xs:attribute name="IsActive" type="xs:boolean" use="required"/>
+		<xs:attribute name="IsEnabled" type="xs:boolean" use="required"/>
+		<xs:attribute name="Start" type="xs:dateTime" use="required"/>
 	</xs:complexType>
 	<xs:element name="DailySchedule">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="IntervalSchedule">
+					<xs:attribute name="Recur" type="xs:int" use="required"/>
+					<xs:attribute name="StartHour" type="xs:int" use="required"/>
+					<xs:attribute name="StartMinute" type="xs:int" use="required"/>
+					<xs:attribute name="StartSecond" type="xs:int" use="required"/>
+					<xs:attribute name="EndHour" type="xs:int" use="required"/>
+					<xs:attribute name="EndMinute" type="xs:int" use="required"/>
+					<xs:attribute name="EndSecond" type="xs:int" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WeeklySchedule">
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="IntervalSchedule">
@@ -264,29 +283,7 @@
 					<xs:attribute name="IsThursday" type="xs:boolean" use="required"/>
 					<xs:attribute name="IsFriday" type="xs:boolean" use="required"/>
 					<xs:attribute name="IsSaturday" type="xs:boolean" use="required"/>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="HourlySchedule">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="IntervalSchedule">
-					<xs:attribute name="StartHour" type="xs:int" use="required"/>
-					<xs:attribute name="Interval" type="xs:int" use="required"/>
-					<xs:attribute name="Minute" type="xs:int" use="required"/>
-					<xs:attribute name="EndHour" type="xs:int" use="required"/>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="WeeklySchedule">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="IntervalSchedule">
-					<xs:attribute name="Day" type="xs:string" use="required"/>
-					<xs:attribute name="Hour" type="xs:int" use="required"/>
-					<xs:attribute name="Minute" type="xs:int" use="required"/>
+					<xs:attribute name="Recur" type="xs:int" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
@@ -295,9 +292,31 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="IntervalSchedule">
+					<xs:all>
+						<xs:element name="Days">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Day" type="xs:int" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
 					<xs:attribute name="Day" type="xs:int" use="required"/>
 					<xs:attribute name="Hour" type="xs:int" use="required"/>
 					<xs:attribute name="Minute" type="xs:int" use="required"/>
+					<xs:attribute name="IsJanuary" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsFebruary" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsMarch" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsApril" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsMay" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsJune" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsJuly" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsAugust" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsSeptember" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsOctober" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsNovember" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsDecember" type="xs:boolean" use="required"/>
+					<xs:attribute name="IsLastDay" type="xs:boolean" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

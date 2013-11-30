@@ -394,6 +394,7 @@
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
     <Content Include="App\partial\HourlySchedule.js" />
+    <Content Include="App\partial\IntervalSchedule.js" />
     <Content Include="App\partial\ScheduledTriggerActivity.js" />
     <Content Include="App\partial\WorkflowTriggerMap.js" />
     <Content Include="App\partial\StartWorkflowAction.js" />

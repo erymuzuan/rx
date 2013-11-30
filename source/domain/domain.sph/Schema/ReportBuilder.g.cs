@@ -4,6 +4,8 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming
@@ -2009,6 +2011,130 @@ namespace Bespoke.Sph.Domain
     public partial class DailySchedule
     {
 
+        private int m_Recur;
+        [XmlAttribute]
+        public int Recur
+        {
+            get
+            {
+                return m_Recur;
+            }
+            set
+            {
+                m_Recur = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private int m_StartHour;
+        [XmlAttribute]
+        public int StartHour
+        {
+            get
+            {
+                return m_StartHour;
+            }
+            set
+            {
+                m_StartHour = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private int m_StartMinute;
+        [XmlAttribute]
+        public int StartMinute
+        {
+            get
+            {
+                return m_StartMinute;
+            }
+            set
+            {
+                m_StartMinute = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private int m_StartSecond;
+        [XmlAttribute]
+        public int StartSecond
+        {
+            get
+            {
+                return m_StartSecond;
+            }
+            set
+            {
+                m_StartSecond = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private int m_EndHour;
+        [XmlAttribute]
+        public int EndHour
+        {
+            get
+            {
+                return m_EndHour;
+            }
+            set
+            {
+                m_EndHour = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private int m_EndMinute;
+        [XmlAttribute]
+        public int EndMinute
+        {
+            get
+            {
+                return m_EndMinute;
+            }
+            set
+            {
+                m_EndMinute = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private int m_EndSecond;
+        [XmlAttribute]
+        public int EndSecond
+        {
+            get
+            {
+                return m_EndSecond;
+            }
+            set
+            {
+                m_EndSecond = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("WeeklySchedule", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class WeeklySchedule
+    {
+
         private int m_Hour;
         [XmlAttribute]
         public int Hour
@@ -2153,137 +2279,17 @@ namespace Bespoke.Sph.Domain
         }
 
 
-
-    }
-
-    ///<summary>
-    /// 
-    ///</summary>
-    [DataObject(true)]
-    [Serializable]
-    [XmlType("HourlySchedule", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class HourlySchedule
-    {
-
-        private int m_StartHour;
+        private int m_Recur;
         [XmlAttribute]
-        public int StartHour
+        public int Recur
         {
             get
             {
-                return m_StartHour;
+                return m_Recur;
             }
             set
             {
-                m_StartHour = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private int m_Interval;
-        [XmlAttribute]
-        public int Interval
-        {
-            get
-            {
-                return m_Interval;
-            }
-            set
-            {
-                m_Interval = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private int m_Minute;
-        [XmlAttribute]
-        public int Minute
-        {
-            get
-            {
-                return m_Minute;
-            }
-            set
-            {
-                m_Minute = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private int m_EndHour;
-        [XmlAttribute]
-        public int EndHour
-        {
-            get
-            {
-                return m_EndHour;
-            }
-            set
-            {
-                m_EndHour = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-
-    }
-
-    ///<summary>
-    /// 
-    ///</summary>
-    [DataObject(true)]
-    [Serializable]
-    [XmlType("WeeklySchedule", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class WeeklySchedule
-    {
-
-        private string m_Day;
-        [XmlAttribute]
-        public string Day
-        {
-            get
-            {
-                return m_Day;
-            }
-            set
-            {
-                m_Day = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private int m_Hour;
-        [XmlAttribute]
-        public int Hour
-        {
-            get
-            {
-                return m_Hour;
-            }
-            set
-            {
-                m_Hour = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private int m_Minute;
-        [XmlAttribute]
-        public int Minute
-        {
-            get
-            {
-                return m_Minute;
-            }
-            set
-            {
-                m_Minute = value;
+                m_Recur = value;
                 RaisePropertyChanged();
             }
         }
@@ -2348,6 +2354,225 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+        private bool m_IsJanuary;
+        [XmlAttribute]
+        public bool IsJanuary
+        {
+            get
+            {
+                return m_IsJanuary;
+            }
+            set
+            {
+                m_IsJanuary = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsFebruary;
+        [XmlAttribute]
+        public bool IsFebruary
+        {
+            get
+            {
+                return m_IsFebruary;
+            }
+            set
+            {
+                m_IsFebruary = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsMarch;
+        [XmlAttribute]
+        public bool IsMarch
+        {
+            get
+            {
+                return m_IsMarch;
+            }
+            set
+            {
+                m_IsMarch = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsApril;
+        [XmlAttribute]
+        public bool IsApril
+        {
+            get
+            {
+                return m_IsApril;
+            }
+            set
+            {
+                m_IsApril = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsMay;
+        [XmlAttribute]
+        public bool IsMay
+        {
+            get
+            {
+                return m_IsMay;
+            }
+            set
+            {
+                m_IsMay = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsJune;
+        [XmlAttribute]
+        public bool IsJune
+        {
+            get
+            {
+                return m_IsJune;
+            }
+            set
+            {
+                m_IsJune = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsJuly;
+        [XmlAttribute]
+        public bool IsJuly
+        {
+            get
+            {
+                return m_IsJuly;
+            }
+            set
+            {
+                m_IsJuly = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsAugust;
+        [XmlAttribute]
+        public bool IsAugust
+        {
+            get
+            {
+                return m_IsAugust;
+            }
+            set
+            {
+                m_IsAugust = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsSeptember;
+        [XmlAttribute]
+        public bool IsSeptember
+        {
+            get
+            {
+                return m_IsSeptember;
+            }
+            set
+            {
+                m_IsSeptember = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsOctober;
+        [XmlAttribute]
+        public bool IsOctober
+        {
+            get
+            {
+                return m_IsOctober;
+            }
+            set
+            {
+                m_IsOctober = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsNovember;
+        [XmlAttribute]
+        public bool IsNovember
+        {
+            get
+            {
+                return m_IsNovember;
+            }
+            set
+            {
+                m_IsNovember = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsDecember;
+        [XmlAttribute]
+        public bool IsDecember
+        {
+            get
+            {
+                return m_IsDecember;
+            }
+            set
+            {
+                m_IsDecember = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsLastDay;
+        [XmlAttribute]
+        public bool IsLastDay
+        {
+            get
+            {
+                return m_IsLastDay;
+            }
+            set
+            {
+                m_IsLastDay = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private readonly ObjectCollection<int> m_Days = new ObjectCollection<int>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<int> Days
+        {
+            get { return m_Days; }
+        }
 
 
     }
@@ -3194,8 +3419,33 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
-        private bool m_isActive;
-        public const string PropertyNameIsActive = "IsActive";
+        private bool m_isEnabled;
+        public const string PropertyNameIsEnabled = "IsEnabled";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private DateTime m_start;
+        public const string PropertyNameStart = "Start";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private DateTime? m_expire;
+        public const string PropertyNameExpire = "Expire";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private int? m_delay;
+        public const string PropertyNameDelay = "Delay";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private int? m_repeat;
+        public const string PropertyNameRepeat = "Repeat";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private int? m_duration;
+        public const string PropertyNameDuration = "Duration";
 
 
         // public properties members
@@ -3203,23 +3453,125 @@ namespace Bespoke.Sph.Domain
 
 
         [XmlAttribute]
-        public bool IsActive
+        public bool IsEnabled
         {
             set
             {
-                if (m_isActive == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsActive, value);
+                if (m_isEnabled == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsEnabled, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_isActive = value;
+                    m_isEnabled = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_isActive;
+                return m_isEnabled;
             }
+        }
+
+
+
+        [XmlAttribute]
+        public DateTime Start
+        {
+            set
+            {
+                if (m_start == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameStart, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_start = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_start;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public DateTime? Expire
+        {
+            set
+            {
+                if (m_expire == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameExpire, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_expire = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_expire; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public int? Delay
+        {
+            set
+            {
+                if (m_delay == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDelay, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_delay = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_delay; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public int? Repeat
+        {
+            set
+            {
+                if (m_repeat == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRepeat, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_repeat = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_repeat; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public int? Duration
+        {
+            set
+            {
+                if (m_duration == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDuration, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_duration = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_duration; }
         }
 
 

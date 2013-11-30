@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Humanizer;
 using Microsoft.CSharp;
 using Newtonsoft.Json;
 
@@ -192,7 +193,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return string.Format("{0}_{1}_{2}", this.Name.Replace(" ", string.Empty), this.WorkflowDefinitionId, this.Version);
+                return string.Format("{0}_{1}_{2}", this.Name.Dehumanize().Replace(" ", string.Empty), this.WorkflowDefinitionId, this.Version);
             }
         }
         [XmlIgnore]

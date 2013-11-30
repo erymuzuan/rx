@@ -1,5 +1,6 @@
 ﻿/// <reference path="../schemas/report.builder.g.js" />
 /// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
+/// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
 /// <reference path="../../App/durandal/amd/require.js" />
@@ -19,7 +20,6 @@ bespoke.sph.domain.ScheduledTriggerActivityPartial = function () {
             var self = this;
 
             return function () {
-
                 require(['viewmodels/schedule.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.schedule(schedule);
 
@@ -27,15 +27,39 @@ bespoke.sph.domain.ScheduledTriggerActivityPartial = function () {
                         .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {
-                                if (typeof self.IntervalSchedule === "function") {
-                                    self.IntervalSchedule(schedule);
-                                } else {
-                                    self.IntervalSchedule = ko.observable(schedule);
+                                self.IntervalScheduleCollection.push(schedule);
+                            }
+                        });
+
+                });
+            };
+        },        
+        editSchedule = function(schedule) {
+            return function() {
+                var scheduleType = ko.unwrap(schedule.$type),
+                    clone = ko.mapping.fromJS(ko.mapping.toJS(schedule)),
+                    pattern = /Bespoke\.Sph\.Domain\.(.*?)Schedule,/,
+                    type = pattern.exec(scheduleType)[1];
+
+                require(['viewmodels/schedule.' + type.toLowerCase(), 'durandal/app'], function(dialog, app2) {
+                    dialog.schedule(clone);
+
+                    app2.showModal(dialog)
+                        .done(function(result) {
+                            if (!result) return;
+                            if (result === "OK") {
+                                for (var g in schedule) {
+                                    if (typeof schedule[g] === "function" && schedule[g].name === "observable") {
+                                        schedule[g](ko.unwrap(clone[g]));
+                                    } else {
+                                        schedule[g] = clone[g];
+                                    }
                                 }
                             }
                         });
 
                 });
+
             };
         },
         removeIntervalSchedule = function (obj) {
@@ -46,7 +70,8 @@ bespoke.sph.domain.ScheduledTriggerActivityPartial = function () {
 
         };
     return {
-        addSchedule: addIntervalSchedule,
+        addIntervalSchedule: addIntervalSchedule,
+        editSchedule:editSchedule,
         removeIntervalSchedule: removeIntervalSchedule
     };
 };

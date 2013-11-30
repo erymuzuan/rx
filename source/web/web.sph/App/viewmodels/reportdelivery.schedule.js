@@ -65,7 +65,6 @@ define(['schemas/report.builder.g', 'services/datacontext', 'services/logger', '
                     delivery().IntervalScheduleCollection.replace(schedule, clone);
                 };
 
-                $('#schedule-dialog').modal();
 
             },
             startAddSchedule = function (data, e) {

@@ -18,6 +18,7 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(ParallelActivity))]
     [XmlInclude(typeof(ListenActivity))]
     [XmlInclude(typeof(DelayActivity))]
+    [XmlInclude(typeof(ScheduledTriggerActivity))]
     public partial class Activity : DomainObject
     {
         public virtual BuildValidationResult ValidateBuild(WorkflowDefinition wd)

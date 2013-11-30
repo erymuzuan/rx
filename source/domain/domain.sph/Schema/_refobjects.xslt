@@ -127,6 +127,7 @@
 		{
 			
 			if(type == "xs:string") return " ObjectCollection<string> ";
+			if(type == "xs:int") return " ObjectCollection<int> ";
 			if(type == "xs:int") return "int ";
 		}
 		
