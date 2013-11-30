@@ -66,11 +66,12 @@
       <Visible>false</Visible>
     </OutputFile>
   </ItemGroup>
-  <Target Name="CopyOutputDirClientAndWeb">
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\$(Configuration)" />
+
+    <Target Name="CopyOutputDirClientAndWeb">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />
-  </Target>
-  <PropertyGroup>
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers\" />
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\schedulers\" />
+  </Target><PropertyGroup>
     <BuildDependsOn>
       $(BuildDependsOn);CopyOutputDirClientAndWeb
     </BuildDependsOn>

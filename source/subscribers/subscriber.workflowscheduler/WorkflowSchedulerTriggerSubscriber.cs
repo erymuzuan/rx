@@ -44,6 +44,9 @@ namespace subscriber.workflowscheduler
             // delete if exist
             this.Delete(path);
             if (!item.IsActive) return emptyTask;
+
+            this.WriteMessage("Creating scheduler for " + item.Name);
+
             using (var ts = new TaskService())
             {
                 var td = ts.NewTask();

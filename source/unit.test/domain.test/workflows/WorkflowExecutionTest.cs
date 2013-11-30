@@ -109,15 +109,15 @@ namespace domain.test.workflows
         [Test]
         public void CompileError()
         {
-            var wd = new WorkflowDefinition { Name = "Test Workflow",SchemaStoreId = "schema-storeid"};
-            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A",NextActivityWebId = "B"};
+            var wd = new WorkflowDefinition { Name = "Test Workflow", SchemaStoreId = "schema-storeid" };
+            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A", NextActivityWebId = "B" };
             screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = "Nama" });
             wd.ActivityCollection.Add(screen);
 
             var exp = new ExpressionActivity { WebId = "B", Name = "Expression B", Expression = "tet test-----", NextActivityWebId = "C" };
             wd.ActivityCollection.Add(exp);
             wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });
-           
+
             var result = this.Compile(wd, true);
 
             Assert.IsFalse(result.Result);
@@ -134,7 +134,7 @@ namespace domain.test.workflows
         {
             var wd = new WorkflowDefinition { Name = "Test Workflow" };
             var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A" };
-            var screen2 = new ScreenActivity { Name = "Pohon 2", IsInitiator = false, WebId = "A" ,NextActivityWebId = "B"};
+            var screen2 = new ScreenActivity { Name = "Pohon 2", IsInitiator = false, WebId = "A", NextActivityWebId = "B" };
             screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = "Nama" });
             wd.ActivityCollection.Add(screen);
             wd.ActivityCollection.Add(screen2);
@@ -197,7 +197,7 @@ namespace domain.test.workflows
             var options = new CompilerOptions
             {
                 IsDebug = true,
-               // SourceCodeDirectory = @"d:\temp\",
+                // SourceCodeDirectory = @"d:\temp\",
                 IsVerbose = verbose
             };
             options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
@@ -258,9 +258,35 @@ namespace domain.test.workflows
 
 
         [Test]
+        public void TriggerSchedule()
+        {
+            var wd = this.Create();
+            wd.ActivityCollection.Add(new ScheduledTriggerActivity { Name = "Starts", IsInitiator = true, WebId = "_A_", NextActivityWebId = "_B_" });
+
+            var send = new NotificationActivity
+            {
+                Name = "Send email",
+                WebId = "_B_",
+                NextActivityWebId = "_C_",
+                Subject = "erymuzuan@@bespoke.com.my",
+                Body = "erymuzuan@@bespoke.com.my",
+                From = "erymuzuan@@bespoke.com.my",
+                To = "erymuzuan@@gmail.com.my"
+            };
+
+            wd.ActivityCollection.Add(send);
+
+
+
+            wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
+            var result = this.Compile(wd, true);
+            this.Run(wd, result.Output, Console.WriteLine);
+        }
+
+
+        [Test]
         public void Listen()
         {
-           
             var wd = this.Create();
             wd.ActivityCollection.Add(new ScreenActivity { Name = "Starts", IsInitiator = true, WebId = "_A_", NextActivityWebId = "_B_" });
 
@@ -431,7 +457,7 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_END_", Name = "habis" });
 
-            var result = this.Compile(wd,true);
+            var result = this.Compile(wd, true);
             this.Run(wd, result.Output, r2 =>
             {
                 var result2 = r2.Result;

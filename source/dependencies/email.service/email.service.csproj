@@ -58,13 +58,12 @@
     </OutputFile>
   </ItemGroup>
 
-  
+
+
   <Target Name="CopyOutputDirClientAndWeb">
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\$(Configuration)" />
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\web\web.sph\bin" />
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\subscribers\workers.windowsservice.runner\bin\Debug" />
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\subscribers\workers.console.runner\bin\Debug" />
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\scheduler\scheduler.delayactivity\bin\Debug" />
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers\" />
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\schedulers\" />
   </Target>
   <PropertyGroup>
     <BuildDependsOn>

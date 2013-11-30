@@ -1,8 +1,8 @@
-copy workflows.*.pdb .\source\scheduler\scheduler.delayactivity\bin\Debug
-copy workflows.*.pdb .\source\subscribers\workers.console.runner\bin\Debug
+copy workflows.*.pdb .\bin\schedulers
+copy workflows.*.pdb .\bin\subscribers
 
-copy workflows.*.dll .\source\scheduler\scheduler.delayactivity\bin\Debug
-copy workflows.*.dll .\source\subscribers\workers.console.runner\bin\Debug
-cd source\subscribers\workers.console.runner\bin\Debug\
+copy workflows.*.dll .\bin\schedulers
+copy workflows.*.dll .\bin\subscribers
+cd bin\subscribers
 workers.console.runner.exe /log:console
-cd ..\..\..\..\
+cd ..\..\
