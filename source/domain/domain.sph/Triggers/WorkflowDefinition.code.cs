@@ -45,7 +45,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       public override Task<ActivityExecutionResult> StartAsync()");
             code.AppendLine("       {");
             code.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.WorkflowDefinitionId, this.Version);
-            code.AppendLinf("           return this.{0}();", this.GetInititorScreen().MethodName);
+            code.AppendLinf("           return this.{0}();", this.GetInitiatorActivity().MethodName);
             code.AppendLine("       }");
 
             // execute

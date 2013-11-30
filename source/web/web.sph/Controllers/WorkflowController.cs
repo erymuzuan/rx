@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
@@ -30,7 +31,8 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var context = new SphDataContext();
             var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == id);
-            var screen = wd.GetInititorScreen();
+            var screen = wd.GetInitiatorActivity() as ScreenActivity;
+            if(null == screen)throw new InvalidOperationException("The start activity is not of type ScreenActivity for " + wd.Name);
             var vm = new WorkflowStartViewModel { WorkflowDefinition = wd, Screen = screen };
          
             return View(vm);

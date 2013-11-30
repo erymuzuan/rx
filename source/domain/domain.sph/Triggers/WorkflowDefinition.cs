@@ -26,7 +26,7 @@ namespace Bespoke.Sph.Domain
 
         public Task<Workflow> InitiateAsync(VariableValue[] values = null, ScreenActivity screen = null)
         {
-            var typeName = string.Format("{0},workflows.{1}.{2}", this.WorkflowTypeName, this.WorkflowDefinitionId, this.Version);
+            var typeName = string.Format("{3}.{0},workflows.{1}.{2}", this.WorkflowTypeName, this.WorkflowDefinitionId, this.Version, this.CodeNamespace);
             // TODO : load the type and instantiate it
             var type = Type.GetType(typeName);
             if (null == type) throw new InvalidOperationException("Cannot instantiate  " + typeName);
@@ -49,7 +49,7 @@ namespace Bespoke.Sph.Domain
                 wf.VariableValueCollection.ClearAndAddRange(values);
             }
 
-            return Task.FromResult(wf);
+            return Task.FromResult(wf as Workflow);
         }
 
         private void SetVariableValue(VariableValue vv, Workflow wf, Type type)
@@ -75,9 +75,9 @@ namespace Bespoke.Sph.Domain
 
         }
 
-        public ScreenActivity GetInititorScreen()
+        public Activity GetInitiatorActivity()
         {
-            return this.ActivityCollection.Single(p => p.IsInitiator) as ScreenActivity;
+            return this.ActivityCollection.Single(p => p.IsInitiator);
         }
 
         public BuildValidationResult ValidateBuild()

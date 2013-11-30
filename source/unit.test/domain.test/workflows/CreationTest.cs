@@ -43,7 +43,7 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(permohonan);
             //GET
-            var screen = wd.GetInititorScreen();
+            var screen = wd.GetInitiatorActivity() as ScreenActivity;
 
 
             // POST
