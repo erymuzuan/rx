@@ -10,76 +10,19 @@
             <div class="modal-body" data-bind="with: schedule">
 
                 <form class="form-horizontal" id="daily-schedule-dialog-form">
+                    <!--ko compose:'_schedule.trigger.start.html' -->
+                    <!--/ko-->
                     <div class="form-group">
-                        <label for="daily-hour" class="control-label">Hour</label>
-                        <div class="controls">
-                            <input class="form-control col-lg-2" data-bind="value: Hour" id="daily-hour" type="number" min="0" max="23" name="sche-start-hour" />
+                        <label for="daily-recur" class="col-lg-2 control-label">Recur</label>
+                        <div class="col-lg-6">
+                            <input type="number" data-bind="value: Recur" min="1" max="100"
+                                   required placeholder="recurs every no of days"
+                                   class="form-control" id="daily-recur">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="daily-minute" class="control-label">Minute</label>
-                        <div class="controls">
-                            <input class="form-control col-lg-2" data-bind="value: Minute" id="daily-minute" type="number" min="0" max="59" name="daily-minute" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input data-bind="checked: IsMonday" id="daily-monday" type="checkbox" name="IsMonday" />
-                                Monday
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input data-bind="checked: IsTuesday" id="daily-tuesday" type="checkbox" name="IsTuesday" />
-                                Tuesday
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input data-bind="checked: IsWednesday" id="daily-wednesday" type="checkbox" name="IsWednesday" />
-                                Wednesday
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input data-bind="checked: IsThursday" id="daily-thursday" type="checkbox" name="IsThursday" />
-                                Thursday
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input data-bind="checked: IsFriday" id="daily-friday" type="checkbox" name="IsFriday" />
-                                Friday
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input data-bind="checked: IsSaturday" id="daily-saturday" type="checkbox" name="IsSaturday" />
-                                Saturday
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input data-bind="checked: IsSunday" id="d-sunday" type="checkbox" name="IsSunday" />
-                                Sunday
-                            </label>
-                        </div>
-                    </div>
-
-
+                    <h6>Advanced setting</h6>
+                    <!--ko compose:'_schedule.trigger.advanced.setting.html' -->
+                    <!--/ko-->
                 </form>
             </div>
             <div class="modal-footer">

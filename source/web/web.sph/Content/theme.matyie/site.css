@@ -14,9 +14,9 @@ a.dropdown {
     width: 110%;
 }
 
-    a.dropdown > span.caret {
-        margin-top: 8px;
-    }
+a.dropdown > span.caret {
+    margin-top: 8px;
+}
 
 div.datepicker div {
     margin-left: -223px;
@@ -27,66 +27,79 @@ span.k-datepicker {
     width: 200px;
 }
 
-    span.k-datepicker span.k-picker-wrap {
-        margin-top: -6px;
-    }
+span.k-datepicker span.k-picker-wrap {
+    margin-top: -6px;
+}
 
-        span.k-datepicker span.k-picker-wrap input.form-control {
-            height: 32px;
-        }
+span.k-datepicker span.k-picker-wrap input.form-control {
+    height: 32px;
+}
+
+span.k-datetimepicker {
+    border: none;
+    width: 240px;
+}
+
+span.k-datetimepicker span.k-picker-wrap {
+    margin-top: -6px;
+}
+
+span.k-datetimepicker span.k-picker-wrap input.form-control {
+    height: 32px;
+}
 
 .google-maps-medium {
     min-height: 430px;
 }
 
-    .google-maps-medium div.modal-body {
-        width: 600px;
-        height: 250px;
-        max-height: 300px;
-    }
+.google-maps-medium div.modal-body {
+    width: 600px;
+    height: 250px;
+    max-height: 300px;
+}
 
 .search-panel {
     padding: 8px;
 }
 
-    .search-panel label {
-        font-weight: bold;
-        margin-right: 20px;
-        margin-left: 20px;
-    }
+.search-panel label {
+    font-weight: bold;
+    margin-right: 20px;
+    margin-left: 20px;
+}
 
 .google-maps {
     min-height: 600px;
 }
 
-    .google-maps #map {
-        width: 900px;
-        height: 500px;
-    }
+.google-maps #map {
+    width: 900px;
+    height: 500px;
+}
 
-    .google-maps div.modal-dialog {
-        width: 960px;
-        height: 500px;
-        max-height: 500px;
-    }
+.google-maps div.modal-dialog {
+    width: 960px;
+    height: 500px;
+    max-height: 500px;
+}
 
-    .google-maps img {
-        max-width: none;
-    }
+.google-maps img {
+    max-width: none;
+}
 
 table.table-striped th {
     cursor: pointer;
 }
 
-    table.table-striped th.headerSortUp:after {
-        float: right;
-        content: url('/images/up8.png');
-    }
+table.table-striped th.headerSortUp:after {
+    float: right;
+    content: url('/images/up8.png');
+}
 
-    table.table-striped th.headerSortDown:after {
-        float: right;
-        content: url('/images/down8.png');
-    }
+table.table-striped th.headerSortDown:after {
+    float: right;
+    content: url('/images/down8.png');
+}
 
 .absolute-center {
     position: absolute;
@@ -109,9 +122,9 @@ table.table-striped th {
     min-width: 300px;
 }
 
-    .context-action .modal-header {
-        color: #272b30;
-    }
+.context-action .modal-header {
+    color: #272b30;
+}
 
 .loader .page-progress-bar {
     margin: 14px 0 0 0;
@@ -121,18 +134,18 @@ table.table-striped th {
     visibility: hidden;
 }
 
-    .loader.active {
-        visibility: visible;
-    }
+.loader.active {
+    visibility: visible;
+}
 
 ul.listview {
     border: 1px solid #b6b6b6;
     padding: 5px;
 }
 
-    ul.listview li div {
-        padding: 5px;
-    }
+ul.listview li div {
+    padding: 5px;
+}
 
 .selected {
     background-color: #e0e0e0;
@@ -145,17 +158,17 @@ ul.listview {
     padding: 15px;
 }
 
-    #template-form-designer > form > div {
-        -ms-opacity: 0.6;
-        opacity: 0.6;
-        margin: 5px;
-        padding: 5px;
-        border: 1px solid #FFF;
-    }
+#template-form-designer > form > div {
+    -ms-opacity: 0.6;
+    opacity: 0.6;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #FFF;
+}
 
-        #template-form-designer > form > div:hover {
-            border: 1px dashed#000000;
-        }
+#template-form-designer > form > div:hover {
+    border: 1px dashed#000000;
+}
 
 #report-designer {
     border: 5px dashed #C0C0C0;
@@ -172,26 +185,26 @@ ul.listview {
     background-color: #f7f7f7;
 }
 
-    .report-layout.active {
-        border: 3px dashed #e1e6fb;
-        padding: 8px;
-        margin: 5px;
-        background-color: #ffffff;
-    }
+.report-layout.active {
+    border: 3px dashed #e1e6fb;
+    padding: 8px;
+    margin: 5px;
+    background-color: #ffffff;
+}
 
-    .report-layout > span {
-        color: #ccc;
-        font-size: 18px;
-        position: absolute;
-        width: 10%;
-        height: 50%;
-        overflow: auto;
-        margin: auto;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-    }
+.report-layout > span {
+    color: #ccc;
+    font-size: 18px;
+    position: absolute;
+    width: 10%;
+    height: 50%;
+    overflow: auto;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
 
 .report-item {
     margin: 5px;
@@ -206,17 +219,17 @@ ul.listview {
     border-bottom: 1px dotted #cccccc;
 }
 
-    #report-info h2 {
-        margin: 0;
-        padding-bottom: 0;
-        font-size: 160%;
-        font-weight: bold;
-    }
+#report-info h2 {
+    margin: 0;
+    padding-bottom: 0;
+    font-size: 160%;
+    font-weight: bold;
+}
 
-    #report-info span {
-        margin-top: 0;
-        font-size: 90%;
-    }
+#report-info span {
+    margin-top: 0;
+    font-size: 90%;
+}
 
 #entity-columns {
     list-style: none;
@@ -226,9 +239,9 @@ ul.listview {
     margin: 5px;
 }
 
-    #add-field a i {
-        float: left;
-    }
+#add-field a i {
+    float: left;
+}
 
 .ph {
     background-color: #FFFF99;
@@ -249,16 +262,16 @@ ul.listview {
     position: relative;
 }
 
-    .selected-form-element label {
-        font-weight: bold;
-        color: #000;
-    }
+.selected-form-element label {
+    font-weight: bold;
+    color: #000;
+}
 
-    .selected-form-element > section.btn-group {
-        position: absolute;
-        top: 0%;
-        left: 96%;
-    }
+.selected-form-element > section.btn-group {
+    position: absolute;
+    top: 0%;
+    left: 96%;
+}
 
 .container > .content {
     background-color: #fff;
@@ -280,9 +293,9 @@ ul.listview {
     margin-left: 80px;
 }
 
-    .login-form .logo {
-        margin-top: 65px;
-    }
+.login-form .logo {
+    margin-top: 65px;
+}
 
 legend {
     margin-right: -50px;
@@ -297,9 +310,9 @@ legend {
     /* CHANGE MARGINS TO ACCOMODATE THE NEW WIDTH (original = margin: -250px 0 0 -280px;) */
 }
 
-    #shell-logviewer-modal .modal {
-        max-height: 800px;
-    }
+#shell-logviewer-modal .modal {
+    max-height: 800px;
+}
 
 header div.navbar-inner {
     padding-left: 0px;
@@ -358,10 +371,10 @@ header div.container {
     box-shadow: none;
 }
 
-    .well a:hover {
-        color: #fff;
-        text-decoration: none;
-    }
+.well a:hover {
+    color: #fff;
+    text-decoration: none;
+}
 
 .well-primary:hover {
     background: #3764f7;
@@ -395,12 +408,13 @@ textarea:invalid {
     background-position: left center;
 }
 
-    input:invalid:after,
-    textarea:invalid:after {
-        content: url('/Images/red-bar.png') !important;
-    }
+input:invalid:after,
+textarea:invalid:after {
+    content: url('/Images/red-bar.png') !important;
+}
 
 .detail-header > span {
+    font-family: 'Comic Sans MS', cursive;
     font-size: large;
     font-weight: bolder;
 }

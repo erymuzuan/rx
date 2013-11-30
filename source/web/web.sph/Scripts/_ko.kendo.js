@@ -289,6 +289,65 @@ ko.bindingHandlers.kendoDate = {
     }
 };
 
+
+///user moment format
+ko.bindingHandlers.kendoDateTime = {
+    init: function (element, valueAccessor) {
+        var value = valueAccessor(),
+            $input = $(element),
+            currentValue = ko.utils.unwrapObservable(value),
+            date = moment(currentValue),
+            changed = function (e) {
+                console.log(e);
+                var nv = this.value();
+                if (typeof nv == "string") {
+                    date = moment(nv, "DD/MM/YYYY hh:mm");
+                } else {
+                    date = moment(nv);
+                }
+                // DO NOT fire update
+                $input.data("stop", "true");
+                value(date.format());
+                $input.data("stop", "false");
+
+            },
+            picker = $input.kendoDateTimePicker({ format: "dd/MM/yyyy HH:mm", change: changed }).data("kendoDateTimePicker");
+
+        if (!date) {
+            picker.value(null);
+            return;
+        }
+
+        if (date.year() === 1) { // DateTime.Min
+            picker.value(null);
+            return;
+        }
+
+        picker.value(date.toDate());
+    },
+    update: function (element, valueAccessor) {
+        var $input = $(element);
+        if ($input.data("stop") == "true") return;
+
+        var value = valueAccessor(),
+            modelValue = ko.utils.unwrapObservable(value),
+            date = moment(modelValue),
+            picker = $input.data("kendoDateTimePicker");
+
+        if (!date) {
+            picker.value(null);
+            return;
+        }
+        if (date.year() == 1) { // DateTime.Min
+            picker.value(null);
+            return;
+        }
+
+        picker.value(date.toDate());
+
+    }
+};
+
 ko.bindingHandlers.slideVisible = {
     init: function (element, valueAccessor) {
         // Initially set the element to be instantly visible/hidden depending on the value
@@ -379,7 +438,7 @@ ko.bindingHandlers.command = {
 };
 
 ko.bindingHandlers.field = {
-    init: function() {
+    init: function () {
     }
 };
 ko.bindingHandlers.unwrapClick = {
@@ -405,10 +464,10 @@ ko.bindingHandlers.unwrapClick = {
                     accessor[prop] = ko.observable(accessor[prop]);
                 }
                 if (typeof accessor[prop] === "function") {
-                    action(accessor[prop],type);
+                    action(accessor[prop], type);
                 }
             } else {
-                action(accessor,type);
+                action(accessor, type);
             }
 
         });

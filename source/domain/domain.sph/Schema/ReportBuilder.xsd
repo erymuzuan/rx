@@ -260,12 +260,6 @@
 			<xs:complexContent>
 				<xs:extension base="IntervalSchedule">
 					<xs:attribute name="Recur" type="xs:int" use="required"/>
-					<xs:attribute name="StartHour" type="xs:int" use="required"/>
-					<xs:attribute name="StartMinute" type="xs:int" use="required"/>
-					<xs:attribute name="StartSecond" type="xs:int" use="required"/>
-					<xs:attribute name="EndHour" type="xs:int" use="required"/>
-					<xs:attribute name="EndMinute" type="xs:int" use="required"/>
-					<xs:attribute name="EndSecond" type="xs:int" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

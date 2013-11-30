@@ -28,27 +28,21 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="btn btn-link" data-bind="click: addIntervalSchedule('Hourly')">
-                                        <i class="fa fa-clock-o"></i>
-                                        Hourly
-                                    </a>
-                                </li>
-                                <li>
                                     <a class="btn btn-link" data-bind="click: addIntervalSchedule('Daily')">
-                                        <i class="fa fa-dashboard"></i>
+                                        <i class="fa fa-clock-o"></i>
                                         Daily
                                     </a>
                                 </li>
                                 <li>
                                     <a class="btn btn-link" data-bind="click: addIntervalSchedule('Weekly')">
-                                        <i class="fa fa-weibo"></i>
+                                        <i class="fa fa-th-list"></i>
                                         Weekly
                                     </a>
                                 </li>
 
                                 <li>
                                     <a class="btn btn-link" data-bind="click: addIntervalSchedule('Monthly')">
-                                        <i class="fa fa-calendar"></i>
+                                        <i class="fa fa-calendar-o"></i>
                                         Monthly
                                     </a>
                                 </li>
@@ -78,7 +72,9 @@
                                 <td>
                                     <input type="checkbox" name="isactive" data-bind="checked:IsActive" />
                                 </td>
-                                <td></td>
+                                <td>
+                                    <a href="#" data-bind="click : $parent.removeIntervalSchedule.call($parent,$data)">Buang</a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
