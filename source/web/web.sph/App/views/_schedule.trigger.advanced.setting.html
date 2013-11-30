@@ -1,28 +1,42 @@
-﻿<div class="form-group">
-    <label for="delay" class="col-lg-2 control-label">Delay</label>
-    <div class="col-lg-6">
-        <input type="text" data-bind="value: Delay" 
-               pattern="[0-9]{1,6}" 
-               placeholder="Delay task"
-               class="form-control" id="delay">
+﻿<h6>
+    <a href="#advanced-setting" data-toggle="collapse" data-parent="#advanced-setting"> Advanced setting</a>
+</h6>
+<div id="advanced-setting" class="collapse">
+    <div class="form-group">
+        <label for="delay" class="col-lg-2 control-label">Delay</label>
+        <div class="col-lg-6">
+            <input type="text" data-bind="value: Delay"
+                   pattern="[0-9]{1,6}"
+                   placeholder="Delay task"
+                   class="form-control" id="delay">
+        </div>
     </div>
-</div>
-<div class="form-group">
-    <label for="repeat" class="col-lg-2 control-label">Repeat</label>
-    <div class="col-lg-6">
-        <input type="text" data-bind="value: Repeat"
-               pattern="[0-9]{1,6}"
-               placeholder="Repeat task every number of seconds"
-               class="form-control" id="repeat">
+    <div class="form-group">
+        <label for="repeat" class="col-lg-2 control-label">Repeat</label>
+        <div class="col-lg-6">
+            <input type="text" data-bind="value: Repeat"
+                   pattern="[0-9]{1,6}"
+                   placeholder="Repeat task every number of seconds"
+                   class="form-control" id="repeat">
+        </div>
     </div>
-</div>
 
-<div class="form-group">
-    <label for="duration" class="col-lg-2 control-label">Repeat duration</label>
-    <div class="col-lg-6">
-        <input type="text" data-bind="value: Duration" 
-                pattern="[0-9]{1,9}" 
-               placeholder="Duration in seconds"
-               class="form-control" id="duration">
+    <div class="form-group">
+        <label for="duration" class="col-lg-2 control-label">Repeat duration</label>
+        <div class="col-lg-6">
+            <input type="text" data-bind="value: Duration"
+                   pattern="[0-9]{1,9}"
+                   placeholder="Duration in seconds"
+                   class="form-control" id="duration">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="expires" class="col-lg-2 control-label">Expire</label>
+        <div class="col-lg-6">
+            <input type="text" data-bind="kendoDateTime: Expire"
+                   placeholder="This trigger will stop on"
+                   class="form-control" id="expires">
+        </div>
     </div>
 </div>

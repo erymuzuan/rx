@@ -38,6 +38,7 @@ span.k-datepicker span.k-picker-wrap input.form-control {
 span.k-datetimepicker {
     border: none;
     width: 240px;
+    padding-left: 0px;
 }
 
 span.k-datetimepicker span.k-picker-wrap {

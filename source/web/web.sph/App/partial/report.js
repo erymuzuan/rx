@@ -8,15 +8,6 @@ bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
 
 
-
-bespoke.sph.domain.HourlySchedulePartial = function () {
-
-    return {
-        name: ko.observable("Hourly Schedule"),
-        icon: ko.observable("fa fa-clock-o")
-    };
-};
-
 bespoke.sph.domain.DailySchedulePartial = function () {
 
     return {
@@ -35,7 +26,8 @@ bespoke.sph.domain.MonthlySchedulePartial = function () {
 
     return {
         name: ko.observable("Monthly Schedule"),
-        icon: ko.observable("fa fa-calendar-o")
+        icon: ko.observable("fa fa-calendar-o"),
+        dateOptions : _.range(1,31)
     };
 };
 

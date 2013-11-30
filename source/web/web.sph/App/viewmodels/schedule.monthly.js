@@ -10,21 +10,29 @@
 
 
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-    function(context, logger, router) {
+    function (context, logger, router) {
 
-        var okClick = function(data, ev) {
+        var activate = function () {
+            //NOTE: a workaround when binding to array of int in checkbox
+            var stringDays = _(vm.schedule().Days()).map(function (v) {
+                return v.toString();
+            });
+            vm.schedule().Days(stringDays);
+        },
+        okClick = function (data, ev) {
             if (bespoke.utils.form.checkValidity(ev.target)) {
                 this.modal.close("OK");
             }
 
         },
-            cancelClick = function() {
+            cancelClick = function () {
                 this.modal.close("Cancel");
             };
 
         var vm = {
             schedule: ko.observable(new bespoke.sph.domain.MonthlySchedule()),
             okClick: okClick,
+            activate: activate,
             cancelClick: cancelClick
         };
 

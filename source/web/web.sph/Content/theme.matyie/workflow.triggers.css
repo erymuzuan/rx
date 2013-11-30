@@ -79,3 +79,16 @@ div#toolbox-panel {
     padding: 10px;
     border: 1px solid #808080;
 }
+
+form#monthly-schedule-dialog-form div.checkbox {
+    float: left;
+    margin: 5px;
+}
+
+form#monthly-schedule-dialog-form div.checkbox input[type=checkbox] {
+    margin-top: 7px !important;
+}
+
+form#monthly-schedule-dialog-form h6 {
+    clear: both;
+}
