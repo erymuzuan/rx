@@ -49,6 +49,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
+      <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
+      <Name>domain.sph</Name>
+    </ProjectReference>
     <ProjectReference Include="..\subscriber.infrastructure\subscriber.infrastructure.csproj">
       <Project>{40892CEA-FD47-4C1F-B821-7939776E9B6B}</Project>
       <Name>subscriber.infrastructure</Name>

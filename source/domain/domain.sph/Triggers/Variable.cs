@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
 namespace Bespoke.Sph.Domain
@@ -15,12 +17,15 @@ namespace Bespoke.Sph.Domain
 
         public virtual BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
+            var forbiddenNames = typeof(Workflow).GetProperties(BindingFlags.Instance | BindingFlags.Public).Select(p => p.Name).ToArray();
             const string pattern = "^[A-Za-z][A-Za-z0-9_]*$";
             var result = new BuildValidationResult();
             var message = string.Format("[Variable] \"{0}\" is not valid identifier", this.Name);
             var validName = new Regex(pattern);
             if (!validName.Match(this.Name).Success)
                 result.Errors.Add(new BuildError(this.WebId) { Message = message });
+            if (forbiddenNames.Contains(this.Name))
+                result.Errors.Add(new BuildError(this.WebId) { Message = "[Variable] "+this.Name + " is a reserved variable name" });
 
 
             return result;

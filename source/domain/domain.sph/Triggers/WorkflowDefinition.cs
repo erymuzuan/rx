@@ -35,6 +35,7 @@ namespace Bespoke.Sph.Domain
             wf.Name = this.Name;
             wf.WorkflowDefinitionId = this.WorkflowDefinitionId;
             wf.State = "Active";
+            wf.WorkflowDefinition = this;
 
             // set the initial variable's value
             if (null != values)

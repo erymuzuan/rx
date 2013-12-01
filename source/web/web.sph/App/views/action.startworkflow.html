@@ -13,8 +13,7 @@
                     <div class="form-group">
                         <label for="wd-option" class="col-lg-2 control-label">Workflow</label>
                         <div class="col-lg-6">
-                            <select class="form-control" id="wd-option" data-bind="options: $root.wdOptions,optionsText:'Name', optionsValue: 'WorkflowDefinitionId'">
-                            </select>
+                            <select class="form-control" id="wd-option" data-bind="value: WorkflowDefinitionId, options: $root.wdOptions,optionsText:'Name', optionsValue: 'WorkflowDefinitionId'"></select>
                         </div>
                     </div>
                     
@@ -39,7 +38,7 @@
                         <tbody data-bind="foreach :WorkflowTriggerMapCollection">
                             <tr>
                                 <td>
-                                    <input type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$"  data-bind="value:VariablePath, uniqueName:true" />
+                                    <input class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$"  data-bind="value:VariablePath, uniqueName:true" />
                                 </td>
                                 <td>
 

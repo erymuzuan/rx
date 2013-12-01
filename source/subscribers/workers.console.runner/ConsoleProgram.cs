@@ -1,6 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
+using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
 
 namespace workers.console.runner
 {
@@ -10,6 +14,8 @@ namespace workers.console.runner
 
         public static int Main(string[] args)
         {
+            Start();
+
             var host = ParseArg("h") ?? "localhost";
             var vhost = ParseArg("v") ?? "sph.0009";
             var username = ParseArg("u") ?? "guest";
@@ -58,7 +64,17 @@ namespace workers.console.runner
 
             return 0;
         }
+        public static void Start()
+        {
+            var files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "workflows.*.dll");
+            foreach (var s in files)
+            {
+                Console.WriteLine(s);
+                var types = Assembly.LoadFrom(s).GetTypes().Where(t => t.BaseType == typeof(Workflow)).ToList();
+                types.ForEach(t => XmlSerializerService.RegisterKnownTypes(typeof(Workflow), t));
 
+            }
+        }
 
         private static string ParseArg(string name)
         {
