@@ -765,30 +765,6 @@
     <Content Include="Content\jsplumb\sph.wf.64.css" />
     <Content Include="Content\jsplumb\sph.wf.64.png" />
     <Content Include="Content\qunit-1.12.0.css" />
-    <Content Include="Content\theme.default\complaint.css">
-      <DependentUpon>complaint.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.default\complaint.min.css">
-      <DependentUpon>complaint.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.default\dashboard.css">
-      <DependentUpon>dashboard.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.default\dashboard.min.css">
-      <DependentUpon>dashboard.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.default\site.css">
-      <DependentUpon>site.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.default\site.min.css">
-      <DependentUpon>site.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.default\space.css">
-      <DependentUpon>space.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.default\space.min.css">
-      <DependentUpon>space.less</DependentUpon>
-    </Content>
     <Content Include="Content\theme.matyie\building.css">
       <DependentUpon>building.less</DependentUpon>
     </Content>
@@ -857,30 +833,6 @@
     <Content Include="Content\theme.matyie\variables.min.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
-    <Content Include="Content\theme.default\header.css">
-      <DependentUpon>header.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.default\header.min.css">
-      <DependentUpon>header.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.default\nav.css">
-      <DependentUpon>nav.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.default\nav.min.css">
-      <DependentUpon>nav.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.default\variables.css">
-      <DependentUpon>variables.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.default\variables.min.css">
-      <DependentUpon>variables.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.default\building.css">
-      <DependentUpon>building.less</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.default\building.min.css">
-      <DependentUpon>building.less</DependentUpon>
-    </Content>
     <Content Include="Content\images\carousel-next.png" />
     <Content Include="Content\images\carousel-prev.png" />
     <Content Include="Content\images\img-border.png" />
@@ -892,34 +844,6 @@
     <Content Include="Content\theme.matyie\workflow.triggers.min.css">
       <DependentUpon>workflow.triggers.less</DependentUpon>
     </Content>
-    <Content Include="Content\theme.zaza\building.css" />
-    <Content Include="Content\theme.zaza\building.min.css" />
-    <Content Include="Content\theme.zaza\dashboard.css" />
-    <Content Include="Content\theme.zaza\dashboard.min.css" />
-    <Content Include="Content\theme.zaza\header.css" />
-    <Content Include="Content\theme.zaza\header.min.css" />
-    <Content Include="Content\theme.zaza\nav.css" />
-    <Content Include="Content\theme.zaza\nav.min.css" />
-    <Content Include="Content\theme.zaza\public.index.css" />
-    <Content Include="Content\theme.zaza\public.index.min.css" />
-    <Content Include="Content\theme.zaza\rentalapplication.css" />
-    <Content Include="Content\theme.zaza\rentalapplication.min.css" />
-    <Content Include="Content\theme.zaza\report.css" />
-    <Content Include="Content\theme.zaza\report.min.css" />
-    <Content Include="Content\theme.zaza\site.css" />
-    <Content Include="Content\theme.zaza\site.min.css" />
-    <Content Include="Content\theme.zaza\space.css" />
-    <Content Include="Content\theme.zaza\space.min.css" />
-    <Content Include="Content\theme.zaza\style.css" />
-    <Content Include="Content\theme.zaza\theme.js" />
-    <Content Include="Content\theme.zaza\theme.min.js" />
-    <Content Include="Content\theme.zaza\user.css" />
-    <Content Include="Content\theme.zaza\user.min.css" />
-    <Content Include="Content\theme.zaza\variables.css" />
-    <Content Include="Content\theme.zaza\variables.min.css" />
-    <Content Include="Content\theme.zaza\widgets.css" />
-    <Content Include="Content\theme.zaza\workflow.triggers.css" />
-    <Content Include="Content\theme.zaza\workflow.triggers.min.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\typeahead.js-bootstrap.css" />
     <Content Include="Content\_semantic.home.css" />
@@ -998,7 +922,6 @@
     <Content Include="App\viewmodels\complaint.close.js" />
     <Content Include="App\views\complaint.detail.html" />
     <Content Include="App\viewmodels\message.detail.js" />
-    <Content Include="Content\theme.default\space.less" />
     <Content Include="Content\less\alerts.less" />
     <Content Include="Content\less\badges.less" />
     <Content Include="Content\less\bootstrap.less" />
@@ -1039,20 +962,13 @@
     <Content Include="Content\less\utilities.less" />
     <Content Include="Content\less\variables.less" />
     <Content Include="Content\less\wells.less" />
-    <Content Include="Content\theme.default\building.less" />
-    <Content Include="Content\theme.default\header.less" />
-    <Content Include="Content\theme.default\nav.less" />
-    <Content Include="Content\theme.default\variables.less" />
     <Content Include="Content\img\social\Thumbs.db" />
     <Content Include="Content\img\Thumbs.db" />
-    <Content Include="Content\theme.default\site.less" />
-    <Content Include="Content\theme.default\dashboard.less" />
     <Content Include="Content\theme.matyie\dashboard.less" />
     <Content Include="Content\theme.matyie\site.less" />
     <Content Include="Content\theme.matyie\header.less" />
     <Content Include="Content\theme.matyie\nav.less" />
     <Content Include="Content\theme.matyie\variables.less" />
-    <Content Include="Content\theme.default\complaint.less" />
     <Content Include="Content\theme.matyie\rentalapplication.less" />
     <Content Include="Content\theme.matyie\space.less" />
     <Content Include="Content\toastr.less" />
@@ -1130,7 +1046,6 @@
     <Content Include="App\viewmodels\rentalapplication.selectspace.min.js.map">
       <DependentUpon>rentalapplication.selectspace.js</DependentUpon>
     </Content>
-    <Content Include="Content\theme.metro-admin\rentalapplication.min.css.orig" />
     <Content Include="App\viewmodels\shell.min.js.map">
       <DependentUpon>shell.js</DependentUpon>
     </Content>
@@ -1169,21 +1084,6 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\FontAwesome.otf" />
-    <Content Include="Content\theme.zaza\building.less" />
-    <Content Include="Content\theme.zaza\dashboard.less" />
-    <Content Include="Content\theme.zaza\header.less" />
-    <Content Include="Content\theme.zaza\nav.less" />
-    <Content Include="Content\theme.zaza\public.index.less" />
-    <Content Include="Content\theme.zaza\rentalapplication.less" />
-    <Content Include="Content\theme.zaza\report.less" />
-    <Content Include="Content\theme.zaza\site.less" />
-    <Content Include="Content\theme.zaza\space.less" />
-    <Content Include="Content\theme.zaza\theme.min.js.map">
-      <DependentUpon>theme.js</DependentUpon>
-    </Content>
-    <Content Include="Content\theme.zaza\user.less" />
-    <Content Include="Content\theme.zaza\variables.less" />
-    <Content Include="Content\theme.zaza\workflow.triggers.less" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

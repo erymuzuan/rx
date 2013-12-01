@@ -43,137 +43,6 @@
 			<xs:attribute name="Username" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="PropertyScheduleAndInterest">
-		<xs:complexType>
-			<xs:attribute name="Mukim" type="xs:string" use="required"/>
-			<xs:attribute name="LotNo" type="xs:string" use="required"/>
-			<xs:attribute name="TypeAndOwnershipNo" type="xs:string" use="required"/>
-			<xs:attribute name="LandShare" type="xs:string" use="optional"/>
-			<xs:attribute name="LeasingRegistrationNo" type="xs:string" use="optional"/>
-			<xs:attribute name="MortgageRegistrationNo" type="xs:string" use="optional"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="RealProperty">
-		<xs:complexType>
-			<xs:all>
-				<xs:element ref="Address"/>
-				<xs:element ref="Contact"/>
-				<xs:element name="PropertyScheduleAndInterestCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="PropertyScheduleAndInterest" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:all>
-			<xs:attribute name="LandId" type="xs:int" use="required"/>
-			<xs:attribute name="Size" type="xs:double" use="required"/>
-			<xs:attribute name="Mukim" type="xs:string" use="required"/>
-			<xs:attribute name="LotNo" type="xs:string" use="required"/>
-			<xs:attribute name="TypeAndOwnershipNo" type="xs:string" use="required"/>
-			<xs:attribute name="District" type="xs:string" use="required"/>
-			<xs:attribute name="WakafSize" type="xs:string" use="required"/>
-			<xs:attribute name="WakafType" type="xs:string" use="required"/>
-			<xs:attribute name="WakafPurposed" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="AssetProperty">
-		<xs:complexType>
-			<xs:all>
-				<xs:element ref="Address"/>
-				<xs:element ref="Contact"/>
-			</xs:all>
-			<xs:attribute name="LandId" type="xs:int" use="required"/>
-			<xs:attribute name="PropertyType" type="xs:string" use="required"/>
-			<xs:attribute name="Location" type="xs:string" use="required"/>
-			<xs:attribute name="WakafType" type="xs:string" use="required"/>
-			<xs:attribute name="WakafPurposed" type="xs:string" use="required"/>
-			<xs:attribute name="Model" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Witness">
-		<xs:complexType>
-			<xs:all>
-				<xs:element ref="Contact"/>
-				<xs:element name="FirstWitnessSignature" type="xs:string"/>
-				<xs:element name="SecondWitnessSignature" type="xs:string"/>
-				<xs:element ref="Address"/>
-			</xs:all>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="RegistrationOfficer">
-		<xs:complexType>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="IcNo" type="xs:string" use="required"/>
-			<xs:attribute name="ApplicationReceiveDate" type="xs:dateTime" use="required"/>
-			<xs:attribute name="IsApplicationTrue" type="xs:boolean" use="required"/>
-			<xs:attribute name="Note" type="xs:string" use="required"/>
-			<xs:attribute name="Signature" type="xs:string" use="required"/>
-			<xs:attribute name="SignatureDate" type="xs:dateTime" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Investigation">
-		<xs:complexType>
-			<xs:all>
-				<xs:element name="InvestigatorCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Investigator" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="PresenterPartyCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="PresenterParty" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="PhotoCollection">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="Photo" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:all>
-			<xs:attribute name="InvestigationDate" type="xs:dateTime" use="required"/>
-			<xs:attribute name="Time" type="xs:string" use="required"/>
-			<xs:attribute name="Purposed" type="xs:string" use="required"/>
-			<xs:attribute name="InvestigationReport" type="xs:string" use="required"/>
-			<xs:attribute name="ReportDate" type="xs:dateTime" use="required"/>
-			<xs:attribute name="PreparedBy" type="xs:string" use="required"/>
-			<xs:attribute name="HeadUnitReview" type="xs:string" use="required"/>
-			<xs:attribute name="HeadUnitReviewDate" type="xs:dateTime" use="required"/>
-			<xs:attribute name="PsuReview" type="xs:string" use="required"/>
-			<xs:attribute name="PsuReviewDate" type="xs:dateTime" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Investigator">
-		<xs:complexType>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="PresenterParty">
-		<xs:complexType>
-			<xs:attribute name="Name" type="xs:string" use="required"/>
-			<xs:attribute name="Designation" type="xs:string" use="optional"/>
-			<xs:attribute name="TelephoneNo" type="xs:string" use="optional"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="AggrementPronouncement">
-		<xs:complexType>
-			<xs:all>
-				<xs:element ref="Address"/>
-			</xs:all>
-			<xs:attribute name="ApplicantName" type="xs:string" use="required"/>
-			<xs:attribute name="ApplicantIcNo" type="xs:string" use="required"/>
-			<xs:attribute name="ReceiverName" type="xs:string" use="required"/>
-			<xs:attribute name="PronouncementDate" type="xs:dateTime" use="required"/>
-			<xs:attribute name="Signature" type="xs:string" use="required"/>
-			<xs:attribute name="Purpose" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="Land">
 		<xs:complexType>
 			<xs:all>
@@ -190,8 +59,6 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element ref="AssetProperty"/>
-				<xs:element ref="RealProperty"/>
 				<xs:element name="AttachmentCollection">
 					<xs:complexType>
 						<xs:sequence>
@@ -199,10 +66,6 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element ref="Witness"/>
-				<xs:element ref="RegistrationOfficer"/>
-				<xs:element ref="Investigation"/>
-				<xs:element ref="AggrementPronouncement"/>
 				<xs:element name="OwnershipCollection">
 					<xs:complexType>
 						<xs:sequence>
