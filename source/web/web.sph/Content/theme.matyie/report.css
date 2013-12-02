@@ -1,8 +1,11 @@
 ﻿#preview-parameters-dialog .modal-dialog {
-  height: 800px;
-  width: 900px;
+    height: 800px;
+    width: 900px;
 }
+
 #rdl-configuration-panel .modal-dialog {
-  max-height: 600px;
-  width: 760px;
+    max-height: 600px;
+    width: 761px;
 }
+
+/*# sourceMappingURL=C:/project/work/sph/source/web/web.sph//Content/theme.matyie/report.less.map */

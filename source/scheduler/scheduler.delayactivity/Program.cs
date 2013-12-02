@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -30,8 +29,10 @@ namespace scheduler.delayactivity
             var files = Directory.GetFiles(@".\", "workflows.*.dll");
             foreach (var s in files)
             {
-                Console.WriteLine(s);
-                var types = Assembly.LoadFrom(s).GetTypes().Where(t => t.BaseType == typeof(Workflow)).ToList();
+                var types = Assembly.LoadFrom(s).ExportedTypes
+                    .Where(t => t.IsClass)
+                    .Where(t => t.IsSubclassOf(typeof(Workflow)))
+                    .ToList();
                 types.ForEach(t => XmlSerializerService.RegisterKnownTypes(typeof(Workflow), t));
 
             }

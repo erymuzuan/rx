@@ -394,6 +394,7 @@
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
     <Content Include="App\partial\IntervalSchedule.js" />
+    <Content Include="App\partial\ReportDelivery.js" />
     <Content Include="App\partial\ScheduledTriggerActivity.js" />
     <Content Include="App\partial\WorkflowTriggerMap.js" />
     <Content Include="App\partial\StartWorkflowAction.js" />
@@ -437,6 +438,7 @@
     <Content Include="App\partial\report.js" />
     <Content Include="App\partial\SpaceTemplate.js" />
     <Content Include="App\prototypes\FieldContainer.js" />
+    <Content Include="App\prototypes\IntervalScheduleContainer.js" />
     <Content Include="App\schemas\report.builder.g.js" />
     <Content Include="App\schemas\sph.domain.g.js" />
     <Content Include="App\schemas\trigger.workflow.g.js" />

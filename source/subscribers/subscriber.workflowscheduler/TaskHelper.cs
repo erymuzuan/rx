@@ -3,7 +3,7 @@ using Bespoke.Sph.Domain;
 using Microsoft.Win32.TaskScheduler;
 using Trigger = Microsoft.Win32.TaskScheduler.Trigger;
 
-namespace subscriber.workflowscheduler
+namespace Bespoke.Sph.WorkflowTriggerSubscriptions
 {
     public static class TaskHelper
     {

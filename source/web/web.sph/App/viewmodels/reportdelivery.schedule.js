@@ -38,7 +38,6 @@ define(['schemas/report.builder.g', 'services/datacontext', 'services/logger', '
 
 
                 var options = [
-                    new bespoke.sph.domain.HourlySchedule(system.guid()),
                     new bespoke.sph.domain.DailySchedule(system.guid()),
                     new bespoke.sph.domain.WeeklySchedule(system.guid()),
                     new bespoke.sph.domain.MonthlySchedule(system.guid())
