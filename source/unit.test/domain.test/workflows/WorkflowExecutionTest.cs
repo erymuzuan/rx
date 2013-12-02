@@ -45,11 +45,11 @@ namespace domain.test.workflows
             ObjectBuilder.AddCacheList(ps.Object);
 
             var ecp = new Mock<IEntityChangePublisher>(MockBehavior.Loose);
-            ecp.Setup(x => x.PublishAdded(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>()))
+            ecp.Setup(x => x.PublishAdded(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>(),It.IsAny<Dictionary<string,object>>()))
                 .Returns(() => Task.Delay(100));
-            ecp.Setup(x => x.PublishChanges(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>(), It.IsAny<IEnumerable<AuditTrail>>()))
+            ecp.Setup(x => x.PublishChanges(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>(), It.IsAny<IEnumerable<AuditTrail>>(),It.IsAny<Dictionary<string,object>>()))
                 .Returns(() => Task.Delay(100));
-            ecp.Setup(x => x.PublishDeleted(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>()))
+            ecp.Setup(x => x.PublishDeleted(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>(),It.IsAny<Dictionary<string,object>>()))
                 .Returns(() => Task.Delay(100));
             ObjectBuilder.AddCacheList(ecp.Object);
 

@@ -647,4 +647,20 @@
 			<xs:documentation>Placeholder</xs:documentation>
 		</xs:annotation>
 	</xs:element>
+	<xs:element name="Tracker">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="ForbiddenActivities">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="WebId" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="TrackerId" type="xs:int" use="required"/>
+			<xs:attribute name="WorkflowId" type="xs:int" use="required"/>
+			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

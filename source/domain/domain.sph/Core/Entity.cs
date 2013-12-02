@@ -59,11 +59,10 @@ namespace Bespoke.Sph.Domain
             return type;
         }
 
-        public int GetId()
+        public virtual int GetId()
         {
             var type = this.GetEntityType();
-            var id = type.GetProperties().AsQueryable().Single(p => p.PropertyType == typeof(int)
-                                                                    && p.Name == type.Name + "Id");
+            var id = type.GetProperty(type.Name + "Id");
             return (int)id.GetValue(this);
         }
 

@@ -3272,6 +3272,131 @@ namespace Bespoke.Sph.Domain
     }
 
     // placeholder for IntervalSchedule
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("Tracker", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Tracker
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_trackerId;
+        public const string PropertyNameTrackerId = "TrackerId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_workflowId;
+        public const string PropertyNameWorkflowId = "WorkflowId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_workflowDefinitionId;
+        public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
+
+
+        private readonly ObjectCollection<string> m_ForbiddenActivities = new ObjectCollection<string>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("", IsNullable = false)]
+        public ObjectCollection<string> ForbiddenActivities
+        {
+            get { return m_ForbiddenActivities; }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int TrackerId
+        {
+            set
+            {
+                if (m_trackerId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTrackerId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_trackerId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_trackerId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int WorkflowId
+        {
+            set
+            {
+                if (m_workflowId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameWorkflowId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_workflowId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_workflowId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int WorkflowDefinitionId
+        {
+            set
+            {
+                if (m_workflowDefinitionId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_workflowDefinitionId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_workflowDefinitionId;
+            }
+        }
+
+
+
+    }
+
     [XmlType("Field", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Field
     {
