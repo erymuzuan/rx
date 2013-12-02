@@ -1,8 +1,8 @@
 ﻿using System;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.WorkflowTriggerSubscriptions;
 using Humanizer;
 using NUnit.Framework;
-using subscriber.workflowscheduler;
 
 namespace subscriber.test
 {
