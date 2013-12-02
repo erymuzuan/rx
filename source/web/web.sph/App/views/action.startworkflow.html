@@ -26,7 +26,7 @@
                                    class="form-control" id="wf-version">
                         </div>
                     </div>
-                    <a href="#" data-bind="click : addMapping">+ Mapping</a>
+                    <a href="#" class="pull-right" data-bind="click : addMapping">+ Mapping</a>
                     <table class="table">
                         <thead>
                             <tr>
@@ -65,7 +65,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="#">Buang</a>
+                                    <a href="#" data-bind="click : $parent.removeMapping.call($parent,$data)">Buang</a>
                                 </td>
                             </tr>
                         </tbody>
