@@ -226,7 +226,7 @@
   <ItemGroup>
     <Compile Include="Api\AggregateController.cs" />
     <Compile Include="Api\IPagingTranslator2.cs" />
-    <Compile Include="Api\JsonDataServiceController.cs" />
+    <Compile Include="Api\ApiController.cs" />
     <Compile Include="Api\ListController.cs" />
     <Compile Include="Api\RepositoryController.cs" />
     <Compile Include="Api\Sql2008PagingTranslator.cs" />

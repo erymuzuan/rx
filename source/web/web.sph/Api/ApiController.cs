@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Api
 {
-    public class JsonDataServiceController : Controller
+    public class ApiController : Controller
     {
         public static readonly string ConnectionString =
             ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
@@ -165,6 +165,11 @@ namespace Bespoke.Sph.Web.Api
             return await ExecuteAsync<Workflow>(filter, page, size, includeTotal);
         }
 
+        public async Task<ActionResult> Tracker(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<Tracker>(filter, page, size, includeTotal);
+        }
+
         public async Task<ActionResult> ExecuteAsync<T>(string filter = null, int page = 1, int size = 40, bool includeTotal = false) where T : Entity
         {
             if (size > 200)
@@ -172,7 +177,7 @@ namespace Bespoke.Sph.Web.Api
 
             var typeName = typeof(T).Name;
 
-            var translator = new OdataSqlTranslator(null, typeName);
+            var translator = new OdataSqlTranslator<T>(null, typeName);
             var sql = translator.Select(filter);
             var rows = 0;
             var nextPageToken = "";
@@ -180,7 +185,7 @@ namespace Bespoke.Sph.Web.Api
 
             if (includeTotal || page > 1)
             {
-                var translator2 = new OdataSqlTranslator(typeName + "Id", typeName);
+                var translator2 = new OdataSqlTranslator<T>(typeName + "Id", typeName);
                 var sumSql = translator2.Count(filter);
                 rows = await ExecuteScalarAsync(sumSql);
 
@@ -223,6 +228,9 @@ namespace Bespoke.Sph.Web.Api
 
         private async Task<List<T>> ExecuteListTupleAsync<T>(string sql, int page, int size) where T : Entity
         {
+            var type = typeof(IRepository<T>);
+            dynamic repos = ObjectBuilder.GetObject(type);
+
             var sql2 = sql;
             if (!sql2.Contains("ORDER"))
             {
@@ -231,7 +239,6 @@ namespace Bespoke.Sph.Web.Api
 
             var paging = ObjectBuilder.GetObject<IPagingTranslator2>();
             sql2 = paging.Tranlate(sql2, page, size);
-            Console.WriteLine("*************" + sql2);
             using (var conn = new SqlConnection(ConnectionString))
             using (var command = new SqlCommand(sql2, conn))
             {
@@ -244,6 +251,13 @@ namespace Bespoke.Sph.Web.Api
                     {
                         var id = reader.GetInt32(0);
                         var prop = typeof(T).GetProperty(typeof(T).Name + "Id");
+                        if (repos.IsJson)
+                        {
+                            dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
+                            prop.SetValue(t1, id, null);
+                            result.Add(t1);
+                            continue;
+                        }
                         var item = XmlSerializerService.DeserializeFromXml<T>(reader.GetString(1));
                         prop.SetValue(item, id);
                         result.Add(item);

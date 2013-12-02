@@ -1,8 +1,9 @@
 ﻿using System.Text.RegularExpressions;
+using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.Web.Helpers
 {
-    public class OdataSqlTranslator
+    public class OdataSqlTranslator<T> where T : Entity
     {
         private readonly string m_column;
         private readonly string m_table;
@@ -83,9 +84,12 @@ namespace Bespoke.Sph.Web.Helpers
 
         public string Select(string filter)
         {
+            var type = typeof(IRepository<T>);
+            dynamic repos = ObjectBuilder.GetObject(type);
+
             if (string.IsNullOrEmpty(filter))
-                return string.Format("SELECT [{0}Id],[Data] FROM [Sph].[{0}]", m_table);
-            return string.Format("SELECT [{0}Id],[Data] FROM [Sph].[{0}] {1} ", m_table, this.Translate(filter));
+                return string.Format("SELECT [{0}Id],{1} FROM [Sph].[{0}]", m_table, repos.DataColumn);
+            return string.Format("SELECT [{0}Id],{2} FROM [Sph].[{0}] {1} ", m_table, this.Translate(filter), repos.DataColumn);
         }
     }
 }

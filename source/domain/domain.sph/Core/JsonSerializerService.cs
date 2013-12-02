@@ -41,7 +41,7 @@ namespace Bespoke.Sph.Domain
         /// </summary>
         /// <param name="json">The json string</param>
         /// <returns></returns>
-        public static T DeserializeFromJson<T>(string json)
+        public static T DeserializeFromJson<T>(this string json)
         {
             var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             return JsonConvert.DeserializeObject<T>(json, setting);

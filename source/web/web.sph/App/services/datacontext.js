@@ -175,7 +175,7 @@ function (logger, system, ko2) {
             size = entityOrOptions.size || 20;
         }
 
-        var url = "/JsonDataService/" + entity;
+        var url = "/api/" + entity;
         url += "/?filter=" + (query || "");
         url += "&page=" + page;
         url += "&includeTotal=" + includeTotal;

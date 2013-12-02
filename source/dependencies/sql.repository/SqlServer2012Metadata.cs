@@ -94,6 +94,11 @@ namespace Bespoke.Sph.SqlRepository
             return GetTable(name);
         }
 
+        public string GetDataColumn<T>() where T : Entity
+        {
+            throw new NotImplementedException();
+        }
+
         protected string Schema { get; set; }
         public string ConnectionString { get; set; }
     }

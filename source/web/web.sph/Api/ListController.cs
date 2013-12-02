@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Sph.Web.Api
@@ -15,21 +16,21 @@ namespace Bespoke.Sph.Web.Api
 
         public async Task<ActionResult> Index(string column, string table, string filter)
         {
-            var translator = new OdataSqlTranslator(column, table);
+            var translator = new OdataSqlTranslator<Entity>(column, table);
             var sql = translator.Scalar(filter);
             return await ExecuteListAsync(sql);
         }
 
         public async Task<ActionResult> Distinct(string column, string table, string filter)
         {
-            var translator = new OdataSqlTranslator(column, table);
+            var translator = new OdataSqlTranslator<Entity>(column, table);
             var sql = translator.Distinct(filter);
             return await ExecuteListAsync(sql);
         }
 
         public async Task<ActionResult> Tuple(string column, string column2, string table, string filter)
         {
-            var translator = new OdataSqlTranslator("", table);
+            var translator = new OdataSqlTranslator<Entity>("", table);
             var sql = translator.Scalar(filter).Replace("SELECT []", string.Format("SELECT [{0}],[{1}]", column, column2));
             return await ExecuteListTupleAsync(sql);
         }

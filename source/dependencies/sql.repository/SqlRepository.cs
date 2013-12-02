@@ -15,6 +15,18 @@ namespace Bespoke.Sph.SqlRepository
     public partial class SqlRepository<T> : IRepository<T> where T : Entity
     {
         private readonly string m_connectionString;
+        private string m_dataColumn;
+        public bool IsJson { get; set; }
+        public string DataColumn
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(m_dataColumn))
+                    m_dataColumn = this.IsJson ? "[Json]" : "[Data]";
+                return m_dataColumn;
+            }
+            set { m_dataColumn = value; }
+        }
 
         public SqlRepository()
         {
@@ -30,7 +42,7 @@ namespace Bespoke.Sph.SqlRepository
         public async Task<T> LoadOneAsync(IQueryable<T> query)
         {
             var elementType = typeof(T);
-            var sql = query.ToString().Replace("[Data]", string.Format("[{0}Id],[Data]", elementType.Name));
+            var sql = query.ToString().Replace(this.DataColumn, string.Format("[{0}Id]," + this.DataColumn, elementType.Name));
 
             var id = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Single(p => p.Name == elementType.Name + "Id");
@@ -43,6 +55,12 @@ namespace Bespoke.Sph.SqlRepository
                 {
                     while (await reader.ReadAsync().ConfigureAwait(false))
                     {
+                        if (this.IsJson)
+                        {
+                            dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
+                            id.SetValue(t1, reader.GetInt32(0), null);
+                            return t1;
+                        }
                         var xml = XElement.Parse(reader.GetString(1));
                         dynamic t = xml.DeserializeFromXml(elementType);
                         id.SetValue(t, reader.GetInt32(0), null);
@@ -56,7 +74,7 @@ namespace Bespoke.Sph.SqlRepository
         public T LoadOne(IQueryable<T> query)
         {
             var elementType = typeof(T);
-            var sql = query.ToString().Replace("[Data]", string.Format("[{0}Id],[Data]", elementType.Name));
+            var sql = query.ToString().Replace(this.DataColumn, string.Format("[{0}Id]," + this.DataColumn, elementType.Name));
 
             var id = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Single(p => p.Name == elementType.Name + "Id");
@@ -69,6 +87,14 @@ namespace Bespoke.Sph.SqlRepository
                 {
                     while (reader.Read())
                     {
+
+                        if (this.IsJson)
+                        {
+                            dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
+                            id.SetValue(t1, reader.GetInt32(0), null);
+                            return t1;
+                        }
+
                         var xml = XElement.Parse(reader.GetString(1));
                         dynamic t = xml.DeserializeFromXml(elementType);
                         id.SetValue(t, reader.GetInt32(0), null);
@@ -83,7 +109,7 @@ namespace Bespoke.Sph.SqlRepository
         {
             var column = GetMemberName(selector);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the scalar column name");
-            var sql = query.ToString().Replace("[Data]", string.Format("[{0}]", column));
+            var sql = query.ToString().Replace(this.DataColumn, string.Format("[{0}]", column));
             var connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
@@ -106,7 +132,7 @@ namespace Bespoke.Sph.SqlRepository
             var column = GetMemberName(selector);
             var column2 = GetMemberName(selector2);
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentException("Cannot determine the scalar column name");
-            var sql = query.ToString().Replace("[Data]", string.Format("[{0}], [{1}]", column, column2));
+            var sql = query.ToString().Replace(this.DataColumn, string.Format("[{0}], [{1}]", column, column2));
             var connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
@@ -131,7 +157,7 @@ namespace Bespoke.Sph.SqlRepository
             var elementType = typeof(T);
 
             var sql = new StringBuilder(query.ToString());
-            sql.Replace("[Data]", string.Format("[{0}Id],[Data]", elementType.Name));
+            sql.Replace(this.DataColumn, string.Format("[{0}Id]," + this.DataColumn, elementType.Name));
             if (!sql.ToString().Contains("ORDER"))
             {
                 sql.AppendLine();
@@ -153,6 +179,15 @@ namespace Bespoke.Sph.SqlRepository
                 {
                     while (await reader.ReadAsync().ConfigureAwait(false))
                     {
+
+                        if (this.IsJson)
+                        {
+                            dynamic t1 = reader.GetString(1).DeserializeFromJson<T>();
+                            id.SetValue(t1, reader.GetInt32(0), null);
+                            list.Add(t1);
+                            continue;
+                        }
+
                         var xml = XElement.Parse(reader.GetString(1));
                         dynamic t = xml.DeserializeFromXml(elementType);
                         id.SetValue(t, reader.GetInt32(0));
@@ -172,7 +207,7 @@ namespace Bespoke.Sph.SqlRepository
 
             if (includeTotalRows)
             {
-                var sql2 = query.ToString().Replace("[Data]", "COUNT(*)");
+                var sql2 = query.ToString().Replace(this.DataColumn, "COUNT(*)");
                 var order = sql2.IndexOf("ORDER", StringComparison.Ordinal);
                 var count = order == -1 ? sql2 : sql2.Substring(0, order);
                 lo.TotalRows = await GetCountAsync(count).ConfigureAwait(false);
