@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Dynamic;
 using System.IO;
 using Bespoke.Sph.Domain;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
-    public class MessageHeaders
+    public class MessageHeaders : DynamicObject
     {
         private readonly ReceivedMessageArgs m_args;
 
@@ -32,8 +33,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 var operationBytes = m_args.Properties.Headers["log"] as byte[];
                 if (null != operationBytes)
                 {
-                    var xml = ByteToString(operationBytes).Replace("encoding=\"utf-16\"","encoding=\"utf-8\"");
-                   // Console.WriteLine(xml);
+                    var xml = ByteToString(operationBytes).Replace("encoding=\"utf-16\"", "encoding=\"utf-8\"");
+                    // Console.WriteLine(xml);
                     if (string.IsNullOrWhiteSpace(xml)) return null;
                     return XmlSerializerService.DeserializeFromXml<AuditTrail>(xml);
                 }
@@ -70,6 +71,66 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 return crud;
 
             }
+        }
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            var operationBytes = m_args.Properties.Headers[binder.Name] as byte[];
+
+            if (null != operationBytes)
+            {
+                var r = ByteToString(operationBytes);
+                if (binder.ReturnType == typeof(int))
+                {
+                    int no;
+                    if (int.TryParse(r, out no))
+                    {
+                        result = no;
+                        return true;
+                    }
+                }
+                if (binder.ReturnType == typeof(bool))
+                {
+                    bool no;
+                    if (bool.TryParse(r, out no))
+                    {
+                        result = no;
+                        return true;
+                    }
+                }
+                if (binder.ReturnType == typeof(decimal))
+                {
+                    decimal no;
+                    if (decimal.TryParse(r, out no))
+                    {
+                        result = no;
+                        return true;
+                    }
+                }
+                if (binder.ReturnType == typeof(double))
+                {
+                    double no;
+                    if (double.TryParse(r, out no))
+                    {
+                        result = no;
+                        return true;
+                    }
+                }
+                if (binder.ReturnType == typeof(DateTime))
+                {
+                    DateTime no;
+                    if (DateTime.TryParse(r, out no))
+                    {
+                        result = no;
+                        return true;
+                    }
+                }
+
+                result = r;
+                return true;
+            }
+            result = null;
+            return false;
         }
     }
 }

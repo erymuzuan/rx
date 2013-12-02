@@ -164,7 +164,8 @@ namespace Bespoke.Sph.Domain
             }
             return list;
         }
-        internal async Task<SubmitOperation> SubmitChangesAsync(string operation, PersistenceSession session)
+
+        internal async Task<SubmitOperation> SubmitChangesAsync(string operation, PersistenceSession session, Dictionary<string, object> headers)
         {
             var addedItems = session.AttachedCollection.Where(t => t.GetId() == 0).ToArray();
             var changedItems = session.AttachedCollection.Where(t => t.GetId() > 0).ToArray();
@@ -192,10 +193,10 @@ namespace Bespoke.Sph.Domain
                 .ConfigureAwait(false);
 
             var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
-            var logsAddedTask = publisher.PublishAdded(operation, logs);
-            var addedTask = publisher.PublishAdded(operation, addedItems);
-            var changedTask = publisher.PublishChanges(operation, changedItems, logs);
-            var deletedTask = publisher.PublishDeleted(operation, session.DeletedCollection);
+            var logsAddedTask = publisher.PublishAdded(operation, logs,headers);
+            var addedTask = publisher.PublishAdded(operation, addedItems,headers);
+            var changedTask = publisher.PublishChanges(operation, changedItems, logs,headers);
+            var deletedTask = publisher.PublishDeleted(operation, session.DeletedCollection,headers);
             await Task.WhenAll(addedTask, changedTask, deletedTask, logsAddedTask).ConfigureAwait(false);
 
 

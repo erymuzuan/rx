@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +10,11 @@ namespace Bespoke.Sph.Domain
 {
     public partial class Workflow : Entity
     {
+        public override int GetId()
+        {
+            return this.WorkflowId;
+        }
+
         [XmlAttribute]
         public string CurrentActivityWebId { get; set; }
 
@@ -70,13 +75,22 @@ namespace Bespoke.Sph.Domain
 
         public async virtual Task SaveAsync(string activityId)
         {
-            Debug.WriteLine("Saving....." + activityId);
+            var act = this.GetActivity<Activity>(activityId);
+            var headers = new Dictionary<string, object>
+                                {
+                                    {"ActivityWebId", activityId},
+                                    {"IsActivityExecuted", true},
+                                    {"NextActivityWebId", act.NextActivityWebId}
+                                };
+
+            var tracker =await this.GetTrackerAsync();
+            tracker.AddExecutedActivity(act);
+
             var context = new SphDataContext();
             using (var session = context.OpenSession())
             {
-                session.Attach(this);
-                await session.SubmitChanges(activityId);
-                Debug.WriteLine("Saved...");
+                session.Attach(this, tracker);
+                await session.SubmitChanges(act.Name, headers);
             }
         }
 
@@ -92,5 +106,19 @@ namespace Bespoke.Sph.Domain
         {
             get { return m_forbiddenStepsCollection; }
         }
+
+        public async Task<Tracker> GetTrackerAsync()
+        {
+            if(this.WorkflowId == 0)
+                return new Tracker { WorkflowId = this.WorkflowId, WorkflowDefinitionId = this.WorkflowDefinitionId };
+
+            var context = new SphDataContext();
+            var tracker = await context.LoadOneAsync<Tracker>(t => t.WorkflowId == this.WorkflowId)
+                          ??
+                          new Tracker {WorkflowId = this.WorkflowId, WorkflowDefinitionId = this.WorkflowDefinitionId};
+            return tracker;
+        }
+
+
     }
 }

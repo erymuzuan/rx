@@ -80,6 +80,7 @@
     <Compile Include="triggers\RuleTest.cs" />
     <Compile Include="triggers\SerializationTest.cs" />
     <Compile Include="workflows\CreationTest.cs" />
+    <Compile Include="workflows\TrackerTest.cs" />
     <Compile Include="workflows\WorkflowExecutionTest.cs" />
     <Compile Include="workflows\WorkflowCreateEntityTest.cs" />
     <Compile Include="workflows\WorkflowGenerationTest.cs" />

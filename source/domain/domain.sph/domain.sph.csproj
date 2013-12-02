@@ -291,6 +291,7 @@
     <Compile Include="Triggers\SimpleVariable.cs" />
     <Compile Include="Triggers\StartWorkflowAction.cs" />
     <Compile Include="Triggers\ThrowActivity.cs" />
+    <Compile Include="Triggers\Tracker.cs" />
     <Compile Include="Triggers\Trigger.cs" />
     <Compile Include="Triggers\SetterActionChild.cs" />
     <Compile Include="Business\UserProfile.cs" />

@@ -26,24 +26,24 @@ namespace Bespoke.Sph.RabbitMqPublisher
         }
 
 
-        public async Task PublishAdded(string operation, IEnumerable<Entity> attachedCollection)
+        public async Task PublishAdded(string operation, IEnumerable<Entity> attachedCollection, Dictionary<string, object> headers)
         {
             var items = attachedCollection.ToArray();
-            await SendMessage("added", operation, items);
+            await SendMessage("added", operation, items, headers);
         }
 
-        public async Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection, IEnumerable<AuditTrail> logs)
+        public async Task PublishChanges(string operation, IEnumerable<Entity> attachedCollection, IEnumerable<AuditTrail> logs, Dictionary<string, object> headers)
         {
             var items = attachedCollection.ToArray();
-            await SendMessage("changed", operation, items, logs);
+            await SendMessage("changed", operation, items, headers, logs);
         }
 
-        public async Task PublishDeleted(string operation, IEnumerable<Entity> deletedCollection)
+        public async Task PublishDeleted(string operation, IEnumerable<Entity> deletedCollection, Dictionary<string, object> headers)
         {
-            await SendMessage("deleted", operation, deletedCollection.ToArray());
+            await SendMessage("deleted", operation, deletedCollection.ToArray(), headers);
         }
 
-        private async Task SendMessage(string action, string operation, IEnumerable<Entity> items, IEnumerable<AuditTrail> logs = null)
+        private async Task SendMessage(string action, string operation, IEnumerable<Entity> items, Dictionary<string, object> headers, IEnumerable<AuditTrail> logs = null)
         {
             var factory = new ConnectionFactory
             {
@@ -77,6 +77,14 @@ namespace Bespoke.Sph.RabbitMqPublisher
                     props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
                     props.ContentType = "application/xml";
                     props.Headers = new Dictionary<string, object> { { "operation", operation }, { "crud", action }, { "log", log } };
+                    if (null != headers)
+                    {
+                        foreach (var k in headers.Keys)
+                        {
+                            props.Headers.Add(k, headers[k]);
+                            
+                        }
+                    }
 
                     channel.BasicPublish(this.Exchange, routingKey, props, body);
 

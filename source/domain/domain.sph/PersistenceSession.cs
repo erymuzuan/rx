@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -55,9 +56,9 @@ namespace Bespoke.Sph.Domain
             m_deletedCollection.Clear();
         }
 
-        public async Task<SubmitOperation> SubmitChanges(string operation = "")
+        public async Task<SubmitOperation> SubmitChanges(string operation = "", Dictionary<string, object> headers = null)
         {
-            var so = await m_context.SubmitChangesAsync(operation, this);
+            var so = await m_context.SubmitChangesAsync(operation, this, headers);
             m_attachedCollection.Clear();
             m_deletedCollection.Clear();
             m_context = null;

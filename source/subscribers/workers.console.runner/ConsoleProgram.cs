@@ -21,6 +21,12 @@ namespace workers.console.runner
             var username = ParseArg("u") ?? "guest";
             var password = ParseArg("p") ?? "guest";
             var silent = ParseArgExist("quiet");
+            var debug = ParseArgExist("debug");
+            if (debug)
+            {
+                Console.WriteLine("Press [ENTER] to continue");
+                Console.ReadLine();
+            }
 
             var port = ParseArg("port") == null ? 5672 : int.Parse(ParseArg("port"));
 

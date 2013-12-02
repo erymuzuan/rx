@@ -48,8 +48,10 @@ namespace Bespoke.Sph.WorkflowsExecution
             item.WorkflowDefinition = wd;
 
             // get current activity
+            dynamic headers = header;
             var initiator = wd.ActivityCollection.Single(a => a.IsInitiator);
-            var activityId = header.Operation;
+            string activityId = headers.ActivityWebId;
+            
 
             if (initiator.WebId == activityId)
             {

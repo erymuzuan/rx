@@ -94,8 +94,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "taskscheduler.test", "sourc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scheduler.delayactivity", "source\scheduler\scheduler.delayactivity\scheduler.delayactivity.csproj", "{38481343-B6BC-4343-9224-94869AE622C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "active.directory.service", "source\dependencies\active.directory.services\active.directory.service\active.directory.service.csproj", "{FD6ADFF1-2EC3-45F7-AE03-B379E7D9FF05}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.workflowscheduler", "source\subscribers\subscriber.workflowscheduler\subscriber.workflowscheduler.csproj", "{60EB3DC3-0AB1-4B19-B2B5-2A5FD7BF2C5A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scheduler.workflow.trigger", "source\scheduler\scheduler.workflow.trigger\scheduler.workflow.trigger.csproj", "{A6439B8B-A87A-46EB-A810-F0A4003D0CF4}"
@@ -238,10 +236,6 @@ Global
 		{38481343-B6BC-4343-9224-94869AE622C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38481343-B6BC-4343-9224-94869AE622C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38481343-B6BC-4343-9224-94869AE622C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FD6ADFF1-2EC3-45F7-AE03-B379E7D9FF05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD6ADFF1-2EC3-45F7-AE03-B379E7D9FF05}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD6ADFF1-2EC3-45F7-AE03-B379E7D9FF05}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD6ADFF1-2EC3-45F7-AE03-B379E7D9FF05}.Release|Any CPU.Build.0 = Release|Any CPU
 		{60EB3DC3-0AB1-4B19-B2B5-2A5FD7BF2C5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{60EB3DC3-0AB1-4B19-B2B5-2A5FD7BF2C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60EB3DC3-0AB1-4B19-B2B5-2A5FD7BF2C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -268,7 +262,6 @@ Global
 		{097534BC-30B9-47F7-AFAD-021EBA277417} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{285B165C-D05C-4D3D-9B3D-4917A603063C} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{375D917B-DBF4-4671-BA96-028E7DE91B06} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
-		{FD6ADFF1-2EC3-45F7-AE03-B379E7D9FF05} = {799A5437-62C7-4385-95CC-ADEB4177B3FA}
 		{020B92C2-BEA9-479A-A083-69F3ED53523E} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{E3A54166-4231-47E7-BA4C-A391CDD6937D} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{748FB901-3754-49E4-8E31-D09005CBA44E} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
