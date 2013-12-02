@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("subscriber.lucene.index")]
+[assembly: AssemblyTitle("scheduler.report.delivery")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("subscriber.lucene.index")]
+[assembly: AssemblyProduct("scheduler.report.delivery")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a7ed1d68-734e-4414-a9c6-bdb5bd1da969")]
+[assembly: Guid("205b6481-9106-498a-b6bf-018817923831")]
 
 // Version information for an assembly consists of the following four values:
 //

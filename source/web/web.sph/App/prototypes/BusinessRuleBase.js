@@ -5,7 +5,7 @@
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/domain.g.js" />
+/// <reference path="../schemas/sph.domain.g.js" />
 /// <reference path="../objectbuilders.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 

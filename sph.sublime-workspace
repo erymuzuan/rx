@@ -24,34 +24,18 @@
 	"buffers":
 	[
 		{
-			"file": "source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
+			"file": "copy.workflows.bat",
 			"settings":
 			{
-				"buffer_size": 11796,
+				"buffer_size": 239,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "source/subscribers/subscriber.workflow/WorkflowSubscriber.cs",
+			"file": "start-subscriber-console-runner.ps1",
 			"settings":
 			{
-				"buffer_size": 2156,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "source/domain/domain.sph/Triggers/ScreenActivity.cs",
-			"settings":
-			{
-				"buffer_size": 19861,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/temp/sph/Workflow_4004_5.cs",
-			"settings":
-			{
-				"buffer_size": 31173,
+				"buffer_size": 1029,
 				"line_ending": "Windows"
 			}
 		}
@@ -80,6 +64,13 @@
 	},
 	"file_history":
 	[
+		"/D/temp/sph/Workflow_4004_5.cs",
+		"/C/project/work/sph/start-subscriber-console-runner.ps1",
+		"/C/project/work/sph/StartAspnetAdminWeb.bat",
+		"/C/project/work/sph/copy.workflows.bat",
+		"/C/project/work/sph/source/domain/domain.sph/Triggers/ScreenActivity.cs",
+		"/C/project/work/sph/source/subscribers/subscriber.workflow/WorkflowSubscriber.cs",
+		"/C/project/work/sph/source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
 		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/Index.cshtml",
 		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffPane.cshtml",
 		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Views/Diff/DiffLine.cshtml",
@@ -87,7 +78,6 @@
 		"/D/project/work/_archived/cpd/source/silverlight/cpd.sl.web/Controllers/DiffController.cs",
 		"/H/Downloads/3003",
 		"/H/Downloads/tengok.cshtml",
-		"/D/temp/sph/Workflow_4004_5.cs",
 		"/D/project/work/_archived/cpd/source/web/cpd/Controllers/CourseController.cs",
 		"/C/project/work/sph/sph.sublime-project",
 		"/C/project/work/sph/SQLQuery1.sql",
@@ -96,7 +86,6 @@
 		"/D/temp/Workflow_0_25.cs",
 		"/C/project/work/sph/source/web/web.sph/Views/Workflow/EditorTemplates/TextBox.cshtml",
 		"/C/Users/itpro/AppData/Local/Temp/ipuuso0s.0.cs",
-		"/C/project/work/sph/source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
 		"/D/temp/Workflow_1_5.cs",
 		"/D/temp/Workflow_1_8.cs",
 		"/D/temp/Workflow_1_13.cs",
@@ -151,58 +140,28 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
+					"file": "copy.workflows.bat",
 					"settings":
 					{
-						"buffer_size": 11796,
+						"buffer_size": 239,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1781,
-								1781
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C#/C#.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 957.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "source/subscribers/subscriber.workflow/WorkflowSubscriber.cs",
-					"settings":
-					{
-						"buffer_size": 2156,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								498,
-								498
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C#/C#.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Batch File/Batch File.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -211,57 +170,27 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "source/domain/domain.sph/Triggers/ScreenActivity.cs",
+					"buffer": 1,
+					"file": "start-subscriber-console-runner.ps1",
 					"settings":
 					{
-						"buffer_size": 19861,
+						"buffer_size": 1029,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								19348,
-								19348
+								609,
+								609
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C#/C#.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 8448.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/D/temp/sph/Workflow_4004_5.cs",
-					"settings":
-					{
-						"buffer_size": 31173,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5890,
-								5890
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C#/C#.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2168.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

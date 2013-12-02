@@ -49,6 +49,16 @@ span.k-datetimepicker span.k-picker-wrap input.form-control {
     height: 32px;
 }
 
+span.k-autocomplete {
+    border: none;
+    padding-left: 0px;
+}
+
+span.k-autocomplete input.form-control {
+    height: 32px;
+    margin-top: -6px;
+}
+
 .google-maps-medium {
     min-height: 430px;
 }
@@ -433,3 +443,5 @@ textarea:invalid:after {
     margin-left: 0;
     list-style: none;
 }
+
+/*# sourceMappingURL=C:/project/work/sph/source/web/web.sph//Content/theme.matyie/site.less.map */

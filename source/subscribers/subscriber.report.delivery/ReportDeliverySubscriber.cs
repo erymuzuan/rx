@@ -4,59 +4,56 @@ using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Microsoft.Win32.TaskScheduler;
 using Task = System.Threading.Tasks.Task;
+using Bespoke.Sph.WorkflowTriggerSubscriptions;
 
-namespace Bespoke.Sph.WorkflowTriggerSubscriptions
+namespace Bespoke.Sph.ReportDeliverySubscriptions
 {
-    public class WorkflowSchedulerTriggerSubscriber : Subscriber<WorkflowDefinition>
+    public class ReportDeliverySubscriber : Subscriber<ReportDelivery>
     {
         private readonly string m_executable;
 
-        public WorkflowSchedulerTriggerSubscriber()
-        {
-
-        }
-
-        public WorkflowSchedulerTriggerSubscriber(string executable)
+        public ReportDeliverySubscriber(string executable)
         {
             m_executable = executable;
         }
 
+        public ReportDeliverySubscriber()
+        {
+            
+        }
+
         public override string QueueName
         {
-            get { return "workflow_scheduler_trigger"; }
+            get { return "report_delivery_scheduler"; }
         }
 
         public override string[] RoutingKeys
         {
-            get { return new[] { "WorkflowDefinition.*" }; }
+            get { return new[] { "ReportDelivery.*" }; }
         }
 
-        protected override Task ProcessMessage(WorkflowDefinition item, MessageHeaders header)
+        protected override Task ProcessMessage(ReportDelivery item, MessageHeaders header)
         {
             var emptyTask = Task.FromResult(0);
-
-            var start = item.ActivityCollection.Single(a => a.IsInitiator) as ScheduledTriggerActivity;
-            if (null == start) return emptyTask;
-
-            var scheduledTask = start.IntervalScheduleCollection.Where(s => s.IsEnabled).ToArray();
             var path = this.GetPath(item);
 
             // delete if exist
             this.Delete(path);
             if (!item.IsActive) return emptyTask;
 
-            this.WriteMessage("Creating scheduler for " + item.Name);
+            this.WriteMessage("Creating scheduler for " + item.Title);
+            var scheduledTask = item.IntervalScheduleCollection.Where(t => t.IsEnabled);
 
             using (var ts = new TaskService())
             {
                 var td = ts.NewTask();
-                td.RegistrationInfo.Description = "Scheduled trigger for " + item.Name;
+                td.RegistrationInfo.Description = "Scheduled trigger for " + item.Title;
                 foreach (var t in scheduledTask)
                 {
                     var trigger = t.GeTrigger();
                     td.Triggers.Add(trigger);
                 }
-                var action = new ExecAction(this.Executable, string.Format("{0} {1}", start.WebId, item.WorkflowDefinitionId))
+                var action = new ExecAction(this.Executable, string.Format("{0}", item.ReportDeliveryId))
                 {
                     WorkingDirectory = System.IO.Path.GetDirectoryName(this.Executable)
                 };
@@ -82,21 +79,21 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
             get
             {
                 if (string.IsNullOrWhiteSpace(m_executable))
-                    return ConfigurationManager.AppSettings["sph:ScheduledTriggerActivityExecutable"];
+                    return ConfigurationManager.AppSettings["sph:ReportDeliveryExecutable"];
 
                 return m_executable;
             }
         }
 
-        private string GetPath(WorkflowDefinition item)
+        private string GetPath(ReportDelivery item)
         {
-            var guid = "start_" + item.WorkflowTypeName;
+            var guid = string.Format("rd_{0}_{1}", item.ReportDeliveryId, item.ReportDefinitionId);
             var path = @"Bespoke\" + guid.Replace(" ", string.Empty);
             return path;
 
         }
 
-        public void Test(WorkflowDefinition wd, MessageHeaders headers)
+        public void Test(ReportDelivery wd, MessageHeaders headers)
         {
             this.ProcessMessage(wd, headers).Wait();
         }

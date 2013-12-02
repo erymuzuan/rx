@@ -21,30 +21,45 @@
         </div>
         <div class="form-group">
             <label class="control-label">Add New Schedules</label>
-            <div class="controls">
+
+            <div id="action-panel" class="pull-right">
                 <div class="btn-group">
-                    <a class="btn btn-link dropdown-toggle form-control" data-toggle="drop-down" href="#">
-                        Add new Schedule
-                        <span class="caret pull-right"></span>
+                    <a class="btn btn-link dropdown-toggle" data-toggle="drop-down">
+                        Add Action &nbsp;<span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu" data-bind="foreach: $root.scheduleOptions">
+                    <ul class="dropdown-menu">
                         <li>
-                            <a class="btn btn-link pull-left" data-bind="click: $root.startAddSchedule">
-                                <i data-bind="attr: { class: icon }"></i>
-                                <span data-bind="text: name"></span>
+                            <a class="btn btn-link" data-bind="click: addIntervalSchedule('Daily')">
+                                <i class="fa fa-clock-o"></i>
+                                Daily
                             </a>
                         </li>
+                        <li>
+                            <a class="btn btn-link" data-bind="click: addIntervalSchedule('Weekly')">
+                                <i class="fa fa-th-list"></i>
+                                Weekly
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="btn btn-link" data-bind="click: addIntervalSchedule('Monthly')">
+                                <i class="fa fa-calendar-o"></i>
+                                Monthly
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
+
             </div>
+
         </div>
 
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th></th>
                     <th>Title</th>
-                    <th>Active</th>
+                    <th>Enabled</th>
                     <th></th>
                 </tr>
             </thead>
@@ -52,12 +67,11 @@
                 <tr>
                     <td>
                         <i data-bind="attr : {class:icon}"></i>
+
+                        <a href="#" data-bind="click: $parent.editSchedule.call($parent, $data), text: name"></a>
                     </td>
                     <td>
-                        <a href="#" data-bind="click: $root.editSchedule, text: name"></a>
-                    </td>
-                    <td>
-                        <input type="checkbox" name="isactive" data-bind="checked:IsActive" />
+                        <input type="checkbox" name="isactive" data-bind="checked:IsEnabled" />
                     </td>
                     <td></td>
                 </tr>
