@@ -20,6 +20,12 @@ namespace Bespoke.Sph.ElasticSearch
             get { return new[] { typeof(T).Name + ".*" }; }
         }
 
+        protected virtual string GetTypeName(T item)
+        {
+                return typeof (T).Name.ToLowerInvariant();
+            
+        }
+
         protected async override Task ProcessMessage(T item, MessageHeaders headers)
         {
             this.WriteMessage("INDEXING {0}", item);
@@ -33,7 +39,7 @@ namespace Bespoke.Sph.ElasticSearch
             const string index = "sph";
 
 
-            var url = string.Format("{0}/{1}/{2}/{3}", esServer, index, typeof(T).Name.ToLowerInvariant(), id);
+            var url = string.Format("{0}/{1}/{2}/{3}", esServer, index, this.GetTypeName(item), id);
 
             var client = new HttpClient();
             HttpResponseMessage response = null;

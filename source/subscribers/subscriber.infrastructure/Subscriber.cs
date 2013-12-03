@@ -97,9 +97,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 consumer.Received += async (s, e) =>
                     {
                         byte[] body = e.Body;
-                        var xml = await this.DecompressAsync(body);
+                        var json = await this.DecompressAsync(body);
                         var header = new MessageHeaders(e);
-                        var item = XmlSerializerService.DeserializeFromXml<T>(xml.Replace("utf-16", "utf-8"));
+                        var item = json.DeserializeFromJson<T>();
                         ProcessMessage(item, header)
                             .ContinueWith(_ =>
                             {
@@ -166,8 +166,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 destinationStream.Position = 0;
                 using (var sr = new StreamReader(destinationStream))
                 {
-                    var xml = await sr.ReadToEndAsync();
-                    return xml;
+                    var text = await sr.ReadToEndAsync();
+                    return text;
                 }
             }
         }

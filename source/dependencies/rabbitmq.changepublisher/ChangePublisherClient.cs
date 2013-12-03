@@ -66,16 +66,16 @@ namespace Bespoke.Sph.RabbitMqPublisher
                     {
                         var audit = logs.SingleOrDefault(l => l.Type == entityType.Name && l.EntityId == id);
                         if (null != audit)
-                            log = audit.ToXmlString();
+                            log = audit.ToJsonString();
                     }
                     var routingKey = entityType.Name + "." + action;
                     var item1 = item;
-                    var xml = item1.ToXmlString(entityType);
-                    var body = await CompressAsync(xml);
+                    var json = item1.ToJsonString();
+                    var body = await CompressAsync(json);
 
                     var props = channel.CreateBasicProperties();
                     props.DeliveryMode = PERSISTENT_DELIVERY_MODE;
-                    props.ContentType = "application/xml";
+                    props.ContentType = "application/json";
                     props.Headers = new Dictionary<string, object> { { "operation", operation }, { "crud", action }, { "log", log } };
                     if (null != headers)
                     {

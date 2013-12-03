@@ -20,8 +20,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             {
                 using (var sr = new StreamReader(orginalStream))
                 {
-                    var xml = sr.ReadToEnd();
-                    return xml;
+                    var text = sr.ReadToEnd();
+                    return text;
                 }
             }
         }
@@ -33,10 +33,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 var operationBytes = m_args.Properties.Headers["log"] as byte[];
                 if (null != operationBytes)
                 {
-                    var xml = ByteToString(operationBytes).Replace("encoding=\"utf-16\"", "encoding=\"utf-8\"");
-                    // Console.WriteLine(xml);
-                    if (string.IsNullOrWhiteSpace(xml)) return null;
-                    return XmlSerializerService.DeserializeFromXml<AuditTrail>(xml);
+                    var json = ByteToString(operationBytes);
+                    if (string.IsNullOrWhiteSpace(json)) return null;
+                    return json.DeserializeFromJson<AuditTrail>();
                 }
 
                 return null;

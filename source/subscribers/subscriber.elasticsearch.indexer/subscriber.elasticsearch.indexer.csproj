@@ -51,6 +51,8 @@
     <Compile Include="SpaceIndexer.cs" />
     <Compile Include="EsEntityIndexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpaceIndexerSubscriber.cs" />
+    <Compile Include="WorkflowSubscriber.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">

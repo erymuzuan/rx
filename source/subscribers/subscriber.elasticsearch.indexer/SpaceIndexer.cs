@@ -2,9 +2,6 @@
 
 namespace Bespoke.Sph.ElasticSearch
 {
-    public class SpaceIndexerSubscriber : EsEntityIndexer<Space>
-    {
-    }
     public class BuildingIndexerSubscriber : EsEntityIndexer<Building>
     {
     }

@@ -75,8 +75,8 @@ namespace Bespoke.Sph.RabbitMqPublisher
         private async void MessageReceived(object sender, ReceivedMessageArgs e)
         {
             var body = e.Body;
-            var xml = await this.DecompressAsync(body);
-            var t = XmlSerializerService.DeserializeFromXml<T>(xml.Replace("utf-16", "utf-8"));
+            var json = await this.DecompressAsync(body);
+            var t = json.DeserializeFromJson<T>();
             var arg = new EntityChangedEventArgs<T>
             {
                 Item = t,
@@ -100,8 +100,8 @@ namespace Bespoke.Sph.RabbitMqPublisher
             {
                 using (var sr = new StreamReader(orginalStream))
                 {
-                    var xml = sr.ReadToEnd();
-                    return xml;
+                    var text = sr.ReadToEnd();
+                    return text;
                 }
             }
         }
@@ -112,10 +112,9 @@ namespace Bespoke.Sph.RabbitMqPublisher
             var operationBytes = args.Properties.Headers["log"] as byte[];
             if (null != operationBytes)
             {
-                var xml = ByteToString(operationBytes).Replace("encoding=\"utf-16\"", "encoding=\"utf-8\"");
-                //Debug.WriteLine(xml);
-                if (string.IsNullOrWhiteSpace(xml)) return null;
-                return XmlSerializerService.DeserializeFromXml<AuditTrail>(xml);
+                var json = ByteToString(operationBytes);
+                if (string.IsNullOrWhiteSpace(json)) return null;
+                return json.DeserializeFromJson<AuditTrail>();
             }
 
             return null;
