@@ -53,17 +53,42 @@ namespace Bespoke.Sph.Domain
 
         private async Task SendNotificationToPerformers(Workflow wf, string baseUrl, string url, string subjectTemplate, string bodyTemplate)
         {
-            var users = new List<string>();
             var context = new SphDataContext();
-            var ad = ObjectBuilder.GetObject<IDirectoryService>();
-            var script = ObjectBuilder.GetObject<IScriptEngine>();
 
 
             var model = new { Screen = this, Item = wf, BaseUrl = baseUrl, Url = url };
+            var users = await GetUsersAsync(wf);
+
+            foreach (var user in users)
+            {
+                string user1 = user;
+                var profile = await context.LoadOneAsync<UserProfile>(p => p.Username == user1);
+                var subject = await this.TransformTemplateAsync(subjectTemplate, model);
+                var body = await this.TransformTemplateAsync(bodyTemplate, model);
+
+                var message = new Message { Subject = subject, UserName = user, Body = body };
+                using (var session = context.OpenSession())
+                {
+                    session.Attach(message);
+                    await session.SubmitChanges("Initiate " + this.Name);
+                }
+
+                var ns = ObjectBuilder.GetObject<INotificationService>();
+                await ns.SendMessageAsync(message, profile.Email);
+            }
+        }
+
+        public async Task<string[]> GetUsersAsync(Workflow wf)
+        {
+            var script = ObjectBuilder.GetObject<IScriptEngine>();
+            var context = new SphDataContext();
+            var ad = ObjectBuilder.GetObject<IDirectoryService>();
+
             var unwrapValue = this.Performer.Value;
             if (!string.IsNullOrWhiteSpace(unwrapValue) && unwrapValue.StartsWith("="))
                 unwrapValue = script.Evaluate<string, Workflow>(unwrapValue.Remove(0, 1), wf);
 
+            var users = new List<string>();
             switch (this.Performer.UserProperty)
             {
                 case "Username":
@@ -89,25 +114,7 @@ namespace Bespoke.Sph.Domain
                     throw new Exception("Whoaaa we cannot send invitation to " + this.Performer.UserProperty + " for " +
                                         this.Name);
             }
-
-            foreach (var user in users)
-            {
-                string user1 = user;
-                var profile = await context.LoadOneAsync<UserProfile>(p => p.Username == user1);
-                var subject = await this.TransformTemplateAsync(subjectTemplate, model);
-                var body = await this.TransformTemplateAsync(bodyTemplate, model);
-
-
-                var message = new Message { Subject = subject, UserName = user, Body = body };
-                using (var session = context.OpenSession())
-                {
-                    session.Attach(message);
-                    await session.SubmitChanges("Initiate " + this.Name);
-                }
-
-                var ns = ObjectBuilder.GetObject<INotificationService>();
-                await ns.SendMessageAsync(message, profile.Email);
-            }
+            return users.ToArray();
         }
 
         public override bool IsAsync
@@ -198,7 +205,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("               var wf = id == 0 ? new  {0}() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));", wd.WorkflowTypeName);
             code.AppendLinf("               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == {0});", wd.WorkflowDefinitionId);
             code.AppendLinf("               var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);");
-            code.AppendLinf("               var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"{0}\");", this.WebId);
+            code.AppendLinf("               var screen = wd.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
             code.AppendLinf("               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");");
 
             // tracker
@@ -219,24 +226,8 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("               var canview = screen.Performer.IsPublic;");
             code.AppendLine("               if(!screen.Performer.IsPublic)");
             code.AppendLine("               {");
-            code.AppendLine("                   switch (screen.Performer.UserProperty)");
-            code.AppendLine("                   { ");
-            code.AppendLine("                       case \"Username\":");
-            code.AppendLine("                           canview = screen.Performer.Value == profile.Username;");
-            code.AppendLine("                           break;");
-            code.AppendLine("                       case \"Department\":");
-            code.AppendLine("                           canview = screen.Performer.Value == profile.Department;");
-            code.AppendLine("                           break;");
-            code.AppendLine("                       case \"Designation\":");
-            code.AppendLine("                           canview = screen.Performer.Value == profile.Designation;");
-            code.AppendLine("                           break;");
-            code.AppendLine("                       case \"Roles\":");
-            code.AppendLine("                           canview = profile.RoleTypes.Contains(screen.Performer.Value);");
-            code.AppendLine("                           break;");
-            code.AppendLine("                       default:");
-            code.AppendLine("                           canview = false;");
-            code.AppendLine("                           break;");
-            code.AppendLine("                   } ");
+            code.AppendLine("                   var users = await screen.GetUsersAsync(wf);");
+            code.AppendLine("                   canView = this.User.Identity.IsAuthenticated && users.Contains(this.User.Identity.Name);");
             code.AppendLine("               }");
 
             code.AppendLine("               if(canview) return View(vm);");
