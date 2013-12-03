@@ -22,8 +22,12 @@ define(['services/datacontext', 'config'],
                         vm.messages(lo.itemCollection);
                         tcs.resolve(true);
                     });
-                return tcs.promise();
 
+                context.getCountAsync("Message", query, "MessageId")
+                    .done(function(c) {
+                        vm.unread(c);
+                    });
+                return tcs.promise();
 
             },
             viewAttached = function (view) {
@@ -32,6 +36,7 @@ define(['services/datacontext', 'config'],
 
         var vm = {
             isBusy: isBusy,
+            unread : ko.observable(),
             activate: activate,
             viewAttached: viewAttached,
             messages : ko.observableArray()

@@ -18,7 +18,7 @@ define(['services/datacontext', 'config'],
                 var tcs = new $.Deferred();
 
                 context.loadAsync("Message", query)
-                    .then(function(lo) {
+                    .then(function (lo) {
                         isBusy(false);
 
                         vm.messages(lo.itemCollection);
@@ -28,13 +28,61 @@ define(['services/datacontext', 'config'],
 
 
             },
-            viewAttached = function (view) {
+            resetFilter = function (ev) {
+                $('ul#filter-messages>li').removeClass('active');
+                if (ev.target) {
+                    $(ev.target.parentNode).addClass('active');
+                }
+            },
+            filter = function (options) {
+                options = options || {};
+                options.read = includeRead();
+                
+                var query = String.format("UserName eq '{0}'", config.userName);
+                if (options.start) {
+                    query += " and CreatedDate ge DateTime'" + options.start + "'";
+                }
+                if (options.end) {
+                    query += " and CreatedDate le DateTime'" + options.end + "'";
+                }
+                if (!options.read) {
+                    query += " and IsRead eq 0";
+                }
+                var tcs = new $.Deferred();
 
-            };
+                context.loadAsync("Message", query)
+                    .then(function (lo) {
+                        isBusy(false);
+
+                        vm.messages(lo.itemCollection);
+                        tcs.resolve(true);
+                    });
+                return tcs.promise();
+                
+            },
+            viewAttached = function (view) {
+            },
+            thisWeek = function (d, ev) {
+                resetFilter(ev);
+                filter({ start: moment().day("Sunday").format('YYYY-MM-DD') });
+            },
+            thisMonth = function (d, ev) {
+                resetFilter(ev);
+                filter({ start: moment().startOf('month').format('YYYY-MM-DD') });
+            },
+            older = function (d, ev) {
+                resetFilter(ev);
+                filter({ end: moment().startOf('month').format('YYYY-MM-DD') });
+            },
+            includeRead = ko.observable(false);
 
         var vm = {
             isBusy: isBusy,
             activate: activate,
+            includeRead: includeRead,
+            thisWeek: thisWeek,
+            thisMonth: thisMonth,
+            older: older,
             viewAttached: viewAttached,
             messages: ko.observableArray()
         };

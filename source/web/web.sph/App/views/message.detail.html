@@ -1,4 +1,10 @@
-﻿<div data-bind="with: message">
-    <h1 data-bind="text: Subject"></h1>
-    <div data-bind="html: Body"></div>
+﻿
+<div data-bind="with : message">
+    <div class="panel panel-default row">
+        <div class="panel-heading">
+            <h3 class="panel-title" data-bind="text:Subject"></h3>
+        </div>
+        <div class="panel-body" data-bind="html: $root.body">
+        </div>
+    </div>
 </div>

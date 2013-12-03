@@ -22,6 +22,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                 .done(function (b) {
                     vm.message(b);
                     tcs.resolve(true);
+                    vm.body(convertText(b.Body()));
+                    markRead();
                 });
 
             return tcs.promise();
@@ -30,6 +32,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
         viewAttached = function (view) {
 
         },
+	   convertText = function (text) {
+	       var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+	       return text.replace(exp, "<a href='$1'>$1</a>");
+	   },
         markUnread = function () {
             var tcs = new $.Deferred();
             var data = ko.mapping.toJSON(vm.message);
@@ -39,6 +45,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                 .then(function (result) {
                     isBusy(false);
                     tcs.resolve(result);
+                    vm.message().IsRead(true);
                 });
             return tcs.promise();
         },
@@ -51,6 +58,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                 .then(function (result) {
                     isBusy(false);
                     tcs.resolve(result);
+                    vm.message().IsRead(true);
                 });
             return tcs.promise();
         };
@@ -60,6 +68,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 	        activate: activate,
 	        viewAttached: viewAttached,
 	        message: ko.observable(),
+	        body: ko.observable(),
 	        toolbar: {
 	            commands: ko.observableArray([{
 	                command: markUnread,

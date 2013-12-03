@@ -191,7 +191,7 @@ namespace Bespoke.Sph.Web.Api
 
                 if (rows >= list.Count)
                     nextPageToken = string.Format(
-                        "/JsonDataService/{3}/?filer={0}&includeTotal=true&page={1}&size={2}", filter, page + 1, size, typeName);
+                        "/Api/{3}/?filer={0}&includeTotal=true&page={1}&size={2}", filter, page + 1, size, typeName);
             }
 
             string previousPageToken = DateTime.Now.ToShortTimeString();
