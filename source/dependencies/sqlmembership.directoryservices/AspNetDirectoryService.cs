@@ -1,8 +1,10 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Security;
 using Bespoke.Sph.Domain;
+using Monads.NET;
 
 namespace Bespoke.Sph.DirectoryServices
 {
@@ -12,12 +14,20 @@ namespace Bespoke.Sph.DirectoryServices
         {
             get
             {
-                if (HttpContext.Current.User.Identity.IsAuthenticated)
-                    return HttpContext.Current.User.Identity.Name;
+                var user = HttpContext.Current.With(c => c.User)
+                    .With(u => u.Identity)
+                    .With(i => i.Name);
+                if (!string.IsNullOrWhiteSpace(user)) return user;
+                user = Membership
+                    .GetUser()
+                    .With(u => u.UserName);
+                if (!string.IsNullOrWhiteSpace(user)) return user;
 
                 if (Thread.CurrentPrincipal.Identity.IsAuthenticated)
                     return Thread.CurrentPrincipal.Identity.Name;
-                return string.Empty;
+                if (!string.IsNullOrWhiteSpace(Environment.UserDomainName))
+                    return Environment.UserDomainName;
+                return Environment.UserName;
             }
         }
 
