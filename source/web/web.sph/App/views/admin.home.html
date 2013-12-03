@@ -1,0 +1,29 @@
+﻿<div class="row">
+    <!-- ko foreach : groups -->
+
+	 
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title" data-bind="text:groupName"></h3>
+        </div>
+        <div class="panel-body">
+            <nav>
+                <ul class="nav nav-pills">
+                    <!-- ko foreach :routes -->
+                    <li>
+                        <a href="#" data-bind=" attr: { href: url }">
+                            <i data-bind="attr : {'class' : 'fa-2x fa ' + icon}"></i><span data-bind="text: name"></span>
+                        </a>
+                    </li>
+                    <!-- /ko -->
+                </ul>
+            </nav>
+            
+
+        </div>
+    </div>
+
+    <!-- /ko -->
+
+</div>
