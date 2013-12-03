@@ -164,7 +164,7 @@
     "moduleId": "viewmodels/building.list",
     "name": "Bangunan",
     "visible": true,
-    "icon": "fa-building",
+    "icon": "fa-building-o",
     "caption": "Building",
     "settings": {
       "caption": "Senarai Bangunan"
@@ -415,15 +415,15 @@
   },
   {
     "role": "can_edit_setting",
-    "groupName": null,
+    "groupName": "Settings",
     "url": "organization.detail",
     "moduleId": "viewmodels/organization.detail",
     "name": "Tetapan Organisasi",
-    "visible": true,
+    "visible": false,
     "icon": "fa-group",
     "caption": "org",
     "settings": null,
-    "isAdminPage": false,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -569,7 +569,7 @@
   },
   {
     "role": "admin_user",
-    "groupName": null,
+    "groupName": "Settings",
     "url": "role.settings/:id",
     "moduleId": "viewmodels/role.settings",
     "name": null,
@@ -671,17 +671,17 @@
   },
   {
     "role": "can_edit_setting",
-    "groupName": null,
+    "groupName": "Settings",
     "url": "setting",
     "moduleId": "viewmodels/setting",
     "name": "Tetapan Umum",
-    "visible": true,
+    "visible": false,
     "icon": "fa-gear",
     "caption": "Setting",
     "settings": {
       "caption": "Settings"
     },
-    "isAdminPage": false,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -715,15 +715,15 @@
   },
   {
     "role": "can_add_trigger",
-    "groupName": null,
+    "groupName": "Workflow",
     "url": "trigger.list",
     "moduleId": "viewmodels/trigger.list",
     "name": "Senarai Trigger",
-    "visible": true,
+    "visible": false,
     "icon": "fa-flag",
     "caption": "Senarai Trigger",
     "settings": null,
-    "isAdminPage": false,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -883,15 +883,15 @@
   },
   {
     "role": "admin_dashboard",
-    "groupName": null,
+    "groupName": "Report Builder",
     "url": "reportdefinition.list",
     "moduleId": "viewmodels/reportdefinition.list",
     "name": "Report Manager",
-    "visible": true,
+    "visible": false,
     "icon": "fa-dribbble",
     "caption": "Report Manager",
     "settings": null,
-    "isAdminPage": false,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   },
