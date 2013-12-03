@@ -203,7 +203,7 @@ namespace Bespoke.Sph.Domain
 
             // tracker
             code.AppendLinf("               var tracker = await wf.GetTrackerAsync();");
-            code.AppendLinf("               if(!tracker.CanExecute(\"{0}\")", this.WebId);
+            code.AppendLinf("               if(!tracker.CanExecute(\"{0}\"))", this.WebId);
             code.AppendLine("               {");
             code.AppendLine("                   return RedirectToAction(\"InvalidState\",\"Workflow\");");
             code.AppendLine("               }");

@@ -22,7 +22,7 @@
 
         public override string ToString()
         {
-            return this.Message;
+            return string.Format("line:{0} {1}", this.Line, this.Message);
         }
     }
 }
