@@ -227,7 +227,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("               if(!screen.Performer.IsPublic)");
             code.AppendLine("               {");
             code.AppendLine("                   var users = await screen.GetUsersAsync(wf);");
-            code.AppendLine("                   canView = this.User.Identity.IsAuthenticated && users.Contains(this.User.Identity.Name);");
+            code.AppendLine("                   canview = this.User.Identity.IsAuthenticated && users.Contains(this.User.Identity.Name);");
             code.AppendLine("               }");
 
             code.AppendLine("               if(canview) return View(vm);");

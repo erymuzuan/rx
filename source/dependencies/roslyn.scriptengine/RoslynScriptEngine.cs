@@ -25,9 +25,11 @@ namespace Bespoke.Sph.RoslynScriptEngines
             {
                 var domain = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, typeof (Entity).Assembly.Location);
                 var dll = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, typeof(RoslynScriptEngine).Assembly.Location);
-                Console.WriteLine("#r \"" + domain + "\"");
+                var argDll = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, arg1.GetType().Assembly.Location);
+
                 session.Execute("#r \"" + domain + "\"");
                 session.Execute("#r \"" + dll + "\"");
+                session.Execute("#r \"" + argDll + "\"");
             }
             catch (Exception e)
             {

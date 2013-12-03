@@ -502,6 +502,7 @@
     <Content Include="App\viewmodels\space.detailpublic.js" />
     <Content Include="App\viewmodels\workflow.definition.list.js" />
     <Content Include="App\viewmodels\workflow.definition.visual.js" />
+    <Content Include="App\viewmodels\workflow.instances.console.js" />
     <Content Include="App\viewmodels\_contract.facility.js" />
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.list.js" />
@@ -556,6 +557,8 @@
     <Content Include="App\views\activity.decision.html" />
     <Content Include="App\views\activity.expression.html" />
     <Content Include="App\views\activity.notification.html" />
+    <Content Include="App\views\admin.home.html" />
+    <Content Include="App\viewmodels\admin.home.js" />
     <Content Include="App\views\application.template.list.html" />
     <Content Include="App\views\block.dialog.html" />
     <Content Include="App\views\block.floormap.dialog.html" />
@@ -584,6 +587,7 @@
     <Content Include="App\views\rentalapplication.onbehalf.html" />
     <Content Include="App\views\workflow.definition.list.html" />
     <Content Include="App\views\workflow.definition.visual.html" />
+    <Content Include="App\views\workflow.instances.console.html" />
     <Content Include="App\views\_contract.facility.html" />
     <Content Include="App\views\space.template.form.html" />
     <Content Include="App\views\space.template.list.html" />

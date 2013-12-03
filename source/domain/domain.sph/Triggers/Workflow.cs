@@ -110,11 +110,17 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-     
+
         public async Task<Tracker> GetTrackerAsync()
         {
             if (this.WorkflowId == 0)
-                return new Tracker { WorkflowId = this.WorkflowId, WorkflowDefinitionId = this.WorkflowDefinitionId };
+                return new Tracker
+                {
+                    Workflow = this,
+                    WorkflowDefinition = this.WorkflowDefinition,
+                    WorkflowId = this.WorkflowId,
+                    WorkflowDefinitionId = this.WorkflowDefinitionId
+                };
 
             var context = new SphDataContext();
             var tracker = await context.LoadOneAsync<Tracker>(t => t.WorkflowId == this.WorkflowId)

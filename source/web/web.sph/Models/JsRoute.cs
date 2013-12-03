@@ -12,5 +12,6 @@
         public string Caption { set; get; }
         public JsRouteSetting Settings { set; get; }
         public bool ShowWhenLoggedIn { get; set; }
+        public bool IsAdminPage { get; set; }
     }
 }

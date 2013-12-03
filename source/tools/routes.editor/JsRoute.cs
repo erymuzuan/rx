@@ -20,6 +20,8 @@ namespace routes.editor
         public string Icon { set; get; }
         public string Caption { set; get; }
         public JsRouteSetting Settings { set; get; }
+
+        public bool IsAdminPage { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         /// <summary>
         /// Show if the user if logged in, applicable only for route null or empty role

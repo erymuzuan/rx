@@ -1,7 +1,7 @@
 [
   {
     "role": "admin_dashboard",
-    "groupName": null,
+    "groupName": "Template",
     "url": "template.maintenance-id.0/:id",
     "moduleId": "viewmodels/template.maintenance-id.0",
     "name": "Tetapan Penyenggaraan",
@@ -9,6 +9,7 @@
     "icon": null,
     "caption": null,
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -22,6 +23,7 @@
     "icon": "fa-gear",
     "caption": "Papan Senggara",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -35,6 +37,7 @@
     "icon": "fa-flag",
     "caption": "Papan Aduan",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -48,6 +51,7 @@
     "icon": "fa-home",
     "caption": "Utama",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -61,6 +65,7 @@
     "icon": "fa-home",
     "caption": "Papan Tugas",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -74,12 +79,13 @@
     "icon": null,
     "caption": null,
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "can_edit_contract_template",
-    "groupName": null,
+    "groupName": "Template",
     "url": "contract.template/:id",
     "moduleId": "viewmodels/contract.template",
     "name": "contract type",
@@ -87,6 +93,7 @@
     "icon": "fa-edit",
     "caption": "Buat jenis kontrak",
     "settings": null,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -100,6 +107,7 @@
     "icon": "fa-envelope-alt",
     "caption": "Tawaran",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -113,6 +121,7 @@
     "icon": "fa-tablet",
     "caption": "Unit Details",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -128,6 +137,7 @@
     "settings": {
       "caption": "Senarai Kontraks"
     },
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -143,6 +153,7 @@
     "settings": {
       "caption": "Maklumat Kontraks"
     },
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -158,6 +169,7 @@
     "settings": {
       "caption": "Senarai Bangunan"
     },
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -171,6 +183,7 @@
     "icon": "fa-road",
     "caption": " space",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -184,6 +197,7 @@
     "icon": "fa-user",
     "caption": "Pengguna",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -197,6 +211,7 @@
     "icon": "fa-columns",
     "caption": "Senarai Ruang",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -210,19 +225,21 @@
     "icon": "fa-edit-sign",
     "caption": "Buat kontrak",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "can_edit_contract_template",
-    "groupName": null,
+    "groupName": "Template",
     "url": "contract.template.list",
     "moduleId": "viewmodels/contract.template.list",
     "name": "Templat Kontrak",
-    "visible": true,
+    "visible": false,
     "icon": "fa-edit",
     "caption": "Buat jenis kontrak",
     "settings": null,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -236,6 +253,7 @@
     "icon": "fa-map-marker",
     "caption": "Peta Kawasan",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -249,6 +267,7 @@
     "icon": "fa-building",
     "caption": "Building Details",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -262,6 +281,7 @@
     "icon": "fa-picture",
     "caption": "Floor plan",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -277,6 +297,7 @@
     "settings": {
       "caption": "Senarai permohonan"
     },
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -292,6 +313,7 @@
     "settings": {
       "caption": "Maklumat permohonan"
     },
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -307,6 +329,7 @@
     "settings": {
       "caption": "Kembalikan Permohonan"
     },
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -322,6 +345,7 @@
     "settings": {
       "caption": "Senarai tenant"
     },
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -337,6 +361,7 @@
     "settings": {
       "caption": "Senarai deposit"
     },
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -352,6 +377,7 @@
     "settings": {
       "caption": "Rebat"
     },
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -367,6 +393,7 @@
     "settings": {
       "caption": "Penyewa"
     },
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -382,6 +409,7 @@
     "settings": {
       "caption": "Bayaran"
     },
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -395,38 +423,41 @@
     "icon": "fa-group",
     "caption": "org",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "can_edit_complaint_template",
-    "groupName": null,
+    "groupName": "Template",
     "url": "complaint.template.list",
     "moduleId": "viewmodels/complaint.template.list",
     "name": "Templat Aduan",
-    "visible": true,
+    "visible": false,
     "icon": "fa-comments-o",
     "caption": "aduan",
     "settings": null,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "can_edit_maintenance_template",
-    "groupName": null,
+    "groupName": "Template",
     "url": "maintenance.template.list",
     "moduleId": "viewmodels/maintenance.template.list",
     "name": "Templat Penyelenggaraan",
-    "visible": true,
+    "visible": false,
     "icon": "fa-flag",
     "caption": "Senarai Templat Penyelenggaraan",
     "settings": null,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "can_edit_complaint_template",
-    "groupName": null,
+    "groupName": "Template",
     "url": "template.complaint-id.0/:id",
     "moduleId": "viewmodels/template.complaint-id.0",
     "name": "Tetapan Aduan",
@@ -434,6 +465,7 @@
     "icon": "fa-comments-alt",
     "caption": "aduan",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -447,6 +479,7 @@
     "icon": "fa-tasks",
     "caption": "Senarai Aduan",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -460,6 +493,7 @@
     "icon": "fa-user",
     "caption": "Portal Penyewa",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -473,6 +507,7 @@
     "icon": "fa-wrench",
     "caption": "Penyenggaraan",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -486,6 +521,7 @@
     "icon": null,
     "caption": null,
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -499,12 +535,13 @@
     "icon": "fa-list-alt",
     "caption": "Senarai Penyenggaraan",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "maintenance_officer",
-    "groupName": null,
+    "groupName": "Workorder",
     "url": "workorder.list",
     "moduleId": "viewmodels/workorder.list",
     "name": "Senarai Arahan Kerja",
@@ -512,6 +549,7 @@
     "icon": "fa-file-text-alt",
     "caption": "Senarai Arahan Kerja",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -525,6 +563,7 @@
     "icon": "fa-list-ul",
     "caption": "Senarai Inventori",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -538,6 +577,7 @@
     "icon": null,
     "caption": null,
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -553,6 +593,7 @@
     "settings": {
       "caption": "Permohonan"
     },
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -568,6 +609,7 @@
     "settings": {
       "caption": "Permohonan"
     },
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -581,6 +623,7 @@
     "icon": "fa-edit",
     "caption": "Perinci Aduan",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -594,6 +637,7 @@
     "icon": "fa-comments",
     "caption": "Aduan",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -607,6 +651,7 @@
     "icon": null,
     "caption": null,
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -620,6 +665,7 @@
     "icon": null,
     "caption": null,
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -635,6 +681,7 @@
     "settings": {
       "caption": "Settings"
     },
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -648,6 +695,7 @@
     "icon": "fa-calendar-empty",
     "caption": "Maklumat Inventori",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -661,6 +709,7 @@
     "icon": "fa-flag",
     "caption": "Setting Trigger",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -674,25 +723,27 @@
     "icon": "fa-flag",
     "caption": "Senarai Trigger",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "can_edit_building_template",
-    "groupName": null,
+    "groupName": "Template",
     "url": "building.template.list",
     "moduleId": "viewmodels/building.template.list",
     "name": "Templat Bangunan",
-    "visible": true,
-    "icon": "fa-building",
+    "visible": false,
+    "icon": "fa-building-o",
     "caption": "Senarai Templat Bangunan",
     "settings": null,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "can_edit_building_template",
-    "groupName": null,
+    "groupName": "Template",
     "url": "template.building-id.0/:id",
     "moduleId": "viewmodels/template.building-id.0",
     "name": "Form Templat Bangunan",
@@ -700,25 +751,27 @@
     "icon": null,
     "caption": null,
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "can_edit_space_template",
-    "groupName": null,
+    "groupName": "Template",
     "url": "space.template.list",
     "moduleId": "viewmodels/space.template.list",
     "name": "Templat Ruang",
-    "visible": true,
+    "visible": false,
     "icon": "fa-flag",
     "caption": "Senarai Templat Ruang",
     "settings": null,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "can_edit_space_template",
-    "groupName": null,
+    "groupName": "Template",
     "url": "template.space-id.0/:id",
     "moduleId": "viewmodels/template.space-id.0",
     "name": "Form templat ruang komersil",
@@ -726,25 +779,27 @@
     "icon": "fa-flag",
     "caption": "Form templat ruang komersil",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "can_edit_application_template",
-    "groupName": null,
+    "groupName": "Template",
     "url": "application.template.list",
     "moduleId": "viewmodels/application.template.list",
     "name": "Templat Permohonan",
-    "visible": true,
+    "visible": false,
     "icon": "fa-flag",
     "caption": "Senarai Templat Permohonan",
     "settings": null,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "can_edit_application_template",
-    "groupName": null,
+    "groupName": "Template",
     "url": "template.application-id.0/:id",
     "moduleId": "viewmodels/template.application-id.0",
     "name": "Form Templat Permohonan",
@@ -752,6 +807,7 @@
     "icon": null,
     "caption": "Form Templat Permohonan",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -765,6 +821,7 @@
     "icon": "fa-check",
     "caption": "Mesej",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -778,6 +835,7 @@
     "icon": "fa-envelope",
     "caption": "Mesej",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -791,6 +849,7 @@
     "icon": "fa-flag",
     "caption": "Senarai Tanah",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -804,6 +863,7 @@
     "icon": "fa-flag",
     "caption": "Butiran Tanah",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -817,6 +877,7 @@
     "icon": "fa-laptop",
     "caption": "Janaan Laporan",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -830,6 +891,7 @@
     "icon": "fa-dribbble",
     "caption": "Report Manager",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -843,6 +905,7 @@
     "icon": "fa-calendar",
     "caption": "Report Schedules",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -856,6 +919,7 @@
     "icon": "fa-check",
     "caption": "Semak Aduan",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -869,6 +933,7 @@
     "icon": "fa-calendar",
     "caption": "Semak Permohonan",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -882,6 +947,7 @@
     "icon": "fa-flag",
     "caption": "Permohonan Sewaan",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
@@ -890,17 +956,46 @@
     "groupName": "Workflow",
     "url": "workflow.definition.list",
     "moduleId": "viewmodels/workflow.definition.list",
-    "name": "Senarai Workflow Definition",
-    "visible": true,
+    "name": "Workflow Definition list",
+    "visible": false,
     "icon": "fa-gears",
-    "caption": "Senarai Workflow Definition",
+    "caption": "Workflows Home",
     "settings": null,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "can_edit_workflow",
-    "groupName": "",
+    "groupName": "Admin",
+    "url": "admin.home",
+    "moduleId": "viewmodels/admin.home",
+    "name": "Administrator landing page",
+    "visible": true,
+    "icon": "fa-gears",
+    "caption": "Administrator Home",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_workflow",
+    "groupName": "Workflow",
+    "url": "workflow.instances.console",
+    "moduleId": "viewmodels/workflow.instances.console",
+    "name": "Management consoles",
+    "visible": false,
+    "icon": "fa-briefcase",
+    "caption": "Workflow management consoles",
+    "settings": null,
+    "isAdminPage": true,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_workflow",
+    "groupName": "Workflow",
     "url": "workflow.definition.visual/:id",
     "moduleId": "viewmodels/workflow.definition.visual",
     "name": "Workflow Visual Designer",
@@ -908,32 +1003,35 @@
     "icon": null,
     "caption": "Workflow visual",
     "settings": null,
+    "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "can_edit_workflow",
-    "groupName": null,
+    "groupName": "Workflow",
     "url": "page.list",
     "moduleId": "viewmodels/page.list",
     "name": "Page list",
-    "visible": true,
-    "icon": "fa-paper-clip",
+    "visible": false,
+    "icon": "fa-list-alt",
     "caption": "Pages",
     "settings": null,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   },
   {
     "role": "can_investigate",
-    "groupName": null,
+    "groupName": "Workflow",
     "url": "workflow.draft",
     "moduleId": "viewmodels/workflow.draft",
     "name": "Draft Workflow",
-    "visible": true,
+    "visible": false,
     "icon": "fa-edit",
     "caption": "Workflow Draft",
     "settings": null,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   }

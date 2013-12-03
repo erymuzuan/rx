@@ -70,6 +70,7 @@
                 <telerik:GridViewComboBoxColumn x:Name="iconsComboBox" IsComboBoxEditable="True" Header="Icon" DataMemberBinding="{Binding Icon}" Width="100"/>
                 <telerik:GridViewDataColumn Header="Caption" DataMemberBinding="{Binding Caption}" Width="200"/>
                 <telerik:GridViewCheckBoxColumn Header="IsVisible" DataMemberBinding="{Binding Visible}" Width="120"/>
+                <telerik:GridViewCheckBoxColumn Header="Admin Page" DataMemberBinding="{Binding IsAdminPage}" Width="120"/>
                 <telerik:GridViewColumn Width="80">
                     <telerik:GridViewColumn.CellTemplate>
                         <DataTemplate>
