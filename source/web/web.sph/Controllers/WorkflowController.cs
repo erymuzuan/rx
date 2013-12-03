@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
@@ -37,12 +38,10 @@ namespace Bespoke.Sph.Web.Controllers
          
             return View(vm);
         }
+        public ActionResult InvalidState()
+        {
+            return View();
+        }
 
-    }
-
-    public class WorkflowStartViewModel
-    {
-        public WorkflowDefinition WorkflowDefinition { get; set; }
-        public ScreenActivity Screen { get; set; }
     }
 }

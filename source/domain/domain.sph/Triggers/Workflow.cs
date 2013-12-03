@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -83,39 +82,49 @@ namespace Bespoke.Sph.Domain
                                     {"NextActivityWebId", act.NextActivityWebId}
                                 };
 
-            var tracker =await this.GetTrackerAsync();
+            var tracker = await this.GetTrackerAsync();
             tracker.AddExecutedActivity(act);
 
             var context = new SphDataContext();
+            if (this.WorkflowId > 0)
+            {
+                using (var session = context.OpenSession())
+                {
+                    session.Attach(this, tracker);
+                    await session.SubmitChanges(act.Name, headers);
+                }
+                return;
+            }
             using (var session = context.OpenSession())
             {
-                session.Attach(this, tracker);
+                session.Attach(this);
+                await session.SubmitChanges(act.Name, headers);
+            }
+
+            tracker.WorkflowId = this.WorkflowId;
+            tracker.WorkflowDefinitionId = this.WorkflowDefinitionId;
+            using (var session = context.OpenSession())
+            {
+                session.Attach(tracker);
                 await session.SubmitChanges(act.Name, headers);
             }
         }
 
-        public DynamicObject ExecutionBag { get; set; }
-        private readonly ObjectCollection<string> m_validExecutableStepsCollection = new ObjectCollection<string>();
-        private readonly ObjectCollection<string> m_forbiddenStepsCollection = new ObjectCollection<string>();
-        public ObjectCollection<string> ValidExecutableSteps
-        {
-            get { return m_validExecutableStepsCollection; }
-        }
-
-        public ObjectCollection<string> ForbiddenSteps
-        {
-            get { return m_forbiddenStepsCollection; }
-        }
-
+     
         public async Task<Tracker> GetTrackerAsync()
         {
-            if(this.WorkflowId == 0)
+            if (this.WorkflowId == 0)
                 return new Tracker { WorkflowId = this.WorkflowId, WorkflowDefinitionId = this.WorkflowDefinitionId };
 
             var context = new SphDataContext();
             var tracker = await context.LoadOneAsync<Tracker>(t => t.WorkflowId == this.WorkflowId)
                           ??
-                          new Tracker {WorkflowId = this.WorkflowId, WorkflowDefinitionId = this.WorkflowDefinitionId};
+                          new Tracker { WorkflowId = this.WorkflowId, WorkflowDefinitionId = this.WorkflowDefinitionId };
+            tracker.Workflow = this;
+            tracker.WorkflowDefinition = this.WorkflowDefinition;
+            if (tracker.TrackerId == 0)
+                tracker.Init(this, this.WorkflowDefinition);
+
             return tracker;
         }
 

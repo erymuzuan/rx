@@ -87,10 +87,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\ImageResizer.Mvc.3.4.1\lib\ImageResizer.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Invoke.Docx, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dependencies\word.document.generator\bin\Debug\Invoke.Docx.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.AspNet.SignalR.Core.2.0.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -364,6 +360,7 @@
     <Compile Include="ViewModels\TriggerPathPickerHtmlViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
     <Compile Include="ViewModels\WorkflowDefinitionVisualViewModel.cs" />
+    <Compile Include="ViewModels\WorkflowStartViewModel.cs" />
     <Compile Include="WorkflowHelpers\ScreenActivityVirtualFile.cs" />
     <Compile Include="WorkflowHelpers\WorkflowScreenActivityPathProvider.cs" />
     <Compile Include="WorkflowHelpers\WorklowPageCacheDependency.cs" />
@@ -1786,14 +1783,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\dependencies\ledger.msxl\ledger.msxl.csproj">
-      <Project>{247853F5-C1F5-4B4D-8EE4-C14B0E93706A}</Project>
-      <Name>ledger.msxl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\dependencies\word.document.generator\word.document.generator.csproj">
-      <Project>{3C83CD91-EF5C-46AB-A5E0-EE038A608A62}</Project>
-      <Name>word.document.generator</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\domain\domain.sph\domain.sph.csproj">
       <Project>{7BF1DE5A-3756-4A31-8B82-491C71D263D7}</Project>
       <Name>domain.sph</Name>
@@ -2124,6 +2113,7 @@
     <Content Include="Views\Page\DiffLine.cshtml" />
     <Content Include="Views\Page\DiffPane.cshtml" />
     <Content Include="Views\Page\Index.cshtml" />
+    <Content Include="Views\Workflow\InvalidState.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

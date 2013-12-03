@@ -201,6 +201,14 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("               var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"{0}\");", this.WebId);
             code.AppendLinf("               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");");
 
+            // tracker
+            code.AppendLinf("               var tracker = await wf.GetTrackerAsync();");
+            code.AppendLinf("               if(!tracker.CanExecute(\"{0}\")", this.WebId);
+            code.AppendLine("               {");
+            code.AppendLine("                   return RedirectToAction(\"InvalidState\",\"Workflow\");");
+            code.AppendLine("               }");
+
+
 
             code.AppendLinf("               vm.Screen  = screen;");
             code.AppendLinf("               vm.Instance  = wf as {0};", wd.WorkflowTypeName);
