@@ -35,9 +35,7 @@ namespace Bespoke.Sph.Domain
 
         public bool CanExecute(string webid)
         {
-            if(this.ForbiddenActivities.Contains(webid)) return false;
-            if (string.IsNullOrWhiteSpace(this.Workflow.State)) return true;
-            if (this.Workflow.State != "WaitingAsync") return false;
+            // TODO : determine all the legal states
             return true;
         }
     }
