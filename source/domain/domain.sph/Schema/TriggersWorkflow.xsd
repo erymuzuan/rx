@@ -657,10 +657,29 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="ExecutedActivityCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ExecutedActivity" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:all>
 			<xs:attribute name="TrackerId" type="xs:int" use="required"/>
 			<xs:attribute name="WorkflowId" type="xs:int" use="required"/>
 			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ExecutedActivity">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Initiated" type="xs:dateTime" nillable="true"/>
+				<xs:element name="Run" type="xs:dateTime" nillable="true"/>
+			</xs:all>
+			<xs:attribute name="InstanceId" type="xs:int" use="required"/>
+			<xs:attribute name="ActivityWebId" type="xs:string" use="required"/>
+			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
+			<xs:attribute name="User" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

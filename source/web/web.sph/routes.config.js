@@ -996,6 +996,20 @@
   {
     "role": "can_edit_workflow",
     "groupName": "Workflow",
+    "url": "workflow.debugger/:id",
+    "moduleId": "viewmodels/workflow.debugger",
+    "name": "Instant Debugger",
+    "visible": false,
+    "icon": "fa-bug",
+    "caption": "Workflow Instant debugger",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_workflow",
+    "groupName": "Workflow",
     "url": "workflow.definition.visual/:id",
     "moduleId": "viewmodels/workflow.definition.visual",
     "name": "Workflow Visual Designer",

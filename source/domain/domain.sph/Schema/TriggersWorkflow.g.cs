@@ -3307,6 +3307,17 @@ namespace Bespoke.Sph.Domain
             get { return m_ForbiddenActivities; }
         }
 
+        private readonly ObjectCollection<ExecutedActivity> m_ExecutedActivityCollection = new ObjectCollection<ExecutedActivity>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ExecutedActivity", IsNullable = false)]
+        public ObjectCollection<ExecutedActivity> ExecutedActivityCollection
+        {
+            get { return m_ExecutedActivityCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -3393,6 +3404,210 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ExecutedActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ExecutedActivity
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_instanceId;
+        public const string PropertyNameInstanceId = "InstanceId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_activityWebId;
+        public const string PropertyNameActivityWebId = "ActivityWebId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_workflowDefinitionId;
+        public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_user;
+        public const string PropertyNameUser = "User";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private DateTime? m_initiated;
+        public const string PropertyNameInitiated = "Initiated";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private DateTime? m_run;
+        public const string PropertyNameRun = "Run";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int InstanceId
+        {
+            set
+            {
+                if (m_instanceId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInstanceId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_instanceId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_instanceId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string ActivityWebId
+        {
+            set
+            {
+                if (String.Equals(m_activityWebId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameActivityWebId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_activityWebId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_activityWebId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int WorkflowDefinitionId
+        {
+            set
+            {
+                if (m_workflowDefinitionId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_workflowDefinitionId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_workflowDefinitionId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string User
+        {
+            set
+            {
+                if (String.Equals(m_user, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameUser, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_user = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_user;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public DateTime? Initiated
+        {
+            set
+            {
+                if (m_initiated == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInitiated, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_initiated = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_initiated; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public DateTime? Run
+        {
+            set
+            {
+                if (m_run == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameRun, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_run = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_run; }
+        }
 
 
     }

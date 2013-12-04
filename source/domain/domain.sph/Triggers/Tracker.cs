@@ -31,6 +31,17 @@ namespace Bespoke.Sph.Domain
         {
             if (!this.ForbiddenActivities.Contains(act.WebId))
                 this.ForbiddenActivities.Add(act.WebId);
+
+            var ea = new ExecutedActivity
+            {
+                WorkflowDefinitionId = this.WorkflowDefinitionId,
+                ActivityWebId = act.WebId,
+                InstanceId = this.WorkflowId,
+                User = "TODO: get user from activity",
+                
+                
+            };
+            this.ExecutedActivityCollection.Add(ea);
         }
 
         public bool CanExecute(string webid)

@@ -36,6 +36,7 @@
             <th>State</th>
             <th>Created </th>
             <th>Changed</th>
+            <th></th>
         </tr>
     </thead>
     <tbody data-bind="foreach :results">
@@ -44,15 +45,19 @@
                 <input type="checkbox" data-bind="checkedItems: $root.selectedItems" />
             </td>
             <td>
-                <a href="#">
                     <i class="fa fa-gears"></i>
                     <span data-bind="date:{value: CreatedDate, format:'DD/MM/YYYY HH:mm'}"></span>
-                </a>
+             
             </td>
             <td data-bind="date:{value: ChangedDate, format:'DD/MM/YYYY HH:mm'}"></td>
             <td data-bind="text:State"></td>
             <td data-bind="text:CreatedBy"></td>
             <td data-bind="text:ChangedBy"></td>
+            <td>
+                <a href="/#" data-bind="attr : {href:'/#/workflow.debugger/' + WorkflowId()}" title="debug" >
+                    <i class="fa fa-bug"></i>
+                </a>
+            </td>
         </tr>
     </tbody>
 </table>

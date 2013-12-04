@@ -501,6 +501,7 @@
     <Content Include="App\viewmodels\public.check.application.js" />
     <Content Include="App\viewmodels\rentalapplication.onbehalf.js" />
     <Content Include="App\viewmodels\space.detailpublic.js" />
+    <Content Include="App\viewmodels\workflow.debugger.js" />
     <Content Include="App\viewmodels\workflow.definition.list.js" />
     <Content Include="App\viewmodels\workflow.definition.visual.js" />
     <Content Include="App\viewmodels\workflow.instances.console.js" />
@@ -586,6 +587,7 @@
     <Content Include="App\views\maintenance.officer.dashboard.html" />
     <Content Include="App\views\public.check.application.html" />
     <Content Include="App\views\rentalapplication.onbehalf.html" />
+    <Content Include="App\views\workflow.debugger.html" />
     <Content Include="App\views\workflow.definition.list.html" />
     <Content Include="App\views\workflow.definition.visual.html" />
     <Content Include="App\views\workflow.instances.console.html" />

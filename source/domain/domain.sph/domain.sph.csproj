@@ -181,6 +181,7 @@
     <Compile Include="Triggers\DelayActivity.cs" />
     <Compile Include="Triggers\DeleteEntityActivity.cs" />
     <Compile Include="Triggers\EndActivity.cs" />
+    <Compile Include="Triggers\ExecutedActivity.cs" />
     <Compile Include="Triggers\ExpressionActivity.cs" />
     <Compile Include="Triggers\FunctionField.cs" />
     <Compile Include="IBinaryStore.cs" />
