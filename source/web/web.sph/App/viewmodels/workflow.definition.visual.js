@@ -284,8 +284,12 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                             }
                         ]
                     ];
-                var connection = jsPlumb.connect(option);
-                connection.setParameter({ label: label });
+                try {
+                    var connection = jsPlumb.connect(option);
+                    connection.setParameter({ label: label });
+                } catch (e) {
+                    console.log(e);
+                }
 
 
 
@@ -468,7 +472,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 });
 
                 var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(wd);
+                var data = ko.mapping.toJSON(wd());
                 isBusy(true);
 
                 context.post(data, "/WorkflowDefinition/Save")
