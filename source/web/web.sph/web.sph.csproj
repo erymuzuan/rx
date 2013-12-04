@@ -79,13 +79,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.3.13295\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
     </Reference>
-    <Reference Include="ImageResizer, Version=3.4.1.897, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ImageResizer, Version=3.4.2.549, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\ImageResizer.3.4.1\lib\ImageResizer.dll</HintPath>
+      <HintPath>..\..\..\packages\ImageResizer.3.4.2\lib\ImageResizer.dll</HintPath>
     </Reference>
-    <Reference Include="ImageResizer.Mvc, Version=3.4.1.897, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ImageResizer.Mvc, Version=3.4.2.549, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\ImageResizer.Mvc.3.4.1\lib\ImageResizer.Mvc.dll</HintPath>
+      <HintPath>..\..\..\packages\ImageResizer.Mvc.3.4.2\lib\ImageResizer.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -505,6 +505,7 @@
     <Content Include="App\viewmodels\workflow.definition.list.js" />
     <Content Include="App\viewmodels\workflow.definition.visual.js" />
     <Content Include="App\viewmodels\workflow.instances.console.js" />
+    <Content Include="App\viewmodels\workflow.manage.js" />
     <Content Include="App\viewmodels\_contract.facility.js" />
     <Content Include="App\viewmodels\maintenance.dashboard.js" />
     <Content Include="App\viewmodels\maintenance.list.js" />
@@ -591,6 +592,7 @@
     <Content Include="App\views\workflow.definition.list.html" />
     <Content Include="App\views\workflow.definition.visual.html" />
     <Content Include="App\views\workflow.instances.console.html" />
+    <Content Include="App\views\workflow.manage.html" />
     <Content Include="App\views\_contract.facility.html" />
     <Content Include="App\views\space.template.form.html" />
     <Content Include="App\views\space.template.list.html" />

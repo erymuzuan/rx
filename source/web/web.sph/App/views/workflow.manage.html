@@ -1,0 +1,34 @@
+﻿<div class="row" data-bind="with : wd">
+    <h1 data-bind="text:Name"></h1>
+</div>
+<h3>Deployed Versions</h3>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Version</th>
+            <th>Running</th>
+            <th>Web</th>
+            <th>Subscriber</th>
+            <th>Schedulers</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach :workflows">
+        <tr>
+            <td data-bind="text:Version"></td>
+            <td data-bind="text:Running"></td>
+            <td data-bind="text:Web"></td>
+            <td data-bind="text:Subscriber"></td>
+            <td data-bind="text:Scheduler"></td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="row">
+    <button class="btn btn-default">
+        <i class="fa fa-play fa-2x"></i>
+    </button>
+    <button class="btn btn-default">
+        <i class="fa fa-stop fa-2x"></i>
+    </button>
+</div>

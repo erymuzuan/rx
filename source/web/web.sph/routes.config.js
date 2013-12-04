@@ -1048,5 +1048,19 @@
     "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": "can_edit_workflow",
+    "groupName": "Workflow",
+    "url": "workflow.manage/:id",
+    "moduleId": "viewmodels/workflow.manage",
+    "name": "Manage worflows",
+    "visible": false,
+    "icon": "fa-gear:before,\r\n.fa-cog",
+    "caption": "Manage Workflow",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
   }
 ]

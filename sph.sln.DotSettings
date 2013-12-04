@@ -725,8 +725,12 @@ IsEnabled="{Binding ElementName=$listView$, Path=SelectedItem, Converter={Static
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Description/@EntryValue">asp.net MVC action</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=action/@KeyIndexDefined">True</s:Boolean>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=action/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=Entity/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=Entity/Order/@EntryValue">3</s:Int64>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=parameters/@KeyIndexDefined">True</s:Boolean>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=parameters/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=query/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=query/Order/@EntryValue">4</s:Int64>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=result/@KeyIndexDefined">True</s:Boolean>
 	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Field/=result/Order/@EntryValue">2</s:Int64>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Reformat/@EntryValue">True</s:Boolean>
@@ -737,12 +741,15 @@ IsEnabled="{Binding ElementName=$listView$, Path=SelectedItem, Converter={Static
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=3E4AF676610E8E4FBAB1B076868B9516/Text/@EntryValue">public async Task&lt;ActionResult&gt; $action$($parameters$)&#xD;
 {&#xD;
+	var context = new SphDataContext();&#xD;
+	var query = context.$Entity$.Where($query$);&#xD;
+	&#xD;
 	$END$&#xD;
 	&#xD;
     if (Request.ContentType == "application/json; charset=utf-8")&#xD;
     {&#xD;
         this.Response.ContentType = "application/json; charset=utf-8";&#xD;
-        return Content(await JsonConvert.SerializeObjectAsync($result$));&#xD;
+        return Content(JsonConvert.SerializeObject($result$));&#xD;
     }&#xD;
 &#xD;
     return View($result$);&#xD;

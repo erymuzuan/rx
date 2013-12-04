@@ -3,15 +3,24 @@
     query: 'WorkflowDefinitionId gt 0', list: definitions }">
     <thead>
         <tr>
-            <th>Nama</th>
-            <th>Keterangan</th>
-            <th>Aktif</th>
+            <th>Manage</th>
+            <th>Design</th>
+            <th>Note</th>
+            <th>Enabled</th>
         </tr>
     </thead>
     <tbody data-bind="foreach: definitions">
         <tr>
             <td>
-                <a data-bind="attr: { href: '/#/workflow.definition.visual/' + WorkflowDefinitionId() }, text: Name"></a>
+                <a data-bind="attr: { href: '/#/workflow.manage/' + WorkflowDefinitionId() }" title="Manage">
+                    <i class="glyphicon glyphicon-cog"></i>
+                </a>
+            </td>
+            <td>
+                <a data-bind="attr: { href: '/#/workflow.definition.visual/' + WorkflowDefinitionId() }">
+                    <i class="fa fa-edit"></i>
+                    <span data-bind="text:Name"></span>
+                </a>
             </td>
             <td data-bind="text: Note"></td>
             <td>

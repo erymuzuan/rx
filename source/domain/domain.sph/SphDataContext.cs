@@ -12,6 +12,7 @@ namespace Bespoke.Sph.Domain
     [Export]
     public class SphDataContext
     {
+        public IQueryable<AuditTrail> AuditTrails { get; set; }
         public IQueryable<Building> Buildings { get; set; }
         public IQueryable<BuildingTemplate> BuildingTemplates { get; set; }
         public IQueryable<Space> Spaces { get; set; }
@@ -43,6 +44,7 @@ namespace Bespoke.Sph.Domain
         {
             var provider = ObjectBuilder.GetObject<QueryProvider>();
 
+            this.AuditTrails = new Query<AuditTrail>(provider);
             this.Buildings = new Query<Building>(provider);
             this.BuildingTemplates = new Query<BuildingTemplate>(provider);
             this.Spaces = new Query<Space>(provider);
@@ -158,6 +160,13 @@ namespace Bespoke.Sph.Domain
                 {
                     Expression<Func<Page, bool>> predicate = t => t.PageId == o1.GetId();
                     var query = new Query<Page>(provider).Where(predicate);
+                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
+                    list.Add(p);
+                }
+                if (type == typeof(WorkflowDefinition))
+                {
+                    Expression<Func<WorkflowDefinition, bool>> predicate = t => t.WorkflowDefinitionId == o1.GetId();
+                    var query = new Query<WorkflowDefinition>(provider).Where(predicate);
                     var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
                     list.Add(p);
                 }
