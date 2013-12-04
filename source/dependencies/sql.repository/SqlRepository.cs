@@ -15,19 +15,20 @@ namespace Bespoke.Sph.SqlRepository
     public partial class SqlRepository<T> : IRepository<T> where T : Entity
     {
         private readonly string m_connectionString;
-        private string m_dataColumn;
         public bool IsJson { get; set; }
         public string DataColumn
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(m_dataColumn))
-                    m_dataColumn = this.IsJson ? "[Json]" : "[Data]";
-                return m_dataColumn;
+               return this.IsJson ? "[Json]" : "[Data]";
             }
-            set { m_dataColumn = value; }
         }
 
+        public SqlRepository(bool useJson)
+        {
+            this.IsJson = useJson;
+            m_connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
+        }
         public SqlRepository()
         {
             m_connectionString = ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
@@ -42,10 +43,11 @@ namespace Bespoke.Sph.SqlRepository
         public async Task<T> LoadOneAsync(IQueryable<T> query)
         {
             var elementType = typeof(T);
-            var sql = query.ToString().Replace(this.DataColumn, string.Format("[{0}Id]," + this.DataColumn, elementType.Name));
+            var sql = query.ToString().Replace("[Data]", string.Format("[{0}Id]," + this.DataColumn, elementType.Name));
 
             var id = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Single(p => p.Name == elementType.Name + "Id");
+           
 
             using (var conn = new SqlConnection(m_connectionString))
             using (var cmd = new SqlCommand(sql, conn))
@@ -74,7 +76,7 @@ namespace Bespoke.Sph.SqlRepository
         public T LoadOne(IQueryable<T> query)
         {
             var elementType = typeof(T);
-            var sql = query.ToString().Replace(this.DataColumn, string.Format("[{0}Id]," + this.DataColumn, elementType.Name));
+            var sql = query.ToString().Replace("[Data]", string.Format("[{0}Id]," + this.DataColumn, elementType.Name));
 
             var id = elementType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Single(p => p.Name == elementType.Name + "Id");
@@ -157,7 +159,7 @@ namespace Bespoke.Sph.SqlRepository
             var elementType = typeof(T);
 
             var sql = new StringBuilder(query.ToString());
-            sql.Replace(this.DataColumn, string.Format("[{0}Id]," + this.DataColumn, elementType.Name));
+            sql.Replace("[Data]", string.Format("[{0}Id]," + this.DataColumn, elementType.Name));
             if (!sql.ToString().Contains("ORDER"))
             {
                 sql.AppendLine();
