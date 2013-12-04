@@ -176,6 +176,12 @@ namespace Bespoke.Sph.Domain
                 if (sources[i].StartsWith("//exec:"))
                     member = sources[i].Replace("//exec:", string.Empty);
             }
+            if (this.ActivityCollection.All(a => a.WebId != member))
+            {
+                return new BuildError(null, er.ToString()){Line = er.Line};
+            }
+
+
             var act = this.GetActivity<Activity>(member);
             var message = er.ErrorText;
             if (null != act)
