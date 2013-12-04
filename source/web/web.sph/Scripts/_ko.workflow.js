@@ -15,6 +15,23 @@ ko.bindingHandlers.activityClass = {
     }
 };
 
+ko.bindingHandlers.checkedItems = {
+    init: function (element, valueAccessor) {
+        var item = ko.dataFor(element),
+            list  = valueAccessor();
+
+        $(element).change(function() {
+            var checked = $(this).is(':checked');
+            if (checked) {
+                list.push(item);
+            } else {
+                list.remove(item);
+            }
+        });
+
+    }
+};
+
 ko.bindingHandlers.typeahead = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var id = ko.unwrap(valueAccessor()),

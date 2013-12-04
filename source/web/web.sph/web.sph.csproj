@@ -303,6 +303,7 @@
     <Compile Include="Controllers\WorkflowDefinitionController.cs" />
     <Compile Include="Controllers\WorkflowController.cs" />
     <Compile Include="Controllers\AppController.workflow.draft.cs" />
+    <Compile Include="Controllers\WorkflowMonitorController.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

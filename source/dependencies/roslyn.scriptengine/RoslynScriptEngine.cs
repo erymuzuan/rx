@@ -58,7 +58,7 @@ namespace Bespoke.Sph.RoslynScriptEngines
                                      "var item = Item as {1};\r\n" +
                                      customScript + "\r\n" +
                                         "{0}\r\n" +
-                                     "}}", block, arg1.GetType().Name, typeof(T).FullName);
+                                     "}}", block, arg1.GetType().FullName, typeof(T).FullName);
             try
             {
                 session.Execute(code);

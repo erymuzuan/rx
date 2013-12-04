@@ -209,7 +209,7 @@ namespace Bespoke.Sph.SqlRepository
 
             if (includeTotalRows)
             {
-                var sql2 = query.ToString().Replace(this.DataColumn, "COUNT(*)");
+                var sql2 = query.ToString().Replace("[Data]", "COUNT(*)");
                 var order = sql2.IndexOf("ORDER", StringComparison.Ordinal);
                 var count = order == -1 ? sql2 : sql2.Substring(0, order);
                 lo.TotalRows = await GetCountAsync(count).ConfigureAwait(false);

@@ -22,15 +22,15 @@ namespace Bespoke.Sph.ElasticSearch
 
         protected virtual string GetTypeName(T item)
         {
-                return typeof (T).Name.ToLowerInvariant();
-            
+            return typeof(T).Name.ToLowerInvariant();
+
         }
 
         protected async override Task ProcessMessage(T item, MessageHeaders headers)
         {
             this.WriteMessage("INDEXING {0}", item);
 
-            var setting = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
+            var setting = new JsonSerializerSettings();
 
             var json = JsonConvert.SerializeObject(item, setting);
             var content = new StringContent(json);
