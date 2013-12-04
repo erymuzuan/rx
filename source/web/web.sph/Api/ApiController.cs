@@ -177,8 +177,9 @@ namespace Bespoke.Sph.Web.Api
 
             var typeName = typeof(T).Name;
 
+            var orderby = this.Request.QueryString["$orderby"];
             var translator = new OdataSqlTranslator<T>(null, typeName);
-            var sql = translator.Select(filter);
+            var sql = translator.Select(filter, orderby);
             var rows = 0;
             var nextPageToken = "";
             var list = await this.ExecuteListTupleAsync<T>(sql, page, size);

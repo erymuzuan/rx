@@ -34,7 +34,7 @@ namespace Bespoke.Sph.Web.Api
             var hasCustomOrder = !columns.StartsWith(order);
             if (hasCustomOrder)
             {
-                cteColumns += "\r\n," + order.Replace("DESC", "");
+                cteColumns += "\r\n," + order.Replace("desc", "").Replace("DESC", "");
             }
 
             output.AppendLine("SELECT");

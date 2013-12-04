@@ -82,14 +82,22 @@ namespace Bespoke.Sph.Web.Helpers
             return string.Format("SELECT DISTINCT [{0}] FROM [Sph].[{1}] {2} ", m_column, m_table, this.Translate(filter));
         }
 
-        public string Select(string filter)
+        public string Select(string filter, string orderby)
         {
             var type = typeof(IRepository<T>);
             dynamic repos = ObjectBuilder.GetObject(type);
 
-            if (string.IsNullOrEmpty(filter))
-                return string.Format("SELECT [{0}Id],{1} FROM [Sph].[{0}]", m_table, repos.DataColumn);
-            return string.Format("SELECT [{0}Id],{2} FROM [Sph].[{0}] {1} ", m_table, this.Translate(filter), repos.DataColumn);
+            var sql = string.Format("SELECT [{0}Id],{1} FROM [Sph].[{0}]", m_table, repos.DataColumn);
+
+            if (!string.IsNullOrEmpty(filter))
+                sql = string.Format("SELECT [{0}Id],{2} FROM [Sph].[{0}] {1} ", m_table, this.Translate(filter), repos.DataColumn);
+
+            if (!string.IsNullOrWhiteSpace(orderby))
+            {
+                sql += " ORDER BY " + orderby;
+            }
+
+            return sql;
         }
     }
 }

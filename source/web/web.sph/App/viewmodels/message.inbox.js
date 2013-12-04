@@ -17,11 +17,14 @@ define(['services/datacontext', 'config'],
                 var query = String.format("UserName eq '{0}'", config.userName);
                 var tcs = new $.Deferred();
 
-                context.loadAsync("Message", query)
+                context.loadAsync({
+                    entity: "Message",
+                    orderby: "CreatedDate desc"
+                }, query)
                     .then(function (lo) {
                         isBusy(false);
-
-                        vm.messages(lo.itemCollection);
+                        var sorted = lo.itemCollection.sort(function(x, y) { return x.CreatedDate() > y.CreatedDate(); });
+                        vm.messages(sorted);
                         tcs.resolve(true);
                     });
                 return tcs.promise();
@@ -37,7 +40,7 @@ define(['services/datacontext', 'config'],
             filter = function (options) {
                 options = options || {};
                 options.read = includeRead();
-                
+
                 var query = String.format("UserName eq '{0}'", config.userName);
                 if (options.start) {
                     query += " and CreatedDate ge DateTime'" + options.start + "'";
@@ -50,7 +53,10 @@ define(['services/datacontext', 'config'],
                 }
                 var tcs = new $.Deferred();
 
-                context.loadAsync("Message", query)
+                context.loadAsync({
+                    entity: "Message",
+                    orderby: "CreatedDate desc"
+                }, query)
                     .then(function (lo) {
                         isBusy(false);
 
@@ -58,7 +64,7 @@ define(['services/datacontext', 'config'],
                         tcs.resolve(true);
                     });
                 return tcs.promise();
-                
+
             },
             viewAttached = function (view) {
             },

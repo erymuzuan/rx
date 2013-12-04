@@ -167,12 +167,14 @@ function (logger, system, ko2) {
         var entity = entityOrOptions,
             includeTotal = false,
             size = 20,
-            page = 1;
+            page = 1,
+            orderby = null;
         if (typeof entityOrOptions === "object") {
             entity = entityOrOptions.entity;
             includeTotal = entityOrOptions.includeTotal || false;
             page = entityOrOptions.page || 1;
             size = entityOrOptions.size || 20;
+            orderby = entityOrOptions.orderby|| entityOrOptions.sort;
         }
 
         var url = "/api/" + entity;
@@ -180,6 +182,9 @@ function (logger, system, ko2) {
         url += "&page=" + page;
         url += "&includeTotal=" + includeTotal;
         url += "&size=" + size;
+        if (orderby) {
+            url += "&$orderby=" + orderby;
+        }
         console.log("DataContext", url);
 
         var tcs = new $.Deferred();
