@@ -135,5 +135,17 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        public async virtual Task TerminateAsync()
+        {
+            this.State = "Terminated";
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(this);
+                await session.SubmitChanges("Terminated");
+                // TODO : use the subscriber to delete any scheduled task or related resources to this instance
+                // this.WorkflowDefinition.ActivityCollection.ForEach(async a => await a.TerminateAsync(this));
+            }
+        }
     }
 }

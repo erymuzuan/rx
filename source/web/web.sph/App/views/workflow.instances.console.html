@@ -58,9 +58,9 @@
 </table>
 <div class="row">
     <form class="form-inline">
-        <button class="btn btn-danger" title="Terminate all selected instances" data-bind="enable:selectedItems().length,">
+        <button class="btn btn-danger" title="Terminate all selected instances" data-bind="enable:selectedItems().length,command : terminateItems">
             <span data-bind="text:selectedItems().length"></span>
-             Terminate
+            Terminate
         </button>
     </form>
 </div>

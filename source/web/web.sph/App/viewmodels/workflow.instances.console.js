@@ -4,13 +4,14 @@
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
+/// <reference path="../objectbuilders.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-    function (context, logger, router) {
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router', objectbuilders.app],
+    function (context, logger, router, app) {
 
         var isBusy = ko.observable(false),
             activate = function () {
@@ -38,16 +39,45 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                     .then(function (result) {
                         isBusy(false);
                         var items = _(result.$values).map(function (v) {
-                            //
-                            return context.toObservable(v,/Bespoke\.Sph\.Workflows.*\.(.*?),/);
+                            return context.toObservable(v, /Bespoke\.Sph\.Workflows.*\.(.*?),/);
                         });
                         vm.results(items);
                         tcs.resolve(items);
+                        vm.selectedItems.removeAll();
                     });
                 return tcs.promise();
             },
-            terminateItems = function(items) {
-                
+            terminateItems = function () {
+
+                var tcs = new $.Deferred(),
+                    instancesId = _(vm.selectedItems()).map(function (v) {
+                        return v.WorkflowId();
+                    }), terminate = function () {
+
+                        var data = JSON.stringify({ instancesId: instancesId });
+                        isBusy(true);
+
+                        context.post(data, "/WorkflowMonitor/Terminate")
+                            .then(function (result) {
+                                isBusy(false);
+                                tcs.resolve(result);
+                                logger.info('Your instances has been succesfully terminated');
+                                
+                                // refresh
+                                search();
+                            });
+
+                    };
+                app.showMessage('Are you sure you want terminate these running instances', 'SPH - Workflow', ['Yes', 'No'])
+                    .done(function (dr) {
+                        if (dr === 'Yes') {
+                            terminate();
+                        } else {
+                            tcs.resolve(false);
+                        }
+                    });
+
+                return tcs.promise();
             };
 
         var vm = {

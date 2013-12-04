@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Domain
                 result.Errors.Add(new BuildError(this.WebId,
                     string.Format("[DelayActivity] -\"{0}\" Set the wait time or expression", this.Name)));
             }
-            if (this.Miliseconds + this.Seconds + this.Hour + this.Days < 0 )
+            if (this.Miliseconds + this.Seconds + this.Hour + this.Days < 0)
             {
                 result.Errors.Add(new BuildError(this.WebId,
                     string.Format("[DelayActivity] -\"{0}\" Set the wait time span cannot be back dated", this.Name)));
@@ -97,6 +97,18 @@ namespace Bespoke.Sph.Domain
             }
 
             return code.ToString();
+        }
+
+        public async override Task TerminateAsync(Workflow wf)
+        {
+            var ts = ObjectBuilder.GetObject<ITaskScheduler>();
+            var task = new ScheduledActivityExecution
+            {
+                InstanceId = wf.WorkflowId,
+                ActivityId = this.WebId,
+                Name = this.Name
+            };
+            await ts.DeleteAsync(task);
         }
     }
 }
