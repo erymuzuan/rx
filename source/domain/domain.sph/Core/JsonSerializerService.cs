@@ -61,10 +61,11 @@ namespace Bespoke.Sph.Domain
         /// 
         /// </summary>
         /// <returns></returns>
-        public static string ToJsonString<T>(this T value)
+        public static string ToJsonString<T>(this T value, Formatting format = Formatting.None)
         {
-            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, ReferenceLoopHandling = ReferenceLoopHandling.Ignore};
+            var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            setting.Formatting = format;
             return JsonConvert.SerializeObject(value, setting);
         }
 

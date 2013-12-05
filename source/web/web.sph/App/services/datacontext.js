@@ -174,7 +174,7 @@ function (logger, system, ko2) {
             includeTotal = entityOrOptions.includeTotal || false;
             page = entityOrOptions.page || 1;
             size = entityOrOptions.size || 20;
-            orderby = entityOrOptions.orderby|| entityOrOptions.sort;
+            orderby = entityOrOptions.orderby || entityOrOptions.sort;
         }
 
         var url = "/api/" + entity;
@@ -230,6 +230,10 @@ function (logger, system, ko2) {
         }
 
         var url = "/search/" + entity.toLowerCase();
+        //NOTE: for workflows
+        if (entity.indexOf("_") > 0) {
+            url = entity.toLowerCase() + "/search/";
+        }
         query.from = (page - 1) * size;
         query.size = size;
 

@@ -56,7 +56,7 @@ namespace Bespoke.Sph.Domain
         private void SetVariableValue(VariableValue vv, Workflow wf, Type type)
         {
             var path = vv.Name.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-            
+
             var prop = type.GetProperty(path[0]);
             if (path.Length == 1)
             {
@@ -64,15 +64,15 @@ namespace Bespoke.Sph.Domain
                 return;
             }
 
-            object dd =wf;
-            for (int i = 0; i < path.Length -1; i++)
+            object dd = wf;
+            for (int i = 0; i < path.Length - 1; i++)
             {
                 var pname = path[i];
                 prop = dd.GetType().GetProperty(pname);
                 dd = prop.GetValue(dd);
             }
             prop = dd.GetType().GetProperty(path.Last());
-            prop.SetValue(dd,vv.Value);
+            prop.SetValue(dd, vv.Value);
 
         }
 
@@ -136,8 +136,11 @@ namespace Bespoke.Sph.Domain
                 parameters.ReferencedAssemblies.Add(typeof(Expression<>).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(XmlAttributeAttribute).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Net.Mail.SmtpClient).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(System.Net.Http.HttpClient).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(XElement).Assembly.Location);
                 parameters.ReferencedAssemblies.Add(typeof(System.Web.HttpResponseBase).Assembly.Location);
+                parameters.ReferencedAssemblies.Add(typeof(ConfigurationManager).Assembly.Location);
+
                 foreach (var ass in options.ReferencedAssemblies)
                 {
                     parameters.ReferencedAssemblies.Add(ass.Location);
@@ -178,7 +181,12 @@ namespace Bespoke.Sph.Domain
             }
             if (this.ActivityCollection.All(a => a.WebId != member))
             {
-                return new BuildError(null, er.ToString()){Line = er.Line};
+                return new BuildError(null, er.ToString())
+                {
+                    Line = er.Line,
+                    Code =er.Line > 1 ? sources[er.Line - 1] : string.Empty
+                };
+
             }
 
 

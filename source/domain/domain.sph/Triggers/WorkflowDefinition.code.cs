@@ -147,9 +147,36 @@ namespace Bespoke.Sph.Domain
             {
                 code.AppendLine("   " + activity.GeneratedCustomTypeCode(this));
             }
+            // search
+            this.GenerateSearchController(code);
 
             code.AppendLine("}");// end namespace
             return code.ToString();
+        }
+
+        private void GenerateSearchController(StringBuilder code)
+        {
+            code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", this.WorkflowDefinitionId, this.Version);
+            code.AppendLine("{");
+            code.AppendLinf("//exec:Search");
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Search()");
+            code.AppendLine("       {");
+            code.AppendLinf(@"
+            var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);
+            var request = new System.Net.Http.StringContent(json);
+            var esHost = System.Configuration.ConfigurationManager.AppSettings[""sph:eshost""] ?? ""http://localhost:9200/sph/"";
+
+            var client = new System.Net.Http.HttpClient();
+            var response = await client.PostAsync(esHost + ""Workflow_{0}_{1}/_search"", request);
+            var content = response.Content as System.Net.Http.StreamContent;
+            if (null == content) throw new Exception(""Cannot execute query on es "" + request);
+            this.Response.ContentType = ""application/json; charset=utf-8"";
+            return Content(await content.ReadAsStringAsync());", this.WorkflowDefinitionId, this.Version);
+            code.AppendLine("       }");
+            code.AppendLine("}");
+
+            
+            
         }
 
 

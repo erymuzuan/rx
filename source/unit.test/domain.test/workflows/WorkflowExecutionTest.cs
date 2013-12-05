@@ -10,6 +10,7 @@ using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using Bespoke.Sph.Templating;
 using Moq;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace domain.test.workflows
@@ -207,6 +208,7 @@ namespace domain.test.workflows
 
             var result = wd.Compile(options);
             result.Errors.ForEach(Console.WriteLine);
+            Assert.IsTrue(result.Result,  result.ToJsonString(Formatting.Indented));
 
             return result;
         }
@@ -235,8 +237,8 @@ namespace domain.test.workflows
             wf.WorkflowDefinition = wd;
             wf.StartAsync().ContinueWith(_ =>
             {
-                var result0 = _.Result;
-                Console.WriteLine(result0.Status);
+                var executionResult = _.Result;
+                Console.WriteLine(executionResult.Status);
 
                 wf.ExecuteAsync().ContinueWith(continuationAction).Wait();
             }).Wait();
@@ -253,8 +255,6 @@ namespace domain.test.workflows
             var result = this.Compile(wd);
             this.Run(wd, result.Output, Console.WriteLine);
         }
-
-
 
 
         [Test]
@@ -275,9 +275,7 @@ namespace domain.test.workflows
             };
 
             wd.ActivityCollection.Add(send);
-
-
-
+            
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
             var result = this.Compile(wd, true);
             this.Run(wd, result.Output, Console.WriteLine);

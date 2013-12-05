@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -58,7 +59,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             return await this.Es(typeof(Payment).Name.ToLowerInvariant());
         }
-        
+
 
         [HttpPost]
         public async Task<ActionResult> Rebate()
@@ -79,13 +80,14 @@ namespace Bespoke.Sph.Web.Controllers
         }
 
 
-        private async Task<ActionResult> Es(string id)
+        public async Task<ActionResult> Es(string id)
         {
             var json = this.GetRequestBody();
             var request = new StringContent(json);
+            var esHost = ConfigurationManager.AppSettings["sph:eshost"] ?? "http://localhost:9200/sph/";
 
             var client = new HttpClient();
-            var response = await client.PostAsync("http://localhost:9200/sph/" + id + "/_search", request);
+            var response = await client.PostAsync(esHost + id + "/_search", request);
             var content = response.Content as StreamContent;
             if (null == content) throw new Exception("Cannot execute query on es " + request);
             this.Response.ContentType = "application/json; charset=utf-8";
