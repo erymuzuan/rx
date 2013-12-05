@@ -167,7 +167,7 @@ namespace Bespoke.Sph.Domain
             var esHost = System.Configuration.ConfigurationManager.AppSettings[""sph:eshost""] ?? ""http://localhost:9200/sph/"";
 
             var client = new System.Net.Http.HttpClient();
-            var response = await client.PostAsync(esHost + ""Workflow_{0}_{1}/_search"", request);
+            var response = await client.PostAsync(esHost + ""workflow_{0}_{1}/_search"", request);
             var content = response.Content as System.Net.Http.StreamContent;
             if (null == content) throw new Exception(""Cannot execute query on es "" + request);
             this.Response.ContentType = ""application/json; charset=utf-8"";
