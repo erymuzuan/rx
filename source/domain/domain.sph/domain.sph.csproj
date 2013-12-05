@@ -359,10 +359,6 @@
     <Content Include="Schema\_refobjects.xslt">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.6.4.js" />
-    <Content Include="Scripts\jquery-1.6.4.min.js" />
-    <Content Include="Scripts\jquery.signalR-1.1.3.min.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
