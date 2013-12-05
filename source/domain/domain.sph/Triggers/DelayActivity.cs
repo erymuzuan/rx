@@ -79,6 +79,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLine(this.BeforeExcuteCode);
+            code.AppendLinf("       this.State = \"Ready\";");
             code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);
             code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");

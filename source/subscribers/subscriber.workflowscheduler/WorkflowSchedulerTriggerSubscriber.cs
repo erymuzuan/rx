@@ -28,7 +28,7 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
 
         public override string[] RoutingKeys
         {
-            get { return new[] { "WorkflowDefinition.*" }; }
+            get { return new[] { "WorkflowDefinition.*.Publish" }; }
         }
 
         protected override Task ProcessMessage(WorkflowDefinition item, MessageHeaders header)

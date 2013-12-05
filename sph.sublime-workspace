@@ -24,45 +24,10 @@
 	"buffers":
 	[
 		{
-			"file": "copy.workflows.bat",
+			"contents": "using Bespoke.Sph.Domain;\nusing System;\nusing System.Threading.Tasks;\nusing System.Linq;\nusing System.Xml.Serialization;\n\nnamespace Bespoke.Sph.Workflows_8_25\n{\n   [EntityType(typeof(Workflow))]\n   public class PermohonanTanahWakaf_8_25 : Bespoke.Sph.Domain.Workflow\n   {\n       public PermohonanTanahWakaf_8_25()\n       {\n           this.Name = \"Permohonan Tanah Wakaf\";\n           this.Version = 25;\n           this.WorkflowDefinitionId = 8;\n           this.pemohon = new Applicant();\n           this.alamat = new Address();\n       }\n       public override Task<ActivityExecutionResult> StartAsync()\n       {\n           this.SerializedDefinitionStoreId = \"wd.8.25\";\n           return this.ExecScreenActivityStarts__A_Async();\n       }\n       public override async Task<ActivityExecutionResult> ExecuteAsync(string activityId)\n       {\n           this.SerializedDefinitionStoreId = \"wd.8.25\";\n               ActivityExecutionResult result = null;\n               switch(activityId)\n               {\n                   case \"_A_\" : \n                       result = await this.ExecScreenActivityStarts__A_Async();\n                       break;\n                   case \"_B_\" : \n                       result = await this.ExecListenActivityListen__B_Async();\n                       break;\n                   case \"_B21_\" : \n                       result = await this.ExecDelayActivityLapse__B21Async();\n                       break;\n                   case \"_B11_\" : \n                       result = await this.ExecScreenActivityScreen2__B11Async();\n                       break;\n               }\n           return result;\n       }\n       public async override Task<ActivityExecutionResult> ExecuteAsync()\n       {\n               var act = this.GetCurrentActivity();\n               if(null == act)\n                   throw new InvalidOperationException(\"No current activity\");\n               if(act.IsAsync && this.State == \"WaitingAsync\")\n               {\n                   return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};\n               }\n               if(act.IsAsync)\n               {\n                   this.State = \"WaitingAsync\";\n                   await act.InitiateAsync(this);\n                   await this.SaveAsync(act.WebId);\n                   return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};\n               }\n\n               ActivityExecutionResult result = null;\n               switch(act.WebId)\n               {\n                   case \"_A_\" : \n                       result = await this.ExecScreenActivityStarts__A_Async();\n                       break;\n                   case \"_B_\" : \n                       result = await this.ExecListenActivityListen__B_Async();\n                       break;\n                   case \"_B21_\" : \n                       result = await this.ExecDelayActivityLapse__B21Async();\n                       break;\n                   case \"_B11_\" : \n                       result = await this.ExecScreenActivityScreen2__B11Async();\n                       break;\n                   case \"_C_\" : \n                       result = await this.ExecEndActivityHabis__C_Async();\n                       break;\n               }\n               if(null == result)\n                   throw new Exception(\"what ever\");\n               if(null != result.NextActivity)\n               {\n                   this.CurrentActivityWebId = result.NextActivity.WebId;\n                   await this.SaveAsync(act.WebId);\n               }\n                return result;\n       }\n//variable:Title\n       public System.String Title{get;set;}\n//variable:email\n       public System.String email{get;set;}\n//variable:pemohon\n       public Applicant pemohon {get;set;}\n//variable:alamat\n       public Address alamat {get;set;}\n\n//exec:_A_\n   public async Task<ActivityExecutionResult> ExecScreenActivityStarts__A_Async()\n   {\n\n       this.State = \"Ready\";\n       this.CurrentActivityWebId = \"_B_\";\n       await this.SaveAsync(\"_A_\");\n       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};\n\n       return result;\n   }\n\n\n//exec:_B_\n   public async Task FireListenTriggerExecListenActivityListen__B_Async(string webId)\n   {\n       var self = this.GetActivity<ListenActivity>(\"_B_\");\n       var triggersId = self.ListenBranchCollection.Where(a =>a.NextActivityWebId != webId).Select(a => a.NextActivityWebId).ToArray();\n       var fired = this.GetActivity<Activity>(webId);\n       foreach(var t in triggersId)\n       {\n               var t1 = t;\n               var act = this.GetActivity<Activity>(t1);\n               await act.CancelAsync(this);\n       }\n   }\n   public async Task<ActivityExecutionResult> ExecListenActivityListen__B_Async()\n   {\n       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};\n       var script = ObjectBuilder.GetObject<IScriptEngine>();\n       var listen = this.GetActivity<ListenActivity>(\"_B_\");\n\n       var branch1 = listen.ListenBranchCollection.Single(a => a.WebId == \"_B1_\");\n       var trigger1 =  this.GetActivity<Activity>(\"_B11_\");\n       var initiateTask1 = trigger1.InitiateAsync(this);\n\n       var branch2 = listen.ListenBranchCollection.Single(a => a.WebId == \"_B2_\");\n       var trigger2 =  this.GetActivity<Activity>(\"_B21_\");\n       var initiateTask2 = trigger2.InitiateAsync(this);\n\n       await Task.WhenAll(initiateTask1,initiateTask2);\n       this.State = \"WaitingAsync\";\n       this.CurrentActivityWebId = \"_B_\";\n       await this.SaveAsync(\"_B_\");\n       return result;\n   }\n\n\n//exec:_B21_\n   public async Task<ActivityExecutionResult> ExecDelayActivityLapse__B21Async()\n   {\n\n       this.CurrentActivityWebId = \"_C_\";\n       await this.SaveAsync(\"_B21_\");\n       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};\n     await this.FireListenTriggerExecListenActivityListen__B_Async(\"_B21_\");\n       return result;\n   }\n\n\n//exec:_B11_\n   public async Task<ActivityExecutionResult> ExecScreenActivityScreen2__B11Async()\n   {\n\n       this.State = \"Ready\";\n       this.CurrentActivityWebId = \"_C_\";\n       await this.SaveAsync(\"_B11_\");\n       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};\n     await this.FireListenTriggerExecListenActivityListen__B_Async(\"_B11_\");\n       return result;\n   }\n\n\n//exec:_C_\n   public async Task<ActivityExecutionResult> ExecEndActivityHabis__C_Async()\n   {\n       var result = new ActivityExecutionResult();\n       this.CurrentActivityWebId = null;\n       this.State = \"Completed\";\n       await this.SaveAsync(\"_C_\");\n       return result;\n   }\n\n   }\n   [XmlType(\"Vehicle\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Vehicle : DomainObject\n   {\n     [XmlAttribute]\n     public int Power {get;set;}\n     [XmlAttribute]\n     public decimal Cost {get;set;}\n     [XmlAttribute]\n     public string Name {get;set;}\n   }\n\n   [XmlType(\"Address\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Address : DomainObject\n   {\n     [XmlAttribute]\n     public string Street {get;set;}\n     [XmlAttribute]\n     public string Postcode {get;set;}\n     [XmlAttribute]\n     public string State {get;set;}\n     [XmlAttribute]\n     public string City {get;set;}\n   }\n\n   [XmlType(\"Applicant\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Applicant : DomainObject\n   {\n     [XmlAttribute]\n     public string Name {get;set;}\n     [XmlAttribute]\n     public string MyKad {get;set;}\n     [XmlAttribute]\n     public DateTime RegisteredDate {get;set;}\n      public int? Age {get;set;}\n      public DateTime? Dob {get;set;}\n      public Vehicle Ride {get;set;}\n         private readonly ObjectCollection<Car> m_Taxis = new ObjectCollection<Car>();\n         public ObjectCollection<Car> Taxis {get { return m_Taxis;} }\n         private readonly ObjectCollection<Vehicle> m_PastVehicles = new ObjectCollection<Vehicle>();\n         public ObjectCollection<Vehicle> PastVehicles {get { return m_PastVehicles;} }\n      private  Address m_Address = new Address();\n      public Address Address{get{ return m_Address;} set{ m_Address = value;} }\n      private  Contact m_Contact = new Contact();\n      public Contact Contact{get{ return m_Contact;} set{ m_Contact = value;} }\n   }\n\n   [XmlType(\"Contact\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Contact : DomainObject\n   {\n     [XmlAttribute]\n     public string Telephone {get;set;}\n      private  Address m_Address = new Address();\n      public Address Address{get{ return m_Address;} set{ m_Address = value;} }\n   }\n\n   [XmlType(\"Car\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Car : Vehicle\n   {\n     [XmlAttribute]\n     public int Seating {get;set;}\n   }\n\n   [XmlType(\"Bike\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Bike : Vehicle\n   {\n     [XmlAttribute]\n     public bool IsLegal {get;set;}\n   }\n\n\n   public partial class Workflow_8_25Controller : System.Web.Mvc.Controller\n{\n       public async Task<System.Web.Mvc.ActionResult> SchemasStarts()\n       {\n           var store = ObjectBuilder.GetObject<IBinaryStore>();\n           var doc = await store.GetContentAsync(\"wd.8.25\");\n          WorkflowDefinition wd;\n                                        using (var stream = new System.IO.MemoryStream(doc.Content))\n                                        {\n                                            wd = stream.DeserializeFromXml<WorkflowDefinition>();\n                                        }\n\n                                        \n           var screen = wd.ActivityCollection.Single(w =>w.WebId ==\"_A_\") as ScreenActivity;\n           var script = await screen.GenerateCustomXsdJavascriptClassAsync(wd);\n           this.Response.ContentType = \"application/javascript\";\n           return Content(script);\n       }\n       public async Task<System.Web.Mvc.ActionResult> Starts(int id = 0)\n       {\n           try{\n               var vm = new StartsViewModel();\n               var context = new SphDataContext();\n               var wf = id == 0 ? new  PermohonanTanahWakaf_8_25() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));\n               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == 8);\n               var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);\n               var screen = wd.GetActivity<ScreenActivity>(\"_A_\");\n               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");\n               var tracker = await wf.GetTrackerAsync();\n               if(!tracker.CanExecute(\"_A_\"))\n               {\n                   return RedirectToAction(\"InvalidState\",\"Workflow\");\n               }\n               vm.Screen  = screen;\n               vm.Instance  = wf as PermohonanTanahWakaf_8_25;\n               vm.WorkflowDefinition  = wd;\n               vm.Controller  = this.GetType().Name;\n               vm.SaveAction  = \"SaveStarts\";\n               vm.Namespace  = \"Bespoke.Sph.Workflows_8_25\";\n               var canview = screen.Performer.IsPublic;\n               if(!screen.Performer.IsPublic)\n               {\n                   var users = await screen.GetUsersAsync(wf);\n                   canview = this.User.Identity.IsAuthenticated && users.Contains(this.User.Identity.Name);\n               }\n               if(canview) return View(vm);\n               return new System.Web.Mvc.HttpUnauthorizedResult();\n           }\n           catch(Exception exc){return Content(exc.ToString());}\n       }\n\n       [System.Web.Mvc.HttpPost]\n       public async Task<System.Web.Mvc.ActionResult> SaveStarts()\n       {\n           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<PermohonanTanahWakaf_8_25>(this);\n          var store = ObjectBuilder.GetObject<IBinaryStore>();\n                                        var doc = await store.GetContentAsync(string.Format(\"wd.{0}.{1}\", wf.WorkflowDefinitionId, wf.Version));\n                                        using (var stream = new System.IO.MemoryStream(doc.Content))\n                                        {\n                                            wf.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();\n                                        }  \n           var result = await wf.ExecScreenActivityStarts__A_Async();\n           this.Response.ContentType = \"application/javascript\";\n           var retVal = new {sucess = true, status = \"OK\", result = result,wf};\n           return Content(Newtonsoft.Json.JsonConvert.SerializeObject(retVal));\n       }\n   }\n   public class StartsViewModel\n   {\n       public PermohonanTanahWakaf_8_25 Instance {get;set;}\n       public WorkflowDefinition WorkflowDefinition {get;set;}\n       public ScreenActivity Screen {get;set;}\n       public string Controller {get;set;}\n       public string Namespace {get;set;}\n       public string SaveAction {get;set;}\n   }\n\n   \n   \n   public partial class Workflow_8_25Controller : System.Web.Mvc.Controller\n{\n       public async Task<System.Web.Mvc.ActionResult> SchemasScreen2()\n       {\n           var store = ObjectBuilder.GetObject<IBinaryStore>();\n           var doc = await store.GetContentAsync(\"wd.8.25\");\n          WorkflowDefinition wd;\n                                        using (var stream = new System.IO.MemoryStream(doc.Content))\n                                        {\n                                            wd = stream.DeserializeFromXml<WorkflowDefinition>();\n                                        }\n\n                                        \n           var screen = wd.ActivityCollection.Single(w =>w.WebId ==\"_B11_\") as ScreenActivity;\n           var script = await screen.GenerateCustomXsdJavascriptClassAsync(wd);\n           this.Response.ContentType = \"application/javascript\";\n           return Content(script);\n       }\n       public async Task<System.Web.Mvc.ActionResult> Screen2(int id = 0)\n       {\n           try{\n               var vm = new Screen2ViewModel();\n               var context = new SphDataContext();\n               var wf = id == 0 ? new  PermohonanTanahWakaf_8_25() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));\n               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == 8);\n               var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);\n               var screen = wd.GetActivity<ScreenActivity>(\"_B11_\");\n               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");\n               var tracker = await wf.GetTrackerAsync();\n               if(!tracker.CanExecute(\"_B11_\"))\n               {\n                   return RedirectToAction(\"InvalidState\",\"Workflow\");\n               }\n               vm.Screen  = screen;\n               vm.Instance  = wf as PermohonanTanahWakaf_8_25;\n               vm.WorkflowDefinition  = wd;\n               vm.Controller  = this.GetType().Name;\n               vm.SaveAction  = \"SaveScreen2\";\n               vm.Namespace  = \"Bespoke.Sph.Workflows_8_25\";\n               var canview = screen.Performer.IsPublic;\n               if(!screen.Performer.IsPublic)\n               {\n                   var users = await screen.GetUsersAsync(wf);\n                   canview = this.User.Identity.IsAuthenticated && users.Contains(this.User.Identity.Name);\n               }\n               if(canview) return View(vm);\n               return new System.Web.Mvc.HttpUnauthorizedResult();\n           }\n           catch(Exception exc){return Content(exc.ToString());}\n       }\n\n       [System.Web.Mvc.HttpPost]\n       public async Task<System.Web.Mvc.ActionResult> SaveScreen2()\n       {\n           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<PermohonanTanahWakaf_8_25>(this);\n          var store = ObjectBuilder.GetObject<IBinaryStore>();\n                                        var doc = await store.GetContentAsync(string.Format(\"wd.{0}.{1}\", wf.WorkflowDefinitionId, wf.Version));\n                                        using (var stream = new System.IO.MemoryStream(doc.Content))\n                                        {\n                                            wf.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();\n                                        }  \n           var result = await wf.ExecScreenActivityScreen2__B11Async();\n           this.Response.ContentType = \"application/javascript\";\n           var retVal = new {sucess = true, status = \"OK\", result = result,wf};\n           return Content(Newtonsoft.Json.JsonConvert.SerializeObject(retVal));\n       }\n   }\n   public class Screen2ViewModel\n   {\n       public PermohonanTanahWakaf_8_25 Instance {get;set;}\n       public WorkflowDefinition WorkflowDefinition {get;set;}\n       public ScreenActivity Screen {get;set;}\n       public string Controller {get;set;}\n       public string Namespace {get;set;}\n       public string SaveAction {get;set;}\n   }\n\n   \npublic partial class Workflow_8_25Controller : System.Web.Mvc.Controller\n{\n       public async Task<System.Web.Mvc.ActionResult> Search()\n       {\n            var json = this.GetRequestBody();\n            var request = new StringContent(json);\n            var esHost = ConfigurationManager.AppSettings[\"sph:eshost\"] ?? \"http://localhost:9200/sph/\";\n\n            var client = new HttpClient();\n            var response = await client.PostAsync(esHost + \"Workflow_8_25/_search\", request);\n            var content = response.Content as StreamContent;\n            if (null == content) throw new Exception(\"Cannot execute query on es \" + request);\n            this.Response.ContentType = \"application/json; charset=utf-8\";\n            return Content(await content.ReadAsStringAsync());\n       }\n}\n}\n\nline:415 [EndActivity] -< Habis : 'Bespoke.Sph.Workflows_8_25.Workflow_8_25Controller' does not contain a definition for 'GetRequestBody' and no extension method 'GetRequestBody' accepting a first argument of type 'Bespoke.Sph.Workflows_8_25.Workflow_8_25Controller' could be found (are you missing a using directive or an assembly reference?)\nline:416 [EndActivity] -< Habis : The type or namespace name 'StringContent' could not be found (are you missing a using directive or an assembly reference?)\nline:417 [EndActivity] -< Habis : The name 'ConfigurationManager' does not exist in the current context\nline:419 [EndActivity] -< Habis : The type or namespace name 'HttpClient' could not be found (are you missing a using directive or an assembly reference?)\nline:421 [EndActivity] -< Habis : The type or namespace name 'StreamContent' could not be found (are you missing a using directive or an assembly reference?)\nline:424 [EndActivity] -< Habis : The best overloaded method match for 'System.Web.Mvc.Controller.Content(string)' has some invalid arguments\nline:424 [EndActivity] -< Habis : Argument 1: cannot convert from 'void' to 'string'\nSuccess\nSystem.Threading.Tasks.Task`1[Bespoke.Sph.Domain.ActivityExecutionResult]\n\n",
 			"settings":
 			{
-				"buffer_size": 239,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "start-subscriber-console-runner.ps1",
-			"settings":
-			{
-				"buffer_size": 1029,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/temp/jsplumb/README.md",
-			"settings":
-			{
-				"buffer_size": 4349,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "using Bespoke.Sph.Domain;\nusing System;\nusing System.Threading.Tasks;\nusing System.Linq;\nusing System.Xml.Serialization;\n\nnamespace Bespoke.Sph.Workflows_6002_0\n{\n   [EntityType(typeof(Workflow))]\n   public class TestEntityTrigger_6002_0 : Bespoke.Sph.Domain.Workflow\n   {\n       public TestEntityTrigger_6002_0()\n       {\n           this.Name = \"Test entity trigger\";\n           this.Version = 0;\n           this.WorkflowDefinitionId = 6002;\n       }\n       public override Task<ActivityExecutionResult> StartAsync()\n       {\n           this.SerializedDefinitionStoreId = \"wd.6002.0\";\n           return this.ExecNotificationActivityNotify0_290bAsync();\n       }\n       public override async Task<ActivityExecutionResult> ExecuteAsync(string activityId)\n       {\n           this.SerializedDefinitionStoreId = \"wd.6002.0\";\n               ActivityExecutionResult result = null;\n               switch(activityId)\n               {\n                   case \"30ace05e-9a2b-4f4b-ba9d-d2d58b4fa8d7\" : \n                       result = await this.ExecScreenActivityScreen2_30acAsync();\n                       break;\n               }\n           return result;\n       }\n       public async override Task<ActivityExecutionResult> ExecuteAsync()\n       {\n               var act = this.GetCurrentActivity();\n               if(null == act)\n                   throw new InvalidOperationException(\"No current activity\");\n               if(act.IsAsync && this.State == \"WaitingAsync\")\n               {\n                   return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};\n               }\n               if(act.IsAsync)\n               {\n                   this.State = \"WaitingAsync\";\n                   await act.InitiateAsync(this);\n                   await this.SaveAsync(act.WebId);\n                   return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};\n               }\n\n               ActivityExecutionResult result = null;\n               switch(act.WebId)\n               {\n                   case \"290bf77f-fed9-4875-8ad6-33fa6f2ecbc7\" : \n                       result = await this.ExecNotificationActivityNotify0_290bAsync();\n                       break;\n                   case \"7bdb1c21-408f-436f-adf6-57255077c56f\" : \n                       result = await this.ExecEndActivityEnd1_7bdbAsync();\n                       break;\n                   case \"30ace05e-9a2b-4f4b-ba9d-d2d58b4fa8d7\" : \n                       result = await this.ExecScreenActivityScreen2_30acAsync();\n                       break;\n               }\n               if(null == result)\n                   throw new Exception(\"what ever\");\n               if(null != result.NextActivity)\n               {\n                   this.CurrentActivityWebId = result.NextActivity.WebId;\n                   await this.SaveAsync(act.WebId);\n               }\n                return result;\n       }\n//variable:building\n          private Bespoke.Sph.Domain.Building m_building = new Bespoke.Sph.Domain.Building();\n   public Bespoke.Sph.Domain.Building building\n   {\n       get{ return m_building;}\n       set{ m_building = value;}\n   }\n\n\n//exec:290bf77f-fed9-4875-8ad6-33fa6f2ecbc7\n   public async Task<ActivityExecutionResult> ExecNotificationActivityNotify0_290bAsync()\n   {\n       var result = new ActivityExecutionResult();\n       var act = this.GetActivity<NotificationActivity>(\"290bf77f-fed9-4875-8ad6-33fa6f2ecbc7\");\n       this.CurrentActivityWebId = \"30ace05e-9a2b-4f4b-ba9d-d2d58b4fa8d7\";\n       var @from = await this.TransformFromExecNotificationActivityNotify0_290bAsync(act.From);\n       var to = await this.TransformToExecNotificationActivityNotify0_290bAsync(act.To);\n       var subject = await this.TransformSubjectExecNotificationActivityNotify0_290bAsync(act.Subject);\n       var body = await this.TransformBodyExecNotificationActivityNotify0_290bAsync(act.Body);\n       System.Console.WriteLine(\"Sending email to : {0}\", to);\n       var client = new System.Net.Mail.SmtpClient();\n       await client.SendMailAsync(@from, to, subject,body);\n       await this.SaveAsync(\"290bf77f-fed9-4875-8ad6-33fa6f2ecbc7\");\n       return result;\n   }\n\n   public async Task<string> TransformFromExecNotificationActivityNotify0_290bAsync(string template)\n   {\n        if (string.IsNullOrWhiteSpace(template)) return string.Empty;\n\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\n            return await razor.GenerateAsync(template, this);\n   }\n\n   public async Task<string> TransformToExecNotificationActivityNotify0_290bAsync(string template)\n   {\n        if (string.IsNullOrWhiteSpace(template)) return string.Empty;\n\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\n            return await razor.GenerateAsync(template, this);\n   }\n\n   public async Task<string> TransformSubjectExecNotificationActivityNotify0_290bAsync(string template)\n   {\n        if (string.IsNullOrWhiteSpace(template)) return string.Empty;\n\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\n            return await razor.GenerateAsync(template, this);\n   }\n\n   public async Task<string> TransformBodyExecNotificationActivityNotify0_290bAsync(string template)\n   {\n        if (string.IsNullOrWhiteSpace(template)) return string.Empty;\n\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\n            return await razor.GenerateAsync(template, this);\n   }\n\n\n\n//exec:7bdb1c21-408f-436f-adf6-57255077c56f\n   public async Task<ActivityExecutionResult> ExecEndActivityEnd1_7bdbAsync()\n   {\n       var result = new ActivityExecutionResult();\n       this.CurrentActivityWebId = null;\n       this.State = \"Completed\";\n       await this.SaveAsync(\"7bdb1c21-408f-436f-adf6-57255077c56f\");\n       return result;\n   }\n\n\n//exec:30ace05e-9a2b-4f4b-ba9d-d2d58b4fa8d7\n   public async Task<ActivityExecutionResult> ExecScreenActivityScreen2_30acAsync()\n   {\n\n       this.State = \"Ready\";\n       this.CurrentActivityWebId = \"7bdb1c21-408f-436f-adf6-57255077c56f\";\n       await this.SaveAsync(\"30ace05e-9a2b-4f4b-ba9d-d2d58b4fa8d7\");\n       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};\n\n       return result;\n   }\n\n   }\n   [XmlType(\"Vehicle\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Vehicle : DomainObject\n   {\n     [XmlAttribute]\n     public int Power {get;set;}\n     [XmlAttribute]\n     public decimal Cost {get;set;}\n     [XmlAttribute]\n     public string Name {get;set;}\n   }\n\n   [XmlType(\"Address\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Address : DomainObject\n   {\n     [XmlAttribute]\n     public string Street {get;set;}\n     [XmlAttribute]\n     public string Postcode {get;set;}\n     [XmlAttribute]\n     public string State {get;set;}\n     [XmlAttribute]\n     public string City {get;set;}\n   }\n\n   [XmlType(\"Applicant\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Applicant : DomainObject\n   {\n     [XmlAttribute]\n     public string Name {get;set;}\n     [XmlAttribute]\n     public string MyKad {get;set;}\n     [XmlAttribute]\n     public DateTime RegisteredDate {get;set;}\n      public int? Age {get;set;}\n      public DateTime? Dob {get;set;}\n      public Vehicle Ride {get;set;}\n         private readonly ObjectCollection<Car> m_Taxis = new ObjectCollection<Car>();\n         public ObjectCollection<Car> Taxis {get { return m_Taxis;} }\n         private readonly ObjectCollection<Vehicle> m_PastVehicles = new ObjectCollection<Vehicle>();\n         public ObjectCollection<Vehicle> PastVehicles {get { return m_PastVehicles;} }\n      private  Address m_Address = new Address();\n      public Address Address{get{ return m_Address;} set{ m_Address = value;} }\n      private  Contact m_Contact = new Contact();\n      public Contact Contact{get{ return m_Contact;} set{ m_Contact = value;} }\n   }\n\n   [XmlType(\"Contact\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Contact : DomainObject\n   {\n     [XmlAttribute]\n     public string Telephone {get;set;}\n      private  Address m_Address = new Address();\n      public Address Address{get{ return m_Address;} set{ m_Address = value;} }\n   }\n\n   [XmlType(\"Car\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Car : Vehicle\n   {\n     [XmlAttribute]\n     public int Seating {get;set;}\n   }\n\n   [XmlType(\"Bike\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Bike : Vehicle\n   {\n     [XmlAttribute]\n     public bool IsLegal {get;set;}\n   }\n\n\n   \n   \n   public partial class Workflow_6002_0Controller : System.Web.Mvc.Controller\n{\n       public async Task<System.Web.Mvc.ActionResult> SchemasScreen2()\n       {\n           var store = ObjectBuilder.GetObject<IBinaryStore>();\n           var doc = await store.GetContentAsync(\"wd.6002.0\");\n          WorkflowDefinition wd;\n                                        using (var stream = new System.IO.MemoryStream(doc.Content))\n                                        {\n                                            wd = stream.DeserializeFromXml<WorkflowDefinition>();\n                                        }\n\n                                        \n           var screen = wd.ActivityCollection.Single(w =>w.WebId ==\"30ace05e-9a2b-4f4b-ba9d-d2d58b4fa8d7\") as ScreenActivity;\n           var script = await screen.GenerateCustomXsdJavascriptClassAsync(wd);\n           this.Response.ContentType = \"application/javascript\";\n           return Content(script);\n       }\n       public async Task<System.Web.Mvc.ActionResult> Screen2(int id = 0)\n       {\n           try{\n               var vm = new Screen2ViewModel();\n               var context = new SphDataContext();\n               var wf = id == 0 ? new  TestEntityTrigger_6002_0() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));\n               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == 6002);\n               var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);\n               var screen = wd.ActivityCollection.OfType<ScreenActivity>().SingleOrDefault(s => s.WebId == \"30ace05e-9a2b-4f4b-ba9d-d2d58b4fa8d7\");\n               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");\n               vm.Screen  = screen;\n               vm.Instance  = wf as TestEntityTrigger_6002_0;\n               vm.WorkflowDefinition  = wd;\n               vm.Controller  = this.GetType().Name;\n               vm.SaveAction  = \"SaveScreen2\";\n               vm.Namespace  = \"Bespoke.Sph.Workflows_6002_0\";\n               var canview = screen.Performer.IsPublic;\n               if(!screen.Performer.IsPublic)\n               {\n                   switch (screen.Performer.UserProperty)\n                   { \n                       case \"Username\":\n                           canview = screen.Performer.Value == profile.Username;\n                           break;\n                       case \"Department\":\n                           canview = screen.Performer.Value == profile.Department;\n                           break;\n                       case \"Designation\":\n                           canview = screen.Performer.Value == profile.Designation;\n                           break;\n                       case \"Roles\":\n                           canview = profile.RoleTypes.Contains(screen.Performer.Value);\n                           break;\n                       default:\n                           canview = false;\n                           break;\n                   } \n               }\n               if(canview) return View(vm);\n               return new System.Web.Mvc.HttpUnauthorizedResult();\n           }\n           catch(Exception exc){return Content(exc.ToString());}\n       }\n\n       [System.Web.Mvc.HttpPost]\n       public async Task<System.Web.Mvc.ActionResult> SaveScreen2()\n       {\n           var wf = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<TestEntityTrigger_6002_0>(this);\n          var store = ObjectBuilder.GetObject<IBinaryStore>();\n                                        var doc = await store.GetContentAsync(string.Format(\"wd.{0}.{1}\", wf.WorkflowDefinitionId, wf.Version));\n                                        using (var stream = new System.IO.MemoryStream(doc.Content))\n                                        {\n                                            wf.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();\n                                        }  \n           var result = await wf.ExecScreenActivityScreen2_30acAsync();\n           this.Response.ContentType = \"application/javascript\";\n           var retVal = new {sucess = true, status = \"OK\", result = result,wf};\n           return Content(Newtonsoft.Json.JsonConvert.SerializeObject(retVal));\n       }\n   }\n   public class Screen2ViewModel\n   {\n       public TestEntityTrigger_6002_0 Instance {get;set;}\n       public WorkflowDefinition WorkflowDefinition {get;set;}\n       public ScreenActivity Screen {get;set;}\n       public string Controller {get;set;}\n       public string Namespace {get;set;}\n       public string SaveAction {get;set;}\n   }\n\n}\n",
-			"file": "/D/temp/sph/Workflow_6002_0.cs",
-			"file_size": 13494,
-			"file_write_time": 130303655871549626,
-			"settings":
-			{
-				"buffer_size": 13176,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/temp/sph/Workflow_8_25.cs",
-			"settings":
-			{
-				"buffer_size": 18543,
+				"buffer_size": 19117,
 				"line_ending": "Windows"
 			}
 		}
@@ -91,11 +56,14 @@
 	},
 	"file_history":
 	[
+		"/D/temp/sph/Workflow_8_25.cs",
+		"/C/project/work/sph/copy.workflows.bat",
+		"/C/project/work/sph/start-subscriber-console-runner.ps1",
+		"/D/temp/jsplumb/README.md",
+		"/D/temp/sph/Workflow_6002_0.cs",
 		"/D/temp/vegeta/README.md",
 		"/D/temp/sph/Workflow_4004_5.cs",
-		"/C/project/work/sph/start-subscriber-console-runner.ps1",
 		"/C/project/work/sph/StartAspnetAdminWeb.bat",
-		"/C/project/work/sph/copy.workflows.bat",
 		"/C/project/work/sph/source/domain/domain.sph/Triggers/ScreenActivity.cs",
 		"/C/project/work/sph/source/subscribers/subscriber.workflow/WorkflowSubscriber.cs",
 		"/C/project/work/sph/source/web/web.sph/Controllers/WorkflowDefinitionController.cs",
@@ -168,101 +136,22 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "copy.workflows.bat",
 					"settings":
 					{
-						"buffer_size": 239,
+						"buffer_size": 19117,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Batch File/Batch File.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "start-subscriber-console-runner.ps1",
-					"settings":
-					{
-						"buffer_size": 1029,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								858,
-								858
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/D/temp/jsplumb/README.md",
-					"settings":
-					{
-						"buffer_size": 4349,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								555,
-								555
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 2486.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/D/temp/sph/Workflow_6002_0.cs",
-					"settings":
-					{
-						"buffer_size": 13176,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3525,
-								3525
+								17886,
+								17886
 							]
 						],
 						"settings":
@@ -272,35 +161,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4290.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/D/temp/sph/Workflow_8_25.cs",
-					"settings":
-					{
-						"buffer_size": 18543,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								10932,
-								10932
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C#/C#.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 5694.0,
+						"translation.y": 8824.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

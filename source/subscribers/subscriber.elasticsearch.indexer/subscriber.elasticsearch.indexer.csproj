@@ -52,6 +52,7 @@
     <Compile Include="EsEntityIndexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpaceIndexerSubscriber.cs" />
+    <Compile Include="TrackerSubscriber.cs" />
     <Compile Include="WorkflowSubscriber.cs" />
   </ItemGroup>
   <ItemGroup>

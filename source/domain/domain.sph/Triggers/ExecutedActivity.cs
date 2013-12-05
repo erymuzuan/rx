@@ -15,5 +15,7 @@ namespace Bespoke.Sph.Domain
                 return span.Humanize();
             }
         }
+
+       
     }
 }
