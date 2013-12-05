@@ -1325,6 +1325,73 @@ bespoke.sph.domain.ScheduledTriggerActivity = function (optionOrWebid) {
 
 
 // placeholder for IntervalSchedule
+
+bespoke.sph.domain.Tracker = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Tracker, domain.sph",
+        TrackerId: ko.observable(0),
+        WorkflowId: ko.observable(0),
+        WorkflowDefinitionId: ko.observable(0),
+        ForbiddenActivities: ko.observableArray([]),
+        ExecutedActivityCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.TrackerPartial) {
+        return _(model).extend(new bespoke.sph.domain.TrackerPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ExecutedActivity = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ExecutedActivity, domain.sph",
+        InstanceId: ko.observable(0),
+        ActivityWebId: ko.observable(''),
+        WorkflowDefinitionId: ko.observable(0),
+        User: ko.observable(''),
+        Name: ko.observable(''),
+        Type: ko.observable(''),
+        Initiated: ko.observable(),
+        Run: ko.observable(),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ExecutedActivityPartial) {
+        return _(model).extend(new bespoke.sph.domain.ExecutedActivityPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.Field = function (optionOrWebid) {
 
     var model = {

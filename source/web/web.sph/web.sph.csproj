@@ -399,6 +399,7 @@
     <Content Include="App\partial\IntervalSchedule.js" />
     <Content Include="App\partial\ReportDelivery.js" />
     <Content Include="App\partial\ScheduledTriggerActivity.js" />
+    <Content Include="App\partial\ExecutedActivity.js" />
     <Content Include="App\partial\WorkflowTriggerMap.js" />
     <Content Include="App\partial\StartWorkflowAction.js" />
     <Content Include="App\partial\Variable.js" />

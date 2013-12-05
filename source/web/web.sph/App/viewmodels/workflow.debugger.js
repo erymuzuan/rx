@@ -24,8 +24,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                     trackerTask = context.loadOneAsync("Tracker", "WorkflowId eq " + wf.WorkflowId());
                 $.when(wdTask, trackerTask)
                     .done(function (b, t) {
+
                         wd(b);
                         tracker(t);
+                        
                         tcs.resolve(true);
                     });
 

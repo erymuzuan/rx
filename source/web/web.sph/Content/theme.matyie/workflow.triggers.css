@@ -92,3 +92,9 @@ form#monthly-schedule-dialog-form div.checkbox input[type=checkbox] {
 form#monthly-schedule-dialog-form h6 {
     clear: both;
 }
+
+.break-point {
+    color: #9d2727;
+}
+
+/*# sourceMappingURL=/Content/theme.matyie/workflow.triggers.less.map */
