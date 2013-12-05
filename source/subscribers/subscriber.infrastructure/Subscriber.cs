@@ -187,14 +187,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         protected virtual void RegisterServices()
         {
-            var connection = new Bespoke.Sph.RabbitMqPublisher.DefaultBrokerConnection
-            {
-                Host = this.HostName,
-                VirtualHost = this.VirtualHost,
-                Username = this.UserName,
-                Password = this.Password,
-                Port = this.Port
-            };
+
         }
 
 

@@ -12,7 +12,6 @@ CREATE TABLE Sph.Workflow
 	,[Version] INT NOT NULL
 	,[State] VARCHAR(255) NULL
 	,[IsActive] BIT NOT NULL
-	,[Data] XML NOT NULL
 	,[Json] VARCHAR(MAX)
 	,[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()
 	,[CreatedBy] VARCHAR(255) NULL

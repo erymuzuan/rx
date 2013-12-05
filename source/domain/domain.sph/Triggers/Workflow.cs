@@ -142,7 +142,7 @@ namespace Bespoke.Sph.Domain
             using (var session = context.OpenSession())
             {
                 session.Attach(this);
-                await session.SubmitChanges("Terminated");
+                await session.SubmitChanges("Terminate");
                 // TODO : use the subscriber to delete any scheduled task or related resources to this instance
                 // this.WorkflowDefinition.ActivityCollection.ForEach(async a => await a.TerminateAsync(this));
             }

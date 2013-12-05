@@ -1,21 +1,16 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
 using INotificationService = Bespoke.Sph.SubscribersInfrastructure.INotificationService;
 
 namespace workers.console.runner
 {
-    
+
     public class ConsoleProgram
     {
 
         public static int Main(string[] args)
         {
-            Start();
-
             var host = ParseArg("h") ?? "localhost";
             var vhost = ParseArg("v") ?? "sph.0009";
             var username = ParseArg("u") ?? "guest";
@@ -53,7 +48,7 @@ namespace workers.console.runner
             program.Subscribers = discoverer.FindSubscriber();
             program.SubscribersMetadata.Select(d => d.FullName).ToList().ForEach(Console.WriteLine);
 
-         
+
             program.Start();
             bool quit = false;
             Console.WriteLine("Welcome to [SPH] Type quit to quit at any time.");
@@ -66,20 +61,9 @@ namespace workers.console.runner
                     break;
                 }
             }
-        
+
 
             return 0;
-        }
-        public static void Start()
-        {
-            var files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "workflows.*.dll");
-            foreach (var s in files)
-            {
-                Console.WriteLine(s);
-                var types = Assembly.LoadFrom(s).GetTypes().Where(t => t.BaseType == typeof(Workflow)).ToList();
-                types.ForEach(t => XmlSerializerService.RegisterKnownTypes(typeof(Workflow), t));
-
-            }
         }
 
         private static string ParseArg(string name)
@@ -92,7 +76,7 @@ namespace workers.console.runner
         private static bool ParseArgExist(string name)
         {
             var args = Environment.CommandLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var val = args.SingleOrDefault(a => a.StartsWith("/" + name ));
+            var val = args.SingleOrDefault(a => a.StartsWith("/" + name));
             return null != val;
         }
 

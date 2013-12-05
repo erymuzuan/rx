@@ -45,8 +45,9 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
             this.Delete(path);
             if (!item.IsActive) return emptyTask;
 
-            this.WriteMessage("Creating scheduler for " + item.Name);
+            if (header.Operation != "Publish") return emptyTask;
 
+            this.WriteMessage("Creating scheduler for " + item.Name);
             using (var ts = new TaskService())
             {
                 var td = ts.NewTask();

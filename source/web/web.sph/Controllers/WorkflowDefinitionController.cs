@@ -98,7 +98,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
-            await this.Save(wd);
+            await this.Save("Compile",wd);
 
             var options = new CompilerOptions();
             options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
@@ -155,7 +155,7 @@ namespace Bespoke.Sph.Web.Controllers
             };
             await store.DeleteAsync(archived.StoreId);
             await store.AddAsync(archived);
-            await this.Save(wd, pages.Cast<Entity>().ToArray());
+            await this.Save("Publish", wd, pages.Cast<Entity>().ToArray());
 
 
             // Deploy
@@ -169,7 +169,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Save()
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
-            var id = await this.Save(wd);
+            var id = await this.Save("Update",wd);
             return Json(new { success = id > 0, id, status = "OK" });
         }
 
@@ -250,7 +250,7 @@ namespace Bespoke.Sph.Web.Controllers
 
         }
 
-        private async Task<int> Save(WorkflowDefinition wd, params Entity[] entities)
+        private async Task<int> Save(string operation, WorkflowDefinition wd, params Entity[] entities)
         {
             var context = new SphDataContext();
             if (null == wd) throw new ArgumentNullException("wd");
@@ -262,7 +262,7 @@ namespace Bespoke.Sph.Web.Controllers
                     session.Attach(entities);
 
                 session.Attach(wd);
-                await session.SubmitChanges();
+                await session.SubmitChanges(operation);
             }
             return wd.WorkflowDefinitionId;
         }

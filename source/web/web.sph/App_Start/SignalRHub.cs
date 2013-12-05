@@ -1,5 +1,4 @@
-﻿using System;
-using Bespoke.Sph.Web.Hubs;
+﻿using Bespoke.Sph.Web.Hubs;
 using Microsoft.Owin;
 using Owin;
 
@@ -13,7 +12,6 @@ namespace Bespoke.Sph.Web.App_Start
         {
             app.MapSignalR();
             app.MapSignalR<MessageConnection>("/signalr_message");
-            Console.WriteLine("Runing.....SignalRHub XXXXXXXXXXXX");
         }
     }
 }
