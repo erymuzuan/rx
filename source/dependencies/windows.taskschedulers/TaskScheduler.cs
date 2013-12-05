@@ -1,5 +1,4 @@
 ﻿using System;
-using Humanizer;
 using Microsoft.Win32.TaskScheduler;
 using Bespoke.Sph.Domain;
 
@@ -47,8 +46,7 @@ namespace Bespoke.Sph.WindowsTaskScheduler
 
         private string GetPath(ScheduledActivityExecution info)
         {
-
-            var guid = info.Name.Dehumanize() + "_" + info.ActivityId + "_" + info.InstanceId;
+            var guid = string.Format("DELAY_{0}_{1}", info.InstanceId, info.ActivityId);
             var path = @"Bespoke\" + guid.Replace(" ", string.Empty);
             return path;
         }

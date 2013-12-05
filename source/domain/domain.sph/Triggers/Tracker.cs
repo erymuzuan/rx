@@ -1,4 +1,6 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.Linq;
+using System.Xml.Serialization;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Domain
@@ -31,16 +33,29 @@ namespace Bespoke.Sph.Domain
         {
             if (!this.ForbiddenActivities.Contains(act.WebId))
                 this.ForbiddenActivities.Add(act.WebId);
+            var directory = ObjectBuilder.GetObject<IDirectoryService>();
 
-            var ea = new ExecutedActivity
+
+            var ea = this.ExecutedActivityCollection.SingleOrDefault(e => e.ActivityWebId == act.WebId);
+            if (null != ea)
+            {
+                ea.Run = DateTime.UtcNow;
+                return;
+            }
+            ea = new ExecutedActivity
             {
                 WorkflowDefinitionId = this.WorkflowDefinitionId,
                 ActivityWebId = act.WebId,
                 InstanceId = this.WorkflowId,
-                User = "TODO: get user from activity",
-                
-                
+                User = directory.CurrentUserName,
+                Name = act.Name,
+                Type = act.GetType().Name
             };
+            if (this.Workflow.State == "WaitingAsync" && act.IsAsync)
+                ea.Initiated = DateTime.UtcNow;
+            else
+                ea.Run = DateTime.UtcNow;
+
             this.ExecutedActivityCollection.Add(ea);
         }
 
@@ -49,5 +64,6 @@ namespace Bespoke.Sph.Domain
             // TODO : determine all the legal states
             return true;
         }
+
     }
 }

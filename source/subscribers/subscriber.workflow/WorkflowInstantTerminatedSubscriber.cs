@@ -14,13 +14,11 @@ namespace Bespoke.Sph.WorkflowsExecution
 
         public override string[] RoutingKeys
         {
-            get { return new[] { "Workflow.changed" }; }
+            get { return new[] { "Workflow.changed.Terminate" }; }
         }
 
         protected async override Task ProcessMessage(Workflow item, MessageHeaders header)
         {
-            if (header.Operation != "Terminate") return;
-            if (item.State == "Completed") return;
 
             var store = ObjectBuilder.GetObject<IBinaryStore>();
             var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", item.WorkflowDefinitionId, item.Version));

@@ -22,7 +22,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
         public ChangePublisherClient(IBrokerConnection connection)
         {
             m_connection = connection;
-            this.Exchange = "ruang.komersial.changes";
+            this.Exchange = "sph.topic";
         }
 
 
@@ -68,7 +68,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
                         if (null != audit)
                             log = audit.ToJsonString();
                     }
-                    var routingKey = entityType.Name + "." + action;
+                    var routingKey = string.Format("{0}.{1}.{2}", entityType.Name, action, operation);
                     var item1 = item;
                     var json = item1.ToJsonString();
                     var body = await CompressAsync(json);

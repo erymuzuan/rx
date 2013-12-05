@@ -25,7 +25,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                 $.when(wdTask, trackerTask)
                     .done(function (b, t) {
                         wd(b);
-                        tracker(b);
+                        tracker(t);
                         tcs.resolve(true);
                     });
 
@@ -53,6 +53,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 
         var vm = {
             instance: instance,
+            tracker: tracker,
             isBusy: isBusy,
             wd: wd,
             activate: activate,

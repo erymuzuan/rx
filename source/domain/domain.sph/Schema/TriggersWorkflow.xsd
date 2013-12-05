@@ -680,6 +680,8 @@
 			<xs:attribute name="ActivityWebId" type="xs:string" use="required"/>
 			<xs:attribute name="WorkflowDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="User" type="xs:string" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Type" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

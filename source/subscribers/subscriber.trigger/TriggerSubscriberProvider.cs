@@ -31,7 +31,7 @@ namespace Bespoke.Sph.CustomTriggers
                 dynamic ta = Activator.CreateInstance(subsType);
 
                 ta.SetQueueName(string.Format("trigger_{0}", t.TriggerId));
-                ta.SetRoutingKeys(new []{string.Format("{0}.*",t.Entity)});
+                ta.SetRoutingKeys(new []{string.Format("{0}.#",t.Entity)});
                 ta.Trigger = t;
 
                 list.Add(ta);

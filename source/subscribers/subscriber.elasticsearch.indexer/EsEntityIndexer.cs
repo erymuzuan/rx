@@ -17,7 +17,7 @@ namespace Bespoke.Sph.ElasticSearch
 
         public override string[] RoutingKeys
         {
-            get { return new[] { typeof(T).Name + ".*" }; }
+            get { return new[] { typeof(T).Name + ".#" }; }
         }
 
         protected virtual string GetTypeName(T item)

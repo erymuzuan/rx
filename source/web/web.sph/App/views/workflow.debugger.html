@@ -1,6 +1,34 @@
-﻿<div class="row" data-bind="with : wd">
+﻿<link href="/Content/jsplumb/sph.wf.32.css" rel="stylesheet" />
+
+<div class="row" data-bind="with : wd">
     <div class="form-group">
         <label>Instance id</label>
         <span data-bind="text:Name"></span>
     </div>
+</div>
+<div class="row" data-bind="with : tracker">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Activity</th>
+                <th>User</th>
+                <th>Initiated</th>
+                <th>Run </th>
+                <th>Elapse </th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :ExecutedActivityCollection">
+            <tr>
+                <td>
+                    <div data-bind="attr : {class:'activity32 activity32-' + Type()}"></div>
+                </td>
+                <td data-bind="text:Name"></td>
+                <td data-bind="text:User"></td>
+                <td data-bind="date:{value: Initiated, format:'DD/MM/YYYY HH:mm',invalid: '-'}"></td>
+                <td data-bind="date:{value: Run, format:'DD/MM/YYYY HH:mm', invalid: '-'}"></td>
+                <td data-bind="text:Elapse"></td>
+            </tr>
+        </tbody>
+    </table>
 </div>

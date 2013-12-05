@@ -42,7 +42,11 @@
     <tbody data-bind="foreach :results">
         <tr>
             <td>
-                <input type="checkbox" data-bind="checkedItems: $root.selectedItems" />
+                <label>
+                    <input type="checkbox" data-bind="checkedItems: $root.selectedItems" />
+                    <!-- ko text : WorkflowId -->
+                    <!-- /ko -->
+                </label>
             </td>
             <td>
                     <i class="fa fa-gears"></i>

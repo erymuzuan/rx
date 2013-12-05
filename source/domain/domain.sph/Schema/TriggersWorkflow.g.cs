@@ -3438,6 +3438,16 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_type;
+        public const string PropertyNameType = "Type";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private DateTime? m_initiated;
         public const string PropertyNameInitiated = "Initiated";
 
@@ -3561,6 +3571,64 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_user;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Type
+        {
+            set
+            {
+                if (String.Equals(m_type, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameType, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_type = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_type;
             }
         }
 

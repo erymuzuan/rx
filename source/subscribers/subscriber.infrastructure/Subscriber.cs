@@ -60,7 +60,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             PrintSubscriberInformation();
 
             const bool noAck = false;
-            const string exchangeName = "ruang.komersial.changes";
+            const string exchangeName = "sph.topic";
             const string deadLetterExchange = "sph.ms-dead-letter";
             const string deadLetterQueue = "ms_dead_letter_queue";
 

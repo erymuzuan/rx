@@ -77,6 +77,7 @@ namespace Bespoke.Sph.Domain
             var act = this.GetActivity<Activity>(activityId);
             var headers = new Dictionary<string, object>
                                 {
+                                    {"Name", act.Name},
                                     {"ActivityWebId", activityId},
                                     {"IsActivityExecuted", true},
                                     {"NextActivityWebId", act.NextActivityWebId}
@@ -91,14 +92,14 @@ namespace Bespoke.Sph.Domain
                 using (var session = context.OpenSession())
                 {
                     session.Attach(this, tracker);
-                    await session.SubmitChanges(act.Name, headers);
+                    await session.SubmitChanges("Execute", headers);
                 }
                 return;
             }
             using (var session = context.OpenSession())
             {
                 session.Attach(this);
-                await session.SubmitChanges(act.Name, headers);
+                await session.SubmitChanges("Execute", headers);
             }
 
             tracker.WorkflowId = this.WorkflowId;
@@ -106,7 +107,7 @@ namespace Bespoke.Sph.Domain
             using (var session = context.OpenSession())
             {
                 session.Attach(tracker);
-                await session.SubmitChanges(act.Name, headers);
+                await session.SubmitChanges("Execute", headers);
             }
         }
 

@@ -29,7 +29,7 @@ namespace Bespoke.Sph.ReportDeliverySubscriptions
 
         public override string[] RoutingKeys
         {
-            get { return new[] { "ReportDelivery.*" }; }
+            get { return new[] { "ReportDelivery.#" }; }
         }
 
         protected override Task ProcessMessage(ReportDelivery item, MessageHeaders header)
