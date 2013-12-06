@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -44,13 +46,48 @@ namespace Bespoke.Sph.WorkflowsExecution
                 this.WriteMessage("started");
             }
             this.WriteMessage("Running {0}", item.GetCurrentActivity());
+
+            // debugger
+            var breakpoint = this.GetBreakpoint(item);
+            if (null != breakpoint)
+            {
+                await this.SendLocalsAsync(item);
+                await breakpoint.WaitAsync();
+            }
+
             var result = await item.ExecuteAsync();
             this.WriteMessage(result);
 
         }
 
+        private Task SendLocalsAsync(Workflow item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private Breakpoint GetBreakpoint(Workflow item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+
         protected override void OnStart()
         {
+            var listener = new TcpListener(IPAddress.Loopback, 8181);
+            listener.Start();
+            using (var client = listener.AcceptTcpClient())
+            using (var stream = client.GetStream())
+            using (var reader = new StreamReader(stream))
+            using (var writer = new StreamWriter(stream))
+            {
+                writer.WriteLine("HTTP/1.1 101 Web Socket Protocol Handshake");
+                writer.WriteLine("Upgrade: WebSocket");
+                writer.WriteLine("Connection: Upgrade");
+                writer.WriteLine("WebSocket-Origin: http://localhost:4436");
+                writer.WriteLine("WebSocket-Location: ws://localhost:50525/debugger");
+                writer.WriteLine("");
+            }
+            listener.Stop();
         }
     }
 }
