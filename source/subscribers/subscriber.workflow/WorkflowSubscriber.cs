@@ -49,5 +49,8 @@ namespace Bespoke.Sph.WorkflowsExecution
 
         }
 
+        protected override void OnStart()
+        {
+        }
     }
 }

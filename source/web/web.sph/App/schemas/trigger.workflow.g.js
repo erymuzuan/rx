@@ -1392,6 +1392,42 @@ bespoke.sph.domain.ExecutedActivity = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.Breakpoint = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Breakpoint, domain.sph",
+        IsEnabled: ko.observable(false),
+        ActivityWebId: ko.observable(''),
+        WorkflowDefinitionId: ko.observable(0),
+        ConditionExpression: ko.observable(''),
+        HitCount: ko.observable(0),
+        Label: ko.observable(''),
+        WhenHitPrintMessage: ko.observable(false),
+        WhenHitContinueExecution: ko.observable(false),
+        MessageExpression: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.BreakpointPartial) {
+        return _(model).extend(new bespoke.sph.domain.BreakpointPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.Field = function (optionOrWebid) {
 
     var model = {

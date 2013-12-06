@@ -3680,6 +3680,318 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("Breakpoint", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Breakpoint
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isEnabled;
+        public const string PropertyNameIsEnabled = "IsEnabled";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_activityWebId;
+        public const string PropertyNameActivityWebId = "ActivityWebId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_workflowDefinitionId;
+        public const string PropertyNameWorkflowDefinitionId = "WorkflowDefinitionId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_conditionExpression;
+        public const string PropertyNameConditionExpression = "ConditionExpression";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_hitCount;
+        public const string PropertyNameHitCount = "HitCount";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_label;
+        public const string PropertyNameLabel = "Label";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_whenHitPrintMessage;
+        public const string PropertyNameWhenHitPrintMessage = "WhenHitPrintMessage";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_whenHitContinueExecution;
+        public const string PropertyNameWhenHitContinueExecution = "WhenHitContinueExecution";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_messageExpression;
+        public const string PropertyNameMessageExpression = "MessageExpression";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsEnabled
+        {
+            set
+            {
+                if (m_isEnabled == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsEnabled, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isEnabled = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isEnabled;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string ActivityWebId
+        {
+            set
+            {
+                if (String.Equals(m_activityWebId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameActivityWebId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_activityWebId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_activityWebId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int WorkflowDefinitionId
+        {
+            set
+            {
+                if (m_workflowDefinitionId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameWorkflowDefinitionId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_workflowDefinitionId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_workflowDefinitionId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [DebuggerHidden]
+
+        public string ConditionExpression
+        {
+            set
+            {
+                if (String.Equals(m_conditionExpression, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameConditionExpression, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_conditionExpression = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_conditionExpression;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int HitCount
+        {
+            set
+            {
+                if (m_hitCount == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameHitCount, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_hitCount = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_hitCount;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [DebuggerHidden]
+
+        public string Label
+        {
+            set
+            {
+                if (String.Equals(m_label, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabel, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_label = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_label;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool WhenHitPrintMessage
+        {
+            set
+            {
+                if (m_whenHitPrintMessage == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameWhenHitPrintMessage, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_whenHitPrintMessage = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_whenHitPrintMessage;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool WhenHitContinueExecution
+        {
+            set
+            {
+                if (m_whenHitContinueExecution == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameWhenHitContinueExecution, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_whenHitContinueExecution = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_whenHitContinueExecution;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [DebuggerHidden]
+
+        public string MessageExpression
+        {
+            set
+            {
+                if (String.Equals(m_messageExpression, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameMessageExpression, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_messageExpression = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_messageExpression;
+            }
+        }
+
+
+
+    }
+
     [XmlType("Field", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class Field
     {

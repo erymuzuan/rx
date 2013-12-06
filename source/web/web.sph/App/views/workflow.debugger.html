@@ -30,12 +30,14 @@
         <tbody data-bind="foreach :ExecutedActivityCollection">
             <tr>
                 <td>
-                    <label>
-
-                        <i class="fa fa-circle-o break-point fa-2x" data-bind="visible:!hasBreakpoint()"></i>
-                        <i class="fa fa-circle break-point fa-2x" data-bind="visible:hasBreakpoint"></i>
-                        <input type="checkbox" data-bind="checked : hasBreakpoint" />
+                    <!-- ko if : breakpoint -->
+                    <label data-bind="with : breakpoint">
+                        <input type="checkbox" data-bind="checked : IsEnabled" />
+                        <i class="fa fa-circle-o break-point fa-2x" data-bind="visible:!IsEnabled()"></i>
+                        <i class="fa fa-circle break-point fa-2x" data-bind="visible:IsEnabled"></i>
                     </label>
+                    <!-- /ko -->
+
                 </td>
                 <td>
                     <div data-bind="attr : {class:'activity32 activity32-' + Type()}"></div>

@@ -13,10 +13,10 @@ bespoke.sph.domain = bespoke.sph.domain || {};
 bespoke.sph.domain.ExecutedActivityPartial = function () {
 
     var system = require('durandal/system'),
-        hasBreakpoint = ko.observable(false),
+        breakpoint = ko.observable(false),
         errors = ko.observableArray();
     return {
-        hasBreakpoint: hasBreakpoint,
+        breakpoint: breakpoint,
         errors: errors
     };
 };

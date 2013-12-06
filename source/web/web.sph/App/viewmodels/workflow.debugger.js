@@ -50,7 +50,23 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 
             },
             viewAttached = function (view) {
-
+                $(view).on('dblclick', 'tr', function () {
+                    var ea = ko.dataFor(this);
+                    if (!ea) {
+                        return;
+                    }
+                    if (ko.unwrap(ea.$type) === "Bespoke.Sph.Domain.ExecutedActivity, domain.sph") {
+                        var bp = ea.breakpoint();
+                        if (!bp) {
+                            ea.breakpoint(new bespoke.sph.domain.Breakpoint({
+                                IsEnabled: true,
+                                ActivityWebId: ko.unwrap(ea.ActivityWebId)
+                            }));
+                        } else {
+                            ea.breakpoint(null);
+                        }
+                    }
+                });
             };
 
         var vm = {
