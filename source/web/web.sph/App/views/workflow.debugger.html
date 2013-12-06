@@ -7,7 +7,7 @@
     </div>
 </div>
 <div class="row">
-    <button class="btn btn-default" title="Continue">
+    <button class="btn btn-default" title="Continue" data-bind="click : debugcontinue">
         <i class="fa fa-play" style="color: green"></i>
     </button>
     <button class="btn btn-default" title="Stops debugger">
@@ -28,7 +28,7 @@
             </tr>
         </thead>
         <tbody data-bind="foreach :ExecutedActivityCollection">
-            <tr>
+            <tr data-bind="css : {'break-point-hit':hit}" >
                 <td>
                     <!-- ko if : breakpoint -->
                     <label data-bind="with : breakpoint">

@@ -6,6 +6,7 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
+/// <reference path="../partial/ExecutedActivity.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
@@ -13,6 +14,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
     function (context, logger, router) {
 
         var isBusy = ko.observable(false),
+            locals = ko.observable(),
             id = ko.observable(),
             instance = ko.observable(),
             wd = ko.observable(),
@@ -27,7 +29,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 
                         wd(b);
                         tracker(t);
-                        
+
                         tcs.resolve(true);
                     });
 
@@ -49,8 +51,34 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                 return tcs.promise();
 
             },
+            ws = null,
+            debugcontinue = function () {
+
+                var model = {
+                    Operation: "Continue"
+                };
+                ws.send(JSON.stringify(model));
+            },
+            send = function (bp) {
+                var model = {
+                    Operation: "AddBreakpoint",
+                    Breakpoint: bp
+                };
+                ws.send(ko.mapping.toJSON(model));
+            },
+            remove = function (bp) {
+
+                var model = {
+                    Operation: "RemoveBreakpoint",
+                    Breakpoint: bp
+                };
+                ws.send(ko.mapping.toJSON(model));
+            },
             viewAttached = function (view) {
-                $(view).on('dblclick', 'tr', function () {
+                $(view).on('dblclick', 'tr', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
                     var ea = ko.dataFor(this);
                     if (!ea) {
                         return;
@@ -60,13 +88,53 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                         if (!bp) {
                             ea.breakpoint(new bespoke.sph.domain.Breakpoint({
                                 IsEnabled: true,
-                                ActivityWebId: ko.unwrap(ea.ActivityWebId)
+                                ActivityWebId: ko.unwrap(ea.ActivityWebId),
+                                WorkflowDefinitionId: instance().WorkflowDefinitionId()
                             }));
+                            send(ea.breakpoint());
                         } else {
+                            remove(bp);
                             ea.breakpoint(null);
                         }
                     }
                 });
+                var support = "MozWebSocket" in window ? 'MozWebSocket' : ("WebSocket" in window ? 'WebSocket' : null);
+
+                if (support == null) {
+                    logger.error("No WebSocket support for debugging");
+                }
+
+                logger.info("* Connecting to server ..<br/>");
+                // create a new websocket and connect
+                ws = new window[support]('ws://localhost:50518/');
+
+                ws.onmessage = function (evt) {
+                    var model = JSON.parse(evt.data),
+                        bp = model.Breakpoint,
+                        wf = model.Data,
+                        ea = _(tracker().ExecutedActivityCollection()).find(function (v) { return ko.unwrap(v.ActivityWebId) == bp.ActivityWebId; });
+                    if (ea) {
+                        _(tracker().ExecutedActivityCollection()).each(function(v) {
+                            ea.hit(false);
+                        });
+                        ea.hit(true);
+                    }
+                    if (wf) {
+                        locals(wf);
+                    }
+                    
+                    console.log(evt.data);
+                };
+
+                // when the connection is established, this method is called
+                ws.onopen = function () {
+                    logger.info('* Connection open');
+                };
+
+                // when the connection is closed, this method is called
+                ws.onclose = function () {
+                    logger.error('* Connection closed');
+                };
             };
 
         var vm = {
@@ -75,6 +143,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             isBusy: isBusy,
             wd: wd,
             activate: activate,
+            debugcontinue: debugcontinue,
             viewAttached: viewAttached
         };
 

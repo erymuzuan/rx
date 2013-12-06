@@ -310,6 +310,7 @@
     <Compile Include="Controllers\WorkflowMonitorController.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />
+    <Compile Include="Hubs\WorkflowDebuggerHub.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -778,6 +779,7 @@
     <Content Include="Content\jsplumb\sph.wf.32.png" />
     <Content Include="Content\jsplumb\sph.wf.64.css" />
     <Content Include="Content\jsplumb\sph.wf.64.png" />
+    <Content Include="Content\pretty-json.css" />
     <Content Include="Content\qunit-1.12.0.css" />
     <Content Include="Content\theme.matyie\building.css">
       <DependentUpon>building.less</DependentUpon>

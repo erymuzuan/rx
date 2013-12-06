@@ -14,9 +14,11 @@ bespoke.sph.domain.ExecutedActivityPartial = function () {
 
     var system = require('durandal/system'),
         breakpoint = ko.observable(false),
+        hit = ko.observable(false),
         errors = ko.observableArray();
     return {
         breakpoint: breakpoint,
+        hit: hit,
         errors: errors
     };
 };
