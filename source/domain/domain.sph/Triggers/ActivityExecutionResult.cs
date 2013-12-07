@@ -5,7 +5,8 @@
         public ActivityExecutionStatus Status { get; set; }
         public string Message { get; set; }
         public object Result { get; set; }
-        public Activity NextActivity { get; set; }
+        public string[] NextActivities { get; set; }
+        public string ActivityId { get; set; }
 
         public override string ToString()
         {

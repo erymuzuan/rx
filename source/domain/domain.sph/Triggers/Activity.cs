@@ -63,16 +63,16 @@ namespace Bespoke.Sph.Domain
         {
             throw new NotImplementedException();
         }
+        public virtual string GeneratedInitiateAsyncCode(WorkflowDefinition wd)
+        {
+            throw new NotImplementedException();
+        }
 
         public virtual Task<ActivityExecutionResult> ExecuteAsync()
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task InitiateAsync(Workflow wf)
-        {
-            throw new NotImplementedException();
-        }
         public virtual Task CancelAsync(Workflow wf)
         {
             throw new NotImplementedException();

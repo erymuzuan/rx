@@ -23,12 +23,15 @@ namespace Bespoke.Sph.Domain
 
         }
 
-
         public override int GetId()
         {
             return this.TrackerId;
         }
 
+        public string GetState(string activityId)
+        {
+            return null;
+        }
         public void AddExecutedActivity(Activity act)
         {
             if (!this.ForbiddenActivities.Contains(act.WebId))
@@ -61,6 +64,8 @@ namespace Bespoke.Sph.Domain
 
         public bool CanExecute(string webid)
         {
+            if (this.Workflow.State == "Completed") return false;
+            if (this.Workflow.State == "Terminated") return false;
             // TODO : determine all the legal states
             return true;
         }

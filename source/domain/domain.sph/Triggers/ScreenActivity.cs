@@ -41,17 +41,24 @@ namespace Bespoke.Sph.Domain
             await SendNotificationToPerformers(wf, baseUrl, url, cms, cmb);
         }
 
-        public async override Task InitiateAsync(Workflow wf)
+        public override string GeneratedInitiateAsyncCode(WorkflowDefinition wd)
         {
-            var baseUrl = ConfigurationManager.AppSettings["sph:BaseUrl"] ?? "http://localhost:4436";
-            var url = string.Format("{0}/Workflow_{1}_{2}/{3}/{4}", baseUrl, wf.WorkflowDefinitionId, wf.Version, this.ActionName, wf.WorkflowId);
-            var imb = this.InvitationMessageBody ?? "@Model.Screen.Name task is assigned to you go here @Model.Url";
-            var ims = this.InvitationMessageSubject ?? "[Sph] @Model.Screen.Name task is assigned to you";
+            var code = new StringBuilder();
+            code.AppendLinf("   public async Task InitiateAsync{0}()", this.MethodName);
+            code.AppendLine("   {");
+            code.AppendLinf("       var self = this.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
+            code.AppendLine("       var baseUrl = System.Configuration.ConfigurationManager.AppSettings[\"sph:BaseUrl\"] ?? \"http://localhost:4436\";");
+            code.AppendLine("       var url = string.Format(\"{0}/Workflow_{1}_{2}/{3}/{4}\", baseUrl, this.WorkflowDefinitionId, this.Version, self.ActionName, this.WorkflowId);");
+            code.AppendLine("       var imb = self.InvitationMessageBody ?? \"@Model.Screen.Name task is assigned to you go here @Model.Url\";");
+            code.AppendLine("       var ims = self.InvitationMessageSubject ?? \"[Sph] @Model.Screen.Name task is assigned to you\";");
 
-            await SendNotificationToPerformers(wf, baseUrl, url, ims, imb);
+            code.AppendLine("       await self.SendNotificationToPerformers(this, baseUrl, url, ims, imb);");
+            code.AppendLine("   }");
+
+            return code.ToString();
         }
 
-        private async Task SendNotificationToPerformers(Workflow wf, string baseUrl, string url, string subjectTemplate, string bodyTemplate)
+        public async Task SendNotificationToPerformers(Workflow wf, string baseUrl, string url, string subjectTemplate, string bodyTemplate)
         {
             var context = new SphDataContext();
 
@@ -131,11 +138,11 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLine(this.BeforeExcuteCode);
+            code.AppendLine("       await Task.Delay(40);");
             code.AppendLine("       this.State = \"Ready\";");
             // set the next activity
-            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);
-            code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
+            code.AppendLinf("       result.NextActivities = new[]{{ \"{0}\"}};", this.NextActivityWebId);
 
             code.AppendLine(this.AfterExcuteCode);
             code.AppendLine("       return result;");

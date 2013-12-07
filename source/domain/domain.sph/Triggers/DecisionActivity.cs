@@ -37,8 +37,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLinf("       var branch{0} = this.{1}();", count, this.GetBranchMethodName(branch));
                 code.AppendLinf("       if(branch{0})", count);
                 code.AppendLine("       {");
-                code.AppendLinf("           this.CurrentActivityWebId = \"{0}\";", branch.NextActivityWebId);
-                code.AppendLinf("           await this.SaveAsync(\"{0}\");", this.WebId);
+                code.AppendLinf("           result.NextActivities = new []{{\"{0}\"}};", branch.NextActivityWebId);
                 code.AppendLine("           return result;");
                 code.AppendLine("       }");
                 count++;
@@ -47,8 +46,7 @@ namespace Bespoke.Sph.Domain
             // default
             var default1 = this.DecisionBranchCollection.Single(b => b.IsDefault);
 
-            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", default1.NextActivityWebId);
-            code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
+            code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", default1.NextActivityWebId);
             code.AppendLine("       return result;");
             code.AppendLine("   }");// end metod
 

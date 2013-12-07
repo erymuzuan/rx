@@ -12,21 +12,6 @@ namespace Bespoke.Sph.Domain
             get { return true; }
         }
 
-        public override void BeforeGenerate(WorkflowDefinition wd)
-        {
-            var triggersId = this.ListenBranchCollection.Select(a => a.NextActivityWebId).ToArray();
-            var triggers = wd.ActivityCollection.Where(a => triggersId.Contains(a.WebId));
-            foreach (var t in triggers)
-            {
-                t.AfterExcuteCode = string.Format("     await this.FireListenTrigger{1}(\"{0}\");", t.WebId, this.MethodName);
-            }
-        }
-
-        public async override Task InitiateAsync(Workflow wf)
-        {
-            await wf.ExecuteAsync(this.WebId);
-        }
-
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
             var result = base.ValidateBuild(wd);
@@ -51,6 +36,39 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
+
+        public override void BeforeGenerate(WorkflowDefinition wd)
+        {
+            var triggersId = this.ListenBranchCollection.Select(a => a.NextActivityWebId).ToArray();
+            var triggers = wd.ActivityCollection.Where(a => triggersId.Contains(a.WebId));
+            foreach (var t in triggers)
+            {
+                t.AfterExcuteCode = string.Format("     await this.FireListenTrigger{1}(\"{0}\");", t.WebId, this.MethodName);
+            }
+        }
+
+        public override string GeneratedInitiateAsyncCode(WorkflowDefinition wd)
+        {
+            var code = new StringBuilder();
+            var count = 1;
+            // triggered fires
+            code.AppendLinf("   public async Task InitiateAsync{0}()", this.MethodName);
+            code.AppendLine("   {");
+            // call initiate for all the branches for both
+            var initiateTasks = new List<string>();
+            foreach (var branch in this.ListenBranchCollection)
+            {
+                var act = wd.GetActivity<Activity>(branch.NextActivityWebId);
+                code.AppendLinf("       var initiateTask{0} = this.InitiateAsync{1}();", count, act.MethodName);
+                initiateTasks.Add("initiateTask" + count);
+                count++;
+            }
+            code.AppendLinf("       await Task.WhenAll({0});", string.Join(",", initiateTasks));
+            code.AppendLine("   }");
+
+            return code.ToString();
+        }
+
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
@@ -59,48 +77,26 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("   public async Task FireListenTrigger{0}(string webId)", this.MethodName);
             code.AppendLine("   {");
             code.AppendLinf("       var self = this.GetActivity<ListenActivity>(\"{0}\");", this.WebId);
-            code.AppendLinf("       var triggersId = self.ListenBranchCollection" +
-                            ".Where(a =>a.NextActivityWebId != webId)" +
-                            ".Select(a => a.NextActivityWebId).ToArray();");
             code.AppendLinf("       var fired = this.GetActivity<Activity>(webId);");
-            code.AppendLinf("       foreach(var t in triggersId)");
-            code.AppendLine("       {");
-            code.AppendLine("               var t1 = t;");
-            code.AppendLine("               var act = this.GetActivity<Activity>(t1);");
-            code.AppendLine("               await act.CancelAsync(this);");
-            code.AppendLine("       }");
+            code.AppendLinf(@"       
+                                    var cancelled = self.ListenBranchCollection
+                                                    .Where(a =>a.NextActivityWebId != webId)
+                                                    .Select(a => this.GetActivity<Activity>(a.NextActivityWebId))
+                                                    .Select(act => act.CancelAsync(this));");
+            code.AppendLinf("       await Task.WhenAll(cancelled);");
+
+            // then execute this fired
+            code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
+            code.AppendLine("       result.NextActivities = new[]{fired.NextActivityWebId};");
+            code.AppendLinf("       await this.SaveAsync(\"{0}\", result);", this.WebId);
+
             code.AppendLine("   }");
 
 
 
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
+            code.AppendLinf("   public Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
-            code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
-            code.AppendLine("       var script = ObjectBuilder.GetObject<IScriptEngine>();");
-            var count = 1;
-            code.AppendLinf("       var listen = this.GetActivity<ListenActivity>(\"{0}\");", this.WebId);
-            code.AppendLine();
-            // call initiate for all the branches for both
-            var initiateTasks = new List<string>();
-            foreach (var branch in this.ListenBranchCollection)
-            {
-                code.AppendLinf("       var branch{0} = listen.ListenBranchCollection.Single(a => a.WebId == \"{1}\");", count, branch.WebId);
-                code.AppendLinf("       var trigger{0} =  this.GetActivity<Activity>(\"{1}\");", count, branch.NextActivityWebId);
-                code.AppendLinf("       var initiateTask{0} = trigger{0}.InitiateAsync(this);", count, branch.WebId);
-                code.AppendLine();
-
-                initiateTasks.Add("initiateTask" + count);
-
-                count++;
-            }
-            code.AppendLinf("       await Task.WhenAll({0});", string.Join(",", initiateTasks));
-
-            // set it to -> waiting for one of branch to fire
-            code.AppendLine("       this.State = \"WaitingAsync\";");
-            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.WebId); // set it to this activity
-            code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
-            code.AppendLine("       return result;");
-
+            code.AppendLine("       throw new System.Exception(\"Listen activity is not supposed to be executed directly but through FireListenTrigger\");");
             code.AppendLine("   }");
 
 

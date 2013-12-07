@@ -28,8 +28,7 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("       " + this.Expression);
 
-            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);
-            code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
+            code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
             code.AppendLine("       return result;");
             code.AppendLine("   }");// end metod
 

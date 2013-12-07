@@ -52,49 +52,9 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       public override async Task<ActivityExecutionResult> ExecuteAsync(string activityId)");
             code.AppendLine("       {");
             code.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.WorkflowDefinitionId, this.Version);
-            code.AppendLine("               ActivityExecutionResult result = null;");
-            code.AppendLine("               switch(activityId)");
-            code.AppendLine("               {");
-
-            foreach (var activity in this.ActivityCollection.Where(a => a.IsAsync))
-            {
-                code.AppendLinf("                   case \"{0}\" : ", activity.WebId);
-                code.AppendLinf("                       result = await this.{0}();", activity.MethodName);
-                code.AppendLine("                       break;");
-            }
-            code.AppendLine("               }");// end switch
-            code.AppendLinf("           return result;");
-            code.AppendLine("       }");
-
-
-            // execute
-            code.AppendLine("       public async override Task<ActivityExecutionResult> ExecuteAsync()");
-            code.AppendLine("       {");
-            code.AppendLine("               var act = this.GetCurrentActivity();");
-            code.AppendLine("               if(null == act)");
-            code.AppendLine("                   throw new InvalidOperationException(\"No current activity\");");
-
-
-
-            code.AppendLine("               if(act.IsAsync && this.State == \"WaitingAsync\")");
-            code.AppendLine("               {");
-            code.AppendLine("                   return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};");
-            code.AppendLine("               }");
-
-
-
-            code.AppendLine("               if(act.IsAsync)");
-            code.AppendLine("               {");
-            code.AppendLine("                   this.State = \"WaitingAsync\";");
-
-            code.AppendLine("                   await act.InitiateAsync(this);");
-            code.AppendLine("                   await this.SaveAsync(act.WebId);");
-            code.AppendLine("                   return new ActivityExecutionResult{Status = ActivityExecutionStatus.WaitingAsync};");
-            code.AppendLine("               }");
-            code.AppendLine();
-            code.AppendLine("               ActivityExecutionResult result = null;");
-            code.AppendLine("               switch(act.WebId)");
-            code.AppendLine("               {");
+            code.AppendLine("           ActivityExecutionResult result = null;");
+            code.AppendLine("           switch(activityId)");
+            code.AppendLine("           {");
 
             foreach (var activity in this.ActivityCollection)
             {
@@ -102,19 +62,11 @@ namespace Bespoke.Sph.Domain
                 code.AppendLinf("                       result = await this.{0}();", activity.MethodName);
                 code.AppendLine("                       break;");
             }
-            code.AppendLine("               }");// end switch
+            code.AppendLine("           }");// end switch
+            code.AppendLine("           await this.SaveAsync(activityId, result);");
+            code.AppendLinf("           return result;");
+            code.AppendLine("       }");
 
-            code.AppendLine("               if(null == result)");
-            code.AppendLine("                   throw new Exception(\"what ever\");");
-            code.AppendLine("               if(null != result.NextActivity)");
-            code.AppendLine("               {");
-            code.AppendLine("                   this.CurrentActivityWebId = result.NextActivity.WebId;");
-            code.AppendLine("                   await this.SaveAsync(act.WebId);");
-            code.AppendLine("               }");
-            code.AppendLine("                return result;");
-
-
-            code.AppendLine("       }");// end Execute
 
             // properties for each Variables
             foreach (var variable in this.VariableDefinitionCollection)
@@ -132,7 +84,11 @@ namespace Bespoke.Sph.Domain
             foreach (var activity in this.ActivityCollection)
             {
                 code.AppendLine();
-                code.AppendLine("//exec:"+ activity.WebId);
+                code.AppendLine("//exec:" + activity.WebId);
+
+                if (activity.IsAsync)
+                    code.AppendLine(activity.GeneratedInitiateAsyncCode(this));
+
                 code.AppendLine(activity.GeneratedExecutionMethodCode(this));
             }
 
@@ -175,8 +131,8 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       }");
             code.AppendLine("}");
 
-            
-            
+
+
         }
 
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace Bespoke.Sph.Domain
 {
@@ -18,13 +17,12 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
+            code.AppendLinf("   public Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
-            code.AppendLine("       var result = new ActivityExecutionResult();");
-            code.AppendLinf("       this.CurrentActivityWebId = null;");
+            code.AppendLine("       var result = new ActivityExecutionResult{  Status = ActivityExecutionStatus.Success };");
+            code.AppendLine("       result.NextActivities = new string[]{};");
             code.AppendLinf("       this.State = \"Completed\";");
-            code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
-            code.AppendLine("       return result;");
+            code.AppendLine("       return Task.FromResult(result);");
             code.AppendLine("   }");
 
             return code.ToString();

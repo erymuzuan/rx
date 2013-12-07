@@ -20,9 +20,9 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
-            code.AppendLine("       var result = new ActivityExecutionResult();");
+            code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
             code.AppendLinf("       var act = this.GetActivity<NotificationActivity>(\"{0}\");", this.WebId);
-            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);
+            code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
 
 
             code.AppendLinf("       var @from = await this.TransformFrom{0}(act.From);", this.MethodName);
@@ -50,7 +50,6 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       var client = new System.Net.Mail.SmtpClient();");
             code.AppendLine("       await client.SendMailAsync(@from, to, subject,body);");
 
-            code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
             code.AppendLine("       return result;");
             code.AppendLine("   }");
             code.AppendLine();

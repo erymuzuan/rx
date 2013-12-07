@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -36,35 +38,47 @@ namespace Bespoke.Sph.WorkflowsExecution
             }
             item.WorkflowDefinition = wd;
 
+            var message = new StringBuilder();
             // get current activity
             dynamic headers = header;
-            var initiator = wd.ActivityCollection.Single(a => a.IsInitiator);
-            string activityId = headers.ActivityWebId;
-
-
-            if (initiator.WebId == activityId)
-            {
-                this.WriteMessage("started");
-            }
-            this.WriteMessage("Running {0}", item.GetCurrentActivity());
+            string executedActivityWebId = headers.ActivityWebId;
+            string nextActivities = headers.NextActivities;
+            string[] activities = nextActivities.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            var executed = item.GetActivity<Activity>(executedActivityWebId);
+            message.AppendLine("Executed : " + executed.Name);
 
             // debugger
-            this.CurrentBreakpoint = this.GetBreakpoint(item);
+            this.CurrentBreakpoint = this.GetBreakpoint(item, activities);
             if (null != this.CurrentBreakpoint)
             {
-                this.WriteMessage("OOOOO -+-+-+ " + this.CurrentBreakpoint.ActivityWebId);
+                var debugged = item.GetActivity<Activity>(this.CurrentBreakpoint.ActivityWebId);
+                this.WriteMessage("DEBUG :" + debugged.Name);
                 await this.SendLocalsAsync(item);
                 this.CurrentBreakpoint.Break();
                 await this.CurrentBreakpoint.WaitAsync();
             }
 
-            var result = await item.ExecuteAsync();
-            this.WriteMessage(result);
 
+            foreach (var id in activities)
+            {
+                var act = item.GetActivity<Activity>(id);
+                if (act.IsAsync)
+                {
+                    message.AppendLine("Initiating : " + act.Name);
+                    var initiatedAsyncMethod = item.GetType().GetMethod("InitiateAsync" + act.MethodName);
+                    var task = (Task)initiatedAsyncMethod.Invoke(item, null);
+                    task.Wait();
+                }
+                else
+                {
+                    message.AppendLine("Executing : " + act.Name);
+                    await item.ExecuteAsync(id);
+                }
+            }
+            this.WriteMessage(message);
         }
 
         public Breakpoint CurrentBreakpoint { get; set; }
-
         private Task SendLocalsAsync(Workflow item)
         {
             var model = new
@@ -77,12 +91,12 @@ namespace Bespoke.Sph.WorkflowsExecution
             return Task.FromResult(0);
         }
 
-        private Breakpoint GetBreakpoint(Workflow item)
+        private Breakpoint GetBreakpoint(Workflow item, IEnumerable<string> activities)
         {
             return this.BreakpointCollection
                 .Where(b => b.WorkflowDefinitionId == item.WorkflowDefinitionId)
                 .Where(b => b.IsEnabled)
-                .SingleOrDefault(b => b.ActivityWebId == item.CurrentActivityWebId);
+                .SingleOrDefault(b => activities.Contains(b.ActivityWebId));
         }
 
         private readonly ObjectCollection<Breakpoint> m_breakpointCollection = new ObjectCollection<Breakpoint>();
@@ -102,7 +116,7 @@ namespace Bespoke.Sph.WorkflowsExecution
                 return;
             }
             m_appServer.NewMessageReceived += NewMessageReceived;
-            m_appServer.NewDataReceived += m_appServer_NewDataReceived;
+            m_appServer.NewDataReceived += AppServerNewDataReceived;
             if (!m_appServer.Start())
             {
                 this.WriteError(new Exception("Failed to start websocket server!"));
@@ -111,7 +125,7 @@ namespace Bespoke.Sph.WorkflowsExecution
             this.WriteMessage("The WebSocket server started successfully!");
         }
 
-        void m_appServer_NewDataReceived(WebSocketSession session, byte[] value)
+        private void AppServerNewDataReceived(WebSocketSession session, byte[] value)
         {
             this.WriteMessage("New data received");
         }

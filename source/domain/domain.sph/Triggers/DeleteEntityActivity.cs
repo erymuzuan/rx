@@ -33,9 +33,8 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("      }");
             // set the next activity
-            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);/* webid*/
-            code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
+            code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);/* webid*/
             code.AppendLine("       return result;");
             code.AppendLine("   }");
 

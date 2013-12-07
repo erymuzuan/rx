@@ -79,6 +79,12 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             if (null != operationBytes)
             {
                 var r = ByteToString(operationBytes);
+                if (binder.ReturnType == typeof(string[]))
+                {
+                    result = r.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    return true;
+
+                }
                 if (binder.ReturnType == typeof(int))
                 {
                     int no;

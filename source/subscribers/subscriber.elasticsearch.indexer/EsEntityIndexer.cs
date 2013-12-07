@@ -1,5 +1,5 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -10,6 +10,8 @@ namespace Bespoke.Sph.ElasticSearch
 {
     public abstract class EsEntityIndexer<T> : Subscriber<T> where T : Entity
     {
+        const string Index = "sph";
+
         public override string QueueName
         {
             get { return typeof(T).Name.ToLowerInvariant() + "_es"; }
@@ -28,18 +30,15 @@ namespace Bespoke.Sph.ElasticSearch
 
         protected async override Task ProcessMessage(T item, MessageHeaders headers)
         {
-            this.WriteMessage("INDEXING {0}", item);
-
+            var esHost = ConfigurationManager.AppSettings["es.server"];
             var setting = new JsonSerializerSettings();
-
             var json = JsonConvert.SerializeObject(item, setting);
+
             var content = new StringContent(json);
             var id = item.GetId();
-            var esServer = ConfigurationManager.AppSettings["es.server"];
-            const string index = "sph";
 
 
-            var url = string.Format("{0}/{1}/{2}/{3}", esServer, index, this.GetTypeName(item), id);
+            var url = string.Format("{0}/{1}/{2}/{3}", esHost, Index, this.GetTypeName(item), id);
 
             var client = new HttpClient();
             HttpResponseMessage response = null;
@@ -59,8 +58,7 @@ namespace Bespoke.Sph.ElasticSearch
 
             if (null != response)
             {
-                this.WriteMessage("RESPONSE CODE : {0}", response.StatusCode);
-                this.WriteMessage(response.Content);
+                Debug.Write(".");
             }
         }
 

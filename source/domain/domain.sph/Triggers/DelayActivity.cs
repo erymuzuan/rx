@@ -29,7 +29,19 @@ namespace Bespoke.Sph.Domain
             return result;
         }
 
-        public async override Task InitiateAsync(Workflow wf)
+        public override string GeneratedInitiateAsyncCode(WorkflowDefinition wd)
+        {
+            var code = new StringBuilder();
+            code.AppendLinf("   public async Task InitiateAsync{0}()", this.MethodName);
+            code.AppendLine("   {");
+            code.AppendLinf("       var self = this.GetActivity<DelayActivity>(\"{0}\");", this.WebId);
+            code.AppendLine("       await self.CreateTaskSchedulerAsync(this);");
+            code.AppendLine("   }");
+
+            return code.ToString();
+        }
+
+        public async Task CreateTaskSchedulerAsync(Workflow wf)
         {
             var ts = ObjectBuilder.GetObject<ITaskScheduler>();
             var dateTime = DateTime.Now.AddDays(this.Days)
@@ -80,9 +92,8 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   {");
             code.AppendLine(this.BeforeExcuteCode);
             code.AppendLinf("       this.State = \"Ready\";");
-            code.AppendLinf("       this.CurrentActivityWebId = \"{0}\";", this.NextActivityWebId);
-            code.AppendLinf("       await this.SaveAsync(\"{0}\");", this.WebId);
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
+            code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
             code.AppendLine(this.AfterExcuteCode);
             code.AppendLine("       return result;");
             code.AppendLine("   }");

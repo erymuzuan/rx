@@ -14,8 +14,6 @@ namespace Bespoke.Sph.Domain
             return this.WorkflowId;
         }
 
-        [XmlAttribute]
-        public string CurrentActivityWebId { get; set; }
 
         /// <summary>
         /// once a workflow definition is published the copy of the definition is stored for reference with id and version no,
@@ -42,17 +40,6 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(new ActivityExecutionResult { Status = ActivityExecutionStatus.None });
         }
 
-        public virtual Task<ActivityExecutionResult> ExecuteAsync()
-        {
-            return Task.FromResult(new ActivityExecutionResult { Status = ActivityExecutionStatus.None });
-        }
-
-        public Activity GetCurrentActivity()
-        {
-            if (null == this.WorkflowDefinition)
-                throw new InvalidOperationException("You should have set the WorkflowDefinition " + this.WorkflowDefinitionId + " version " + this.Version + " via SerializedDefinitionStoreId property");
-            return this.WorkflowDefinition.ActivityCollection.SingleOrDefault(d => d.WebId == this.CurrentActivityWebId);
-        }
 
         public T GetActivity<T>(string webId) where T : Activity
         {
@@ -61,26 +48,16 @@ namespace Bespoke.Sph.Domain
         }
 
 
-        public Activity GetNexActivity()
+        public async virtual Task SaveAsync(string activityId, ActivityExecutionResult result)
         {
-            if (null == this.WorkflowDefinition)
-                throw new InvalidOperationException("You should have set the WorkflowDefinition " + this.WorkflowDefinitionId + " version " + this.Version + " via SerializedDefinitionStoreId property");
-            var current = string.IsNullOrWhiteSpace(this.CurrentActivityWebId) ? this.WorkflowDefinition.ActivityCollection.Single(d => d.IsInitiator) : null;
-
-            if (null == current) return null;
-            if (string.IsNullOrWhiteSpace(current.NextActivityWebId)) return null;
-            return this.WorkflowDefinition.ActivityCollection.SingleOrDefault(f => f.WebId == current.NextActivityWebId);
-        }
-
-        public async virtual Task SaveAsync(string activityId)
-        {
+            const string operation = "Execute";
             var act = this.GetActivity<Activity>(activityId);
             var headers = new Dictionary<string, object>
                                 {
                                     {"Name", act.Name},
                                     {"ActivityWebId", activityId},
-                                    {"IsActivityExecuted", true},
-                                    {"NextActivityWebId", act.NextActivityWebId}
+                                    {"Executed", result.Status == ActivityExecutionStatus.Success },
+                                    {"NextActivities",string.Join(",", result.NextActivities)}
                                 };
 
             var tracker = await this.GetTrackerAsync();
@@ -92,22 +69,24 @@ namespace Bespoke.Sph.Domain
                 using (var session = context.OpenSession())
                 {
                     session.Attach(this, tracker);
-                    await session.SubmitChanges("Execute", headers);
+                    await session.SubmitChanges(operation, headers);
                 }
                 return;
             }
+
+            // for start do not fire the subscriber
             using (var session = context.OpenSession())
             {
                 session.Attach(this);
-                await session.SubmitChanges("Execute", headers);
+                await session.SubmitChanges("Start", headers);
             }
 
             tracker.WorkflowId = this.WorkflowId;
             tracker.WorkflowDefinitionId = this.WorkflowDefinitionId;
             using (var session = context.OpenSession())
             {
-                session.Attach(tracker);
-                await session.SubmitChanges("Execute", headers);
+                session.Attach(this, tracker);
+                await session.SubmitChanges(operation, headers);
             }
         }
 
@@ -144,8 +123,6 @@ namespace Bespoke.Sph.Domain
             {
                 session.Attach(this);
                 await session.SubmitChanges("Terminate");
-                // TODO : use the subscriber to delete any scheduled task or related resources to this instance
-                // this.WorkflowDefinition.ActivityCollection.ForEach(async a => await a.TerminateAsync(this));
             }
         }
     }

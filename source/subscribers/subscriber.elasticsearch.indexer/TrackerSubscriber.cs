@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -15,12 +16,14 @@ namespace Bespoke.Sph.ElasticSearch
         {
             var tasks = from ea in item.ExecutedActivityCollection
                         let id = string.Format("{0}_{1}_{2}", item.WorkflowDefinitionId, item.WorkflowId, ea.ActivityWebId)
-                        select AddToIndexAsync(id, ea, headers);
+                        let wfid = item.WorkflowId
+                        select AddToIndexAsync(id, ea, headers,wfid);
             await Task.WhenAll(tasks);
         }
 
-        private async Task AddToIndexAsync(string id, ExecutedActivity ea, MessageHeaders headers)
+        private async Task AddToIndexAsync(string id, ExecutedActivity ea, MessageHeaders headers, int wfid)
         {
+            ea.InstanceId = wfid;
             var setting = new JsonSerializerSettings();
 
             var json = JsonConvert.SerializeObject(ea, setting);
@@ -49,7 +52,7 @@ namespace Bespoke.Sph.ElasticSearch
 
             if (null != response)
             {
-                this.WriteMessage(".");
+                Debug.Write(".");
             }
         }
     }

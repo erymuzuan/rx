@@ -46,11 +46,11 @@ namespace domain.test.workflows
             ObjectBuilder.AddCacheList(ps.Object);
 
             var ecp = new Mock<IEntityChangePublisher>(MockBehavior.Loose);
-            ecp.Setup(x => x.PublishAdded(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>(),It.IsAny<Dictionary<string,object>>()))
+            ecp.Setup(x => x.PublishAdded(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>(), It.IsAny<Dictionary<string, object>>()))
                 .Returns(() => Task.Delay(100));
-            ecp.Setup(x => x.PublishChanges(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>(), It.IsAny<IEnumerable<AuditTrail>>(),It.IsAny<Dictionary<string,object>>()))
+            ecp.Setup(x => x.PublishChanges(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>(), It.IsAny<IEnumerable<AuditTrail>>(), It.IsAny<Dictionary<string, object>>()))
                 .Returns(() => Task.Delay(100));
-            ecp.Setup(x => x.PublishDeleted(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>(),It.IsAny<Dictionary<string,object>>()))
+            ecp.Setup(x => x.PublishDeleted(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>(), It.IsAny<Dictionary<string, object>>()))
                 .Returns(() => Task.Delay(100));
             ObjectBuilder.AddCacheList(ecp.Object);
 
@@ -85,8 +85,8 @@ namespace domain.test.workflows
             Console.WriteLine(result.ToJsonString());
             Assert.IsFalse(result.Result);
             Assert.AreEqual(2, result.Errors.Count);
-            Assert.AreEqual("Name must be started with letter.You cannot use symbol or number as first character", result.Errors[0].ToString());
-            Assert.AreEqual("[ScreenActivity] : Pohon => 'Nama' does not have path", result.Errors[1].ToString());
+            Assert.AreEqual("Name must be started with letter.You cannot use symbol or number as first character", result.Errors[0].Message);
+            Assert.AreEqual("[ScreenActivity] : Pohon => 'Nama' does not have path", result.Errors[1].Message);
 
         }
 
@@ -119,7 +119,7 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(exp);
             wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });
 
-            var result = this.Compile(wd, true);
+            var result = this.Compile(wd, true, assertError:false);
 
             Assert.IsFalse(result.Result);
             Assert.AreEqual(1, result.Errors.Count);
@@ -134,13 +134,13 @@ namespace domain.test.workflows
         public void BuildValidationDuplicateWebId()
         {
             var wd = new WorkflowDefinition { Name = "Test Workflow" };
-            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A" };
-            var screen2 = new ScreenActivity { Name = "Pohon 2", IsInitiator = false, WebId = "A", NextActivityWebId = "B" };
+            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A",NextActivityWebId = "B"};
+            var screen2 = new ScreenActivity { Name = "Pohon 2", IsInitiator = false, WebId = "A", NextActivityWebId = "C" };
             screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = "Nama" });
             wd.ActivityCollection.Add(screen);
             wd.ActivityCollection.Add(screen2);
 
-            var result = this.Compile(wd, true);
+            var result = wd.ValidateBuild();
             Console.WriteLine(result.ToJsonString());
             Assert.IsFalse(result.Result);
             Assert.AreEqual(2, result.Errors.Count);
@@ -148,34 +148,7 @@ namespace domain.test.workflows
 
         }
 
-        [Test]
-        public void InitiateAsyncMessage()
-        {
-            var wf = new Workflow { WorkflowDefinitionId = 10, Version = 25, WebId = "A", WorkflowId = 35 };
-            var screen = new ScreenActivity
-            {
-                Name = "Approve User",
-                WebId = "B",
-                NextActivityWebId = "C",
-                Performer = new Performer
-                {
-                    UserProperty = "Username",
-                    Value = "admin"
-                }
-            };
-            screen.InitiateAsync(wf).ContinueWith(_ =>
-            {
-                var exc = _.Exception;
-                if (null != exc)
-                {
-                    foreach (var e in exc.InnerExceptions)
-                    {
-                        Console.WriteLine(e);
-                    }
-                }
-                Console.WriteLine(exc);
-            }).Wait();
-        }
+
 
 
         private WorkflowDefinition Create()
@@ -189,7 +162,7 @@ namespace domain.test.workflows
             return wd;
         }
 
-        private WorkflowCompilerResult Compile(WorkflowDefinition wd, bool verbose = false)
+        private WorkflowCompilerResult Compile(WorkflowDefinition wd, bool verbose = false, bool assertError = true)
         {
             m_store.Setup(x => x.GetContent("wd-storeid"))
                .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), StoreId = "wd-storeid" });
@@ -208,7 +181,8 @@ namespace domain.test.workflows
 
             var result = wd.Compile(options);
             result.Errors.ForEach(Console.WriteLine);
-            Assert.IsTrue(result.Result,  result.ToJsonString(Formatting.Indented));
+            if (assertError)
+                Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
 
             return result;
         }
@@ -237,10 +211,9 @@ namespace domain.test.workflows
             wf.WorkflowDefinition = wd;
             wf.StartAsync().ContinueWith(_ =>
             {
-                var executionResult = _.Result;
-                Console.WriteLine(executionResult.Status);
+                if (null != continuationAction)
+                    continuationAction(_);
 
-                wf.ExecuteAsync().ContinueWith(continuationAction).Wait();
             }).Wait();
         }
 
@@ -275,7 +248,7 @@ namespace domain.test.workflows
             };
 
             wd.ActivityCollection.Add(send);
-            
+
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
             var result = this.Compile(wd, true);
             this.Run(wd, result.Output, Console.WriteLine);
@@ -413,7 +386,7 @@ namespace domain.test.workflows
             {
                 var result2 = r2.Result;
                 Console.WriteLine(result2);
-                Assert.AreEqual("CREATE_BUILDING", result2.NextActivity);
+                Assert.AreEqual(new []{"_B_"}, result2.NextActivities);
             });
 
 
@@ -460,7 +433,7 @@ namespace domain.test.workflows
             {
                 var result2 = r2.Result;
                 Console.WriteLine(result2);
-                Assert.AreEqual("CREATE_BUILDING", result2.NextActivity);
+                Assert.AreEqual(new[] { "_EMAIL_" }, result2.NextActivities);
             });
 
 

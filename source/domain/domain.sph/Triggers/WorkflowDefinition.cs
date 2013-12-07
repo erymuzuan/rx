@@ -24,12 +24,13 @@ namespace Bespoke.Sph.Domain
             return this.ActivityCollection.OfType<T>().Single(w => w.WebId == webId);
         }
 
-        public Task<Workflow> InitiateAsync(VariableValue[] values = null, ScreenActivity screen = null)
+        public async Task<Workflow> InitiateAsync(VariableValue[] values = null, ScreenActivity screen = null)
         {
             var typeName = string.Format("{3}.{0},workflows.{1}.{2}", this.WorkflowTypeName, this.WorkflowDefinitionId, this.Version, this.CodeNamespace);
-            // TODO : load the type and instantiate it
             var type = Type.GetType(typeName);
             if (null == type) throw new InvalidOperationException("Cannot instantiate  " + typeName);
+
+            var initiator = this.GetInitiatorActivity();
 
             dynamic wf = Activator.CreateInstance(type);
             wf.Name = this.Name;
@@ -49,8 +50,8 @@ namespace Bespoke.Sph.Domain
             {
                 wf.VariableValueCollection.ClearAndAddRange(values);
             }
-
-            return Task.FromResult(wf as Workflow);
+            await wf.ExecuteAsync(initiator.WebId);
+            return wf as Workflow;
         }
 
         private void SetVariableValue(VariableValue vv, Workflow wf, Type type)
