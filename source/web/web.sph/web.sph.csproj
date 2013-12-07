@@ -508,6 +508,7 @@
     <Content Include="App\viewmodels\public.check.application.js" />
     <Content Include="App\viewmodels\rentalapplication.onbehalf.js" />
     <Content Include="App\viewmodels\space.detailpublic.js" />
+    <Content Include="App\viewmodels\workflow.activities.js" />
     <Content Include="App\viewmodels\workflow.debugger.js" />
     <Content Include="App\viewmodels\workflow.definition.list.js" />
     <Content Include="App\viewmodels\workflow.definition.visual.js" />
@@ -595,6 +596,7 @@
     <Content Include="App\views\maintenance.officer.dashboard.html" />
     <Content Include="App\views\public.check.application.html" />
     <Content Include="App\views\rentalapplication.onbehalf.html" />
+    <Content Include="App\views\workflow.activities.html" />
     <Content Include="App\views\workflow.debugger.html" />
     <Content Include="App\views\workflow.definition.list.html" />
     <Content Include="App\views\workflow.definition.visual.html" />
@@ -775,6 +777,8 @@
     <Content Include="Content\jsplumb\jsplumb.min.css">
       <DependentUpon>jsplumb.css.bundle</DependentUpon>
     </Content>
+    <Content Include="Content\jsplumb\sph.wf.16.css" />
+    <Content Include="Content\jsplumb\sph.wf.16.png" />
     <Content Include="Content\jsplumb\sph.wf.32.css" />
     <Content Include="Content\jsplumb\sph.wf.32.png" />
     <Content Include="Content\jsplumb\sph.wf.64.css" />

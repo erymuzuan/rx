@@ -26,10 +26,11 @@ namespace Bespoke.Sph.WorkflowsExecution
 
         protected async override Task ProcessMessage(Workflow item, MessageHeaders header)
         {
-            var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", item.WorkflowDefinitionId, item.Version));
 
             if (item.State == "Completed") return;
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", item.WorkflowDefinitionId, item.Version));
+            var tracker = await item.GetTrackerAsync();
 
             WorkflowDefinition wd;
             using (var stream = new MemoryStream(doc.Content))
@@ -39,6 +40,7 @@ namespace Bespoke.Sph.WorkflowsExecution
             item.WorkflowDefinition = wd;
 
             var message = new StringBuilder();
+            message.AppendLine("Running " + item.Name + ":" + item.WorkflowId);
             // get current activity
             dynamic headers = header;
             string executedActivityWebId = headers.ActivityWebId;
@@ -57,6 +59,7 @@ namespace Bespoke.Sph.WorkflowsExecution
                 this.CurrentBreakpoint.Break();
                 await this.CurrentBreakpoint.WaitAsync();
             }
+            var context = new SphDataContext();
 
 
             foreach (var id in activities)
@@ -68,6 +71,13 @@ namespace Bespoke.Sph.WorkflowsExecution
                     var initiatedAsyncMethod = item.GetType().GetMethod("InitiateAsync" + act.MethodName);
                     var task = (Task)initiatedAsyncMethod.Invoke(item, null);
                     task.Wait();
+
+                    tracker.AddInitiateActivity(act);
+                    using (var session = context.OpenSession())
+                    {
+                        session.Attach(tracker);
+                        await session.SubmitChanges("Update");
+                    }
                 }
                 else
                 {

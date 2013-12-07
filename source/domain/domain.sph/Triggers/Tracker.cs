@@ -32,6 +32,27 @@ namespace Bespoke.Sph.Domain
         {
             return null;
         }
+
+        public void AddInitiateActivity(Activity act)
+        {
+            if (!this.ForbiddenActivities.Contains(act.WebId))
+                this.ForbiddenActivities.Add(act.WebId);
+            var directory = ObjectBuilder.GetObject<IDirectoryService>();
+            var ea = new ExecutedActivity
+            {
+                WorkflowDefinitionId = this.WorkflowDefinitionId,
+                ActivityWebId = act.WebId,
+                InstanceId = this.WorkflowId,
+                User = directory.CurrentUserName,
+                Name = act.Name,
+                Type = act.GetType().Name,
+                Initiated = DateTime.UtcNow
+            };
+
+
+            this.ExecutedActivityCollection.Add(ea);
+        }
+
         public void AddExecutedActivity(Activity act)
         {
             if (!this.ForbiddenActivities.Contains(act.WebId))

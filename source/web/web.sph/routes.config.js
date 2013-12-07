@@ -996,6 +996,20 @@
   {
     "role": "can_edit_workflow",
     "groupName": "Workflow",
+    "url": "workflow.activities/:id",
+    "moduleId": "viewmodels/workflow.activities",
+    "name": "Instant Activity logs",
+    "visible": false,
+    "icon": "fa-bug",
+    "caption": "Workflow Instant Activities",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_workflow",
+    "groupName": "Workflow",
     "url": "workflow.debugger/:id",
     "moduleId": "viewmodels/workflow.debugger",
     "name": "Instant Debugger",
