@@ -17,5 +17,20 @@ namespace Bespoke.Sph.Domain
         {
             return m_tcs.Task;
         }
+
+        public void Stop()
+        {
+            m_tcs.TrySetResult(true);
+        }
+
+        public void StepIn()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void StepOut()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

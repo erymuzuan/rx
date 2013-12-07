@@ -6,49 +6,31 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/trigger.workflow.g.js" />
-/// <reference path="../partial/ExecutedActivity.js" />
+/// <reference path="../partial/WorkflowDefinition.js" />
+/// <reference path="../partial/Activity.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-    function (context, logger, router) {
-
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'viewmodels/workflow.jsplumb'],
+    function (context, logger, router, jp) {
         var isBusy = ko.observable(false),
-            locals = ko.observable(),
+            locals = ko.observableArray(),
             id = ko.observable(),
             instance = ko.observable(),
+            port = ko.observable(50518),
             wd = ko.observable(),
-            tracker = ko.observable(),
-            loadWd = function (wf) {
-                var query = String.format("WorkflowDefinitionId eq {0}", wf.WorkflowDefinitionId());
-                var tcs = new $.Deferred();
-                var wdTask = context.loadOneAsync("WorkflowDefinition", query),
-                    trackerTask = context.loadOneAsync("Tracker", "WorkflowId eq " + wf.WorkflowId());
-                $.when(wdTask, trackerTask)
-                    .done(function (b, t) {
-
-                        wd(b);
-                        tracker(t);
-
-                        tcs.resolve(true);
-                    });
-
-                return tcs.promise();
-            },
             activate = function (routeData) {
                 id(parseInt(routeData.id));
-                var query = String.format("WorkflowId eq {0}", id());
-                var tcs = new $.Deferred();
-                context.loadOneAsync("Workflow", query)
-                    .done(function (b) {
-                        var wf = context.toObservable(b, /Bespoke\.Sph\.Workflows.*\.(.*?),/);
-                        instance(wf);
-                        loadWd(wf).done(function () {
-                            tcs.resolve(true);
-                        });
-                    });
+                var query = String.format("WorkflowDefinitionId eq {0}", id()),
+                    tcs = new $.Deferred();
+                context.loadOneAsync("WorkflowDefinition", query)
+                    .done(wd)
+                    .done(tcs.resolve);
+
+                jp.activate(id());
 
                 return tcs.promise();
+
 
             },
             ws = null,
@@ -75,28 +57,29 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                 ws.send(ko.mapping.toJSON(model));
             },
             viewAttached = function (view) {
-                $(view).on('dblclick', 'tr', function (e) {
+                jp.viewAttached(view);
+                $(view).on('click', 'div.activity', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
+                    e.stopImmediatePropagation();
 
-                    var ea = ko.dataFor(this);
-                    if (!ea) {
+                    var act = ko.dataFor(this);
+                    if (!act) {
                         return;
                     }
-                    if (ko.unwrap(ea.$type) === "Bespoke.Sph.Domain.ExecutedActivity, domain.sph") {
-                        var bp = ea.breakpoint();
-                        if (!bp) {
-                            ea.breakpoint(new bespoke.sph.domain.Breakpoint({
-                                IsEnabled: true,
-                                ActivityWebId: ko.unwrap(ea.ActivityWebId),
-                                WorkflowDefinitionId: instance().WorkflowDefinitionId()
-                            }));
-                            send(ea.breakpoint());
-                        } else {
-                            remove(bp);
-                            ea.breakpoint(null);
-                        }
+                    var bp = act.breakpoint();
+                    if (!bp) {
+                        act.breakpoint(new bespoke.sph.domain.Breakpoint({
+                            IsEnabled: true,
+                            ActivityWebId: ko.unwrap(act.WebId),
+                            WorkflowDefinitionId: wd().WorkflowDefinitionId()
+                        }));
+                        send(act.breakpoint());
+                    } else {
+                        remove(bp);
+                        act.breakpoint(null);
                     }
+
                 });
                 var support = "MozWebSocket" in window ? 'MozWebSocket' : ("WebSocket" in window ? 'WebSocket' : null);
 
@@ -106,23 +89,32 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 
                 logger.info("* Connecting to server ..<br/>");
                 // create a new websocket and connect
-                ws = new window[support]('ws://localhost:50518/');
+                ws = new window[support]('ws://localhost:' + port() + '/');
 
                 ws.onmessage = function (evt) {
                     var model = JSON.parse(evt.data),
                         bp = model.Breakpoint,
                         wf = model.Data,
-                        ea = _(tracker().ExecutedActivityCollection()).find(function (v) { return ko.unwrap(v.ActivityWebId) == bp.ActivityWebId; });
-                    if (ea) {
-                        _(tracker().ExecutedActivityCollection()).each(function(v) {
-                            ea.hit(false);
+                        act = _(wd().ActivityCollection()).find(function (v) { return ko.unwrap(v.WebId) == bp.ActivityWebId; });
+                    if (act) {
+                        _(wd().ActivityCollection()).each(function (v) {
+                            act.hit(false);
                         });
-                        ea.hit(true);
+                        act.hit(true);
                     }
                     if (wf) {
-                        locals(wf);
+                        locals.removeAll();
+                        var vals = [];
+                        for (var name in wf) {
+                            vals.push({
+                                name: name,
+                                type: 'object',
+                                value: ko.unwrap(wf[name])
+                            });
+                        }
+                        locals(vals);
                     }
-                    
+
                     console.log(evt.data);
                 };
 
@@ -139,9 +131,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 
         var vm = {
             instance: instance,
-            tracker: tracker,
+            locals: locals,
             isBusy: isBusy,
             wd: wd,
+            port: port,
             activate: activate,
             debugcontinue: debugcontinue,
             viewAttached: viewAttached

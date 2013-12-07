@@ -29,6 +29,21 @@
     background: no-repeat right top url('/images/NotificationActivity.png');
 }
 
+.activity { 
+	width:5em;
+	padding:1em;
+	position:absolute;
+	border: 1px solid black;
+	z-index:4;
+	opacity:0.8;
+	filter:alpha(opacity=80);
+	cursor:move;
+	background-color:white;
+	font-size:11px;
+    min-width: 120px;
+    min-height: 80px;
+}
+
 .w { 
 	width:5em;
 	padding:1em;

@@ -511,6 +511,7 @@
     <Content Include="App\viewmodels\workflow.activities.js" />
     <Content Include="App\viewmodels\workflow.debugger.js" />
     <Content Include="App\viewmodels\workflow.definition.list.js" />
+    <Content Include="App\viewmodels\workflow.jsplumb.js" />
     <Content Include="App\viewmodels\workflow.definition.visual.js" />
     <Content Include="App\viewmodels\workflow.instances.console.js" />
     <Content Include="App\viewmodels\workflow.manage.js" />

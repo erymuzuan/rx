@@ -122,11 +122,10 @@ namespace Bespoke.Sph.WorkflowsExecution
             if (!m_appServer.Setup(50518))
             {
                 this.WriteError(new Exception("Failed to setup WebSocket Server!"));
-                Console.ReadKey();
                 return;
             }
             m_appServer.NewMessageReceived += NewMessageReceived;
-            m_appServer.NewDataReceived += AppServerNewDataReceived;
+
             if (!m_appServer.Start())
             {
                 this.WriteError(new Exception("Failed to start websocket server!"));
@@ -135,38 +134,50 @@ namespace Bespoke.Sph.WorkflowsExecution
             this.WriteMessage("The WebSocket server started successfully!");
         }
 
-        private void AppServerNewDataReceived(WebSocketSession session, byte[] value)
-        {
-            this.WriteMessage("New data received");
-        }
+
 
         private void NewMessageReceived(WebSocketSession session, string value)
         {
-            // TODO : receive different operations such as add breakpoint, remove, enabled, continue , step into , step out and step throu
-            this.WriteMessage("New message received");
             var model = value.DeserializeFromJson<DebuggerModel>();
             if (null == model) return;
+            this.WriteMessage("[DEBUG] : " + model.Operation);
             if (null != model.Breakpoint)
             {
                 this.WriteMessage("Receieve break point " + model.Breakpoint.ActivityWebId);
                 var bp = this.BreakpointCollection.SingleOrDefault(b => b.ActivityWebId == model.Breakpoint.ActivityWebId);
-                if (model.Operation == "AddBreakpoint")
+                switch (model.Operation)
                 {
-                    if (null != bp)
-                        this.BreakpointCollection.Replace(bp, model.Breakpoint);
-                    else
-                        this.BreakpointCollection.Add(model.Breakpoint);
+                    case "AddBreakpoint":
+                        if (null != bp)
+                            this.BreakpointCollection.Replace(bp, model.Breakpoint);
+                        else
+                            this.BreakpointCollection.Add(model.Breakpoint); break;
+                    case "RemoveBreakpoint":
+                        this.BreakpointCollection.Remove(bp);
+                        break;
                 }
-                if (model.Operation == "RemoveBreakpoint")
-                {
-                    this.BreakpointCollection.Remove(bp);
-                }
+
+            }
+            if(null == this.CurrentBreakpoint)return;
+
+            switch (model.Operation)
+            {
+                case "Continue":
+                    this.CurrentBreakpoint.Continue();
+                    break;
+                case "Stop":
+                    this.CurrentBreakpoint.Stop();
+                    break;
+                case "StepIn":
+                    this.CurrentBreakpoint.StepIn();
+                    break;
+                case "StepOut":
+                    this.CurrentBreakpoint.StepOut();
+                    break;
             }
 
-            if (model.Operation == "Continue" && null != this.CurrentBreakpoint)
-            {
-                this.CurrentBreakpoint.Continue();
-            }
+
+
         }
 
         protected override void OnStop()

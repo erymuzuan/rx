@@ -12,8 +12,11 @@
     <tbody data-bind="foreach: definitions">
         <tr>
             <td>
-                <a data-bind="attr: { href: '/#/workflow.manage/' + WorkflowDefinitionId() }" title="Manage">
-                    <i class="glyphicon glyphicon-cog"></i>
+                <a data-bind="attr: { href: '/#/workflow.manage/' + WorkflowDefinitionId() }" title="Manage deployment">
+                    <i style="color:rgb(118, 143, 207)" class="fa fa-gear fa-2x"></i>
+                </a>
+                <a data-bind="attr: { href: '/#/workflow.debugger/' + WorkflowDefinitionId() }" title="Debugger">
+                    <i style="color:brown" class="fa fa-bug fa-2x"></i>
                 </a>
             </td>
             <td>

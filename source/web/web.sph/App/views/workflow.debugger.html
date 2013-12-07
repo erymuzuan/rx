@@ -1,54 +1,102 @@
-﻿<link href="/Content/jsplumb/sph.wf.32.css" rel="stylesheet" />
-
+﻿<link href="/Content/jsplumb/jsplumb.css" rel="stylesheet" />
+<script src="/Scripts/jsPlumb/bundle.js"></script>
 <div class="row" data-bind="with : wd">
     <div class="form-group">
         <label>Instance id</label>
         <span data-bind="text:Name"></span>
+    </div>
+    <div class="form-group">
+        <label for="port" class="col-lg-2 control-label">Port</label>
+        <div class="col-lg-6">
+            <input type="text" data-bind="value: $root.port"
+                   required="" pattern="[0-9]{4,5}"
+                   placeholder="Websocker debugger"
+                   class="form-control" id="port">
+        </div>
     </div>
 </div>
 <div class="row">
     <button class="btn btn-default" title="Continue" data-bind="click : debugcontinue">
         <i class="fa fa-play" style="color: green"></i>
     </button>
+    <button class="btn btn-default" title="Step into" data-bind="click : debugcontinue">
+        <i class="glyphicon glyphicon-log-in" style="color: rgb(96, 126, 166)"></i>
+    </button>
+    <button class="btn btn-default" title="Step out" data-bind="click : debugcontinue">
+        <i class="glyphicon glyphicon-log-out" style="color: rgb(96, 126, 166)"></i>
+    </button>
     <button class="btn btn-default" title="Stops debugger">
         <i class="fa fa-stop" style="color: red"></i>
     </button>
 </div>
-<div class="row" data-bind="with : tracker">
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th>Breakpoint</th>
-                <th>Type</th>
-                <th>Activity</th>
-                <th>User</th>
-                <th>Initiated</th>
-                <th>Run </th>
-                <th>Elapse </th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach :ExecutedActivityCollection">
-            <tr data-bind="css : {'break-point-hit':hit}" >
-                <td>
-                    <!-- ko if : breakpoint -->
-                    <label data-bind="with : breakpoint">
-                        <input type="checkbox" data-bind="checked : IsEnabled" />
-                        <i class="fa fa-circle-o break-point fa-2x" data-bind="visible:!IsEnabled()"></i>
-                        <i class="fa fa-circle break-point fa-2x" data-bind="visible:IsEnabled"></i>
-                    </label>
-                    <!-- /ko -->
+<div class="row">
+    <div class="col-lg-12" style="height: 500px; overflow: scroll" id="container-canvas" data-bind="with : wd">
+        <!-- ko foreach : {data : ActivityCollection} -->
 
-                </td>
-                <td>
-                    <div data-bind="attr : {class:'activity32 activity32-' + Type()}"></div>
-                </td>
-                <td data-bind="text:Name"></td>
-                <td data-bind="text:User"></td>
-                <td data-bind="date:{value: Initiated, format:'DD/MM/YYYY HH:mm',invalid: '-'}"></td>
-                <td data-bind="date:{value: Run, format:'DD/MM/YYYY HH:mm', invalid: '-'}"></td>
-                <td data-bind="text:Elapse"></td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="activity" data-bind="style : {'left': WorkflowDesigner().X() + 'px','top': WorkflowDesigner().Y() + 'px'},
+                attr : {id : WebId},
+                css : {'start-actvity2': IsInitiator() , 'break-point-hit': hit}">
+
+            <!-- ko if : breakpoint -->
+            <label data-bind="with : breakpoint">
+                <input type="checkbox" data-bind="checked : IsEnabled" />
+                <i class="fa fa-circle-o break-point fa-2x" data-bind="visible:!IsEnabled()"></i>
+                <i class="fa fa-circle break-point fa-2x" data-bind="visible:IsEnabled"></i>
+            </label>
+            <!-- /ko -->
+
+
+            <div class="pull-right activity32" data-bind="activityClass : $data"></div>
+            <span data-bind="text:Name"></span>
+            <div data-bind="visible:IsInitiator" class="start-activity">
+                <i class="fa fa-power-off fa-2x"></i>
+            </div>
+
+
+        </div>
+
+        <!-- /ko -->
+
+
+    </div>
+
+</div>
+<div class="row">
+    <div class="panel panel-default col-lg-6">
+        <div class="panel-heading">
+            <strong>Watch</strong>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach : locals">
+                    <tr>
+                        <td data-bind="text:name"></td>
+                        <td data-bind="text:type"></td>
+                        <td data-bind="text:value"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-default col-lg-6">
+        <div class="panel-heading">
+            <strong>Console</strong>
+        </div>
+        <div class="panel-body">
+            <div class="well"></div>
+            <textarea class="form-control"></textarea>
+
+            <button class="btn btn-default pull-right" title="Run" data-bind="click : debugcontinue">
+                <i class="fa fa-play" style="color: green"></i>
+            </button>
+        </div>
+    </div>
 </div>
 
