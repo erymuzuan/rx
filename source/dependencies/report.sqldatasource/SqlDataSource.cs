@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -7,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Bespoke.Sph.Domain;
+using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace Bespoke.Sph.SqlReportDataSource
 {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -83,8 +82,8 @@ namespace Bespoke.Sph.Web.Controllers
                               select g;
 
             var bin =System.IO.Path.GetFullPath(Server.MapPath("~/bin/"));
-            var sche = ConfigurationManager.AppSettings["sph:SchedulerPath"] ?? System.IO.Path.Combine(bin,@"../../../../bin/schedulers");
-            var subs = ConfigurationManager.AppSettings["sph:SubscriberPath"] ?? System.IO.Path.Combine(bin,@"../../../../bin/subscribers");;
+            var sche = ConfigurationManager.GetSchedulerPath(bin);
+            var subs = ConfigurationManager.GetSubscriberPath(bin);
 
             var result = from g in versionLogs
                          let version = g.ChangeCollection.Single(c => c.PropertyName == "Version").OldValue

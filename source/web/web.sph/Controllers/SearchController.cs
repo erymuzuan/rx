@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -84,7 +83,7 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var json = this.GetRequestBody();
             var request = new StringContent(json);
-            var esHost = ConfigurationManager.AppSettings["sph:eshost"] ?? "http://localhost:9200/sph/";
+            var esHost = ConfigurationManager.ElasticSearchHost;
 
             var client = new HttpClient();
             var response = await client.PostAsync(esHost + id + "/_search", request);

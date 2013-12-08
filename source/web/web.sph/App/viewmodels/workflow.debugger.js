@@ -127,6 +127,10 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                 ws.onclose = function () {
                     logger.error('* Connection closed');
                 };
+            },
+            consoleScript = ko.observable(),
+            runConsole = function() {
+                
             };
 
         var vm = {
@@ -137,7 +141,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             port: port,
             activate: activate,
             debugcontinue: debugcontinue,
-            viewAttached: viewAttached
+            viewAttached: viewAttached,
+            consoleScript: consoleScript,
+            runConsole: runConsole
         };
 
         return vm;

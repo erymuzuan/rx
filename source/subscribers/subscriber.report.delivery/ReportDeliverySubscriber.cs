@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Linq;
+﻿using System.Linq;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Microsoft.Win32.TaskScheduler;
@@ -79,7 +78,7 @@ namespace Bespoke.Sph.ReportDeliverySubscriptions
             get
             {
                 if (string.IsNullOrWhiteSpace(m_executable))
-                    return ConfigurationManager.AppSettings["sph:ReportDeliveryExecutable"];
+                    return ConfigurationManager.ReportDeliveryExecutable;
 
                 return m_executable;
             }

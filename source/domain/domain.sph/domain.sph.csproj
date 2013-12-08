@@ -81,6 +81,7 @@
     <Compile Include="Business\FeatureDefinition.cs" />
     <Compile Include="Business\MarketEvaluation.cs" />
     <Compile Include="Business\Photo.cs" />
+    <Compile Include="ConfigurationManager.cs" />
     <Compile Include="Core\ValidationError.cs" />
     <Compile Include="FormTemplates\ApplicationTemplate.cs" />
     <Compile Include="assemblyinfo.cs" />

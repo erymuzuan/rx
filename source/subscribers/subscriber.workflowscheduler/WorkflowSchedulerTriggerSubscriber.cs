@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Linq;
+﻿using System.Linq;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
 using Microsoft.Win32.TaskScheduler;
@@ -83,7 +82,7 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
             get
             {
                 if (string.IsNullOrWhiteSpace(m_executable))
-                    return ConfigurationManager.AppSettings["sph:ScheduledTriggerActivityExecutable"];
+                    return ConfigurationManager.ScheduledTriggerActivityExecutable;
 
                 return m_executable;
             }

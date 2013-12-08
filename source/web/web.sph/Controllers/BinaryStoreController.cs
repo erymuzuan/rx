@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web;
@@ -28,7 +27,7 @@ namespace Bespoke.Sph.Web.Controllers
                     using (var stream = new MemoryStream())
                     {
                         var setting = string.Format("width={0};format=jpg;mode=max",
-                            ConfigurationManager.AppSettings["jpg.max.width"]);
+                            ConfigurationManager.JpegMaxWitdh);
                         var i = new ImageResizer.ImageJob(file, stream, new ImageResizer.ResizeSettings(setting)) { CreateParentDirectory = true };
                         i.Build();
 

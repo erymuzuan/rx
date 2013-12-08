@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -28,7 +27,7 @@ namespace Bespoke.Sph.ElasticSearch
 
             var json = JsonConvert.SerializeObject(ea, setting);
             var content = new StringContent(json);
-            var esServer = ConfigurationManager.AppSettings["es.server"];
+            var esServer = ConfigurationManager.ElasticSearchHost;
             const string index = "sph";
 
 

@@ -119,7 +119,7 @@ namespace Bespoke.Sph.WorkflowsExecution
         protected override void OnStart()
         {
             m_appServer = new WebSocketServer();
-            if (!m_appServer.Setup(50518))
+            if (!m_appServer.Setup(ConfigurationManager.WorkflowDebuggerPort))
             {
                 this.WriteError(new Exception("Failed to setup WebSocket Server!"));
                 return;

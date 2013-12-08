@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using System.Linq;
 using Bespoke.Sph.Domain.QueryProviders;
+using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 namespace Bespoke.Sph.SqlRepository
 {

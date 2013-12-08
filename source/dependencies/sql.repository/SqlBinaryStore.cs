@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 
+using ConfigurationManager = System.Configuration.ConfigurationManager;
 namespace Bespoke.Sph.SqlRepository
 {
     public class SqlBinaryStore : IBinaryStore

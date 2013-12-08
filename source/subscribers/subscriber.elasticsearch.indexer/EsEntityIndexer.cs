@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bespoke.Sph.SubscribersInfrastructure;
@@ -30,7 +29,7 @@ namespace Bespoke.Sph.ElasticSearch
 
         protected async override Task ProcessMessage(T item, MessageHeaders headers)
         {
-            var esHost = ConfigurationManager.AppSettings["es.server"];
+            var esHost = ConfigurationManager.ElasticSearchHost;
             var setting = new JsonSerializerSettings();
             var json = JsonConvert.SerializeObject(item, setting);
 
