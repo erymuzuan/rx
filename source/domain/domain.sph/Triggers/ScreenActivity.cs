@@ -212,7 +212,9 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLine("               var context = new SphDataContext();");
             code.AppendLinf("               var wf = id == 0 ? new  {0}() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));", wd.WorkflowTypeName);
+            //TODO : load wd from archive
             code.AppendLinf("               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == {0});", wd.WorkflowDefinitionId);
+            code.AppendLine("               wf.WorkflowDefinition = wd;");
             code.AppendLinf("               var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);");
             code.AppendLinf("               var screen = wd.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
             if (!this.IsInitiator)

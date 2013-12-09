@@ -8,11 +8,17 @@ namespace Bespoke.Sph.Domain
 {
     public partial class Tracker : Entity
     {
+        private Dictionary<string, List<string>> m_waitingAsyncList = new Dictionary<string, List<string>>();
+
         [XmlIgnore]
         [JsonIgnore]
         public WorkflowDefinition WorkflowDefinition { get; set; }
 
-        public Dictionary<string, List<string>> WaitingAsyncList { get; set; }
+        public Dictionary<string, List<string>> WaitingAsyncList
+        {
+            get { return m_waitingAsyncList; }
+            set { m_waitingAsyncList = value; }
+        }
 
         [XmlIgnore]
         [JsonIgnore]
