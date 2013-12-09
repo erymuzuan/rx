@@ -8,7 +8,7 @@ bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
 
 
-bespoke.sph.domain.CustomField = function (webId) {
+bespoke.sph.domain.CustomField = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.CustomField, domain.sph",
@@ -22,8 +22,20 @@ bespoke.sph.domain.CustomField = function (webId) {
         MaxLength: ko.observable(),
         MinLength: ko.observable(),
         isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
+        WebId: ko.observable()
     };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.CustomFieldPartial) {
         return _(model).extend(new bespoke.sph.domain.CustomFieldPartial(model));
     }
@@ -32,7 +44,7 @@ bespoke.sph.domain.CustomField = function (webId) {
 
 
 
-bespoke.sph.domain.ComplaintTemplate = function (webId) {
+bespoke.sph.domain.ComplaintTemplate = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ComplaintTemplate, domain.sph",
@@ -48,8 +60,20 @@ bespoke.sph.domain.ComplaintTemplate = function (webId) {
         BusinessRuleCollection: ko.observableArray([]),
         DefaultValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
+        WebId: ko.observable()
     };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.ComplaintTemplatePartial) {
         return _(model).extend(new bespoke.sph.domain.ComplaintTemplatePartial(model));
     }
@@ -58,7 +82,7 @@ bespoke.sph.domain.ComplaintTemplate = function (webId) {
 
 
 
-bespoke.sph.domain.BuildingTemplate = function (webId) {
+bespoke.sph.domain.BuildingTemplate = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.BuildingTemplate, domain.sph",
@@ -74,8 +98,20 @@ bespoke.sph.domain.BuildingTemplate = function (webId) {
         BusinessRuleCollection: ko.observableArray([]),
         DefaultValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
+        WebId: ko.observable()
     };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.BuildingTemplatePartial) {
         return _(model).extend(new bespoke.sph.domain.BuildingTemplatePartial(model));
     }
@@ -84,7 +120,7 @@ bespoke.sph.domain.BuildingTemplate = function (webId) {
 
 
 
-bespoke.sph.domain.ApplicationTemplate = function (webId) {
+bespoke.sph.domain.ApplicationTemplate = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ApplicationTemplate, domain.sph",
@@ -99,8 +135,20 @@ bespoke.sph.domain.ApplicationTemplate = function (webId) {
         BusinessRuleCollection: ko.observableArray([]),
         DefaultValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
+        WebId: ko.observable()
     };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.ApplicationTemplatePartial) {
         return _(model).extend(new bespoke.sph.domain.ApplicationTemplatePartial(model));
     }
@@ -109,7 +157,7 @@ bespoke.sph.domain.ApplicationTemplate = function (webId) {
 
 
 
-bespoke.sph.domain.MaintenanceTemplate = function (webId) {
+bespoke.sph.domain.MaintenanceTemplate = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.MaintenanceTemplate, domain.sph",
@@ -124,8 +172,20 @@ bespoke.sph.domain.MaintenanceTemplate = function (webId) {
         BusinessRuleCollection: ko.observableArray([]),
         DefaultValueCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
+        WebId: ko.observable()
     };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.MaintenanceTemplatePartial) {
         return _(model).extend(new bespoke.sph.domain.MaintenanceTemplatePartial(model));
     }
@@ -134,7 +194,7 @@ bespoke.sph.domain.MaintenanceTemplate = function (webId) {
 
 
 
-bespoke.sph.domain.SpaceTemplate = function (webId) {
+bespoke.sph.domain.SpaceTemplate = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.SpaceTemplate, domain.sph",
@@ -152,8 +212,20 @@ bespoke.sph.domain.SpaceTemplate = function (webId) {
         DefaultValueCollection: ko.observableArray([]),
         BusinessRuleCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
+        WebId: ko.observable()
     };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.SpaceTemplatePartial) {
         return _(model).extend(new bespoke.sph.domain.SpaceTemplatePartial(model));
     }
@@ -162,7 +234,7 @@ bespoke.sph.domain.SpaceTemplate = function (webId) {
 
 
 
-bespoke.sph.domain.FormDesign = function (webId) {
+bespoke.sph.domain.FormDesign = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.FormDesign, domain.sph",
@@ -172,8 +244,20 @@ bespoke.sph.domain.FormDesign = function (webId) {
         ImageStoreId: ko.observable(''),
         FormElementCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
+        WebId: ko.observable()
     };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.FormDesignPartial) {
         return _(model).extend(new bespoke.sph.domain.FormDesignPartial(model));
     }
@@ -182,15 +266,28 @@ bespoke.sph.domain.FormDesign = function (webId) {
 
 
 
-bespoke.sph.domain.TextBox = function (webId) {
+bespoke.sph.domain.TextBox = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.DefaultValue = ko.observable('');
     v["$type"] = "Bespoke.Sph.Domain.TextBox, domain.sph";
 
     v.MinLength = ko.observable();//nillable
     v.MaxLength = ko.observable();//nillable
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.TextBoxPartial) {
         return _(v).extend(new bespoke.sph.domain.TextBoxPartial(v));
     }
@@ -199,11 +296,24 @@ bespoke.sph.domain.TextBox = function (webId) {
 
 
 
-bespoke.sph.domain.CheckBox = function (webId) {
+bespoke.sph.domain.CheckBox = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.CheckBox, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.CheckBoxPartial) {
         return _(v).extend(new bespoke.sph.domain.CheckBoxPartial(v));
@@ -213,11 +323,24 @@ bespoke.sph.domain.CheckBox = function (webId) {
 
 
 
-bespoke.sph.domain.DatePicker = function (webId) {
+bespoke.sph.domain.DatePicker = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.DatePicker, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.DatePickerPartial) {
         return _(v).extend(new bespoke.sph.domain.DatePickerPartial(v));
@@ -227,13 +350,26 @@ bespoke.sph.domain.DatePicker = function (webId) {
 
 
 
-bespoke.sph.domain.ComboBox = function (webId) {
+bespoke.sph.domain.ComboBox = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.ComboBox, domain.sph";
 
     v.ComboBoxItemCollection = ko.observableArray([]);
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.ComboBoxPartial) {
         return _(v).extend(new bespoke.sph.domain.ComboBoxPartial(v));
     }
@@ -242,13 +378,26 @@ bespoke.sph.domain.ComboBox = function (webId) {
 
 
 
-bespoke.sph.domain.TextAreaElement = function (webId) {
+bespoke.sph.domain.TextAreaElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.Rows = ko.observable('');
     v.IsHtml = ko.observable(false);
     v["$type"] = "Bespoke.Sph.Domain.TextAreaElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.TextAreaElementPartial) {
         return _(v).extend(new bespoke.sph.domain.TextAreaElementPartial(v));
@@ -258,11 +407,24 @@ bespoke.sph.domain.TextAreaElement = function (webId) {
 
 
 
-bespoke.sph.domain.WebsiteFormElement = function (webId) {
+bespoke.sph.domain.WebsiteFormElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.WebsiteFormElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.WebsiteFormElementPartial) {
         return _(v).extend(new bespoke.sph.domain.WebsiteFormElementPartial(v));
@@ -272,11 +434,24 @@ bespoke.sph.domain.WebsiteFormElement = function (webId) {
 
 
 
-bespoke.sph.domain.EmailFormElement = function (webId) {
+bespoke.sph.domain.EmailFormElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.EmailFormElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.EmailFormElementPartial) {
         return _(v).extend(new bespoke.sph.domain.EmailFormElementPartial(v));
@@ -286,12 +461,25 @@ bespoke.sph.domain.EmailFormElement = function (webId) {
 
 
 
-bespoke.sph.domain.NumberTextBox = function (webId) {
+bespoke.sph.domain.NumberTextBox = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.Step = ko.observable(0);
     v["$type"] = "Bespoke.Sph.Domain.NumberTextBox, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.NumberTextBoxPartial) {
         return _(v).extend(new bespoke.sph.domain.NumberTextBoxPartial(v));
@@ -301,12 +489,25 @@ bespoke.sph.domain.NumberTextBox = function (webId) {
 
 
 
-bespoke.sph.domain.BuildingMapElement = function (webId) {
+bespoke.sph.domain.BuildingMapElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.Icon = ko.observable('');
     v["$type"] = "Bespoke.Sph.Domain.BuildingMapElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.BuildingMapElementPartial) {
         return _(v).extend(new bespoke.sph.domain.BuildingMapElementPartial(v));
@@ -316,11 +517,24 @@ bespoke.sph.domain.BuildingMapElement = function (webId) {
 
 
 
-bespoke.sph.domain.BuildingBlocksElement = function (webId) {
+bespoke.sph.domain.BuildingBlocksElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.BuildingBlocksElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.BuildingBlocksElementPartial) {
         return _(v).extend(new bespoke.sph.domain.BuildingBlocksElementPartial(v));
@@ -330,11 +544,24 @@ bespoke.sph.domain.BuildingBlocksElement = function (webId) {
 
 
 
-bespoke.sph.domain.BuildingFloorsElement = function (webId) {
+bespoke.sph.domain.BuildingFloorsElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.BuildingFloorsElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.BuildingFloorsElementPartial) {
         return _(v).extend(new bespoke.sph.domain.BuildingFloorsElementPartial(v));
@@ -344,11 +571,24 @@ bespoke.sph.domain.BuildingFloorsElement = function (webId) {
 
 
 
-bespoke.sph.domain.SectionFormElement = function (webId) {
+bespoke.sph.domain.SectionFormElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.SectionFormElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.SectionFormElementPartial) {
         return _(v).extend(new bespoke.sph.domain.SectionFormElementPartial(v));
@@ -358,15 +598,27 @@ bespoke.sph.domain.SectionFormElement = function (webId) {
 
 
 
-bespoke.sph.domain.ComboBoxItem = function (webId) {
+bespoke.sph.domain.ComboBoxItem = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ComboBoxItem, domain.sph",
         Caption: ko.observable(''),
         Value: ko.observable(''),
         isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
+        WebId: ko.observable()
     };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.ComboBoxItemPartial) {
         return _(model).extend(new bespoke.sph.domain.ComboBoxItemPartial(model));
     }
@@ -375,9 +627,9 @@ bespoke.sph.domain.ComboBoxItem = function (webId) {
 
 
 
-bespoke.sph.domain.AddressElement = function (webId) {
+bespoke.sph.domain.AddressElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.IsUnitNoVisible = ko.observable(false);
     v.IsFloorVisible = ko.observable(false);
@@ -385,6 +637,19 @@ bespoke.sph.domain.AddressElement = function (webId) {
     v.BlockOptionsPath = ko.observable('');
     v.FloorOptionsPath = ko.observable('');
     v["$type"] = "Bespoke.Sph.Domain.AddressElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.AddressElementPartial) {
         return _(v).extend(new bespoke.sph.domain.AddressElementPartial(v));
@@ -394,12 +659,25 @@ bespoke.sph.domain.AddressElement = function (webId) {
 
 
 
-bespoke.sph.domain.ComplaintCategoryElement = function (webId) {
+bespoke.sph.domain.ComplaintCategoryElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.SubCategoryLabel = ko.observable('');
     v["$type"] = "Bespoke.Sph.Domain.ComplaintCategoryElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.ComplaintCategoryElementPartial) {
         return _(v).extend(new bespoke.sph.domain.ComplaintCategoryElementPartial(v));
@@ -409,11 +687,24 @@ bespoke.sph.domain.ComplaintCategoryElement = function (webId) {
 
 
 
-bespoke.sph.domain.RentalApplicationBanksElement = function (webId) {
+bespoke.sph.domain.RentalApplicationBanksElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.RentalApplicationBanksElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.RentalApplicationBanksElementPartial) {
         return _(v).extend(new bespoke.sph.domain.RentalApplicationBanksElementPartial(v));
@@ -423,11 +714,24 @@ bespoke.sph.domain.RentalApplicationBanksElement = function (webId) {
 
 
 
-bespoke.sph.domain.RentalApplicationAttachmentsElement = function (webId) {
+bespoke.sph.domain.RentalApplicationAttachmentsElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.RentalApplicationAttachmentsElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.RentalApplicationAttachmentsElementPartial) {
         return _(v).extend(new bespoke.sph.domain.RentalApplicationAttachmentsElementPartial(v));
@@ -437,11 +741,24 @@ bespoke.sph.domain.RentalApplicationAttachmentsElement = function (webId) {
 
 
 
-bespoke.sph.domain.RentalApplicationContactElement = function (webId) {
+bespoke.sph.domain.RentalApplicationContactElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.RentalApplicationContactElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.RentalApplicationContactElementPartial) {
         return _(v).extend(new bespoke.sph.domain.RentalApplicationContactElementPartial(v));
@@ -451,11 +768,24 @@ bespoke.sph.domain.RentalApplicationContactElement = function (webId) {
 
 
 
-bespoke.sph.domain.SpaceUnitElement = function (webId) {
+bespoke.sph.domain.SpaceUnitElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.SpaceUnitElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.SpaceUnitElementPartial) {
         return _(v).extend(new bespoke.sph.domain.SpaceUnitElementPartial(v));
@@ -465,13 +795,26 @@ bespoke.sph.domain.SpaceUnitElement = function (webId) {
 
 
 
-bespoke.sph.domain.HtmlElement = function (webId) {
+bespoke.sph.domain.HtmlElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.HtmlElement, domain.sph";
 
     v.Text = ko.observable();//type but not nillable
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.HtmlElementPartial) {
         return _(v).extend(new bespoke.sph.domain.HtmlElementPartial(v));
     }
@@ -480,11 +823,24 @@ bespoke.sph.domain.HtmlElement = function (webId) {
 
 
 
-bespoke.sph.domain.BuildingElement = function (webId) {
+bespoke.sph.domain.BuildingElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.BuildingElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.BuildingElementPartial) {
         return _(v).extend(new bespoke.sph.domain.BuildingElementPartial(v));
@@ -494,7 +850,7 @@ bespoke.sph.domain.BuildingElement = function (webId) {
 
 
 
-bespoke.sph.domain.ComplaintCategory = function (webId) {
+bespoke.sph.domain.ComplaintCategory = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.ComplaintCategory, domain.sph",
@@ -502,8 +858,20 @@ bespoke.sph.domain.ComplaintCategory = function (webId) {
         Description: ko.observable(''),
         SubCategoryCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
+        WebId: ko.observable()
     };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.ComplaintCategoryPartial) {
         return _(model).extend(new bespoke.sph.domain.ComplaintCategoryPartial(model));
     }
@@ -512,7 +880,7 @@ bespoke.sph.domain.ComplaintCategory = function (webId) {
 
 
 
-bespoke.sph.domain.CustomListDefinition = function (webId) {
+bespoke.sph.domain.CustomListDefinition = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.CustomListDefinition, domain.sph",
@@ -520,8 +888,20 @@ bespoke.sph.domain.CustomListDefinition = function (webId) {
         Label: ko.observable(''),
         CustomFieldCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
+        WebId: ko.observable()
     };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.CustomListDefinitionPartial) {
         return _(model).extend(new bespoke.sph.domain.CustomListDefinitionPartial(model));
     }
@@ -530,13 +910,26 @@ bespoke.sph.domain.CustomListDefinition = function (webId) {
 
 
 
-bespoke.sph.domain.CustomListDefinitionElement = function (webId) {
+bespoke.sph.domain.CustomListDefinitionElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.CustomListDefinitionElement, domain.sph";
 
     v.CustomFieldCollection = ko.observableArray([]);
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.CustomListDefinitionElementPartial) {
         return _(v).extend(new bespoke.sph.domain.CustomListDefinitionElementPartial(v));
     }
@@ -545,11 +938,24 @@ bespoke.sph.domain.CustomListDefinitionElement = function (webId) {
 
 
 
-bespoke.sph.domain.MaintenanceOfficerElement = function (webId) {
+bespoke.sph.domain.MaintenanceOfficerElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.MaintenanceOfficerElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.MaintenanceOfficerElementPartial) {
         return _(v).extend(new bespoke.sph.domain.MaintenanceOfficerElementPartial(v));
@@ -559,7 +965,7 @@ bespoke.sph.domain.MaintenanceOfficerElement = function (webId) {
 
 
 
-bespoke.sph.domain.DefaultValue = function (webId) {
+bespoke.sph.domain.DefaultValue = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.DefaultValue, domain.sph",
@@ -568,8 +974,20 @@ bespoke.sph.domain.DefaultValue = function (webId) {
         IsNullable: ko.observable(false),
         Value: ko.observable(),
         isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
+        WebId: ko.observable()
     };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.DefaultValuePartial) {
         return _(model).extend(new bespoke.sph.domain.DefaultValuePartial(model));
     }
@@ -578,11 +996,24 @@ bespoke.sph.domain.DefaultValue = function (webId) {
 
 
 
-bespoke.sph.domain.SpaceFeaturesElement = function (webId) {
+bespoke.sph.domain.SpaceFeaturesElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v["$type"] = "Bespoke.Sph.Domain.SpaceFeaturesElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.SpaceFeaturesElementPartial) {
         return _(v).extend(new bespoke.sph.domain.SpaceFeaturesElementPartial(v));
@@ -592,7 +1023,7 @@ bespoke.sph.domain.SpaceFeaturesElement = function (webId) {
 
 
 
-bespoke.sph.domain.FieldValidation = function (webId) {
+bespoke.sph.domain.FieldValidation = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.FieldValidation, domain.sph",
@@ -603,8 +1034,20 @@ bespoke.sph.domain.FieldValidation = function (webId) {
         Mode: ko.observable(''),
         Message: ko.observable(''),
         isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
+        WebId: ko.observable()
     };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.FieldValidationPartial) {
         return _(model).extend(new bespoke.sph.domain.FieldValidationPartial(model));
     }
@@ -614,7 +1057,7 @@ bespoke.sph.domain.FieldValidation = function (webId) {
 
 // placeholder for Performer
 
-bespoke.sph.domain.BusinessRule = function (webId) {
+bespoke.sph.domain.BusinessRule = function (optionOrWebid) {
 
     var model = {
         "$type": "Bespoke.Sph.Domain.BusinessRule, domain.sph",
@@ -624,8 +1067,20 @@ bespoke.sph.domain.BusinessRule = function (webId) {
         ErrorMessage: ko.observable(''),
         RuleCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
+        WebId: ko.observable()
     };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
     if (bespoke.sph.domain.BusinessRulePartial) {
         return _(model).extend(new bespoke.sph.domain.BusinessRulePartial(model));
     }
@@ -635,12 +1090,25 @@ bespoke.sph.domain.BusinessRule = function (webId) {
 
 // placeholder for Rule
 
-bespoke.sph.domain.FileUploadElement = function (webId) {
+bespoke.sph.domain.FileUploadElement = function (optionOrWebid) {
 
-    var v = new bespoke.sph.domain.FormElement(webId);
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.AllowedExtensions = ko.observable('');
     v["$type"] = "Bespoke.Sph.Domain.FileUploadElement, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
 
     if (bespoke.sph.domain.FileUploadElementPartial) {
         return _(v).extend(new bespoke.sph.domain.FileUploadElementPartial(v));
@@ -649,9 +1117,9 @@ bespoke.sph.domain.FileUploadElement = function (webId) {
 };
 
 
-bespoke.sph.domain.FormElement = function (webId) {
+bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
-    return {
+    var model = {
         "$type": "Bespoke.Sph.Domain.FormElement, domain.sph",
         Name: ko.observable(''),
         Label: ko.observable(''),
@@ -668,7 +1136,22 @@ bespoke.sph.domain.FormElement = function (webId) {
         InputColumnSpan: ko.observable(0),
         FieldValidation: ko.observable(new bespoke.sph.domain.FieldValidation()),
         isBusy: ko.observable(false),
-        WebId: ko.observable(webId)
+        WebId: ko.observable()
     };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+    if (bespoke.sph.domain.FormElementPartial) {
+        return _(model).extend(new bespoke.sph.domain.FormElementPartial(model));
+    }
+    return model;
 };
 

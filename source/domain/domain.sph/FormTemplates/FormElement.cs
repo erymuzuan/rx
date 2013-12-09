@@ -9,6 +9,7 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(TextBox))]
     [XmlInclude(typeof(NumberTextBox))]
     [XmlInclude(typeof(DatePicker))]
+    [XmlInclude(typeof(DateTimePicker))]
     [XmlInclude(typeof(CheckBox))]
     [XmlInclude(typeof(ComboBox))]
     [XmlInclude(typeof(BuildingFloorsElement))]

@@ -2138,6 +2138,11 @@
     <Content Include="Views\Page\DiffPane.cshtml" />
     <Content Include="Views\Page\Index.cshtml" />
     <Content Include="Views\Workflow\InvalidState.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\DatePickerTime.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTimePicker.cshtml" />
+    <Content Include="Views\WorkflowDefinition\DisplayTemplates\DateTimePicker.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\DateTimePicker.cshtml" />
+    <Content Include="Views\Workflow\EditorTemplates\DateTimePicker.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
