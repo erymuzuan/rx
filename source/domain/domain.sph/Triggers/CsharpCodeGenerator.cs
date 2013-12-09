@@ -62,7 +62,6 @@ namespace Bespoke.Sph.Domain
             var extension = ct.Descendants(x + "extension").FirstOrDefault();
             if (null != extension)
             {
-
                 baseClass = extension.Attribute("base").Value;
                 members.AddRange(this.GetMembers(extension));
             }
@@ -75,9 +74,6 @@ namespace Bespoke.Sph.Domain
 
             members.AddRange(this.GetMembers(ct));
             code.AppendLine(string.Join("\r\n", members.ToArray()));
-
-
-
 
             code.AppendLine("   }");
             return code.ToString();
@@ -97,7 +93,6 @@ namespace Bespoke.Sph.Domain
             var all = ct.Element(x + "all");
             if (null != all)
             {
-                //Console.WriteLine(element.Elements(x + "element").Count());
                 var allElements = from at in all.Elements(x + "element")
                                   where at.Attribute("name") != null
                                         && at.Attribute("type") != null

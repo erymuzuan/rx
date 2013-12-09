@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -65,9 +66,7 @@ namespace Bespoke.Sph.Domain
                 case "xs:anySimpleType":
                     type = "object";
                     break;
-                default:
-                    type = xsType;
-                    break;
+                default: throw new InvalidOperationException("Xml data type [" + xsType + "] is not supported");
             }
             if (nillable) type += "?";
             return type;

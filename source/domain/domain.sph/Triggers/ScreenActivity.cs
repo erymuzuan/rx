@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,7 +46,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("   public async Task InitiateAsync{0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLinf("       var self = this.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
-            code.AppendLine("       var baseUrl = System.Configuration.ConfigurationManager.AppSettings[\"sph:BaseUrl\"] ?? \"http://localhost:4436\";");
+            code.AppendLine("       var baseUrl = ConfigurationManager.BaseUrl;");
             code.AppendLine("       var url = string.Format(\"{0}/Workflow_{1}_{2}/{3}/{4}\", baseUrl, this.WorkflowDefinitionId, this.Version, self.ActionName, this.WorkflowId);");
             code.AppendLine("       var imb = self.InvitationMessageBody ?? \"@Model.Screen.Name task is assigned to you go here @Model.Url\";");
             code.AppendLine("       var ims = self.InvitationMessageSubject ?? \"[Sph] @Model.Screen.Name task is assigned to you\";");
