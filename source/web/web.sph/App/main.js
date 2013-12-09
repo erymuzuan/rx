@@ -1,5 +1,9 @@
 ﻿require.config({
-    paths: { "text": "durandal/amd/text" }
+    paths: {
+        "text": "durandal/amd/text",
+        "jquery.contextmenu": "/scripts/jquery.contextMenu",
+        "jquery.ui.position": "/scripts/jquery.ui.position"
+    }
 });
 
 define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'durandal/plugins/router', 'services/logger'],

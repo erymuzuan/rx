@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Newtonsoft.Json;
 using SuperSocket.SocketBase;
 using SuperSocket.WebSocket;
 
@@ -53,6 +54,8 @@ namespace Bespoke.Sph.WorkflowsExecution
             this.CurrentBreakpoint = this.GetBreakpoint(item, activities);
             if (null != this.CurrentBreakpoint)
             {
+                this.CurrentBreakpoint.Workflow = item;
+                this.CurrentBreakpoint.WorkflowDefinition = item.WorkflowDefinition;
                 var debugged = item.GetActivity<Activity>(this.CurrentBreakpoint.ActivityWebId);
                 this.WriteMessage("DEBUG :" + debugged.Name);
                 await this.SendLocalsAsync(item);
@@ -96,9 +99,13 @@ namespace Bespoke.Sph.WorkflowsExecution
                 Breakpoint = this.CurrentBreakpoint,
                 Data = item
             };
-
-            m_appServer.GetAllSessions().ToList().ForEach(e => e.Send(model.ToJsonString()));
+            this.SendMessage(model.ToJsonString());
             return Task.FromResult(0);
+        }
+
+        private void SendMessage(string message)
+        {
+            m_appServer.GetAllSessions().ToList().ForEach(e => e.Send(message));
         }
 
         private Breakpoint GetBreakpoint(Workflow item, IEnumerable<string> activities)
@@ -155,9 +162,15 @@ namespace Bespoke.Sph.WorkflowsExecution
                     case "RemoveBreakpoint":
                         this.BreakpointCollection.Remove(bp);
                         break;
+                    case "ClearBreakpoint":
+                        this.BreakpointCollection.Clear();
+                        break;
                 }
 
             }
+
+            
+
             if(null == this.CurrentBreakpoint)return;
 
             switch (model.Operation)
@@ -173,6 +186,11 @@ namespace Bespoke.Sph.WorkflowsExecution
                     break;
                 case "StepOut":
                     this.CurrentBreakpoint.StepOut();
+                    break;
+                case "Console":
+
+                    var ret = this.CurrentBreakpoint.EvaluateConsole(model.Console);
+                    this.SendMessage(ret.ToJsonString(Formatting.Indented));
                     break;
             }
 
@@ -193,5 +211,6 @@ namespace Bespoke.Sph.WorkflowsExecution
     {
         public string Operation { get; set; }
         public Breakpoint Breakpoint { get; set; }
+        public string Console { get; set; }
     }
 }

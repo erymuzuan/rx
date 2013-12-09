@@ -11,11 +11,12 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'viewmodels/workflow.jsplumb'],
+define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'viewmodels/workflow.jsplumb', 'jquery.contextmenu', 'jquery.ui.position'],
     function (context, logger, router, jp) {
         var isBusy = ko.observable(false),
             locals = ko.observableArray(),
             id = ko.observable(),
+            consoleOutput = ko.observable(),
             instance = ko.observable(),
             port = ko.observable(50518),
             wd = ko.observable(),
@@ -58,29 +59,54 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             },
             viewAttached = function (view) {
                 jp.viewAttached(view);
-                $(view).on('click', 'div.activity', function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
 
-                    var act = ko.dataFor(this);
-                    if (!act) {
-                        return;
-                    }
-                    var bp = act.breakpoint();
-                    if (!bp) {
-                        act.breakpoint(new bespoke.sph.domain.Breakpoint({
-                            IsEnabled: true,
-                            ActivityWebId: ko.unwrap(act.WebId),
-                            WorkflowDefinitionId: wd().WorkflowDefinitionId()
-                        }));
-                        send(act.breakpoint());
-                    } else {
-                        remove(bp);
-                        act.breakpoint(null);
-                    }
 
+                $.contextMenu({
+                    selector: 'div.activity',
+                    callback: function (key) {
+                        var act = ko.dataFor(this[0]);
+                        if (!act) {
+                            return;
+                        }
+                        var bp = act.breakpoint();
+                        if (key === "add") {
+
+                            act.breakpoint(new bespoke.sph.domain.Breakpoint({
+                                IsEnabled: true,
+                                ActivityWebId: ko.unwrap(act.WebId),
+                                WorkflowDefinitionId: wd().WorkflowDefinitionId()
+                            }));
+                            send(act.breakpoint());
+
+                        }
+                        if (key === "delete") {
+
+                            remove(bp);
+                            act.breakpoint(null);
+                        }
+
+                    },
+                    items: {
+                        "add": { name: "Add Breakpoint", icon: "bug" },
+                        "delete": { name: "Remove Breakpoint", icon: "circle-o" }
+                    }
                 });
+
+            },
+            consoleScript = ko.observable(),
+            runConsole = function () {
+
+                var model = {
+                    Operation: "Console",
+                    Console: consoleScript()
+                };
+                ws.send(JSON.stringify(model));
+            },
+            configure = function () {
+
+            },
+            start = function () {
+                var tcs = new $.Deferred();
                 var support = "MozWebSocket" in window ? 'MozWebSocket' : ("WebSocket" in window ? 'WebSocket' : null);
 
                 if (support == null) {
@@ -93,7 +119,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
 
                 ws.onmessage = function (evt) {
                     var model = JSON.parse(evt.data),
-                        bp = model.Breakpoint,
+                        bp = model.Breakpoint || {},
                         wf = model.Data,
                         act = _(wd().ActivityCollection()).find(function (v) { return ko.unwrap(v.WebId) == bp.ActivityWebId; });
                     if (act) {
@@ -115,25 +141,35 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                         locals(vals);
                     }
 
+                    if (!wf && !act) {
+                        consoleOutput(evt.data);
+                    }
+
                     console.log(evt.data);
                 };
 
                 // when the connection is established, this method is called
                 ws.onopen = function () {
                     logger.info('* Connection open');
+
+                    var model = {
+                        Operation: "ClearBreakpoint"
+                    };
+                    ws.send(JSON.stringify(model));
+
+                    tcs.resolve(true);
                 };
 
                 // when the connection is closed, this method is called
                 ws.onclose = function () {
                     logger.error('* Connection closed');
                 };
-            },
-            consoleScript = ko.observable(),
-            runConsole = function() {
-                
+
+                return tcs.promise();
             };
 
         var vm = {
+            consoleOutput: consoleOutput,
             instance: instance,
             locals: locals,
             isBusy: isBusy,
@@ -143,7 +179,23 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             debugcontinue: debugcontinue,
             viewAttached: viewAttached,
             consoleScript: consoleScript,
-            runConsole: runConsole
+            runConsole: runConsole,
+            toolbar: {
+                //saveCommand: save,
+                //exportCommand: exportTemplate,
+                // importCommand: importTemplateJson,
+                commands: ko.observableArray([{
+                    command: configure,
+                    caption: "Configuration",
+                    icon: "fa fa-gear"
+                },
+                    {
+
+                        command: start,
+                        caption: "Start",
+                        icon: "fa fa-file-text-o"
+                    }])
+            }
         };
 
         return vm;
