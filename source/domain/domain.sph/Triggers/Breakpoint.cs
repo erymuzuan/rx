@@ -61,6 +61,7 @@ namespace Bespoke.Sph.Domain
         }
         public void StepThrough()
         {
+            m_tcs.TrySetResult(true);
             this.Operation = "StepThrough";
         }
 

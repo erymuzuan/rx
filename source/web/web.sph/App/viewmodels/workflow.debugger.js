@@ -18,6 +18,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             id = ko.observable(),
             consoleOutput = ko.observable(),
             instance = ko.observable(),
+            executingActivity = ko.observable(),
             port = ko.observable(50518),
             wd = ko.observable(),
             activate = function (routeData) {
@@ -124,7 +125,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                         act = _(wd().ActivityCollection()).find(function (v) { return ko.unwrap(v.WebId) == bp.ActivityWebId; });
                     if (act) {
                         _(wd().ActivityCollection()).each(function (v) {
-                            act.hit(false);
+                            v.hit(false);
                         });
                         act.hit(true);
                     }
@@ -168,10 +169,15 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                 return tcs.promise();
             },
             f10 = function() {
-                
+
+                var model = {
+                    Operation: "StepThrough"
+                };
+                ws.send(JSON.stringify(model));
             };
 
         var vm = {
+            executingActivity: executingActivity,
             consoleOutput: consoleOutput,
             instance: instance,
             locals: locals,

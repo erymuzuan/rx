@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -12,16 +11,12 @@ namespace Bespoke.Sph.Domain
         // ReSharper disable InconsistentNaming
         static readonly XNamespace x = "http://www.w3.org/2001/XMLSchema";
         // ReSharper restore InconsistentNaming
-
-
+        
         public string GenerateXsdCsharpClasses()
         {
             var gen = new CsharpCodeGenerator(this.GetCustomSchema());
             return gen.Generate();
         }
-
-
-
 
         public static string GetClrDataType(XElement element)
         {
@@ -31,9 +26,7 @@ namespace Bespoke.Sph.Domain
 
             var xsType = typeAttribute != null ? typeAttribute.Value : "";
             var nillable = nillableAttribute != null && bool.Parse(nillableAttribute.Value);
-
-           
-
+            
             string type;
             switch (xsType)
             {

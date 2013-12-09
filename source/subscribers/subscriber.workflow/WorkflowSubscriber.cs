@@ -50,6 +50,8 @@ namespace Bespoke.Sph.WorkflowsExecution
             var executed = item.GetActivity<Activity>(executedActivityWebId);
             message.AppendLine("Executed : " + executed.Name);
 
+            #region "DEBUGGER"
+
             // debugger
             this.CurrentBreakpoint = this.GetBreakpoint(item, activities);
             if (null != this.CurrentBreakpoint)
@@ -62,6 +64,9 @@ namespace Bespoke.Sph.WorkflowsExecution
                 this.CurrentBreakpoint.Break();
                 await this.CurrentBreakpoint.WaitAsync();
             }
+
+            #endregion
+
             var context = new SphDataContext();
 
             foreach (var id in activities)
@@ -86,15 +91,23 @@ namespace Bespoke.Sph.WorkflowsExecution
                     message.AppendLine("Executing : " + act.Name);
                     var result = await item.ExecuteAsync(id);
 
+                    #region "DEBUGGER"
+
                     if (null != this.CurrentBreakpoint && this.CurrentBreakpoint.Operation == "StepThrough")
                     {
                         var bps = from a in result.NextActivities
-                                  select new Breakpoint(item, item.WorkflowDefinition)
-                                  {
-                                      ActivityWebId = a,
-                                  };
+                            select new Breakpoint(item, item.WorkflowDefinition)
+                            {
+                                ActivityWebId = a,
+                                IsEnabled = true,
+                                WorkflowDefinitionId = item.WorkflowDefinitionId
+                            };
                         this.BreakpointCollection.AddRange(bps);
+                        Console.WriteLine("XXXXXXXXXXXXXX" + this.BreakpointCollection.Count);
                     }
+
+                    #endregion
+
                 }
             }
             this.WriteMessage(message);
@@ -122,7 +135,7 @@ namespace Bespoke.Sph.WorkflowsExecution
             return this.BreakpointCollection
                 .Where(b => b.WorkflowDefinitionId == item.WorkflowDefinitionId)
                 .Where(b => b.IsEnabled)
-                .SingleOrDefault(b => activities.Contains(b.ActivityWebId));
+                .LastOrDefault(b => activities.Contains(b.ActivityWebId));
         }
 
         private readonly ObjectCollection<Breakpoint> m_breakpointCollection = new ObjectCollection<Breakpoint>();
@@ -191,6 +204,9 @@ namespace Bespoke.Sph.WorkflowsExecution
                     break;
                 case "StepIn":
                     this.CurrentBreakpoint.StepIn();
+                    break;
+                case "StepThrough":
+                    this.CurrentBreakpoint.StepThrough();
                     break;
                 case "StepOut":
                     this.CurrentBreakpoint.StepOut();
