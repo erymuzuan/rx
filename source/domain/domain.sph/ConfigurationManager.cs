@@ -80,6 +80,14 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        public static System.Collections.Specialized.NameValueCollection AppSettings
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings;
+            }
+        }
+
         public static int JpegMaxWitdh
         {
             get

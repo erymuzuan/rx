@@ -120,7 +120,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf(@"
             var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);
             var request = new System.Net.Http.StringContent(json);
-            var esHost = System.Configuration.ConfigurationManager.AppSettings[""sph:eshost""] ?? ""http://localhost:9200/sph/"";
+            var esHost = ConfigurationManager.ElasticSearchHost;
 
             var client = new System.Net.Http.HttpClient();
             var response = await client.PostAsync(esHost + ""workflow_{0}_{1}/_search"", request);
