@@ -64,7 +64,6 @@ namespace Bespoke.Sph.WorkflowsExecution
             }
             var context = new SphDataContext();
 
-
             foreach (var id in activities)
             {
                 var act = item.GetActivity<Activity>(id);
@@ -85,7 +84,17 @@ namespace Bespoke.Sph.WorkflowsExecution
                 else
                 {
                     message.AppendLine("Executing : " + act.Name);
-                    await item.ExecuteAsync(id);
+                    var result = await item.ExecuteAsync(id);
+
+                    if (null != this.CurrentBreakpoint && this.CurrentBreakpoint.Operation == "StepThrough")
+                    {
+                        var bps = from a in result.NextActivities
+                                  select new Breakpoint(item, item.WorkflowDefinition)
+                                  {
+                                      ActivityWebId = a,
+                                  };
+                        this.BreakpointCollection.AddRange(bps);
+                    }
                 }
             }
             this.WriteMessage(message);
@@ -169,9 +178,8 @@ namespace Bespoke.Sph.WorkflowsExecution
 
             }
 
-            
 
-            if(null == this.CurrentBreakpoint)return;
+            if (null == this.CurrentBreakpoint) return;
 
             switch (model.Operation)
             {
@@ -194,8 +202,6 @@ namespace Bespoke.Sph.WorkflowsExecution
                     break;
             }
 
-
-
         }
 
         protected override void OnStop()
@@ -205,12 +211,5 @@ namespace Bespoke.Sph.WorkflowsExecution
                 m_appServer.Stop();
             }
         }
-    }
-
-    public class DebuggerModel
-    {
-        public string Operation { get; set; }
-        public Breakpoint Breakpoint { get; set; }
-        public string Console { get; set; }
     }
 }

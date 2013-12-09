@@ -166,6 +166,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                 };
 
                 return tcs.promise();
+            },
+            f10 = function() {
+                
             };
 
         var vm = {
@@ -180,6 +183,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             viewAttached: viewAttached,
             consoleScript: consoleScript,
             runConsole: runConsole,
+            f10: f10,
             toolbar: {
                 //saveCommand: save,
                 //exportCommand: exportTemplate,

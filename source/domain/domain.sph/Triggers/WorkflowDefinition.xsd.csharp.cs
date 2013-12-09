@@ -32,6 +32,8 @@ namespace Bespoke.Sph.Domain
             var xsType = typeAttribute != null ? typeAttribute.Value : "";
             var nillable = nillableAttribute != null && bool.Parse(nillableAttribute.Value);
 
+           
+
             string type;
             switch (xsType)
             {
@@ -66,7 +68,9 @@ namespace Bespoke.Sph.Domain
                 case "xs:anySimpleType":
                     type = "object";
                     break;
-                default: throw new InvalidOperationException("Xml data type [" + xsType + "] is not supported");
+                default:
+                    type = xsType;
+                    break;
             }
             if (nillable) type += "?";
             return type;

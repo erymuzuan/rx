@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DebuggerModel.cs" />
     <Compile Include="WorkflowInstantTerminatedSubscriber.cs" />
     <Compile Include="WorkflowSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

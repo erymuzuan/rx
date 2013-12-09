@@ -257,7 +257,7 @@ namespace Bespoke.Sph.Domain
                                         {
                                             wf.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();
                                         }  ");
-            code.AppendLinf("           var result = await wf.{0}();", this.MethodName);
+            code.AppendLinf("           var result = await wf.ExecuteAsync(\"{0}\");", this.WebId);
             // any business rules?            
             code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
             code.AppendLine("           var retVal = new {sucess = true, status = \"OK\", result = result,wf};");

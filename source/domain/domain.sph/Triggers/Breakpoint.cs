@@ -59,7 +59,12 @@ namespace Bespoke.Sph.Domain
         {
             throw new System.NotImplementedException();
         }
+        public void StepThrough()
+        {
+            this.Operation = "StepThrough";
+        }
 
+        public string Operation { get; set; }
         public object EvaluateConsole(string console)
         {
             var script = ObjectBuilder.GetObject<IScriptEngine>();
