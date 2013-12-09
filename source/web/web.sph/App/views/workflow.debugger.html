@@ -6,15 +6,7 @@
         <label>Instance id</label>
         <span data-bind="text:Name"></span>
     </div>
-    <div class="form-group">
-        <label for="port" class="col-lg-2 control-label">Port</label>
-        <div class="col-lg-6">
-            <input type="text" data-bind="value: $root.port"
-                   required="" pattern="[0-9]{4,5}"
-                   placeholder="Websocker debugger"
-                   class="form-control" id="port">
-        </div>
-    </div>
+
 </div>
 <div class="row">
     <button class="btn btn-default" title="Continue" data-bind="click : debugcontinue">
@@ -142,3 +134,43 @@
 
 </div>
 
+
+
+<div class="modal fade" id="configuration-remote-debugger">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3>Remote Debugger Configuration</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="configuration-remote-debugger-host" class="col-lg-3">Host</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: host"
+                                   required
+                                   placeholder="Remote debugger host"
+                                   class="form-control" id="configuration-remote-debugger-host">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="port" class="col-lg-3">Port</label>
+                        <div class="col-lg-6">
+                            <input type="text" data-bind="value: port"
+                                   required pattern="[0-9]{1,5}"
+                                   placeholder="Port to the Remote Debugger websocket"
+                                   class="form-control" id="port">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <input data-dismiss="modal" type="button" class="btn btn-primary" value="OK" data-bind="click: SAVECOMMAND" />
+                <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>

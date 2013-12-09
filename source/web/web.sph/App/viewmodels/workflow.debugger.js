@@ -16,6 +16,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
         var isBusy = ko.observable(false),
             locals = ko.observableArray(),
             id = ko.observable(),
+            host = ko.observable('localhost'),
             consoleOutput = ko.observable(),
             instance = ko.observable(),
             executingActivity = ko.observable(),
@@ -104,7 +105,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                 ws.send(JSON.stringify(model));
             },
             configure = function () {
-
+                $('#configuration-remote-debugger').modal();
+                return Task.fromResult(0);
             },
             start = function () {
                 var tcs = new $.Deferred();
@@ -116,7 +118,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
 
                 logger.info("* Connecting to server ..<br/>");
                 // create a new websocket and connect
-                ws = new window[support]('ws://localhost:' + port() + '/');
+                ws = new window[support]('ws://' + host() + ':' + port() + '/');
 
                 ws.onmessage = function (evt) {
                     var model = JSON.parse(evt.data),
@@ -168,7 +170,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
 
                 return tcs.promise();
             },
-            f10 = function() {
+            f10 = function () {
 
                 var model = {
                     Operation: "StepThrough"
@@ -177,6 +179,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             };
 
         var vm = {
+            host: host,
             executingActivity: executingActivity,
             consoleOutput: consoleOutput,
             instance: instance,
@@ -191,9 +194,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             runConsole: runConsole,
             f10: f10,
             toolbar: {
-                //saveCommand: save,
-                //exportCommand: exportTemplate,
-                // importCommand: importTemplateJson,
+
                 commands: ko.observableArray([{
                     command: configure,
                     caption: "Configuration",
