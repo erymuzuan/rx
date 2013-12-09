@@ -30,7 +30,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
-            code.AppendLine("       var script = ObjectBuilder.GetObject<IScriptEngine>();");
+            code.AppendLine("       await Task.Delay(50);");
             var count = 1;
             foreach (var branch in this.DecisionBranchCollection.Where(b => !b.IsDefault))
             {

@@ -40,3 +40,7 @@ _ReSharper.commercial-space
 *.css~working on bootstrap 3
 *.less~HEAD
 *.less~working on bootstrap 3
+*.xml
+*.cmd
+*.sh
+*.config

@@ -22,6 +22,7 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
+            code.AppendLine("       await Task.Delay(50);");
             code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
             code.AppendLine("       var item = this;");
 

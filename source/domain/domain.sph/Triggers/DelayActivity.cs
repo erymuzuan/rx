@@ -32,10 +32,12 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedInitiateAsyncCode(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
-            code.AppendLinf("   public async Task InitiateAsync{0}()", this.MethodName);
+            code.AppendLinf("   public async Task<InitiateActivityResult> InitiateAsync{0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLinf("       var self = this.GetActivity<DelayActivity>(\"{0}\");", this.WebId);
             code.AppendLine("       await self.CreateTaskSchedulerAsync(this);");
+            code.AppendLine("       var result = new InitiateActivityResult{ Correlation = Guid.NewGuid().ToString() };");
+            code.AppendLine("       return result;");
             code.AppendLine("   }");
 
             return code.ToString();
@@ -88,14 +90,14 @@ namespace Bespoke.Sph.Domain
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
 
             var code = new StringBuilder();
-            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
+            code.AppendLinf("   public Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLine(this.BeforeExcuteCode);
             code.AppendLinf("       this.State = \"Ready\";");
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
             code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
             code.AppendLine(this.AfterExcuteCode);
-            code.AppendLine("       return result;");
+            code.AppendLine("       return Task.FromResult(result);");
             code.AppendLine("   }");
 
             if (!string.IsNullOrWhiteSpace(this.Expression))

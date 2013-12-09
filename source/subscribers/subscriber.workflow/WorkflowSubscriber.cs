@@ -76,10 +76,10 @@ namespace Bespoke.Sph.WorkflowsExecution
                 {
                     message.AppendLine("Initiating : " + act.Name);
                     var initiatedAsyncMethod = item.GetType().GetMethod("InitiateAsync" + act.MethodName);
-                    var task = (Task)initiatedAsyncMethod.Invoke(item, null);
-                    task.Wait();
+                    var task = (Task<InitiateActivityResult>)initiatedAsyncMethod.Invoke(item, null);
+                    var initiateResult = await task;
 
-                    tracker.AddInitiateActivity(act);
+                    tracker.AddInitiateActivity(act, initiateResult);
                     using (var session = context.OpenSession())
                     {
                         session.Attach(tracker);
@@ -96,12 +96,12 @@ namespace Bespoke.Sph.WorkflowsExecution
                     if (null != this.CurrentBreakpoint && this.CurrentBreakpoint.Operation == "StepThrough")
                     {
                         var bps = from a in result.NextActivities
-                            select new Breakpoint(item, item.WorkflowDefinition)
-                            {
-                                ActivityWebId = a,
-                                IsEnabled = true,
-                                WorkflowDefinitionId = item.WorkflowDefinitionId
-                            };
+                                  select new Breakpoint(item, item.WorkflowDefinition)
+                                  {
+                                      ActivityWebId = a,
+                                      IsEnabled = true,
+                                      WorkflowDefinitionId = item.WorkflowDefinitionId
+                                  };
                         this.BreakpointCollection.AddRange(bps);
                         Console.WriteLine("XXXXXXXXXXXXXX" + this.BreakpointCollection.Count);
                     }

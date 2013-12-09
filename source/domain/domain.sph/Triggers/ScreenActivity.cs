@@ -43,15 +43,17 @@ namespace Bespoke.Sph.Domain
         public override string GeneratedInitiateAsyncCode(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
-            code.AppendLinf("   public async Task InitiateAsync{0}()", this.MethodName);
+            code.AppendLinf("   public async Task<InitiateActivityResult> InitiateAsync{0}()", this.MethodName);
             code.AppendLine("   {");
+            code.AppendLinf("       var correlation = Guid.NewGuid().ToString();", this.WebId);
             code.AppendLinf("       var self = this.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
             code.AppendLine("       var baseUrl = ConfigurationManager.BaseUrl;");
-            code.AppendLine("       var url = string.Format(\"{0}/Workflow_{1}_{2}/{3}/{4}\", baseUrl, this.WorkflowDefinitionId, this.Version, self.ActionName, this.WorkflowId);");
+            code.AppendLine("       var url = string.Format(\"{0}/Workflow_{1}_{2}/{3}/{4}?correlation={5}\", baseUrl, this.WorkflowDefinitionId, this.Version, self.ActionName, this.WorkflowId, correlation);");
             code.AppendLine("       var imb = self.InvitationMessageBody ?? \"@Model.Screen.Name task is assigned to you go here @Model.Url\";");
             code.AppendLine("       var ims = self.InvitationMessageSubject ?? \"[Sph] @Model.Screen.Name task is assigned to you\";");
 
             code.AppendLine("       await self.SendNotificationToPerformers(this, baseUrl, url, ims, imb);");
+            code.AppendLine("       return new InitiateActivityResult{ Correlation = correlation };");
             code.AppendLine("   }");
 
             return code.ToString();
@@ -200,28 +202,31 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       }");
 
             // GET Action
-            code.AppendLine("       public async Task<System.Web.Mvc.ActionResult> " + this.ActionName + "(int id = 0)");
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> {0}({1})", this.ActionName, this.IsInitiator ? "" : "int id, string correlation");
+
             code.AppendLine("       {");
 
             code.AppendLine("           try{");
             code.AppendLinf("               var vm = new {0}();", this.ViewModelType);
+
+
             code.AppendLine("               var context = new SphDataContext();");
-
-
             code.AppendLinf("               var wf = id == 0 ? new  {0}() :( await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id));", wd.WorkflowTypeName);
             code.AppendLinf("               var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == {0});", wd.WorkflowDefinitionId);
             code.AppendLinf("               var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);");
             code.AppendLinf("               var screen = wd.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
-            code.AppendLinf("               if(!screen.IsInitiator && id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");");
+            if (!this.IsInitiator)
+            {
+                code.AppendLinf("               if(id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");");
+                // tracker
+                code.AppendLinf("               var tracker = await wf.GetTrackerAsync();");
+                code.AppendLinf("               if(!tracker.CanExecute(\"{0}\", correlation ))", this.WebId);
+                code.AppendLine("               {");
+                code.AppendLine("                   return RedirectToAction(\"InvalidState\",\"Workflow\");");
+                code.AppendLine("               }");
+                code.AppendLine("               vm.Correlation = correlation;");
 
-            // tracker
-            code.AppendLinf("               var tracker = await wf.GetTrackerAsync();");
-            code.AppendLinf("               if(!tracker.CanExecute(\"{0}\"))", this.WebId);
-            code.AppendLine("               {");
-            code.AppendLine("                   return RedirectToAction(\"InvalidState\",\"Workflow\");");
-            code.AppendLine("               }");
-
-
+            }
 
             code.AppendLinf("               vm.Screen  = screen;");
             code.AppendLinf("               vm.Instance  = wf as {0};", wd.WorkflowTypeName);
@@ -272,11 +277,12 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   public class " + ViewModelType);
             code.AppendLine("   {");
             code.AppendLinf("       public {0} Instance {{get;set;}}", wd.WorkflowTypeName);
-            code.AppendLinf("       public WorkflowDefinition WorkflowDefinition {{get;set;}}");
-            code.AppendLinf("       public ScreenActivity Screen {{get;set;}}");
-            code.AppendLinf("       public string Controller {{get;set;}}");
-            code.AppendLinf("       public string Namespace {{get;set;}}");
-            code.AppendLinf("       public string SaveAction {{get;set;}}");
+            code.AppendLine("       public WorkflowDefinition WorkflowDefinition {get;set;}");
+            code.AppendLine("       public ScreenActivity Screen {get;set;}");
+            code.AppendLine("       public string Controller {get;set;}");
+            code.AppendLine("       public string Namespace {get;set;}");
+            code.AppendLine("       public string SaveAction {get;set;}");
+            code.AppendLine("       public string Correlation {get;set;}");
             code.AppendLine("   }");
 
 

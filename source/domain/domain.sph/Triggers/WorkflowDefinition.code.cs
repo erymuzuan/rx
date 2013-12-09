@@ -49,7 +49,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       }");
 
             // execute
-            code.AppendLine("       public override async Task<ActivityExecutionResult> ExecuteAsync(string activityId)");
+            code.AppendLine("       public override async Task<ActivityExecutionResult> ExecuteAsync(string activityId, string correlation = null)");
             code.AppendLine("       {");
             code.AppendLinf("           this.SerializedDefinitionStoreId = \"wd.{0}.{1}\";", this.WorkflowDefinitionId, this.Version);
             code.AppendLine("           ActivityExecutionResult result = null;");
@@ -63,6 +63,7 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine("                       break;");
             }
             code.AppendLine("           }");// end switch
+            code.AppendLine("           result.Correlation = correlation;");
             code.AppendLine("           await this.SaveAsync(activityId, result);");
             code.AppendLinf("           return result;");
             code.AppendLine("       }");

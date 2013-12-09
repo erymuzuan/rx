@@ -52,7 +52,7 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             var count = 1;
             // triggered fires
-            code.AppendLinf("   public async Task InitiateAsync{0}()", this.MethodName);
+            code.AppendLinf("   public async Task<InitiateActivityResult> InitiateAsync{0}()", this.MethodName);
             code.AppendLine("   {");
             // call initiate for all the branches for both
             var initiateTasks = new List<string>();
@@ -64,6 +64,7 @@ namespace Bespoke.Sph.Domain
                 count++;
             }
             code.AppendLinf("       await Task.WhenAll({0});", string.Join(",", initiateTasks));
+            code.AppendLine("       return new InitiateActivityResult{Correlation = Guid.NewGuid().ToString() };");
             code.AppendLine("   }");
 
             return code.ToString();

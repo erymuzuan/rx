@@ -35,7 +35,7 @@ namespace Bespoke.Sph.Domain
             return Task.FromResult(new ActivityExecutionResult { Status = ActivityExecutionStatus.None });
         }
 
-        public virtual Task<ActivityExecutionResult> ExecuteAsync(string activityId)
+        public virtual Task<ActivityExecutionResult> ExecuteAsync(string activityId, string correlation = null)
         {
             return Task.FromResult(new ActivityExecutionResult { Status = ActivityExecutionStatus.None });
         }
@@ -61,7 +61,7 @@ namespace Bespoke.Sph.Domain
                                 };
 
             var tracker = await this.GetTrackerAsync();
-            tracker.AddExecutedActivity(act);
+            tracker.AddExecutedActivity(act,result.Correlation);
 
             var context = new SphDataContext();
             if (this.WorkflowId > 0)
