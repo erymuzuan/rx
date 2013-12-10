@@ -81,9 +81,9 @@ namespace Bespoke.Sph.Web.Controllers
                               where g.ChangeCollection.Any(c => c.PropertyName == "Version")
                               select g;
 
-            var bin =System.IO.Path.GetFullPath(Server.MapPath("~/bin/"));
-            var sche = ConfigurationManager.GetSchedulerPath(bin);
-            var subs = ConfigurationManager.GetSubscriberPath(bin);
+            var bin = System.IO.Path.GetFullPath(Server.MapPath("~/bin/"));
+            var sche = ConfigurationManager.SchedulerPath;
+            var subs = ConfigurationManager.SubscriberPath;
 
             var result = from g in versionLogs
                          let version = g.ChangeCollection.Single(c => c.PropertyName == "Version").OldValue

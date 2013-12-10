@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.IO;
 
 namespace Bespoke.Sph.Domain
 {
@@ -21,12 +21,22 @@ namespace Bespoke.Sph.Domain
 
             }
         }
+        public static string BaseDirectory
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["sph:BaseDirectory"] ?? @"c:\project\work\sph";
+
+            }
+        }
 
         public static string WorkflowCompilerOutputPath
         {
             get
             {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:WorkflowCompilerOutputPath"] ?? AppDomain.CurrentDomain.BaseDirectory;
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:WorkflowCompilerOutputPath"]
+                    ?? @"\bin\output";
+                return BaseDirectory + val;
             }
         }
 
@@ -34,8 +44,9 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:WorkflowSourceDirectory"] ??
-                       string.Empty;
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:WorkflowSourceDirectory"] ??
+                       @"\bin\sources\";
+                return BaseDirectory + val;
             }
         }
 
@@ -51,7 +62,9 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:ReportDeliveryExecutable"];
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:ReportDeliveryExecutable"]
+                    ?? @"\bin\schedulers\scheduler.report.delivery.exe";
+                return Path.Combine(BaseDirectory, val);
             }
         }
 
@@ -59,7 +72,9 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:ScheduledTriggerActivityExecutable"];
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:ScheduledTriggerActivityExecutable"]
+                    ?? @"\bin\schedulers\scheduler.workflow.trigger.exe";
+                return Path.Combine(BaseDirectory, val);
             }
         }
 
@@ -97,19 +112,44 @@ namespace Bespoke.Sph.Domain
             }
         }
 
-        public static string GetSchedulerPath(string bin)
+        public static string SchedulerPath
         {
+            get
+            {
 
-            return System.Configuration.ConfigurationManager.AppSettings["sph:SchedulerPath"] ?? System.IO.Path.Combine(bin, @"../../../../bin/schedulers");
-
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:SchedulerPath"] ?? @"\bin\schedulers";
+                return BaseDirectory + val;
+            }
 
         }
-        public static string GetSubscriberPath(string bin)
+        public static string SubscriberPath
         {
+            get
+            {
 
-            return System.Configuration.ConfigurationManager.AppSettings["sph:SubscriberPath"] ?? System.IO.Path.Combine(bin, @"../../../../bin/subscribers");
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:SubscriberPath"] ?? @"\bin\subscribers";
+                return BaseDirectory + val;
+            }
+        }
+        public static string WebPath
+        {
+            get
+            {
+
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:SubscriberPath"] ?? @"\source\web\web.sph";
+                return BaseDirectory + val;
+            }
+        }
+
+        public static string DelayActivityExecutable
+        {
+            get
+            {
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:DelayActivityExecutable"] ?? @"\bin\schedulers\scheduler.delayactivity.exe";
+                return BaseDirectory + val;
 
 
+            }
         }
     }
 }

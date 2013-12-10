@@ -156,12 +156,6 @@ namespace Bespoke.Sph.Web.Controllers
             await store.AddAsync(archived);
             await this.Save("Publish", wd, pages.Cast<Entity>().ToArray());
 
-
-            // Deploy
-            System.IO.File.Copy(result.Output, Server.MapPath("~/bin/" + Path.GetFileName(result.Output)), true);
-            var pdb = result.Output.Replace(".dll", ".pdb");
-            if (System.IO.File.Exists(pdb))
-                System.IO.File.Copy(pdb, Server.MapPath("~/bin/" + Path.GetFileName(pdb)), true);
             return Json(new { success = true, version = wd.Version, status = "OK", message = "Your workflow has been successfully compiled and published : " + Path.GetFileName(result.Output) });
         }
 
