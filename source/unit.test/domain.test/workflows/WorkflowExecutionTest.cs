@@ -119,7 +119,7 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(exp);
             wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });
 
-            var result = this.Compile(wd, true, assertError:false);
+            var result = this.Compile(wd, true, assertError: false);
 
             Assert.IsFalse(result.Result);
             Assert.AreEqual(1, result.Errors.Count);
@@ -134,7 +134,7 @@ namespace domain.test.workflows
         public void BuildValidationDuplicateWebId()
         {
             var wd = new WorkflowDefinition { Name = "Test Workflow" };
-            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A",NextActivityWebId = "B"};
+            var screen = new ScreenActivity { Name = "Pohon", IsInitiator = true, WebId = "A", NextActivityWebId = "B" };
             var screen2 = new ScreenActivity { Name = "Pohon 2", IsInitiator = false, WebId = "A", NextActivityWebId = "C" };
             screen.FormDesign.FormElementCollection.Add(new TextBox { Label = "Nama", Path = "Nama" });
             wd.ActivityCollection.Add(screen);
@@ -187,7 +187,7 @@ namespace domain.test.workflows
             return result;
         }
 
-        private void Run(WorkflowDefinition wd, string dll, Action<Task<ActivityExecutionResult>> continuationAction)
+        private Workflow Run(WorkflowDefinition wd, string dll, Action<Task<ActivityExecutionResult>> continuationAction)
         {
             // try to instantiate the Workflow
             var assembly = Assembly.LoadFrom(dll);
@@ -215,6 +215,8 @@ namespace domain.test.workflows
                     continuationAction(_);
 
             }).Wait();
+
+            return wf;
         }
 
 
@@ -252,8 +254,46 @@ namespace domain.test.workflows
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
             var result = this.Compile(wd, true);
             this.Run(wd, result.Output, Console.WriteLine);
-        }
 
+        }
+        [Test]
+        public void Parallel()
+        {
+            var wd = this.Create();
+            wd.ActivityCollection.Add(new ExpressionActivity
+            {
+                Name = "Starts",
+                IsInitiator = true,
+                WebId = "_A_",
+                NextActivityWebId = "_B_",
+                Expression = "System.Console.WriteLine(\"Starting now \");"
+            });
+
+            var parallel = new ParallelActivity { Name = "Parallel", WebId = "_B_" };
+            wd.ActivityCollection.Add(parallel);
+
+            var w1 = new ParallelBranch { Name = "Worker 1", NextActivityWebId = "C0" };
+            parallel.ParallelBranchCollection.Add(w1);
+
+            var w2 = new ParallelBranch { Name = "Worker 2", NextActivityWebId = "C1" };
+            parallel.ParallelBranchCollection.Add(w2);
+
+            var br = wd.ValidateBuild();
+            br.Errors.ForEach(Console.WriteLine);
+
+
+            Assert.IsTrue(br.Result);
+            var result = this.Compile(wd, true);
+            var wf = this.Run(wd, result.Output, Console.WriteLine);
+            Task.Delay(500).Wait();
+            wf.ExecuteAsync("_B_")
+                .ContinueWith(_ =>
+                {
+                    Console.WriteLine(_.Result);
+                    Assert.IsNotNull(result);
+                })
+                .Wait();
+        }
 
         [Test]
         public void Listen()
@@ -386,7 +426,7 @@ namespace domain.test.workflows
             {
                 var result2 = r2.Result;
                 Console.WriteLine(result2);
-                Assert.AreEqual(new []{"_B_"}, result2.NextActivities);
+                Assert.AreEqual(new[] { "_B_" }, result2.NextActivities);
             });
 
 

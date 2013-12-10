@@ -564,6 +564,23 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="JoinActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:all>
+						<xs:element name="ParallelBranchCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ParallelBranch" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="DelayActivity">
 		<xs:complexType>
 			<xs:complexContent>

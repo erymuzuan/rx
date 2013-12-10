@@ -273,6 +273,7 @@
     <Compile Include="Triggers\FunctoidMapping.cs" />
     <Compile Include="Triggers\InitiateActivityResult.cs" />
     <Compile Include="Triggers\ITaskScheduler.cs" />
+    <Compile Include="Triggers\JoinActivity.cs" />
     <Compile Include="Triggers\ListenActivity.cs" />
     <Compile Include="Triggers\ListenBranch.cs" />
     <Compile Include="Triggers\MethodArg.cs" />

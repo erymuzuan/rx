@@ -3078,6 +3078,29 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    [XmlType("JoinActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class JoinActivity
+    {
+
+        private readonly ObjectCollection<ParallelBranch> m_ParallelBranchCollection = new ObjectCollection<ParallelBranch>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ParallelBranch", IsNullable = false)]
+        public ObjectCollection<ParallelBranch> ParallelBranchCollection
+        {
+            get { return m_ParallelBranchCollection; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     [XmlType("DelayActivity", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DelayActivity
     {
