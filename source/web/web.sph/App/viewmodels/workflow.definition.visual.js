@@ -34,6 +34,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                         Name: 'Parallel Activity',
                         Note : 'Run procesess concurrently'
                     }),
+                    join = new bespoke.sph.domain.JoinActivity({
+                        WebId: system.guid(),
+                        Name: 'Join Activity',
+                        Note : 'Wait for concurrent processes'
+                    }),
                     delay = new bespoke.sph.domain.DelayActivity("@Guid.NewGuid()"),
                     end = new bespoke.sph.domain.EndActivity("@Guid.NewGuid()"),
                     scheduled = new bespoke.sph.domain.ScheduledTriggerActivity({
@@ -114,6 +119,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 parallel.Note = "Concurrent running activities";
                 parallel.CssClass = "pull-left activity32 activity32-ParallelActivity";
                 elements.push(parallel);
+
+                join.IsEnabled = ko.observable(true);
+                join.Note = "Wait for concurrent activities";
+                join.CssClass = "pull-left activity32 activity32-JoinActivity";
+                elements.push(join);
 
 
                 delay.Name("Delay");

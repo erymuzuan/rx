@@ -1151,6 +1151,34 @@ bespoke.sph.domain.ParallelActivity = function (optionOrWebid) {
 
 
 
+bespoke.sph.domain.JoinActivity = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.Activity(optionOrWebid);
+
+    v["$type"] = "Bespoke.Sph.Domain.JoinActivity, domain.sph";
+
+    v.ParallelBranchCollection = ko.observableArray([]);
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.JoinActivityPartial) {
+        return _(v).extend(new bespoke.sph.domain.JoinActivityPartial(v));
+    }
+    return v;
+};
+
+
+
 bespoke.sph.domain.DelayActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);

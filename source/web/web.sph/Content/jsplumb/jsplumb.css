@@ -170,25 +170,27 @@ background-image: url("sph.wf.16.png");
 .activity16-StartWorkflowActivity{background-position:-416px 0px ; width: 16px ; height: 16px; }
 
 .activity32 {
-    background-image: url("sph.wf.32.png");
-    background-repeat: no-repeat;
+background-image: url("sph.wf.32.png");
+    background-repeat: no-repeat;   
     list-style: none outside none;
-}
-
-.activity32-CreateEntityActivity{background-position:0px 0px ; width: 32px ; height: 32px; }
-.activity32-NotificationActivity{background-position:-42px 0px ; width: 32px ; height: 32px; }
-.activity32-ScreenActivity{background-position:-84px 0px ; width: 32px ; height: 32px; }
-.activity32-DecisionActivity{background-position:-126px 0px ; width: 32px ; height: 32px; }
-.activity32-ListenActivity{background-position:-168px 0px ; width: 32px ; height: 32px; }
-.activity32-ParallelActivity{background-position:-210px 0px ; width: 32px ; height: 32px; }
-.activity32-EndActivity{background-position:-252px 0px ; width: 32px ; height: 32px; }
-.activity32-SendActivity{background-position:-294px 0px ; width: 32px ; height: 32px; }
-.activity32-ReceiveActivity{background-position:-336px 0px ; width: 32px ; height: 32px; }
-.activity32-DelayActivity{background-position:-378px 0px ; width: 32px ; height: 32px; }
-.activity32-UpdateEntityActivity{background-position:-420px 0px ; width: 32px ; height: 32px; }
-.activity32-DeleteEntityActivity{background-position:-462px 0px ; width: 32px ; height: 32px; }
-.activity32-ExpressionActivity{background-position:-504px 0px ; width: 32px ; height: 32px; }
-.activity32-ScheduledTriggerActivity{background-position:-546px 0px ; width: 32px ; height: 32px; }
+}	
+.activity32-CreateEntityActivity{background-position: 0px 0px; width: 32px; height: 32px; }
+.activity32-NotificationActivity{background-position: 0px -42px; width: 32px; height: 32px; }
+.activity32-ScreenActivity{background-position: 0px -84px; width: 32px; height: 32px; }
+.activity32-DecisionActivity{background-position: 0px -126px; width: 32px; height: 32px; }
+.activity32-ListenActivity{background-position: 0px -168px; width: 32px; height: 32px; }
+.activity32-ParallelActivity{background-position: 0px -210px; width: 32px; height: 32px; }
+.activity32-EndActivity{background-position: 0px -252px; width: 32px; height: 32px; }
+.activity32-SendActivity{background-position: 0px -294px; width: 32px; height: 32px; }
+.activity32-ReceiveActivity{background-position: 0px -336px; width: 32px; height: 32px; }
+.activity32-DelayActivity{background-position: 0px -378px; width: 32px; height: 32px; }
+.activity32-UpdateEntityActivity{background-position: 0px -420px; width: 32px; height: 32px; }
+.activity32-DeleteEntityActivity{background-position: 0px -462px; width: 32px; height: 32px; }
+.activity32-ExpressionActivity{background-position: 0px -504px; width: 32px; height: 32px; }
+.activity32-ScheduledTriggerActivity{background-position: 0px -546px; width: 32px; height: 32px; }
+.activity32-JoinActivity{background-position: 0px -588px; width: 32px; height: 32px; }
+.activity32-BusinessRuleActivity{background-position: 0px -630px; width: 32px; height: 32px; }
+.activity32-StartWorkflowActivity{background-position: 0px -672px; width: 32px; height: 32px; }
 
 .activity64 {
 background-image: url("sph.wf.64.png");
