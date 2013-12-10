@@ -93,8 +93,8 @@ namespace Bespoke.Sph.Domain
         {
 
         }
-        public string AfterExcuteCode { get; set; }
-        public string BeforeExcuteCode { get; set; }
+        public string ExecutedCode { get; set; }
+        public string ExecutingCode { get; set; }
 
         public virtual Task TerminateAsync(Workflow wf)
         {

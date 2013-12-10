@@ -106,9 +106,39 @@ namespace Bespoke.Sph.Domain
             }
             // search
             this.GenerateSearchController(code);
+            this.GenerateJsSchemasController(code);
 
             code.AppendLine("}");// end namespace
             return code.ToString();
+        }
+
+        private void GenerateJsSchemasController(StringBuilder code)
+        {
+            code.AppendLinf("public partial class Workflow_{0}_{1}Controller : System.Web.Mvc.Controller", this.WorkflowDefinitionId, this.Version);
+            code.AppendLine("{");
+            code.AppendLinf("//exec:Schemas");
+            // custom schema
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Schemas()");
+            code.AppendLine("       {");
+            code.AppendLine("           var store = ObjectBuilder.GetObject<IBinaryStore>();");
+            code.AppendLinf("           var doc = await store.GetContentAsync(\"wd.{0}.{1}\");", this.WorkflowDefinitionId, this.Version);
+            code.AppendLine(@"          WorkflowDefinition wd;
+                                        using (var stream = new System.IO.MemoryStream(doc.Content))
+                                        {
+                                            wd = stream.DeserializeFromXml<WorkflowDefinition>();
+                                        }
+
+                                        ");
+            code.AppendLinf("           var screen = wd.ActivityCollection.Single(w =>w.WebId ==\"{0}\") as ScreenActivity;", this.WebId);
+            code.AppendLinf("           var script = await screen.GenerateCustomXsdJavascriptClassAsync(wd);", this.WebId);
+            code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
+
+            code.AppendLine("           return Content(script);");
+            code.AppendLine("       }");
+            code.AppendLine("   }");
+
+
+
         }
 
         private void GenerateSearchController(StringBuilder code)

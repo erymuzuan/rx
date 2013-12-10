@@ -10,6 +10,9 @@ namespace Bespoke.Sph.Domain
         public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
         {
             var result = base.ValidateBuild(wd);
+            if(string.IsNullOrWhiteSpace(this.NextActivityWebId))
+                result.Errors.Add(new BuildError(this.WebId, string.Format("[DelayActivity] ->{0} is missing next activity", this.Name)));
+
             if (this.Miliseconds + this.Seconds + this.Hour + this.Days == 0 && string.IsNullOrWhiteSpace(this.Expression))
             {
                 result.Errors.Add(new BuildError(this.WebId,
@@ -90,14 +93,15 @@ namespace Bespoke.Sph.Domain
                 throw new InvalidOperationException("NextActivityWebId is null or empty for " + this.Name);
 
             var code = new StringBuilder();
-            code.AppendLinf("   public Task<ActivityExecutionResult> {0}()", this.MethodName);
+            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
-            code.AppendLine(this.BeforeExcuteCode);
+            code.AppendLine(this.ExecutingCode);
+            code.AppendLinf("       await Task.Delay(50);");
             code.AppendLinf("       this.State = \"Ready\";");
             code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
             code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
-            code.AppendLine(this.AfterExcuteCode);
-            code.AppendLine("       return Task.FromResult(result);");
+            code.AppendLine(this.ExecutedCode);
+            code.AppendLine("       return result;");
             code.AppendLine("   }");
 
             if (!string.IsNullOrWhiteSpace(this.Expression))

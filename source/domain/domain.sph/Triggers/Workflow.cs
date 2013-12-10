@@ -9,6 +9,8 @@ namespace Bespoke.Sph.Domain
 {
     public partial class Workflow : Entity
     {
+        private Tracker m_tracker;
+
         public override int GetId()
         {
             return this.WorkflowId;
@@ -61,7 +63,7 @@ namespace Bespoke.Sph.Domain
                                 };
 
             var tracker = await this.GetTrackerAsync();
-            tracker.AddExecutedActivity(act,result.Correlation);
+            tracker.AddExecutedActivity(act, result.Correlation);
 
             var context = new SphDataContext();
             if (this.WorkflowId > 0)
@@ -93,8 +95,11 @@ namespace Bespoke.Sph.Domain
 
         public async Task<Tracker> GetTrackerAsync()
         {
+            if (null != m_tracker)
+                return m_tracker;
+
             if (this.WorkflowId == 0)
-                return new Tracker
+                return m_tracker = new Tracker
                 {
                     Workflow = this,
                     WorkflowDefinition = this.WorkflowDefinition,
@@ -103,15 +108,25 @@ namespace Bespoke.Sph.Domain
                 };
 
             var context = new SphDataContext();
-            var tracker = await context.LoadOneAsync<Tracker>(t => t.WorkflowId == this.WorkflowId)
+            m_tracker = await context.LoadOneAsync<Tracker>(t => t.WorkflowId == this.WorkflowId)
                           ??
                           new Tracker { WorkflowId = this.WorkflowId, WorkflowDefinitionId = this.WorkflowDefinitionId };
-            tracker.Workflow = this;
-            tracker.WorkflowDefinition = this.WorkflowDefinition;
-            if (tracker.TrackerId == 0)
-                tracker.Init(this, this.WorkflowDefinition);
+            m_tracker.Workflow = this;
+            m_tracker.WorkflowDefinition = this.WorkflowDefinition;
+            if (m_tracker.TrackerId == 0)
+                m_tracker.Init(this, this.WorkflowDefinition);
 
-            return tracker;
+            return m_tracker;
+        }
+
+        public async Task LoadWorkflowDefinitionAsync()
+        {
+            var store = ObjectBuilder.GetObject<IBinaryStore>();
+            var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", this.WorkflowDefinitionId, this.Version));
+            using (var stream = new System.IO.MemoryStream(doc.Content))
+            {
+                this.WorkflowDefinition = stream.DeserializeFromXml<WorkflowDefinition>();
+            }
         }
 
 

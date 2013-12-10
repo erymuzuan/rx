@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,16 +28,8 @@ namespace Bespoke.Sph.WorkflowsExecution
         {
 
             if (item.State == "Completed") return;
-            var store = ObjectBuilder.GetObject<IBinaryStore>();
-            var doc = await store.GetContentAsync(string.Format("wd.{0}.{1}", item.WorkflowDefinitionId, item.Version));
             var tracker = await item.GetTrackerAsync();
-
-            WorkflowDefinition wd;
-            using (var stream = new MemoryStream(doc.Content))
-            {
-                wd = stream.DeserializeFromXml<WorkflowDefinition>();
-            }
-            item.WorkflowDefinition = wd;
+            await item.LoadWorkflowDefinitionAsync();
 
             var message = new StringBuilder();
             message.AppendLine("Running " + item.Name + ":" + item.WorkflowId);
@@ -46,7 +37,7 @@ namespace Bespoke.Sph.WorkflowsExecution
             dynamic headers = header;
             string executedActivityWebId = headers.ActivityWebId;
             string nextActivities = headers.NextActivities;
-            string[] activities = nextActivities.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            var activities = nextActivities.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
             var executed = item.GetActivity<Activity>(executedActivityWebId);
             message.AppendLine("Executed : " + executed.Name);
 

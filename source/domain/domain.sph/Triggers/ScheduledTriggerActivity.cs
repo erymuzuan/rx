@@ -25,13 +25,13 @@ namespace Bespoke.Sph.Domain
             var code = new StringBuilder();
             code.AppendLinf("   public Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
-            code.AppendLine(this.BeforeExcuteCode);
+            code.AppendLine(this.ExecutingCode);
             code.AppendLine("       this.State = \"Ready\";");
             // set the next activity
             code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success };");
             code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
 
-            code.AppendLine(this.AfterExcuteCode);
+            code.AppendLine(this.ExecutedCode);
             code.AppendLine("       return Task.FromResult(result);");
             code.AppendLine("   }");
 

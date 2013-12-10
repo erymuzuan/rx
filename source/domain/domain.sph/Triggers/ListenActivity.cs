@@ -43,7 +43,7 @@ namespace Bespoke.Sph.Domain
             var triggers = wd.ActivityCollection.Where(a => triggersId.Contains(a.WebId));
             foreach (var t in triggers)
             {
-                t.AfterExcuteCode = string.Format("     await this.FireListenTrigger{1}(\"{0}\");", t.WebId, this.MethodName);
+                t.ExecutedCode = string.Format("     await this.FireListenTrigger{1}(\"{0}\");", t.WebId, this.MethodName);
             }
         }
 
@@ -64,6 +64,23 @@ namespace Bespoke.Sph.Domain
                 count++;
             }
             code.AppendLinf("       await Task.WhenAll({0});", string.Join(",", initiateTasks));
+            code.AppendLinf("       var tracker = await this.GetTrackerAsync();");
+            count = 1;
+            foreach (var branch in this.ListenBranchCollection)
+            {
+                code.AppendLinf("       var act{0} = this.GetActivity<Activity>(\"{1}\");",count, branch.NextActivityWebId);
+                code.AppendLinf("       var bc{0} = await  initiateTask{0};", count);
+                code.AppendLinf("       tracker.AddInitiateActivity(act{0}, bc{0});", count);
+                code.AppendLine();
+                count++;
+            }
+
+            code.AppendLine("       var context = new Bespoke.Sph.Domain.SphDataContext();");
+            code.AppendLine("       using(var session = context.OpenSession())");
+            code.AppendLine("       {");
+            code.AppendLine("           session.Attach(tracker);");
+            code.AppendLine("           await session.SubmitChanges(\"ListenActivityChildInitiation\");");
+            code.AppendLine("       }");
             code.AppendLine("       return new InitiateActivityResult{Correlation = Guid.NewGuid().ToString() };");
             code.AppendLine("   }");
 
