@@ -29,7 +29,11 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     receive = new bespoke.sph.domain.ReceiveActivity("@Guid.NewGuid()"),
                     send = new bespoke.sph.domain.SendActivity("@Guid.NewGuid()"),
                     listen = new bespoke.sph.domain.ListenActivity("@Guid.NewGuid()"),
-                    parallel = new bespoke.sph.domain.ParallelActivity("@Guid.NewGuid()"),
+                    parallel = new bespoke.sph.domain.ParallelActivity({
+                        WebId: system.guid(),
+                        Name: 'Parallel Activity',
+                        Note : 'Run procesess concurrently'
+                    }),
                     delay = new bespoke.sph.domain.DelayActivity("@Guid.NewGuid()"),
                     end = new bespoke.sph.domain.EndActivity("@Guid.NewGuid()"),
                     scheduled = new bespoke.sph.domain.ScheduledTriggerActivity({
@@ -106,8 +110,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 listen.CssClass = "pull-left activity32 activity32-ListenActivity";
                 elements.push(listen);
 
-                parallel.IsEnabled = ko.observable(false);
-                parallel.Name("Parallel");
+                parallel.IsEnabled = ko.observable(true);
                 parallel.Note = "Concurrent running activities";
                 parallel.CssClass = "pull-left activity32 activity32-ParallelActivity";
                 elements.push(parallel);
