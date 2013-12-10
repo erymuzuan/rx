@@ -61,7 +61,13 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             },
             viewAttached = function (view) {
                 jp.viewAttached(view);
-
+                $(view).on('click', 'div.activity', function () {
+                    $('div.activity').removeClass('selected-activity');
+                    $(this).addClass('selected-activity');
+                    var act = ko.dataFor(this),
+                        list = generateLocals(act);
+                    activity(list);
+                });
 
                 $.contextMenu({
                     selector: 'div.activity',
@@ -93,6 +99,27 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                         "delete": { name: "Remove Breakpoint", icon: "circle-o" }
                     }
                 });
+
+            }, generateLocals = function (loc) {
+                var list = [];
+                for (var n in loc) {
+                    var val = ko.unwrap(loc[n]),
+                        type = typeof val;
+                    if (_(val).isArray()) {
+                        type = "Array";
+                    }
+
+                    var item = {
+                        name: n,
+                        type: type,
+                        value: val
+                    };
+                    if (_(val).isObject()) {
+                        item.items = generateLocals(val);
+                    }
+                    list.push(item);
+                }
+                return list;
 
             },
             consoleScript = ko.observable(),
@@ -176,9 +203,30 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                     Operation: "StepThrough"
                 };
                 ws.send(JSON.stringify(model));
+            },
+            addToWatch = function (local) {
+                console.log(local);
+                watches.push(local);
+            },
+            removeFromWatch = function (local) {
+                watches.remove(local);
+            }, refreshWatch = function (local) {
+                console.log(local);
+            },
+            watches = ko.observableArray(),
+            activity = ko.observableArray(),
+            expandObjects = function (loc) {
+                if (!loc.items) return;
+                console.log(loc.items);
             };
 
         var vm = {
+            expandObjects: expandObjects,
+            activity: activity,
+            watches: watches,
+            refreshWatch: refreshWatch,
+            addToWatch: addToWatch,
+            removeFromWatch: removeFromWatch,
             host: host,
             executingActivity: executingActivity,
             consoleOutput: consoleOutput,
@@ -204,7 +252,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
 
                         command: start,
                         caption: "Start",
-                        icon: "fa fa-file-text-o"
+                        icon: "fa fa-play"
                     }])
             }
         };

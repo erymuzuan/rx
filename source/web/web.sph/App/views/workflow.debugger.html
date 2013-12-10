@@ -84,15 +84,66 @@
                             <td data-bind="text:name"></td>
                             <td data-bind="text:type"></td>
                             <td data-bind="text:value"></td>
+                            <td>
+                                <a href="#" title="Add to watch" data-bind="click : $root.addToWatch">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div id="activity-window" class="tab-pane">
-                <pre data-bind="text:executingActivity"></pre>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach : activity">
+                        <tr>
+                            <td data-bind="text:name"></td>
+                            <td data-bind="text:type"></td>
+                            <td>
+                                <a href="#" data-bind="text:value, click : $root.expandObjects">Expand</a>
+                            </td>
+                            <td>
+                                <a href="#" title="Add to watch" data-bind="click : $root.addToWatch">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                              
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div id="watches1" class="tab-pane">
-
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach : watches">
+                        <tr>
+                            <td data-bind="text:name"></td>
+                            <td data-bind="text:type"></td>
+                            <td data-bind="text:value"></td>
+                            <td>
+                                <a href="#" title="Remove from watch" data-bind="click : $root.removeFromWatch">
+                                    <i class="fa fa-minus"></i>
+                                </a>
+                                <a href="#" title="Reload  watch" data-bind="click : $root.refreshWatch">
+                                    <i class="fa fa-refresh"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
             </div>
 

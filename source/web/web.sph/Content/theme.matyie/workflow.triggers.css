@@ -101,4 +101,9 @@ form#monthly-schedule-dialog-form h6 {
     background-color: #f1f33c !important;
 }
 
+div.selected-activity {
+    border-width: 4px !important;
+    border-color: #209c0d !important;
+}
+
 /*# sourceMappingURL=/Content/theme.matyie/workflow.triggers.less.map */
