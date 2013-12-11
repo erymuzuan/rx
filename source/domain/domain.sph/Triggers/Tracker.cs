@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -13,6 +14,67 @@ namespace Bespoke.Sph.Domain
         [XmlIgnore]
         [JsonIgnore]
         public WorkflowDefinition WorkflowDefinition { get; set; }
+
+        private Dictionary<string, List<string>> m_waitingJoinList = new Dictionary<string, List<string>>();
+        public Dictionary<string, List<string>> WaitingJoinList
+        {
+            get { return m_waitingJoinList; }
+            set { m_waitingJoinList = value; }
+        }
+        private Dictionary<string, List<string>> m_firedJoinList = new Dictionary<string, List<string>>();
+        public Dictionary<string, List<string>> FiredJoinList
+        {
+            get { return m_firedJoinList; }
+            set { m_firedJoinList = value; }
+        }
+
+        public void AddJoinWaitingList(string join, string predecessor)
+        {
+            if (this.WaitingJoinList.ContainsKey(join))
+            {
+                this.WaitingJoinList[join].Add(predecessor);
+                // TODO: also initiate the async activity waiting list, still missing correlation thou, should get one from parallel up top
+                this.WaitingAsyncList.Add(join, new List<string>());
+            }
+            else
+            {
+                this.WaitingJoinList.Add(join, new List<string> { predecessor });
+            }
+
+        }
+
+        public void AddFiredJoin(string join, string predecessor)
+        {
+
+            if (this.FiredJoinList.ContainsKey(join))
+            {
+                this.FiredJoinList[join].Add(predecessor);
+            }
+            else
+            {
+                this.FiredJoinList.Add(join, new List<string> { predecessor });
+            }
+        }
+
+        public bool AllJoinFired(string join)
+        {
+            if (!this.WaitingJoinList.ContainsKey(join)) return false;
+            if (!this.FiredJoinList.ContainsKey(join)) return false;
+            var waiting = this.WaitingJoinList[join];
+            var fired = this.FiredJoinList[join];
+            return waiting.Count == fired.Count && waiting.All(fired.Contains);
+        }
+
+        public async Task SaveAsync()
+        {
+            var context = new SphDataContext();
+            using (var session = context.OpenSession())
+            {
+                session.Attach(this);
+                await session.SubmitChanges("SaveTracker");
+            }
+        }
+
 
         public Dictionary<string, List<string>> WaitingAsyncList
         {

@@ -34,6 +34,35 @@ namespace Bespoke.Sph.Domain
             var predecessors = wd.ActivityCollection.Where(a => a.NextActivityWebId == this.WebId);
             var code = new StringBuilder();
 
+            code.AppendLinf("   public async Task FireJoin{0}(string webid)", this.MethodName);
+            code.AppendLine("   {");
+            code.AppendLine("       var tracker = await this.GetTrackerAsync();");
+            code.AppendLinf("       if(!tracker.WaitingJoinList.ContainsKey(\"{0}\"))", this.WebId);
+            code.AppendLine("       {");
+            foreach (var act in predecessors)
+            {
+                code.AppendLinf("           tracker.AddJoinWaitingList(\"{0}\",\"{1}\");", this.WebId, act.WebId);
+            }
+            code.AppendLine("       }");
+            code.AppendLinf("       tracker.AddFiredJoin(\"{0}\", webid);", this.WebId);
+            code.AppendLine("       await tracker.SaveAsync();");
+            code.AppendLine();
+
+            // TODO : we need the correlation too? I guessed
+            code.AppendLinf("       if(tracker.AllJoinFired(\"{0}\"))", this.WebId);
+            code.AppendLine("       {");
+            code.AppendLine("           Console.WriteLine(\"Everthing is ok\");");
+            code.AppendLine("           var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
+            code.AppendLinf("           result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
+            code.AppendLinf("           await this.SaveAsync(\"{0}\", result);", this.WebId);
+            code.AppendLine("       }");
+            code.AppendLine("   }");
+
+            code.AppendLinf("   public async Task<InitiateActivityResult> InitiateAsync{0}()", this.MethodName);
+            code.AppendLine("   {");
+            code.AppendLine("       return new InitiateActivityResult{Correlation = Guid.NewGuid().ToString() };");
+            code.AppendLine("   }");
+
 
             return code.ToString();
         }
@@ -45,14 +74,7 @@ namespace Bespoke.Sph.Domain
 
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
-            code.AppendLine(this.ExecutingCode);
-            code.AppendLine("       await Task.Delay(40);");
-            code.AppendLine("       this.State = \"Ready\";");
-            code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
-            code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
-
-            code.AppendLine(this.ExecutedCode);
-            code.AppendLine("       return result;");
+            code.AppendLine("       throw new System.Exception(\"Listen activity is not supposed to be executed directly but through FireListenTrigger\");");
             code.AppendLine("   }");
             return code.ToString();
         }
@@ -60,6 +82,13 @@ namespace Bespoke.Sph.Domain
         public override void BeforeGenerate(WorkflowDefinition wd)
         {
             // TODO : insert Executed code for each predecessors
+
+            var predecessors = wd.ActivityCollection.Where(a => a.NextActivityWebId == this.WebId);
+            foreach (var act in predecessors)
+            {
+                var code = string.Format("   await this.FireJoin{0}(\"{1}\");", this.MethodName, act.WebId);
+                act.ExecutedCode += code;
+            }
             // TODO : InitiateAsync once the first one is fired
         }
     }
