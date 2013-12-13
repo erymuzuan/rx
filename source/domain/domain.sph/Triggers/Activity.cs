@@ -16,6 +16,7 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(DeleteEntityActivity))]
     [XmlInclude(typeof(ExpressionActivity))]
     [XmlInclude(typeof(ParallelActivity))]
+    [XmlInclude(typeof(JoinActivity))]
     [XmlInclude(typeof(ListenActivity))]
     [XmlInclude(typeof(DelayActivity))]
     [XmlInclude(typeof(ScheduledTriggerActivity))]

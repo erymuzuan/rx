@@ -82,11 +82,13 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Es(string id)
         {
             var json = this.GetRequestBody();
+            var type = id;
             var request = new StringContent(json);
-            var esHost = ConfigurationManager.ElasticSearchHost;
+            var url = string.Format("{0}/{1}/{2}/_search", ConfigurationManager.ElasticSearchHost,
+                ConfigurationManager.ElasticSearchIndex, type);
 
             var client = new HttpClient();
-            var response = await client.PostAsync(esHost + id + "/_search", request);
+            var response = await client.PostAsync(url, request);
             var content = response.Content as StreamContent;
             if (null == content) throw new Exception("Cannot execute query on es " + request);
             this.Response.ContentType = "application/json; charset=utf-8";

@@ -472,7 +472,9 @@
     <Content Include="App\viewmodels\action.email.js" />
     <Content Include="App\viewmodels\action.setter.js" />
     <Content Include="App\viewmodels\action.startworkflow.js" />
+    <Content Include="App\viewmodels\activity.join.js" />
     <Content Include="App\viewmodels\activity.listen.js" />
+    <Content Include="App\viewmodels\activity.parallel.js" />
     <Content Include="App\viewmodels\activity.scheduledtrigger.js" />
     <Content Include="App\viewmodels\activity.updateentity.js" />
     <Content Include="App\viewmodels\activity.deleteentity.js" />
@@ -560,7 +562,9 @@
     <Content Include="App\views\action.setter.html" />
     <Content Include="App\views\action.startworkflow.html" />
     <Content Include="App\views\activity.deleteentity.html" />
+    <Content Include="App\views\activity.join.html" />
     <Content Include="App\views\activity.listen.html" />
+    <Content Include="App\views\activity.parallel.html" />
     <Content Include="App\views\activity.scheduledtrigger.html" />
     <Content Include="App\views\activity.updateentity.html" />
     <Content Include="App\views\activity.createentity.html" />

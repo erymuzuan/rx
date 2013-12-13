@@ -1,4 +1,42 @@
-﻿namespace Bespoke.Sph.Domain
+﻿using System.Linq;
+using System.Text;
+
+namespace Bespoke.Sph.Domain
 {
-    public partial class ParallelActivity : Activity { }
+    public partial class ParallelActivity : Activity
+    {
+        public override BuildValidationResult ValidateBuild(WorkflowDefinition wd)
+        {
+            var result = base.ValidateBuild(wd);
+            if (this.ParallelBranchCollection.Count < 2)
+                result.Errors.Add(new BuildError(this.WebId, string.Format("[ParalllelActivity] -> {0} must contains at least 2 branches", this.Name)));
+            var errors = from a in this.ParallelBranchCollection
+                         where string.IsNullOrWhiteSpace(a.NextActivityWebId)
+                         select new BuildError(this.WebId)
+                         {
+                             Message = string.Format("[ParallelActivity] -> Branch \"{0}\" is missing next activity", a.Name)
+                         };
+            result.Errors.AddRange(errors);
+            return result;
+        }
+
+        public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
+        {
+            var code = new StringBuilder();
+
+            code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
+            code.AppendLine("   {");
+            code.AppendLine(this.ExecutingCode);
+            code.AppendLine("       await Task.Delay(40);");
+            code.AppendLine("       this.State = \"Ready\";");
+            var branches = this.ParallelBranchCollection.Select(b => "\"" + b.NextActivityWebId + "\"");
+            code.AppendLine("       var result = new ActivityExecutionResult{Status = ActivityExecutionStatus.Success};");
+            code.AppendLinf("       result.NextActivities = new[]{{{0}}};", string.Join(",", branches));
+
+            code.AppendLine(this.ExecutedCode);
+            code.AppendLine("       return result;");
+            code.AppendLine("   }");
+            return code.ToString();
+        }
+    }
 }

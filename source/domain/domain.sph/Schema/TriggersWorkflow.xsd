@@ -564,6 +564,15 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="JoinActivity">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Activity">
+					<xs:attribute name="Placeholder" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="DelayActivity">
 		<xs:complexType>
 			<xs:complexContent>

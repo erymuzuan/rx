@@ -57,9 +57,9 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
                     td.Triggers.Add(trigger);
                 }
                 var action = new ExecAction(this.Executable, string.Format("{0} {1}", start.WebId, item.WorkflowDefinitionId))
-                {
-                    WorkingDirectory = System.IO.Path.GetDirectoryName(this.Executable)
-                };
+                            {
+                                WorkingDirectory = System.IO.Path.GetDirectoryName(this.Executable)
+                            };
                 td.Actions.Add(action);
                 ts.RootFolder.RegisterTaskDefinition(path, td);
                 return Task.FromResult(0);
@@ -90,7 +90,7 @@ namespace Bespoke.Sph.WorkflowTriggerSubscriptions
 
         private string GetPath(WorkflowDefinition item)
         {
-            var guid = "start_" + item.WorkflowTypeName;
+            var guid = "START_" + item.WorkflowTypeName;
             var path = @"Bespoke\" + guid.Replace(" ", string.Empty);
             return path;
 

@@ -1,0 +1,64 @@
+﻿
+<section class="view-model-modal" id="listen-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Parallel</h3>
+            </div>
+            <div class="modal-body" data-bind="with: activity">
+
+                <form class="form-horizontal" id="listen-dialog-form">
+
+                    <div class="form-group">
+                        <label for="listen-activity-name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-9">
+                            <input pattern="^[A-Za-z_][A-Za-z0-9_ ]*$" required type="text" data-bind="value: Name" class="form-control" id="listen-activity-name" placeholder="Name">
+                        </div>
+                    </div>
+
+
+                    <a href="#" data-bind="click : addBranch">+ Branch</a>
+                    <table class="table">
+
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Next</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach :ParallelBranchCollection">
+                            <tr>
+
+                                <td>
+                                    <input type="text" required data-bind="value:Name, uniqueName:true" class="form-control" />
+                                </td>
+
+                                <td>
+                                    <select required
+                                            data-bind="value:NextActivityWebId,
+                                                uniqueName:true,
+                                                options: $root.wd().ActivityCollection,
+                                                optionsText:'Name',
+                                                optionsValue:'WebId',
+                                                optionsCaption:'Please select next activity'"
+                                            class="form-control"></select>
+                                </td>
+                                <td>
+                                    <a href="#" data-bind="click : $parent.removeBranch.call($parent,$data)">Buang</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="listen-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

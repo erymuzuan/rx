@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace Bespoke.Sph.Domain
@@ -129,8 +130,7 @@ namespace Bespoke.Sph.Domain
                                         }
 
                                         ");
-            code.AppendLinf("           var screen = wd.ActivityCollection.Single(w =>w.WebId ==\"{0}\") as ScreenActivity;", this.WebId);
-            code.AppendLinf("           var script = await screen.GenerateCustomXsdJavascriptClassAsync(wd);", this.WebId);
+            code.AppendLinf("           var script = await wd.GenerateCustomXsdJavascriptClassAsync();", this.WebId);
             code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
 
             code.AppendLine("           return Content(script);");
@@ -139,6 +139,29 @@ namespace Bespoke.Sph.Domain
 
 
 
+        }
+
+        public Task<string> GenerateCustomXsdJavascriptClassAsync()
+        {
+            var wd = this;
+            var script = new StringBuilder();
+            script.AppendLine("var bespoke = bespoke ||{};");
+            script.AppendLine("bespoke.sph = bespoke.sph ||{};");
+            script.AppendLinf("bespoke.sph.w_{0}_{1} = bespoke.sph.w_{0}_{1} ||{{}};", wd.WorkflowDefinitionId, wd.Version);
+
+            var xsd = wd.GetCustomSchema();
+
+            var complexTypesElement = xsd.Elements(x + "complexType").ToList();
+            var complexTypeClasses = complexTypesElement.Select(wd.GenerateXsdComplexTypeJavascript).ToList();
+            complexTypeClasses.ForEach(c => script.AppendLine(c));
+
+            var elements = xsd.Elements(x + "element").ToList();
+            var elementClasses = elements.Select(e => wd.GenerateXsdElementJavascript(e, 0, s => complexTypesElement.Single(f => f.Attribute("name").Value == s))).ToList();
+            elementClasses.ForEach(c => script.AppendLine(c));
+
+
+
+            return Task.FromResult(script.ToString());
         }
 
         private void GenerateSearchController(StringBuilder code)

@@ -23,6 +23,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("   public async Task<ActivityExecutionResult> {0}()", this.MethodName);
             code.AppendLine("   {");
             code.AppendLine("       await Task.Delay(50);");
+            code.AppendLinf("       {0}", this.ExecutingCode);
             code.AppendLine("       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};");
             code.AppendLine("       var item = this;");
 
@@ -30,6 +31,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("       " + this.Expression);
 
             code.AppendLinf("       result.NextActivities = new[]{{\"{0}\"}};", this.NextActivityWebId);
+            code.AppendLinf("       {0}", this.ExecutedCode);
             code.AppendLine("       return result;");
             code.AppendLine("   }");// end metod
 

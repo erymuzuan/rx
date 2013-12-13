@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Bespoke.Sph.Domain
+﻿namespace Bespoke.Sph.Domain
 {
     public static class ConfigurationManager
     {
@@ -54,7 +52,15 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:ElasticSearchHost"] ?? "http://localhost:9200/sph/";
+                return System.Configuration.ConfigurationManager.AppSettings["sph:ElasticSearchHost"] ?? "http://localhost:9200";
+            }
+        }
+
+        public static string ElasticSearchIndex
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["sph:ElasticSearchIndex"] ?? "sph";
             }
         }
 
@@ -64,7 +70,7 @@ namespace Bespoke.Sph.Domain
             {
                 var val = System.Configuration.ConfigurationManager.AppSettings["sph:ReportDeliveryExecutable"]
                     ?? @"\bin\schedulers\scheduler.report.delivery.exe";
-                return Path.Combine(BaseDirectory, val);
+                return BaseDirectory+ val;
             }
         }
 
@@ -74,7 +80,7 @@ namespace Bespoke.Sph.Domain
             {
                 var val = System.Configuration.ConfigurationManager.AppSettings["sph:ScheduledTriggerActivityExecutable"]
                     ?? @"\bin\schedulers\scheduler.workflow.trigger.exe";
-                return Path.Combine(BaseDirectory, val);
+                return BaseDirectory + val;
             }
         }
 
