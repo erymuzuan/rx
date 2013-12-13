@@ -27,11 +27,8 @@ namespace Bespoke.Sph.ElasticSearch
 
             var json = JsonConvert.SerializeObject(ea, setting);
             var content = new StringContent(json);
-            var esServer = ConfigurationManager.ElasticSearchHost;
-            const string index = "sph";
 
-
-            var url = string.Format("{0}/{1}/{2}/{3}", esServer, index, "activity", id);
+            var url = string.Format("{0}/{1}/{2}/{3}", ConfigurationManager.ElasticSearchHost, ConfigurationManager.ElasticSearchIndex, "activity", id);
 
             var client = new HttpClient();
             HttpResponseMessage response = null;

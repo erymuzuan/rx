@@ -52,7 +52,15 @@
         {
             get
             {
-                return System.Configuration.ConfigurationManager.AppSettings["sph:ElasticSearchHost"] ?? "http://localhost:9200/sph/";
+                return System.Configuration.ConfigurationManager.AppSettings["sph:ElasticSearchHost"] ?? "http://localhost:9200";
+            }
+        }
+
+        public static string ElasticSearchIndex
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["sph:ElasticSearchIndex"] ?? "sph";
             }
         }
 

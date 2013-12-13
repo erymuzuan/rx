@@ -9,7 +9,6 @@ namespace Bespoke.Sph.ElasticSearch
 {
     public abstract class EsEntityIndexer<T> : Subscriber<T> where T : Entity
     {
-        const string Index = "sph";
 
         public override string QueueName
         {
@@ -37,7 +36,7 @@ namespace Bespoke.Sph.ElasticSearch
             var id = item.GetId();
 
 
-            var url = string.Format("{0}/{1}/{2}/{3}", esHost, Index, this.GetTypeName(item), id);
+            var url = string.Format("{0}/{1}/{2}/{3}", ConfigurationManager.ElasticSearchHost, ConfigurationManager.ElasticSearchIndex, this.GetTypeName(item), id);
 
             var client = new HttpClient();
             HttpResponseMessage response = null;
