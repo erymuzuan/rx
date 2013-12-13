@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 
@@ -152,28 +151,6 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
-        public Task<string> GenerateCustomXsdJavascriptClassAsync(WorkflowDefinition wd)
-        {
-            var script = new StringBuilder();
-            script.AppendLine("var bespoke = bespoke ||{};");
-            script.AppendLine("bespoke.sph = bespoke.sph ||{};");
-            script.AppendLinf("bespoke.sph.w_{0}_{1} = bespoke.sph.w_{0}_{1} ||{{}};", wd.WorkflowDefinitionId, wd.Version);
-
-            XNamespace x = "http://www.w3.org/2001/XMLSchema";
-            var xsd = wd.GetCustomSchema();
-
-            var complexTypesElement = xsd.Elements(x + "complexType").ToList();
-            var complexTypeClasses = complexTypesElement.Select(wd.GenerateXsdComplexTypeJavascript).ToList();
-            complexTypeClasses.ForEach(c => script.AppendLine(c));
-
-            var elements = xsd.Elements(x + "element").ToList();
-            var elementClasses = elements.Select(e => wd.GenerateXsdElementJavascript(e, 0, s => complexTypesElement.Single(f => f.Attribute("name").Value == s))).ToList();
-            elementClasses.ForEach(c => script.AppendLine(c));
-
-
-
-            return Task.FromResult(script.ToString());
-        }
 
         public override string GeneratedCustomTypeCode(WorkflowDefinition wd)
         {
