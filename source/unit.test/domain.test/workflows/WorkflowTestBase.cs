@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Domain.QueryProviders;
 using Bespoke.Sph.RoslynScriptEngines;
 using Bespoke.Sph.Templating;
 using Moq;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace domain.test.workflows
 {
-    [TestFixture]
     public class WorkflowTestBase
     {
         protected Mock<IBinaryStore> BinaryStore { get; private set; }
 
+        
 
         [SetUp]
         public virtual void Init()
@@ -68,6 +71,79 @@ namespace domain.test.workflows
             ObjectBuilder.AddCacheList(email.Object);
 
         }
+
+
+
+        protected WorkflowDefinition Create(int id = 8)
+        {
+            var wd = new WorkflowDefinition { Name = "Permohonan Tanah Wakaf", WorkflowDefinitionId = id, SchemaStoreId = "schema-storeid" };
+            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "Title", Type = typeof(string) });
+            wd.VariableDefinitionCollection.Add(new SimpleVariable { Name = "email", Type = typeof(string) });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "pemohon", TypeName = "Applicant" });
+            wd.VariableDefinitionCollection.Add(new ComplexVariable { Name = "alamat", TypeName = "Address" });
+
+            return wd;
+        }
+
+        protected WorkflowCompilerResult Compile(WorkflowDefinition wd, bool verbose = false, bool
+            assertError = true)
+        {
+            this.BinaryStore.Setup(x => x.GetContent("wd-storeid"))
+               .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), StoreId = "wd-storeid" });
+
+            wd.Version = 25;
+            var options = new CompilerOptions
+            {
+                IsDebug = true,
+                SourceCodeDirectory = @"d:\temp\sph",
+                IsVerbose = verbose
+            };
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll")));
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll")));
+
+
+            var result = wd.Compile(options);
+            result.Errors.ForEach(Console.WriteLine);
+            if (assertError)
+                Assert.IsTrue(result.Result, result.ToJsonString(Formatting.Indented));
+
+            return result;
+        }
+
+        protected Workflow Run(WorkflowDefinition wd, string dll, Action<Task<ActivityExecutionResult>> continuationAction)
+        {
+            // try to instantiate the Workflow
+            var assembly = Assembly.LoadFrom(dll);
+            var wfTypeName = string.Format("Bespoke.Sph.Workflows_{0}_{1}.{2}", wd.WorkflowDefinitionId, wd.Version,
+                wd.WorkflowTypeName);
+
+            var wfType = assembly.GetType(wfTypeName);
+            Assert.IsNotNull(wfType, wfTypeName + " is null");
+
+            var wf = Activator.CreateInstance(wfType) as Workflow;
+            Assert.IsNotNull(wf);
+
+            wf.SerializedDefinitionStoreId = "wd-storeid";
+            XmlSerializerService.RegisterKnownTypes(typeof(Workflow), wfType);
+
+            var pemohonProperty = wf.GetType().GetProperty("pemohon");
+            Assert.IsNotNull(pemohonProperty);
+            dynamic pemohon = pemohonProperty.GetValue(wf);
+            pemohon.Age = 28;
+
+            wf.WorkflowDefinition = wd;
+            wf.StartAsync().ContinueWith(_ =>
+            {
+                if (null != continuationAction)
+                    continuationAction(_);
+
+            }).Wait();
+
+            return wf;
+        }
+
+
 
     }
 }

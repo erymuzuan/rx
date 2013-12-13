@@ -109,9 +109,13 @@
     <Compile Include="triggers\JsonSerializationTest.cs" />
     <Compile Include="triggers\RuleTest.cs" />
     <Compile Include="triggers\SerializationTest.cs" />
+    <Compile Include="workflows\BuildValidationTest.cs" />
     <Compile Include="workflows\CreationTest.cs" />
+    <Compile Include="workflows\DelayActivityExecutionTest.cs" />
+    <Compile Include="workflows\ParallelJoinExecutionTest.cs" />
     <Compile Include="workflows\ScreenActivityTest.cs" />
     <Compile Include="workflows\TrackerTest.cs" />
+    <Compile Include="workflows\WorkflowCompilerTest.cs" />
     <Compile Include="workflows\WorkflowExecutionTest.cs" />
     <Compile Include="workflows\WorkflowCreateEntityTest.cs" />
     <Compile Include="workflows\WorkflowGenerationTest.cs" />

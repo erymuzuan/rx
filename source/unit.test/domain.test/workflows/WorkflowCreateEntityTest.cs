@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using Bespoke.Sph.Domain;
 using Moq;
 using NUnit.Framework;
