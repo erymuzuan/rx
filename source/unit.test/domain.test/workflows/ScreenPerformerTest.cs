@@ -11,10 +11,10 @@ using NUnit.Framework;
 namespace domain.test.workflows
 {
     [TestFixture]
-    public class WorkflowScreenPerformerTest
+    public class ScreenPerformerTest
     {
         private Mock<IRepository<UserProfile>> m_usersRepos;
-
+        private Mock<IDirectoryService> m_ds;
         [SetUp]
         public void Init()
         {
@@ -24,8 +24,8 @@ namespace domain.test.workflows
             ObjectBuilder.AddCacheList(qp.Object);
 
 
-            var ds = new Mock<IDirectoryService>(MockBehavior.Strict);
-            ObjectBuilder.AddCacheList(ds.Object);
+            m_ds = new Mock<IDirectoryService>(MockBehavior.Strict);
+            ObjectBuilder.AddCacheList(m_ds.Object);
 
             m_usersRepos = new Mock<IRepository<UserProfile>>(MockBehavior.Strict);
             m_usersRepos.Setup(x => x.LoadOneAsync(It.IsAny<IQueryable<UserProfile>>()))
@@ -42,7 +42,7 @@ namespace domain.test.workflows
         }
 
         [Test]
-        public async Task ViewScreenByPerformerByUserName()
+        public async Task UserName()
         {
             var screen = new ScreenActivity
             {
@@ -59,7 +59,7 @@ namespace domain.test.workflows
         }
 
         [Test]
-        public async Task ViewScreenByPerformerByUserNameExpression()
+        public async Task UserNameExpression()
         {
             var screen = new ScreenActivity
             {
@@ -76,7 +76,7 @@ namespace domain.test.workflows
         }
 
         [Test]
-        public async Task ViewScreenByPerformerByDepartment()
+        public async Task Department()
         {
             // add ima to the list of person in every department
             m_usersRepos.Setup(x => x.GetListAsync(It.IsAny<IQueryable<UserProfile>>(),
@@ -98,7 +98,7 @@ namespace domain.test.workflows
         }
 
         [Test]
-        public async Task ViewScreenByPerformerByDepartmentExpression()
+        public async Task DepartmentExpression()
         {
             {
                 // add ima to the list of person in every department
@@ -121,11 +121,99 @@ namespace domain.test.workflows
             }
 
         }
+        [Test]
+        public async Task Designation()
+        {
+            // add ima to the list of person in every department
+            m_usersRepos.Setup(x => x.GetListAsync(It.IsAny<IQueryable<UserProfile>>(),
+                It.IsAny<Expression<Func<UserProfile, string>>>()))
+                .Returns(Task.FromResult((new[] { "ima" }).AsEnumerable()));
+
+            var screen = new ScreenActivity
+            {
+                Performer = new Performer
+                {
+                    UserProperty = "Designation",
+                    Value = "Kerani"
+                }
+            };
+
+            var users = await screen.GetUsersAsync(null);
+            CollectionAssert.Contains(users, "ima");
+
+        }
+
+        [Test]
+        public async Task DesignationExpression()
+        {
+            {
+                // add ima to the list of person in every department
+                m_usersRepos.Setup(x => x.GetListAsync(It.IsAny<IQueryable<UserProfile>>(),
+                    It.IsAny<Expression<Func<UserProfile, string>>>()))
+                    .Returns(Task.FromResult((new[] { "imca" }).AsEnumerable()));
+
+                var screen = new ScreenActivity
+                {
+                    Performer = new Performer
+                    {
+                        UserProperty = "Designation",
+                        Value = "=item.CurrentDesignation"
+                    }
+                };
+                var wf = new TestWf { CurrentDesignation = "Kerani" };
+                var users = await screen.GetUsersAsync(wf);
+                CollectionAssert.Contains(users, "imca");
+
+            }
+
+        }
+        [Test]
+        public async Task Roles()
+        {
+            m_ds.Setup(x => x.GetUserInRolesAsync("admin"))
+                .Returns(Task.FromResult((new[] { "ima" })));
+
+            var screen = new ScreenActivity
+            {
+                Performer = new Performer
+                {
+                    UserProperty = "Roles",
+                    Value = "admin"
+                }
+            };
+
+            var users = await screen.GetUsersAsync(null);
+            CollectionAssert.Contains(users, "ima");
+
+        }
+
+        [Test]
+        public async Task RolesExpression()
+        {
+            m_ds.Setup(x => x.GetUserInRolesAsync("admin"))
+                .Returns(Task.FromResult((new[] { "ima" })));
+            var screen = new ScreenActivity
+            {
+                Performer = new Performer
+                {
+                    UserProperty = "Roles",
+                    Value = "=item.CurrentRole"
+                }
+            };
+            var wf = new TestWf { CurrentRole = "admin" };
+            var users = await screen.GetUsersAsync(wf);
+            CollectionAssert.Contains(users, "ima");
+
+
+
+        }
 
     }
     public class TestWf : Workflow
     {
         public string CurrentUser { get; set; }
         public string CurrentDepartment { get; set; }
+        public string CurrentDesignation { get; set; }
+        public string CurrentRole { get; set; }
     }
 }

@@ -115,7 +115,7 @@
     <Compile Include="workflows\WorkflowExecutionTest.cs" />
     <Compile Include="workflows\WorkflowCreateEntityTest.cs" />
     <Compile Include="workflows\WorkflowGenerationTest.cs" />
-    <Compile Include="workflows\WorkflowScreenPerformerTest.cs" />
+    <Compile Include="workflows\ScreenPerformerTest.cs" />
     <Compile Include="workflows\WorkflowTestBase.cs" />
     <Compile Include="XlinqHelper.cs" />
   </ItemGroup>
