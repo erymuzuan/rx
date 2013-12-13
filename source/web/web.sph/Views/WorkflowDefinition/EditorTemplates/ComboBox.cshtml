@@ -1,0 +1,23 @@
+﻿@model Bespoke.Sph.Domain.ComboBox
+
+<!--ko if: $data['$type']() === "Bespoke.Sph.Domain.ComboBox, domain.sph" -->
+<a href="#" data-bind="click: addItem">+ option</a>
+<div class="row">
+    <span class="col-lg-2">Value</span>
+    <span class="col-lg-2">Caption</span>
+</div>
+<div class="row">
+
+    <ul data-bind="foreach: ComboBoxItemCollection" class="nav">
+        <li>
+            <div class="input-append">
+                <input class="input-combobox-value" type="text" data-bind="value: Value, valueUpdate: 'keyup'" />
+                <input class="input-combobox-caption" type="text" data-bind="value: Caption, valueUpdate: 'keyup'" />
+                <a href="#" data-bind="click: $parent.removeItem.call($parent, $data)">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </a>
+            </div>
+        </li>
+    </ul>
+</div>
+<!--/ko-->

@@ -398,6 +398,7 @@
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
     <Content Include="App\partial\IntervalSchedule.js" />
+    <Content Include="App\partial\ComboBox.js" />
     <Content Include="App\partial\ReportDelivery.js" />
     <Content Include="App\partial\ScheduledTriggerActivity.js" />
     <Content Include="App\partial\ExecutedActivity.js" />
@@ -1944,7 +1945,6 @@
     <Content Include="Views\Template\_PathPicker.cshtml" />
     <Content Include="Views\Template\Space.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\SpaceUnitElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\SpaceUnitElement.cshtml" />
     <Content Include="Views\Template\_DesignerContextAction.cshtml" />
     <Content Include="Views\App\EditorTemplates\SpaceUnitElement.cshtml" />
     <Content Include="Views\App\ApplicationDetailHtml.cshtml" />
@@ -2151,6 +2151,8 @@
     <Content Include="Views\WorkflowDefinition\DisplayTemplates\DateTimePicker.cshtml" />
     <Content Include="Views\Template\EditorTemplates\DateTimePicker.cshtml" />
     <Content Include="Views\Workflow\EditorTemplates\DateTimePicker.cshtml" />
+    <Content Include="Views\WorkflowDefinition\EditorTemplates\TextBox.cshtml" />
+    <Content Include="Views\WorkflowDefinition\EditorTemplates\ComboBox.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

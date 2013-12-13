@@ -24,8 +24,9 @@
         function (context, logger, router, system) {
 
             var activate = function () {
-                var elements = @Html.Raw(JsonConvert.SerializeObject(Model.FormElements,setting));
-                vm.formElements(elements.$values);
+                var elements = @Html.Raw(JsonConvert.SerializeObject(Model.FormElements,setting)),
+                    oels = _(elements.$values).map(function (v){return context.toObservable(v);});
+                vm.formElements(oels);
             },
                 viewAttached = function(view) {
 

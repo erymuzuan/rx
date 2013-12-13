@@ -1,4 +1,5 @@
 ﻿@using System.Web.Mvc.Html
+@using Bespoke.Sph.Domain
 @model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
 
 <div id="form-designer-toolbox">
@@ -39,36 +40,57 @@
                     <label for="form-element-path">Path</label>
                     <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path,typeahead : $root.wd().WorkflowDefinitionId()" id="form-element-path" type="text" name="Path" />
                 </div>
-
+                
                 <div class="form-group">
-                    <label for="form-element-tooltip">Tooltip</label>
-                    <input class="form-control" data-bind="value: Tooltip" id="form-element-tooltip" type="text" name="Tooltip" />
+                    <a href="#toolbox-more-settings" data-toggle="collapse">More settings</a>
+                </div>
+                <div id="toolbox-more-settings" class="collapse">
+                    <div class="form-group">
+                        <label for="form-element-tooltip">Tooltip</label>
+                        <input class="form-control" data-bind="value: Tooltip" id="form-element-tooltip" type="text" name="Tooltip" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-element-help-text">Help</label>
+                        <input class="form-control" data-bind="value: HelpText, valueUpdate: 'keyup'" id="form-element-help-text" type="text" name="HelpText" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="form-element-css-class">Css class</label>
+                        <input data-bind="cssAutoComplete: CssClass" id="form-element-css-class" type="text" name="CssClass" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-element-visible">Visible</label>
+                        <input class="form-control" data-bind="value: Visible, valueUpdate : 'keyup'" id="form-element-visible" type="text" name="Visible" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="form-element-elementId">Id</label>
+                        <input class="form-control" data-bind="value: ElementId" id="form-element-elementId" type="text" name="ElementId" />
+                    </div>
+
+
                 </div>
 
                 <div class="form-group">
-                    <label for="form-element-help-text">Help</label>
-                    <input class="form-control" data-bind="value: HelpText, valueUpdate: 'keyup'" id="form-element-help-text" type="text" name="HelpText" />
+                    <a href="#toolbox-advanced-settings" data-toggle="collapse">Advanced settings</a>
                 </div>
-
-
-                <div class="form-group">
-                    <label for="form-element-css-class">Css class</label>
-                    <input data-bind="cssAutoComplete: CssClass" id="form-element-css-class" type="text" name="CssClass" />
+                <div id="toolbox-advanced-settings" class="collapse">
+                    @{
+                        var types = new Type[]
+                        {
+                            typeof(TextBox),
+                            typeof(ComboBox)
+                        };
+                    }
+                    @foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
+                    {
+                        @Html.EditorFor(m => fe)
+                    }
                 </div>
-
-                <div class="form-group">
-                    <label for="form-element-visible">Visible</label>
-                    <input class="form-control" data-bind="value: Visible, valueUpdate : 'keyup'" id="form-element-visible" type="text" name="Visible" />
-                </div>
-
-
-                <div class="form-group">
-                    <label for="form-element-elementId">Id</label>
-                    <input class="form-control" data-bind="value: ElementId" id="form-element-elementId" type="text" name="ElementId" />
-                </div>
-
-
-
 
                 <button data-bind="click: $root.removeFormElement" class="btn btn-warning" title="remove this element">Remove</button>
                 <!-- END OF EDITOR TOOLBOX -->

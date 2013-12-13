@@ -500,50 +500,6 @@ ko.bindingHandlers.stringArrayAutoComplete = {
 
 
 
-ko.bindingHandlers.cssAutoComplete = {
-    init: function (element, valueAccessor) {
-        var value = valueAccessor();
-
-        var bootstrap = _(document.styleSheets).find(function (s) {
-            // TODO : what happend if were to combine the css with Bundle
-            return s.href.indexOf("bootstrap") > -1;
-        });
-        var data = ['btn', 'btn-warning', 'btn-success', 'btn-link'];
-        if (bootstrap) {
-            data = _.chain(bootstrap.rules).filter(function (r) {
-                return /^\./g.test(r.selectorText)
-                    && !/:/g.test(r.selectorText)
-                    && !/\s/g.test(r.selectorText)
-                    && !/\+/g.test(r.selectorText)
-                    && !/>/g.test(r.selectorText)
-                    && !/\[/g.test(r.selectorText);
-            }).map(function (s) {
-                return s.selectorText.replace(/\./g, "");
-            })
-                .value();
-        }
-        $(element).data("kendoAutoComplete") ||
-           $(element).kendoAutoComplete({
-               dataSource: data,
-               change: function () {
-                   value(this.value());
-               },
-               filter: "startswith",
-               placeholder: "Select class...",
-               separator: " "
-           }).data("kendoAutoComplete");
-
-        $(element).change(function () {
-            value($(this).val());
-            console.log("new value", value());
-        }).val(value());
-
-
-    }
-
-};
-
-
 ko.bindingHandlers.pathAutoComplete = {
     init: function (element, valueAccessor) {
         var command = valueAccessor();
