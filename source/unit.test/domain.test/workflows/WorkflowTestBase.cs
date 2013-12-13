@@ -19,7 +19,7 @@ namespace domain.test.workflows
 
 
         [SetUp]
-        public void Init()
+        public virtual void Init()
         {
             var doc = new BinaryStore
             {

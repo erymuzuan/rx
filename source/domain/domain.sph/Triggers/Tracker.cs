@@ -144,30 +144,32 @@ namespace Bespoke.Sph.Domain
             if (null != ea)
             {
                 ea.Run = DateTime.UtcNow;
-                return;
+                // remove the waiting list
+                if (act.IsAsync && !act.IsInitiator)
+                {
+                    var waiting = this.WaitingAsyncList[act.WebId];
+                    waiting.Remove(correlation);
+                }
             }
-            ea = new ExecutedActivity
-            {
-                WorkflowDefinitionId = this.WorkflowDefinitionId,
-                ActivityWebId = act.WebId,
-                InstanceId = this.WorkflowId,
-                User = directory.CurrentUserName,
-                Name = act.Name,
-                Type = act.GetType().Name
-            };
-            if (this.Workflow.State == "WaitingAsync" && act.IsAsync)
-                ea.Initiated = DateTime.UtcNow;
             else
-                ea.Run = DateTime.UtcNow;
-
-            this.ExecutedActivityCollection.Add(ea);
-
-            // remove the waiting list
-            if (act.IsAsync && !act.IsInitiator)
             {
-                var waiting = this.WaitingAsyncList[act.WebId];
-                waiting.Remove(correlation);
+                ea = new ExecutedActivity
+                {
+                    WorkflowDefinitionId = this.WorkflowDefinitionId,
+                    ActivityWebId = act.WebId,
+                    InstanceId = this.WorkflowId,
+                    User = directory.CurrentUserName,
+                    Name = act.Name,
+                    Type = act.GetType().Name
+                };
+                if (this.Workflow.State == "WaitingAsync" && act.IsAsync)
+                    ea.Initiated = DateTime.UtcNow;
+                else
+                    ea.Run = DateTime.UtcNow;
+
+                this.ExecutedActivityCollection.Add(ea);
             }
+
         }
 
         public bool CanExecute(string webid, string correlation)
