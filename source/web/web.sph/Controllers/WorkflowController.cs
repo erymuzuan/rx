@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
-using Bespoke.Sph.Web.ViewModels;
 using Newtonsoft.Json;
 
 namespace Bespoke.Sph.Web.Controllers
@@ -24,23 +22,27 @@ namespace Bespoke.Sph.Web.Controllers
                 var v = new VariableValue { Name = name, Value = value };
                 wf.VariableValueCollection.Add(v);
             }
-            
+
             return Content("");
         }
 
-        public async Task<ActionResult> Start(int id)
-        {
-            var context = new SphDataContext();
-            var wd = await context.LoadOneAsync<WorkflowDefinition>(w => w.WorkflowDefinitionId == id);
-            var screen = wd.GetInitiatorActivity() as ScreenActivity;
-            if(null == screen)throw new InvalidOperationException("The start activity is not of type ScreenActivity for " + wd.Name);
-            var vm = new WorkflowStartViewModel { WorkflowDefinition = wd, Screen = screen };
-         
-            return View(vm);
-        }
+
         public ActionResult InvalidState()
         {
             return View();
+        }
+
+        public async Task<ActionResult> GetPendingTasks(int id)
+        {
+            var context = new SphDataContext();
+            var wf = await context.LoadOneAsync<Workflow>(w => w.WorkflowId == id);
+            var tracker = await wf.GetTrackerAsync();
+            var pendingTasks = await tracker.GetPendingTasksAsync();
+
+
+            this.Response.ContentType = "application/json; charset=utf-8";
+            return Content(JsonConvert.SerializeObject(pendingTasks));
+
         }
 
 

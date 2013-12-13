@@ -189,5 +189,32 @@ namespace Bespoke.Sph.Domain
             return true;
         }
 
+        public async Task<IEnumerable<PendingTask>> GetPendingTasksAsync()
+        {
+            if (null == this.Workflow) throw new InvalidOperationException("Workflow is null");
+            if (null == this.WorkflowDefinition) await this.Workflow.LoadWorkflowDefinitionAsync();
+            this.WorkflowDefinition = this.Workflow.WorkflowDefinition;
+
+            var pendings = (from w in this.WaitingAsyncList.Keys
+                           let act = this.WorkflowDefinition.GetActivity<Activity>(w)
+                           let screen = act as ScreenActivity
+                           select new PendingTask(this.WorkflowId)
+                           {
+                               Name = act.Name,
+                               Type = act.GetType().Name,
+                               WebId = act.WebId,
+                               Correlations = this.WaitingAsyncList[w].ToArray()
+                           }).ToList();
+
+            pendings.ForEach(async t =>
+            {
+                var screen = this.WorkflowDefinition.ActivityCollection
+                    .OfType<ScreenActivity>()
+                    .SingleOrDefault(a => a.WebId == t.WebId);
+                if (null != screen)
+                    t.Performers = await screen.GetUsersAsync(this.Workflow);
+            } );
+            return pendings;
+        }
     }
 }

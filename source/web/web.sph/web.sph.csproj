@@ -467,6 +467,7 @@
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="App\prototypes\BusinessRuleBase.js" />
+    <Content Include="App\services\tracker.js" />
     <Content Include="App\services\validation.js" />
     <Content Include="App\services\watcher.js" />
     <Content Include="App\viewmodels\ace.goto.line.js" />

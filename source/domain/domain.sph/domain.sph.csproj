@@ -281,6 +281,7 @@
     <Compile Include="Triggers\Page.cs" />
     <Compile Include="Triggers\ParallelActivity.cs" />
     <Compile Include="Triggers\ParallelBranch.cs" />
+    <Compile Include="Triggers\PendingTask.cs" />
     <Compile Include="Triggers\Performer.cs" />
     <Compile Include="Triggers\PropertyChangedField.cs" />
     <Compile Include="Triggers\PropertyMapping.cs" />
