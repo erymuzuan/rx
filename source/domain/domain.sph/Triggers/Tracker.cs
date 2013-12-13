@@ -176,6 +176,8 @@ namespace Bespoke.Sph.Domain
             if (this.Workflow.State == "Terminated") return false;
             // TODO : determine all the legal states
             var act = this.WorkflowDefinition.GetActivity<Activity>(webid);
+            if (act.IsInitiator) return true;
+
             if (act.IsAsync)
             {
                 if (!this.WaitingAsyncList.ContainsKey(webid)) return false;
