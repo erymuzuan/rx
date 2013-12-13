@@ -936,6 +936,10 @@
     <Content Include="Images\SetterAction.png" />
     <Content Include="Images\SimpleVariable.png" />
     <Content Include="Images\Slider1-edited.jpg" />
+    <Content Include="Images\sph_128x128.png" />
+    <Content Include="Images\sph_16x16.png" />
+    <Content Include="Images\sph_32x32.png" />
+    <Content Include="Images\sph_48x48.png" />
     <Content Include="Images\star.png" />
     <Content Include="Images\up8.png" />
     <Content Include="Images\warning.png" />

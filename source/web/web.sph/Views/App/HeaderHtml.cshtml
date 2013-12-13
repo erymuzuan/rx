@@ -3,7 +3,8 @@
 }
 <div id="header-navbar" class="navbar">
     <div class="navbar-inner">
-        
+
+        <img src="/Images/sph_48x48.png" class="pull-left" alt="Logo" />
         @if (User.Identity.IsAuthenticated)
         {
             <button class="btn" id="drawer-menu" title="Open menu">
@@ -11,7 +12,6 @@
             </button>
         }
         <!-- Site name for smallar screens -->
-        <img class="fa fa-image" src="/Images/home.png" alt="Kembali" />
         <a href="/#/@ViewBag.StartModule" class="logo">Sistem Pengurusan Harta</a>
 
         <!-- Navigation starts -->
