@@ -1,76 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Bespoke.Sph.Domain.QueryProviders;
-using Bespoke.Sph.RoslynScriptEngines;
-using Bespoke.Sph.Templating;
-using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace domain.test.workflows
 {
     [TestFixture]
-    public class WorkflowExecutionTest
+    public class WorkflowExecutionTest : WorkflowTestBase
     {
-        private Mock<IBinaryStore> m_store;
-
-        [SetUp]
-        public void Init()
-        {
-            var doc = new BinaryStore
-            {
-                Content = File.ReadAllBytes(@".\workflows\PemohonWakaf.xsd")
-            };
-            m_store = new Mock<IBinaryStore>(MockBehavior.Strict);
-            m_store.Setup(x => x.GetContent("schema-storeid"))
-                .Returns(doc);
-            ObjectBuilder.AddCacheList(m_store.Object);
-            var qp = new Mock<QueryProvider>(MockBehavior.Loose);
-            ObjectBuilder.AddCacheList(qp.Object);
-
-            var ds = new Mock<IDirectoryService>(MockBehavior.Loose);
-            ObjectBuilder.AddCacheList(ds.Object);
-
-            var ps = new Mock<IPersistence>(MockBehavior.Strict);
-            ps.Setup(
-                x =>
-                    x.SubmitChanges(It.IsAny<IEnumerable<Entity>>(), It.IsAny<IEnumerable<Entity>>(),
-                        It.IsAny<PersistenceSession>()))
-                .Returns(() => Task.FromResult(new SubmitOperation()));
-            ObjectBuilder.AddCacheList(ps.Object);
-
-            var ecp = new Mock<IEntityChangePublisher>(MockBehavior.Loose);
-            ecp.Setup(x => x.PublishAdded(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>(), It.IsAny<Dictionary<string, object>>()))
-                .Returns(() => Task.Delay(100));
-            ecp.Setup(x => x.PublishChanges(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>(), It.IsAny<IEnumerable<AuditTrail>>(), It.IsAny<Dictionary<string, object>>()))
-                .Returns(() => Task.Delay(100));
-            ecp.Setup(x => x.PublishDeleted(It.IsAny<string>(), It.IsAny<IEnumerable<Entity>>(), It.IsAny<Dictionary<string, object>>()))
-                .Returns(() => Task.Delay(100));
-            ObjectBuilder.AddCacheList(ecp.Object);
-
-            ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
-
-
-            var usersRepos = new Mock<IRepository<UserProfile>>(MockBehavior.Strict);
-            usersRepos.Setup(x => x.LoadOneAsync(It.IsAny<IQueryable<UserProfile>>()))
-                .Returns(Task.FromResult(new UserProfile { Username = "admin", Email = "admin@bespoke.com.my" }));
-            ObjectBuilder.AddCacheList(usersRepos.Object);
-            ObjectBuilder.AddCacheList<ITemplateEngine>(new RazorEngine());
-
-            var email = new Mock<INotificationService>(MockBehavior.Strict);
-            email.Setup(x => x.SendMessageAsync(It.IsAny<Message>(), It.IsAny<string>()))
-                .Returns(Task.Delay(500))
-                .Callback<Message, string>((m, e) => Console.WriteLine("sending email to {0} body is {2}-{1}", e, m.Body, m.Subject));
-            ObjectBuilder.AddCacheList(email.Object);
-
-        }
-
 
         [Test]
         public void BuildValidation()
@@ -164,7 +105,7 @@ namespace domain.test.workflows
 
         private WorkflowCompilerResult Compile(WorkflowDefinition wd, bool verbose = false, bool assertError = true)
         {
-            m_store.Setup(x => x.GetContent("wd-storeid"))
+            this.BinaryStore.Setup(x => x.GetContent("wd-storeid"))
                .Returns(new BinaryStore { Content = Encoding.Unicode.GetBytes(wd.ToXmlString()), StoreId = "wd-storeid" });
 
             wd.Version = 25;
@@ -378,7 +319,7 @@ namespace domain.test.workflows
         }
 
         [Test]
-        public void Listen()
+        public async Task Listen()
         {
             var wd = this.Create();
             wd.ActivityCollection.Add(new ScreenActivity { Name = "Starts", IsInitiator = true, WebId = "_A_", NextActivityWebId = "_B_" });
@@ -413,7 +354,10 @@ namespace domain.test.workflows
 
             wd.ActivityCollection.Add(new EndActivity { WebId = "_C_", Name = "Habis" });
             var result = this.Compile(wd, true);
-            this.Run(wd, result.Output, Console.WriteLine);
+            var wf = this.Run(wd, result.Output, Console.WriteLine);
+
+            var resultA = await wf.ExecuteAsync("_A_");
+            Assert.AreEqual(new []{"_B_"}, resultA.NextActivities);
         }
 
 

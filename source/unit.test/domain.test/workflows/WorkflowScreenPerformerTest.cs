@@ -1,5 +1,11 @@
 ﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Domain.QueryProviders;
+using Bespoke.Sph.RoslynScriptEngines;
+using Moq;
 using NUnit.Framework;
 
 namespace domain.test.workflows
@@ -7,51 +13,119 @@ namespace domain.test.workflows
     [TestFixture]
     public class WorkflowScreenPerformerTest
     {
-      
-        [Test]
-        public void ViewScreenByPerformer()
+        private Mock<IRepository<UserProfile>> m_usersRepos;
+
+        [SetUp]
+        public void Init()
         {
-            var profile = new UserProfile
-            {
-                Username = "ima",
-                Department = "IT",
-                Designation = "test",
-                RoleTypes ="admin_user,test_user,cashier"
-            };
-            var wd = new WorkflowDefinition {Name = "ApprovalScreen"};
+            ObjectBuilder.AddCacheList<IScriptEngine>(new RoslynScriptEngine());
+
+            var qp = new Mock<QueryProvider>(MockBehavior.Loose);
+            ObjectBuilder.AddCacheList(qp.Object);
+
+
+            var ds = new Mock<IDirectoryService>(MockBehavior.Strict);
+            ObjectBuilder.AddCacheList(ds.Object);
+
+            m_usersRepos = new Mock<IRepository<UserProfile>>(MockBehavior.Strict);
+            m_usersRepos.Setup(x => x.LoadOneAsync(It.IsAny<IQueryable<UserProfile>>()))
+                .Returns(Task.FromResult(new UserProfile
+                {
+                    Username = "ima",
+                    Email = "ima@bespoke.com.my",
+                    Department = "IT",
+                    Designation = "Programmer"
+                }));
+
+
+            ObjectBuilder.AddCacheList(m_usersRepos.Object);
+        }
+
+        [Test]
+        public async Task ViewScreenByPerformerByUserName()
+        {
             var screen = new ScreenActivity
             {
                 Performer = new Performer
                 {
-                    UserProperty = "Roles",
-                    Value = "admin_user"
+                    UserProperty = "Username",
+                    Value = "ima"
                 }
             };
-            wd.ActivityCollection.Add(screen);
 
-            var canview = false;
-            switch (screen.Performer.UserProperty)
-            {
-                case "Username":
-                    canview = screen.Performer.Value == profile.Username;
-                    break;
-                case "Department":
-                    canview = screen.Performer.Value == profile.Department;
-                    break;
-                case "Designation":
-                    canview = screen.Performer.Value == profile.Designation;
-                    break;
-                case "Roles":
-                    canview = profile.RoleTypes.Contains(screen.Performer.Value);
-                    break;
-                default:
-                    Console.WriteLine("Default case");
-                    break;
-            }
-            Console.WriteLine("user department {0}", profile.Department);
-            Console.WriteLine("screen performer {0} {1}", screen.Performer.UserProperty, screen.Performer.Value);
-            Assert.AreEqual(canview,true);
-           
+            var users = await screen.GetUsersAsync(null);
+            CollectionAssert.Contains(users, "ima");
+
         }
+
+        [Test]
+        public async Task ViewScreenByPerformerByUserNameExpression()
+        {
+            var screen = new ScreenActivity
+            {
+                Performer = new Performer
+                {
+                    UserProperty = "Username",
+                    Value = "=item.CurrentUser"
+                }
+            };
+            var wf = new TestWf { CurrentUser = "ima" };
+            var users = await screen.GetUsersAsync(wf);
+            CollectionAssert.Contains(users, "ima");
+
+        }
+
+        [Test]
+        public async Task ViewScreenByPerformerByDepartment()
+        {
+            // add ima to the list of person in every department
+            m_usersRepos.Setup(x => x.GetListAsync(It.IsAny<IQueryable<UserProfile>>(),
+                It.IsAny<Expression<Func<UserProfile, string>>>()))
+                .Returns(Task.FromResult((new[] { "ima" }).AsEnumerable()));
+
+            var screen = new ScreenActivity
+            {
+                Performer = new Performer
+                {
+                    UserProperty = "Department",
+                    Value = "IT"
+                }
+            };
+
+            var users = await screen.GetUsersAsync(null);
+            CollectionAssert.Contains(users, "ima");
+
+        }
+
+        [Test]
+        public async Task ViewScreenByPerformerByDepartmentExpression()
+        {
+            {
+                // add ima to the list of person in every department
+                m_usersRepos.Setup(x => x.GetListAsync(It.IsAny<IQueryable<UserProfile>>(),
+                    It.IsAny<Expression<Func<UserProfile, string>>>()))
+                    .Returns(Task.FromResult((new[] { "ima" }).AsEnumerable()));
+
+                var screen = new ScreenActivity
+                {
+                    Performer = new Performer
+                    {
+                        UserProperty = "Department",
+                        Value = "=item.CurrentDepartment"
+                    }
+                };
+                var wf = new TestWf { CurrentUser = "ima" };
+                var users = await screen.GetUsersAsync(wf);
+                CollectionAssert.Contains(users, "ima");
+
+            }
+
+        }
+
+    }
+    public class TestWf : Workflow
+    {
+        public string CurrentUser { get; set; }
+        public string CurrentDepartment { get; set; }
     }
 }
