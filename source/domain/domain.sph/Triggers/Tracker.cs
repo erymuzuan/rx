@@ -163,7 +163,7 @@ namespace Bespoke.Sph.Domain
             this.ExecutedActivityCollection.Add(ea);
 
             // remove the waiting list
-            if (act.IsAsync)
+            if (act.IsAsync && !act.IsInitiator)
             {
                 var waiting = this.WaitingAsyncList[act.WebId];
                 waiting.Remove(correlation);

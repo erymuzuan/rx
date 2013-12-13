@@ -189,15 +189,15 @@
   },
   {
     "role": "admin_user",
-    "groupName": null,
+    "groupName": "Users",
     "url": "users",
     "moduleId": "viewmodels/users",
     "name": "Pengurusan Pengguna",
-    "visible": true,
+    "visible": false,
     "icon": "fa-user",
     "caption": "Pengguna",
     "settings": null,
-    "isAdminPage": false,
+    "isAdminPage": true,
     "showWhenLoggedIn": false,
     "error": ""
   },
