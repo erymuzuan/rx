@@ -7,7 +7,7 @@
 <div class="container">
     <h1 class="row"><span>Borang Permohonan</span></h1>
     <div class="row">
-        <div class="tabbable col-lg-7">
+        <div class="col-lg-7 nav-tabs">
             <ul class="nav nav-tabs">
                 <li class="active">
                     <a href="#general-tab" data-toggle="tab">Borang</a>
@@ -26,13 +26,13 @@
                         <div>
                             @foreach (var fe in Model.FormDesign.FormElementCollection)
                             {
-                                if (fe.LabelColumnSpan == 0)
+                                if (fe.LabelColLg == 0)
                                 {
-                                    fe.LabelColumnSpan = 4;
+                                    fe.LabelColLg = 4;
                                 }
-                                if (fe.InputColumnSpan == 0)
+                                if (fe.InputColLg == 0)
                                 {
-                                    fe.InputColumnSpan = 6;
+                                    fe.InputColLg = 6;
                                 }
                                 @Html.EditorFor(m => fe)
 
@@ -77,59 +77,59 @@
                 <form class="form-inline">
                     <div id="space-Detail" data-bind="with: space">
                         <div class="control-group">
-                            <label class="controls-row">Negeri :</label>
-                            <label class="controls-row" data-bind="text: State" />
+                            <label>Negeri :</label>
+                            <label data-bind="text: State" />
                         </div>
                         <div class="control-group">
-                            <label class="controls-row">Bandar :</label>
-                            <label class="controls-row" data-bind="text: City" />
+                            <label>Bandar :</label>
+                            <label data-bind="text: City" />
                         </div>
                         <div class="control-group">
-                            <label class="controls-row">Nama Bangunan :</label>
-                            <label class="controls-row" data-bind="text: BuildingName" />
+                            <label>Nama Bangunan :</label>
+                            <label data-bind="text: BuildingName" />
                         </div>
                         <div class="control-group">
-                            <label class="controls-row">Tingkat :</label>
-                            <label class="controls-row" data-bind="text: FloorName" />
+                            <label>Tingkat :</label>
+                            <label data-bind="text: FloorName" />
                         </div>
                         <div class="control-group">
-                            <label class="controls-row">No Unit :</label>
-                            <label class="controls-row" data-bind="text: UnitNo" />
+                            <label>No Unit :</label>
+                            <label data-bind="text: UnitNo" />
                         </div>
                         <div class="control-group">
-                            <label class="controls-row">Jenis Ruang :</label>
-                            <label class="controls-row" data-bind="text: Category" />
+                            <label>Jenis Ruang :</label>
+                            <label data-bind="text: Category" />
                         </div>
                         <div class="control-group">
-                            <label class="controls-row">Saiz :</label>
-                            <label class="controls-row" data-bind="text: Size" />
+                            <label>Saiz :</label>
+                            <label data-bind="text: Size" />
                         </div>
                         <div class="control-group">
-                            <label class="controls-row">Kadar Sewa :</label>
-                            <span class="add-on">RM</span>
-                            <label class="controls-row" data-bind="money: RentalRate" />
+                            <label>Kadar Sewa :</label>
+                            <span>RM</span>
+                            <label data-bind="money: RentalRate" />
                         </div>
                         <div class="control-group">
-                            <label class="controls-row">Lokasi :</label>
-                            <img alt="map" data-bind="attr: { src: $root.space().staticMap }" class="img-polaroid centered controls-row" src="/Images/accent.png" />
+                            <label>Lokasi :</label>
+                            <img alt="map" data-bind="attr: { src: $root.space().staticMap }" class="img-rounded centered" src="/Images/accent.png" />
                         </div>
 
                     </div>
                     <h3>Tambahan</h3>
                     <div data-bind="foreach: rentalapplication().FeatureCollection">
                         <div class="control-group">
-                            <label class="controls-row" data-bind="text: Name"></label>
+                            <label data-bind="text: Name"></label>
                             <span class="" data-bind="text: Quantity"></span>
-                            <span class="add-on">RM</span>
+                            <span class="">RM</span>
 
-                            <label class="controls-row" data-bind="money: Charge" />
+                            <label data-bind="money: Charge" />
                         </div>
                         <input type="button" id="btn-remove-feature" value="cancel" data-bind="click: $root.removeFeatureFromList" />
                     </div>
                     <div class="control-group pull-right">
-                        <span class="bold large text-right">JUMLAH SEWAAN :</span>
-                        <span class="bold large text-left">RM</span>
-                        <span class="bold large text-left" data-bind="money: $root.totalRate" />
+                        <span class="bold text-right">JUMLAH SEWAAN :</span>
+                        <span class="bold text-left">RM</span>
+                        <span class="bold text-left" data-bind="money: $root.totalRate" />
                     </div>
                 </form>
             </div>

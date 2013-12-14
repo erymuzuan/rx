@@ -42,13 +42,13 @@ namespace Bespoke.Sph.Domain
         }
         public virtual string GetKnockoutDisplayBindingExpression()
         {
-       
+
             var path = this.Path;
             if (null != this.CustomField)
                 path = string.Format("CustomField('{0}')", this.Path);
 
             return string.Format("text: {0}", path);
-        
+
         }
 
         public string GetNormalizedName()
@@ -72,7 +72,11 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return string.Format("control-label col-lg-{0}", this.LabelColumnSpan);
+                var css = string.Format("col-lg-{0}", this.LabelColLg);
+                if (this.LabelColMd.HasValue) css += " col-md-" + this.LabelColMd;
+                if (this.LabelColSm.HasValue) css += " col-sm-" + this.LabelColSm;
+                if (this.LabelColXs.HasValue) css += " col-xs-" + this.LabelColXs;
+                return css;
             }
         }
         [JsonIgnore]
@@ -81,7 +85,11 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                return string.Format("col-lg-{0}", this.InputColumnSpan);
+                var css = string.Format("col-lg-{0}", this.InputColLg);
+                if (this.InputColMd.HasValue) css += " col-md-" + this.InputColMd;
+                if (this.InputColSm.HasValue) css += " col-sm-" + this.InputColSm;
+                if (this.InputColXs.HasValue) css += " col-xs-" + this.InputColXs;
+                return css;
             }
         }
 
@@ -93,6 +101,22 @@ namespace Bespoke.Sph.Domain
         public virtual string GenerateMarkup()
         {
             return string.Empty;
+        }
+
+        public void SetDefaultLayout(FormDesign formDesign)
+        {
+            var fe = this;
+            fe.LabelColLg = fe.LabelColLg ?? formDesign.LabelColLg;
+            fe.LabelColMd = fe.LabelColMd ?? formDesign.LabelColMd;
+            fe.LabelColSm = fe.LabelColSm ?? formDesign.LabelColSm;
+            fe.LabelColXs = fe.LabelColXs ?? formDesign.LabelColXs;
+
+            fe.InputColLg = fe.InputColLg ?? formDesign.InputColLg;
+            fe.InputColMd = fe.InputColMd ?? formDesign.InputColMd;
+            fe.InputColSm = fe.InputColSm ?? formDesign.InputColSm;
+            fe.InputColXs = fe.InputColXs ?? formDesign.InputColXs;
+
+
         }
     }
 }

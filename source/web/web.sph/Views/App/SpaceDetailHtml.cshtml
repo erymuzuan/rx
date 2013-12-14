@@ -10,7 +10,7 @@
         <h1 class="col-lg-12" data-bind="text: title"></h1>
     </div>
 
-    <div class="tabbable">
+    <div class="nav-tabs">
         <ul class="nav nav-tabs">
             <li class="active">
                 <a href="#form-tab" data-toggle="tab">Am</a>
@@ -31,13 +31,13 @@
 
                     @foreach (var fe in Model.Template.FormDesign.FormElementCollection)
                     {
-                        if (fe.LabelColumnSpan == 0)
+                        if (fe.LabelColLg == 0)
                         {
-                            fe.LabelColumnSpan = 2;
+                            fe.LabelColLg = 2;
                         }
-                        if (fe.InputColumnSpan == 0)
+                        if (fe.InputColLg == 0)
                         {
-                            fe.InputColumnSpan = 6;
+                            fe.InputColLg = 6;
                         }
 
                         @Html.EditorFor(m => fe)

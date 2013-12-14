@@ -243,6 +243,14 @@ bespoke.sph.domain.FormDesign = function (optionOrWebid) {
         ConfirmationText: ko.observable(''),
         ImageStoreId: ko.observable(''),
         FormElementCollection: ko.observableArray([]),
+        LabelColLg: ko.observable(),
+        LabelColMd: ko.observable(),
+        LabelColSm: ko.observable(),
+        LabelColXs: ko.observable(),
+        InputColLg: ko.observable(),
+        InputColMd: ko.observable(),
+        InputColSm: ko.observable(),
+        InputColXs: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -1191,9 +1199,15 @@ bespoke.sph.domain.FormElement = function (optionOrWebid) {
         Enable: ko.observable(''),
         ElementId: ko.observable(''),
         HelpText: ko.observable(''),
-        LabelColumnSpan: ko.observable(0),
-        InputColumnSpan: ko.observable(0),
         FieldValidation: ko.observable(new bespoke.sph.domain.FieldValidation()),
+        LabelColLg: ko.observable(),
+        LabelColMd: ko.observable(),
+        LabelColSm: ko.observable(),
+        LabelColXs: ko.observable(),
+        InputColLg: ko.observable(),
+        InputColMd: ko.observable(),
+        InputColSm: ko.observable(),
+        InputColXs: ko.observable(),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };

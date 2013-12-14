@@ -5,9 +5,9 @@
 {
 
     <div class="form-group">
-        <label class="control-label @Model.LabelColumnSpan">No Unit</label>
-        <div class="@Model.InputColumnSpan">
-            <input class="input-large form-control" type="text" data-bind="value: UnitNo" />
+        <label class="control-label @Model.LabelColLg">No Unit</label>
+        <div class="@Model.InputColLg">
+            <input class="form-control form-control" type="text" data-bind="value: UnitNo" />
         </div>
     </div>
 
@@ -17,17 +17,17 @@
 {
 
     <div class="form-group">
-        <label class="control-label @Model.LabelColumnSpan">Blok</label>
+        <label class="control-label @Model.LabelColLg">Blok</label>
         <div class="col-lg-3">
             @if (!string.IsNullOrWhiteSpace(Model.BlockOptionsPath))
             {
 
-                <select class="input-large" data-bind="value:Block, options :@Model.BlockOptionsPath"></select>
+                <select class="form-control" data-bind="value:Block, options :@Model.BlockOptionsPath"></select>
             }
             else
             {
 
-                <input class="input-large" type="text" data-bind="value:Block" />
+                <input class="form-control" type="text" data-bind="value:Block" />
             }
         </div>
     </div>
@@ -36,9 +36,9 @@
 @if (Model.IsFloorVisible)
 {
     <div class="form-group">
-        <label class="control-label @Model.LabelColumnSpan">Tingkat</label>
+        <label class="control-label @Model.LabelColLg">Tingkat</label>
         <div class="col-lg-3">
-            <input class="input-large form-control" type="text" data-bind="value:Floor" />
+            <input class="form-control form-control" type="text" data-bind="value:Floor" />
         </div>
     </div>
 
@@ -46,28 +46,28 @@
 }
 
 <div class="form-group">
-    <label for="address.Street" class="control-label col-lg-@Model.LabelColumnSpan">Jalan</label>
+    <label for="address.Street" class="control-label col-lg-@Model.LabelColLg">Jalan</label>
     <div class="col-lg-6">
-        <input class="input-large form-control" data-bind="value: Street" id="address.Street" type="text" name="address.Street" />
+        <input class="form-control form-control" data-bind="value: Street" id="address.Street" type="text" name="address.Street" />
     </div>
 </div>
 
 <div class="form-group">
-    <label for="address.City" class="control-label  col-lg-@Model.LabelColumnSpan">Bandar/Daerah</label>
+    <label for="address.City" class="control-label  col-lg-@Model.LabelColLg">Bandar/Daerah</label>
     <div class="col-lg-6">
         <input class="input-xxlarge form-control" data-bind="value: City" id="address.City" type="text" name="address.City" />
     </div>
 </div>
 <div class="form-group">
-    <label for="address.Postcode" class="control-label col-lg-@Model.LabelColumnSpan">Poskod</label>
+    <label for="address.Postcode" class="control-label col-lg-@Model.LabelColLg">Poskod</label>
     <div class="col-lg-6">
-        <input class="input-large form-control" data-bind="value: Postcode" id="address.Postcode" type="text" name="address.Postcode" />
+        <input class="form-control form-control" data-bind="value: Postcode" id="address.Postcode" type="text" name="address.Postcode" />
     </div>
 </div>
 <div class="form-group">
-    <label for="address.State" class="control-label col-lg-@Model.LabelColumnSpan">Negeri</label>
+    <label for="address.State" class="control-label col-lg-@Model.LabelColLg">Negeri</label>
     <div class="col-lg-6">
-        <select class="input-large form-control" name="address.State" id="address.State" data-bind="value: State, options: $root.stateOptions, optionsText: 'Name', optionsValue: 'Name', optionsCaption: '[Sila Pilih]'"></select>
+        <select class="form-control form-control" name="address.State" id="address.State" data-bind="value: State, options: $root.stateOptions, optionsText: 'Name', optionsValue: 'Name', optionsCaption: '[Sila Pilih]'"></select>
     </div>
 </div>
 <!--/ko-->

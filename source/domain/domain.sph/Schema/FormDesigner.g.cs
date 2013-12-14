@@ -4,6 +4,8 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming
@@ -1703,6 +1705,54 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameImageStoreId = "ImageStoreId";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_labelColLg;
+        public const string PropertyNameLabelColLg = "LabelColLg";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_labelColMd;
+        public const string PropertyNameLabelColMd = "LabelColMd";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_labelColSm;
+        public const string PropertyNameLabelColSm = "LabelColSm";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_labelColXs;
+        public const string PropertyNameLabelColXs = "LabelColXs";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_inputColLg;
+        public const string PropertyNameInputColLg = "InputColLg";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_inputColMd;
+        public const string PropertyNameInputColMd = "InputColMd";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_inputColSm;
+        public const string PropertyNameInputColSm = "InputColSm";
+
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? m_inputColXs;
+        public const string PropertyNameInputColXs = "InputColXs";
+
+
+
         private readonly ObjectCollection<FormElement> m_FormElementCollection = new ObjectCollection<FormElement>();
 
         ///<summary>
@@ -1829,6 +1879,182 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? LabelColLg
+        {
+            set
+            {
+                if (m_labelColLg == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabelColLg, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_labelColLg = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_labelColLg; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? LabelColMd
+        {
+            set
+            {
+                if (m_labelColMd == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabelColMd, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_labelColMd = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_labelColMd; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? LabelColSm
+        {
+            set
+            {
+                if (m_labelColSm == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabelColSm, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_labelColSm = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_labelColSm; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? LabelColXs
+        {
+            set
+            {
+                if (m_labelColXs == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabelColXs, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_labelColXs = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_labelColXs; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? InputColLg
+        {
+            set
+            {
+                if (m_inputColLg == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInputColLg, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_inputColLg = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_inputColLg; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? InputColMd
+        {
+            set
+            {
+                if (m_inputColMd == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInputColMd, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_inputColMd = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_inputColMd; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? InputColSm
+        {
+            set
+            {
+                if (m_inputColSm == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInputColSm, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_inputColSm = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_inputColSm; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public int? InputColXs
+        {
+            set
+            {
+                if (m_inputColXs == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInputColXs, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_inputColXs = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_inputColXs; }
+        }
 
 
     }
@@ -3357,13 +3583,43 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
-        private int m_labelColumnSpan;
-        public const string PropertyNameLabelColumnSpan = "LabelColumnSpan";
+        private int? m_labelColLg;
+        public const string PropertyNameLabelColLg = "LabelColLg";
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 
-        private int m_inputColumnSpan;
-        public const string PropertyNameInputColumnSpan = "InputColumnSpan";
+        private int? m_labelColMd;
+        public const string PropertyNameLabelColMd = "LabelColMd";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private int? m_labelColSm;
+        public const string PropertyNameLabelColSm = "LabelColSm";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private int? m_labelColXs;
+        public const string PropertyNameLabelColXs = "LabelColXs";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private int? m_inputColLg;
+        public const string PropertyNameInputColLg = "InputColLg";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private int? m_inputColMd;
+        public const string PropertyNameInputColMd = "InputColMd";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private int? m_inputColSm;
+        public const string PropertyNameInputColSm = "InputColSm";
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+        private int? m_inputColXs;
+        public const string PropertyNameInputColXs = "InputColXs";
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private FieldValidation m_fieldValidation
@@ -3628,47 +3884,163 @@ namespace Bespoke.Sph.Domain
         }
 
 
-
-        [XmlAttribute]
-        public int LabelColumnSpan
+        ///<summary>
+        /// 
+        ///</summary>
+        public int? LabelColLg
         {
             set
             {
-                if (m_labelColumnSpan == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameLabelColumnSpan, value);
+                if (m_labelColLg == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabelColLg, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_labelColumnSpan = value;
+                    m_labelColLg = value;
                     OnPropertyChanged();
                 }
             }
-            get
-            {
-                return m_labelColumnSpan;
-            }
+            get { return m_labelColLg; }
         }
 
 
-
-        [XmlAttribute]
-        public int InputColumnSpan
+        ///<summary>
+        /// 
+        ///</summary>
+        public int? LabelColMd
         {
             set
             {
-                if (m_inputColumnSpan == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameInputColumnSpan, value);
+                if (m_labelColMd == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabelColMd, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_inputColumnSpan = value;
+                    m_labelColMd = value;
                     OnPropertyChanged();
                 }
             }
-            get
+            get { return m_labelColMd; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public int? LabelColSm
+        {
+            set
             {
-                return m_inputColumnSpan;
+                if (m_labelColSm == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabelColSm, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_labelColSm = value;
+                    OnPropertyChanged();
+                }
             }
+            get { return m_labelColSm; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public int? LabelColXs
+        {
+            set
+            {
+                if (m_labelColXs == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabelColXs, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_labelColXs = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_labelColXs; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public int? InputColLg
+        {
+            set
+            {
+                if (m_inputColLg == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInputColLg, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_inputColLg = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_inputColLg; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public int? InputColMd
+        {
+            set
+            {
+                if (m_inputColMd == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInputColMd, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_inputColMd = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_inputColMd; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public int? InputColSm
+        {
+            set
+            {
+                if (m_inputColSm == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInputColSm, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_inputColSm = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_inputColSm; }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        public int? InputColXs
+        {
+            set
+            {
+                if (m_inputColXs == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInputColXs, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_inputColXs = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_inputColXs; }
         }
 
 

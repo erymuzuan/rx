@@ -5,6 +5,9 @@
 <div id="form-designer-toolbox">
     <ul class="nav nav-tabs">
         <li class="active">
+            <a href="#form-general2" data-toggle="tab">General</a>
+        </li>
+        <li class="active">
             <a href="#add-field" data-toggle="tab">Add a field</a>
         </li>
         <li>
@@ -16,8 +19,64 @@
 
     </ul>
     <div class="tab-content">
+        <div id="form-general2" class="tab-pane active" data-bind="with : activity">
+            <form role="form" data-bind="with : FormDesign">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input class="form-control" data-bind="value: Name, valueUpdate: 'keyup'" id="form-design-name" type="text" name="FormDesign.Name" />
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input class="form-control" data-bind="value: Description, valueUpdate: 'keyup'" id="form-design-Description" type="text" name="FormDesign.Description" />
+                </div>
 
-        <div id="add-field" class="tab-pane active">
+                <div class="form-group">
+                    <a href="#label-cols" data-toggle="collapse">Label columns span</a>
+                </div>
+                <div id="label-cols" class="form-group collapse">
+                    <div class="form-group">
+                        <label>Label Col Large</label>
+                        <input class="form-control" data-bind="value: LabelColLg" id="form-design-LabelColLg" type="number" name="FormDesign.LabelColLg" />
+                    </div>
+                    <div class="form-group">
+                        <label>Label Col Medium</label>
+                        <input class="form-control" data-bind="value: LabelColMd" id="form-design-LabelColMd" type="number" name="FormDesign.LabelColMd" />
+                    </div>
+                    <div class="form-group">
+                        <label>Label Col Small</label>
+                        <input class="form-control" data-bind="value: LabelColSm" id="form-design-LabelColSm" type="number" name="FormDesign.LabelColSm" />
+                    </div>
+                    <div class="form-group">
+                        <label>Label Col x-small</label>
+                        <input class="form-control" data-bind="value: LabelColXs" id="form-design-LabelColXs" type="number" name="FormDesign.LabelColXs" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <a href="#input-cols" data-toggle="collapse">Input columns span</a>
+                </div>
+                <div id="input-cols" class="collapse form-group">
+                    <div class="form-group">
+                        <label>Input Col Large</label>
+                        <input class="form-control" data-bind="value: InputColLg" id="form-design-InputColLg" type="number" name="FormDesign.InputColLg" />
+                    </div>
+                    <div class="form-group">
+                        <label>Input Col Medium</label>
+                        <input class="form-control" data-bind="value: InputColMd" id="form-design-InputColMd" type="number" name="FormDesign.InputColMd" />
+                    </div>
+                    <div class="form-group">
+                        <label>Input Col Small</label>
+                        <input class="form-control" data-bind="value: InputColSm" id="form-design-InputColSm" type="number" name="FormDesign.InputColSm" />
+                    </div>
+                    <div class="form-group">
+                        <label>Input Col x-small</label>
+                        <input class="form-control" data-bind="value: InputColXs" id="form-design-InputColXs" type="number" name="FormDesign.InputColXs" />
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div id="add-field" class="tab-pane">
             <ul class="nav" data-bind="foreach: formElements">
                 <li>
                     <a class="btn btn-default" href="#add-field" data-bind="attr : {title:Tooltip}">
@@ -40,7 +99,7 @@
                     <label for="form-element-path">Path</label>
                     <input class="form-control" pattern="^[A-Za-z_][A-Za-z0-9_.]*$" data-bind="value: Path,typeahead : $root.wd().WorkflowDefinitionId()" id="form-element-path" type="text" name="Path" />
                 </div>
-                
+
                 <div class="form-group">
                     <a href="#toolbox-more-settings" data-toggle="collapse">More settings</a>
                 </div>

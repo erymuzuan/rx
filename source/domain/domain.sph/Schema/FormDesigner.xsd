@@ -237,6 +237,14 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="LabelColLg" type="xs:int" nillable="true"/>
+				<xs:element name="LabelColMd" type="xs:int" nillable="true"/>
+				<xs:element name="LabelColSm" type="xs:int" nillable="true"/>
+				<xs:element name="LabelColXs" type="xs:int" nillable="true"/>
+				<xs:element name="InputColLg" type="xs:int" nillable="true"/>
+				<xs:element name="InputColMd" type="xs:int" nillable="true"/>
+				<xs:element name="InputColSm" type="xs:int" nillable="true"/>
+				<xs:element name="InputColXs" type="xs:int" nillable="true"/>
 			</xs:all>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Description" type="xs:string" use="required"/>
@@ -247,6 +255,14 @@
 	<xs:complexType name="FormElement">
 		<xs:all>
 			<xs:element ref="FieldValidation"/>
+			<xs:element name="LabelColLg" type="xs:int" nillable="true"/>
+			<xs:element name="LabelColMd" type="xs:int" nillable="true"/>
+			<xs:element name="LabelColSm" type="xs:int" nillable="true"/>
+			<xs:element name="LabelColXs" type="xs:int" nillable="true"/>
+			<xs:element name="InputColLg" type="xs:int" nillable="true"/>
+			<xs:element name="InputColMd" type="xs:int" nillable="true"/>
+			<xs:element name="InputColSm" type="xs:int" nillable="true"/>
+			<xs:element name="InputColXs" type="xs:int" nillable="true"/>
 		</xs:all>
 		<xs:attribute name="Name" type="xs:string" use="required"/>
 		<xs:attribute name="Label" type="xs:string" use="required"/>
@@ -259,8 +275,6 @@
 		<xs:attribute name="Enable" type="xs:string" use="optional" default="true"/>
 		<xs:attribute name="ElementId" type="xs:string" use="required"/>
 		<xs:attribute name="HelpText" type="xs:string" use="optional"/>
-		<xs:attribute name="LabelColumnSpan" type="xs:int" use="required"/>
-		<xs:attribute name="InputColumnSpan" type="xs:int" use="required"/>
 	</xs:complexType>
 	<xs:element name="TextBox">
 		<xs:complexType>

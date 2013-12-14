@@ -9,15 +9,7 @@
     <form class="form-horizontal" id="building-detail-form" data-bind="with: building">
         @foreach (var fe in Model.FormDesign.FormElementCollection)
         {
-            if (fe.LabelColumnSpan == 0)
-            {
-                fe.LabelColumnSpan = 2;
-            }
-            if (fe.InputColumnSpan == 0)
-            {
-                fe.InputColumnSpan = 6;
-            }
-
+            fe.SetDefaultLayout(Model.FormDesign);
             @Html.EditorFor(m => fe)
 
         }
