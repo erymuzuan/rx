@@ -1,23 +1,46 @@
 ﻿@model Bespoke.Sph.Domain.ComboBox
 
-<!--ko if: $data['$type']() === "Bespoke.Sph.Domain.ComboBox, domain.sph" -->
+<!--ko if: ko.unwrap($type) === "Bespoke.Sph.Domain.ComboBox, domain.sph" -->
 <a href="#" data-bind="click: addItem">+ option</a>
 <div class="row">
-    <span class="col-lg-2">Value</span>
-    <span class="col-lg-2">Caption</span>
+    <span class="col-lg-5">Value</span>
+    <span class="col-lg-5">Caption</span>
 </div>
-<div class="row">
 
-    <ul data-bind="foreach: ComboBoxItemCollection" class="nav">
-        <li>
-            <div class="input-append">
-                <input class="input-combobox-value" type="text" data-bind="value: Value, valueUpdate: 'keyup'" />
-                <input class="input-combobox-caption" type="text" data-bind="value: Caption, valueUpdate: 'keyup'" />
-                <a href="#" data-bind="click: $parent.removeItem.call($parent, $data)">
-                    <i class="glyphicon glyphicon-remove"></i>
-                </a>
-            </div>
-        </li>
-    </ul>
+<!-- ko foreach : ComboBoxItemCollection -->
+
+<div class="row">
+    <input class="col-lg-5" type="text" data-bind="value: Value, valueUpdate: 'keyup'" />
+    <input class="col-lg-5" type="text" data-bind="value: Caption, valueUpdate: 'keyup'" />
+    <a href="#" data-bind="click: $parent.removeItem.call($parent, $data)">
+        <i class="glyphicon glyphicon-remove"></i>
+    </a>
 </div>
+
+
+<!-- /ko -->
+
+
+<!-- ko with : ComboBoxLookup -->
+
+
+<div class="form-group">
+    <label>Lookup Entity</label>
+    <input type="text" class="form-control" data-bind="value:Entity" />
+</div>
+<div class="form-group">
+    <label>Value Path</label>
+    <input type="text" class="form-control" data-bind="value:ValuePath" />
+</div>
+
+<div class="form-group">
+    <label>Display Path</label>
+    <input type="text" class="form-control" data-bind="value:DisplayPath" />
+</div>
+<div class="form-group">
+    <label>Query</label>
+    <input type="text" class="form-control" data-bind="value:Query" />
+</div>
+
+<!-- /ko -->
 <!--/ko-->

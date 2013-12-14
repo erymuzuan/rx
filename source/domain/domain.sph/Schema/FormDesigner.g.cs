@@ -4,8 +4,6 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming
@@ -1896,6 +1894,18 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
+    [XmlType("DateTimePicker", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class DateTimePicker
+    {
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
     [XmlType("ComboBox", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class ComboBox
     {
@@ -1909,6 +1919,23 @@ namespace Bespoke.Sph.Domain
         public ObjectCollection<ComboBoxItem> ComboBoxItemCollection
         {
             get { return m_ComboBoxItemCollection; }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private ComboBoxLookup m_comboBoxLookup
+                = new ComboBoxLookup();
+
+        public const string PropertyNameComboBoxLookup = "ComboBoxLookup";
+        [DebuggerHidden]
+
+        public ComboBoxLookup ComboBoxLookup
+        {
+            get { return m_comboBoxLookup; }
+            set
+            {
+                m_comboBoxLookup = value;
+                OnPropertyChanged();
+            }
         }
 
 
@@ -3113,6 +3140,154 @@ namespace Bespoke.Sph.Domain
             {
                 m_AllowedExtensions = value;
                 RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ComboBoxLookup", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ComboBoxLookup
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_entity;
+        public const string PropertyNameEntity = "Entity";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_valuePath;
+        public const string PropertyNameValuePath = "ValuePath";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_displayPath;
+        public const string PropertyNameDisplayPath = "DisplayPath";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_query;
+        public const string PropertyNameQuery = "Query";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Entity
+        {
+            set
+            {
+                if (String.Equals(m_entity, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntity, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entity = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entity;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string ValuePath
+        {
+            set
+            {
+                if (String.Equals(m_valuePath, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameValuePath, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_valuePath = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_valuePath;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string DisplayPath
+        {
+            set
+            {
+                if (String.Equals(m_displayPath, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameDisplayPath, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_displayPath = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_displayPath;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Query
+        {
+            set
+            {
+                if (String.Equals(m_query, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameQuery, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_query = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_query;
             }
         }
 

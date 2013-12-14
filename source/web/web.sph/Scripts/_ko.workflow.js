@@ -1,6 +1,8 @@
 ﻿/// <reference path="typeahead.js" />
 /// <reference path="knockout-3.0.0.debug.js" />
 /// <reference path="knockout.mapping-latest.debug.js" />
+/// <reference path="../App/services/datacontext.js" />
+/// <reference path="../App/durandal/amd/text.js" />
 /// <reference path="jquery-2.0.3.intellisense.js" />
 
 ko.bindingHandlers.activityClass = {
@@ -18,9 +20,9 @@ ko.bindingHandlers.activityClass = {
 ko.bindingHandlers.checkedItems = {
     init: function (element, valueAccessor) {
         var item = ko.dataFor(element),
-            list  = valueAccessor();
+            list = valueAccessor();
 
-        $(element).change(function() {
+        $(element).change(function () {
             var checked = $(this).is(':checked');
             if (checked) {
                 list.push(item);
@@ -38,7 +40,7 @@ ko.bindingHandlers.typeahead = {
         allBindings = allBindingsAccessor();
         $(element).typeahead({
             name: 'schema_paths' + id,
-            limit : 10,
+            limit: 10,
             prefetch: {
                 url: '/WorkflowDefinition/GetVariablePath/' + id,
                 ttl: 1000 * 60
@@ -95,5 +97,38 @@ ko.bindingHandlers.activityPopover = {
                 wd.setStartActivity(act)();
             }
         });
+    }
+};
+
+ko.bindingHandlers.comboBoxLookupOptions = {
+    init: function (element, valueAccessor) {
+        var lookup = ko.unwrap(valueAccessor()),
+        value = lookup.value,
+        context = require('services/datacontext');
+
+        context.getTuplesAsync({
+            entity: ko.unwrap(lookup.entity),
+            query: ko.unwrap(lookup.query),
+            field: ko.unwrap(lookup.valuePath),
+            field2: ko.unwrap(lookup.displayPath)
+
+        })
+            .done(function (list) {
+                element.options.length = 0;
+                _(list).each(function (v) {
+                    element.add(new Option(v.Item2, v.Item1));
+                });
+
+                $(element).val(ko.unwrap(value))
+                    .on('change', function () {
+                        value($(this).val());
+                    });
+
+            });
+    },
+    update: function (element, valueAccessor) {
+        var lookup = ko.unwrap(valueAccessor()),
+            value = lookup.value;
+        $(element).val(ko.unwrap(value));
     }
 };

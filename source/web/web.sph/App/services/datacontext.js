@@ -292,7 +292,16 @@ function (logger, system, ko2) {
         return getAggregateAsync("count", entity, query, field);
     }
 
-    function getTuplesAsync(entity, query, field, field2) {
+    function getTuplesAsync(entityOrOptions, query, field, field2) {
+
+        var entity = entityOrOptions;
+        if (entityOrOptions && typeof entityOrOptions === "object") {
+            entity = entityOrOptions.entity;
+            query = entityOrOptions.query;
+            field = entityOrOptions.field;
+            field2 = entityOrOptions.field2;
+        }
+
         var url = "/List/Tuple";
         url += "?filter=";
         url += query;

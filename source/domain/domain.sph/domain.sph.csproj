@@ -97,6 +97,7 @@
     <Compile Include="Business\Clause.cs" />
     <Compile Include="Business\Comment.cs" />
     <Compile Include="Business\Space.cs" />
+    <Compile Include="FormTemplates\ComboBoxLookup.cs" />
     <Compile Include="FormTemplates\DateTimePicker.cs" />
     <Compile Include="FormTemplates\DefaultValue.cs" />
     <Compile Include="FormTemplates\FieldValidation.cs" />

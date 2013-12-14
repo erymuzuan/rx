@@ -350,6 +350,33 @@ bespoke.sph.domain.DatePicker = function (optionOrWebid) {
 
 
 
+bespoke.sph.domain.DateTimePicker = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
+
+    v["$type"] = "Bespoke.Sph.Domain.DateTimePicker, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.DateTimePickerPartial) {
+        return _(v).extend(new bespoke.sph.domain.DateTimePickerPartial(v));
+    }
+    return v;
+};
+
+
+
 bespoke.sph.domain.ComboBox = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
@@ -357,6 +384,7 @@ bespoke.sph.domain.ComboBox = function (optionOrWebid) {
     v["$type"] = "Bespoke.Sph.Domain.ComboBox, domain.sph";
 
     v.ComboBoxItemCollection = ko.observableArray([]);
+    v.ComboBoxLookup = ko.observable(new bespoke.sph.domain.ComboBoxLookup());
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {
@@ -1114,6 +1142,37 @@ bespoke.sph.domain.FileUploadElement = function (optionOrWebid) {
         return _(v).extend(new bespoke.sph.domain.FileUploadElementPartial(v));
     }
     return v;
+};
+
+
+
+bespoke.sph.domain.ComboBoxLookup = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ComboBoxLookup, domain.sph",
+        Entity: ko.observable(''),
+        ValuePath: ko.observable(''),
+        DisplayPath: ko.observable(''),
+        Query: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ComboBoxLookupPartial) {
+        return _(model).extend(new bespoke.sph.domain.ComboBoxLookupPartial(model));
+    }
+    return model;
 };
 
 

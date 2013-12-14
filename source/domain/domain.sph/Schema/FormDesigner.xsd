@@ -308,6 +308,7 @@
 								</xs:sequence>
 							</xs:complexType>
 						</xs:element>
+						<xs:element ref="ComboBoxLookup"/>
 					</xs:all>
 				</xs:extension>
 			</xs:complexContent>
@@ -565,6 +566,14 @@
 					<xs:attribute name="AllowedExtensions" type="xs:string" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ComboBoxLookup">
+		<xs:complexType>
+			<xs:attribute name="Entity" type="xs:string" use="required"/>
+			<xs:attribute name="ValuePath" type="xs:string" use="required"/>
+			<xs:attribute name="DisplayPath" type="xs:string" use="required"/>
+			<xs:attribute name="Query" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
