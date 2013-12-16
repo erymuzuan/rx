@@ -7,7 +7,7 @@
         <li class="active">
             <a href="#form-general2" data-toggle="tab">General</a>
         </li>
-        <li class="active">
+        <li>
             <a href="#add-field" data-toggle="tab">Add a field</a>
         </li>
         <li>
@@ -142,7 +142,8 @@
                         var types = new Type[]
                         {
                             typeof(TextBox),
-                            typeof(ComboBox)
+                            typeof(ComboBox),
+                            typeof(ListView)
                         };
                     }
                     @foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))

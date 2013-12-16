@@ -29,6 +29,7 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(BuildingBlocksElement))]
     [XmlInclude(typeof(SpaceFeaturesElement))]
     [XmlInclude(typeof(FileUploadElement))]
+    [XmlInclude(typeof(ListView))]
     public partial class FormElement : DomainObject
     {
         public virtual CustomField GenerateCustomField()

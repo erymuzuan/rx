@@ -3521,6 +3521,153 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ListView", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ListView
+    {
+
+        private string m_ChildItemType;
+        [XmlAttribute]
+        public string ChildItemType
+        {
+            get
+            {
+                return m_ChildItemType;
+            }
+            set
+            {
+                m_ChildItemType = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private readonly ObjectCollection<ListViewColumn> m_ListViewColumnCollection = new ObjectCollection<ListViewColumn>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ListViewColumn", IsNullable = false)]
+        public ObjectCollection<ListViewColumn> ListViewColumnCollection
+        {
+            get { return m_ListViewColumnCollection; }
+        }
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ListViewColumn", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ListViewColumn
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_label;
+        public const string PropertyNameLabel = "Label";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_path;
+        public const string PropertyNamePath = "Path";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private FormElement m_input;
+        public const string PropertyNameInput = "Input";
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Label
+        {
+            set
+            {
+                if (String.Equals(m_label, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameLabel, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_label = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_label;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Path
+        {
+            set
+            {
+                if (String.Equals(m_path, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePath, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_path = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_path;
+            }
+        }
+
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+
+        public FormElement Input
+        {
+            set
+            {
+                if (m_input == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameInput, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_input = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_input; }
+        }
+
+
+    }
+
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormElement
     {

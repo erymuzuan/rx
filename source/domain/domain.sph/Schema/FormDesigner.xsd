@@ -590,4 +590,31 @@
 			<xs:attribute name="Query" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="ListView">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:all>
+						<xs:element name="ListViewColumnCollection">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="ListViewColumn" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:all>
+					<xs:attribute name="ChildItemType" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ListViewColumn">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Input" type="FormElement"/>
+			</xs:all>
+			<xs:attribute name="Label" type="xs:string" use="required"/>
+			<xs:attribute name="Path" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

@@ -1,0 +1,34 @@
+﻿@using System.Web.Mvc.Html
+@using Bespoke.Sph.Domain
+@model ListView
+
+
+<div data-bind="">
+    <button class="btn btn-default pull-right">@Model.Label</button>
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr data-bind="foreach: ListViewColumnCollection">
+                @foreach (var col in Model.ListViewColumnCollection)
+                {
+                    <th>@col.Label</th>
+                }
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach :@Model.Path">
+            <tr>
+                @foreach (var col in Model.ListViewColumnCollection)
+                {
+                    col.Input.Path = col.Path;
+                    
+                    <td>
+                        @Html.EditorFor(f => col.Input)
+                    </td>
+                }
+                <td>
+                    <span class="glyphicon glyphicon-remove"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

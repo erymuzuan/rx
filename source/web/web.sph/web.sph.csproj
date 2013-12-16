@@ -399,6 +399,8 @@
     <Content Include="App\objectbuilders.js" />
     <Content Include="App\partial\IntervalSchedule.js" />
     <Content Include="App\partial\ComboBox.js" />
+    <Content Include="App\partial\ListView.js" />
+    <Content Include="App\partial\ListViewColumn.js" />
     <Content Include="App\partial\ReportDelivery.js" />
     <Content Include="App\partial\ScheduledTriggerActivity.js" />
     <Content Include="App\partial\ExecutedActivity.js" />
@@ -909,6 +911,15 @@
     <Content Include="Images\EndActivity.png" />
     <Content Include="Images\expression.png" />
     <Content Include="Images\expression_razor.png" />
+    <Content Include="Images\form.element.Button.png" />
+    <Content Include="Images\form.element.CheckBox.png" />
+    <Content Include="Images\form.element.ComboBox.png" />
+    <Content Include="Images\form.element.DatePicker.png" />
+    <Content Include="Images\form.element.DateTimePicker.png" />
+    <Content Include="Images\form.element.FileUploadElement.png" />
+    <Content Include="Images\form.element.HtmlElement.png" />
+    <Content Include="Images\form.element.TextArea.png" />
+    <Content Include="Images\form.element.TextBox.png" />
     <Content Include="Images\no-image2.png" />
     <Content Include="Images\NotificationActivity.png" />
     <Content Include="Images\propertychanged.png" />
@@ -2126,7 +2137,7 @@
     <Content Include="Scripts\jsPlumb\bundle.min.js.map">
       <DependentUpon>bundle.js.bundle</DependentUpon>
     </Content>
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\CustomListDefinitionElement.cshtml" />
+    <Content Include="Views\WorkflowDefinition\DisplayTemplates\ListView.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SectionFormElement.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\CheckBox.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ComboBox.cshtml" />
@@ -2154,6 +2165,8 @@
     <Content Include="Views\Workflow\EditorTemplates\DateTimePicker.cshtml" />
     <Content Include="Views\WorkflowDefinition\EditorTemplates\TextBox.cshtml" />
     <Content Include="Views\WorkflowDefinition\EditorTemplates\ComboBox.cshtml" />
+    <Content Include="Views\WorkflowDefinition\EditorTemplates\ListView.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ListView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -289,7 +289,7 @@ namespace Bespoke.Sph.Domain
         @foreach (var fe in Model.Screen.FormDesign.FormElementCollection)
         {{
             fe.Path = fe.Path.ConvertJavascriptObjectToFunction();
-
+            fe.SetDefaultLayout(Model.Screen.FormDesign);
             @Html.EditorFor(f => fe)
         }}
         <div class=""form-group"" >
@@ -310,7 +310,7 @@ namespace Bespoke.Sph.Domain
         require(['services/datacontext', 'jquery','services/app', 'services/system'], function(context,jquery,app, system) {{
 
             
-           var instance =context.toObservable(@Html.Raw(JsonConvert.SerializeObject(Model.Instance, setting)),/@Model.Namespace.Replace(""."",""\\."")\.(.*?),/),
+           var instance = context.toObservable(@Html.Raw(JsonConvert.SerializeObject(Model.Instance, setting)),/@Model.Namespace.Replace(""."",""\\."")\.(.*?),/),
                screen = context.toObservable(@Html.Raw(JsonConvert.SerializeObject(Model.Screen, setting)),/@Model.Namespace.Replace(""."",""\\."")\.(.*?),/),
                vm = {{
                 id : @Model.Instance.WorkflowDefinitionId,

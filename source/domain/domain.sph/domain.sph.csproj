@@ -102,6 +102,8 @@
     <Compile Include="FormTemplates\DefaultValue.cs" />
     <Compile Include="FormTemplates\FieldValidation.cs" />
     <Compile Include="FormTemplates\FileUploadElement.cs" />
+    <Compile Include="FormTemplates\ListView.cs" />
+    <Compile Include="FormTemplates\ListViewColumn.cs" />
     <Compile Include="FormTemplates\SpaceFeaturesElement.cs" />
     <Compile Include="FormTemplates\SpaceTemplate.cs" />
     <Compile Include="Business\Complaint.cs" />

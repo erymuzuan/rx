@@ -19,7 +19,7 @@ namespace Bespoke.Sph.Web.ViewModels
             this.FormElements.Add(new TextAreaElement{Name = "Paragrapah text", CssClass = "fa fa-desktop"});
             this.FormElements.Add(new DatePicker { Name = "Date", CssClass = "fa fa-calendar" });
             this.FormElements.Add(new DateTimePicker { Name = "DateTime", CssClass = "fa fa-clock-o" });
-            this.FormElements.Add(new CustomListDefinitionElement { Name = "List", CssClass = "fa fa-list-ul" });
+            this.FormElements.Add(new ListView { Name = "List", CssClass = "fa fa-list-ul" });
 
         }
         private readonly ObjectCollection<FormElement> m_nameCollection = new ObjectCollection<FormElement>();
