@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
@@ -46,9 +47,33 @@ namespace Bespoke.Sph.Web.Controllers
 
         }
 
-        public Task<ActionResult> GetPendingTasksByUser(int id)
+        public async Task<ActionResult> GetPendingTasksByUser(string id)
         {
-            throw new Exception("got to work with es and indexer for this one...");
+            var userName = id;
+            var query = new
+            {
+                query = new
+                {
+                    term = new
+                    {
+                        Performers = new
+                        {
+                            value = userName
+                        }
+                    }
+                }
+            };
+            var json = JsonConvert.SerializeObject(query);
+            var request = new StringContent(json);
+            var url = string.Format("{0}/{1}/{2}/_search", ConfigurationManager.ElasticSearchHost,
+                ConfigurationManager.ElasticSearchIndex, "pendingtask");
+
+            var client = new HttpClient();
+            var response = await client.PostAsync(url, request);
+            var content = response.Content as StreamContent;
+            if (null == content) throw new Exception("Cannot execute query on es " + request);
+            this.Response.ContentType = "application/json; charset=utf-8";
+            return Content(await content.ReadAsStringAsync());
 
         }
 

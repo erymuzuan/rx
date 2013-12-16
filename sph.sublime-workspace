@@ -40,12 +40,20 @@
 			}
 		},
 		{
-			"contents": "LabelColumnSpan\nInputColumnSpan",
+			"contents": "using Bespoke.Sph.Domain;\nusing System;\nusing System.Threading.Tasks;\nusing System.Linq;\nusing System.Xml.Serialization;\n\nnamespace Bespoke.Sph.Workflows_503_25\n{\n   [EntityType(typeof(Workflow))]\n   public class PermohonanTanahWakaf_503_25 : Bespoke.Sph.Domain.Workflow\n   {\n       public PermohonanTanahWakaf_503_25()\n       {\n           this.Name = \"Permohonan Tanah Wakaf\";\n           this.Version = 25;\n           this.WorkflowDefinitionId = 503;\n           this.pemohon = new Applicant();\n           this.alamat = new Address();\n       }\n       public override Task<ActivityExecutionResult> StartAsync()\n       {\n           this.SerializedDefinitionStoreId = \"wd.503.25\";\n           return this.ExecScheduledTriggerActivityStarts__A_Async();\n       }\n       public override async Task<ActivityExecutionResult> ExecuteAsync(string activityId, string correlation = null)\n       {\n           this.SerializedDefinitionStoreId = \"wd.503.25\";\n           ActivityExecutionResult result = null;\n           switch(activityId)\n           {\n                   case \"_A_\" : \n                       result = await this.ExecScheduledTriggerActivityStarts__A_Async();\n                       break;\n                   case \"_B_\" : \n                       result = await this.ExecNotificationActivitySendEmail__B_Async();\n                       break;\n                   case \"_C_\" : \n                       result = await this.ExecEndActivityHabis__C_Async();\n                       break;\n           }\n           result.Correlation = correlation;\n           await this.SaveAsync(activityId, result);\n           return result;\n       }\n//variable:Title\n       public System.String Title{get;set;}\n//variable:email\n       public System.String email{get;set;}\n//variable:pemohon\n       public Applicant pemohon {get;set;}\n//variable:alamat\n       public Address alamat {get;set;}\n\n//exec:_A_\n   public Task<ActivityExecutionResult> ExecScheduledTriggerActivityStarts__A_Async()\n   {\n\n       this.State = \"Ready\";\n       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success };\n       result.NextActivities = new[]{\"_B_\"};\n\n       return Task.FromResult(result);\n   }\n\n\n//exec:_B_\n   public async Task<ActivityExecutionResult> ExecNotificationActivitySendEmail__B_Async()\n   {\n       var result = new ActivityExecutionResult{ Status = ActivityExecutionStatus.Success};\n       var act = this.GetActivity<NotificationActivity>(\"_B_\");\n       result.NextActivities = new[]{\"_C_\"};\n       var @from = await this.TransformFromExecNotificationActivitySendEmail__B_Async(act.From);\n       var to = await this.TransformToExecNotificationActivitySendEmail__B_Async(act.To);\n       var subject = await this.TransformSubjectExecNotificationActivitySendEmail__B_Async(act.Subject);\n       var body = await this.TransformBodyExecNotificationActivitySendEmail__B_Async(act.Body);\n       var cc = await this.TransformBodyExecNotificationActivitySendEmail__B_Async(act.Cc);\n       var bcc = await this.TransformBodyExecNotificationActivitySendEmail__B_Async(act.Bcc);\n       System.Console.WriteLine(\"Sending email to : {0}\", to);\n       var client = new System.Net.Mail.SmtpClient();\n       var mm = new System.Net.Mail.MailMessage();\n       mm.Subject = subject;\n       mm.Body = body;\n       mm.From = new System.Net.Mail.MailAddress(@from);\n       mm.To.Add(to);\n       if (!string.IsNullOrWhiteSpace(cc)));\n           message.CC.Add(this.Cc);\n       if (!string.IsNullOrWhiteSpace(bcc)));\n           message.Bcc.Add(this.Bcc);\n       await client.SendMailAsync(@from, to, subject,body);\n       return result;\n   }\n\n   public async Task<string> TransformFromExecNotificationActivitySendEmail__B_Async(string template)\n   {\n        if (string.IsNullOrWhiteSpace(template)) return string.Empty;\n\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\n            return await razor.GenerateAsync(template, this);\n   }\n\n   public async Task<string> TransformToExecNotificationActivitySendEmail__B_Async(string template)\n   {\n        if (string.IsNullOrWhiteSpace(template)) return string.Empty;\n\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\n            return await razor.GenerateAsync(template, this);\n   }\n\n   public async Task<string> TransformSubjectExecNotificationActivitySendEmail__B_Async(string template)\n   {\n        if (string.IsNullOrWhiteSpace(template)) return string.Empty;\n\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\n            return await razor.GenerateAsync(template, this);\n   }\n\n   public async Task<string> TransformBodyExecNotificationActivitySendEmail__B_Async(string template)\n   {\n        if (string.IsNullOrWhiteSpace(template)) return string.Empty;\n\n            var razor = ObjectBuilder.GetObject<ITemplateEngine>();\n            return await razor.GenerateAsync(template, this);\n   }\n\n\n\n//exec:_C_\n   public Task<ActivityExecutionResult> ExecEndActivityHabis__C_Async()\n   {\n       var result = new ActivityExecutionResult{  Status = ActivityExecutionStatus.Success };\n       result.NextActivities = new string[]{};\n       this.State = \"Completed\";\n       return Task.FromResult(result);\n   }\n\n   }\n   [XmlType(\"Vehicle\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Vehicle : DomainObject\n   {\n     [XmlAttribute]\n     public int Power {get;set;}\n     [XmlAttribute]\n     public decimal Cost {get;set;}\n     [XmlAttribute]\n     public string Name {get;set;}\n   }\n\n   [XmlType(\"Address\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Address : DomainObject\n   {\n     [XmlAttribute]\n     public string Street {get;set;}\n     [XmlAttribute]\n     public string Postcode {get;set;}\n     [XmlAttribute]\n     public string State {get;set;}\n     [XmlAttribute]\n     public string City {get;set;}\n   }\n\n   [XmlType(\"Applicant\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Applicant : DomainObject\n   {\n     [XmlAttribute]\n     public string Name {get;set;}\n     [XmlAttribute]\n     public string MyKad {get;set;}\n     [XmlAttribute]\n     public DateTime RegisteredDate {get;set;}\n      public int? Age {get;set;}\n      public DateTime? Dob {get;set;}\n      public Vehicle Ride {get;set;}\n         private readonly ObjectCollection<Car> m_Taxis = new ObjectCollection<Car>();\n         public ObjectCollection<Car> Taxis {get { return m_Taxis;} }\n         private readonly ObjectCollection<Vehicle> m_PastVehicles = new ObjectCollection<Vehicle>();\n         public ObjectCollection<Vehicle> PastVehicles {get { return m_PastVehicles;} }\n      private  Address m_Address = new Address();\n      public Address Address{get{ return m_Address;} set{ m_Address = value;} }\n      private  Contact m_Contact = new Contact();\n      public Contact Contact{get{ return m_Contact;} set{ m_Contact = value;} }\n   }\n\n   [XmlType(\"Contact\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Contact : DomainObject\n   {\n     [XmlAttribute]\n     public string Telephone {get;set;}\n      private  Address m_Address = new Address();\n      public Address Address{get{ return m_Address;} set{ m_Address = value;} }\n   }\n\n   [XmlType(\"Car\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Car : Vehicle\n   {\n     [XmlAttribute]\n     public int Seating {get;set;}\n   }\n\n   [XmlType(\"Bike\",  Namespace=\"http://www.maim.gov.my/wakaf\")]\n   public partial class Bike : Vehicle\n   {\n     [XmlAttribute]\n     public bool IsLegal {get;set;}\n   }\n\n\n   \n   \n   \npublic partial class Workflow_503_25Controller : System.Web.Mvc.Controller\n{\n//exec:Search\n       public async Task<System.Web.Mvc.ActionResult> Search()\n       {\n\n            var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);\n            var request = new System.Net.Http.StringContent(json);\n            var url = string.Format(\"{0}/{1}/workflow_503_25/_search\", ConfigurationManager.ElasticSearchHost, ConfigurationManager.ElasticSearchIndex );\n\n            var client = new System.Net.Http.HttpClient();\n            var response = await client.PostAsync(url, request);\n            var content = response.Content as System.Net.Http.StreamContent;\n            if (null == content) throw new Exception(\"Cannot execute query on es \" + request);\n            this.Response.ContentType = \"application/json; charset=utf-8\";\n            return Content(await content.ReadAsStringAsync());\n       }\n}\npublic partial class Workflow_503_25Controller : System.Web.Mvc.Controller\n{\n//exec:Schemas\n       public async Task<System.Web.Mvc.ActionResult> Schemas()\n       {\n           var store = ObjectBuilder.GetObject<IBinaryStore>();\n           var doc = await store.GetContentAsync(\"wd.503.25\");\n          WorkflowDefinition wd;\n                                        using (var stream = new System.IO.MemoryStream(doc.Content))\n                                        {\n                                            wd = stream.DeserializeFromXml<WorkflowDefinition>();\n                                        }\n\n                                        \n           var script = await wd.GenerateCustomXsdJavascriptClassAsync();\n           this.Response.ContentType = \"application/javascript\";\n           return Content(script);\n       }\n   }\n}\n\nline:85 [NotificationActivity] -< Send email : Invalid expression term ')'\nline:87 [NotificationActivity] -< Send email : Invalid expression term ')'\n\n  {\n  \"$type\": \"Bespoke.Sph.Domain.WorkflowCompilerResult, domain.sph\",\n  \"Result\": false,\n  \"Errors\": {\n    \"$type\": \"Bespoke.Sph.Domain.ObjectCollection`1[[Bespoke.Sph.Domain.BuildError, domain.sph]], domain.sph\",\n    \"$values\": [\n      {\n        \"$type\": \"Bespoke.Sph.Domain.BuildError, domain.sph\",\n        \"Message\": \"[NotificationActivity] -< Send email : Invalid expression term ')'\",\n        \"Code\": \"       if (!string.IsNullOrWhiteSpace(cc)));\",\n        \"Line\": 85,\n        \"ItemWebId\": \"_B_\"\n      },\n      {\n        \"$type\": \"Bespoke.Sph.Domain.BuildError, domain.sph\",\n        \"Message\": \"[NotificationActivity] -< Send email : Invalid expression term ')'\",\n        \"Code\": \"       if (!string.IsNullOrWhiteSpace(bcc)));\",\n        \"Line\": 87,\n        \"ItemWebId\": \"_B_\"\n      }\n    ]\n  },\n  \"Output\": \"c:\\\\project\\\\work\\\\sph\\\\bin\\\\output\\\\workflows.503.25.dll\"\n}\n  Expected: True\n  But was:  False\n\n   at NUnit.Framework.Assert.That(Object actual, IResolveConstraint expression, String message, Object[] args)\n   at NUnit.Framework.Assert.IsTrue(Boolean condition, String message)\n   at domain.test.workflows.WorkflowTestBase.Compile(WorkflowDefinition wd, Boolean verbose, Boolean assertError) in WorkflowTestBase.cs: line 109\n   at domain.test.workflows.WorkflowExecutionTest.TriggerSchedule() in WorkflowExecutionTest.cs: line 33\n",
 			"settings":
 			{
-				"buffer_size": 31,
+				"buffer_size": 10775,
 				"line_ending": "Windows",
-				"name": "LabelColumnSpan"
+				"name": "using Bespoke.Sph.Domain;"
+			}
+		},
+		{
+			"contents": "\n\n5523-3301-0038-7586 100,000.00 01 JAN 14 322.33 50.00",
+			"settings":
+			{
+				"buffer_size": 55,
+				"line_ending": "Windows"
 			}
 		},
 		{
@@ -175,7 +183,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -229,7 +237,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 660.0,
+						"translation.y": 330.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -238,20 +246,48 @@
 					"buffer": 2,
 					"settings":
 					{
-						"buffer_size": 31,
+						"buffer_size": 10775,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								31,
-								16
+								3409,
+								3409
 							]
 						],
 						"settings":
 						{
-							"auto_name": "LabelColumnSpan",
+							"auto_name": "using Bespoke.Sph.Domain;",
+							"syntax": "Packages/C#/C#.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1404.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"settings":
+					{
+						"buffer_size": 55,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								55,
+								55
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -261,7 +297,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
 					"file": "/D/project/work/knockout.kendo/js/kendoEditor.js",
 					"settings":
 					{

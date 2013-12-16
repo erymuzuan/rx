@@ -28,7 +28,6 @@ namespace Bespoke.Sph.ElasticSearch
 
         protected async override Task ProcessMessage(T item, MessageHeaders headers)
         {
-            var esHost = ConfigurationManager.ElasticSearchHost;
             var setting = new JsonSerializerSettings();
             var json = JsonConvert.SerializeObject(item, setting);
 
