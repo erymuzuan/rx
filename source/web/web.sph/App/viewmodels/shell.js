@@ -80,6 +80,11 @@ define(['durandal/system', 'durandal/plugins/router', 'services/logger', 'servic
                 sliderVisible = !sliderVisible;
 
             });
+            $('#slider-menu').on('click', 'li>a', function() {
+                hideSlider();
+                sliderVisible = false;
+            });
+
             $(document).on('keyup', function (e) {
                 if (e.ctrlKey && e.keyCode === 81) {
                     if (sliderVisible) {
