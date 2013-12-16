@@ -29,6 +29,8 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("       var to = await this.TransformTo{0}(act.To);", this.MethodName);
             code.AppendLinf("       var subject = await this.TransformSubject{0}(act.Subject);", this.MethodName);
             code.AppendLinf("       var body = await this.TransformBody{0}(act.Body);", this.MethodName);
+            code.AppendLinf("       var cc = await this.TransformBody{0}(act.Cc);", this.MethodName);
+            code.AppendLinf("       var bcc = await this.TransformBody{0}(act.Bcc);", this.MethodName);
 
             code.AppendLine("       System.Console.WriteLine(\"Sending email to : {0}\", to);");
             if (!string.IsNullOrWhiteSpace(this.UserName))
@@ -43,12 +45,21 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine("       using (var session = context.OpenSession())");
                 code.AppendLine("       {");
                 code.AppendLine("           session.Attach(message);");
-                code.AppendLinf("           await session.SubmitChanges(\"{0}\");", this.Name);
+                code.AppendLinf("           await session.SubmitChanges(\"{0}\").ConfigureAwait(false);", this.Name);
                 code.AppendLine("       }");
 
             }
             code.AppendLine("       var client = new System.Net.Mail.SmtpClient();");
-            code.AppendLine("       await client.SendMailAsync(@from, to, subject,body);");
+            code.AppendLine("       var mm = new System.Net.Mail.MailMessage();");
+            code.AppendLine("       mm.Subject = subject;");
+            code.AppendLine("       mm.Body = body;");
+            code.AppendLine("       mm.From = new System.Net.Mail.MailAddress(@from);");
+            code.AppendLine("       mm.To.Add(to);");
+            code.AppendLine("       if (!string.IsNullOrWhiteSpace(cc))");
+            code.AppendLine("           mm.CC.Add(cc);");
+            code.AppendLine("       if (!string.IsNullOrWhiteSpace(bcc))");
+            code.AppendLine("           mm.Bcc.Add(bcc);");
+            code.AppendLine("       await client.SendMailAsync(mm).ConfigureAwait(false);");
 
             code.AppendLine("       return result;");
             code.AppendLine("   }");
