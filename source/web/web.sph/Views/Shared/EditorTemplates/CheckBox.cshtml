@@ -1,13 +1,23 @@
 ﻿@model Bespoke.Sph.Domain.CheckBox
 @{
-    
+
 }
-<div class="control-group">
-    <div class="controls">
+@if (Model.IsCompact)
+{
+    <label class="checkbox">
+        <input data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.Path" title="@Model.Tooltip" type="checkbox" name="@Model.Path" />
+        @Model.Label
+    </label>
+}
+else
+{
+
+    <div class="control-group">
         <label class="checkbox">
             <input data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.Path" title="@Model.Tooltip" type="checkbox" name="@Model.Path" />
             @Model.Label
         </label>
     </div>
-</div>
+
+}
 

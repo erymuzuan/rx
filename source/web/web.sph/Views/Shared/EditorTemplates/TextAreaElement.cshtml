@@ -1,10 +1,21 @@
 ﻿@model Bespoke.Sph.Domain.TextAreaElement
+@if (Model.IsCompact)
+{
 
-<div class="form-group">
-    <label for="@Model.ElementId" class="control-label col-lg-2">@Model.Label</label>
-    <div class="col-lg-6">
-        <textarea class="@(Model.CssClass + " form-control "+ Model.Size)"
-                  title="@Model.Tooltip" data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
-                  id="@Model.ElementId" name="@Model.Path"></textarea>
+    <textarea class="@(Model.CssClass + " form-control "+ Model.Size)"
+              title="@Model.Tooltip" data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
+              id="@Model.ElementId" name="@Model.Path"></textarea>
+}
+else
+{
+
+    <div class="form-group">
+        <label for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
+        <div class="@Model.InputPanelCssClass">
+            <textarea class="@(Model.CssClass + " form-control "+ Model.Size)"
+                      title="@Model.Tooltip" data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
+                      id="@Model.ElementId" name="@Model.Path"></textarea>
+        </div>
     </div>
-</div>
+
+}

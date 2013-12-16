@@ -21,6 +21,8 @@
                 {
                     col.Input.Path = col.Path;
                     col.Input.Visible = "true";
+                    col.Input.IsCompact = true;
+                    col.Input.ElementId = Guid.NewGuid().ToString();
                     
                     <td>
                         @Html.EditorFor(f => col.Input)

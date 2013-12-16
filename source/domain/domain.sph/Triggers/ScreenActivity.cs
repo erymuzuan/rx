@@ -327,7 +327,7 @@ namespace Bespoke.Sph.Domain
             
             instance.addChildItem = function(list, type){{
                         return function(){{
-                            var item = bespoke.sph.w_7002_0[type](system.guid());
+                            var item = bespoke.sph.w_{1}_{2}[type](system.guid());
                             list.push(item);
                         }}
                     }};
@@ -374,7 +374,7 @@ namespace Bespoke.Sph.Domain
         }});
 
     </script>
-}}", controller);
+}}", controller, wd.WorkflowDefinitionId, wd.Version);
 
 
             return code.ToString();

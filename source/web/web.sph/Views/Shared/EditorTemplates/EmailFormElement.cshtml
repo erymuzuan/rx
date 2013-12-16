@@ -1,9 +1,19 @@
 ﻿@model Bespoke.Sph.Domain.EmailFormElement
-<div class="form-group">
-    <label for="@Model.ElementId" class="control-label @Model.LabelCssClass">@Model.Label</label>
-    <div class="col-lg-6">
-        <input class="@(Model.CssClass + " form-control "+ Model.Size)" title="@Model.Tooltip" 
-            data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" type="email" name="@Model.Path" />
-    </div>
-</div>
 
+
+@if (Model.IsCompact)
+{
+    <input class="@(Model.CssClass + " form-control "+ Model.Size)" title="@Model.Tooltip"
+           data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" type="email" name="@Model.Path" />
+
+}
+else
+{
+    <div class="form-group">
+        <label for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
+        <div class="@Model.InputPanelCssClass">
+            <input class="@(Model.CssClass + " form-control "+ Model.Size)" title="@Model.Tooltip"
+                   data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" type="email" name="@Model.Path" />
+        </div>
+    </div>
+}

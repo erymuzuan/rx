@@ -98,6 +98,10 @@ namespace Bespoke.Sph.Domain
         [XmlIgnore]
         public virtual bool IsPathIsRequired { get { return true; } }
 
+        [JsonIgnore]
+        [XmlIgnore]
+        public bool IsCompact { get; set; }
+
 
         public virtual string GenerateMarkup()
         {

@@ -2141,7 +2141,6 @@
     <Content Include="Views\Shared\EditorTemplates\SectionFormElement.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\CheckBox.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ComboBox.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\CustomListDefinitionElement.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DatePicker.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\EmailFormElement.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\FormElement.cshtml" />
