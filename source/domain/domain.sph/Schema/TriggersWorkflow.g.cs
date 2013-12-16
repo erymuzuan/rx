@@ -2033,6 +2033,54 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_Cc;
+        [XmlAttribute]
+        public string Cc
+        {
+            get
+            {
+                return m_Cc;
+            }
+            set
+            {
+                m_Cc = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_Bcc;
+        [XmlAttribute]
+        public string Bcc
+        {
+            get
+            {
+                return m_Bcc;
+            }
+            set
+            {
+                m_Bcc = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_IsHtmlEmail;
+        [XmlAttribute]
+        public bool IsHtmlEmail
+        {
+            get
+            {
+                return m_IsHtmlEmail;
+            }
+            set
+            {
+                m_IsHtmlEmail = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
 
     }
 
@@ -3082,16 +3130,21 @@ namespace Bespoke.Sph.Domain
     public partial class JoinActivity
     {
 
-        private readonly ObjectCollection<ParallelBranch> m_ParallelBranchCollection = new ObjectCollection<ParallelBranch>();
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlArrayItem("ParallelBranch", IsNullable = false)]
-        public ObjectCollection<ParallelBranch> ParallelBranchCollection
+        private string m_Placeholder;
+        [XmlAttribute]
+        public string Placeholder
         {
-            get { return m_ParallelBranchCollection; }
+            get
+            {
+                return m_Placeholder;
+            }
+            set
+            {
+                m_Placeholder = value;
+                RaisePropertyChanged();
+            }
         }
+
 
 
     }

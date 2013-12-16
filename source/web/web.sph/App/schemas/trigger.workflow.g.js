@@ -580,6 +580,9 @@ bespoke.sph.domain.NotificationActivity = function (optionOrWebid) {
     v.Body = ko.observable('');
     v.To = ko.observable('');
     v.UserName = ko.observable('');
+    v.Cc = ko.observable('');
+    v.Bcc = ko.observable('');
+    v.IsHtmlEmail = ko.observable(false);
     v["$type"] = "Bespoke.Sph.Domain.NotificationActivity, domain.sph";
 
 
@@ -1155,9 +1158,9 @@ bespoke.sph.domain.JoinActivity = function (optionOrWebid) {
 
     var v = new bespoke.sph.domain.Activity(optionOrWebid);
 
+    v.Placeholder = ko.observable('');
     v["$type"] = "Bespoke.Sph.Domain.JoinActivity, domain.sph";
 
-    v.ParallelBranchCollection = ko.observableArray([]);
 
     if (optionOrWebid && typeof optionOrWebid === "object") {
         for (var n in optionOrWebid) {

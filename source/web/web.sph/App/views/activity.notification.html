@@ -18,30 +18,12 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="notification-next" class="col-lg-2 control-label">Next</label>
-                        <div class="col-lg-6">
-                            <select id="notification-next"
-                                    data-bind="value:NextActivityWebId,
-                                        uniqueName:true,
-                                        options: $root.wd().ActivityCollection,
-                                        optionsText:'Name',
-                                        optionsValue:'WebId',
-                                        optionsCaption:'Please select next activity'" class="form-control"></select>
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <pre>Use "=" at the beginning to use Script engine, 
+                    <div class="form-group alert-info alert-dismissable alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        Use "=" at the beginning to use Script engine, 
 fields also support razor template by default
 variables can be notated as @Model.VariablePath
-</pre>
-                    </div>
-                    <div class="form-group">
-                        <label for="email-from" class="col-lg-2 control-label">From</label>
-                        <div class="col-lg-9">
-                            <input required type="text" data-bind="value: From" class="form-control expression-field razor-field" id="email-from" placeholder="From email address or template">
-                        </div>
+
                     </div>
 
                     <div class="form-group">
@@ -50,7 +32,43 @@ variables can be notated as @Model.VariablePath
                             <input required type="text" data-bind="value: To" class="form-control expression-field razor-field" id="email-to" placeholder="To email address or template">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <a href="#email-more-settings" data-toggle="collapse">More settings</a>
+                    </div>
+                    <div id="email-more-settings" class="collapse">
 
+                        <div class="form-group">
+                            <label for="notification-next" class="col-lg-2 control-label">Next</label>
+                            <div class="col-lg-6">
+                                <select id="notification-next"
+                                        data-bind="value:NextActivityWebId,
+                                        uniqueName:true,
+                                        options: $root.wd().ActivityCollection,
+                                        optionsText:'Name',
+                                        optionsValue:'WebId',
+                                        optionsCaption:'Please select next activity'" class="form-control"></select>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email-from" class="col-lg-2 control-label">From</label>
+                            <div class="col-lg-9">
+                                <input required type="text" data-bind="value: From" class="form-control expression-field razor-field" id="email-from" placeholder="From email address or template">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email-cc" class="col-lg-2 control-label">Cc</label>
+                            <div class="col-lg-9">
+                                <input type="text" data-bind="value: Cc" class="form-control expression-field razor-field" id="email-cc" placeholder="Cc email address or template">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email-bcc" class="col-lg-2 control-label">Bcc</label>
+                            <div class="col-lg-9">
+                                <input type="text" data-bind="value: Bcc" class="form-control expression-field razor-field" id="email-bcc" placeholder="Bcc email address or template">
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="email-subject" class="col-lg-2 control-label">Subject</label>
                         <div class="col-lg-9">

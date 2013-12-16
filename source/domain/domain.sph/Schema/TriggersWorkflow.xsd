@@ -343,6 +343,9 @@
 					<xs:attribute name="Body" type="xs:string" use="required"/>
 					<xs:attribute name="To" type="xs:string" use="required"/>
 					<xs:attribute name="UserName" type="xs:string" use="required"/>
+					<xs:attribute name="Cc" type="xs:string" use="optional"/>
+					<xs:attribute name="Bcc" type="xs:string" use="optional"/>
+					<xs:attribute name="IsHtmlEmail" type="xs:boolean" use="required"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
