@@ -174,10 +174,10 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf(@"
             var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);
             var request = new System.Net.Http.StringContent(json);
-            var esHost = ConfigurationManager.ElasticSearchHost;
+            var url = string.Format(""{{0}}/{{1}}/workflow_{0}_{1}/_search"", ConfigurationManager.ElasticSearchHost, ConfigurationManager.ElasticSearchIndex );
 
             var client = new System.Net.Http.HttpClient();
-            var response = await client.PostAsync(esHost + ""workflow_{0}_{1}/_search"", request);
+            var response = await client.PostAsync(url, request);
             var content = response.Content as System.Net.Http.StreamContent;
             if (null == content) throw new Exception(""Cannot execute query on es "" + request);
             this.Response.ContentType = ""application/json; charset=utf-8"";
