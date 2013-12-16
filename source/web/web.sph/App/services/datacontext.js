@@ -251,22 +251,14 @@ function (logger, system, ko2) {
                     .map(function (h) {
                         return h._source;
                     })
-                    .filter(function (v) {
-                        return v.$type;
-                    })
                 .value();
 
-                var rows = _(hits).map(function (v) {
-                    if (!v.$type) return null;
-                    var observable = toObservable(v);
-                    return observable;
-                });
                 var lo = new LoadOperation();
-                lo.itemCollection = rows;
+                lo.itemCollection = hits;
                 lo.page = page;
                 lo.size = size;
                 lo.rows = msg.hits.total;
-
+                lo.facets = msg.facets;
 
                 tcs.resolve(lo);
             }
