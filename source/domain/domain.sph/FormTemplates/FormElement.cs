@@ -73,7 +73,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                var css = string.Format("col-lg-{0}", this.LabelColLg);
+                var css = string.Format("col-lg-{0}", this.LabelColLg ?? 4);
                 if (this.LabelColMd.HasValue) css += " col-md-" + this.LabelColMd;
                 if (this.LabelColSm.HasValue) css += " col-sm-" + this.LabelColSm;
                 if (this.LabelColXs.HasValue) css += " col-xs-" + this.LabelColXs;
@@ -86,7 +86,7 @@ namespace Bespoke.Sph.Domain
         {
             get
             {
-                var css = string.Format("col-lg-{0}", this.InputColLg);
+                var css = string.Format("col-lg-{0}", this.InputColLg ?? 8);
                 if (this.InputColMd.HasValue) css += " col-md-" + this.InputColMd;
                 if (this.InputColSm.HasValue) css += " col-sm-" + this.InputColSm;
                 if (this.InputColXs.HasValue) css += " col-xs-" + this.InputColXs;
@@ -118,6 +118,11 @@ namespace Bespoke.Sph.Domain
             fe.InputColXs = fe.InputColXs ?? formDesign.InputColXs;
 
 
+        }
+
+        public virtual BuildError[] ValidateBuild(WorkflowDefinition wd, ScreenActivity screen)
+        {
+            return new BuildError[]{};
         }
     }
 }

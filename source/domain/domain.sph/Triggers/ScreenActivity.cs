@@ -21,8 +21,14 @@ namespace Bespoke.Sph.Domain
                              this.WebId,
                              string.Format("[ScreenActivity] : {0} => '{1}' does not have path", this.Name, f.Label)
                          );
+            var elements = from f in this.FormDesign.FormElementCollection
+                           let err = f.ValidateBuild(wd, this)
+                           where null != err
+                           select err;
+
             var result = base.ValidateBuild(wd);
             result.Errors.AddRange(errors);
+            result.Errors.AddRange(elements.SelectMany(v => v));
 
             return result;
         }
@@ -175,7 +181,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("           await wf.LoadWorkflowDefinitionAsync();");
             code.AppendLinf("           var profile = await context.LoadOneAsync<UserProfile>(u => u.Username == User.Identity.Name);");
             code.AppendLinf("           var screen = wf.GetActivity<ScreenActivity>(\"{0}\");", this.WebId);
-            
+
             code.AppendLinf("           var vm = new {0}(){{", this.ViewModelType);
             code.AppendLinf("                   Screen  = screen,");
             code.AppendLinf("                   Instance  = wf as {0},", wd.WorkflowTypeName);
@@ -183,7 +189,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf("                   SaveAction  = \"Save{0}\",", this.ActionName);
             code.AppendLinf("                   Namespace  = \"{0}\"", wd.CodeNamespace);
             code.AppendLinf("               }};", wd.CodeNamespace);
-            
+
             if (!this.IsInitiator)
             {
                 code.AppendLinf("           if(id == 0) throw new ArgumentException(\"id cannot be zero for none initiator\");");
@@ -318,6 +324,19 @@ namespace Bespoke.Sph.Domain
                 screen : ko.observable(screen),
                 isBusy : ko.observable()
             }};
+            
+            instance.addChildItem = function(list, type){{
+                        return function(){{
+                            var item = bespoke.sph.w_7002_0[type](system.guid());
+                            list.push(item);
+                        }}
+                    }};
+            
+            instance.removeChildItem = function(list, obj){{
+                        return function(){{
+                            list.remove(obj);
+                        }}
+                    }};
             ko.applyBindings(vm, document.getElementById('body'));
             @*  the div#body is defined in _Layout.cshtml, if you use different Layout then this has got to changed accordingly *@
 

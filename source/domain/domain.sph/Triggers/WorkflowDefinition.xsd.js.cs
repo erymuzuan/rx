@@ -8,8 +8,6 @@ namespace Bespoke.Sph.Domain
 {
     public partial class WorkflowDefinition
     {
-
-
         public string GenerateXsdComplexTypeJavascript(XElement e, int level = 0)
         {
             var properties = new List<string>();
@@ -40,7 +38,8 @@ return model;", this.WorkflowDefinitionId, this.Version, name);
 
 
         }
-        public string GenerateXsdElementJavascript(XElement e, int level = 0, Func<string, XElement> getComplextType = null )
+
+        public string GenerateXsdElementJavascript(XElement e, int level = 0, Func<string, XElement> getComplextType = null)
         {
             var properties = new List<string>();
 
@@ -58,7 +57,7 @@ return model;", this.WorkflowDefinitionId, this.Version, name);
 
             // for extensions
             var extension = e.Descendants(x + "extension").FirstOrDefault();
-            if (null != extension )
+            if (null != extension)
             {
                 if (null != getComplextType)
                 {
@@ -112,20 +111,18 @@ return model;", this.WorkflowDefinitionId, this.Version, name);
                                          select string.Format("         \"{0}\" : ko.observableArray()", at.Attribute("name").Value);
                 list.AddRange(collectionElements);
 
+
+
                 var refElements = from at in all.Elements(x + "element")
                                   where at.Attribute("ref") != null
                                   let refa = at.Attribute("ref")
                                   select string.Format("            \"{0}\" : ko.observable(new bespoke.sph.w_{1}_{2}.{0}())", refa.Value, this.WorkflowDefinitionId, this.Version);
                 list.AddRange(refElements);
+
+
             }
             return list;
         }
-
-
-
-
-
-
 
     }
 }

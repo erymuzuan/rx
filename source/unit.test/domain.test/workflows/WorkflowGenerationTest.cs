@@ -65,6 +65,8 @@ namespace domain.test.workflows
             var script = await wd.GenerateCustomXsdJavascriptClassAsync();
             Assert.IsNotNull(script);
             StringAssert.Contains("bespoke.sph.w_8_0.Vehicle", script);
+            Console.WriteLine(script);
+
 
         }
 

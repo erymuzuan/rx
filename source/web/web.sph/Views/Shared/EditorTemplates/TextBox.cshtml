@@ -1,10 +1,10 @@
 @model Bespoke.Sph.Domain.TextBox
-           @{
-               var required = Model.IsRequired ? "required" : null;
-           }
+@{
+    var required = Model.IsRequired ? "required" : null;
+}
 <div data-bind="visible:@Model.Visible" class="form-group">
-    <label for="@Model.ElementId" class="control-label col-lg-2">@Model.Label</label>
-    <div class="col-lg-6">
+    <label for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
+    <div class="@Model.InputPanelCssClass">
         <input @required class="@(Model.CssClass + " form-control " + Model.Size)" title="@Model.Tooltip"
                data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))"
                id="@Model.ElementId" type="text" name="@Model.Path" />

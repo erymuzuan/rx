@@ -4,10 +4,10 @@
 
 
 <div data-bind="">
-    <button class="btn btn-default pull-right">@Model.Label</button>
+    <button class="btn btn-default pull-right" data-bind="click : addChildItem(@Model.Path, '@Model.ChildItemType')">@Model.Label</button>
     <table class="table table-condensed table-striped">
         <thead>
-            <tr data-bind="foreach: ListViewColumnCollection">
+            <tr>
                 @foreach (var col in Model.ListViewColumnCollection)
                 {
                     <th>@col.Label</th>
@@ -20,13 +20,16 @@
                 @foreach (var col in Model.ListViewColumnCollection)
                 {
                     col.Input.Path = col.Path;
+                    col.Input.Visible = "true";
                     
                     <td>
                         @Html.EditorFor(f => col.Input)
                     </td>
                 }
                 <td>
-                    <span class="glyphicon glyphicon-remove"></span>
+                    <a title="remove" href="#" data-bind="click : $parent.removeChildItem.call($parent,$parent.@Model.Path, $data)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
                 </td>
             </tr>
         </tbody>
