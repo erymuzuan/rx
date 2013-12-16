@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
@@ -42,6 +43,12 @@ namespace Bespoke.Sph.Web.Controllers
 
             this.Response.ContentType = "application/json; charset=utf-8";
             return Content(JsonConvert.SerializeObject(pendingTasks));
+
+        }
+
+        public Task<ActionResult> GetPendingTasksByUser(int id)
+        {
+            throw new Exception("got to work with es and indexer for this one...");
 
         }
 

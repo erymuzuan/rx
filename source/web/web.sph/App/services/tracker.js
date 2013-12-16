@@ -21,10 +21,21 @@ define(['services/datacontext'],
                 });
             return tcs.promise();
 
+        },
+        getPendingTasksByUser = function (userName) {
+            var tcs = new $.Deferred(),
+                data = JSON.stringify({ id: userName });
+            context.post(data, "/Workflow/GetPendingTasksByUser/" + userName)
+                .then(function (result) {
+                    tcs.resolve(result);
+                });
+            return tcs.promise();
+
         };
 
         var tracker = {
-            getPendingTasks: getPendingTasks
+            getPendingTasks: getPendingTasks,
+            getPendingTasksByUser: getPendingTasksByUser
         };
 
         return tracker;
