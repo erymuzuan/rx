@@ -1,0 +1,9 @@
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Domain.Button
+
+<!--ko if: ko.unwrap($type) === "Bespoke.Sph.Domain.Button, domain.sph" -->
+<div class="form-group" data-bind="css: { 'selected-form-element': isSelected }, click: $root.selectFormElement">
+    @Html.Partial("_DesignerContextAction")
+    <button data-bind="attr : {'class':CssClass},text: Label"></button>
+</div>
+<!--/ko-->

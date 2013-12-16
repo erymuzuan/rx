@@ -3668,6 +3668,66 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("Button", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Button
+    {
+
+        private string m_Command;
+        [XmlAttribute]
+        public string Command
+        {
+            get
+            {
+                return m_Command;
+            }
+            set
+            {
+                m_Command = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private bool m_UseClick;
+        [XmlAttribute]
+        public bool UseClick
+        {
+            get
+            {
+                return m_UseClick;
+            }
+            set
+            {
+                m_UseClick = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_CommandName;
+        [XmlAttribute]
+        public string CommandName
+        {
+            get
+            {
+                return m_CommandName;
+            }
+            set
+            {
+                m_CommandName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+    }
+
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormElement
     {

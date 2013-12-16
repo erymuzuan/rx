@@ -617,4 +617,17 @@
 			<xs:attribute name="Path" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="Button">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FormElement">
+					<xs:attribute name="Command" type="xs:string" use="required"/>
+					<xs:attribute name="UseClick" type="xs:boolean" use="required"/>
+					<xs:attribute name="CommandName" type="xs:string" use="required"/>
+					<xs:attribute name="LoadingText" type="xs:string" use="optional"/>
+					<xs:attribute name="CompleteText" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

@@ -397,6 +397,8 @@
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
+    <Content Include="App\partial\HtmlElement.js" />
+    <Content Include="App\partial\ButtonPartial.js" />
     <Content Include="App\partial\IntervalSchedule.js" />
     <Content Include="App\partial\ComboBox.js" />
     <Content Include="App\partial\ListView.js" />
@@ -585,6 +587,7 @@
     <Content Include="App\views\block.floors.html" />
     <Content Include="App\views\block.map.html" />
     <Content Include="App\views\building.template.list.html" />
+    <Content Include="App\views\ButtonPartial.html" />
     <Content Include="App\views\chats.html" />
     <Content Include="App\views\error.message.html" />
     <Content Include="App\views\field.assembly.html" />
@@ -2166,6 +2169,9 @@
     <Content Include="Views\WorkflowDefinition\EditorTemplates\ComboBox.cshtml" />
     <Content Include="Views\WorkflowDefinition\EditorTemplates\ListView.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ListView.cshtml" />
+    <Content Include="Views\WorkflowDefinition\DisplayTemplates\Button.cshtml" />
+    <Content Include="Views\WorkflowDefinition\EditorTemplates\Button.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Button.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

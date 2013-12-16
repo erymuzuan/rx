@@ -1,4 +1,5 @@
 ﻿@using Bespoke.Sph.Domain
+@using EmailFormElement = Bespoke.SphCommercialSpaces.Domain.EmailFormElement
 @model ListView
 
 
@@ -14,9 +15,18 @@
         <span class="caret pull-right"></span>
     </a>
     <ul class="dropdown-menu">
-     
+
         @{
-            var fieldTypes = new[] { typeof(TextBox), typeof(CheckBox), typeof(ComboBox), typeof(DatePicker), typeof(DateTimePicker)  };
+            var fieldTypes = new[] {
+                typeof(TextBox)
+                , typeof(NumberTextBox)
+                , typeof(CheckBox)
+                , typeof(ComboBox)
+                , typeof(DatePicker)
+                , typeof(DateTimePicker)
+                , typeof(FileUploadElement)
+                , typeof(Button)
+            };
         }
         @foreach (var type in fieldTypes)
         {

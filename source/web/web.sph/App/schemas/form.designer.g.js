@@ -1243,6 +1243,36 @@ bespoke.sph.domain.ListViewColumn = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.Button = function (optionOrWebid) {
+
+    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
+
+    v.Command = ko.observable('');
+    v.UseClick = ko.observable(false);
+    v.CommandName = ko.observable('');
+    v["$type"] = "Bespoke.Sph.Domain.Button, domain.sph";
+
+
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof v[n] === "function") {
+                v[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        v.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ButtonPartial) {
+        return _(v).extend(new bespoke.sph.domain.ButtonPartial(v));
+    }
+    return v;
+};
+
+
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {

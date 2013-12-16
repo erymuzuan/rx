@@ -272,6 +272,49 @@ namespace Bespoke.Sph.Domain
             var controller = string.Format("Workflow_{0}_{1}", wd.WorkflowDefinitionId, wd.Version);
             var code = new StringBuilder();
 
+            // buttons
+            var buttonCommands = this.FormDesign.FormElementCollection.OfType<Button>()
+                .Where(b => b.CommandName != "save")
+                .Select(b => string.Format("{0} : function(){{" +
+                                           "{1}" +
+                                           "}}", b.CommandName, b.Command))
+                                           .ToArray();
+            var buttonCommandJs = string.Join(",\r\n", buttonCommands);
+            var saveCommand = string.Format(@",
+                save : function(){{
+                      var tcs = new $.Deferred(),
+                            data = ko.mapping.toJSON(vm.instance),
+                            button = $(this);
+
+                        button.prop('disabled', true);
+                        context.post(data, ""/@Model.Controller.Replace(controllerString, string.Empty)/@Model.SaveAction"")
+                            .then(function(result) {{
+                                tcs.resolve(result);
+                                @if(Model.Screen.ConfirmationOptions.Type == ""Message"")
+                                {{
+                                    <text>
+                                    var msg = _.template('@Html.Raw(confirmationText)')(result.wf);
+                                    app.showMessage(msg, '@Model.Screen.Name', ['OK'])
+                                        .done(function(dr){{
+                                            console.log(dr);
+                                        }});
+                                    </text>
+                                }}else
+                                {{
+                                    <text>
+                                    window.location = ""@confirmationText"";
+                                    </text>
+                                }}
+                       
+
+                            }});
+                        return tcs.promise();
+                }}");
+            if (buttonCommandJs.Length > 0)
+                buttonCommandJs = saveCommand + "," + buttonCommandJs;
+            else
+                buttonCommandJs = saveCommand;
+
             code.AppendLine("@using System.Web.Mvc.Html");
             code.AppendLine("@using Bespoke.Sph.Domain");
             code.AppendLine("@using Newtonsoft.Json");
@@ -298,12 +341,7 @@ namespace Bespoke.Sph.Domain
             fe.SetDefaultLayout(Model.Screen.FormDesign);
             @Html.EditorFor(f => fe)
         }}
-        <div class=""form-group"" >
-            <label class=""control-label col-lg-2""></label>
-            <div class=""col-lg-2 col-lg-offset-8"">
-                <button id=""save-button"" type=""submit"" class=""btn btn-default"">Save</button>
-            </div>
-        </div>
+   
     </form>
 
 </div>
@@ -322,7 +360,7 @@ namespace Bespoke.Sph.Domain
                 id : @Model.Instance.WorkflowDefinitionId,
                 instance : ko.observable(instance),    
                 screen : ko.observable(screen),
-                isBusy : ko.observable()
+                isBusy : ko.observable(){3}
             }};
             
             instance.addChildItem = function(list, type){{
@@ -340,41 +378,11 @@ namespace Bespoke.Sph.Domain
             ko.applyBindings(vm, document.getElementById('body'));
             @*  the div#body is defined in _Layout.cshtml, if you use different Layout then this has got to changed accordingly *@
 
-            $('#save-button').click(function(e) {{
-                e.preventDefault();
-                var tcs = new $.Deferred(),
-                    data = ko.mapping.toJSON(vm.instance),
-                    button = $(this);
-
-                button.prop('disabled', true);
-                context.post(data, ""/@Model.Controller.Replace(controllerString, string.Empty)/@Model.SaveAction"")
-                    .then(function(result) {{
-                        tcs.resolve(result);
-                        @if(Model.Screen.ConfirmationOptions.Type == ""Message"")
-                        {{
-                            <text>
-                            var msg = _.template('@Html.Raw(confirmationText)')(result.wf);
-                            app.showMessage(msg, '@Model.Screen.Name', ['OK'])
-                                .done(function(dr){{
-                                    console.log(dr);
-                                }});
-                            </text>
-                        }}else
-                        {{
-                            <text>
-                            window.location = ""@confirmationText"";
-                            </text>
-                        }}
-                       
-
-                    }});
-                return tcs.promise();
-            }});
-
+      
         }});
 
     </script>
-}}", controller, wd.WorkflowDefinitionId, wd.Version);
+}}", controller, wd.WorkflowDefinitionId, wd.Version, buttonCommandJs);
 
 
             return code.ToString();

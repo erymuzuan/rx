@@ -21,6 +21,9 @@
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.TextBox, domain.sph'-->
                         <input class="form-control" type="text" value="sample data" />
                         <!--/ko-->
+                        <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.Button, domain.sph'-->
+                        <button class="btn btn-default" data-bind="attr : {'class':CssClass},text: $parent.Label">Button</button>
+                        <!--/ko-->
                         <!-- ko if: ko.unwrap($type) === 'Bespoke.Sph.Domain.CheckBox, domain.sph'-->
                         <input class="form-control" type="checkbox" value="" checked="@(i % 2 ==0? "checked": "")" />
                         <!--/ko-->

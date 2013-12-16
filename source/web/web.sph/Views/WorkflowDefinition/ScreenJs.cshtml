@@ -34,7 +34,7 @@
                         vm.activity().InvitationMessageBody("@@Model.Screen.Name task is assigned to you go here @@Model.Url");
                     if (!vm.activity().InvitationMessageSubject())
                         vm.activity().InvitationMessageSubject("[Sph] @@Model.Screen.Name  task is assigned to you");
-                    
+
                     if (!vm.activity().CancelMessageBody())
                         vm.activity().CancelMessageBody("@@Model.Screen.Name task was cancelled this url is not longer valid @@Model.Url");
                     if (!vm.activity().CancelMessageSubject())
@@ -84,14 +84,18 @@
 
                     // kendoEditor
                     $('#template-form-designer').on('click', 'textarea', function () {
-                        var $editor = $(this);
-                        var kendoEditor = $editor.data("kendoEditor");
+                        var $editor = $(this),
+                            kendoEditor = $editor.data("kendoEditor");
                         if (!kendoEditor) {
-                            var htmlElement = ko.dataFor(this);
-                            $editor.kendoEditor({
-                                change:function() {
-                                    htmlElement.Text(this.value());
-                                }
+                            var htmlElement = ko.dataFor(this),
+                                editor = $editor.kendoEditor({
+                                    change:function() {
+                                        htmlElement.Text(this.value());
+                                    }
+                                }).data("kendoEditor");
+
+                            htmlElement.Text.subscribe(function(t) {
+                                editor.value(ko.unwrap(t));
                             });
 
                         }
