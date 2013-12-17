@@ -47,13 +47,9 @@ namespace Bespoke.Sph.WindowsTaskScheduler
 
                 var td = ts.NewTask();
                 td.Settings.Compatibility = TaskCompatibility.V2;
-                td.RegistrationInfo.Author = "sph";
                 td.RegistrationInfo.Source = "sph";
                 td.RegistrationInfo.Description = "Scheduled task for Delay Activity for " + info;
 
-
-                td.Principal.RunLevel = TaskRunLevel.Highest;
-                td.Principal.LogonType = TaskLogonType.ServiceAccount;
                 // one time trigger
                 td.Triggers.Add(new TimeTrigger(dateTime));
                 var action = new ExecAction(this.Executable, string.Format("{0} {1}", info.ActivityId, info.InstanceId))
@@ -75,7 +71,9 @@ namespace Bespoke.Sph.WindowsTaskScheduler
             var path = GetPath(info);
             using (var ts = new TaskService())
             {
-                ts.RootFolder.DeleteTask(path);
+                var folder = ts.RootFolder.SubFolders.FirstOrDefault(f => f.Name == this.FolderName) ??
+                             ts.RootFolder.CreateFolder(FolderName);
+                folder.DeleteTask(path);
             }
 
             return System.Threading.Tasks.Task.FromResult(0);

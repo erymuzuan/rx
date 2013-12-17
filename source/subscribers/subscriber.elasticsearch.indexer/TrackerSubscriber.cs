@@ -24,6 +24,11 @@ namespace Bespoke.Sph.ElasticSearch
 
         private async Task AddPendingTaskAsync(Tracker item)
         {
+            var context = new SphDataContext();
+            item.Workflow = await context.LoadOneAsync<Workflow>(w => w.WorkflowId == item.WorkflowId);
+            await item.Workflow.LoadWorkflowDefinitionAsync();
+            item.WorkflowDefinition = item.Workflow.WorkflowDefinition;
+
             var pendings = (from w in item.WaitingAsyncList.Keys
                             let act = item.WorkflowDefinition.GetActivity<Activity>(w)
                             let screen = act as ScreenActivity
