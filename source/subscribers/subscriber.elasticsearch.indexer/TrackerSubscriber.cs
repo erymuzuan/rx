@@ -32,6 +32,8 @@ namespace Bespoke.Sph.ElasticSearch
             var pendings = (from w in item.WaitingAsyncList.Keys
                             let act = item.WorkflowDefinition.GetActivity<Activity>(w)
                             let screen = act as ScreenActivity
+                            // NOTE : only consider the one with correlation
+                            where item.WaitingAsyncList[w].Count > 0
                             select new PendingTask(item.WorkflowId)
                             {
                                 Name = act.Name,

@@ -68,7 +68,7 @@ namespace Bespoke.Sph.Domain
             count = 1;
             foreach (var branch in this.ListenBranchCollection)
             {
-                code.AppendLinf("       var act{0} = this.GetActivity<Activity>(\"{1}\");",count, branch.NextActivityWebId);
+                code.AppendLinf("       var act{0} = this.GetActivity<Activity>(\"{1}\");", count, branch.NextActivityWebId);
                 code.AppendLinf("       var bc{0} = await  initiateTask{0};", count);
                 code.AppendLinf("       tracker.AddInitiateActivity(act{0}, bc{0});", count);
                 code.AppendLine();
@@ -87,6 +87,14 @@ namespace Bespoke.Sph.Domain
             return code.ToString();
         }
 
+        public override async Task CancelAsync(Workflow wf)
+        {
+            var tracker = await wf.GetTrackerAsync();
+
+            tracker.CancelAsyncList(this.WebId);
+            await tracker.SaveAsync();
+        }
+
         public override string GeneratedExecutionMethodCode(WorkflowDefinition wd)
         {
             var code = new StringBuilder();
@@ -96,7 +104,8 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   {");
             code.AppendLinf("       var self = this.GetActivity<ListenActivity>(\"{0}\");", this.WebId);
             code.AppendLinf("       var fired = this.GetActivity<Activity>(webId);");
-            code.AppendLinf(@"       
+            code.AppendLinf(@"      await self.CancelAsync(this);
+ 
                                     var cancelled = self.ListenBranchCollection
                                                     .Where(a =>a.NextActivityWebId != webId)
                                                     .Select(a => this.GetActivity<Activity>(a.NextActivityWebId))

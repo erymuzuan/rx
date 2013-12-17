@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Moq;
 using NUnit.Framework;
@@ -133,29 +132,47 @@ namespace domain.test.workflows
             CollectionAssert.DoesNotContain(tracker.WaitingAsyncList["B"], "ABC");
             Assert.IsFalse(tracker.CanExecute("B", "1234"));
         }
-    }
 
-    public class TestWorkflowForTracker : Workflow
-    {
-        public async override Task<ActivityExecutionResult> ExecuteAsync(string activityId, string correlation = null)
+        [Test]
+        public async Task CancelScreenActivity()
         {
-            var result = new ActivityExecutionResult
+            var wd = new WorkflowDefinition
             {
-                Status = ActivityExecutionStatus.Success,
-                Correlation = correlation
+                WorkflowDefinitionId = 1,
+                Name = "Test start screen"
             };
-            switch (activityId)
+
+            wd.ActivityCollection.Add(new ScreenActivity
             {
-                case "A":
-                    result.NextActivities = new[] { "B" };
-                    break;
-                case "B":
-                    result.NextActivities = new[] { "C" };
-                    break;
-                default: throw new Exception("Whoaaaa");
-            }
-            await this.SaveAsync(activityId, result);
-            return result;
+                IsInitiator = true,
+                Name = "Start screen",
+                WebId = "A",
+                Performer = new Performer { IsPublic = true },
+                NextActivityWebId = "B"
+            });
+            var screenB = new ScreenActivity
+            {
+                Name = "Start B",
+                WebId = "B",
+                Performer = new Performer {UserProperty = "Username", Value = "admin"}
+            };
+            wd.ActivityCollection.Add(screenB);
+            wd.ActivityCollection.Add(new EndActivity { Name = "C", WebId = "C" });
+
+            var wf = new TestWorkflowForTracker { WorkflowDefinition = wd, WorkflowDefinitionId = 1, WorkflowId = 0 };
+            var tracker = await wf.GetTrackerAsync();
+
+            var resultA = await wf.ExecuteAsync("A");
+            CollectionAssert.Contains(resultA.NextActivities, "B");
+
+            // initiate
+            tracker.AddInitiateActivity(wd.ActivityCollection[1], new InitiateActivityResult { Correlation = "ABC" });
+            Assert.IsTrue(tracker.WaitingAsyncList.ContainsKey("B"));
+
+            // now cancel
+            await screenB.CancelAsync(wf);
+            CollectionAssert.DoesNotContain(tracker.WaitingAsyncList["B"], "ABC");
+            Assert.IsFalse(tracker.CanExecute("B", "1234"));
         }
     }
 }

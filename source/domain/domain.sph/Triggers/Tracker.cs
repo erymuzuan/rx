@@ -196,15 +196,15 @@ namespace Bespoke.Sph.Domain
             this.WorkflowDefinition = this.Workflow.WorkflowDefinition;
 
             var pendings = (from w in this.WaitingAsyncList.Keys
-                           let act = this.WorkflowDefinition.GetActivity<Activity>(w)
-                           let screen = act as ScreenActivity
-                           select new PendingTask(this.WorkflowId)
-                           {
-                               Name = act.Name,
-                               Type = act.GetType().Name,
-                               WebId = act.WebId,
-                               Correlations = this.WaitingAsyncList[w].ToArray()
-                           }).ToList();
+                            let act = this.WorkflowDefinition.GetActivity<Activity>(w)
+                            let screen = act as ScreenActivity
+                            select new PendingTask(this.WorkflowId)
+                            {
+                                Name = act.Name,
+                                Type = act.GetType().Name,
+                                WebId = act.WebId,
+                                Correlations = this.WaitingAsyncList[w].ToArray()
+                            }).ToList();
 
             pendings.ForEach(async t =>
             {
@@ -213,8 +213,20 @@ namespace Bespoke.Sph.Domain
                     .SingleOrDefault(a => a.WebId == t.WebId);
                 if (null != screen)
                     t.Performers = await screen.GetUsersAsync(this.Workflow);
-            } );
+            });
             return pendings;
+        }
+
+        public void CancelAsyncList(string activityWebId, string correlation = null)
+        {
+            if (this.WaitingAsyncList.ContainsKey(activityWebId))
+            {
+                // TODO : tracker should remove only one correlation
+                if (string.IsNullOrWhiteSpace(correlation))
+                    this.WaitingAsyncList[activityWebId].Clear();
+                else
+                    this.WaitingAsyncList[activityWebId].Remove(correlation);
+            }
         }
     }
 }

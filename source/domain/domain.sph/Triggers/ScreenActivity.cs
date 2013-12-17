@@ -39,10 +39,12 @@ namespace Bespoke.Sph.Domain
             var url = string.Format("{0}/Workflow_{1}_{2}/{3}/{4}", baseUrl, wf.WorkflowDefinitionId, wf.Version, this.ActionName, wf.WorkflowId);
             var cmb = this.CancelMessageBody ?? "@Model.Screen.Name task assigned to has been cancelled";
             var cms = this.CancelMessageSubject ?? "[Sph] @Model.Screen.Name  task is cancelled";
-
-            // TODO : Activity is now cancelled, should not be made available anymore
-
+            
             await SendNotificationToPerformers(wf, baseUrl, url, cms, cmb);
+            var tracker = await wf.GetTrackerAsync();
+
+            tracker.CancelAsyncList(this.WebId);
+            await tracker.SaveAsync();
         }
 
         public override string GeneratedInitiateAsyncCode(WorkflowDefinition wd)

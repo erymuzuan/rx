@@ -114,6 +114,7 @@
     <Compile Include="workflows\DelayActivityExecutionTest.cs" />
     <Compile Include="workflows\ParallelJoinExecutionTest.cs" />
     <Compile Include="workflows\ScreenActivityTest.cs" />
+    <Compile Include="workflows\TestWorkflowForTracker.cs" />
     <Compile Include="workflows\TrackerTest.cs" />
     <Compile Include="workflows\WorkflowCompilerTest.cs" />
     <Compile Include="workflows\WorkflowExecutionTest.cs" />

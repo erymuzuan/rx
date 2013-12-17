@@ -80,6 +80,10 @@ namespace Bespoke.Sph.Domain
                 Name = this.Name
             };
             await ts.DeleteAsync(task);
+
+            var tracker = await wf.GetTrackerAsync();
+            tracker.CancelAsyncList(this.WebId);
+            await tracker.SaveAsync();
         }
 
         public override bool IsAsync
