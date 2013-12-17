@@ -279,6 +279,9 @@ bespoke.sph.domain.TextBox = function (optionOrWebid) {
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.DefaultValue = ko.observable('');
+    v.AutoCompletionEntity = ko.observable('');
+    v.AutoCompletionField = ko.observable('');
+    v.AutoCompletionQuery = ko.observable('');
     v["$type"] = "Bespoke.Sph.Domain.TextBox, domain.sph";
 
     v.MinLength = ko.observable();//nillable
@@ -1251,6 +1254,8 @@ bespoke.sph.domain.Button = function (optionOrWebid) {
     v.Command = ko.observable('');
     v.UseClick = ko.observable(false);
     v.CommandName = ko.observable('');
+    v.LoadingText = ko.observable('');
+    v.CompleteText = ko.observable('');
     v["$type"] = "Bespoke.Sph.Domain.Button, domain.sph";
 
 

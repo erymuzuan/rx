@@ -285,6 +285,9 @@
 						<xs:element name="MaxLength" type="xs:int" nillable="true"/>
 					</xs:all>
 					<xs:attribute name="DefaultValue" type="xs:string" use="optional"/>
+					<xs:attribute name="AutoCompletionEntity" type="xs:string" use="optional"/>
+					<xs:attribute name="AutoCompletionField" type="xs:string" use="optional"/>
+					<xs:attribute name="AutoCompletionQuery" type="xs:string" use="optional"/>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>

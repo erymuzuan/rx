@@ -25,7 +25,23 @@ namespace Bespoke.Sph.Domain
 
         public override string GetKnockoutBindingExpression()
         {
+
             var path = this.Path;
+
+
+            if (!string.IsNullOrWhiteSpace(this.AutoCompletionEntity)
+                && !string.IsNullOrWhiteSpace(this.AutoCompletionField)
+                && !string.IsNullOrWhiteSpace(this.AutoCompletionQuery)
+                )
+            {
+                return string.Format("value: {0}, visible :{1}, autocomplete :{{ entity:'{2}', field :'{3}', query:'{4}' }}",
+                    path,
+                    this.Visible,
+                    this.AutoCompletionEntity,
+                    this.AutoCompletionField,
+                    this.AutoCompletionQuery.Replace("'","\\'"));
+            }
+
             if (null != this.CustomField)
                 path = string.Format("CustomField('{0}')", this.Path);
 

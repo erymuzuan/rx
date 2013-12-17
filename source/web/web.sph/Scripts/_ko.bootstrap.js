@@ -26,13 +26,13 @@
     }
 };
 
-ko.bindingHandlers.bootstrapPopover= {
+ko.bindingHandlers.bootstrapPopover = {
     init: function (element, valueAccesor) {
         var text = ko.unwrap(valueAccesor());
-        $(element).popover({content:'<pre>' +  text + '</pre>', html:true});
+        $(element).popover({ content: '<pre>' + text + '</pre>', html: true });
     }
 };
-ko.bindingHandlers.bootstrapTooltip= {
+ko.bindingHandlers.bootstrapTooltip = {
     init: function (element, valueAccesor) {
         var text = ko.unwrap(valueAccesor());
         $(element).tooltip({ title: text });
@@ -46,9 +46,9 @@ ko.bindingHandlers.cssAutoComplete = {
     init: function (element, valueAccessor) {
         var value = valueAccessor(),
             bootstrap = _(document.styleSheets).find(function (s) {
-            // TODO : what happend if were to combine the css with Bundle
-            return s.href.indexOf("bootstrap") > -1;
-        });
+                // TODO : what happend if were to combine the css with Bundle
+                return s.href.indexOf("bootstrap") > -1;
+            });
         var data = ['btn', 'btn-warning', 'btn-success', 'btn-link'];
         if (bootstrap) {
             data = _.chain(bootstrap.rules).filter(function (r) {
@@ -63,11 +63,11 @@ ko.bindingHandlers.cssAutoComplete = {
             })
                 .value();
         }
-      
+
         $(element).typeahead({
             name: 'css_class',
             limit: 10,
-            local:data
+            local: data
         })
         .on('typeahead:closed', function () {
             value($(this).val());
@@ -76,4 +76,29 @@ ko.bindingHandlers.cssAutoComplete = {
 
     }
 
+};
+
+
+
+ko.bindingHandlers.autocomplete = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var va = ko.unwrap(valueAccessor()),
+         entity = ko.unwrap(va.entity),
+         field = ko.unwrap(va.field),
+         query = ko.unwrap(va.query),
+        allBindings = allBindingsAccessor();
+
+
+        $(element).typeahead({
+            name: 'autocomplete_' + $(element).prop("id"),
+            limit: 5,
+            prefetch: {
+                url: String.format("/list?table={0}&column={1}&filter={2}", entity, field, query),
+                ttl: 1000 * 60
+            }
+        })
+            .on('typeahead:closed', function () {
+                allBindings.value($(this).val());
+            });
+    }
 };

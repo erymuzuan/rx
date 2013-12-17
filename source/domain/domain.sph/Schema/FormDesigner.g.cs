@@ -2084,6 +2084,54 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        private string m_AutoCompletionEntity;
+        [XmlAttribute]
+        public string AutoCompletionEntity
+        {
+            get
+            {
+                return m_AutoCompletionEntity;
+            }
+            set
+            {
+                m_AutoCompletionEntity = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_AutoCompletionField;
+        [XmlAttribute]
+        public string AutoCompletionField
+        {
+            get
+            {
+                return m_AutoCompletionField;
+            }
+            set
+            {
+                m_AutoCompletionField = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_AutoCompletionQuery;
+        [XmlAttribute]
+        public string AutoCompletionQuery
+        {
+            get
+            {
+                return m_AutoCompletionQuery;
+            }
+            set
+            {
+                m_AutoCompletionQuery = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         public int? MinLength { get; set; }
 
         public int? MaxLength { get; set; }
@@ -3720,6 +3768,38 @@ namespace Bespoke.Sph.Domain
             set
             {
                 m_CommandName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_LoadingText;
+        [XmlAttribute]
+        public string LoadingText
+        {
+            get
+            {
+                return m_LoadingText;
+            }
+            set
+            {
+                m_LoadingText = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string m_CompleteText;
+        [XmlAttribute]
+        public string CompleteText
+        {
+            get
+            {
+                return m_CompleteText;
+            }
+            set
+            {
+                m_CompleteText = value;
                 RaisePropertyChanged();
             }
         }

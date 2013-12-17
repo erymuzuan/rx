@@ -2,6 +2,18 @@
 
 <!--ko if: ko.unwrap($type) === "Bespoke.Sph.Domain.TextBox, domain.sph" -->
 <div class="form-group">
+    <label for="form-element-textbox-minlength">Autocompletion Entity</label>
+    <input class="form-control" data-bind="value: AutoCompletionEntity" id="form-element-textbox-entity" type="text" name="entity" />
+</div>
+<div class="form-group">
+    <label for="form-element-textbox-minlength">Autocompletion Field</label>
+    <input class="form-control" data-bind="value: AutoCompletionField" id="form-element-textbox-Field" type="text" name="Field" />
+</div>
+<div class="form-group">
+    <label for="form-element-textbox-minlength">Autocompletion Query</label>
+    <input class="form-control" data-bind="value: AutoCompletionQuery" id="form-element-textbox-Query" type="text" name="Query" />
+</div>
+<div class="form-group">
     <label for="form-element-textbox-minlength">Min length</label>
     <input class="form-control" data-bind="value: MinLength" id="form-element-textbox-minlength" type="text" name="MinLength" />
 </div>
