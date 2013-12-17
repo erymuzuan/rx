@@ -1,0 +1,47 @@
+﻿
+<section class="view-model-modal" id="snippets-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Code snippets</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <a href="#" data-bind="click : add" title="Add new snippet">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                        <ul id="snippets-list-ul" class="nav nav-pills " data-bind="foreach :snippets" style="max-height: 300px;overflow: scroll">
+                            <li>
+                                <a href="#" data-bind="text:title"></a>
+                            </li>
+                        </ul>
+                        
+                    </div>
+                    <div class="col-lg-9" data-bind="with : snippet">
+                        <form role="form" id="snippets-dialog-form">
+                            <div class="form-group">
+                                <label>Title</label>
+                                <input class="form-control" type="text" name="" data-bind="value:title" />
+                            </div>
+                            <div class="form-group">
+                                <label>Code</label>
+                                <textarea class="form-control" rows="10" name="code" data-bind="value:code"></textarea>
+                            </div>
+                            <a href="#" data-bind="click : $parent.deleteItem" title="delete this snippet">
+                                <span class="glyphicon glyphicon-remove" style="color: red"></span>
+                            </a>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <input form="snippets-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -20,13 +20,24 @@
                         panel.modal();
                         dialog.__view__ = panel;
                         dialog.modal = {
-                            close : function(result) {
+                            close: function (result) {
                                 tcs.resolve(result);
                             }
                         };
+                        if (dialog.viewAttached) {
+                            dialog.viewAttached(panel[0]);
+                        }
+                        if (dialog.activate) {
+                            dialog.activate()
+                                .done(function () {
 
+                                    ko.applyBindings(dialog, panel[0]);
+                                });
+                        } else {
 
-                        ko.applyBindings(dialog, panel[0]);
+                            ko.applyBindings(dialog, panel[0]);
+                        }
+
                     });
             }
 

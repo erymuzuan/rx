@@ -317,6 +317,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CreateMapModel.cs" />
+    <Compile Include="ViewModels\EditorPageViewModel.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
@@ -474,6 +475,7 @@
     <Content Include="App\services\tracker.js" />
     <Content Include="App\services\validation.js" />
     <Content Include="App\services\watcher.js" />
+    <Content Include="App\viewmodels\snippets.dialog.js" />
     <Content Include="App\viewmodels\ace.goto.line.js" />
     <Content Include="App\viewmodels\action.email.js" />
     <Content Include="App\viewmodels\action.setter.js" />
@@ -655,6 +657,7 @@
     <Content Include="App\views\_workorder.ncr.html" />
     <Content Include="App\views\_workorder.partsandlabor.html" />
     <Content Include="App\views\_workorder.warranty.html" />
+    <Content Include="code.snippets.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -1884,6 +1887,7 @@
     <Content Include="Views\HotTowel\_splash.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="App\views\snippets.dialog.html" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -2172,6 +2176,7 @@
     <Content Include="Views\WorkflowDefinition\DisplayTemplates\Button.cshtml" />
     <Content Include="Views\WorkflowDefinition\EditorTemplates\Button.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Button.cshtml" />
+    <Content Include="Views\Editor\_Toolbar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

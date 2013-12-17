@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
+using Bespoke.Sph.Web.Helpers;
+using Bespoke.Sph.Web.ViewModels;
 
 namespace Bespoke.Sph.Web.Controllers
 {
@@ -17,10 +19,13 @@ namespace Bespoke.Sph.Web.Controllers
             var vm = new EditorPageViewModel { Page = page };
             return View(vm);
         }
-    }
 
-    public class EditorPageViewModel
-    {
-        public Bespoke.Sph.Domain.Page Page { get; set; }
+        public ActionResult SaveSnippets()
+        {
+            var snippets = this.GetRequestBody();
+            var json = Server.MapPath("~/code.snippets.js");
+            System.IO.File.WriteAllText(json,snippets);
+            return Json(new {status = "OK", success =true});
+        }
     }
 }

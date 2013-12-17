@@ -1,5 +1,6 @@
 ﻿@using System.Configuration
-@model Bespoke.Sph.Web.Controllers.EditorPageViewModel
+@using System.Web.Mvc.Html
+@model Bespoke.Sph.Web.ViewModels.EditorPageViewModel
 
 @{
     Layout = null;
@@ -33,75 +34,7 @@
     </style>
 </head>
 <body>
-
-    <nav id="header-navbar" class="navbar navbar-default">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Code Editor</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-            <form class="navbar-form navbar-left" role="search">
-                <button data-bind="click : save" class="btn btn-default"><i class="fa fa-save"></i>Save</button>
-                <button data-bind="click : saveAndClose" class="btn btn-default"><i class="fa fa-arrow-circle-down"></i>Save &amp; Close</button>
-                <button data-bind="click : copy" class="btn btn-default"><i class="fa fa-copy"></i>Copy               </button>
-                <button data-bind="click : paste" class="btn btn-default"><i class="fa fa-paste"></i>Paste</button>
-                <input data-bind="value : searchText" type="search" class="form-control" style="width: 100px" />
-                <button data-bind="click : search" class="btn btn-default"><i class="fa fa-search"></i>Search</button>
-                <button data-bind="click : logs" class="btn btn-default"><i class="fa fa-clock-o"></i>Logs</button>
-                <div class="form-group">
-                    <label class="sr-only">Theme</label>
-                    <select style="width: 200px" class="form-control" id="theme">
-                        <optgroup label="Light">
-                            <option value="textmate">Textmate</option>
-                            <option value="crimson_editor">Crimson</option>
-                        </optgroup>
-                        <optgroup label="Dark">
-                            <option value="monokai">Monokai</option>
-                            <option value="twilight">Twilight</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="sr-only">Font size</label>
-                    <select style="width: 100px" id="font-size" class="form-control">
-                        @for (int i = 10; i < 21; i++)
-                        {
-                            <option value="@i">@i</option>
-                        }
-                    </select>
-                </div>
-
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Help</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-
-
-        <form class="form-inline">
-            <div class="form-group">
-            </div>
-
-
-        </form>
-    </nav>
+    @Html.Partial("_Toolbar")
     <pre id="editor">
 // PLEASE WAIT WHILE YOUR SCRIPT IS LOADING
 </pre>
@@ -114,6 +47,7 @@
     <script src="~/Scripts/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/knockout-3.0.0.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Scripts/knockout.mapping-latest.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/underscore.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/moment.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/_function.prototypes.js" type="text/javascript" charset="utf-8"></script>
@@ -222,8 +156,18 @@
                     saveAndClose: saveAndClose,
                     gotoLine: gotoLine,
                     logs: logs,
-                    isBusy: isBusy
+                    isBusy: isBusy,
+                    snippets: ko.observableArray(),
+                    openSnippetEditor: function () {
+                        require(['viewmodels/snippets.dialog', 'services/app'], function (dialog, app2) {
 
+                            app2.showModal(dialog)
+                                .done(function () {
+
+                                });
+
+                        });
+                    }
                 };
             ko.applyBindings(vm, document.getElementById('header-navbar'));
 
@@ -238,7 +182,16 @@
                 $('#editor').css("font-size", $(this).val() + "px");
                 $.post('/Editor/SaveSetting', { 'ace-font-size': $(this).val() });
             });
+            $('#snippets-list').on('click', 'li>a', function () {
+                var sp = ko.dataFor(this),
+                    code = ko.unwrap(sp.code);
+                editor.insert(code);
+            });
 
+            $.getJSON('/code.snippets.js')
+                .done(function (snippets) {
+                    vm.snippets(snippets);
+                });
 
         });
     </script>
