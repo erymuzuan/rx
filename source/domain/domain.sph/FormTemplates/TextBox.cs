@@ -31,15 +31,17 @@ namespace Bespoke.Sph.Domain
 
             if (!string.IsNullOrWhiteSpace(this.AutoCompletionEntity)
                 && !string.IsNullOrWhiteSpace(this.AutoCompletionField)
-                && !string.IsNullOrWhiteSpace(this.AutoCompletionQuery)
                 )
             {
+                var query = string.IsNullOrWhiteSpace(this.AutoCompletionQuery)
+                    ? this.AutoCompletionEntity + "Id gt 0"
+                    : this.AutoCompletionQuery.Replace("'", "\\'");
                 return string.Format("value: {0}, visible :{1}, autocomplete :{{ entity:'{2}', field :'{3}', query:'{4}' }}",
                     path,
                     this.Visible,
                     this.AutoCompletionEntity,
                     this.AutoCompletionField,
-                    this.AutoCompletionQuery.Replace("'","\\'"));
+                    query);
             }
 
             if (null != this.CustomField)
