@@ -11,15 +11,22 @@
 bespoke.sph.domain.ButtonPartial = function () {
 
     var editCommand = function () {
-        var self = this;
-        var w = window.open("/editor/ace?mode=javascript", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes');
-        w.code = ko.unwrap(this.Command);
-        w.saved = function (code, close) {
-            self.Command(code);
-            if (close) {
-                w.close();
-            }
-        };
+        var self = this,
+            w = window.open("/editor/ace?mode=javascript", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),
+            init = function () {
+                w.code = ko.unwrap(this.Command);
+                w.saved = function (code, close) {
+                    self.Command(code);
+                    if (close) {
+                        w.close();
+                    }
+                };
+            };
+        if (w.attachEvent) { // for ie
+            w.attachEvent('onload', init);
+        } else {
+            init();
+        }
     };
     return {
         editCommand: editCommand

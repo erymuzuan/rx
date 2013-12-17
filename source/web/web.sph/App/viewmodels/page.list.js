@@ -11,30 +11,40 @@
 
 
 define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-    function (context, logger, router) {
+    function (context) {
 
         var isBusy = ko.observable(false),
             activate = function () {
 
             },
-            viewAttached = function (view) {
+            viewAttached = function () {
 
             },
             editPage = function (page) {
-                var w = window.open("/editor/page/" + page.PageId() + "?mode=html", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes');
-                w.code = page.Code();
-                w.saved = function (code, close) {
-                    page.Code(code);
-                    if (close) {
-                        w.close();
-                    }
-                    var tcs = new $.Deferred();
-                    var data = ko.mapping.toJSON(page);
+                var w = window.open("/editor/page/" + page.PageId() + "?mode=html", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),
+                    init = function () {
+                        w.saved = function (code, close) {
+                            page.Code(code);
+                            if (close) {
+                                w.close();
+                            }
+                            var tcs = new $.Deferred();
+                            var data = ko.mapping.toJSON(page);
 
-                    context.post(data, "/Page/Save")
-                        .then(tcs.resolve);
-                    return tcs.promise();
-                };
+                            context.post(data, "/Page/Save")
+                                .then(tcs.resolve);
+                            return tcs.promise();
+                        };
+                        w.code = page.Code();
+
+                    };
+                if (w.attachEvent) { // for ie
+                    w.attachEvent('onload', init);
+                } else {
+                    init();
+                }
+
+
             },
             editDetail = function (page) {
 
