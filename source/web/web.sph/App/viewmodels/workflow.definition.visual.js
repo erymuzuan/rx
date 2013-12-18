@@ -178,6 +178,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 return tcs.promise();
 
             },
+       
             isJsPlumbReady = false,
             connectorPaintStyle = {
                 lineWidth: 2,

@@ -20,8 +20,8 @@
 
 
 
-    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system],
-        function (context, logger, router, system) {
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app],
+        function (context, logger, router, system,app) {
 
             var activate = function () {
                 var elements = @Html.Raw(JsonConvert.SerializeObject(Model.FormElements,setting)),
@@ -140,36 +140,51 @@
                         $(this).parents('div.context-action').hide();
                     });
                 },
-            okClick = function (data, ev) {
-                if (bespoke.utils.form.checkValidity(ev.target)) {
+                supportsHtml5Storage = function () {
+                    try {
+                        return 'localStorage' in window && window['localStorage'] !== null;
+                    } catch (e) {
+                        return false;
+                    }
+                },
+                okClick = function (data, ev) {
+                    if (bespoke.utils.form.checkValidity(ev.target)) {
 
-                    var fd = ko.unwrap(vm.activity().FormDesign);
-                    // get the sorted element
-                    var elements = _($('#template-form-designer>form>div')).map(function (div) {
-                        return ko.dataFor(div);
-                    });
-                    fd.FormElementCollection(elements);
+                        var fd = ko.unwrap(vm.activity().FormDesign);
+                        // get the sorted element
+                        var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                            return ko.dataFor(div);
+                        });
+                        fd.FormElementCollection(elements);
 
-                    this.modal.close("OK");
-                }
-
-            },
+                        this.modal.close("OK");
+                        if (supportsHtml5Storage()) {
+                            localStorage.removeItem(vm.activity().WebId());
+                        }
+                    }
+                },
                 cancelClick = function () {
+                    if (supportsHtml5Storage()) {
+                        localStorage.removeItem(vm.activity().WebId());
+                    }
                     this.modal.close("Cancel");
                 },
-            selectFormElement = function (fe) {
+                selectFormElement = function (fe) {
 
-                var fd = ko.unwrap(vm.activity().FormDesign);
-                _(fd.FormElementCollection()).each(function (f) {
-                    f.isSelected(false);
-                });
-                fe.isSelected(true);
-                vm.selectedFormElement(fe);
-            },
-            removeFormElement = function (fe) {
-                var fd = ko.unwrap(vm.activity().FormDesign);
-                fd.FormElementCollection.remove(fe);
-            };
+                    var fd = ko.unwrap(vm.activity().FormDesign);
+                    _(fd.FormElementCollection()).each(function (f) {
+                        f.isSelected(false);
+                    });
+                    fe.isSelected(true);
+                    vm.selectedFormElement(fe);
+                    if (supportsHtml5Storage()) {
+                        localStorage.setItem(vm.activity().WebId(), ko.mapping.toJSON(vm.activity));
+                    }
+                },
+                removeFormElement = function (fe) {
+                    var fd = ko.unwrap(vm.activity().FormDesign);
+                    fd.FormElementCollection.remove(fe);
+                };
 
             var vm = {
                 viewAttached: viewAttached,
@@ -185,6 +200,29 @@
             };
 
             vm.activity.subscribe(function(screen) {
+
+                var cached = localStorage.getItem(screen.WebId());
+                if (cached) {
+                    app.showMessage("There's cached data in your local storage, do you want to restore this?", "Local storage", ["Yes", "No"])
+                        .done(function(dr) {
+                            if (dr === "Yes") {
+                                var screen2 = context.toObservable(JSON.parse(cached)),
+                                    fd2 = ko.unwrap(screen2.FormDesign);
+                                
+                                _(fd2.FormElementCollection()).each(function(v) {
+                                    v.isSelected = ko.observable(false);
+                                });
+                                if (typeof screen.FormDesign === "function") {
+                                    screen.FormDesign(screen2.FormDesign());
+                                } else {
+                                    screen.FormDesign.FormElementCollection(screen2.FormDesign().FormElementCollection());
+                                }
+
+                                return;
+                            }
+                        });
+                }
+
                 var fd = ko.unwrap(screen.FormDesign);
                 _(fd.FormElementCollection()).each(function(v) {
                     v.isSelected = ko.observable(false);
