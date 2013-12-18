@@ -289,7 +289,7 @@ namespace Bespoke.Sph.Domain
                             button = $(this);
 
                         button.prop('disabled', true);
-                        context.post(data, ""/@Model.Controller.Replace(controllerString, string.Empty)/@Model.SaveAction"")
+                        context.post(data, ""/workflow_{1}_{2}/Save{0}"")
                             .then(function(result) {{
                                 tcs.resolve(result);
                                 @if(Model.Screen.ConfirmationOptions.Type == ""Message"")
@@ -311,7 +311,7 @@ namespace Bespoke.Sph.Domain
 
                             }});
                         return tcs.promise();
-                }}");
+                }}", this.ActionName, wd.WorkflowDefinitionId, wd.Version);
             if (buttonCommandJs.Length > 0)
                 buttonCommandJs = saveCommand + "," + buttonCommandJs;
             else
