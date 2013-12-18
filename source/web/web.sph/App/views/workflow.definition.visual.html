@@ -127,14 +127,30 @@
                         <textarea cols="4" rows="5" data-bind="value:Note" class="form-control" id="Note" placeholder="Note....." />
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-offset-2 col-lg-6">
-                            <div class="checkbox">
-                                <label>
-                                    <input data-bind="checked: IsActive" id="IsActive" type="checkbox" name="IsActive" />
-                                    Is Active
-                                </label>
-                            </div>
+                        <div class="checkbox">
+                            <label>
+                                <input data-bind="checked: IsActive" id="IsActive" type="checkbox" name="IsActive" />
+                                Is Active
+                            </label>
                         </div>
+                    </div>
+                    <div class="form-group"><h4>Auto save</h4></div>
+
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input data-bind="checked: $root.autoSave" id="autosave" type="checkbox" name="$root.autoSave" />
+                                Auto save
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="autosave-interval">Interval (ms)</label>
+                        <input type="number" data-bind="value: $root.autoSaveInterval"
+                               placeholder="Interval in ms" step="100"
+                               min="1000"
+                               max="60000"
+                               class="form-control" id="autosave-interval">
                     </div>
                 </form>
             </div>

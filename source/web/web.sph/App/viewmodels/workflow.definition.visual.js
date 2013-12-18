@@ -32,12 +32,12 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                     parallel = new bespoke.sph.domain.ParallelActivity({
                         WebId: system.guid(),
                         Name: 'Parallel Activity',
-                        Note : 'Run procesess concurrently'
+                        Note: 'Run procesess concurrently'
                     }),
                     join = new bespoke.sph.domain.JoinActivity({
                         WebId: system.guid(),
                         Name: 'Join Activity',
-                        Note : 'Wait for concurrent processes'
+                        Note: 'Wait for concurrent processes'
                     }),
                     delay = new bespoke.sph.domain.DelayActivity("@Guid.NewGuid()"),
                     end = new bespoke.sph.domain.EndActivity("@Guid.NewGuid()"),
@@ -261,6 +261,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
 
 
             },
+            autoSave = ko.observable(false),
+            autoSaveInterval = ko.observable(5000),
             wdChanged = function (wd0) {
                 var activities = _(wd0.ActivityCollection());
                 activities.each(initializeActivity);
@@ -279,6 +281,21 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
 
                 jsPlumb.draggable($("div.activity"));
                 isBusy(false);
+                var as = null;
+                autoSave.subscribe(function (enabled) {
+                    if (!enabled && as) {
+                        clearInterval(as);
+                    }
+                    if (enabled) {
+                        as = setInterval(saveAsync, autoSaveInterval());
+                    }
+                });
+                autoSaveInterval.subscribe(function (interval) {
+                    if (autoSave() && as) {
+                        clearInterval(as);
+                        as = setInterval(saveAsync, interval);
+                    }
+                });
             },
             createConnection = function (source, target, label) {
 
@@ -595,6 +612,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             itemAdded: itemAdded,
             errors: ko.observableArray(),
             showError: showError,
+            autoSave: autoSave,
+            autoSaveInterval: autoSaveInterval,
             toolbar: {
                 saveCommand: saveAsync,
                 exportCommand: exportWd,
