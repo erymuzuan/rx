@@ -18,7 +18,14 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'durandal/plu
 
             router.handleInvalidRoute = function (route, params) {
                 logger.logError('No Route Found', route, 'main', true);
-                window.location = "/Account/Login?returnUrl=" + route;
+                app.showMessage("You may not have the permission to access " + route + "<br/>Do you want to login?","Login", ["Yes", "No"])
+                    .done(function (dr) {
+                        if (dr === "Yes") {
+                            window.location = "/Account/Login?returnUrl=" + route;
+                        } else {
+                            window.location = "/";
+                        }
+                    });
             };
 
             // When finding a viewmodel module, replace the viewmodel string 
