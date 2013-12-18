@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Win32.TaskScheduler;
 using Bespoke.Sph.Domain;
@@ -69,11 +70,22 @@ namespace Bespoke.Sph.WindowsTaskScheduler
         public System.Threading.Tasks.Task DeleteAsync(ScheduledActivityExecution info)
         {
             var path = GetPath(info);
-            using (var ts = new TaskService())
+            try
             {
-                var folder = ts.RootFolder.SubFolders.FirstOrDefault(f => f.Name == this.FolderName) ??
-                             ts.RootFolder.CreateFolder(FolderName);
-                folder.DeleteTask(path);
+                using (var ts = new TaskService())
+                {
+                    var folder = ts.RootFolder.SubFolders.FirstOrDefault(f => f.Name == this.FolderName) ??
+                                 ts.RootFolder.CreateFolder(FolderName);
+                    folder.DeleteTask(path);
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // NOTE : when a screen is invoke from ListenActivity branch, a delay might be cancelled
+                // and this is invoke from ASP.net, thus we have to delegate this operation to a subscriber
+                var publisher = ObjectBuilder.GetObject<IEntityChangePublisher>();
+                var item = new Entity[] { new Tracker { WebId = path } };
+                publisher.PublishDeleted("DeleteDelayActivity", item, new Dictionary<string, object>());
             }
 
             return System.Threading.Tasks.Task.FromResult(0);
