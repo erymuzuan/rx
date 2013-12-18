@@ -45,5 +45,18 @@ namespace Bespoke.Sph.DirectoryServices
         {
             return Task.FromResult(Membership.ValidateUser(userName, password));
         }
+
+        public Task<UserProfile> GetUserAsync(string userName)
+        {
+            var user = Membership.GetUser(userName);
+            if (null != user)
+                return Task.FromResult(new UserProfile
+                {
+                    Username = userName,
+                    IsLockedOut = user.IsLockedOut
+                   
+                });
+            return Task.FromResult<UserProfile>(null);
+        }
     }
 }

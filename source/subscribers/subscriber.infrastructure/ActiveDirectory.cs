@@ -20,5 +20,10 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         {
             throw new System.NotImplementedException();
         }
+
+        public Task<UserProfile> GetUserAsync(string userName)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

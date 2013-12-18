@@ -46,7 +46,8 @@ namespace Bespoke.Sph.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.UserName, model.Password))
+                var directory = ObjectBuilder.GetObject<IDirectoryService>();
+                if (await directory.AuthenticateAsync(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     var context = new SphDataContext();
@@ -56,9 +57,11 @@ namespace Bespoke.Sph.Web.Controllers
                         if (!profile.HasChangedDefaultPassword)
                             return RedirectToAction("ChangePassword");
                     }
-                    return RedirectToAction("Index", "HotTowel");
+                    if (!string.IsNullOrWhiteSpace(returnUrl))
+                        return Redirect(returnUrl);
+                    return Redirect("/");
                 }
-                var user = Membership.GetUser(model.UserName);
+                var user = await directory.GetUserAsync(model.UserName);
                 if (null != user && user.IsLockedOut)
                     ModelState.AddModelError("", "Your acount has beeen locked, Please contact NSRM administrator.");
                 else

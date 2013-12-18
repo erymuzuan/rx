@@ -73,6 +73,11 @@ namespace domain.test.triggers
         {
             throw new System.NotImplementedException();
         }
+
+        public Task<UserProfile> GetUserAsync(string userName)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     internal class MockTemplateEnging : ITemplateEngine

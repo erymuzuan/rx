@@ -3,6 +3,7 @@
     ViewBag.Title = "Log in";
     Layout = null;
 }
+@using System.Web.Mvc.Html
 @using System.Web.Optimization
 <!DOCTYPE html>
 <html lang="en">
@@ -46,6 +47,7 @@
                                 <input type="checkbox" name="remember" value="1">
                                 Ingat saya
                             </label>
+                            <input type="hidden" value="@Request.QueryString["ReturnUrl"]" name="requestUrl" />
                             <button type="submit" name="submit" class="btn btn-info">Daftar Masuk</button>
                         </form>
 

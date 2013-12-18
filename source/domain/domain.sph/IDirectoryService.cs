@@ -8,5 +8,6 @@ namespace Bespoke.Sph.Domain
         Task<string[]> GetUserInRolesAsync(string role);
         Task<string[]> GetUserRolesAsync(string userName);
         Task<bool> AuthenticateAsync(string userName, string password);
+        Task<UserProfile> GetUserAsync(string userName);
     }
 }

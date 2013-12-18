@@ -18,6 +18,7 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'durandal/plu
 
             router.handleInvalidRoute = function (route, params) {
                 logger.logError('No Route Found', route, 'main', true);
+                window.location = "/Account/Login?returnUrl=" + route;
             };
 
             // When finding a viewmodel module, replace the viewmodel string 
