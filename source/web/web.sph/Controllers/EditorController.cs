@@ -8,6 +8,10 @@ namespace Bespoke.Sph.Web.Controllers
 {
     public class EditorController : Controller
     {
+        public ActionResult Help()
+        {
+            return View();
+        }
         public ActionResult Ace()
         {
             return View();

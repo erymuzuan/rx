@@ -37,6 +37,7 @@ namespace Bespoke.Sph.Web.Controllers
             return File(content, "application/text", System.IO.Path.GetFileName(page.VirtualPath));
 
         }
+
         public async Task<ActionResult> Compare(int id)
         {
             var context = new SphDataContext();

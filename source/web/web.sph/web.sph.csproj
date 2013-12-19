@@ -2179,6 +2179,7 @@
     <Content Include="Views\Shared\EditorTemplates\Button.cshtml" />
     <Content Include="Views\Editor\_Toolbar.cshtml" />
     <Content Include="Views\WorkflowDefinition\ScreenEditor.cshtml" />
+    <Content Include="Views\Editor\Help.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

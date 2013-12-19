@@ -333,7 +333,8 @@ namespace Bespoke.Sph.Domain
 }}
 
 <div class=""row"">
-    <h1>@Model.Screen.Title</h1>
+    <h1>@Model.Screen.FormDesign.Name</h1>
+    <span>@Model.Screen.FormDesign.Description</span>
 </div>
 <div class=""row"">
     <form class=""form-horizontal"" id=""workflow-start-form"" data-bind=""with: instance"">
