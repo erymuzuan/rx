@@ -1076,5 +1076,19 @@
     "isAdminPage": false,
     "showWhenLoggedIn": false,
     "error": ""
+  },
+  {
+    "role": "can_edit_workflow",
+    "groupName": "Workflow",
+    "url": "screen.editor/:wdid/:webid",
+    "moduleId": "viewmodels/screen.editor",
+    "name": "Screen Designer",
+    "visible": false,
+    "icon": "fa-pagelines",
+    "caption": "Screen Editor",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
   }
 ]

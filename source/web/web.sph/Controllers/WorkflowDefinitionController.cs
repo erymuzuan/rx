@@ -63,6 +63,12 @@ namespace Bespoke.Sph.Web.Controllers
             return View(vm);
         }
 
+        public ActionResult ScreenEditor()
+        {
+            var vm = new TemplateFormViewModel { Entity = typeof(Space).Name };
+            return View(vm);
+        }
+
         public ActionResult ScreenJs()
         {
             var vm = new TemplateFormViewModel { Entity = typeof(Space).Name };

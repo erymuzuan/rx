@@ -6,27 +6,41 @@
     var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, Formatting = Formatting.Indented };
 }
 <script src="~/App/objectbuilders.js"></script>
+<script src="~/Scripts/knockout-3.0.0.debug.js"></script>
+<script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
+<script src="~/App/schemas/trigger.workflow.g.js"></script>
+<script src="~/App/schemas/form.designer.g.js"></script>
+
 <script type="text/javascript" data-script="true">
 
-    /// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
-    /// <reference path="../../Scripts/knockout-2.3.0.debug.js" />
-    /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
-    /// <reference path="../../Scripts/require.js" />
-    /// <reference path="../../Scripts/underscore.js" />
-    /// <reference path="../../Scripts/moment.js" />
-    /// <reference path="../services/datacontext.js" />
-    /// <reference path="../services/domain.g.js" />
-    /// <reference path="../../Scripts/bootstrap.js" />
 
 
 
-    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app],
-        function (context, logger, router, system,app) {
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp],
+        function (context, logger, router, system, app, eximp) {
 
-            var activate = function () {
+            var activate = function (routeData) {
                 var elements = @Html.Raw(JsonConvert.SerializeObject(Model.FormElements,setting)),
                     oels = _(elements.$values).map(function (v){return context.toObservable(v);});
                 vm.formElements(oels);
+
+                if (routeData) {
+                    var id = parseInt(routeData.wdid),
+                        query = String.format("WorkflowDefinitionId eq {0}", id),
+                        tcs = new $.Deferred();
+
+                    context.loadOneAsync("WorkflowDefinition", query)
+                        .done(function (b) {
+                            vm.wd(b);
+                            tcs.resolve(true);
+                            b.loadSchema();
+                            var act = _(b.ActivityCollection()).find(function(v) { return v.WebId() == routeData.webid; });
+                            vm.activity(act);
+
+                        });
+                    return tcs.promise();
+                }
+                return Task.fromResult(true);
             },
                 viewAttached = function(view) {
 
@@ -184,6 +198,27 @@
                 removeFormElement = function (fe) {
                     var fd = ko.unwrap(vm.activity().FormDesign);
                     fd.FormElementCollection.remove(fe);
+                },
+                exportScreen = function() {
+                    return eximp.exportJson(ko.unwrap(vm.activity().Name) + ".json", ko.mapping.toJSON(vm.activity));
+                },
+                open = function() {
+
+                },
+                importCommand = function() {
+                    return eximp.importJson()
+                 .done(function (json) {
+                     try {
+
+                         var obj = JSON.parse(json),
+                             clone = context.toObservable(obj);
+
+                         vm.activity().FormDesign(clone.FormDesign());
+
+                     } catch (error) {
+                         logger.logError('Fail template import tidak sah', error, this, true);
+                     }
+                 });
                 };
 
             var vm = {
@@ -196,7 +231,17 @@
                 activity: ko.observable(new bespoke.sph.domain.ScreenActivity()),
                 wd : ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
                 okClick: okClick,
-                cancelClick: cancelClick
+                cancelClick: cancelClick,
+                importCommand :importCommand,
+                toolbar : {
+                    commands :ko.observableArray([{
+                        caption : 'Open',
+                        icon : 'fa fa-folder-open-o',
+                        command : open
+                    }
+                    ]),
+                    exportCommand : exportScreen
+                }
             };
 
             vm.activity.subscribe(function(screen) {
@@ -208,7 +253,7 @@
                             if (dr === "Yes") {
                                 var screen2 = context.toObservable(JSON.parse(cached)),
                                     fd2 = ko.unwrap(screen2.FormDesign);
-                                
+
                                 _(fd2.FormElementCollection()).each(function(v) {
                                     v.isSelected = ko.observable(false);
                                 });
