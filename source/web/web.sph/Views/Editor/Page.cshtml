@@ -73,10 +73,10 @@
 
     <script>
 
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/@theme");
         require(['services/datacontext', 'jquery', 'services/app', 'services/system'], function (context, jquery, app, system) {
 
-            var editor = ace.edit("editor");
-            editor.setTheme("ace/theme/@theme");
             @{
             var mode = this.Request.QueryString["mode"] ?? "csharp";
         }
@@ -88,7 +88,15 @@
                 count++;
             }
             editor.setValue(window.code);
-            editor.gotoLine(1);
+            var cursor2 = localStorage.getItem("page_@Model.Page.PageId"),
+                c = JSON.parse(cursor2);
+            if (c) {
+                editor.focus();
+                editor.gotoLine(c.row);
+                editor.moveCursorToPosition(c);
+            } else {
+                editor.gotoLine(1);
+            }
 
 
             editor.commands.addCommand({
@@ -116,6 +124,11 @@
                 saveAndClose = function () {
                     if (window.saved)
                         window.saved(editor.getValue(), true);
+
+                    var cursor = editor.selection.getCursor();
+                    if (cursor) {
+                        localStorage.setItem("page_@Model.Page.PageId", JSON.stringify(cursor));
+                    }
 
                 },
                 copy = function () {
