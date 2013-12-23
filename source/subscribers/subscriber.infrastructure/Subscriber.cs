@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 
 //using sql = Bespoke.Sph.SqlRepository;
 
@@ -57,14 +56,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         }
 
-        protected bool CanStop
-        {
-            get { return m_stopped; }
-        }
-        private bool m_stopped;
         public void Stop()
         {
-            m_stopped = true;
             this.OnStop();
         }
 

@@ -12,7 +12,7 @@ namespace Bespoke.Sph.Domain
     {
         private static readonly Dictionary<Type, object> m_cacheList = new Dictionary<Type, object>();
         private static CompositionContainer m_container;
-        
+
         public static void RegisterSpring(params string[] uri)
         {
         }
@@ -60,7 +60,11 @@ namespace Bespoke.Sph.Domain
             var springObject = ContextRegistry.GetContext().GetObject<T>();
             if (null != springObject)
             {
-                m_cacheList.Add(typeof(T),springObject);
+                try
+                {
+                    m_cacheList.Add(typeof(T), springObject);
+                }
+                catch (ArgumentException) { }
                 return springObject;
             }
             if (null == m_container)
@@ -91,7 +95,7 @@ namespace Bespoke.Sph.Domain
                     .Replace("`1[", "<")
                     .Replace("]", ">")
                     ;
-                
+
             }
             var springObject = ContextRegistry.GetContext().GetObject(name);
             if (null != springObject)

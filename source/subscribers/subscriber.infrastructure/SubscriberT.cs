@@ -12,13 +12,24 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     [Serializable]
     public abstract class Subscriber<T> : Subscriber where T : Entity
     {
+        private TaskCompletionSource<bool> m_stoppingTcs;
         protected abstract Task ProcessMessage(T item, MessageHeaders header);
 
         public override void Run()
         {
             RegisterServices();
             PrintSubscriberInformation();
+            m_stoppingTcs = new TaskCompletionSource<bool>();
+            this.StartConsume().Wait();
+        }
 
+        protected override void OnStop()
+        {
+            m_stoppingTcs.SetResult(true);
+        }
+
+        public async Task StartConsume()
+        {
             const bool noAck = false;
             const string exchangeName = "sph.topic";
             const string deadLetterExchange = "sph.ms-dead-letter";
@@ -34,6 +45,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 HostName = this.HostName,
                 Port = this.Port
             };
+
             using (var conn = factory.CreateConnection())
             using (var channel = conn.CreateModel())
             {
@@ -82,14 +94,22 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
 
                 channel.BasicConsume(this.QueueName, noAck, consumer);
-                while (!this.CanStop)
+                var stopped = await Stoping();
+                if (stopped)
                 {
-                    Task.Delay(5.Seconds()).Wait();
+                    channel.Close();
+                    conn.Close();
+                    this.WriteMessage("!!Stoping : {0}", this.QueueName);
+
                 }
 
 
             }
-            // ReSharper disable FunctionNeverReturns
+        }
+
+        private Task<bool> Stoping()
+        {
+            return m_stoppingTcs.Task;
         }
 
         // ReSharper restore FunctionNeverReturns

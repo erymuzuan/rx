@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Humanizer;
 
@@ -77,9 +78,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         }
 
-        void FswChanged(object sender, FileSystemEventArgs e)
+        async void FswChanged(object sender, FileSystemEventArgs e)
         {
-            this.Stop();
+            await this.Stop();
         }
 
         private Thread StartAppDomain(SubscriberMetadata metadata)
@@ -150,7 +151,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         }
 
         private bool m_isStopinng = false;
-        public void Stop()
+        public async Task Stop()
         {
             if (m_isStopinng) return;
 
@@ -159,13 +160,26 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 m_isStopinng = true;
                 this.SubscriberCollection.ForEach(s => s.Stop());
                 this.NotificationService.Write("WAITING to STOP for 10 seconds");
-                Thread.Sleep(10.Seconds());
-                this.AppDomainCollection.ForEach(AppDomain.Unload);
+                await Task.Delay(10.Seconds());
+                foreach (var appDomain in this.AppDomainCollection)
+                {
+                    this.NotificationService.Write("Stoping -> {0}", appDomain.FriendlyName);
+                    try
+                    {
+                        AppDomain.Unload(appDomain);
+                    }
+                    catch (Exception e)
+                    {
+                        this.NotificationService.WriteError(e.ToString());
+                    }
+                }
+                this.NotificationService.Write("WAITING 1 to START for 5 seconds");
 
                 this.SubscriberCollection.Clear();
                 this.AppDomainCollection.Clear();
                 //
                 this.NotificationService.Write("WAITING to START for 5 seconds");
+                await Task.Delay(5.Seconds());
                 this.Start();
             }
             finally

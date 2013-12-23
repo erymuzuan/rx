@@ -8,10 +8,23 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 {
     public class Discoverer
     {
+        private string m_path;
+
+        public string ProbingPath
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(m_path))
+                    return AppDomain.CurrentDomain.BaseDirectory + @"..\subscribers";
+                return m_path;
+            }
+            set { m_path = value; }
+        }
+
         public SubscriberMetadata[] Find()
         {
             var subscribers = new List<SubscriberMetadata>();
-            var assemblies = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"..\subscribers", "*.dll");
+            var assemblies = Directory.GetFiles(this.ProbingPath, "*.dll");
             foreach (var dll in assemblies)
             {
                 var list = FindSubscriber(dll);
@@ -23,11 +36,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         private static IEnumerable<SubscriberMetadata> FindSubscriber(string dll)
         {
-            if (string.IsNullOrWhiteSpace(dll)) return new SubscriberMetadata[] {};
+            if (string.IsNullOrWhiteSpace(dll)) return new SubscriberMetadata[] { };
             var fileName = Path.GetFileName(dll);
 
             if (fileName == "subscriber.infrastructure.dll") return new SubscriberMetadata[] { };
-            if (!fileName.StartsWith("subscriber")) return new SubscriberMetadata[] {};
+            if (!fileName.StartsWith("subscriber")) return new SubscriberMetadata[] { };
             try
             {
                 AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += CurrentDomainReflectionOnlyAssemblyResolve;
@@ -68,7 +81,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         public dynamic FindSubscriber()
         {
-            var aseemblies = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll");
+            var aseemblies = Directory.GetFiles(this.ProbingPath, "*.dll");
 
             var list = new List<dynamic>();
             foreach (var dll in aseemblies)
@@ -81,7 +94,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     dynamic pv = Activator.CreateInstance(type);
                     var sms = pv.GetSubscribers();
                     list.AddRange(sms);
-                    Console.WriteLine(sms);
                 }
             }
 
