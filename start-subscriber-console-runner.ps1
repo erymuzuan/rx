@@ -13,12 +13,22 @@ copy .\source\web\web.sph\bin\System.Web.WebPages.dll .\bin\subscribers
 copy .\source\web\web.sph\bin\System.Web.WebPages.Razor.dll .\bin\subscribers
 
 
+copy source\web\web.sph\bin\System.Web.WebPages.Razor.dll bin\schedulers
+copy source\web\web.sph\bin\System.Web.WebPages.dll bin\schedulers
+copy source\web\web.sph\bin\System.Web.Mvc.dll bin\schedulers
 
-$worker = ".\bin\subscribers\workers.console.runner.exe"
+copy source\web\web.sph\bin\System.Web.WebPages.Razor.dll bin\subscribers
+copy source\web\web.sph\bin\System.Web.WebPages.dll bin\subscribers
+copy source\web\web.sph\bin\System.Web.Mvc.dll bin\subscribers
+
+
+
+$worker = ".\bin\subscribers.host\workers.console.runner.exe"
 IF(Test-Path $worker){
 
     Write-Host "Starting worker..."
-    Start-Process -FilePath $worker -WorkingDirectory ".\bin\subscribers\" -ArgumentList "/log:console"  -NoNewWindow
+    Start-Process -FilePath .\workers.console.runner.exe -ArgumentList "/log:console /debug" -WorkingDirectory .\bin\subscribers.host
+    
 }
 ELSE{
     Write-Host "Please compile your console.runner"

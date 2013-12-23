@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 using System.ServiceProcess;
-using Bespoke.Station.SubscribersInfrastructure;
+using Bespoke.Sph.SubscribersInfrastructure;
 
 namespace workers.windowsservice.runner
 {
@@ -25,15 +25,15 @@ namespace workers.windowsservice.runner
             };
 
             var discoverer = new Discoverer();
-            m_program.Subscribers = discoverer.Find();
+            m_program.SubscribersMetadata = discoverer.Find();
             m_program.NotificationService = logger;
             m_program.Start();
 
         }
 
-        protected override void OnStop()
+        protected async override void OnStop()
         {
-            m_program.Stop();
+            await m_program.Stop();
         }
     }
 }

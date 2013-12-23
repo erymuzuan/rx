@@ -16,6 +16,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
     function (context, logger, router, system, app, eximp) {
 
         var isBusy = ko.observable(false),
+            isPublishing = ko.observable(false),
+            publishingMessage = ko.observable(),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
             populateToolbox = function () {
                 var elements = [],
@@ -178,7 +180,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 return tcs.promise();
 
             },
-       
+
             isJsPlumbReady = false,
             connectorPaintStyle = {
                 lineWidth: 2,
@@ -557,12 +559,24 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(wd);
 
+                isPublishing(true);
+                publishingMessage("Compiling....");
                 context.post(data, "/WorkflowDefinition/Publish")
                     .then(function (result) {
                         compileCompleted(result);
                         if (result.success) {
                             wd().Version(result.version);
                         }
+                        publishingMessage("Stopping all subscribers...");
+                        setTimeout(function () {
+                            publishingMessage("Deployment in progress");
+                            setTimeout(function () {
+                                publishingMessage("Starting the subscribers");
+                                setTimeout(function () {
+                                    isPublishing(false);
+                                }, 5 * 1000);
+                            }, 2 * 1000);
+                        }, 5 * 1000);
                         tcs.resolve(result);
                     });
                 return tcs.promise();
@@ -605,6 +619,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             };
 
         var vm = {
+            publishingMessage: publishingMessage,
+            isPublishing: isPublishing,
             isBusy: isBusy,
             activate: activate,
             viewAttached: viewAttached,

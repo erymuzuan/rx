@@ -56,7 +56,6 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         public void Start()
         {
-
             this.NotificationService.Write("config {0}:{1}:{2}", this.HostName, this.UserName, this.Password);
             this.NotificationService.Write("Starts...");
             var threads = new List<Thread>();
@@ -150,14 +149,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             // StartAppDomain(subscriber);
         }
 
-        private bool m_isStopinng = false;
+        private bool m_stopping = false;
         public async Task Stop()
         {
-            if (m_isStopinng) return;
+            if (m_stopping) return;
 
             try
             {
-                m_isStopinng = true;
+                m_stopping = true;
                 this.SubscriberCollection.ForEach(s => s.Stop());
                 this.NotificationService.Write("WAITING to STOP for 5 seconds");
                 await Task.Delay(5.Seconds());
@@ -178,11 +177,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 //
                 this.NotificationService.Write("STARTING in 2 seconds");
                 await Task.Delay(2.Seconds());
+                m_stopping = false;
                 this.Start();
             }
             finally
             {
-                m_isStopinng = false;
             }
         }
     }

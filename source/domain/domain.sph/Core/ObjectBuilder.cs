@@ -100,7 +100,11 @@ namespace Bespoke.Sph.Domain
             var springObject = ContextRegistry.GetContext().GetObject(name);
             if (null != springObject)
             {
-                m_cacheList.Add(key, springObject);
+                try
+                {
+                    m_cacheList.Add(key, springObject);
+                }
+                catch (ArgumentException){}
                 return springObject;
             }
 

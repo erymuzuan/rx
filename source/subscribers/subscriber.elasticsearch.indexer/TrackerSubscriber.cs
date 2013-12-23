@@ -56,7 +56,7 @@ namespace Bespoke.Sph.ElasticSearch
             var client1 = new HttpClient();
             var response1 = await client1.DeleteAsync(url1);
 
-            Console.WriteLine(response1);
+            Debug.WriteLine(response1);
             var tasks = from t in pendings
                         let id = string.Format("{0}_{1}_{2}", item.WorkflowDefinitionId, item.WorkflowId, t.WebId)
                         select this.AddPendingTaskToIndexAsync(id, t);

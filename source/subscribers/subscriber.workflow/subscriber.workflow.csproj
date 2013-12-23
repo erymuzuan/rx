@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="DebuggerModel.cs" />
     <Compile Include="WorkflowInstantTerminatedSubscriber.cs" />
+    <Compile Include="WorkflowPublishingSubscriber.cs" />
     <Compile Include="WorkflowSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

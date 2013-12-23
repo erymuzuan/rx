@@ -159,5 +159,11 @@
     </div>
 </div>
 <div class="modalBlockout" style="z-index: 1051; opacity: 0.4;" data-bind="visible: isBusy"></div>
+<div class="modalBlockout" style="z-index: 1051; opacity: 0.4;" data-bind="visible: isPublishing"></div>
 <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: isBusy" />
+<div class="absolute-center" style="z-index: 1052; width: 600px; height: 250px;background-color: white" data-bind="visible:isPublishing">
+    <span class="label label-primary">Publising your workflow</span>
+    <img src="/Images/spinner-md.gif" alt="loading" />
+    <p class="lead" data-bind="text:publishingMessage">Please wait while your Workflow is published to..</p>
+</div>
 
