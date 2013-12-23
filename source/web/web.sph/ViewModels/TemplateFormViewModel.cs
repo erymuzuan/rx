@@ -29,5 +29,7 @@ namespace Bespoke.Sph.Web.ViewModels
         {
             get { return m_nameCollection; }
         }
+
+        public bool IsImportVisible { get; set; }
     }
 }

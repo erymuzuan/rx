@@ -14,4 +14,4 @@ copy bin\output\workflows.*.dll .\bin\schedulers
 copy bin\output\workflows.*.dll .\bin\subscribers
 copy bin\output\workflows.*.dll .\source\web\web.sph\bin
 
-Start-Process -FilePath .\workers.console.runner.exe -ArgumentList "/log:console /debug" -WorkingDirectory .\bin\subscribers
+Start-Process -FilePath .\workers.console.runner.exe -ArgumentList "/log:console /debug" -WorkingDirectory .\bin\subscribers.host

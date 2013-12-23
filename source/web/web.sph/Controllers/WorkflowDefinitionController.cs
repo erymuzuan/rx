@@ -59,7 +59,11 @@ namespace Bespoke.Sph.Web.Controllers
 
         public ActionResult ScreenHtml()
         {
-            var vm = new TemplateFormViewModel { Entity = typeof(Space).Name };
+            var vm = new TemplateFormViewModel
+            {
+                Entity = typeof(Space).Name,
+                IsImportVisible = true
+            };
             return View(vm);
         }
 
@@ -103,7 +107,7 @@ namespace Bespoke.Sph.Web.Controllers
             if (!buildValidation.Result)
                 return Json(buildValidation);
 
-            await this.Save("Compile",wd);
+            await this.Save("Compile", wd);
 
             var options = new CompilerOptions();
             options.ReferencedAssemblies.Add(typeof(Controller).Assembly);
@@ -168,7 +172,7 @@ namespace Bespoke.Sph.Web.Controllers
         public async Task<ActionResult> Save()
         {
             var wd = this.GetRequestJson<WorkflowDefinition>();
-            var id = await this.Save("Update",wd);
+            var id = await this.Save("Update", wd);
             return Json(new { success = id > 0, id, status = "OK" });
         }
 

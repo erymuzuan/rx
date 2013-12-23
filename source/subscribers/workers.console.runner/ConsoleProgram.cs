@@ -45,12 +45,11 @@ namespace workers.console.runner
 
             var discoverer = new Discoverer();
             program.SubscribersMetadata = discoverer.Find();
-            program.Subscribers = discoverer.FindSubscriber();
             program.SubscribersMetadata.Select(d => d.FullName).ToList().ForEach(Console.WriteLine);
 
 
             program.Start();
-            bool quit = false;
+            var quit = false;
             Console.WriteLine("Welcome to [SPH] Type quit to quit at any time.");
             while (!quit)
             {

@@ -68,6 +68,7 @@
     <Compile Include="ReceivedMessageArgs.cs" />
     <Compile Include="Subscriber.cs" />
     <Compile Include="SubscriberMetadata.cs" />
+    <Compile Include="SubscriberT.cs" />
     <Compile Include="TaskBasicConsumer.cs" />
   </ItemGroup>
   <ItemGroup>

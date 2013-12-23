@@ -4,6 +4,8 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using Bespoke.Sph.Domain;
+using Humanizer;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
 {
@@ -17,6 +19,17 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public string HostName { get; set; }
         public int Port { get; set; }
         public string VirtualHost { get; set; }
+        private readonly ObjectCollection<Subscriber> m_subscriberCollection = new ObjectCollection<Subscriber>();
+        private readonly ObjectCollection<AppDomain> m_appDomainCollection = new ObjectCollection<AppDomain>();
+        public ObjectCollection<AppDomain> AppDomainCollection
+        {
+            get { return m_appDomainCollection; }
+        }
+        public ObjectCollection<Subscriber> SubscriberCollection
+        {
+            get { return m_subscriberCollection; }
+        }
+
 
         public INotificationService NotificationService
         {
@@ -28,11 +41,21 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             }
         }
 
-        public dynamic Subscribers { get; set; }
+        public Program()
+        {
+
+            var fsw = new FileSystemWatcher(AppDomain.CurrentDomain.BaseDirectory + @"..\subscribers")
+            {
+                EnableRaisingEvents = true
+            };
+            fsw.Changed += FswChanged;
+        }
+
 
 
         public void Start()
         {
+
             this.NotificationService.Write("config {0}:{1}:{2}", this.HostName, this.UserName, this.Password);
             this.NotificationService.Write("Starts...");
             var threads = new List<Thread>();
@@ -50,29 +73,23 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 }
             }
 
-            foreach (var o1 in this.Subscribers)
-            {
-                o1.HostName = this.HostName;
-                o1.VirtualHost = this.VirtualHost;
-                o1.UserName = this.UserName;
-                o1.Password = this.Password;
-                o1.Port = this.Port;
-                o1.NotificicationService = this.NotificationService;
-                o1.Run();
-                
-            }
             threads.ForEach(t => t.Join());
 
+        }
+
+        void FswChanged(object sender, FileSystemEventArgs e)
+        {
+            this.Stop();
         }
 
         private Thread StartAppDomain(SubscriberMetadata metadata)
         {
             var appdomain = this.CreateAppDomain(metadata);
             appdomain.UnhandledException += AppdomainUnhandledException;
-            var subscriber = appdomain.CreateInstanceAndUnwrap(metadata.Assembly, metadata.FullName);
+            var subscriber = appdomain.CreateInstanceAndUnwrap(metadata.Assembly, metadata.FullName) as Subscriber;
             var thread = new Thread(o =>
                 {
-                    dynamic o1 = o;
+                    var o1 = (Subscriber)o;
                     o1.HostName = this.HostName;
                     o1.VirtualHost = this.VirtualHost;
                     o1.UserName = this.UserName;
@@ -82,6 +99,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                     o1.Run();
                 });
             thread.Start(subscriber);
+
+            this.AppDomainCollection.Add(appdomain);
+            this.SubscriberCollection.Add(subscriber);
 
             return thread;
         }
@@ -94,11 +114,16 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             var currentConfig = Path.Combine(baseDirectory, Assembly.GetEntryAssembly().GetName().Name + ".exe.config");
             var ads = new AppDomainSetup
             {
-                ApplicationBase = baseDirectory,
+                ApplicationBase = AppDomain.CurrentDomain.BaseDirectory + @"..\subscribers",
                 DisallowBindingRedirects = false,
                 DisallowCodeDownload = true,
-                ConfigurationFile = File.Exists(configurationFile) ? configurationFile : currentConfig
+                ConfigurationFile = File.Exists(configurationFile) ? configurationFile : currentConfig,
+                ShadowCopyFiles = "true",
+                //ShadowCopyDirectories = "",
+                CachePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"..\subscribers", "CachePath"),
+                ApplicationName = metadata.FullName
             };
+
             return AppDomain.CreateDomain(metadata.FullName, null, ads);
         }
 
@@ -124,9 +149,29 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             // StartAppDomain(subscriber);
         }
 
+        private bool m_isStopinng = false;
         public void Stop()
         {
+            if (m_isStopinng) return;
 
+            try
+            {
+                m_isStopinng = true;
+                this.SubscriberCollection.ForEach(s => s.Stop());
+                this.NotificationService.Write("WAITING to STOP for 10 seconds");
+                Thread.Sleep(10.Seconds());
+                this.AppDomainCollection.ForEach(AppDomain.Unload);
+
+                this.SubscriberCollection.Clear();
+                this.AppDomainCollection.Clear();
+                //
+                this.NotificationService.Write("WAITING to START for 5 seconds");
+                this.Start();
+            }
+            finally
+            {
+                m_isStopinng = false;
+            }
         }
     }
 }

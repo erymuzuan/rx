@@ -7,7 +7,6 @@
 
 define(['services/logger', 'durandal/system', 'durandal/knockout'],
 function (logger, system, ko2) {
-    console.log("knokcout", typeof ko);
     if (!window.ko && typeof ko2 === "object") {
         window.ko = ko2;
     }
@@ -185,7 +184,6 @@ function (logger, system, ko2) {
         if (orderby) {
             url += "&$orderby=" + orderby;
         }
-        console.log("DataContext", url);
 
         var tcs = new $.Deferred();
         $.ajax({

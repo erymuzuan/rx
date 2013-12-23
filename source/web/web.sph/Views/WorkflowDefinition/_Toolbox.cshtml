@@ -29,16 +29,20 @@
                     <label>Description</label>
                     <input class="form-control" data-bind="value: Description, valueUpdate: 'keyup'" id="form-design-Description" type="text" name="FormDesign.Description" />
                 </div>
-                <div class="form-group">
-                    <button class="btn btn-info" data-bind="command : $root.importCommand">
-                        <i class="fa fa-upload"></i>
-                        Import
-                    </button>
-                    <a href="#" data-bind="attr : {'href':'/#/screen.editor/' + $root.wd().WorkflowDefinitionId() + '/' + $root.activity().WebId()}">
-                        <i class="fa fa-edit"></i>
-                        Edit
-                    </a>
-                </div>
+                @if (Model.IsImportVisible)
+                {
+                    <div class="form-group">
+                        <button class="btn btn-info" data-bind="command : $root.importCommand">
+                            <i class="fa fa-upload"></i>
+                            Import
+                        </button>
+                        <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="attr : {'href':'/#/screen.editor/' + $root.wd().WorkflowDefinitionId() + '/' + $root.activity().WebId()}">
+                            <i class="fa fa-edit"></i>
+                            Edit
+                        </a>
+                    </div>
+
+                }
                 <div class="form-group">
                     <a href="#label-cols" data-toggle="collapse">Label columns span</a>
                 </div>

@@ -11,8 +11,8 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         public SubscriberMetadata[] Find()
         {
             var subscribers = new List<SubscriberMetadata>();
-            var aseemblies = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll");
-            foreach (var dll in aseemblies)
+            var assemblies = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"..\subscribers", "*.dll");
+            foreach (var dll in assemblies)
             {
                 var list = FindSubscriber(dll);
                 subscribers.AddRange(list);
@@ -23,26 +23,31 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
         private static IEnumerable<SubscriberMetadata> FindSubscriber(string dll)
         {
+            if (string.IsNullOrWhiteSpace(dll)) return new SubscriberMetadata[] {};
+            var fileName = Path.GetFileName(dll);
+
+            if (fileName == "subscriber.infrastructure.dll") return new SubscriberMetadata[] { };
+            if (!fileName.StartsWith("subscriber")) return new SubscriberMetadata[] {};
             try
             {
-                var assembly = Assembly.LoadFile(dll);
+                AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += CurrentDomainReflectionOnlyAssemblyResolve;
+                var assembly = Assembly.ReflectionOnlyLoadFrom(dll);
+
+                return assembly.GetTypes()
+                        .Where(t => t.IsMarshalByRef)
+                        .Where(t => !t.IsAbstract)
+                        .Where(t => t.FullName.EndsWith("Subscriber"))
+                        .Select(t => new SubscriberMetadata
+                            {
+                                Assembly = t.Assembly.FullName,
+                                FullName = t.FullName,
+                                Name = Path.GetFileNameWithoutExtension(dll),
+                                Type = t
+                            })
+                        .ToArray();
 
 
-                var metadata = assembly.GetTypes()
-                                       .Where(t => t.IsMarshalByRef)
-                                       .Where(t => !t.IsAbstract)
-                                       .Where(t => t.FullName.EndsWith("Subscriber"))
-                                       .Select(t => new SubscriberMetadata
-                                           {
-                                               Assembly = t.Assembly.FullName,
-                                               FullName = t.FullName,
-                                               Type = t
-                                           })
-                                       .ToList();
 
-
-
-                return metadata.ToArray();
             }
             catch (ReflectionTypeLoadException e)
             {
@@ -54,6 +59,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 throw;
             }
 
+        }
+
+        static Assembly CurrentDomainReflectionOnlyAssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            return Assembly.ReflectionOnlyLoad(args.Name);
         }
 
         public dynamic FindSubscriber()
