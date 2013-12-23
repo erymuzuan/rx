@@ -159,11 +159,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             {
                 m_isStopinng = true;
                 this.SubscriberCollection.ForEach(s => s.Stop());
-                this.NotificationService.Write("WAITING to STOP for 10 seconds");
-                await Task.Delay(10.Seconds());
+                this.NotificationService.Write("WAITING to STOP for 5 seconds");
+                await Task.Delay(5.Seconds());
                 foreach (var appDomain in this.AppDomainCollection)
                 {
-                    this.NotificationService.Write("Stoping -> {0}", appDomain.FriendlyName);
+                    this.NotificationService.Write("UNLOADING -> {0}", appDomain.FriendlyName);
                     try
                     {
                         AppDomain.Unload(appDomain);
@@ -173,13 +173,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                         this.NotificationService.WriteError(e.ToString());
                     }
                 }
-                this.NotificationService.Write("WAITING 1 to START for 5 seconds");
-
                 this.SubscriberCollection.Clear();
                 this.AppDomainCollection.Clear();
                 //
-                this.NotificationService.Write("WAITING to START for 5 seconds");
-                await Task.Delay(5.Seconds());
+                this.NotificationService.Write("STARTING in 2 seconds");
+                await Task.Delay(2.Seconds());
                 this.Start();
             }
             finally
