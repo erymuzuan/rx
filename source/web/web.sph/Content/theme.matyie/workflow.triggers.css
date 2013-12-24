@@ -106,4 +106,16 @@ div.selected-activity {
     border-color: #209c0d !important;
 }
 
-/*# sourceMappingURL=/Content/theme.matyie/workflow.triggers.less.map */
+div.workflow-publishing-progress {
+    z-index: 1052;
+    width: 600px;
+    height: 250px;
+    background-color: white;
+    padding: 10px;
+}
+
+div.workflow-publishing-progress img {
+    float: right;
+}
+
+/*# sourceMappingURL=workflow.triggers.less.map*/

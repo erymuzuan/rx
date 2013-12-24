@@ -149,40 +149,34 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             // StartAppDomain(subscriber);
         }
 
-        private bool m_stopping = false;
+        private bool m_stopping;
         public async Task Stop()
         {
             if (m_stopping) return;
 
-            try
+            m_stopping = true;
+            this.SubscriberCollection.ForEach(s => s.Stop());
+            this.NotificationService.Write("WAITING to STOP for 5 seconds");
+            await Task.Delay(5.Seconds());
+            foreach (var appDomain in this.AppDomainCollection)
             {
-                m_stopping = true;
-                this.SubscriberCollection.ForEach(s => s.Stop());
-                this.NotificationService.Write("WAITING to STOP for 5 seconds");
-                await Task.Delay(5.Seconds());
-                foreach (var appDomain in this.AppDomainCollection)
+                this.NotificationService.Write("UNLOADING -> {0}", appDomain.FriendlyName);
+                try
                 {
-                    this.NotificationService.Write("UNLOADING -> {0}", appDomain.FriendlyName);
-                    try
-                    {
-                        AppDomain.Unload(appDomain);
-                    }
-                    catch (Exception e)
-                    {
-                        this.NotificationService.WriteError(e.ToString());
-                    }
+                    AppDomain.Unload(appDomain);
                 }
-                this.SubscriberCollection.Clear();
-                this.AppDomainCollection.Clear();
-                //
-                this.NotificationService.Write("STARTING in 2 seconds");
-                await Task.Delay(2.Seconds());
-                m_stopping = false;
-                this.Start();
+                catch (Exception e)
+                {
+                    this.NotificationService.WriteError(e.ToString());
+                }
             }
-            finally
-            {
-            }
+            this.SubscriberCollection.Clear();
+            this.AppDomainCollection.Clear();
+            //
+            this.NotificationService.Write("STARTING in 2 seconds");
+            await Task.Delay(2.Seconds());
+            m_stopping = false;
+            this.Start();
         }
     }
 }

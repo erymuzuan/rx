@@ -72,7 +72,7 @@ namespace Bespoke.Sph.SqlRepository
                                 CanWrite = !reader.GetBoolean(6)// computed
 
                             };
-                        column.CanWrite |= !column.IsIdentity ;
+                        column.CanWrite |= !column.IsIdentity;
                         column.CanRead = true;
                         column.IsPrimaryKey = column.IsIdentity;
 
@@ -86,12 +86,17 @@ namespace Bespoke.Sph.SqlRepository
 
 
                     table.Columns = columns.ToArray();
-                    m_cache.Add(name, table);
+                    lock (m_lock)
+                    {
+                        m_cache.Add(name, table);
+                    }
                 }
 
             }
             return GetTable(name);
         }
+
+        private static readonly object m_lock = new object();
 
         public string GetDataColumn<T>() where T : Entity
         {

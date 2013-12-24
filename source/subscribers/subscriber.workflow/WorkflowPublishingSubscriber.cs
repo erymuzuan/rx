@@ -20,14 +20,15 @@ namespace Bespoke.Sph.WorkflowsExecution
 
         protected override Task ProcessMessage(WorkflowDefinition item, MessageHeaders header)
         {
-            // copy dlls
+            // NOTE : copy dlls, this will cause the appdomain to unload and we want it happend
+            // after the Ack to the broker
             ThreadPool.QueueUserWorkItem( Deploy, item);
             return Task.FromResult(0);
         }
 
         private static void Deploy(object obj)
         {
-            Thread.Sleep(500);
+            Thread.Sleep(1000);
             var item = (WorkflowDefinition) obj;
             var dll = string.Format("workflows.{0}.{1}.dll", item.WorkflowDefinitionId, item.Version);
             var pdb = string.Format("workflows.{0}.{1}.pdb", item.WorkflowDefinitionId, item.Version);

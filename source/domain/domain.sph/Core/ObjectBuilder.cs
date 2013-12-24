@@ -10,6 +10,7 @@ namespace Bespoke.Sph.Domain
 {
     public static class ObjectBuilder
     {
+        private static readonly object m_lock = new object();
         private static readonly Dictionary<Type, object> m_cacheList = new Dictionary<Type, object>();
         private static CompositionContainer m_container;
 
@@ -45,10 +46,13 @@ namespace Bespoke.Sph.Domain
         public static void AddCacheList<T>(T dependency)
         {
             var key = typeof(T);
-            if (m_cacheList.ContainsKey(key))
-                m_cacheList[key] = dependency;
-            else
-                m_cacheList.Add(key, dependency);
+            lock (m_lock)
+            {
+                if (m_cacheList.ContainsKey(key))
+                    m_cacheList[key] = dependency;
+                else
+                    m_cacheList.Add(key, dependency);
+            }
         }
 
         public static T GetObject<T>() where T : class
@@ -60,11 +64,11 @@ namespace Bespoke.Sph.Domain
             var springObject = ContextRegistry.GetContext().GetObject<T>();
             if (null != springObject)
             {
-                try
+                lock (m_lock)
                 {
-                    m_cacheList.Add(typeof(T), springObject);
+                    if (!m_cacheList.ContainsKey(typeof(T)))
+                        m_cacheList.Add(typeof(T), springObject);
                 }
-                catch (ArgumentException) { }
                 return springObject;
             }
             if (null == m_container)
@@ -74,7 +78,11 @@ namespace Bespoke.Sph.Domain
             var k = m_container.GetExportedValue<T>();
             if (null != k)
             {
-                m_cacheList.Add(typeof(T), k);
+                lock (m_lock)
+                {
+                    if (!m_cacheList.ContainsKey(typeof(T)))
+                        m_cacheList.Add(typeof(T), k);
+                }
                 return k;
             }
 
@@ -100,11 +108,10 @@ namespace Bespoke.Sph.Domain
             var springObject = ContextRegistry.GetContext().GetObject(name);
             if (null != springObject)
             {
-                try
+                lock (m_lock)
                 {
                     m_cacheList.Add(key, springObject);
                 }
-                catch (ArgumentException){}
                 return springObject;
             }
 

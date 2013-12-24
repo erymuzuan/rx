@@ -38,7 +38,7 @@
 
                         }
                         <form method="POST" action="" accept-charset="UTF-8">
-                            @Html.TextBoxFor(m => m.UserName, new { placeholder = "Nama pengguna", @class = "input-xlarge form-control", required = true })
+                            @Html.TextBoxFor(m => m.UserName, new { placeholder = "Nama pengguna", @class = "input-xlarge form-control", required = true, autofocus = "autofocus" })
                             @Html.ValidationMessageFor(m => m.UserName)
                             <label class="controls"></label>
                             @Html.PasswordFor(m => m.Password, new { placeholder = "Kata laluan", @class = "input-xlarge form-control", required = true })

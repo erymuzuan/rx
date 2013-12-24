@@ -9,7 +9,6 @@ namespace domain.test.workflows
     public class WorkflowExecutionTest : WorkflowTestBase
     {
 
-
         [Test]
         public void TriggerSchedule()
         {
