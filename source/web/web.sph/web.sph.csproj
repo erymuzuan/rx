@@ -284,6 +284,7 @@
     <Compile Include="Controllers\BinaryStoreController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\EditorController.cs" />
+    <Compile Include="Controllers\EntityDefinitionController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\SpaceController.cs" />
     <Compile Include="Controllers\ComplaintController.cs" />
@@ -475,6 +476,8 @@
     <Content Include="App\services\tracker.js" />
     <Content Include="App\services\validation.js" />
     <Content Include="App\services\watcher.js" />
+    <Content Include="App\viewmodels\entities.list.js" />
+    <Content Include="App\viewmodels\entity.details.js" />
     <Content Include="App\viewmodels\snippets.dialog.js" />
     <Content Include="App\viewmodels\ace.goto.line.js" />
     <Content Include="App\viewmodels\action.email.js" />
@@ -591,6 +594,8 @@
     <Content Include="App\views\building.template.list.html" />
     <Content Include="App\views\ButtonPartial.html" />
     <Content Include="App\views\chats.html" />
+    <Content Include="App\views\entities.list.html" />
+    <Content Include="App\views\entity.details.html" />
     <Content Include="App\views\error.message.html" />
     <Content Include="App\views\field.assembly.html" />
     <Content Include="App\views\page.detail.dialog.html" />
@@ -1496,6 +1501,7 @@
     <Folder Include="Filters\" />
     <Folder Include="Scripts\schemas\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\EntityDefinition\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\schemas\_object.xslt">

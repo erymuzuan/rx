@@ -18,6 +18,10 @@ namespace Bespoke.Sph.Web.Api
         {
             return await ExecuteAsync<ContractTemplate>(filter, page, size, includeTotal);
         }
+        public async Task<ActionResult> EntityDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<EntityDefinition>(filter, page, size, includeTotal);
+        }
         public async Task<ActionResult> ApplicationTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<ApplicationTemplate>(filter, page, size, includeTotal);

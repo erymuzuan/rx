@@ -1,0 +1,26 @@
+﻿<div class="row">
+    <h1>The list of custom entities</h1>
+</div>
+<table class="table table-striped" data-bind="filter : {path:'tbody>tr'},
+    serverPaging : {
+        entity : 'EntityDefinition',
+        query : 'EntityDefinitionId gt 0',
+        list : entities
+    }">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Plural</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach :entities">
+        <tr>
+            <td>
+                <a data-bind="attr : {href:'/#/entity.details/' + EntityDefinitionId()},text: Name"></a>
+            </td>
+            <td data-bind="text:Plural"></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>

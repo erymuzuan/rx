@@ -3808,6 +3808,279 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("EntityDefinition", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class EntityDefinition
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_entityDefinitionId;
+        public const string PropertyNameEntityDefinitionId = "EntityDefinitionId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_plural;
+        public const string PropertyNamePlural = "Plural";
+
+
+        private readonly ObjectCollection<Member> m_MemberCollection = new ObjectCollection<Member>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Member", IsNullable = false)]
+        public ObjectCollection<Member> MemberCollection
+        {
+            get { return m_MemberCollection; }
+        }
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int EntityDefinitionId
+        {
+            set
+            {
+                if (m_entityDefinitionId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntityDefinitionId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entityDefinitionId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entityDefinitionId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Plural
+        {
+            set
+            {
+                if (String.Equals(m_plural, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePlural, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_plural = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_plural;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("Member", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Member
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_name;
+        public const string PropertyNameName = "Name";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_typeName;
+        public const string PropertyNameTypeName = "TypeName";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isRequired;
+        public const string PropertyNameIsRequired = "IsRequired";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isAnalyzed;
+        public const string PropertyNameIsAnalyzed = "IsAnalyzed";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Name
+        {
+            set
+            {
+                if (String.Equals(m_name, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_name = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_name;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string TypeName
+        {
+            set
+            {
+                if (String.Equals(m_typeName, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTypeName, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_typeName = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_typeName;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsRequired
+        {
+            set
+            {
+                if (m_isRequired == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsRequired, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isRequired = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isRequired;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsAnalyzed
+        {
+            set
+            {
+                if (m_isAnalyzed == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsAnalyzed, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isAnalyzed = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isAnalyzed;
+            }
+        }
+
+
+
+    }
+
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormElement
     {

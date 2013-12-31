@@ -1278,6 +1278,68 @@ bespoke.sph.domain.Button = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.EntityDefinition, domain.sph",
+        EntityDefinitionId: ko.observable(0),
+        Name: ko.observable(''),
+        Plural: ko.observable(''),
+        MemberCollection: ko.observableArray([]),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.EntityDefinitionPartial) {
+        return _(model).extend(new bespoke.sph.domain.EntityDefinitionPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.Member = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Member, domain.sph",
+        Name: ko.observable(''),
+        TypeName: ko.observable(''),
+        IsRequired: ko.observable(false),
+        IsAnalyzed: ko.observable(false),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.MemberPartial) {
+        return _(model).extend(new bespoke.sph.domain.MemberPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {
