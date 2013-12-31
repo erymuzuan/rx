@@ -12,4 +12,9 @@
         throw "cannot find the form for the button";
     };
 
+
+    window.console = window.console || {};
+    window.console.dir = window.console.dir || function (){};
+
+
 })(window, jQuery);

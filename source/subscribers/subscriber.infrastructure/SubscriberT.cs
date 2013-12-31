@@ -4,7 +4,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
-using Humanizer;
 using RabbitMQ.Client;
 
 namespace Bespoke.Sph.SubscribersInfrastructure
@@ -14,6 +13,14 @@ namespace Bespoke.Sph.SubscribersInfrastructure
     {
         private TaskCompletionSource<bool> m_stoppingTcs;
         protected abstract Task ProcessMessage(T item, MessageHeaders header);
+        /// <summary>
+        /// The number of messages prefetch by the broker in a batch.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual uint GetParallelProcessing()
+        {
+            return 2;
+        }
 
         public override void Run()
         {
@@ -49,7 +56,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             using (var conn = factory.CreateConnection())
             using (var channel = conn.CreateModel())
             {
-
+                channel.BasicQos(this.GetParallelProcessing(), (ushort)this.GetParallelProcessing(), false);
                 channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true);
 
                 channel.ExchangeDeclare(deadLetterExchange, ExchangeType.Topic, true);
@@ -59,6 +66,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                 channel.QueueBind(deadLetterQueue, deadLetterExchange, "#", null);
                 channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.added", null);
                 channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.changed", null);
+               
 
                 foreach (var s in this.RoutingKeys)
                 {
@@ -94,8 +102,9 @@ namespace Bespoke.Sph.SubscribersInfrastructure
 
 
                 channel.BasicConsume(this.QueueName, noAck, consumer);
-                var stopped = await Stoping();
-                if (stopped)
+            
+                var stopRequested = await Stoping();
+                if (stopRequested)
                 {
                     channel.Close();
                     conn.Close();
