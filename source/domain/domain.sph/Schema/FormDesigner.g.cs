@@ -3962,6 +3962,17 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsAnalyzed = "IsAnalyzed";
 
 
+        private readonly ObjectCollection<Member> m_MemberCollection = new ObjectCollection<Member>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Member", IsNullable = false)]
+        public ObjectCollection<Member> MemberCollection
+        {
+            get { return m_MemberCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>

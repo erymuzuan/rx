@@ -399,6 +399,8 @@
     <Content Include="App\goog.js" />
     <Content Include="App\main.js" />
     <Content Include="App\objectbuilders.js" />
+    <Content Include="App\partial\Member.js" />
+    <Content Include="App\partial\EntityDefinition.js" />
     <Content Include="App\partial\HtmlElement.js" />
     <Content Include="App\partial\ButtonPartial.js" />
     <Content Include="App\partial\IntervalSchedule.js" />

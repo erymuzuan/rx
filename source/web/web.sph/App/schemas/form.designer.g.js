@@ -1318,6 +1318,7 @@ bespoke.sph.domain.Member = function (optionOrWebid) {
         TypeName: ko.observable(''),
         IsRequired: ko.observable(false),
         IsAnalyzed: ko.observable(false),
+        MemberCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
