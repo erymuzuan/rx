@@ -2,5 +2,6 @@
 <Project>
 	<File FilePath=".\source\domain\domain.sph\Schema\FormDesigner.xsd" HomeFolder="Yes"/>
 	<File FilePath=".\source\domain\domain.sph\Schema\ReportBuilder.xsd" HomeFolder="Yes"/>
+	<File FilePath=".\source\domain\domain.sph\Schema\SphDomain.xsd" HomeFolder="Yes"/>
 	<File FilePath=".\source\domain\domain.sph\Schema\TriggersWorkflow.xsd" HomeFolder="Yes"/>
 </Project>

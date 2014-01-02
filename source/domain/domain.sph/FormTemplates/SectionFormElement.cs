@@ -2,10 +2,6 @@
 {
     public partial class SectionFormElement : FormElement
     {
-        public override CustomField GenerateCustomField()
-        {
-            return null;
-        }
 
         public override string GetKnockoutBindingExpression()
         {

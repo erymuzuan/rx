@@ -21,7 +21,7 @@ namespace domain.test.triggers
             Assert.IsNotNull(ff);
             Assert.IsInstanceOf<FunctionField>(ff);
 
-            var val = ff.GetValue(new RuleContext(new Building()));
+            var val = ff.GetValue(new RuleContext(new Designation()));
             Assert.AreEqual(DateTime.Today,val );
 
         }

@@ -73,45 +73,46 @@ namespace domain.test.reports
         [Test]
         public void GetColumnsValue()
         {
-            var ds = new DataSource { EntityName = "Building" };
-            var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
+            Assert.Fail();
+            //var ds = new DataSource { EntityName = "Building" };
+            //var rdl = new ReportDefinition { Title = "Test", Description = "test", DataSource = ds };
 
 
-            var building = new Building
-            {
-                Name = "Test 1",
-                Floors = 15,
-                Address = new Address {State = "Kelantan"},
-            };
-            building.CustomFieldValueCollection.Add(new CustomFieldValue{Name = "Custom01", Value = "XXX",Type = typeof(string).GetShortAssemblyQualifiedName()});
-            var xml = (building).ToXElement();
+            //var building = new Designation
+            //{
+            //    Name = "Test 1",
+            //    Floors = 15,
+            //    Address = new Address {State = "Kelantan"},
+            //};
+            //building.CustomFieldValueCollection.Add(new CustomFieldValue{Name = "Custom01", Value = "XXX",Type = typeof(string).GetShortAssemblyQualifiedName()});
+            //var xml = (building).ToXElement();
 
-            Console.WriteLine("Exec");
-            var row = new ReportRow();
+            //Console.WriteLine("Exec");
+            //var row = new ReportRow();
 
-            try
-            {
-                rdl.GetAvailableColumnsAsync()
-                    .ContinueWith(_ =>
-                    {
-                        if (_.IsFaulted)
-                        {
-                            Console.WriteLine(_.Exception);
-                        }
-                        var colums = _.Result;
-                        row.ReportColumnCollection.AddRange(colums);
-                        m_sql.FillColumnValue(xml, row);
+            //try
+            //{
+            //    rdl.GetAvailableColumnsAsync()
+            //        .ContinueWith(_ =>
+            //        {
+            //            if (_.IsFaulted)
+            //            {
+            //                Console.WriteLine(_.Exception);
+            //            }
+            //            var colums = _.Result;
+            //            row.ReportColumnCollection.AddRange(colums);
+            //            m_sql.FillColumnValue(xml, row);
 
 
-                        Console.WriteLine("Custom01: " + row["Custom01"].Value);
-                        Assert.AreEqual("XX", row["Custom01"].Value);
-                        Assert.AreEqual("Kelantan", row["Address.State"].Value);
-                    }).Wait(1000);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            //            Console.WriteLine("Custom01: " + row["Custom01"].Value);
+            //            Assert.AreEqual("XX", row["Custom01"].Value);
+            //            Assert.AreEqual("Kelantan", row["Address.State"].Value);
+            //        }).Wait(1000);
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //}
 
         }
 

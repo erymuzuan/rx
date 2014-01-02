@@ -14,40 +14,28 @@ namespace Bespoke.Sph.Web.Api
         public static readonly string ConnectionString =
             ConfigurationManager.ConnectionStrings["Sph"].ConnectionString;
 
-        public async Task<ActionResult> ContractTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<ContractTemplate>(filter, page, size, includeTotal);
-        }
+
         public async Task<ActionResult> EntityDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<EntityDefinition>(filter, page, size, includeTotal);
         }
-        public async Task<ActionResult> ApplicationTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<ApplicationTemplate>(filter, page, size, includeTotal);
-        }
-        public async Task<ActionResult> Contract(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Contract>(filter, page, size, includeTotal);
-        }
+        
+
+      
+
         public async Task<ActionResult> Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Designation>(filter, page, size, includeTotal);
         }
-        public async Task<ActionResult> Complaint(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Complaint>(filter, page, size, includeTotal);
-        }
+
 
         public async Task<ActionResult> AuditTrail(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<AuditTrail>(filter, page, size, includeTotal);
         }
 
-        public async Task<ActionResult> RentalApplication(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<RentalApplication>(filter, page, size, includeTotal);
-        }
+       
+
         public async Task<ActionResult> Page(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Page>(filter, page, size, includeTotal);
@@ -61,88 +49,21 @@ namespace Bespoke.Sph.Web.Api
         {
             return await ExecuteAsync<ReportDefinition>(filter, page, size, includeTotal);
         }
+        
 
-        public async Task<ActionResult> Land(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Land>(filter, page, size, includeTotal);
-        }
-
-        public async Task<ActionResult> Building(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Building>(filter, page, size, includeTotal);
-        }
-        public async Task<ActionResult> BuildingTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<BuildingTemplate>(filter, page, size, includeTotal);
-        }
-
-        public async Task<ActionResult> Space(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Space>(filter, page, size, includeTotal);
-        }
-        public async Task<ActionResult> SpaceTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<SpaceTemplate>(filter, page, size, includeTotal);
-        }
-
-        public async Task<ActionResult> ComplaintTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<ComplaintTemplate>(filter, page, size, includeTotal);
-        }
-
-        public async Task<ActionResult> Deposit(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Deposit>(filter, page, size, includeTotal);
-        }
-
-        public async Task<ActionResult> Invoice(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Invoice>(filter, page, size, includeTotal);
-        }
-        public async Task<ActionResult> Inventory(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Inventory>(filter, page, size, includeTotal);
-        }
-        public async Task<ActionResult> Maintenance(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Maintenance>(filter, page, size, includeTotal);
-        }
         public async Task<ActionResult> Message(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Message>(filter, page, size, includeTotal);
         }
 
-        public async Task<ActionResult> MaintenanceTemplate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<MaintenanceTemplate>(filter, page, size, includeTotal);
-        }
-        public async Task<ActionResult> Rent(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Rent>(filter, page, size, includeTotal);
-        }
-
-        public async Task<ActionResult> Rebate(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Rebate>(filter, page, size, includeTotal);
-        }
         public async Task<ActionResult> Setting(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<Setting>(filter, page, size, includeTotal);
         }
 
-        public async Task<ActionResult> Payment(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Payment>(filter, page, size, includeTotal);
-        }
-
         public async Task<ActionResult> UserProfile(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<UserProfile>(filter, page, size, includeTotal);
-        }
-
-        public async Task<ActionResult> Tenant(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<Tenant>(filter, page, size, includeTotal);
         }
 
         public async Task<ActionResult> Trigger(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
@@ -155,10 +76,6 @@ namespace Bespoke.Sph.Web.Api
             return await ExecuteAsync<Watcher>(filter, page, size, includeTotal);
         }
 
-        public async Task<ActionResult> WorkOrder(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
-        {
-            return await ExecuteAsync<WorkOrder>(filter, page, size, includeTotal);
-        }
         public async Task<ActionResult> WorkflowDefinition(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
         {
             return await ExecuteAsync<WorkflowDefinition>(filter, page, size, includeTotal);

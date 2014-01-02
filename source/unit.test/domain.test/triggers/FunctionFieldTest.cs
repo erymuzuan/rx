@@ -14,7 +14,7 @@ namespace domain.test.triggers
         {
             var building = new FunctionField { Script = "DateTime.Today", ScriptEngine = new RoslynScriptEngine() };
 
-            var result = building.GetValue(new RuleContext(new Building()));
+            var result = building.GetValue(new RuleContext(new Designation()));
             Assert.AreEqual(DateTime.Today, result);
         }
 
@@ -22,7 +22,7 @@ namespace domain.test.triggers
         public void DocumentFieldEqFunction()
         {
             var script = new RoslynScriptEngine();
-            var building = new RentalApplication { ApplicationDate = DateTime.Today };
+            var building = new Designation{ CreatedDate = DateTime.Today };
             var rule = new Rule
             {
                 Left = new DocumentField { XPath = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
@@ -37,7 +37,7 @@ namespace domain.test.triggers
         public void DocumentFieldEqFunctionExpression()
         {
             var script = new RoslynScriptEngine();
-            var building = new RentalApplication { ApplicationDate = DateTime.Today.AddDays(-2) };
+            var building = new Designation { CreatedDate = DateTime.Today.AddDays(-2) };
             var rule = new Rule
             {
                 Left = new DocumentField { XPath = "//bs:RentalApplication/@ApplicationDate", Type = typeof(DateTime) },
@@ -53,11 +53,11 @@ namespace domain.test.triggers
         public void DocumentFieldEqFunctionWithItem()
         {
             var script = new RoslynScriptEngine();
-            var app = new RentalApplication
+            var app = new Designation
             {
-                ApplicationDate = DateTime.Today.AddDays(-2),
-                RentalApplicationId = 1,
-                RegistrationNo = "1234"
+                CreatedDate = DateTime.Today.AddDays(-2),
+                DesignationId = 1,
+                Name = "1234"
             };
             var rule = new Rule
             {

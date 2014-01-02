@@ -11,9 +11,10 @@ namespace domain.test.reports
         [Test]
         public void GetColumns()
         {
+            Assert.Fail();
             var columns = new ObjectCollection<ReportColumn>();
             var ds = new SqlDataSource();
-            ds.GetColumns(columns, typeof(Contract));
+            //ds.GetColumns(columns, typeof(Contract));
             columns.ForEach(x=>Console.WriteLine(x.Name));
         }
     }

@@ -11,7 +11,7 @@ namespace domain.test.triggers
         [Test]
         public void GetValueStringWithOneMethodArg()
         {
-            var building = new Building { Name = "A" };
+            var building = new Designation { Name = "A" };
             var context = new RuleContext(building);
 
             var af = new AssemblyField
@@ -29,7 +29,7 @@ namespace domain.test.triggers
         [Test]
         public void GetValueStringWith2MethodArgs()
         {
-            var building = new Building { Name = "A" };
+            var building = new Designation { Name = "A" };
             var context = new RuleContext(building);
 
             var af = new AssemblyField
@@ -49,18 +49,18 @@ namespace domain.test.triggers
         [Test]
         public void GetValueStringWithEntityMethodArg()
         {
-            var building = new Building { Name = "Masjid kampung Bukit Bunga" };
+            var building = new Designation { Name = "Masjid kampung Bukit Bunga" };
             var context = new RuleContext(building);
 
             var af = new AssemblyField
             {
-                Method = "SayBuildingName",
+                Method = "SayDesignationName",
                 Location = @"c:\project\work\sph\source\unit.test\assembly.test\bin\Debug\assembly.test.dll",
                 TypeName = @"assembly.test.AssemblyClassToTest"
             };
             var masjidField = new FunctionField { Script = "return item;", ScriptEngine = new RoslynScriptEngine() };
             af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "Welcome to", Type = typeof(string) }, Name = "greet" });
-            af.MethodArgCollection.Add(new MethodArg { Type = typeof(Building), ValueProvider = masjidField, Name = "masjid" });
+            af.MethodArgCollection.Add(new MethodArg { Type = typeof(Designation), ValueProvider = masjidField, Name = "masjid" });
 
             var name = af.GetValue(context);
             Assert.AreEqual("Welcome to Masjid kampung Bukit Bunga", name);
@@ -71,7 +71,7 @@ namespace domain.test.triggers
         [Test]
         public void GetAsyncValueString()
         {
-            var building = new Building { Name = "Masjid kampung Bukit Bunga" };
+            var building = new Designation { Name = "Masjid kampung Bukit Bunga" };
             var context = new RuleContext(building);
 
             var masjidField = new FunctionField { Script = "return item;", ScriptEngine = new RoslynScriptEngine() };
@@ -85,7 +85,7 @@ namespace domain.test.triggers
                 AsyncTimeout = 650
             };
             af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "Welcome to ", Type = typeof(string) }, Name = "greet" });
-            af.MethodArgCollection.Add(new MethodArg { Type = typeof(Building), ValueProvider = masjidField, Name = "masjid" });
+            af.MethodArgCollection.Add(new MethodArg { Type = typeof(Designation), ValueProvider = masjidField, Name = "masjid" });
 
             var name = af.GetValue(context);
             Assert.AreEqual("Welcome to  Masjid kampung Bukit Bunga", name);
@@ -96,7 +96,7 @@ namespace domain.test.triggers
         [ExpectedException(typeof(InvalidOperationException))]
         public void GetAsyncValueOverloaded()
         {
-            var building = new Building { Name = "Masjid kampung Bukit Bunga" };
+            var building = new Designation { Name = "Masjid kampung Bukit Bunga" };
             var context = new RuleContext(building);
 
             var masjidField = new FunctionField { Script = "return item;", ScriptEngine = new RoslynScriptEngine() };
@@ -111,7 +111,7 @@ namespace domain.test.triggers
             };
             af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "Welcome to ", Type = typeof(string) }, Name = "greet" });
             af.MethodArgCollection.Add(new MethodArg { Type = typeof(string), ValueProvider = new ConstantField { Value = "Wwhat... ", Type = typeof(string) }, Name = "warning" });
-            af.MethodArgCollection.Add(new MethodArg { Type = typeof(Building), ValueProvider = masjidField, Name = "masjid" });
+            af.MethodArgCollection.Add(new MethodArg { Type = typeof(Designation), ValueProvider = masjidField, Name = "masjid" });
 
             var name = af.GetValue(context);
             Assert.AreEqual("Welcome to  Masjid kampung Bukit Bunga", name);

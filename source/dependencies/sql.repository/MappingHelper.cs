@@ -11,27 +11,10 @@ namespace Bespoke.Sph.SqlRepository
             switch (type)
             {
                 case "Building":
-                    var building = (Building)item;
-                    if (column == "State")
-                        return building.Address.State;
                     break;
                 case "Contract":
-                    var contract = (Contract)item;
-                    if (column == "TenantName")
-                        return contract.Tenant.Name;
-                    if (column == "TenantRegistrationNo")
-                        return contract.Tenant.RegistrationNo;
-                    if (column == "TenantIdSsmNo")
-                        return contract.Tenant.IdSsmNo;
-                    if (column == "SpaceId")
-                        return contract.Space.SpaceId;
-                    if (column == "SpaceRegistrationNo")
-                        return contract.Space.RegistrationNo;
                     break;
                 case "RentalApplication":
-                    var app = (RentalApplication)item;
-                    if (column == "ContactName")return app.Contact.Name;
-                    if (column == "ContactIcNo")return app.Contact.IcNo;
                     break;      
             }
             return DBNull.Value;

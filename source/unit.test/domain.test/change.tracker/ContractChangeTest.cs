@@ -5,39 +5,30 @@ using NUnit.Framework;
 namespace domain.test.change.tracker
 {
     [TestFixture]
-    public class ContractChangeTest
+    public class DesignationChangeTest
     {
         [Test]
-        public void ContractChange()
+        public void DesignationChange()
         {
-            var c = new Contract
+            var c = new Designation
             {
-                Title = "1",
-                Option = 1,
-                Owner = new Owner
-                    {
-                        Name = "erymuzuan"
-                    }
+                Name = "1"
             };
 
             var c1 = c.Clone();
-            c1.Title = "2";
+            c1.Name = "2";
 
             var generator = new ChangeGenerator();
             var changes = generator.GetChanges(c, c1);
             Assert.AreEqual(1, changes.Count(), "Title");
         }
+
         [Test]
-        public void ContractChangeOwner()
+        public void DesignationChangeOwner()
         {
-            var c2 = new Contract
+            var c2 = new Designation
             {
-                Title = "1",
-                Option = 1,
-                Owner = new Owner
-                    {
-                        Name = "erymuzuan"
-                    }
+                Name = "1"
             };
 
             var c1 = c2.Clone();
@@ -50,13 +41,14 @@ namespace domain.test.change.tracker
             changes.ForEach(System.Console.WriteLine);
             Assert.IsTrue(changes.Any(c => c.PropertyName == "Owner.Name"));
         }
+
+
         [Test]
-        public void ContractChangeOwnerAddress()
+        public void DesignationChangeOwnerAddress()
         {
-            var c2 = new Contract
+            var c2 = new Designation
             {
                 Title = "1",
-                Option = 1,
                 Owner = new Owner
                     {
                         Name = "erymuzuan",
@@ -77,9 +69,9 @@ namespace domain.test.change.tracker
         }
 
         [Test]
-        public void ContractChangeOwnerAddedField()
+        public void DesignationChangeOwnerAddedField()
         {
-            var c2 = new Contract
+            var c2 = new Designation
             {
                 Title = "1",
                 Option = 1,
@@ -102,31 +94,33 @@ namespace domain.test.change.tracker
         }
 
         [Test]
-        public void ContractDocumentAdded()
+        public void DesignationDocumentAdded()
         {
-            var c2 = new Contract
-            {
-                Title = "1",
-                Option = 1,
-                Owner = new Owner
-                    {
-                        Name = "erymuzuan"
-                    }
-            };
+            Assert.Fail();
+            //var c2 = new Designation
+            //{
+            //    Title = "1",
+            //    Option = 1,
+            //    Owner = new Owner
+            //        {
+            //            Name = "erymuzuan"
+            //        }
+            //};
 
-            var c1 = c2.Clone();
-            c1.DocumentCollection.Add(new Document { Title = "whatever test", Extension = "test.docx" });
+            //var c1 = c2.Clone();
+            //c1.DocumentCollection.Add(new Document { Title = "whatever test", Extension = "test.docx" });
 
-            var generator = new ChangeGenerator();
-            var changes = generator.GetChanges(c2, c1).ToList();
-            Assert.AreEqual(1, changes.Count(), "Title, owner name, and phone");
-            changes.ForEach(System.Console.WriteLine);
+            //var generator = new ChangeGenerator();
+            //var changes = generator.GetChanges(c2, c1).ToList();
+            //Assert.AreEqual(1, changes.Count(), "Title, owner name, and phone");
+            //changes.ForEach(System.Console.WriteLine);
         }
 
         [Test]
-        public void ContractDocumentChanged()
+        public void DesignationDocumentChanged()
         {
-            var c2 = new Contract
+            Assert.Fail();
+            var c2 = new Designation
             {
                 Title = "1",
                 Option = 1,
@@ -135,15 +129,15 @@ namespace domain.test.change.tracker
                         Name = "erymuzuan"
                     }
             };
-            c2.DocumentCollection.Add(new Document { Title = "whatever test", Extension = "test.docx", WebId = "2" });
+            //c2.DocumentCollection.Add(new Document { Title = "whatever test", Extension = "test.docx", WebId = "2" });
 
-            var c1 = c2.Clone();
-            c1.DocumentCollection[0].Title = "x";
+            //var c1 = c2.Clone();
+            //c1.DocumentCollection[0].Title = "x";
 
-            var generator = new ChangeGenerator();
-            var changes = generator.GetChanges(c2, c1).ToList();
-            Assert.AreEqual(1, changes.Count(), "Title, owner name, and phone");
-            changes.ForEach(System.Console.WriteLine);
+            //var generator = new ChangeGenerator();
+            //var changes = generator.GetChanges(c2, c1).ToList();
+            //Assert.AreEqual(1, changes.Count(), "Title, owner name, and phone");
+            //changes.ForEach(System.Console.WriteLine);
         }
         [Test]
         public void NullableStruct()

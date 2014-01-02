@@ -13,7 +13,7 @@ namespace domain.test.triggers
         [Test]
         public void Email()
         {
-            var building = new Building();
+            var building = new Designation();
             ObjectBuilder.AddCacheList<ITemplateEngine>(new MockTemplateEnging());
             CustomAction email = new EmailAction
             {
@@ -33,6 +33,7 @@ namespace domain.test.triggers
         [Test]
         public void Setter()
         {
+            Assert.Fail();
             var persistence = new MockPersistence();
             ObjectBuilder.AddCacheList<IDirectoryService>(new MockLdap());
             ObjectBuilder.AddCacheList<QueryProvider>(new MockQueryProvider());
@@ -40,7 +41,7 @@ namespace domain.test.triggers
             ObjectBuilder.AddCacheList<IPersistence>(persistence);
             ObjectBuilder.AddCacheList<IEntityChangePublisher>(new MockChangePublisher());
 
-            var building = new Building { UnitNo = "4444", Note = "Test 1234", Type = "Shopping Mall"};
+            var building = new Designation { Name = "4444", Title = "Test 1234", CreatedBy = "Shopping Mall"};
             var setter = new SetterAction
             {
                 TriggerId = 44,
@@ -50,8 +51,8 @@ namespace domain.test.triggers
             setter.SetterActionChildCollection.Add(new SetterActionChild { Path = "Note", Field = new DocumentField { Path = "Type", Type = typeof(string) } });
             setter.ExecuteAsync(new RuleContext(building)).Wait(5000);
 
-            Assert.AreEqual("Damansara Intan", persistence.Building.Name);
-            Assert.AreEqual("Shopping Mall", persistence.Building.Note);
+            //Assert.AreEqual("Damansara Intan", persistence.Designation.Name);
+            //Assert.AreEqual("Shopping Mall", persistence.Designation.Note);
 
         }
     }

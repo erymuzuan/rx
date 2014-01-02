@@ -12,31 +12,19 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(DateTimePicker))]
     [XmlInclude(typeof(CheckBox))]
     [XmlInclude(typeof(ComboBox))]
-    [XmlInclude(typeof(BuildingFloorsElement))]
-    [XmlInclude(typeof(BuildingMapElement))]
+    [XmlInclude(typeof(MapElement))]
     [XmlInclude(typeof(BuildingElement))]
     [XmlInclude(typeof(EmailFormElement))]
     [XmlInclude(typeof(WebsiteFormElement))]
     [XmlInclude(typeof(SectionFormElement))]
-    [XmlInclude(typeof(ComplaintCategoryElement))]
-    [XmlInclude(typeof(RentalApplicationBanksElement))]
-    [XmlInclude(typeof(RentalApplicationAttachmentsElement))]
-    [XmlInclude(typeof(RentalApplicationContactElement))]
-    [XmlInclude(typeof(SpaceUnitElement))]
     [XmlInclude(typeof(HtmlElement))]
-    [XmlInclude(typeof(CustomListDefinitionElement))]
-    [XmlInclude(typeof(MaintenanceOfficerElement))]
-    [XmlInclude(typeof(BuildingBlocksElement))]
     [XmlInclude(typeof(SpaceFeaturesElement))]
     [XmlInclude(typeof(FileUploadElement))]
     [XmlInclude(typeof(ListView))]
     [XmlInclude(typeof(Button))]
     public partial class FormElement : DomainObject
     {
-        public virtual CustomField GenerateCustomField()
-        {
-            throw new System.NotImplementedException(this.GetType().Name + " does not implement GenerateCustomField");
-        }
+        
 
         public virtual string GetKnockoutBindingExpression()
         {
@@ -46,9 +34,6 @@ namespace Bespoke.Sph.Domain
         {
 
             var path = this.Path;
-            if (null != this.CustomField)
-                path = string.Format("CustomField('{0}')", this.Path);
-
             return string.Format("text: {0}", path);
 
         }
@@ -65,8 +50,6 @@ namespace Bespoke.Sph.Domain
 
             return this.Path;
         }
-
-        public CustomField CustomField { get; set; }
 
         [JsonIgnore]
         [XmlIgnore]

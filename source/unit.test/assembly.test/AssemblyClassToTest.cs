@@ -12,6 +12,7 @@ namespace assembly.test
         }
          
     }
+
     public class AssemblyClassToTest
     {
         public string SayHello(string name)
@@ -22,21 +23,21 @@ namespace assembly.test
         {
             return string.Format(greet + " " + name);
         }
-        public string SayBuildingName(Building masjid, string greet)
+        public string SayBuildingName(Designation masjid, string greet)
         {
             return string.Format( greet + " " + masjid.Name);
         }
-        public async Task<object> GreetAsync(Building masjid, string greet)
+        public async Task<object> GreetAsync(Designation masjid, string greet)
         {
             await Task.Delay(500);
             return string.Format( greet + " " + masjid.Name);
         }
-        public async Task<object> GreetAsync(Building masjid, string greet, bool warning)
+        public async Task<object> GreetAsync(Designation masjid, string greet, bool warning)
         {
             await Task.Delay(500);
             return string.Format( greet + " warning " + masjid.Name);
         }
-        public async Task<object> GreetAsync(Building masjid, string greet, string warning)
+        public async Task<object> GreetAsync(Designation masjid, string greet, string warning)
         {
             await Task.Delay(500);
             return string.Format( greet + " warning " + masjid.Name);

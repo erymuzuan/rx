@@ -24,7 +24,6 @@ namespace Bespoke.Sph.Web.ViewModels
 
         }
         private readonly ObjectCollection<FormElement> m_nameCollection = new ObjectCollection<FormElement>();
-        public string Entity { get; set; }
         public ObjectCollection<FormElement> FormElements
         {
             get { return m_nameCollection; }

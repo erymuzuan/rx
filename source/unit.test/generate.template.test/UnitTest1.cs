@@ -13,22 +13,12 @@ namespace generate.template.test
         [TestMethod]
         public void TestMethod1()
         {
-            var contract = new Contract
+            var contract = new Designation
             {
-                ReferenceNo = "1234",
-                Tenant = new Tenant
-                {
-                    Name = "MY NAME" ,
-                    Address = new Address
-                    {
-                        Street = "No 1",
-                        State = "Johor",
-                        Postcode = "787878",
-                        City = "JB"
-                    }
-                }
+                Name = "1234",
+                StartModule = "test"
             };
-            IDocumentGenerator gen = new WordGenerator{DefaultNamespace = typeof(Contract).Namespace};
+            IDocumentGenerator gen = new WordGenerator{DefaultNamespace = typeof(Designation).Namespace};
             Console.WriteLine(((WordGenerator) gen).DefaultNamespace);
             var output = Path.GetTempFileName() + ".docx";
             File.Copy(@"\project\work\sph\source\unit.test\generate.template.test\DATETIME.docx", output);

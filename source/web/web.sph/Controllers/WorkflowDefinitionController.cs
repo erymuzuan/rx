@@ -61,7 +61,6 @@ namespace Bespoke.Sph.Web.Controllers
         {
             var vm = new TemplateFormViewModel
             {
-                Entity = typeof(Space).Name,
                 IsImportVisible = true
             };
             return View(vm);
@@ -69,13 +68,13 @@ namespace Bespoke.Sph.Web.Controllers
 
         public ActionResult ScreenEditor()
         {
-            var vm = new TemplateFormViewModel { Entity = typeof(Space).Name };
+            var vm = new TemplateFormViewModel();
             return View(vm);
         }
 
         public ActionResult ScreenJs()
         {
-            var vm = new TemplateFormViewModel { Entity = typeof(Space).Name };
+            var vm = new TemplateFormViewModel();
             vm.FormElements.RemoveAll(
                 f => f.GetType() == typeof(FormElement));
             this.Response.ContentType = APPLICATION_JAVASCRIPT;

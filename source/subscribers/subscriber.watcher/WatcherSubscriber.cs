@@ -36,13 +36,7 @@ namespace Bespoke.Sph.WathersSubscribers
         }
 
         private readonly ObjectCollection<Watcher> m_watchers =new ObjectCollection<Watcher>();
-        private IEntityChangedListener<Building> m_buildingListener;
-        private IEntityChangedListener<RentalApplication> m_applicationListener;
-        private IEntityChangedListener<Space> m_spaceListener;
-        private IEntityChangedListener<Complaint> m_complaintListener;
-        private IEntityChangedListener<Maintenance> m_maintenanceListener;
-        private IEntityChangedListener<Contract> m_contractListener;
-
+      
         protected async override void OnStart()
         {
             var context = new SphDataContext();
@@ -56,29 +50,29 @@ namespace Bespoke.Sph.WathersSubscribers
             }
 
             // get the listeners
-            m_buildingListener = ObjectBuilder.GetObject<IEntityChangedListener<Building>>();
-            m_buildingListener.Changed += EntityChanged;
-            m_buildingListener.Run();
+            //m_buildingListener = ObjectBuilder.GetObject<IEntityChangedListener<Building>>();
+            //m_buildingListener.Changed += EntityChanged;
+            //m_buildingListener.Run();
 
-            m_applicationListener = ObjectBuilder.GetObject<IEntityChangedListener<RentalApplication>>();
-            m_applicationListener.Changed += EntityChanged;
-            m_applicationListener.Run();
+            //m_applicationListener = ObjectBuilder.GetObject<IEntityChangedListener<RentalApplication>>();
+            //m_applicationListener.Changed += EntityChanged;
+            //m_applicationListener.Run();
 
-            m_complaintListener = ObjectBuilder.GetObject<IEntityChangedListener<Complaint>>();
-            m_complaintListener.Changed += EntityChanged;
-            m_complaintListener.Run();
+            //m_complaintListener = ObjectBuilder.GetObject<IEntityChangedListener<Complaint>>();
+            //m_complaintListener.Changed += EntityChanged;
+            //m_complaintListener.Run();
 
-            m_maintenanceListener = ObjectBuilder.GetObject<IEntityChangedListener<Maintenance>>();
-            m_maintenanceListener.Changed += EntityChanged;
-            m_maintenanceListener.Run();
+            //m_maintenanceListener = ObjectBuilder.GetObject<IEntityChangedListener<Maintenance>>();
+            //m_maintenanceListener.Changed += EntityChanged;
+            //m_maintenanceListener.Run();
 
-            m_spaceListener = ObjectBuilder.GetObject<IEntityChangedListener<Space>>();
-            m_spaceListener.Changed += EntityChanged;
-            m_spaceListener.Run();
+            //m_spaceListener = ObjectBuilder.GetObject<IEntityChangedListener<Space>>();
+            //m_spaceListener.Changed += EntityChanged;
+            //m_spaceListener.Run();
 
-            m_contractListener = ObjectBuilder.GetObject<IEntityChangedListener<Contract>>();
-            m_contractListener.Changed += EntityChanged;
-            m_contractListener.Run();
+            //m_contractListener = ObjectBuilder.GetObject<IEntityChangedListener<Contract>>();
+            //m_contractListener.Changed += EntityChanged;
+            //m_contractListener.Run();
 
         }
 

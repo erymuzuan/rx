@@ -13,24 +13,8 @@ namespace Bespoke.Sph.Domain
     public class SphDataContext
     {
         public IQueryable<AuditTrail> AuditTrails { get; set; }
-        public IQueryable<Building> Buildings { get; set; }
-        public IQueryable<BuildingTemplate> BuildingTemplates { get; set; }
-        public IQueryable<Space> Spaces { get; set; }
-        public IQueryable<SpaceTemplate> SpaceTemplates { get; set; }
-        public IQueryable<ComplaintTemplate> ComplaintTemplates { get; set; }
-        public IQueryable<ApplicationTemplate> ApplicationTemplates { get; set; }
-        public IQueryable<Complaint> Complaints { get; set; }
-        public IQueryable<Contract> Contracts { get; set; }
-        public IQueryable<Deposit> Deposits { get; set; }
-        public IQueryable<Invoice> Invoices { get; set; }
-        public IQueryable<WorkOrder> WorkOrders { get; set; }
         public IQueryable<Organization> Organizations { get; set; }
-        public IQueryable<MaintenanceTemplate> MaintenanceTemplates { get; set; }
-        public IQueryable<Payment> Payments { get; set; }
-        public IQueryable<RentalApplication> RentalApplications { get; set; }
         public IQueryable<ReportDefinition> ReportDefinitions { get; set; }
-        public IQueryable<Rent> Rents { get; set; }
-        public IQueryable<Rebate> Rebates { get; set; }
         public IQueryable<Role> Roles { get; set; }
         public IQueryable<Setting> Settings { get; set; }
         public IQueryable<UserProfile> UserProfiles { get; set; }
@@ -45,29 +29,13 @@ namespace Bespoke.Sph.Domain
             var provider = ObjectBuilder.GetObject<QueryProvider>();
 
             this.AuditTrails = new Query<AuditTrail>(provider);
-            this.Buildings = new Query<Building>(provider);
-            this.BuildingTemplates = new Query<BuildingTemplate>(provider);
-            this.Spaces = new Query<Space>(provider);
-            this.SpaceTemplates = new Query<SpaceTemplate>(provider);
-            this.MaintenanceTemplates = new Query<MaintenanceTemplate>(provider);
-            this.ComplaintTemplates = new Query<ComplaintTemplate>(provider);
-            this.ApplicationTemplates = new Query<ApplicationTemplate>(provider);
-            this.Complaints = new Query<Complaint>(provider);
-            this.Contracts = new Query<Contract>(provider);
-            this.Deposits = new Query<Deposit>(provider);
-            this.Invoices = new Query<Invoice>(provider);
             this.Organizations = new Query<Organization>(provider);
-            this.Payments = new Query<Payment>(provider);
-            this.RentalApplications = new Query<RentalApplication>(provider);
             this.ReportDefinitions = new Query<ReportDefinition>(provider);
-            this.Rebates = new Query<Rebate>(provider);
-            this.Rents = new Query<Rent>(provider);
             this.Roles = new Query<Role>(provider);
             this.Settings = new Query<Setting>(provider);
             this.UserProfiles = new Query<UserProfile>(provider);
             this.Triggers = new Query<Trigger>(provider);
             this.Watchers = new Query<Watcher>(provider);
-            this.WorkOrders = new Query<WorkOrder>(provider);
             this.Workflows = new Query<Workflow>(provider);
             this.WorkflowDefinitions = new Query<WorkflowDefinition>(provider);
             this.Pages = new Query<Page>(provider);
@@ -91,20 +59,7 @@ namespace Bespoke.Sph.Domain
                 var repos = ObjectBuilder.GetObject(reposType);
                 var provider = ObjectBuilder.GetObject<QueryProvider>();
 
-                if (type == typeof(Tenant))
-                {
-                    Expression<Func<Tenant, bool>> predicate = t => t.TenantId == o1.GetId();
-                    var query = new Query<Tenant>(provider).Where(predicate);
-                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
-                    list.Add(p);
-                }
-                if (type == typeof(RentalApplication))
-                {
-                    Expression<Func<RentalApplication, bool>> predicate = t => t.RentalApplicationId ==o1.GetId();
-                    var query = new Query<RentalApplication>(provider).Where(predicate);
-                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
-                    list.Add(p);
-                }
+
                 if (type == typeof(Trigger))
                 {
                     Expression<Func<Trigger, bool>> predicate = t => t.TriggerId == o1.GetId();
@@ -113,49 +68,9 @@ namespace Bespoke.Sph.Domain
                     list.Add(p);
                 }
 
-                if (type == typeof(Contract))
-                {
-                    Expression<Func<Contract, bool>> predicate = t => t.ContractId == o1.GetId();
-                    var query = new Query<Contract>(provider).Where(predicate);
-                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
-                    list.Add(p);
 
-                }
-                if (type == typeof(Building))
-                {
-                    Expression<Func<Building, bool>> predicate = t => t.BuildingId == o1.GetId();
-                    var query = new Query<Building>(provider).Where(predicate);
-                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
-                    list.Add(p);
-                }
-                if (type == typeof(BuildingTemplate))
-                {
-                    Expression<Func<BuildingTemplate, bool>> predicate = t => t.BuildingTemplateId == o1.GetId();
-                    var query = new Query<BuildingTemplate>(provider).Where(predicate);
-                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
-                    list.Add(p);
-                }
-                if (type == typeof(SpaceTemplate))
-                {
-                    Expression<Func<SpaceTemplate, bool>> predicate = t => t.SpaceTemplateId == o1.GetId();
-                    var query = new Query<SpaceTemplate>(provider).Where(predicate);
-                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
-                    list.Add(p);
-                }
-                if (type == typeof(Complaint))
-                {
-                    Expression<Func<Complaint, bool>> predicate = t => t.ComplaintId == o1.GetId();
-                    var query = new Query<Complaint>(provider).Where(predicate);
-                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
-                    list.Add(p);
-                }
-                if (type == typeof(Maintenance))
-                {
-                    Expression<Func<Maintenance, bool>> predicate = t => t.MaintenanceId == o1.GetId();
-                    var query = new Query<Maintenance>(provider).Where(predicate);
-                    var p = await repos.LoadOneAsync(query).ConfigureAwait(false);
-                    list.Add(p);
-                }
+
+
                 if (type == typeof(Page))
                 {
                     Expression<Func<Page, bool>> predicate = t => t.PageId == o1.GetId();

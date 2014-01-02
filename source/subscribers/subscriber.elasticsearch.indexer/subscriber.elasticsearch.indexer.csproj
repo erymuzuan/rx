@@ -48,11 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpaceIndexer.cs" />
+    <Compile Include="AuditTrailIndexerSubscriber.cs" />
+    <Compile Include="MessageIndexerSubscriber.cs" />
+    <Compile Include="ReportDefinitionIndexerSubscriber.cs" />
+    <Compile Include="ReportDeliveryIndexerSubscriber.cs" />
     <Compile Include="EsEntityIndexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpaceIndexerSubscriber.cs" />
     <Compile Include="TrackerSubscriber.cs" />
+    <Compile Include="TriggerIndexerSubscriber.cs" />
+    <Compile Include="UserProfileIndexerSubscriber.cs" />
     <Compile Include="WorkflowSubscriber.cs" />
   </ItemGroup>
   <ItemGroup>

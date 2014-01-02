@@ -239,23 +239,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\AppController.building.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.complainttemplate.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\AppController.config.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AppController.header.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.maintenance.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.maintenancetemplate.cs.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AppController.nav.cs">
@@ -265,9 +253,6 @@
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AppController.role.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\AppController.tenantportal.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AppController.userprofile.cs">
@@ -282,25 +267,12 @@
     <Compile Include="Controllers\AppController.workflow.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BinaryStoreController.cs" />
-    <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\EditorController.cs" />
     <Compile Include="Controllers\EntityDefinitionController.cs" />
     <Compile Include="Controllers\PageController.cs" />
-    <Compile Include="Controllers\SpaceController.cs" />
-    <Compile Include="Controllers\ComplaintController.cs" />
-    <Compile Include="Controllers\ContractController.cs" />
-    <Compile Include="Controllers\ContractSettingController.cs" />
     <Compile Include="Controllers\AppController.trigger.cs">
       <DependentUpon>AppController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.commercialspace.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\CustomFieldController.cs" />
-    <Compile Include="Controllers\AppController.complaint.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportDeliveryController.cs" />
@@ -322,22 +294,12 @@
     <Compile Include="ViewModels\HeaderViewModel.cs" />
     <Compile Include="Controllers\HotTowelController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
-    <Compile Include="Controllers\InventoryController.cs" />
-    <Compile Include="Controllers\InvoiceController.cs" />
-    <Compile Include="Controllers\LandController.cs" />
-    <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
-    <Compile Include="Controllers\PaymentController.cs" />
-    <Compile Include="Controllers\PrintController.cs" />
-    <Compile Include="Controllers\RebateController.cs" />
-    <Compile Include="Controllers\RentalApplicationController.cs" />
     <Compile Include="Controllers\ReportDefinitionController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
-    <Compile Include="Controllers\TemplateController.cs" />
-    <Compile Include="Controllers\TenantController.cs" />
     <Compile Include="Controllers\TriggerController.cs" />
     <Compile Include="Controllers\WatchController.cs" />
     <Compile Include="default.aspx.cs">
@@ -359,8 +321,6 @@
     <Compile Include="Models\RoleType.cs" />
     <Compile Include="Models\TypeModel.cs" />
     <Compile Include="ViewModels\JsTestViewModel.cs" />
-    <Compile Include="ViewModels\SpaceDetailViewModel.cs" />
-    <Compile Include="ViewModels\CustomFieldViewModel.cs" />
     <Compile Include="ViewModels\PrintViewModel.cs" />
     <Compile Include="ViewModels\ReportBuilderViewModel.cs" />
     <Compile Include="ViewModels\RoleModel.cs" />
@@ -426,14 +386,11 @@
     <Content Include="App\partial\MaintenanceTemplate.js" />
     <Content Include="App\partial\ComplaintTemplate.js" />
     <Content Include="App\partial\Block.js" />
-    <Content Include="App\partial\ApplicationTemplate.js" />
     <Content Include="App\partial\BusinessRule.js" />
-    <Content Include="App\partial\FeatureDefinition.js" />
     <Content Include="App\partial\IFormTemplate.js" />
     <Content Include="App\partial\MethodArg.js" />
     <Content Include="App\partial\SetterActionChild.js" />
     <Content Include="App\partial\SetterAction.js" />
-    <Content Include="App\partial\BuildingTemplate.js" />
     <Content Include="App\partial\WorkflowDefinition.js" />
     <Content Include="App\partial\Trigger.js" />
     <Content Include="App\partial\Rule.js" />
@@ -441,16 +398,12 @@
     <Content Include="App\partial\Complaint.js" />
     <Content Include="App\partial\ConstantField.js" />
     <Content Include="App\partial\Contract.js" />
-    <Content Include="App\partial\Building.js" />
     <Content Include="App\partial\ContractTemplate.js" />
     <Content Include="App\partial\BarChartItem.js" />
     <Content Include="App\partial\DataGridItem.js" />
     <Content Include="App\partial\LineChartItem.js" />
-    <Content Include="App\partial\CustomListRow.js" />
     <Content Include="App\partial\AssemblyField.js" />
-    <Content Include="App\partial\CustomListDefinitionElement.js" />
     <Content Include="App\partial\report.js" />
-    <Content Include="App\partial\SpaceTemplate.js" />
     <Content Include="App\prototypes\FieldContainer.js" />
     <Content Include="App\prototypes\IntervalScheduleContainer.js" />
     <Content Include="App\schemas\report.builder.g.js" />
@@ -459,7 +412,6 @@
     <Content Include="App\services\app.js" />
     <Content Include="App\services\cultures.my.js" />
     <Content Include="App\services\datacontext.js" />
-    <Content Include="App\partial\Deposit.js" />
     <Content Include="App\schemas\form.designer.g.js" />
     <Content Include="App\services\jsonimportexport.js" />
     <Content Include="App\services\logger.js" />
@@ -497,12 +449,6 @@
     <Content Include="App\viewmodels\activity.decision.js" />
     <Content Include="App\viewmodels\activity.expression.js" />
     <Content Include="App\viewmodels\activity.notification.js" />
-    <Content Include="App\viewmodels\application.template.list.js" />
-    <Content Include="App\viewmodels\block.floormap.dialog.js" />
-    <Content Include="App\viewmodels\block.floors.js" />
-    <Content Include="App\viewmodels\block.map.js" />
-    <Content Include="App\viewmodels\complaint.checkstatus.js" />
-    <Content Include="App\viewmodels\complaint.dashboard.js" />
     <Content Include="App\viewmodels\field.assembly.js" />
     <Content Include="App\viewmodels\page.detail.dialog.js" />
     <Content Include="App\viewmodels\page.list.js" />
@@ -519,10 +465,7 @@
     <Content Include="App\viewmodels\field.function.js" />
     <Content Include="App\viewmodels\field.propertychanged.js" />
     <Content Include="App\viewmodels\field.document.js" />
-    <Content Include="App\viewmodels\maintenance.officer.dashboard.js" />
     <Content Include="App\viewmodels\public.check.application.js" />
-    <Content Include="App\viewmodels\rentalapplication.onbehalf.js" />
-    <Content Include="App\viewmodels\space.detailpublic.js" />
     <Content Include="App\viewmodels\workflow.activities.js" />
     <Content Include="App\viewmodels\workflow.debugger.js" />
     <Content Include="App\viewmodels\workflow.definition.list.js" />
@@ -530,45 +473,18 @@
     <Content Include="App\viewmodels\workflow.definition.visual.js" />
     <Content Include="App\viewmodels\workflow.instances.console.js" />
     <Content Include="App\viewmodels\workflow.manage.js" />
-    <Content Include="App\viewmodels\_contract.facility.js" />
-    <Content Include="App\viewmodels\maintenance.dashboard.js" />
-    <Content Include="App\viewmodels\maintenance.list.js" />
-    <Content Include="App\viewmodels\maintenance.workorder.js" />
     <Content Include="App\viewmodels\photo.dialog.js" />
     <Content Include="App\viewmodels\reportdelivery.schedule.js" />
     <Content Include="App\viewmodels\_reportdefinition.preview.js" />
-    <Content Include="App\viewmodels\_tenant.complaintform.js" />
-    <Content Include="App\viewmodels\_tenant.payment.js" />
-    <Content Include="App\viewmodels\land.detail.js" />
-    <Content Include="App\viewmodels\land.list.js" />
     <Content Include="App\viewmodels\message.inbox.js" />
     <Content Include="App\viewmodels\reportdefinition.base.js" />
     <Content Include="App\viewmodels\reportdefinition.edit.js" />
     <Content Include="App\viewmodels\reportdefinition.list.js" />
-    <Content Include="App\viewmodels\template.space.js" />
-    <Content Include="App\viewmodels\template.application.js" />
-    <Content Include="App\viewmodels\maintenance.form.js" />
-    <Content Include="App\viewmodels\template.maintenance.js" />
-    <Content Include="App\viewmodels\template.complaint.js" />
-    <Content Include="App\viewmodels\template.base.js" />
-    <Content Include="App\viewmodels\template.building.js" />
-    <Content Include="App\viewmodels\building.template.list.js" />
-    <Content Include="App\viewmodels\space.detail.js" />
-    <Content Include="App\viewmodels\space.template.form.js" />
-    <Content Include="App\viewmodels\space.template.list.js" />
-    <Content Include="App\viewmodels\complaint.assign.js" />
-    <Content Include="App\viewmodels\complaint.detail.js" />
-    <Content Include="App\viewmodels\inventory.detail.js" />
-    <Content Include="App\viewmodels\inventory.list.js" />
-    <Content Include="App\viewmodels\maintenance.template.form.js" />
     <Content Include="App\viewmodels\messages.js" />
     <Content Include="App\viewmodels\public.index.js" />
-    <Content Include="App\viewmodels\maintenance.assignment.js" />
     <Content Include="App\viewmodels\search.js" />
-    <Content Include="App\viewmodels\maintenance.detail.js" />
     <Content Include="App\viewmodels\trigger.list.js" />
     <Content Include="App\viewmodels\trigger.setup.js" />
-    <Content Include="App\viewmodels\_tenant.complaint.js" />
     <Content Include="App\viewmodels\_users.department.js" />
     <Content Include="App\views\ace.goto.line.html" />
     <Content Include="App\views\action.email.html" />
@@ -589,12 +505,6 @@
     <Content Include="App\views\admin.home.html" />
     <Content Include="App\viewmodels\admin.home.js" />
     <Content Include="App\views\application.template.list.html" />
-    <Content Include="App\views\block.dialog.html" />
-    <Content Include="App\views\block.floormap.dialog.html" />
-    <Content Include="App\views\block.floors.html" />
-    <Content Include="App\views\block.map.html" />
-    <Content Include="App\views\building.template.list.html" />
-    <Content Include="App\views\ButtonPartial.html" />
     <Content Include="App\views\chats.html" />
     <Content Include="App\views\entities.list.html" />
     <Content Include="App\views\entity.details.html" />
@@ -606,7 +516,6 @@
     <Content Include="App\views\schedule.daily.html" />
     <Content Include="App\views\schedule.monthly.html" />
     <Content Include="App\views\schedule.weekly.html" />
-    <Content Include="App\views\test.wf.dialog.html" />
     <Content Include="App\views\variable.clrtype.html" />
     <Content Include="App\views\variable.complex.html" />
     <Content Include="App\views\variable.simple.html" />
@@ -614,35 +523,19 @@
     <Content Include="App\views\field.propertychanged.html" />
     <Content Include="App\views\field.constant.html" />
     <Content Include="App\views\field.document.html" />
-    <Content Include="App\views\maintenance.officer.dashboard.html" />
     <Content Include="App\views\public.check.application.html" />
-    <Content Include="App\views\rentalapplication.onbehalf.html" />
     <Content Include="App\views\workflow.activities.html" />
     <Content Include="App\views\workflow.debugger.html" />
     <Content Include="App\views\workflow.definition.list.html" />
     <Content Include="App\views\workflow.definition.visual.html" />
     <Content Include="App\views\workflow.instances.console.html" />
     <Content Include="App\views\workflow.manage.html" />
-    <Content Include="App\views\_contract.facility.html" />
-    <Content Include="App\views\space.template.form.html" />
-    <Content Include="App\views\space.template.list.html" />
-    <Content Include="App\views\complaint.checkstatus.html" />
-    <Content Include="App\views\complaint.dashboard.html" />
-    <Content Include="App\views\maintenance.dashboard.html" />
-    <Content Include="App\views\maintenance.list.html" />
     <Content Include="App\views\photo.dialog.html" />
     <Content Include="App\views\reportdelivery.schedule.html" />
     <Content Include="App\views\_reportdefinition.preview.html" />
     <Content Include="App\views\_schedule.trigger.advanced.setting.html" />
     <Content Include="App\views\_schedule.trigger.start.html" />
-    <Content Include="App\views\_tenant.complaintform.html" />
-    <Content Include="App\views\_tenant.payment.html" />
-    <Content Include="App\views\inventory.detail.html" />
-    <Content Include="App\views\inventory.list.html" />
-    <Content Include="App\views\land.detail.html" />
-    <Content Include="App\views\land.list.html" />
     <Content Include="App\views\logviewer.html" />
-    <Content Include="App\views\maintenance.template.form.html" />
     <Content Include="App\views\message.detail.html" />
     <Content Include="App\views\message.inbox.html" />
     <Content Include="App\views\messages.html" />
@@ -650,20 +543,12 @@
     <Content Include="App\views\reportdefinition.list.html" />
     <Content Include="App\views\search.html" />
     <Content Include="App\views\trigger.list.html" />
-    <Content Include="App\views\_complaint.details.html" />
-    <Content Include="App\views\maintenance.workorder.html" />
-    <Content Include="App\views\maintenance.assignment.html" />
     <Content Include="App\views\_template.custom.field.html" />
-    <Content Include="App\views\_tenant.complaint.html" />
     <Content Include="App\views\_user.add.html" />
     <Content Include="App\views\_user.change.password.html" />
     <Content Include="App\views\_users.department.html" />
     <Content Include="App\views\_workflow.definition.activities.html" />
     <Content Include="App\views\_workflow.definition.variables.html" />
-    <Content Include="App\views\_workorder.comment.html" />
-    <Content Include="App\views\_workorder.ncr.html" />
-    <Content Include="App\views\_workorder.partsandlabor.html" />
-    <Content Include="App\views\_workorder.warranty.html" />
     <Content Include="code.snippets.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -976,8 +861,6 @@
     <Content Include="Images\warning.png" />
     <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />
-    <Content Include="App\viewmodels\complaint.close.js" />
-    <Content Include="App\views\complaint.detail.html" />
     <Content Include="App\viewmodels\message.detail.js" />
     <Content Include="Content\less\alerts.less" />
     <Content Include="Content\less\badges.less" />
@@ -1029,7 +912,6 @@
     <Content Include="Content\theme.matyie\rentalapplication.less" />
     <Content Include="Content\theme.matyie\space.less" />
     <Content Include="Content\toastr.less" />
-    <Content Include="App\viewmodels\block.dialog.js" />
     <Content Include="Content\theme.matyie\building.less" />
     <Content Include="Content\DataTables-1.9.4\media\images\Sorting icons.psd" />
     <Content Include="Content\DataTables-1.9.4\extras\TableTools\media\images\psd\printer.psd" />
@@ -1041,18 +923,6 @@
     <Content Include="Content\theme.matyie\public.index.less" />
     <Content Include="Content\theme.matyie\theme.min.js.map">
       <DependentUpon>theme.js</DependentUpon>
-    </Content>
-    <Content Include="App\viewmodels\template.space.min.js.map">
-      <DependentUpon>template.space.js</DependentUpon>
-    </Content>
-    <Content Include="App\viewmodels\template.building.min.js.map">
-      <DependentUpon>template.building.js</DependentUpon>
-    </Content>
-    <Content Include="App\viewmodels\template.complaint.min.js.map">
-      <DependentUpon>template.complaint.js</DependentUpon>
-    </Content>
-    <Content Include="App\viewmodels\template.maintenance.min.js.map">
-      <DependentUpon>template.maintenance.js</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -1100,29 +970,14 @@
     <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\js\ColVis.min.js.gz" />
     <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\js\ColReorder.min.js.gz" />
     <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\js\AutoFill.min.js.gz" />
-    <Content Include="App\viewmodels\rentalapplication.selectspace.min.js.map">
-      <DependentUpon>rentalapplication.selectspace.js</DependentUpon>
-    </Content>
     <Content Include="App\viewmodels\shell.min.js.map">
       <DependentUpon>shell.js</DependentUpon>
-    </Content>
-    <Content Include="App\viewmodels\application.detail.min.js.map">
-      <DependentUpon>application.detail.js</DependentUpon>
-    </Content>
-    <Content Include="App\viewmodels\contract.template.min.js.map">
-      <DependentUpon>contract.template.js</DependentUpon>
-    </Content>
-    <Content Include="App\viewmodels\rentalapplication.verify.min.js.map">
-      <DependentUpon>rentalapplication.verify.js</DependentUpon>
     </Content>
     <Content Include="App\objectbuilders.min.js.map">
       <DependentUpon>objectbuilders.js</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\reportdefinition.edit.min.js.map">
       <DependentUpon>reportdefinition.edit.js</DependentUpon>
-    </Content>
-    <Content Include="App\viewmodels\land.detail.min.js.map">
-      <DependentUpon>land.detail.js</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\map.min.js.map">
       <DependentUpon>map.js</DependentUpon>
@@ -1512,90 +1367,29 @@
     <Content Include="App\schemas\ReferenceObject.xslt" />
     <Content Include="App\partial\Rent.js" />
     <Content Include="App\viewmodels\admindashboard.js" />
-    <Content Include="App\viewmodels\applicationlist.js" />
-    <Content Include="App\viewmodels\building.list.js" />
-    <Content Include="App\viewmodels\building.bound.js" />
-    <Content Include="App\viewmodels\building.detail.js" />
-    <Content Include="App\viewmodels\space.list.js" />
-    <Content Include="App\viewmodels\complaint.form.js" />
-    <Content Include="App\viewmodels\complaint.js" />
-    <Content Include="App\viewmodels\contract.create.js" />
-    <Content Include="App\viewmodels\contract.details.js" />
-    <Content Include="App\viewmodels\contract.list.js" />
-    <Content Include="App\viewmodels\contract.template.list.js" />
-    <Content Include="App\viewmodels\contract.template.js" />
-    <Content Include="App\viewmodels\deposit.js" />
-    <Content Include="App\viewmodels\floorplan.js" />
-    <Content Include="App\viewmodels\unit.list.js" />
     <Content Include="App\viewmodels\map.js" />
-    <Content Include="App\viewmodels\offerdetails.js" />
     <Content Include="App\viewmodels\organization.detail.js" />
     <Content Include="App\viewmodels\payment.js" />
-    <Content Include="App\viewmodels\rebate.js" />
-    <Content Include="App\viewmodels\application.detail.js" />
-    <Content Include="App\viewmodels\rentalapplication.selectspace.js" />
-    <Content Include="App\viewmodels\rentalapplication.verify.js" />
-    <Content Include="App\viewmodels\returnedapplication.js" />
     <Content Include="App\viewmodels\setting.js" />
     <Content Include="App\viewmodels\shell.js" />
-    <Content Include="App\viewmodels\tenant.detail.js" />
-    <Content Include="App\viewmodels\tenant.js" />
     <Content Include="App\viewmodels\_audittrail.list.js" />
     <Content Include="App\viewmodels\_space.contract.js" />
-    <Content Include="App\viewmodels\_contract.clauses.js" />
-    <Content Include="App\viewmodels\_contract.documents.js" />
-    <Content Include="App\viewmodels\_rentalapplication.verify.offer.js" />
     <Content Include="App\viewmodels\_setting.space.category.js" />
     <Content Include="App\viewmodels\_setting.interest.js" />
     <Content Include="App\viewmodels\_setting.state.js" />
-    <Content Include="App\viewmodels\_tenant.adhoc.js" />
-    <Content Include="App\viewmodels\_tenant.contract.js" />
-    <Content Include="App\viewmodels\_tenant.rebate.js" />
-    <Content Include="App\viewmodels\_tenant.rent.js" />
     <Content Include="App\viewmodels\_users.designation.js" />
     <Content Include="App\views\admindashboard.html" />
     <Content Include="App\views\applicationlist.html" />
-    <Content Include="App\views\building.list.html" />
-    <Content Include="App\views\building.bound.html" />
-    <Content Include="App\views\space.list.html" />
-    <Content Include="App\views\complaint.html" />
-    <Content Include="App\views\contract.create.html" />
-    <Content Include="App\views\contract.details.html" />
-    <Content Include="App\views\contract.list.html" />
-    <Content Include="App\views\contract.template.list.html" />
-    <Content Include="App\views\contract.template.html" />
-    <Content Include="App\views\deposit.html" />
-    <Content Include="App\views\floorplan.html" />
-    <Content Include="App\views\unit.list.html" />
     <Content Include="App\views\nav.html" />
-    <Content Include="App\views\offerdetails.html" />
     <Content Include="App\views\organization.detail.html" />
     <Content Include="App\views\payment.html" />
-    <Content Include="App\views\rebate.html" />
-    <Content Include="App\views\rentalapplication.html" />
-    <Content Include="App\views\rentalapplication.selectspace.html" />
-    <Content Include="App\views\rentalapplication.verify.html" />
-    <Content Include="App\views\returnedapplication.html" />
     <Content Include="App\views\setting.html" />
     <Content Include="App\views\shell.html" />
-    <Content Include="App\views\tenant.detail.html" />
-    <Content Include="App\views\tenant.html" />
     <Content Include="App\views\toolbar.html" />
     <Content Include="App\views\_audittrail.list.html" />
-    <Content Include="App\views\_space.contract.html" />
-    <Content Include="App\views\_complaint.space.detail.html" />
-    <Content Include="App\views\_complaint.tenant.detail.html" />
-    <Content Include="App\views\_contract.clauses.html" />
-    <Content Include="App\views\_contract.documents.html" />
-    <Content Include="App\views\_contract.form.html" />
-    <Content Include="App\views\_rentalapplication.verify.offer.html" />
     <Content Include="App\views\_setting.space.category.html" />
     <Content Include="App\views\_setting.interest.html" />
     <Content Include="App\views\_setting.state.html" />
-    <Content Include="App\views\_tenant.adhoc.html" />
-    <Content Include="App\views\_tenant.contract.html" />
-    <Content Include="App\views\_tenant.rebate.html" />
-    <Content Include="App\views\_tenant.rent.html" />
     <Content Include="App\views\_users.designation.html" />
     <Content Include="Content\durandal.css" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
@@ -1911,11 +1705,9 @@
     <Content Include="Views\App\TenantPortalHtml.cshtml" />
     <Content Include="Views\App\TenantPortalJs.cshtml" />
     <Content Include="Views\App\TriggerSetupHtml.cshtml" />
-    <Content Include="Views\RentalApplication\Print.cshtml" />
     <Content Include="Views\App\SpaceDetailHtml.cshtml" />
     <Content Include="Views\Shared\CustomFieldHtml.cshtml" />
     <Content Include="Views\App\ComplaintFormHtml.cshtml" />
-    <Content Include="Views\Template\Building.cshtml" />
     <Content Include="Views\App\BuildingDetailHtml.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\CheckBox.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\ComboBox.cshtml" />
@@ -1934,10 +1726,8 @@
     <Content Include="Views\Template\EditorTemplates\TextBox.cshtml" />
     <Content Include="Views\Template\EditorTemplates\WebsiteFormElement.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\FormElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\BuildingMapElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\BuildingFloorsElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\BuildingFloorsElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\BuildingMapElement.cshtml" />
+    <Content Include="Views\Template\DisplayTemplates\MapElement.cshtml" />
+    <Content Include="Views\Template\EditorTemplates\MapElement.cshtml" />
     <Content Include="Views\Template\EditorTemplates\FormElement.cshtml" />
     <Content Include="Views\Template\EditorTemplates\SectionFormElement.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\SectionFormElement.cshtml" />
@@ -1957,22 +1747,12 @@
     <Content Include="Views\Template\EditorTemplates\AddressElement.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\AddressElement.cshtml" />
     <Content Include="Views\Template\_Toolbox.cshtml" />
-    <Content Include="Views\Template\Complaint.cshtml" />
     <Content Include="Views\App\ComplaintDetailHtml.cshtml" />
     <Content Include="Views\App\MaintenanceTemplateListHtml.cshtml" />
     <Content Include="Views\App\MaintenanceTemplateListJs.cshtml" />
     <Content Include="Views\App\EditorTemplates\ComplaintCategoryElement.cshtml" />
     <Content Include="Views\Template\EditorTemplates\ComplaintCategoryElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\ComplaintCategoryElement.cshtml" />
-    <Content Include="Views\Template\Maintenance.cshtml" />
-    <Content Include="Views\Template\Application.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\RentalApplicationBanksElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\RentalApplicationAttachmentsElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\RentalApplicationAttachmentsElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\RentalApplicationBanksElement.cshtml" />
     <Content Include="Views\Template\_PathPicker.cshtml" />
-    <Content Include="Views\Template\Space.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\SpaceUnitElement.cshtml" />
     <Content Include="Views\Template\_DesignerContextAction.cshtml" />
     <Content Include="Views\App\EditorTemplates\SpaceUnitElement.cshtml" />
     <Content Include="Views\App\ApplicationDetailHtml.cshtml" />
@@ -1995,10 +1775,6 @@
     <Content Include="Views\Print\DisplayTemplates\TextBox.cshtml" />
     <Content Include="Views\Print\DisplayTemplates\WebsiteFormElement.cshtml" />
     <Content Include="Views\App\EditorTemplates\BuildingElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\BuildingElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\BuildingElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\RentalApplicationContactElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\RentalApplicationContactElement.cshtml" />
     <Content Include="Views\App\EditorTemplates\RentalApplicationAttachmentsElement.cshtml" />
     <Content Include="Views\App\EditorTemplates\RentalApplicationBanksElement.cshtml" />
     <Content Include="Views\App\EditorTemplates\RentalApplicationContactElement.cshtml" />
@@ -2048,7 +1824,6 @@
     <Content Include="Views\App\MaintenanceListJs.cshtml" />
     <Content Include="Views\Template\DisplayTemplates\MaintenanceOfficerElement.cshtml" />
     <Content Include="Views\App\ReportDefinitionPreview.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\CustomListDefinitionElement.cshtml" />
     <Content Include="Views\Template\EditorTemplates\CustomListDefinitionElement.cshtml" />
     <Content Include="Views\App\EditorTemplates\CustomListDefinitionElement.cshtml" />
     <Content Include="Views\App\ComplaintAssignHtml.cshtml" />
@@ -2056,8 +1831,6 @@
     <Content Include="Views\App\DisplayTemplates\ComboBox.cshtml" />
     <Content Include="Views\App\DisplayTemplates\ComplaintCategoryElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\TextAreaElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\BuildingBlocksElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\BuildingBlocksElement.cshtml" />
     <Content Include="Views\App\EditorTemplates\BuildingBlocksElement.cshtml" />
     <Content Include="Scripts\toastr.min.js.map" />
     <Content Include="Views\App\DisplayTemplates\CustomListDefinitionElement.cshtml" />
@@ -2066,21 +1839,15 @@
     <Content Include="Views\App\_DataGridItemRow.cshtml" />
     <Content Include="Views\Template\_DefaultValues.cshtml" />
     <Content Include="Views\App\EditorTemplates\SpaceFeaturesElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\SpaceFeaturesElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\SpaceFeaturesElement.cshtml" />
     <Content Include="Views\App\MaintenanceAssignmentHtml.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutTest.cshtml" />
     <Content Include="Views\App\SpaceDetailPublicHtml.cshtml" />
     <Content Include="Views\App\DisplayTemplates\SpaceFeaturesElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\SpaceUnitElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\AddressElement.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\App\DisplayTemplates\BuildingBlocksElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\BuildingElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\BuildingFloorsElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\BuildingMapElement.cshtml" />
+    <Content Include="Views\App\DisplayTemplates\MapElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\CheckBox.cshtml" />
     <Content Include="Views\App\DisplayTemplates\DatePicker.cshtml" />
     <Content Include="Views\App\DisplayTemplates\EmailFormElement.cshtml" />
@@ -2090,12 +1857,8 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\App\DisplayTemplates\NumberTextBox.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\RentalApplicationAttachmentsElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\RentalApplicationBanksElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\RentalApplicationContactElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\SectionFormElement.cshtml" />
     <Content Include="Views\App\DisplayTemplates\WebsiteFormElement.cshtml" />
-    <Content Include="Views\RentalApplication\Check.cshtml" />
     <Content Include="Scripts\_theme.min.js.map">
       <DependentUpon>_theme.js</DependentUpon>
     </Content>
