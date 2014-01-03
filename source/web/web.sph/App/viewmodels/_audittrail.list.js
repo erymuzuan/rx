@@ -29,7 +29,7 @@ define(['services/datacontext'],
                 return tcs.promise();
 
             },
-            viewAttached = function () {
+            attached = function () {
 
             },
             showChange = function (audit) {
@@ -40,7 +40,7 @@ define(['services/datacontext'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             auditTrailCollection: ko.observable(),
             log: ko.observable(new bespoke.sph.domain.AuditTrail()),
             showChangesCommand: showChange

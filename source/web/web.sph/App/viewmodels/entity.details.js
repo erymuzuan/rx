@@ -10,7 +10,7 @@
 /// <reference path="../objectbuilders.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', objectbuilders.system],
+define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system],
     function (context, logger, router, system) {
 
         var entity = ko.observable(),
@@ -33,7 +33,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 return Task.fromResult(true);
 
             },
-            viewAttached = function (view) {
+            attached = function (view) {
 
             },
             save = function () {
@@ -54,7 +54,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             entity: entity,
             toolbar: {
                 saveCommand: save

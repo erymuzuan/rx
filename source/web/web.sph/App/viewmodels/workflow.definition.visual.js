@@ -12,7 +12,7 @@
 /// <reference path="../../Scripts/_task.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', objectbuilders.system, objectbuilders.app, objectbuilders.eximp],
+define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, objectbuilders.app, objectbuilders.eximp],
     function (context, logger, router, system, app, eximp) {
 
         var isBusy = ko.observable(false),
@@ -142,9 +142,9 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
 
                 vm.toolboxElements(elements);
             },
-            activate = function (routeData) {
+            activate = function (id2) {
                 isBusy(true);
-                var id = parseInt(routeData.id),
+                var id = parseInt(id2),
                     query = String.format("WorkflowDefinitionId eq {0}", id),
                     tcs = new $.Deferred();
 
@@ -399,7 +399,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
                 wd().ActivityCollection.push(act);
                 initializeActivity(act);
             },
-            viewAttached = function (view) {
+            attached = function (view) {
                 var script = $('<script type="text/javascript" src="/Scripts/jsPlumb/bundle.js"></script>').appendTo('body'),
                     timer = setInterval(function () {
                         if (window.jsPlumb !== undefined) {
@@ -623,7 +623,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             isPublishing: isPublishing,
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             toolboxElements: ko.observableArray(),
             wd: wd,
             itemAdded: itemAdded,

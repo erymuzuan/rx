@@ -5,20 +5,21 @@
         <!--ko compose: {view: 'nav'} -->
         <!--/ko-->
     </header>
-    <section id="content" class= "container">
+    <section id="content" class="container">
 
         <img src="/Images/spinner-md.gif" alt="loading" class="absolute-center" data-bind="visible: router.isNavigating" />
 
 
         <!--ko compose: {view: 'toolbar'} -->
         <!--/ko-->
-
         <!--ko compose: {model: router.activeItem,
-            afterCompose: router.afterCompose,
-            transition: 'entrance'} -->
+      attached: router.attached,
+      compositionComplete: router.compositionComplete,
+      transition: 'entrance'} -->
         <!--/ko-->
+        
+
 
     </section>
-    <!--ko compose: {view: 'logviewer'} -->
-    <!--/ko-->
+
 </div>

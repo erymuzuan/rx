@@ -77,7 +77,7 @@ define(['schemas/report.builder.g', 'services/datacontext', 'durandal/system', '
                             initDesigner();
                         });
             },
-            viewAttached = function (view) {
+            attached = function (view) {
 
                 $('#layout-toolbox').on('click', 'input[type=radio]', function () {
 
@@ -199,7 +199,7 @@ define(['schemas/report.builder.g', 'services/datacontext', 'durandal/system', '
             reportDefinition: rdl,
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             selectReportItem: selectReportItem,
             selectedReportItem: ko.observable(),
             toolboxItems: ko.observableArray(),

@@ -17,7 +17,7 @@ define([],
             }
 
         },
-            viewAttached = function () {
+            attached = function () {
                 $('#line').focus();
             },
             cancelClick = function () {
@@ -27,7 +27,7 @@ define([],
         var vm = {
             line: ko.observable(),
             okClick: okClick,
-            viewAttached: viewAttached,
+            attached: attached,
             cancelClick: cancelClick
         };
 

@@ -24,8 +24,8 @@
                                 tcs.resolve(result);
                             }
                         };
-                        if (dialog.viewAttached) {
-                            dialog.viewAttached(panel[0]);
+                        if (dialog.attached) {
+                            dialog.attached(panel[0]);
                         }
                         if (dialog.activate) {
                             dialog.activate()

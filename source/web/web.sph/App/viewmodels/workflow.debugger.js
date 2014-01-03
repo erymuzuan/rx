@@ -11,7 +11,7 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'viewmodels/workflow.jsplumb', 'jquery.contextmenu', 'jquery.ui.position'],
+define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels/workflow.jsplumb', 'jquery.contextmenu', 'jquery.ui.position'],
     function (context, logger, router, jp) {
         var isBusy = ko.observable(false),
             locals = ko.observableArray(),
@@ -59,8 +59,8 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
                 };
                 ws.send(ko.mapping.toJSON(model));
             },
-            viewAttached = function (view) {
-                jp.viewAttached(view);
+            attached = function (view) {
+                jp.attached(view);
                 $(view).on('click', 'div.activity', function () {
                     $('div.activity').removeClass('selected-activity');
                     $(this).addClass('selected-activity');
@@ -237,7 +237,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', 'v
             port: port,
             activate: activate,
             debugcontinue: debugcontinue,
-            viewAttached: viewAttached,
+            attached: attached,
             consoleScript: consoleScript,
             runConsole: runConsole,
             f10: f10,

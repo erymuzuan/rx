@@ -6,7 +6,7 @@
     logger: 'services/logger',
     watcher: 'services/watcher',
     config: 'config',
-    router: 'durandal/plugins/router',
+    router: 'plugins/router',
     cultures: 'services/cultures.my',
     validation: 'services/validation',
     map: 'viewmodels/map',

@@ -9,7 +9,7 @@
 
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
+define(['services/datacontext', 'services/logger', 'plugins/router'],
     function(context, logger, router) {
 
         var okClick = function(data, ev) {

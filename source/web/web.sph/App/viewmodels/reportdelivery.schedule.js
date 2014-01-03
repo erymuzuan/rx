@@ -9,7 +9,7 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['schemas/report.builder.g', 'services/datacontext', 'services/logger', 'durandal/plugins/router', 'durandal/system'],
+define(['schemas/report.builder.g', 'services/datacontext', 'services/logger', 'plugins/router', 'durandal/system'],
     function (reportg, context, logger, router, system) {
 
         var isBusy = ko.observable(false),
@@ -45,7 +45,7 @@ define(['schemas/report.builder.g', 'services/datacontext', 'services/logger', '
                 vm.scheduleOptions(options);
                 return tcs.promise();
             },
-            viewAttached = function (view) {
+            attached = function (view) {
 
 
             },
@@ -96,7 +96,7 @@ define(['schemas/report.builder.g', 'services/datacontext', 'services/logger', '
             isBusy: isBusy,
             delivery: delivery,
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             editedSchedule: editedSchedule,
 
             okDialog: okDialog,

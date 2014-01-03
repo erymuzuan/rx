@@ -9,7 +9,7 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
+define(['services/datacontext', 'services/logger', 'plugins/router'],
 	function (context, logger, router) {
 
 	    var
@@ -29,7 +29,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             return tcs.promise();
 
         },
-        viewAttached = function (view) {
+        attached = function (view) {
 
         },
 	   convertText = function (text) {
@@ -66,7 +66,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
 	    var vm = {
 	        isBusy: isBusy,
 	        activate: activate,
-	        viewAttached: viewAttached,
+	        attached: attached,
 	        message: ko.observable(),
 	        body: ko.observable(),
 	        toolbar: {

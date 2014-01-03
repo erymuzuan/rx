@@ -29,8 +29,8 @@ namespace Bespoke.Sph.Web.Controllers
             var settings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
             var modules = JsonConvert.DeserializeObject<JsRoute[]>(json, settings).AsQueryable()
                 .Where(r => r.ShowWhenLoggedIn || User.IsInRole(r.Role))
-                .Where(r => r.Visible)
-                .Select(r => r.Url)
+                .Where(r => r.Nav)
+                .Select(r => r.Route)
                 .ToArray();
 
             var vm = new UserProfileViewModel

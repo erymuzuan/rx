@@ -17,14 +17,14 @@ define([],
         activate = function () {
             return true;
         },
-	        viewAttached = function (view) {
+	        attached = function (view) {
 	            $(view).find('.carousel').carousel({
 	                interval: 2000
 	            });
 	        };
 
 	    var vm = {
-	        viewAttached: viewAttached,
+	        attached: attached,
 	        isBusy: isBusy,
 	        activate: activate
 	    };

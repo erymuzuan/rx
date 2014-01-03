@@ -9,7 +9,7 @@
 
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
+define(['services/datacontext', 'services/logger', 'plugins/router'],
     function (context) {
 
         var activate = function () {
@@ -45,7 +45,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             cancelClick = function () {
                 this.modal.close("Cancel");
             },
-            viewAttached = function (view) {
+            attached = function (view) {
 
                 $('#snippets-list-ul').on('click', 'li>a', function () {
                     vm.snippet(ko.dataFor(this));
@@ -64,7 +64,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
         var vm = {
             snippet: ko.observable({ title: ko.observable(), code: ko.observable(), lang: ko.observable() }),
             snippets: ko.observableArray(),
-            viewAttached: viewAttached,
+            attached: attached,
             activate: activate,
             add: add,
             deleteItem: deleteItem,

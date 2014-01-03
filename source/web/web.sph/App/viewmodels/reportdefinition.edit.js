@@ -55,8 +55,8 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
 
                 return true;
             },
-            viewAttached = function (view) {
-                designer.viewAttached(view);
+            attached = function (view) {
+                designer.attached(view);
                 $('a.btn-close-configuration-dialog').click(function () {
                     loadSelectedEntityColumns(vm.reportDefinition().DataSource().EntityFieldCollection());
                 });
@@ -191,7 +191,7 @@ define(['services/datacontext', 'services/logger', 'durandal/system',
             title: ko.observable('Report Builder'),
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             removeReportItem: removeReportItem,
             selectReportItem: designer.selectReportItem,
             selectedReportItem: designer.selectedReportItem,

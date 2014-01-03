@@ -16,7 +16,7 @@ define([],
             cancelClick = function () {
                 this.modal.close("Cancel");
             },
-            viewAttached = function () {
+            attached = function () {
 
                 $('#script-help-buttton').popover({
                     title: 'C# scripting help',
@@ -39,7 +39,7 @@ define([],
             field: ko.observable(new bespoke.sph.domain.FunctionField()),
             okClick: okClick,
             cancelClick: cancelClick,
-            viewAttached: viewAttached,
+            attached: attached,
             edit: edit
         };
 

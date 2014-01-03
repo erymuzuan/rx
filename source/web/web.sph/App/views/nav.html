@@ -10,10 +10,10 @@
                     </div>
                 </form>
             </li>
-            <!-- ko foreach :router.visibleRoutes -->
-            <li data-bind="css: { current: isActive }, attr :{'data-string':name}">
+            <!-- ko foreach :router.navigationModel -->
+            <li data-bind="css: { current: isActive }, attr :{'data-string':title}">
                 <a href="#" data-bind=" attr: { href: hash }">
-                    <i data-bind="attr : {'class' : 'fa ' + icon}"></i><span data-bind="text: name"></span>
+                    <i data-bind="attr : {'class' : 'fa ' + icon}"></i><span data-bind="text: title"></span>
                 </a>
             </li>
             <!-- /ko -->

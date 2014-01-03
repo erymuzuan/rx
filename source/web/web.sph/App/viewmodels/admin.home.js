@@ -9,12 +9,12 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
-    function (context, logger, router) {
+define(['services/datacontext', 'services/logger', 'config'],
+    function (context, logger, config) {
 
         var isBusy = ko.observable(false),
             activate = function () {
-                var groups2 = _(router.allRoutes()).chain()
+                var groups2 = _(config.routes).chain()
                     .map(function (v) {
                         return v.groupName;
                     })
@@ -22,7 +22,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                 .map(function (g) {
                     return {
                         groupName: g,
-                        routes: _(router.allRoutes()).filter(function (v) { return v.groupName === g && v.isAdminPage; })
+                        routes: _(config.routes).filter(function (v) { return v.groupName === g && v.isAdminPage; })
                     };
                 }).
                 filter(function (v) { return v.groupName && v.routes.length; })
@@ -30,7 +30,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
                 groups(groups2);
 
             },
-            viewAttached = function (view) {
+            attached = function (view) {
 
             },
             groups = ko.observableArray();
@@ -38,7 +38,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             groups: groups
         };
 

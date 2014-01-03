@@ -14,8 +14,8 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app]
 
         var isBusy = ko.observable(false),
             id = ko.observable(),
-            activate = function (routeData) {
-                id(parseInt(routeData.id));
+            activate = function (id2) {
+                id(parseInt(id2));
 
                 var query = String.format("TriggerId eq {0} ", id());
                 var tcs = new $.Deferred();
@@ -31,7 +31,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app]
 
                 return tcs.promise();
             },
-            viewAttached = function () {
+            attached = function () {
 
 
             },
@@ -75,7 +75,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app]
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             trigger: ko.observable(new bespoke.sph.domain.Trigger()),
 
 

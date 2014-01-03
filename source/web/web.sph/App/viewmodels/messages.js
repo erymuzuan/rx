@@ -31,7 +31,7 @@ define(['services/datacontext', 'config'],
                 return tcs.promise();
 
             },
-            viewAttached = function (view) {
+            attached = function (view) {
                 $.getScript("/Scripts/jquery.signalR-2.0.1.min.js", function () {
                     var connection = $.connection('/signalr_message');
 
@@ -60,7 +60,7 @@ define(['services/datacontext', 'config'],
             isBusy: isBusy,
             unread: ko.observable(),
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             messages: ko.observableArray()
         };
 

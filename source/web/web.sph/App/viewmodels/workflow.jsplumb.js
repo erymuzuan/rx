@@ -12,7 +12,7 @@
 /// <reference path="../../Scripts/_task.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', objectbuilders.system],
+define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system],
     function (context, logger, router, system) {
 
         var isBusy = ko.observable(false),
@@ -188,7 +188,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
 
 
             },
-            viewAttached = function (view) {
+            attached = function (view) {
                 var script = $('<script type="text/javascript" src="/Scripts/jsPlumb/bundle.js"></script>').appendTo('body'),
                     timer = setInterval(function () {
                         if (window.jsPlumb !== undefined) {
@@ -233,7 +233,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             wd: wd
         };
 

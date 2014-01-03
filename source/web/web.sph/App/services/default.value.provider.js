@@ -9,7 +9,7 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', objectbuilders.system],
+define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system],
 	function (context, logger, router, system) {
 
 	    var

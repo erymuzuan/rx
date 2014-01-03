@@ -9,7 +9,7 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define([objectbuilders.datacontext, 'services/logger', 'durandal/plugins/router'],
+define([objectbuilders.datacontext, 'services/logger', 'plugins/router'],
     function(context, logger, router) {
 
         var okClick = function (data, ev) {

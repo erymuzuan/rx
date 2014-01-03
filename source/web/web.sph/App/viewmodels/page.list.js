@@ -10,14 +10,14 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
+define(['services/datacontext', 'services/logger'],
     function (context) {
 
         var isBusy = ko.observable(false),
             activate = function () {
 
             },
-            viewAttached = function () {
+            attached = function () {
 
             },
             editPage = function (page) {
@@ -72,7 +72,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             pages: ko.observableArray(),
             editPage: editPage,
             editDetail: editDetail

@@ -66,7 +66,7 @@ define(['services/datacontext', 'config'],
                 return tcs.promise();
 
             },
-            viewAttached = function (view) {
+            attached = function (view) {
             },
             thisWeek = function (d, ev) {
                 resetFilter(ev);
@@ -89,7 +89,7 @@ define(['services/datacontext', 'config'],
             thisWeek: thisWeek,
             thisMonth: thisMonth,
             older: older,
-            viewAttached: viewAttached,
+            attached: attached,
             messages: ko.observableArray()
         };
 

@@ -6,7 +6,7 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], function (context, logger, router) {
+define(['services/datacontext', 'services/logger', 'plugins/router'], function (context, logger, router) {
 
     var activate = function () {
         return true;

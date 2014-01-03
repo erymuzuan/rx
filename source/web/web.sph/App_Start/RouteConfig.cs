@@ -43,8 +43,8 @@ namespace Bespoke.Sph.Web.App_Start
             var rdlRoutes = from t in rdls.ItemCollection
                             select new JsRoute
                             {
-                                Name = t.Title,
-                                Url = string.Format("reportdefinition.execute-id.{0}/:id", t.ReportDefinitionId),
+                                Title = t.Title,
+                                Route = string.Format("reportdefinition.execute-id.{0}/:id", t.ReportDefinitionId),
                                 Caption = t.Title,
                                 Icon = "icon-bar-chart",
                                 ModuleId = string.Format("viewmodels/reportdefinition.execute-id.{0}", t.ReportDefinitionId)

@@ -12,7 +12,7 @@ define([objectbuilders.datacontext, objectbuilders.cultures],
             activate = function () {
                 return true;
             },
-            viewAttached = function () {
+            attached = function () {
                 $("#import").kendoUpload({
                     async: {
                         saveUrl: "/WorkflowDefinition/Import",
@@ -36,7 +36,7 @@ define([objectbuilders.datacontext, objectbuilders.cultures],
 
         var vm = {
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             definitions: ko.observableArray(),
             toolbar: {
                 addNew: {

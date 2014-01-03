@@ -16,7 +16,7 @@ define(['services/datacontext', 'services/logger', 'viewmodels/_setting.state', 
                 statevm.activate();
                 categoryvm.activate();
             },
-            viewAttached = function () {
+            attached = function () {
                 $("#returnLetterTemplate,#offerLetterTemplate").kendoUpload({
                     async: {
                         saveUrl: "/BinaryStore/Upload",
@@ -72,7 +72,7 @@ define(['services/datacontext', 'services/logger', 'viewmodels/_setting.state', 
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             returnLetterTemplate: ko.observable(''),
             offerLetterTemplate: ko.observable(''),
             saveCommand: save

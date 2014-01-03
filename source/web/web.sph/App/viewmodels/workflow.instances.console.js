@@ -10,7 +10,7 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router', objectbuilders.app],
+define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.app],
     function (context, logger, router, app) {
 
         var isBusy = ko.observable(false),
@@ -28,7 +28,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
 
 
             },
-            viewAttached = function (view) {
+            attached = function (view) {
 
             }, search = function () {
                 var tcs = new $.Deferred();
@@ -91,7 +91,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router', ob
             },
             search: search,
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             wdOptions: ko.observableArray(),
             selectedItems: ko.observableArray(),
             results: ko.observableArray(),

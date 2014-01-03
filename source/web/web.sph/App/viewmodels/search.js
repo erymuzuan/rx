@@ -1,69 +1,44 @@
-﻿define(['durandal/system', 'durandal/plugins/router', 'services/logger', 'config', 'services/datacontext'],
-    function (system, router, logger, config, context) {
+﻿define(['durandal/system', 'services/logger', 'config', 'services/datacontext'],
+    function (system, logger, config, context) {
 
         var isBusy = ko.observable(),
 
-            viewAttached = function (view) {
+            attached = function (view) {
                 $(view).on('click', '#close-search-result', function (e) {
                     e.preventDefault();
-                    shell.searchResults.removeAll();
+                    vm.searchResults.removeAll();
                 });
 
             },
             search = function () {
                 var tcs = new $.Deferred();
-                var data = JSON.stringify({ text: shell.searchText() });
+                var data = JSON.stringify({ text: vm.searchText() });
                 isBusy(true);
 
                 context.post(data, "/Search")
                     .then(function (result) {
                         isBusy(false);
-                        shell.searchResults(result);
+                        vm.searchResults(result);
                         tcs.resolve(result);
                     });
                 return tcs.promise();
             }
             ,
             navigateSearch = function (sr) {
-                console.log(sr);
-                switch (sr.Type) {
-                    case "Building":
-                        router.navigateTo('/#/building.detail/' + sr.Id);
-                        break;
-                    case "Space":
-                        router.navigateTo('/#/space.detail/' + 0 + '/' + 0 + '/' + sr.Id);
-                        break;
-                    default:
-                }
+                
             };
 
-        var shell = {
-            activate: activate,
+        var vm = {
+            
             searchCommand: search,
             searchResults: ko.observableArray(),
             navigateSearch: navigateSearch,
             isBusy: isBusy,
             searchText: ko.observable(''),
-            viewAttached: viewAttached,
-            router: router
+            attached: attached
         };
 
-        return shell;
-
-        //#region Internal Methods
-        function activate() {
-            return boot();
-        }
+        return vm;
 
 
-        function boot() {
-            router.map(config.routes);
-            log('System Loaded!', null, true);
-            return router.activate(config.startModule);
-        }
-
-        function log(msg, data, showToast) {
-            logger.log(msg, data, system.getModuleId(shell), showToast);
-        }
-        //#endregion
     });

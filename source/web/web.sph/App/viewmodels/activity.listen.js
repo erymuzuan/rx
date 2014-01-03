@@ -10,7 +10,7 @@
 
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
+define(['services/datacontext', 'services/logger', 'plugins/router'],
     function (context, logger, router) {
 
         var wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
@@ -24,7 +24,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             cancelClick = function () {
                 this.modal.close("Cancel");
             },
-            viewAttached = function () {
+            attached = function () {
             };
 
         wd.subscribe(function (d) {
@@ -38,7 +38,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
             activity: ko.observable(new bespoke.sph.domain.ListenActivity()),
             wd: wd,
             asyncActivities: asyncActivities,
-            viewAttached: viewAttached,
+            attached: attached,
             okClick: okClick,
             cancelClick: cancelClick
         };

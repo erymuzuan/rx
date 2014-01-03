@@ -8,14 +8,14 @@
 /// <reference path="../schemas/sph.domain.g.js" />
 
 
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
+define(['services/datacontext', 'services/logger', 'plugins/router'],
     function (context, logger, router) {
 
         var isBusy = ko.observable(false),
             activate = function () {
 
             },
-            viewAttached = function (view) {
+            attached = function (view) {
 
             },
             submit = function () {
@@ -51,7 +51,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'],
         var vm = {
             isBusy: isBusy,
             activate: activate,
-            viewAttached: viewAttached,
+            attached: attached,
             id: ko.observable(),
             registrationNo: ko.observable(),
             type: ko.observable(),

@@ -16,8 +16,7 @@
 
     @Styles.Render("~/Content/css")
     <style>
-        #mapContainer img
-        {
+        #mapContainer img {
             max-width: none;
         }
     </style>
@@ -29,29 +28,25 @@
             document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
         }
     </script>
-    
+
     <meta name="description" content="The description of my page" />
 </head>
 <body>
     <div id="applicationHost">
         @Html.Partial("_splash")
     </div>
-    
+
     @Scripts.Render("~/scripts/vendor")
     @Scripts.Render("~/scripts/core")
     @Scripts.Render("~/scripts/domain.schema")
     @Scripts.Render("~/scripts/domain.prototypes")
     @Scripts.Render("~/scripts/domain.partials")
     @Scripts.Render("~/scripts/themes")
-    @if (HttpContext.Current.IsDebuggingEnabled)
-    {
-        <script type="text/javascript" src="~/App/durandal/amd/require.js" data-main="@Url.Content("~/App/main")"></script>
-    }
-    else
-    {
-        <!-- Remember to run the Durandal optimizer.exe to create the main-built.js  -->
-        <script type="text/javascript" src="~/App/main-built.js"></script>
-    }
+
+
+    <script type="text/javascript" src="~/Scripts/require.js" data-main="@Url.Content("~/App/main")"></script>
+
+
 
     @*<script type="text/javascript" src="https://www.google.com/jsapi"></script>*@
 </body>
