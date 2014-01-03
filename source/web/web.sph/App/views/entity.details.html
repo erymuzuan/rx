@@ -24,46 +24,60 @@
     </form>
 </div>
 <div class="row" id="members-panel" data-bind="with : entity">
-    <ul class="nav" data-bind="foreach :MemberCollection">
-        <li>
-            <form class="form-inline" role="form">
 
-                <i class="fa fa-check" data-bind="value: ko.unwrap(TypeName) === 'System.Boolean, mscrolib'"></i>
-                <i class="fa fa-text-height" data-bind="value: ko.unwrap(TypeName) !== 'System.Boolean, mscrolib'"></i>
-                <input type="text" required data-bind="value:Name" style="max-width: 250px;" class="form-control" />
+    <div class="col-lg-8">
+        <ul class="nav" data-bind="foreach :MemberCollection">
+            <li>
+                <form class="form-inline" role="form">
 
-                <a href="#" data-bind="click : $parent.removeMember.call($parent,$data)" class="">
-                    <i class="fa fa-minus" style="color: red"></i>
-                </a>
-                <a href="#" data-bind="click : addMember, visible: MemberCollection().length === 0" class="" title="Expand for complex types">
-                    <i class="fa fa-expand" style="color: blue"></i>
-                </a>
-                
-                
-                <ul class="nav col-lg-offset-4 col-lg-6" data-bind="foreach :MemberCollection">
-                    <li>
-                        <form class="form-inline" role="form">
+                    <i class="fa fa-check" data-bind="value: ko.unwrap(TypeName) === 'System.Boolean, mscrolib'"></i>
+                    <i class="fa fa-text-height" data-bind="value: ko.unwrap(TypeName) !== 'System.Boolean, mscrolib'"></i>
+                    <input type="text" required data-bind="value:Name" style="max-width: 250px;" class="form-control" />
 
-                            <i class="fa fa-check" data-bind="value: ko.unwrap(TypeName) === 'System.Boolean, mscrolib'"></i>
-                            <i class="fa fa-text-height" data-bind="value: ko.unwrap(TypeName) !== 'System.Boolean, mscrolib'"></i>
-                            <input type="text" required data-bind="value:Name" style="max-width: 250px;" class="form-control" />
+                    <a href="#" data-bind="click : $parent.removeMember.call($parent,$data)" class="">
+                        <i class="fa fa-minus" style="color: red"></i>
+                    </a>
+                    <a href="#" data-bind="click : addMember, visible: MemberCollection().length === 0" class="" title="Expand for complex types">
+                        <i class="fa fa-expand" style="color: blue"></i>
+                    </a>
 
-                            <a href="#" data-bind="click : $parent.removeMember.call($parent,$data)" class="">
-                                <i class="fa fa-minus" style="color: red"></i>
-                            </a>
-                            <a href="#" data-bind="click : addMember, visible: MemberCollection().length === 0" class="" title="Expand for complex types">
-                                <i class="fa fa-expand" style="color: blue"></i>
-                            </a>
-                        </form>
-                    </li>
-                </ul>
 
-                
+                    <ul class="nav col-lg-offset-4 col-lg-6" data-bind="foreach :MemberCollection">
+                        <li>
+                            <form class="form-inline" role="form">
 
-            </form>
-        </li>
-    </ul>
-    <a href="#" data-bind="click : addMember">
-        <i class="fa fa-plus fa-2x"></i>
-    </a>
+                                <i class="fa fa-check" data-bind="value: ko.unwrap(TypeName) === 'System.Boolean, mscrolib'"></i>
+                                <i class="fa fa-text-height" data-bind="value: ko.unwrap(TypeName) !== 'System.Boolean, mscrolib'"></i>
+                                <input type="text" required data-bind="value:Name" style="max-width: 250px;" class="form-control" />
+
+                                <a href="#" data-bind="click : $parent.removeMember.call($parent,$data)" class="">
+                                    <i class="fa fa-minus" style="color: red"></i>
+                                </a>
+                                <a href="#" data-bind="click : addMember, visible: MemberCollection().length === 0" class="" title="Expand for complex types">
+                                    <i class="fa fa-expand" style="color: blue"></i>
+                                </a>
+                            </form>
+                        </li>
+                    </ul>
+
+
+
+                </form>
+            </li>
+        </ul>
+        <a href="#" data-bind="click : addMember">
+            <i class="fa fa-plus fa-2x"></i>
+        </a>
+
+    </div>
+    <div class="col-lg-4" data-bind="with: member">
+        <h3>Member properties</h3>
+
+        <form class="form" role="form">
+            <div class="form-group">
+                <label for="member_name">Name</label>
+                <input id="member_name" name="member.name" type="text" required data-bind="value: Name"/>
+            </div>
+        </form>
+    </div>
 </div>
