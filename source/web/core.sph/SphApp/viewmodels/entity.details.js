@@ -13,8 +13,9 @@
 define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system],
     function (context, logger, router, system) {
 
-        var entity = ko.observable(),
+        var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             isBusy = ko.observable(false),
+            member = ko.observable(new bespoke.sph.domain.Member())
             activate = function (routeData) {
                 var id = parseInt(routeData.id);
                 if (id) {
@@ -56,6 +57,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             activate: activate,
             attached: attached,
             entity: entity,
+            member : member,
             toolbar: {
                 saveCommand: save
             }
