@@ -7,23 +7,23 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{ACE7D8D5-1100-4E9A-852E-564E46083AA2}</ProjectGuid>
+    <ProjectGuid>{A2B488B2-A536-49DF-9741-B87BDD745D8F}</ProjectGuid>
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bespoke.Sph.Web</RootNamespace>
-    <AssemblyName>web.sph</AssemblyName>
+    <AssemblyName>core.sph</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <UseIISExpress>false</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
     <WebGreaseLibPath>..\..\..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,30 +54,6 @@
     </Reference>
     <Reference Include="DiffPlex">
       <HintPath>..\..\..\packages\DiffPlex.1.2.0\lib\Net40\DiffPlex.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.AspNet, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotNetOpenAuth.AspNet.4.3.4.13329\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotNetOpenAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotNetOpenAuth.OAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotNetOpenAuth.OAuth.Consumer.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotNetOpenAuth.OpenId.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
     </Reference>
     <Reference Include="ImageResizer, Version=3.4.2.549, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -115,10 +91,6 @@
       <HintPath>..\..\..\packages\Microsoft.Owin.Security.2.0.2\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.OAuth.3.0.0\lib\net45\Microsoft.Web.WebPages.OAuth.dll</HintPath>
-    </Reference>
     <Reference Include="Monads.NET">
       <HintPath>..\..\..\packages\Monads.NET.1.0.3\lib\net40\Monads.NET.dll</HintPath>
     </Reference>
@@ -130,6 +102,9 @@
       <HintPath>..\..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
+    <Reference Include="RazorGenerator.Mvc">
+      <HintPath>..\..\..\packages\RazorGenerator.Mvc.2.2.1\lib\net40\RazorGenerator.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Spring.Core, Version=2.0.0.40000, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Spring.Core.2.0.0-M2\lib\net40\Spring.Core.dll</HintPath>
@@ -140,14 +115,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Extensions, Version=2.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.18\lib\net45\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives, Version=4.2.18.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.18\lib\net45\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
@@ -201,6 +168,9 @@
     <Reference Include="WebActivator">
       <HintPath>..\..\..\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivatorEx">
+      <HintPath>..\..\..\packages\WebActivatorEx.2.0.4\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -212,14 +182,6 @@
     <Reference Include="Antlr3.Runtime">
       <Private>True</Private>
       <HintPath>..\..\..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="WebMatrix.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.Data.3.0.0\lib\net45\WebMatrix.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="WebMatrix.WebData, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.WebData.3.0.0\lib\net45\WebMatrix.WebData.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -233,54 +195,219 @@
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RazorGeneratorMvcStart.cs" />
     <Compile Include="App_Start\SignalRHub.cs" />
     <Compile Include="App_Start\WorkflowConfig.cs" />
     <Compile Include="App_Start\HotTowelRouteConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\AppController.config.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
+    <Compile Include="Areas\App\AppAreaRegistration.cs" />
+    <Compile Include="Areas\App\Controllers\ConfigController.cs" />
+    <Compile Include="Areas\App\Controllers\HeaderController.cs" />
+    <Compile Include="Areas\App\Controllers\NavController.cs" />
+    <Compile Include="Areas\App\Controllers\ReportDefinitionController.cs" />
+    <Compile Include="Areas\App\Controllers\RoleController.cs" />
+    <Compile Include="Areas\App\Controllers\TriggerController.cs" />
+    <Compile Include="Areas\App\Controllers\UserController.cs" />
+    <Compile Include="Areas\App\Controllers\UserProfileController.cs" />
+    <Compile Include="Areas\App\Controllers\WorkflowController.cs" />
+    <Compile Include="Areas\App\Controllers\WorkflowDraftController.cs" />
+    <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
+    <Compile Include="Areas\Sph\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Sph\Controllers\AdminController.cs" />
+    <Compile Include="Areas\App\Controllers\BaseAppController.cs" />
+    <Compile Include="Areas\Sph\Controllers\BaseController.cs" />
+    <Compile Include="Areas\Sph\Controllers\BinaryStoreController.cs" />
+    <Compile Include="Areas\Sph\Controllers\EditorController.cs" />
+    <Compile Include="Areas\Sph\Controllers\EntityDefinitionController.cs" />
+    <Compile Include="Areas\Sph\Controllers\PageController.cs" />
+    <Compile Include="Areas\Sph\Controllers\DesignationController.cs" />
+    <Compile Include="Areas\Sph\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Sph\Controllers\ReportDeliveryController.cs" />
+    <Compile Include="Areas\Sph\Controllers\TestController.cs" />
+    <Compile Include="Areas\Sph\Controllers\WorkflowDefinitionController.cs" />
+    <Compile Include="Areas\Sph\Controllers\WorkflowController.cs" />
+    <Compile Include="Areas\Sph\Controllers\WorkflowMonitorController.cs" />
+    <Compile Include="Areas\Sph\Views\Home\index.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>index.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.cs" />
-    <Compile Include="Controllers\AppController.header.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
+    <Compile Include="Areas\Sph\Views\Home\_splash.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_splash.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.nav.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\Button.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Button.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.officerdashboard.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\CheckBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CheckBox.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.role.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\ComboBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComboBox.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.userprofile.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\DatePicker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DatePicker.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.users.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\DateTimePicker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DateTimePicker.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.reportdefinition.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\EmailFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailFormElement.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AppController.workflow.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\BinaryStoreController.cs" />
-    <Compile Include="Controllers\EditorController.cs" />
-    <Compile Include="Controllers\EntityDefinitionController.cs" />
-    <Compile Include="Controllers\PageController.cs" />
-    <Compile Include="Controllers\AppController.trigger.cs">
-      <DependentUpon>AppController.cs</DependentUpon>
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\FileUploadElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileUploadElement.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\DesignationController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ReportDeliveryController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Controllers\WorkflowDefinitionController.cs" />
-    <Compile Include="Controllers\WorkflowController.cs" />
-    <Compile Include="Controllers\AppController.workflow.draft.cs" />
-    <Compile Include="Controllers\WorkflowMonitorController.cs" />
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\FormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\HtmlElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HtmlElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\ListView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ListView.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\NumberTextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NumberTextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\SectionFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SectionFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\TextAreaElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextAreaElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\TextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Shared\EditorTemplates\WebsiteFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Shared\Error.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Error.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Shared\_Layout.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Layout.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Shared\_LayoutTest.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_LayoutTest.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Shared\_LayoutWorkflow.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_LayoutWorkflow.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Shared\_PublicLayout.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_PublicLayout.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Shared\_TriggerFieldDropDown.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_TriggerFieldDropDown.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\AddressElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddressElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\CheckBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CheckBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\ComboBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComboBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\DatePicker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DatePicker.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\EmailFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\FormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\HtmlElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HtmlElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\MapElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MapElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\NumberTextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NumberTextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\SectionFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SectionFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\TextAreaElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextAreaElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\TextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Template\DisplayTemplates\WebsiteFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\ResourcesController.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />
     <Compile Include="Hubs\WorkflowDebuggerHub.cs" />
@@ -292,16 +419,15 @@
     <Compile Include="ViewModels\CreateMapModel.cs" />
     <Compile Include="ViewModels\EditorPageViewModel.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
-    <Compile Include="Controllers\HotTowelController.cs" />
-    <Compile Include="Controllers\ImageController.cs" />
-    <Compile Include="Controllers\MapController.cs" />
-    <Compile Include="Controllers\MessageController.cs" />
-    <Compile Include="Controllers\OrganizationController.cs" />
-    <Compile Include="Controllers\ReportDefinitionController.cs" />
-    <Compile Include="Controllers\SearchController.cs" />
-    <Compile Include="Controllers\SettingController.cs" />
-    <Compile Include="Controllers\TriggerController.cs" />
-    <Compile Include="Controllers\WatchController.cs" />
+    <Compile Include="Areas\Sph\Controllers\ImageController.cs" />
+    <Compile Include="Areas\Sph\Controllers\MapController.cs" />
+    <Compile Include="Areas\Sph\Controllers\MessageController.cs" />
+    <Compile Include="Areas\Sph\Controllers\OrganizationController.cs" />
+    <Compile Include="Areas\Sph\Controllers\ReportDefinitionController.cs" />
+    <Compile Include="Areas\Sph\Controllers\SearchController.cs" />
+    <Compile Include="Areas\Sph\Controllers\SettingController.cs" />
+    <Compile Include="Areas\Sph\Controllers\TriggerController.cs" />
+    <Compile Include="Areas\Sph\Controllers\WatchController.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -322,6 +448,7 @@
     <Compile Include="Models\TypeModel.cs" />
     <Compile Include="ViewModels\JsTestViewModel.cs" />
     <Compile Include="ViewModels\PrintViewModel.cs" />
+    <Compile Include="ViewModels\RdlExecutionViewModel.cs" />
     <Compile Include="ViewModels\ReportBuilderViewModel.cs" />
     <Compile Include="ViewModels\RoleModel.cs" />
     <Compile Include="ViewModels\RoleSettingViewModel.cs" />
@@ -330,71 +457,538 @@
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
     <Compile Include="ViewModels\WorkflowDefinitionVisualViewModel.cs" />
     <Compile Include="ViewModels\WorkflowStartViewModel.cs" />
+    <Compile Include="Areas\Sph\Views\Account\ChangePassword.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChangePassword.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Account\ChangePasswordSuccess.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChangePasswordSuccess.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Account\Flyout.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Flyout.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Account\Login.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Login.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Account\Register.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Register.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Account\_Footer.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Footer.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Account\_Slider.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Slider.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Config\Index.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Index.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\AddressElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddressElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\BarChartItem.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BarChartItem.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\CheckBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CheckBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\ComboBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComboBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\DataGridItem.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataGridItem.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\DatePicker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DatePicker.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\DatePickerTime.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DatePickerTime.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\EmailFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\FormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\HtmlElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HtmlElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\LabelItem.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LabelItem.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\LineChartItem.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LineChartItem.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\LineItem.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LineItem.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\MapElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MapElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\NumberTextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NumberTextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\PieChartItem.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PieChartItem.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\SectionFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SectionFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\TextAreaElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextAreaElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\TextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\DisplayTemplates\WebsiteFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\EditorTemplates\AddressElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddressElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\EditorTemplates\CheckBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CheckBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\EditorTemplates\ComboBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComboBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\EditorTemplates\DatePicker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DatePicker.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\EditorTemplates\EmailFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\EditorTemplates\FormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\EditorTemplates\HtmlElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HtmlElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\EditorTemplates\LabelItem.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LabelItem.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\EditorTemplates\MapElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MapElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\EditorTemplates\NumberTextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NumberTextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\EditorTemplates\SectionFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SectionFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\EditorTemplates\TextAreaElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextAreaElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\EditorTemplates\TextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\EditorTemplates\WebsiteFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Header\Html.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Html.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\ReportDefinitionExecuteHtml.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReportDefinitionExecuteHtml.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\ReportDefinitionExecuteJs.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReportDefinitionExecuteJs.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\ReportDefinitionPreview.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReportDefinitionPreview.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\RoleSettingsHtml.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RoleSettingsHtml.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\RoleSettingsJs.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RoleSettingsJs.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\TriggerSetupHtml.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TriggerSetupHtml.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\UserProfileHtml.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserProfileHtml.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\UserProfileJs.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserProfileJs.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\UsersHtml.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsersHtml.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\UsersJs.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsersJs.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\WorkflowDraftHtml.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WorkflowDraftHtml.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\WorkflowDraftJs.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WorkflowDraftJs.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\App\_DataGridItemRow.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_DataGridItemRow.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Editor\_Toolbar.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Toolbar.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\_ViewStart.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_ViewStart.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="WorkflowHelpers\ScreenActivityVirtualFile.cs" />
     <Compile Include="WorkflowHelpers\WorkflowScreenActivityPathProvider.cs" />
     <Compile Include="WorkflowHelpers\WorklowPageCacheDependency.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App\async.js" />
-    <Content Include="App\goog.js" />
-    <Content Include="App\main.js" />
-    <Content Include="App\objectbuilders.js" />
-    <Content Include="App\partial\Member.js" />
-    <Content Include="App\partial\EntityDefinition.js" />
-    <Content Include="App\partial\HtmlElement.js" />
-    <Content Include="App\partial\ButtonPartial.js" />
-    <Content Include="App\partial\IntervalSchedule.js" />
-    <Content Include="App\partial\ComboBox.js" />
-    <Content Include="App\partial\ListView.js" />
-    <Content Include="App\partial\ListViewColumn.js" />
-    <Content Include="App\partial\ReportDelivery.js" />
-    <Content Include="App\partial\ScheduledTriggerActivity.js" />
-    <Content Include="App\partial\ExecutedActivity.js" />
-    <Content Include="App\partial\WorkflowTriggerMap.js" />
-    <Content Include="App\partial\StartWorkflowAction.js" />
-    <Content Include="App\partial\Variable.js" />
-    <Content Include="App\partial\Activity.js" />
-    <Content Include="App\partial\DelayActivity.js" />
-    <Content Include="App\partial\ListenActivity.js" />
-    <Content Include="App\partial\ParallelActivity.js" />
-    <Content Include="App\partial\ScreenActivity.js" />
-    <Content Include="App\partial\UpdateEntityActivity.js" />
-    <Content Include="App\partial\CreateEntityActivity.js" />
-    <Content Include="App\partial\WorkflowDesigner.js" />
-    <Content Include="App\partial\DecisionActivity.js" />
-    <Content Include="App\partial\FormElement.js" />
-    <Content Include="App\partial\MaintenanceTemplate.js" />
-    <Content Include="App\partial\ComplaintTemplate.js" />
-    <Content Include="App\partial\Block.js" />
-    <Content Include="App\partial\BusinessRule.js" />
-    <Content Include="App\partial\IFormTemplate.js" />
-    <Content Include="App\partial\MethodArg.js" />
-    <Content Include="App\partial\SetterActionChild.js" />
-    <Content Include="App\partial\SetterAction.js" />
-    <Content Include="App\partial\WorkflowDefinition.js" />
-    <Content Include="App\partial\Trigger.js" />
-    <Content Include="App\partial\Rule.js" />
-    <Content Include="App\partial\Space.js" />
-    <Content Include="App\partial\Complaint.js" />
-    <Content Include="App\partial\ConstantField.js" />
-    <Content Include="App\partial\Contract.js" />
-    <Content Include="App\partial\ContractTemplate.js" />
-    <Content Include="App\partial\BarChartItem.js" />
-    <Content Include="App\partial\DataGridItem.js" />
-    <Content Include="App\partial\LineChartItem.js" />
-    <Content Include="App\partial\AssemblyField.js" />
-    <Content Include="App\partial\report.js" />
-    <Content Include="App\prototypes\FieldContainer.js" />
-    <Content Include="App\prototypes\IntervalScheduleContainer.js" />
-    <Content Include="App\schemas\report.builder.g.js" />
-    <Content Include="App\schemas\sph.domain.g.js" />
-    <Content Include="App\schemas\trigger.workflow.g.js" />
-    <Content Include="App\services\app.js" />
-    <Content Include="App\services\cultures.my.js" />
-    <Content Include="App\services\datacontext.js" />
-    <Content Include="App\schemas\form.designer.g.js" />
-    <Content Include="App\services\jsonimportexport.js" />
-    <Content Include="App\services\logger.js" />
+    <EmbeddedResource Include="Images\form.element.NumberTextBox.png" />
+    <EmbeddedResource Include="Images\razor.png" />
+    <EmbeddedResource Include="Images\StartWorkflowAction.png" />
+    <EmbeddedResource Include="Scripts\core.js">
+      <DependentUpon>__core.js.bundle</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\core.min.js">
+      <DependentUpon>__core.js.bundle</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\vendor.js">
+      <DependentUpon>__vendor.js.bundle</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\vendor.min.js">
+      <DependentUpon>__vendor.js.bundle</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SphApp\async.js" />
+    <EmbeddedResource Include="SphApp\goog.js" />
+    <EmbeddedResource Include="SphApp\main.js" />
+    <EmbeddedResource Include="SphApp\objectbuilders.js" />
+    <EmbeddedResource Include="Content\css.css">
+      <DependentUpon>__css.css.bundle</DependentUpon>
+    </EmbeddedResource>
+    <Content Include="Content\css.min.css">
+      <DependentUpon>__css.css.bundle</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Activity.min.js">
+      <DependentUpon>Activity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\AssemblyField.min.js">
+      <DependentUpon>AssemblyField.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\BarChartItem.min.js">
+      <DependentUpon>BarChartItem.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Block.min.js">
+      <DependentUpon>Block.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\BusinessRule.min.js">
+      <DependentUpon>BusinessRule.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ButtonPartial.min.js">
+      <DependentUpon>ButtonPartial.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ComboBox.min.js">
+      <DependentUpon>ComboBox.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Complaint.min.js">
+      <DependentUpon>Complaint.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ComplaintTemplate.min.js">
+      <DependentUpon>ComplaintTemplate.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ConstantField.min.js">
+      <DependentUpon>ConstantField.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Contract.min.js">
+      <DependentUpon>Contract.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ContractTemplate.min.js">
+      <DependentUpon>ContractTemplate.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\CreateEntityActivity.min.js">
+      <DependentUpon>CreateEntityActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\DataGridItem.min.js">
+      <DependentUpon>DataGridItem.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\DecisionActivity.min.js">
+      <DependentUpon>DecisionActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\DelayActivity.min.js">
+      <DependentUpon>DelayActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\EntityDefinition.min.js">
+      <DependentUpon>EntityDefinition.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ExecutedActivity.min.js">
+      <DependentUpon>ExecutedActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\FormElement.min.js">
+      <DependentUpon>FormElement.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\HtmlElement.min.js">
+      <DependentUpon>HtmlElement.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\IFormTemplate.min.js">
+      <DependentUpon>IFormTemplate.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\IntervalSchedule.min.js">
+      <DependentUpon>IntervalSchedule.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\LineChartItem.min.js">
+      <DependentUpon>LineChartItem.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ListenActivity.min.js">
+      <DependentUpon>ListenActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ListView.min.js">
+      <DependentUpon>ListView.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ListViewColumn.min.js">
+      <DependentUpon>ListViewColumn.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\MaintenanceTemplate.min.js">
+      <DependentUpon>MaintenanceTemplate.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Member.js" />
+    <Content Include="SphApp\partial\EntityDefinition.js" />
+    <Content Include="SphApp\partial\HtmlElement.js" />
+    <Content Include="SphApp\partial\ButtonPartial.js" />
+    <Content Include="SphApp\partial\IntervalSchedule.js" />
+    <Content Include="SphApp\partial\ComboBox.js" />
+    <Content Include="SphApp\partial\ListView.js" />
+    <Content Include="SphApp\partial\ListViewColumn.js" />
+    <Content Include="SphApp\partial\Member.min.js">
+      <DependentUpon>Member.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\MethodArg.min.js">
+      <DependentUpon>MethodArg.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ParallelActivity.min.js">
+      <DependentUpon>ParallelActivity.js</DependentUpon>
+    </Content>
+    <EmbeddedResource Include="SphApp\partial\partial.js">
+      <DependentUpon>__partial.js.bundle</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SphApp\partial\partial.min.js">
+      <DependentUpon>__partial.js.bundle</DependentUpon>
+    </EmbeddedResource>
+    <Content Include="SphApp\partial\Rent.min.js">
+      <DependentUpon>Rent.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\report.min.js">
+      <DependentUpon>report.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ReportDelivery.js" />
+    <Content Include="SphApp\partial\ReportDelivery.min.js">
+      <DependentUpon>ReportDelivery.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Rule.min.js">
+      <DependentUpon>Rule.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ScheduledTriggerActivity.js" />
+    <Content Include="SphApp\partial\ExecutedActivity.js" />
+    <Content Include="SphApp\partial\ScheduledTriggerActivity.min.js">
+      <DependentUpon>ScheduledTriggerActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ScreenActivity.min.js">
+      <DependentUpon>ScreenActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\SetterAction.min.js">
+      <DependentUpon>SetterAction.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\SetterActionChild.min.js">
+      <DependentUpon>SetterActionChild.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Space.min.js">
+      <DependentUpon>Space.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\StartWorkflowAction.min.js">
+      <DependentUpon>StartWorkflowAction.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Trigger.min.js">
+      <DependentUpon>Trigger.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\UpdateEntityActivity.min.js">
+      <DependentUpon>UpdateEntityActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Variable.min.js">
+      <DependentUpon>Variable.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\WorkflowDefinition.min.js">
+      <DependentUpon>WorkflowDefinition.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\WorkflowDesigner.min.js">
+      <DependentUpon>WorkflowDesigner.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\WorkflowTriggerMap.js" />
+    <Content Include="SphApp\partial\StartWorkflowAction.js" />
+    <Content Include="SphApp\partial\Variable.js" />
+    <Content Include="SphApp\partial\Activity.js" />
+    <Content Include="SphApp\partial\DelayActivity.js" />
+    <Content Include="SphApp\partial\ListenActivity.js" />
+    <Content Include="SphApp\partial\ParallelActivity.js" />
+    <Content Include="SphApp\partial\ScreenActivity.js" />
+    <Content Include="SphApp\partial\UpdateEntityActivity.js" />
+    <Content Include="SphApp\partial\CreateEntityActivity.js" />
+    <Content Include="SphApp\partial\WorkflowDesigner.js" />
+    <Content Include="SphApp\partial\DecisionActivity.js" />
+    <Content Include="SphApp\partial\FormElement.js" />
+    <Content Include="SphApp\partial\MaintenanceTemplate.js" />
+    <Content Include="SphApp\partial\ComplaintTemplate.js" />
+    <Content Include="SphApp\partial\Block.js" />
+    <Content Include="SphApp\partial\BusinessRule.js" />
+    <Content Include="SphApp\partial\IFormTemplate.js" />
+    <Content Include="SphApp\partial\MethodArg.js" />
+    <Content Include="SphApp\partial\SetterActionChild.js" />
+    <Content Include="SphApp\partial\SetterAction.js" />
+    <Content Include="SphApp\partial\WorkflowDefinition.js" />
+    <Content Include="SphApp\partial\Trigger.js" />
+    <Content Include="SphApp\partial\Rule.js" />
+    <Content Include="SphApp\partial\Space.js" />
+    <Content Include="SphApp\partial\Complaint.js" />
+    <Content Include="SphApp\partial\ConstantField.js" />
+    <Content Include="SphApp\partial\Contract.js" />
+    <Content Include="SphApp\partial\ContractTemplate.js" />
+    <Content Include="SphApp\partial\BarChartItem.js" />
+    <Content Include="SphApp\partial\DataGridItem.js" />
+    <Content Include="SphApp\partial\LineChartItem.js" />
+    <Content Include="SphApp\partial\AssemblyField.js" />
+    <Content Include="SphApp\partial\report.js" />
+    <Content Include="SphApp\partial\WorkflowTriggerMap.min.js">
+      <DependentUpon>WorkflowTriggerMap.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\prototypes\FieldContainer.js" />
+    <Content Include="SphApp\prototypes\IntervalScheduleContainer.js" />
+    <EmbeddedResource Include="SphApp\prototypes\prototypes.js">
+      <DependentUpon>__prototypes.js.bundle</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SphApp\prototypes\prototypes.min.js">
+      <DependentUpon>__prototypes.js.bundle</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SphApp\schemas\domain.js">
+      <DependentUpon>__domain.js.bundle</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SphApp\schemas\domain.min.js">
+      <DependentUpon>__domain.js.bundle</DependentUpon>
+    </EmbeddedResource>
+    <Content Include="SphApp\schemas\report.builder.g.js" />
+    <Content Include="SphApp\schemas\sph.domain.g.js" />
+    <Content Include="SphApp\schemas\trigger.workflow.g.js" />
+    <EmbeddedResource Include="SphApp\services\app.js" />
+    <EmbeddedResource Include="SphApp\services\2cultures.my.js" />
+    <EmbeddedResource Include="SphApp\services\datacontext.js" />
+    <Content Include="SphApp\schemas\form.designer.g.js" />
+    <EmbeddedResource Include="SphApp\services\jsonimportexport.js" />
+    <EmbeddedResource Include="SphApp\services\logger.js" />
     <Compile Include="Helpers\AssemblyInfo.cs" />
     <Compile Include="Helpers\DateTimeModelBinder.cs" />
     <Compile Include="Helpers\GoogleMapHelper.cs" />
@@ -406,128 +1000,128 @@
     <Compile Include="Models\JsRoute.cs" />
     <Compile Include="Models\JsRouteSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="App\prototypes\BusinessRuleBase.js" />
-    <Content Include="App\services\tracker.js" />
-    <Content Include="App\services\validation.js" />
-    <Content Include="App\services\watcher.js" />
-    <Content Include="App\viewmodels\entities.list.js" />
-    <Content Include="App\viewmodels\entity.details.js" />
-    <Content Include="App\viewmodels\snippets.dialog.js" />
-    <Content Include="App\viewmodels\ace.goto.line.js" />
-    <Content Include="App\viewmodels\action.email.js" />
-    <Content Include="App\viewmodels\action.setter.js" />
-    <Content Include="App\viewmodels\action.startworkflow.js" />
-    <Content Include="App\viewmodels\activity.join.js" />
-    <Content Include="App\viewmodels\activity.listen.js" />
-    <Content Include="App\viewmodels\activity.parallel.js" />
-    <Content Include="App\viewmodels\activity.scheduledtrigger.js" />
-    <Content Include="App\viewmodels\activity.updateentity.js" />
-    <Content Include="App\viewmodels\activity.deleteentity.js" />
-    <Content Include="App\viewmodels\activity.createentity.js" />
-    <Content Include="App\viewmodels\activity.delay.js" />
-    <Content Include="App\viewmodels\activity.end.js" />
-    <Content Include="App\viewmodels\activity.decision.js" />
-    <Content Include="App\viewmodels\activity.expression.js" />
-    <Content Include="App\viewmodels\activity.notification.js" />
-    <Content Include="App\viewmodels\field.assembly.js" />
-    <Content Include="App\viewmodels\page.detail.dialog.js" />
-    <Content Include="App\viewmodels\page.list.js" />
-    <Content Include="App\viewmodels\page.logs.js" />
-    <Content Include="App\viewmodels\schedule.daily.js" />
-    <Content Include="App\viewmodels\schedule.monthly.js" />
-    <Content Include="App\viewmodels\schedule.weekly.js" />
-    <Content Include="App\viewmodels\variable.clrtype.js" />
-    <Content Include="App\viewmodels\variable.complex.js" />
-    <Content Include="App\viewmodels\variable.simple.js" />
-    <Content Include="App\viewmodels\field.constant.js" />
-    <Content Include="App\viewmodels\error.message.js" />
-    <Content Include="App\viewmodels\field.function.js" />
-    <Content Include="App\viewmodels\field.propertychanged.js" />
-    <Content Include="App\viewmodels\field.document.js" />
-    <Content Include="App\viewmodels\public.check.application.js" />
-    <Content Include="App\viewmodels\workflow.activities.js" />
-    <Content Include="App\viewmodels\workflow.debugger.js" />
-    <Content Include="App\viewmodels\workflow.definition.list.js" />
-    <Content Include="App\viewmodels\workflow.jsplumb.js" />
-    <Content Include="App\viewmodels\workflow.definition.visual.js" />
-    <Content Include="App\viewmodels\workflow.instances.console.js" />
-    <Content Include="App\viewmodels\workflow.manage.js" />
-    <Content Include="App\viewmodels\photo.dialog.js" />
-    <Content Include="App\viewmodels\reportdelivery.schedule.js" />
-    <Content Include="App\viewmodels\_reportdefinition.preview.js" />
-    <Content Include="App\viewmodels\message.inbox.js" />
-    <Content Include="App\viewmodels\reportdefinition.base.js" />
-    <Content Include="App\viewmodels\reportdefinition.edit.js" />
-    <Content Include="App\viewmodels\reportdefinition.list.js" />
-    <Content Include="App\viewmodels\messages.js" />
-    <Content Include="App\viewmodels\public.index.js" />
-    <Content Include="App\viewmodels\search.js" />
-    <Content Include="App\viewmodels\trigger.list.js" />
-    <Content Include="App\viewmodels\trigger.setup.js" />
-    <Content Include="App\viewmodels\_users.department.js" />
-    <Content Include="App\views\ace.goto.line.html" />
-    <Content Include="App\views\action.email.html" />
-    <Content Include="App\views\action.setter.html" />
-    <Content Include="App\views\action.startworkflow.html" />
-    <Content Include="App\views\activity.deleteentity.html" />
-    <Content Include="App\views\activity.join.html" />
-    <Content Include="App\views\activity.listen.html" />
-    <Content Include="App\views\activity.parallel.html" />
-    <Content Include="App\views\activity.scheduledtrigger.html" />
-    <Content Include="App\views\activity.updateentity.html" />
-    <Content Include="App\views\activity.createentity.html" />
-    <Content Include="App\views\activity.delay.html" />
-    <Content Include="App\views\activity.end.html" />
-    <Content Include="App\views\activity.decision.html" />
-    <Content Include="App\views\activity.expression.html" />
-    <Content Include="App\views\activity.notification.html" />
-    <Content Include="App\views\admin.home.html" />
-    <Content Include="App\viewmodels\admin.home.js" />
-    <Content Include="App\views\application.template.list.html" />
-    <Content Include="App\views\chats.html" />
-    <Content Include="App\views\entities.list.html" />
-    <Content Include="App\views\entity.details.html" />
-    <Content Include="App\views\error.message.html" />
-    <Content Include="App\views\field.assembly.html" />
-    <Content Include="App\views\page.detail.dialog.html" />
-    <Content Include="App\views\page.list.html" />
-    <Content Include="App\views\page.logs.html" />
-    <Content Include="App\views\schedule.daily.html" />
-    <Content Include="App\views\schedule.monthly.html" />
-    <Content Include="App\views\schedule.weekly.html" />
-    <Content Include="App\views\variable.clrtype.html" />
-    <Content Include="App\views\variable.complex.html" />
-    <Content Include="App\views\variable.simple.html" />
-    <Content Include="App\views\field.function.html" />
-    <Content Include="App\views\field.propertychanged.html" />
-    <Content Include="App\views\field.constant.html" />
-    <Content Include="App\views\field.document.html" />
-    <Content Include="App\views\public.check.application.html" />
-    <Content Include="App\views\workflow.activities.html" />
-    <Content Include="App\views\workflow.debugger.html" />
-    <Content Include="App\views\workflow.definition.list.html" />
-    <Content Include="App\views\workflow.definition.visual.html" />
-    <Content Include="App\views\workflow.instances.console.html" />
-    <Content Include="App\views\workflow.manage.html" />
-    <Content Include="App\views\photo.dialog.html" />
-    <Content Include="App\views\reportdelivery.schedule.html" />
-    <Content Include="App\views\_reportdefinition.preview.html" />
-    <Content Include="App\views\_schedule.trigger.advanced.setting.html" />
-    <Content Include="App\views\_schedule.trigger.start.html" />
-    <Content Include="App\views\logviewer.html" />
-    <Content Include="App\views\message.detail.html" />
-    <Content Include="App\views\message.inbox.html" />
-    <Content Include="App\views\messages.html" />
-    <Content Include="App\views\public.index.html" />
-    <Content Include="App\views\reportdefinition.list.html" />
-    <Content Include="App\views\search.html" />
-    <Content Include="App\views\trigger.list.html" />
-    <Content Include="App\views\_template.custom.field.html" />
-    <Content Include="App\views\_user.add.html" />
-    <Content Include="App\views\_user.change.password.html" />
-    <Content Include="App\views\_users.department.html" />
-    <Content Include="App\views\_workflow.definition.activities.html" />
-    <Content Include="App\views\_workflow.definition.variables.html" />
+    <Content Include="SphApp\prototypes\BusinessRuleBase.js" />
+    <EmbeddedResource Include="SphApp\services\tracker.js" />
+    <EmbeddedResource Include="SphApp\services\validation.js" />
+    <EmbeddedResource Include="SphApp\services\watcher.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\entities.list.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\entity.details.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\snippets.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\ace.goto.line.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\action.email.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\action.setter.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\action.startworkflow.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\activity.join.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\activity.listen.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\activity.parallel.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\activity.scheduledtrigger.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\activity.updateentity.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\activity.deleteentity.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\activity.createentity.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\activity.delay.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\activity.end.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\activity.decision.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\activity.expression.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\activity.notification.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\field.assembly.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\page.detail.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\page.list.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\page.logs.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\schedule.daily.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\schedule.monthly.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\schedule.weekly.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\variable.clrtype.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\variable.complex.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\variable.simple.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\field.constant.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\error.message.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\field.function.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\field.propertychanged.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\field.document.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\public.check.application.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\workflow.activities.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\workflow.debugger.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\workflow.definition.list.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\workflow.jsplumb.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\workflow.definition.visual.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\workflow.instances.console.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\workflow.manage.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\photo.dialog.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\reportdelivery.schedule.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\_reportdefinition.preview.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\message.inbox.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\reportdefinition.base.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\reportdefinition.edit.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\reportdefinition.list.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\messages.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\public.index.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\search.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\trigger.list.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\trigger.setup.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\_users.department.js" />
+    <EmbeddedResource Include="SphApp\views\ace.goto.line.html" />
+    <EmbeddedResource Include="SphApp\views\action.email.html" />
+    <EmbeddedResource Include="SphApp\views\action.setter.html" />
+    <EmbeddedResource Include="SphApp\views\action.startworkflow.html" />
+    <EmbeddedResource Include="SphApp\views\activity.deleteentity.html" />
+    <EmbeddedResource Include="SphApp\views\activity.join.html" />
+    <EmbeddedResource Include="SphApp\views\activity.listen.html" />
+    <EmbeddedResource Include="SphApp\views\activity.parallel.html" />
+    <EmbeddedResource Include="SphApp\views\activity.scheduledtrigger.html" />
+    <EmbeddedResource Include="SphApp\views\activity.updateentity.html" />
+    <EmbeddedResource Include="SphApp\views\activity.createentity.html" />
+    <EmbeddedResource Include="SphApp\views\activity.delay.html" />
+    <EmbeddedResource Include="SphApp\views\activity.end.html" />
+    <EmbeddedResource Include="SphApp\views\activity.decision.html" />
+    <EmbeddedResource Include="SphApp\views\activity.expression.html" />
+    <EmbeddedResource Include="SphApp\views\activity.notification.html" />
+    <EmbeddedResource Include="SphApp\views\admin.home.html" />
+    <EmbeddedResource Include="SphApp\viewmodels\admin.home.js" />
+    <EmbeddedResource Include="SphApp\views\application.template.list.html" />
+    <EmbeddedResource Include="SphApp\views\chats.html" />
+    <EmbeddedResource Include="SphApp\views\entities.list.html" />
+    <EmbeddedResource Include="SphApp\views\entity.details.html" />
+    <EmbeddedResource Include="SphApp\views\error.message.html" />
+    <EmbeddedResource Include="SphApp\views\field.assembly.html" />
+    <EmbeddedResource Include="SphApp\views\page.detail.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\page.list.html" />
+    <EmbeddedResource Include="SphApp\views\page.logs.html" />
+    <EmbeddedResource Include="SphApp\views\schedule.daily.html" />
+    <EmbeddedResource Include="SphApp\views\schedule.monthly.html" />
+    <EmbeddedResource Include="SphApp\views\schedule.weekly.html" />
+    <EmbeddedResource Include="SphApp\views\variable.clrtype.html" />
+    <EmbeddedResource Include="SphApp\views\variable.complex.html" />
+    <EmbeddedResource Include="SphApp\views\variable.simple.html" />
+    <EmbeddedResource Include="SphApp\views\field.function.html" />
+    <EmbeddedResource Include="SphApp\views\field.propertychanged.html" />
+    <EmbeddedResource Include="SphApp\views\field.constant.html" />
+    <EmbeddedResource Include="SphApp\views\field.document.html" />
+    <EmbeddedResource Include="SphApp\views\public.check.application.html" />
+    <EmbeddedResource Include="SphApp\views\workflow.activities.html" />
+    <EmbeddedResource Include="SphApp\views\workflow.debugger.html" />
+    <EmbeddedResource Include="SphApp\views\workflow.definition.list.html" />
+    <EmbeddedResource Include="SphApp\views\workflow.definition.visual.html" />
+    <EmbeddedResource Include="SphApp\views\workflow.instances.console.html" />
+    <EmbeddedResource Include="SphApp\views\workflow.manage.html" />
+    <EmbeddedResource Include="SphApp\views\photo.dialog.html" />
+    <EmbeddedResource Include="SphApp\views\reportdelivery.schedule.html" />
+    <EmbeddedResource Include="SphApp\views\_reportdefinition.preview.html" />
+    <EmbeddedResource Include="SphApp\views\_schedule.trigger.advanced.setting.html" />
+    <EmbeddedResource Include="SphApp\views\_schedule.trigger.start.html" />
+    <EmbeddedResource Include="SphApp\views\logviewer.html" />
+    <EmbeddedResource Include="SphApp\views\message.detail.html" />
+    <EmbeddedResource Include="SphApp\views\message.inbox.html" />
+    <EmbeddedResource Include="SphApp\views\messages.html" />
+    <EmbeddedResource Include="SphApp\views\public.index.html" />
+    <EmbeddedResource Include="SphApp\views\reportdefinition.list.html" />
+    <EmbeddedResource Include="SphApp\views\search.html" />
+    <EmbeddedResource Include="SphApp\views\trigger.list.html" />
+    <EmbeddedResource Include="SphApp\views\_template.custom.field.html" />
+    <EmbeddedResource Include="SphApp\views\_user.add.html" />
+    <EmbeddedResource Include="SphApp\views\_user.change.password.html" />
+    <EmbeddedResource Include="SphApp\views\_users.department.html" />
+    <EmbeddedResource Include="SphApp\views\_workflow.definition.activities.html" />
+    <EmbeddedResource Include="SphApp\views\_workflow.definition.variables.html" />
     <Content Include="code.snippets.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -712,7 +1306,7 @@
       <DependentUpon>rentalapplication.less</DependentUpon>
     </Content>
     <Content Include="Content\theme.matyie\style.css" />
-    <Content Include="Content\theme.matyie\theme.js" />
+    <EmbeddedResource Include="Content\theme.matyie\theme.js" />
     <Content Include="Content\theme.matyie\report.css">
       <DependentUpon>report.less</DependentUpon>
     </Content>
@@ -759,91 +1353,68 @@
     <Content Include="Content\_semantic.home.css" />
     <Content Include="Content\_semantic.workflow.triggers.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\fontawesome-webfont.svg" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <EmbeddedResource Include="fonts\fontawesome-webfont.svg" />
+    <EmbeddedResource Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Images\add_icon.png" />
-    <Content Include="Images\add_user.png" />
-    <Content Include="Images\Adobe-Acrobat.png" />
-    <Content Include="Images\arrow.png" />
-    <Content Include="Images\AssemblyField.png" />
-    <Content Include="Images\background.png" />
-    <Content Include="Images\blank.png" />
-    <Content Include="Images\box-1-white.png" />
-    <Content Include="Images\box-2-white.png" />
-    <Content Include="Images\box-3-white.png" />
-    <Content Include="Images\building_icon.png" />
-    <Content Include="Images\ComplexVariable.png" />
-    <Content Include="Images\constantfield.png" />
-    <Content Include="Images\courts.png" />
-    <Content Include="Images\CreateEntityActivity.png" />
-    <Content Include="Images\dashboard-Dalam Proses.png" />
-    <Content Include="Images\dashboard-ditutup.png" />
-    <Content Include="Images\dashboard-new.png" />
-    <Content Include="Images\dashboard-pemeriksaan.png" />
-    <Content Include="Images\dashboard-penyenggaraan.png" />
-    <Content Include="Images\dashboard-pro.png" />
-    <Content Include="Images\DecisionActivity.png" />
-    <Content Include="Images\documentfield.png" />
-    <Content Include="Images\down8.png" />
-    <Content Include="Images\edit_icon.png" />
-    <Content Include="Images\EmailAction.png" />
-    <Content Include="Images\EndActivity.png" />
-    <Content Include="Images\expression.png" />
-    <Content Include="Images\expression_razor.png" />
-    <Content Include="Images\form.element.Button.png" />
-    <Content Include="Images\form.element.CheckBox.png" />
-    <Content Include="Images\form.element.ComboBox.png" />
-    <Content Include="Images\form.element.DatePicker.png" />
-    <Content Include="Images\form.element.DateTimePicker.png" />
-    <Content Include="Images\form.element.FileUploadElement.png" />
-    <Content Include="Images\form.element.HtmlElement.png" />
-    <Content Include="Images\form.element.TextArea.png" />
-    <Content Include="Images\form.element.TextBox.png" />
-    <Content Include="Images\no-image2.png" />
-    <Content Include="Images\NotificationActivity.png" />
-    <Content Include="Images\propertychanged.png" />
-    <Content Include="Images\functionfield.png" />
-    <Content Include="Images\gelanggang.png" />
-    <Content Include="Images\home.png" />
-    <Content Include="Images\hotel.png" />
-    <Content Include="Images\kuarters.png" />
-    <Content Include="Images\line-chart256.png" />
-    <Content Include="Images\logo.png" />
-    <Content Include="Images\logoSPH.png" />
-    <Content Include="Images\logo_sph.png" />
+    <EmbeddedResource Include="Images\add_icon.png" />
+    <EmbeddedResource Include="Images\add_user.png" />
+    <EmbeddedResource Include="Images\arrow.png" />
+    <EmbeddedResource Include="Images\AssemblyField.png" />
+    <EmbeddedResource Include="Images\blank.png" />
+    <EmbeddedResource Include="Images\box-1-white.png" />
+    <EmbeddedResource Include="Images\box-2-white.png" />
+    <EmbeddedResource Include="Images\box-3-white.png" />
+    <EmbeddedResource Include="Images\building_icon.png" />
+    <EmbeddedResource Include="Images\ComplexVariable.png" />
+    <EmbeddedResource Include="Images\constantfield.png" />
+    <EmbeddedResource Include="Images\CreateEntityActivity.png" />
+    <EmbeddedResource Include="Images\dashboard-pemeriksaan.png" />
+    <EmbeddedResource Include="Images\dashboard-penyenggaraan.png" />
+    <EmbeddedResource Include="Images\dashboard-pro.png" />
+    <EmbeddedResource Include="Images\DecisionActivity.png" />
+    <EmbeddedResource Include="Images\documentfield.png" />
+    <EmbeddedResource Include="Images\down8.png" />
+    <EmbeddedResource Include="Images\edit_icon.png" />
+    <EmbeddedResource Include="Images\EmailAction.png" />
+    <EmbeddedResource Include="Images\EndActivity.png" />
+    <EmbeddedResource Include="Images\expression.png" />
+    <EmbeddedResource Include="Images\expression_razor.png" />
+    <EmbeddedResource Include="Images\form.element.Button.png" />
+    <EmbeddedResource Include="Images\form.element.CheckBox.png" />
+    <EmbeddedResource Include="Images\form.element.ComboBox.png" />
+    <EmbeddedResource Include="Images\form.element.DatePicker.png" />
+    <EmbeddedResource Include="Images\form.element.DateTimePicker.png" />
+    <EmbeddedResource Include="Images\form.element.FileUploadElement.png" />
+    <EmbeddedResource Include="Images\form.element.HtmlElement.png" />
+    <EmbeddedResource Include="Images\form.element.TextArea.png" />
+    <EmbeddedResource Include="Images\form.element.TextBox.png" />
+    <EmbeddedResource Include="Images\no-image2.png" />
+    <EmbeddedResource Include="Images\NotificationActivity.png" />
+    <EmbeddedResource Include="Images\propertychanged.png" />
+    <EmbeddedResource Include="Images\functionfield.png" />
+    <EmbeddedResource Include="Images\home.png" />
+    <EmbeddedResource Include="Images\line-chart256.png" />
     <Content Include="Images\maps\office-building.png" />
-    <Content Include="Images\office.png" />
-    <Content Include="Images\offices.png" />
-    <Content Include="Images\pic1.png" />
-    <Content Include="Images\pic2.png" />
-    <Content Include="Images\pic3.png" />
-    <Content Include="Images\pic4.png" />
-    <Content Include="Images\pie-chart.png" />
-    <Content Include="Images\PropertyChangedField.png" />
-    <Content Include="Images\quarters.png" />
-    <Content Include="Images\red-bar.png" />
-    <Content Include="Images\remove_icon.png" />
-    <Content Include="Images\report-layout.1.png" />
-    <Content Include="Images\report-layout.2.png" />
-    <Content Include="Images\rumah_peranginan.png" />
-    <Content Include="Images\save.png" />
-    <Content Include="Images\ScreenActivity.png" />
-    <Content Include="Images\search.png" />
-    <Content Include="Images\SetterAction.png" />
-    <Content Include="Images\SimpleVariable.png" />
-    <Content Include="Images\Slider1-edited.jpg" />
-    <Content Include="Images\sph_128x128.png" />
-    <Content Include="Images\sph_16x16.png" />
-    <Content Include="Images\sph_24x24.png" />
-    <Content Include="Images\sph_32x32.png" />
-    <Content Include="Images\sph_48x48.png" />
-    <Content Include="Images\star.png" />
-    <Content Include="Images\up8.png" />
-    <Content Include="Images\warning.png" />
+    <EmbeddedResource Include="Images\pie-chart.png" />
+    <EmbeddedResource Include="Images\PropertyChangedField.png" />
+    <EmbeddedResource Include="Images\red-bar.png" />
+    <EmbeddedResource Include="Images\report-layout.1.png" />
+    <EmbeddedResource Include="Images\report-layout.2.png" />
+    <EmbeddedResource Include="Images\save.png" />
+    <EmbeddedResource Include="Images\ScreenActivity.png" />
+    <EmbeddedResource Include="Images\search.png" />
+    <EmbeddedResource Include="Images\SetterAction.png" />
+    <EmbeddedResource Include="Images\SimpleVariable.png" />
+    <EmbeddedResource Include="Images\sph_16x16.png" />
+    <EmbeddedResource Include="Images\sph_24x24.png" />
+    <EmbeddedResource Include="Images\sph_32x32.png" />
+    <EmbeddedResource Include="Images\sph_48x48.png" />
+    <EmbeddedResource Include="Images\star.png" />
+    <EmbeddedResource Include="Images\up8.png" />
+    <EmbeddedResource Include="Images\warning.png" />
     <Content Include="roles.config.js" />
     <Content Include="routes.config.js" />
-    <Content Include="App\viewmodels\message.detail.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\message.detail.js" />
     <Content Include="Content\less\alerts.less" />
     <Content Include="Content\less\badges.less" />
     <Content Include="Content\less\bootstrap.less" />
@@ -909,102 +1480,65 @@
     <Content Include="Scripts\almond-custom.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\DataTables-1.9.4\docs\media\js\doc.js" />
-    <Content Include="Scripts\DataTables-1.9.4\docs\media\js\jquery.js" />
-    <Content Include="Scripts\DataTables-1.9.4\docs\media\js\shBrushJScript.js" />
-    <Content Include="Scripts\DataTables-1.9.4\docs\media\js\shCore.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\docs\media\js\doc.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\docs\media\js\jquery.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\docs\media\js\shBrushJScript.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\docs\media\js\shCore.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\js\AutoFill.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\js\AutoFill.min.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\docs\media\js\doc.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\docs\media\js\jquery.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\docs\media\js\shBrushJScript.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\docs\media\js\shCore.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\js\ColReorder.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\js\ColReorder.min.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\docs\media\js\doc.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\docs\media\js\jquery.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\docs\media\js\shBrushJScript.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\docs\media\js\shCore.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\js\ColVis.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\js\ColVis.min.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\FixedColumns\docs\media\js\doc.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\FixedColumns\docs\media\js\jquery.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\FixedColumns\docs\media\js\shBrushJScript.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\FixedColumns\docs\media\js\shCore.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\FixedColumns\media\js\FixedColumns.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\FixedColumns\media\js\FixedColumns.min.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\Scroller\media\docs\media\js\doc.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\Scroller\media\docs\media\js\jquery.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\Scroller\media\docs\media\js\shBrushJScript.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\Scroller\media\docs\media\js\shCore.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\Scroller\media\js\dataTables.scroller.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\Scroller\media\js\dataTables.scroller.min.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\TableTools\media\js\TableTools.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\TableTools\media\js\TableTools.min.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\TableTools\media\js\ZeroClipboard.js" />
-    <Content Include="Scripts\DataTables-1.9.4\media\js\jquery.js" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\TableTools\media\js\TableTools.min.js.gz" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\Scroller\media\js\dataTables.scroller.min.js.gz" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\FixedColumns\media\js\FixedColumns.min.js.gz" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\ColVis\media\js\ColVis.min.js.gz" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\ColReorder\media\js\ColReorder.min.js.gz" />
-    <Content Include="Scripts\DataTables-1.9.4\extras\AutoFill\media\js\AutoFill.min.js.gz" />
-    <Content Include="App\viewmodels\shell.min.js.map">
+    <EmbeddedResource Include="SphApp\services\cultures.my.js" />
+    <Content Include="SphApp\viewmodels\shell.min.js.map">
       <DependentUpon>shell.js</DependentUpon>
     </Content>
-    <Content Include="App\objectbuilders.min.js.map">
+    <Content Include="SphApp\objectbuilders.min.js.map">
       <DependentUpon>objectbuilders.js</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\reportdefinition.edit.min.js.map">
+    <Content Include="SphApp\viewmodels\reportdefinition.edit.min.js.map">
       <DependentUpon>reportdefinition.edit.js</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\map.min.js.map">
+    <Content Include="SphApp\viewmodels\map.min.js.map">
       <DependentUpon>map.js</DependentUpon>
     </Content>
     <Content Include="Content\theme.matyie\workflow.triggers.less" />
-    <Content Include="App\services\default.value.provider.js" />
-    <Content Include="Scripts\durandal\activator.js" />
-    <Content Include="Scripts\durandal\app.js" />
-    <Content Include="Scripts\durandal\binder.js" />
-    <Content Include="Scripts\durandal\composition.js" />
-    <Content Include="Scripts\durandal\events.js" />
-    <Content Include="Scripts\durandal\plugins\dialog.js" />
-    <Content Include="Scripts\durandal\plugins\history.js" />
-    <Content Include="Scripts\durandal\plugins\http.js" />
-    <Content Include="Scripts\durandal\plugins\observable.js" />
-    <Content Include="Scripts\durandal\plugins\router.js" />
-    <Content Include="Scripts\durandal\plugins\serializer.js" />
-    <Content Include="Scripts\durandal\plugins\widget.js" />
-    <Content Include="Scripts\durandal\system.js" />
-    <Content Include="Scripts\durandal\transitions\entrance.js" />
-    <Content Include="Scripts\durandal\viewEngine.js" />
-    <Content Include="Scripts\durandal\viewLocator.js" />
+    <EmbeddedResource Include="SphApp\services\default.value.provider.js" />
+    <EmbeddedResource Include="Scripts\durandal\activator.js" />
+    <EmbeddedResource Include="Scripts\durandal\app.js" />
+    <EmbeddedResource Include="Scripts\durandal\binder.js" />
+    <EmbeddedResource Include="Scripts\durandal\composition.js" />
+    <EmbeddedResource Include="Scripts\durandal\events.js" />
+    <EmbeddedResource Include="Scripts\durandal\plugins\dialog.js" />
+    <EmbeddedResource Include="Scripts\durandal\plugins\history.js" />
+    <EmbeddedResource Include="Scripts\durandal\plugins\http.js" />
+    <EmbeddedResource Include="Scripts\durandal\plugins\observable.js" />
+    <EmbeddedResource Include="Scripts\durandal\plugins\router.js" />
+    <EmbeddedResource Include="Scripts\durandal\plugins\serializer.js" />
+    <EmbeddedResource Include="Scripts\durandal\plugins\widget.js" />
+    <EmbeddedResource Include="Scripts\durandal\system.js" />
+    <EmbeddedResource Include="Scripts\durandal\transitions\entrance.js" />
+    <EmbeddedResource Include="Scripts\durandal\viewEngine.js" />
+    <EmbeddedResource Include="Scripts\durandal\viewLocator.js" />
     <Content Include="weyland-config.js" />
+    <Content Include="Areas\App\Views\web.config" />
     <None Include="Content\jsplumb\jsplumb.css.bundle">
       <SubType>Designer</SubType>
     </None>
     <Content Include="Content\jsplumb\OpenSans.woff" />
     <Content Include="Content\jsplumb\OpenSans-Regular.ttf" />
-    <Content Include="fonts\fontawesome-webfont.woff" />
-    <Content Include="fonts\fontawesome-webfont.ttf" />
-    <Content Include="fonts\fontawesome-webfont.eot" />
-    <Content Include="fonts\FontAwesome.otf" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <EmbeddedResource Include="fonts\fontawesome-webfont.woff" />
+    <EmbeddedResource Include="fonts\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="fonts\fontawesome-webfont.eot" />
+    <EmbeddedResource Include="fonts\FontAwesome.otf" />
+    <EmbeddedResource Include="fonts\glyphicons-halflings-regular.woff" />
+    <EmbeddedResource Include="fonts\glyphicons-halflings-regular.ttf" />
+    <EmbeddedResource Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Content\__css.css.bundle" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Scripts\__core.js.bundle" />
+    <EmbeddedResource Include="Scripts\core.min.js.map">
+      <DependentUpon>__core.js.bundle</DependentUpon>
+    </EmbeddedResource>
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
-    <Content Include="Scripts\jquery-ui-1.10.3.custom.min.js" />
+    <EmbeddedResource Include="Scripts\jquery-ui-1.10.3.custom.min.js" />
     <Content Include="Scripts\jquery.contextMenu.js" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.mousewheel.js" />
@@ -1022,12 +1556,12 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\jsPlumb\anchors.js" />
-    <Content Include="Scripts\jsPlumb\bundle.js">
-      <DependentUpon>bundle.js.bundle</DependentUpon>
-    </Content>
+    <EmbeddedResource Include="Scripts\jsPlumb\anchors.js" />
+    <EmbeddedResource Include="Scripts\jsPlumb\bundle.js">
+      <DependentUpon>__bundle.js.bundle</DependentUpon>
+    </EmbeddedResource>
     <Content Include="Scripts\jsPlumb\bundle.min.js">
-      <DependentUpon>bundle.js.bundle</DependentUpon>
+      <DependentUpon>__bundle.js.bundle</DependentUpon>
     </Content>
     <Content Include="Scripts\jsPlumb\connection.js" />
     <Content Include="Scripts\jsPlumb\connector-editors.js" />
@@ -1052,11 +1586,10 @@
     <Content Include="Scripts\jsPlumb\util.js" />
     <Content Include="Scripts\jsPlumb\yui.jsPlumb.js" />
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
-    <Content Include="Scripts\knockout-3.0.0.js" />
+    <EmbeddedResource Include="Scripts\knockout-3.0.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\loadoperation.js" />
-    <Content Include="Scripts\modernizr-2.6.1.min.js" />
     <Content Include="Scripts\modernizr-2.7.1.js" />
     <Content Include="Scripts\moment+langs.js" />
     <Content Include="Scripts\moment+langs.min.js" />
@@ -1067,9 +1600,7 @@
     <Content Include="Scripts\nprogress.js" />
     <Content Include="Scripts\qunit-1.12.0.js" />
     <Content Include="Scripts\r.js" />
-    <Content Include="Scripts\require.js" />
-    <Content Include="Scripts\sammy-0.7.4.js" />
-    <Content Include="Scripts\sammy-0.7.4.min.js" />
+    <EmbeddedResource Include="Scripts\require.js" />
     <Content Include="Scripts\ace\ace.js" />
     <Content Include="Scripts\ace\ext-chromevox.js" />
     <Content Include="Scripts\ace\ext-elastic_tabstops_lite.js" />
@@ -1339,7 +1870,7 @@
     <Content Include="Scripts\ace\worker-php.js" />
     <Content Include="Scripts\ace\worker-xquery.js" />
     <Content Include="Scripts\string.js" />
-    <Content Include="Scripts\text.js" />
+    <EmbeddedResource Include="Scripts\text.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\typeahead.js" />
@@ -1348,7 +1879,7 @@
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_constants.js" />
     <Content Include="Scripts\_function.prototypes.js" />
-    <Content Include="Scripts\_ko.workflow.js" />
+    <EmbeddedResource Include="Scripts\_ko.workflow.js" />
     <Content Include="Scripts\_ko.kendo.js" />
     <Content Include="Scripts\_ko.bootstrap.js" />
     <Content Include="Scripts\_references.js" />
@@ -1358,38 +1889,41 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\App\Models\" />
+    <Folder Include="Areas\App\Views\ReportDefinition\" />
+    <Folder Include="Areas\App\Views\Shared\" />
+    <Folder Include="Areas\Sph\Models\" />
+    <Folder Include="Areas\Sph\Views\Base\" />
+    <Folder Include="Areas\Sph\Views\EntityDefinition\" />
     <Folder Include="Filters\" />
-    <Folder Include="Scripts\schemas\" />
-    <Folder Include="Views\Base\" />
-    <Folder Include="Views\EntityDefinition\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App\schemas\_object.xslt">
+    <Content Include="SphApp\schemas\_object.xslt">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App\schemas\ReferenceObject.xslt" />
-    <Content Include="App\partial\Rent.js" />
-    <Content Include="App\viewmodels\admindashboard.js" />
-    <Content Include="App\viewmodels\map.js" />
-    <Content Include="App\viewmodels\organization.detail.js" />
-    <Content Include="App\viewmodels\payment.js" />
-    <Content Include="App\viewmodels\setting.js" />
-    <Content Include="App\viewmodels\shell.js" />
-    <Content Include="App\viewmodels\_audittrail.list.js" />
-    <Content Include="App\viewmodels\_users.designation.js" />
-    <Content Include="App\views\admindashboard.html" />
-    <Content Include="App\views\applicationlist.html" />
-    <Content Include="App\views\nav.html" />
-    <Content Include="App\views\organization.detail.html" />
-    <Content Include="App\views\payment.html" />
-    <Content Include="App\views\setting.html" />
-    <Content Include="App\views\shell.html" />
-    <Content Include="App\views\toolbar.html" />
-    <Content Include="App\views\_audittrail.list.html" />
-    <Content Include="App\views\_setting.space.category.html" />
-    <Content Include="App\views\_setting.interest.html" />
-    <Content Include="App\views\_setting.state.html" />
-    <Content Include="App\views\_users.designation.html" />
+    <Content Include="SphApp\schemas\ReferenceObject.xslt" />
+    <Content Include="SphApp\partial\Rent.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\admindashboard.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\map.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\organization.detail.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\payment.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\setting.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\shell.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\_audittrail.list.js" />
+    <EmbeddedResource Include="SphApp\viewmodels\_users.designation.js" />
+    <EmbeddedResource Include="SphApp\views\admindashboard.html" />
+    <EmbeddedResource Include="SphApp\views\applicationlist.html" />
+    <EmbeddedResource Include="SphApp\views\nav.html" />
+    <EmbeddedResource Include="SphApp\views\organization.detail.html" />
+    <EmbeddedResource Include="SphApp\views\payment.html" />
+    <EmbeddedResource Include="SphApp\views\setting.html" />
+    <EmbeddedResource Include="SphApp\views\shell.html" />
+    <EmbeddedResource Include="SphApp\views\toolbar.html" />
+    <EmbeddedResource Include="SphApp\views\_audittrail.list.html" />
+    <EmbeddedResource Include="SphApp\views\_setting.space.category.html" />
+    <EmbeddedResource Include="SphApp\views\_setting.interest.html" />
+    <EmbeddedResource Include="SphApp\views\_setting.state.html" />
+    <EmbeddedResource Include="SphApp\views\_users.designation.html" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\font\IcoMoon.svg" />
     <Content Include="Content\font\icomoon97172\IcoMoon.svg" />
@@ -1482,37 +2016,19 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="default.aspx" />
-    <Content Include="Images\accent.png" />
+    <EmbeddedResource Include="Images\accent.png" />
     <Content Include="Images\azure\drawer-icons.1.png" />
     <Content Include="Images\azure\icon-drawer-add.png" />
     <Content Include="Images\azure\icons-action-32-sprites.png" />
-    <Content Include="Images\bullet.png" />
-    <Content Include="Images\dashboard-diluluskan.png" />
-    <Content Include="Images\dashboard-selesai.png" />
-    <Content Include="Images\dashboard-confirmed.png" />
-    <Content Include="Images\dashboard-ditolak.png" />
-    <Content Include="Images\dashboard-baru.png" />
-    <Content Include="Images\dashboard-offered.png" />
-    <Content Include="Images\dashboard-offerrejected.png" />
-    <Content Include="Images\dashboard-dikembalikan.png" />
-    <Content Include="Images\dashboard-menunggu.png" />
-    <Content Include="Images\heroAccent.png" />
-    <Content Include="Images\no-image.png" />
-    <Content Include="Images\orderedList0.png" />
-    <Content Include="Images\orderedList1.png" />
-    <Content Include="Images\orderedList2.png" />
-    <Content Include="Images\orderedList3.png" />
-    <Content Include="Images\orderedList4.png" />
-    <Content Include="Images\orderedList5.png" />
-    <Content Include="Images\orderedList6.png" />
-    <Content Include="Images\orderedList7.png" />
-    <Content Include="Images\orderedList8.png" />
-    <Content Include="Images\orderedList9.png" />
-    <Content Include="Images\spinner-md.gif" />
-    <Content Include="Images\user_24_white.png" />
+    <EmbeddedResource Include="Images\bullet.png" />
+    <EmbeddedResource Include="Images\dashboard-selesai.png" />
+    <EmbeddedResource Include="Images\heroAccent.png" />
+    <EmbeddedResource Include="Images\no-image.png" />
+    <EmbeddedResource Include="Images\spinner-md.gif" />
+    <EmbeddedResource Include="Images\user_24_white.png" />
     <Content Include="kendo\js\cultures\kendo.culture.ms-MY.js" />
     <Content Include="kendo\js\cultures\kendo.culture.ms.js" />
-    <Content Include="kendo\js\kendo.all.js" />
+    <EmbeddedResource Include="kendo\js\kendo.all.js" />
     <Content Include="kendo\js\kendo.autocomplete.js" />
     <Content Include="kendo\js\kendo.binder.js" />
     <Content Include="kendo\js\kendo.calendar.js" />
@@ -1600,8 +2116,8 @@
     <Content Include="kendo\styles\Metro\loading.gif" />
     <Content Include="kendo\styles\Metro\slider-h.gif" />
     <Content Include="kendo\styles\Metro\slider-v.gif" />
-    <Content Include="kendo\styles\Metro\sprite.png" />
-    <Content Include="kendo\styles\Metro\sprite_2x.png" />
+    <EmbeddedResource Include="kendo\styles\Metro\sprite.png" />
+    <EmbeddedResource Include="kendo\styles\Metro\sprite_2x.png" />
     <Content Include="kendo\styles\textures\brushed-metal.png" />
     <Content Include="kendo\styles\textures\dots1.png" />
     <Content Include="kendo\styles\textures\dots10.png" />
@@ -1671,192 +2187,360 @@
     <Content Include="ScriptTests\datacontext.aggregate.js" />
     <Content Include="ScriptTests\datacontext.toObservable.workflow.js" />
     <Content Include="ScriptTests\datacontext.toObservable.js" />
-    <Content Include="Views\Account\ChangePassword.cshtml" />
-    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
-    <Content Include="Views\Account\Flyout.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\UpdateProfile.cshtml" />
-    <Content Include="Views\App\ComplaintListHtml.cshtml" />
-    <Content Include="Views\App\ComplaintListJs.cshtml" />
-    <Content Include="Views\App\ComplaintTemplateListHtml.cshtml" />
-    <Content Include="Views\App\ComplaintTemplateListJs.cshtml" />
-    <Content Include="Views\App\ConfigJs.cshtml" />
-    <Content Include="Views\App\UsersHtml.cshtml" />
-    <Content Include="Views\App\UsersJs.cshtml" />
-    <Content Include="Views\HotTowel\index.cshtml" />
-    <Content Include="Views\HotTowel\_splash.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="App\views\snippets.dialog.html" />
-    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Sph\Views\Account\ChangePassword.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ChangePassword.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Account\ChangePasswordSuccess.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ChangePasswordSuccess.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Account\Flyout.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Flyout.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Account\Login.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Login.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Account\Register.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Register.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Config\Index.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Index.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\UsersHtml.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>UsersHtml.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\UsersJs.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>UsersJs.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Home\index.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>index.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Home\_splash.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_splash.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Shared\Error.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Error.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Shared\_Layout.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_Layout.generated.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="SphApp\views\snippets.dialog.html" />
+    <Content Include="Areas\Sph\Views\_ViewStart.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ViewStart.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\App\HeaderHtml.cshtml" />
-    <Content Include="Views\App\RoleSettingsJs.cshtml" />
-    <Content Include="Views\App\UserProfileHtml.cshtml" />
-    <Content Include="Views\App\UserProfileJs.cshtml" />
-    <Content Include="Views\App\RoleSettingsHtml.cshtml" />
-    <Content Include="Views\App\WorkorderListHtml.cshtml" />
-    <Content Include="Views\App\WorkorderListJs.cshtml" />
-    <Content Include="Views\App\TenantPortalHtml.cshtml" />
-    <Content Include="Views\App\TenantPortalJs.cshtml" />
-    <Content Include="Views\App\TriggerSetupHtml.cshtml" />
-    <Content Include="Views\App\SpaceDetailHtml.cshtml" />
-    <Content Include="Views\Shared\CustomFieldHtml.cshtml" />
-    <Content Include="Views\App\ComplaintFormHtml.cshtml" />
-    <Content Include="Views\App\BuildingDetailHtml.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\CheckBox.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\ComboBox.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\DatePicker.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\EmailFormElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\NumberTextBox.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\TextAreaElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\TextBox.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\WebsiteFormElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\CheckBox.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\ComboBox.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\DatePicker.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\EmailFormElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\NumberTextBox.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\TextAreaElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\TextBox.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\WebsiteFormElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\FormElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\MapElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\MapElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\FormElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\SectionFormElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\SectionFormElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\BuildingFloorsElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\BuildingMapElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\CheckBox.cshtml" />
-    <Content Include="Views\App\EditorTemplates\ComboBox.cshtml" />
-    <Content Include="Views\App\EditorTemplates\DatePicker.cshtml" />
-    <Content Include="Views\App\EditorTemplates\EmailFormElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\FormElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\NumberTextBox.cshtml" />
-    <Content Include="Views\App\EditorTemplates\SectionFormElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\TextAreaElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\TextBox.cshtml" />
-    <Content Include="Views\App\EditorTemplates\WebsiteFormElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\AddressElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\AddressElement.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\AddressElement.cshtml" />
-    <Content Include="Views\Template\_Toolbox.cshtml" />
-    <Content Include="Views\App\ComplaintDetailHtml.cshtml" />
-    <Content Include="Views\App\MaintenanceTemplateListHtml.cshtml" />
-    <Content Include="Views\App\MaintenanceTemplateListJs.cshtml" />
-    <Content Include="Views\App\EditorTemplates\ComplaintCategoryElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\ComplaintCategoryElement.cshtml" />
-    <Content Include="Views\Template\_PathPicker.cshtml" />
-    <Content Include="Views\Template\_DesignerContextAction.cshtml" />
-    <Content Include="Views\App\EditorTemplates\SpaceUnitElement.cshtml" />
-    <Content Include="Views\App\ApplicationDetailHtml.cshtml" />
-    <Content Include="Views\Print\Index.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\AddressElement.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\BuildingFloorsElement.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\BuildingMapElement.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\CheckBox.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\ComboBox.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\SpaceUnitElement.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\ComplaintCategoryElement.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\DatePicker.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\EmailFormElement.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\FormElement.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\NumberTextBox.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\RentalApplicationAttachmentsElement.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\RentalApplicationBanksElement.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\SectionFormElement.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\TextAreaElement.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\TextBox.cshtml" />
-    <Content Include="Views\Print\DisplayTemplates\WebsiteFormElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\BuildingElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\RentalApplicationAttachmentsElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\RentalApplicationBanksElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\RentalApplicationContactElement.cshtml" />
-    <Content Include="Views\Account\_Slider.cshtml" />
-    <Content Include="Views\Account\_Footer.cshtml" />
-    <Content Include="Views\App\EditorTemplates\LabelItem.cshtml" />
-    <Content Include="Views\ReportDefinition\Index.cshtml" />
-    <Content Include="Views\ReportDefinition\DisplayTemplates\LabelItem.cshtml" />
-    <Content Include="Views\ReportDefinition\TextBox.cshtml" />
-    <Content Include="Views\ReportDefinition\_DesignerContextAction.cshtml" />
-    <Content Include="Views\ReportDefinition\DisplayTemplates\PieChartItem.cshtml" />
-    <Content Include="Views\ReportDefinition\DisplayTemplates\LineChartItem.cshtml" />
-    <Content Include="Views\ReportDefinition\DisplayTemplates\DataGridItem.cshtml" />
-    <Content Include="Views\ReportDefinition\DisplayTemplates\LineItem.cshtml" />
-    <Content Include="Views\ReportDefinition\DisplayTemplates\BarChartItem.cshtml" />
-    <Content Include="Views\ReportDefinition\_LabelDesignerContextAction.cshtml" />
-    <Content Include="Views\ReportDefinition\_ConfigurationPanel.cshtml" />
-    <Content Include="Views\ReportDefinition\_ConfigurationGeneral.cshtml" />
-    <Content Include="Views\ReportDefinition\_ConfigurationParameters.cshtml" />
-    <Content Include="Views\ReportDefinition\_ConfigurationDatasource.cshtml" />
-    <Content Include="Views\App\ReportDefinitionExecuteJs.cshtml" />
-    <Content Include="Views\App\ReportDefinitionExecuteHtml.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\BarChartItem.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\DataGridItem.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\LabelItem.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\LineChartItem.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\LineItem.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\PieChartItem.cshtml" />
-    <Content Include="Views\ReportDefinition\_DataGridDesignerContextAction.cshtml" />
-    <Content Include="Views\ReportDefinition\_LineChartDesignerContextAction.cshtml" />
-    <Content Include="Views\ReportDefinition\_ConfigurationColumnOptions.cshtml" />
-    <Content Include="Views\ReportDefinition\_ConfigurationColumnProperties.cshtml" />
-    <Content Include="Views\App\MaintenanceDetailHtml.cshtml" />
-    <Content Include="Views\Home\ContactUs.cshtml" />
-    <Content Include="Views\Home\Features.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\ReportDefinition\_PieChartDesignerContextAction.cshtml" />
-    <Content Include="Views\ReportDefinition\_Preview.cshtml" />
-    <Content Include="Views\ReportDefinition\_BarLineChartDesignerContextAction.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\HtmlElement.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\HtmlElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\HtmlElement.cshtml" />
-    <Content Include="Views\App\MaintenanceFormHtml.cshtml" />
-    <Content Include="Views\App\EditorTemplates\MaintenanceOfficerElement.cshtml" />
-    <Content Include="Views\App\MaintenanceListHtml.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\MaintenanceOfficerElement.cshtml" />
-    <Content Include="Views\App\MaintenanceListJs.cshtml" />
-    <Content Include="Views\Template\DisplayTemplates\MaintenanceOfficerElement.cshtml" />
-    <Content Include="Views\App\ReportDefinitionPreview.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\CustomListDefinitionElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\CustomListDefinitionElement.cshtml" />
-    <Content Include="Views\App\ComplaintAssignHtml.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\TextBox.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\ComboBox.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\ComplaintCategoryElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\TextAreaElement.cshtml" />
-    <Content Include="Views\App\EditorTemplates\BuildingBlocksElement.cshtml" />
+    <Content Include="Areas\App\Views\Header\Html.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Html.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\RoleSettingsJs.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>RoleSettingsJs.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\UserProfileHtml.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>UserProfileHtml.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\UserProfileJs.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>UserProfileJs.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\RoleSettingsHtml.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>RoleSettingsHtml.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\TriggerSetupHtml.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TriggerSetupHtml.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\CheckBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>CheckBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\ComboBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ComboBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\DatePicker.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DatePicker.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\EmailFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EmailFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\NumberTextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>NumberTextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\TextAreaElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextAreaElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\TextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\WebsiteFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\CheckBox.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\ComboBox.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\DatePicker.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\EmailFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\NumberTextBox.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\TextAreaElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\TextBox.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\FormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\MapElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>MapElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\MapElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\FormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\SectionFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\SectionFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>SectionFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\EditorTemplates\MapElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>MapElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\EditorTemplates\CheckBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>CheckBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\EditorTemplates\ComboBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ComboBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\EditorTemplates\DatePicker.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DatePicker.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\EditorTemplates\EmailFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EmailFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\EditorTemplates\FormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\EditorTemplates\NumberTextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>NumberTextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\EditorTemplates\SectionFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>SectionFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\EditorTemplates\TextAreaElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextAreaElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\EditorTemplates\TextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\EditorTemplates\WebsiteFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\EditorTemplates\AddressElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>AddressElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\AddressElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\AddressElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>AddressElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\_Toolbox.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\ComplaintCategoryElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\_PathPicker.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\_DesignerContextAction.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\Index.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\AddressElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\BuildingFloorsElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\BuildingMapElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\CheckBox.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\ComboBox.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\SpaceUnitElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\ComplaintCategoryElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\DatePicker.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\EmailFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\FormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\NumberTextBox.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\RentalApplicationAttachmentsElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\RentalApplicationBanksElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\SectionFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\TextAreaElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\TextBox.cshtml" />
+    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Account\_Slider.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_Slider.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Account\_Footer.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_Footer.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\EditorTemplates\LabelItem.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>LabelItem.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\ReportDefinition\Index.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\DisplayTemplates\LabelItem.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\TextBox.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\_DesignerContextAction.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\DisplayTemplates\PieChartItem.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\DisplayTemplates\LineChartItem.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\DisplayTemplates\DataGridItem.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\DisplayTemplates\LineItem.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\DisplayTemplates\BarChartItem.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\_LabelDesignerContextAction.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\_ConfigurationPanel.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\_ConfigurationGeneral.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\_ConfigurationParameters.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\_ConfigurationDatasource.cshtml" />
+    <Content Include="Areas\Sph\Views\App\ReportDefinitionExecuteJs.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ReportDefinitionExecuteJs.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\ReportDefinitionExecuteHtml.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ReportDefinitionExecuteHtml.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\BarChartItem.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>BarChartItem.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\DataGridItem.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DataGridItem.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\LabelItem.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>LabelItem.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\LineChartItem.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>LineChartItem.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\LineItem.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>LineItem.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\PieChartItem.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PieChartItem.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\ReportDefinition\_DataGridDesignerContextAction.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\_LineChartDesignerContextAction.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\_ConfigurationColumnOptions.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\_ConfigurationColumnProperties.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\_PieChartDesignerContextAction.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\_Preview.cshtml" />
+    <Content Include="Areas\Sph\Views\ReportDefinition\_BarLineChartDesignerContextAction.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\DisplayTemplates\HtmlElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>HtmlElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\HtmlElement.cshtml" />
+    <Content Include="Areas\Sph\Views\App\EditorTemplates\HtmlElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>HtmlElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\MaintenanceOfficerElement.cshtml" />
+    <Content Include="Areas\Sph\Views\App\ReportDefinitionPreview.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ReportDefinitionPreview.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\CustomListDefinitionElement.cshtml" />
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\TextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\ComboBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ComboBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\TextAreaElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextAreaElement.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\toastr.min.js.map" />
-    <Content Include="Views\App\DisplayTemplates\CustomListDefinitionElement.cshtml" />
-    <Content Include="Views\App\ComplaintCloseHtml.cshtml" />
-    <Content Include="Views\App\_TenantDetails.cshtml" />
-    <Content Include="Views\App\_DataGridItemRow.cshtml" />
-    <Content Include="Views\Template\_DefaultValues.cshtml" />
-    <Content Include="Views\App\EditorTemplates\SpaceFeaturesElement.cshtml" />
-    <Content Include="Views\App\MaintenanceAssignmentHtml.cshtml" />
-    <Content Include="Views\Test\Index.cshtml" />
-    <Content Include="Views\Shared\_LayoutTest.cshtml" />
-    <Content Include="Views\App\SpaceDetailPublicHtml.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\SpaceFeaturesElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\AddressElement.cshtml">
-      <SubType>Code</SubType>
+    <Content Include="Areas\Sph\Views\App\_DataGridItemRow.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_DataGridItemRow.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\App\DisplayTemplates\MapElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\CheckBox.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\DatePicker.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\EmailFormElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\FormElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\HtmlElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\MaintenanceOfficerElement.cshtml">
-      <SubType>Code</SubType>
+    <Content Include="Areas\Sph\Views\Template\_DefaultValues.cshtml" />
+    <Content Include="Areas\Sph\Views\Test\Index.cshtml" />
+    <Content Include="Areas\Sph\Views\Shared\_LayoutTest.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_LayoutTest.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\App\DisplayTemplates\NumberTextBox.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\SectionFormElement.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\AddressElement.cshtml">
+      <SubType>Code</SubType>
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>AddressElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\MapElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>MapElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\CheckBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>CheckBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\DatePicker.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DatePicker.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\EmailFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EmailFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\FormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\HtmlElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>HtmlElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\NumberTextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>NumberTextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\SectionFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>SectionFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\WebsiteFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\_theme.min.js.map">
       <DependentUpon>_theme.js</DependentUpon>
     </Content>
@@ -1866,89 +2550,309 @@
     <Content Include="Scripts\_ko.bootstrap.min.js.map">
       <DependentUpon>_ko.bootstrap.js</DependentUpon>
     </Content>
-    <Content Include="Views\Template\_ValidationSetting.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\_ValidationSetting.cshtml" />
     <Content Include="Scripts\_ko.kendo.min.js.map">
       <DependentUpon>_ko.kendo.js</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\_TriggerFieldDropDown.cshtml" />
-    <Content Include="Views\Shared\_PublicLayout.cshtml" />
-    <Content Include="Views\Editor\Ace.cshtml" />
-    <Content Include="Views\Template\_BusinessRule.cshtml" />
-    <Content Include="Views\WorkflowDefinition\ScreenHtml.cshtml" />
-    <Content Include="Views\WorkflowDefinition\_Toolbox.cshtml" />
-    <Content Include="Views\WorkflowDefinition\_ValidationSetting.cshtml" />
-    <Content Include="Views\WorkflowDefinition\Application.cshtml" />
-    <Content Include="Views\WorkflowDefinition\ScreenJs.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\AddressElement.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\CheckBox.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\ComboBox.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\DatePicker.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\EmailFormElement.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\FormElement.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\HtmlElement.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\NumberTextBox.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\SectionFormElement.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\TextAreaElement.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\TextBox.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\WebsiteFormElement.cshtml" />
-    <Content Include="Views\WorkflowDefinition\_DesignerContextAction.cshtml" />
-    <Content Include="Views\Workflow\_xxxxStart.cshtml" />
-    <Content Include="Views\Workflow\EditorTemplates\CheckBox.cshtml" />
-    <Content Include="Views\Workflow\EditorTemplates\ComboBox.cshtml" />
-    <Content Include="Views\Workflow\EditorTemplates\DatePicker.cshtml" />
-    <Content Include="Views\Workflow\EditorTemplates\EmailFormElement.cshtml" />
-    <Content Include="Views\Workflow\EditorTemplates\FormElement.cshtml" />
-    <Content Include="Views\Workflow\EditorTemplates\HtmlElement.cshtml" />
-    <Content Include="Views\Workflow\EditorTemplates\LabelItem.cshtml" />
-    <Content Include="Views\Workflow\EditorTemplates\NumberTextBox.cshtml" />
-    <Content Include="Views\Workflow\EditorTemplates\SectionFormElement.cshtml" />
-    <Content Include="Views\Workflow\EditorTemplates\TextAreaElement.cshtml" />
-    <Content Include="Views\Workflow\EditorTemplates\TextBox.cshtml" />
-    <Content Include="Views\Workflow\EditorTemplates\WebsiteFormElement.cshtml" />
-    <Content Include="Views\Shared\_LayoutWorkflow.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\TextBox.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\HtmlElement.cshtml" />
-    <Content Include="Views\WorkflowDefinition\_ScreenPerformer.cshtml" />
-    <Content Include="Views\WorkflowDefinition\Visual.cshtml" />
-    <None Include="Scripts\jsPlumb\bundle.js.bundle" />
-    <Content Include="Scripts\jsPlumb\bundle.min.js.map">
-      <DependentUpon>bundle.js.bundle</DependentUpon>
+    <Content Include="Areas\Sph\Views\Shared\_TriggerFieldDropDown.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_TriggerFieldDropDown.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\ListView.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\SectionFormElement.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\CheckBox.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\ComboBox.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\DatePicker.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\EmailFormElement.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\FormElement.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\NumberTextBox.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\TextAreaElement.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\WebsiteFormElement.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\FileUploadElement.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\FileUploadElement.cshtml" />
-    <Content Include="Views\App\WorkflowDraftJs.cshtml" />
-    <Content Include="Views\App\WorkflowDraftHtml.cshtml" />
-    <Content Include="Views\Editor\Page.cshtml" />
-    <Content Include="Views\Page\Compare.cshtml" />
-    <Content Include="Views\Page\DiffLine.cshtml" />
-    <Content Include="Views\Page\DiffPane.cshtml" />
-    <Content Include="Views\Page\Index.cshtml" />
-    <Content Include="Views\Workflow\InvalidState.cshtml" />
-    <Content Include="Views\App\DisplayTemplates\DatePickerTime.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\DateTimePicker.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\DateTimePicker.cshtml" />
-    <Content Include="Views\Template\EditorTemplates\DateTimePicker.cshtml" />
-    <Content Include="Views\Workflow\EditorTemplates\DateTimePicker.cshtml" />
-    <Content Include="Views\WorkflowDefinition\EditorTemplates\TextBox.cshtml" />
-    <Content Include="Views\WorkflowDefinition\EditorTemplates\ComboBox.cshtml" />
-    <Content Include="Views\WorkflowDefinition\EditorTemplates\ListView.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\ListView.cshtml" />
-    <Content Include="Views\WorkflowDefinition\DisplayTemplates\Button.cshtml" />
-    <Content Include="Views\WorkflowDefinition\EditorTemplates\Button.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Button.cshtml" />
-    <Content Include="Views\Editor\_Toolbar.cshtml" />
-    <Content Include="Views\WorkflowDefinition\ScreenEditor.cshtml" />
-    <Content Include="Views\Editor\Help.cshtml" />
+    <Content Include="Areas\Sph\Views\Shared\_PublicLayout.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_PublicLayout.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Editor\Ace.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\_BusinessRule.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\ScreenHtml.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\_Toolbox.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\_ValidationSetting.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\Application.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\ScreenJs.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\AddressElement.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\CheckBox.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\ComboBox.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\DatePicker.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\EmailFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\FormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\HtmlElement.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\NumberTextBox.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\SectionFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\TextAreaElement.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\TextBox.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\_DesignerContextAction.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\_xxxxStart.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\CheckBox.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\ComboBox.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\DatePicker.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\EmailFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\FormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\HtmlElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\LabelItem.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\NumberTextBox.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\SectionFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\TextAreaElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\TextBox.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\WebsiteFormElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Shared\_LayoutWorkflow.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_LayoutWorkflow.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\TextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\HtmlElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>HtmlElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\_ScreenPerformer.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\Visual.cshtml" />
+    <None Include="Scripts\jsPlumb\__bundle.js.bundle" />
+    <Content Include="Scripts\jsPlumb\bundle.min.js.map">
+      <DependentUpon>__bundle.js.bundle</DependentUpon>
+    </Content>
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\ListView.cshtml" />
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\SectionFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>SectionFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\CheckBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>CheckBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\ComboBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ComboBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\DatePicker.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DatePicker.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\EmailFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EmailFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\FormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\NumberTextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>NumberTextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\TextAreaElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextAreaElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\WebsiteFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\FileUploadElement.cshtml" />
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\FileUploadElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FileUploadElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\WorkflowDraftJs.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>WorkflowDraftJs.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\App\WorkflowDraftHtml.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>WorkflowDraftHtml.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Editor\Page.cshtml" />
+    <Content Include="Areas\Sph\Views\Page\Compare.cshtml" />
+    <Content Include="Areas\Sph\Views\Page\DiffLine.cshtml" />
+    <Content Include="Areas\Sph\Views\Page\DiffPane.cshtml" />
+    <Content Include="Areas\Sph\Views\Page\Index.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\InvalidState.cshtml" />
+    <Content Include="Areas\Sph\Views\App\DisplayTemplates\DatePickerTime.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DatePickerTime.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\DateTimePicker.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DateTimePicker.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\DateTimePicker.cshtml" />
+    <Content Include="Areas\Sph\Views\Template\EditorTemplates\DateTimePicker.cshtml" />
+    <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\DateTimePicker.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\EditorTemplates\TextBox.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\EditorTemplates\ComboBox.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\EditorTemplates\ListView.cshtml" />
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\ListView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ListView.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\Button.cshtml" />
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\EditorTemplates\Button.cshtml" />
+    <Content Include="Areas\Sph\Views\Shared\EditorTemplates\Button.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Button.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\Editor\_Toolbar.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_Toolbar.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Sph\Views\WorkflowDefinition\ScreenEditor.cshtml" />
+    <Content Include="Areas\Sph\Views\Editor\Help.cshtml" />
+    <None Include="Scripts\__vendor.js.bundle" />
+    <EmbeddedResource Include="Scripts\vendor.min.js.map">
+      <DependentUpon>__vendor.js.bundle</DependentUpon>
+    </EmbeddedResource>
+    <Content Include="SphApp\partial\Activity.min.js.map">
+      <DependentUpon>Activity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\AssemblyField.min.js.map">
+      <DependentUpon>AssemblyField.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\BarChartItem.min.js.map">
+      <DependentUpon>BarChartItem.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Block.min.js.map">
+      <DependentUpon>Block.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\BusinessRule.min.js.map">
+      <DependentUpon>BusinessRule.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ButtonPartial.min.js.map">
+      <DependentUpon>ButtonPartial.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ComboBox.min.js.map">
+      <DependentUpon>ComboBox.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Complaint.min.js.map">
+      <DependentUpon>Complaint.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ComplaintTemplate.min.js.map">
+      <DependentUpon>ComplaintTemplate.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ConstantField.min.js.map">
+      <DependentUpon>ConstantField.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Contract.min.js.map">
+      <DependentUpon>Contract.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ContractTemplate.min.js.map">
+      <DependentUpon>ContractTemplate.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\CreateEntityActivity.min.js.map">
+      <DependentUpon>CreateEntityActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\DataGridItem.min.js.map">
+      <DependentUpon>DataGridItem.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\DecisionActivity.min.js.map">
+      <DependentUpon>DecisionActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\DelayActivity.min.js.map">
+      <DependentUpon>DelayActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\EntityDefinition.min.js.map">
+      <DependentUpon>EntityDefinition.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ExecutedActivity.min.js.map">
+      <DependentUpon>ExecutedActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\FormElement.min.js.map">
+      <DependentUpon>FormElement.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\HtmlElement.min.js.map">
+      <DependentUpon>HtmlElement.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\IFormTemplate.min.js.map">
+      <DependentUpon>IFormTemplate.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\IntervalSchedule.min.js.map">
+      <DependentUpon>IntervalSchedule.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\LineChartItem.min.js.map">
+      <DependentUpon>LineChartItem.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ListenActivity.min.js.map">
+      <DependentUpon>ListenActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ListView.min.js.map">
+      <DependentUpon>ListView.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ListViewColumn.min.js.map">
+      <DependentUpon>ListViewColumn.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\MaintenanceTemplate.min.js.map">
+      <DependentUpon>MaintenanceTemplate.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Member.min.js.map">
+      <DependentUpon>Member.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\MethodArg.min.js.map">
+      <DependentUpon>MethodArg.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ParallelActivity.min.js.map">
+      <DependentUpon>ParallelActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Rent.min.js.map">
+      <DependentUpon>Rent.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\report.min.js.map">
+      <DependentUpon>report.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ReportDelivery.min.js.map">
+      <DependentUpon>ReportDelivery.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Rule.min.js.map">
+      <DependentUpon>Rule.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ScheduledTriggerActivity.min.js.map">
+      <DependentUpon>ScheduledTriggerActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\ScreenActivity.min.js.map">
+      <DependentUpon>ScreenActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\SetterAction.min.js.map">
+      <DependentUpon>SetterAction.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\SetterActionChild.min.js.map">
+      <DependentUpon>SetterActionChild.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Space.min.js.map">
+      <DependentUpon>Space.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\StartWorkflowAction.min.js.map">
+      <DependentUpon>StartWorkflowAction.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Trigger.min.js.map">
+      <DependentUpon>Trigger.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\UpdateEntityActivity.min.js.map">
+      <DependentUpon>UpdateEntityActivity.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\Variable.min.js.map">
+      <DependentUpon>Variable.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\WorkflowDefinition.min.js.map">
+      <DependentUpon>WorkflowDefinition.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\WorkflowDesigner.min.js.map">
+      <DependentUpon>WorkflowDesigner.js</DependentUpon>
+    </Content>
+    <Content Include="SphApp\partial\WorkflowTriggerMap.min.js.map">
+      <DependentUpon>WorkflowTriggerMap.js</DependentUpon>
+    </Content>
+    <None Include="SphApp\partial\__partial.js.bundle" />
+    <Content Include="SphApp\partial\partial.min.js.map">
+      <DependentUpon>__partial.js.bundle</DependentUpon>
+    </Content>
+    <None Include="SphApp\prototypes\__prototypes.js.bundle" />
+    <Content Include="SphApp\prototypes\prototypes.min.js.map">
+      <DependentUpon>__prototypes.js.bundle</DependentUpon>
+    </Content>
+    <None Include="SphApp\schemas\__domain.js.bundle" />
+    <EmbeddedResource Include="SphApp\schemas\domain.min.js.map">
+      <DependentUpon>__domain.js.bundle</DependentUpon>
+    </EmbeddedResource>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1970,26 +2874,21 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>4216</DevelopmentServerPort>
+          <DevelopmentServerPort>8638</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:4436/</IISUrl>
+          <IISUrl>
+          </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://www.sph.my</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

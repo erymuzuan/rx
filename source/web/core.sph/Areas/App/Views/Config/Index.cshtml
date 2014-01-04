@@ -1,0 +1,40 @@
+﻿@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
+@model Bespoke.Sph.Web.Models.ApplicationConfigurationViewModel
+
+@{
+    Layout = null;
+    var settings = new JsonSerializerSettings
+    {
+        ContractResolver = new CamelCasePropertyNamesContractResolver()
+    };
+}
+<script src="~/Scripts/knockout-3.0.0.debug.js"></script>
+<script src="~/Scripts/underscore.min.js"></script>
+<script type="text/javascript" data-script="true">
+    define(function() {
+        toastr.options.timeOut = 4000;
+        toastr.options.positionClass = 'toast-bottom-right';
+        var imageSettings = {
+            imageBasePath: '~/content/images/photos/',
+            unknownPersonImageSource: 'unknown_person.jpg'
+        };
+        var routes = @Html.Raw(JsonConvert.SerializeObject(Model.Routes,Formatting.Indented,settings));
+
+        var startModule = '@Model.StartModule';
+
+        return {
+            debugEnabled: ko.observable(true),
+            imageSettings: imageSettings,
+            userName: '@User.Identity.Name',
+            isAuthenticated : @(User.Identity.IsAuthenticated.ToString().ToLower()),
+            routes: routes,
+            startModule: startModule,
+            stateOptions : @Html.Raw(Model.StateOptions),
+            departmentOptions : @Html.Raw(Model.DepartmentOptions),
+            spaceUsageOptions : @Html.Raw(Model.SpaceUsageOptions),
+            roles :[ @Html.Raw(string.Join(",", Roles.GetRolesForUser(User.Identity.Name).Select(u => string.Format("'{0}'", u))))],
+            profile : @Html.Raw(JsonConvert.SerializeObject(Model.UserProfile))
+            };
+    });
+</script>

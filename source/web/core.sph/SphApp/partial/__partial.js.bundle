@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle minify="true" runOnBuild="true" output="partial.js">
+  <!--The order of the <file> elements determines the order of the file contents when bundled.-->
+  <file>/SphApp/partial/Activity.js</file>
+  <file>/SphApp/partial/AssemblyField.js</file>
+  <file>/SphApp/partial/BarChartItem.js</file>
+  <file>/SphApp/partial/Block.js</file>
+  <file>/SphApp/partial/BusinessRule.js</file>
+  <file>/SphApp/partial/ButtonPartial.js</file>
+  <file>/SphApp/partial/ComboBox.js</file>
+  <file>/SphApp/partial/Complaint.js</file>
+  <file>/SphApp/partial/ComplaintTemplate.js</file>
+  <file>/SphApp/partial/ConstantField.js</file>
+  <file>/SphApp/partial/Contract.js</file>
+  <file>/SphApp/partial/ContractTemplate.js</file>
+  <file>/SphApp/partial/CreateEntityActivity.js</file>
+  <file>/SphApp/partial/DataGridItem.js</file>
+  <file>/SphApp/partial/DecisionActivity.js</file>
+  <file>/SphApp/partial/DelayActivity.js</file>
+  <file>/SphApp/partial/EntityDefinition.js</file>
+  <file>/SphApp/partial/ExecutedActivity.js</file>
+  <file>/SphApp/partial/FormElement.js</file>
+  <file>/SphApp/partial/HtmlElement.js</file>
+  <file>/SphApp/partial/IFormTemplate.js</file>
+  <file>/SphApp/partial/IntervalSchedule.js</file>
+  <file>/SphApp/partial/LineChartItem.js</file>
+  <file>/SphApp/partial/ListenActivity.js</file>
+  <file>/SphApp/partial/ListView.js</file>
+  <file>/SphApp/partial/ListViewColumn.js</file>
+  <file>/SphApp/partial/MaintenanceTemplate.js</file>
+  <file>/SphApp/partial/Member.js</file>
+  <file>/SphApp/partial/MethodArg.js</file>
+  <file>/SphApp/partial/ParallelActivity.js</file>
+  <file>/SphApp/partial/Rent.js</file>
+  <file>/SphApp/partial/report.js</file>
+  <file>/SphApp/partial/ReportDelivery.js</file>
+  <file>/SphApp/partial/Rule.js</file>
+  <file>/SphApp/partial/ScheduledTriggerActivity.js</file>
+  <file>/SphApp/partial/ScreenActivity.js</file>
+  <file>/SphApp/partial/SetterAction.js</file>
+  <file>/SphApp/partial/SetterActionChild.js</file>
+  <file>/SphApp/partial/Space.js</file>
+  <file>/SphApp/partial/StartWorkflowAction.js</file>
+  <file>/SphApp/partial/Trigger.js</file>
+  <file>/SphApp/partial/UpdateEntityActivity.js</file>
+  <file>/SphApp/partial/Variable.js</file>
+  <file>/SphApp/partial/WorkflowDefinition.js</file>
+  <file>/SphApp/partial/WorkflowDesigner.js</file>
+  <file>/SphApp/partial/WorkflowTriggerMap.js</file>
+</bundle>

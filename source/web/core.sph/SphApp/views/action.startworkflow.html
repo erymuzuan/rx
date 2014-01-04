@@ -1,0 +1,81 @@
+﻿
+<section class="view-model-modal" id="start=wf-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Start Workflow</h3>
+            </div>
+            <div class="modal-body" data-bind="with: action">
+
+                <form class="form-horizontal" id="start=wf-dialog-form">
+                    <div class="form-group">
+                        <label for="wd-option" class="col-lg-2 control-label">Workflow</label>
+                        <div class="col-lg-6">
+                            <select class="form-control" id="wd-option" data-bind="value: WorkflowDefinitionId, options: $root.wdOptions,optionsText:'Name', optionsValue: 'WorkflowDefinitionId'"></select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="wf-version" class="col-lg-2 control-label">Version</label>
+                        <div class="col-lg-6">
+                            <input type="number" data-bind="value: Version" 
+                                   required min="0"
+                                   placeholder="Version"
+                                   class="form-control" id="wf-version">
+                        </div>
+                    </div>
+                    <a href="#" class="pull-right" data-bind="click : addMapping">+ Mapping</a>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Variable Path</th>
+                                <th>Field</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach :WorkflowTriggerMapCollection">
+                            <tr>
+                                <td>
+                                    <input class="form-control" type="text" required pattern="^[A-Za-z][A-Za-z0-9_.]*$"  data-bind="value:VariablePath, uniqueName:true" />
+                                </td>
+                                <td>
+
+                                    <div class="btn-group">
+                                        <a data-bind="with : Field, bootstrapDropDown : {}" class="btn btn-link dropdown" href="#">
+                                            <img data-bind="fieldImage : $type" class="pull-left" alt="." />
+                                            <!-- ko text : Name -->
+                                            <!-- /ko -->
+                                            <span class="caret"></span>
+                                        </a>
+
+                                        <ul class="dropdown-menu">
+                                        
+                                            <li>
+                                                <a class="btn-add-document-setter-field" data-bind="unwrapClick: addField,field : 'Document', accessor : $data.Field" href="#">+ Document Field</a>
+                                            </li>
+                                            <li>
+                                                <a class="btn-add-constant-setter-field" data-bind="unwrapClick: addField,field : 'Constant', accessor : $data.Field" href="#">+ Constant Field</a>
+                                            </li>
+                                            <li>
+                                                <a class="btn-add-function-setter-field" data-bind="unwrapClick: addField,field : 'Function', accessor : $data.Field" href="#">+ Function Field</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="#" data-bind="click : $parent.removeMapping.call($parent,$data)">Buang</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="start=wf-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

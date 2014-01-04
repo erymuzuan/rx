@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle minify="true" runOnBuild="true" output="vendor.js">
+  <!--The order of the <file> elements determines the order of the file contents when bundled.-->
+  <file>/Scripts/jquery-2.0.3.js</file>
+  <file>/Scripts/jquery.validate.js</file>
+  <file>/Scripts/jquery.tablesorter.min.js</file>
+  <file>/Scripts/knockout-3.0.0.js</file>
+  <file>/Scripts/knockout.mapping-latest.js</file>
+  <file>/Scripts/toastr.js</file>
+  <file>/Scripts/typeahead.js</file>
+  <file>/Scripts/moment.js</file>
+  <file>/Scripts/modernizr-2.7.1.js</file>
+  <file>/Scripts/underscore.js</file>
+</bundle>

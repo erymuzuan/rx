@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Web.App_Start
             var theme = ConfigurationManager.AppSettings["theme"];
 
             bundles.Add(
-              new ScriptBundle("~/scripts/vendor")
+              new ScriptBundle("~/scripts/vendor.js")
                 .Include("~/scripts/jquery-{version}.js")
                 .Include("~/scripts/jquery.validate.js")
                 .Include("~/scripts/jquery.dataTables.min.js")
@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/scripts/typeahead.min.js")
               );
             bundles.Add(
-              new ScriptBundle("~/scripts/core")
+              new ScriptBundle("~/scripts/core.js")
                 .Include("~/App/objectbuilders.js")
                 .Include("~/scripts/string.js")
                 .Include("~/scripts/_pager.js")
@@ -75,7 +75,6 @@ namespace Bespoke.Sph.Web.App_Start
                 .Include("~/Content/nprogress.css")
                 .Include("~/Content/font-awesome.css")
                 .Include("~/Content/toastr.css")
-                .Include("~/Content/blueimp-gallery.css")
                 .Include("~/Content/typeahead.js-bootstrap.css")
                 .Include("~/Content/theme." + theme + "/style.css")
                 .Include("~/Content/theme." + theme + "/space.css")

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle minify="true" runOnBuild="true" output="css.css">
+  <!--The order of the <file> elements determines the order of the file contents when bundled.-->
+  <file>/kendo/styles/kendo.common.css</file>
+  <file>/kendo/styles/kendo.metro.css</file>
+  <file>/kendo/styles/kendo.dataviz.css</file>
+  <file>/kendo/styles/kendo.dataviz.metro.css</file>
+  <file>/Content/bootstrap.css</file>
+  <file>/Content/durandal.css</file>
+  <file>/Content/font-awesome.css</file>
+  <file>/Content/nprogress.css</file>
+  <file>/Content/typeahead.js-bootstrap.css</file>
+  <file>/Content/toastr.css</file>
+</bundle>

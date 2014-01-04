@@ -1,0 +1,123 @@
+﻿
+<section class="view-model-modal" id="monthly-schedule-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-bind="click : cancelClick">&times;</button>
+                <h3>Monthly Trigger Schedule</h3>
+            </div>
+            <div class="modal-body" data-bind="with: schedule">
+
+                <form class="form-horizontal" role="form" id="monthly-schedule-dialog-form">
+                    <!--ko compose:'_schedule.trigger.start.html' -->
+                    <!--/ko-->
+
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsJanuary" id="m-January" type="checkbox" name="IsJanuary" />
+                            January
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsFebruary" id="m-February" type="checkbox" name="IsFebruary" />
+                            February
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsMarch" id="m-March" type="checkbox" name="IsMarch" />
+                            March
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsApril" id="m-April" type="checkbox" name="IsApril" />
+                            April
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsMay" id="m-May" type="checkbox" name="IsMay" />
+                            May
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsJune" id="m-June" type="checkbox" name="IsJune" />
+                            June
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsJuly" id="m-July" type="checkbox" name="IsJuly" />
+                            July
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsAugust" id="m-August" type="checkbox" name="IsAugust" />
+                            August
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsSeptember" id="m-September" type="checkbox" name="IsSeptember" />
+                            September
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsOctober" id="m-October" type="checkbox" name="IsOctober" />
+                            October
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsNovember" id="m-November" type="checkbox" name="IsNovember" />
+                            November
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsDecember" id="m-December" type="checkbox" name="IsDecember" />
+                            December
+                        </label>
+                    </div>
+
+
+                    <h6>Days</h6>
+
+                    <!-- ko foreach : dateOptions -->
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: $parent.Days, value: $data" type="checkbox" />
+                            <!-- ko text : $data -->
+                            <!-- /ko -->
+
+                        </label>
+                    </div>
+
+                    <!-- /ko -->
+
+                    <div class="checkbox">
+                        <label>
+                            <input data-bind="checked: IsLastDay" id="m-IsLastDay" type="checkbox" name="IsLastDay" />
+                            Last Day
+                        </label>
+                    </div>
+
+
+                    <!--ko compose:'_schedule.trigger.advanced.setting.html' -->
+                    <!--/ko-->
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input form="monthly-schedule-dialog-form" data-dismiss="modal" type="submit" class="btn btn-primary" value="OK" data-bind="click: okClick" />
+                <a href="#" class="btn btn-default" data-dismiss="modal" data-bind="click : cancelClick">Cancel</a>
+            </div>
+        </div>
+    </div>
+</section>

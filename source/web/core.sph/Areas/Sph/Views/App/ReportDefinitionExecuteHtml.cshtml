@@ -1,0 +1,114 @@
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Web.ViewModels.RdlExecutionViewModel
+
+@{
+    Layout = null;
+}
+
+
+@if (null != Model.Rdl && Model.IsPostback)
+{
+    foreach (var layout in Model.Rdl.ReportLayoutCollection)
+    {
+        <div class="row">
+            @foreach (var item in layout.ReportItemCollection)
+            {
+                @Html.DisplayFor(m => item)
+            }
+        </div>
+    }
+}
+
+
+@if (!Model.IsPostback && null != Model.Rdl)
+{
+    var count = -1;
+
+    <div id="report-layout-panel">
+
+    </div>
+    <section class="modal hide" id="parameters-dialog">
+
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3>Parameters</h3>
+        </div>
+        <div class="modal-body" data-bind="with : datasource">
+            <form class="form-horizontal">
+                @foreach (var parm in Model.Rdl.DataSource.ParameterCollection)
+                {
+                    count++;
+                    if (parm.Type == typeof(string) && !string.IsNullOrWhiteSpace(parm.AvailableValues))
+                    {
+
+                        <div class="control-group">
+                            <label for="parameter@(count)" class="control-label">@parm.Label</label>
+                            <div class="controls">
+                                <select data-bind="value: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)">
+                                    <option>[Please Select]</option>
+                                    @foreach (var opt in parm.AvailableValues.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                                    {
+                                        <option value="@opt">@opt</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                    }
+
+                    if (parm.Type == typeof(string) && string.IsNullOrWhiteSpace(parm.AvailableValues))
+                    {
+                        <div class="control-group">
+                            <label for="parameter@(count)" class="control-label">@parm.Label</label>
+                            <div class="controls">
+                                <input data-bind="value: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)" type="text" />
+                            </div>
+                        </div>
+                    }
+                    if (parm.Type == typeof(DateTime))
+                    {
+                        <div class="control-group">
+                            <label for="parameter@(count)" class="control-label">@parm.Label</label>
+                            <div class="controls">
+                                <input data-bind="kendoDate: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)" type="text" />
+                            </div>
+                        </div>
+                    }
+                    if (parm.Type == typeof(decimal))
+                    {
+                        <div class="control-group">
+                            <label for="parameter@(count)" class="control-label">@parm.Label</label>
+                            <div class="controls">
+                                <input data-bind="value: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)" type="text" />
+                            </div>
+                        </div>
+                    }
+                    if (parm.Type == typeof(int))
+                    {
+                        <div class="control-group">
+                            <label for="parameter@(count)" class="control-label">@parm.Label</label>
+                            <div class="controls">
+                                <input data-bind="value: ParameterCollection()[@count].Value" id="parameter@(count)" name="parameter@(count)" type="number" />
+                            </div>
+                        </div>
+                    }
+
+                }
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <button data-dismiss="modal" type="button" class="btn btn-primary" data-bind="click: executeCommand">
+                <i class="fa fa-play"></i>
+                Run
+            </button>
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+        </div>
+    </section>
+
+
+
+
+
+
+}
