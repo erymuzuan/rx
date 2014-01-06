@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.App
+namespace Bespoke.Sph.Web.Areas.App.Views.UserProfile
 {
     using System;
     using System.Collections.Generic;
@@ -22,28 +22,30 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.App
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     using System.Web.Mvc.Html;
+    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    using Bespoke.Sph.Web;
     
-    #line 1 "..\..\Areas\Sph\Views\App\UserProfileJs.cshtml"
+    #line 1 "..\..\Areas\App\Views\UserProfile\Js.cshtml"
     using Newtonsoft.Json;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/App/UserProfileJs.cshtml")]
-    public partial class UserProfileJs : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.ViewModels.UserProfileViewModel>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/UserProfile/Js.cshtml")]
+    public partial class Js : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.ViewModels.UserProfileViewModel>
     {
-        public UserProfileJs()
+        public Js()
         {
         }
         public override void Execute()
         {
             
-            #line 3 "..\..\Areas\Sph\Views\App\UserProfileJs.cshtml"
+            #line 3 "..\..\Areas\App\Views\UserProfile\Js.cshtml"
   
     Layout = null;
 
@@ -61,7 +63,7 @@ WriteLiteral(">\r\n\r\n    define([objectbuilders.datacontext],\r\n        funct
 "(\'");
 
             
-            #line 11 "..\..\Areas\Sph\Views\App\UserProfileJs.cshtml"
+            #line 11 "..\..\Areas\App\Views\UserProfile\Js.cshtml"
                                  Write(Model.User.UserName);
 
             
@@ -98,7 +100,7 @@ WriteLiteral(@"'),
                 startModule: ko.observable('");
 
             
-            #line 39 "..\..\Areas\Sph\Views\App\UserProfileJs.cshtml"
+            #line 39 "..\..\Areas\App\Views\UserProfile\Js.cshtml"
                                        Write(Model.Profile.StartModule);
 
             
@@ -107,7 +109,7 @@ WriteLiteral(@"'),
 WriteLiteral("\'),\r\n                startModuleOptions : ko.observableArray(");
 
             
-            #line 40 "..\..\Areas\Sph\Views\App\UserProfileJs.cshtml"
+            #line 40 "..\..\Areas\App\Views\UserProfile\Js.cshtml"
                                                    Write(Html.Raw(JsonConvert.SerializeObject(Model.StartModuleOptions)));
 
             

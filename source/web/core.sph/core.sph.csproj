@@ -518,19 +518,9 @@
     <Compile Include="Areas\Sph\Controllers\SettingController.cs" />
     <Compile Include="Areas\Sph\Controllers\TriggerController.cs" />
     <Compile Include="Areas\Sph\Controllers\WatchController.cs" />
-    <Compile Include="default.aspx.cs">
-      <DependentUpon>default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="default.aspx.designer.cs">
-      <DependentUpon>default.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Dependencies\DummyChangeListener.cs" />
     <Compile Include="Dependencies\DummyChangeTracker.cs" />
     <Compile Include="Dependencies\DummySearchProvider.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\ControllerHelpers.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Models\ApplicationConfigurationViewModel.cs" />
@@ -792,15 +782,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Html.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\App\UserProfileHtml.generated.cs">
+    <Compile Include="Areas\App\Views\UserProfile\Html.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UserProfileHtml.cshtml</DependentUpon>
+      <DependentUpon>Html.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\App\UserProfileJs.generated.cs">
+    <Compile Include="Areas\App\Views\UserProfile\Js.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UserProfileJs.cshtml</DependentUpon>
+      <DependentUpon>Js.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\App\Views\Users\Html.generated.cs">
       <AutoGen>True</AutoGen>
@@ -1417,10 +1407,8 @@
     <Content Include="Content\typeahead.js-bootstrap.css" />
     <Content Include="Content\_semantic.home.css" />
     <Content Include="Content\_semantic.workflow.triggers.css" />
-    <Content Include="favicon.ico" />
     <EmbeddedResource Include="fonts\fontawesome-webfont.svg" />
     <EmbeddedResource Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Global.asax" />
     <EmbeddedResource Include="Images\add_icon.png" />
     <EmbeddedResource Include="Images\add_user.png" />
     <EmbeddedResource Include="Images\arrow.png" />
@@ -2076,7 +2064,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="Content\toastr.css" />
-    <Content Include="default.aspx" />
     <EmbeddedResource Include="Images\accent.png" />
     <Content Include="Images\azure\drawer-icons.1.png" />
     <Content Include="Images\azure\icon-drawer-add.png" />
@@ -2308,13 +2295,13 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>RoleSettingsJs.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\App\UserProfileHtml.cshtml">
+    <Content Include="Areas\App\Views\UserProfile\Html.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>UserProfileHtml.generated.cs</LastGenOutput>
+      <LastGenOutput>Html.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\App\UserProfileJs.cshtml">
+    <Content Include="Areas\App\Views\UserProfile\Js.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>UserProfileJs.generated.cs</LastGenOutput>
+      <LastGenOutput>Js.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\App\RoleSettingsHtml.cshtml">
       <Generator>RazorGenerator</Generator>

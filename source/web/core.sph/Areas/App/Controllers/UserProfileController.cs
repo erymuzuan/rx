@@ -10,13 +10,13 @@ using Newtonsoft.Json.Serialization;
 
 namespace Bespoke.Sph.Web.Areas.App.Controllers
 {
-    public partial class UserProfileController : BaseAppController
+    public class UserProfileController : BaseAppController
     {
-        public ActionResult UserProfileHtml()
+        public ActionResult Html()
         {
             return View();
         }
-        public async Task<ActionResult> UserProfileJs()
+        public async Task<ActionResult> Js()
         {
             var context = new SphDataContext();
             var user = Membership.GetUser();
@@ -38,9 +38,11 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 Profile = profile,
                 User = user,
                 StartModuleOptions = modules
-            }
-                ;
-            return View(vm);
+            };
+
+            var script = this.RenderRazorViewToJs("Js", vm);
+            this.Response.ContentType = APPLICATION_JAVASCRIPT;
+            return Content(script);
         }
     }
 }

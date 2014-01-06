@@ -103,15 +103,15 @@ WriteLiteral("></span>\r\n            </button>\r\n");
             #line hidden
 WriteLiteral("        <!-- Site name for smallar screens -->\r\n        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 466), Tuple.Create("\"", 496)
-, Tuple.Create(Tuple.Create("", 473), Tuple.Create("/#/", 473), true)
+WriteAttribute("href", Tuple.Create(" href=\"", 466), Tuple.Create("\"", 495)
+, Tuple.Create(Tuple.Create("", 473), Tuple.Create("#/", 473), true)
             
             #line 15 "..\..\Areas\App\Views\Header\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 476), Tuple.Create<System.Object, System.Int32>(ViewBag.StartModule
+, Tuple.Create(Tuple.Create("", 475), Tuple.Create<System.Object, System.Int32>(ViewBag.StartModule
             
             #line default
             #line hidden
-, 476), false)
+, 475), false)
 );
 
 WriteLiteral(" class=\"logo\"");
@@ -179,7 +179,7 @@ WriteLiteral(" class=\"dropdown-menu\"");
 
 WriteLiteral(">\r\n                        <li><a");
 
-WriteLiteral(" href=\"/#/user.profile\"");
+WriteLiteral(" href=\"#/user.profile\"");
 
 WriteLiteral("><i");
 
@@ -187,7 +187,7 @@ WriteLiteral(" class=\"fa fa-user\"");
 
 WriteLiteral("></i>Profile</a></li>\r\n                        <li><a");
 
-WriteLiteral(" href=\"/#/user.setting\"");
+WriteLiteral(" href=\"#/user.setting\"");
 
 WriteLiteral("><i");
 
@@ -195,14 +195,14 @@ WriteLiteral(" class=\"fa fa-cogs\"");
 
 WriteLiteral("></i>Settings</a></li>\r\n                        <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1360), Tuple.Create("\"", 1399)
+WriteAttribute("href", Tuple.Create(" href=\"", 1357), Tuple.Create("\"", 1416)
             
             #line 32 "..\..\Areas\App\Views\Header\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 1367), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff", "Account")
+, Tuple.Create(Tuple.Create("", 1364), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff", "Account", new {area = "Sph"})
             
             #line default
             #line hidden
-, 1367), false)
+, 1364), false)
 );
 
 WriteLiteral("><i");
@@ -246,21 +246,21 @@ WriteLiteral(">\r\n                    <li><a");
 
 WriteLiteral(" id=\"log-in\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1977), Tuple.Create("\"", 2015)
+WriteAttribute("href", Tuple.Create(" href=\"", 1994), Tuple.Create("\"", 2053)
             
             #line 51 "..\..\Areas\App\Views\Header\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 1984), Tuple.Create<System.Object, System.Int32>(Url.Action("Login", "Account")
+, Tuple.Create(Tuple.Create("", 2001), Tuple.Create<System.Object, System.Int32>(Url.Action("Login", "Account", new { area = "Sph"})
             
             #line default
             #line hidden
-, 1984), false)
+, 2001), false)
 );
 
 WriteLiteral(" class=\"login-label\"");
 
 WriteLiteral("><i");
 
-WriteLiteral(" class=\"fa fa-signin\"");
+WriteLiteral(" class=\"fa fa-sign-in\"");
 
 WriteLiteral("></i>  Log Masuk </a></li>\r\n                </ul>\r\n");
 

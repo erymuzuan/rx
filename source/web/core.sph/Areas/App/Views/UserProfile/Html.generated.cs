@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.App
+namespace Bespoke.Sph.Web.Areas.App.Views.UserProfile
 {
     using System;
     using System.Collections.Generic;
@@ -22,22 +22,24 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.App
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     using System.Web.Mvc.Html;
+    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/App/UserProfileHtml.cshtml")]
-    public partial class UserProfileHtml : System.Web.Mvc.WebViewPage<dynamic>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/UserProfile/Html.cshtml")]
+    public partial class Html : System.Web.Mvc.WebViewPage<dynamic>
     {
-        public UserProfileHtml()
+        public Html()
         {
         }
         public override void Execute()
         {
             
-            #line 1 "..\..\Areas\Sph\Views\App\UserProfileHtml.cshtml"
+            #line 1 "..\..\Areas\App\Views\UserProfile\Html.cshtml"
   
     ViewBag.Title = "UserprofileHtml";
     Layout = null;
@@ -48,7 +50,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.App
 WriteLiteral("\r\n\r\n<h1>Profil ");
 
             
-            #line 6 "..\..\Areas\Sph\Views\App\UserProfileHtml.cshtml"
+            #line 6 "..\..\Areas\App\Views\UserProfile\Html.cshtml"
       Write(User.Identity.Name);
 
             
