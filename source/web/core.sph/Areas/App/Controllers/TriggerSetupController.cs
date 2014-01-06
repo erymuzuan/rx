@@ -6,10 +6,10 @@ using Bespoke.Sph.Web.Helpers;
 
 namespace Bespoke.Sph.Web.Areas.App.Controllers
 {
-    public class TriggerController : BaseAppController
+    public class TriggerSetupController : BaseAppController
     {
 
-        public ActionResult TriggerSetupHtml()
+        public ActionResult Html()
         {
             return View();
         }

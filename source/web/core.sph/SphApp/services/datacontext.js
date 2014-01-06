@@ -3,9 +3,10 @@
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/loadoperation.js" />
 /// <reference path="logger.js" />
+/// <reference path="../objectbuilders.js" />
 /// <reference path="/SphApp/schemas/sph.domain.g.js" />
 
-define(['services/logger', 'durandal/system', 'durandal/knockout'],
+define(['services/logger', objectbuilders.system, 'durandal/knockout'],
 function (logger, system, ko2) {
     if (!window.ko && typeof ko2 === "object") {
         window.ko = ko2;

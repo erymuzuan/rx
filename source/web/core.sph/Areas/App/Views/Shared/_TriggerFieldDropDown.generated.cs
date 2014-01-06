@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Shared
+namespace Bespoke.Sph.Web.Areas.App.Views.Shared
 {
     using System;
     using System.Collections.Generic;
@@ -22,13 +22,15 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Shared
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     using System.Web.Mvc.Html;
+    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Shared/_TriggerFieldDropDown.cshtml")]
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Shared/_TriggerFieldDropDown.cshtml")]
     public partial class TriggerFieldDropDown : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.Models.TypeModel>
     {
         public TriggerFieldDropDown()
@@ -37,7 +39,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Shared
         public override void Execute()
         {
             
-            #line 2 "..\..\Areas\Sph\Views\Shared\_TriggerFieldDropDown.cshtml"
+            #line 2 "..\..\Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml"
   
     var fieldTypes = System.Configuration.ConfigurationManager.AppSettings["RuleFields"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -53,7 +55,7 @@ WriteLiteral(">\r\n    <a");
 WriteLiteral(" data-bind=\"with : ");
 
             
-            #line 7 "..\..\Areas\Sph\Views\Shared\_TriggerFieldDropDown.cshtml"
+            #line 7 "..\..\Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml"
                     Write(Model.Path);
 
             
@@ -86,7 +88,7 @@ WriteLiteral(">\r\n        <li");
 WriteLiteral(" data-bind=\"with : ");
 
             
-            #line 14 "..\..\Areas\Sph\Views\Shared\_TriggerFieldDropDown.cshtml"
+            #line 14 "..\..\Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml"
                          Write(Model.Path);
 
             
@@ -102,7 +104,7 @@ WriteLiteral(" data-bind=\"visible: Name() !== \'+ Field\',unwrapClick: $parent.
 "rent, $data, $parent.");
 
             
-            #line 15 "..\..\Areas\Sph\Views\Shared\_TriggerFieldDropDown.cshtml"
+            #line 15 "..\..\Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml"
                                                                                                                                     Write(Model.Path);
 
             
@@ -117,13 +119,13 @@ WriteLiteral(" class=\"fa fa-edit\"");
 WriteLiteral("></i>\r\n                Edit Field\r\n            </a>\r\n        </li>\r\n\r\n");
 
             
-            #line 21 "..\..\Areas\Sph\Views\Shared\_TriggerFieldDropDown.cshtml"
+            #line 21 "..\..\Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 21 "..\..\Areas\Sph\Views\Shared\_TriggerFieldDropDown.cshtml"
+            #line 21 "..\..\Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml"
          foreach (var type in fieldTypes)
         {
 
@@ -137,7 +139,7 @@ WriteLiteral(" class=\"btn btn-link\"");
 WriteLiteral(" data-bind=\"unwrapClick: addField, field : \'");
 
             
-            #line 24 "..\..\Areas\Sph\Views\Shared\_TriggerFieldDropDown.cshtml"
+            #line 24 "..\..\Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml"
                                                                               Write(type);
 
             
@@ -146,7 +148,7 @@ WriteLiteral(" data-bind=\"unwrapClick: addField, field : \'");
 WriteLiteral("\', accessor : $data.");
 
             
-            #line 24 "..\..\Areas\Sph\Views\Shared\_TriggerFieldDropDown.cshtml"
+            #line 24 "..\..\Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml"
                                                                                                        Write(Model.Path);
 
             
@@ -160,7 +162,7 @@ WriteLiteral(">\r\n                    <img");
 
 WriteAttribute("src", Tuple.Create(" src=\"", 1081), Tuple.Create("\"", 1130)
             
-            #line 25 "..\..\Areas\Sph\Views\Shared\_TriggerFieldDropDown.cshtml"
+            #line 25 "..\..\Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml"
 , Tuple.Create(Tuple.Create("", 1087), Tuple.Create<System.Object, System.Int32>(string.Format("/images/{0}Field.png",type)
             
             #line default
@@ -173,7 +175,7 @@ WriteLiteral(" class=\"pull-left\"");
 WriteLiteral("/>\r\n                    + ");
 
             
-            #line 26 "..\..\Areas\Sph\Views\Shared\_TriggerFieldDropDown.cshtml"
+            #line 26 "..\..\Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml"
                  Write(type);
 
             
@@ -182,7 +184,7 @@ WriteLiteral("/>\r\n                    + ");
 WriteLiteral("\r\n                </a>\r\n            </li>\r\n");
 
             
-            #line 29 "..\..\Areas\Sph\Views\Shared\_TriggerFieldDropDown.cshtml"
+            #line 29 "..\..\Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml"
         }
 
             

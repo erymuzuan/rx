@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.App
+namespace Bespoke.Sph.Web.Areas.App.Views.TriggerSetup
 {
     using System;
     using System.Collections.Generic;
@@ -22,33 +22,35 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.App
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     
-    #line 1 "..\..\Areas\Sph\Views\App\TriggerSetupHtml.cshtml"
+    #line 1 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
     using System.Web.Mvc.Html;
     
     #line default
     #line hidden
+    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    using Bespoke.Sph.Web;
     
-    #line 2 "..\..\Areas\Sph\Views\App\TriggerSetupHtml.cshtml"
+    #line 2 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
     using Bespoke.Sph.Web.Models;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/App/TriggerSetupHtml.cshtml")]
-    public partial class TriggerSetupHtml : System.Web.Mvc.WebViewPage<dynamic>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/TriggerSetup/Html.cshtml")]
+    public partial class Html : System.Web.Mvc.WebViewPage<dynamic>
     {
-        public TriggerSetupHtml()
+        public Html()
         {
         }
         public override void Execute()
         {
             
-            #line 3 "..\..\Areas\Sph\Views\App\TriggerSetupHtml.cshtml"
+            #line 3 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
   
     Layout = null;
 
@@ -316,7 +318,7 @@ WriteLiteral(">\r\n            <tr>\r\n                <td>\r\n");
 WriteLiteral("                    ");
 
             
-            #line 100 "..\..\Areas\Sph\Views\App\TriggerSetupHtml.cshtml"
+            #line 100 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
                Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Left" }));
 
             
@@ -368,7 +370,7 @@ WriteLiteral(">EndsWith</option>\r\n                    </select>\r\n           
 WriteLiteral("                    ");
 
             
-            #line 115 "..\..\Areas\Sph\Views\App\TriggerSetupHtml.cshtml"
+            #line 115 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
                Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Right" }));
 
             

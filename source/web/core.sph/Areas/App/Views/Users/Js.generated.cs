@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.App
+namespace Bespoke.Sph.Web.Areas.App.Views.Users
 {
     using System;
     using System.Collections.Generic;
@@ -22,28 +22,30 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.App
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     using System.Web.Mvc.Html;
+    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    using Bespoke.Sph.Web;
     
-    #line 1 "..\..\Areas\Sph\Views\App\UsersJs.cshtml"
+    #line 1 "..\..\Areas\App\Views\Users\Js.cshtml"
     using Newtonsoft.Json;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/App/UsersJs.cshtml")]
-    public partial class UsersJs : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.Areas.Sph.Controllers.AdminController>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Users/Js.cshtml")]
+    public partial class Js : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.Areas.Sph.Controllers.AdminController>
     {
-        public UsersJs()
+        public Js()
         {
         }
         public override void Execute()
         {
             
-            #line 3 "..\..\Areas\Sph\Views\App\UsersJs.cshtml"
+            #line 3 "..\..\Areas\App\Views\Users\Js.cshtml"
   
     ViewBag.Title = "UsersJs";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -66,7 +68,7 @@ WriteLiteral(">\r\n    define([objectbuilders.datacontext,\'viewmodels/_users.de
 "s = ");
 
             
-            #line 14 "..\..\Areas\Sph\Views\App\UsersJs.cshtml"
+            #line 14 "..\..\Areas\App\Views\Users\Js.cshtml"
                Write(Html.Raw(JsonConvert.SerializeObject(roles)));
 
             

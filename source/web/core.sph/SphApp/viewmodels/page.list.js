@@ -21,7 +21,7 @@ define(['services/datacontext', 'services/logger'],
 
             },
             editPage = function (page) {
-                var w = window.open("/editor/page/" + page.PageId() + "?mode=html", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),
+                var w = window.open("/sph/editor/page/" + page.PageId() + "?mode=html", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),
                     init = function () {
                         w.saved = function (code, close) {
                             page.Code(code);

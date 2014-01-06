@@ -204,13 +204,88 @@
     <Compile Include="Areas\App\Controllers\ConfigController.cs" />
     <Compile Include="Areas\App\Controllers\HeaderController.cs" />
     <Compile Include="Areas\App\Controllers\NavController.cs" />
-    <Compile Include="Areas\App\Controllers\ReportDefinitionController.cs" />
+    <Compile Include="Areas\App\Controllers\ReportDefinitionEditController.cs" />
     <Compile Include="Areas\App\Controllers\RoleController.cs" />
-    <Compile Include="Areas\App\Controllers\TriggerController.cs" />
-    <Compile Include="Areas\App\Controllers\UserController.cs" />
+    <Compile Include="Areas\App\Controllers\TriggerSetupController.cs" />
+    <Compile Include="Areas\App\Controllers\UsersController.cs" />
     <Compile Include="Areas\App\Controllers\UserProfileController.cs" />
     <Compile Include="Areas\App\Controllers\WorkflowController.cs" />
     <Compile Include="Areas\App\Controllers\WorkflowDraftController.cs" />
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\Html.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Html.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\TextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\_BarLineChartDesignerContextAction.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_BarLineChartDesignerContextAction.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\_ConfigurationColumnOptions.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_ConfigurationColumnOptions.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\_ConfigurationColumnProperties.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_ConfigurationColumnProperties.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\_ConfigurationDatasource.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_ConfigurationDatasource.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\_ConfigurationGeneral.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_ConfigurationGeneral.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\_ConfigurationPanel.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_ConfigurationPanel.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\_ConfigurationParameters.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_ConfigurationParameters.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\_DataGridDesignerContextAction.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_DataGridDesignerContextAction.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\_DesignerContextAction.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_DesignerContextAction.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\_LabelDesignerContextAction.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_LabelDesignerContextAction.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\_LineChartDesignerContextAction.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_LineChartDesignerContextAction.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\_PieChartDesignerContextAction.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_PieChartDesignerContextAction.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ReportDefinitionEdit\_Preview.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Preview.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\AccountController.cs" />
     <Compile Include="Areas\Sph\Controllers\AdminController.cs" />
@@ -227,6 +302,21 @@
     <Compile Include="Areas\Sph\Controllers\WorkflowDefinitionController.cs" />
     <Compile Include="Areas\Sph\Controllers\WorkflowController.cs" />
     <Compile Include="Areas\Sph\Controllers\WorkflowMonitorController.cs" />
+    <Compile Include="Areas\Sph\Views\Editor\Ace.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Ace.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Editor\Help.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Help.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\Sph\Views\Editor\Page.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Page.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\Sph\Views\Home\index.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -337,7 +427,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_PublicLayout.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\Shared\_TriggerFieldDropDown.generated.cs">
+    <Compile Include="Areas\App\Views\Shared\_TriggerFieldDropDown.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_TriggerFieldDropDown.cshtml</DependentUpon>
@@ -697,10 +787,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RoleSettingsJs.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\App\TriggerSetupHtml.generated.cs">
+    <Compile Include="Areas\App\Views\TriggerSetup\Html.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TriggerSetupHtml.cshtml</DependentUpon>
+      <DependentUpon>Html.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\Sph\Views\App\UserProfileHtml.generated.cs">
       <AutoGen>True</AutoGen>
@@ -712,15 +802,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserProfileJs.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\App\UsersHtml.generated.cs">
+    <Compile Include="Areas\App\Views\Users\Html.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UsersHtml.cshtml</DependentUpon>
+      <DependentUpon>Html.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\App\UsersJs.generated.cs">
+    <Compile Include="Areas\App\Views\Users\Js.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>UsersJs.cshtml</DependentUpon>
+      <DependentUpon>Js.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\Sph\Views\App\WorkflowDraftHtml.generated.cs">
       <AutoGen>True</AutoGen>
@@ -980,9 +1070,9 @@
     <EmbeddedResource Include="SphApp\schemas\domain.min.js">
       <DependentUpon>__domain.js.bundle</DependentUpon>
     </EmbeddedResource>
-    <Content Include="SphApp\schemas\report.builder.g.js" />
+    <EmbeddedResource Include="SphApp\schemas\report.builder.g.js" />
     <Content Include="SphApp\schemas\sph.domain.g.js" />
-    <Content Include="SphApp\schemas\trigger.workflow.g.js" />
+    <EmbeddedResource Include="SphApp\schemas\trigger.workflow.g.js" />
     <EmbeddedResource Include="SphApp\services\app.js" />
     <EmbeddedResource Include="SphApp\services\2cultures.my.js" />
     <EmbeddedResource Include="SphApp\services\datacontext.js" />
@@ -1126,7 +1216,7 @@
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <EmbeddedResource Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap\bootstrap-theme.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\doc.css" />
     <Content Include="Content\DataTables-1.9.4\docs\media\css\shCore.css" />
@@ -1210,7 +1300,7 @@
     <Content Include="Content\Diff.css" />
     <Content Include="Content\durandal.css" />
     <Content Include="Content\font-awesome.css" />
-    <Content Include="Content\font-awesome.min.css" />
+    <EmbeddedResource Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\ios-startup-image-landscape.png" />
     <Content Include="Content\images\ios-startup-image-portrait.png" />
     <Content Include="Content\img\1.png" />
@@ -1255,18 +1345,18 @@
     <Content Include="Content\jquery.contextMenu.css" />
     <Content Include="Content\jsplumb\demo-all.css" />
     <Content Include="Content\jsplumb\demo.css" />
-    <Content Include="Content\jsplumb\jsplumb.css">
-      <DependentUpon>jsplumb.css.bundle</DependentUpon>
-    </Content>
+    <EmbeddedResource Include="Content\jsplumb\jsplumb.css">
+      <DependentUpon>__jsplumb.css.bundle</DependentUpon>
+    </EmbeddedResource>
     <Content Include="Content\jsplumb\jsplumb.min.css">
-      <DependentUpon>jsplumb.css.bundle</DependentUpon>
+      <DependentUpon>__jsplumb.css.bundle</DependentUpon>
     </Content>
     <Content Include="Content\jsplumb\sph.wf.16.css" />
-    <Content Include="Content\jsplumb\sph.wf.16.png" />
+    <EmbeddedResource Include="Content\jsplumb\sph.wf.16.png" />
     <Content Include="Content\jsplumb\sph.wf.32.css" />
-    <Content Include="Content\jsplumb\sph.wf.32.png" />
+    <EmbeddedResource Include="Content\jsplumb\sph.wf.32.png" />
     <Content Include="Content\jsplumb\sph.wf.64.css" />
-    <Content Include="Content\jsplumb\sph.wf.64.png" />
+    <EmbeddedResource Include="Content\jsplumb\sph.wf.64.png" />
     <Content Include="Content\pretty-json.css" />
     <Content Include="Content\qunit-1.12.0.css" />
     <Content Include="Content\theme.matyie\building.css">
@@ -1366,13 +1456,13 @@
     <EmbeddedResource Include="Images\box-3-white.png" />
     <EmbeddedResource Include="Images\building_icon.png" />
     <EmbeddedResource Include="Images\ComplexVariable.png" />
-    <EmbeddedResource Include="Images\constantfield.png" />
+    <EmbeddedResource Include="Images\ConstantField.png" />
     <EmbeddedResource Include="Images\CreateEntityActivity.png" />
     <EmbeddedResource Include="Images\dashboard-pemeriksaan.png" />
     <EmbeddedResource Include="Images\dashboard-penyenggaraan.png" />
     <EmbeddedResource Include="Images\dashboard-pro.png" />
     <EmbeddedResource Include="Images\DecisionActivity.png" />
-    <EmbeddedResource Include="Images\documentfield.png" />
+    <EmbeddedResource Include="Images\DocumentField.png" />
     <EmbeddedResource Include="Images\down8.png" />
     <EmbeddedResource Include="Images\edit_icon.png" />
     <EmbeddedResource Include="Images\EmailAction.png" />
@@ -1391,7 +1481,7 @@
     <EmbeddedResource Include="Images\no-image2.png" />
     <EmbeddedResource Include="Images\NotificationActivity.png" />
     <EmbeddedResource Include="Images\propertychanged.png" />
-    <EmbeddedResource Include="Images\functionfield.png" />
+    <EmbeddedResource Include="Images\FunctionField.png" />
     <EmbeddedResource Include="Images\home.png" />
     <EmbeddedResource Include="Images\line-chart256.png" />
     <Content Include="Images\maps\office-building.png" />
@@ -1479,8 +1569,9 @@
     </Content>
     <Content Include="Scripts\almond-custom.js" />
     <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <EmbeddedResource Include="Scripts\bootstrap.min.js" />
     <EmbeddedResource Include="SphApp\services\cultures.my.js" />
+    <EmbeddedResource Include="SphApp\services\system.js" />
     <Content Include="SphApp\viewmodels\shell.min.js.map">
       <DependentUpon>shell.js</DependentUpon>
     </Content>
@@ -1513,7 +1604,7 @@
     <EmbeddedResource Include="Scripts\durandal\viewLocator.js" />
     <Content Include="weyland-config.js" />
     <Content Include="Areas\App\Views\web.config" />
-    <None Include="Content\jsplumb\jsplumb.css.bundle">
+    <None Include="Content\jsplumb\__jsplumb.css.bundle">
       <SubType>Designer</SubType>
     </None>
     <Content Include="Content\jsplumb\OpenSans.woff" />
@@ -1537,14 +1628,14 @@
     <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
-    <Content Include="Scripts\jquery-2.0.3.min.js" />
+    <EmbeddedResource Include="Scripts\jquery-2.0.3.min.js" />
     <EmbeddedResource Include="Scripts\jquery-ui-1.10.3.custom.min.js" />
     <Content Include="Scripts\jquery.contextMenu.js" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.mousewheel.js" />
     <Content Include="Scripts\jquery.scrollTo.js" />
     <Content Include="Scripts\jquery.signalR-2.0.1.js" />
-    <Content Include="Scripts\jquery.signalR-2.0.1.min.js" />
+    <EmbeddedResource Include="Scripts\jquery.signalR-2.0.1.min.js" />
     <Content Include="Scripts\jquery.tablesorter.min.js" />
     <Content Include="Scripts\jquery.ui.position.js" />
     <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
@@ -1588,7 +1679,7 @@
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
     <EmbeddedResource Include="Scripts\knockout-3.0.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
-    <Content Include="Scripts\knockout.mapping-latest.js" />
+    <EmbeddedResource Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\loadoperation.js" />
     <Content Include="Scripts\modernizr-2.7.1.js" />
     <Content Include="Scripts\moment+langs.js" />
@@ -1596,12 +1687,12 @@
     <Content Include="Scripts\moment-with-langs.js" />
     <Content Include="Scripts\moment-with-langs.min.js" />
     <Content Include="Scripts\moment.js" />
-    <Content Include="Scripts\moment.min.js" />
+    <EmbeddedResource Include="Scripts\moment.min.js" />
     <Content Include="Scripts\nprogress.js" />
     <Content Include="Scripts\qunit-1.12.0.js" />
     <Content Include="Scripts\r.js" />
     <EmbeddedResource Include="Scripts\require.js" />
-    <Content Include="Scripts\ace\ace.js" />
+    <EmbeddedResource Include="Scripts\ace\ace.js" />
     <Content Include="Scripts\ace\ext-chromevox.js" />
     <Content Include="Scripts\ace\ext-elastic_tabstops_lite.js" />
     <Content Include="Scripts\ace\ext-emmet.js" />
@@ -1652,7 +1743,7 @@
     <Content Include="Scripts\ace\mode-handlebars.js" />
     <Content Include="Scripts\ace\mode-haskell.js" />
     <Content Include="Scripts\ace\mode-haxe.js" />
-    <Content Include="Scripts\ace\mode-html.js" />
+    <EmbeddedResource Include="Scripts\ace\mode-html.js" />
     <Content Include="Scripts\ace\mode-html_completions.js" />
     <Content Include="Scripts\ace\mode-html_ruby.js" />
     <Content Include="Scripts\ace\mode-ini.js" />
@@ -1847,7 +1938,7 @@
     <Content Include="Scripts\ace\theme-kr.js" />
     <Content Include="Scripts\ace\theme-merbivore.js" />
     <Content Include="Scripts\ace\theme-merbivore_soft.js" />
-    <Content Include="Scripts\ace\theme-monokai.js" />
+    <EmbeddedResource Include="Scripts\ace\theme-monokai.js" />
     <Content Include="Scripts\ace\theme-mono_industrial.js" />
     <Content Include="Scripts\ace\theme-pastel_on_dark.js" />
     <Content Include="Scripts\ace\theme-solarized_dark.js" />
@@ -1876,11 +1967,11 @@
     <Content Include="Scripts\typeahead.js" />
     <Content Include="Scripts\typeahead.min.js" />
     <Content Include="Scripts\underscore.js" />
-    <Content Include="Scripts\underscore.min.js" />
+    <EmbeddedResource Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_constants.js" />
-    <Content Include="Scripts\_function.prototypes.js" />
+    <EmbeddedResource Include="Scripts\_function.prototypes.js" />
     <EmbeddedResource Include="Scripts\_ko.workflow.js" />
-    <Content Include="Scripts\_ko.kendo.js" />
+    <EmbeddedResource Include="Scripts\_ko.kendo.js" />
     <Content Include="Scripts\_ko.bootstrap.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Scripts\_task.js" />
@@ -1891,7 +1982,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\App\Models\" />
     <Folder Include="Areas\App\Views\ReportDefinition\" />
-    <Folder Include="Areas\App\Views\Shared\" />
     <Folder Include="Areas\Sph\Models\" />
     <Folder Include="Areas\Sph\Views\Base\" />
     <Folder Include="Areas\Sph\Views\EntityDefinition\" />
@@ -2183,7 +2273,7 @@
   <ItemGroup>
     <Content Include="ruang.komersil.utility.ledger.xlsx" />
     <Content Include="Scripts\_pager.js" />
-    <Content Include="Scripts\_utils.js" />
+    <EmbeddedResource Include="Scripts\_utils.js" />
     <Content Include="ScriptTests\datacontext.aggregate.js" />
     <Content Include="ScriptTests\datacontext.toObservable.workflow.js" />
     <Content Include="ScriptTests\datacontext.toObservable.js" />
@@ -2211,13 +2301,13 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Index.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\App\UsersHtml.cshtml">
+    <Content Include="Areas\App\Views\Users\Html.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>UsersHtml.generated.cs</LastGenOutput>
+      <LastGenOutput>Html.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\App\UsersJs.cshtml">
+    <Content Include="Areas\App\Views\Users\Js.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>UsersJs.generated.cs</LastGenOutput>
+      <LastGenOutput>Js.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\Home\index.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -2263,9 +2353,9 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>RoleSettingsHtml.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\App\TriggerSetupHtml.cshtml">
+    <Content Include="Areas\App\Views\TriggerSetup\Html.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>TriggerSetupHtml.generated.cs</LastGenOutput>
+      <LastGenOutput>Html.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\Template\DisplayTemplates\CheckBox.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -2409,20 +2499,44 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>LabelItem.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\ReportDefinition\Index.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\DisplayTemplates\LabelItem.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\TextBox.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\_DesignerContextAction.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\DisplayTemplates\PieChartItem.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\DisplayTemplates\LineChartItem.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\DisplayTemplates\DataGridItem.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\DisplayTemplates\LineItem.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\DisplayTemplates\BarChartItem.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\_LabelDesignerContextAction.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\_ConfigurationPanel.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\_ConfigurationGeneral.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\_ConfigurationParameters.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\_ConfigurationDatasource.cshtml" />
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\Html.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Html.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\LabelItem.cshtml" />
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\TextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\_DesignerContextAction.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_DesignerContextAction.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\PieChartItem.cshtml" />
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\LineChartItem.cshtml" />
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\DataGridItem.cshtml" />
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\LineItem.cshtml" />
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\DisplayTemplates\BarChartItem.cshtml" />
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\_LabelDesignerContextAction.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_LabelDesignerContextAction.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\_ConfigurationPanel.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ConfigurationPanel.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\_ConfigurationGeneral.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ConfigurationGeneral.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\_ConfigurationParameters.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ConfigurationParameters.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\_ConfigurationDatasource.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ConfigurationDatasource.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Areas\Sph\Views\App\ReportDefinitionExecuteJs.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ReportDefinitionExecuteJs.generated.cs</LastGenOutput>
@@ -2455,13 +2569,34 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>PieChartItem.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\ReportDefinition\_DataGridDesignerContextAction.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\_LineChartDesignerContextAction.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\_ConfigurationColumnOptions.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\_ConfigurationColumnProperties.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\_PieChartDesignerContextAction.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\_Preview.cshtml" />
-    <Content Include="Areas\Sph\Views\ReportDefinition\_BarLineChartDesignerContextAction.cshtml" />
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\_DataGridDesignerContextAction.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_DataGridDesignerContextAction.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\_LineChartDesignerContextAction.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_LineChartDesignerContextAction.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\_ConfigurationColumnOptions.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ConfigurationColumnOptions.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\_ConfigurationColumnProperties.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ConfigurationColumnProperties.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\_PieChartDesignerContextAction.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_PieChartDesignerContextAction.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\_Preview.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_Preview.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ReportDefinitionEdit\_BarLineChartDesignerContextAction.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_BarLineChartDesignerContextAction.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Areas\Sph\Views\Template\DisplayTemplates\HtmlElement.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>HtmlElement.generated.cs</LastGenOutput>
@@ -2554,7 +2689,7 @@
     <Content Include="Scripts\_ko.kendo.min.js.map">
       <DependentUpon>_ko.kendo.js</DependentUpon>
     </Content>
-    <Content Include="Areas\Sph\Views\Shared\_TriggerFieldDropDown.cshtml">
+    <Content Include="Areas\App\Views\Shared\_TriggerFieldDropDown.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_TriggerFieldDropDown.generated.cs</LastGenOutput>
     </Content>
@@ -2562,7 +2697,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_PublicLayout.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Editor\Ace.cshtml" />
+    <Content Include="Areas\Sph\Views\Editor\Ace.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Ace.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Areas\Sph\Views\Template\_BusinessRule.cshtml" />
     <Content Include="Areas\Sph\Views\WorkflowDefinition\ScreenHtml.cshtml" />
     <Content Include="Areas\Sph\Views\WorkflowDefinition\_Toolbox.cshtml" />
@@ -2663,7 +2801,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>WorkflowDraftHtml.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Editor\Page.cshtml" />
+    <Content Include="Areas\Sph\Views\Editor\Page.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Page.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Areas\Sph\Views\Page\Compare.cshtml" />
     <Content Include="Areas\Sph\Views\Page\DiffLine.cshtml" />
     <Content Include="Areas\Sph\Views\Page\DiffPane.cshtml" />
@@ -2698,7 +2839,10 @@
       <LastGenOutput>_Toolbar.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\WorkflowDefinition\ScreenEditor.cshtml" />
-    <Content Include="Areas\Sph\Views\Editor\Help.cshtml" />
+    <Content Include="Areas\Sph\Views\Editor\Help.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Help.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\__vendor.js.bundle" />
     <EmbeddedResource Include="Scripts\vendor.min.js.map">
       <DependentUpon>__vendor.js.bundle</DependentUpon>

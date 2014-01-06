@@ -144,8 +144,8 @@
   {
     "role": "admin_dashboard",
     "groupName": null,
-    "route": "reportdefinition.edit-id.0/:id",
-    "moduleId": "viewmodels/reportdefinition.edit-id.0",
+    "route": "reportdefinition.edit/:id",
+    "moduleId": "viewmodels/reportdefinition.edit",
     "title": "Report Builder",
     "nav": false,
     "icon": "fa-laptop",

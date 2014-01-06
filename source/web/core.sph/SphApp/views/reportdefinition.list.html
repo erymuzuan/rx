@@ -15,12 +15,12 @@
     <tbody data-bind="foreach: reports">
         <tr>
             <td>
-                <a class="execute-report" data-bind="attr: { href: '/#/reportdefinition.execute-id.' + ReportDefinitionId()  + '/' + ReportDefinitionId(), title:Title}" >
+                <a class="execute-report" data-bind="attr: { href: '#/reportdefinition.execute-id.' + ReportDefinitionId()  + '/' + ReportDefinitionId(), title:Title}" >
                     <i class="fa fa-play"></i>
                 </a>
             </td>
             <td>
-                <a data-bind="attr: { href: '/#/reportdefinition.edit-id.0/' + ReportDefinitionId() }, text: Title" ></a> 
+                <a data-bind="attr: { href: '#/reportdefinition.edit/' + ReportDefinitionId() }, text: Title" ></a> 
             </td>
             <td data-bind="text:CreatedBy"></td>
             <td data-bind="text:IsPrivate">
@@ -28,7 +28,7 @@
             </td>
             <td data-bind="text:IsActive"></td>
             <td>
-                <a href="/#/reportdefinition.list" data-bind="attr: { href: '/#/reportdelivery.schedule/' + ReportDefinitionId() }">
+                <a href="/#/reportdefinition.list" data-bind="attr: { href: '#/reportdelivery.schedule/' + ReportDefinitionId() }">
                     <i class="fa fa-calendar"></i>
                 </a>
             </td>

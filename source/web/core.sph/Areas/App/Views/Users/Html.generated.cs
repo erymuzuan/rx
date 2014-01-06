@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.App
+namespace Bespoke.Sph.Web.Areas.App.Views.Users
 {
     using System;
     using System.Collections.Generic;
@@ -22,22 +22,24 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.App
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
     using System.Web.Mvc.Html;
+    using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/App/UsersHtml.cshtml")]
-    public partial class UsersHtml : System.Web.Mvc.WebViewPage<dynamic>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Users/Html.cshtml")]
+    public partial class Html : System.Web.Mvc.WebViewPage<dynamic>
     {
-        public UsersHtml()
+        public Html()
         {
         }
         public override void Execute()
         {
             
-            #line 1 "..\..\Areas\Sph\Views\App\UsersHtml.cshtml"
+            #line 1 "..\..\Areas\App\Views\Users\Html.cshtml"
   
     ViewBag.Title = "Users";
     Layout = "~/Views/Shared/_Layout.cshtml";

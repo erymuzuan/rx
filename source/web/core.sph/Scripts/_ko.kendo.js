@@ -2,11 +2,11 @@
 /// <reference path="underscore.js" />
 /// <reference path="moment.js" />
 /// <reference path="~/Scripts/jquery-2.0.3.intellisense.js" />
-/// <reference path="~/App/durandal/amd/require.js" />
+/// <reference path="~/Scripts/require.js" />
 /// <reference path="~/kendo/js/kendo.all.js" />
 /// <reference path="_pager.js" />
-/// <reference path="/App/services/datacontext.js" />
-/// <reference path="/App/objectbuilders.js" />
+/// <reference path="/SphApp/services/datacontext.js" />
+/// <reference path="/SphApp/objectbuilders.js" />
 
 
 

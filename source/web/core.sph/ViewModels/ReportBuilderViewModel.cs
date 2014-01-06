@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Web.ViewModels
             this.ToolboxItems.Add(new PieChartItem { Name = "Pie Chart", CssClass = "icon-report-piechart" });
         }
 
-        public ReportDefinition ReportDefinition { set; get; }
+        //public ReportDefinition ReportDefinition { set; get; }
         private readonly ObjectCollection<ReportItem> m_toolboxItemCollection = new ObjectCollection<ReportItem>();
         public ObjectCollection<ReportItem> ToolboxItems
         {

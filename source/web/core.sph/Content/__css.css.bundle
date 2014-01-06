@@ -11,4 +11,16 @@
   <file>/Content/nprogress.css</file>
   <file>/Content/typeahead.js-bootstrap.css</file>
   <file>/Content/toastr.css</file>
+  
+	<file>/Content/theme.matyie/style.css</file>
+	<file>/Content/theme.matyie/space.css</file>
+	<file>/Content/theme.matyie/site.css</file>
+	<file>/Content/theme.matyie/header.css</file>
+	<file>/Content/theme.matyie/nav.css</file>
+	<file>/Content/theme.matyie/dashboard.css</file>
+	<file>/Content/theme.matyie/user.css</file>
+	<file>/Content/theme.matyie/report.css</file>
+	<file>/Content/theme.matyie/workflow.triggers.css</file>
+	<file>/Content/theme.matyie/dashboard.css</file>
+  
 </bundle>

@@ -19,7 +19,7 @@ namespace Bespoke.Sph.SubscribersInfrastructure
         /// <returns></returns>
         protected virtual uint GetParallelProcessing()
         {
-            return 2;
+            return 1;
         }
 
         public override void Run()
@@ -56,23 +56,24 @@ namespace Bespoke.Sph.SubscribersInfrastructure
             using (var conn = factory.CreateConnection())
             using (var channel = conn.CreateModel())
             {
-                channel.BasicQos(this.GetParallelProcessing(), (ushort)this.GetParallelProcessing(), false);
                 channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true);
 
                 channel.ExchangeDeclare(deadLetterExchange, ExchangeType.Topic, true);
                 var args = new Dictionary<string, object> { { "x-dead-letter-exchange", deadLetterExchange } };
                 channel.QueueDeclare(this.QueueName, true, false, false, args);
+                 
                 channel.QueueDeclare(deadLetterQueue, true, false, false, args);
                 channel.QueueBind(deadLetterQueue, deadLetterExchange, "#", null);
                 channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.added", null);
                 channel.QueueBind(deadLetterQueue, deadLetterExchange, "*.changed", null);
-               
+
 
                 foreach (var s in this.RoutingKeys)
                 {
                     channel.QueueBind(this.QueueName, exchangeName, s, null);
                 }
-
+                channel.BasicQos(0, (ushort)this.GetParallelProcessing(), false);
+              
                 var consumer = new TaskBasicConsumer(channel);
                 consumer.Received += async (s, e) =>
                 {
@@ -96,13 +97,11 @@ namespace Bespoke.Sph.SubscribersInfrastructure
                         })
                         .Wait();
 
-
-
                 };
 
 
                 channel.BasicConsume(this.QueueName, noAck, consumer);
-            
+
                 var stopRequested = await Stoping();
                 if (stopRequested)
                 {

@@ -2,14 +2,14 @@
 
 namespace Bespoke.Sph.Web.Areas.App.Controllers
 {
-    public partial class UserController : BaseAppController
+    public partial class UsersController : BaseAppController
     {
-        public ActionResult UsersJs()
+        public ActionResult Js()
         {
             return View();
         }
 
-        public ActionResult UsersHtml()
+        public ActionResult Html()
         {
             return View();
         }
