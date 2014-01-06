@@ -12,7 +12,8 @@
     <title>@ViewBag.Title - SPH</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
-    @Styles.Render("~/Content/css")
+    <link href="~/Content/css.css" rel="stylesheet" />
+
 </head>
 <body>
     <div id="body" class="container">
@@ -31,7 +32,7 @@
                         <h2>Daftar Masuk Pengguna</h2>
                         @if (!@ViewData.ModelState.IsValid)
                         {
-                            <div class="alert alert-error">
+                            <div class="alert alert-danger">
                                 <a class="close" data-dismiss="alert" href="#">&times;</a>
                                 Nama Pengguna dan Kata laluan tidak sah!
                             </div>

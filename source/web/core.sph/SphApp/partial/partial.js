@@ -1754,7 +1754,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                     if (typeof dialog.wd === "function") {
                         dialog.wd(self);
                     }
-                    app2.showModal(dialog)
+                    app2.showDialog(dialog)
                         .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {
@@ -1781,7 +1781,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                         dialog.wd(self);
                     }
 
-                    app2.showModal(dialog)
+                    app2.showDialog(dialog)
                         .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {
@@ -1809,7 +1809,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                     if (typeof dialog.wd === "function") {
                         dialog.wd(self);
                     }
-                    app2.showModal(dialog)
+                    app2.showDialog(dialog)
                         .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {
@@ -1835,7 +1835,7 @@ bespoke.sph.domain.WorkflowDefinitionPartial = function (model) {
                         dialog.wd(self);
                     }
 
-                    app2.showModal(dialog)
+                    app2.showDialog(dialog)
                         .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {

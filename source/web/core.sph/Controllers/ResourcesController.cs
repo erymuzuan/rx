@@ -8,130 +8,95 @@ namespace Bespoke.Sph.Web.Controllers
 {
     public class ResourcesController : Controller
     {
-        public ActionResult SphApp(string id)
+        private ActionResult GetResource(string id, string folder)
         {
-            Console.WriteLine("-*-*-*-*-");
-            Console.WriteLine(id);
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "Bespoke.Sph.Web.SphApp." + id;
+            var contentType = MimeMapping.GetMimeMapping(Path.GetExtension(id) ?? ".txt");
 
-            Console.WriteLine(this.Request.Path);
-            Console.WriteLine(this.Request.RawUrl);
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = string.Format("Bespoke.Sph.Web.{0}.{1}", folder, id);
+
             var raw = this.Request.RawUrl;
             if (raw.StartsWith("/~"))
                 raw = raw.Remove(0, 1);
             else if (raw.StartsWith("/"))
                 raw = "~" + raw;
-
+            if (raw.Contains("?"))
+                raw = raw.Remove(raw.IndexOf("?", StringComparison.InvariantCultureIgnoreCase));
+            
             var file = Server.MapPath(raw);
             if (System.IO.File.Exists(file))
             {
-                var extension = Path.GetExtension(file) ?? ".js";
-                return File(System.IO.File.ReadAllBytes(file), MimeMapping.GetMimeMapping(extension));
+                return File(System.IO.File.ReadAllBytes(file), contentType);
             }
 
-
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
+            var stream = assembly.GetManifestResourceStream(resourceName);
+            if (null != stream)
             {
-                if (null == stream)
-                {
-                    if (id.StartsWith("viewmodels"))
-                    {
-                        var controller = id.Replace("views.", "")
-                         .Replace(".html", "")
-                         .Replace(".", "");
-                        return RedirectToAction("Html", controller, new { area = "App" });
-
-
-                    }
-                    if (id.StartsWith("views.") && id.EndsWith(".html"))
-                    {
-                        var controller = id.Replace("views.", "")
-                            .Replace(".html", "")
-                            .Replace(".", "");
-                        return RedirectToAction("Html", controller, new { area = "App" });
-                    }
-                    return Content("[DAMNIT] why can't i get the " + id);
-                }
-                using (var reader = new StreamReader(stream))
-                {
-                    string result = reader.ReadToEnd();
-                    this.Response.ContentType = MimeMapping.GetMimeMapping(Path.GetExtension(id));
-                    return Content(result);
-                }
+                return File(stream, contentType);
             }
+
+            if (id.StartsWith("viewmodels") && id.EndsWith(".js"))
+            {
+                var controller = id.Replace("viewmodels.", "")
+                 .Replace(".js", "")
+                 .Replace(".", "");
+                return RedirectToAction("Js", controller, new { area = "App" });
+
+
+            }
+            if (id.StartsWith("views.") && id.EndsWith(".html"))
+            {
+                var controller = id.Replace("views.", "")
+                    .Replace(".html", "")
+                    .Replace(".", "");
+                return RedirectToAction("Html", controller, new { area = "App" });
+            }
+            return Content("[DAMNIT] why can't i get the " + id);
+
+
+
+        }
+
+        public ActionResult SphApp(string id)
+        {
+            return GetResource(id, "SphApp");
         }
 
         public ActionResult Scripts(string id)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "Bespoke.Sph.Web.Scripts." + id;
+            return GetResource(id, "Scripts");
 
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
-            using (var reader = new StreamReader(stream))
-            {
-                string result = reader.ReadToEnd();
-                this.Response.ContentType = "application/javascript";
-                return Content(result);
-            }
         }
 
         public ActionResult Kendo(string id)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "Bespoke.Sph.Web.kendo." + id;
-
-            var stream = assembly.GetManifestResourceStream(resourceName);
-
-            var ct = MimeMapping.GetMimeMapping(Path.GetExtension(id));
-            return File(stream, ct);
-
+            return GetResource(id, "kendo");
         }
 
         public ActionResult Images(string id)
         {
-            Console.WriteLine("************");
-            Console.WriteLine(id);
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "Bespoke.Sph.Web.Images." + id;
+            return GetResource(id, "Images");
 
-            var stream = assembly.GetManifestResourceStream(resourceName);
-
-            var ct = MimeMapping.GetMimeMapping(Path.GetExtension(id));
-            return File(stream, ct);
 
         }
 
         [ActionName("Content")]
         public ActionResult Css(string id)
         {
-            Console.WriteLine("************");
-            Console.WriteLine(id);
+
             if (id == "jsplumb.js")
                 id = "jsplumb.jsplumb.css";
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "Bespoke.Sph.Web.Content." + id;
 
-            var stream = assembly.GetManifestResourceStream(resourceName);
 
-            var ct = MimeMapping.GetMimeMapping(Path.GetExtension(id));
-            return File(stream, ct);
+            return GetResource(id, "Content");
+
+
 
         }
         public ActionResult Fonts(string id)
         {
-            Console.WriteLine("************");
-            Console.WriteLine(id);
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "Bespoke.Sph.Web.fonts." + id;
+            return GetResource(id, "fonts");
 
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
-            using (var reader = new StreamReader(stream))
-            {
-                string result = reader.ReadToEnd();
-                this.Response.ContentType = MimeMapping.GetMimeMapping(Path.GetExtension(id));
-                return Content(result);
-            }
         }
     }
 }

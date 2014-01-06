@@ -1212,7 +1212,6 @@
     <EmbeddedResource Include="SphApp\views\_users.department.html" />
     <EmbeddedResource Include="SphApp\views\_workflow.definition.activities.html" />
     <EmbeddedResource Include="SphApp\views\_workflow.definition.variables.html" />
-    <Content Include="code.snippets.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -1308,34 +1307,10 @@
     <Content Include="Content\img\3.png" />
     <Content Include="Content\img\4.png" />
     <Content Include="Content\img\5.png" />
-    <Content Include="Content\img\blog-sidebar1.jpg" />
-    <Content Include="Content\img\blog-sidebar2.jpg" />
-    <Content Include="Content\img\blog-sidebar3.jpg" />
-    <Content Include="Content\img\blog1.jpg" />
-    <Content Include="Content\img\blog1.png" />
-    <Content Include="Content\img\blog2.jpg" />
-    <Content Include="Content\img\blog2.png" />
-    <Content Include="Content\img\blog3.png" />
-    <Content Include="Content\img\blog4.png" />
-    <Content Include="Content\img\favicon.ico" />
-    <Content Include="Content\img\feature1.png" />
-    <Content Include="Content\img\feature2.png" />
-    <Content Include="Content\img\feature3.png" />
     <Content Include="Content\img\glyphicons-halflings-white.png" />
     <Content Include="Content\img\glyphicons-halflings.png" />
-    <Content Include="Content\img\logo.png" />
-    <Content Include="Content\img\logo_mobile.png" />
     <Content Include="Content\img\portfolio-image.jpg" />
     <Content Include="Content\img\portfolio-image2.jpg" />
-    <Content Include="Content\img\social\digg.png" />
-    <Content Include="Content\img\social\Dribbble.png" />
-    <Content Include="Content\img\social\Facebook.png" />
-    <Content Include="Content\img\social\Flickr.png" />
-    <Content Include="Content\img\social\Github.png" />
-    <Content Include="Content\img\social\Linkedin.png" />
-    <Content Include="Content\img\social\Pinterest.png" />
-    <Content Include="Content\img\social\Reddit.png" />
-    <Content Include="Content\img\social\Twitter.png" />
     <Content Include="Content\img\syncfusion-icons-white.png" />
     <Content Include="Content\img\syncfusion-icons.png" />
     <Content Include="Content\img\team1.jpg" />
@@ -1502,8 +1477,6 @@
     <EmbeddedResource Include="Images\star.png" />
     <EmbeddedResource Include="Images\up8.png" />
     <EmbeddedResource Include="Images\warning.png" />
-    <Content Include="roles.config.js" />
-    <Content Include="routes.config.js" />
     <EmbeddedResource Include="SphApp\viewmodels\message.detail.js" />
     <Content Include="Content\less\alerts.less" />
     <Content Include="Content\less\badges.less" />
@@ -1545,8 +1518,6 @@
     <Content Include="Content\less\utilities.less" />
     <Content Include="Content\less\variables.less" />
     <Content Include="Content\less\wells.less" />
-    <Content Include="Content\img\social\Thumbs.db" />
-    <Content Include="Content\img\Thumbs.db" />
     <Content Include="Content\theme.matyie\dashboard.less" />
     <Content Include="Content\theme.matyie\site.less" />
     <Content Include="Content\theme.matyie\header.less" />
@@ -2271,7 +2242,6 @@
     <Content Include="kendo\styles\images\KendoUI.woff" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ruang.komersil.utility.ledger.xlsx" />
     <Content Include="Scripts\_pager.js" />
     <EmbeddedResource Include="Scripts\_utils.js" />
     <Content Include="ScriptTests\datacontext.aggregate.js" />
@@ -2329,9 +2299,6 @@
     <Content Include="Areas\Sph\Views\_ViewStart.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_ViewStart.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
     </Content>
     <Content Include="Areas\App\Views\Header\Html.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -2997,12 +2964,6 @@
     <EmbeddedResource Include="SphApp\schemas\domain.min.js.map">
       <DependentUpon>__domain.js.bundle</DependentUpon>
     </EmbeddedResource>
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

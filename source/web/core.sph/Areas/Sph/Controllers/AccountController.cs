@@ -14,7 +14,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         public ActionResult Logoff()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
+            return Redirect("/");
         }
 
         [AllowAnonymous]
@@ -59,7 +59,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     }
                     if (!string.IsNullOrWhiteSpace(returnUrl))
                         return Redirect(returnUrl);
-                    return Redirect("/");
+                    return RedirectToAction("Index", "Home", new { area = "Sph" });
                 }
                 var user = await directory.GetUserAsync(model.UserName);
                 if (null != user && user.IsLockedOut)

@@ -45,3 +45,4 @@ _ReSharper.commercial-space
 *.sh
 *.config
 /source/web/core.sph/.idea
+/source/web/web.sph/durandal2

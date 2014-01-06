@@ -12,7 +12,7 @@
             </button>
         }
         <!-- Site name for smallar screens -->
-        <a href="/#/@ViewBag.StartModule" class="logo">Sistem Pengurusan Harta</a>
+        <a href="#/@ViewBag.StartModule" class="logo">Sistem Pengurusan Harta</a>
 
         <!-- Navigation starts -->
         <div class="nav-header">
@@ -27,8 +27,8 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="/#/user.profile"><i class="fa fa-user"></i>Profile</a></li>
-                        <li><a href="/#/user.setting"><i class="fa fa-cogs"></i>Settings</a></li>
+                        <li><a href="#/user.profile"><i class="fa fa-user"></i>Profile</a></li>
+                        <li><a href="#/user.setting"><i class="fa fa-cogs"></i>Settings</a></li>
                         <li><a href="@Url.Action("Logoff", "Account")"><i class="fa fa-power-off"></i>Logout</a></li>
                     </ul>
                 </div>
@@ -48,7 +48,7 @@
             @if (!User.Identity.IsAuthenticated)
             {
                 <ul class="nav navbar-nav">
-                    <li><a id="log-in" href="@Url.Action("Login", "Account")" class="login-label"><i class="fa fa-signin"></i>  Log Masuk </a></li>
+                    <li><a id="log-in" href="@Url.Action("Login", "Account", new { area = "Sph"})" class="login-label"><i class="fa fa-sign-in"></i>  Log Masuk </a></li>
                 </ul>
             }
 

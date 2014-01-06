@@ -92,18 +92,16 @@ WriteLiteral(" name=\"viewport\"");
 
 WriteLiteral(" content=\"width=device-width\"");
 
-WriteLiteral(" />\r\n");
+WriteLiteral(" />\r\n    <link");
 
-WriteLiteral("    ");
+WriteAttribute("href", Tuple.Create(" href=\"", 432), Tuple.Create("\"", 456)
+, Tuple.Create(Tuple.Create("", 439), Tuple.Create<System.Object, System.Int32>(Href("~/Content/css.css")
+, 439), false)
+);
 
-            
-            #line 15 "..\..\Areas\Sph\Views\Account\Login.cshtml"
-Write(Styles.Render("~/Content/css"));
+WriteLiteral(" rel=\"stylesheet\"");
 
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n</head>\r\n<body>\r\n    <div");
+WriteLiteral(" />\r\n\r\n</head>\r\n<body>\r\n    <div");
 
 WriteLiteral(" id=\"body\"");
 
@@ -112,13 +110,13 @@ WriteLiteral(" class=\"container\"");
 WriteLiteral(">\r\n\r\n        <section>\r\n\r\n");
 
             
-            #line 22 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+            #line 23 "..\..\Areas\Sph\Views\Account\Login.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 22 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+            #line 23 "..\..\Areas\Sph\Views\Account\Login.cshtml"
              using (Html.BeginForm((string)ViewBag.FormAction, "Account"))
             {
 
@@ -135,7 +133,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                    ");
 
             
-            #line 26 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+            #line 27 "..\..\Areas\Sph\Views\Account\Login.cshtml"
                Write(Html.Partial("_Slider"));
 
             
@@ -151,9 +149,9 @@ WriteLiteral(" class=\"logo\"");
 
 WriteLiteral(">\r\n                            <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 860), Tuple.Create("\"", 887)
-, Tuple.Create(Tuple.Create("", 866), Tuple.Create<System.Object, System.Int32>(Href("~/Images/logo_sph.png")
-, 866), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 881), Tuple.Create("\"", 908)
+, Tuple.Create(Tuple.Create("", 887), Tuple.Create<System.Object, System.Int32>(Href("~/Images/logo_sph.png")
+, 887), false)
 );
 
 WriteLiteral(" alt=\"logo\"");
@@ -162,13 +160,13 @@ WriteLiteral(" />\r\n                        </div>\r\n                        <
 "gguna</h2>\r\n");
 
             
-            #line 32 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+            #line 33 "..\..\Areas\Sph\Views\Account\Login.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 32 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+            #line 33 "..\..\Areas\Sph\Views\Account\Login.cshtml"
                          if (!@ViewData.ModelState.IsValid)
                         {
 
@@ -177,7 +175,7 @@ WriteLiteral(" />\r\n                        </div>\r\n                        <
             #line hidden
 WriteLiteral("                            <div");
 
-WriteLiteral(" class=\"alert alert-error\"");
+WriteLiteral(" class=\"alert alert-danger\"");
 
 WriteLiteral(">\r\n                                <a");
 
@@ -191,7 +189,7 @@ WriteLiteral(">&times;</a>\r\n                                Nama Pengguna dan 
 " sah!\r\n                            </div>\r\n");
 
             
-            #line 38 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+            #line 39 "..\..\Areas\Sph\Views\Account\Login.cshtml"
 
                         }
 
@@ -211,7 +209,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                            ");
 
             
-            #line 41 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+            #line 42 "..\..\Areas\Sph\Views\Account\Login.cshtml"
                        Write(Html.TextBoxFor(m => m.UserName, new { placeholder = "Nama pengguna", @class = "input-xlarge form-control", required = true, autofocus = "autofocus" }));
 
             
@@ -222,7 +220,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                            ");
 
             
-            #line 42 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+            #line 43 "..\..\Areas\Sph\Views\Account\Login.cshtml"
                        Write(Html.ValidationMessageFor(m => m.UserName));
 
             
@@ -237,7 +235,7 @@ WriteLiteral("></label>\r\n");
 WriteLiteral("                            ");
 
             
-            #line 44 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+            #line 45 "..\..\Areas\Sph\Views\Account\Login.cshtml"
                        Write(Html.PasswordFor(m => m.Password, new { placeholder = "Kata laluan", @class = "input-xlarge form-control", required = true }));
 
             
@@ -248,7 +246,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                            ");
 
             
-            #line 45 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+            #line 46 "..\..\Areas\Sph\Views\Account\Login.cshtml"
                        Write(Html.ValidationMessageFor(m => m.Password));
 
             
@@ -271,14 +269,14 @@ WriteLiteral(">\r\n                                Ingat saya\r\n               
 
 WriteLiteral(" type=\"hidden\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 2264), Tuple.Create("\"", 2305)
+WriteAttribute("value", Tuple.Create(" value=\"", 2286), Tuple.Create("\"", 2327)
             
-            #line 50 "..\..\Areas\Sph\Views\Account\Login.cshtml"
-, Tuple.Create(Tuple.Create("", 2272), Tuple.Create<System.Object, System.Int32>(Request.QueryString["ReturnUrl"]
+            #line 51 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+, Tuple.Create(Tuple.Create("", 2294), Tuple.Create<System.Object, System.Int32>(Request.QueryString["ReturnUrl"]
             
             #line default
             #line hidden
-, 2272), false)
+, 2294), false)
 );
 
 WriteLiteral(" name=\"requestUrl\"");
@@ -294,14 +292,14 @@ WriteLiteral(" class=\"btn btn-info\"");
 WriteLiteral(">Daftar Masuk</button>\r\n                        </form>\r\n\r\n                      " +
 "  <div>\r\n                            <p>\r\n                                <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2570), Tuple.Create("\"", 2606)
+WriteAttribute("href", Tuple.Create(" href=\"", 2592), Tuple.Create("\"", 2628)
             
-            #line 56 "..\..\Areas\Sph\Views\Account\Login.cshtml"
-, Tuple.Create(Tuple.Create("", 2577), Tuple.Create<System.Object, System.Int32>(Url.Action("ChangePassword")
+            #line 57 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+, Tuple.Create(Tuple.Create("", 2599), Tuple.Create<System.Object, System.Int32>(Url.Action("ChangePassword")
             
             #line default
             #line hidden
-, 2577), false)
+, 2599), false)
 );
 
 WriteLiteral(">Lupa kata laluan atau nama pengguna</a>\r\n                            </p>\r\n     " +
@@ -309,7 +307,7 @@ WriteLiteral(">Lupa kata laluan atau nama pengguna</a>\r\n                      
 "\n");
 
             
-            #line 62 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+            #line 63 "..\..\Areas\Sph\Views\Account\Login.cshtml"
 
 
             
@@ -326,20 +324,20 @@ WriteLiteral(" class=\"col-lg-12\"");
 WriteLiteral(" />\r\n                </div>\r\n");
 
             
-            #line 66 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+            #line 67 "..\..\Areas\Sph\Views\Account\Login.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 66 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+            #line 67 "..\..\Areas\Sph\Views\Account\Login.cshtml"
            Write(Html.Partial("_Footer"));
 
             
             #line default
             #line hidden
             
-            #line 66 "..\..\Areas\Sph\Views\Account\Login.cshtml"
+            #line 67 "..\..\Areas\Sph\Views\Account\Login.cshtml"
                                         
 
             }
@@ -349,9 +347,9 @@ WriteLiteral(" />\r\n                </div>\r\n");
             #line hidden
 WriteLiteral("        </section>\r\n    </div>\r\n\r\n\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2982), Tuple.Create("\"", 3011)
-, Tuple.Create(Tuple.Create("", 2988), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/vendor.min.js")
-, 2988), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 3004), Tuple.Create("\"", 3033)
+, Tuple.Create(Tuple.Create("", 3010), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/vendor.min.js")
+, 3010), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
