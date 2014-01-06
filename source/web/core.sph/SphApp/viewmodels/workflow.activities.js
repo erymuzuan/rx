@@ -34,8 +34,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
                 return tcs.promise();
             },
-            activate = function (routeData) {
-                id(parseInt(routeData.id));
+            activate = function (idArg) {
+                id(parseInt(idArg));
                 var query = String.format("WorkflowId eq {0}", id());
                 var tcs = new $.Deferred();
                 context.loadOneAsync("Workflow", query)

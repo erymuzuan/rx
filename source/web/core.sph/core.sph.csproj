@@ -1326,7 +1326,7 @@
     <Content Include="Content\jsplumb\jsplumb.min.css">
       <DependentUpon>__jsplumb.css.bundle</DependentUpon>
     </Content>
-    <Content Include="Content\jsplumb\sph.wf.16.css" />
+    <EmbeddedResource Include="Content\jsplumb\sph.wf.16.css" />
     <EmbeddedResource Include="Content\jsplumb\sph.wf.16.png" />
     <Content Include="Content\jsplumb\sph.wf.32.css" />
     <EmbeddedResource Include="Content\jsplumb\sph.wf.32.png" />
