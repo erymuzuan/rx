@@ -6,11 +6,11 @@
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
-/// <reference path="../durandal/re" />
+/// <reference path="../objectbuilders.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger'],
+define([objectbuilders.datacontext],
     function (context) {
 
         var isBusy = ko.observable(false),
@@ -48,17 +48,19 @@ define(['services/datacontext', 'services/logger'],
             },
             editDetail = function (page) {
 
-                var tcs = new $.Deferred();
+                var tcs = new $.Deferred(),
+                    clone = context.clone(page);
+                
                 require(['viewmodels/page.detail.dialog', 'durandal/app'], function (dialog, app2) {
-                    dialog.page(page);
+                    dialog.page(clone);
 
-                    app2.showModal(dialog)
+                    app2.showDialog(dialog)
                         .done(function (result) {
                             if (!result) return;
                             if (result === "OK") {
 
+                                context.commit(clone, page);
                                 var data = ko.mapping.toJSON(page);
-
                                 context.post(data, "/Page/Save")
                                     .then(tcs.resolve);
 

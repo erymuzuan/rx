@@ -9,8 +9,8 @@
 
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function (context) {
+define(['services/datacontext',  'plugins/dialog'],
+    function (context, dialog) {
 
         var activate = function () {
             var tcs = new $.Deferred();
@@ -31,7 +31,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
         },
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
-                    this.modal.close("OK");
+                    dialog.close(this, "OK");
                 }
                 var tcs = new $.Deferred();
                 var json = ko.mapping.toJSON(vm.snippets);
@@ -43,7 +43,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
             },
             cancelClick = function () {
-                this.modal.close("Cancel");
+                dialog.close(this, "Cancel");
             },
             attached = function (view) {
 

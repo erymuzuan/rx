@@ -28,7 +28,7 @@ bespoke.sph.domain.TriggerPartial = function () {
                 
                 require(['viewmodels/action.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.action(action);
-                    app2.showModal(dialog)
+                    app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
@@ -51,7 +51,7 @@ bespoke.sph.domain.TriggerPartial = function () {
                 require(['viewmodels/action.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.action(clone);
                     
-                    app2.showModal(dialog)
+                    app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {

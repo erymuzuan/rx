@@ -11,17 +11,17 @@
 
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system],
-    function(context, logger, routerm , system) {
+define(['services/datacontext', 'services/logger', 'plugins/router', objectbuilders.system, 'plugins/dialog'],
+    function(context, logger, routerm , system, dialog) {
 
         var okClick = function(data, ev) {
             if (bespoke.utils.form.checkValidity(ev.target)) {
-                this.modal.close("OK");
+                dialog.close(this, "OK");
             }
 
         },
             cancelClick = function() {
-                this.modal.close("Cancel");
+                dialog.close(this, "Cancel");
             };
 
         var vm = {

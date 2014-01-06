@@ -20,7 +20,7 @@ bespoke.sph.domain.MethodArgPartial = function () {
                 dialog.field(field);
 
 
-                app2.showModal(dialog)
+                app2.showDialog(dialog)
                 .done(function (result) {
                     if (!result) return;
                     if (result === "OK") {

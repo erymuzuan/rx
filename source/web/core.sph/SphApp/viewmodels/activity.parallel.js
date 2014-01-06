@@ -8,20 +8,19 @@
 /// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
 
-
-define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function (context, logger, router) {
+define(['plugins/dialog'],
+    function (dialog) {
 
         var isBusy = ko.observable(false),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
-                    this.modal.close("OK");
+                    dialog.close(this, "OK");
                 }
 
             },
             cancelClick = function () {
-                this.modal.close("Cancel");
+                dialog.close(this, "Cancel");
             },
             activate = function () {
 

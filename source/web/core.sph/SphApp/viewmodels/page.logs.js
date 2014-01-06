@@ -9,18 +9,17 @@
 
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function (context, logger, router) {
-
+define(['plugins/dialog'],
+    function (dialog) {
         var self = this,
             okClick = function (data, ev) {
             if (bespoke.utils.form.checkValidity(ev.target)) {
-                this.modal.close("OK");
+                dialog.close(this, "OK");
             }
 
         },
             cancelClick = function () {
-                this.modal.close("Cancel");
+                dialog.close(this, "Cancel");
             },
             viewCode = function (log) {
                 var change = _(log.ChangeCollection()).find(function (v) {

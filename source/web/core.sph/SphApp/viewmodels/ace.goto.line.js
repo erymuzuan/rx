@@ -7,13 +7,12 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../services/domain.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
-
-define([],
-    function () {
+define(['plugins/dialog'],
+    function (dialog) {
 
         var okClick = function (data, ev) {
             if (bespoke.utils.form.checkValidity(ev.target)) {
-                this.modal.close("OK");
+                dialog.close(this, "OK");
             }
 
         },
@@ -21,7 +20,7 @@ define([],
                 $('#line').focus();
             },
             cancelClick = function () {
-                this.modal.close("Cancel");
+                dialog.close(this, "Cancel");
             };
 
         var vm = {

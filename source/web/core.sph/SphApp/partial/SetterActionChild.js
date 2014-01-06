@@ -19,7 +19,7 @@ bespoke.sph.domain.SetterActionChildPartial = function () {
             require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
                 dialog.field(field);
 
-                app2.showModal(dialog)
+                app2.showDialog(dialog)
                 .done(function (result) {
                     if (!result) return;
                     if (result === "OK") {

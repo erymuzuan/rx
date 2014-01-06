@@ -17,12 +17,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             asyncActivities = ko.observableArray(),
             okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
-                    this.modal.close("OK");
+                    dialog.close(this, "OK");
                 }
 
             },
             cancelClick = function () {
-                this.modal.close("Cancel");
+                dialog.close(this, "Cancel");
             },
             attached = function () {
             };

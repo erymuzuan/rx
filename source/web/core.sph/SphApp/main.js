@@ -23,6 +23,14 @@ define(['durandal/app', 'durandal/viewLocator', 'durandal/system', 'services/log
         system.debug(true);
         app.title = "SPH";
         
+        //specify which plugins to install and their configuration
+        app.configurePlugins({
+            router: true,
+            dialog: true,
+            widget: {
+                kinds: ['expander']
+            }
+        });
         
         app.start().then(function () {
             viewLocator.useConvention();

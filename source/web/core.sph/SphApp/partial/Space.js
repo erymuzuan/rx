@@ -72,7 +72,7 @@ bespoke.sph.domain.SpacePartial = function (model) {
               require(['viewmodels/photo.dialog', 'durandal/app'], function (dialog, app2) {
                   var clone = ko.mapping.fromJS(ko.mapping.toJS(photo));
                   dialog.photo(clone);
-                  app2.showModal(dialog)
+                  app2.showDialog(dialog)
                       .done(function (result) {
                           if (result == "OK") {
                               self.PhotoCollection.replace(photo, clone);
@@ -88,7 +88,7 @@ bespoke.sph.domain.SpacePartial = function (model) {
                 var photo = new bespoke.sph.domain.Photo(system.guid());
                 dialog.photo(photo);
 
-                app2.showModal(dialog)
+                app2.showDialog(dialog)
                 .done(function (result) {
                     if (!result) return;
                     if (result == "OK") {

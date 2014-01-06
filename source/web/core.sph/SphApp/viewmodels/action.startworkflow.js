@@ -9,8 +9,8 @@
 
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function (context, logger, router) {
+define(['services/datacontext', 'services/logger', 'plugins/dialog'],
+    function (context, logger, dialog) {
 
         var wdOptions = ko.observableArray(),
             activate = function () {
@@ -26,12 +26,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
 
             }, okClick = function (data, ev) {
                 if (bespoke.utils.form.checkValidity(ev.target)) {
-                    this.modal.close("OK");
+                    dialog.close(this, "OK");
                 }
 
             },
             cancelClick = function () {
-                this.modal.close("Cancel");
+                dialog.close(this, "Cancel");
             };
 
         var vm = {

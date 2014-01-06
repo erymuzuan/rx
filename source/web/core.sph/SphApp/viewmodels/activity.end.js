@@ -9,18 +9,17 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-
-define([],
-    function () {
+define(['plugins/dialog'],
+    function (dialog) {
 
         var okClick = function (data, ev) {
             if (bespoke.utils.form.checkValidity(ev.target)) {
-                this.modal.close("OK");
+                dialog.close(this, "OK");
             }
 
         },
             cancelClick = function () {
-                this.modal.close("Cancel");
+                dialog.close(this, "Cancel");
             };
 
         var vm = {

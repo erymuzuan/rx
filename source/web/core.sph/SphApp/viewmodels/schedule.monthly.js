@@ -9,8 +9,8 @@
 
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
-    function (context, logger, router) {
+define(['plugins/dialog'],
+    function (dialog) {
 
         var activate = function () {
             //NOTE: a workaround when binding to array of int in checkbox
@@ -21,12 +21,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
         },
         okClick = function (data, ev) {
             if (bespoke.utils.form.checkValidity(ev.target)) {
-                this.modal.close("OK");
+                dialog.close(this, "OK");
             }
 
         },
             cancelClick = function () {
-                this.modal.close("Cancel");
+                dialog.close(this, "Cancel");
             };
 
         var vm = {

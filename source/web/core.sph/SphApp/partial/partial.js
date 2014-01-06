@@ -104,7 +104,7 @@ bespoke.sph.domain.BlockPartial = function () {
                 require(['viewmodels/block.dialog', 'durandal/app'], function(dialog, app) {
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(block));
                     dialog.block(clone);
-                    app.showModal(dialog)
+                    app.showDialog(dialog)
                         .done(function(result) {
                             if (!result) return;
                             if (result == "OK") {
@@ -127,7 +127,7 @@ bespoke.sph.domain.BlockPartial = function () {
                 console.log(" on block ", block);
                 require(['viewmodels/block.map', 'durandal/app'], function (dialog, app) {
                     dialog.init(building.BuildingId(), block.FloorPlanStoreId());
-                    app.showModal(dialog)
+                    app.showDialog(dialog)
                         .done(function (result) {
                             if (result == "OK") {
                                 block.FloorPlanStoreId(dialog.spatialStoreId());
@@ -601,7 +601,7 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
                 require(['viewmodels/member.dialog', 'durandal/app'], function(dialog, app) {
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(member));
                     dialog.member(clone);
-                    app.showModal(dialog)
+                    app.showDialog(dialog)
                         .done(function(result) {
                             if (!result) return;
                             if (result == "OK") {
@@ -624,7 +624,7 @@ bespoke.sph.domain.EntityDefinitionPartial = function () {
                 console.log(" on member ", member);
                 require(['viewmodels/member.map', 'durandal/app'], function (dialog, app) {
                     dialog.init(building.BuildingId(), member.MemberPlanStoreId());
-                    app.showModal(dialog)
+                    app.showDialog(dialog)
                         .done(function (result) {
                             if (result == "OK") {
                                 member.MemberPlanStoreId(dialog.spatialStoreId());
@@ -937,7 +937,7 @@ bespoke.sph.domain.MemberPartial = function () {
                 require(['viewmodels/member.dialog', 'durandal/app'], function(dialog, app) {
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(member));
                     dialog.member(clone);
-                    app.showModal(dialog)
+                    app.showDialog(dialog)
                         .done(function(result) {
                             if (!result) return;
                             if (result == "OK") {
@@ -960,7 +960,7 @@ bespoke.sph.domain.MemberPartial = function () {
                 console.log(" on member ", member);
                 require(['viewmodels/member.map', 'durandal/app'], function (dialog, app) {
                     dialog.init(building.BuildingId(), member.MemberPlanStoreId());
-                    app.showModal(dialog)
+                    app.showDialog(dialog)
                         .done(function (result) {
                             if (result == "OK") {
                                 member.MemberPlanStoreId(dialog.spatialStoreId());
@@ -1001,7 +1001,7 @@ bespoke.sph.domain.MethodArgPartial = function () {
                 dialog.field(field);
 
 
-                app2.showModal(dialog)
+                app2.showDialog(dialog)
                 .done(function (result) {
                     if (!result) return;
                     if (result === "OK") {
@@ -1182,7 +1182,7 @@ bespoke.sph.domain.RulePartial = function () {
                 dialog.field(field);
 
 
-                app2.showModal(dialog)
+                app2.showDialog(dialog)
                 .done(function (result) {
                     if (!result) return;
                     if (result === "OK") {
@@ -1321,7 +1321,7 @@ bespoke.sph.domain.SetterActionChildPartial = function () {
             require(['viewmodels/' + path, 'durandal/app'], function (dialog, app2) {
                 dialog.field(field);
 
-                app2.showModal(dialog)
+                app2.showDialog(dialog)
                 .done(function (result) {
                     if (!result) return;
                     if (result === "OK") {
@@ -1432,7 +1432,7 @@ bespoke.sph.domain.SpacePartial = function (model) {
               require(['viewmodels/photo.dialog', 'durandal/app'], function (dialog, app2) {
                   var clone = ko.mapping.fromJS(ko.mapping.toJS(photo));
                   dialog.photo(clone);
-                  app2.showModal(dialog)
+                  app2.showDialog(dialog)
                       .done(function (result) {
                           if (result == "OK") {
                               self.PhotoCollection.replace(photo, clone);
@@ -1448,7 +1448,7 @@ bespoke.sph.domain.SpacePartial = function (model) {
                 var photo = new bespoke.sph.domain.Photo(system.guid());
                 dialog.photo(photo);
 
-                app2.showModal(dialog)
+                app2.showDialog(dialog)
                 .done(function (result) {
                     if (!result) return;
                     if (result == "OK") {
@@ -1591,7 +1591,7 @@ bespoke.sph.domain.TriggerPartial = function () {
                 
                 require(['viewmodels/action.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.action(action);
-                    app2.showModal(dialog)
+                    app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {
@@ -1614,7 +1614,7 @@ bespoke.sph.domain.TriggerPartial = function () {
                 require(['viewmodels/action.' + type.toLowerCase(), 'durandal/app'], function (dialog, app2) {
                     dialog.action(clone);
                     
-                    app2.showModal(dialog)
+                    app2.showDialog(dialog)
                     .done(function (result) {
                         if (!result) return;
                         if (result === "OK") {

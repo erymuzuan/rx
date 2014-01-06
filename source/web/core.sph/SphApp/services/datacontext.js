@@ -73,6 +73,10 @@ function (logger, system, ko2) {
                             }
                             return;
                         }
+                        
+                        if (typeof item[prop] === "function") {
+                            return;
+                        }
 
                         var child = toObservable(item[prop], pattern);
                         item[prop] = ko.observable(child);
@@ -109,6 +113,19 @@ function (logger, system, ko2) {
             }
             return item;
 
+        },
+        clone = function (item) {
+            var item2 = ko.mapping.toJS(item);
+            return this.toObservable(item2);
+        },
+        commit = function (source, destination) {
+            for (var gp in destination) {
+                if (typeof destination[gp] === "function" && destination[gp].name === "observable") {
+                    destination[gp](ko.unwrap(source[gp]));
+                } else {
+                    destination[gp] = source[gp];
+                }
+            }
         };
 
 
@@ -125,6 +142,8 @@ function (logger, system, ko2) {
         getDistinctAsync: getDistinctAsync,
         getTuplesAsync: getTuplesAsync,
         post: post,
+        clone: clone,
+        commit: commit,
         toObservable: toObservable
     };
 

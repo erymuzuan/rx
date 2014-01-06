@@ -22,7 +22,7 @@ bespoke.sph.domain.BlockPartial = function () {
                 require(['viewmodels/block.dialog', 'durandal/app'], function(dialog, app) {
                     var clone = ko.mapping.fromJS(ko.mapping.toJS(block));
                     dialog.block(clone);
-                    app.showModal(dialog)
+                    app.showDialog(dialog)
                         .done(function(result) {
                             if (!result) return;
                             if (result == "OK") {
@@ -45,7 +45,7 @@ bespoke.sph.domain.BlockPartial = function () {
                 console.log(" on block ", block);
                 require(['viewmodels/block.map', 'durandal/app'], function (dialog, app) {
                     dialog.init(building.BuildingId(), block.FloorPlanStoreId());
-                    app.showModal(dialog)
+                    app.showDialog(dialog)
                         .done(function (result) {
                             if (result == "OK") {
                                 block.FloorPlanStoreId(dialog.spatialStoreId());
