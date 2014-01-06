@@ -2010,11 +2010,10 @@ var dbItem = await context.LoadOneAsync&lt;$Entity$&gt;($p$ =&gt; $p$ .$Entity$I
 /// &lt;reference path="../../Scripts/underscore.js" /&gt;&#xD;
 /// &lt;reference path="../../Scripts/moment.js" /&gt;&#xD;
 /// &lt;reference path="../services/datacontext.js" /&gt;&#xD;
-/// &lt;reference path="../services/domain.g.js" /&gt;&#xD;
-/// &lt;reference path="../../Scripts/bootstrap.js" /&gt;&#xD;
+/// &lt;reference path="../schemas/sph.domain.g.js" /&gt;&#xD;
 &#xD;
 &#xD;
-define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], &#xD;
+define(['services/datacontext', 'services/logger', 'plugins/router'], &#xD;
 	function (context, logger, router) {&#xD;
 &#xD;
 	var &#xD;
@@ -2022,7 +2021,7 @@ define(['services/datacontext', 'services/logger', 'durandal/plugins/router'], &
 	activate = function(){&#xD;
 		&#xD;
 	},&#xD;
-	viewAttached = function(view){&#xD;
+	attached = function(view){&#xD;
 &#xD;
 	};&#xD;
 &#xD;
@@ -2442,6 +2441,51 @@ if (null != list)&#xD;
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B20F39F722283242A1DCC3A37FDE093B/Text/@EntryValue">#if $expression$&#xD;
      $END$ &#xD;
   #endif</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/CustomProperties/=Extension/@EntryIndexedValue">js</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/CustomProperties/=FileName/@EntryIndexedValue">Domain</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/CustomProperties/=ValidateFileName/@EntryIndexedValue">True</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/Description/@EntryValue">DomainPartial.js</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/Field/=CHILD_005FITEM/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/Field/=CHILD_005FITEM/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/Field/=DOMAIN/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/Field/=DOMAIN/Expression/@EntryValue">getFileNameWithoutExtension()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/Field/=DOMAIN/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/Scope/=50AF970EC1279940A9104D92F89E47E1/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/Scope/=50AF970EC1279940A9104D92F89E47E1/Type/@EntryValue">InAspCSharpProject</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B7FB2C42A4F79C42B76E449D451B32F9/Text/@EntryValue">/// &lt;reference path="../schemas/report.builder.g.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/underscore.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/jquery-2.0.3.intellisense.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/require.js" /&gt;&#xD;
+/// &lt;reference path="../../Scripts/durandal/system.js" /&gt;&#xD;
+&#xD;
+var bespoke = bespoke || {};&#xD;
+bespoke.sph = bespoke.sph || {};&#xD;
+bespoke.sph.domain = bespoke.sph.domain || {};&#xD;
+&#xD;
+&#xD;
+bespoke.sph.domain.$DOMAIN$Partial = function () {&#xD;
+&#xD;
+// $CHILD_ITEM$&#xD;
+    var system = require('durandal/system'),&#xD;
+        add$CHILD_ITEM$ = function() {&#xD;
+            this.$CHILD_ITEM$Collection.push(new bespoke.sph.domain.$CHILD_ITEM$(system.guid()));&#xD;
+        },&#xD;
+        remove$CHILD_ITEM$ = function (obj) {&#xD;
+            var self = this;&#xD;
+            return function() {&#xD;
+                self.$CHILD_ITEM$Collection.remove(obj);&#xD;
+            };&#xD;
+&#xD;
+        };&#xD;
+    return {&#xD;
+        add$CHILD_ITEM$: add$CHILD_ITEM$,&#xD;
+        remove$CHILD_ITEM$: remove$CHILD_ITEM$&#xD;
+    };&#xD;
+};</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B9383001B58E7F4399544EC6C6D4D82F/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B9383001B58E7F4399544EC6C6D4D82F/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=B9383001B58E7F4399544EC6C6D4D82F/Categories/=Imported_002020_002F11_002F2013/@EntryIndexedValue">Imported 20/11/2013</s:String>
@@ -2880,6 +2924,36 @@ catch (System.Exception)&#xD;
 {&#xD;
   $END$&#xD;
 }</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E5ED33BDCFCB094BBB06016A75265F6A/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E5ED33BDCFCB094BBB06016A75265F6A/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E5ED33BDCFCB094BBB06016A75265F6A/Field/=dialog/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E5ED33BDCFCB094BBB06016A75265F6A/Field/=dialog/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E5ED33BDCFCB094BBB06016A75265F6A/Field/=item/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E5ED33BDCFCB094BBB06016A75265F6A/Field/=item/InitialRange/@EntryValue">1</s:Int64>
+	
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E5ED33BDCFCB094BBB06016A75265F6A/Field/=item/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E5ED33BDCFCB094BBB06016A75265F6A/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E5ED33BDCFCB094BBB06016A75265F6A/Scope/=FFA15E6CFCBE90499C572A859225B012/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E5ED33BDCFCB094BBB06016A75265F6A/Scope/=FFA15E6CFCBE90499C572A859225B012/Type/@EntryValue">InJavaScriptFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E5ED33BDCFCB094BBB06016A75265F6A/Shortcut/@EntryValue">show-dialog-durandal</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E5ED33BDCFCB094BBB06016A75265F6A/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E5ED33BDCFCB094BBB06016A75265F6A/Text/@EntryValue">var tcs = new $.Deferred(),&#xD;
+	clone = context.clone($item$);&#xD;
+                &#xD;
+require(['viewmodels/$dialog$', 'durandal/app'], function (dialog, app2) {&#xD;
+    dialog.page(clone);&#xD;
+&#xD;
+    app2.showDialog(dialog)&#xD;
+        .done(function (result) {&#xD;
+            if (!result) return;&#xD;
+            if (result === "OK") {&#xD;
+                context.commit(clone, $item$);&#xD;
+                $END$&#xD;
+            }&#xD;
+        });&#xD;
+&#xD;
+});&#xD;
+return tcs.promise();</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E70B4B34C0746347A573ACE75E373FB6/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E70B4B34C0746347A573ACE75E373FB6/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=E70B4B34C0746347A573ACE75E373FB6/Categories/=Imported_002020_002F11_002F2013/@EntryIndexedValue">Imported 20/11/2013</s:String>
