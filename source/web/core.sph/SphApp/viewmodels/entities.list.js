@@ -29,7 +29,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             entities: entities,
             toolbar : {
                 addNew: {
-                    location: '/#/entity.details/0',
+                    location: '#/entity.details/0',
                     caption: 'Add New Custom Entity'
                 }
             }

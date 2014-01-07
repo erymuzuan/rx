@@ -878,18 +878,6 @@ namespace Bespoke.Sph.Domain
     ///</summary>
     [DataObject(true)]
     [Serializable]
-    [XmlType("BuildingElement", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class BuildingElement
-    {
-
-
-    }
-
-    ///<summary>
-    /// 
-    ///</summary>
-    [DataObject(true)]
-    [Serializable]
     [XmlType("DefaultValue", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class DefaultValue
     {
@@ -1985,6 +1973,11 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameIsAnalyzed = "IsAnalyzed";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isFilterable;
+        public const string PropertyNameIsFilterable = "IsFilterable";
+
+
         private readonly ObjectCollection<Member> m_MemberCollection = new ObjectCollection<Member>();
 
         ///<summary>
@@ -2108,6 +2101,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isAnalyzed;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsFilterable
+        {
+            set
+            {
+                if (m_isFilterable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsFilterable, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isFilterable = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isFilterable;
             }
         }
 

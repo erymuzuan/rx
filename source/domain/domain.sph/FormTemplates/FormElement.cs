@@ -13,7 +13,6 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(CheckBox))]
     [XmlInclude(typeof(ComboBox))]
     [XmlInclude(typeof(MapElement))]
-    [XmlInclude(typeof(BuildingElement))]
     [XmlInclude(typeof(EmailFormElement))]
     [XmlInclude(typeof(WebsiteFormElement))]
     [XmlInclude(typeof(SectionFormElement))]

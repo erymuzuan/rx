@@ -157,5 +157,13 @@
 
             }
         }
+
+        public static string ApplicationName
+        {
+            get
+            {
+                return System.Configuration.ConfigurationManager.AppSettings["sph:ApplicationName"] ?? "YOUR_APP";
+            }
+        }
     }
 }
