@@ -67,13 +67,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
+      <Link>AssemblyVersionInfo.cs</Link>
+    </Compile>
     <Compile Include="Business\AggrementPronouncement.cs" />
     <Compile Include="Business\Address.cs" />
     <Compile Include="Business\Designation.cs" />
     <Compile Include="Business\Photo.cs" />
     <Compile Include="ConfigurationManager.cs" />
     <Compile Include="Core\ValidationError.cs" />
-    <Compile Include="assemblyinfo.cs" />
     <Compile Include="Business\Attachment.cs" />
     <Compile Include="Business\AuditTrail.cs" />
     <Compile Include="BinaryStore.cs" />

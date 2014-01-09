@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
 
-[assembly: AssemblyTitle("domain.station")]
+[assembly: AssemblyTitle("domain.sph")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]

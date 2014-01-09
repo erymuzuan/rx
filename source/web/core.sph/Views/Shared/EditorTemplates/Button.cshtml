@@ -1,0 +1,6 @@
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Domain.Button
+@{
+    var command = Model.UseClick ? "click" : "command";
+}
+<button data-bind="@command : $root.@Model.CommandName" class="@Model.CssClass">@Model.Label</button>

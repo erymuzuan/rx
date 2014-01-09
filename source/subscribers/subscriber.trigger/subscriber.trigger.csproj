@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
+      <Link>AssemblyVersionInfo.cs</Link>
+    </Compile>
     <Compile Include="TriggerActionSubscriber.cs" />
     <Compile Include="TriggerSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

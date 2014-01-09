@@ -54,6 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
+      <Link>AssemblyVersionInfo.cs</Link>
+    </Compile>
     <Compile Include="..\subscriber.workflowscheduler\TaskHelper.cs">
       <Link>TaskHelper.cs</Link>
     </Compile>

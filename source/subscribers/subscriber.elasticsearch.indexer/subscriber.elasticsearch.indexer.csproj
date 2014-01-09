@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
+      <Link>AssemblyVersionInfo.cs</Link>
+    </Compile>
     <Compile Include="AuditTrailIndexerSubscriber.cs" />
     <Compile Include="MessageIndexerSubscriber.cs" />
     <Compile Include="ReportDefinitionIndexerSubscriber.cs" />

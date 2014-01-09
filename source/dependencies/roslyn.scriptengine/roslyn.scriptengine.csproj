@@ -63,6 +63,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
+      <Link>AssemblyVersionInfo.cs</Link>
+    </Compile>
     <Compile Include="HostObject.cs" />
     <Compile Include="RoslynScriptEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

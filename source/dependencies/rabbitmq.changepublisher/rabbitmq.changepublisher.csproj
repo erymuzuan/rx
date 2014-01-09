@@ -51,6 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
+      <Link>AssemblyVersionInfo.cs</Link>
+    </Compile>
     <Compile Include="ChangePublisherClient.cs" />
     <Compile Include="DefaultBrokerConnection.cs" />
     <Compile Include="EntityChangedListener.cs" />
@@ -80,7 +83,6 @@
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers\" />
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\schedulers\" />
   </Target>
-
   <PropertyGroup>
     <BuildDependsOn>
       $(BuildDependsOn);CopyOutputDirClientAndWeb

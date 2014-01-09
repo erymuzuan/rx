@@ -46,6 +46,9 @@
     </OutputFile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
+      <Link>AssemblyVersionInfo.cs</Link>
+    </Compile>
     <Compile Include="SqlCompiler.cs" />
     <Compile Include="SqlDataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
