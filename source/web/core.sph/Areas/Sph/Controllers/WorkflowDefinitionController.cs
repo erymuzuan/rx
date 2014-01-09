@@ -57,30 +57,13 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
 
 
-        public ActionResult ScreenHtml()
-        {
-            var vm = new TemplateFormViewModel
-            {
-                IsImportVisible = true
-            };
-            return View(vm);
-        }
-
         public ActionResult ScreenEditor()
         {
             var vm = new TemplateFormViewModel();
             return View(vm);
         }
 
-        public ActionResult ScreenJs()
-        {
-            var vm = new TemplateFormViewModel();
-            vm.FormElements.RemoveAll(
-                f => f.GetType() == typeof(FormElement));
-            this.Response.ContentType = APPLICATION_JAVASCRIPT;
-            var script = this.RenderRazorViewToJs("ScreenJs", vm);
-            return Content(script);
-        }
+   
 
         public async Task<ActionResult> GetXsdElementName(string id)
         {

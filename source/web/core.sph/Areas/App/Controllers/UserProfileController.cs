@@ -12,10 +12,15 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
 {
     public class UserProfileController : BaseAppController
     {
+        public ActionResult Script()
+        {
+            return View();
+        }
         public ActionResult Html()
         {
             return View();
         }
+
         public async Task<ActionResult> Js()
         {
             var context = new SphDataContext();
@@ -40,7 +45,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
                 StartModuleOptions = modules
             };
 
-            var script = this.RenderRazorViewToJs("Js", vm);
+            var script = this.RenderRazorViewToJs("Script", vm);
             this.Response.ContentType = APPLICATION_JAVASCRIPT;
             return Content(script);
         }

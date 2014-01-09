@@ -29,23 +29,23 @@ namespace Bespoke.Sph.Web.Areas.App.Views.UserProfile
     using System.Web.WebPages;
     using Bespoke.Sph.Web;
     
-    #line 1 "..\..\Areas\App\Views\UserProfile\Js.cshtml"
+    #line 1 "..\..\Areas\App\Views\UserProfile\Script.cshtml"
     using Newtonsoft.Json;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/UserProfile/Js.cshtml")]
-    public partial class Js : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.ViewModels.UserProfileViewModel>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/UserProfile/Script.cshtml")]
+    public partial class Script : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.ViewModels.UserProfileViewModel>
     {
-        public Js()
+        public Script()
         {
         }
         public override void Execute()
         {
             
-            #line 3 "..\..\Areas\App\Views\UserProfile\Js.cshtml"
+            #line 3 "..\..\Areas\App\Views\UserProfile\Script.cshtml"
   
     Layout = null;
 
@@ -63,7 +63,7 @@ WriteLiteral(">\r\n\r\n    define([objectbuilders.datacontext],\r\n        funct
 "(\'");
 
             
-            #line 11 "..\..\Areas\App\Views\UserProfile\Js.cshtml"
+            #line 11 "..\..\Areas\App\Views\UserProfile\Script.cshtml"
                                  Write(Model.User.UserName);
 
             
@@ -100,7 +100,7 @@ WriteLiteral(@"'),
                 startModule: ko.observable('");
 
             
-            #line 39 "..\..\Areas\App\Views\UserProfile\Js.cshtml"
+            #line 39 "..\..\Areas\App\Views\UserProfile\Script.cshtml"
                                        Write(Model.Profile.StartModule);
 
             
@@ -109,7 +109,7 @@ WriteLiteral(@"'),
 WriteLiteral("\'),\r\n                startModuleOptions : ko.observableArray(");
 
             
-            #line 40 "..\..\Areas\App\Views\UserProfile\Js.cshtml"
+            #line 40 "..\..\Areas\App\Views\UserProfile\Script.cshtml"
                                                    Write(Html.Raw(JsonConvert.SerializeObject(Model.StartModuleOptions)));
 
             

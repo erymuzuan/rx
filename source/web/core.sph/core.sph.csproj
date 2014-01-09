@@ -205,6 +205,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\App\AppAreaRegistration.cs" />
     <Compile Include="Areas\App\Controllers\ConfigController.cs" />
+    <Compile Include="Areas\App\Controllers\ActivityScreenController.cs" />
     <Compile Include="Areas\App\Controllers\HeaderController.cs" />
     <Compile Include="Areas\App\Controllers\NavController.cs" />
     <Compile Include="Areas\App\Controllers\ReportDefinitionEditController.cs" />
@@ -214,6 +215,16 @@
     <Compile Include="Areas\App\Controllers\UserProfileController.cs" />
     <Compile Include="Areas\App\Controllers\WorkflowController.cs" />
     <Compile Include="Areas\App\Controllers\WorkflowDraftController.cs" />
+    <Compile Include="Areas\App\Views\ActivityScreen\Html.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Html.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ActivityScreen\Script.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Script.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\App\Views\ReportDefinitionEdit\Html.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -288,6 +299,106 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_Preview.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\AddressElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddressElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\Button.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Button.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\CheckBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CheckBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\ComboBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComboBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\DatePicker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DatePicker.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\DateTimePicker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DateTimePicker.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\EmailFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\FileUploadElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileUploadElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\FormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\HtmlElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HtmlElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\ListView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ListView.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\NumberTextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NumberTextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\SectionFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SectionFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\TextAreaElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextAreaElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\TextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\DisplayTemplates\WebsiteFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\_DesignerContextAction.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_DesignerContextAction.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\_ScreenPerformer.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_ScreenPerformer.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\_Toolbox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Toolbox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\_ValidationSetting.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_ValidationSetting.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\AccountController.cs" />
@@ -790,20 +901,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Html.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\App\Views\UserProfile\Js.generated.cs">
+    <Compile Include="Areas\App\Views\UserProfile\Script.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Js.cshtml</DependentUpon>
+      <DependentUpon>Script.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\App\Views\Users\Html.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Html.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\App\Views\Users\Js.generated.cs">
+    <Compile Include="Areas\App\Views\Users\Script.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Js.cshtml</DependentUpon>
+      <DependentUpon>Script.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\Sph\Views\App\WorkflowDraftHtml.generated.cs">
       <AutoGen>True</AutoGen>
@@ -1647,6 +1758,70 @@
     <EmbeddedResource Include="Scripts\durandal\viewLocator.js" />
     <Content Include="weyland-config.js" />
     <Content Include="Areas\App\Views\web.config" />
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\AddressElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>AddressElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\Button.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Button.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\CheckBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>CheckBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\ComboBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ComboBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\DatePicker.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DatePicker.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\DateTimePicker.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DateTimePicker.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\EmailFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EmailFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\FileUploadElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FileUploadElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\FormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\HtmlElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>HtmlElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\ListView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ListView.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\NumberTextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>NumberTextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\SectionFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>SectionFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\TextAreaElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextAreaElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\TextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\DisplayTemplates\WebsiteFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Content\jsplumb\__jsplumb.css.bundle">
       <SubType>Designer</SubType>
     </None>
@@ -2410,9 +2585,9 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\App\Views\Users\Js.cshtml">
+    <Content Include="Areas\App\Views\Users\Script.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Js.generated.cs</LastGenOutput>
+      <LastGenOutput>Script.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\Home\index.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -2447,9 +2622,9 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\App\Views\UserProfile\Js.cshtml">
+    <Content Include="Areas\App\Views\UserProfile\Script.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Js.generated.cs</LastGenOutput>
+      <LastGenOutput>Script.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\App\RoleSettingsHtml.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -2804,11 +2979,22 @@
       <LastGenOutput>Ace.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\Sph\Views\Template\_BusinessRule.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\ScreenHtml.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\_Toolbox.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\_ValidationSetting.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\Application.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\ScreenJs.cshtml" />
+    <Content Include="Areas\App\Views\ActivityScreen\Html.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Html.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\_Toolbox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_Toolbox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\_ValidationSetting.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ValidationSetting.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\ActivityScreen\Script.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Script.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\AddressElement.cshtml" />
     <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\CheckBox.cshtml" />
     <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\ComboBox.cshtml" />
@@ -2821,7 +3007,10 @@
     <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\TextAreaElement.cshtml" />
     <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\TextBox.cshtml" />
     <Content Include="Areas\Sph\Views\WorkflowDefinition\DisplayTemplates\WebsiteFormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\_DesignerContextAction.cshtml" />
+    <Content Include="Areas\App\Views\Shared\_DesignerContextAction.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_DesignerContextAction.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Areas\Sph\Views\Workflow\_xxxxStart.cshtml" />
     <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\CheckBox.cshtml" />
     <Content Include="Areas\Sph\Views\Workflow\EditorTemplates\ComboBox.cshtml" />
@@ -2847,7 +3036,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>HtmlElement.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\_ScreenPerformer.cshtml" />
+    <Content Include="Areas\App\Views\Shared\_ScreenPerformer.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ScreenPerformer.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Areas\Sph\Views\WorkflowDefinition\Visual.cshtml" />
     <None Include="Scripts\jsPlumb\__bundle.js.bundle" />
     <Content Include="Scripts\jsPlumb\bundle.min.js.map">

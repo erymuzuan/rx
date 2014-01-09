@@ -29,23 +29,23 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Users
     using System.Web.WebPages;
     using Bespoke.Sph.Web;
     
-    #line 1 "..\..\Areas\App\Views\Users\Js.cshtml"
+    #line 1 "..\..\Areas\App\Views\Users\Script.cshtml"
     using Newtonsoft.Json;
     
     #line default
     #line hidden
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Users/Js.cshtml")]
-    public partial class Js : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.Areas.Sph.Controllers.AdminController>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Users/Script.cshtml")]
+    public partial class Script : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.Areas.Sph.Controllers.AdminController>
     {
-        public Js()
+        public Script()
         {
         }
         public override void Execute()
         {
             
-            #line 3 "..\..\Areas\App\Views\Users\Js.cshtml"
+            #line 3 "..\..\Areas\App\Views\Users\Script.cshtml"
   
     ViewBag.Title = "UsersJs";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -68,7 +68,7 @@ WriteLiteral(">\r\n    define([objectbuilders.datacontext,\'viewmodels/_users.de
 "s = ");
 
             
-            #line 14 "..\..\Areas\App\Views\Users\Js.cshtml"
+            #line 14 "..\..\Areas\App\Views\Users\Script.cshtml"
                Write(Html.Raw(JsonConvert.SerializeObject(roles)));
 
             

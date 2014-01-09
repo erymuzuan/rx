@@ -21,12 +21,7 @@ namespace Bespoke.Sph.Web.Views.Shared.EditorTemplates
     using System.Web.Helpers;
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
-    
-    #line 1 "..\..\Views\Shared\EditorTemplates\Button.cshtml"
     using System.Web.Mvc.Html;
-    
-    #line default
-    #line hidden
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
@@ -42,7 +37,7 @@ namespace Bespoke.Sph.Web.Views.Shared.EditorTemplates
         public override void Execute()
         {
             
-            #line 3 "..\..\Views\Shared\EditorTemplates\Button.cshtml"
+            #line 2 "..\..\Views\Shared\EditorTemplates\Button.cshtml"
   
     var command = Model.UseClick ? "click" : "command";
 
@@ -54,7 +49,7 @@ WriteLiteral("\r\n<button");
 WriteLiteral(" data-bind=\"");
 
             
-            #line 6 "..\..\Views\Shared\EditorTemplates\Button.cshtml"
+            #line 5 "..\..\Views\Shared\EditorTemplates\Button.cshtml"
               Write(command);
 
             
@@ -63,7 +58,7 @@ WriteLiteral(" data-bind=\"");
 WriteLiteral(" : $root.");
 
             
-            #line 6 "..\..\Views\Shared\EditorTemplates\Button.cshtml"
+            #line 5 "..\..\Views\Shared\EditorTemplates\Button.cshtml"
                                Write(Model.CommandName);
 
             
@@ -71,20 +66,20 @@ WriteLiteral(" : $root.");
             #line hidden
 WriteLiteral("\"");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 181), Tuple.Create("\"", 204)
+WriteAttribute("class", Tuple.Create(" class=\"", 153), Tuple.Create("\"", 176)
             
-            #line 6 "..\..\Views\Shared\EditorTemplates\Button.cshtml"
-, Tuple.Create(Tuple.Create("", 189), Tuple.Create<System.Object, System.Int32>(Model.CssClass
+            #line 5 "..\..\Views\Shared\EditorTemplates\Button.cshtml"
+, Tuple.Create(Tuple.Create("", 161), Tuple.Create<System.Object, System.Int32>(Model.CssClass
             
             #line default
             #line hidden
-, 189), false)
+, 161), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 6 "..\..\Views\Shared\EditorTemplates\Button.cshtml"
+            #line 5 "..\..\Views\Shared\EditorTemplates\Button.cshtml"
                                                                            Write(Model.Label);
 
             

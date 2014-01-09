@@ -21,7 +21,7 @@ namespace Bespoke.Sph.Web.Helpers
             using (var reader = new StreamReader(controller.Request.InputStream))
             {
                 string json = reader.ReadToEnd();
-                return JsonSerializerService.DeserializeFromJson<T>(json);
+                return json.DeserializeFromJson<T>();
             }
         }
     }
