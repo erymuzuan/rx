@@ -1291,6 +1291,9 @@ ko.bindingHandlers.cssAutoComplete = {
         var value = valueAccessor(),
             bootstrap = _(document.styleSheets).find(function (s) {
                 // TODO : what happend if were to combine the css with Bundle
+                if (!s) return false;
+                if (!s.href) return false;
+           
                 return s.href.indexOf("bootstrap") > -1;
             });
         var data = ['btn', 'btn-warning', 'btn-success', 'btn-link'];

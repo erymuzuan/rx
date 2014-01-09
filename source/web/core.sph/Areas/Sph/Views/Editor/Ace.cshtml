@@ -45,8 +45,8 @@
     <script src="~/Scripts/knockout-3.0.0.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/_function.prototypes.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Scripts/_utils.js" type="text/javascript" charset="utf-8"></script>
-    <script src="~/App/objectbuilders.js" type="text/javascript"></script>
-    <script src="~/App/durandal/amd/require.js" type="text/javascript"></script>
+    <script src="~/SphApp/objectbuilders.js" type="text/javascript"></script>
+    <script src="~/Scripts/require.js" type="text/javascript"></script>
     <script type="text/javascript">
 
         var bespoke = bespoke || {};
@@ -55,8 +55,12 @@
 
 
         require.config({
-            baseUrl: "/App",
-            waitSeconds: 15
+            baseUrl: "/SphApp",
+            waitSeconds: 15,
+            paths: {
+                'durandal': '/Scripts/durandal',
+                'plugins': '/Scripts/durandal/plugins'
+            }
         });
         define('jquery', function () { return jQuery; });
         define('knockout', ko);

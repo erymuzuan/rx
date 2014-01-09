@@ -9,7 +9,7 @@ bespoke.sph = bespoke.sph || {};
 bespoke.sph.domain = bespoke.sph.domain || {};
 
 
-bespoke.sph.domain.ScreenActivityPartial = function() {
+bespoke.sph.domain.ScreenActivityPartial = function () {
 
 
     return {

@@ -200,8 +200,8 @@ WriteLiteral(" charset=\"utf-8\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1646), Tuple.Create("\"", 1675)
-, Tuple.Create(Tuple.Create("", 1652), Tuple.Create<System.Object, System.Int32>(Href("~/App/objectbuilders.js")
+WriteAttribute("src", Tuple.Create(" src=\"", 1646), Tuple.Create("\"", 1678)
+, Tuple.Create(Tuple.Create("", 1652), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
 , 1652), false)
 );
 
@@ -209,9 +209,9 @@ WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1722), Tuple.Create("\"", 1757)
-, Tuple.Create(Tuple.Create("", 1728), Tuple.Create<System.Object, System.Int32>(Href("~/App/durandal/amd/require.js")
-, 1728), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1725), Tuple.Create("\"", 1751)
+, Tuple.Create(Tuple.Create("", 1731), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/require.js")
+, 1731), false)
 );
 
 WriteLiteral(" type=\"text/javascript\"");
@@ -228,8 +228,12 @@ WriteLiteral(@">
 
 
         require.config({
-            baseUrl: ""/App"",
-            waitSeconds: 15
+            baseUrl: ""/SphApp"",
+            waitSeconds: 15,
+            paths: {
+                'durandal': '/Scripts/durandal',
+                'plugins': '/Scripts/durandal/plugins'
+            }
         });
         define('jquery', function () { return jQuery; });
         define('knockout', ko);
@@ -243,7 +247,7 @@ WriteLiteral(@">
             editor.setTheme(""ace/theme/");
 
             
-            #line 70 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 74 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
                                   Write(theme);
 
             
@@ -252,13 +256,13 @@ WriteLiteral(@">
 WriteLiteral("\");\r\n");
 
             
-            #line 71 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 75 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 71 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 75 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
               
             var mode = this.Request.QueryString["mode"] ?? "csharp";
         
@@ -268,7 +272,7 @@ WriteLiteral("\");\r\n");
 WriteLiteral("\r\n            editor.getSession().setMode(\"ace/mode/");
 
             
-            #line 74 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
+            #line 78 "..\..\Areas\Sph\Views\Editor\Ace.cshtml"
                                              Write(mode);
 
             

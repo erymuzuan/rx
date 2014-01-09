@@ -11,7 +11,7 @@ bespoke.sph.domain.HtmlElementPartial = function () {
 
     var editHtml = function () {
         var self = this,
-            w = window.open("/editor/ace?mode=html", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),
+            w = window.open("/sph/editor/ace?mode=html", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),
             init = function () {
                 w.code = ko.unwrap(self.Text);
                 w.saved = function (code, close) {

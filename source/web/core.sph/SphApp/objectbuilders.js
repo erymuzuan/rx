@@ -10,5 +10,6 @@
     cultures: 'services/cultures.my',
     validation: 'services/validation',
     map: 'viewmodels/map',
+    dialog: 'plugins/dialog',
     eximp: 'services/jsonimportexport'
 };

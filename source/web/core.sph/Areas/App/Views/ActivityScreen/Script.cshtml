@@ -16,8 +16,8 @@
 
 
 
-    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp],
-        function (context, logger, router, system, app, eximp) {
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog],
+        function (context, logger, router, system, app, eximp, dialog) {
 
             var activate = function (routeData) {
                 var elements = @Html.Raw(JsonConvert.SerializeObject(Model.FormElements,setting)),
@@ -170,8 +170,7 @@
                             return ko.dataFor(div);
                         });
                         fd.FormElementCollection(elements);
-
-                        this.modal.close("OK");
+                        dialog.close(this, "OK");
                         if (supportsHtml5Storage()) {
                             localStorage.removeItem(vm.activity().WebId());
                         }
@@ -181,7 +180,7 @@
                     if (supportsHtml5Storage()) {
                         localStorage.removeItem(vm.activity().WebId());
                     }
-                    this.modal.close("Cancel");
+                    dialog.close(this, "Cancel");
                 },
                 selectFormElement = function (fe) {
 

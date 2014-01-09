@@ -380,6 +380,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\Shared\EditorTemplates\Button.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Button.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\EditorTemplates\ComboBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComboBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\EditorTemplates\ListView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ListView.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\Shared\EditorTemplates\TextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextBox.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\App\Views\Shared\_DesignerContextAction.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1821,6 +1841,22 @@
     <Content Include="Areas\App\Views\Shared\DisplayTemplates\WebsiteFormElement.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\EditorTemplates\Button.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Button.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\EditorTemplates\ComboBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ComboBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\EditorTemplates\ListView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ListView.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\Shared\EditorTemplates\TextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextBox.generated.cs</LastGenOutput>
     </Content>
     <None Include="Content\jsplumb\__jsplumb.css.bundle">
       <SubType>Designer</SubType>

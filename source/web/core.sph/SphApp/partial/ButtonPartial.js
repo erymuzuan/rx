@@ -12,7 +12,7 @@ bespoke.sph.domain.ButtonPartial = function () {
 
     var editCommand = function () {
         var self = this,
-            w = window.open("/editor/ace?mode=javascript", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),
+            w = window.open("/sph/editor/ace?mode=javascript", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes'),
             init = function () {
                 w.code = ko.unwrap(self.Command);
                 if (!w.code) {

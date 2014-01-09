@@ -19,7 +19,7 @@ define(['plugins/dialog'],
             cancelClick = function () {
                 dialog.close(this, "Cancel");
             }, edit = function () {
-                var w = window.open("/editor/ace?mode=csharp", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes');
+                var w = window.open("/sph/editor/ace?mode=csharp", '_blank', 'height=' + screen.height + ',width=' + screen.width + ',toolbar=0,location=0,fullscreen=yes');
                 w.code = vm.activity().Expression();
                 w.saved = function (code, close) {
                     vm.activity().Expression(code);
