@@ -56,14 +56,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
         }
 
 
-
-        public ActionResult ScreenEditor()
-        {
-            var vm = new TemplateFormViewModel();
-            return View(vm);
-        }
-
-   
+  
 
         public async Task<ActionResult> GetXsdElementName(string id)
         {

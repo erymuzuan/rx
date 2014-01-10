@@ -174,8 +174,8 @@ WriteLiteral(" class=\"btn btn-default\"");
 
 WriteLiteral(" data-dismiss=\"modal\"");
 
-WriteLiteral(" data-bind=\"attr : {\'href\':\'/#/screen.editor/\' + $root.wd().WorkflowDefinitionId(" +
-") + \'/\' + $root.activity().WebId()}\"");
+WriteLiteral(" data-bind=\"attr : {\'href\':\'#/screen.editor/\' + $root.wd().WorkflowDefinitionId()" +
+" + \'/\' + $root.activity().WebId()}\"");
 
 WriteLiteral(">\r\n                            <i");
 

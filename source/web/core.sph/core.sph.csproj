@@ -210,10 +210,10 @@
     <Compile Include="Areas\App\Controllers\NavController.cs" />
     <Compile Include="Areas\App\Controllers\ReportDefinitionEditController.cs" />
     <Compile Include="Areas\App\Controllers\RoleController.cs" />
+    <Compile Include="Areas\App\Controllers\ScreenEditorController.cs" />
     <Compile Include="Areas\App\Controllers\TriggerSetupController.cs" />
     <Compile Include="Areas\App\Controllers\UsersController.cs" />
     <Compile Include="Areas\App\Controllers\UserProfileController.cs" />
-    <Compile Include="Areas\App\Controllers\WorkflowController.cs" />
     <Compile Include="Areas\App\Controllers\WorkflowDraftController.cs" />
     <Compile Include="Areas\App\Views\ActivityScreen\Html.generated.cs">
       <AutoGen>True</AutoGen>
@@ -299,6 +299,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_Preview.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\ScreenEditor\Html.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Html.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\App\Views\Shared\DisplayTemplates\AddressElement.generated.cs">
       <AutoGen>True</AutoGen>
@@ -1746,14 +1751,8 @@
     <EmbeddedResource Include="Scripts\bootstrap.min.js" />
     <EmbeddedResource Include="SphApp\services\cultures.my.js" />
     <EmbeddedResource Include="SphApp\services\system.js" />
-    <Content Include="SphApp\viewmodels\shell.min.js.map">
-      <DependentUpon>shell.js</DependentUpon>
-    </Content>
     <Content Include="SphApp\objectbuilders.min.js.map">
       <DependentUpon>objectbuilders.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\viewmodels\reportdefinition.edit.min.js.map">
-      <DependentUpon>reportdefinition.edit.js</DependentUpon>
     </Content>
     <Content Include="SphApp\viewmodels\map.min.js.map">
       <DependentUpon>map.js</DependentUpon>
@@ -1870,6 +1869,9 @@
     <EmbeddedResource Include="fonts\glyphicons-halflings-regular.woff" />
     <EmbeddedResource Include="fonts\glyphicons-halflings-regular.ttf" />
     <EmbeddedResource Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\theme.matyie\site.css.map">
+      <DependentUpon>site.css</DependentUpon>
+    </Content>
     <None Include="Content\__css.css.bundle" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -3168,7 +3170,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Toolbar.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\WorkflowDefinition\ScreenEditor.cshtml" />
+    <Content Include="Areas\App\Views\ScreenEditor\Html.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Html.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Areas\Sph\Views\Editor\Help.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Help.generated.cs</LastGenOutput>
