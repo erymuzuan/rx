@@ -15,8 +15,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
         var isBusy = ko.observable(false),
             id = ko.observable(),
             wd = ko.observable(new bespoke.sph.domain.WorkflowDefinition()),
-            activate = function (routeData) {
-                id(parseInt(routeData.id));
+            activate = function (id2) {
+                id(id2);
                 var query = String.format("WorkflowDefinitionId eq {0}", id()),
                     tcs = new $.Deferred(),
                     vt = $.get('/WorkflowMonitor/DeployedVersions/' + id()),

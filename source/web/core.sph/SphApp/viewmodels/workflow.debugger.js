@@ -22,8 +22,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
             executingActivity = ko.observable(),
             port = ko.observable(50518),
             wd = ko.observable(),
-            activate = function (routeData) {
-                id(parseInt(routeData.id));
+            activate = function (id2) {
+                id(id2);
                 var query = String.format("WorkflowDefinitionId eq {0}", id()),
                     tcs = new $.Deferred();
                 context.loadOneAsync("WorkflowDefinition", query)
@@ -114,6 +114,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router', 'viewmodels
                         type: type,
                         value: val
                     };
+                    if (typeof val === "undefined") { // for null, undefined and other falsey
+                        return list;
+                    }
+                    if (null === val) { // for null, undefined and other falsey
+                        return list;
+                    }
                     if (_(val).isObject()) {
                         item.items = generateLocals(val);
                     }
