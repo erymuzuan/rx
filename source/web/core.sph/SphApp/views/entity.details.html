@@ -28,7 +28,7 @@
 <div class="row" id="members-panel">
 
     <div class="col-lg-8" data-bind="tree : {entity: entity, selected: member}">
-        
+
 
     </div>
 
@@ -38,8 +38,41 @@
         <form class="form" role="form">
             <div class="form-group">
                 <label for="member_name">Name</label>
-                <input id="member_name" name="member.name" type="text" required data-bind="value: Name"/>
+                <input class="form-control" id="member_name" name="member.name" type="text" required data-bind="value: Name" />
             </div>
+
+            <div class="form-group">
+                <label for="member-type">Type</label>
+
+                <select class="form-control" id="member-type" data-bind="value:TypeName">
+                    <option value="">[Please Select]</option>
+                    <option value="System.String, mscorlib">String</option>
+                    <option value="System.Int32, mscorlib">Integer</option>
+                    <option value="System.Decimal, mscorlib">Decimal</option>
+                    <option value="System.DateTime, mscorlib">DateTime</option>
+                    <option value="System.Boolean, mscorlib">Boolean</option>
+                </select>
+
+            </div>
+            <div class="form-group">
+                <label class="checkbox">
+                    <input data-bind="checked: IsNullable" id="member-nullable" type="checkbox" name="IsNullable" />
+                    Nullable
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="checkbox">
+                    <input data-bind="checked: IsAnalyzed" id="member-analyzed" type="checkbox" name="IsAnalyzed" />
+                    Should analyzed(only for string)
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="checkbox">
+                    <input data-bind="checked: IsFilterable" id="member-analyzed" type="checkbox" name="IsFilterable" />
+                    Can be filtered
+                </label>
+            </div>
+
         </form>
     </div>
 </div>

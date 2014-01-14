@@ -1089,6 +1089,7 @@
     <EmbeddedResource Include="Scripts\moment.min.js" />
     <EmbeddedResource Include="Scripts\r.js" />
     <EmbeddedResource Include="Scripts\require.js" />
+    <Content Include="Scripts\_ko.entity.js" />
     <Content Include="SphApp\partial\Activity.min.js">
       <DependentUpon>Activity.js</DependentUpon>
     </Content>

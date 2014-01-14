@@ -759,7 +759,7 @@ bespoke.sph.domain.Member = function (optionOrWebid) {
         "$type": "Bespoke.Sph.Domain.Member, domain.sph",
         Name: ko.observable(''),
         TypeName: ko.observable(''),
-        IsRequired: ko.observable(false),
+        IsNullable: ko.observable(false),
         IsAnalyzed: ko.observable(false),
         IsFilterable: ko.observable(false),
         MemberCollection: ko.observableArray([]),

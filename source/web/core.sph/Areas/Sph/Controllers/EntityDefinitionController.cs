@@ -24,5 +24,20 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             return Content(ed.EntityDefinitionId.ToString(CultureInfo.InvariantCulture));
 
         }
+        public async Task<ActionResult> Publish()
+        {
+            var ed = this.GetRequestJson<EntityDefinition>();
+            var context = new SphDataContext();
+
+            using (var session = context.OpenSession())
+            {
+                session.Attach(ed);
+                await session.SubmitChanges("Publish");
+            }
+
+            this.Response.ContentType = "application/json; charset=utf-8";
+            return Content(ed.EntityDefinitionId.ToString(CultureInfo.InvariantCulture));
+
+        }
     }
 }

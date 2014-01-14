@@ -51,6 +51,21 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         tcs.resolve(result);
                     });
                 return tcs.promise();
+            },
+            publishAsync = function () {
+                
+                var tcs = new $.Deferred();
+                var data = ko.mapping.toJSON(entity);
+                isBusy(true);
+
+                context.post(data, "/EntityDefinition/Publish")
+                    .then(function (result) {
+                        isBusy(false);
+
+
+                        tcs.resolve(result);
+                    });
+                return tcs.promise();
             };
 
         var vm = {
@@ -60,7 +75,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             entity: entity,
             member : member,
             toolbar: {
-                saveCommand: save
+                saveCommand: save,
+                commands: ko.observableArray([
+                    {
+                        command: publishAsync,
+                        caption: 'Publish',
+                        icon: "fa fa-sign-out"
+                    }])
             }
         };
 

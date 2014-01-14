@@ -16,7 +16,21 @@ namespace subscriber.entities
 
         public override string[] RoutingKeys
         {
-            get { return new[] { typeof(EntityDefinition).Name + ".added.#" }; }
+            get { return new[] { typeof(EntityDefinition).Name + ".changed.Publish" }; }
+        }
+
+        private string GetSqlType(string typeName)
+        {
+            switch (typeName)
+            {
+                case "System.String, mscorlib":return "VARCHAR(255)";
+                case "System.Int32, mscorlib":return "INT";
+                case "System.DateTime, mscorlib":return "SMALLDATETIME";
+                case "System.Decimal, mscorlib":return "MONEY";
+                case "System.Double, mscorlib":return "FLOAT";
+                case "System.Boolean, mscorlib":return "BIT";
+            }
+            return "VARCHAR(255)";
         }
 
         protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
@@ -27,11 +41,11 @@ namespace subscriber.entities
             var sql = new StringBuilder();
             sql.AppendFormat("CREATE TABLE [{0}].[{1}]", applicationName, item.Name);
             sql.AppendLine("(");
-            sql.AppendLinf("  [{0}Id] INT PRIMARY KEY IDENTITY(1,1)");
+            sql.AppendLinf("  [{0}Id] INT PRIMARY KEY IDENTITY(1,1)", item.Name);
             var members = item.MemberCollection.Where(m => m.IsFilterable);
             foreach (var member in members)
             {
-                sql.AppendFormat(",[{0}] {1} {2} NULL", member.Name, member.TypeName, member.IsRequired ? "NOT" : "");
+                sql.AppendFormat(",[{0}] {1} {2} NULL", member.Name, this.GetSqlType(member.TypeName), member.IsNullable ? "" : "NOT");
                 sql.AppendLine("");
             }
             sql.AppendLine(",[CreatedDate] SMALLDATETIME NOT NULL DEFAULT GETDATE()");

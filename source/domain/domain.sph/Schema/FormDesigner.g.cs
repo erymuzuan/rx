@@ -1964,8 +1964,8 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool m_isRequired;
-        public const string PropertyNameIsRequired = "IsRequired";
+        private bool m_isNullable;
+        public const string PropertyNameIsNullable = "IsNullable";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2056,22 +2056,22 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public bool IsRequired
+        public bool IsNullable
         {
             set
             {
-                if (m_isRequired == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameIsRequired, value);
+                if (m_isNullable == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsNullable, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_isRequired = value;
+                    m_isNullable = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_isRequired;
+                return m_isNullable;
             }
         }
 
