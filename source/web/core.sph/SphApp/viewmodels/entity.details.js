@@ -7,6 +7,7 @@
 /// <reference path="../services/datacontext.js" />
 /// <reference path="../schemas/form.designer.g.js" />
 /// <reference path="../../Scripts/bootstrap.js" />
+/// <reference path="../../Scripts/_task.js" />
 /// <reference path="../objectbuilders.js" />
 
 
@@ -15,9 +16,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             isBusy = ko.observable(false),
-            member = ko.observable(new bespoke.sph.domain.Member())
-            activate = function (routeData) {
-                var id = parseInt(routeData.id);
+            member = ko.observable(new bespoke.sph.domain.Member()),
+            activate = function (id2) {
+                var id = parseInt(id2);
                 if (id) {
                     var query = String.format("EntityDefinitionId eq {0}", id);
                     var tcs = new $.Deferred();
@@ -34,7 +35,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 return Task.fromResult(true);
 
             },
-            attached = function (view) {
+            attached = function () {
 
             },
             save = function () {

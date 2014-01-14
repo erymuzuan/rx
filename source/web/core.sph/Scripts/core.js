@@ -233,12 +233,15 @@ bespoke.utils.ServerPager = function (options) {
 
 };
 ///#source 1 1 /Scripts/_ko.workflow.js
+/// <reference path="jstree.min.js" />
+/// <reference path="jstree.min.js" />
 /// <reference path="typeahead.js" />
 /// <reference path="knockout-3.0.0.debug.js" />
 /// <reference path="knockout.mapping-latest.debug.js" />
 /// <reference path="../App/services/datacontext.js" />
 /// <reference path="../App/durandal/amd/text.js" />
 /// <reference path="jquery-2.0.3.intellisense.js" />
+/// <reference path="underscore.js" />
 
 ko.bindingHandlers.activityClass = {
     init: function (element, valueAccessor) {
@@ -365,6 +368,70 @@ ko.bindingHandlers.comboBoxLookupOptions = {
         var lookup = ko.unwrap(valueAccessor()),
             value = lookup.value;
         $(element).val(ko.unwrap(value));
+    }
+};
+
+
+ko.bindingHandlers.tree = {
+    init: function (element, valueAccessor) {
+        var value = valueAccessor(),
+            entity = ko.unwrap(value.entity),
+            member = value.selected,
+            jsTreeData = {
+                text: entity.Name(),
+                state: {
+                    opened: true,
+                    selected: true
+                }
+            },
+            loadJsTree = function () {
+                jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
+                    return {
+                        text: v.Name(),
+                        data: v
+                    };
+                });
+                $(element)
+                    .on('select_node.jstree', function (node, selected) {
+                        console.log(node);
+                        console.log(selected);
+                        if (selected.node.data) {
+                            member(selected.node.data);
+                        }
+                    })
+                    .jstree({
+                        "core": {
+                            "animation": 0,
+                            "check_callback": true,
+                            "themes": { "stripes": true },
+                            'data': jsTreeData
+                        },
+                        "types": {
+                            "#": {
+                                "max_children": 1,
+                                "max_depth": 4,
+                                "valid_children": ["root"]
+                            },
+                            "root": {
+                                "icon": "/static/3.0.0-beta3/assets/images/tree_icon.png",
+                                "valid_children": ["default"]
+                            },
+                            "default": {
+                                "valid_children": ["default", "file"]
+                            },
+                            "file": {
+                                "icon": "glyphicon glyphicon-file",
+                                "valid_children": []
+                            }
+                        },
+                        "plugins": [
+                          "contextmenu", "dnd", "search",
+                          "state", "types", "wholerow"
+                        ]
+                    });
+            };
+        loadJsTree();
+
     }
 };
 ///#source 1 1 /Scripts/_ko.kendo.js

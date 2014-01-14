@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <bundle minify="true" runOnBuild="true" output="core.js">
-  <!--The order of the <file> elements determines the order of the file contents when bundled.-->
   <file>/Scripts/string.js</file>
   <file>/Scripts/_pager.js</file>
   <file>/Scripts/_ko.workflow.js</file>

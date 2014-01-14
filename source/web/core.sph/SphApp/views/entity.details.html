@@ -1,4 +1,6 @@
-﻿<div class="row">
+﻿
+<link href="/Content/jstree/style.min.css" rel="stylesheet" />
+<div class="row">
     <h1>Custom Entity Definition</h1>
 </div>
 <div class="row">
@@ -23,53 +25,13 @@
         </div>
     </form>
 </div>
-<div class="row" id="members-panel" data-bind="with : entity">
+<div class="row" id="members-panel">
 
-    <div class="col-lg-8">
-        <ul class="nav" data-bind="foreach :MemberCollection">
-            <li>
-                <form class="form-inline" role="form">
-
-                    <i class="fa fa-check" data-bind="value: ko.unwrap(TypeName) === 'System.Boolean, mscrolib'"></i>
-                    <i class="fa fa-text-height" data-bind="value: ko.unwrap(TypeName) !== 'System.Boolean, mscrolib'"></i>
-                    <input type="text" required data-bind="value:Name" style="max-width: 250px;" class="form-control" />
-
-                    <a href="#" data-bind="click : $parent.removeMember.call($parent,$data)" class="">
-                        <i class="fa fa-minus" style="color: red"></i>
-                    </a>
-                    <a href="#" data-bind="click : addMember, visible: MemberCollection().length === 0" class="" title="Expand for complex types">
-                        <i class="fa fa-expand" style="color: blue"></i>
-                    </a>
-
-
-                    <ul class="nav col-lg-offset-4 col-lg-6" data-bind="foreach :MemberCollection">
-                        <li>
-                            <form class="form-inline" role="form">
-
-                                <i class="fa fa-check" data-bind="value: ko.unwrap(TypeName) === 'System.Boolean, mscrolib'"></i>
-                                <i class="fa fa-text-height" data-bind="value: ko.unwrap(TypeName) !== 'System.Boolean, mscrolib'"></i>
-                                <input type="text" required data-bind="value:Name" style="max-width: 250px;" class="form-control" />
-
-                                <a href="#" data-bind="click : $parent.removeMember.call($parent,$data)" class="">
-                                    <i class="fa fa-minus" style="color: red"></i>
-                                </a>
-                                <a href="#" data-bind="click : addMember, visible: MemberCollection().length === 0" class="" title="Expand for complex types">
-                                    <i class="fa fa-expand" style="color: blue"></i>
-                                </a>
-                            </form>
-                        </li>
-                    </ul>
-
-
-
-                </form>
-            </li>
-        </ul>
-        <a href="#" data-bind="click : addMember">
-            <i class="fa fa-plus fa-2x"></i>
-        </a>
+    <div class="col-lg-8" data-bind="tree : {entity: entity, selected: member}">
+        
 
     </div>
+
     <div class="col-lg-4" data-bind="with: member">
         <h3>Member properties</h3>
 

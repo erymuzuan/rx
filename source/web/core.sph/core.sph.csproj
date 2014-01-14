@@ -1076,7 +1076,19 @@
     <Content Include="Content\css.min.css">
       <DependentUpon>__css.css.bundle</DependentUpon>
     </Content>
+    <EmbeddedResource Include="Content\jstree\32px.png" />
+    <EmbeddedResource Include="Content\jstree\40px.png" />
+    <Content Include="Content\jstree\style.css" />
+    <EmbeddedResource Include="Content\jstree\style.min.css" />
+    <EmbeddedResource Include="Content\jstree\throbber.gif" />
     <Content Include="favicon.ico" />
+    <EmbeddedResource Include="Scripts\jstree.min.js" />
+    <Content Include="Scripts\moment-with-langs.js" />
+    <Content Include="Scripts\moment-with-langs.min.js" />
+    <EmbeddedResource Include="Scripts\moment.js" />
+    <EmbeddedResource Include="Scripts\moment.min.js" />
+    <EmbeddedResource Include="Scripts\r.js" />
+    <EmbeddedResource Include="Scripts\require.js" />
     <Content Include="SphApp\partial\Activity.min.js">
       <DependentUpon>Activity.js</DependentUpon>
     </Content>
@@ -1940,14 +1952,8 @@
     <Content Include="Scripts\modernizr-2.7.1.js" />
     <Content Include="Scripts\moment+langs.js" />
     <Content Include="Scripts\moment+langs.min.js" />
-    <Content Include="Scripts\moment-with-langs.js" />
-    <Content Include="Scripts\moment-with-langs.min.js" />
-    <Content Include="Scripts\moment.js" />
-    <EmbeddedResource Include="Scripts\moment.min.js" />
     <Content Include="Scripts\nprogress.js" />
     <Content Include="Scripts\qunit-1.12.0.js" />
-    <Content Include="Scripts\r.js" />
-    <EmbeddedResource Include="Scripts\require.js" />
     <EmbeddedResource Include="Scripts\ace\ace.js" />
     <Content Include="Scripts\ace\ext-chromevox.js" />
     <Content Include="Scripts\ace\ext-elastic_tabstops_lite.js" />
@@ -2297,6 +2303,13 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
