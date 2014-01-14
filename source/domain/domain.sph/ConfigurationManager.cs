@@ -142,7 +142,7 @@
             get
             {
 
-                var val = System.Configuration.ConfigurationManager.AppSettings["sph:SubscriberPath"] ?? @"\source\web\web.sph";
+                var val = System.Configuration.ConfigurationManager.AppSettings["sph:WebPath"] ?? @"\bin\web";
                 return BaseDirectory + val;
             }
         }

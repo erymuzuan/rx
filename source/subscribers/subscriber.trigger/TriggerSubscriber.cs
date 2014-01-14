@@ -19,7 +19,8 @@ namespace Bespoke.Sph.CustomTriggers
 
         protected override Task ProcessMessage(Trigger item, MessageHeaders header)
         {
-            throw new NotImplementedException();
+            this.WriteError(new NotImplementedException("Not implemented " + this.GetType().Name));
+            return Task.FromResult(0);
         }
 
     }
