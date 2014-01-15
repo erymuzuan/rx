@@ -1,7 +1,8 @@
 ﻿
 ko.bindingHandlers.tree = {
     init: function (element, valueAccessor) {
-        var value = valueAccessor(),
+        var system = require(objectbuilders.system),
+            value = valueAccessor(),
             entity = ko.unwrap(value.entity),
             member = value.selected,
             jsTreeData = {
@@ -11,18 +12,50 @@ ko.bindingHandlers.tree = {
                     selected: true
                 }
             },
+            recurseChildMember = function (node) {
+                node.children = _(node.data.MemberCollection()).map(function (v) {
+                    return {
+                        text: v.Name(),
+                        state: 'open',
+                        type: v.TypeName(),
+                        data: v
+                    };
+                });
+                _(node.children).each(recurseChildMember);
+            },
             loadJsTree = function () {
                 jsTreeData.children = _(entity.MemberCollection()).map(function (v) {
                     return {
                         text: v.Name(),
+                        state: 'open',
+                        type: v.TypeName(),
                         data: v
                     };
                 });
+                _(jsTreeData.children).each(recurseChildMember);
                 $(element)
                     .on('select_node.jstree', function (node, selected) {
                         if (selected.node.data) {
                             member(selected.node.data);
+
+                            // subscribe to Name change
+                            member().Name.subscribe(function (name) {
+                                $(element).jstree(true)
+                                    .rename_node(selected.node, name);
+                            });
+                            // type
+                            member().TypeName.subscribe(function (name) {
+                                $(element).jstree(true)
+                                    .set_type(selected.node, name);
+                            });
                         }
+                    })
+                    .on('create_node.jstree', function (event, node) {
+                        console.log(node, "node");
+                    })
+                    .on('rename_node.jstree', function (ev, node) {
+                        var mb = node.node.data;
+                        mb.Name(node.text);
                     })
                     .jstree({
                         "core": {
@@ -34,53 +67,86 @@ ko.bindingHandlers.tree = {
                         "contextmenu": {
                             "items": [
                             {
-                                label: "Add Text",
-                                action: function(node,ev) {
-                                    console.log(node);
-                                    console.log(ev);
-                                    entity.MemberCollection.push(new bespoke.sph.domain.Member({ TypeName: 'System.String, mscrolib', Name: '<StringMember>' }));
+                                label: "Add Child",
+                                action: function () {
+                                    var child = new bespoke.sph.domain.Member({ WebId: system.guid(), TypeName: 'System.String, mscorlib', Name: 'Member_Name' }),
+                                         parent = $(element).jstree('get_selected', true),
+                                         mb = parent[0].data,
+                                         newNode = { state: "open", type: "System.String, mscorlib", text: 'Member_Name', data: child };
 
-                                    $(element).jstree('create_node','[obj, node]');
+                                    var ref = $(element).jstree(true),
+								        sel = ref.get_selected();
+                                    if (!sel.length) { return false; }
+                                    sel = sel[0];
+                                    sel = ref.create_node(sel, newNode);
+                                    if (sel) {
+                                        ref.edit(sel);
+                                        if (mb) {
+                                            mb.MemberCollection.push(child);
+                                        } else {
+                                            entity.MemberCollection.push(child);
+                                        }
+                                        return true;
+                                    }
+                                    return false;
+
+
                                 }
                             },
                             {
-                                label: "Add DateTime",
-                                action: function () { }
-                            },
-                            {
-                                label: "Add integer",
-                                action: function () { }
-                            },
-                            {
-                                label: "Add decimal",
-                                action: function () { }
-                            },
-                            {
-                                label: "Add boolean",
-                                action: function () { }
-                            },
-                            {
-                                label: "Add Complex",
-                                action: function () { }
+                                label: "Remove",
+                                action: function () {
+                                    var ref = $(element).jstree(true),
+								        sel = ref.get_selected();
+
+                                    // now delete the member
+                                    var n = ref.get_selected(true)[0],
+                                        p = ref.get_node($('#' + n.parent)),
+                                        parentMember = p.data;
+                                    if (parentMember) {
+                                        var child = _(parentMember.MemberCollection()).find(function (v) {
+                                            return v.WebId() === n.data.WebId();
+                                        });
+                                        parentMember.MemberCollection.remove(child);
+                                    } else {
+                                        var child2 = _(entity.MemberCollection()).find(function (v) {
+                                            return v.WebId() === n.data.WebId();
+                                        });
+                                        entity.MemberCollection.remove(child2);
+                                    }
+
+                                    if (!sel.length) { return false; }
+                                    ref.delete_node(sel);
+
+                                    return true;
+
+                                }
                             }]
                         },
                         "types": {
-                            "#": {
-                                "max_children": 1,
-                                "max_depth": 4,
-                                "valid_children": ["root"]
-                            },
-                            "root": {
-                                "icon": "/static/3.0.0-beta3/assets/images/tree_icon.png",
-                                "valid_children": ["default"]
-                            },
+
                             "System.String, mscorlib": {
-                                "icon": "glyphicon glyphicon-text-width",
-                                "valid_children": ["default", "file"]
-                            },
-                            "Complex": {
-                                "icon": "glyphicon glyphicon-file",
+                                "icon": "glyphicon glyphicon-bold",
                                 "valid_children": []
+                            },
+                            "System.DateTime, mscorlib": {
+                                "icon": "glyphicon glyphicon-calendar",
+                                "valid_children": []
+                            },
+                            "System.Int32, mscorlib": {
+                                "icon": "fa fa-sort-numeric-asc",
+                                "valid_children": []
+                            },
+                            "System.Decimal, mscorlib": {
+                                "icon": "glyphicon glyphicon-usd",
+                                "valid_children": []
+                            },
+                            "System.Boolean, mscorlib": {
+                                "icon": "glyphicon glyphicon-ok",
+                                "valid_children": []
+                            },
+                            "System.Object, mscorlib": {
+                                "icon": "glyphicon glyphicon-list"
                             }
                         },
                         "plugins": ["contextmenu", "dnd", "types"]
