@@ -146,6 +146,9 @@ ko.bindingHandlers.tree = {
                                 "valid_children": []
                             },
                             "System.Object, mscorlib": {
+                                "icon": "fa fa-building-o"
+                            },
+                            "System.ArrayList, mscorlib": {
                                 "icon": "glyphicon glyphicon-list"
                             }
                         },
