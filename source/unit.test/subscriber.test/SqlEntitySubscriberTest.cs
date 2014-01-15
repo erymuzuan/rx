@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using Bespoke.Sph.Domain;
 using NUnit.Framework;
 using subscriber.entities;
@@ -28,11 +28,10 @@ namespace subscriber.test
             address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib"});
             ent.MemberCollection.Add(address);
             var sql = new SqlTableSubscriber();
-            var columns = sql.GetFiltarableMembers("", ent.MemberCollection);
-            foreach (var column in columns)
-            {
-                Console.WriteLine(column);
-            }
+            var columns = sql.GetFiltarableMembers("", ent.MemberCollection).ToList();
+            
+            CollectionAssert.AllItemsAreNotNull(columns);
+            Assert.IsTrue(columns.Any(c => c.FullName == "Address.State"));
         }
     }
 }
