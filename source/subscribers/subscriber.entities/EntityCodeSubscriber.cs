@@ -17,7 +17,7 @@ namespace subscriber.entities
 
         public override string[] RoutingKeys
         {
-            get { return new[] { typeof(EntityDefinition).Name + ".#.Save" }; }
+            get { return new[] { typeof(EntityDefinition).Name + ".changed.Publish" }; }
         }
 
         protected override Task ProcessMessage(EntityDefinition item, MessageHeaders header)

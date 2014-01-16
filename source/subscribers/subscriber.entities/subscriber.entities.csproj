@@ -49,6 +49,7 @@
     <Compile Include="..\..\..\snippets\AssemblyVersionInfo.cs">
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="EntityPageSubscriber.cs" />
     <Compile Include="EntityCodeSubscriber.cs" />
     <Compile Include="SqlTableSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -70,6 +71,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="entitypage.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="entitypage.html" />
   </ItemGroup>
   <Target Name="CopyOutputDirClientAndWeb">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers" />
