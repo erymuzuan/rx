@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.SubscribersInfrastructure;
+using Newtonsoft.Json;
 
 namespace subscriber.entities
 {
@@ -19,40 +20,22 @@ namespace subscriber.entities
             get { return new[] { typeof(EntityDefinition).Name + ".#.Save" }; }
         }
 
-        public IEnumerable<Member> GetFiltarableMembers(string parent, IList<Member> members)
+        protected override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
-            var filterables = members.Where(m => m.IsFilterable)
-                .Where(m => m.TypeName != "System.Object, mscorlib")
-                .Where(m => m.TypeName != "System.ArrayList, mscorlib")
-                .ToList();
-            var list = members.Where(m => m.TypeName == "System.Object, mscorlib")
-                .Select(m => this.GetFiltarableMembers(parent + m.Name + ".", m.MemberCollection))
-                .SelectMany(m => m)
-                .ToList();
-            filterables.AddRange(list);
+            var applicationName = ConfigurationManager.ApplicationName;
+            var options = new CompilerOptions();
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll")));
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll")));
 
-            filterables.Where(m => string.IsNullOrWhiteSpace(m.FullName))
-                .ToList().ForEach(m => m.FullName = parent + m.Name);
 
-            return filterables;
-
-        }
-
-        protected  override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
-        {  var applicationName = ConfigurationManager.ApplicationName;
-
-            var code = new StringBuilder("");
-            code.AppendLine("using System;");
-            code.AppendLinf("namespace Bespoke.{0}.Domain", applicationName);
-            code.AppendLine("{");
-            code.AppendLinf("   public class {0} : Entity", item.Name);
-            code.AppendLine("   {");
+            var result = item.Compile(options);
+            result.Errors.ForEach(Console.WriteLine);
+            if (!result.Result)
+                this.WriteError(new Exception(result.ToJsonString(Formatting.Indented)));
 
 
 
-            code.AppendLine("   }");
-            code.AppendLine("}");
-            
             return Task.FromResult(0);
         }
 

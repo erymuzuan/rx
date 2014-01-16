@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="businessrules\BusinessRuleTest.cs" />
+    <Compile Include="entities\EntityDefinitionCodeTest.cs" />
     <Compile Include="reports\DataGridTestFixture.cs" />
     <Compile Include="reports\FilterValueTestFixture.cs" />
     <Compile Include="reports\ReportColumnsTestFixture.cs" />
