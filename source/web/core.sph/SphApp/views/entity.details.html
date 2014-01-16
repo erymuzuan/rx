@@ -37,6 +37,31 @@
                        class="form-control" id="plural">
             </div>
         </div>
+        <div class="form-group">
+            <label for="icon-storeid" class="col-lg-2 control-label">Icon/Logo</label>
+            <div class="col-lg-6">
+                <input type="file" data-bind="kendoUpload: IconStoreId" name="files" class="form-control" id="icon-storeid">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="icon-class" class="col-lg-2 control-label">Icon class</label>
+            <div class="col-lg-6">
+                <input type="text" data-bind="value: IconClass"
+                       placeholder="Icon class either Bootsrap or font-awesome"
+                       class="form-control" id="icon-class">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="record-name" class="col-lg-2 control-label">Record Name</label>
+            <div class="col-lg-6">
+                <input type="text" data-bind="value: RecordName"
+                       required="required" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                       placeholder="Identifying member"
+                       class="form-control" id="record-name">
+            </div>
+        </div>
     </form>
 </div>
 <div class="row" id="members-panel">
@@ -67,7 +92,7 @@
                     <option value="System.DateTime, mscorlib">DateTime</option>
                     <option value="System.Boolean, mscorlib">Boolean</option>
                     <option value="System.Object, mscorlib">Complex</option>
-                    <option value="System.ArrayList, mscorlib">Collection</option>
+                    <option value="System.Array, mscorlib">Collection</option>
                 </select>
 
             </div>

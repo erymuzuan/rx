@@ -19,10 +19,10 @@ namespace subscriber.entities
 
         }
 
-        protected override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
+        protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            const string resourceName = "subscriber.entities.entitypage.";
+            const string resourceName = "subscriber.entities.entitypage";
 
             var html = Path.Combine(ConfigurationManager.WebPath, "SphApp/views/" + item.Name.ToLower() + ".html");
             using (var page = assembly.GetManifestResourceStream(resourceName + ".html"))
@@ -33,14 +33,17 @@ namespace subscriber.entities
             }
 
             var js = Path.Combine(ConfigurationManager.WebPath, "SphApp/viewmodels/" + item.Name.ToLower() + ".js");
-            using (var script = assembly.GetManifestResourceStream(resourceName + ".js"))
-            using (var fs = new FileStream(js, FileMode.Create))
+
+
+            using (var stream = assembly.GetManifestResourceStream(resourceName + ".js"))
+            using (var reader = new StreamReader(stream))
             {
-                if (null != script)
-                    script.CopyTo(fs);
+                var raw = reader.ReadToEnd();
+                var script = await ObjectBuilder.GetObject<ITemplateEngine>().GenerateAsync(raw, item);
+                File.WriteAllText(js, script);
+
             }
 
-            return Task.FromResult(0);
         }
 
 

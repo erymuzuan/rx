@@ -13,6 +13,7 @@ namespace Bespoke.Sph.Domain
     public class SphDataContext
     {
         public IQueryable<AuditTrail> AuditTrails { get; set; }
+        public IQueryable<EntityDefinition> EntityDefinitions { get; set; }
         public IQueryable<Organization> Organizations { get; set; }
         public IQueryable<ReportDefinition> ReportDefinitions { get; set; }
         public IQueryable<Role> Roles { get; set; }
@@ -28,6 +29,7 @@ namespace Bespoke.Sph.Domain
         {
             var provider = ObjectBuilder.GetObject<QueryProvider>();
 
+            this.EntityDefinitions = new Query<EntityDefinition>(provider);
             this.AuditTrails = new Query<AuditTrail>(provider);
             this.Organizations = new Query<Organization>(provider);
             this.ReportDefinitions = new Query<ReportDefinition>(provider);

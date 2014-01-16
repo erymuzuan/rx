@@ -17,7 +17,7 @@ namespace domain.test.entities
             var ent = new EntityDefinition { Name = "Customer", Plural = "Customers" };
             ent.MemberCollection.Add(new Member
             {
-                Name = "Name",
+                Name = "Name2",
                 TypeName = "System.String, mscorlib",
                 IsFilterable = true
             }); ent.MemberCollection.Add(new Member
