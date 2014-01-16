@@ -4,6 +4,7 @@ ko.bindingHandlers.tree = {
         var system = require(objectbuilders.system),
             value = valueAccessor(),
             entity = ko.unwrap(value.entity),
+            searchbox = ko.unwrap(value.searchbox),
             member = value.selected,
             jsTreeData = {
                 text: entity.Name(),
@@ -81,7 +82,7 @@ ko.bindingHandlers.tree = {
                                     sel = ref.create_node(sel, newNode);
                                     if (sel) {
                                         ref.edit(sel);
-                                        if (mb) {
+                                        if (mb && mb.MemberCollection) {
                                             mb.MemberCollection.push(child);
                                         } else {
                                             entity.MemberCollection.push(child);
@@ -152,10 +153,19 @@ ko.bindingHandlers.tree = {
                                 "icon": "glyphicon glyphicon-list"
                             }
                         },
-                        "plugins": ["contextmenu", "dnd", "types"]
+                        "plugins": ["contextmenu", "dnd", "types", "search"]
                     });
             };
         loadJsTree();
+
+        var to = false;
+        $(searchbox).keyup(function () {
+            if (to) { clearTimeout(to); }
+            to = setTimeout(function () {
+                var v = $(searchbox).val();
+                $(element).jstree(true).search(v);
+            }, 250);
+        });
 
     }
 };

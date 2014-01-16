@@ -85,6 +85,9 @@
     <Compile Include="FormTemplates\ComboBoxLookup.cs" />
     <Compile Include="FormTemplates\DateTimePicker.cs" />
     <Compile Include="FormTemplates\DefaultValue.cs" />
+    <Compile Include="FormTemplates\EntityDefinition.code.cs">
+      <DependentUpon>EntityDefinition.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTemplates\EntityDefinition.cs" />
     <Compile Include="FormTemplates\FieldValidation.cs" />
     <Compile Include="FormTemplates\FileUploadElement.cs" />

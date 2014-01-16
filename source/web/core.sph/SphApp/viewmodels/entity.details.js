@@ -16,6 +16,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             isBusy = ko.observable(false),
+            errors = ko.observableArray(),
             member = ko.observable(new bespoke.sph.domain.Member()),
             activate = function (id2) {
                 var id = parseInt(id2);
@@ -39,8 +40,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
 
             },
             save = function () {
-                var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(entity);
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(entity);
                 isBusy(true);
 
                 context.post(data, "/EntityDefinition/Save")
@@ -53,27 +54,37 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 return tcs.promise();
             },
             publishAsync = function () {
-                
-                var tcs = new $.Deferred();
-                var data = ko.mapping.toJSON(entity);
+
+                var tcs = new $.Deferred(),
+                    data = ko.mapping.toJSON(entity);
+
+             
+
                 isBusy(true);
 
                 context.post(data, "/EntityDefinition/Publish")
                     .then(function (result) {
                         isBusy(false);
+                        if (result.success) {
+                            logger.info(result.message);
+                            errors.removeAll();
+                        } else {
 
-
+                            errors(result.Errors);
+                            logger.error("There are errors in your entity, !!!");
+                        }
                         tcs.resolve(result);
                     });
                 return tcs.promise();
             };
 
         var vm = {
+            errors: errors,
             isBusy: isBusy,
             activate: activate,
             attached: attached,
             entity: entity,
-            member : member,
+            member: member,
             toolbar: {
                 saveCommand: save,
                 commands: ko.observableArray([

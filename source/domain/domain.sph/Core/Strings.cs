@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
@@ -20,6 +22,26 @@ namespace Bespoke.Sph.Domain
             return value.Equals(value2);
         }
 
+        public static string ToCamelCase(this string text)
+        {
+            return new string(text.ToCamelCaseHelper().ToArray());
+        }
+        private static IEnumerable<char> ToCamelCaseHelper(this string text)
+        {
+            bool first = true;
+            foreach (var c in text)
+            {
+                if (first)
+                {
+                    first = false;
+                    yield return Char.ToLower(c);
+                }
+                else
+                {
+                    yield return c;
+                }
+            }
+        }
 
         public static StringBuilder AppendLinf(this StringBuilder text, string format, params object[] args)
         {

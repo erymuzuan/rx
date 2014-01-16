@@ -3,6 +3,20 @@
 <div class="row">
     <h1>Custom Entity Definition</h1>
 </div>
+<div id="error-list" class="row" data-bind="visible:errors().length">
+    <!-- ko foreach : errors -->
+    <div class="col-lg-8 col-lg-offset-2 alert alert-dismissable alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <i class="fa fa-exclamation"></i>
+        <span data-bind="text:Message"></span>
+        <!-- ko if : Code -->
+        <strong class="icon-read-more" data-bind="bootstrapPopover : Code"> ..more</strong>
+        <!-- /ko-->
+    </div>
+    <div class="col-lg-2"></div>
+    <!-- /ko-->
+</div>
+
 <div class="row">
     <form class="form-horizontal" role="form" data-bind="with : entity">
         <div class="form-group">
@@ -26,12 +40,13 @@
     </form>
 </div>
 <div class="row" id="members-panel">
+    <div class="col-lg-8">
+        <input style="margin: 5px" placeholder="Filter members...." class="form-control" type="search" id="search-box-tree" value="" />
+        <div data-bind="tree : {entity: entity, selected: member, searchbox: '#search-box-tree'}">
 
-    <div class="col-lg-8" data-bind="tree : {entity: entity, selected: member}">
 
-
+        </div>
     </div>
-
     <div class="col-lg-4" data-bind="with: member">
         <h3>Member properties</h3>
 
