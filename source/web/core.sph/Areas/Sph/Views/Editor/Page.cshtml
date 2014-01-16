@@ -149,7 +149,7 @@
                         context.loadAsync("AuditTrail", query)
                             .done(function (lo) {
                                 dialog.logs(lo.itemCollection);
-                                app2.showModal(dialog)
+                                app2.showDialog(dialog)
                                     .done(function (result) {
                                         if (result === "OK") {
                                             editor.setValue(dialog.code());

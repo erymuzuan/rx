@@ -441,35 +441,35 @@ WriteLiteral(@""", JSON.stringify(cursor));
             #line hidden
 WriteLiteral("\";\r\n                        context.loadAsync(\"AuditTrail\", query)\r\n             " +
 "               .done(function (lo) {\r\n                                dialog.log" +
-"s(lo.itemCollection);\r\n                                app2.showModal(dialog)\r\n " +
-"                                   .done(function (result) {\r\n                  " +
-"                      if (result === \"OK\") {\r\n                                  " +
-"          editor.setValue(dialog.code());\r\n                                     " +
-"   }\r\n                                    });\r\n\r\n                            });" +
-"\r\n\r\n                    });\r\n                },\r\n                vm = {\r\n       " +
-"             paste: paste,\r\n                    searchText: ko.observable(),\r\n  " +
-"                  copy: copy,\r\n                    save: save,\r\n                " +
-"    search: search,\r\n                    saveAndClose: saveAndClose,\r\n          " +
-"          gotoLine: gotoLine,\r\n                    logs: logs,\r\n                " +
-"    isBusy: isBusy,\r\n                    snippets: ko.observableArray(),\r\n      " +
-"              openSnippetEditor: function () {\r\n                        require(" +
-"[\'viewmodels/snippets.dialog\', \'services/app\'], function (dialog, app2) {\r\n\r\n   " +
-"                         app2.showModal(dialog)\r\n                               " +
-" .done(function () {\r\n\r\n                                });\r\n\r\n                 " +
-"       });\r\n                    },\r\n                    showHelp: function () {\r" +
-"\n\r\n                    }\r\n                };\r\n            ko.applyBindings(vm, d" +
-"ocument.getElementById(\'header-navbar\'));\r\n\r\n\r\n\r\n\r\n            $(\'#theme\').chang" +
-"e(function () {\r\n                editor.setTheme(\"ace/theme/\" + $(this).val());\r" +
-"\n                $.post(\'/Editor/SaveSetting\', { \'ace-theme\': $(this).val() });\r" +
-"\n            });\r\n            $(\'#font-size\').change(function () {\r\n            " +
-"    $(\'#editor\').css(\"font-size\", $(this).val() + \"px\");\r\n                $.post" +
-"(\'/Editor/SaveSetting\', { \'ace-font-size\': $(this).val() });\r\n            });\r\n " +
-"           $(\'#snippets-list\').on(\'click\', \'li>a\', function () {\r\n              " +
-"  var sp = ko.dataFor(this),\r\n                    code = ko.unwrap(sp.code);\r\n  " +
-"              editor.insert(code);\r\n            });\r\n\r\n            $.getJSON(\'/c" +
-"ode.snippets.js\')\r\n                .done(function (snippets) {\r\n                " +
-"    vm.snippets(snippets);\r\n                });\r\n\r\n        });\r\n    </script>\r\n\r" +
-"\n</body>\r\n</html>\r\n");
+"s(lo.itemCollection);\r\n                                app2.showDialog(dialog)\r\n" +
+"                                    .done(function (result) {\r\n                 " +
+"                       if (result === \"OK\") {\r\n                                 " +
+"           editor.setValue(dialog.code());\r\n                                    " +
+"    }\r\n                                    });\r\n\r\n                            })" +
+";\r\n\r\n                    });\r\n                },\r\n                vm = {\r\n      " +
+"              paste: paste,\r\n                    searchText: ko.observable(),\r\n " +
+"                   copy: copy,\r\n                    save: save,\r\n               " +
+"     search: search,\r\n                    saveAndClose: saveAndClose,\r\n         " +
+"           gotoLine: gotoLine,\r\n                    logs: logs,\r\n               " +
+"     isBusy: isBusy,\r\n                    snippets: ko.observableArray(),\r\n     " +
+"               openSnippetEditor: function () {\r\n                        require" +
+"([\'viewmodels/snippets.dialog\', \'services/app\'], function (dialog, app2) {\r\n\r\n  " +
+"                          app2.showModal(dialog)\r\n                              " +
+"  .done(function () {\r\n\r\n                                });\r\n\r\n                " +
+"        });\r\n                    },\r\n                    showHelp: function () {" +
+"\r\n\r\n                    }\r\n                };\r\n            ko.applyBindings(vm, " +
+"document.getElementById(\'header-navbar\'));\r\n\r\n\r\n\r\n\r\n            $(\'#theme\').chan" +
+"ge(function () {\r\n                editor.setTheme(\"ace/theme/\" + $(this).val());" +
+"\r\n                $.post(\'/Editor/SaveSetting\', { \'ace-theme\': $(this).val() });" +
+"\r\n            });\r\n            $(\'#font-size\').change(function () {\r\n           " +
+"     $(\'#editor\').css(\"font-size\", $(this).val() + \"px\");\r\n                $.pos" +
+"t(\'/Editor/SaveSetting\', { \'ace-font-size\': $(this).val() });\r\n            });\r\n" +
+"            $(\'#snippets-list\').on(\'click\', \'li>a\', function () {\r\n             " +
+"   var sp = ko.dataFor(this),\r\n                    code = ko.unwrap(sp.code);\r\n " +
+"               editor.insert(code);\r\n            });\r\n\r\n            $.getJSON(\'/" +
+"code.snippets.js\')\r\n                .done(function (snippets) {\r\n               " +
+"     vm.snippets(snippets);\r\n                });\r\n\r\n        });\r\n    </script>\r\n" +
+"\r\n</body>\r\n</html>\r\n");
 
         }
     }
