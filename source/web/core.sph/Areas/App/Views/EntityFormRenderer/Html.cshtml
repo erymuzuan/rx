@@ -1,16 +1,17 @@
-﻿@model Bespoke.Sph.Domain.EntityForm
+﻿@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Web.ViewModels.FormRendererViewModel
 
 @{
     ViewBag.Title = "title";
     Layout = null;
 }
 
-<h2>@Model.Name</h2>
+<h2>@Model.Form.Name</h2>
 <div class="row">
-    <form class="form-horizontal">
-        @foreach (var fe in Model.FormDesign.FormElementCollection)
+    <form class="form-horizontal" data-bind="with : entity">
+        @foreach (var fe in Model.Form.FormDesign.FormElementCollection)
         {
-            @Html.EditorFor(f => fe, "Forms")
+            @Html.EditorFor(f => fe)
         }
     </form>
 </div>

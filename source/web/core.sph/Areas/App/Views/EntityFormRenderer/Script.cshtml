@@ -1,25 +1,32 @@
-﻿@model Bespoke.Sph.Domain.EntityForm
+﻿@using Bespoke.Sph.Domain
+@model Bespoke.Sph.Web.ViewModels.FormRendererViewModel
 
-    @{
-        ViewBag.Title = "title";
-        Layout = null;
-    }
+@{
+    ViewBag.Title = "title";
+    Layout = null;
+    var ns = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Model.EntityDefinition.EntityDefinitionId;
+    var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:'{2}'}})", ns, Model.EntityDefinition.Name, Guid.NewGuid());
+    var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.EntityDefinition.Name);
+}
 
-    <h2>title</h2>
-    <script type="text/javascript" data-script="true">
-        define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog],
-            function (context, logger, router, system, app, eximp, dialog) {
+<h2>title</h2>
+<script type="text/javascript" src="~/Scripts/knockout-3.0.0.debug.js"></script>
+<script type="text/javascript" data-script="true">
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog],
+        function (context, logger, router, system, app, eximp, dialog) {
 
-                var activate = function () {
+            var entity = ko.observable(new @Html.Raw(typeCtor)),
+            activate = function () {
 
-                },
-                    attached = function (parameters) {
+            },
+                attached = function (parameters) {
 
-                    };
-
-                return {
-                    activate: activate,
-                    attached: attached
                 };
-            });
-    </script>
+
+            return {
+                activate: activate,
+                attached: attached,
+                entity: entity
+            };
+        });
+</script>

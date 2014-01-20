@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
@@ -12,7 +13,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(w => w.EntityDefinitionId == id);
             var list = ed.GetMembersPath();
-     
+
 
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -32,6 +33,31 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
 
         }
+
+        public async Task<ActionResult> Schemas()
+        {
+            var context = new SphDataContext();
+            var query = context.EntityDefinitions;
+            var lo = await context.LoadAsync(query, includeTotalRows: true);
+            var list = new ObjectCollection<EntityDefinition>(lo.ItemCollection);
+
+            while (lo.HasNextPage)
+            {
+                lo = await context.LoadAsync(query, lo.CurrentPage + 1, includeTotalRows: true);
+                list.AddRange(lo.ItemCollection);
+            }
+
+            var script = new StringBuilder();
+            foreach (var ef in list)
+            {
+                var code = await ef.GenerateCustomXsdJavascriptClassAsync();
+                script.AppendLine(code);
+            }
+
+            this.Response.ContentType = "application/javascript";
+            return Content(script.ToString());
+        }
+
         public async Task<ActionResult> Publish()
         {
             var ed = this.GetRequestJson<EntityDefinition>();
@@ -51,5 +77,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 
 
         }
+
+
     }
 }

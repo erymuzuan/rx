@@ -27,51 +27,78 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormRenderer
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    
+    #line 1 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+    using Bespoke.Sph.Domain;
+    
+    #line default
+    #line hidden
     using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/EntityFormRenderer/Script.cshtml")]
-    public partial class Script : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.EntityForm>
+    public partial class Script : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.ViewModels.FormRendererViewModel>
     {
         public Script()
         {
         }
         public override void Execute()
         {
-WriteLiteral("    ");
-
             
-            #line 3 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
-      
-        ViewBag.Title = "title";
-        Layout = null;
-    
+            #line 4 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+  
+    ViewBag.Title = "title";
+    Layout = null;
+    var ns = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Model.EntityDefinition.EntityDefinitionId;
+    var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:'{2}'}})", ns, Model.EntityDefinition.Name, Guid.NewGuid());
+    var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.EntityDefinition.Name);
+
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n    <h2>title</h2>\r\n    <script");
+WriteLiteral("\r\n\r\n<h2>title</h2>\r\n<script");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteAttribute("src", Tuple.Create(" src=\"", 533), Tuple.Create("\"", 572)
+, Tuple.Create(Tuple.Create("", 539), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.0.0.debug.js")
+, 539), false)
+);
+
+WriteLiteral("></script>\r\n<script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral(" data-script=\"true\"");
 
 WriteLiteral(@">
-        define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog],
-            function (context, logger, router, system, app, eximp, dialog) {
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog],
+        function (context, logger, router, system, app, eximp, dialog) {
 
-                var activate = function () {
+            var entity = ko.observable(new ");
 
-                },
-                    attached = function (parameters) {
+            
+            #line 18 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                                      Write(Html.Raw(typeCtor));
 
-                    };
+            
+            #line default
+            #line hidden
+WriteLiteral(@"),
+            activate = function () {
 
-                return {
-                    activate: activate,
-                    attached: attached
+            },
+                attached = function (parameters) {
+
                 };
-            });
-    </script>");
+
+            return {
+                activate: activate,
+                attached: attached,
+                entity: entity
+            };
+        });
+</script>");
 
         }
     }

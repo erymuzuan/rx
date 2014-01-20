@@ -1,0 +1,21 @@
+﻿@model Bespoke.Sph.Domain.DateTimePicker
+
+
+@if (Model.IsCompact)
+{
+    <input class="@(Model.CssClass + " form-control "+ Model.Size)"
+           data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" type="text"
+           name="@Model.Path" />
+}
+else
+{
+
+    <div class="form-group datepicker">
+        <label for="@Model.ElementId" class="@Model.LabelCssClass">@Model.Label</label>
+        <div class="@Model.InputPanelCssClass">
+            <input class="@(Model.CssClass + " form-control "+ Model.Size)"
+                   data-bind="@(Html.Raw(Model.GetKnockoutBindingExpression()))" id="@Model.ElementId" type="text"
+                   name="@Model.Path" />
+        </div>
+    </div>
+}

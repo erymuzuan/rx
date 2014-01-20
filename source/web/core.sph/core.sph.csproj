@@ -252,6 +252,81 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_ValidationSetting.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\Button.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Button.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\CheckBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CheckBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\ComboBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComboBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\DatePicker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DatePicker.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\DateTimePicker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DateTimePicker.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\EmailFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\FileUploadElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileUploadElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\FormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\HtmlElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HtmlElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\ListView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ListView.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\NumberTextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NumberTextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\SectionFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SectionFormElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\TextAreaElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextAreaElement.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\TextBox.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextBox.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\WebsiteFormElement.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\App\Views\EntityFormRenderer\Html.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -685,6 +760,7 @@
     </Compile>
     <Compile Include="ViewModels\CreateMapModel.cs" />
     <Compile Include="ViewModels\EditorPageViewModel.cs" />
+    <Compile Include="ViewModels\FormRendererViewModel.cs" />
     <Compile Include="ViewModels\HeaderViewModel.cs" />
     <Compile Include="Areas\Sph\Controllers\ImageController.cs" />
     <Compile Include="Areas\Sph\Controllers\MapController.cs" />
@@ -1935,6 +2011,66 @@
     <Content Include="Areas\App\Views\EntityFormRenderer\Html.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Html.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\Button.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Button.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\CheckBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>CheckBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\ComboBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ComboBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\DatePicker.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DatePicker.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\DateTimePicker.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DateTimePicker.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\EmailFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EmailFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\FileUploadElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FileUploadElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\FormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\HtmlElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>HtmlElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\ListView.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ListView.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\NumberTextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>NumberTextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\SectionFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>SectionFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\TextAreaElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextAreaElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\TextBox.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextBox.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\WebsiteFormElement.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
     </Content>
     <None Include="Content\jsplumb\__jsplumb.css.bundle">
       <SubType>Designer</SubType>

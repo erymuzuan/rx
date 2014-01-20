@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace Bespoke.Sph.Domain
 {
-    public partial class EntityDefinition 
+    public partial class EntityDefinition
     {
 
         private string GenerateCode()
@@ -25,7 +25,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   public class " + this.Name + " : Entity");
             code.AppendLine("   {");
 
-            code.AppendLinf("   private int m_{0}Id;",  this.Name.ToCamelCase());
+            code.AppendLinf("   private int m_{0}Id;", this.Name.ToCamelCase());
             code.AppendLinf("   public int {0}Id", this.Name);
             code.AppendLine("   {");
             code.AppendLinf("       get{{ return m_{0}Id;}}", this.Name.ToCamelCase());
@@ -64,24 +64,34 @@ namespace Bespoke.Sph.Domain
 
         public Task<string> GenerateCustomXsdJavascriptClassAsync()
         {
-            var jsNamespace = new string(ConfigurationManager.ApplicationName.ToCamelCase().ToArray()) + "_" + this.EntityDefinitionId;
+            var jsNamespace = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.EntityDefinitionId;
+            var assemblyName = ConfigurationManager.ApplicationName + "." + this.Name;
             var script = new StringBuilder();
             script.AppendLine("var bespoke = bespoke ||{};");
             script.AppendLinf("bespoke.{0} = bespoke.{0} ||{{}};", jsNamespace);
             script.AppendLinf("bespoke.{0}.domain = bespoke.{0}.domain ||{{}};", jsNamespace);
 
-            //var xsd = wd.GetCustomSchema();
+            script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, this.Name);
+            script.AppendLine(" var model = {");
+            script.AppendLinf("     $type = \"{0}.{1}, {2}\"", this.CodeNamespace, this.Name, assemblyName);
+            foreach (var item in this.MemberCollection)
+            {
+                if (item.Type == typeof(Array))
+                    script.AppendLinf("     {0}: ko.observableArray([])", item.Name);
+                else if (item.Type == typeof(object))
+                    script.AppendLinf("     {0}: ko.observable(new bespoke.{1}.domain.{0}())", item.Name, jsNamespace);
+                else
+                    script.AppendLinf("     {0}: ko.observable()", item.Name);
+            }
 
-            //var complexTypesElement = xsd.Elements(x + "complexType").ToList();
-            //var complexTypeClasses = complexTypesElement.Select(wd.GenerateXsdComplexTypeJavascript).ToList();
-            //complexTypeClasses.ForEach(c => script.AppendLine(c));
-
-            //var elements = xsd.Elements(x + "element").ToList();
-            //var elementClasses = elements.Select(e => wd.GenerateXsdElementJavascript(e, 0, s => complexTypesElement.Single(f => f.Attribute("name").Value == s))).ToList();
-            //elementClasses.ForEach(c => script.AppendLine(c));
-
-
-
+            script.AppendLine(" }");
+            script.AppendLine(" return model;");
+            script.AppendLine("};");
+            foreach (var item in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
+            {
+                var code = item.GenerateJavascriptClass(jsNamespace, this.CodeNamespace, assemblyName);
+                script.AppendLine(code);
+            }
             return Task.FromResult(script.ToString());
         }
 

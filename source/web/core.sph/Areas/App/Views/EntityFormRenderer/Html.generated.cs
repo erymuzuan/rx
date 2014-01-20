@@ -27,11 +27,17 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormRenderer
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
+    
+    #line 1 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+    using Bespoke.Sph.Domain;
+    
+    #line default
+    #line hidden
     using Bespoke.Sph.Web;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/EntityFormRenderer/Html.cshtml")]
-    public partial class Html : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.EntityForm>
+    public partial class Html : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.ViewModels.FormRendererViewModel>
     {
         public Html()
         {
@@ -39,7 +45,7 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormRenderer
         public override void Execute()
         {
             
-            #line 3 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+            #line 4 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
   
     ViewBag.Title = "title";
     Layout = null;
@@ -50,8 +56,8 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormRenderer
 WriteLiteral("\r\n\r\n<h2>");
 
             
-            #line 8 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
-Write(Model.Name);
+            #line 9 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+Write(Model.Form.Name);
 
             
             #line default
@@ -64,32 +70,34 @@ WriteLiteral(">\r\n    <form");
 
 WriteLiteral(" class=\"form-horizontal\"");
 
+WriteLiteral(" data-bind=\"with : entity\"");
+
 WriteLiteral(">\r\n");
 
             
-            #line 11 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+            #line 12 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 11 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
-         foreach (var fe in Model.FormDesign.FormElementCollection)
+            #line 12 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+         foreach (var fe in Model.Form.FormDesign.FormElementCollection)
         {
             
             
             #line default
             #line hidden
             
-            #line 13 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
-       Write(Html.EditorFor(f => fe, "Forms"));
+            #line 14 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+       Write(Html.EditorFor(f => fe));
 
             
             #line default
             #line hidden
             
-            #line 13 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
-                                             
+            #line 14 "..\..\Areas\App\Views\EntityFormRenderer\Html.cshtml"
+                                    
         }
 
             

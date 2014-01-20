@@ -117,5 +117,36 @@ namespace Bespoke.Sph.Domain
             }
             return list.ToArray();
         }
+
+        public string GenerateJavascriptClass(string jsNamespace, string codeNamespace, string assemblyName)
+        {
+            var script = new StringBuilder();
+            var name = this.Name.Replace("Collection", "");
+
+            script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, name);
+            script.AppendLine(" var model = {");
+            script.AppendLinf("     $type = \"{0}.{1}, {2}\"", codeNamespace, name,
+                assemblyName);
+            foreach (var item in this.MemberCollection)
+            {
+                if (item.Type == typeof(Array))
+                    script.AppendLinf("     {0}: ko.observableArray([])", item.Name);
+                else if (item.Type == typeof(object))
+                    script.AppendLinf("     {0}: ko.observable(new bespoke.{1}.domain.{0}())", item.Name, jsNamespace);
+                else
+                    script.AppendLinf("     {0}: ko.observable()", item.Name);
+            }
+
+            script.AppendLine(" }");
+            script.AppendLine(" return model;");
+            script.AppendLine("};");
+
+            foreach (var item in this.MemberCollection.Where(m => m.Type == typeof(object) || m.Type == typeof(Array)))
+            {
+                var code = item.GenerateJavascriptClass(jsNamespace, codeNamespace, assemblyName);
+                script.AppendLine(code);
+            }
+            return script.ToString();
+        }
     }
 }
