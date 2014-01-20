@@ -5,7 +5,7 @@
             return v.toString(16);
         });
     },
-        showModal = function (dialog) {
+        showDialog = function (dialog) {
 
             // get the view
             var moduleId = dialog.__moduleId__,
@@ -88,7 +88,7 @@
         };
     var app = {
         guid: guid,
-        showModal: showModal,
+        showModal: showDialog,
         showMessage: showMessage
     };
     return app;

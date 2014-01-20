@@ -32,6 +32,8 @@ namespace Bespoke.Sph.Domain
 
         public string GeneratedCode()
         {
+            if(null == this.Type)
+                throw new InvalidOperationException(this + " doesn't have a type");
             var code = new StringBuilder();
             if (typeof(object) == this.Type)
             {

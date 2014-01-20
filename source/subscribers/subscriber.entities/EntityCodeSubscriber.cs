@@ -24,9 +24,9 @@ namespace subscriber.entities
         {
             var applicationName = ConfigurationManager.ApplicationName;
             var options = new CompilerOptions();
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\System.Web.Mvc.dll")));
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\web.sph.dll")));
-            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(@"\project\work\sph\source\web\web.sph\bin\Newtonsoft.Json.dll")));
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\System.Web.Mvc.dll")));
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\core.sph.dll")));
+            options.ReferencedAssemblies.Add(Assembly.LoadFrom(Path.GetFullPath(ConfigurationManager.WebPath + @"\bin\Newtonsoft.Json.dll")));
 
 
             var result = item.Compile(options);

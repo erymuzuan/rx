@@ -309,6 +309,9 @@
 			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Plural" type="xs:string" use="required"/>
+			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
+			<xs:attribute name="IconClass" type="xs:string" use="required"/>
+			<xs:attribute name="RecordName" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Member">

@@ -25,21 +25,12 @@ namespace Bespoke.Sph.Domain
             code.AppendLine("   public class " + this.Name + " : Entity");
             code.AppendLine("   {");
 
-            // contructor
-            code.AppendLine("       public " + this.Name + "()");
-            code.AppendLine("       {");
-
-            // default properties
-            code.AppendLinf("           this.Name = \"{0}\";", this.Name);
-
-            foreach (var member in this.MemberCollection.Where(t => t.TypeName == "System.Object, mscorlib"))
-            {
-                code.AppendLinf("           this.{0} = new {1}();", member.Name, member.Name);
-            }
-            code.AppendLine("       }");// end contructor
-
-
-
+            code.AppendLinf("   private int m_{0}Id;",  this.Name.ToCamelCase());
+            code.AppendLinf("   public int {0}Id", this.Name);
+            code.AppendLine("   {");
+            code.AppendLinf("       get{{ return m_{0}Id;}}", this.Name.ToCamelCase());
+            code.AppendLinf("       set{{ m_{0}Id = value;}}", this.Name.ToCamelCase());
+            code.AppendLine("   }");
 
             // properties for each members
             foreach (var member in this.MemberCollection)
@@ -47,8 +38,6 @@ namespace Bespoke.Sph.Domain
                 code.AppendLinf("//member:{0}", member.Name);
                 code.AppendLine("       " + member.GeneratedCode());
             }
-
-        
 
 
             code.AppendLine("   }");// end class
@@ -59,13 +48,9 @@ namespace Bespoke.Sph.Domain
                 code.AppendLine(member.GeneratedCustomClass());
             }
 
-            //var customSchemaCode = this.GenerateXsdCsharpClasses();
-            //code.AppendLine(customSchemaCode);
-
-
             // search
             this.GenerateSearchController(code);
-            this.GenerateJsSchemasController(code);
+
 
             code.AppendLine("}");// end namespace
             return code.ToString();
@@ -76,33 +61,6 @@ namespace Bespoke.Sph.Domain
             get { return string.Format("Bespoke.{0}_{1}.Domain", ConfigurationManager.ApplicationName, this.EntityDefinitionId); }
         }
 
-        private void GenerateJsSchemasController(StringBuilder code)
-        {
-            code.AppendLinf("public partial class {0}Controller : System.Web.Mvc.Controller", this.Name);
-            code.AppendLine("{");
-            code.AppendLinf("//exec:Schemas");
-            // custom schema
-            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Schemas()");
-            code.AppendLine("       {");
-            code.AppendLine("           var store = ObjectBuilder.GetObject<IBinaryStore>();");
-            code.AppendLinf("           var doc = await store.GetContentAsync(\"wd.{0}\");", this.Name);
-            code.AppendLine(@"          WorkflowDefinition wd;
-                                        using (var stream = new System.IO.MemoryStream(doc.Content))
-                                        {
-                                            wd = stream.DeserializeFromXml<WorkflowDefinition>();
-                                        }
-
-                                        ");
-            code.AppendLinf("           var script = await wd.GenerateCustomXsdJavascriptClassAsync();", this.WebId);
-            code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
-
-            code.AppendLine("           return Content(script);");
-            code.AppendLine("       }");
-            code.AppendLine("   }");
-
-
-
-        }
 
         public Task<string> GenerateCustomXsdJavascriptClassAsync()
         {
@@ -146,9 +104,38 @@ namespace Bespoke.Sph.Domain
             this.Response.ContentType = ""application/json; charset=utf-8"";
             return Content(await content.ReadAsStringAsync());", this.Plural.ToLower());
             code.AppendLine("       }");
+
+            // SAVE
+            code.AppendLinf("//exec:Save");
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Save()");
+            code.AppendLine("       {");
+            code.AppendLinf(@"
+            var item = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestJson<{0}>(this);
+            var context = new Bespoke.Sph.Domain.SphDataContext();
+            using(var session = context.OpenSession())
+            {{
+                session.Attach(item);
+                await session.SubmitChanges(""save"");
+            }}
+            this.Response.ContentType = ""application/json; charset=utf-8"";
+            return Json(new {{success = true, status=""OK"", id = item.{0}Id}});", this.Name);
+            code.AppendLine("       }");
+
+            //SCHEMAS
+
+            code.AppendLinf("//exec:Schemas");
+            code.AppendLinf("       public async Task<System.Web.Mvc.ActionResult> Schemas()");
+            code.AppendLine("       {");
+            code.AppendLine("           var context = new SphDataContext();");
+            code.AppendLinf("           var ed = await context.LoadOneAsync<EntityDefinition>(t => t.Name == \"{0}\");", this.Name);
+
+            code.AppendLine("           var script = await ed.GenerateCustomXsdJavascriptClassAsync();");
+            code.AppendLine("           this.Response.ContentType = \"application/javascript\";");
+
+            code.AppendLine("           return Content(script);");
+            code.AppendLine("       }");
+
             code.AppendLine("}");
-
-
 
         }
 

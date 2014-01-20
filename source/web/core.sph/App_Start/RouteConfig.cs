@@ -30,15 +30,26 @@ namespace Bespoke.Sph.Web.App_Start
             var context = new SphDataContext();
             // ReSharper disable RedundantBoolCompare
             var rdlTask = context.LoadAsync(context.ReportDefinitions.Where(t => t.IsActive == true || (t.IsPrivate && t.CreatedBy == user)));
+            var edTasks = context.LoadAsync(context.EntityDefinitions);
             // ReSharper restore RedundantBoolCompare
-            await Task.WhenAll(rdlTask);
+            await Task.WhenAll(rdlTask,edTasks);
 
 
             var rdls = await rdlTask;
+            var eds = await edTasks;
             var routes = new List<JsRoute>();
 
 
-
+            var edRoutes = from t in eds.ItemCollection
+                            select new JsRoute
+                            {
+                                Title = t.Plural,
+                                Route = string.Format("{0}", t.Name.ToLowerInvariant()),
+                                Caption = t.Plural,
+                                Icon = t.IconClass,
+                                ModuleId = string.Format("viewmodels/{0}", t.Name.ToLowerInvariant()),
+                                Nav = true
+                            };
 
             var rdlRoutes = from t in rdls.ItemCollection
                             select new JsRoute
@@ -50,6 +61,7 @@ namespace Bespoke.Sph.Web.App_Start
                                 ModuleId = string.Format("viewmodels/reportdefinition.execute-id.{0}", t.ReportDefinitionId)
                             };
 
+            routes.AddRange(edRoutes);
             routes.AddRange(rdlRoutes);
             return routes;
         }

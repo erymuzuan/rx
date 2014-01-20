@@ -13,15 +13,14 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
     function (context, logger, router) {
 
         var isBusy = ko.observable(false),
+            id = ko.observable([]),
             tools = ko.observableArray([]),
             reports = ko.observableArray([]),
             recentItems = ko.observableArray([]),
             views = ko.observableArray([]),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             activate = function () {
-                id(@Model.EntityDefinitionId);
-
-                var query = String.format("EntityDefinitionId eq {0}", id());
+                var query = String.format("Name eq '{0}'", '@Model.Name');
                 var tcs = new $.Deferred();
                 context.loadOneAsync("EntityDefinition", query)
                     .done(function(b) {
@@ -51,7 +50,6 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             };
 
         var vm = {
-            wd: wd,
             isBusy: isBusy,
             views: views,
             entity: entity,

@@ -728,6 +728,9 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         EntityDefinitionId: ko.observable(0),
         Name: ko.observable(''),
         Plural: ko.observable(''),
+        IconStoreId: ko.observable(''),
+        IconClass: ko.observable(''),
+        RecordName: ko.observable(''),
         MemberCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
