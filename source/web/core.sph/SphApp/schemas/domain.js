@@ -785,6 +785,70 @@ bespoke.sph.domain.Member = function (optionOrWebid) {
 };
 
 
+
+bespoke.sph.domain.EntityForm = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.EntityForm, domain.sph",
+        EntityFormId: ko.observable(0),
+        Name: ko.observable(''),
+        Route: ko.observable(''),
+        Note: ko.observable(''),
+        IsAllowedNewItem: ko.observable(false),
+        FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.EntityFormPartial) {
+        return _(model).extend(new bespoke.sph.domain.EntityFormPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.EntityView = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
+        EntityViewId: ko.observable(0),
+        Name: ko.observable(''),
+        Route: ko.observable(''),
+        Note: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.EntityViewPartial) {
+        return _(model).extend(new bespoke.sph.domain.EntityViewPartial(model));
+    }
+    return model;
+};
+
+
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {

@@ -96,17 +96,14 @@ WriteLiteral(" data-script=\"true\"");
 
 WriteLiteral(@">
 
-
-
-
     define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog],
         function (context, logger, router, system, app, eximp, dialog) {
 
-            var activate = function (routeData) {
+            var activate = function (wdid, screenid) {
                 var elements = ");
 
             
-            #line 23 "..\..\Areas\App\Views\ActivityScreen\Script.cshtml"
+            #line 20 "..\..\Areas\App\Views\ActivityScreen\Script.cshtml"
                           Write(Html.Raw(JsonConvert.SerializeObject(Model.FormElements,setting)));
 
             
@@ -116,8 +113,8 @@ WriteLiteral(@",
                     oels = _(elements.$values).map(function (v){return context.toObservable(v);});
                 vm.formElements(oels);
 
-                if (routeData) {
-                    var id = parseInt(routeData.wdid),
+                if (wdid) {
+                    var id = parseInt(wdid),
                         query = String.format(""WorkflowDefinitionId eq {0}"", id),
                         tcs = new $.Deferred();
 
@@ -126,7 +123,7 @@ WriteLiteral(@",
                             vm.wd(b);
                             tcs.resolve(true);
                             b.loadSchema();
-                            var act = _(b.ActivityCollection()).find(function(v) { return v.WebId() == routeData.webid; });
+                            var act = _(b.ActivityCollection()).find(function(v) { return v.WebId() == screenid; });
                             vm.activity(act);
 
                         });
@@ -134,7 +131,7 @@ WriteLiteral(@",
                 }
                 return Task.fromResult(true);
             },
-                viewAttached = function(view) {
+                attached = function(view) {
 
                     if (!vm.activity().InvitationMessageBody())
                         vm.activity().InvitationMessageBody(""");
@@ -247,38 +244,38 @@ WriteLiteral("@Model.Screen.Name was cancelled\");\r\n\r\n                    va
 "ign(clone.FormDesign());\r\n\r\n                     } catch (error) {\r\n            " +
 "             logger.logError(\'Fail template import tidak sah\', error, this, true" +
 ");\r\n                     }\r\n                 });\r\n                };\r\n\r\n        " +
-"    var vm = {\r\n                viewAttached: viewAttached,\r\n                act" +
-"ivate: activate,\r\n                formElements: ko.observableArray(),\r\n         " +
-"       selectedFormElement: ko.observable(),\r\n                selectFormElement " +
-": selectFormElement,\r\n                removeFormElement : removeFormElement,\r\n  " +
-"              activity: ko.observable(new bespoke.sph.domain.ScreenActivity()),\r" +
-"\n                wd : ko.observable(new bespoke.sph.domain.WorkflowDefinition(sy" +
-"stem.guid())),\r\n                okClick: okClick,\r\n                cancelClick: " +
-"cancelClick,\r\n                importCommand :importCommand,\r\n                too" +
-"lbar : {\r\n                    commands :ko.observableArray([{\r\n                 " +
-"       caption : \'Create Pull Request\',\r\n                        icon : \'fa fa-f" +
-"older-open-o\',\r\n                        command : open\r\n                    }\r\n " +
-"                   ]),\r\n                    exportCommand : exportScreen\r\n      " +
-"          }\r\n            };\r\n\r\n            vm.activity.subscribe(function(screen" +
-") {\r\n\r\n                var cached = localStorage.getItem(screen.WebId());\r\n     " +
-"           if (cached) {\r\n                    app.showMessage(\"There\'s cached da" +
-"ta in your local storage, do you want to restore this?\", \"Local storage\", [\"Yes\"" +
-", \"No\"])\r\n                        .done(function(dr) {\r\n                        " +
-"    if (dr === \"Yes\") {\r\n                                var screen2 = context.t" +
-"oObservable(JSON.parse(cached)),\r\n                                    fd2 = ko.u" +
-"nwrap(screen2.FormDesign);\r\n\r\n                                _(fd2.FormElementC" +
-"ollection()).each(function(v) {\r\n                                    v.isSelecte" +
-"d = ko.observable(false);\r\n                                });\r\n                " +
-"                if (typeof screen.FormDesign === \"function\") {\r\n                " +
-"                    screen.FormDesign(screen2.FormDesign());\r\n                  " +
-"              } else {\r\n                                    screen.FormDesign.Fo" +
-"rmElementCollection(screen2.FormDesign().FormElementCollection());\r\n            " +
-"                    }\r\n\r\n                                return;\r\n              " +
-"              }\r\n                        });\r\n                }\r\n\r\n             " +
-"   var fd = ko.unwrap(screen.FormDesign);\r\n                _(fd.FormElementColle" +
-"ction()).each(function(v) {\r\n                    v.isSelected = ko.observable(fa" +
-"lse);\r\n                });\r\n            });\r\n\r\n\r\n            return vm;\r\n\r\n     " +
-"   });\r\n\r\n\r\n</script>\r\n");
+"    var vm = {\r\n                attached: attached,\r\n                activate: a" +
+"ctivate,\r\n                formElements: ko.observableArray(),\r\n                s" +
+"electedFormElement: ko.observable(),\r\n                selectFormElement : select" +
+"FormElement,\r\n                removeFormElement : removeFormElement,\r\n          " +
+"      activity: ko.observable(new bespoke.sph.domain.ScreenActivity()),\r\n       " +
+"         wd : ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.gui" +
+"d())),\r\n                okClick: okClick,\r\n                cancelClick: cancelCl" +
+"ick,\r\n                importCommand :importCommand,\r\n                toolbar : {" +
+"\r\n                    commands :ko.observableArray([{\r\n                        c" +
+"aption : \'Create Pull Request\',\r\n                        icon : \'fa fa-folder-op" +
+"en-o\',\r\n                        command : open\r\n                    }\r\n         " +
+"           ]),\r\n                    exportCommand : exportScreen\r\n              " +
+"  }\r\n            };\r\n\r\n            vm.activity.subscribe(function(screen) {\r\n\r\n " +
+"               var cached = localStorage.getItem(screen.WebId());\r\n             " +
+"   if (cached) {\r\n                    app.showMessage(\"There\'s cached data in yo" +
+"ur local storage, do you want to restore this?\", \"Local storage\", [\"Yes\", \"No\"])" +
+"\r\n                        .done(function(dr) {\r\n                            if (" +
+"dr === \"Yes\") {\r\n                                var screen2 = context.toObserva" +
+"ble(JSON.parse(cached)),\r\n                                    fd2 = ko.unwrap(sc" +
+"reen2.FormDesign);\r\n\r\n                                _(fd2.FormElementCollectio" +
+"n()).each(function(v) {\r\n                                    v.isSelected = ko.o" +
+"bservable(false);\r\n                                });\r\n                        " +
+"        if (typeof screen.FormDesign === \"function\") {\r\n                        " +
+"            screen.FormDesign(screen2.FormDesign());\r\n                          " +
+"      } else {\r\n                                    screen.FormDesign.FormElemen" +
+"tCollection(screen2.FormDesign().FormElementCollection());\r\n                    " +
+"            }\r\n\r\n                                return;\r\n                      " +
+"      }\r\n                        });\r\n                }\r\n\r\n                var f" +
+"d = ko.unwrap(screen.FormDesign);\r\n                _(fd.FormElementCollection())" +
+".each(function(v) {\r\n                    v.isSelected = ko.observable(false);\r\n " +
+"               });\r\n            });\r\n\r\n\r\n            return vm;\r\n\r\n        });\r\n" +
+"\r\n\r\n</script>\r\n");
 
         }
     }

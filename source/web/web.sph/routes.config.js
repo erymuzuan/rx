@@ -269,6 +269,20 @@
   },
   {
     "role": "can_edit_workflow",
+    "groupName": "Entity",
+    "route": "entity.form.designer/:entityid/:formid",
+    "moduleId": "viewmodels/entity.form.designer",
+    "title": "Entity Form Designer",
+    "nav": false,
+    "icon": "fa-bug",
+    "caption": "Entity Form Designer",
+    "settings": null,
+    "isAdminPage": false,
+    "showWhenLoggedIn": false,
+    "error": ""
+  },
+  {
+    "role": "can_edit_workflow",
     "groupName": "Workflow",
     "route": "workflow.debugger/:id",
     "moduleId": "viewmodels/workflow.debugger",

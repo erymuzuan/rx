@@ -1,0 +1,39 @@
+﻿<section class="context-action-panel" data-bind="visible: isSelected">
+    <button class="btn btn-link  btn-context-action">
+        <i class="fa fa-chevron-circle-right"></i>
+    </button>
+
+    <div class="context-action panel panel-default" data-bind="with: $root.selectedFormElement">
+        <div class="panel-heading">
+            <button type="button" class="close">&times;</button>
+            <span>Properties</span>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label for="context-action-label" class="control-label">Label</label>
+                <div class="controls">
+                    <input class="form-control" data-bind="value: Label, valueUpdate: 'keyup'" id="context-action-label" type="text" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="context-action-label" class="control-label">Tooltip</label>
+                <div class="controls">
+                    <input class="form-control" data-bind="value: Tooltip, valueUpdate: 'keyup'" id="context-action-tooltip" type="text" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="context-action-label" class="control-label">Help</label>
+                <div class="controls">
+                    <textarea class="form-control" rows="3" cols="32" data-bind="value: HelpText, valueUpdate: 'keyup'" id="context-action-help"></textarea>
+                </div>
+            </div>
+            <a class="btn btn-warning pull-right" data-bind="click: $root.removeFormElement">
+                <i class="glyphicon glyphicon-remove"></i>
+                Buang
+            </a>
+        </div>
+        @*   </form>*@
+
+    </div>
+</section>

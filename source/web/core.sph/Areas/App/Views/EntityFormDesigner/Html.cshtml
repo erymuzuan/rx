@@ -1,0 +1,35 @@
+﻿@using System.Web.Mvc.Html
+@model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
+
+@{
+    Layout = null;
+}
+<div class="row">
+    <h1>Screen Editor</h1>
+</div>
+<div class="row">
+    <!-- left toolbox-->
+    <div class="col-lg-3">
+        @Html.Partial("_Toolbox")
+    </div>
+    <!-- ko with : form -->
+    <div id="screen-activity-designer" class="col-lg-9" data-bind="with: FormDesign">
+        <div id="template-form-designer">
+            <h1 data-bind="text: Name"></h1>
+            <span data-bind="text: Description"></span>
+
+            <form class="form-horizontal">
+                <!--ko foreach:FormElementCollection -->
+                @foreach (var fe in Model.FormElements)
+                {
+                    @Html.DisplayFor(m => fe)
+                }
+                <!--/ko-->
+
+            </form>
+        </div>
+
+    </div>
+
+    <!-- /ko -->
+</div>

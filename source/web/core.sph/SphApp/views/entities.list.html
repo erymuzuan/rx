@@ -10,6 +10,8 @@
     <thead>
         <tr>
             <th>Name</th>
+            <th>Views</th>
+            <th>Forms</th>
             <th>Plural</th>
             <th></th>
         </tr>
@@ -17,7 +19,19 @@
     <tbody data-bind="foreach :entities">
         <tr>
             <td>
-                <a data-bind="attr : {href:'#/entity.details/' + EntityDefinitionId()},text: Name"></a>
+                <a data-bind="attr : {href:'#/entity.details/' + EntityDefinitionId()}">
+                    <i class="fa fa-edit"></i></a>
+                <span data-bind="text:Name"></span>
+            </td>
+            <td>
+                <a data-bind="attr : {href:'#/entity.view.designer/' + EntityDefinitionId()}">
+                    <i class="fa fa-table"></i>
+                </a>
+            </td>
+            <td>
+                <a data-bind="attr : {href:'#/entity.form.designer/' + EntityDefinitionId()}">
+                    <i class="fa fa-instagram"></i>
+                </a>
             </td>
             <td data-bind="text:Plural"></td>
             <td></td>

@@ -329,4 +329,24 @@
 			<xs:attribute name="IsFilterable" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="EntityForm">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="FormDesign"/>
+			</xs:all>
+			<xs:attribute name="EntityFormId" type="xs:int" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Route" type="xs:string" use="required"/>
+			<xs:attribute name="Note" type="xs:string" use="required"/>
+			<xs:attribute name="IsAllowedNewItem" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EntityView">
+		<xs:complexType>
+			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
+			<xs:attribute name="Name" type="xs:string" use="required"/>
+			<xs:attribute name="Route" type="xs:string" use="required"/>
+			<xs:attribute name="Note" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

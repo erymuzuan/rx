@@ -8,7 +8,6 @@
 <script src="~/SphApp/objectbuilders.js"></script>
 <script src="~/Scripts/knockout-3.0.0.debug.js"></script>
 <script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
-<script src="~/SphApp/schemas/trigger.workflow.g.js"></script>
 <script src="~/SphApp/schemas/form.designer.g.js"></script>
 
 <script type="text/javascript" data-script="true">
@@ -16,42 +15,37 @@
     define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog],
         function (context, logger, router, system, app, eximp, dialog) {
 
-            var activate = function (wdid, screenid) {
-                var elements = @Html.Raw(JsonConvert.SerializeObject(Model.FormElements,setting)),
-                    oels = _(elements.$values).map(function (v){return context.toObservable(v);});
-                vm.formElements(oels);
+            var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
+                form = ko.observable(new bespoke.sph.domain.EntityForm({WebId:system.guid()})),
+                activate = function (entityid, formid) {
+                    var elements = @Html.Raw(JsonConvert.SerializeObject(Model.FormElements,setting)),
+                        oels = _(elements.$values).map(function (v){return context.toObservable(v);});
+                    vm.formElements(oels);
 
-                if (wdid) {
-                    var id = parseInt(wdid),
-                        query = String.format("WorkflowDefinitionId eq {0}", id),
+                    var id = parseInt(entityid),
+                        query = String.format("EntityDefinitionId eq {0}", id),
                         tcs = new $.Deferred();
 
-                    context.loadOneAsync("WorkflowDefinition", query)
+                    context.loadOneAsync("EntityDefinition", query)
                         .done(function (b) {
-                            vm.wd(b);
+                            entity(b);
                             tcs.resolve(true);
-                            b.loadSchema();
-                            var act = _(b.ActivityCollection()).find(function(v) { return v.WebId() == screenid; });
-                            vm.activity(act);
-
+                            //b.loadSchema();
                         });
+                    var fid = parseInt(formid);
+                    if (fid) {
+                        context.loadOneAsync("EntityForm", "EntityFormId eq " + fid)
+                        .done(function(f) {
+                            form(f);
+                        });
+                    }
+
                     return tcs.promise();
-                }
-                return Task.fromResult(true);
-            },
+
+                },
                 attached = function(view) {
 
-                    if (!vm.activity().InvitationMessageBody())
-                        vm.activity().InvitationMessageBody("@@Model.Screen.Name task is assigned to you go here @@Model.Url");
-                    if (!vm.activity().InvitationMessageSubject())
-                        vm.activity().InvitationMessageSubject("[Sph] @@Model.Screen.Name  task is assigned to you");
-
-                    if (!vm.activity().CancelMessageBody())
-                        vm.activity().CancelMessageBody("@@Model.Screen.Name task was cancelled this url is not longer valid @@Model.Url");
-                    if (!vm.activity().CancelMessageSubject())
-                        vm.activity().CancelMessageSubject("[Sph] @@Model.Screen.Name was cancelled");
-
-                    var fd = ko.unwrap(vm.activity().FormDesign);
+                    var fd = ko.unwrap(form().FormDesign);
 
                     var dropDown = function (e) {
                         e.preventDefault();
@@ -161,7 +155,7 @@
                 okClick = function (data, ev) {
                     if (bespoke.utils.form.checkValidity(ev.target)) {
 
-                        var fd = ko.unwrap(vm.activity().FormDesign);
+                        var fd = ko.unwrap(form().FormDesign);
                         // get the sorted element
                         var elements = _($('#template-form-designer>form>div')).map(function (div) {
                             return ko.dataFor(div);
@@ -169,34 +163,34 @@
                         fd.FormElementCollection(elements);
                         dialog.close(this, "OK");
                         if (supportsHtml5Storage()) {
-                            localStorage.removeItem(vm.activity().WebId());
+                            localStorage.removeItem(form().WebId());
                         }
                     }
                 },
                 cancelClick = function () {
                     if (supportsHtml5Storage()) {
-                        localStorage.removeItem(vm.activity().WebId());
+                        localStorage.removeItem(form().WebId());
                     }
                     dialog.close(this, "Cancel");
                 },
                 selectFormElement = function (fe) {
 
-                    var fd = ko.unwrap(vm.activity().FormDesign);
+                    var fd = ko.unwrap(form().FormDesign);
                     _(fd.FormElementCollection()).each(function (f) {
                         f.isSelected(false);
                     });
                     fe.isSelected(true);
                     vm.selectedFormElement(fe);
                     if (supportsHtml5Storage()) {
-                        localStorage.setItem(vm.activity().WebId(), ko.mapping.toJSON(vm.activity));
+                        localStorage.setItem(form().WebId(), ko.mapping.toJSON(form));
                     }
                 },
                 removeFormElement = function (fe) {
-                    var fd = ko.unwrap(vm.activity().FormDesign);
+                    var fd = ko.unwrap(form().FormDesign);
                     fd.FormElementCollection.remove(fe);
                 },
                 exportScreen = function() {
-                    return eximp.exportJson(ko.unwrap(vm.activity().Name) + ".json", ko.mapping.toJSON(vm.activity));
+                    return eximp.exportJson(ko.unwrap(form().Name) + ".json", ko.mapping.toJSON(form));
                 },
                 open = function() {
 
@@ -209,7 +203,7 @@
                          var obj = JSON.parse(json),
                              clone = context.toObservable(obj);
 
-                         vm.activity().FormDesign(clone.FormDesign());
+                         form().FormDesign(clone.FormDesign());
 
                      } catch (error) {
                          logger.logError('Fail template import tidak sah', error, this, true);
@@ -224,8 +218,8 @@
                 selectedFormElement: ko.observable(),
                 selectFormElement : selectFormElement,
                 removeFormElement : removeFormElement,
-                activity: ko.observable(new bespoke.sph.domain.ScreenActivity()),
-                wd : ko.observable(new bespoke.sph.domain.WorkflowDefinition(system.guid())),
+                form: form,
+                entity : entity,
                 okClick: okClick,
                 cancelClick: cancelClick,
                 importCommand :importCommand,
@@ -239,37 +233,6 @@
                     exportCommand : exportScreen
                 }
             };
-
-            vm.activity.subscribe(function(screen) {
-
-                var cached = localStorage.getItem(screen.WebId());
-                if (cached) {
-                    app.showMessage("There's cached data in your local storage, do you want to restore this?", "Local storage", ["Yes", "No"])
-                        .done(function(dr) {
-                            if (dr === "Yes") {
-                                var screen2 = context.toObservable(JSON.parse(cached)),
-                                    fd2 = ko.unwrap(screen2.FormDesign);
-
-                                _(fd2.FormElementCollection()).each(function(v) {
-                                    v.isSelected = ko.observable(false);
-                                });
-                                if (typeof screen.FormDesign === "function") {
-                                    screen.FormDesign(screen2.FormDesign());
-                                } else {
-                                    screen.FormDesign.FormElementCollection(screen2.FormDesign().FormElementCollection());
-                                }
-
-                                return;
-                            }
-                        });
-                }
-
-                var fd = ko.unwrap(screen.FormDesign);
-                _(fd.FormElementCollection()).each(function(v) {
-                    v.isSelected = ko.observable(false);
-                });
-            });
-
 
             return vm;
 

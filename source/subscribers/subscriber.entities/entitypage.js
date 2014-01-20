@@ -42,6 +42,12 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             },
             attached = function (view) {
 
+            },
+            addForm = function() {
+                
+            },
+            addView = function() {
+                
             };
 
         var vm = {
@@ -53,7 +59,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             attached: attached,
             reports: reports,
             tools: tools,
-            recentItems : recentItems
+            recentItems : recentItems,
+            addForm : addForm,
+            addView : addView
         };
 
         return vm;
