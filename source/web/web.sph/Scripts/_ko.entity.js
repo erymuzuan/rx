@@ -149,7 +149,7 @@ ko.bindingHandlers.tree = {
                             "System.Object, mscorlib": {
                                 "icon": "fa fa-building-o"
                             },
-                            "System.ArrayList, mscorlib": {
+                            "System.Array, mscorlib": {
                                 "icon": "glyphicon glyphicon-list"
                             }
                         },
@@ -176,7 +176,7 @@ ko.bindingHandlers.entityTypeaheadPath = {
         var id = ko.unwrap(valueAccessor()),
         allBindings = allBindingsAccessor();
         $(element).typeahead({
-            name: 'schema_paths' + id,
+            name: 'ed_paths' + id,
             limit: 10,
             prefetch: {
                 url: '/Sph/EntityDefinition/GetVariablePath/' + id,
