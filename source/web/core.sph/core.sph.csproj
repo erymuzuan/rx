@@ -451,6 +451,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_ValidationSetting.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\Sph\Controllers\EntityFormController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\AccountController.cs" />
     <Compile Include="Areas\Sph\Controllers\AdminController.cs" />
@@ -2365,6 +2366,7 @@
     <Folder Include="Areas\Sph\Models\" />
     <Folder Include="Areas\Sph\Views\Base\" />
     <Folder Include="Areas\Sph\Views\EntityDefinition\" />
+    <Folder Include="Areas\Sph\Views\EntityForm\" />
     <Folder Include="Filters\" />
   </ItemGroup>
   <ItemGroup>

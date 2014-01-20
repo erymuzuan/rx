@@ -55,7 +55,7 @@ WriteLiteral("\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n    <h1>Screen Editor</h1>\r\n</div>\r\n<div");
+WriteLiteral(">\r\n    <h1>Custome entity form</h1>\r\n</div>\r\n<div");
 
 WriteLiteral(" class=\"row\"");
 

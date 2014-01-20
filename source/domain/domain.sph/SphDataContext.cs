@@ -14,6 +14,8 @@ namespace Bespoke.Sph.Domain
     {
         public IQueryable<AuditTrail> AuditTrails { get; set; }
         public IQueryable<EntityDefinition> EntityDefinitions { get; set; }
+        public IQueryable<EntityForm> EntityForms { get; set; }
+        public IQueryable<EntityView> EntityViews { get; set; }
         public IQueryable<Organization> Organizations { get; set; }
         public IQueryable<ReportDefinition> ReportDefinitions { get; set; }
         public IQueryable<Role> Roles { get; set; }
@@ -30,6 +32,8 @@ namespace Bespoke.Sph.Domain
             var provider = ObjectBuilder.GetObject<QueryProvider>();
 
             this.EntityDefinitions = new Query<EntityDefinition>(provider);
+            this.EntityForms = new Query<EntityForm>(provider);
+            this.EntityViews = new Query<EntityView>(provider);
             this.AuditTrails = new Query<AuditTrail>(provider);
             this.Organizations = new Query<Organization>(provider);
             this.ReportDefinitions = new Query<ReportDefinition>(provider);

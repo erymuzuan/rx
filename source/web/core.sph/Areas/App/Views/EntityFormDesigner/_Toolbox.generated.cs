@@ -101,8 +101,6 @@ WriteLiteral(">\r\n            <form");
 
 WriteLiteral(" role=\"form\"");
 
-WriteLiteral(" data-bind=\"with : FormDesign\"");
-
 WriteLiteral(">\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
@@ -127,7 +125,7 @@ WriteLiteral(">\r\n                    <label>Description</label>\r\n           
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" data-bind=\"value: Description, valueUpdate: \'keyup\'\"");
+WriteLiteral(" data-bind=\"value: Note, valueUpdate: \'keyup\'\"");
 
 WriteLiteral(" id=\"form-design-Description\"");
 
@@ -136,6 +134,23 @@ WriteLiteral(" type=\"text\"");
 WriteLiteral(" name=\"FormDesign.Description\"");
 
 WriteLiteral(" />\r\n                </div>\r\n                <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n                    <label>Route</label>\r\n                    <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" data-bind=\"value: Route\"");
+
+WriteLiteral(" id=\"form-design-Route\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" name=\"FormDesign.Route\"");
+
+WriteLiteral(" />\r\n                </div>\r\n                \r\n                <!-- ko with : For" +
+"mDesign -->\r\n\r\n\t\r\n                <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -303,8 +318,9 @@ WriteLiteral(" type=\"number\"");
 
 WriteLiteral(" name=\"FormDesign.InputColXs\"");
 
-WriteLiteral(" />\r\n                    </div>\r\n\r\n                </div>\r\n            </form>\r\n " +
-"       </div>\r\n        <div");
+WriteLiteral(" />\r\n                    </div>\r\n\r\n                </div>\r\n                \r\n    " +
+"            \r\n                <!-- /ko -->\r\n\r\n            </form>\r\n        </div" +
+">\r\n        <div");
 
 WriteLiteral(" id=\"add-field\"");
 
@@ -522,13 +538,13 @@ WriteLiteral(" class=\"collapse\"");
 WriteLiteral(">\r\n");
 
             
-            #line 141 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 153 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 141 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 153 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                       
                         var types = new Type[]
                         {
@@ -544,13 +560,13 @@ WriteLiteral(">\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 150 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 162 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 150 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 162 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                      foreach (var fe in Model.FormElements.Where(t => types.Contains(t.GetType())))
                     {
                         
@@ -558,14 +574,14 @@ WriteLiteral("\r\n");
             #line default
             #line hidden
             
-            #line 152 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 164 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                    Write(Html.EditorFor(m => fe));
 
             
             #line default
             #line hidden
             
-            #line 152 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 164 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
                                                 
                     }
 
@@ -594,7 +610,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 163 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
+            #line 175 "..\..\Areas\App\Views\EntityFormDesigner\_Toolbox.cshtml"
        Write(Html.Partial("_ValidationSetting"));
 
             

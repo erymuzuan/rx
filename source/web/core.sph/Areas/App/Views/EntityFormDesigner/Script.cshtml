@@ -209,6 +209,16 @@
                          logger.logError('Fail template import tidak sah', error, this, true);
                      }
                  });
+                },
+                save = function() {
+                    var tcs = new $.Deferred();
+                    var data = ko.mapping.toJSON(form);
+
+                    context.post(data, "/Sph/EntityForm/Save")
+                        .then(function(result) {
+                            tcs.resolve(result);
+                        });
+                    return tcs.promise();
                 };
 
             var vm = {
@@ -230,7 +240,8 @@
                         command : open
                     }
                     ]),
-                    exportCommand : exportScreen
+                    exportCommand : exportScreen,
+                    saveCommand : save
                 }
             };
 

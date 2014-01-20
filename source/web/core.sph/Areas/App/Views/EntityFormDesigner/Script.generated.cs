@@ -209,18 +209,24 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 "                    form().FormDesign(clone.FormDesign());\r\n\r\n                  " +
 "   } catch (error) {\r\n                         logger.logError(\'Fail template im" +
 "port tidak sah\', error, this, true);\r\n                     }\r\n                 }" +
-");\r\n                };\r\n\r\n            var vm = {\r\n                attached: atta" +
-"ched,\r\n                activate: activate,\r\n                formElements: ko.obs" +
-"ervableArray(),\r\n                selectedFormElement: ko.observable(),\r\n        " +
-"        selectFormElement : selectFormElement,\r\n                removeFormElemen" +
-"t : removeFormElement,\r\n                form: form,\r\n                entity : en" +
-"tity,\r\n                okClick: okClick,\r\n                cancelClick: cancelCli" +
-"ck,\r\n                importCommand :importCommand,\r\n                toolbar : {\r" +
-"\n                    commands :ko.observableArray([{\r\n                        ca" +
-"ption : \'Create Pull Request\',\r\n                        icon : \'fa fa-folder-ope" +
-"n-o\',\r\n                        command : open\r\n                    }\r\n          " +
-"          ]),\r\n                    exportCommand : exportScreen\r\n               " +
-" }\r\n            };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
+");\r\n                },\r\n                save = function() {\r\n                   " +
+" var tcs = new $.Deferred();\r\n                    var data = ko.mapping.toJSON(f" +
+"orm);\r\n\r\n                    context.post(data, \"/Sph/EntityForm/Save\")\r\n       " +
+"                 .then(function(result) {\r\n                            tcs.resol" +
+"ve(result);\r\n                        });\r\n                    return tcs.promise" +
+"();\r\n                };\r\n\r\n            var vm = {\r\n                attached: att" +
+"ached,\r\n                activate: activate,\r\n                formElements: ko.ob" +
+"servableArray(),\r\n                selectedFormElement: ko.observable(),\r\n       " +
+"         selectFormElement : selectFormElement,\r\n                removeFormEleme" +
+"nt : removeFormElement,\r\n                form: form,\r\n                entity : e" +
+"ntity,\r\n                okClick: okClick,\r\n                cancelClick: cancelCl" +
+"ick,\r\n                importCommand :importCommand,\r\n                toolbar : {" +
+"\r\n                    commands :ko.observableArray([{\r\n                        c" +
+"aption : \'Create Pull Request\',\r\n                        icon : \'fa fa-folder-op" +
+"en-o\',\r\n                        command : open\r\n                    }\r\n         " +
+"           ]),\r\n                    exportCommand : exportScreen,\r\n             " +
+"       saveCommand : save\r\n                }\r\n            };\r\n\r\n            retu" +
+"rn vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
 
         }
     }

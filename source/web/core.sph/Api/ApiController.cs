@@ -21,6 +21,18 @@ namespace Bespoke.Sph.Web.Api
         }
         
 
+        public async Task<ActionResult> EntityForm(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<EntityForm>(filter, page, size, includeTotal);
+        }
+        
+
+        public async Task<ActionResult> EntityView(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
+        {
+            return await ExecuteAsync<EntityView>(filter, page, size, includeTotal);
+        }
+        
+
       
 
         public async Task<ActionResult> Designation(string filter = null, int page = 1, int size = 40, bool includeTotal = false)
