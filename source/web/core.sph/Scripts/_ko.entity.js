@@ -70,3 +70,22 @@ ko.bindingHandlers.tree = {
 
     }
 };
+
+
+ko.bindingHandlers.entityTypeaheadPath = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var id = ko.unwrap(valueAccessor()),
+        allBindings = allBindingsAccessor();
+        $(element).typeahead({
+            name: 'schema_paths' + id,
+            limit: 10,
+            prefetch: {
+                url: '/Sph/EntityDefinitionDefinition/GetVariablePath/' + id,
+                ttl: 1000 * 60
+            }
+        })
+            .on('typeahead:closed', function () {
+                allBindings.value($(this).val());
+            });
+    }
+};

@@ -46,3 +46,5 @@ _ReSharper.commercial-space
 *.config
 /source/web/core.sph/.idea
 /source/web/web.sph/durandal2
+/source/web/web.sph/SphApp/viewmodels/lead.js
+/source/web/web.sph/SphApp/views/lead.html

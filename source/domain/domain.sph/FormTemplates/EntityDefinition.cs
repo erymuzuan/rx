@@ -40,6 +40,17 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+        public string[] GetMembersPath()
+        {
+            var list = new List<string>();
+            list.AddRange(this.MemberCollection.Select(a => a.Name));
+            foreach (var member in this.MemberCollection)
+            {
+                list.AddRange(member.GetMembersPath(""));
+            }
+            return list.ToArray();
+        }
+
         public BuildValidationResult ValidateBuild()
         {
             var result = new BuildValidationResult();

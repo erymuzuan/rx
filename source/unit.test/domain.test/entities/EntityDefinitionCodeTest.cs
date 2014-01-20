@@ -52,5 +52,41 @@ namespace domain.test.entities
 
 
         }
+        [Test]
+        public void GetMembersPath()
+        {
+            var ent = new EntityDefinition { Name = "Customer", Plural = "Customers" };
+            ent.MemberCollection.Add(new Member
+            {
+                Name = "Name2",
+                TypeName = "System.String, mscorlib",
+                IsFilterable = true
+            }); ent.MemberCollection.Add(new Member
+            {
+                Name = "Title",
+                TypeName = "System.String, mscorlib",
+                IsFilterable = true
+            });
+            var address = new Member { Name = "Address", TypeName = "System.Object, mscorlib" };
+            address.MemberCollection.Add(new Member { Name = "Street1", IsFilterable = false, TypeName = "System.String, mscorlib" });
+            address.MemberCollection.Add(new Member { Name = "State", IsFilterable = true, TypeName = "System.String, mscorlib" });
+            ent.MemberCollection.Add(address);
+
+
+            var contacts = new Member { Name = "ContactCollection", Type = typeof(Array) };
+            contacts.Add(new Dictionary<string, Type> { { "Name", typeof(string) }, { "Telephone", typeof(string) } });
+            contacts.MemberCollection.Add(address);
+            ent.MemberCollection.Add(contacts);
+
+
+
+            var paths = ent.GetMembersPath();
+            CollectionAssert.Contains(paths, "Name2");
+            CollectionAssert.Contains(paths, "Address.State");
+            CollectionAssert.Contains(paths, "Contact.Name");
+            CollectionAssert.Contains(paths, "Contact.Address.State");
+
+
+        }
     }
 }

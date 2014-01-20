@@ -9,7 +9,7 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
         var activate = function () {
             return router.map(config.routes)
                 .buildNavigationModel()
-                .mapUnknownRoutes('viewmodels/page.list', 'page.list')
+                .mapUnknownRoutes('viewmodels/admin.home', 'admin.home')
                 .activate();
         },
             attached = function (view) {

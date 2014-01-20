@@ -343,10 +343,15 @@
 			<xs:attribute name="Route" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
 			<xs:attribute name="IsAllowedNewItem" type="xs:boolean" use="required"/>
+			<xs:attribute name="IconClass" type="xs:string" use="required"/>
+			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EntityView">
 		<xs:complexType>
+			<xs:attribute name="EntityFormId" type="xs:int" use="required"/>
+			<xs:attribute name="IconClass" type="xs:string" use="required"/>
+			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
 			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
 			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>

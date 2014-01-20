@@ -1,0 +1,16 @@
+﻿@model Bespoke.Sph.Domain.EntityForm
+
+@{
+    ViewBag.Title = "title";
+    Layout = null;
+}
+
+<h2>@Model.Name</h2>
+<div class="row">
+    <form class="form-horizontal">
+        @foreach (var fe in Model.FormDesign.FormElementCollection)
+        {
+            @Html.EditorFor(f => fe, "Forms")
+        }
+    </form>
+</div>

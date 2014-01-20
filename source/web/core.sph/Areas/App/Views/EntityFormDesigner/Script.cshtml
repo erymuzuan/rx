@@ -22,21 +22,27 @@
                         oels = _(elements.$values).map(function (v){return context.toObservable(v);});
                     vm.formElements(oels);
 
-                    var id = parseInt(entityid),
+                    var fid = parseInt(formid),
+                        id = parseInt(entityid),
                         query = String.format("EntityDefinitionId eq {0}", id),
                         tcs = new $.Deferred();
 
                     context.loadOneAsync("EntityDefinition", query)
                         .done(function (b) {
                             entity(b);
-                            tcs.resolve(true);
+                            if (!fid) {
+                                tcs.resolve(true);
+                            }
                             //b.loadSchema();
                         });
-                    var fid = parseInt(formid);
                     if (fid) {
                         context.loadOneAsync("EntityForm", "EntityFormId eq " + fid)
                         .done(function(f) {
+                            _(f.FormDesign().FormElementCollection()).each(function(v) {
+                                v.isSelected = ko.observable(false);
+                            });
                             form(f);
+                            tcs.resolve(true);
                         });
                     }
                     form().EntityDefinitionId(id);

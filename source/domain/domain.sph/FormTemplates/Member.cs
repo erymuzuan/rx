@@ -32,7 +32,7 @@ namespace Bespoke.Sph.Domain
 
         public string GeneratedCode()
         {
-            if(null == this.Type)
+            if (null == this.Type)
                 throw new InvalidOperationException(this + " doesn't have a type");
             var code = new StringBuilder();
             if (typeof(object) == this.Type)
@@ -105,6 +105,17 @@ namespace Bespoke.Sph.Domain
         public new Member this[string index]
         {
             get { return this.MemberCollection.Single(m => m.Name == index); }
+        }
+
+        public IEnumerable<string> GetMembersPath(string root)
+        {
+            var list = new List<string>();
+            list.AddRange(this.MemberCollection.Select(a => root + this.Name.Replace("Collection", "") + "." + a.Name));
+            foreach (var member in this.MemberCollection)
+            {
+                list.AddRange(member.GetMembersPath(root + this.Name.Replace("Collection", "") + "."));
+            }
+            return list.ToArray();
         }
     }
 }

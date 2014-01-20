@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
@@ -8,6 +7,16 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
     public class EntityDefinitionController : Controller
     {
+        public async Task<ActionResult> GetVariablePath(int id)
+        {
+            var context = new SphDataContext();
+            var ed = await context.LoadOneAsync<EntityDefinition>(w => w.EntityDefinitionId == id);
+            var list = ed.GetMembersPath();
+     
+
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
 
         public async Task<ActionResult> Save()
         {

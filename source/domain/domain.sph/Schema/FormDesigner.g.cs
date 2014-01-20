@@ -2279,6 +2279,16 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_iconClass;
+        public const string PropertyNameIconClass = "IconClass";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_iconStoreId;
+        public const string PropertyNameIconStoreId = "IconStoreId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private FormDesign m_formDesign
                 = new FormDesign();
 
@@ -2469,6 +2479,64 @@ namespace Bespoke.Sph.Domain
         }
 
 
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string IconClass
+        {
+            set
+            {
+                if (String.Equals(m_iconClass, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIconClass, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_iconClass = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_iconClass;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string IconStoreId
+        {
+            set
+            {
+                if (String.Equals(m_iconStoreId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIconStoreId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_iconStoreId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_iconStoreId;
+            }
+        }
+
+
 
     }
 
@@ -2480,6 +2548,21 @@ namespace Bespoke.Sph.Domain
     [XmlType("EntityView", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class EntityView
     {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_entityFormId;
+        public const string PropertyNameEntityFormId = "EntityFormId";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_iconClass;
+        public const string PropertyNameIconClass = "IconClass";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_iconStoreId;
+        public const string PropertyNameIconStoreId = "IconStoreId";
+
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int m_entityViewId;
@@ -2504,6 +2587,93 @@ namespace Bespoke.Sph.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_note;
         public const string PropertyNameNote = "Note";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int EntityFormId
+        {
+            set
+            {
+                if (m_entityFormId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntityFormId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_entityFormId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_entityFormId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string IconClass
+        {
+            set
+            {
+                if (String.Equals(m_iconClass, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIconClass, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_iconClass = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_iconClass;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string IconStoreId
+        {
+            set
+            {
+                if (String.Equals(m_iconStoreId, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIconStoreId, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_iconStoreId = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_iconStoreId;
+            }
+        }
 
 
         ///<summary>

@@ -36,14 +36,14 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Shared.DisplayTemplates
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Shared/DisplayTemplates/ComboBox.cshtml")]
-    public partial class ComboBox : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.ComboBox>
+    public partial class _ComboBox : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.ComboBox>
     {
-        public ComboBox()
+        public _ComboBox()
         {
         }
         public override void Execute()
         {
-WriteLiteral("<!--ko if:$data[\'$type\']() === \"Bespoke.Sph.Domain.ComboBox, domain.sph\" -->\r\n<di" +
+WriteLiteral("<!--ko if:ko.unwrap($type) === \"Bespoke.Sph.Domain.ComboBox, domain.sph\" -->\r\n<di" +
 "v");
 
 WriteLiteral(" class=\"form-group\"");
@@ -53,16 +53,16 @@ WriteLiteral(" data-bind=\"css: { \'selected-form-element\': isSelected }, click
 
 WriteLiteral(">\r\n");
 
-WriteLiteral("      ");
+WriteLiteral("    ");
 
             
             #line 6 "..\..\Areas\App\Views\Shared\DisplayTemplates\ComboBox.cshtml"
- Write(Html.Partial("_DesignerContextAction"));
+Write(Html.Partial("_DesignerContextAction"));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n  <label");
+WriteLiteral("\r\n    <label");
 
 WriteLiteral(" data-bind=\"text: Label\"");
 
@@ -74,8 +74,8 @@ WriteLiteral(" class=\"col-lg-6\"");
 
 WriteLiteral(">\r\n        <select");
 
-WriteLiteral("  data-bind=\"attr: { \'class\': CssClass() + \' form-control\' + \' \' + Size(), \'title" +
-"\': Tooltip }, options: ComboBoxItemCollection, optionsText: \'Caption\'\"");
+WriteLiteral(" data-bind=\"attr: { \'class\': CssClass() + \' form-control\' + \' \' + Size(), \'title\'" +
+": Tooltip }, options: ComboBoxItemCollection, optionsText: \'Caption\'\"");
 
 WriteLiteral("></select>\r\n        <span");
 

@@ -11,7 +11,7 @@ namespace Bespoke.Sph.Web.Areas.App.Controllers
             var context = new SphDataContext();
             var profile = await context.LoadOneAsync<UserProfile>(ua => ua.Username == User.Identity.Name);
             if (null != profile)
-                ViewBag.StartModule = profile.StartModule;
+                ViewBag.StartModule = "#/"+profile.StartModule;
             return View();
         }
     }

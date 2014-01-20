@@ -396,7 +396,8 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" pattern=\"^[A-Za-z_][A-Za-z0-9_.]*$\"");
 
-WriteLiteral(" data-bind=\"value: Path\"");
+WriteLiteral(" data-bind=\"value: Path, entityTypeaheadPath : $root.entity().EntityDefinitionId(" +
+")\"");
 
 WriteLiteral(" id=\"form-element-path\"");
 

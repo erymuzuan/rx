@@ -16,7 +16,7 @@ namespace web.sph
             AreaRegistration.RegisterAllAreas();
             WorkflowConfig.Register(Server);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            RouteConfig.RegisterRoutes(RouteTable.Routes).Wait();
             //BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
             HostingEnvironment.RegisterVirtualPathProvider(new WorkflowScreenActivityPathProvider());

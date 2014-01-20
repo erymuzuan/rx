@@ -207,6 +207,7 @@
     <Compile Include="Areas\App\Controllers\ConfigController.cs" />
     <Compile Include="Areas\App\Controllers\ActivityScreenController.cs" />
     <Compile Include="Areas\App\Controllers\EntityFormDesignerController.cs" />
+    <Compile Include="Areas\App\Controllers\EntityFormRendererController.cs" />
     <Compile Include="Areas\App\Controllers\HeaderController.cs" />
     <Compile Include="Areas\App\Controllers\NavController.cs" />
     <Compile Include="Areas\App\Controllers\ReportDefinitionEditController.cs" />
@@ -250,6 +251,16 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_ValidationSetting.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\Html.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Html.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityFormRenderer\Script.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Script.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\App\Views\ReportDefinitionEdit\Html.generated.cs">
       <AutoGen>True</AutoGen>
@@ -1916,6 +1927,14 @@
     <Content Include="Areas\App\Views\EntityFormDesigner\_ValidationSetting.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_ValidationSetting.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\Script.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Script.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityFormRenderer\Html.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Html.generated.cs</LastGenOutput>
     </Content>
     <None Include="Content\jsplumb\__jsplumb.css.bundle">
       <SubType>Designer</SubType>

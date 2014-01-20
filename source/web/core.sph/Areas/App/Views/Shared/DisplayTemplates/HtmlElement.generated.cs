@@ -31,9 +31,9 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Shared.DisplayTemplates
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Shared/DisplayTemplates/HtmlElement.cshtml")]
-    public partial class HtmlElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.HtmlElement>
+    public partial class _HtmlElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.HtmlElement>
     {
-        public HtmlElement()
+        public _HtmlElement()
         {
         }
         public override void Execute()
@@ -68,7 +68,7 @@ WriteLiteral(">\r\n        <i");
 
 WriteLiteral(" class=\"fa fa-edit\"");
 
-WriteLiteral("></i>\r\n        Edit HTML\r\n    </a>\r\n\r\n</div>\r\n<!--/ko-->\r\n");
+WriteLiteral("></i>\r\n        Edit HTML\r\n    </a>\r\n</div>\r\n<!--/ko-->\r\n");
 
         }
     }
