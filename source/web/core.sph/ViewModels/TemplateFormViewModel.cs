@@ -13,7 +13,7 @@ namespace Bespoke.Sph.Web.ViewModels
             this.FormElements.Add(new ComboBox { Name = "Select List", CssClass = "fa fa-chevron-down" });
             this.FormElements.Add(new WebsiteFormElement { Name = "Url", CssClass = "fa fa-link" });
             this.FormElements.Add(new EmailFormElement { Name = "Email", CssClass = "fa fa-envelope" });
-            this.FormElements.Add(new FileUploadElement { Name = "Updload file", CssClass = "fa fa-upload" });
+            this.FormElements.Add(new FileUploadElement { Name = "Upload file", CssClass = "fa fa-upload" });
             this.FormElements.Add(new NumberTextBox { Name = "Number", CssClass = "fa fa-xing" });
             this.FormElements.Add(new CheckBox { Name = "Checkboxes", CssClass = "fa fa-check" });
             this.FormElements.Add(new TextAreaElement{Name = "Paragrapah text", CssClass = "fa fa-desktop"});

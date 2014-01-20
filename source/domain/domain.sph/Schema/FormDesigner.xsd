@@ -338,6 +338,7 @@
 				<xs:element ref="FormDesign"/>
 			</xs:all>
 			<xs:attribute name="EntityFormId" type="xs:int" use="required"/>
+			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Route" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
@@ -347,6 +348,7 @@
 	<xs:element name="EntityView">
 		<xs:complexType>
 			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
+			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Route" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>

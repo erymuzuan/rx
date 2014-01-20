@@ -793,6 +793,7 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityForm, domain.sph",
         EntityFormId: ko.observable(0),
+        EntityDefinitionId: ko.observable(0),
         Name: ko.observable(''),
         Route: ko.observable(''),
         Note: ko.observable(''),
@@ -826,6 +827,7 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
         EntityViewId: ko.observable(0),
+        EntityDefinitionId: ko.observable(0),
         Name: ko.observable(''),
         Route: ko.observable(''),
         Note: ko.observable(''),

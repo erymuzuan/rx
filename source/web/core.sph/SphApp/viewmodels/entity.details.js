@@ -17,17 +17,25 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
         var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             isBusy = ko.observable(false),
             errors = ko.observableArray(),
+            forms = ko.observableArray(),
+            views = ko.observableArray(),
             member = ko.observable(new bespoke.sph.domain.Member()),
-            activate = function (id2) {
-                var id = parseInt(id2);
+            activate = function (entityid) {
+                var id = parseInt(entityid);
                 if (id) {
-                    var query = String.format("EntityDefinitionId eq {0}", id);
-                    var tcs = new $.Deferred();
+                    var query = String.format("EntityDefinitionId eq {0}", id),
+                        tcs = new $.Deferred();
                     context.loadOneAsync("EntityDefinition", query)
                         .done(function (b) {
                             entity(b);
                             tcs.resolve(true);
                         });
+                    // load forms and views
+                    context.loadAsync("EntityForm", "EntityDefinitionId eq " + id)
+                        .done(function (lo) {
+                        forms(lo.itemCollection);
+                    });
+
 
                     return tcs.promise();
                 }
@@ -58,7 +66,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                 var tcs = new $.Deferred(),
                     data = ko.mapping.toJSON(entity);
 
-             
+
 
                 isBusy(true);
 
@@ -79,6 +87,8 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
             };
 
         var vm = {
+            forms: forms,
+            views: views,
             errors: errors,
             isBusy: isBusy,
             activate: activate,

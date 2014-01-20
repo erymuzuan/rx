@@ -1,11 +1,11 @@
 USE [Sph]
-IF OBJECT_ID('Sph.EntityForm', 'U') IS NOT NULL
-  DROP TABLE Sph.EntityForm
+IF OBJECT_ID('Sph.View', 'U') IS NOT NULL
+  DROP TABLE Sph.EntityView
 GO
 
-CREATE TABLE Sph.EntityForm
+CREATE TABLE Sph.EntityView
 (
-	 [EntityFormId] INT PRIMARY KEY IDENTITY(1,1)
+	 [EntityViewId] INT PRIMARY KEY IDENTITY(1,1)
 	,[EntityDefinitionId] INT NOT NULL
 	,[Data] XML NOT NULL
 	,[Name] VARCHAR(255) NOT NULL

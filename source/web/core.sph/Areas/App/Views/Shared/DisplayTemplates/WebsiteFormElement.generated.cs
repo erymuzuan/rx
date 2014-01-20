@@ -31,9 +31,9 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Shared.DisplayTemplates
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/Shared/DisplayTemplates/WebsiteFormElement.cshtml")]
-    public partial class WebsiteFormElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.WebsiteFormElement>
+    public partial class _WebsiteFormElement : System.Web.Mvc.WebViewPage<Bespoke.Sph.Domain.WebsiteFormElement>
     {
-        public WebsiteFormElement()
+        public _WebsiteFormElement()
         {
         }
         public override void Execute()
@@ -41,12 +41,23 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Shared.DisplayTemplates
 WriteLiteral("<!--ko if: $data[\'$type\']() === \"Bespoke.Sph.Domain.WebsiteFormElement, domain.sp" +
 "h\" -->\r\n<div");
 
-WriteLiteral(" class=\"control-group\"");
+WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(" data-bind=\"css: { \'selected-form-element\': isSelected }, click: $root.selectForm" +
 "Element\"");
 
-WriteLiteral(">\r\n    <label");
+WriteLiteral(">\r\n");
+
+WriteLiteral("    ");
+
+            
+            #line 5 "..\..\Areas\App\Views\Shared\DisplayTemplates\WebsiteFormElement.cshtml"
+Write(Html.Partial("_DesignerContextAction"));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n    <label");
 
 WriteLiteral(" data-bind=\"text: Label\"");
 
@@ -69,18 +80,7 @@ WriteLiteral(" data-bind=\"text: HelpText\"");
 
 WriteLiteral(" class=\"help-block\"");
 
-WriteLiteral("></span>\r\n\r\n    </div>\r\n");
-
-WriteLiteral("    ");
-
-            
-            #line 11 "..\..\Areas\App\Views\Shared\DisplayTemplates\WebsiteFormElement.cshtml"
-Write(Html.Partial("_DesignerContextAction"));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n\r\n</div>\r\n<!--/ko-->");
+WriteLiteral("></span>\r\n\r\n    </div>\r\n\r\n</div>\r\n<!--/ko-->");
 
         }
     }

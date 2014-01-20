@@ -18,52 +18,99 @@
 </div>
 
 <div class="row">
-    <form class="form-horizontal" role="form" data-bind="with : entity">
-        <div class="form-group">
-            <label for="name" class="col-lg-2">Name</label>
-            <div class="col-lg-6">
-                <input type="text" data-bind="value: Name"
-                       required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$"
-                       placeholder="Custom Entity Name"
-                       class="form-control" id="name">
+    <a data-toggle="collapse" href="#general-ed-panel">
+        <h3>
+            General options
+        </h3>
+    </a>
+    <div class="collapse in" id="general-ed-panel">
+        <form class="form-horizontal" role="form" data-bind="with : entity">
+            <div class="form-group">
+                <label for="name" class="col-lg-2">Name</label>
+                <div class="col-lg-6">
+                    <input type="text" data-bind="value: Name"
+                           required="" pattern="^[A-Za-z_][A-Za-z0-9_]*$"
+                           placeholder="Custom Entity Name"
+                           class="form-control" id="name">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="plural" class="col-lg-2">Plural</label>
-            <div class="col-lg-6">
-                <input type="text" data-bind="value: Plural"
-                       required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
-                       placeholder="Plurals"
-                       class="form-control" id="plural">
+            <div class="form-group">
+                <label for="plural" class="col-lg-2">Plural</label>
+                <div class="col-lg-6">
+                    <input type="text" data-bind="value: Plural"
+                           required pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                           placeholder="Plurals"
+                           class="form-control" id="plural">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="icon-storeid" class="col-lg-2 control-label">Icon/Logo</label>
-            <div class="col-lg-6">
-                <input type="file" data-bind="kendoUpload: IconStoreId" name="files" class="form-control" id="icon-storeid">
+            <div class="form-group">
+                <label for="icon-storeid" class="col-lg-2 control-label">Icon/Logo</label>
+                <div class="col-lg-6">
+                    <input type="file" data-bind="kendoUpload: IconStoreId" name="files" class="form-control" id="icon-storeid">
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="icon-class" class="col-lg-2 control-label">Icon class</label>
-            <div class="col-lg-6">
-                <input type="text" data-bind="value: IconClass"
-                       placeholder="Icon class either Bootsrap or font-awesome"
-                       class="form-control" id="icon-class">
+            <div class="form-group">
+                <label for="icon-class" class="col-lg-2 control-label">Icon class</label>
+                <div class="col-lg-6">
+                    <input type="text" data-bind="value: IconClass"
+                           placeholder="Icon class either Bootsrap or font-awesome"
+                           class="form-control" id="icon-class">
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label for="record-name" class="col-lg-2 control-label">Record Name</label>
-            <div class="col-lg-6">
-                <input type="text" data-bind="value: RecordName"
-                       required="required" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
-                       placeholder="Identifying member"
-                       class="form-control" id="record-name">
+            <div class="form-group">
+                <label for="record-name" class="col-lg-2 control-label">Record Name</label>
+                <div class="col-lg-6">
+                    <input type="text" data-bind="value: RecordName"
+                           required="required" pattern="^[A-Za-z_][A-Za-z0-9_ ]*$"
+                           placeholder="Identifying member"
+                           class="form-control" id="record-name">
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
+
+<div class="row">
+    <a data-toggle="collapse" href="#forms-table">
+        <h3>
+            Forms
+        </h3>
+    </a>
+    <div class="collapse in" id="forms-table">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Route</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :forms">
+                <tr>
+                    <td>
+                        <a data-bind="attr : {'href':'#/entity.form.designer/' + $root.entity().EntityDefinitionId() + '/' + EntityFormId()},text: Name"></a>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <a data-bind="attr : {'href':'#/entity.form.designer/' + $root.entity().EntityDefinitionId() + '/0'}">Add</a>
+
+    </div>
+</div>
+<div class="row">
+    <a data-toggle="collapse" href="#view-table">
+        <h3>
+            Views
+        </h3>
+    </a>
+    <div class="collapse in" id="view-table"></div>
+</div>
+
 <div class="row" id="members-panel">
     <div class="col-lg-8">
         <input style="margin: 5px" placeholder="Filter members...." class="form-control" type="search" id="search-box-tree" value="" />

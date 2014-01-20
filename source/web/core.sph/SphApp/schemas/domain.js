@@ -729,6 +729,9 @@ bespoke.sph.domain.EntityDefinition = function (optionOrWebid) {
         EntityDefinitionId: ko.observable(0),
         Name: ko.observable(''),
         Plural: ko.observable(''),
+        IconStoreId: ko.observable(''),
+        IconClass: ko.observable(''),
+        RecordName: ko.observable(''),
         MemberCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -791,6 +794,7 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityForm, domain.sph",
         EntityFormId: ko.observable(0),
+        EntityDefinitionId: ko.observable(0),
         Name: ko.observable(''),
         Route: ko.observable(''),
         Note: ko.observable(''),
@@ -824,6 +828,7 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
         EntityViewId: ko.observable(0),
+        EntityDefinitionId: ko.observable(0),
         Name: ko.observable(''),
         Route: ko.observable(''),
         Note: ko.observable(''),
