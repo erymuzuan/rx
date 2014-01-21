@@ -67,23 +67,23 @@ namespace subscriber.entities
             using (var conn = new SqlConnection(connectionString))
             {
                 await conn.OpenAsync();
-                var count = 0;
+                int count;
                 using (var cmd = new SqlCommand(tableExistSql, conn))
                 {
                     count = (int)(await cmd.ExecuteScalarAsync());
-
-                } if (count > 0)
+                }
+                if (count > 0)
                 {
                     // rename table for migration
                     using (var renameTableCommand = new SqlCommand("sp_rename", conn) { CommandType = CommandType.StoredProcedure })
                     {
                         renameTableCommand.Parameters.AddWithValue("@objname", string.Format("[{0}].[{1}]", applicationName, item.Name));
-                        renameTableCommand.Parameters.AddWithValue("@newname", string.Format("{0}_{1:yyyyMMdd_HHmmss}",  item.Name, DateTime.Now));
+                        renameTableCommand.Parameters.AddWithValue("@newname", string.Format("{0}_{1:yyyyMMdd_HHmmss}", item.Name, DateTime.Now));
                         //renameTableCommand.Parameters.AddWithValue("@objtype", "OBJECT");
 
                         await renameTableCommand.ExecuteNonQueryAsync();
                     }
-                    
+
                 }
 
                 using (var createTableCommand = new SqlCommand(createTable, conn))
