@@ -59,7 +59,7 @@ namespace web.test
             driver.Login(m_admin)
 
              .NavigateToUrl("/#/users", 2.Seconds());
-            driver.ClickFirst("button", e => e.Text == "Tambah Pengguna")
+            driver.ClickFirst("button", e => e.Text == "Add User")
                 .Sleep(1.Seconds());
 
             driver.Value("[name=Username]", USERNAME)

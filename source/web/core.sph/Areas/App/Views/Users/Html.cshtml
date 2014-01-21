@@ -2,19 +2,18 @@
     ViewBag.Title = "Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<h1 class="col-lg-12">Users Management</h1>
+
 <div class="row">
-    <h1 class="col-lg-12">Pengurusan Pengguna</h1>
-</div>
-<div class="tabbable row">
     <ul class="nav nav-tabs">
         <li class="active">
-            <a href="#user-tab" data-toggle="tab">Pengguna</a>
+            <a href="#user-tab" data-toggle="tab">Users</a>
         </li>
         <li>
-            <a href="#designation-tab" data-toggle="tab">Tetapan Jawatan</a>
+            <a href="#designation-tab" data-toggle="tab">Designations</a>
         </li>
         <li>
-            <a href="#department-tab" data-toggle="tab">Tetapan Jabatan</a>
+            <a href="#department-tab" data-toggle="tab">Departments</a>
         </li>
     </ul>
 
@@ -24,7 +23,7 @@
                 <form class="form-inline col-lg-12">
                     <div class="row">
                         <div class="form-group col-lg-1">
-                            <label class="">Jabatan</label>
+                            <label class="">Department</label>
                         </div>
                         <div class="form-group">
                             <select class="form-control col-lg-2" data-bind="options: $root.departmentOptions, value: department, optionsText: 'Name', optionsValue: 'Name'"></select>
@@ -48,11 +47,11 @@
                 <table class="table table-striped" data-bind="serverPaging: { entity: 'UserProfile', query: 'UserProfileId gt 0', list: profiles, map: map }">
                     <thead>
                         <tr>
-                            <th>ID Pengguna</th>
-                            <th>Nama</th>
-                            <th>Jabatan</th>
-                            <th>Fungsi</th>
-                            <th>Emel</th>
+                            <th>Username</th>
+                            <th>Full name</th>
+                            <th>Department</th>
+                            <th>Designation</th>
+                            <th>Email</th>
                             <th>Password</th>
                         </tr>
                     </thead>

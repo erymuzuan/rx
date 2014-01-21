@@ -47,17 +47,13 @@ namespace Bespoke.Sph.Web.Areas.App.Views.Users
             
             #line default
             #line hidden
-WriteLiteral("\r\n<div");
-
-WriteLiteral(" class=\"row\"");
-
-WriteLiteral(">\r\n    <h1");
+WriteLiteral("\r\n<h1");
 
 WriteLiteral(" class=\"col-lg-12\"");
 
-WriteLiteral(">Pengurusan Pengguna</h1>\r\n</div>\r\n<div");
+WriteLiteral(">Users Management</h1>\r\n\r\n<div");
 
-WriteLiteral(" class=\"tabbable row\"");
+WriteLiteral(" class=\"row\"");
 
 WriteLiteral(">\r\n    <ul");
 
@@ -73,19 +69,19 @@ WriteLiteral(" href=\"#user-tab\"");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
-WriteLiteral(">Pengguna</a>\r\n        </li>\r\n        <li>\r\n            <a");
+WriteLiteral(">Users</a>\r\n        </li>\r\n        <li>\r\n            <a");
 
 WriteLiteral(" href=\"#designation-tab\"");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
-WriteLiteral(">Tetapan Jawatan</a>\r\n        </li>\r\n        <li>\r\n            <a");
+WriteLiteral(">Designations</a>\r\n        </li>\r\n        <li>\r\n            <a");
 
 WriteLiteral(" href=\"#department-tab\"");
 
 WriteLiteral(" data-toggle=\"tab\"");
 
-WriteLiteral(">Tetapan Jabatan</a>\r\n        </li>\r\n    </ul>\r\n\r\n    <div");
+WriteLiteral(">Departments</a>\r\n        </li>\r\n    </ul>\r\n\r\n    <div");
 
 WriteLiteral(" class=\"tab-content\"");
 
@@ -117,7 +113,8 @@ WriteLiteral(">\r\n                            <label");
 
 WriteLiteral(" class=\"\"");
 
-WriteLiteral(">Jabatan</label>\r\n                        </div>\r\n                        <div");
+WriteLiteral(">Department</label>\r\n                        </div>\r\n                        <div" +
+"");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -174,11 +171,11 @@ WriteLiteral(" data-bind=\"serverPaging: { entity: \'UserProfile\', query: \'Use
 WriteLiteral(@">
                     <thead>
                         <tr>
-                            <th>ID Pengguna</th>
-                            <th>Nama</th>
-                            <th>Jabatan</th>
-                            <th>Fungsi</th>
-                            <th>Emel</th>
+                            <th>Username</th>
+                            <th>Full name</th>
+                            <th>Department</th>
+                            <th>Designation</th>
+                            <th>Email</th>
                             <th>Password</th>
                         </tr>
                     </thead>
