@@ -218,8 +218,16 @@
                  });
                 },
                 save = function() {
-                    var tcs = new $.Deferred();
-                    var data = ko.mapping.toJSON(form);
+                    var fd = ko.unwrap(form().FormDesign);
+                    // get the sorted element
+                    var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                        return ko.dataFor(div);
+                    });
+                    fd.FormElementCollection(elements);
+                    
+                    
+                    var tcs = new $.Deferred(),
+                        data = ko.mapping.toJSON(form);
 
                     context.post(data, "/Sph/EntityForm/Save")
                         .then(function(result) {

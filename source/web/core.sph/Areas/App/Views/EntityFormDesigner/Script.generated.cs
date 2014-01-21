@@ -214,24 +214,28 @@ WriteLiteral(",\r\n                        oels = _(elements.$values).map(functi
 "Design(clone.FormDesign());\r\n\r\n                     } catch (error) {\r\n         " +
 "                logger.logError(\'Fail template import tidak sah\', error, this, t" +
 "rue);\r\n                     }\r\n                 });\r\n                },\r\n       " +
-"         save = function() {\r\n                    var tcs = new $.Deferred();\r\n " +
-"                   var data = ko.mapping.toJSON(form);\r\n\r\n                    co" +
-"ntext.post(data, \"/Sph/EntityForm/Save\")\r\n                        .then(function" +
-"(result) {\r\n                            tcs.resolve(result);\r\n                  " +
-"      });\r\n                    return tcs.promise();\r\n                };\r\n\r\n    " +
-"        var vm = {\r\n                attached: attached,\r\n                activat" +
-"e: activate,\r\n                formElements: ko.observableArray(),\r\n             " +
-"   selectedFormElement: ko.observable(),\r\n                selectFormElement : se" +
-"lectFormElement,\r\n                removeFormElement : removeFormElement,\r\n      " +
-"          form: form,\r\n                entity : entity,\r\n                okClick" +
-": okClick,\r\n                cancelClick: cancelClick,\r\n                importCom" +
-"mand :importCommand,\r\n                toolbar : {\r\n                    commands " +
-":ko.observableArray([{\r\n                        caption : \'Create Pull Request\'," +
-"\r\n                        icon : \'fa fa-folder-open-o\',\r\n                       " +
-" command : open\r\n                    }\r\n                    ]),\r\n               " +
-"     exportCommand : exportScreen,\r\n                    saveCommand : save\r\n    " +
-"            }\r\n            };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</sc" +
-"ript>\r\n");
+"         save = function() {\r\n                    var fd = ko.unwrap(form().Form" +
+"Design);\r\n                    // get the sorted element\r\n                    var" +
+" elements = _($(\'#template-form-designer>form>div\')).map(function (div) {\r\n     " +
+"                   return ko.dataFor(div);\r\n                    });\r\n           " +
+"         fd.FormElementCollection(elements);\r\n                    \r\n            " +
+"        \r\n                    var tcs = new $.Deferred(),\r\n                     " +
+"   data = ko.mapping.toJSON(form);\r\n\r\n                    context.post(data, \"/S" +
+"ph/EntityForm/Save\")\r\n                        .then(function(result) {\r\n        " +
+"                    tcs.resolve(result);\r\n                        });\r\n         " +
+"           return tcs.promise();\r\n                };\r\n\r\n            var vm = {\r\n" +
+"                attached: attached,\r\n                activate: activate,\r\n      " +
+"          formElements: ko.observableArray(),\r\n                selectedFormEleme" +
+"nt: ko.observable(),\r\n                selectFormElement : selectFormElement,\r\n  " +
+"              removeFormElement : removeFormElement,\r\n                form: form" +
+",\r\n                entity : entity,\r\n                okClick: okClick,\r\n        " +
+"        cancelClick: cancelClick,\r\n                importCommand :importCommand," +
+"\r\n                toolbar : {\r\n                    commands :ko.observableArray(" +
+"[{\r\n                        caption : \'Create Pull Request\',\r\n                  " +
+"      icon : \'fa fa-folder-open-o\',\r\n                        command : open\r\n   " +
+"                 }\r\n                    ]),\r\n                    exportCommand :" +
+" exportScreen,\r\n                    saveCommand : save\r\n                }\r\n     " +
+"       };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
 
         }
     }
