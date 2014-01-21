@@ -38,11 +38,11 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
         {
 WriteLiteral("<section");
 
-WriteLiteral(" class=\"span3\"");
+WriteLiteral(" class=\"col-lg-3\"");
 
-WriteLiteral(">\r\n    <h3>Daftar Pengguna Baru </h3>\r\n    <form");
+WriteLiteral(">\r\n    <h3>Add new user</h3>\r\n    <form");
 
-WriteLiteral(" class=\"form-horizontal span5\"");
+WriteLiteral(" class=\"form-horizontal\"");
 
 WriteLiteral(" data-bind=\"with: profile\"");
 
@@ -56,7 +56,7 @@ WriteLiteral(" for=\"Username\"");
 
 WriteLiteral(" class=\"control-label\"");
 
-WriteLiteral(">Nama pengguna :</label>\r\n            <div");
+WriteLiteral(">User name:</label>\r\n            <div");
 
 WriteLiteral(" class=\"controls\"");
 
@@ -72,13 +72,13 @@ WriteLiteral(" name=\"Username\"");
 
 WriteLiteral(" />\r\n                <i");
 
-WriteLiteral(" class=\"fa fa-spinner icon-spin icon-large\"");
+WriteLiteral(" class=\"fa fa-spinner icon-spin =\"");
 
 WriteLiteral(" data-bind=\"visible: $root.isBusyValidatingUserName\"");
 
 WriteLiteral("></i>\r\n                <span");
 
-WriteLiteral(" class=\"help-block alert alert-error\"");
+WriteLiteral(" class=\"help-block alert alert-danger\"");
 
 WriteLiteral(" data-bind=\"text: $root.userNameValidationStatus, visible: $root.userNameValidati" +
 "onStatus() \"");

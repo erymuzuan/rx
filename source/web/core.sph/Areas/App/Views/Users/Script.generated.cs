@@ -164,10 +164,10 @@ WriteLiteral(",\r\n            printprofile = ko.observable(new bespoke.sph.doma
 "        printCommand: ko.observable({\r\n                    entity: ko.observable" +
 "(\"UserProfile\"),\r\n                    id: ko.observable(0),\r\n                   " +
 " item: printprofile,\r\n                }),\r\n                clicks : ko.observabl" +
-"eArray([\r\n                    {\r\n                        caption : \"Tambah Pengg" +
-"una\",\r\n                        icon : \"icon-plus\",\r\n                        comm" +
-"and : add\r\n                    }])\r\n            })\r\n        };\r\n        \r\n      " +
-"  \r\n        return vm;\r\n        \r\n\r\n    });\r\n</script>\r\n");
+"eArray([\r\n                    {\r\n                        caption : \"Add User\",\r\n" +
+"                        icon : \"icon-plus\",\r\n                        command : a" +
+"dd\r\n                    }])\r\n            })\r\n        };\r\n        \r\n        \r\n   " +
+"     return vm;\r\n        \r\n\r\n    });\r\n</script>\r\n");
 
         }
     }

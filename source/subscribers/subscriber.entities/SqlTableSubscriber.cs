@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -37,25 +39,68 @@ namespace subscriber.entities
         public IEnumerable<Member> GetFiltarableMembers(string parent, IList<Member> members)
         {
             var filterables = members.Where(m => m.IsFilterable)
-                .Where(m => m.TypeName != "System.Object, mscorlib")
-                .Where(m => m.TypeName != "System.ArrayList, mscorlib")
+                .Where(m => m.Type != typeof(object))
+                .Where(m => m.Type != typeof(Array))
                 .ToList();
-            var list = members.Where(m => m.TypeName == "System.Object, mscorlib")
+            var list = members.Where(m => m.Type == typeof(object))
                 .Select(m => this.GetFiltarableMembers(parent + m.Name + ".", m.MemberCollection))
                 .SelectMany(m => m)
                 .ToList();
             filterables.AddRange(list);
 
-            filterables.Where(m=> string.IsNullOrWhiteSpace(m.FullName))
+            filterables.Where(m => string.IsNullOrWhiteSpace(m.FullName))
                 .ToList().ForEach(m => m.FullName = parent + m.Name);
 
             return filterables;
 
         }
+
         protected async override Task ProcessMessage(EntityDefinition item, MessageHeaders header)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["sph"].ConnectionString;
             var applicationName = ConfigurationManager.ApplicationName;
+            var tableExistSql =
+                string.Format(
+                    "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{0}'  AND  TABLE_NAME = '{1}'",
+                    applicationName, item.Name);
+            var createTable = this.CreateTableSql(item, header, applicationName);
+            using (var conn = new SqlConnection(connectionString))
+            {
+                await conn.OpenAsync();
+                int count;
+                using (var cmd = new SqlCommand(tableExistSql, conn))
+                {
+                    count = (int)(await cmd.ExecuteScalarAsync());
+                }
+                if (count > 0)
+                {
+                    // rename table for migration
+                    using (var renameTableCommand = new SqlCommand("sp_rename", conn) { CommandType = CommandType.StoredProcedure })
+                    {
+                        renameTableCommand.Parameters.AddWithValue("@objname", string.Format("[{0}].[{1}]", applicationName, item.Name));
+                        renameTableCommand.Parameters.AddWithValue("@newname", string.Format("{0}_{1:yyyyMMdd_HHmmss}", item.Name, DateTime.Now));
+                        //renameTableCommand.Parameters.AddWithValue("@objtype", "OBJECT");
+
+                        await renameTableCommand.ExecuteNonQueryAsync();
+                    }
+
+                }
+
+                using (var createTableCommand = new SqlCommand(createTable, conn))
+                {
+                    await createTableCommand.ExecuteNonQueryAsync();
+                }
+
+
+
+            }
+
+        }
+
+
+
+        private string CreateTableSql(EntityDefinition item, MessageHeaders header, string applicationName)
+        {
 
             var sql = new StringBuilder();
             sql.AppendFormat("CREATE TABLE [{0}].[{1}]", applicationName, item.Name);
@@ -74,14 +119,7 @@ namespace subscriber.entities
             sql.AppendLine(",[ChangedBy] VARCHAR(255) NULL");
             sql.AppendLine(")");
 
-            using (var conn = new SqlConnection(connectionString))
-            using (var cmd = new SqlCommand(sql.ToString(), conn))
-            {
-                await conn.OpenAsync();
-                await cmd.ExecuteNonQueryAsync();
-
-            }
-
+            return sql.ToString();
         }
     }
 }
