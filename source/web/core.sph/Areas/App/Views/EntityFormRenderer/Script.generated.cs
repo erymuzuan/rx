@@ -52,6 +52,7 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormRenderer
     var ns = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Model.EntityDefinition.EntityDefinitionId;
     var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:'{2}'}})", ns, Model.EntityDefinition.Name, Guid.NewGuid());
     var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.EntityDefinition.Name);
+    var saveUrl = string.Format("/{0}/Save", @Model.EntityDefinition.Name);
 
             
             #line default
@@ -60,9 +61,9 @@ WriteLiteral("\r\n\r\n<h2>title</h2>\r\n<script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 533), Tuple.Create("\"", 572)
-, Tuple.Create(Tuple.Create("", 539), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.0.0.debug.js")
-, 539), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 610), Tuple.Create("\"", 649)
+, Tuple.Create(Tuple.Create("", 616), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.0.0.debug.js")
+, 616), false)
 );
 
 WriteLiteral("></script>\r\n<script");
@@ -78,24 +79,44 @@ WriteLiteral(@">
             var entity = ko.observable(new ");
 
             
-            #line 18 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+            #line 19 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
                                       Write(Html.Raw(typeCtor));
 
             
             #line default
             #line hidden
 WriteLiteral(@"),
-            activate = function () {
+                activate = function () {
 
-            },
+                },
                 attached = function (parameters) {
 
+                },
+                save = function() {
+                    var tcs = new $.Deferred();
+                    var data = ko.mapping.toJSON(entity);
+
+                    context.post(data, """);
+
+            
+            #line 30 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                                   Write(saveUrl);
+
+            
+            #line default
+            #line hidden
+WriteLiteral(@""")
+                        .then(function(result) {
+                            tcs.resolve(result);
+                        });
+                    return tcs.promise();
                 };
 
             return {
                 activate: activate,
                 attached: attached,
-                entity: entity
+                entity: entity,
+                save : save
             };
         });
 </script>");

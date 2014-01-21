@@ -15,7 +15,7 @@ namespace Bespoke.Sph.Domain
         public override string GetKnockoutBindingExpression()
         {
 
-            var path = this.Path;
+            var path = this.Path.ConvertJavascriptObjectToFunction();
 
 
             if (!string.IsNullOrWhiteSpace(this.AutoCompletionEntity)

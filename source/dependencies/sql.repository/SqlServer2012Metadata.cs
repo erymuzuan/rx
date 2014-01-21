@@ -26,7 +26,7 @@ namespace Bespoke.Sph.SqlRepository
         ON s.schema_id = o.schema_id
     WHERE 
         o.type = 'U'
-        AND s.name = @Schema
+        --AND s.name = @Schema
         AND o.Name = @Table
         AND t.name <> N'sysname'
     ORDER 
@@ -54,7 +54,7 @@ namespace Bespoke.Sph.SqlRepository
             using (var cmd = new SqlCommand(Sql, conn))
             {
                 cmd.Parameters.AddWithValue("@Table", name);
-                cmd.Parameters.AddWithValue("@Schema", this.Schema);
+                //cmd.Parameters.AddWithValue("@Schema", this.Schema);
                 conn.Open();
                 using (var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                 {

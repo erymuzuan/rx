@@ -125,17 +125,18 @@ namespace Bespoke.Sph.Domain
 
             script.AppendLinf("bespoke.{0}.domain.{1} = function(optionOrWebid){{", jsNamespace, name);
             script.AppendLine(" var model = {");
-            script.AppendLinf("     $type = \"{0}.{1}, {2}\"", codeNamespace, name,
+            script.AppendLinf("     $type : ko.observable(\"{0}.{1}, {2}\"),", codeNamespace, name,
                 assemblyName);
             foreach (var item in this.MemberCollection)
             {
                 if (item.Type == typeof(Array))
-                    script.AppendLinf("     {0}: ko.observableArray([])", item.Name);
+                    script.AppendLinf("     {0}: ko.observableArray([]),", item.Name);
                 else if (item.Type == typeof(object))
-                    script.AppendLinf("     {0}: ko.observable(new bespoke.{1}.domain.{0}())", item.Name, jsNamespace);
+                    script.AppendLinf("     {0}: ko.observable(new bespoke.{1}.domain.{0}()),", item.Name, jsNamespace);
                 else
-                    script.AppendLinf("     {0}: ko.observable()", item.Name);
+                    script.AppendLinf("     {0}: ko.observable(),", item.Name);
             }
+            script.AppendLine("     WebId: ko.observable()");
 
             script.AppendLine(" }");
             script.AppendLine(" return model;");

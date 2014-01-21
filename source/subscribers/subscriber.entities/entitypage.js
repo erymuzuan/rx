@@ -20,13 +20,29 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             views = ko.observableArray([]),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             activate = function () {
-                var query = String.format("Name eq '{0}'", '@Model.Name');
-                var tcs = new $.Deferred();
-                context.loadOneAsync("EntityDefinition", query)
-                    .done(function(b) {
-                    entity(b);
-                        tcs.resolve(true);
-                    });
+                var query = String.format("Name eq '{0}'", '@Model.Name'),
+                  tcs = new $.Deferred(),
+                  formsQuery = String.format("EntityDefinitionId eq @Model.EntityDefinitionId"),
+                  edTask = context.loadOneAsync("EntityDefinition", query),
+                  formsTask = context.loadAsync("EntityForm", formsQuery);
+
+
+                $.when(edTask, formsTask)
+                 .done(function (b, formsLo) {
+                     entity(b);
+                     var formsCommands = _(formsLo.itemCollection).map(function (v) {
+                         return {
+                             caption: v.Name(),
+                             command: function () {
+                                 window.location = '#' + v.Route();
+                                 return Task.fromResult(0);
+                             },
+                             icon: "@Model.IconClass"
+                         };
+                     });
+                     vm.toolbar.commands(formsCommands);
+                     tcs.resolve(true);
+                 });
 
                 // TODO : get views
 

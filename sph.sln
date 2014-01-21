@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependencies", "dependencies", "{799A5437-62C7-4385-95CC-ADEB4177B3FA}"
 EndProject
@@ -99,6 +99,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web.sph", "source\web\web.sph\web.sph.csproj", "{C9DB83CE-B03C-467B-BB8E-AE7D69EE8F18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "subscriber.entities", "source\subscribers\subscriber.entities\subscriber.entities.csproj", "{954AD880-4C7D-4DEE-9455-3A670FE9767B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sqlrepository.test", "source\unit.test\sqlrepository.test\sqlrepository.test.csproj", "{45BE956C-0E3C-4472-9331-1704ED096898}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -246,6 +248,10 @@ Global
 		{954AD880-4C7D-4DEE-9455-3A670FE9767B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{954AD880-4C7D-4DEE-9455-3A670FE9767B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{954AD880-4C7D-4DEE-9455-3A670FE9767B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45BE956C-0E3C-4472-9331-1704ED096898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45BE956C-0E3C-4472-9331-1704ED096898}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45BE956C-0E3C-4472-9331-1704ED096898}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45BE956C-0E3C-4472-9331-1704ED096898}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -267,6 +273,7 @@ Global
 		{6EB844DB-9982-4ECF-8C83-7947020AE988} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{4F59766C-BB3B-42D4-AB37-0E676E19350E} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{5FFA1B80-CFCE-438C-B123-B14A1C0C9A89} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
+		{45BE956C-0E3C-4472-9331-1704ED096898} = {C46E9FBF-3520-4EAF-9CF4-F94272BF4FC2}
 		{7BF1DE5A-3756-4A31-8B82-491C71D263D7} = {FDE463BE-30E0-4A3A-8B34-4E4C02F3D186}
 		{A2B488B2-A536-49DF-9741-B87BDD745D8F} = {402F5682-5851-4DC5-AC3D-B176A302BBE1}
 		{C9DB83CE-B03C-467B-BB8E-AE7D69EE8F18} = {402F5682-5851-4DC5-AC3D-B176A302BBE1}

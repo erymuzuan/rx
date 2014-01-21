@@ -7,6 +7,7 @@
     var ns = ConfigurationManager.ApplicationName.ToCamelCase() + "_" + this.Model.EntityDefinition.EntityDefinitionId;
     var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:'{2}'}})", ns, Model.EntityDefinition.Name, Guid.NewGuid());
     var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.EntityDefinition.Name);
+    var saveUrl = string.Format("/{0}/Save", @Model.EntityDefinition.Name);
 }
 
 <h2>title</h2>
@@ -16,17 +17,28 @@
         function (context, logger, router, system, app, eximp, dialog) {
 
             var entity = ko.observable(new @Html.Raw(typeCtor)),
-            activate = function () {
+                activate = function () {
 
-            },
+                },
                 attached = function (parameters) {
 
+                },
+                save = function() {
+                    var tcs = new $.Deferred();
+                    var data = ko.mapping.toJSON(entity);
+
+                    context.post(data, "@saveUrl")
+                        .then(function(result) {
+                            tcs.resolve(result);
+                        });
+                    return tcs.promise();
                 };
 
             return {
                 activate: activate,
                 attached: attached,
-                entity: entity
+                entity: entity,
+                save : save
             };
         });
 </script>

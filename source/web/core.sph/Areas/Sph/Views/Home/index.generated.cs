@@ -62,8 +62,16 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Home
             
             #line default
             #line hidden
-WriteLiteral("\r\n<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <title>Sistem Pengurusan Hartanah</title>\r" +
-"\n    <meta");
+WriteLiteral("\r\n<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <title>");
+
+            
+            #line 11 "..\..\Areas\Sph\Views\Home\index.cshtml"
+      Write(Bespoke.Sph.Domain.ConfigurationManager.ApplicationName);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</title>\r\n    <meta");
 
 WriteLiteral(" charset=\"utf-8\"");
 
@@ -101,9 +109,9 @@ WriteLiteral(" />\r\n\r\n    ");
 
 WriteLiteral("\r\n    <link");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 687), Tuple.Create("\"", 711)
-, Tuple.Create(Tuple.Create("", 694), Tuple.Create<System.Object, System.Int32>(Href("~/Content/css.css")
-, 694), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 717), Tuple.Create("\"", 741)
+, Tuple.Create(Tuple.Create("", 724), Tuple.Create<System.Object, System.Int32>(Href("~/Content/css.css")
+, 724), false)
 );
 
 WriteLiteral(" rel=\"stylesheet\"");
@@ -133,9 +141,9 @@ WriteLiteral("\r\n    </div>\r\n\r\n    ");
 
 WriteLiteral("\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1207), Tuple.Create("\"", 1239)
-, Tuple.Create(Tuple.Create("", 1213), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 1213), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1237), Tuple.Create("\"", 1269)
+, Tuple.Create(Tuple.Create("", 1243), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
+, 1243), false)
 );
 
 WriteLiteral("></script>\r\n");
@@ -156,63 +164,63 @@ WriteLiteral("></script>\r\n");
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1324), Tuple.Create("\"", 1349)
-, Tuple.Create(Tuple.Create("", 1330), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/vendor.js")
-, 1330), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1354), Tuple.Create("\"", 1379)
+, Tuple.Create(Tuple.Create("", 1360), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/vendor.js")
+, 1360), false)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1377), Tuple.Create("\"", 1406)
-, Tuple.Create(Tuple.Create("", 1383), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/jstree.min.js")
-, 1383), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1407), Tuple.Create("\"", 1436)
+, Tuple.Create(Tuple.Create("", 1413), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/jstree.min.js")
+, 1413), false)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1434), Tuple.Create("\"", 1457)
-, Tuple.Create(Tuple.Create("", 1440), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/core.js")
-, 1440), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1464), Tuple.Create("\"", 1487)
+, Tuple.Create(Tuple.Create("", 1470), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/core.js")
+, 1470), false)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1485), Tuple.Create("\"", 1514)
-, Tuple.Create(Tuple.Create("", 1491), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/_ko.entity.js")
-, 1491), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1515), Tuple.Create("\"", 1544)
+, Tuple.Create(Tuple.Create("", 1521), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/_ko.entity.js")
+, 1521), false)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1542), Tuple.Create("\"", 1574)
-, Tuple.Create(Tuple.Create("", 1548), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/schemas/domain.js")
-, 1548), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1572), Tuple.Create("\"", 1604)
+, Tuple.Create(Tuple.Create("", 1578), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/schemas/domain.js")
+, 1578), false)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1602), Tuple.Create("\"", 1641)
-, Tuple.Create(Tuple.Create("", 1608), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/prototypes/prototypes.js")
-, 1608), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1632), Tuple.Create("\"", 1671)
+, Tuple.Create(Tuple.Create("", 1638), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/prototypes/prototypes.js")
+, 1638), false)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1669), Tuple.Create("\"", 1702)
-, Tuple.Create(Tuple.Create("", 1675), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/partial/partial.js")
-, 1675), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1699), Tuple.Create("\"", 1732)
+, Tuple.Create(Tuple.Create("", 1705), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/partial/partial.js")
+, 1705), false)
 );
 
 WriteLiteral("></script>\r\n");
@@ -221,35 +229,35 @@ WriteLiteral("        <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1753), Tuple.Create("\"", 1785)
-, Tuple.Create(Tuple.Create("", 1759), Tuple.Create<System.Object, System.Int32>(Href("~/entitydefinition/schemas")
-, 1759), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1783), Tuple.Create("\"", 1815)
+, Tuple.Create(Tuple.Create("", 1789), Tuple.Create<System.Object, System.Int32>(Href("~/entitydefinition/schemas")
+, 1789), false)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1813), Tuple.Create("\"", 1850)
-, Tuple.Create(Tuple.Create("", 1819), Tuple.Create<System.Object, System.Int32>(Href("~/Content/theme.")
-, 1819), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1843), Tuple.Create("\"", 1880)
+, Tuple.Create(Tuple.Create("", 1849), Tuple.Create<System.Object, System.Int32>(Href("~/Content/theme.")
+, 1849), false)
             
             #line 45 "..\..\Areas\Sph\Views\Home\index.cshtml"
-, Tuple.Create(Tuple.Create("", 1835), Tuple.Create<System.Object, System.Int32>(theme
+, Tuple.Create(Tuple.Create("", 1865), Tuple.Create<System.Object, System.Int32>(theme
             
             #line default
             #line hidden
-, 1835), false)
-, Tuple.Create(Tuple.Create("", 1841), Tuple.Create("/theme.js", 1841), true)
+, 1865), false)
+, Tuple.Create(Tuple.Create("", 1871), Tuple.Create("/theme.js", 1871), true)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1878), Tuple.Create("\"", 1907)
-, Tuple.Create(Tuple.Create("", 1884), Tuple.Create<System.Object, System.Int32>(Href("~/kendo/js/kendo.all.js")
-, 1884), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1908), Tuple.Create("\"", 1937)
+, Tuple.Create(Tuple.Create("", 1914), Tuple.Create<System.Object, System.Int32>(Href("~/kendo/js/kendo.all.js")
+, 1914), false)
 );
 
 WriteLiteral("></script>\r\n");
@@ -265,54 +273,54 @@ WriteLiteral("></script>\r\n");
             #line hidden
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1959), Tuple.Create("\"", 1988)
-, Tuple.Create(Tuple.Create("", 1965), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/vendor.min.js")
-, 1965), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1989), Tuple.Create("\"", 2018)
+, Tuple.Create(Tuple.Create("", 1995), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/vendor.min.js")
+, 1995), false)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2016), Tuple.Create("\"", 2045)
-, Tuple.Create(Tuple.Create("", 2022), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/jstree.min.js")
-, 2022), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2046), Tuple.Create("\"", 2075)
+, Tuple.Create(Tuple.Create("", 2052), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/jstree.min.js")
+, 2052), false)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2073), Tuple.Create("\"", 2100)
-, Tuple.Create(Tuple.Create("", 2079), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/core.min.js")
-, 2079), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2103), Tuple.Create("\"", 2130)
+, Tuple.Create(Tuple.Create("", 2109), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/core.min.js")
+, 2109), false)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2128), Tuple.Create("\"", 2161)
-, Tuple.Create(Tuple.Create("", 2134), Tuple.Create<System.Object, System.Int32>(Href("~/Sph/schemas/domain.min.js")
-, 2134), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2158), Tuple.Create("\"", 2191)
+, Tuple.Create(Tuple.Create("", 2164), Tuple.Create<System.Object, System.Int32>(Href("~/Sph/schemas/domain.min.js")
+, 2164), false)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2189), Tuple.Create("\"", 2229)
-, Tuple.Create(Tuple.Create("", 2195), Tuple.Create<System.Object, System.Int32>(Href("~/Sph/prototypes/prototypes.min.js")
-, 2195), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2219), Tuple.Create("\"", 2259)
+, Tuple.Create(Tuple.Create("", 2225), Tuple.Create<System.Object, System.Int32>(Href("~/Sph/prototypes/prototypes.min.js")
+, 2225), false)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2257), Tuple.Create("\"", 2291)
-, Tuple.Create(Tuple.Create("", 2263), Tuple.Create<System.Object, System.Int32>(Href("~/Sph/partial/partial.min.js")
-, 2263), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2287), Tuple.Create("\"", 2321)
+, Tuple.Create(Tuple.Create("", 2293), Tuple.Create<System.Object, System.Int32>(Href("~/Sph/partial/partial.min.js")
+, 2293), false)
 );
 
 WriteLiteral("></script>\r\n");
@@ -321,35 +329,35 @@ WriteLiteral("        <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2342), Tuple.Create("\"", 2374)
-, Tuple.Create(Tuple.Create("", 2348), Tuple.Create<System.Object, System.Int32>(Href("~/entitydefinition/schemas")
-, 2348), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2372), Tuple.Create("\"", 2404)
+, Tuple.Create(Tuple.Create("", 2378), Tuple.Create<System.Object, System.Int32>(Href("~/entitydefinition/schemas")
+, 2378), false)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2402), Tuple.Create("\"", 2439)
-, Tuple.Create(Tuple.Create("", 2408), Tuple.Create<System.Object, System.Int32>(Href("~/Content/theme.")
-, 2408), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2432), Tuple.Create("\"", 2469)
+, Tuple.Create(Tuple.Create("", 2438), Tuple.Create<System.Object, System.Int32>(Href("~/Content/theme.")
+, 2438), false)
             
             #line 57 "..\..\Areas\Sph\Views\Home\index.cshtml"
-, Tuple.Create(Tuple.Create("", 2424), Tuple.Create<System.Object, System.Int32>(theme
+, Tuple.Create(Tuple.Create("", 2454), Tuple.Create<System.Object, System.Int32>(theme
             
             #line default
             #line hidden
-, 2424), false)
-, Tuple.Create(Tuple.Create("", 2430), Tuple.Create("/theme.js", 2430), true)
+, 2454), false)
+, Tuple.Create(Tuple.Create("", 2460), Tuple.Create("/theme.js", 2460), true)
 );
 
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("        <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2467), Tuple.Create("\"", 2496)
-, Tuple.Create(Tuple.Create("", 2473), Tuple.Create<System.Object, System.Int32>(Href("~/kendo/js/kendo.all.js")
-, 2473), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2497), Tuple.Create("\"", 2526)
+, Tuple.Create(Tuple.Create("", 2503), Tuple.Create<System.Object, System.Int32>(Href("~/kendo/js/kendo.all.js")
+, 2503), false)
 );
 
 WriteLiteral("></script>\r\n");
@@ -365,9 +373,9 @@ WriteLiteral("\r\n\r\n    <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2554), Tuple.Create("\"", 2580)
-, Tuple.Create(Tuple.Create("", 2560), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/require.js")
-, 2560), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2584), Tuple.Create("\"", 2610)
+, Tuple.Create(Tuple.Create("", 2590), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/require.js")
+, 2590), false)
 );
 
 WriteLiteral(" data-main=\"SphApp/main\"");

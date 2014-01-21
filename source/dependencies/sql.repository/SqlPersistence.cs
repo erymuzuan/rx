@@ -55,10 +55,10 @@ namespace Bespoke.Sph.SqlRepository
                     var id = (int)item.GetType().GetProperty(entityType.Name + "Id").GetValue(item);
 
 
-                    var edmxType = metadataProvider.GetTable(entityType.Name);
-                    if (null == edmxType) throw new InvalidOperationException("Cannot find the EF type in edmx :" + entityType.Name);
+                    var metadataType = metadataProvider.GetTable(entityType.Name);
+                    if (null == metadataType) throw new InvalidOperationException("Cannot find the Metadata type in SQL Server :" + entityType.Name);
 
-                    var columns = edmxType.Columns
+                    var columns = metadataType.Columns
                         .Where(p => p.Name != entityType.Name + "Id")
                         .Where(p => p.CanRead && p.CanWrite)
                         .ToArray();
@@ -77,7 +77,7 @@ namespace Bespoke.Sph.SqlRepository
 
                     foreach (var c in columns)
                     {
-                        var parameterName = string.Format("@{0}{1}", c.Name, count1);
+                        var parameterName = string.Format("@{0}{1}", c.Name.Replace(".", "_"), count1);
                         var parameterValue = this.GetParameterValue(c, entityType, item);
 
                         cmd.Parameters.AddWithValue(parameterName, parameterValue);
@@ -90,8 +90,9 @@ namespace Bespoke.Sph.SqlRepository
                     count++;
                     var entityType = this.GetEntityType(item);
                     var typeName = entityType.Name;
+                    var schema = this.GetSchema(entityType);
                     var id = (int)item.GetType().GetProperty(typeName + "Id").GetValue(item, null);
-                    sql.AppendFormat("DELETE FROM [Sph].[{0}] WHERE [{0}Id] = @{0}Id{1}", typeName, count);
+                    sql.AppendFormat("DELETE FROM [{2}].[{0}] WHERE [{0}Id] = @{0}Id{1}", typeName, count, schema);
                     sql.AppendLine();
                     cmd.Parameters.AddWithValue("@" + typeName + "Id" + count, id);
                 }
@@ -99,6 +100,7 @@ namespace Bespoke.Sph.SqlRepository
                 sql.AppendLine("COMMIT");
                 /**/
                 cmd.CommandText = sql.ToString();
+                Console.WriteLine(sql);
                 await conn.OpenAsync();
                 var rows = await cmd.ExecuteNonQueryAsync();
 
@@ -123,12 +125,13 @@ namespace Bespoke.Sph.SqlRepository
         private void AppendUpdateStatement(StringBuilder sql, Type entityType, Column[] columns, int count1,
                                                     SqlCommand cmd, int id)
         {
-            sql.AppendFormat("UPDATE [Sph].[{0}]", entityType.Name);
+            var schema = this.GetSchema(entityType);
+            sql.AppendFormat("UPDATE [{1}].[{0}]", entityType.Name, schema);
 
             var updates = columns
                 .Where(p => p.Name != "CreatedDate")
                 .Where(p => p.Name != "CreatedBy")
-                .Select(p => string.Format("[{0}]=@{0}{1}", p.Name, count1));
+                .Select(p => string.Format("[{0}]=@{0}{1}", p.Name.Replace(".","_"), count1));
             sql.AppendLine();
             sql.AppendFormat("SET {0}", string.Join(",\r\n", updates));
 
@@ -141,12 +144,13 @@ namespace Bespoke.Sph.SqlRepository
         private void AppendInsertStatement(StringBuilder sql, Type entityType, Column[] columns, int count1,
                                                     SqlCommand cmd, List<Tuple<Entity, SqlParameter>> parameters, Entity item)
         {
-            sql.AppendFormat("INSERT INTO [Sph].[{0}]", entityType.Name);
+            var schema = this.GetSchema(entityType);
+            sql.AppendFormat("INSERT INTO [{1}].[{0}]", entityType.Name, schema);
             sql.AppendFormat("({0})", string.Join(",", columns.Select(p => string.Format("[{0}]", p.Name))));
 
             sql.AppendLine();
             sql.AppendFormat("VALUES");
-            sql.AppendFormat("({0})", string.Join(",", columns.Select(p => string.Format("@{0}{1}", p.Name, count1))));
+            sql.AppendFormat("({0})", string.Join(",", columns.Select(p => string.Format("@{0}{1}", p.Name.Replace(".","_"), count1))));
             sql.AppendLine();
             sql.AppendFormat("SELECT @id{0} = @@IDENTITY", count1);
             sql.AppendLine();
@@ -154,6 +158,12 @@ namespace Bespoke.Sph.SqlRepository
             var idParam = new SqlParameter("@id" + count1, SqlDbType.Int) { Direction = ParameterDirection.Output };
             cmd.Parameters.Add(idParam);
             parameters.Add(new Tuple<Entity, SqlParameter>(item, idParam));
+        }
+
+        private string GetSchema(Type type)
+        {
+            if (type.Namespace == typeof (Entity).Namespace) return "Sph";
+            return ConfigurationManager.ApplicationName;
         }
 
         private Type GetEntityType(Entity item)
