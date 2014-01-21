@@ -135,7 +135,13 @@ ko.bindingHandlers.date = {
         var value = ko.utils.unwrapObservable(valueAccessor()),
             dv = ko.unwrap(value.value),
             date = moment(dv),
-            invalid = ko.unwrap(value.invalid) || 'invalid date';
+            invalid = ko.unwrap(value.invalid) || 'invalid date',
+            format = ko.unwrap(value.format) || "DD/MM/YYYY";
+
+        if (!value.format && typeof ko.unwrap(value) === "string") {
+            dv = ko.unwrap(value);
+            date = moment(dv);
+        }
 
         $(element).on("change", function () {
             var nv = $(this).val();
@@ -158,7 +164,7 @@ ko.bindingHandlers.date = {
         }
 
 
-        var dateString = date.format(value.format).toString();
+        var dateString = date.format(format).toString();
         if (dateString.indexOf("NaN") < 0) {
             $(element).text(dateString);
             $(element).val(dateString);
