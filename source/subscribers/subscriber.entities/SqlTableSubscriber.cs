@@ -78,7 +78,7 @@ namespace subscriber.entities
                     using (var renameTableCommand = new SqlCommand("sp_rename", conn) { CommandType = CommandType.StoredProcedure })
                     {
                         renameTableCommand.Parameters.AddWithValue("@objname", string.Format("[{0}].[{1}]", applicationName, item.Name));
-                        renameTableCommand.Parameters.AddWithValue("@newname", string.Format("{0}_{1:yyyyddMM_HHmmss}",  item.Name, DateTime.Now));
+                        renameTableCommand.Parameters.AddWithValue("@newname", string.Format("{0}_{1:yyyyMMdd_HHmmss}",  item.Name, DateTime.Now));
                         //renameTableCommand.Parameters.AddWithValue("@objtype", "OBJECT");
 
                         await renameTableCommand.ExecuteNonQueryAsync();
