@@ -5,6 +5,7 @@
 
         public override string GetKnockoutBindingExpression()
         {
+            var path = this.Path.ConvertJavascriptObjectToFunction();
             if (null != this.ComboBoxLookup
                 && !string.IsNullOrWhiteSpace(this.ComboBoxLookup.Entity)
                 && !string.IsNullOrWhiteSpace(this.ComboBoxLookup.ValuePath)
@@ -24,7 +25,8 @@
                                      "displayPath: '{4}', " +
                                      "query :'{5}'" +
                                      "}}",
-                                     this.Path, this.Visible,
+                                     path,
+                                     this.Visible,
                                      lookup.Entity,
                                      lookup.ValuePath,
                                      lookup.DisplayPath,
@@ -32,7 +34,6 @@
             }
 
 
-            var path = this.Path;
             return string.Format("value: {0}, visible :{1}",
                 path,
                 this.Visible);
