@@ -98,7 +98,6 @@ namespace subscriber.entities
         }
 
 
-
         private string CreateTableSql(EntityDefinition item, MessageHeaders header, string applicationName)
         {
 
