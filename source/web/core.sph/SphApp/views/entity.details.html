@@ -170,15 +170,36 @@
             </div>
             <div class="form-group">
                 <label class="checkbox">
-                    <input data-bind="checked: IsAnalyzed" id="member-analyzed" type="checkbox" name="IsAnalyzed" />
+                    <input data-bind="checked: IsFilterable" id="member-analyzed" type="checkbox" name="IsFilterable" />
+                    Can be filtered
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="checkbox">
+                    <input data-bind="checked: IsNotIndexed" id="member-not-indexed" type="checkbox" name="IsNotIndexed" />
+                    Do not indexed
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="checkbox">
+                    <input data-bind="checked: IsAnalyzed, disable: IsNotIndexed, enable : TypeName() === 'System.String, mscorlib'" id="member-analyzed" type="checkbox" name="IsAnalyzed" />
                     Should analyzed(only for string)
                 </label>
             </div>
             <div class="form-group">
                 <label class="checkbox">
-                    <input data-bind="checked: IsFilterable" id="member-analyzed" type="checkbox" name="IsFilterable" />
-                    Can be filtered
+                    <input data-bind="checked: IsExcludeInAll, disable: IsNotIndexed" id="member-exclude-all" type="checkbox" name="IsExcludeInAll" />
+                    Do not include in all
                 </label>
+            </div>
+            <div class="form-group">
+                <label for="member-boost" class="col-lg-2 control-label">Boost</label>
+                <div class="col-lg-6">
+                    <input type="number" data-bind="value: Boost, disable: IsNotIndexed"
+                           required="" min="1" max="10"
+                           placeholder="Boost"
+                           class="form-control" id="member-boost">
+                </div>
             </div>
 
         </form>

@@ -28,12 +28,12 @@ namespace subscriber.entities
             map.AppendLinf("    \"{0}\":{{", item.Name.ToLowerInvariant());
             map.AppendLine("        \"properties\":{");
             // add entity default properties
-            map.AppendLine("            \"CreatedBy\": {\"type\": \"string\", \"index\":\"no\"},");
-            map.AppendLine("            \"ChangedBy\": {\"type\": \"string\", \"index\":\"no\"},");
+            map.AppendLine("            \"CreatedBy\": {\"type\": \"string\", \"index\":\"not_analyzed\"},");
+            map.AppendLine("            \"ChangedBy\": {\"type\": \"string\", \"index\":\"not_analyzed\"},");
             map.AppendLine("            \"CreatedDate\": {\"type\": \"date\"},");
             map.AppendLine("            \"ChangedDate\": {\"type\": \"date\"},");
 
-            var memberMappings = string.Join(",", item.MemberCollection.Select(d => d.GetMemberMappings()).SelectMany(m => m));
+            var memberMappings = string.Join(",\r\n", item.MemberCollection.Select(d => d.GetMemberMappings()).SelectMany(m => m));
             map.AppendLine(memberMappings);
 
             map.AppendLine("        }");

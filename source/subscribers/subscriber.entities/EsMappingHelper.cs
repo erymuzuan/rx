@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Bespoke.Sph.Domain;
 
@@ -11,16 +12,26 @@ namespace subscriber.entities
         {
             var type = member.GetEsType();
             var map = new StringBuilder();
-            map.AppendLine("{");
-            if (member.Type == typeof(string))
+
+            var indexed = (member.IsNotIndexed ? "no" : "analyzed");
+
+            map.Append("{");
+            if (member.Type == typeof (string))
             {
-                map.AppendLinf("\"type\":\"string\",\"index\":\"{0}\"", (member.IsAnalyzed ? "analyzed" : "no"));
+                if (!member.IsNotIndexed)
+                    indexed = (member.IsAnalyzed ? "analyzed" : "not_analyzed");
             }
-            else
+
+            map.AppendFormat("\"type\":\"{0}\"", type);
+            map.AppendFormat(",\"index\":\"{0}\"", indexed);
+            map.AppendFormat(",\"boost\":{0}", Math.Max(1,member.Boost));
+            map.AppendFormat(",\"include_in_all\":{0}", (!member.IsExcludeInAll).ToString().ToLowerInvariant());
+            
+            if ((new[] { typeof(int), typeof(decimal), typeof(DateTime) }).Contains(member.Type))
             {
-                map.AppendLinf("    \"type\":\"{0}\"", type);
+                map.Append(",\"ignore_malformed\":false");
             }
-            map.AppendLine("}");
+            map.Append("}");
             return map.ToString();
         }
 
@@ -45,7 +56,7 @@ namespace subscriber.entities
                 : string.Format("{0}.{1}", parent, member.Name);
             if (!string.IsNullOrWhiteSpace(type))
             {
-                var p = string.Format("         \"{0}\":{1}", name, member.GetEsMappingType());
+                var p = string.Format("             \"{0}\":{1}", name, member.GetEsMappingType());
                 list.Add(p);
             }
             foreach (var m in member.MemberCollection)

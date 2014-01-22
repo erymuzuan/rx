@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
 
 
+
 // ReSharper disable InconsistentNaming
 namespace Bespoke.Sph.Domain
 {
@@ -2057,6 +2058,11 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isNotIndexed;
+        public const string PropertyNameIsNotIndexed = "IsNotIndexed";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool m_isAnalyzed;
         public const string PropertyNameIsAnalyzed = "IsAnalyzed";
 
@@ -2064,6 +2070,16 @@ namespace Bespoke.Sph.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool m_isFilterable;
         public const string PropertyNameIsFilterable = "IsFilterable";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isExcludeInAll;
+        public const string PropertyNameIsExcludeInAll = "IsExcludeInAll";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int m_boost;
+        public const string PropertyNameBoost = "Boost";
 
 
         private readonly ObjectCollection<Member> m_MemberCollection = new ObjectCollection<Member>();
@@ -2173,6 +2189,35 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
+        public bool IsNotIndexed
+        {
+            set
+            {
+                if (m_isNotIndexed == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsNotIndexed, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isNotIndexed = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isNotIndexed;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
         public bool IsAnalyzed
         {
             set
@@ -2218,6 +2263,64 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_isFilterable;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsExcludeInAll
+        {
+            set
+            {
+                if (m_isExcludeInAll == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsExcludeInAll, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isExcludeInAll = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isExcludeInAll;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public int Boost
+        {
+            set
+            {
+                if (m_boost == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameBoost, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_boost = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_boost;
             }
         }
 
