@@ -10,6 +10,8 @@ namespace subscriber.entities
 {
     public class EntityIndexerMappingSubscriber : Subscriber<EntityDefinition>
     {
+       
+        
         public override string QueueName
         {
             get { return "ed_es_mapping_gen"; }
@@ -26,8 +28,13 @@ namespace subscriber.entities
             map.AppendLine("{");
             map.AppendLinf("    \"{0}\":{{", item.Name.ToLowerInvariant());
             map.AppendLine("        \"properties\":{");
-            var memberMappings = string.Join(",", item.MemberCollection.Select(d => d.GetMemberMappings()).SelectMany(m => m));
+            // add entity default properties
+            map.AppendLine("            \"CreatedBy\": {\"type\": \"string\", \"index\":\"no\"},");
+            map.AppendLine("            \"ChangedBy\": {\"type\": \"string\", \"index\":\"no\"},");
+            map.AppendLine("            \"CreatedDate\": {\"type\": \"date\"},");
+            map.AppendLine("            \"ChangedDate\": {\"type\": \"date\"},");
 
+            var memberMappings = string.Join(",", item.MemberCollection.Select(d => d.GetMemberMappings()).SelectMany(m => m));
             map.AppendLine(memberMappings);
 
             map.AppendLine("        }");
