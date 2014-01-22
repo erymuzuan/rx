@@ -205,6 +205,7 @@
     <Compile Include="Areas\App\AppAreaRegistration.cs" />
     <Compile Include="Areas\App\Controllers\ConfigController.cs" />
     <Compile Include="Areas\App\Controllers\ActivityScreenController.cs" />
+    <Compile Include="Areas\App\Controllers\EntityViewDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\EntityFormDesignerController.cs" />
     <Compile Include="Areas\App\Controllers\EntityFormRendererController.cs" />
     <Compile Include="Areas\App\Controllers\HeaderController.cs" />
@@ -332,6 +333,16 @@
       <DependentUpon>Html.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\App\Views\EntityFormRenderer\Script.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Script.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityViewDesigner\Html.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Html.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\App\Views\EntityViewDesigner\Script.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Script.cshtml</DependentUpon>
@@ -2075,6 +2086,14 @@
     <Content Include="Areas\App\Views\EntityFormRenderer\EditorTemplates\WebsiteFormElement.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityViewDesigner\Html.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Html.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\App\Views\EntityViewDesigner\Script.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Script.generated.cs</LastGenOutput>
     </Content>
     <None Include="Content\jsplumb\__jsplumb.css.bundle">
       <SubType>Designer</SubType>

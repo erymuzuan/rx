@@ -1,0 +1,264 @@
+﻿@using Newtonsoft.Json
+@model Bespoke.Sph.Web.ViewModels.TemplateFormViewModel
+
+@{
+    Layout = null;
+    var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, Formatting = Formatting.Indented };
+}
+<script src="~/SphApp/objectbuilders.js"></script>
+<script src="~/Scripts/knockout-3.0.0.debug.js"></script>
+<script src="~/Scripts/knockout.mapping-latest.debug.js"></script>
+<script src="~/SphApp/schemas/form.designer.g.js"></script>
+
+<script type="text/javascript" data-script="true">
+
+    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilders.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objectbuilders.dialog],
+        function (context, logger, router, system, app, eximp, dialog) {
+
+            var entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
+                view = ko.observable(new bespoke.sph.domain.EntityView({WebId:system.guid()})),
+                activate = function (entityid, viewid) {
+
+
+                    var vid = parseInt(viewid),
+                        id = parseInt(entityid),
+                        query = String.format("EntityDefinitionId eq {0}", id),
+                        tcs = new $.Deferred();
+
+                    context.loadOneAsync("EntityDefinition", query)
+                        .done(function (b) {
+                            entity(b);
+                            if (!vid) {
+                                tcs.resolve(true);
+                            }
+                            
+                        });
+                    if (vid) {
+                        context.loadOneAsync("EntityView", "EntityViewId eq " + vid)
+                        .done(function (f) {
+                            
+                            view(f);
+                            tcs.resolve(true);
+                        });
+                    }
+                    view().EntityDefinitionId(id);
+
+                    return tcs.promise();
+
+                },
+                attached = function(dom) {
+
+                    var fd = ko.unwrap(view().FormDesign);
+
+                    var dropDown = function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        var button = $(this);
+                        button.parent().addClass("open")
+                            .find("input:first").focus()
+                            .select();
+                    };
+
+                    // Fix input element click problem
+                    $(view).on('click mouseup mousedown', '.dropdown-menu input, .dropdown-menu label',
+                        function (e) {
+                            e.stopPropagation();
+                        });
+                    $('#template-form-designer').on('click', 'button.dropdown-toggle', dropDown);
+
+
+                    //toolbox item clicked
+                    $('#add-field').on("click", 'a', function (e) {
+                        e.preventDefault();
+                        _(fd.FormElementCollection()).each(function (f) {
+                            f.isSelected(false);
+                        });
+
+                        // clone
+                        var fe = ko.mapping.fromJS(ko.mapping.toJS(ko.dataFor(this)));
+                        fe.isSelected = ko.observable(true);
+                        fe.Label("Label " + fd.FormElementCollection().length);
+                        fe.CssClass("");
+                        fe.Visible("true");
+                        fe.Size("input-large");
+                        fe.ElementId(system.guid());
+
+                        fd.FormElementCollection.push(fe);
+                        vm.selectedFormElement(fe);
+
+
+                    });
+
+                    // kendoEditor
+                    $('#template-form-designer').on('click', 'textarea', function () {
+                        var $editor = $(this),
+                            kendoEditor = $editor.data("kendoEditor");
+                        if (!kendoEditor) {
+                            var htmlElement = ko.dataFor(this),
+                                editor = $editor.kendoEditor({
+                                    change:function() {
+                                        htmlElement.Text(this.value());
+                                    }
+                                }).data("kendoEditor");
+
+                            htmlElement.Text.subscribe(function(t) {
+                                editor.value(ko.unwrap(t));
+                            });
+
+                        }
+                    }
+                    );
+                    $.getScript('/Scripts/jquery-ui-1.10.3.custom.min.js')// only contains UI core and interactions API
+                        .done(function () {
+
+                            var initDesigner = function () {
+                                $('#template-form-designer>form').sortable({
+                                    items: '>div',
+                                    placeholder: 'ph',
+                                    helper: 'original',
+                                    dropOnEmpty: true,
+                                    forcePlaceholderSize: true,
+                                    forceHelperSize: false,
+                                    receive: receive
+                                });
+
+                            },
+                                receive = function (evt, ui) {
+                                    var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                                        return ko.dataFor(div);
+                                    });
+                                    var fe = ko.dataFor(ui.item[0]);
+                                    fe.isSelected = ko.observable(true);
+                                    elements.splice(2, 0, fe);
+                                    $('#template-form-designer>form').sortable("destroy");
+
+
+                                    fd.FormElementCollection(elements);
+                                };
+
+                            initDesigner();
+                            $('#add-field>ul>li').draggable({
+                                helper: 'clone',
+                                connectToSortable: "#template-form-designer>form"
+                            });
+                        });
+
+                    $('section.context-action-panel').on('click', 'buton.close', function() {
+                        $(this).parents('div.context-action').hide();
+                    });
+                },
+                supportsHtml5Storage = function () {
+                    try {
+                        return 'localStorage' in window && window['localStorage'] !== null;
+                    } catch (e) {
+                        return false;
+                    }
+                },
+                okClick = function (data, ev) {
+                    if (bespoke.utils.form.checkValidity(ev.target)) {
+
+                        var fd = ko.unwrap(view().FormDesign);
+                        // get the sorted element
+                        var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                            return ko.dataFor(div);
+                        });
+                        fd.FormElementCollection(elements);
+                        dialog.close(this, "OK");
+                        if (supportsHtml5Storage()) {
+                            localStorage.removeItem(view().WebId());
+                        }
+                    }
+                },
+                cancelClick = function () {
+                    if (supportsHtml5Storage()) {
+                        localStorage.removeItem(view().WebId());
+                    }
+                    dialog.close(this, "Cancel");
+                },
+                selectFormElement = function (fe) {
+
+                    var fd = ko.unwrap(view().FormDesign);
+                    _(fd.FormElementCollection()).each(function (f) {
+                        f.isSelected(false);
+                    });
+                    fe.isSelected(true);
+                    vm.selectedFormElement(fe);
+                    if (supportsHtml5Storage()) {
+                        localStorage.setItem(view().WebId(), ko.mapping.toJSON(view));
+                    }
+                },
+                removeFormElement = function (fe) {
+                    var fd = ko.unwrap(view().FormDesign);
+                    fd.FormElementCollection.remove(fe);
+                },
+                exportScreen = function() {
+                    return eximp.exportJson(ko.unwrap(view().Name) + ".json", ko.mapping.toJSON(view));
+                },
+                open = function() {
+
+                },
+                importCommand = function() {
+                    return eximp.importJson()
+                 .done(function (json) {
+                     try {
+
+                         var obj = JSON.parse(json),
+                             clone = context.toObservable(obj);
+
+                         view().FormDesign(clone.FormDesign());
+
+                     } catch (error) {
+                         logger.logError('Fail template import tidak sah', error, this, true);
+                     }
+                 });
+                },
+                save = function() {
+                    var fd = ko.unwrap(view().FormDesign);
+                    // get the sorted element
+                    var elements = _($('#template-form-designer>form>div')).map(function (div) {
+                        return ko.dataFor(div);
+                    });
+                    fd.FormElementCollection(elements);
+
+
+                    var tcs = new $.Deferred(),
+                        data = ko.mapping.toJSON(view);
+
+                    context.post(data, "/Sph/EntityForm/Save")
+                        .then(function(result) {
+                            tcs.resolve(result);
+                        });
+                    return tcs.promise();
+                };
+
+            var vm = {
+                attached: attached,
+                activate: activate,
+                formElements: ko.observableArray(),
+                selectedFormElement: ko.observable(),
+                selectFormElement : selectFormElement,
+                removeFormElement : removeFormElement,
+                view: view,
+                entity : entity,
+                okClick: okClick,
+                cancelClick: cancelClick,
+                importCommand :importCommand,
+                toolbar : {
+                    commands :ko.observableArray([{
+                        caption : 'Create Pull Request',
+                        icon : 'fa fa-folder-open-o',
+                        command : open
+                    }
+                    ]),
+                    exportCommand : exportScreen,
+                    saveCommand : save
+                }
+            };
+
+            return vm;
+
+        });
+
+
+</script>

@@ -79,7 +79,6 @@
         </h3>
     </a>
     <div class="collapse in" id="forms-table">
-
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -108,7 +107,27 @@
             Views
         </h3>
     </a>
-    <div class="collapse in" id="view-table"></div>
+    <div class="collapse in" id="view-table">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Route</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach :views">
+                <tr>
+                    <td>
+                        <a data-bind="attr : {'href':'#/entity.form.designer/' + $root.entity().EntityDefinitionId() + '/' + EntityFormId()},text: Name"></a>
+                    </td>
+                    <td data-bind="text:Route"></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <a data-bind="attr : {'href':'#/entity.view.designer/' + $root.entity().EntityDefinitionId() + '/0'}">Add</a>
+    </div>
 </div>
 
 <div class="row" id="members-panel">

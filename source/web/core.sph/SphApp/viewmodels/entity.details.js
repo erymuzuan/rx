@@ -35,6 +35,10 @@ define(['services/datacontext', 'services/logger', 'plugins/router', objectbuild
                         .done(function (lo) {
                         forms(lo.itemCollection);
                     });
+                    context.loadAsync("EntityView", "EntityDefinitionId eq " + id)
+                        .done(function (lo) {
+                        views(lo.itemCollection);
+                    });
 
 
                     return tcs.promise();
