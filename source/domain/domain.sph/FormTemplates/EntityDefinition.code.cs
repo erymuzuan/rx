@@ -106,7 +106,7 @@ namespace Bespoke.Sph.Domain
             code.AppendLinf(@"
             var json = Bespoke.Sph.Web.Helpers.ControllerHelpers.GetRequestBody(this);
             var request = new System.Net.Http.StringContent(json);
-            var url = string.Format(""{{0}}/{{1}}/{0}/_search"", ConfigurationManager.ElasticSearchHost, ConfigurationManager.ElasticSearchIndex );
+            var url = string.Format(""{{0}}/{{1}}/{0}/_search"", ConfigurationManager.ElasticSearchHost, ConfigurationManager.ApplicationName.ToLower() );
 
             var client = new System.Net.Http.HttpClient();
             var response = await client.PostAsync(url, request);

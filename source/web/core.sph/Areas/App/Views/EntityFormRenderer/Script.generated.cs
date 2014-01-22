@@ -53,6 +53,7 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityFormRenderer
     var typeCtor = string.Format("bespoke.{0}.domain.{1}({{WebId:'{2}'}})", ns, Model.EntityDefinition.Name, Guid.NewGuid());
     var typeName = string.Format("bespoke.{0}.domain.{1}", ns, Model.EntityDefinition.Name);
     var saveUrl = string.Format("/{0}/Save", @Model.EntityDefinition.Name);
+    var codeNamespace = ConfigurationManager.ApplicationName + "_" + Model.EntityDefinition.EntityDefinitionId;
 
             
             #line default
@@ -61,9 +62,9 @@ WriteLiteral("\r\n\r\n<h2>title</h2>\r\n<script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 610), Tuple.Create("\"", 649)
-, Tuple.Create(Tuple.Create("", 616), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.0.0.debug.js")
-, 616), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 723), Tuple.Create("\"", 762)
+, Tuple.Create(Tuple.Create("", 729), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.0.0.debug.js")
+, 729), false)
 );
 
 WriteLiteral("></script>\r\n<script");
@@ -79,14 +80,51 @@ WriteLiteral(@">
             var entity = ko.observable(new ");
 
             
-            #line 19 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+            #line 20 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
                                       Write(Html.Raw(typeCtor));
 
             
             #line default
             #line hidden
-WriteLiteral(@"),
-                activate = function () {
+WriteLiteral("),\r\n                activate = function (id) {\r\n                    if (parseInt(" +
+"id)) {\r\n                        var query = String.format(\"");
+
+            
+            #line 23 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                                               Write(Model.EntityDefinition.Name + "Id");
+
+            
+            #line default
+            #line hidden
+WriteLiteral(" eq {0}\", id),\r\n                            tcs = new $.Deferred();\r\n            " +
+"            context.loadOneAsync(\"");
+
+            
+            #line 25 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                                         Write(Model.EntityDefinition.Name);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\", query)\r\n                            .done(function(b) {\r\n                     " +
+"           var item = context.toObservable(b,/Bespoke\\.");
+
+            
+            #line 27 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+                                                                       Write(codeNamespace);
+
+            
+            #line default
+            #line hidden
+WriteLiteral(@"\.Domain\.(.*?),/ );
+                                entity(item);
+                                tcs.resolve(true);
+                            });
+
+                        return tcs.promise();
+
+                    }
+                    return Task.fromResult(true);
 
                 },
                 attached = function (parameters) {
@@ -99,7 +137,7 @@ WriteLiteral(@"),
                     context.post(data, """);
 
             
-            #line 30 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
+            #line 45 "..\..\Areas\App\Views\EntityFormRenderer\Script.cshtml"
                                    Write(saveUrl);
 
             

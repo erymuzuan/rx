@@ -750,6 +750,7 @@
       <DependentUpon>WebsiteFormElement.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ResourcesController.cs" />
+    <Compile Include="Helpers\CustomEntityRestSqlTranslator.cs" />
     <Compile Include="Helpers\PropertyPathComparer.cs" />
     <Compile Include="Hubs\MessageConnection.cs" />
     <Compile Include="Hubs\WorkflowDebuggerHub.cs" />

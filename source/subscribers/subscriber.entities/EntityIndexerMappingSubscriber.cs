@@ -10,7 +10,6 @@ namespace subscriber.entities
 {
     public class EntityIndexerMappingSubscriber : Subscriber<EntityDefinition>
     {
-       
         
         public override string QueueName
         {

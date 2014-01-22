@@ -34,7 +34,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
                          return {
                              caption: v.Name(),
                              command: function () {
-                                 window.location = '#' + v.Route();
+                                 window.location = '#' + v.Route() + '/0';
                                  return Task.fromResult(0);
                              },
                              icon: "@Model.IconClass"
@@ -58,11 +58,20 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             attached = function (view) {
 
             },
-            addForm = function() {
-                
+            addForm = function () {
+
             },
-            addView = function() {
-                
+            addView = function () {
+
+            },
+            recentItemsQuery = {
+                "sort": [
+                 {
+                     "ChangedDate": {
+                         "order": "desc"
+                     }
+                 }
+                ]
             };
 
         var vm = {
@@ -73,9 +82,13 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             attached: attached,
             reports: reports,
             tools: tools,
-            recentItems : recentItems,
-            addForm : addForm,
-            addView : addView
+            recentItems: recentItems,
+            addForm: addForm,
+            addView: addView,
+            recentItemsQuery: recentItemsQuery,
+            toolbar: {
+                commands: ko.observableArray([])
+            }
         };
 
         return vm;

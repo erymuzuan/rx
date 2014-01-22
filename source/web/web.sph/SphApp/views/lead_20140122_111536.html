@@ -12,25 +12,17 @@
 
 <div class="row">
     <h3 data-bind="with : entity">Recent <span data-bind="text:Plural"></span></h3>
-    <table class="table table-striped" data-bind="searchPaging: {list :recentItems, query : recentItemsQuery , entity : '@Model.Name'}">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>@Model.RecordName</th>
+                <th></th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
-        <tbody data-bind="foreach :recentItems">
+        <tbody data-bind="searchPaging :{ query : recentItemsQuery, list: recentItems, entity: 'Lead'}">
             <tr>
-                <td>
-                    @{
-                        var url = string.Format("'#{0}/' + {1}Id", Model.Name.ToLower(), Model.Name);
-                    }
-                    <a data-bind="attr:{href : @url}">
-                        <i class="fa fa-edit"></i>
-                        <span data-bind="text:@Model.RecordName"></span>
-                    </a>
-                </td>
+                <td></td>
                 <td></td>
                 <td></td>
             </tr>

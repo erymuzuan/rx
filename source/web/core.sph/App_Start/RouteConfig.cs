@@ -15,6 +15,7 @@ namespace Bespoke.Sph.Web.App_Start
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("glimpse.axd");
 
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
@@ -64,7 +65,7 @@ namespace Bespoke.Sph.Web.App_Start
                              select new JsRoute
                              {
                                  Title = t.Name,
-                                 Route = string.Format("{0}", t.Route.ToLowerInvariant()),
+                                 Route = string.Format("{0}/:id", t.Route.ToLowerInvariant()),
                                  Caption = t.Name,
                                  Icon = t.IconClass,
                                  ModuleId = string.Format("viewmodels/{0}", t.Route.ToLowerInvariant()),
