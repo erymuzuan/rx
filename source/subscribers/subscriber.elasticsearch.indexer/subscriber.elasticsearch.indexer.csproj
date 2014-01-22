@@ -52,6 +52,7 @@
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
     <Compile Include="AuditTrailIndexerSubscriber.cs" />
+    <Compile Include="CustomEntityIndexerSubscriber.cs" />
     <Compile Include="MessageIndexerSubscriber.cs" />
     <Compile Include="ReportDefinitionIndexerSubscriber.cs" />
     <Compile Include="ReportDeliveryIndexerSubscriber.cs" />
@@ -83,8 +84,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="CopyOutputDirClientAndWeb">
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\subscribers\workers.console.runner\bin\Debug" />
-    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\source\subscribers\workers.windowsservice.runner\bin\Debug" />
+    <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers" />
   </Target>
   <PropertyGroup>
     <BuildDependsOn>
