@@ -1,5 +1,5 @@
 USE [Sph]
-IF OBJECT_ID('Sph.View', 'U') IS NOT NULL
+IF OBJECT_ID('Sph.EntityView', 'U') IS NOT NULL
   DROP TABLE Sph.EntityView
 GO
 

@@ -194,13 +194,6 @@
 			<xs:attribute name="IsNullable" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="SpaceFeaturesElement">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="FormElement"/>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="FieldValidation">
 		<xs:complexType>
 			<xs:attribute name="IsRequired" type="xs:boolean" use="required"/>
@@ -349,14 +342,44 @@
 	</xs:element>
 	<xs:element name="EntityView">
 		<xs:complexType>
-			<xs:attribute name="EntityFormId" type="xs:int" use="required"/>
+			<xs:all>
+				<xs:element name="FilterCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="Filter" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ViewColumnCollection">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ViewColumn" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
 			<xs:attribute name="IconClass" type="xs:string" use="required"/>
 			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
-			<xs:attribute name="EntityViewId" type="xs:int" use="required"/>
 			<xs:attribute name="EntityDefinitionId" type="xs:int" use="required"/>
 			<xs:attribute name="Name" type="xs:string" use="required"/>
 			<xs:attribute name="Route" type="xs:string" use="required"/>
 			<xs:attribute name="Note" type="xs:string" use="required"/>
+			<xs:attribute name="Query" type="xs:string" use="required"/>
+			<xs:attribute name="Visibilty" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Filter">
+		<xs:complexType>
+			<xs:attribute name="Term" type="xs:string" use="required"/>
+			<xs:attribute name="Field" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ViewColumn">
+		<xs:complexType>
+			<xs:attribute name="Path" type="xs:string" use="required"/>
+			<xs:attribute name="Header" type="xs:string" use="required"/>
+			<xs:attribute name="Sort" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

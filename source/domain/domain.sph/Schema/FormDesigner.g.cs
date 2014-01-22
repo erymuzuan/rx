@@ -4,8 +4,6 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 
 // ReSharper disable InconsistentNaming
@@ -1011,18 +1009,6 @@ namespace Bespoke.Sph.Domain
             }
             get { return m_value; }
         }
-
-
-    }
-
-    ///<summary>
-    /// 
-    ///</summary>
-    [DataObject(true)]
-    [Serializable]
-    [XmlType("SpaceFeaturesElement", Namespace = Strings.DEFAULT_NAMESPACE)]
-    public partial class SpaceFeaturesElement
-    {
 
 
     }
@@ -2550,8 +2536,8 @@ namespace Bespoke.Sph.Domain
     {
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityFormId;
-        public const string PropertyNameEntityFormId = "EntityFormId";
+        private int m_entityViewId;
+        public const string PropertyNameEntityViewId = "EntityViewId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2562,11 +2548,6 @@ namespace Bespoke.Sph.Domain
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string m_iconStoreId;
         public const string PropertyNameIconStoreId = "IconStoreId";
-
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int m_entityViewId;
-        public const string PropertyNameEntityViewId = "EntityViewId";
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -2589,6 +2570,38 @@ namespace Bespoke.Sph.Domain
         public const string PropertyNameNote = "Note";
 
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_query;
+        public const string PropertyNameQuery = "Query";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_visibilty;
+        public const string PropertyNameVisibilty = "Visibilty";
+
+
+        private readonly ObjectCollection<Filter> m_FilterCollection = new ObjectCollection<Filter>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("Filter", IsNullable = false)]
+        public ObjectCollection<Filter> FilterCollection
+        {
+            get { return m_FilterCollection; }
+        }
+
+        private readonly ObjectCollection<ViewColumn> m_ViewColumnCollection = new ObjectCollection<ViewColumn>();
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlArrayItem("ViewColumn", IsNullable = false)]
+        public ObjectCollection<ViewColumn> ViewColumnCollection
+        {
+            get { return m_ViewColumnCollection; }
+        }
+
         ///<summary>
         /// 
         ///</summary>
@@ -2598,22 +2611,22 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public int EntityFormId
+        public int EntityViewId
         {
             set
             {
-                if (m_entityFormId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntityFormId, value);
+                if (m_entityViewId == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameEntityViewId, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_entityFormId = value;
+                    m_entityViewId = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_entityFormId;
+                return m_entityViewId;
             }
         }
 
@@ -2672,35 +2685,6 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_iconStoreId;
-            }
-        }
-
-
-        ///<summary>
-        /// 
-        ///</summary>
-        [XmlAttribute]
-
-        [Required]
-
-        [DebuggerHidden]
-
-        public int EntityViewId
-        {
-            set
-            {
-                if (m_entityViewId == value) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameEntityViewId, value);
-                OnPropertyChanging(arg);
-                if (!arg.Cancel)
-                {
-                    m_entityViewId = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return m_entityViewId;
             }
         }
 
@@ -2817,6 +2801,256 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_note;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Query
+        {
+            set
+            {
+                if (String.Equals(m_query, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameQuery, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_query = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_query;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Visibilty
+        {
+            set
+            {
+                if (String.Equals(m_visibilty, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameVisibilty, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_visibilty = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_visibilty;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("Filter", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class Filter
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_term;
+        public const string PropertyNameTerm = "Term";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_field;
+        public const string PropertyNameField = "Field";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Term
+        {
+            set
+            {
+                if (String.Equals(m_term, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameTerm, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_term = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_term;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Field
+        {
+            set
+            {
+                if (String.Equals(m_field, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameField, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_field = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_field;
+            }
+        }
+
+
+
+    }
+
+    ///<summary>
+    /// 
+    ///</summary>
+    [DataObject(true)]
+    [Serializable]
+    [XmlType("ViewColumn", Namespace = Strings.DEFAULT_NAMESPACE)]
+    public partial class ViewColumn
+    {
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_path;
+        public const string PropertyNamePath = "Path";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_header;
+        public const string PropertyNameHeader = "Header";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string m_sort;
+        public const string PropertyNameSort = "Sort";
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Path
+        {
+            set
+            {
+                if (String.Equals(m_path, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNamePath, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_path = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_path;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public string Header
+        {
+            set
+            {
+                if (String.Equals(m_header, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameHeader, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_header = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_header;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [DebuggerHidden]
+
+        public string Sort
+        {
+            set
+            {
+                if (String.Equals(m_sort, value, StringComparison.Ordinal)) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameSort, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_sort = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_sort;
             }
         }
 

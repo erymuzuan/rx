@@ -17,7 +17,6 @@ namespace Bespoke.Sph.Domain
     [XmlInclude(typeof(WebsiteFormElement))]
     [XmlInclude(typeof(SectionFormElement))]
     [XmlInclude(typeof(HtmlElement))]
-    [XmlInclude(typeof(SpaceFeaturesElement))]
     [XmlInclude(typeof(FileUploadElement))]
     [XmlInclude(typeof(ListView))]
     [XmlInclude(typeof(Button))]
