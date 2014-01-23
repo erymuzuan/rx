@@ -68,6 +68,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 return RedirectPermanent("~/images/SetterAction.png");
             if (type == typeof(EmailAction))
                 return RedirectPermanent("~/images/EmailAction.png");
+            if (type == typeof(StartWorkflowAction))
+                return RedirectPermanent("~/images/StartWorkflowAction.png");
             if (type == typeof(PropertyChangedField))
                 return RedirectPermanent("~/images/PropertyChangedField.png");
             if (type == typeof(AssemblyField))

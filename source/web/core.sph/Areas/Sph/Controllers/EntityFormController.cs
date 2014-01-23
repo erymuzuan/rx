@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using Bespoke.Sph.Domain;
 using Bespoke.Sph.Web.Helpers;
-using Bespoke.Sph.Web.ViewModels;
 
 namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
@@ -19,7 +18,5 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
             }
             return Json(new { success = true, status = "OK", id = ef.EntityFormId });
         }
-
-   
     }
 }

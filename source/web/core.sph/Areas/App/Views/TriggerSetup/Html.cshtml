@@ -24,22 +24,10 @@
         <div class="form-group">
             <label for="Entity" class="col-lg-2 control-label">Entity</label>
             <div class="col-lg-6">
-                <select required class="form-control" data-bind="value: Entity" id="Entity" name="Entity">
-                    <option value="">[--SELECT TRIGGER ENTITY--]</option>
-                    <option value="Land">Land</option>
-                    <option value="Building">Building</option>
-                    <option value="RentalApplication">Rental Application</option>
-                    <option value="Deposit">Deposit</option>
-                    <option value="Contract">Contract</option>
-                    <option value="Space">Space</option>
-                    <option value="Tenant">Tenant</option>
-                    <option value="Invoice">Invoice</option>
-                    <option value="Complaint">Complaint</option>
-                    <option value="Maintenance">Maintenance</option>
-                </select>
+                <select required class="form-control" data-bind="value: Entity, options: $root.entities, optionsCaption:'[--SELECT TRIGGER ENTITY--]'" id="Entity" name="Entity"></select>
             </div>
         </div>
-
+        @*, optionsText:'Name', optionsValue:'Type',*@
 
 
         <div class="form-group">

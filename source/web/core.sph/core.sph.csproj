@@ -548,6 +548,7 @@
       <DependentUpon>_ValidationSetting.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\Sph\Controllers\EntityFormController.cs" />
+    <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
     <Compile Include="Areas\Sph\Controllers\AccountController.cs" />
     <Compile Include="Areas\Sph\Controllers\AdminController.cs" />
@@ -1270,6 +1271,7 @@
     <Content Include="SphApp\partial\EntityDefinition.min.js">
       <DependentUpon>EntityDefinition.js</DependentUpon>
     </Content>
+    <Content Include="SphApp\partial\EntityView.js" />
     <Content Include="SphApp\partial\ExecutedActivity.min.js">
       <DependentUpon>ExecutedActivity.js</DependentUpon>
     </Content>

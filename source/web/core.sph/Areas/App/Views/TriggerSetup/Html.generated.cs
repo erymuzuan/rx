@@ -126,58 +126,16 @@ WriteLiteral(">\r\n                <select required");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" data-bind=\"value: Entity\"");
+WriteLiteral(" data-bind=\"value: Entity, options: $root.entities, optionsCaption:\'[--SELECT TRI" +
+"GGER ENTITY--]\'\"");
 
 WriteLiteral(" id=\"Entity\"");
 
 WriteLiteral(" name=\"Entity\"");
 
-WriteLiteral(">\r\n                    <option");
+WriteLiteral("></select>\r\n            </div>\r\n        </div>\r\n        ");
 
-WriteLiteral(" value=\"\"");
-
-WriteLiteral(">[--SELECT TRIGGER ENTITY--]</option>\r\n                    <option");
-
-WriteLiteral(" value=\"Land\"");
-
-WriteLiteral(">Land</option>\r\n                    <option");
-
-WriteLiteral(" value=\"Building\"");
-
-WriteLiteral(">Building</option>\r\n                    <option");
-
-WriteLiteral(" value=\"RentalApplication\"");
-
-WriteLiteral(">Rental Application</option>\r\n                    <option");
-
-WriteLiteral(" value=\"Deposit\"");
-
-WriteLiteral(">Deposit</option>\r\n                    <option");
-
-WriteLiteral(" value=\"Contract\"");
-
-WriteLiteral(">Contract</option>\r\n                    <option");
-
-WriteLiteral(" value=\"Space\"");
-
-WriteLiteral(">Space</option>\r\n                    <option");
-
-WriteLiteral(" value=\"Tenant\"");
-
-WriteLiteral(">Tenant</option>\r\n                    <option");
-
-WriteLiteral(" value=\"Invoice\"");
-
-WriteLiteral(">Invoice</option>\r\n                    <option");
-
-WriteLiteral(" value=\"Complaint\"");
-
-WriteLiteral(">Complaint</option>\r\n                    <option");
-
-WriteLiteral(" value=\"Maintenance\"");
-
-WriteLiteral(">Maintenance</option>\r\n                </select>\r\n            </div>\r\n        </d" +
-"iv>\r\n\r\n\r\n\r\n        <div");
+WriteLiteral("\r\n\r\n\r\n        <div");
 
 WriteLiteral(" class=\"form-group\"");
 
@@ -318,7 +276,7 @@ WriteLiteral(">\r\n            <tr>\r\n                <td>\r\n");
 WriteLiteral("                    ");
 
             
-            #line 100 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
+            #line 88 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
                Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Left" }));
 
             
@@ -370,7 +328,7 @@ WriteLiteral(">EndsWith</option>\r\n                    </select>\r\n           
 WriteLiteral("                    ");
 
             
-            #line 115 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
+            #line 103 "..\..\Areas\App\Views\TriggerSetup\Html.cshtml"
                Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Right" }));
 
             

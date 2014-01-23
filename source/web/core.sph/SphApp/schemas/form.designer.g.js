@@ -477,33 +477,6 @@ bespoke.sph.domain.DefaultValue = function (optionOrWebid) {
 
 
 
-bespoke.sph.domain.SpaceFeaturesElement = function (optionOrWebid) {
-
-    var v = new bespoke.sph.domain.FormElement(optionOrWebid);
-
-    v["$type"] = "Bespoke.Sph.Domain.SpaceFeaturesElement, domain.sph";
-
-
-    if (optionOrWebid && typeof optionOrWebid === "object") {
-        for (var n in optionOrWebid) {
-            if (typeof v[n] === "function") {
-                v[n](optionOrWebid[n]);
-            }
-        }
-    }
-    if (optionOrWebid && typeof optionOrWebid === "string") {
-        v.WebId(optionOrWebid);
-    }
-
-
-    if (bespoke.sph.domain.SpaceFeaturesElementPartial) {
-        return _(v).extend(new bespoke.sph.domain.SpaceFeaturesElementPartial(v));
-    }
-    return v;
-};
-
-
-
 bespoke.sph.domain.FieldValidation = function (optionOrWebid) {
 
     var model = {
@@ -762,8 +735,11 @@ bespoke.sph.domain.Member = function (optionOrWebid) {
         Name: ko.observable(''),
         TypeName: ko.observable(''),
         IsNullable: ko.observable(false),
+        IsNotIndexed: ko.observable(false),
         IsAnalyzed: ko.observable(false),
         IsFilterable: ko.observable(false),
+        IsExcludeInAll: ko.observable(false),
+        Boost: ko.observable(0),
         MemberCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -798,6 +774,8 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         Route: ko.observable(''),
         Note: ko.observable(''),
         IsAllowedNewItem: ko.observable(false),
+        IconClass: ko.observable(''),
+        IconStoreId: ko.observable(''),
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
@@ -827,10 +805,16 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.EntityView, domain.sph",
         EntityViewId: ko.observable(0),
+        IconClass: ko.observable(''),
+        IconStoreId: ko.observable(''),
         EntityDefinitionId: ko.observable(0),
         Name: ko.observable(''),
         Route: ko.observable(''),
         Note: ko.observable(''),
+        Query: ko.observable(''),
+        Visibilty: ko.observable(''),
+        FilterCollection: ko.observableArray([]),
+        ViewColumnCollection: ko.observableArray([]),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -848,6 +832,65 @@ bespoke.sph.domain.EntityView = function (optionOrWebid) {
 
     if (bespoke.sph.domain.EntityViewPartial) {
         return _(model).extend(new bespoke.sph.domain.EntityViewPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.Filter = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
+        Term: ko.observable(''),
+        Field: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.FilterPartial) {
+        return _(model).extend(new bespoke.sph.domain.FilterPartial(model));
+    }
+    return model;
+};
+
+
+
+bespoke.sph.domain.ViewColumn = function (optionOrWebid) {
+
+    var model = {
+        "$type": "Bespoke.Sph.Domain.ViewColumn, domain.sph",
+        Path: ko.observable(''),
+        Header: ko.observable(''),
+        Sort: ko.observable(''),
+        isBusy: ko.observable(false),
+        WebId: ko.observable()
+    };
+    if (optionOrWebid && typeof optionOrWebid === "object") {
+        for (var n in optionOrWebid) {
+            if (typeof model[n] === "function") {
+                model[n](optionOrWebid[n]);
+            }
+        }
+    }
+    if (optionOrWebid && typeof optionOrWebid === "string") {
+        model.WebId(optionOrWebid);
+    }
+
+
+    if (bespoke.sph.domain.ViewColumnPartial) {
+        return _(model).extend(new bespoke.sph.domain.ViewColumnPartial(model));
     }
     return model;
 };

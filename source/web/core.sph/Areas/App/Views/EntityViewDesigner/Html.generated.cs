@@ -38,17 +38,195 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityViewDesigner
         }
         public override void Execute()
         {
-WriteLiteral("\r\n");
-
             
-            #line 2 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 1 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
   
     Layout = null;
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n");
+WriteLiteral("\r\n<h2>View Designer</h2>\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n    <form");
+
+WriteLiteral(" class=\"form-horizontal\"");
+
+WriteLiteral(" data-bind=\"with : view\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n            <label");
+
+WriteLiteral(" for=\"view-name\"");
+
+WriteLiteral(" class=\"col-lg-2 control-label\"");
+
+WriteLiteral(">Name</label>\r\n            <div");
+
+WriteLiteral(" class=\"col-lg-6\"");
+
+WriteLiteral(">\r\n                <input");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value: Name\"");
+
+WriteLiteral(" \r\n                       required");
+
+WriteLiteral(" pattern=\"^[A-Za-z_][A-Za-z0-9_ ]*$\"");
+
+WriteLiteral(" \r\n                       placeholder=\"Name for the view\"");
+
+WriteLiteral("\r\n                       class=\"form-control\"");
+
+WriteLiteral(" id=\"view-name\"");
+
+WriteLiteral(">\r\n            </div>\r\n        </div>\r\n        <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n            <label");
+
+WriteLiteral(" for=\"view-route\"");
+
+WriteLiteral(" class=\"col-lg-2 control-label\"");
+
+WriteLiteral(">Route</label>\r\n            <div");
+
+WriteLiteral(" class=\"col-lg-6\"");
+
+WriteLiteral(">\r\n                <input");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value: Route\"");
+
+WriteLiteral(" \r\n                       required");
+
+WriteLiteral(" pattern=\"^[A-Za-z_][A-Za-z0-9_-]*$\"");
+
+WriteLiteral(" \r\n                       placeholder=\"route url\"");
+
+WriteLiteral("\r\n                       class=\"form-control\"");
+
+WriteLiteral(" id=\"view-route\"");
+
+WriteLiteral(">\r\n            </div>\r\n        </div>\r\n    </form>\r\n</div>\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" data-bind=\"with : view\"");
+
+WriteLiteral(">\r\n\r\n    <table");
+
+WriteLiteral(" class=\"table table-striped\"");
+
+WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n                <th>Field</th>\r\n           " +
+"     <th>Term</th>\r\n                <th></th>\r\n            </tr>\r\n        </thea" +
+"d>\r\n        <tbody");
+
+WriteLiteral(" data-bind=\"foreach :FilterCollection\"");
+
+WriteLiteral(">\r\n            <tr>\r\n                <td>\r\n                    <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value:Term\"");
+
+WriteLiteral(" required");
+
+WriteLiteral(" pattern=\"^[A-Za-z][A-Za-z0-9_]*$\"");
+
+WriteLiteral(" />\r\n                </td>\r\n                <td>\r\n                    <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value:Field\"");
+
+WriteLiteral(" required");
+
+WriteLiteral(" pattern=\"^[A-Za-z][A-Za-z0-9_]*$\"");
+
+WriteLiteral(" />\r\n                <td>\r\n                    <a");
+
+WriteLiteral(" href=\"#\"");
+
+WriteLiteral(" data-bind=\"click : $parent.removeFilter.call($parent,$data)\"");
+
+WriteLiteral(">\r\n                        <span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
+
+WriteLiteral("></span>\r\n                    </a>\r\n                </td>\r\n            </tr>\r\n   " +
+"     </tbody>\r\n    </table>\r\n    <button");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" data-bind=\"click : addFilter\"");
+
+WriteLiteral(">+ Filter</button>\r\n</div>\r\n<div");
+
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(" data-bind=\"with : view\"");
+
+WriteLiteral(">\r\n\r\n    <table");
+
+WriteLiteral(" class=\"table table-striped\"");
+
+WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n                <th>Path</th>\r\n            " +
+"    <th>Header</th>\r\n                <th></th>\r\n            </tr>\r\n        </the" +
+"ad>\r\n        <tbody");
+
+WriteLiteral(" data-bind=\"foreach :ViewColumnCollection\"");
+
+WriteLiteral(">\r\n            <tr>\r\n                <td>\r\n                    <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value:Path\"");
+
+WriteLiteral(" required");
+
+WriteLiteral(" pattern=\"^[A-Za-z][A-Za-z0-9_.]*$\"");
+
+WriteLiteral(" />\r\n                </td>\r\n                <td>\r\n                    <input");
+
+WriteLiteral(" class=\"form-control\"");
+
+WriteLiteral(" type=\"text\"");
+
+WriteLiteral(" data-bind=\"value:Header\"");
+
+WriteLiteral(" required/>\r\n                <td>\r\n                    <a");
+
+WriteLiteral(" href=\"#\"");
+
+WriteLiteral(" data-bind=\"click : $parent.removeViewColumn.call($parent,$data)\"");
+
+WriteLiteral(">\r\n                        <span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
+
+WriteLiteral("></span>\r\n                    </a>\r\n                </td>\r\n            </tr>\r\n   " +
+"     </tbody>\r\n    </table>\r\n    <button");
+
+WriteLiteral(" class=\"btn btn-default\"");
+
+WriteLiteral(" data-bind=\"click : addViewColumn\"");
+
+WriteLiteral(">+ Column</button>\r\n</div>");
 
         }
     }

@@ -1,26 +1,29 @@
-﻿/// <reference path="../../Scripts/jquery-2.0.2.intellisense.js" />
-/// <reference path="../../Scripts/knockout-2.2.1.debug.js" />
+﻿/// <reference path="../../Scripts/jquery-2.0.3.intellisense.js" />
+/// <reference path="../../Scripts/knockout-3.0.0.debug.js" />
 /// <reference path="../../Scripts/knockout.mapping-latest.debug.js" />
 /// <reference path="../../Scripts/require.js" />
 /// <reference path="../../Scripts/underscore.js" />
 /// <reference path="../../Scripts/moment.js" />
 /// <reference path="../services/datacontext.js" />
-/// <reference path="../services/datacontext.js" />
+/// <reference path="../schemas/trigger.workflow.g.js" />
 /// <reference path="../objectbuilders.js" />
-/// <reference path="../../Scripts/bootstrap.js" />
 
 define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app],
     function (context, eximp, app) {
 
         var isBusy = ko.observable(false),
             id = ko.observable(),
+            entities = ko.observableArray(),
             activate = function (id2) {
                 id(parseInt(id2));
 
-                var query = String.format("TriggerId eq {0} ", id());
-                var tcs = new $.Deferred();
-                context.loadOneAsync("Trigger", query)
-                    .done(function (t) {
+                var query = String.format("TriggerId eq {0} ", id()),
+                    tcs = new $.Deferred(),
+                    triggerTask = context.loadOneAsync("Trigger", query),
+                    entitiesTask = context.getListAsync("EntityDefinition","EntityDefinitionId gt 0", "Name");
+                    
+                $.when(triggerTask, entitiesTask).done(function (t, list) {
+                        entities(list);
                         if (t) {
                             vm.trigger(t);
                         } else {
@@ -77,9 +80,7 @@ define(['services/datacontext', 'services/jsonimportexport', objectbuilders.app]
             activate: activate,
             attached: attached,
             trigger: ko.observable(new bespoke.sph.domain.Trigger()),
-
-
-
+            entities: entities,
             toolbar: {
                 saveCommand: save,
                 reloadCommand: reload,

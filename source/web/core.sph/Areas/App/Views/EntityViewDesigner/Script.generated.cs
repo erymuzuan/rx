@@ -29,12 +29,6 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityViewDesigner
     using System.Web.WebPages;
     using Bespoke.Sph.Web;
     
-    #line 1 "..\..\Areas\App\Views\EntityViewDesigner\Script.cshtml"
-    using Newtonsoft.Json;
-    
-    #line default
-    #line hidden
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/EntityViewDesigner/Script.cshtml")]
     public partial class Script : System.Web.Mvc.WebViewPage<Bespoke.Sph.Web.ViewModels.TemplateFormViewModel>
@@ -45,40 +39,39 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityViewDesigner
         public override void Execute()
         {
             
-            #line 4 "..\..\Areas\App\Views\EntityViewDesigner\Script.cshtml"
+            #line 3 "..\..\Areas\App\Views\EntityViewDesigner\Script.cshtml"
   
     Layout = null;
-    var setting = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, Formatting = Formatting.Indented };
 
             
             #line default
             #line hidden
 WriteLiteral("\r\n<script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 242), Tuple.Create("\"", 274)
-, Tuple.Create(Tuple.Create("", 248), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
-, 248), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 93), Tuple.Create("\"", 125)
+, Tuple.Create(Tuple.Create("", 99), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/objectbuilders.js")
+, 99), false)
 );
 
 WriteLiteral("></script>\r\n<script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 294), Tuple.Create("\"", 333)
-, Tuple.Create(Tuple.Create("", 300), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.0.0.debug.js")
-, 300), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 145), Tuple.Create("\"", 184)
+, Tuple.Create(Tuple.Create("", 151), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout-3.0.0.debug.js")
+, 151), false)
 );
 
 WriteLiteral("></script>\r\n<script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 353), Tuple.Create("\"", 401)
-, Tuple.Create(Tuple.Create("", 359), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout.mapping-latest.debug.js")
-, 359), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 204), Tuple.Create("\"", 252)
+, Tuple.Create(Tuple.Create("", 210), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/knockout.mapping-latest.debug.js")
+, 210), false)
 );
 
 WriteLiteral("></script>\r\n<script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 421), Tuple.Create("\"", 462)
-, Tuple.Create(Tuple.Create("", 427), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/schemas/form.designer.g.js")
-, 427), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 272), Tuple.Create("\"", 313)
+, Tuple.Create(Tuple.Create("", 278), Tuple.Create<System.Object, System.Int32>(Href("~/SphApp/schemas/form.designer.g.js")
+, 278), false)
 );
 
 WriteLiteral("></script>\r\n\r\n<script");
@@ -88,139 +81,42 @@ WriteLiteral(" type=\"text/javascript\"");
 WriteLiteral(" data-script=\"true\"");
 
 WriteLiteral(">\r\n\r\n    define([objectbuilders.datacontext, objectbuilders.logger, objectbuilder" +
-"s.router, objectbuilders.system, objectbuilders.app, objectbuilders.eximp, objec" +
-"tbuilders.dialog],\r\n        function (context, logger, router, system, app, exim" +
-"p, dialog) {\r\n\r\n            var entity = ko.observable(new bespoke.sph.domain.En" +
-"tityDefinition()),\r\n                view = ko.observable(new bespoke.sph.domain." +
-"EntityView({WebId:system.guid()})),\r\n                activate = function (entity" +
-"id, viewid) {\r\n\r\n\r\n                    var vid = parseInt(viewid),\r\n            " +
-"            id = parseInt(entityid),\r\n                        query = String.for" +
-"mat(\"EntityDefinitionId eq {0}\", id),\r\n                        tcs = new $.Defer" +
-"red();\r\n\r\n                    context.loadOneAsync(\"EntityDefinition\", query)\r\n " +
-"                       .done(function (b) {\r\n                            entity(" +
-"b);\r\n                            if (!vid) {\r\n                                tc" +
-"s.resolve(true);\r\n                            }\r\n                            \r\n " +
-"                       });\r\n                    if (vid) {\r\n                    " +
-"    context.loadOneAsync(\"EntityView\", \"EntityViewId eq \" + vid)\r\n              " +
-"          .done(function (f) {\r\n                            \r\n                  " +
-"          view(f);\r\n                            tcs.resolve(true);\r\n            " +
-"            });\r\n                    }\r\n                    view().EntityDefinit" +
-"ionId(id);\r\n\r\n                    return tcs.promise();\r\n\r\n                },\r\n " +
-"               attached = function(dom) {\r\n\r\n                    var fd = ko.unw" +
-"rap(view().FormDesign);\r\n\r\n                    var dropDown = function (e) {\r\n  " +
-"                      e.preventDefault();\r\n                        e.stopPropaga" +
-"tion();\r\n\r\n                        var button = $(this);\r\n                      " +
-"  button.parent().addClass(\"open\")\r\n                            .find(\"input:fir" +
-"st\").focus()\r\n                            .select();\r\n                    };\r\n\r\n" +
-"                    // Fix input element click problem\r\n                    $(vi" +
-"ew).on(\'click mouseup mousedown\', \'.dropdown-menu input, .dropdown-menu label\',\r" +
-"\n                        function (e) {\r\n                            e.stopPropa" +
-"gation();\r\n                        });\r\n                    $(\'#template-form-de" +
-"signer\').on(\'click\', \'button.dropdown-toggle\', dropDown);\r\n\r\n\r\n                 " +
-"   //toolbox item clicked\r\n                    $(\'#add-field\').on(\"click\", \'a\', " +
-"function (e) {\r\n                        e.preventDefault();\r\n                   " +
-"     _(fd.FormElementCollection()).each(function (f) {\r\n                        " +
-"    f.isSelected(false);\r\n                        });\r\n\r\n                       " +
-" // clone\r\n                        var fe = ko.mapping.fromJS(ko.mapping.toJS(ko" +
-".dataFor(this)));\r\n                        fe.isSelected = ko.observable(true);\r" +
-"\n                        fe.Label(\"Label \" + fd.FormElementCollection().length);" +
-"\r\n                        fe.CssClass(\"\");\r\n                        fe.Visible(\"" +
-"true\");\r\n                        fe.Size(\"input-large\");\r\n                      " +
-"  fe.ElementId(system.guid());\r\n\r\n                        fd.FormElementCollecti" +
-"on.push(fe);\r\n                        vm.selectedFormElement(fe);\r\n\r\n\r\n         " +
-"           });\r\n\r\n                    // kendoEditor\r\n                    $(\'#te" +
-"mplate-form-designer\').on(\'click\', \'textarea\', function () {\r\n                  " +
-"      var $editor = $(this),\r\n                            kendoEditor = $editor." +
-"data(\"kendoEditor\");\r\n                        if (!kendoEditor) {\r\n             " +
-"               var htmlElement = ko.dataFor(this),\r\n                            " +
-"    editor = $editor.kendoEditor({\r\n                                    change:f" +
-"unction() {\r\n                                        htmlElement.Text(this.value" +
-"());\r\n                                    }\r\n                                })." +
-"data(\"kendoEditor\");\r\n\r\n                            htmlElement.Text.subscribe(f" +
-"unction(t) {\r\n                                editor.value(ko.unwrap(t));\r\n     " +
-"                       });\r\n\r\n                        }\r\n                    }\r\n" +
-"                    );\r\n                    $.getScript(\'/Scripts/jquery-ui-1.10" +
-".3.custom.min.js\')// only contains UI core and interactions API\r\n               " +
-"         .done(function () {\r\n\r\n                            var initDesigner = f" +
-"unction () {\r\n                                $(\'#template-form-designer>form\')." +
-"sortable({\r\n                                    items: \'>div\',\r\n                " +
-"                    placeholder: \'ph\',\r\n                                    help" +
-"er: \'original\',\r\n                                    dropOnEmpty: true,\r\n       " +
-"                             forcePlaceholderSize: true,\r\n                      " +
-"              forceHelperSize: false,\r\n                                    recei" +
-"ve: receive\r\n                                });\r\n\r\n                            " +
-"},\r\n                                receive = function (evt, ui) {\r\n            " +
-"                        var elements = _($(\'#template-form-designer>form>div\'))." +
-"map(function (div) {\r\n                                        return ko.dataFor(" +
-"div);\r\n                                    });\r\n                                " +
-"    var fe = ko.dataFor(ui.item[0]);\r\n                                    fe.isS" +
-"elected = ko.observable(true);\r\n                                    elements.spl" +
-"ice(2, 0, fe);\r\n                                    $(\'#template-form-designer>f" +
-"orm\').sortable(\"destroy\");\r\n\r\n\r\n                                    fd.FormEleme" +
-"ntCollection(elements);\r\n                                };\r\n\r\n                 " +
-"           initDesigner();\r\n                            $(\'#add-field>ul>li\').dr" +
-"aggable({\r\n                                helper: \'clone\',\r\n                   " +
-"             connectToSortable: \"#template-form-designer>form\"\r\n                " +
-"            });\r\n                        });\r\n\r\n                    $(\'section.c" +
-"ontext-action-panel\').on(\'click\', \'buton.close\', function() {\r\n                 " +
-"       $(this).parents(\'div.context-action\').hide();\r\n                    });\r\n " +
-"               },\r\n                supportsHtml5Storage = function () {\r\n       " +
-"             try {\r\n                        return \'localStorage\' in window && w" +
-"indow[\'localStorage\'] !== null;\r\n                    } catch (e) {\r\n            " +
-"            return false;\r\n                    }\r\n                },\r\n          " +
-"      okClick = function (data, ev) {\r\n                    if (bespoke.utils.for" +
-"m.checkValidity(ev.target)) {\r\n\r\n                        var fd = ko.unwrap(view" +
-"().FormDesign);\r\n                        // get the sorted element\r\n            " +
-"            var elements = _($(\'#template-form-designer>form>div\')).map(function" +
-" (div) {\r\n                            return ko.dataFor(div);\r\n                 " +
-"       });\r\n                        fd.FormElementCollection(elements);\r\n       " +
-"                 dialog.close(this, \"OK\");\r\n                        if (supports" +
-"Html5Storage()) {\r\n                            localStorage.removeItem(view().We" +
-"bId());\r\n                        }\r\n                    }\r\n                },\r\n " +
-"               cancelClick = function () {\r\n                    if (supportsHtml" +
-"5Storage()) {\r\n                        localStorage.removeItem(view().WebId());\r" +
-"\n                    }\r\n                    dialog.close(this, \"Cancel\");\r\n     " +
-"           },\r\n                selectFormElement = function (fe) {\r\n\r\n          " +
-"          var fd = ko.unwrap(view().FormDesign);\r\n                    _(fd.FormE" +
-"lementCollection()).each(function (f) {\r\n                        f.isSelected(fa" +
-"lse);\r\n                    });\r\n                    fe.isSelected(true);\r\n      " +
-"              vm.selectedFormElement(fe);\r\n                    if (supportsHtml5" +
-"Storage()) {\r\n                        localStorage.setItem(view().WebId(), ko.ma" +
-"pping.toJSON(view));\r\n                    }\r\n                },\r\n               " +
-" removeFormElement = function (fe) {\r\n                    var fd = ko.unwrap(vie" +
-"w().FormDesign);\r\n                    fd.FormElementCollection.remove(fe);\r\n    " +
-"            },\r\n                exportScreen = function() {\r\n                   " +
-" return eximp.exportJson(ko.unwrap(view().Name) + \".json\", ko.mapping.toJSON(vie" +
-"w));\r\n                },\r\n                open = function() {\r\n\r\n               " +
-" },\r\n                importCommand = function() {\r\n                    return ex" +
-"imp.importJson()\r\n                 .done(function (json) {\r\n                    " +
-" try {\r\n\r\n                         var obj = JSON.parse(json),\r\n                " +
-"             clone = context.toObservable(obj);\r\n\r\n                         view" +
-"().FormDesign(clone.FormDesign());\r\n\r\n                     } catch (error) {\r\n  " +
-"                       logger.logError(\'Fail template import tidak sah\', error, " +
-"this, true);\r\n                     }\r\n                 });\r\n                },\r\n" +
-"                save = function() {\r\n                    var fd = ko.unwrap(view" +
-"().FormDesign);\r\n                    // get the sorted element\r\n                " +
-"    var elements = _($(\'#template-form-designer>form>div\')).map(function (div) {" +
-"\r\n                        return ko.dataFor(div);\r\n                    });\r\n    " +
-"                fd.FormElementCollection(elements);\r\n\r\n\r\n                    var" +
-" tcs = new $.Deferred(),\r\n                        data = ko.mapping.toJSON(view)" +
-";\r\n\r\n                    context.post(data, \"/Sph/EntityForm/Save\")\r\n           " +
-"             .then(function(result) {\r\n                            tcs.resolve(r" +
-"esult);\r\n                        });\r\n                    return tcs.promise();\r" +
-"\n                };\r\n\r\n            var vm = {\r\n                attached: attache" +
-"d,\r\n                activate: activate,\r\n                formElements: ko.observ" +
-"ableArray(),\r\n                selectedFormElement: ko.observable(),\r\n           " +
-"     selectFormElement : selectFormElement,\r\n                removeFormElement :" +
-" removeFormElement,\r\n                view: view,\r\n                entity : entit" +
-"y,\r\n                okClick: okClick,\r\n                cancelClick: cancelClick," +
-"\r\n                importCommand :importCommand,\r\n                toolbar : {\r\n  " +
-"                  commands :ko.observableArray([{\r\n                        capti" +
-"on : \'Create Pull Request\',\r\n                        icon : \'fa fa-folder-open-o" +
-"\',\r\n                        command : open\r\n                    }\r\n             " +
-"       ]),\r\n                    exportCommand : exportScreen,\r\n                 " +
-"   saveCommand : save\r\n                }\r\n            };\r\n\r\n            return v" +
-"m;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
+"s.router, objectbuilders.system],\r\n        function (context, logger, router, sy" +
+"stem) {\r\n\r\n            var entity = ko.observable(new bespoke.sph.domain.EntityD" +
+"efinition()),\r\n                view = ko.observable(new bespoke.sph.domain.Entit" +
+"yView({ WebId: system.guid() })),\r\n                activate = function (entityid" +
+", viewid) {\r\n\r\n\r\n                    var vid = parseInt(viewid),\r\n              " +
+"          id = parseInt(entityid),\r\n                        query = String.forma" +
+"t(\"EntityDefinitionId eq {0}\", id),\r\n                        tcs = new $.Deferre" +
+"d();\r\n\r\n                    context.loadOneAsync(\"EntityDefinition\", query)\r\n   " +
+"                     .done(function (b) {\r\n                            entity(b)" +
+";\r\n                            if (!vid) {\r\n                                tcs." +
+"resolve(true);\r\n                            }\r\n\r\n                        });\r\n  " +
+"                  if (vid) {\r\n                        context.loadOneAsync(\"Enti" +
+"tyView\", \"EntityViewId eq \" + vid)\r\n                        .done(function (f) {" +
+"\r\n\r\n                            view(f);\r\n                            tcs.resolv" +
+"e(true);\r\n                        });\r\n                    }\r\n                  " +
+"  view().EntityDefinitionId(id);\r\n\r\n                    return tcs.promise();\r\n\r" +
+"\n                },\r\n                attached = function () {\r\n\r\n\r\n\r\n           " +
+"     },\r\n                publish = function () {\r\n                    var tcs = " +
+"new $.Deferred(),\r\n                        data = ko.mapping.toJSON(view);\r\n\r\n  " +
+"                  context.post(data, \"/Sph/EntityView/Publish\")\r\n               " +
+"         .then(function (result) {\r\n                            view().EntityVie" +
+"wId(result.id);\r\n                            tcs.resolve(result);\r\n             " +
+"           });\r\n                    return tcs.promise();\r\n                },\r\n " +
+"               save = function () {\r\n                    var tcs = new $.Deferre" +
+"d(),\r\n                        data = ko.mapping.toJSON(view);\r\n\r\n               " +
+"     context.post(data, \"/Sph/EntityView/Save\")\r\n                        .then(f" +
+"unction (result) {\r\n                            view().EntityViewId(result.id);\r" +
+"\n                            tcs.resolve(result);\r\n                        });\r\n" +
+"                    return tcs.promise();\r\n                };\r\n\r\n            var" +
+" vm = {\r\n                attached: attached,\r\n                activate: activate" +
+",\r\n                view: view,\r\n                entity: entity,\r\n               " +
+" toolbar: {\r\n                    commands: ko.observableArray([{\r\n              " +
+"          caption: \'Publish\',\r\n                        icon: \'fa fa-folder-open-" +
+"o\',\r\n                        command: publish\r\n                    }\r\n          " +
+"          ]),\r\n                    saveCommand: save\r\n                }\r\n       " +
+"     };\r\n\r\n            return vm;\r\n\r\n        });\r\n\r\n\r\n</script>\r\n");
 
         }
     }
