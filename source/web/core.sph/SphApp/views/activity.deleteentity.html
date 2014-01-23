@@ -29,12 +29,7 @@
                     <div class="form-group">
                         <label for="ce-entitytype" class="col-lg-2 control-label">Entity</label>
                         <div class="col-lg-6">
-                            <select class="form-control" id="ce-entitytype" data-bind="value:EntityType">
-                                <option value="Land">Land</option>
-                                <option value="Building">Building</option>
-                                <option value="Space">Space</option>
-                                <option value="Contract">Contract</option>
-                            </select>
+                            <select class="form-control" id="ce-entitytype" data-bind="value:EntityType, options: $root.entities, optionsCaption : '[Select Entity]'"></select>
                         </div>
                     </div>
 

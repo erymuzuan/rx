@@ -62,71 +62,20 @@ WriteLiteral(">\r\n            <select");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" data-bind=\"value: EntityName\"");
+WriteLiteral(" data-bind=\"value: EntityName, options: $root.entities, optionsCaption : \'[Select" +
+" Entity]\'\"");
 
 WriteLiteral(" id=\"data-source-entity\"");
 
 WriteLiteral(" name=\"Entity\"");
 
-WriteLiteral(">\r\n                <option");
-
-WriteLiteral(" value=\"\"");
-
-WriteLiteral(">[--Sila Pilih--]</option>\r\n                <option");
-
-WriteLiteral(" value=\"Land\"");
-
-WriteLiteral(">Tanah</option>\r\n                <option");
-
-WriteLiteral(" value=\"Building\"");
-
-WriteLiteral(">Bangunan</option>\r\n                <option");
-
-WriteLiteral(" value=\"RentalApplication\"");
-
-WriteLiteral(">Permohonan Sewa</option>\r\n                <option");
-
-WriteLiteral(" value=\"Deposit\"");
-
-WriteLiteral(">Deposit</option>\r\n                <option");
-
-WriteLiteral(" value=\"Contract\"");
-
-WriteLiteral(">Kontrak</option>\r\n                <option");
-
-WriteLiteral(" value=\"Space\"");
-
-WriteLiteral(">Ruang</option>\r\n                <option");
-
-WriteLiteral(" value=\"Tenant\"");
-
-WriteLiteral(">Penyewa</option>\r\n                <option");
-
-WriteLiteral(" value=\"Rent\"");
-
-WriteLiteral(">Invois</option>\r\n                <option");
-
-WriteLiteral(" value=\"Complaint\"");
-
-WriteLiteral(">Aduan</option>\r\n                <option");
-
-WriteLiteral(" value=\"Maintenance\"");
-
-WriteLiteral(">Senggara</option>\r\n                <option");
-
-WriteLiteral(" value=\"Inventory\"");
-
-WriteLiteral(">Inventori</option>\r\n                <option");
-
-WriteLiteral(" value=\"Payment\"");
-
-WriteLiteral(">Bayaran</option>\r\n            </select>\r\n        </div>\r\n    </div>\r\n    <div");
+WriteLiteral(">\r\n            </select>\r\n        </div>\r\n    </div>\r\n    <div");
 
 WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n    </div>\r\n    <a");
 
-WriteLiteral(" class=\"btn-link pull-right\"");
+WriteLiteral(" class=\"btn-link pull-right btn\"");
 
 WriteLiteral(" href=\"#\"");
 
