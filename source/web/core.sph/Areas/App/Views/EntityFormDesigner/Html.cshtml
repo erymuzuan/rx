@@ -22,7 +22,8 @@
                 <!--ko foreach:FormElementCollection -->
                 @foreach (var fe in Model.FormElements)
                 {
-                    @Html.DisplayFor(m => fe)
+                    var fe1 = fe;
+                    @Html.DisplayFor(m => fe1)
                 }
                 <!--/ko-->
 

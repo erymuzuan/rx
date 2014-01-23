@@ -53,9 +53,13 @@ bespoke.sph.domain.TextBox = function (optionOrWebid) {
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.DefaultValue = ko.observable('');
+
     v.AutoCompletionEntity = ko.observable('');
+
     v.AutoCompletionField = ko.observable('');
+
     v.AutoCompletionQuery = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.TextBox, domain.sph";
 
     v.MinLength = ko.observable();//nillable
@@ -196,7 +200,9 @@ bespoke.sph.domain.TextAreaElement = function (optionOrWebid) {
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.Rows = ko.observable('');
+
     v.IsHtml = ko.observable(false);
+
     v["$type"] = "Bespoke.Sph.Domain.TextAreaElement, domain.sph";
 
 
@@ -279,6 +285,7 @@ bespoke.sph.domain.NumberTextBox = function (optionOrWebid) {
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.Step = ko.observable(0);
+
     v["$type"] = "Bespoke.Sph.Domain.NumberTextBox, domain.sph";
 
 
@@ -307,6 +314,7 @@ bespoke.sph.domain.MapElement = function (optionOrWebid) {
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.Icon = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.MapElement, domain.sph";
 
 
@@ -391,10 +399,15 @@ bespoke.sph.domain.AddressElement = function (optionOrWebid) {
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.IsUnitNoVisible = ko.observable(false);
+
     v.IsFloorVisible = ko.observable(false);
+
     v.IsBlockVisible = ko.observable(false);
+
     v.BlockOptionsPath = ko.observable('');
+
     v.FloorOptionsPath = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.AddressElement, domain.sph";
 
 
@@ -549,6 +562,7 @@ bespoke.sph.domain.FileUploadElement = function (optionOrWebid) {
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.AllowedExtensions = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.FileUploadElement, domain.sph";
 
 
@@ -608,6 +622,7 @@ bespoke.sph.domain.ListView = function (optionOrWebid) {
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.ChildItemType = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.ListView, domain.sph";
 
     v.ListViewColumnCollection = ko.observableArray([]);
@@ -667,10 +682,15 @@ bespoke.sph.domain.Button = function (optionOrWebid) {
     var v = new bespoke.sph.domain.FormElement(optionOrWebid);
 
     v.Command = ko.observable('');
+
     v.UseClick = ko.observable(false);
+
     v.CommandName = ko.observable('');
+
     v.LoadingText = ko.observable('');
+
     v.CompleteText = ko.observable('');
+
     v["$type"] = "Bespoke.Sph.Domain.Button, domain.sph";
 
 
@@ -844,7 +864,8 @@ bespoke.sph.domain.Filter = function (optionOrWebid) {
     var model = {
         "$type": "Bespoke.Sph.Domain.Filter, domain.sph",
         Term: ko.observable(''),
-        Field: ko.observable(''),
+        Operator: ko.observable('Operator'),
+        Field: ko.observable(new bespoke.sph.domain.Field()),
         isBusy: ko.observable(false),
         WebId: ko.observable()
     };
@@ -897,6 +918,7 @@ bespoke.sph.domain.ViewColumn = function (optionOrWebid) {
 };
 
 
+// placeholder for Field
 bespoke.sph.domain.FormElement = function (optionOrWebid) {
 
     var model = {
@@ -941,3 +963,5 @@ bespoke.sph.domain.FormElement = function (optionOrWebid) {
     return model;
 };
 
+
+// placeholder for Operatorenum

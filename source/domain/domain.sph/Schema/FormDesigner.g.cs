@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 
 // ReSharper disable InconsistentNaming
@@ -3017,9 +3018,26 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string m_field;
-        public const string PropertyNameField = "Field";
+        private Operator m_operator;
+        public const string PropertyNameOperator = "Operator";
 
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Field m_field
+                = new Field();
+
+        public const string PropertyNameField = "Field";
+        [DebuggerHidden]
+        [JsonProperty(TypeNameHandling = TypeNameHandling.All)]
+        public Field Field
+        {
+            get { return m_field; }
+            set
+            {
+                m_field = value;
+                OnPropertyChanged();
+            }
+        }
 
         ///<summary>
         /// 
@@ -3059,22 +3077,22 @@ namespace Bespoke.Sph.Domain
 
         [DebuggerHidden]
 
-        public string Field
+        public Operator Operator
         {
             set
             {
-                if (String.Equals(m_field, value, StringComparison.Ordinal)) return;
-                var arg = new PropertyChangingEventArgs(PropertyNameField, value);
+                if (m_operator == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameOperator, value);
                 OnPropertyChanging(arg);
                 if (!arg.Cancel)
                 {
-                    m_field = value;
+                    m_operator = value;
                     OnPropertyChanged();
                 }
             }
             get
             {
-                return m_field;
+                return m_operator;
             }
         }
 
@@ -3194,6 +3212,7 @@ namespace Bespoke.Sph.Domain
 
     }
 
+    // placeholder for Field
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormElement
     {
@@ -3720,6 +3739,8 @@ namespace Bespoke.Sph.Domain
 
     }
 
+
+    // placeholder for Operator enum
 
 }
 // ReSharper restore InconsistentNaming

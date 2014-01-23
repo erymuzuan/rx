@@ -32,7 +32,8 @@
               var v = new bespoke.sph.domain.<xsl:value-of select="xs:complexType/xs:complexContent/xs:extension/@base"/>(optionOrWebid);
               <xsl:for-each select="xs:complexType/xs:complexContent/xs:extension/xs:attribute">
                 <xsl:if test="@type">
-                  v.<xsl:value-of select="@name"/> = ko.observable(<xsl:value-of select="bspk:GetJsDefaultValue(@type, @nillable)"/>);</xsl:if>
+                  v.<xsl:value-of select="@name"/> = ko.observable(<xsl:value-of select="bspk:GetJsDefaultValue(@type, @nillable)"/>);
+                </xsl:if>
               </xsl:for-each>
               <xsl:apply-templates select="xs:complexType/xs:complexContent/xs:extension"/>
 
@@ -56,7 +57,7 @@
             <xsl:otherwise>
               <!-- attribute-->
               var model =  {
-				"$type" : "Bespoke.Sph.Domain.<xsl:value-of select="@name"/>, domain.sph",
+              "$type" : "Bespoke.Sph.Domain.<xsl:value-of select="@name"/>, domain.sph",
               <xsl:for-each select="xs:complexType/xs:attribute">
                 <xsl:if test="@type">
                   <xsl:value-of select="@name"/> : ko.observable(<xsl:value-of select="bspk:GetJsDefaultValue(@type, @nillable)"/>),
@@ -93,7 +94,7 @@
       bespoke.sph.domain.<xsl:value-of select="@name"/> = function(optionOrWebid) {
       <!-- attribute-->
       var model =  {
-		"$type" : "Bespoke.Sph.Domain.<xsl:value-of select="@name"/>, domain.sph",
+      "$type" : "Bespoke.Sph.Domain.<xsl:value-of select="@name"/>, domain.sph",
       <xsl:for-each select="xs:attribute">
         <xsl:value-of select="@name"/> : ko.observable(<xsl:value-of select="bspk:GetJsDefaultValue(@type, @nillable)"/>),
       </xsl:for-each>
@@ -120,15 +121,25 @@
     </xsl:for-each>
     <!-- enum -->
     <xsl:for-each select="xs:simpleType">
-      bespoke.sph.domain.<xsl:value-of select="@name"/> = function()
-      {
-      return {
-      <xsl:for-each select="xs:restriction/xs:enumeration">
-        <xsl:value-of select="bspk2:ToConstantUpper(@value)"/> : '<xsl:value-of select="@value"/>',
-      </xsl:for-each>
-      DO_NOT_SELECT : 'DONTDOTHIS'
-      };
-      }();
+      <xsl:choose>
+        <xsl:when test="xs:annotation/xs:documentation = 'Placeholder'">
+          // placeholder for <xsl:value-of select="@name"/>enum
+        </xsl:when>
+        <xsl:otherwise>
+          bespoke.sph.domain.<xsl:value-of select="@name"/> = function()
+          {
+          return {
+          <xsl:for-each select="xs:restriction/xs:enumeration">
+            <xsl:value-of select="bspk2:ToConstantUpper(@value)"/> : '<xsl:value-of select="@value"/>',
+          </xsl:for-each>
+          DO_NOT_SELECT : 'DONTDOTHIS'
+          };
+          }();
+
+        </xsl:otherwise>
+
+      </xsl:choose>
+
     </xsl:for-each>
   </xsl:template>
   <xsl:include href="ReferenceObject.xslt"/>

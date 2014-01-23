@@ -375,8 +375,11 @@
 	</xs:element>
 	<xs:element name="Filter">
 		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Field"/>
+			</xs:all>
 			<xs:attribute name="Term" type="xs:string" use="required"/>
-			<xs:attribute name="Field" type="xs:string" use="required"/>
+			<xs:attribute name="Operator" type="Operator" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ViewColumn">
@@ -385,5 +388,19 @@
 			<xs:attribute name="Header" type="xs:string" use="required"/>
 			<xs:attribute name="Sort" type="xs:string" use="optional"/>
 		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="Operator">
+		<xs:annotation>
+			<xs:documentation>Placeholder</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Eq"/>
+			<xs:enumeration value="Gt"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Field">
+		<xs:annotation>
+			<xs:documentation>Placeholder</xs:documentation>
+		</xs:annotation>
 	</xs:element>
 </xs:schema>

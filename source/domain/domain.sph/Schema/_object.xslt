@@ -272,12 +272,21 @@
     </xsl:for-each>
     <!-- enum -->
     <xsl:for-each select="xs:simpleType">
-      [JsonConverter(typeof(StringEnumConverter))]
+      <xsl:choose>
+        <xsl:when test="xs:annotation/xs:documentation = 'Placeholder'">
+          // placeholder for <xsl:value-of select="@name"/> enum
+        </xsl:when>
+        <xsl:otherwise>
+            [JsonConverter(typeof(StringEnumConverter))]
       public enum <xsl:value-of select="@name"/>
       {
       <xsl:for-each select="xs:restriction/xs:enumeration">
         <xsl:value-of select="@value"/>,
-      </xsl:for-each>}
+      </xsl:for-each>
+      }
+        </xsl:otherwise>
+      </xsl:choose>
+    
     </xsl:for-each>
     }
 // ReSharper restore InconsistentNaming

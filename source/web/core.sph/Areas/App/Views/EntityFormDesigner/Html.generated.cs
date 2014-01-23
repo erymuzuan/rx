@@ -110,20 +110,21 @@ WriteLiteral(">\r\n                <!--ko foreach:FormElementCollection -->\r\n"
             #line 23 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
                  foreach (var fe in Model.FormElements)
                 {
+                    var fe1 = fe;
                     
             
             #line default
             #line hidden
             
-            #line 25 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
-               Write(Html.DisplayFor(m => fe));
+            #line 26 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+               Write(Html.DisplayFor(m => fe1));
 
             
             #line default
             #line hidden
             
-            #line 25 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
-                                             
+            #line 26 "..\..\Areas\App\Views\EntityFormDesigner\Html.cshtml"
+                                              
                 }
 
             

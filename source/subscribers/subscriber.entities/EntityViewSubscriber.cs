@@ -24,11 +24,15 @@ namespace subscriber.entities
         {
             var context = new SphDataContext();
             var ed = await context.LoadOneAsync<EntityDefinition>(f => f.EntityDefinitionId == item.EntityDefinitionId);
+            var form = await context.LoadOneAsync<EntityForm>(f => f.IsDefault == true 
+                && f.EntityDefinitionId == item.EntityDefinitionId);
             var vm = new
             {
-                EntityDefinition = ed,
-                EntityView = item
+                Definition = ed,
+                View = item, 
+                Form = form
             };
+
 
             var assembly = Assembly.GetExecutingAssembly();
             const string resourceName = "subscriber.entities.entity.view";

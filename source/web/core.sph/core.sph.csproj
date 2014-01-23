@@ -1346,6 +1346,10 @@
     <Content Include="SphApp\partial\ScreenActivity.min.js">
       <DependentUpon>ScreenActivity.js</DependentUpon>
     </Content>
+    <Content Include="SphApp\partial\Filter.js" />
+    <Content Include="SphApp\partial\SetterAction.min - Copy.js">
+      <DependentUpon>Filter.js</DependentUpon>
+    </Content>
     <Content Include="SphApp\partial\SetterAction.min.js">
       <DependentUpon>SetterAction.js</DependentUpon>
     </Content>
@@ -2528,6 +2532,9 @@
       <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
     </Content>
     <Content Include="web.config" />
+    <Content Include="SphApp\partial\SetterAction.min.js - Copy.map">
+      <DependentUpon>Filter.js</DependentUpon>
+    </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

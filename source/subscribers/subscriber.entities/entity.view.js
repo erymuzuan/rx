@@ -17,9 +17,9 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             list = ko.observableArray([]),
             entity = ko.observable(new bespoke.sph.domain.EntityDefinition()),
             activate = function () {
-                var edQuery = String.format("Name eq '{0}'", '@Model.EntityDefinition.Name'),
+                var edQuery = String.format("Name eq '{0}'", '@Model.Definition.Name'),
                   tcs = new $.Deferred(),
-                  viewQuery = String.format("EntityDefinitionId eq @Model.EntityDefinition.EntityDefinitionId"),
+                  viewQuery = String.format("EntityDefinitionId eq @Model.Definition.EntityDefinitionId"),
                   edTask = context.loadOneAsync("EntityDefinition", edQuery),
                   viewTask = context.loadOneAsync("EntityView", viewQuery);
 
@@ -39,6 +39,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             attached = function () {
 
             },
+            // TODO : the filtered query
             query = {
                 "sort": [
                  {

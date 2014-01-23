@@ -50,3 +50,5 @@ _ReSharper.commercial-space
 /source/web/web.sph/SphApp/views/lead.html
 /source/web/web.sph/SphApp/viewmodels/customer.js
 /source/web/web.sph/SphApp/views/customer.html
+*.js
+*.html

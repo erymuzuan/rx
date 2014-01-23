@@ -16,3 +16,6 @@ CREATE TABLE Sph.EntityForm
 	,[ChangedBy] VARCHAR(255) NULL
 )
 GO 
+
+ALTER TABLE Sph.EntityForm
+ADD [IsDefault] BIT NOT NULL DEFAULT 0

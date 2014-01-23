@@ -29,6 +29,12 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityViewDesigner
     using System.Web.WebPages;
     using Bespoke.Sph.Web;
     
+    #line 1 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+    using Bespoke.Sph.Web.Models;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/App/Views/EntityViewDesigner/Html.cshtml")]
     public partial class Html : System.Web.Mvc.WebViewPage<dynamic>
@@ -39,7 +45,7 @@ namespace Bespoke.Sph.Web.Areas.App.Views.EntityViewDesigner
         public override void Execute()
         {
             
-            #line 1 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+            #line 2 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
   
     Layout = null;
 
@@ -76,11 +82,11 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" data-bind=\"value: Name\"");
 
-WriteLiteral(" \r\n                       required");
+WriteLiteral("\r\n                       required");
 
 WriteLiteral(" pattern=\"^[A-Za-z_][A-Za-z0-9_ ]*$\"");
 
-WriteLiteral(" \r\n                       placeholder=\"Name for the view\"");
+WriteLiteral("\r\n                       placeholder=\"Name for the view\"");
 
 WriteLiteral("\r\n                       class=\"form-control\"");
 
@@ -106,11 +112,11 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" data-bind=\"value: Route\"");
 
-WriteLiteral(" \r\n                       required");
+WriteLiteral("\r\n                       required");
 
 WriteLiteral(" pattern=\"^[A-Za-z_][A-Za-z0-9_-]*$\"");
 
-WriteLiteral(" \r\n                       placeholder=\"route url\"");
+WriteLiteral("\r\n                       placeholder=\"route url\"");
 
 WriteLiteral("\r\n                       class=\"form-control\"");
 
@@ -126,9 +132,9 @@ WriteLiteral(">\r\n\r\n    <table");
 
 WriteLiteral(" class=\"table table-striped\"");
 
-WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n                <th>Field</th>\r\n           " +
-"     <th>Term</th>\r\n                <th></th>\r\n            </tr>\r\n        </thea" +
-"d>\r\n        <tbody");
+WriteLiteral(">\r\n        <thead>\r\n            <tr>\r\n                <th>Term</th>\r\n            " +
+"    <th>Operator</th>\r\n                <th>Value</th>\r\n                <th></th>" +
+"\r\n            </tr>\r\n        </thead>\r\n        <tbody");
 
 WriteLiteral(" data-bind=\"foreach :FilterCollection\"");
 
@@ -138,25 +144,64 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" data-bind=\"value:Term\"");
+WriteLiteral(" \r\n                           data-bind=\"value:Term,entityTypeaheadPath :$root.en" +
+"tity().EntityDefinitionId()\"");
 
-WriteLiteral(" required");
+WriteLiteral(" \r\n                           required");
 
-WriteLiteral(" pattern=\"^[A-Za-z][A-Za-z0-9_]*$\"");
+WriteLiteral(" pattern=\"^[A-Za-z][A-Za-z0-9_.]*$\"");
 
-WriteLiteral(" />\r\n                </td>\r\n                <td>\r\n                    <input");
+WriteLiteral(" />\r\n                </td>\r\n                <td>\r\n                    <select");
+
+WriteLiteral(" name=\"rule-operator\"");
 
 WriteLiteral(" class=\"form-control\"");
 
-WriteLiteral(" type=\"text\"");
+WriteLiteral(" data-bind=\"value: Operator\"");
 
-WriteLiteral(" data-bind=\"value:Field\"");
+WriteLiteral(">\r\n                        <option");
 
-WriteLiteral(" required");
+WriteLiteral(" value=\"Eq\"");
 
-WriteLiteral(" pattern=\"^[A-Za-z][A-Za-z0-9_]*$\"");
+WriteLiteral(">=</option>\r\n                        <option");
 
-WriteLiteral(" />\r\n                <td>\r\n                    <a");
+WriteLiteral(" value=\"Le\"");
+
+WriteLiteral(">&lt;=</option>\r\n                        <option");
+
+WriteLiteral(" value=\"Lt\"");
+
+WriteLiteral(">&lt;</option>\r\n                        <option");
+
+WriteLiteral(" value=\"Ge\"");
+
+WriteLiteral(">&gt;=</option>\r\n                        <option");
+
+WriteLiteral(" value=\"Gt\"");
+
+WriteLiteral(">&gt;</option>\r\n                        <option");
+
+WriteLiteral(" value=\"Substringof\"");
+
+WriteLiteral(">Substringof</option>\r\n                        <option");
+
+WriteLiteral(" value=\"StartsWith\"");
+
+WriteLiteral(">StartsWith</option>\r\n                        <option");
+
+WriteLiteral(" value=\"EndsWith\"");
+
+WriteLiteral(">EndsWith</option>\r\n                    </select>\r\n                </td>\r\n       " +
+"         <td>                    ");
+
+            
+            #line 58 "..\..\Areas\App\Views\EntityViewDesigner\Html.cshtml"
+                                   Write(Html.Partial("_TriggerFieldDropDown", new TypeModel { Path = "Field" }));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                <td>\r\n                    <a");
 
 WriteLiteral(" href=\"#\"");
 
@@ -209,7 +254,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteLiteral(" data-bind=\"value:Header\"");
 
-WriteLiteral(" required/>\r\n                <td>\r\n                    <a");
+WriteLiteral(" required />\r\n                <td>\r\n                    <a");
 
 WriteLiteral(" href=\"#\"");
 
