@@ -196,6 +196,12 @@
     </xsl:for-each>
     <!-- COMPLEX TYPE -->
     <xsl:for-each select="xs:complexType">
+      <xsl:choose>
+        <xsl:when test="xs:annotation/xs:documentation = 'Placeholder'">
+          // placeholder for <xsl:value-of select="@name"/> complext type
+        </xsl:when>
+        <xsl:otherwise>
+            
       [XmlType("<xsl:value-of select="@name"/>",  Namespace=Strings.DEFAULT_NAMESPACE)]
       public partial class <xsl:value-of select="@name"/>
       {
@@ -268,6 +274,11 @@
 
 
       }
+          
+        </xsl:otherwise>
+      </xsl:choose>
+      
+    
 
     </xsl:for-each>
     <!-- enum -->

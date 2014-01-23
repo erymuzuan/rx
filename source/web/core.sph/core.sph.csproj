@@ -1209,6 +1209,7 @@
     <EmbeddedResource Include="Content\jstree\throbber.gif" />
     <Content Include="favicon.ico" />
     <EmbeddedResource Include="Scripts\jstree.min.js" />
+    <EmbeddedResource Include="Images\Field.png" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

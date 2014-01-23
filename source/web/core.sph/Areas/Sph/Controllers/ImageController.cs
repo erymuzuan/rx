@@ -74,6 +74,8 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                 return RedirectPermanent("~/images/PropertyChangedField.png");
             if (type == typeof(AssemblyField))
                 return RedirectPermanent("~/images/AssemblyField.png");
+            if (type == typeof(Field))
+                return RedirectPermanent("~/images/Field.png");
 
             if (null != type && System.IO.File.Exists(Server.MapPath("~/images/" + type.Name + ".png")))
             {

@@ -3023,21 +3023,10 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Field m_field
-                = new Field();
-
+        private Field m_field;
         public const string PropertyNameField = "Field";
-        [DebuggerHidden]
-        [JsonProperty(TypeNameHandling = TypeNameHandling.All)]
-        public Field Field
-        {
-            get { return m_field; }
-            set
-            {
-                m_field = value;
-                OnPropertyChanged();
-            }
-        }
+
+
 
         ///<summary>
         /// 
@@ -3096,6 +3085,28 @@ namespace Bespoke.Sph.Domain
             }
         }
 
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [DebuggerHidden]
+        [JsonProperty(TypeNameHandling = TypeNameHandling.All)]
+        public Field Field
+        {
+            set
+            {
+                if (m_field == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameField, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_field = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return m_field; }
+        }
 
 
     }
@@ -3212,7 +3223,7 @@ namespace Bespoke.Sph.Domain
 
     }
 
-    // placeholder for Field
+
     [XmlType("FormElement", Namespace = Strings.DEFAULT_NAMESPACE)]
     public partial class FormElement
     {
@@ -3739,6 +3750,8 @@ namespace Bespoke.Sph.Domain
 
     }
 
+
+    // placeholder for Field complext type
 
     // placeholder for Operator enum
 
