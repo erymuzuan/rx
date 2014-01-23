@@ -51,6 +51,7 @@
       <Link>AssemblyVersionInfo.cs</Link>
     </Compile>
     <Compile Include="EntityIndexerMappingSubscriber.cs" />
+    <Compile Include="EntityViewSubscriber.cs" />
     <Compile Include="EntityPageSubscriber.cs" />
     <Compile Include="EntityCodeSubscriber.cs" />
     <Compile Include="EsMappingHelper.cs" />
@@ -76,10 +77,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="entitypage.js" />
+    <EmbeddedResource Include="entity.page.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="entitypage.html" />
+    <EmbeddedResource Include="entity.page.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="entity.view.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="entity.view.js" />
   </ItemGroup>
   <Target Name="CopyOutputDirClientAndWeb">
     <Copy SourceFiles="@(OutputFile)" DestinationFolder="$(SolutionDir)\bin\subscribers" />

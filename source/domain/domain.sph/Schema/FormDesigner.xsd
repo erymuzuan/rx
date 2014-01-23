@@ -341,6 +341,7 @@
 			<xs:attribute name="IsAllowedNewItem" type="xs:boolean" use="required"/>
 			<xs:attribute name="IconClass" type="xs:string" use="required"/>
 			<xs:attribute name="IconStoreId" type="xs:string" use="required"/>
+			<xs:attribute name="IsDefault" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="EntityView">

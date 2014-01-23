@@ -51,13 +51,15 @@ namespace Bespoke.Sph.Web.App_Start
             var rdlTask = context.LoadAsync(context.ReportDefinitions.Where(t => t.IsActive == true || (t.IsPrivate && t.CreatedBy == user)));
             var edTasks = context.LoadAsync(context.EntityDefinitions);
             var formTask = context.LoadAsync(context.EntityForms);
+            var viewTask = context.LoadAsync(context.EntityViews);
             // ReSharper restore RedundantBoolCompare
             await Task.WhenAll(rdlTask, edTasks);
 
 
             var rdls = await rdlTask;
-            var eds = await edTasks; ;
-            var forms = await formTask; ;
+            var eds = await edTasks;
+            var views = await viewTask;
+            var forms = await formTask;
             var routes = new List<JsRoute>();
 
 
@@ -66,6 +68,16 @@ namespace Bespoke.Sph.Web.App_Start
                              {
                                  Title = t.Name,
                                  Route = string.Format("{0}/:id", t.Route.ToLowerInvariant()),
+                                 Caption = t.Name,
+                                 Icon = t.IconClass,
+                                 ModuleId = string.Format("viewmodels/{0}", t.Route.ToLowerInvariant()),
+                                 Nav = false
+                             };
+            var viewRoutes = from t in views.ItemCollection
+                             select new JsRoute
+                             {
+                                 Title = t.Name,
+                                 Route = string.Format("{0}", t.Route.ToLowerInvariant()),
                                  Caption = t.Name,
                                  Icon = t.IconClass,
                                  ModuleId = string.Format("viewmodels/{0}", t.Route.ToLowerInvariant()),
@@ -92,6 +104,7 @@ namespace Bespoke.Sph.Web.App_Start
                                 ModuleId = string.Format("viewmodels/reportdefinition.execute-id.{0}", t.ReportDefinitionId)
                             };
 
+            routes.AddRange(viewRoutes);
             routes.AddRange(formRoutes);
             routes.AddRange(edRoutes);
             routes.AddRange(rdlRoutes);

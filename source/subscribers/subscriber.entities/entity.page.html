@@ -1,0 +1,47 @@
+﻿<div class="row" data-bind="with : entity">
+    <img alt="logo" data-bind="attr:{src:'/image/thumbnail/' + IconStoreId() + '?height=50'}" class="pull-right" />
+    <h1 data-bind="text:Name"></h1>
+</div>
+
+
+<div class="row">
+    <a data-toggle="collapse" href="#recent-@Model.Plural.ToLower()">
+        <h3 data-bind="with : entity">Recent <span data-bind="text:Plural"></span></h3>
+    </a>
+    <div id="recent--@Model.Plural.ToLower()" class="collapse collapsed">
+        <div class="" data-bind="searchPaging: {list :recentItems, query : recentItemsQuery , entity : '@Model.Name'}">
+            <ul data-bind="foreach :recentItems" class="today-datas">
+
+                <li>
+                    @{
+                    var url = string.Format("'#{0}/' + {1}Id", Model.Name.ToLower(), Model.Name);
+                    }
+                    <a data-bind="attr:{href : @url}">
+                        <i class="fa fa-edit"></i>
+                        <span data-bind="text:@Model.RecordName"></span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <h3>
+            Reports
+        </h3>
+    </div>
+    <div class="col-lg-6">
+        <h3>
+            Tools
+        </h3>
+    </div>
+</div>
+
+
+
+<div class="row">
+
+</div>

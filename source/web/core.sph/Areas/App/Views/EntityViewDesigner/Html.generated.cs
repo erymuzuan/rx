@@ -195,7 +195,7 @@ WriteLiteral(" class=\"form-control\"");
 
 WriteLiteral(" type=\"text\"");
 
-WriteLiteral(" data-bind=\"value:Path\"");
+WriteLiteral(" data-bind=\"value:Path,entityTypeaheadPath :$root.entity().EntityDefinitionId()\"");
 
 WriteLiteral(" required");
 

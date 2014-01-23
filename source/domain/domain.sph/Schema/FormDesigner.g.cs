@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
 
 
-
 // ReSharper disable InconsistentNaming
 namespace Bespoke.Sph.Domain
 {
@@ -2378,6 +2377,11 @@ namespace Bespoke.Sph.Domain
 
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool m_isDefault;
+        public const string PropertyNameIsDefault = "IsDefault";
+
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private FormDesign m_formDesign
                 = new FormDesign();
 
@@ -2622,6 +2626,35 @@ namespace Bespoke.Sph.Domain
             get
             {
                 return m_iconStoreId;
+            }
+        }
+
+
+        ///<summary>
+        /// 
+        ///</summary>
+        [XmlAttribute]
+
+        [Required]
+
+        [DebuggerHidden]
+
+        public bool IsDefault
+        {
+            set
+            {
+                if (m_isDefault == value) return;
+                var arg = new PropertyChangingEventArgs(PropertyNameIsDefault, value);
+                OnPropertyChanging(arg);
+                if (!arg.Cancel)
+                {
+                    m_isDefault = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return m_isDefault;
             }
         }
 

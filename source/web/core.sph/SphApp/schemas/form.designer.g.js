@@ -776,6 +776,7 @@ bespoke.sph.domain.EntityForm = function (optionOrWebid) {
         IsAllowedNewItem: ko.observable(false),
         IconClass: ko.observable(''),
         IconStoreId: ko.observable(''),
+        IsDefault: ko.observable(false),
         FormDesign: ko.observable(new bespoke.sph.domain.FormDesign()),
         isBusy: ko.observable(false),
         WebId: ko.observable()

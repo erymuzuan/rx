@@ -64,7 +64,7 @@
         <tbody data-bind="foreach :ViewColumnCollection">
             <tr>
                 <td>
-                    <input class="form-control" type="text" data-bind="value:Path" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
+                    <input class="form-control" type="text" data-bind="value:Path,entityTypeaheadPath :$root.entity().EntityDefinitionId()" required pattern="^[A-Za-z][A-Za-z0-9_.]*$" />
                 </td>
                 <td>
                     <input class="form-control" type="text" data-bind="value:Header" required/>
