@@ -1230,9 +1230,6 @@
     <Content Include="SphApp\partial\BarChartItem.min.js">
       <DependentUpon>BarChartItem.js</DependentUpon>
     </Content>
-    <Content Include="SphApp\partial\Block.min.js">
-      <DependentUpon>Block.js</DependentUpon>
-    </Content>
     <Content Include="SphApp\partial\BusinessRule.min.js">
       <DependentUpon>BusinessRule.js</DependentUpon>
     </Content>
@@ -1242,20 +1239,8 @@
     <Content Include="SphApp\partial\ComboBox.min.js">
       <DependentUpon>ComboBox.js</DependentUpon>
     </Content>
-    <Content Include="SphApp\partial\Complaint.min.js">
-      <DependentUpon>Complaint.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ComplaintTemplate.min.js">
-      <DependentUpon>ComplaintTemplate.js</DependentUpon>
-    </Content>
     <Content Include="SphApp\partial\ConstantField.min.js">
       <DependentUpon>ConstantField.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\Contract.min.js">
-      <DependentUpon>Contract.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ContractTemplate.min.js">
-      <DependentUpon>ContractTemplate.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\CreateEntityActivity.min.js">
       <DependentUpon>CreateEntityActivity.js</DependentUpon>
@@ -1300,9 +1285,6 @@
     <Content Include="SphApp\partial\ListViewColumn.min.js">
       <DependentUpon>ListViewColumn.js</DependentUpon>
     </Content>
-    <Content Include="SphApp\partial\MaintenanceTemplate.min.js">
-      <DependentUpon>MaintenanceTemplate.js</DependentUpon>
-    </Content>
     <Content Include="SphApp\partial\Member.js" />
     <Content Include="SphApp\partial\EntityDefinition.js" />
     <Content Include="SphApp\partial\HtmlElement.js" />
@@ -1326,9 +1308,6 @@
     <EmbeddedResource Include="SphApp\partial\partial.min.js">
       <DependentUpon>__partial.js.bundle</DependentUpon>
     </EmbeddedResource>
-    <Content Include="SphApp\partial\Rent.min.js">
-      <DependentUpon>Rent.js</DependentUpon>
-    </Content>
     <Content Include="SphApp\partial\report.min.js">
       <DependentUpon>report.js</DependentUpon>
     </Content>
@@ -1348,17 +1327,11 @@
       <DependentUpon>ScreenActivity.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\Filter.js" />
-    <Content Include="SphApp\partial\SetterAction.min - Copy.js">
-      <DependentUpon>Filter.js</DependentUpon>
-    </Content>
     <Content Include="SphApp\partial\SetterAction.min.js">
       <DependentUpon>SetterAction.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\SetterActionChild.min.js">
       <DependentUpon>SetterActionChild.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\Space.min.js">
-      <DependentUpon>Space.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\StartWorkflowAction.min.js">
       <DependentUpon>StartWorkflowAction.js</DependentUpon>
@@ -1391,9 +1364,6 @@
     <Content Include="SphApp\partial\WorkflowDesigner.js" />
     <Content Include="SphApp\partial\DecisionActivity.js" />
     <Content Include="SphApp\partial\FormElement.js" />
-    <Content Include="SphApp\partial\MaintenanceTemplate.js" />
-    <Content Include="SphApp\partial\ComplaintTemplate.js" />
-    <Content Include="SphApp\partial\Block.js" />
     <Content Include="SphApp\partial\BusinessRule.js" />
     <Content Include="SphApp\partial\IFormTemplate.js" />
     <Content Include="SphApp\partial\MethodArg.js" />
@@ -1402,11 +1372,7 @@
     <Content Include="SphApp\partial\WorkflowDefinition.js" />
     <Content Include="SphApp\partial\Trigger.js" />
     <Content Include="SphApp\partial\Rule.js" />
-    <Content Include="SphApp\partial\Space.js" />
-    <Content Include="SphApp\partial\Complaint.js" />
     <Content Include="SphApp\partial\ConstantField.js" />
-    <Content Include="SphApp\partial\Contract.js" />
-    <Content Include="SphApp\partial\ContractTemplate.js" />
     <Content Include="SphApp\partial\BarChartItem.js" />
     <Content Include="SphApp\partial\DataGridItem.js" />
     <Content Include="SphApp\partial\LineChartItem.js" />
@@ -2533,9 +2499,6 @@
       <LastGenOutput>WebsiteFormElement.generated.cs</LastGenOutput>
     </Content>
     <Content Include="web.config" />
-    <Content Include="SphApp\partial\SetterAction.min.js - Copy.map">
-      <DependentUpon>Filter.js</DependentUpon>
-    </Content>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -2558,7 +2521,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SphApp\schemas\ReferenceObject.xslt" />
-    <Content Include="SphApp\partial\Rent.js" />
     <EmbeddedResource Include="SphApp\viewmodels\admindashboard.js" />
     <EmbeddedResource Include="SphApp\viewmodels\map.js" />
     <EmbeddedResource Include="SphApp\viewmodels\organization.detail.js" />
@@ -3431,9 +3393,6 @@
     <Content Include="SphApp\partial\BarChartItem.min.js.map">
       <DependentUpon>BarChartItem.js</DependentUpon>
     </Content>
-    <Content Include="SphApp\partial\Block.min.js.map">
-      <DependentUpon>Block.js</DependentUpon>
-    </Content>
     <Content Include="SphApp\partial\BusinessRule.min.js.map">
       <DependentUpon>BusinessRule.js</DependentUpon>
     </Content>
@@ -3443,20 +3402,8 @@
     <Content Include="SphApp\partial\ComboBox.min.js.map">
       <DependentUpon>ComboBox.js</DependentUpon>
     </Content>
-    <Content Include="SphApp\partial\Complaint.min.js.map">
-      <DependentUpon>Complaint.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ComplaintTemplate.min.js.map">
-      <DependentUpon>ComplaintTemplate.js</DependentUpon>
-    </Content>
     <Content Include="SphApp\partial\ConstantField.min.js.map">
       <DependentUpon>ConstantField.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\Contract.min.js.map">
-      <DependentUpon>Contract.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\ContractTemplate.min.js.map">
-      <DependentUpon>ContractTemplate.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\CreateEntityActivity.min.js.map">
       <DependentUpon>CreateEntityActivity.js</DependentUpon>
@@ -3500,9 +3447,6 @@
     <Content Include="SphApp\partial\ListViewColumn.min.js.map">
       <DependentUpon>ListViewColumn.js</DependentUpon>
     </Content>
-    <Content Include="SphApp\partial\MaintenanceTemplate.min.js.map">
-      <DependentUpon>MaintenanceTemplate.js</DependentUpon>
-    </Content>
     <Content Include="SphApp\partial\Member.min.js.map">
       <DependentUpon>Member.js</DependentUpon>
     </Content>
@@ -3511,9 +3455,6 @@
     </Content>
     <Content Include="SphApp\partial\ParallelActivity.min.js.map">
       <DependentUpon>ParallelActivity.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\Rent.min.js.map">
-      <DependentUpon>Rent.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\report.min.js.map">
       <DependentUpon>report.js</DependentUpon>
@@ -3535,9 +3476,6 @@
     </Content>
     <Content Include="SphApp\partial\SetterActionChild.min.js.map">
       <DependentUpon>SetterActionChild.js</DependentUpon>
-    </Content>
-    <Content Include="SphApp\partial\Space.min.js.map">
-      <DependentUpon>Space.js</DependentUpon>
     </Content>
     <Content Include="SphApp\partial\StartWorkflowAction.min.js.map">
       <DependentUpon>StartWorkflowAction.js</DependentUpon>
