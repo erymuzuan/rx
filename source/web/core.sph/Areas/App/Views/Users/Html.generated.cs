@@ -107,7 +107,7 @@ WriteLiteral(" class=\"row\"");
 
 WriteLiteral(">\r\n                        <div");
 
-WriteLiteral(" class=\"form-group col-lg-1\"");
+WriteLiteral(" class=\"form-group col-lg-3\"");
 
 WriteLiteral(">\r\n                            <label");
 
@@ -120,7 +120,7 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n                            <select");
 
-WriteLiteral(" class=\"form-control col-lg-2\"");
+WriteLiteral(" class=\"form-control col-lg-3\"");
 
 WriteLiteral(" data-bind=\"options: $root.departmentOptions, value: department, optionsText: \'Na" +
 "me\', optionsValue: \'Name\'\"");
@@ -135,7 +135,7 @@ WriteLiteral(" class=\"control-label col-lg-1 sr-only\"");
 
 WriteLiteral(">Kata Kunci</label>\r\n                            <input");
 
-WriteLiteral(" placeholder=\"Kata kunci\"");
+WriteLiteral(" placeholder=\"Keywords\"");
 
 WriteLiteral(" class=\"form-control col-lg-2\"");
 

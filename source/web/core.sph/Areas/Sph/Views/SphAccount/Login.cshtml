@@ -34,27 +34,27 @@
                         {
                             <div class="alert alert-danger">
                                 <a class="close" data-dismiss="alert" href="#">&times;</a>
-                                Nama Pengguna dan Kata laluan tidak sah!
+                                Incorrect username or password!
                             </div>
 
                         }
                         <form method="POST" action="" accept-charset="UTF-8">
-                            @Html.TextBoxFor(m => m.UserName, new { placeholder = "Nama pengguna", @class = "input-xlarge form-control", required = true, autofocus = "autofocus" })
+                            @Html.TextBoxFor(m => m.UserName, new { placeholder = "Username", @class = "form-control", required = true, autofocus = "autofocus" })
                             @Html.ValidationMessageFor(m => m.UserName)
                             <label class="controls"></label>
-                            @Html.PasswordFor(m => m.Password, new { placeholder = "Kata laluan", @class = "input-xlarge form-control", required = true })
+                            @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control", required = true })
                             @Html.ValidationMessageFor(m => m.Password)
                             <label class="checkbox">
                                 <input type="checkbox" name="remember" value="1">
-                                Ingat saya
+                                Remember me
                             </label>
                             <input type="hidden" value="@Request.QueryString["ReturnUrl"]" name="requestUrl" />
-                            <button type="submit" name="submit" class="btn btn-info">Daftar Masuk</button>
+                            <button type="submit" name="submit" class="btn btn-info">Login</button>
                         </form>
 
                         <div>
                             <p>
-                                <a href="@Url.Action("ChangePassword")">Lupa kata laluan atau nama pengguna</a>
+                                <a href="@Url.Action("ChangePassword")">Forgot your password</a>
                             </p>
                         </div>
                     </div>

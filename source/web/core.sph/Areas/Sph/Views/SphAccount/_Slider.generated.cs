@@ -57,7 +57,7 @@ WriteLiteral(" class=\"item active\"");
 WriteLiteral(">\r\n                <!-- class of active since it\'s the first item -->\r\n          " +
 "      <img");
 
-WriteLiteral(" src=\"/Images/offices.png\"");
+WriteLiteral(" src=\"/Images/1.png\"");
 
 WriteLiteral(" alt=\"image\"");
 
@@ -65,15 +65,15 @@ WriteLiteral(" />\r\n                <div");
 
 WriteLiteral(" class=\"carousel-caption\"");
 
-WriteLiteral(">\r\n                    <h2>Ruang Pejabat & Komersil</h2>\r\n                    <p>" +
-"\r\n                        Penyewaan ruang komersil dan ruang pejabat\r\n          " +
-"          </p>\r\n                </div>\r\n            </div>\r\n            <div");
+WriteLiteral(">\r\n                    <h2>Slide 1</h2>\r\n                    <p>\r\n               " +
+"         Something about slide 1\r\n                    </p>\r\n                </di" +
+"v>\r\n            </div>\r\n            <div");
 
 WriteLiteral(" class=\"item\"");
 
 WriteLiteral(">\r\n                <img");
 
-WriteLiteral(" src=\"/Images/courts.png\"");
+WriteLiteral(" src=\"/Images/2.png\"");
 
 WriteLiteral(" alt=\"\"");
 
@@ -81,15 +81,15 @@ WriteLiteral(" />\r\n                <div");
 
 WriteLiteral(" class=\"carousel-caption\"");
 
-WriteLiteral(">\r\n                    <h2>Dewan & Gelanggang</h2>\r\n                    <p>Tempah" +
-"an jangka pendek untuk majlis dan riada</p>\r\n                </div>\r\n           " +
-" </div>\r\n            <div");
+WriteLiteral(">\r\n                    <h2>Slide 2</h2>\r\n                    <p>\r\n               " +
+"         Something about slide 2\r\n                    </p>\r\n                </di" +
+"v>\r\n            </div>\r\n            <div");
 
 WriteLiteral(" class=\"item\"");
 
 WriteLiteral(">\r\n                <img");
 
-WriteLiteral(" src=\"/Images/quarters.png\"");
+WriteLiteral(" src=\"/Images/3.png\"");
 
 WriteLiteral(" alt=\"\"");
 
@@ -97,14 +97,15 @@ WriteLiteral(" />\r\n                <div");
 
 WriteLiteral(" class=\"carousel-caption\"");
 
-WriteLiteral(">\r\n                    <h2>Kuarters</h2>\r\n                    <p>Penginapan kakit" +
-"angan</p>\r\n                </div>\r\n            </div>\r\n            <div");
+WriteLiteral(">\r\n                    <h2>Slide 3</h2>\r\n                    <p>\r\n               " +
+"         Something about slide 3\r\n                    </p>\r\n                </di" +
+"v>\r\n            </div>\r\n            <div");
 
 WriteLiteral(" class=\"item\"");
 
 WriteLiteral(">\r\n                <img");
 
-WriteLiteral(" src=\"/Images/hotel.png\"");
+WriteLiteral(" src=\"/Images/4.png\"");
 
 WriteLiteral(" alt=\"\"");
 
@@ -113,8 +114,10 @@ WriteLiteral(" />\r\n                <div");
 WriteLiteral(" class=\"carousel-caption\"");
 
 WriteLiteral(@">
-                    <h2>Rumah Peranginan</h2>
-                    <p>Rumah penginapan dan peranginan untuk kakitangan</p>
+                    <h2>Slide 4</h2>
+                    <p>
+                        Something about slide 4
+                    </p>
                 </div>
             </div>
         </div><!-- /.carousel-inner -->

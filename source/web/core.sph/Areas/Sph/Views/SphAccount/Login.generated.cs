@@ -185,8 +185,8 @@ WriteLiteral(" data-dismiss=\"alert\"");
 
 WriteLiteral(" href=\"#\"");
 
-WriteLiteral(">&times;</a>\r\n                                Nama Pengguna dan Kata laluan tidak" +
-" sah!\r\n                            </div>\r\n");
+WriteLiteral(">&times;</a>\r\n                                Incorrect username or password!\r\n  " +
+"                          </div>\r\n");
 
             
             #line 39 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
@@ -210,7 +210,7 @@ WriteLiteral("                            ");
 
             
             #line 42 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
-                       Write(Html.TextBoxFor(m => m.UserName, new { placeholder = "Nama pengguna", @class = "input-xlarge form-control", required = true, autofocus = "autofocus" }));
+                       Write(Html.TextBoxFor(m => m.UserName, new { placeholder = "Username", @class = "form-control", required = true, autofocus = "autofocus" }));
 
             
             #line default
@@ -236,7 +236,7 @@ WriteLiteral("                            ");
 
             
             #line 45 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
-                       Write(Html.PasswordFor(m => m.Password, new { placeholder = "Kata laluan", @class = "input-xlarge form-control", required = true }));
+                       Write(Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control", required = true }));
 
             
             #line default
@@ -264,19 +264,19 @@ WriteLiteral(" name=\"remember\"");
 
 WriteLiteral(" value=\"1\"");
 
-WriteLiteral(">\r\n                                Ingat saya\r\n                            </labe" +
-"l>\r\n                            <input");
+WriteLiteral(">\r\n                                Remember me\r\n                            </lab" +
+"el>\r\n                            <input");
 
 WriteLiteral(" type=\"hidden\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 2289), Tuple.Create("\"", 2330)
+WriteAttribute("value", Tuple.Create(" value=\"", 2247), Tuple.Create("\"", 2288)
             
             #line 51 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
-, Tuple.Create(Tuple.Create("", 2297), Tuple.Create<System.Object, System.Int32>(Request.QueryString["ReturnUrl"]
+, Tuple.Create(Tuple.Create("", 2255), Tuple.Create<System.Object, System.Int32>(Request.QueryString["ReturnUrl"]
             
             #line default
             #line hidden
-, 2297), false)
+, 2255), false)
 );
 
 WriteLiteral(" name=\"requestUrl\"");
@@ -289,22 +289,21 @@ WriteLiteral(" name=\"submit\"");
 
 WriteLiteral(" class=\"btn btn-info\"");
 
-WriteLiteral(">Daftar Masuk</button>\r\n                        </form>\r\n\r\n                      " +
-"  <div>\r\n                            <p>\r\n                                <a");
+WriteLiteral(">Login</button>\r\n                        </form>\r\n\r\n                        <div>" +
+"\r\n                            <p>\r\n                                <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2595), Tuple.Create("\"", 2631)
+WriteAttribute("href", Tuple.Create(" href=\"", 2546), Tuple.Create("\"", 2582)
             
             #line 57 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
-, Tuple.Create(Tuple.Create("", 2602), Tuple.Create<System.Object, System.Int32>(Url.Action("ChangePassword")
+, Tuple.Create(Tuple.Create("", 2553), Tuple.Create<System.Object, System.Int32>(Url.Action("ChangePassword")
             
             #line default
             #line hidden
-, 2602), false)
+, 2553), false)
 );
 
-WriteLiteral(">Lupa kata laluan atau nama pengguna</a>\r\n                            </p>\r\n     " +
-"                   </div>\r\n                    </div>\r\n\r\n                </div>\r" +
-"\n");
+WriteLiteral(">Forgot your password</a>\r\n                            </p>\r\n                    " +
+"    </div>\r\n                    </div>\r\n\r\n                </div>\r\n");
 
             
             #line 63 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
@@ -347,9 +346,9 @@ WriteLiteral(" />\r\n                </div>\r\n");
             #line hidden
 WriteLiteral("        </section>\r\n    </div>\r\n\r\n\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 3007), Tuple.Create("\"", 3036)
-, Tuple.Create(Tuple.Create("", 3013), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/vendor.min.js")
-, 3013), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2943), Tuple.Create("\"", 2972)
+, Tuple.Create(Tuple.Create("", 2949), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/vendor.min.js")
+, 2949), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
