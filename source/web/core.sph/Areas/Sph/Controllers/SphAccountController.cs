@@ -9,7 +9,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
 {
 
     [Authorize]
-    public class AccountController : Controller
+    public class SphAccountController : Controller
     {
         public ActionResult Logoff()
         {

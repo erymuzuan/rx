@@ -550,7 +550,7 @@
     <Compile Include="Areas\Sph\Controllers\EntityFormController.cs" />
     <Compile Include="Areas\Sph\Controllers\EntityViewController.cs" />
     <Compile Include="Areas\Sph\SphAreaRegistration.cs" />
-    <Compile Include="Areas\Sph\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Sph\Controllers\SphAccountController.cs" />
     <Compile Include="Areas\Sph\Controllers\AdminController.cs" />
     <Compile Include="Areas\App\Controllers\BaseAppController.cs" />
     <Compile Include="Areas\Sph\Controllers\BaseController.cs" />
@@ -802,37 +802,37 @@
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
     <Compile Include="ViewModels\WorkflowDefinitionVisualViewModel.cs" />
     <Compile Include="ViewModels\WorkflowStartViewModel.cs" />
-    <Compile Include="Areas\Sph\Views\Account\ChangePassword.generated.cs">
+    <Compile Include="Areas\Sph\Views\SphAccount\ChangePassword.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ChangePassword.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\Account\ChangePasswordSuccess.generated.cs">
+    <Compile Include="Areas\Sph\Views\SphAccount\ChangePasswordSuccess.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ChangePasswordSuccess.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\Account\Flyout.generated.cs">
+    <Compile Include="Areas\Sph\Views\SphAccount\Flyout.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Flyout.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\Account\Login.generated.cs">
+    <Compile Include="Areas\Sph\Views\SphAccount\Login.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Login.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\Account\Register.generated.cs">
+    <Compile Include="Areas\Sph\Views\SphAccount\Register.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Register.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\Account\_Footer.generated.cs">
+    <Compile Include="Areas\Sph\Views\SphAccount\_Footer.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_Footer.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\Sph\Views\Account\_Slider.generated.cs">
+    <Compile Include="Areas\Sph\Views\SphAccount\_Slider.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_Slider.cshtml</DependentUpon>
@@ -2841,23 +2841,23 @@
     <Content Include="ScriptTests\datacontext.aggregate.js" />
     <Content Include="ScriptTests\datacontext.toObservable.workflow.js" />
     <Content Include="ScriptTests\datacontext.toObservable.js" />
-    <Content Include="Areas\Sph\Views\Account\ChangePassword.cshtml">
+    <Content Include="Areas\Sph\Views\SphAccount\ChangePassword.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ChangePassword.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Account\ChangePasswordSuccess.cshtml">
+    <Content Include="Areas\Sph\Views\SphAccount\ChangePasswordSuccess.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>ChangePasswordSuccess.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Account\Flyout.cshtml">
+    <Content Include="Areas\Sph\Views\SphAccount\Flyout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Flyout.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Account\Login.cshtml">
+    <Content Include="Areas\Sph\Views\SphAccount\Login.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Login.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Account\Register.cshtml">
+    <Content Include="Areas\Sph\Views\SphAccount\Register.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Register.generated.cs</LastGenOutput>
     </Content>
@@ -3032,27 +3032,21 @@
     <Content Include="Areas\Sph\Views\Template\_DesignerContextAction.cshtml" />
     <Content Include="Areas\Sph\Views\Print\Index.cshtml" />
     <Content Include="Areas\Sph\Views\Print\DisplayTemplates\AddressElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\BuildingFloorsElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\BuildingMapElement.cshtml" />
     <Content Include="Areas\Sph\Views\Print\DisplayTemplates\CheckBox.cshtml" />
     <Content Include="Areas\Sph\Views\Print\DisplayTemplates\ComboBox.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\SpaceUnitElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\ComplaintCategoryElement.cshtml" />
     <Content Include="Areas\Sph\Views\Print\DisplayTemplates\DatePicker.cshtml" />
     <Content Include="Areas\Sph\Views\Print\DisplayTemplates\EmailFormElement.cshtml" />
     <Content Include="Areas\Sph\Views\Print\DisplayTemplates\FormElement.cshtml" />
     <Content Include="Areas\Sph\Views\Print\DisplayTemplates\NumberTextBox.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\RentalApplicationAttachmentsElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Print\DisplayTemplates\RentalApplicationBanksElement.cshtml" />
     <Content Include="Areas\Sph\Views\Print\DisplayTemplates\SectionFormElement.cshtml" />
     <Content Include="Areas\Sph\Views\Print\DisplayTemplates\TextAreaElement.cshtml" />
     <Content Include="Areas\Sph\Views\Print\DisplayTemplates\TextBox.cshtml" />
     <Content Include="Areas\Sph\Views\Print\DisplayTemplates\WebsiteFormElement.cshtml" />
-    <Content Include="Areas\Sph\Views\Account\_Slider.cshtml">
+    <Content Include="Areas\Sph\Views\SphAccount\_Slider.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Slider.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Sph\Views\Account\_Footer.cshtml">
+    <Content Include="Areas\Sph\Views\SphAccount\_Footer.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Footer.generated.cs</LastGenOutput>
     </Content>

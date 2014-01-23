@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
+namespace Bespoke.Sph.Web.Areas.Sph.Views.SphAccount
 {
     using System;
     using System.Collections.Generic;
@@ -21,9 +21,14 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
     using System.Web.Helpers;
     using System.Web.Mvc;
     using System.Web.Mvc.Ajax;
+    
+    #line 7 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
     using System.Web.Mvc.Html;
     
-    #line 7 "..\..\Areas\Sph\Views\Account\ChangePassword.cshtml"
+    #line default
+    #line hidden
+    
+    #line 8 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
     using System.Web.Optimization;
     
     #line default
@@ -34,7 +39,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Account/ChangePassword.cshtml")]
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/SphAccount/ChangePassword.cshtml")]
     public partial class ChangePassword : System.Web.Mvc.WebViewPage<dynamic>
     {
         public ChangePassword()
@@ -43,7 +48,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
         public override void Execute()
         {
             
-            #line 1 "..\..\Areas\Sph\Views\Account\ChangePassword.cshtml"
+            #line 1 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
   
     ViewBag.Title = "Change Password";
     Layout = null;
@@ -64,7 +69,7 @@ WriteLiteral(" charset=\"utf-8\"");
 WriteLiteral(" />\r\n    <title>");
 
             
-            #line 12 "..\..\Areas\Sph\Views\Account\ChangePassword.cshtml"
+            #line 13 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
       Write(ViewBag.Title);
 
             
@@ -72,9 +77,9 @@ WriteLiteral(" />\r\n    <title>");
             #line hidden
 WriteLiteral(" - SPH</title>\r\n    <link");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 226), Tuple.Create("\"", 246)
-, Tuple.Create(Tuple.Create("", 233), Tuple.Create<System.Object, System.Int32>(Href("~/favicon.ico")
-, 233), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 254), Tuple.Create("\"", 274)
+, Tuple.Create(Tuple.Create("", 261), Tuple.Create<System.Object, System.Int32>(Href("~/favicon.ico")
+, 261), false)
 );
 
 WriteLiteral(" rel=\"shortcut icon\"");
@@ -92,7 +97,7 @@ WriteLiteral(" />\r\n");
 WriteLiteral("    ");
 
             
-            #line 15 "..\..\Areas\Sph\Views\Account\ChangePassword.cshtml"
+            #line 16 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
 Write(Styles.Render("~/Content/css"));
 
             
@@ -107,14 +112,14 @@ WriteLiteral(" class=\"container\"");
 WriteLiteral(">\r\n        <section>\r\n");
 
             
-            #line 20 "..\..\Areas\Sph\Views\Account\ChangePassword.cshtml"
+            #line 21 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 20 "..\..\Areas\Sph\Views\Account\ChangePassword.cshtml"
-             using (Html.BeginForm((string)ViewBag.FormAction, "Account"))
+            #line 21 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
+             using (Html.BeginForm((string)ViewBag.FormAction, "SphAccount"))
             {
 
 
@@ -130,7 +135,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                    ");
 
             
-            #line 24 "..\..\Areas\Sph\Views\Account\ChangePassword.cshtml"
+            #line 25 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
                Write(Html.Partial("_Slider"));
 
             
@@ -146,9 +151,9 @@ WriteLiteral(" class=\"logo\"");
 
 WriteLiteral(">\r\n                            <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 773), Tuple.Create("\"", 800)
-, Tuple.Create(Tuple.Create("", 779), Tuple.Create<System.Object, System.Int32>(Href("~/Images/logo_sph.png")
-, 779), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 804), Tuple.Create("\"", 831)
+, Tuple.Create(Tuple.Create("", 810), Tuple.Create<System.Object, System.Int32>(Href("~/Images/logo_sph.png")
+, 810), false)
 );
 
 WriteLiteral(" alt=\"logo\"");
@@ -162,7 +167,7 @@ WriteLiteral(">\r\n\r\n                            <p>\r\n                      
 "ds are required to be a minimum of ");
 
             
-            #line 36 "..\..\Areas\Sph\Views\Account\ChangePassword.cshtml"
+            #line 37 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
                                                                          Write(Membership.MinRequiredPasswordLength);
 
             
@@ -212,14 +217,14 @@ WriteLiteral(" class=\"controls\"");
 
 WriteLiteral(">\r\n                                    <input");
 
-WriteAttribute("min", Tuple.Create(" min=\"", 1867), Tuple.Create("\"", 1921)
+WriteAttribute("min", Tuple.Create(" min=\"", 1898), Tuple.Create("\"", 1952)
             
-            #line 48 "..\..\Areas\Sph\Views\Account\ChangePassword.cshtml"
-, Tuple.Create(Tuple.Create("", 1873), Tuple.Create<System.Object, System.Int32>(Membership.MinRequiredNonAlphanumericCharacters
+            #line 49 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
+, Tuple.Create(Tuple.Create("", 1904), Tuple.Create<System.Object, System.Int32>(Membership.MinRequiredNonAlphanumericCharacters
             
             #line default
             #line hidden
-, 1873), false)
+, 1904), false)
 );
 
 WriteLiteral(" required");
@@ -249,14 +254,14 @@ WriteLiteral(" class=\"controls\"");
 
 WriteLiteral(">\r\n                                    <input");
 
-WriteAttribute("min", Tuple.Create(" min=\"", 2354), Tuple.Create("\"", 2408)
+WriteAttribute("min", Tuple.Create(" min=\"", 2385), Tuple.Create("\"", 2439)
             
-            #line 55 "..\..\Areas\Sph\Views\Account\ChangePassword.cshtml"
-, Tuple.Create(Tuple.Create("", 2360), Tuple.Create<System.Object, System.Int32>(Membership.MinRequiredNonAlphanumericCharacters
+            #line 56 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
+, Tuple.Create(Tuple.Create("", 2391), Tuple.Create<System.Object, System.Int32>(Membership.MinRequiredNonAlphanumericCharacters
             
             #line default
             #line hidden
-, 2360), false)
+, 2391), false)
 );
 
 WriteLiteral(" required");
@@ -294,20 +299,20 @@ WriteLiteral(" class=\"span12\"");
 WriteLiteral(" />\r\n                </div>\r\n");
 
             
-            #line 69 "..\..\Areas\Sph\Views\Account\ChangePassword.cshtml"
+            #line 70 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 69 "..\..\Areas\Sph\Views\Account\ChangePassword.cshtml"
+            #line 70 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
            Write(Html.Partial("_Footer"));
 
             
             #line default
             #line hidden
             
-            #line 69 "..\..\Areas\Sph\Views\Account\ChangePassword.cshtml"
+            #line 70 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
                                         
 
 
@@ -321,7 +326,7 @@ WriteLiteral("        </section>\r\n    </div>\r\n\r\n");
 WriteLiteral("    ");
 
             
-            #line 76 "..\..\Areas\Sph\Views\Account\ChangePassword.cshtml"
+            #line 77 "..\..\Areas\Sph\Views\SphAccount\ChangePassword.cshtml"
 Write(Scripts.Render("~/scripts/vendor"));
 
             
@@ -334,16 +339,16 @@ WriteLiteral(" type=\"text/javascript\"");
 WriteLiteral(">\r\n        $(function () {\r\n            $(\'.carousel\').carousel({\r\n              " +
 "  interval: 2000\r\n            });\r\n        });\r\n    </script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 3234), Tuple.Create("\"", 3269)
-, Tuple.Create(Tuple.Create("", 3240), Tuple.Create<System.Object, System.Int32>(Href("~/App/durandal/amd/require.js")
-, 3240), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 3265), Tuple.Create("\"", 3300)
+, Tuple.Create(Tuple.Create("", 3271), Tuple.Create<System.Object, System.Int32>(Href("~/App/durandal/amd/require.js")
+, 3271), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 3293), Tuple.Create("\"", 3322)
-, Tuple.Create(Tuple.Create("", 3299), Tuple.Create<System.Object, System.Int32>(Href("~/App/objectbuilders.js")
-, 3299), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 3324), Tuple.Create("\"", 3353)
+, Tuple.Create(Tuple.Create("", 3330), Tuple.Create<System.Object, System.Int32>(Href("~/App/objectbuilders.js")
+, 3330), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
@@ -369,7 +374,7 @@ WriteLiteral(@">
                     require([objectbuilders.datacontext, objectbuilders.config, objectbuilders.logger],
                         function (context, config, logger) {
 
-                            context.post(data, ""/Account/ChangePassword"")
+                            context.post(data, ""/SphAccount/ChangePassword"")
                                 .then(function (result) {
                                     tcs.resolve(result);
                                     if (result.status !== ""OK"") {

@@ -195,10 +195,10 @@ WriteLiteral(" class=\"fa fa-cogs\"");
 
 WriteLiteral("></i>Settings</a></li>\r\n                        <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1369), Tuple.Create("\"", 1428)
+WriteAttribute("href", Tuple.Create(" href=\"", 1369), Tuple.Create("\"", 1431)
             
             #line 32 "..\..\Areas\App\Views\Header\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 1376), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff", "Account", new {area = "Sph"})
+, Tuple.Create(Tuple.Create("", 1376), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff", "SphAccount", new {area = "Sph"})
             
             #line default
             #line hidden
@@ -246,14 +246,14 @@ WriteLiteral(">\r\n                    <li><a");
 
 WriteLiteral(" id=\"log-in\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2006), Tuple.Create("\"", 2065)
+WriteAttribute("href", Tuple.Create(" href=\"", 2009), Tuple.Create("\"", 2071)
             
             #line 51 "..\..\Areas\App\Views\Header\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 2013), Tuple.Create<System.Object, System.Int32>(Url.Action("Login", "Account", new { area = "Sph"})
+, Tuple.Create(Tuple.Create("", 2016), Tuple.Create<System.Object, System.Int32>(Url.Action("Login", "SphAccount", new { area = "Sph"})
             
             #line default
             #line hidden
-, 2013), false)
+, 2016), false)
 );
 
 WriteLiteral(" class=\"login-label\"");

@@ -1,58 +1,58 @@
-﻿<h1>Maklumat Organisasi</h1>
+﻿<h1>Organisation settings</h1>
 <div class="row">
     <form class="form-horizontal" id="organization-detail" data-bind="with: organization">
         <div class="form-group">
-            <label for="organization.Name" class="col-lg-2">Nama Syarikat</label>
+            <label for="organization.Name" class="col-lg-2">Name</label>
             <div class="col-lg-8">
                 <input class="form-control"  data-bind="value: Name" id="organization.Name" type="text" name="Name" />
             </div>
         </div>
         <div class="form-group">
-            <label for="organization.RegistrationNo" class="col-lg-2">No Pendaftaran :</label>
+            <label for="organization.RegistrationNo" class="col-lg-2">Registration No :</label>
             <div class="col-lg-8">
                 <input class="form-control"  data-bind="value: RegistrationNo" id="organization.RegistrationNo" type="text" name="RegistrationNo" />
             </div>
         </div>
         <div class="form-group">
-            <label for="organization.Email" class="col-lg-2">Emel : </label>
+            <label for="organization.Email" class="col-lg-2">Email : </label>
             <div class="col-lg-8">
                 <input class="form-control"  data-bind="value: Email" id="organization.Email" type="email" name="Email" />
             </div>
         </div>
         <div class="form-group">
-            <label for="organization.OfficeNo" class="col-lg-2">No. Telefon :</label>
+            <label for="organization.OfficeNo" class="col-lg-2">Telephone :</label>
             <div class="col-lg-8">
                 <input class="form-control"  data-bind="value: OfficeNo" id="organization.OfficeNo" type="text" name="OfficeNo" />
             </div>
         </div>
         <div class="form-group">
-            <label for="organization.FaxNo" class="col-lg-2">No. Faks :</label>
+            <label for="organization.FaxNo" class="col-lg-2">Fax :</label>
             <div class="col-lg-8">
                 <input class="form-control"  data-bind="value: FaxNo" id="organization.FaxNo" type="text" name="FaxNo" />
             </div>
         </div>
 
-        <h3>Alamat : </h3>
+        <h3>Address : </h3>
         <div class="form-group">
-            <label for="organization.Address.Street" class="col-lg-2">Jalan</label>
+            <label for="organization.Address.Street" class="col-lg-2">Street</label>
             <div class="col-lg-8">
                 <input class="form-control"  data-bind="value: Address.Street" id="organization.Address.Street" type="text" name="organization.Address.StreetAddress.StreetAddress.Street" />
             </div>
         </div>
         <div class="form-group">
-            <label for="organization.Address.City" class="col-lg-2">Bandar</label>
+            <label for="organization.Address.City" class="col-lg-2">City</label>
             <div class="col-lg-8">
                 <input class="form-control"  data-bind="value: Address.City" id="organization.Address.City" type="text" name="organization.Address.City" />
             </div>
         </div>
         <div class="form-group">
-            <label for="organization.Address.Postcode" class="col-lg-2">Poskod</label>
+            <label for="organization.Address.Postcode" class="col-lg-2">Postcode</label>
             <div class="col-lg-8">
                 <input class="form-control"  placeholder="Poskod" data-bind="value: Address.Postcode" maxlength="5" id="organization.Address.Postcode" type="text" name="organization.Address.Postcode" />
             </div>
         </div>
         <div class="form-group">
-            <label for="address.State" class="col-lg-2">Negeri</label>
+            <label for="address.State" class="col-lg-2">State</label>
             <div class="col-lg-8">
                 <select class="form-control" name="address.State" id="address.State" data-bind="value: Address.State, options: $root.stateOptions, optionsText: 'Name', optionsValue: 'Name', optionsCaption: '[Sila Pilih]'"></select>
             </div>

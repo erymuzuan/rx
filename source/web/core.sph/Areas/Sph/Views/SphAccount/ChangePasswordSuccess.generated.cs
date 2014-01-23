@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
+namespace Bespoke.Sph.Web.Areas.Sph.Views.SphAccount
 {
     using System;
     using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Account/ChangePasswordSuccess.cshtml")]
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/SphAccount/ChangePasswordSuccess.cshtml")]
     public partial class ChangePasswordSuccess : System.Web.Mvc.WebViewPage<dynamic>
     {
         public ChangePasswordSuccess()
@@ -37,7 +37,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
         public override void Execute()
         {
             
-            #line 1 "..\..\Areas\Sph\Views\Account\ChangePasswordSuccess.cshtml"
+            #line 1 "..\..\Areas\Sph\Views\SphAccount\ChangePasswordSuccess.cshtml"
   
     ViewBag.Title = "Change Password";
 
@@ -51,7 +51,7 @@ WriteLiteral(" class=\"title\"");
 WriteLiteral(">\r\n    <h1>");
 
             
-            #line 6 "..\..\Areas\Sph\Views\Account\ChangePasswordSuccess.cshtml"
+            #line 6 "..\..\Areas\Sph\Views\SphAccount\ChangePasswordSuccess.cshtml"
    Write(ViewBag.Title);
 
             

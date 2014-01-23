@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
+namespace Bespoke.Sph.Web.Areas.Sph.Views.SphAccount
 {
     using System;
     using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Account/_Slider.cshtml")]
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/SphAccount/_Slider.cshtml")]
     public partial class Slider : System.Web.Mvc.WebViewPage<dynamic>
     {
         public Slider()

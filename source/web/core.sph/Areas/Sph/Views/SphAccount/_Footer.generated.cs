@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
+namespace Bespoke.Sph.Web.Areas.Sph.Views.SphAccount
 {
     using System;
     using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Account/_Footer.cshtml")]
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/SphAccount/_Footer.cshtml")]
     public partial class Footer : System.Web.Mvc.WebViewPage<dynamic>
     {
         public Footer()
@@ -51,7 +51,7 @@ WriteLiteral(" href=\"http://www.bespoke.com.my/\"");
 WriteLiteral(">©");
 
             
-            #line 4 "..\..\Areas\Sph\Views\Account\_Footer.cshtml"
+            #line 4 "..\..\Areas\Sph\Views\SphAccount\_Footer.cshtml"
                                           Write(DateTime.Today.Year);
 
             

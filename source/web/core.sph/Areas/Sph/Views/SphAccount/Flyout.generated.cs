@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
+namespace Bespoke.Sph.Web.Areas.Sph.Views.SphAccount
 {
     using System;
     using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
     using System.Web.WebPages;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/Account/Flyout.cshtml")]
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/Sph/Views/SphAccount/Flyout.cshtml")]
     public partial class Flyout : System.Web.Mvc.WebViewPage<dynamic>
     {
         public Flyout()
@@ -37,7 +37,7 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.Account
         public override void Execute()
         {
             
-            #line 2 "..\..\Areas\Sph\Views\Account\Flyout.cshtml"
+            #line 2 "..\..\Areas\Sph\Views\SphAccount\Flyout.cshtml"
   
     Layout = null;
     dynamic profile = this.Profile;
@@ -141,10 +141,10 @@ WriteLiteral(" class=\"header-section\"");
 
 WriteLiteral(">\r\n        <h3>My Profile Setting</h3>\r\n    </div>\r\n    <p>\r\n        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1492), Tuple.Create("\"", 1539)
+WriteAttribute("href", Tuple.Create(" href=\"", 1492), Tuple.Create("\"", 1542)
             
-            #line 93 "..\..\Areas\Sph\Views\Account\Flyout.cshtml"
-, Tuple.Create(Tuple.Create("", 1499), Tuple.Create<System.Object, System.Int32>(Url.Action("ChangePassword", "Account")
+            #line 93 "..\..\Areas\Sph\Views\SphAccount\Flyout.cshtml"
+, Tuple.Create(Tuple.Create("", 1499), Tuple.Create<System.Object, System.Int32>(Url.Action("ChangePassword", "SphAccount")
             
             #line default
             #line hidden
@@ -154,7 +154,7 @@ WriteAttribute("href", Tuple.Create(" href=\"", 1492), Tuple.Create("\"", 1539)
 WriteLiteral(">Change my password</a>\r\n\r\n    </p>\r\n    <div>\r\n        <span>");
 
             
-            #line 97 "..\..\Areas\Sph\Views\Account\Flyout.cshtml"
+            #line 97 "..\..\Areas\Sph\Views\SphAccount\Flyout.cshtml"
          Write(profile.FullName);
 
             
@@ -163,7 +163,7 @@ WriteLiteral(">Change my password</a>\r\n\r\n    </p>\r\n    <div>\r\n        <s
 WriteLiteral("</span>\r\n    </div>\r\n    <div>\r\n        <span>");
 
             
-            #line 100 "..\..\Areas\Sph\Views\Account\Flyout.cshtml"
+            #line 100 "..\..\Areas\Sph\Views\SphAccount\Flyout.cshtml"
          Write(profile.Designation);
 
             
@@ -172,7 +172,7 @@ WriteLiteral("</span>\r\n    </div>\r\n    <div>\r\n        <span>");
 WriteLiteral("</span>\r\n    </div>\r\n    <div>\r\n        <span>");
 
             
-            #line 103 "..\..\Areas\Sph\Views\Account\Flyout.cshtml"
+            #line 103 "..\..\Areas\Sph\Views\SphAccount\Flyout.cshtml"
          Write(profile.Mobile);
 
             
@@ -181,7 +181,7 @@ WriteLiteral("</span>\r\n    </div>\r\n    <div>\r\n        <span>");
 WriteLiteral("</span>\r\n    </div>\r\n    <div>\r\n        <span>");
 
             
-            #line 106 "..\..\Areas\Sph\Views\Account\Flyout.cshtml"
+            #line 106 "..\..\Areas\Sph\Views\SphAccount\Flyout.cshtml"
          Write(profile.HospitalCode);
 
             
@@ -189,14 +189,14 @@ WriteLiteral("</span>\r\n    </div>\r\n    <div>\r\n        <span>");
             #line hidden
 WriteLiteral("</span>\r\n    </div>\r\n    <p>\r\n        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1853), Tuple.Create("\"", 1899)
+WriteAttribute("href", Tuple.Create(" href=\"", 1856), Tuple.Create("\"", 1905)
             
-            #line 109 "..\..\Areas\Sph\Views\Account\Flyout.cshtml"
-, Tuple.Create(Tuple.Create("", 1860), Tuple.Create<System.Object, System.Int32>(Url.Action("UpdateProfile", "Account")
+            #line 109 "..\..\Areas\Sph\Views\SphAccount\Flyout.cshtml"
+, Tuple.Create(Tuple.Create("", 1863), Tuple.Create<System.Object, System.Int32>(Url.Action("UpdateProfile", "SphAccount")
             
             #line default
             #line hidden
-, 1860), false)
+, 1863), false)
 );
 
 WriteLiteral(">Update my profile</a>\r\n    </p>\r\n\r\n    <div>\r\n        <div");

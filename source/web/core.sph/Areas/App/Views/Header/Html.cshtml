@@ -29,7 +29,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="#/user.profile"><i class="fa fa-user"></i>Profile</a></li>
                         <li><a href="#/user.setting"><i class="fa fa-cogs"></i>Settings</a></li>
-                        <li><a href="@Url.Action("Logoff", "Account", new {area = "Sph"})"><i class="fa fa-power-off"></i>Logout</a></li>
+                        <li><a href="@Url.Action("Logoff", "SphAccount", new {area = "Sph"})"><i class="fa fa-power-off"></i>Logout</a></li>
                     </ul>
                 </div>
                 <!-- Notifications -->
@@ -48,7 +48,7 @@
             @if (!User.Identity.IsAuthenticated)
             {
                 <ul class="nav navbar-nav">
-                    <li><a id="log-in" href="@Url.Action("Login", "Account", new { area = "Sph"})" class="login-label"><i class="fa fa-sign-in"></i>  Log Masuk </a></li>
+                    <li><a id="log-in" href="@Url.Action("Login", "SphAccount", new { area = "Sph"})" class="login-label"><i class="fa fa-sign-in"></i>  Log Masuk </a></li>
                 </ul>
             }
 
