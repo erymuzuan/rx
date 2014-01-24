@@ -30,10 +30,11 @@ namespace subscriber.entities
             // add entity default properties
             map.AppendLine("            \"CreatedBy\": {\"type\": \"string\", \"index\":\"not_analyzed\"},");
             map.AppendLine("            \"ChangedBy\": {\"type\": \"string\", \"index\":\"not_analyzed\"},");
+            map.AppendLine("            \"WebId\": {\"type\": \"string\", \"index\":\"not_analyzed\"},");
             map.AppendLine("            \"CreatedDate\": {\"type\": \"date\"},");
             map.AppendLine("            \"ChangedDate\": {\"type\": \"date\"},");
 
-            var memberMappings = string.Join(",\r\n", item.MemberCollection.Select(d => d.GetMemberMappings()).SelectMany(m => m));
+            var memberMappings = string.Join(",\r\n", item.MemberCollection.Select(d => d.GetMemberMappings()));
             map.AppendLine(memberMappings);
 
             map.AppendLine("        }");

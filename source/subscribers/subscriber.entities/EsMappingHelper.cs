@@ -42,28 +42,37 @@ namespace subscriber.entities
             if (typeof(decimal) == member.Type) return "float";
             if (typeof(bool) == member.Type) return "boolean";
             if (typeof(DateTime) == member.Type) return "date";
-            if (typeof(object) == member.Type) return null;
-            if (typeof(Array) == member.Type) return null;
+            if (typeof(object) == member.Type) return "object";
+            if (typeof(Array) == member.Type) return "object";
             return "";
         }
 
-        public static string[] GetMemberMappings(this Member member, string parent = "")
+
+        public static string GetObjectMapping(this Member member)
         {
-            var list = new List<string>();
-            var type = member.GetEsType();
-            var name = string.IsNullOrWhiteSpace(parent)
-                ? member.Name
-                : string.Format("{0}.{1}", parent, member.Name);
-            if (!string.IsNullOrWhiteSpace(type))
+            var map = new StringBuilder();
+            map.AppendLinf("    \"{0}\":{{", member.Name);
+
+            map.AppendLine("        \"type\": {\"type\": \"object\"},");
+            map.AppendLine("        \"properties\":{");
+
+            var memberMappings = string.Join(",\r\n", member.MemberCollection.Select(d => d.GetMemberMappings()));
+            map.AppendLine(memberMappings);
+
+            map.AppendLine("        }");
+            map.AppendLine("    }");
+            return map.ToString();
+        }
+
+        public static string GetMemberMappings(this Member member)
+        {
+
+            if (member.Type == typeof (object) || member.Type == typeof (Array))
             {
-                var p = string.Format("             \"{0}\":{1}", name, member.GetEsMappingType());
-                list.Add(p);
+                return member.GetObjectMapping();
             }
-            foreach (var m in member.MemberCollection)
-            {
-                list.AddRange(m.GetMemberMappings(name));
-            }
-            return list.ToArray();
+            var p = string.Format("             \"{0}\":{1}", member.Name, member.GetEsMappingType());
+            return p;
         }
 
     }
