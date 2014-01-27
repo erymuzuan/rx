@@ -25,7 +25,7 @@ namespace Bespoke.Sph.RabbitMqPublisher
             m_brokerConnection = connection;
             var guid = Process.GetCurrentProcess().Id.ToString(CultureInfo.InvariantCulture).PadLeft(4, '0');
             this.QueueName = string.Format("_{0}_{1}_{2}", Environment.MachineName, guid, typeof(T).Name);
-            this.RoutingKeys = new[] { typeof(T).Name + ".*" };
+            this.RoutingKeys = new[] { typeof(T).Name + ".#.#" };
             m_currentContext = SynchronizationContext.Current;
         }
 

@@ -15,7 +15,7 @@
     <table data-bind="filter: { path: 'tbody>tr' }" class="table table-striped">
         <thead>
             <tr>
-                <th>Tarikh</th>
+                <th>Date</th>
                 <th>Subject</th>
                 <th>Read</th>
             </tr>
@@ -24,7 +24,7 @@
             <tr>
                 <td data-bind="date: {value: CreatedDate, format :'D/MM/YYYY HH:mm'}"></td>
                 <td>
-                    <a data-bind="attr: { href: '/#S/message.detail/' + MessageId() }">
+                    <a data-bind="attr: { href: '#/message.detail/' + MessageId() }">
                         <i class="fa fa-envelope-o"></i>
                         <span data-bind="text:Subject"></span>
                     </a>

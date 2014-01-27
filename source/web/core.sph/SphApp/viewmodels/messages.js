@@ -47,6 +47,13 @@ define([objectbuilders.datacontext, objectbuilders.config],
                                         vm.unread(c);
                                     });
                         }
+
+                        var item = _(vm.messages()).find(function(v) {
+                            return v.MessageId() == message.MessageId();
+                        });
+                        if (item) {
+                            vm.messages.remove(item);
+                        }
                     });
 
                     connection.start().done(function () {
