@@ -9,13 +9,13 @@
 /// <reference path="../../Scripts/bootstrap.js" />
 
 
-define(['services/datacontext', 'services/logger', 'plugins/router'],
-	function (context, logger, router) {
+define(['services/datacontext'],
+	function (context) {
 
 	    var
         isBusy = ko.observable(false),
-        activate = function (routeData) {
-            var id = parseInt(routeData.id);
+        activate = function (mid) {
+            var id = parseInt(mid);
             var query = String.format("MessageId eq {0}", id);
             var tcs = new $.Deferred();
             context.loadOneAsync("Message", query)
@@ -41,7 +41,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             var data = ko.mapping.toJSON(vm.message);
             isBusy(true);
 
-            context.post(data, "/Message/MarkUnread/" + vm.message().MessageId())
+            context.post(data, "/Sph/Message/MarkUnread/" + vm.message().MessageId())
                 .then(function (result) {
                     isBusy(false);
                     tcs.resolve(result);
@@ -54,7 +54,7 @@ define(['services/datacontext', 'services/logger', 'plugins/router'],
             var data = ko.mapping.toJSON(vm.message);
             isBusy(true);
 
-            context.post(data, "/Message/MarkRead/" + vm.message().MessageId())
+            context.post(data, "/Sph/Message/MarkRead/" + vm.message().MessageId())
                 .then(function (result) {
                     isBusy(false);
                     tcs.resolve(result);

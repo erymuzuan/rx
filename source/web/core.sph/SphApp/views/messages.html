@@ -1,6 +1,6 @@
 ﻿<li class="dropdown dropdown-big">
     <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-        <i class="fa fa-envelope-o"></i>Mesej <span class="badge badge-important" data-bind="text:unread">6</span>
+        <i class="fa fa-envelope-o"></i>Message <span class="badge badge-important" data-bind="text:unread">6</span>
     </a>
 
     <ul class="dropdown-menu">
@@ -13,7 +13,7 @@
 
             <!-- ko foreach : messages -->
         <li>
-            <a data-bind="text: Subject, attr: {href : '/#/message.detail/' + MessageId()}"></a>
+            <a data-bind="text: Subject, attr: {href : '#/message.detail/' + ko.unwrap(MessageId)}"></a>
             <p></p>
             <hr>
         </li>
@@ -22,7 +22,7 @@
         <li>
             <div class="drop-foot">
                 <span class="fa fa-envelope-o"></span>
-                <a href="/#/message.inbox">View All</a>
+                <a href="#/message.inbox">View All</a>
             </div>
         </li>
     </ul>
