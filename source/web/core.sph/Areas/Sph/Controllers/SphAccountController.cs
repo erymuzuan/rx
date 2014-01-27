@@ -56,6 +56,13 @@ namespace Bespoke.Sph.Web.Areas.Sph.Controllers
                     {
                         if (!profile.HasChangedDefaultPassword)
                             return RedirectToAction("ChangePassword");
+                        if (returnUrl == "/" ||
+                            returnUrl.Equals("/sph", StringComparison.InvariantCultureIgnoreCase )|| 
+                            returnUrl.Equals("/sph#", StringComparison.InvariantCultureIgnoreCase )|| 
+                            returnUrl.Equals("/sph/", StringComparison.InvariantCultureIgnoreCase )|| 
+                            returnUrl.Equals("/sph/#", StringComparison.InvariantCultureIgnoreCase )|| 
+                            string.IsNullOrWhiteSpace(returnUrl))
+                            return Redirect("/sph#/" + profile.StartModule);
                     }
                     if (!string.IsNullOrWhiteSpace(returnUrl))
                         return Redirect(returnUrl);

@@ -4,7 +4,6 @@
     Layout = null;
 }
 @using System.Web.Mvc.Html
-@using System.Web.Optimization
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +47,8 @@
                                 <input type="checkbox" name="remember" value="1">
                                 Remember me
                             </label>
-                            <input type="hidden" value="@Request.QueryString["ReturnUrl"]" name="requestUrl" />
+                           
+                            <input type="hidden" value="" name="ReturnUrl" />
                             <button type="submit" name="submit" class="btn btn-info">Login</button>
                         </form>
 
@@ -77,6 +77,15 @@
             $('.carousel').carousel({
                 interval: 2000
             });
+            var retUrl = getParameterByName("ReturnUrl") + "/" + window.location.hash;
+            $('input[name=ReturnUrl]').val(retUrl);
+
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
         });
     </script>
 </body>

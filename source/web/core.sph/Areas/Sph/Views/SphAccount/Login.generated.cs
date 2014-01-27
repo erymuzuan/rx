@@ -27,12 +27,6 @@ namespace Bespoke.Sph.Web.Areas.Sph.Views.SphAccount
     
     #line default
     #line hidden
-    
-    #line 7 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
-    using System.Web.Optimization;
-    
-    #line default
-    #line hidden
     using System.Web.Routing;
     using System.Web.Security;
     using System.Web.UI;
@@ -69,7 +63,7 @@ WriteLiteral(" charset=\"utf-8\"");
 WriteLiteral(" />\r\n    <title>");
 
             
-            #line 12 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 11 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
       Write(ViewBag.Title);
 
             
@@ -77,9 +71,9 @@ WriteLiteral(" />\r\n    <title>");
             #line hidden
 WriteLiteral(" - SPH</title>\r\n    <link");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 298), Tuple.Create("\"", 318)
-, Tuple.Create(Tuple.Create("", 305), Tuple.Create<System.Object, System.Int32>(Href("~/favicon.ico")
-, 305), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 266), Tuple.Create("\"", 286)
+, Tuple.Create(Tuple.Create("", 273), Tuple.Create<System.Object, System.Int32>(Href("~/favicon.ico")
+, 273), false)
 );
 
 WriteLiteral(" rel=\"shortcut icon\"");
@@ -94,9 +88,9 @@ WriteLiteral(" content=\"width=device-width\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 432), Tuple.Create("\"", 456)
-, Tuple.Create(Tuple.Create("", 439), Tuple.Create<System.Object, System.Int32>(Href("~/Content/css.css")
-, 439), false)
+WriteAttribute("href", Tuple.Create(" href=\"", 400), Tuple.Create("\"", 424)
+, Tuple.Create(Tuple.Create("", 407), Tuple.Create<System.Object, System.Int32>(Href("~/Content/css.css")
+, 407), false)
 );
 
 WriteLiteral(" rel=\"stylesheet\"");
@@ -110,13 +104,13 @@ WriteLiteral(" class=\"container\"");
 WriteLiteral(">\r\n\r\n        <section>\r\n\r\n");
 
             
-            #line 23 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 22 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 23 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 22 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
              using (Html.BeginForm((string)ViewBag.FormAction, "SphAccount"))
             {
 
@@ -133,7 +127,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                    ");
 
             
-            #line 27 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 26 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                Write(Html.Partial("_Slider"));
 
             
@@ -149,9 +143,9 @@ WriteLiteral(" class=\"logo\"");
 
 WriteLiteral(">\r\n                            <img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 884), Tuple.Create("\"", 911)
-, Tuple.Create(Tuple.Create("", 890), Tuple.Create<System.Object, System.Int32>(Href("~/Images/logo_sph.png")
-, 890), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 852), Tuple.Create("\"", 879)
+, Tuple.Create(Tuple.Create("", 858), Tuple.Create<System.Object, System.Int32>(Href("~/Images/logo_sph.png")
+, 858), false)
 );
 
 WriteLiteral(" alt=\"logo\"");
@@ -160,13 +154,13 @@ WriteLiteral(" />\r\n                        </div>\r\n                        <
 "gguna</h2>\r\n");
 
             
-            #line 33 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 32 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 33 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 32 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                          if (!@ViewData.ModelState.IsValid)
                         {
 
@@ -189,7 +183,7 @@ WriteLiteral(">&times;</a>\r\n                                Incorrect username
 "                          </div>\r\n");
 
             
-            #line 39 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 38 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
 
                         }
 
@@ -209,7 +203,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                            ");
 
             
-            #line 42 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 41 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                        Write(Html.TextBoxFor(m => m.UserName, new { placeholder = "Username", @class = "form-control", required = true, autofocus = "autofocus" }));
 
             
@@ -220,7 +214,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                            ");
 
             
-            #line 43 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 42 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                        Write(Html.ValidationMessageFor(m => m.UserName));
 
             
@@ -235,7 +229,7 @@ WriteLiteral("></label>\r\n");
 WriteLiteral("                            ");
 
             
-            #line 45 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 44 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                        Write(Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control", required = true }));
 
             
@@ -246,7 +240,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                            ");
 
             
-            #line 46 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
+            #line 45 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
                        Write(Html.ValidationMessageFor(m => m.Password));
 
             
@@ -265,21 +259,13 @@ WriteLiteral(" name=\"remember\"");
 WriteLiteral(" value=\"1\"");
 
 WriteLiteral(">\r\n                                Remember me\r\n                            </lab" +
-"el>\r\n                            <input");
+"el>\r\n                           \r\n                            <input");
 
 WriteLiteral(" type=\"hidden\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 2247), Tuple.Create("\"", 2288)
-            
-            #line 51 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
-, Tuple.Create(Tuple.Create("", 2255), Tuple.Create<System.Object, System.Int32>(Request.QueryString["ReturnUrl"]
-            
-            #line default
-            #line hidden
-, 2255), false)
-);
+WriteLiteral(" value=\"\"");
 
-WriteLiteral(" name=\"requestUrl\"");
+WriteLiteral(" name=\"ReturnUrl\"");
 
 WriteLiteral(" />\r\n                            <button");
 
@@ -292,14 +278,14 @@ WriteLiteral(" class=\"btn btn-info\"");
 WriteLiteral(">Login</button>\r\n                        </form>\r\n\r\n                        <div>" +
 "\r\n                            <p>\r\n                                <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2546), Tuple.Create("\"", 2582)
+WriteAttribute("href", Tuple.Create(" href=\"", 2509), Tuple.Create("\"", 2545)
             
             #line 57 "..\..\Areas\Sph\Views\SphAccount\Login.cshtml"
-, Tuple.Create(Tuple.Create("", 2553), Tuple.Create<System.Object, System.Int32>(Url.Action("ChangePassword")
+, Tuple.Create(Tuple.Create("", 2516), Tuple.Create<System.Object, System.Int32>(Url.Action("ChangePassword")
             
             #line default
             #line hidden
-, 2553), false)
+, 2516), false)
 );
 
 WriteLiteral(">Forgot your password</a>\r\n                            </p>\r\n                    " +
@@ -346,18 +332,34 @@ WriteLiteral(" />\r\n                </div>\r\n");
             #line hidden
 WriteLiteral("        </section>\r\n    </div>\r\n\r\n\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 2943), Tuple.Create("\"", 2972)
-, Tuple.Create(Tuple.Create("", 2949), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/vendor.min.js")
-, 2949), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 2906), Tuple.Create("\"", 2935)
+, Tuple.Create(Tuple.Create("", 2912), Tuple.Create<System.Object, System.Int32>(Href("~/Scripts/vendor.min.js")
+, 2912), false)
 );
 
 WriteLiteral("></script>\r\n    <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
-WriteLiteral(">\r\n        $(function () {\r\n            $(\'.carousel\').carousel({\r\n              " +
-"  interval: 2000\r\n            });\r\n        });\r\n    </script>\r\n</body>\r\n</html>\r" +
-"\n");
+WriteLiteral(@">
+        $(function () {
+            $('.carousel').carousel({
+                interval: 2000
+            });
+            var retUrl = getParameterByName(""ReturnUrl"") + ""/"" + window.location.hash;
+            $('input[name=ReturnUrl]').val(retUrl);
+
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, ""\\\["").replace(/[\]]/, ""\\\]"");
+                var regex = new RegExp(""[\\?&]"" + name + ""=([^&#]*)""),
+                    results = regex.exec(location.search);
+                return results == null ? """" : decodeURIComponent(results[1].replace(/\+/g, "" ""));
+            }
+        });
+    </script>
+</body>
+</html>
+");
 
         }
     }

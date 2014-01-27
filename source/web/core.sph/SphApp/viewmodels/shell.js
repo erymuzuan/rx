@@ -216,6 +216,7 @@ define(['durandal/system', 'plugins/router', 'services/logger', 'services/dataco
             };
 
         var shell = {
+            config: config,
             activate: activate,
             attached: attached,
             router: router,

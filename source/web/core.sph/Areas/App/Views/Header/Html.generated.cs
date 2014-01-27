@@ -103,7 +103,7 @@ WriteLiteral("></span>\r\n            </button>\r\n");
             #line hidden
 WriteLiteral("        <!-- Site name for smallar screens -->\r\n        <a");
 
-WriteLiteral(" href=\"#\"");
+WriteLiteral(" data-bind=\"attr : {href : \'#/\' + config.startModule}\"");
 
 WriteLiteral(" class=\"logo\"");
 
@@ -111,7 +111,7 @@ WriteLiteral(">");
 
             
             #line 15 "..\..\Areas\App\Views\Header\Html.cshtml"
-                            Write(Bespoke.Sph.Domain.ConfigurationManager.ApplicationName);
+                                                                         Write(Bespoke.Sph.Domain.ConfigurationManager.ApplicationName);
 
             
             #line default
@@ -195,14 +195,14 @@ WriteLiteral(" class=\"fa fa-cogs\"");
 
 WriteLiteral("></i>Settings</a></li>\r\n                        <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1369), Tuple.Create("\"", 1431)
+WriteAttribute("href", Tuple.Create(" href=\"", 1414), Tuple.Create("\"", 1476)
             
             #line 32 "..\..\Areas\App\Views\Header\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 1376), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff", "SphAccount", new {area = "Sph"})
+, Tuple.Create(Tuple.Create("", 1421), Tuple.Create<System.Object, System.Int32>(Url.Action("Logoff", "SphAccount", new {area = "Sph"})
             
             #line default
             #line hidden
-, 1376), false)
+, 1421), false)
 );
 
 WriteLiteral("><i");
@@ -246,14 +246,14 @@ WriteLiteral(">\r\n                    <li><a");
 
 WriteLiteral(" id=\"log-in\"");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2009), Tuple.Create("\"", 2071)
+WriteAttribute("href", Tuple.Create(" href=\"", 2054), Tuple.Create("\"", 2116)
             
             #line 51 "..\..\Areas\App\Views\Header\Html.cshtml"
-, Tuple.Create(Tuple.Create("", 2016), Tuple.Create<System.Object, System.Int32>(Url.Action("Login", "SphAccount", new { area = "Sph"})
+, Tuple.Create(Tuple.Create("", 2061), Tuple.Create<System.Object, System.Int32>(Url.Action("Login", "SphAccount", new { area = "Sph"})
             
             #line default
             #line hidden
-, 2016), false)
+, 2061), false)
 );
 
 WriteLiteral(" class=\"login-label\"");
