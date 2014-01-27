@@ -15,7 +15,7 @@
   },
   {
     "role": "admin_user",
-    "groupName": "Users",
+    "groupName": "Security",
     "route": "users",
     "moduleId": "viewmodels/users",
     "title": "Users management",

@@ -1207,6 +1207,9 @@
     <Content Include="Content\jstree\style.css" />
     <EmbeddedResource Include="Content\jstree\style.min.css" />
     <EmbeddedResource Include="Content\jstree\throbber.gif" />
+    <Content Include="Content\less\print.css">
+      <DependentUpon>print.less</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <EmbeddedResource Include="Scripts\jstree.min.js" />
     <EmbeddedResource Include="Images\Field.png" />
@@ -2082,6 +2085,9 @@
     <EmbeddedResource Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\theme.matyie\site.css.map">
       <DependentUpon>site.css</DependentUpon>
+    </Content>
+    <Content Include="Content\theme.matyie\header.css.map">
+      <DependentUpon>header.css</DependentUpon>
     </Content>
     <None Include="Content\__css.css.bundle" />
     <None Include="Properties\Settings.settings">

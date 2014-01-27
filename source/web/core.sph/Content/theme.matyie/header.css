@@ -28,7 +28,7 @@ header div.nav-header > ul {
 }
 #header-navbar > div.navbar-inner {
   background-image: none;
-  background-color: #000000 !important;
+  background-color: #f50606 !important;
 }
 #drawer-menu {
   background-image: none;
@@ -52,3 +52,4 @@ header div.nav-header > ul {
   font-size: large;
   color: floralwhite;
 }
+/*# sourceMappingURL=header.css.map */
